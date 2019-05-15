@@ -1,0 +1,6 @@
+/* Otherwise the icons on the left navbar will be floated right */
+.ui.vertical.menu .item>i.icon {
+  text-align: left;
+  float: left;
+  min-width: 2em;
+}
