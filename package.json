@@ -9,12 +9,17 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router": "^4.4.5",
     "@types/react-router-dom": "^4.3.2",
+    "axios": "^0.18.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
     "semantic-ui-react": "^0.86.0",
+    "react-redux": "^7.0.1",
+    "redux": "^4.0.1",
+    "redux-starter-kit": "^0.4.3",
+    "redux-thunk": "^2.3.0",
     "typescript": "3.4.5"
   },
   "scripts": {

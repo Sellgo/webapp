@@ -1,0 +1,18 @@
+.social-signup {
+  max-width: 300px;
+  margin: 0 auto;
+}
+.social-signin > button{
+  margin-bottom: 1rem !important;
+}
+.sign-up-box {
+    min-height: calc(100vh);
+  background: #828283;
+}
+.sign-up-box .social-signin {
+      max-width: 300px;
+      margin: 0 auto;
+}
+.sign-up-box .small.header {
+  color: white;
+}
