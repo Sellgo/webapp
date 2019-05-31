@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Icon, Button, Header, Grid, Segment} from "semantic-ui-react";
 import "./AuthSidebar.css";
-import {Logo} from "../Layout/Layout";
+import {Logo} from "../AdminLayout/AdminHeader";
 
 
 interface AuthoProps {
