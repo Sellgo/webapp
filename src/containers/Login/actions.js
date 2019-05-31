@@ -3,7 +3,7 @@ import {
   FETCH_AUTH_SUCCESS,
   FETCH_AUTH_FAILURE,
 } from './constants';
-
+// below action and method only for sample
 const fetchAuthBegin = () => ({
   type: FETCH_AUTH_BEGIN,
 });
