@@ -6,7 +6,7 @@ import {AuthSidebar} from "../../components/AuthSidebar";
 export class Login extends React.Component {
     render() {
         return (
-            <Grid verticalAlign='middle' style={{ minHeight: "calc(100vh)" }}>
+            <Grid verticalAlign='middle' style={{minHeight: "calc(100vh)"}}>
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <AuthSidebar/>
@@ -18,9 +18,9 @@ export class Login extends React.Component {
                                     <Grid.Column width={16}>
                                         <Header as='h2' textAlign='center'>
                                             Login to your account
-                                            <Header.Subheader>Don't have an account? <Link to="/sign-in"
-                                                                                           style={{fontSize: "smaller"}}>Sign
-                                                Up free!</Link>
+                                            <Header.Subheader>
+                                                Don't have an account?
+                                                <Link to="/sign-in" style={{fontSize: "smaller"}}>Sign Up free!</Link>
                                             </Header.Subheader>
                                         </Header>
                                         <Form>

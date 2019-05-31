@@ -1,5 +1,5 @@
 const initState = {};
-
+// these just sample
 const userReducer = (state = initState, action) => {
   switch (action.type) {
     case 'USER_UPDATED':

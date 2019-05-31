@@ -18,8 +18,6 @@ export class Home extends React.Component<{}, HomeState> {
         cityName: 'USA',
     };
 
-    componentDidMount() {
-    }
 
     render() {
         const {heading, amount, cityName} = this.state;
@@ -28,9 +26,9 @@ export class Home extends React.Component<{}, HomeState> {
             <HeaderBar/>
             <Container>
                 <Segment padded='very'>
-                    <Grid className={'home-desc'}>
+                    <Grid className="home_desc">
                         <Grid.Row>
-                            <Grid.Column verticalAlign={'middle'}>
+                            <Grid.Column verticalAlign='middle'>
                                 <Header as='h3' color='grey'>
                                     {`$${amount}/mo ${heading}`}
                                     <br/>
@@ -46,11 +44,12 @@ export class Home extends React.Component<{}, HomeState> {
                     </Grid>
                 </Segment>
                 <Divider/>
-                <Header as='h4' className={'home-footer'}>
+                <Header as='h4' className="home_footer">
                     <Icon name='dollar'/>
                     <Header.Content>
                         Make $ {amount} on Amazon guaranteed
-                        <Header sub primary>Learn More <i className={'right-arrow'}>></i></Header>
+                        <Header sub primary>Learn More
+                            <i><Icon name='arrow circle right'/></i></Header>
                     </Header.Content>
                 </Header>
             </Container>

@@ -9,6 +9,6 @@ export class ProductTracker extends React.Component {
             <Segment>
                 A bunch of tabs and menus and stuff.
             </Segment>
-        </AdminLayout>
+        </AdminLayout>;
     }
 }

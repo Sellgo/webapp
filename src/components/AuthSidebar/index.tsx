@@ -4,11 +4,8 @@ import "./AuthSidebar.css";
 import {Logo} from "../AdminLayout/AdminHeader";
 
 
-interface AuthoProps {
-    children?: React.ReactNode
-}
+export class AuthSidebar extends React.Component {
 
-export class AuthSidebar extends React.Component<AuthoProps> {
     getFacebookSignup = () => {
     };
     getTwitterSignup = () => {
@@ -17,20 +14,20 @@ export class AuthSidebar extends React.Component<AuthoProps> {
     };
 
     render() {
-        return <Grid className={'sign-up-box'} verticalAlign='middle'>
+        return <Grid className="signup_box" verticalAlign="middle">
             <Grid.Row columns={1}>
                 <Grid.Column>
                     <Logo centered size="small"/>
                     <Header size='small' textAlign='center'>Login using social media <br/> to get quick access</Header>
-                    <Segment className={'social-signin'} basic clearing>
+                    <Segment className="social_signin" basic clearing>
                         <Button fluid color='facebook' onClick={this.getFacebookSignup}>
-                            <Icon name='facebook'/> Signin with facebook
+                            <Icon name='facebook'/> Login with facebook
                         </Button>
                         <Button fluid color='twitter' onClick={this.getTwitterSignup}>
-                            <Icon name='twitter'/> Signin with twitter
+                            <Icon name='twitter'/> Login with twitter
                         </Button>
                         <Button fluid color='google plus' onClick={this.getGoogleSignup}>
-                            <Icon name='google plus'/>Signin with google
+                            <Icon name='google plus'/>Login with google
                         </Button>
                     </Segment>
                 </Grid.Column>
