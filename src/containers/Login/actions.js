@@ -2,8 +2,6 @@ import {
   FETCH_AUTH_BEGIN,
   FETCH_AUTH_SUCCESS,
   FETCH_AUTH_FAILURE,
-  INPUT_PASSWORD,
-  INPUT_EMAIL,
 } from './constants';
 
 const fetchAuthBegin = () => ({
@@ -24,9 +22,6 @@ export const fetchAuth = authData => dispatch => {
   dispatch(fetchAuthBegin());
   return (
     fakeFetchAuth(authData)
-      // return fetch('/auth')
-      // .then(handleErrors)
-      // .then(res => res.json())
       .then(json => {
         dispatch(fetchAuthSuccess(json.payload));
         localStorage.setItem('token', json.payload.token);
@@ -53,13 +48,3 @@ const fakeFetchAuth = ({ inputPassword, inputEmail }) =>
       }
     }, 1000);
   });
-
-export const handleInputEmail = inputEmail => ({
-  type: INPUT_EMAIL,
-  inputEmail,
-});
-
-export const handleInputPassword = inputPassword => ({
-  type: INPUT_PASSWORD,
-  inputPassword,
-});

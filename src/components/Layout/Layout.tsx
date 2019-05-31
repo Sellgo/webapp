@@ -1,9 +1,8 @@
 import * as React from "react";
-import {Menu, Sidebar, Icon, Segment, Image} from "semantic-ui-react";
+import {Menu, Sidebar, Icon, Segment, Image, SemanticSIZES} from "semantic-ui-react";
 
 import "./Layout.css";
 import {Link} from "react-router-dom";
-import {SemanticSIZES} from "semantic-ui-react/dist/commonjs/generic";
 
 export const Logo: React.SFC<{ size?: SemanticSIZES, centered?: boolean }> = ({size, centered}) => (
     <Image
@@ -78,7 +77,6 @@ export class Layout extends React.Component<LayoutProps> {
                     </Segment>
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
-
         </React.Fragment>;
     }
 }

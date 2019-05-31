@@ -1,3 +1,4 @@
+//
 import {
   FETCH_AUTH_BEGIN,
   FETCH_AUTH_SUCCESS,
@@ -56,3 +57,4 @@ export const logInReducer = (state = initialState, action) => {
 };
 
 export default logInReducer;
+

@@ -2,11 +2,11 @@ import * as React from "react";
 import {Menu, Button, Divider} from "semantic-ui-react";
 import {Logo} from "../Layout/Layout";
 
-interface HomeState {
+interface HeaderBarState {
     activeItem: string;
 }
 
-export class HeaderBar extends React.Component<{}, HomeState> {
+export class HeaderBar extends React.Component<{}, HeaderBarState> {
     state = {
         activeItem: '',
     };

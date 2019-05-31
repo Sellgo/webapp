@@ -16,13 +16,13 @@ export class RecoverPass extends React.Component {
                         <Segment basic clearing style={{maxWidth: "400px", margin: "0 auto"}}>
                             <Grid>
                                 <Grid.Row>
-                                    <Grid.Column className={'recover-pass-box'} width={16}>
+                                    <Grid.Column className="recover_pass_box" width={16}>
                                         <Header as='h2' textAlign='center'>
                                             Recover your password
-                                            <Header.Subheader>Fill in your email below and we will <br/>
+                                            <Header.Subheader>
+                                                Fill in your email below and we will <br/>
                                                 send you an email with further instructions.
                                             </Header.Subheader>
-
                                         </Header>
                                         <Form>
                                             <Form.Field>
