@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
+import {configureStore, getDefaultMiddleware} from 'redux-starter-kit';
 
 import rootReducer from './reducers/rootReducer';
 
