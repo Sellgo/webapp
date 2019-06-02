@@ -68,7 +68,7 @@ export class AdminSidebar extends React.Component<LayoutProps> {
           </Menu.Item>
         </Menu.Menu>
       </Menu.Item>
-      <Menu.Item as='a'>
+      <Menu.Item as={Link} to='/dashboard/setting'>
         <Icon name='settings'/> Settings
       </Menu.Item>
       <Menu.Item as='a'>

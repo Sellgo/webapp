@@ -7,7 +7,7 @@ import {AdminLayout} from '../../components/AdminLayout/index';
 import {Login} from '../Login/Login';
 import {SignUp} from '../SignUp/Signup';
 import {RecoverPass} from '../RecoverPass';
-import {Setting} from '../Setting';
+import {Setting} from '../Dashboard/Setting';
 import {Dashboard} from '../Dashboard';
 
 const App: React.SFC = () => (
@@ -18,7 +18,7 @@ const App: React.SFC = () => (
       <Route exact path="/sign-up" component={SignUp}/>
       <Route exact path="/forgot-password" component={RecoverPass}/>
       <Route exact path="/product-tracker" component={ProductTracker}/>
-      <Route exact path="/setting" component={Setting}/>
+      <Route exact path="/dashboard/setting" render={() => <AdminLayout><Setting /></AdminLayout>}/>
       <Route exact path="/dashboard" component={Dashboard}/>
       <Route render={() => <AdminLayout><Segment>Page not found</Segment></AdminLayout>}/>
     </Switch>
