@@ -42,7 +42,7 @@ export class Setting extends React.Component<{}, SettingState> {
                     <Divider/>
                     <Header as='h3'>
                         <Image circular
-                               src="https://user-images.githubusercontent.com/1359333/57185902-c66b3380-6e89-11e9-92ce-c5f0ef137eca.png"
+                               src="http://www.appledentalmilton.ca/wp-content/uploads/2018/03/guy.png"
                         />
                         <Header.Content>
                             {custNAme}
@@ -55,7 +55,7 @@ export class Setting extends React.Component<{}, SettingState> {
                         <Grid.Row columns={3}>
                             <Grid.Column>
                                 <Header size='small'>
-                                    Account TYPE
+                                    ACCOUNT TYPE
                                     <Header.Subheader>
                                         <span>free</span>
                                         <Link to="/#" style={{fontSize: "smaller"}}>Upgrade</Link>
@@ -104,7 +104,7 @@ export class Setting extends React.Component<{}, SettingState> {
                         </Grid.Row>
                     </Grid>
                 </Segment>
-                <Segment padded='very'>
+                <Segment>
                     <Header as='h3' color='grey'>
                         Amazon MWS Authorization
                     </Header>

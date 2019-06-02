@@ -6,5 +6,9 @@
     margin-top: 1rem !important;
 }
 .setting .user_account_info .column a {
-   margin-left: 3rem;
+    margin-left: 3rem;
+}
+
+.setting .user_account_info .three.row .column {
+    padding-left: 0rem;
 }
