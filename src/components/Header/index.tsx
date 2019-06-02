@@ -11,7 +11,7 @@ export class HeaderBar extends React.Component<{}, HeaderBarState> {
     activeItem: '',
   };
 
-  handleItemClick = (e: any, item: any) => {
+  handleItemClick = (e: any, item : any) => {
     this.setState({activeItem: item.name});
   };
 
