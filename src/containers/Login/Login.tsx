@@ -47,7 +47,7 @@ export class Login extends React.Component {
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
-              <Button fluid primary content="Login with Email"/>
+              <Button  as={Link} to='/dashboard' fluid primary content="Login with Email"/>
             </Segment>
           </Grid.Column>
         </Grid.Row>

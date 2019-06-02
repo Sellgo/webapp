@@ -2,6 +2,7 @@ import * as React from "react";
 import {Header, Segment, SemanticSIZES, Image, Button, Container} from "semantic-ui-react";
 import {AdminLayout} from "../../components/AdminLayout";
 import {Modals} from "../../components/Modals";
+import DashBoardTabs from "./Tabs/tabs";
 
 export const Logo: React.SFC<{ size?: SemanticSIZES, centered?: boolean }> = ({size, centered}) => (
   <Image
@@ -40,7 +41,7 @@ export class Dashboard extends React.Component {
       <AdminLayout>
         <Header as="h1">Dashboard</Header>
         <Segment>
-          A bunch of tabs and menus and stuff.
+        <DashBoardTabs></DashBoardTabs>
         </Segment>
         <Modals title='' size='small' open={isOpen} close={this.close}>
           <Container textAlign='center'>
