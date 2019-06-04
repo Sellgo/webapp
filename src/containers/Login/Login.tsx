@@ -2,6 +2,7 @@ import * as React from "react";
 import {Form, Segment, Button, Grid, Header, Checkbox} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import {AuthSidebar} from "../../components/AuthSidebar";
+import "./login.css";
 
 export class Login extends React.Component {
     render() {
@@ -16,11 +17,11 @@ export class Login extends React.Component {
                             <Grid>
                                 <Grid.Row>
                                     <Grid.Column width={16}>
-                                        <Header as='h2' textAlign='center'>
+                                        <Header className="login_head" as='h2' textAlign='center'>
                                             Login to your account
                                             <Header.Subheader>
                                                 Don't have an account?
-                                                <Link to="/sign-in" style={{fontSize: "smaller"}}>Sign Up free!</Link>
+                                                <Link to="/sign-in" style={{fontSize: "smaller"}}> Sign Up free!</Link>
                                             </Header.Subheader>
                                         </Header>
                                         <Form>
