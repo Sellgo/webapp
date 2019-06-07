@@ -1,0 +1,14 @@
+
+.setting .user_account_info .column {
+    margin-bottom: 2rem !important;
+}
+.setting .user_account-info .column .sub {
+    margin-top: 1rem !important;
+}
+.setting .user_account_info .column a {
+    margin-left: 3rem;
+}
+
+.setting .user_account_info .three.row .column {
+    padding-left: 0rem;
+}
