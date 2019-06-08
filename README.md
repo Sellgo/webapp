@@ -2,6 +2,10 @@
 
 Author: Ivan Gozali <<gozaliivan@gmail.com>>
 
+## Run using Docker
+- run `docker-compose up`
+- webapp service is running on port 3000
+
 ## Getting Started
 
 1.  Get `npm`. For macOS, see below. For Windows users, sorry, you're on your own for now. :)
