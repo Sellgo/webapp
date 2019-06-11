@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Segment} from 'semantic-ui-react';
+
 import {Home} from "../Home/Home";
 import {ProductTracker} from "../ProductTracker/ProductTracker";
 import {AdminLayout} from '../../components/AdminLayout/index';
