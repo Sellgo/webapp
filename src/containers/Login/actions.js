@@ -22,16 +22,16 @@ export const fetchAuth = authData => dispatch => {
   dispatch(fetchAuthBegin());
   return (
     fakeFetchAuth(authData)
-      .then(json => {
-        dispatch(fetchAuthSuccess(json.payload));
-        localStorage.setItem('token', json.payload.token);
-        return json.payload;
-      })
-      .catch(error => dispatch(fetchAuthFailure(error)))
+    .then(json => {
+      dispatch(fetchAuthSuccess(json.payload));
+      localStorage.setItem('token', json.payload.token);
+      return json.payload;
+    })
+    .catch(error => dispatch(fetchAuthFailure(error)))
   );
 };
 
-const fakeFetchAuth = ({ inputPassword, inputEmail }) =>
+const fakeFetchAuth = ({inputPassword, inputEmail}) =>
   new Promise((resolve, reject) => {
     // Resolve after a timeout so we can see the loading indicator
     setTimeout(() => {

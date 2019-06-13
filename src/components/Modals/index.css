@@ -1,0 +1,9 @@
+.customeModal {
+  min-height: 27rem;
+}
+
+.close {
+    top: 0 !important;
+    right: 0 !important;
+    color: #000 !important;
+}

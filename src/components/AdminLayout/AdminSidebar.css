@@ -4,3 +4,15 @@
   float: left;
   min-width: 2em;
 }
+.top-logo {
+    width: 260px;
+}
+.top-menu {
+    padding-right: 20px;
+}
+.ui.dropdown {
+    padding-right: 20px;
+}
+.search-box{
+    min-width: 400px;
+}

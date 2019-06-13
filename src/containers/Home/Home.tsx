@@ -4,55 +4,56 @@ import {Segment, Button, Header, Grid, Divider, Icon, Container} from "semantic-
 import {HeaderBar} from "../../components/Header";
 
 
+
 interface HomeState {
-    heading: string;
-    amount: number;
-    cityName: string;
+  heading: string;
+  amount: number;
+  cityName: string;
 }
 
 export class Home extends React.Component<{}, HomeState> {
 
-    state = {
-        heading: 'by become an Amazon Seller',
-        amount: 1000,
-        cityName: 'USA',
-    };
+  state = {
+    heading: 'by become an Amazon Seller',
+    amount: 1000,
+    cityName: 'USA',
+  };
 
 
-    render() {
-        const {heading, amount, cityName} = this.state;
+  render() {
+    const {heading, amount, cityName} = this.state;
 
-        return <Segment basic>
-            <HeaderBar/>
-            <Container>
-                <Segment padded='very'>
-                    <Grid className="home_desc">
-                        <Grid.Row>
-                            <Grid.Column verticalAlign='middle'>
-                                <Header as='h3' color='grey'>
-                                    {`$${amount}/mo ${heading}`}
-                                    <br/>
-                                    {`from ${cityName}`}
-                                </Header>
-
-                                <Button
-                                    primary
-                                    content="Get started for FREE"
-                                />
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Segment>
-                <Divider/>
-                <Header as='h4' className="home_footer">
-                    <Icon name='dollar'/>
-                    <Header.Content>
-                        Make $ {amount} on Amazon guaranteed
-                        <Header sub primary>Learn More
-                            <i><Icon name='arrow circle right'/></i></Header>
-                    </Header.Content>
+    return <Segment basic>
+      <HeaderBar/>
+      <Container>
+        <Segment padded='very'>
+          <Grid className="home_desc">
+            <Grid.Row>
+              <Grid.Column verticalAlign='middle'>
+                <Header as='h3' color='grey'>
+                  {`$${amount}/mo ${heading}`}
+                  <br/>
+                  {`from ${cityName}`}
                 </Header>
-            </Container>
+
+                <Button
+                  primary
+                  content="Get started for FREE"
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Segment>
-    }
+        <Divider/>
+        <Header as='h4' className="home_footer">
+          <Icon name='dollar'/>
+          <Header.Content>
+            Make $ {amount} on Amazon guaranteed
+            <Header sub primary>Learn More
+              <i><Icon name='arrow circle right'/></i></Header>
+          </Header.Content>
+        </Header>
+      </Container>
+    </Segment>
+  }
 }
