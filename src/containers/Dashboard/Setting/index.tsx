@@ -35,22 +35,16 @@ export class Setting extends React.Component<{}, SettingState> {
 
     return (
       <Segment basic className="setting">
-        <Segment padded='very'>
-          <Header as='h3' color='grey'>
-            Account
+          <Header as='h2'>
+              Basic Information
           </Header>
           <Divider/>
-          <Header as='h3'>
-            <Image circular
-                   src="https://user-images.githubusercontent.com/1359333/57185902-c66b3380-6e89-11e9-92ce-c5f0ef137eca.png"
-            />
-            <Header.Content>
-              {custNAme}
-              <Header.Subheader>
-                member since: {memberDate}
-              </Header.Subheader>
-            </Header.Content>
-          </Header>
+
+        <Segment basic padded='very'>
+          <Segment basic>
+            <Image  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" size='small' floated='left' />
+            <span>member since: {memberDate}</span>
+          </Segment>
           <Grid padded className="user_account_info">
             <Grid.Row columns={3}>
               <Grid.Column>

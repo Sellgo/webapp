@@ -19,9 +19,9 @@ const App: React.SFC = () => (
       <Route exact path="/sign-up" component={SignUp}/>
       <Route exact path="/forgot-password" component={RecoverPass}/>
       <Route exact path="/product-tracker" component={ProductTracker}/>
-      <Route exact path="/dashboard/setting" render={() => <AdminLayout><Setting /></AdminLayout>}/>
+      <Route exact path="/dashboard/setting" render={() => <AdminLayout title={'Setting'}><Setting /></AdminLayout>}/>
       <Route exact path="/dashboard" component={Dashboard}/>
-      <Route render={() => <AdminLayout><Segment>Page not found</Segment></AdminLayout>}/>
+      <Route render={() => <AdminLayout title={''}><Segment>Page not found</Segment></AdminLayout>}/>
     </Switch>
   </Router>
 );
