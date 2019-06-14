@@ -1,0 +1,10 @@
+.pop-up {
+    border: 1px solid #707070;
+    border-radius: 10px;
+    background: white;
+    width: 500px !important;
+    padding: 20px !important;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-0%);
+}

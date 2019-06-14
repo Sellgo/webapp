@@ -33,9 +33,8 @@ class PasswordShowHide extends React.Component<any,any> {
           placeholder="Password"
           onChange={this.handlePasswordChange} />
           <Icon color="disabled" onClick={this.toggleShow} fontSize="large">
-          {this.state.hidden ? "visibility_off" : "visibility"}            
+            {this.state.hidden ? "visibility_off" : "visibility"}            
           </Icon>
-        {/* <button onClick={this.toggleShow}>Show / Hide</button> */}
       </div>);
   }
 }
