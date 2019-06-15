@@ -9,3 +9,14 @@
   
 }
 
+.primary-btn {
+  font-family: Montserrat;
+  font-weight:bold ;
+  font-display: optional;
+  font-size: 20px;
+  color: white;
+  border:none;
+  padding: 12px 40px;
+  border-adius: 50px;
+  background: #4285F4;
+}

@@ -8,3 +8,7 @@
 .setting .autho_form{
     margin-top: 1.5rem;
 }
+
+.ui.header {
+    font-family: 'Montserrat', 'serif' !important;
+}

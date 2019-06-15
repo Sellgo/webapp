@@ -4,7 +4,6 @@ import {Segment, Button, Header, Grid, Divider, Icon, Container} from "semantic-
 import {HeaderBar} from "../../components/Header";
 
 
-
 interface HomeState {
   heading: string;
   amount: number;

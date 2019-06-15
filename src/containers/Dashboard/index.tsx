@@ -13,11 +13,14 @@ export const Logo: React.SFC<{ size?: SemanticSIZES, centered?: boolean }> = ({s
     src="https://user-images.githubusercontent.com/1359333/57185902-c66b3380-6e89-11e9-92ce-c5f0ef137eca.png"
   />
 );
-
-export class Dashboard extends React.Component {
+interface state {
+  isOpen:  boolean,
+  currentSteps: number,
+}
+export class Dashboard extends React.Component<{}, state> {
   state = {
     isOpen: true,
-    currentSteps:1,
+    currentSteps: 1,
   };
   close = () => {
     this.setState({

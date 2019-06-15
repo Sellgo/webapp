@@ -92,19 +92,15 @@ body {
 }
 
 .primary-button {
-  font-family: 'Montserrat', serif;
-  font-weight:bold;
+  font-family: Montserrat;
+  font-weight:bold ;
   font-display: optional;
   font-size: 20px;
   color: white;
   border:none;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left:  40px;
-  padding-right: 40px;
-  min-width: 190px;
-  border-radius: 50px;
-  background: #4285F4;   
+  padding: 12px 40px;
+  border-adius: 50px;
+  background: #4285F4;
 }
 .heading h1 {
   font-family: 'Montserrat';
@@ -200,6 +196,11 @@ ul.control-dots {
   padding:20px;
 }
 
+.padding40 {
+  padding:40px;
+}
+
+
 .carousel .slide {
   background: transparent;
 }
@@ -212,14 +213,12 @@ ul.slider.animated {
   top: 20%;
  
 }
-
-
 .signup_box {
   min-height: 100vh;
   background: #999999;
 }
 .right-pane {
-  min-height: 100%;
+  min-height: 100vh;
   background: #F3F3F3;
   position: relative;
 }
@@ -228,6 +227,10 @@ span.material-icons.MuiIcon-root.MuiIcon-colorDisabled.MuiIcon-fontSizeLarge {
 }
 
 a{
+  color: #0E6FCF;
+  /*text-decoration:underline;*/
+}
+.signup-block a{
   color: #0E6FCF;
   text-decoration:underline;
 }

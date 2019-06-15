@@ -2,7 +2,7 @@ import * as React from "react";
 import Icon from '@material-ui/core/Icon';
 
 export interface State { hidden: boolean; password: string; }
-class PasswordShowHide extends React.Component<any,any> {
+class PasswordShowHide extends React.Component<{},State> {
   constructor(props:any) {
     super(props);
     this.state = {
