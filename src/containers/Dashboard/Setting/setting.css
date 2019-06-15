@@ -1,14 +1,10 @@
 
-.setting .user_account_info .column {
-    margin-bottom: 2rem !important;
+.setting .basic_info_update {
+    margin-top: 3rem;
 }
-.setting .user_account-info .column .sub {
-    margin-top: 1rem !important;
+.setting .upload_photo Button {
+    margin-right: 2rem;
 }
-.setting .user_account_info .column a {
-    margin-left: 3rem;
-}
-
-.setting .user_account_info .three.row .column {
-    padding-left: 0rem;
+.setting .autho_form{
+    margin-top: 1.5rem;
 }

@@ -1,31 +1,12 @@
 import "./setting.css";
 import * as React from "react";
-import {Segment, Form, Header, Grid, Divider, Container, Image, Icon} from "semantic-ui-react";
+import {Segment, Form, Header, Grid, Divider, Container, Image, Icon, Button, Select} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 
 interface SettingState {
 
 }
 
-const amazonAuth = [
-  {
-    id: 1,
-    type: 'Narth Ameriac US/CA/MX/BR',
-    sellerId: 11,
-    token: 'none'
-  },
-  {
-    id: 2,
-    type: 'Europe-  UK/DE/ES/IN/TR',
-    sellerId: 112,
-    token: 'none'
-  }, {
-    id: 3,
-    type: 'Asia-  JP/CH',
-    sellerId: 112,
-    token: 'none'
-  }
-];
 
 export class Setting extends React.Component<{}, SettingState> {
 
@@ -41,106 +22,97 @@ export class Setting extends React.Component<{}, SettingState> {
           <Divider/>
 
         <Segment basic padded='very'>
-          <Segment basic>
-            <Image  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" size='small' floated='left' />
-            <span>member since: {memberDate}</span>
-          </Segment>
-          <Grid padded className="user_account_info">
-            <Grid.Row columns={3}>
-              <Grid.Column>
-                <Header size='small'>
-                  Account TYPE
-                  <Header.Subheader>
-                    <span>free</span>
-                    <Link to="/#" style={{fontSize: "smaller"}}>Upgrade</Link>
-                  </Header.Subheader>
-                </Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header size='small'>
-                  PHONE NUMBER
-                  <Link to="/#" style={{fontSize: "smaller"}}>confirm phone</Link>
-                  <Header.Subheader>
-                    <span>set</span>
-                  </Header.Subheader>
-                </Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header size='small'>
-                  PRIMARY EMAIL <Link to="/#" style={{fontSize: "smaller"}}>change</Link>
-                  <Header.Subheader><span>set</span></Header.Subheader>
-                </Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header size='small'>
-                  PAYMENT METHOD <Link to="/#" style={{fontSize: "smaller"}}>(Change)</Link>
-                  <Header.Subheader><span>set not</span>
-                    <Link to="/#" style={{fontSize: "smaller"}}> Add
-                      Credit Card</Link></Header.Subheader>
-                </Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header size='small'>
-                  ADDRESS <Link to="/#" style={{fontSize: "smaller"}}>Click to enter</Link>
-                  <Header.Subheader>
-                    <span>set</span>
-                  </Header.Subheader>
-                </Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Header size='small'>
-                  PASSWORD <Link to="/#" style={{fontSize: "smaller"}}>change</Link>
-                  <Header.Subheader>
-                    <span>set</span>
-                  </Header.Subheader>
-                </Header>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+            <Container>
+            <Grid className="user_account_info_">
+                <Grid.Row>
+                    <Grid.Column width={3} textAlign='center' className='upload_photo' >
+                        <Image  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" size='small' floated='left' />
+                        <Button basic content="Upload Photo" style={{borderRadius: "50px", }}  size='small' />
+
+                    </Grid.Column>
+                    <Grid.Column width={13}>
+                        <Header  as='h6' size='small'>member since: {memberDate}</Header>
+                        <Form>
+                          <Grid className="basic_info_update">
+                              <Grid.Row columns={2}>
+                                  <Grid.Column width={5}>
+                                          <Form.Input label='First Name' placeholder='First Name' />
+                                  </Grid.Column>
+                                  <Grid.Column width={5}>
+                                          <Form.Input label='Last Name' placeholder='Last Name' />
+                                  </Grid.Column>
+                                  <Grid.Column width={10}>
+                                          <Form.Input label='Email' placeholder='Email' fluid />
+                                          <Button primary content="Update Information" style={{borderRadius: "50px", }}/>
+                                  </Grid.Column>
+                              </Grid.Row>
+                          </Grid>
+                        </Form>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+            </Container>
         </Segment>
-        <Segment padded='very'>
-          <Header as='h3' color='grey'>
-            Amazon MWS Authorization
+          <Header as='h2'>
+              Password
           </Header>
           <Divider/>
-          {amazonAuth.map((auth, key) => <Segment key={key} basic>
-            <Header as='h5' color='grey'>
-              {auth.type}
-            </Header>
-            <Divider/>
+          <Segment basic padded='very'>
             <Container>
-              <Grid>
-                <Grid.Row>
-                  <Grid.Column width={3}>
-                    <Header as='h5' color='grey'>
-                      MWS Seller ID
-                    </Header>
-                    <Header as='h5' color='grey'>
-                      MWS Auth Token
-                    </Header>
-                  </Grid.Column>
-                  <Grid.Column width={7}>
-                    <Form>
-                      <Form.Field>
-                        <input type="text" placeholder="MWS Seller ID"/>
-                      </Form.Field>
-                      <Form.Field>
-                        <input type="text" placeholder="MWS Auth Token"/>
-                      </Form.Field>
-                    </Form>
-                  </Grid.Column>
-                  <Grid.Column width={5} verticalAlign='middle' floated={'right'}>
-                    <div>
-                      <Icon name='refresh'/>
-                      <Icon name='checkmark' circular inverted/>
-                      <Icon name='close'/>
-                    </div>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Container>
-          </Segment>)}
-        </Segment>
+                <Form>
+                    <Grid>
+                        <Grid.Row columns={2}>
+                            <Grid.Column width={5}>
+                                <Form.Input type='password' label='Old Password' placeholder='Old' />
+                            </Grid.Column>
+                            <Grid.Column width={11}/>
+                            <Grid.Column width={5}>
+                                <Form.Input  type='password' label='New Password' placeholder='New Password' />
+                                <Button primary content="Update Password" style={{borderRadius: "50px", }}/>
+                            </Grid.Column>
+                            <Grid.Column width={5}>
+                                <Form.Input label='Retype New Password' placeholder='Retype New Password' />
+                            </Grid.Column>
+                            <Grid.Column width={6}/>
+                        </Grid.Row>
+                    </Grid>
+                </Form>
+              </Container>
+          </Segment>
+          <Header as='h2'>
+              Amazon MWS Authorization
+          </Header>
+          <Divider/>
+          <Segment basic>
+
+            <Container>
+                <span>Please grant Amazon MWS and Amazon Seller Central access for each market.</span>
+                <Form className='autho_form'>
+                      <Grid>
+                          <Grid.Row columns={2}>
+                              <Grid.Column width={5}>
+                                  {/*<Form.Input type='select' label='Marketplace' placeholder='Marketplace' />*/}
+                                  <Form.Field
+                                      control={Select}
+                                      label='Marketplace'
+                                      options={[{ key: 'n', text: 'None', value: 'none' }]}
+                                      placeholder='select' />
+                              </Grid.Column>
+                              <Grid.Column width={5} verticalAlign='bottom'>
+                                  <Button primary content="Show me how >>" style={{borderRadius: "50px", }}/>
+                              </Grid.Column>
+                              <Grid.Column width={6}/>
+                            <Grid.Column width={9}>
+                                  <Form.Input label='Amazon Seller ID' placeholder='Amazon Seller ID' />
+                              </Grid.Column>
+                              <Grid.Column width={9}>
+                                  <Form.Input label='MWS Auth Token' placeholder='MWS Auth Token' />
+                              </Grid.Column>
+                          </Grid.Row>
+                      </Grid>
+                  </Form>
+              </Container>
+          </Segment>
       </Segment>
     )
   }

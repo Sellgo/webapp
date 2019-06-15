@@ -20,7 +20,6 @@ function IntroSlider() {
     // Correct! Key should be specified inside the array.
     <CarousalItem key={item.id}
     imageUrl={item.imageUrl} title={item.title} description={item.description} />
-
   );
   return (
         <Grid  verticalAlign='middle'  className="signup_box">     
