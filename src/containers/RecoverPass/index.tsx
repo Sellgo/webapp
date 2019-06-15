@@ -8,6 +8,7 @@ import { Logo } from "../../components/AdminLayout/AdminHeader";
 import PasswordShowHide from "../../components/Password/PasswordShowHide";
 import HeaderSubHeader from "semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader";
 import MesssageComponent from "../../components/MessageComponent";
+import buttonStyle from "../../components/StyleComponent/StyleComponent";
 type State={isSuccess:boolean,};
 export class RecoverPass extends React.Component {
   state = {
@@ -45,19 +46,7 @@ export class RecoverPass extends React.Component {
               </Grid.Row>
               <GridRow>
                 <div className="textAlignCenter">                    
-                <Button style={{
-                  fontFamily: "Montserrat", 
-                  fontWeight:"bold" , 
-                  fontDisplay: "optional", 
-                  fontSize: "20px", 
-                  color: "white",
-                  border:"none",
-                  paddingTop: "12px",
-                  paddingBottom: "12px",
-                  paddingLeft:  "40px",
-                  paddingRight: "40px",
-                  borderRadius: "50px",
-                  background: "#4285F4"}} 
+                <Button style={buttonStyle} 
                   onClick={this.toggleShow} 
                   className="primary-button" content="Reset Password"/> 
                 </div>

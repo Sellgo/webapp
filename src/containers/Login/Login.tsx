@@ -5,9 +5,11 @@ import "./login.css";
 import { Logo } from "../../components/AdminLayout/AdminHeader";
 import  IntroSlider  from "../../components/IntroSlider";
 import PasswordShowHide from "../../components/Password/PasswordShowHide";
-
+import buttonStyle from "../../components/StyleComponent/StyleComponent";
 export class Login extends React.Component {
+  
   render() {
+    
     return (
       <Grid verticalAlign='middle' style={{minHeight: "100vh"}}>
         <Grid.Row>
@@ -42,19 +44,7 @@ export class Login extends React.Component {
                         </Grid.Row>
                         <GridRow>
                           <div className="textAlignCenter">                    
-                            <Button as={Link} style={{
-                              fontFamily: "Montserrat", 
-                              fontWeight:"bold" , 
-                              fontDisplay: "optional", 
-                              fontSize: "20px", 
-                              color: "white",
-                              border:"none",
-                              paddingTop: "12px",
-                              paddingBottom: "12px",
-                              paddingLeft:  "40px",
-                              paddingRight: "40px",                              
-                              borderRadius: "50px",
-                              background: "#4285F4"}} 
+                            <Button as={Link} style={buttonStyle} 
                               className="primary-button" to='/dashboard'content="Sign In"/>                 
                           </div>
                         </GridRow>

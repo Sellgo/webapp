@@ -1,9 +1,9 @@
 import * as React from "react";
-import {Form, Segment, Button, Grid, Header, GridRow} from "semantic-ui-react";
+import {Form, Segment, Button, Grid, GridRow} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import {AuthSidebar} from "../../components/AuthSidebar";
 import { Logo } from "../Dashboard";
 import MesssageComponent from "../../components/MessageComponent";
+import buttonStyle from "../../components/StyleComponent/StyleComponent";
 
 type State={isSuccess:boolean,};
 
@@ -41,19 +41,7 @@ export class SignUp extends React.Component<any,State> {
       <Grid.Column  textAlign="center" width={16}>                 
             <GridRow>
               <div>                    
-                <Button style={{
-                  fontFamily: "Montserrat", 
-                  fontWeight:"bold" , 
-                  fontDisplay: "optional", 
-                  fontSize: "20px", 
-                  color: "white",
-                  border:"none",
-                  paddingTop: "12px",
-                  paddingBottom: "12px",
-                  paddingLeft:  "40px",
-                  paddingRight: "40px",
-                  borderRadius: "50px",
-                  background: "#4285F4"}} 
+                <Button style={buttonStyle} 
                   onClick={this.toggleShow} 
                   className="primary-button" content="Create your FREE account"/> 
               </div>
