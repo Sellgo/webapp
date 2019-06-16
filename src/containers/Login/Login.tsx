@@ -34,7 +34,6 @@ export class Login extends React.Component {
                       </Form.Field>
                     </Form>
                   </Grid.Column>
-                  
                   <Grid.Column width={16}>
                         <Grid.Row width={16}>
                           <Grid.Column className="small-regular textAlignCenter padding20">
@@ -47,9 +46,9 @@ export class Login extends React.Component {
                               className="primary-button" to='/dashboard'content="Sign In"/>                 
                           </div>
                         </GridRow>
-                        <GridRow>
+                        <GridRow className="p-t-40">
                         <div className="textAlignCenter padding20">                     
-                        <Link to="/sign-up" className="small-bold">Create My Sellgo Account!</Link>
+                           <Link to="/sign-up" className="small-bold">Create My Sellgo Account!</Link>
                         </div>
                       </GridRow>
                     </Grid.Column>

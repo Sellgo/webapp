@@ -16,3 +16,6 @@
 .search-box{
     min-width: 400px;
 }
+.page-header i.grey.icon{
+    color: #AAAAAA !important;
+}

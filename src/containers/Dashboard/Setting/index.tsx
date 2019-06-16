@@ -1,14 +1,12 @@
 import "./setting.css";
 import * as React from "react";
 import {Segment, Form, Header, Grid, Divider, Container, Image, Icon, Button, Select} from "semantic-ui-react";
-import {Link} from "react-router-dom";
+import MesssageComponent from "../../../components/MessageComponent";
 
-interface SettingState {
-
-}
+interface State { isSuccess: boolean, };
 
 
-export class Setting extends React.Component<{}, SettingState> {
+export class Setting extends React.Component<{}, State> {
 
   render() {
     const custNAme = " MY Name/ customer'";
@@ -23,9 +21,9 @@ export class Setting extends React.Component<{}, SettingState> {
 
         <Segment basic padded='very'>
           <Container>
-            <Grid className="user_account_info_">
+            <Grid>
               <Grid.Row>
-                <Grid.Column width={3} textAlign='center' className='upload_photo'>
+                <Grid.Column width={3} textAlign='center' className='upload-photo'>
                   <Image src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                          size='small' floated='left'/>
                   <Button basic content="Upload Photo" style={{borderRadius: "50px",}} size='small'/>
@@ -34,7 +32,7 @@ export class Setting extends React.Component<{}, SettingState> {
                 <Grid.Column width={13}>
                   <Header as='h6' size='small'>member since: {memberDate}</Header>
                   <Form>
-                    <Grid className="basic_info_update">
+                    <Grid className="basic-info-update">
                       <Grid.Row columns={2}>
                         <Grid.Column width={5}>
                           <Form.Input label='First Name' placeholder='First Name'/>
@@ -87,8 +85,8 @@ export class Setting extends React.Component<{}, SettingState> {
         <Segment basic>
 
           <Container>
-            <span>Please grant Amazon MWS and Amazon Seller Central access for each market.</span>
-            <Form className='autho_form'>
+            <span className="autho-sub-hear">Please grant Amazon MWS and Amazon Seller Central access for each market.</span>
+            <Form className="autho-form">
               <Grid>
                 <Grid.Row columns={2}>
                   <Grid.Column width={5}>

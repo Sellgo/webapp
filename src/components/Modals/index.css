@@ -1,9 +1,26 @@
-.customeModal {
+.customeModal{
   min-height: 27rem;
+    border: 1px solid #707070;
+    border-radius: 1rem;
+}
+.customeModal .content {
+    border-radius: 1rem;
 }
 
 .close {
-    top: 0 !important;
-    right: 0 !important;
-    color: #000 !important;
+    top: -1.7rem !important;
+    right: -2rem !important;
+
+}
+i.icon.close:before {
+    content: "\f00d";
+    border: 4px solid #999999;
+    border-radius: 100px;
+    padding: 3px;
+    font-size: 14px;
+    color: #999999;
+
+}
+.ui.dimmer {
+    background-color: rgba(146, 170, 177, 0.48);
 }

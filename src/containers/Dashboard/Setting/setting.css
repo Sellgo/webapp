@@ -1,14 +1,36 @@
 
-.setting .basic_info_update {
-    margin-top: 3rem;
+.setting .basic-info-update.ui.grid {
+    margin-top: 5rem !important;
 }
-.setting .upload_photo Button {
+.setting .upload-photo Button {
     margin-right: 2rem;
 }
-.setting .autho_form{
+.setting .autho-form {
     margin-top: 1.5rem;
 }
 
 .ui.header {
     font-family: 'Montserrat', 'serif' !important;
+}
+.setting .autho-sub-hear ,.setting .ui.small.header {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+.setting .ui.form .field>label {
+    font-size: 1rem;
+}
+.setting .autho-form .ui.form .field>label::after {
+    content: "\f059"
+}
+
+.setting .ui.primary.button {
+    font-family: Montserrat;
+    font-weight:bold ;
+    font-display: optional;
+    font-size: 1.2rem;
+    color: white;
+    border:none;
+    padding: 12px 40px;
+    border-adius: 50px;
+    background: #4285F4;
 }

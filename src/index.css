@@ -200,6 +200,10 @@ ul.control-dots {
   padding:40px;
 }
 
+.p-t-40 {
+  padding-top:40px !important;
+}
+
 
 .carousel .slide {
   background: transparent;

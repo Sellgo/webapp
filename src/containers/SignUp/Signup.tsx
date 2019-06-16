@@ -13,7 +13,6 @@ export class SignUp extends React.Component<{}, State> {
   };
   toggleShow = () => {
     this.setState({isSuccess: !this.state.isSuccess});
-    //this.state.isSuccess=!this.state.isSuccess;
   }
   message = {
     id: 1,
