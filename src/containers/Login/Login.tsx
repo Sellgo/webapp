@@ -5,9 +5,11 @@ import "./login.css";
 import {Logo} from "../../components/AdminLayout/AdminHeader";
 import IntroSlider from "../../components/IntroSlider";
 import PasswordShowHide from "../../components/Password/PasswordShowHide";
-
+import buttonStyle from "../../components/StyleComponent/StyleComponent";
 export class Login extends React.Component {
+
   render() {
+
     return (
       <Grid verticalAlign='middle' style={{minHeight: "100vh"}}>
         <Grid.Row>
@@ -31,35 +33,26 @@ export class Login extends React.Component {
                         </div>
                       </Form.Field>
                     </Form>
-                    <Grid.Column width={16}>
-                      <Grid.Column className="small-regular textAlignCenter padding20">
-                        <Link to="/forgot-password" style={{fontSize: "smaller", color: "gray"}}>Forgot your
-                          password?</Link>
-                      </Grid.Column>
-                      <div className="textAlignCenter">
-                        <Button
-                          as={Link}
-                          style={{
-                            fontFamily: "Montserrat",
-                            fontWeight: "bold",
-                            fontDisplay: "optional",
-                            fontSize: "20px",
-                            color: "white",
-                            border: "none",
-                            padding: "12px 40px",
-                            borderRadius: "50px",
-                            background: "#4285F4"
-                          }}
-                          className="primary-button"
-                          to='/dashboard' content="Sign In"/>
-                      </div>
-                      <GridRow>
-                        <div className="textAlignCenter padding40">
-                          <Link to="/sign-up" className="small-bold">Create My Sellgo Account!</Link>
+                  </Grid.Column>
+                  
+                  <Grid.Column width={16}>
+                        <Grid.Row width={16}>
+                          <Grid.Column className="small-regular textAlignCenter padding20">
+                            <Link to="/forgot-password" style={{fontSize: "smaller",color:"gray"}}>Forgot your password?</Link>   
+                          </Grid.Column>
+                        </Grid.Row>
+                        <GridRow>
+                          <div className="textAlignCenter">                    
+                            <Button as={Link} style={buttonStyle}
+                              className="primary-button" to='/dashboard'content="Sign In"/>                 
+                          </div>
+                        </GridRow>
+                        <GridRow>
+                        <div className="textAlignCenter padding20">                     
+                        <Link to="/sign-up" className="small-bold">Create My Sellgo Account!</Link>
                         </div>
                       </GridRow>
                     </Grid.Column>
-                  </Grid.Column>
                 </Grid.Row>
               </Grid>
             </Segment>

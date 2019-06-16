@@ -1,9 +1,9 @@
 import * as React from "react";
-import {Form, Segment, Button, Grid, Header, GridRow} from "semantic-ui-react";
+import {Form, Segment, Button, Grid, GridRow} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import {AuthSidebar} from "../../components/AuthSidebar";
 import {Logo} from "../Dashboard";
 import MesssageComponent from "../../components/MessageComponent";
+import buttonStyle from "../../components/StyleComponent/StyleComponent";
 
 interface State { isSuccess: boolean, };
 
@@ -44,36 +44,25 @@ export class SignUp extends React.Component<{}, State> {
 
         <Grid.Column className="small-regular padding20" celled textAlign="center" width={16}>
           I agree to the <Link to="/#">privacy
-          policy</Link> and <Link to="/#"> trams of service</Link>
-        </Grid.Column>
-        <Grid.Column textAlign="center" width={16}>
-          <GridRow>
-            <div>
-              <Button style={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontDisplay: "optional",
-                fontSize: "20px",
-                color: "white",
-                border: "none",
-                padding: "12px 40px",
-                borderRadius: "50px",
-                background: "#4285F4"
-              }}
-                      onClick={this.toggleShow}
-                      className="primary-button" content="Create your FREE account"/>
-            </div>
-          </GridRow>
-          <Grid.Row width={16}>
-            <Grid.Column className="small-regular padding20">
-              <Link to="/login">Already have an account?</Link>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
-  </Segment>);
-
+          policy</Link> and <Link to="/#"> trams of service</Link>                    
+      </Grid.Column>
+      <Grid.Column  textAlign="center" width={16}>                 
+            <GridRow>
+              <div>                    
+                <Button style={buttonStyle}
+                  onClick={this.toggleShow} 
+                  className="primary-button" content="Create your FREE account"/> 
+              </div>
+            </GridRow>
+            <Grid.Row width={16}>
+              <Grid.Column className="small-regular padding20">
+                <Link to="/login">Already have an account?</Link> 
+              </Grid.Column>
+            </Grid.Row>
+      </Grid.Column>
+    </Grid.Row>
+  </Grid>
+</Segment>);
   render() {
     return (
       <Grid verticalAlign='middle' style={{minHeight: "calc(100vh)"}}>

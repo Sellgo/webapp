@@ -8,10 +8,9 @@ import {Logo} from "../../components/AdminLayout/AdminHeader";
 import PasswordShowHide from "../../components/Password/PasswordShowHide";
 import HeaderSubHeader from "semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader";
 import MesssageComponent from "../../components/MessageComponent";
-
-interface State { isSuccess: boolean, };
-
-export class RecoverPass extends React.Component<{},State> {
+import buttonStyle from "../../components/StyleComponent/StyleComponent";
+type State={isSuccess:boolean,};
+export class RecoverPass extends React.Component {
   state = {
     isSuccess: false,
   };
@@ -48,30 +47,20 @@ export class RecoverPass extends React.Component<{},State> {
         </Grid.Column>
 
         <Grid.Column width={16}>
-          <Grid.Row width={16}>
-            <Grid.Column className="small-regular textAlignCenter padding20">
-              <Link to="/login" style={{fontSize: "smaller", color: "gray"}}>Already have an account?</Link>
-            </Grid.Column>
-          </Grid.Row>
-          <GridRow>
-            <div className="textAlignCenter">
-              <Button style={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontDisplay: "optional",
-                fontSize: "20px",
-                color: "white",
-                border: "none",
-                padding: "12px 40px",
-                borderRadius: "50px",
-                background: "#4285F4"
-              }}
-                      onClick={this.toggleShow}
-                      className="primary-button" content="Reset Password"/>
-            </div>
-          </GridRow>
-          <GridRow>
-            <div className="textAlignCenter padding20">
+              <Grid.Row width={16}>
+                <Grid.Column className="small-regular textAlignCenter padding20">
+                  <Link to="/login" style={{fontSize: "smaller",color:"gray"}}>Already have an account?</Link> 
+                </Grid.Column>
+              </Grid.Row>
+              <GridRow>
+                <div className="textAlignCenter">                    
+                <Button style={buttonStyle}
+                  onClick={this.toggleShow} 
+                  className="primary-button" content="Reset Password"/> 
+                </div>
+              </GridRow>
+              <GridRow>
+              <div className="textAlignCenter padding20">                     
               <Link to="/sign-up" className="small-bold">Create My Sellgo Account!</Link>
             </div>
           </GridRow>
