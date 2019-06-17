@@ -8,10 +8,10 @@ import {Link} from "react-router-dom";
 
 function MesssageComponent(props: any) {
   const items = props.message;
-  const isBorder = props.isBorder;
+  const isModal = props.isModal;
 
   return (<Segment basic clearing>
-    <Grid className={isBorder ? "pop-up" : ""}>
+    <Grid className={!isModal ? "pop-up" : ""}>
       <Grid.Row>
         <Grid.Column textAlign="center" style={{padding: 10}} width={16}>
           <div className="heading-h1">
@@ -32,7 +32,7 @@ function MesssageComponent(props: any) {
           <Header.Content>{items.description}</Header.Content>
           <Header.Content>{items.description2}</Header.Content>
         </Grid.Column>
-        {isBorder ? <Grid.Column textAlign="center" width={16}>
+        {!isModal ? <Grid.Column textAlign="center" width={16}>
           <Grid.Row>
             <Button as={Link}
                     style={{

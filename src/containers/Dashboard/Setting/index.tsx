@@ -19,7 +19,7 @@ export class Setting extends React.Component<{}, State> {
     id: 1,
     title: "Information Updated",
     message: "Thank you for Updating",
-    description: "You have successfully create new account with Sellgo account.",
+    description: "You have successfully updated new information.",
     description2: "",
     to: "/dashboard/setting",
     button_text: "Ok"
@@ -139,7 +139,7 @@ export class Setting extends React.Component<{}, State> {
           </Container>
           <Modals title='' size='small' open={isOpen} close={this.handleModle}>
             <Container textAlign='center'>
-              <MesssageComponent message={this.message} isBorder={false}/>
+              <MesssageComponent message={this.message} isModal={true}/>
               <Segment textAlign='center' basic>
                  <Button style={buttonStyle} content="Ok" onClick={this.handleModle}/>
               </Segment>
