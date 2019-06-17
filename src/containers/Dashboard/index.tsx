@@ -39,7 +39,6 @@ export class Dashboard extends React.Component<{}, state> {
   };
 
   onNext = () => {
-    console.log(buttonStyle);
     if (this.state.currentSteps !== 4) {
       this.setState({
         currentSteps: this.state.currentSteps + 1,

@@ -8,17 +8,18 @@
   padding: initial !important;
   border: 1px solid #a8b1b5 !important;
   margin-left: 110px;
-  color: #a8b1b5;
+  color: #a8b1b5 !important;
 }
 .ui.steps.round .step .title {
   font-size: 12px;
   position: relative;
   top: 7px;
+  color: #a8b1b5 !important;
 }
 .ui.steps.round .step.completed {
   border: 1px solid #2d88d8 !important;
   background: #2d88d8;
-  color: #fff;
+  color: #fff !important;K
 }
 .ui.steps.round .step.completed .title {
   display: none;
