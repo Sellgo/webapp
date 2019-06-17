@@ -19,7 +19,7 @@
 .ui.steps.round .step.completed {
   border: 1px solid #2d88d8 !important;
   background: #2d88d8;
-  color: #fff !important;K
+  color: #fff !important;
 }
 .ui.steps.round .step.completed .title {
   display: none;
