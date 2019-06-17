@@ -17,15 +17,15 @@ const options = [
   {key: 1, text: 'Choice 1', value: 1},
   {key: 2, text: 'Choice 2', value: 2},
   {key: 3, text: 'Choice 3', value: 3},
-]
+];
 
 export class AdminHeader extends React.Component {
   private readonly height = "5rem";
 
   render() {
     return <React.Fragment>
-      <Menu borderless fixed="top" style={{height: this.height}} className="top-menu">
-        <Menu.Item className="top-logo" as={Link} to='/' content={<Logo size="small"/>}/>
+      <Menu borderless fixed='top' style={{height: this.height}} className="top-menu">
+        <Menu.Item className="top-logo" as={Link} to='/' content={<Logo size='small'/>}/>
         <Menu.Item
           className="search-box"
           content={<Input action={{type: 'submit', content: '', icon: 'search'}}

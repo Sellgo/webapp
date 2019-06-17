@@ -1,5 +1,4 @@
 import * as React from "react";
-import {Carousel} from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Icon from '@material-ui/core/Icon';
 import "./MessageComponent.css";
@@ -9,8 +8,10 @@ import {Link} from "react-router-dom";
 
 function MesssageComponent(props: any) {
   const items = props.message;
+  const isBorder = props.isBorder;
+
   return (<Segment basic clearing>
-    <Grid className="pop-up">
+    <Grid className={isBorder ? "pop-up" : ""}>
       <Grid.Row>
         <Grid.Column textAlign="center" style={{padding: 10}} width={16}>
           <div className="heading-h1">
@@ -31,7 +32,7 @@ function MesssageComponent(props: any) {
           <Header.Content>{items.description}</Header.Content>
           <Header.Content>{items.description2}</Header.Content>
         </Grid.Column>
-        <Grid.Column textAlign="center" width={16}>
+        {isBorder ? <Grid.Column textAlign="center" width={16}>
           <Grid.Row>
             <Button as={Link}
                     style={{
@@ -48,7 +49,7 @@ function MesssageComponent(props: any) {
                     }}
                     to={items.to} content={items.button_text}/>
           </Grid.Row>
-        </Grid.Column>
+        </Grid.Column>: <Grid.Column textAlign="center" width={16}/> }
       </Grid.Row>
     </Grid>
   </Segment>);

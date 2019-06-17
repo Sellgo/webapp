@@ -7,7 +7,7 @@ import {PageHeader} from "./PageHeader";
 
 interface LayoutProps {
   children?: React.ReactNode;
-    title?: string;
+  title?: string;
 }
 
 export class AdminLayout extends React.Component<LayoutProps> {
@@ -21,7 +21,7 @@ export class AdminLayout extends React.Component<LayoutProps> {
           <AdminSidebar/>
           <Sidebar.Pusher style={{width: "calc(100vw - 260px)"}}>
             <Segment basic>
-                <PageHeader title={title}/>
+              <PageHeader title={title}/>
               {children}
             </Segment>
           </Sidebar.Pusher>

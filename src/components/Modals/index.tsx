@@ -19,7 +19,7 @@ export class Modals extends React.Component<ModalsProps, {}> {
              size="small"
              className="customeModal"
              closeIcon>
-        {title && <Modal.Header>{title}</Modal.Header> }
+        {title && <Modal.Header>{title}</Modal.Header>}
         <Modal.Content>
           {children}
         </Modal.Content>

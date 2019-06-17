@@ -7,11 +7,13 @@
   height: 30px !important;
   padding: initial !important;
   border: 1px solid #a8b1b5 !important;
-  margin-left: 60px;
+  margin-left: 110px;
   color: #a8b1b5;
 }
 .ui.steps.round .step .title {
   font-size: 12px;
+  position: relative;
+  top: 7px;
 }
 .ui.steps.round .step.completed {
   border: 1px solid #2d88d8 !important;
@@ -25,8 +27,13 @@
   font-family: Icons;
   content: "\f00c";
   font-size: 10px;
+  top: 7px;
+  position: relative;
 }
 .ui.steps.round .step.completed:first-child:after {
+  border-color: #2d88d8;
+}
+.ui.steps.round .step.completed:after {
   border-color: #2d88d8;
 }
 .ui.steps.round .step.active {
@@ -42,12 +49,24 @@
 }
 .ui.steps.round .step:first-child:after {
   display: block;
-  width: 60px;
+  width: 110px;
   right: 0;
   left: 29px;
   border-color: #a8b1b5;
   transform: none;
   height: auto;
+}
+.ui.steps.round .step:after {
+  display: block;
+  width: 110px;
+  right: 0;
+  left: 29px;
+  border-color: #a8b1b5;
+  transform: none;
+  height: auto;
+}
+.ui.steps.round .step:last-child:after {
+  display: none;
 }
 .ui.steps.round.small .step {
   width: 20px !important;
@@ -66,4 +85,9 @@
 }
 .ui.steps .step:after {
   display: none;
+}
+.ui.steps .step .description  {
+  margin-top: 14px !important;
+  width: 200px;
+  text-align: center;
 }

@@ -1,6 +1,6 @@
 import "./Home.css";
 import * as React from "react";
-import {Segment, Button, Header, Grid, Divider, Icon, Container} from "semantic-ui-react";
+import {Button, Container, Divider, Grid, Header, Icon, Segment} from "semantic-ui-react";
 import {HeaderBar} from "../../components/Header";
 
 

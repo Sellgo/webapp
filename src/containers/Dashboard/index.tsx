@@ -14,56 +14,60 @@ export const Logo: React.SFC<{ size?: SemanticSIZES, centered?: boolean }> = ({s
     src="https://user-images.githubusercontent.com/1359333/57185902-c66b3380-6e89-11e9-92ce-c5f0ef137eca.png"
   />
 );
+
 interface state {
-  isOpen:  boolean,
+  isOpen: boolean,
   currentSteps: number,
 }
+
 export class Dashboard extends React.Component<{}, state> {
-		state = {
-		isOpen: true,
-		currentSteps: 1,
-		totalStep: 4
-	  };
-	  close = () => {
-		this.setState({
-		  isOpen: false
-		})
-	  };
+  state = {
+    isOpen: true,
+    currentSteps: 1,
+    totalStep: 4
+  };
+  close = () => {
+    this.setState({
+      isOpen: false
+    })
+  };
 
-	  closeIntroMadal = () => {
-		this.setState({
-		  isOpen: false
-		})
-	  };
+  closeIntroMadal = () => {
+    this.setState({
+      isOpen: false
+    })
+  };
 
-    onNext = () => {
-      console.log(buttonStyle);
-      if(this.state.currentSteps!==4){
-        this.setState({
-          currentSteps: this.state.currentSteps+1,
-        })
-      }
-      else{
-        this.closeIntroMadal();
-      }
-    };
-
-    onBack = () => {
-      if(this.state.currentSteps!=0)
+  onNext = () => {
+    console.log(buttonStyle);
+    if (this.state.currentSteps !== 4) {
       this.setState({
-        currentSteps: this.state.currentSteps-1,
+        currentSteps: this.state.currentSteps + 1,
       })
-    };
+    }
+    else {
+      this.closeIntroMadal();
+    }
+  };
+
+  onBack = () => {
+    if (this.state.currentSteps != 0)
+      this.setState({
+        currentSteps: this.state.currentSteps - 1,
+      })
+  };
 
 
   render() {
-    const {isOpen,currentSteps} = this.state
-  
+    const {isOpen, currentSteps} = this.state;
+    const disStyle = {
+      marginTop: '15px',
+    };
     return (
       <AdminLayout>
         <Header as="h1">Dashboard</Header>
         <Segment>
-          <DashBoardTabs></DashBoardTabs>
+          <DashBoardTabs/>
         </Segment>
         <Modals title='' size='small' open={isOpen} close={this.close}>
           <Container textAlign='center'>
@@ -74,8 +78,7 @@ export class Dashboard extends React.Component<{}, state> {
               <Header.Content>With little time investment to follow our training, and with the power of data automation, <br/>
               and tools, you will find profitable products to sell on Amazon instantly.</Header.Content>
             </Segment>
-
-            <Segment  basic>
+            <Segment basic>
               <Step.Group className="round">
                 <Step completed={currentSteps > 1} active={currentSteps === 1}>
                   <Step.Content>
@@ -101,19 +104,14 @@ export class Dashboard extends React.Component<{}, state> {
                     <Step.Description>Account setup</Step.Description>
                   </Step.Content>
                 </Step>
-
               </Step.Group>
-
-              </Segment>
-            <Segment textAlign='center' basic>
-
-            {currentSteps>1?<Button style={buttonStyle}  content="Previous"   onClick={this.onBack}/>:null}
-            <Button style={buttonStyle}
-                              onClick={this.onNext}
-                              content={currentSteps>1?"Next":"Get Started"}/>
-
             </Segment>
-
+            <Segment textAlign='center' basic>
+              {currentSteps > 1 ? <Button style={buttonStyle} content="Previous" onClick={this.onBack}/> : null}
+              <Button style={buttonStyle}
+                      onClick={this.onNext}
+                      content={currentSteps > 1 ? "Next" : "Get Started"}/>
+            </Segment>
           </Container>
         </Modals>
         {/* <Modals title='' size='small' open={isSettingModalsOpen} close={this.closeSettingModal}>

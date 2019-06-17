@@ -16,12 +16,6 @@
   left: 50%;
   z-index: 1;
 }
-.customeModal .ui.steps.round .step:first-child:after {
-  width: 110px!important;
-}
-.customeModal .ui.steps.round .step {
-  margin-left: 110px !important;
-}
 
 .stepper-ui .nav-tabs > li.completed::after {
   background: #34bc9b;
@@ -119,4 +113,20 @@
 }
 .ui.steps .step {
   color: #000!important;
+}
+.customeModal .steps.round .step:first-child:after {
+  width: 110px!important;
+}
+.customeModal .steps.round .step {
+  margin-left: 110px !important;
+}
+.customeModal  .step.completed::before {
+  top: 7px !important;
+  position: relative !important;
+}
+
+.customeModal .step .title {
+  font-size: 12px !important;
+  position: relative !important;
+  top: 7px !important;
 }

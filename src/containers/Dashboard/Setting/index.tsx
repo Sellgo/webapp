@@ -1,16 +1,41 @@
 import "./setting.css";
 import * as React from "react";
 import {Segment, Form, Header, Grid, Divider, Container, Image, Icon, Button, Select} from "semantic-ui-react";
+import {Modals} from "../../../components/Modals";
 import MesssageComponent from "../../../components/MessageComponent";
+import buttonStyle from "../../../components/StyleComponent/StyleComponent";
 
-interface State { isSuccess: boolean, };
+
+interface State {
+  isOpen: boolean,
+};
 
 
 export class Setting extends React.Component<{}, State> {
+  state = {
+    isOpen: false,
+  };
+  message = {
+    id: 1,
+    title: "Information Updated",
+    message: "Thank you for Updating",
+    description: "You have successfully create new account with Sellgo account.",
+    description2: "",
+    to: "/dashboard/setting",
+    button_text: "Ok"
+  };
+
+  handleModle = () => {
+    const { isOpen } = this.state;
+    this.setState({
+      isOpen: !isOpen
+    })
+  };
 
   render() {
     const custNAme = " MY Name/ customer'";
     const memberDate = `May 5 2018`;
+    const {isOpen} = this.state;
 
     return (
       <Segment basic className="setting">
@@ -42,7 +67,7 @@ export class Setting extends React.Component<{}, State> {
                         </Grid.Column>
                         <Grid.Column width={10}>
                           <Form.Input label='Email' placeholder='Email' fluid/>
-                          <Button primary content="Update Information" style={{borderRadius: "50px",}}/>
+                          <Button primary content="Update Information" onClick={this.handleModle} style={{borderRadius: "50px",}}/>
                         </Grid.Column>
                       </Grid.Row>
                     </Grid>
@@ -85,7 +110,8 @@ export class Setting extends React.Component<{}, State> {
         <Segment basic>
 
           <Container>
-            <span className="autho-sub-hear">Please grant Amazon MWS and Amazon Seller Central access for each market.</span>
+            <span
+              className="autho-sub-hear">Please grant Amazon MWS and Amazon Seller Central access for each market.</span>
             <Form className="autho-form">
               <Grid>
                 <Grid.Row columns={2}>
@@ -111,6 +137,14 @@ export class Setting extends React.Component<{}, State> {
               </Grid>
             </Form>
           </Container>
+          <Modals title='' size='small' open={isOpen} close={this.handleModle}>
+            <Container textAlign='center'>
+              <MesssageComponent message={this.message} isBorder={false}/>
+              <Segment textAlign='center' basic>
+                 <Button style={buttonStyle} content="Ok" onClick={this.handleModle}/>
+              </Segment>
+            </Container>
+          </Modals>
         </Segment>
       </Segment>
     )
