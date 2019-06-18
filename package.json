@@ -46,7 +46,9 @@
     "tslint": "tslint './src/**/*.{ts,tsx}'",
     "tslint:fix": "npm run tslint -- --fix",
     "tslint:check": "tslint-config-prettier-check ./tslint.json",
-    "prettier": "prettier --write --config ./.prettierrc './src/**/*.{ts,tsx}'"
+    "prettier": "prettier --write --config ./.prettierrc './src/**/*.{ts,tsx}'",
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --fix --format verbose"
+    
   },
   "eslintConfig": {
     "extends": "react-app"

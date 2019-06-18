@@ -16,7 +16,7 @@ function MesssageComponent(props: any) {
         <Grid.Column textAlign="center" style={{padding: 10}} width={16}>
           <div className="heading-h1">
             {items.title}
-          </div>
+              </div>
         </Grid.Column>
         <Grid.Column textAlign="center" style={{padding: 10, display: "flex", justifyContent: "center"}} width={16}>
           <Icon style={{fontSize: 30, color: "#0E6FCF"}}>check_circle</Icon>
