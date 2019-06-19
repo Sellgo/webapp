@@ -50,7 +50,7 @@ export class Dashboard extends React.Component<{}, state> {
   };
 
   onBack = () => {
-    if (this.state.currentSteps != 0) {
+    if (this.state.currentSteps !== 0) {
       this.setState({
         currentSteps: this.state.currentSteps - 1,
       })
@@ -60,9 +60,6 @@ export class Dashboard extends React.Component<{}, state> {
 
   render() {
     const {isOpen, currentSteps} = this.state;
-    const disStyle = {
-      marginTop: '15px',
-    };
     return (
       <AdminLayout>
         <Header as="h1">Dashboard</Header>

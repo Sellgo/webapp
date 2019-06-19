@@ -7,10 +7,10 @@ const panes = [
   { menuItem: 'Supplier List', render: () => <Tab.Pane attached={false}>Supplier List</Tab.Pane> },
   { menuItem: 'Inventory', render: () => <Tab.Pane attached={false}>Inventory</Tab.Pane> },
   { menuItem: 'Outstanding Items', render: () => <Tab.Pane attached={false}>Outstanding Items</Tab.Pane> },
-]
+];
 
 const DashBoardTabs = () => (
   <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
-)
+);
 
 export default DashBoardTabs

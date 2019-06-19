@@ -1,5 +1,5 @@
-import Icon from '@material-ui/core/Icon';
-import * as React from "react";
+import * as React from 'react'
+import { Icon } from 'semantic-ui-react'
 
 export interface State {
   hidden: boolean;
@@ -36,11 +36,10 @@ class PasswordShowHide extends React.Component<{}, State> {
           value={this.state.password}
           placeholder="Password"
           onChange={this.handlePasswordChange}/>
-        <Icon color="disabled" onClick={this.toggleShow} fontSize="large">
-          {this.state.hidden ? "visibility_off" : "visibility"}
-        </Icon>
+        <Icon onClick={this.toggleShow} name={this.state.hidden ? 'eye' : 'eye slash'}
+              size="large"
+              color="grey"/>
       </div>);
   }
 }
-
 export default PasswordShowHide;

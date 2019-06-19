@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, Container, Divider, Form, Grid, Header, Icon, Image, Segment, Select} from "semantic-ui-react";
+import {Button, Container, Divider, Form, Grid, Header, Image, Segment, Select} from "semantic-ui-react";
 import MesssageComponent from "../../../components/MessageComponent";
 import {Modals} from "../../../components/Modals";
 import buttonStyle from "../../../components/StyleComponent/StyleComponent";
@@ -33,7 +33,6 @@ export class Setting extends React.Component<{}, State> {
   };
 
   render() {
-    const custNAme = " MY Name/ customer'";
     const memberDate = `May 5 2018`;
     const {isOpen} = this.state;
 

@@ -42,7 +42,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "stylelint":"stylelint **/*.css",
+    "stylelint": "stylelint **/*.css",
     "eject": "react-scripts eject",
     "tslint": "tslint './src/**/*.{ts,tsx}'",
     "tslint:fix": "npm run tslint -- --fix",

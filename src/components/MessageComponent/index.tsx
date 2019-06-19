@@ -1,8 +1,7 @@
-import Icon from '@material-ui/core/Icon'
 import * as React from 'react'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Link } from 'react-router-dom'
-import { Button, Grid, Header, Segment } from 'semantic-ui-react'
+import { Button, Grid, Header, Icon, Segment } from 'semantic-ui-react'
 import buttonStyle from '../../components/StyleComponent/StyleComponent'
 import './MessageComponent.css'
 
@@ -22,7 +21,7 @@ function MesssageComponent(props: any) {
             style={{ padding: 10, display: 'flex', justifyContent: 'center' }}
             width={16}
           >
-            <Icon style={{ fontSize: 30, color: '#0E6FCF' }}>check_circle</Icon>
+            <Icon name="check circle" size="big" style={{ color: '#0E6FCF' }} />
             <Header
               as="h3"
               style={{

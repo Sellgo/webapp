@@ -1,11 +1,11 @@
-import * as React from "react";
-import {Modal} from 'semantic-ui-react'
-import "./index.css";
+import * as React from 'react'
+import { Modal } from 'semantic-ui-react'
+import './index.css'
 
 interface ModalsProps {
-  open: boolean,
-  close: any,
-  title: string,
+  open: boolean
+  close: any
+  title: string
   size: string
 }
 

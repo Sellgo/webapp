@@ -1,16 +1,14 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
-import {Button, Form, Grid, GridRow, Header, Segment} from "semantic-ui-react";
-import HeaderSubHeader from "semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader";
+import {Button, Form, Grid, GridRow, Segment} from "semantic-ui-react";
 import {Logo} from "../../components/AdminLayout/AdminHeader";
-import {AuthSidebar} from "../../components/AuthSidebar";
 import IntroSlider from "../../components/IntroSlider";
 import MesssageComponent from "../../components/MessageComponent";
-import PasswordShowHide from "../../components/Password/PasswordShowHide";
 import buttonStyle from "../../components/StyleComponent/StyleComponent";
 import "./recoverPass.css";
+
 interface State{isSuccess:boolean,}
-export class RecoverPass extends React.Component {
+export class RecoverPass extends React.Component<{}, State> {
   state = {
     isSuccess: false,
   };
@@ -23,7 +21,10 @@ export class RecoverPass extends React.Component {
     to: "/login",
     button_text: "Ok"
   };
-  // message={ id:1,title:"Reset Password",message:"Password Reset Successful!",description:"You have successfully reset the password for your Sellgo account. Please check your email to continue.", to:"/dashboard", button_text:"Ok"};
+  toggleShow = () => {
+      this.setState({isSuccess: !this.state.isSuccess});
+  };
+
   response = (<MesssageComponent message={this.message}/>);
   forgetPassForm = (<Segment basic clearing>
     <Grid>
@@ -64,10 +65,6 @@ export class RecoverPass extends React.Component {
       </Grid.Row>
     </Grid>
   </Segment>);
-  toggleShow = () => {
-    this.setState({isSuccess: !this.state.isSuccess});
-    // this.state.isSuccess=!this.state.isSuccess;
-  }
 
   render() {
     return (
