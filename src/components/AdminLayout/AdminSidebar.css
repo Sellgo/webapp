@@ -19,3 +19,17 @@
 .page-header i.grey.icon{
     color: #AAAAAA !important;
 }
+.ui.left.sidebar,
+.ui.right.sidebar {
+    width: 73px !important;
+    background: #444444;
+}
+.ui.visible.left.sidebar~.fixed, .ui.visible.left.sidebar~.pusher {
+    -webkit-transform: translate3d(73px,0,0);
+     transform: translate3d(73px,0,0);
+}
+.ui[class*="middle aligned"].grid>.row>.column,
+.ui[class*="bottom aligned"].grid>.row>.column {
+    padding-right: 0;
+    /*padding-left: 0;*/
+}
