@@ -3,7 +3,6 @@
       "tslint:recommended",
       "tslint-react",
       "tslint:latest",
-      "tslint-eslint-rules",
       "tslint-config-prettier"
     ],
     "rulesDirectory": [
