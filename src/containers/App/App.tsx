@@ -2,14 +2,14 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Segment} from 'semantic-ui-react';
 
-import {Home} from "../Home/Home";
-import {ProductTracker} from "../ProductTracker/ProductTracker";
 import {AdminLayout} from '../../components/AdminLayout/index';
-import {Login} from '../Login/Login';
-import {SignUp} from '../SignUp/Signup';
-import {RecoverPass} from '../RecoverPass';
-import {Setting} from '../Dashboard/Setting';
 import {Dashboard} from '../Dashboard';
+import {Setting} from '../Dashboard/Setting';
+import {Home} from "../Home/Home";
+import {Login} from '../Login/Login';
+import {ProductTracker} from "../ProductTracker/ProductTracker";
+import {RecoverPass} from '../RecoverPass';
+import {SignUp} from '../SignUp/Signup';
 
 const App: React.SFC = () => (
   <Router>

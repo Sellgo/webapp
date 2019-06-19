@@ -1,9 +1,9 @@
 import * as React from "react";
-import {Form, Segment, Button, Grid, GridRow} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import {Logo} from "../Dashboard";
+import {Button, Form, Grid, GridRow, Segment} from "semantic-ui-react";
 import MesssageComponent from "../../components/MessageComponent";
 import buttonStyle from "../../components/StyleComponent/StyleComponent";
+import {Logo} from "../Dashboard";
 
 interface State { isSuccess: boolean, };
 
@@ -11,9 +11,6 @@ export class SignUp extends React.Component<{}, State> {
   state = {
     isSuccess: false,
   };
-  toggleShow = () => {
-    this.setState({isSuccess: !this.state.isSuccess});
-  }
   message = {
     id: 1,
     title: "Account Succesfuly Created",
@@ -23,7 +20,9 @@ export class SignUp extends React.Component<{}, State> {
     to: "/login",
     button_text: "Ok"
   };
-  //message={ id:1,title:"Reset Password",message:"Password Reset Successful!",description:"You have successfully reset the password for your Sellgo account. Please check your email to continue.", to:"/dashboard", button_text:"Ok"};
+  toggleShow = () => {
+    this.setState({isSuccess: !this.state.isSuccess});
+  };
   response = (<MesssageComponent message={this.message}/>);
   signUpForm = (<Segment basic clearing>
     <Grid>

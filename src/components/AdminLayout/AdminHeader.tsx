@@ -1,8 +1,8 @@
 import * as React from "react";
-import {Menu, Image, Input, Icon, Dropdown, SemanticSIZES} from "semantic-ui-react";
+import {Dropdown, Icon, Image, Input, Menu, SemanticSIZES} from "semantic-ui-react";
 
-import "./AdminSidebar.css";
 import { Link } from "react-router-dom";
+import "./AdminSidebar.css";
 
 export const Logo: React.SFC<{ size?: SemanticSIZES, centered?: boolean }> = ({size, centered}) => (
   <Image

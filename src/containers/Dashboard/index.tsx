@@ -1,10 +1,10 @@
 import * as React from "react";
-import {Header, Segment, SemanticSIZES, Image, Button, Container, Step} from "semantic-ui-react";
+import {Button, Container, Header, Image, Segment, SemanticSIZES, Step} from "semantic-ui-react";
 import {AdminLayout} from "../../components/AdminLayout";
 import {Modals} from "../../components/Modals";
 import buttonStyle from "../../components/StyleComponent/StyleComponent";
-import DashBoardTabs from "./Tabs/tabs";
 import "./Dashboard.css";
+import DashBoardTabs from "./Tabs/tabs";
 
 export const Logo: React.SFC<{ size?: SemanticSIZES, centered?: boolean }> = ({size, centered}) => (
   <Image
@@ -50,10 +50,11 @@ export class Dashboard extends React.Component<{}, state> {
   };
 
   onBack = () => {
-    if (this.state.currentSteps != 0)
+    if (this.state.currentSteps != 0) {
       this.setState({
         currentSteps: this.state.currentSteps - 1,
       })
+    }
   };
 
 

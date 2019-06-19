@@ -1,7 +1,7 @@
 import * as React from "react";
-import {Icon, Button, Header, Grid, Segment} from "semantic-ui-react";
-import "./AuthSidebar.css";
+import {Button, Grid, Header, Icon, Segment} from "semantic-ui-react";
 import {Logo} from "../AdminLayout/AdminHeader";
+import "./AuthSidebar.css";
 
 
 export class AuthSidebar extends React.Component {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Icon, Header} from "semantic-ui-react";
+import {Header, Icon} from "semantic-ui-react";
 
 import "./AdminSidebar.css";
 

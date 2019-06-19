@@ -1,23 +1,19 @@
 import * as React from "react";
-import {Form, Segment, Button, Grid, Header, GridRow} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import {AuthSidebar} from "../../components/AuthSidebar";
-import "./recoverPass.css";
-import IntroSlider from "../../components/IntroSlider";
-import {Logo} from "../../components/AdminLayout/AdminHeader";
-import PasswordShowHide from "../../components/Password/PasswordShowHide";
+import {Button, Form, Grid, GridRow, Header, Segment} from "semantic-ui-react";
 import HeaderSubHeader from "semantic-ui-react/dist/commonjs/elements/Header/HeaderSubheader";
+import {Logo} from "../../components/AdminLayout/AdminHeader";
+import {AuthSidebar} from "../../components/AuthSidebar";
+import IntroSlider from "../../components/IntroSlider";
 import MesssageComponent from "../../components/MessageComponent";
+import PasswordShowHide from "../../components/Password/PasswordShowHide";
 import buttonStyle from "../../components/StyleComponent/StyleComponent";
-type State={isSuccess:boolean,};
+import "./recoverPass.css";
+interface State{isSuccess:boolean,}
 export class RecoverPass extends React.Component {
   state = {
     isSuccess: false,
   };
-  toggleShow = () => {
-    this.setState({isSuccess: !this.state.isSuccess});
-    //this.state.isSuccess=!this.state.isSuccess;
-  }
   message = {
     id: 1,
     title: "Reset Password",
@@ -27,7 +23,7 @@ export class RecoverPass extends React.Component {
     to: "/login",
     button_text: "Ok"
   };
-  //message={ id:1,title:"Reset Password",message:"Password Reset Successful!",description:"You have successfully reset the password for your Sellgo account. Please check your email to continue.", to:"/dashboard", button_text:"Ok"};
+  // message={ id:1,title:"Reset Password",message:"Password Reset Successful!",description:"You have successfully reset the password for your Sellgo account. Please check your email to continue.", to:"/dashboard", button_text:"Ok"};
   response = (<MesssageComponent message={this.message}/>);
   forgetPassForm = (<Segment basic clearing>
     <Grid>
@@ -68,6 +64,10 @@ export class RecoverPass extends React.Component {
       </Grid.Row>
     </Grid>
   </Segment>);
+  toggleShow = () => {
+    this.setState({isSuccess: !this.state.isSuccess});
+    // this.state.isSuccess=!this.state.isSuccess;
+  }
 
   render() {
     return (

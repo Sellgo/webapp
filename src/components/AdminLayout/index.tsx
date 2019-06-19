@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Sidebar, Segment} from "semantic-ui-react";
+import {Segment, Sidebar} from "semantic-ui-react";
 import {AdminHeader} from "./AdminHeader";
 import {AdminSidebar} from "./AdminSidebar";
 import {PageHeader} from "./PageHeader";

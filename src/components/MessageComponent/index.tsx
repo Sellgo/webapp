@@ -1,9 +1,9 @@
+import Icon from '@material-ui/core/Icon';
 import * as React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Icon from '@material-ui/core/Icon';
-import "./MessageComponent.css";
-import {Button, Segment, Grid, Header} from "semantic-ui-react";
 import {Link} from "react-router-dom";
+import {Button, Grid, Header, Segment} from "semantic-ui-react";
+import "./MessageComponent.css";
 
 
 function MesssageComponent(props: any) {

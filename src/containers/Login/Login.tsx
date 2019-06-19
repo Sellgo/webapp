@@ -1,11 +1,11 @@
 import * as React from "react";
-import {Form, Segment, Button, Grid, GridRow} from "semantic-ui-react";
 import {Link} from "react-router-dom";
-import "./login.css";
+import {Button, Form, Grid, GridRow, Segment} from "semantic-ui-react";
 import {Logo} from "../../components/AdminLayout/AdminHeader";
 import IntroSlider from "../../components/IntroSlider";
 import PasswordShowHide from "../../components/Password/PasswordShowHide";
 import buttonStyle from "../../components/StyleComponent/StyleComponent";
+import "./login.css";
 export class Login extends React.Component {
 
   render() {
@@ -28,7 +28,7 @@ export class Login extends React.Component {
                       <Form.Field>
                         <div className="small-light login-fields">
                           <input type="email" placeholder="Email Address" className="login-field1"/>
-                          <div className="hr_line"></div>
+                          <div className="hr_line"/>
                           <PasswordShowHide/>
                         </div>
                       </Form.Field>

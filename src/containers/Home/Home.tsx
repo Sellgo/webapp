@@ -1,7 +1,7 @@
-import "./Home.css";
 import * as React from "react";
 import {Button, Container, Divider, Grid, Header, Icon, Segment} from "semantic-ui-react";
 import {HeaderBar} from "../../components/Header";
+import "./Home.css";
 
 
 interface HomeState {

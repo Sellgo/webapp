@@ -1,7 +1,7 @@
 import * as React from "react";
-import {Menu, Button, Divider} from "semantic-ui-react";
-import {Logo} from "../AdminLayout/AdminHeader";
 import {Link} from "react-router-dom";
+import {Button, Divider, Menu} from "semantic-ui-react";
+import {Logo} from "../AdminLayout/AdminHeader";
 
 interface HeaderBarState {
   activeItem: string;

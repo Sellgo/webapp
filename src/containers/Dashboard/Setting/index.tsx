@@ -1,9 +1,9 @@
-import "./setting.css";
 import * as React from "react";
-import {Segment, Form, Header, Grid, Divider, Container, Image, Icon, Button, Select} from "semantic-ui-react";
-import {Modals} from "../../../components/Modals";
+import {Button, Container, Divider, Form, Grid, Header, Icon, Image, Segment, Select} from "semantic-ui-react";
 import MesssageComponent from "../../../components/MessageComponent";
+import {Modals} from "../../../components/Modals";
 import buttonStyle from "../../../components/StyleComponent/StyleComponent";
+import "./setting.css";
 
 
 interface State {
