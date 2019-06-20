@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
-
 import { AdminLayout } from '../../components/AdminLayout/index';
 import { Dashboard } from '../Dashboard';
 import { Setting } from '../Dashboard/Setting';

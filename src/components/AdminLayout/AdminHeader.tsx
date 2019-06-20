@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Dropdown, Icon, Image, Input, Menu, SemanticSIZES } from 'semantic-ui-react';
-
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
 

@@ -33,7 +33,7 @@ export class Setting extends React.Component<{}, State> {
     button_text: 'Ok',
   };
 
-  handleModle = () => {
+  handleModel = () => {
     const { isOpen } = this.state;
     this.setState({
       isOpen: !isOpen,
@@ -83,7 +83,7 @@ export class Setting extends React.Component<{}, State> {
                           <Button
                             primary={true}
                             content="Update Information"
-                            onClick={this.handleModle}
+                            onClick={this.handleModel}
                             style={{ borderRadius: '50px' }}
                           />
                         </Grid.Column>
@@ -159,11 +159,11 @@ export class Setting extends React.Component<{}, State> {
               </Grid>
             </Form>
           </Container>
-          <Modals title="" size="small" open={isOpen} close={this.handleModle}>
+          <Modals title="" size="small" open={isOpen} close={this.handleModel}>
             <Container textAlign="center">
               <MesssageComponent message={this.message} isModal={true} />
               <Segment textAlign="center" basic={true}>
-                <Button style={buttonStyle} content="Ok" onClick={this.handleModle} />
+                <Button style={buttonStyle} content="Ok" onClick={this.handleModel} />
               </Segment>
             </Container>
           </Modals>
