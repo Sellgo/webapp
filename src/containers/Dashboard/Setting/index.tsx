@@ -48,7 +48,6 @@ export class Setting extends React.Component<{}, State> {
       <Segment basic={true} className="setting">
         <Header as="h2">Basic Information</Header>
         <Divider />
-
         <Segment basic={true} padded="very">
           <Container>
             <Grid>

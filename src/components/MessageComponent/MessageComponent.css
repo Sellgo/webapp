@@ -8,3 +8,14 @@
   left: 50%;
   transform: translate(-50%, -0%);
 }
+.message-box h3.ui.header {
+  font-size: 24px;
+  color: #0E6FCF;
+  font-family: Montserrat;
+  margin-top: 0
+}
+.header-msg{
+  padding: 10px;
+  display: flex !important;
+  justify-content: center;
+}

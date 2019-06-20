@@ -18,7 +18,6 @@ export class Home extends React.Component<{}, HomeState> {
 
   render() {
     const { heading, amount, cityName } = this.state;
-
     return (
       <Segment basic={true}>
         <HeaderBar />
