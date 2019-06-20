@@ -46,7 +46,6 @@ export class SignUp extends React.Component<{}, State> {
               </Form.Field>
             </Form>
           </Grid.Column>
-
           <Grid.Column className="small-regular padding20" celled textAlign="center" width={16}>
             I agree to the <Link to="/#">privacy policy</Link> and{' '}
             <Link to="/#"> trams of service</Link>
