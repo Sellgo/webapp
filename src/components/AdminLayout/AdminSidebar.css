@@ -1,0 +1,36 @@
+/* Otherwise the icons on the left navbar will be floated right */
+.ui.vertical.menu .item > i.icon {
+  text-align: left;
+  float: left;
+  min-width: 2em;
+}
+.top-logo {
+  width: 260px;
+}
+.top-menu {
+  padding-right: 20px;
+}
+.ui.dropdown {
+  padding-right: 20px;
+}
+.search-box {
+  min-width: 400px;
+}
+.page-header i.grey.icon {
+  color: #aaaaaa !important;
+}
+.ui.left.sidebar,
+.ui.right.sidebar {
+  width: 73px !important;
+  background: #444444;
+}
+.ui.visible.left.sidebar ~ .fixed,
+.ui.visible.left.sidebar ~ .pusher {
+  -webkit-transform: translate3d(73px, 0, 0);
+  transform: translate3d(73px, 0, 0);
+}
+.ui[class*='middle aligned'].grid > .row > .column,
+.ui[class*='bottom aligned'].grid > .row > .column {
+  padding-right: 0;
+  /*padding-left: 0;*/
+}
