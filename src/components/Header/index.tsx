@@ -1,12 +1,13 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Divider, Menu } from 'semantic-ui-react';
 import { Logo } from '../AdminLayout/AdminHeader';
-
+import buttonStyle from '../StyleComponent/StyleComponent';
 interface HeaderBarState {
   activeItem: string;
 }
 
-export class HeaderBar extends React.Component<{}, HeaderBarState> {
+export class HeaderBar extends React.Component<any, HeaderBarState> {
   state = {
     activeItem: '',
   };
@@ -42,14 +43,10 @@ export class HeaderBar extends React.Component<{}, HeaderBarState> {
               onClick={this.handleItemClick}
             />
             <Menu.Item>
-              <Button basic={true} onClick={() => (window.location.href = '/login')}>
-                Log-in
-              </Button>
+              <Button as={Link} style={buttonStyle} to="/login" content="Sign In" />
             </Menu.Item>
             <Menu.Item>
-              <Button primary={true} onClick={() => (window.location.href = '/sign-up')}>
-                Sign up
-              </Button>
+              <Button style={buttonStyle} onClick={this.props.login} content="oAuth Sign In" />
             </Menu.Item>
           </Menu.Menu>
         </Menu>

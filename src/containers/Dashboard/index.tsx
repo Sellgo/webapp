@@ -18,30 +18,30 @@ export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   />
 );
 
-interface State {
+interface state {
   isOpen: boolean;
   currentSteps: number;
 }
 
-export class Dashboard extends React.Component<{}, State> {
-  state = {
+export class Dashboard extends React.Component<{}, state> {
+  public state = {
     isOpen: true,
     currentSteps: 1,
     totalStep: 4,
   };
-  close = () => {
+  public close = () => {
     this.setState({
       isOpen: false,
     });
   };
 
-  closeIntroMadal = () => {
+  public closeIntroMadal = () => {
     this.setState({
       isOpen: false,
     });
   };
 
-  onNext = () => {
+  public onNext = () => {
     if (this.state.currentSteps !== 4) {
       this.setState({
         currentSteps: this.state.currentSteps + 1,
@@ -51,19 +51,21 @@ export class Dashboard extends React.Component<{}, State> {
     }
   };
 
-  onBack = () => {
-    if (this.state.currentSteps !== 0) {
+  public onBack = () => {
+    if (this.state.currentSteps != 0) {
       this.setState({
         currentSteps: this.state.currentSteps - 1,
       });
     }
   };
 
-  render() {
+  public render() {
     const { isOpen, currentSteps } = this.state;
+    const disStyle = {
+      marginTop: '15px',
+    };
     return (
-      <AdminLayout>
-        <Header as="h1">Dashboard</Header>
+      <Segment>
         <Segment>
           <DashBoardTabs />
         </Segment>
@@ -119,7 +121,7 @@ export class Dashboard extends React.Component<{}, State> {
             </Segment>
           </Container>
         </Modals>
-      </AdminLayout>
+      </Segment>
     );
   }
 }
