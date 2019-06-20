@@ -29,7 +29,7 @@ export class RecoverPass extends React.Component<{}, State> {
 
   response = <MesssageComponent message={this.message} />;
   forgetPassForm = (
-    <Segment basic clearing>
+    <Segment basic={true} clearing={true}>
       <Grid>
         <Grid.Row>
           <Grid.Column width={16}>
@@ -88,7 +88,7 @@ export class RecoverPass extends React.Component<{}, State> {
           </Grid.Column>
           <Grid.Column className="right-pane" width={6}>
             <div className="logo-img">
-              <Logo centered size="small" />
+              <Logo centered={true} size="small" />
             </div>
             {this.state.isSuccess ? this.response : this.forgetPassForm}
           </Grid.Column>

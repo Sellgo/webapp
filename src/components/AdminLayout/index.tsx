@@ -19,7 +19,7 @@ export class AdminLayout extends React.Component<LayoutProps> {
         <Sidebar.Pushable style={{ minHeight: 'calc(100vh - 3rem)' }}>
           <AdminSidebar />s
           <Sidebar.Pusher style={{ width: 'calc(100vw - 50px)' }}>
-            <Segment basic>
+            <Segment basic={true}>
               <PageHeader title={title} />
               {children}
             </Segment>

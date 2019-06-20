@@ -11,7 +11,7 @@ interface LayoutProps {
 export class AdminSidebar extends React.Component<LayoutProps> {
   render() {
     return (
-      <Sidebar as={Menu} borderless inverted vertical visible>
+      <Sidebar as={Menu} borderless={true} inverted={true} vertical={true} visible={true}>
         <Menu.Item>
           <Menu.Header as={Link} to="/">
             <Icon name="home" size="big" />

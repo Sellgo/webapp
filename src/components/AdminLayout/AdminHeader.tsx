@@ -9,7 +9,7 @@ export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   centered,
 }) => (
   <Image
-    ui
+    ui={true}
     size={size || ('tiny' as SemanticSIZES)}
     centered={centered || false}
     src="https://user-images.githubusercontent.com/1359333/57185902-c66b3380-6e89-11e9-92ce-c5f0ef137eca.png"
@@ -28,7 +28,7 @@ export class AdminHeader extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Menu borderless fixed="top" style={{ height: this.height }} className="top-menu">
+        <Menu borderless={true} fixed="top" style={{ height: this.height }} className="top-menu">
           <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small" />} />
           <Menu.Item
             className="search-box"

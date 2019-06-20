@@ -19,9 +19,9 @@ export class HeaderBar extends React.Component<{}, HeaderBarState> {
     const { activeItem } = this.state;
     return (
       <div>
-        <Menu secondary>
+        <Menu secondary={true}>
           <Menu.Item>
-            <Logo centered size="small" />
+            <Logo centered={true} size="small" />
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item name="Home" active={activeItem === 'Home'} onClick={this.handleItemClick} />
@@ -42,12 +42,12 @@ export class HeaderBar extends React.Component<{}, HeaderBarState> {
               onClick={this.handleItemClick}
             />
             <Menu.Item>
-              <Button basic onClick={() => (window.location.href = '/login')}>
+              <Button basic={true} onClick={() => (window.location.href = '/login')}>
                 Log-in
               </Button>
             </Menu.Item>
             <Menu.Item>
-              <Button primary onClick={() => (window.location.href = '/sign-up')}>
+              <Button primary={true} onClick={() => (window.location.href = '/sign-up')}>
                 Sign up
               </Button>
             </Menu.Item>

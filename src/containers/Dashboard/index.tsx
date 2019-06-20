@@ -11,7 +11,7 @@ export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   centered,
 }) => (
   <Image
-    ui
+    ui={true}
     size={size || ('tiny' as SemanticSIZES)}
     centered={centered || false}
     src="https://user-images.githubusercontent.com/1359333/57185902-c66b3380-6e89-11e9-92ce-c5f0ef137eca.png"
@@ -69,17 +69,17 @@ export class Dashboard extends React.Component<{}, State> {
         </Segment>
         <Modals title="" size="small" open={isOpen} close={this.close}>
           <Container textAlign="center">
-            <Segment textAlign="center" basic>
-              <Logo size="small" centered />
+            <Segment textAlign="center" basic={true}>
+              <Logo size="small" centered={true} />
             </Segment>
-            <Segment textAlign="center" basic>
+            <Segment textAlign="center" basic={true}>
               <Header.Content>
                 With little time investment to follow our training, and with the power of data
                 automation, <br />
                 and tools, you will find profitable products to sell on Amazon instantly.
               </Header.Content>
             </Segment>
-            <Segment basic>
+            <Segment basic={true}>
               <Step.Group className="round">
                 <Step completed={currentSteps > 1} active={currentSteps === 1}>
                   <Step.Content>
@@ -107,7 +107,7 @@ export class Dashboard extends React.Component<{}, State> {
                 </Step>
               </Step.Group>
             </Segment>
-            <Segment textAlign="center" basic>
+            <Segment textAlign="center" basic={true}>
               {currentSteps > 1 ? (
                 <Button style={buttonStyle} content="Previous" onClick={this.onBack} />
               ) : null}

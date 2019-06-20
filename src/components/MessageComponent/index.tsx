@@ -1,5 +1,4 @@
 import * as React from 'react';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link } from 'react-router-dom';
 import { Button, Grid, Header, Icon, Segment } from 'semantic-ui-react';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';

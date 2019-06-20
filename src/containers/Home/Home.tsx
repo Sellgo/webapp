@@ -20,7 +20,7 @@ export class Home extends React.Component<{}, HomeState> {
     const { heading, amount, cityName } = this.state;
 
     return (
-      <Segment basic>
+      <Segment basic={true}>
         <HeaderBar />
         <Container>
           <Segment padded="very">
@@ -33,7 +33,7 @@ export class Home extends React.Component<{}, HomeState> {
                     {`from ${cityName}`}
                   </Header>
 
-                  <Button primary content="Get started for FREE" />
+                  <Button primary={true} content="Get started for FREE" />
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -43,7 +43,7 @@ export class Home extends React.Component<{}, HomeState> {
             <Icon name="dollar" />
             <Header.Content>
               Make $ {amount} on Amazon guaranteed
-              <Header sub primary>
+              <Header sub={true} primary={true}>
                 Learn More
                 <i>
                   <Icon name="arrow circle right" />

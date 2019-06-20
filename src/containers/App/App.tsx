@@ -14,13 +14,13 @@ import { SignUp } from '../SignUp/Signup';
 const App: React.SFC = () => (
   <Router>
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/sign-up" component={SignUp} />
-      <Route exact path="/forgot-password" component={RecoverPass} />
-      <Route exact path="/product-tracker" component={ProductTracker} />
+      <Route exact={true} path="/" component={Home} />
+      <Route exact={true} path="/login" component={Login} />
+      <Route exact={true} path="/sign-up" component={SignUp} />
+      <Route exact={true} path="/forgot-password" component={RecoverPass} />
+      <Route exact={true} path="/product-tracker" component={ProductTracker} />
       <Route
-        exact
+        exact={true}
         path="/dashboard/setting"
         render={() => (
           <AdminLayout title={'Setting'}>
@@ -28,7 +28,7 @@ const App: React.SFC = () => (
           </AdminLayout>
         )}
       />
-      <Route exact path="/dashboard" component={Dashboard} />
+      <Route exact={true} path="/dashboard" component={Dashboard} />
       <Route
         render={() => (
           <AdminLayout title={''}>
