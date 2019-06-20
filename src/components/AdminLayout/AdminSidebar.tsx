@@ -7,8 +7,10 @@ interface LayoutProps {
   children?: React.ReactNode;
 }
 
-export class AdminSidebar extends React.Component<LayoutProps> {
+export class AdminSidebar extends React.Component<any, LayoutProps> {
+  componentWillMount() {}
   render() {
+    const { logout } = this.props.auth;
     return (
       <Sidebar as={Menu} borderless={true} inverted={true} vertical={true} visible={true}>
         <Menu.Item>
@@ -21,8 +23,8 @@ export class AdminSidebar extends React.Component<LayoutProps> {
             <Icon name="setting" size="big" />
           </Menu.Header>
         </Menu.Item>
-        <Menu.Item as="a">
-          <Menu.Header as={Link} to="/">
+        <Menu.Item as="a" onClick={logout}>
+          <Menu.Header>
             <Icon name="log out" size="big" />
           </Menu.Header>
         </Menu.Item>

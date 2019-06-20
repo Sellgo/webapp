@@ -8,16 +8,15 @@ interface LayoutProps {
   children?: React.ReactNode;
   title?: string;
 }
-
-export class AdminLayout extends React.Component<LayoutProps> {
-  render() {
-    const { children, title } = this.props;
+export class AdminLayout extends React.Component<any, LayoutProps> {
+  public render() {
+    const { children, title, auth } = this.props;
 
     return (
       <React.Fragment>
         <AdminHeader />
         <Sidebar.Pushable style={{ minHeight: 'calc(100vh - 3rem)' }}>
-          <AdminSidebar />s
+          <AdminSidebar auth={auth} />
           <Sidebar.Pusher style={{ width: 'calc(100vw - 50px)' }}>
             <Segment basic={true}>
               <PageHeader title={title} />

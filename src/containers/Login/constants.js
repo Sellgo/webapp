@@ -1,6 +1,0 @@
-export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';
-export const FETCH_AUTH_SUCCESS = 'LogInPage/FETCH_AUTH_SUCCESS';
-export const FETCH_AUTH_FAILURE = 'LogInPage/FETCH_AUTH_FAILURE';
-export const INPUT_PASSWORD = 'LogInPage/INPUT_PASSWORD';
-export const INPUT_EMAIL = 'LogInPage/INPUT_EMAIL';
-

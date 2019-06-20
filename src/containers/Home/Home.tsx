@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, Container, Divider, Grid, Header, Icon, Segment } from 'semantic-ui-react';
 import { HeaderBar } from '../../components/Header';
+import history from '../../history';
 import './Home.css';
 
 interface HomeState {
@@ -9,18 +10,30 @@ interface HomeState {
   cityName: string;
 }
 
-export class Home extends React.Component<{}, HomeState> {
+export class Home extends React.Component<any, HomeState> {
   state = {
     heading: 'by become an Amazon Seller',
     amount: 1000,
     cityName: 'USA',
   };
 
-  render() {
+  goTo(route: any) {
+    this.props.history.replace(`/${route}`);
+  }
+
+  componentDidMount() {
+    const { renewSession, isAuthenticated } = this.props.auth;
+    if (localStorage.getItem('isLoggedIn') === 'true' && isAuthenticated) {
+      history.replace('/dashboard');
+    }
+  }
+
+  public render() {
     const { heading, amount, cityName } = this.state;
+    const { isAuthenticated, login } = this.props.auth;
     return (
       <Segment basic={true}>
-        <HeaderBar />
+        {!isAuthenticated() && <HeaderBar login={login} />}
         <Container>
           <Segment padded="very">
             <Grid className="home_desc">
@@ -31,7 +44,6 @@ export class Home extends React.Component<{}, HomeState> {
                     <br />
                     {`from ${cityName}`}
                   </Header>
-
                   <Button primary={true} content="Get started for FREE" />
                 </Grid.Column>
               </Grid.Row>
@@ -42,10 +54,10 @@ export class Home extends React.Component<{}, HomeState> {
             <Icon name="dollar" />
             <Header.Content>
               Make $ {amount} on Amazon guaranteed
-              <Header sub={true} primary={true}>
+              <Header sub={true}>
                 Learn More
                 <i>
-                  <Icon name="arrow circle right" />
+                  <Icon onClick={login} name="arrow circle right" />
                 </i>
               </Header>
             </Header.Content>
