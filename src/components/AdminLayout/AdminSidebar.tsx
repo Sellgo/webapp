@@ -1,26 +1,33 @@
-import * as React from "react";
-import {Icon, Menu, Sidebar} from "semantic-ui-react";
+import * as React from 'react';
+import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 
-import {Link} from "react-router-dom";
-import "./AdminSidebar.css";
-
+import { Link } from 'react-router-dom';
+import './AdminSidebar.css';
 
 interface LayoutProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export class AdminSidebar extends React.Component<LayoutProps> {
   render() {
-    return <Sidebar as={Menu} borderless inverted vertical visible>
-      <Menu.Item>
-        <Menu.Header as={Link} to="/"><Icon name='home' size="big"/></Menu.Header>
-      </Menu.Item>
-      <Menu.Item as={Link} to='/dashboard/setting'>
-          <Menu.Header ><Icon name='setting' size="big"/></Menu.Header>
-      </Menu.Item>
-      <Menu.Item as='a'>
-          <Menu.Header as={Link} to="/"><Icon name='log out' size="big"/></Menu.Header>
-      </Menu.Item>
-    </Sidebar>
+    return (
+      <Sidebar as={Menu} borderless inverted vertical visible>
+        <Menu.Item>
+          <Menu.Header as={Link} to="/">
+            <Icon name="home" size="big" />
+          </Menu.Header>
+        </Menu.Item>
+        <Menu.Item as={Link} to="/dashboard/setting">
+          <Menu.Header>
+            <Icon name="setting" size="big" />
+          </Menu.Header>
+        </Menu.Item>
+        <Menu.Item as="a">
+          <Menu.Header as={Link} to="/">
+            <Icon name="log out" size="big" />
+          </Menu.Header>
+        </Menu.Item>
+      </Sidebar>
+    );
   }
 }

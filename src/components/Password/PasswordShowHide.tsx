@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Icon } from 'semantic-ui-react'
+import * as React from 'react';
+import { Icon } from 'semantic-ui-react';
 
 export interface State {
   hidden: boolean;
@@ -11,7 +11,7 @@ class PasswordShowHide extends React.Component<{}, State> {
     super(props);
     this.state = {
       hidden: true,
-      password: ""
+      password: '',
     };
 
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -19,27 +19,31 @@ class PasswordShowHide extends React.Component<{}, State> {
   }
 
   handlePasswordChange(e: any) {
-    this.setState({password: e.target.value});
+    this.setState({ password: e.target.value });
   }
 
   toggleShow() {
-    this.setState({hidden: !this.state.hidden});
+    this.setState({ hidden: !this.state.hidden });
   }
-
 
   render() {
     return (
       <div className="password">
         <input
           className="login-field2"
-          type={this.state.hidden ? "password" : "text"}
+          type={this.state.hidden ? 'password' : 'text'}
           value={this.state.password}
           placeholder="Password"
-          onChange={this.handlePasswordChange}/>
-        <Icon onClick={this.toggleShow} name={this.state.hidden ? 'eye' : 'eye slash'}
-              size="large"
-              color="grey"/>
-      </div>);
+          onChange={this.handlePasswordChange}
+        />
+        <Icon
+          onClick={this.toggleShow}
+          name={this.state.hidden ? 'eye' : 'eye slash'}
+          size="large"
+          color="grey"
+        />
+      </div>
+    );
   }
 }
 export default PasswordShowHide;

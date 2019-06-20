@@ -1,17 +1,17 @@
-import * as React from 'react'
-import { Carousel } from 'react-responsive-carousel'
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { Grid } from 'semantic-ui-react'
+import * as React from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Grid } from 'semantic-ui-react';
 
 function CarousalItem(props: any) {
   // Correct! There is no need to specify the key here:
   return (
     <div>
-      <img className="slider-image" alt='' src={props.imageUrl} />
+      <img className="slider-image" alt="" src={props.imageUrl} />
       <h1 className="title">{props.title}</h1>
       <p className="description">{props.description}</p>
     </div>
-  )
+  );
 }
 
 function IntroSlider() {
@@ -57,7 +57,7 @@ function IntroSlider() {
         </Grid.Column>
       </Grid.Row>
     </Grid>
-  )
+  );
 }
 
-export default IntroSlider
+export default IntroSlider;

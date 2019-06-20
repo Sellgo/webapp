@@ -26,7 +26,7 @@
 }
 .ui.steps.round .step.completed::before {
   font-family: Icons;
-  content: "\f00c";
+  content: '\f00c';
   font-size: 10px;
   top: 7px;
   position: relative;
@@ -87,7 +87,7 @@
 .ui.steps .step:after {
   display: none;
 }
-.ui.steps .step .description  {
+.ui.steps .step .description {
   margin-top: 14px !important;
   width: 200px;
   text-align: center;

@@ -1,11 +1,11 @@
-import * as React from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Form, Grid, GridRow, Segment } from 'semantic-ui-react'
-import { Logo } from '../../components/AdminLayout/AdminHeader'
-import IntroSlider from '../../components/IntroSlider'
-import PasswordShowHide from '../../components/Password/PasswordShowHide'
-import buttonStyle from '../../components/StyleComponent/StyleComponent'
-import './login.css'
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Grid, GridRow, Segment } from 'semantic-ui-react';
+import { Logo } from '../../components/AdminLayout/AdminHeader';
+import IntroSlider from '../../components/IntroSlider';
+import PasswordShowHide from '../../components/Password/PasswordShowHide';
+import buttonStyle from '../../components/StyleComponent/StyleComponent';
+import './login.css';
 
 export class Login extends React.Component {
   render() {
@@ -31,7 +31,7 @@ export class Login extends React.Component {
                             placeholder="Email Address"
                             className="login-field1"
                           />
-                          <div className="hr_line"/>
+                          <div className="hr_line" />
                           <PasswordShowHide />
                         </div>
                       </Form.Field>
@@ -70,6 +70,6 @@ export class Login extends React.Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    )
+    );
   }
 }

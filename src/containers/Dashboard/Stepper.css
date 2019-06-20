@@ -112,15 +112,15 @@
   display: none;
 }
 .ui.steps .step {
-  color: #000!important;
+  color: #000 !important;
 }
 .customeModal .steps.round .step:first-child:after {
-  width: 110px!important;
+  width: 110px !important;
 }
 .customeModal .steps.round .step {
   margin-left: 110px !important;
 }
-.customeModal  .step.completed::before {
+.customeModal .step.completed::before {
   top: 7px !important;
   position: relative !important;
 }

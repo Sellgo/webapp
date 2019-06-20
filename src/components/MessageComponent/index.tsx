@@ -1,9 +1,9 @@
-import * as React from 'react'
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { Link } from 'react-router-dom'
-import { Button, Grid, Header, Icon, Segment } from 'semantic-ui-react'
-import buttonStyle from '../../components/StyleComponent/StyleComponent'
-import './MessageComponent.css'
+import * as React from 'react';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Link } from 'react-router-dom';
+import { Button, Grid, Header, Icon, Segment } from 'semantic-ui-react';
+import buttonStyle from '../../components/StyleComponent/StyleComponent';
+import './MessageComponent.css';
 
 function MesssageComponent(props: any) {
   const items = props.message;
@@ -51,7 +51,7 @@ function MesssageComponent(props: any) {
         </Grid.Row>
       </Grid>
     </Segment>
-  )
+  );
 }
 
-export default MesssageComponent
+export default MesssageComponent;
