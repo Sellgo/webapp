@@ -18,12 +18,12 @@ export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   />
 );
 
-interface state {
+interface State {
   isOpen: boolean;
   currentSteps: number;
 }
 
-export class Dashboard extends React.Component<{}, state> {
+export class Dashboard extends React.Component<{}, State> {
   public state = {
     isOpen: true,
     currentSteps: 1,
@@ -52,7 +52,7 @@ export class Dashboard extends React.Component<{}, state> {
   };
 
   public onBack = () => {
-    if (this.state.currentSteps != 0) {
+    if (this.state.currentSteps !== 0) {
       this.setState({
         currentSteps: this.state.currentSteps - 1,
       });

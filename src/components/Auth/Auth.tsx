@@ -32,13 +32,13 @@ export default class Auth {
           auth0_user_id: this.userProfile.sub,
           name: this.userProfile.nickname,
         },
-        { headers: headers }
+        { headers }
       )
       .then((response: any) => {
         localStorage.setItem('userEmail', this.userProfile.name);
         localStorage.setItem('userId', response.data.id);
       })
-      .catch(error => console.log(error));
+      .catch();
   };
 
   public handleAuthentication = () => {
@@ -47,7 +47,6 @@ export default class Auth {
         this.setSession(authResult);
       } else if (err) {
         history.replace('/');
-        console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
@@ -85,7 +84,6 @@ export default class Auth {
         this.setSession(authResult);
       } else if (err) {
         this.logout();
-        console.log(err);
         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
       }
     });

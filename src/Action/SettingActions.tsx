@@ -7,24 +7,24 @@ import {
   URLS,
 } from '../constant/constant';
 
-export type field = {
+export interface field {
   key: string;
   value: any;
-};
+}
 
-export type infoField = {
+export interface infoField {
   name?: string;
   id: string;
   email?: string;
   auth0_user_id?: string;
-  firstName?: String;
-  lastName?: String;
-};
-export type infoMWS = {
+  firstName?: string;
+  lastName?: string;
+}
+export interface infoMWS {
   marketplace_id: string;
   seller_id: string;
   token: string;
-};
+}
 const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export const updateBasicInfoSeller = (data: infoField) => (dispatch: any) => {
   return axios({
     method: 'PATCH',
     url: URLS.BASE_URL_API + `seller/`,
-    data: data,
+    data,
     headers,
   })
     .then(json => {
@@ -61,7 +61,7 @@ export const updateAmazoneMWS = (id: string, data: infoMWS) => (dispatch: any) =
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `seller/${id}/mws_auth/`,
-    data: data,
+    data,
     headers,
   })
     .then(json => {

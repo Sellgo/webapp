@@ -35,7 +35,6 @@ export class RecoverPass extends React.Component<any, State> {
   };
 
   handleResponse = (response: any) => {
-    console.log(response.status);
     if (response.status === 200) {
       this.setState({ isSuccess: !this.state.isSuccess });
     }
@@ -48,9 +47,7 @@ export class RecoverPass extends React.Component<any, State> {
   changePassword = () => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.email) === false) {
-      console.log(this.email);
       this.setState({ isFailed: true });
-      console.log(this.state.isFailed);
     } else {
       this.setState({ isFailed: false });
       axios
@@ -60,7 +57,7 @@ export class RecoverPass extends React.Component<any, State> {
           connection: AUTH_CONFIG.connection,
         })
         .then(response => this.handleResponse(response))
-        .catch(error => console.log(error));
+        .catch();
     }
   };
 

@@ -22,11 +22,11 @@ const handleAuthentication = (location: any) => {
   }
 };
 
-function App(props: any) {
+function App(Props: any) {
   return (
     <Router history={history}>
       <Switch>
-        <Route exact={true} path="/" render={props => <Home auth={auth} {...props} />} />
+        <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />} />
         <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
         <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
         <Route exact={true} path="/forgot-password" component={RecoverPass} />
@@ -35,7 +35,7 @@ function App(props: any) {
           exact={true}
           path="/dashboard/setting"
           render={() => (
-            <AdminLayout auth={auth} {...props} title={'Setting'}>
+            <AdminLayout auth={auth} {...Props} title={'Setting'}>
               <Setting />
             </AdminLayout>
           )}
@@ -43,22 +43,22 @@ function App(props: any) {
         <Route
           exact={true}
           path="/dashboard"
-          render={props => (
-            <AdminLayout auth={auth} {...props} title={'Dashboard'}>
+          render={Props => (
+            <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
               <Dashboard />
             </AdminLayout>
           )}
         />
         <Route
           path="/callback"
-          render={props => {
-            handleAuthentication(props.location);
-            return <Callback {...props} />;
+          render={Props => {
+            handleAuthentication(Props.location);
+            return <Callback {...Props} />;
           }}
         />
         <Route
           render={() => (
-            <AdminLayout auth={auth} {...props}>
+            <AdminLayout auth={auth} {...Props}>
               <Segment>Page not found</Segment>
             </AdminLayout>
           )}

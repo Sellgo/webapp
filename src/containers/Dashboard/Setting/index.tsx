@@ -78,8 +78,8 @@ class Setting extends React.Component<Props, State> {
       marketplace_id,
       token,
     };
-    this.props.updateAmazoneMWS(id, data)
-    this.handleModel()
+    this.props.updateAmazoneMWS(id, data);
+    this.handleModel();
   };
   handleModel = () => {
     const { isOpen } = this.state;
