@@ -10,4 +10,4 @@ const buttonStyle = {
   background: '#4285F4',
 }
 
-export default buttonStyle
+  export default  buttonStyle

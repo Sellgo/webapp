@@ -3,16 +3,17 @@ import history from '../../history';
 import { AUTH_CONFIG } from './auth0-variables';
 
 export default class Auth {
-  public accessToken: any;
-  public idToken: any;
-  public expiresAt: any;
+  accessToken: any;
+  idToken: any;
+  expiresAt: any;
+  userProfile: any;
 
   public auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.clientID,
     domain: AUTH_CONFIG.domain,
     redirectUri: AUTH_CONFIG.callbackUrl,
     responseType: 'token id_token',
-    scope: 'openid',
+    scope: 'openid profile',
   });
 
   public login = () => {
@@ -65,12 +66,23 @@ export default class Auth {
     });
   };
 
+  getProfile(cb: any) {
+    this.auth0.client.userInfo(this.accessToken, (err, profile) => {
+      if (profile) {
+        this.userProfile = profile;
+      }
+      cb(err, profile);
+    });
+  }
+
   public logout = () => {
     // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
 
+    // Remove user profile
+    this.userProfile = null;
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
     console.log(window.location.origin);

@@ -1,19 +1,29 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Form, Grid, GridRow, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, GridRow, Segment, Message } from 'semantic-ui-react';
 import { Logo } from '../../components/AdminLayout/AdminHeader';
 import IntroSlider from '../../components/IntroSlider';
 import MesssageComponent from '../../components/MessageComponent';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './recoverPass.css';
 
+import axios from 'axios';
+import { URLS } from '../../constant/constant';
+import { AUTH_CONFIG } from '../../components/Auth/auth0-variables';
+
 interface State {
   isSuccess: boolean;
+  isFailed: boolean;
+  email: any;
 }
-export class RecoverPass extends React.Component<{}, State> {
+export class RecoverPass extends React.Component<any, State> {
   state = {
     isSuccess: false,
+    isFailed: false,
+    email: 'dharmeshdev01@gmail.com',
   };
+
+  public email: string = '';
   message = {
     id: 1,
     title: 'Reset Password',
@@ -23,8 +33,35 @@ export class RecoverPass extends React.Component<{}, State> {
     to: '/login',
     button_text: 'Ok',
   };
-  toggleShow = () => {
-    this.setState({ isSuccess: !this.state.isSuccess });
+
+  handleResponse = (response: any) => {
+    console.log(response.status);
+    if (response.status === 200) {
+      this.setState({ isSuccess: !this.state.isSuccess });
+    }
+  };
+  setEmail = (event: any) => {
+    this.email = event.target.value;
+    this.setState({ isFailed: false });
+  };
+
+  changePassword = () => {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(this.email) === false) {
+      console.log(this.email);
+      this.setState({ isFailed: true });
+      console.log(this.state.isFailed);
+    } else {
+      this.setState({ isFailed: false });
+      axios
+        .post(URLS.CHANGE_PASS_API_URL, {
+          client_id: AUTH_CONFIG.clientID,
+          email: this.email,
+          connection: AUTH_CONFIG.connection,
+        })
+        .then(response => this.handleResponse(response))
+        .catch(error => console.log(error));
+    }
   };
 
   response = <MesssageComponent message={this.message} />;
@@ -42,7 +79,12 @@ export class RecoverPass extends React.Component<{}, State> {
             <Form>
               <Form.Field>
                 <div className="small-light login-fields">
-                  <input type="email" placeholder="Email Address" className="login-field1" />
+                  <input
+                    type="email"
+                    onChange={this.setEmail}
+                    placeholder="Email Address"
+                    className="login-field1"
+                  />
                 </div>
               </Form.Field>
             </Form>
@@ -60,7 +102,7 @@ export class RecoverPass extends React.Component<{}, State> {
               <div className="textAlignCenter">
                 <Button
                   style={buttonStyle}
-                  onClick={this.toggleShow}
+                  onClick={this.changePassword}
                   className="primary-button"
                   content="Reset Password"
                 />
@@ -90,6 +132,9 @@ export class RecoverPass extends React.Component<{}, State> {
             <div className="logo-img">
               <Logo centered={true} size="small" />
             </div>
+            {this.state.isFailed && (
+              <Message color="red">Please enter valid email address.</Message>
+            )}
             {this.state.isSuccess ? this.response : this.forgetPassForm}
           </Grid.Column>
         </Grid.Row>
