@@ -9,17 +9,13 @@ function MesssageComponent(props: any) {
   const isModal = props.isModal;
 
   return (
-    <Segment className='message-box' basic={true} clearing={true}>
+    <Segment className="message-box" basic={true} clearing={true}>
       <Grid className={!isModal ? 'pop-up' : ''}>
         <Grid.Row>
           <Grid.Column textAlign="center" style={{ padding: 10 }} width={16}>
             <div className="heading-h1">{items.title}</div>
           </Grid.Column>
-          <Grid.Column
-            textAlign="center"
-            width={16}
-            className='header-msg'
-          >
+          <Grid.Column textAlign="center" width={16} className="header-msg">
             <Icon name="check circle" size="big" style={{ color: '#0E6FCF' }} />
             <Header as="h3">{items.message}</Header>
           </Grid.Column>

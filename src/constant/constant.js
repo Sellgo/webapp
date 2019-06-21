@@ -5,9 +5,8 @@ export const URLS = {
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
 };
 
-export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';
-export const FETCH_AUTH_SUCCESS = 'LogInPage/FETCH_AUTH_SUCCESS';
-export const FETCH_AUTH_FAILURE = 'LogInPage/FETCH_AUTH_FAILURE';
-export const INPUT_PASSWORD = 'LogInPage/INPUT_PASSWORD';
-export const INPUT_EMAIL = 'LogInPage/INPUT_EMAIL';
-export const SET_BASIC_SETTING = 'SETTING/SET_BASIC_SETTING';
+export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';;
+export const SET_BASIC_INFO_SELLER = '/Dash/SETTING/SET_BASIC_INFO_SELLER';
+export const UPDATE_BASIC_INFO_SELLER = '/Dash/SETTING/UPDATE_BASIC_INFO_SELLER';
+export const GET_BASIC_INFO_SELLER = '/Dash/SETTING/GET_BASIC_INFO_SELLER';
+export const SET_AMAZONE_MWS = '/Dash/SETTING/AMAZONE_MWS';

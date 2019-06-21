@@ -7,8 +7,9 @@ import PasswordShowHide from '../../components/Password/PasswordShowHide';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './login.css';
 
-export class Login extends React.Component {
+export class Login extends React.Component<any, {}> {
   render() {
+    const { login } = this.props.auth;
     return (
       <Grid verticalAlign="middle" style={{ minHeight: '100vh' }}>
         <Grid.Row>
@@ -51,7 +52,7 @@ export class Login extends React.Component {
                           as={Link}
                           style={buttonStyle}
                           className="primary-button"
-                          to="/dashboard"
+                          onClick={login}
                           content="Sign In"
                         />
                       </div>

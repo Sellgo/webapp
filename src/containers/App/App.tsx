@@ -3,7 +3,7 @@ import { Route, Router, Switch } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
 import { AdminLayout } from '../../components/AdminLayout/index';
 import { Dashboard } from '../Dashboard';
-import { Setting } from '../Dashboard/Setting';
+import Setting from '../Dashboard/Setting';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
 import { ProductTracker } from '../ProductTracker/ProductTracker';
@@ -27,8 +27,8 @@ function App(props: any) {
     <Router history={history}>
       <Switch>
         <Route exact={true} path="/" render={props => <Home auth={auth} {...props} />} />
-        <Route exact={true} path="/login" component={Login} />
-        <Route exact={true} path="/sign-up" component={SignUp} />
+        <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
+        <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
         <Route exact={true} path="/forgot-password" component={RecoverPass} />
         <Route exact={true} path="/product-tracker" component={ProductTracker} />
         <Route

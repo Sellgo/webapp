@@ -8,8 +8,8 @@ interface LayoutProps {
 }
 
 export class AdminSidebar extends React.Component<any, LayoutProps> {
+  componentWillMount() {}
   render() {
-    console.log(this.props.auth);
     const { logout } = this.props.auth;
     return (
       <Sidebar as={Menu} borderless={true} inverted={true} vertical={true} visible={true}>

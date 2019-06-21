@@ -9,7 +9,7 @@ interface State {
   isSuccess: boolean;
 }
 
-export class SignUp extends React.Component<{}, State> {
+export class SignUp extends React.Component<any, State> {
   state = {
     isSuccess: false,
   };
@@ -22,9 +22,14 @@ export class SignUp extends React.Component<{}, State> {
     to: '/login',
     button_text: 'Ok',
   };
-  toggleShow = () => {
-    this.setState({ isSuccess: !this.state.isSuccess });
+
+  loginSingUp = () => {
+    const { login } = this.props.auth;
+    login().then(() => {
+      this.setState({ isSuccess: !this.state.isSuccess });
+    });
   };
+
   response = <MesssageComponent message={this.message} />;
   signUpForm = (
     <Segment basic={true} clearing={true}>
@@ -60,7 +65,7 @@ export class SignUp extends React.Component<{}, State> {
               <div>
                 <Button
                   style={buttonStyle}
-                  onClick={this.toggleShow}
+                  onClick={this.loginSingUp}
                   className="primary-button"
                   content="Create your FREE account"
                 />

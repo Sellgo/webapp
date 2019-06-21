@@ -21,25 +21,26 @@ export default class Auth {
   public login = () => {
     this.auth0.authorize();
   };
-  registerSeller = () => {
-    console.log(URLS.BASE_URL_API + 'seller');
-    console.log(this.idToken);
-    console.log(this.userProfile.name);
-    console.log(this.userProfile.nickname);
-    console.log(this.userProfile.sub);
-    const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
 
+  registerSeller = () => {
+    const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
     axios
       .post(
-        URLS.BASE_URL_API + 'seller',
+        URLS.BASE_URL_API + 'seller/',
         {
           email: this.userProfile.name,
+          auth0_user_id: this.userProfile.sub,
+          name: this.userProfile.nickname,
         },
-        { headers }
+        { headers: headers }
       )
-      .then(response => console.log(response))
+      .then((response: any) => {
+        localStorage.setItem('userEmail', this.userProfile.name);
+        localStorage.setItem('userId', response.data.id);
+      })
       .catch(error => console.log(error));
   };
+
   public handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -63,19 +64,18 @@ export default class Auth {
   public setSession = (authResult: any) => {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
-
     // Set the time that the access token will expire at
     const expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
+    localStorage.setItem('idToken', authResult.idToken);
+
     this.getProfile((err: any, profile: any) => {
       this.handleProfile(profile);
     });
-    // navigate to the home route
   };
   handleProfile(profile: any) {
-    console.log(profile);
     this.registerSeller();
     history.replace('/dashboard');
   }
@@ -110,8 +110,6 @@ export default class Auth {
     this.userProfile = null;
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
-    console.log(window.location.origin);
-
     this.auth0.logout({
       returnTo: window.location.origin,
     });
@@ -121,8 +119,6 @@ export default class Auth {
   };
 
   public isAuthenticated = () => {
-    // Check whether the current time is past the
-    // access token's expiry time
     const expiresAt = this.expiresAt;
     return new Date().getTime() < expiresAt;
   };

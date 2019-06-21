@@ -14,16 +14,42 @@ import { connect } from 'react-redux';
 import MesssageComponent from '../../../components/MessageComponent';
 import { Modals } from '../../../components/Modals';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
+import {
+  setBasicInfoSeller,
+  updateBasicInfoSeller,
+  getBasicInfoSeller,
+  setAmazoneMWS,
+  updateAmazoneMWS,
+  field,
+  infoField,
+  infoMWS,
+} from '../../../Action/SettingActions';
 import './setting.css';
 
 interface State {
   isOpen: boolean;
 }
 
-export class Setting extends React.Component<{}, State> {
+interface Props {
+  setBasicInfoSeller(data: field): Function;
+
+  setAmazoneMWS(data: field): Function;
+
+  updateBasicInfoSeller(data: infoField): Function;
+
+  updateAmazoneMWS(id: string, data: infoMWS): Function;
+
+  getBasicInfoSeller(): Function;
+
+  sellerData: infoField;
+  amazoneData: infoMWS;
+}
+
+class Setting extends React.Component<Props, State> {
   state = {
     isOpen: false,
   };
+
   message = {
     id: 1,
     title: 'Information Updated',
@@ -34,6 +60,27 @@ export class Setting extends React.Component<{}, State> {
     button_text: 'Ok',
   };
 
+  componentDidMount() {
+    this.props.getBasicInfoSeller();
+  }
+
+  updateBasicInfoSeller = () => {
+    const { name, firstName, lastName, id, email, auth0_user_id } = this.props.sellerData;
+    const data = { name: `${firstName} ${lastName}`, id, email, auth0_user_id };
+    this.props.updateBasicInfoSeller(data);
+    this.handleModel();
+  };
+  updateAmazoneMWS = () => {
+    const { id } = this.props.sellerData;
+    const { seller_id, marketplace_id, token } = this.props.amazoneData;
+    const data = {
+      seller_id: seller_id || id,
+      marketplace_id,
+      token,
+    };
+    this.props.updateAmazoneMWS(id, data)
+    this.handleModel()
+  };
   handleModel = () => {
     const { isOpen } = this.state;
     this.setState({
@@ -41,10 +88,24 @@ export class Setting extends React.Component<{}, State> {
     });
   };
 
+  setBasicInfoSeller = (e: any) => {
+    const data = {
+      key: e.target.name,
+      value: e.target.value,
+    };
+    this.props.setBasicInfoSeller(data);
+  };
+  setAmazoneMWS = (e: any) => {
+    const data = {
+      key: e.target.name,
+      value: e.target.value,
+    };
+    this.props.setAmazoneMWS(data);
+  };
+
   render() {
     const memberDate = `May 5 2018`;
     const { isOpen } = this.state;
-
     return (
       <Segment basic={true} className="setting">
         <Header as="h2">Basic Information</Header>
@@ -74,17 +135,33 @@ export class Setting extends React.Component<{}, State> {
                     <Grid className="basic-info-update">
                       <Grid.Row columns={2}>
                         <Grid.Column width={5}>
-                          <Form.Input label="First Name" placeholder="First Name" />
+                          <Form.Input
+                            label="First Name"
+                            placeholder="First Name"
+                            name="firstName"
+                            onChange={e => this.setBasicInfoSeller(e)}
+                          />
                         </Grid.Column>
                         <Grid.Column width={5}>
-                          <Form.Input label="Last Name" placeholder="Last Name" />
+                          <Form.Input
+                            label="Last Name"
+                            placeholder="Last Name"
+                            name="lastName"
+                            onChange={e => this.setBasicInfoSeller(e)}
+                          />
                         </Grid.Column>
                         <Grid.Column width={10}>
-                          <Form.Input label="Email" placeholder="Email" fluid={true} />
+                          <Form.Input
+                            label="Email"
+                            placeholder="Email"
+                            name="email"
+                            onChange={e => this.setBasicInfoSeller(e)}
+                            fluid={true}
+                          />
                           <Button
                             primary={true}
                             content="Update Information"
-                            onClick={this.handleModel}
+                            onClick={this.updateBasicInfoSeller}
                             style={{ borderRadius: '50px' }}
                           />
                         </Grid.Column>
@@ -140,6 +217,8 @@ export class Setting extends React.Component<{}, State> {
                       label="Marketplace"
                       options={[{ key: 'n', text: 'None', value: 'none' }]}
                       placeholder="select"
+                      name="marketplace_id"
+                      onChange={(e: any) => this.setAmazoneMWS(e)}
                     />
                   </Grid.Column>
                   <Grid.Column width={5} verticalAlign="bottom">
@@ -151,10 +230,26 @@ export class Setting extends React.Component<{}, State> {
                   </Grid.Column>
                   <Grid.Column width={6} />
                   <Grid.Column width={9}>
-                    <Form.Input label="Amazon Seller ID" placeholder="Amazon Seller ID" />
+                    <Form.Input
+                      label="Amazon Seller ID"
+                      placeholder="Amazon Seller ID"
+                      name="seller_id"
+                      onChange={e => this.setAmazoneMWS(e)}
+                    />
                   </Grid.Column>
                   <Grid.Column width={9}>
-                    <Form.Input label="MWS Auth Token" placeholder="MWS Auth Token" />
+                    <Form.Input
+                      label="MWS Auth Token"
+                      placeholder="MWS Auth Token"
+                      name="token"
+                      onChange={e => this.setAmazoneMWS(e)}
+                    />
+                    <Button
+                      primary={true}
+                      content="Add MWS Toekn"
+                      onClick={this.updateAmazoneMWS}
+                      style={{ borderRadius: '50px' }}
+                    />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -173,12 +268,22 @@ export class Setting extends React.Component<{}, State> {
     );
   }
 }
-const mapStateToProps = (state :any) => ({
-  data: state,
+const mapStateToProps = (state: any) => ({
+  sellerData: state.settings.get('profile'),
+  amazoneData: state.settings.get('amazoneMWS'),
 });
 
- const mapDispatchToProps = (dispatch :any) => ({
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateBasicInfoSeller: (info: infoField) => dispatch(updateBasicInfoSeller(info)),
+    updateAmazoneMWS: (id: string, info: infoMWS) => dispatch(updateAmazoneMWS(id, info)),
+    setBasicInfoSeller: (data: field) => dispatch(setBasicInfoSeller(data)),
+    setAmazoneMWS: (data: field) => dispatch(setAmazoneMWS(data)),
+    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
+  };
+};
 
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Setting);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Setting);

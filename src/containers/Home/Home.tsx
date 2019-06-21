@@ -11,26 +11,17 @@ interface HomeState {
 }
 
 export class Home extends React.Component<any, HomeState> {
-  public state = {
+  state = {
     heading: 'by become an Amazon Seller',
     amount: 1000,
     cityName: 'USA',
   };
 
-  public goTo(route: any) {
+  goTo(route: any) {
     this.props.history.replace(`/${route}`);
   }
 
-  public login() {
-    console.log('Hello');
-    this.props.auth.login();
-  }
-
-  public logout() {
-    this.props.auth.logout();
-  }
-
-  public componentDidMount() {
+  componentDidMount() {
     const { renewSession, isAuthenticated } = this.props.auth;
     if (localStorage.getItem('isLoggedIn') === 'true' && isAuthenticated) {
       history.replace('/dashboard');
