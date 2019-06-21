@@ -10,6 +10,7 @@ import {
   Segment,
   Select,
 } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import MesssageComponent from '../../../components/MessageComponent';
 import { Modals } from '../../../components/Modals';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
@@ -172,3 +173,12 @@ export class Setting extends React.Component<{}, State> {
     );
   }
 }
+const mapStateToProps = (state :any) => ({
+  data: state,
+});
+
+ const mapDispatchToProps = (dispatch :any) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Setting);
