@@ -20,9 +20,9 @@ import {
   getBasicInfoSeller,
   setAmazoneMWS,
   updateAmazoneMWS,
-  field,
-  infoField,
-  infoMWS,
+  Field,
+  SellField,
+  MWSinfo,
 } from '../../../Action/SettingActions';
 import './setting.css';
 
@@ -31,18 +31,18 @@ interface State {
 }
 
 interface Props {
-  setBasicInfoSeller(data: field): Function;
+  setBasicInfoSeller(data: Field): () => void;
 
-  setAmazoneMWS(data: field): Function;
+  setAmazoneMWS(data: Field): () => void;
 
-  updateBasicInfoSeller(data: infoField): Function;
+  updateBasicInfoSeller(data: SellField): () => void;
 
-  updateAmazoneMWS(id: string, data: infoMWS): Function;
+  updateAmazoneMWS(id: string, data: MWSinfo): () => void;
 
-  getBasicInfoSeller(): Function;
+  getBasicInfoSeller(): () => void;
 
-  sellerData: infoField;
-  amazoneData: infoMWS;
+  sellerData: SellField;
+  amazoneData: MWSinfo;
 }
 
 class Setting extends React.Component<Props, State> {
@@ -275,10 +275,10 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateBasicInfoSeller: (info: infoField) => dispatch(updateBasicInfoSeller(info)),
-    updateAmazoneMWS: (id: string, info: infoMWS) => dispatch(updateAmazoneMWS(id, info)),
-    setBasicInfoSeller: (data: field) => dispatch(setBasicInfoSeller(data)),
-    setAmazoneMWS: (data: field) => dispatch(setAmazoneMWS(data)),
+    updateBasicInfoSeller: (info: SellField) => dispatch(updateBasicInfoSeller(info)),
+    updateAmazoneMWS: (id: string, info: MWSinfo) => dispatch(updateAmazoneMWS(id, info)),
+    setBasicInfoSeller: (data: Field) => dispatch(setBasicInfoSeller(data)),
+    setAmazoneMWS: (data: Field) => dispatch(setAmazoneMWS(data)),
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
   };
 };

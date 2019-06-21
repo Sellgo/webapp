@@ -7,12 +7,12 @@ import {
   URLS,
 } from '../constant/constant';
 
-export interface field {
+export interface Field {
   key: string;
   value: any;
 }
 
-export interface infoField {
+export interface SellField {
   name?: string;
   id: string;
   email?: string;
@@ -20,17 +20,18 @@ export interface infoField {
   firstName?: string;
   lastName?: string;
 }
-export interface infoMWS {
+export interface MWSinfo {
   marketplace_id: string;
   seller_id: string;
   token: string;
 }
+
 const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': 'application/json',
 };
 
-export const updateBasicInfoSeller = (data: infoField) => (dispatch: any) => {
+export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
   return axios({
     method: 'PATCH',
     url: URLS.BASE_URL_API + `seller/`,
@@ -57,7 +58,7 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
     .catch(error => {});
 };
 
-export const updateAmazoneMWS = (id: string, data: infoMWS) => (dispatch: any) => {
+export const updateAmazoneMWS = (id: string, data: MWSinfo) => (dispatch: any) => {
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `seller/${id}/mws_auth/`,
@@ -70,12 +71,12 @@ export const updateAmazoneMWS = (id: string, data: infoMWS) => (dispatch: any) =
     .catch(error => {});
 };
 
-export const setBasicInfoSeller = (data: field) => ({
+export const setBasicInfoSeller = (data: Field) => ({
   type: SET_BASIC_INFO_SELLER,
   data,
 });
 
-export const setAmazoneMWS = (data: field) => ({
+export const setAmazoneMWS = (data: Field) => ({
   type: SET_AMAZONE_MWS,
   aData: data,
 });
