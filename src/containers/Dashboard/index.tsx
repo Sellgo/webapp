@@ -65,10 +65,8 @@ export class Dashboard extends React.Component<{}, state> {
       marginTop: '15px',
     };
     return (
-      <Segment>
-        <Segment>
-          <DashBoardTabs />
-        </Segment>
+      <Segment basic={true} className="setting">
+        <DashBoardTabs />
         <Modals title="" size="small" open={isOpen} close={this.close}>
           <Container textAlign="center">
             <Segment textAlign="center" basic={true}>

@@ -1,6 +1,8 @@
 import * as auth0 from 'auth0-js';
 import history from '../../history';
 import { AUTH_CONFIG } from './auth0-variables';
+import axios from 'axios';
+import { URLS } from '../../constant/constant';
 
 export default class Auth {
   accessToken: any;
@@ -19,7 +21,25 @@ export default class Auth {
   public login = () => {
     this.auth0.authorize();
   };
+  registerSeller = () => {
+    console.log(URLS.BASE_URL_API + 'seller');
+    console.log(this.idToken);
+    console.log(this.userProfile.name);
+    console.log(this.userProfile.nickname);
+    console.log(this.userProfile.sub);
+    const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
 
+    axios
+      .post(
+        URLS.BASE_URL_API + 'seller',
+        {
+          email: this.userProfile.name,
+        },
+        { headers }
+      )
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+  };
   public handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -49,11 +69,16 @@ export default class Auth {
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
-
+    this.getProfile((err: any, profile: any) => {
+      this.handleProfile(profile);
+    });
     // navigate to the home route
-    history.replace('/dashboard');
   };
-
+  handleProfile(profile: any) {
+    console.log(profile);
+    this.registerSeller();
+    history.replace('/dashboard');
+  }
   public renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
