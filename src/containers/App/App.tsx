@@ -14,6 +14,8 @@ import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
 
+import Suppliers from '../SYN/suppliers';
+
 const auth = new Auth();
 
 const handleAuthentication = (location: any) => {
@@ -37,6 +39,15 @@ function App(Props: any) {
           render={() => (
             <AdminLayout auth={auth} {...Props} title={'Setting'}>
               <Setting />
+            </AdminLayout>
+          )}
+        />
+        <Route
+          exact={true}
+          path="/syn"
+          render={() => (
+            <AdminLayout auth={auth} {...Props} title={'SYN'}>
+              <Suppliers />
             </AdminLayout>
           )}
         />

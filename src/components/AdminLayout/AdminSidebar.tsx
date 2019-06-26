@@ -8,7 +8,7 @@ interface LayoutProps {
 }
 
 export class AdminSidebar extends React.Component<any, LayoutProps> {
-  componentWillMount() {}
+  componentWillMount() { }
   render() {
     const { logout } = this.props.auth;
     return (
@@ -21,6 +21,11 @@ export class AdminSidebar extends React.Component<any, LayoutProps> {
         <Menu.Item as={Link} to="/dashboard/setting">
           <Menu.Header>
             <Icon name="setting" size="big" />
+          </Menu.Header>
+        </Menu.Item>
+        <Menu.Item as={Link} to="/syn">
+          <Menu.Header>
+            <Icon name="dot circle outline" size="big" />
           </Menu.Header>
         </Menu.Item>
         <Menu.Item as="a" onClick={logout}>
