@@ -35,7 +35,6 @@ interface State {
 
 interface Props {
   getSellers(): () => void;
-
   suppliers: Supplier[];
 }
 
@@ -201,7 +200,7 @@ export class Suppliers extends React.Component<Props, State> {
                   <Checkbox />
                 </Table.Cell>
                 <Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
+                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
                     {value.name}
                   </Table.Cell>
                 </Table.Cell>
@@ -222,19 +221,21 @@ export class Suppliers extends React.Component<Props, State> {
                     }]}>
                   </Dropdown>
                 </Table.Cell>
-                <Table.Cell>totProd/act</Table.Cell>
+                <Table.Cell>
+                  {+(value.item_total_count / value.item_active_count).toFixed(2)}
+                </Table.Cell>
                 <Table.Cell>{value.rate}</Table.Cell>
                 <Table.Cell>
-                  <Input focus placeholder='Note' />
+                  <Input focus placeholder='Note'/>
                 </Table.Cell>
                 <Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
+                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
                     <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
                     <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
+                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
                     <Icon name='pencil' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
