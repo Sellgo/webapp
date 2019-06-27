@@ -52,7 +52,7 @@ export class Suppliers extends React.Component<Props, State> {
     to: '/dashboard/setting',
     button_text: 'Ok',
   };
-  fileInputRef = React.createRef();
+  fileInputRef: any = React.createRef();
 
   componentDidMount() {
     const data = {
@@ -68,6 +68,14 @@ export class Suppliers extends React.Component<Props, State> {
       isOpen: !isOpen,
     });
   };
+
+  fileChange = (e: any) => {
+    console.log("e: ", e);
+    // this.setState({ file: e.target.files[0] }, () => {
+    //   console.log("File chosen --->", this.state.file);
+    // });
+  };
+
   renderAddNewSupplierModal = () => {
     return (
       <Modal size={"tiny"} closeIcon={true} trigger={
@@ -145,14 +153,14 @@ export class Suppliers extends React.Component<Props, State> {
             icon="chevron down"
             labelPosition="right"
             content="Upload Supplier CSV"
-            // onClick={() => this.fileInputRef.current.click()}
+            onClick={() => this.fileInputRef.current.click()}
           />
-          {/* <input
+          <input
             ref={this.fileInputRef}
             type="file"
             hidden
             onChange={this.fileChange}
-          /> */}
+          />
           <Popup
             trigger={<Icon name="question circle" circular />}
             content='Sellgo'
@@ -219,14 +227,9 @@ export class Suppliers extends React.Component<Props, State> {
                     fluid
                     selection
                     options={[{
-                      key: 'One',
-                      text: 'One',
-                      value: 'One',
-                    },
-                    {
-                      key: 'Two',
-                      text: 'Two',
-                      value: 'Two',
+                      key: 'SYN',
+                      text: 'SYN',
+                      value: 'SYN',
                     }]}>
                   </Dropdown>
                 </Table.Cell>
