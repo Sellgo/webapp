@@ -90,27 +90,27 @@ export class Suppliers extends React.Component<Props, State> {
           </Grid>
         </Modal.Header>
         <Modal.Content>
-            <Grid columns={3}>
-              <Grid.Row>
-                <Grid.Column>
-                  Supplier Name*
-                </Grid.Column>
-                <Grid.Column width={8} floated="left">
-                  <Input placeholder="question circle"/>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  Description
-                </Grid.Column>
-                <Grid.Column width={8} floated="left">
-                  <TextArea placeholder="Write your latest update here"/>
-                </Grid.Column>
-                <Grid.Column  width={1} floated="left">
-                  <Icon name="pencil"/>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+          <Grid columns={3}>
+            <Grid.Row>
+              <Grid.Column>
+                Supplier Name*
+              </Grid.Column>
+              <Grid.Column width={8} floated="left">
+                <Input placeholder="question circle"/>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                Description
+              </Grid.Column>
+              <Grid.Column width={8} floated="left">
+                <TextArea placeholder="Write your latest update here"/>
+              </Grid.Column>
+              <Grid.Column width={1} floated="left">
+                <Icon name="pencil"/>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Modal.Content>
         <Modal.Actions>
           <Button
@@ -147,6 +147,7 @@ export class Suppliers extends React.Component<Props, State> {
     );
   };
   renderTable = () => {
+    console.log(localStorage.getItem('idToken'));
     const suppliers = [...this.props.suppliers];
     return (
       <Table basic='very'>
@@ -192,7 +193,7 @@ export class Suppliers extends React.Component<Props, State> {
                   <Checkbox/>
                 </Table.Cell>
                 <Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
+                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
                     {value.name}
                   </Table.Cell>
                 </Table.Cell>
@@ -213,19 +214,21 @@ export class Suppliers extends React.Component<Props, State> {
                               }]}>
                   </Dropdown>
                 </Table.Cell>
-                <Table.Cell>totProd/act</Table.Cell>
+                <Table.Cell>
+                  {+(value.item_total_count / value.item_active_count).toFixed(2)}
+                </Table.Cell>
                 <Table.Cell>{value.rate}</Table.Cell>
                 <Table.Cell>
-                  <Input focus placeholder='Note'/>
+                  <Input focus={true} placeholder='Note'/>
                 </Table.Cell>
                 <Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
+                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
                     <Icon name='cloud upload' style={{ color: 'black' }}/>&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
                     <Icon name='refresh' style={{ color: 'black' }}/>&nbsp;
                   </Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
+                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
                     <Icon name='pencil' style={{ color: 'black' }}/>&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
