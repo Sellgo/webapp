@@ -52,6 +52,7 @@ export class Suppliers extends React.Component<Props, State> {
     to: '/dashboard/setting',
     button_text: 'Ok',
   };
+  fileInputRef = React.createRef();
 
   componentDidMount() {
     const data = {
@@ -143,7 +144,15 @@ export class Suppliers extends React.Component<Props, State> {
             style={{ borderRadius: 20 }}
             icon="chevron down"
             labelPosition="right"
-            content="Upload Supplier CSV" />
+            content="Upload Supplier CSV"
+            // onClick={() => this.fileInputRef.current.click()}
+          />
+          {/* <input
+            ref={this.fileInputRef}
+            type="file"
+            hidden
+            onChange={this.fileChange}
+          /> */}
           <Popup
             trigger={<Icon name="question circle" circular />}
             content='Sellgo'
@@ -226,7 +235,7 @@ export class Suppliers extends React.Component<Props, State> {
                 </Table.Cell>
                 <Table.Cell>{value.rate}</Table.Cell>
                 <Table.Cell>
-                  <Input focus placeholder='Note'/>
+                  <Input focus placeholder='Note' />
                 </Table.Cell>
                 <Table.Cell>
                   <Table.Cell as={Link} to={`/syn/${value.id}`}>
