@@ -34,8 +34,8 @@ interface State {
 }
 
 interface Props {
-  getProducts(sellerID: string): () => void;
-  products: Product[];
+  // getProducts(sellerID: string): () => void;
+  // products: Product[];
 }
 
 export class SupplierDetail extends React.Component<Props, State> {

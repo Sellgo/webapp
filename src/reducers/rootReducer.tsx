@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import settingReducer from './SettingReducer';
-import { SYNReducer, SYNProductsReducer } from './SYNReducer';
+import { SYNReducer } from './SYNReducer';
 
 const rootReducer = combineReducers({
   settings: settingReducer,
