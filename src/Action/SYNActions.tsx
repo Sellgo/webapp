@@ -1,28 +1,27 @@
 import axios from 'axios';
 import {
   URLS,
-  SET_SELLERS
+  SET_SELLERS,
 } from '../constant/constant';
-
-// export interface Field {
-//   key: string;
-//   value: any;
-// }
-
-// export interface SellField {
-//   name?: string;
-//   id: string;
-//   email?: string;
-//   auth0_user_id?: string;
-//   firstName?: string;
-//   lastName?: string;
-// }
-// export interface MWSinfo {
-//   marketplace_id: string;
-//   seller_id: string;
-//   token: string;
-// }
-
+export interface Supplier {
+  contact: string;
+  description: string;
+  email: string;
+  freight_fee: string;
+  id: any;
+  item_active_count: any;
+  item_total_count: any;
+  name: string;
+  phone: string;
+  rate: string;
+  seller_id: any;
+  status: string;
+  supplier_group_id: any;
+  timezone: string;
+  upcharge_fee: string;
+  website: string;
+  xid: string;
+}
 const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': 'application/json',
@@ -42,17 +41,19 @@ const headers = {
 // };
 
 export const getSellers = () => (dispatch: any) => {
+  // const userID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'seller/1000000001/supplier/',
     headers,
   })
     .then(json => {
-      console.log(json.data)
+      console.log(json.data);
       dispatch(setSellers(json.data));
       // return json.data;
     })
-    .catch(error => { });
+    .catch(error => {
+    });
 };
 
 // export const updateAmazoneMWS = (id: string, data: MWSinfo) => (dispatch: any) => {

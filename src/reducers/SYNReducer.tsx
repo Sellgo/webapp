@@ -4,18 +4,15 @@ import {
 } from '../constant/constant';
 
 const initialState = Map({
-  suppliers: []
+  suppliers: [],
 });
 
 export const SYNReducer = (state = initialState, action: any) => {
   console.log("json.data: ", action)
   switch (action.type) {
     case SET_SELLERS:
-      console.log("test : ", action);
       const { data } = action;
-      // const { key, value } = data;
-      // const newState = state.setIn(['profile', key], value);
-      const newState = data;
+      const newState = state.setIn(['suppliers'], data);
       return newState;
     default:
       return state;
