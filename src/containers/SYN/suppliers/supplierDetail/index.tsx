@@ -214,112 +214,109 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderHeader = () => {
 
     return (
+      <Grid centered style={{ marginLeft: 50 }}>
+        <Grid.Column width={5} floated="right">
+          <Grid.Row>
+            Syn Preset
+          </Grid.Row>
+          <Grid.Row style={{ marginTop: 20 }}>
+            <Card raised style={{ width: 600, height: 372 }}>
+              <Card.Content>
+                <Feed>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>Unit Profit</Feed.Summary>
+                      <Feed.Summary>
+                        Slider Here
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>Unit Profit</Feed.Summary>
+                      <Feed.Summary>
+                        Slider Here
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>Unit Profit</Feed.Summary>
+                      <Feed.Summary>
+                        Slider Here
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                </Feed>
+              </Card.Content>
+            </Card>
+          </Grid.Row>
+        </Grid.Column>
+        <Grid.Column width={9} floated="left">
+          <Grid.Row style={{ width: 1000 }}>
+            <Card raised style={{ width: 1000, height: 420 }}>
+              <Card.Content>
+                <Card.Group itemsPerRow={3}>
+                  <Card raised>
+                    <Card.Content>
+                      <Feed>
+                        <Feed.Event>
+                          <Feed.Content>
+                            <Feed.Date content='1 day ago'/>
+                            <Feed.Summary>
+                              Details Here
+                            </Feed.Summary>
+                          </Feed.Content>
+                        </Feed.Event>
+                      </Feed>
+                    </Card.Content>
+                  </Card>
+                  <Card raised>
+                    <Card.Content>
+                      <Feed>
+                        <Feed.Event>
+                          <Feed.Content>
+                            <Feed.Date content='1 day ago'/>
+                            <Feed.Summary>
+                              Details Here
+                            </Feed.Summary>
+                          </Feed.Content>
+                        </Feed.Event>
+                      </Feed>
+                    </Card.Content>
+                  </Card>
+                  <Card raised>
+                    <Card.Content>
+                      <Feed>
+                        <Feed.Event>
+                          <Feed.Content>
+                            <Feed.Date content='1 day ago'/>
+                            <Feed.Summary>
+                              Details Here
+                            </Feed.Summary>
+                          </Feed.Content>
+                        </Feed.Event>
+                      </Feed>
+                    </Card.Content>
+                  </Card>
+                </Card.Group>
+                <Feed>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        Chart Here
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                </Feed>
+              </Card.Content>
+            </Card>
+          </Grid.Row>
+        </Grid.Column>
 
-      <Card.Group fluid>
-        <Card raised>
-          <Card.Content>
-            <Card.Header>Recent Activity</Card.Header>
-          </Card.Content>
-          <Card.Content>
-            <Feed>
-              <Feed.Event>
-                <Feed.Label image='/images/avatar/small/jenny.jpg'/>
-                <Feed.Content>
-                  <Feed.Date content='1 day ago'/>
-                  <Feed.Summary>
-                    You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-                  </Feed.Summary>
-                </Feed.Content>
-              </Feed.Event>
-              <Feed.Event>
-                <Feed.Label image='/images/avatar/small/molly.png'/>
-                <Feed.Content>
-                  <Feed.Date content='3 days ago'/>
-                  <Feed.Summary>
-                    You added <a>Molly Malone</a> as a friend.
-                  </Feed.Summary>
-                </Feed.Content>
-              </Feed.Event>
-
-              <Feed.Event>
-                <Feed.Label image='/images/avatar/small/elliot.jpg'/>
-                <Feed.Content>
-                  <Feed.Date content='4 days ago'/>
-                  <Feed.Summary>
-                    You added <a>Elliot Baker</a> to your <a>musicians</a> group.
-                  </Feed.Summary>
-                </Feed.Content>
-              </Feed.Event>
-            </Feed>
-          </Card.Content>
-        </Card>
-        <Card raised style={{width:800}}>
-          <Card.Content>
-            <Card.Header>Recent Activity</Card.Header>
-          </Card.Content>
-          <Card.Content>
-            <Card.Group itemsPerRow={3}>
-              <Card raised >
-                <Card.Content>
-                  <Feed>
-                    <Feed.Event>
-                      <Feed.Label image='/images/avatar/small/jenny.jpg'/>
-                      <Feed.Content>
-                        <Feed.Date content='1 day ago'/>
-                        <Feed.Summary>
-                          You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-                        </Feed.Summary>
-                      </Feed.Content>
-                    </Feed.Event>
-                  </Feed>
-                </Card.Content>
-              </Card>
-              <Card raised >
-                <Card.Content>
-                  <Feed>
-                    <Feed.Event>
-                      <Feed.Label image='/images/avatar/small/jenny.jpg'/>
-                      <Feed.Content>
-                        <Feed.Date content='1 day ago'/>
-                        <Feed.Summary>
-                          You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-                        </Feed.Summary>
-                      </Feed.Content>
-                    </Feed.Event>
-                  </Feed>
-                </Card.Content>
-              </Card>
-              <Card raised >
-                <Card.Content>
-                  <Feed>
-                    <Feed.Event>
-                      <Feed.Label image='/images/avatar/small/jenny.jpg'/>
-                      <Feed.Content>
-                        <Feed.Date content='1 day ago'/>
-                        <Feed.Summary>
-                          You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-                        </Feed.Summary>
-                      </Feed.Content>
-                    </Feed.Event>
-                  </Feed>
-                </Card.Content>
-              </Card>
-            </Card.Group>
-            <Feed>
-              <Feed.Event>
-                <Feed.Label image='/images/avatar/small/jenny.jpg'/>
-                <Feed.Content>
-                  <Feed.Date content='1 day ago'/>
-                  <Feed.Summary>
-                    You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-                  </Feed.Summary>
-                </Feed.Content>
-              </Feed.Event>
-            </Feed>
-          </Card.Content>
-        </Card>
-      </Card.Group>
-    );
+      </Grid>
+    )
+      ;
   };
 
   render() {
@@ -329,9 +326,6 @@ export class SupplierDetail extends React.Component<Props, State> {
     return (
       <Segment basic={true} className="setting">
         <Divider/>
-        <Grid.Row>
-          Syn Preset
-        </Grid.Row>
         {this.renderHeader()}
         <Divider/>
         {this.renderTable()}
