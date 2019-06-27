@@ -117,14 +117,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Table.Cell>
                 <Table.Cell>
                   <Grid>
-                    <Grid.Column width={2} floated="left">
+                    <Grid.Column floated="left">
                       <Image src={new URL('http://localhost:3000/images/intro.png')} size='tiny'/>
                     </Grid.Column>
                     <Grid.Column width={8} floated="left" className={'middle aligned'}>
                       <Grid.Row as={Link} to={`/syn/`}>
                         {value.productTitle}
                       </Grid.Row>
-                      <Grid.Row>
+                      <Grid.Row style={{display:"inline-flex"}}>
                         <Grid.Column>
                           <Image
                             src={new URL('http://localhost:3000/images/intro.png')}
@@ -214,36 +214,100 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderHeader = () => {
 
     return (
-      <Grid centered style={{ marginLeft: 50 }}>
-        <Grid.Column width={5} floated="right">
-          <Grid.Row>
-            Syn Preset
+      <Grid centered >
+        <Grid.Column width={4} floated="left">
+          <Grid.Row style={{ display: "inline-flex"}}>
+            <Grid.Column>
+              Syn Preset
+            </Grid.Column>
+            <Grid.Column style={{ margin: "0 0 0 10px"}}>
+              <Dropdown
+                style={{width: "170px"}}
+                placeholder='Select a preset'
+                fluid
+                selection
+                options={[
+                  {
+                    key: 'Unit Profit',
+                    text: 'Unit Profit',
+                    value: 'Unit Profit',
+                  },
+                  {
+                    key: 'Margin (%)',
+                    text: 'Margin (%)',
+                    value: 'Margin (%)',
+                  },
+                  {
+                    key: 'Units per Month',
+                    text: 'Units per Month',
+                    value: 'Units per Month',
+                  },
+                  {
+                    key: 'ROI/ Return of Investment',
+                    text: 'ROI/ Return of Investment',
+                    value: 'ROI/ Return of Investment',
+                  }
+                ]}
+              />
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row style={{ marginTop: 20 }}>
-            <Card raised style={{ width: 600, height: 372 }}>
+            <Card raised>
               <Card.Content>
                 <Feed>
                   <Feed.Event>
                     <Feed.Content>
                       <Feed.Summary>Unit Profit</Feed.Summary>
-                      <Feed.Summary>
-                        Slider Here
+                      <Feed.Summary style={{display:"inline-flex"}}>
+                        <div style={{border:1}}>
+                          Min
+                        </div>
+                        <input type="range" />
+                        <div style={{border:1}}>
+                          Max
+                        </div>
                       </Feed.Summary>
                     </Feed.Content>
                   </Feed.Event>
                   <Feed.Event>
                     <Feed.Content>
-                      <Feed.Summary>Unit Profit</Feed.Summary>
-                      <Feed.Summary>
-                        Slider Here
+                      <Feed.Summary>Margin (%)</Feed.Summary>
+                      <Feed.Summary style={{display:"inline-flex"}}>
+                        <div style={{border:1}}>
+                          Min
+                        </div>
+                        <input type="range" />
+                        <div style={{border:1}}>
+                          Max
+                        </div>
                       </Feed.Summary>
                     </Feed.Content>
                   </Feed.Event>
                   <Feed.Event>
                     <Feed.Content>
-                      <Feed.Summary>Unit Profit</Feed.Summary>
-                      <Feed.Summary>
-                        Slider Here
+                      <Feed.Summary>Units per Month</Feed.Summary>
+                      <Feed.Summary style={{display:"inline-flex"}}>
+                        <div style={{border:1}}>
+                          Min
+                        </div>
+                        <input type="range" />
+                        <div style={{border:1}}>
+                          Max
+                        </div>
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>ROI/ Return of Investment</Feed.Summary>
+                      <Feed.Summary style={{display:"inline-flex"}}>
+                        <div style={{border:1}}>
+                          Min
+                        </div>
+                        <input type="range" />
+                        <div style={{border:1}}>
+                          Max
+                        </div>
                       </Feed.Summary>
                     </Feed.Content>
                   </Feed.Event>
@@ -252,9 +316,9 @@ export class SupplierDetail extends React.Component<Props, State> {
             </Card>
           </Grid.Row>
         </Grid.Column>
-        <Grid.Column width={9} floated="left">
-          <Grid.Row style={{ width: 1000 }}>
-            <Card raised style={{ width: 1000, height: 420 }}>
+        <Grid.Column width={12} floated="left">
+          <Grid.Row style={{ width: "96%" }}>
+            <Card raised style={{ width: "100%" }}>
               <Card.Content>
                 <Card.Group itemsPerRow={3}>
                   <Card raised>
@@ -262,9 +326,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed>
                         <Feed.Event>
                           <Feed.Content>
-                            <Feed.Date content='1 day ago'/>
+                            <Feed.Date content='Avg Daily Units Sold'/>
                             <Feed.Summary>
-                              Details Here
+                            Avg#
+                            </Feed.Summary>
+                            <Divider/>
+                            <Feed.Date content='Avg BB Price/ Fees'/>
+                            <Feed.Summary>
+                            Avg#
                             </Feed.Summary>
                           </Feed.Content>
                         </Feed.Event>
@@ -276,9 +345,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed>
                         <Feed.Event>
                           <Feed.Content>
-                            <Feed.Date content='1 day ago'/>
+                            <Feed.Date content='Avg Daily Revenue/ Profit'/>
                             <Feed.Summary>
-                              Details Here
+                            Avg#
+                            </Feed.Summary>
+                            <Divider/>
+                            <Feed.Date content='Avg BB Price/ Fees'/>
+                            <Feed.Summary>
+                              Avg#
                             </Feed.Summary>
                           </Feed.Content>
                         </Feed.Event>
@@ -290,9 +364,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed>
                         <Feed.Event>
                           <Feed.Content>
-                            <Feed.Date content='1 day ago'/>
+                            <Feed.Date content='Avg Daily Rank'/>
                             <Feed.Summary>
-                              Details Here
+                            Avg#
+                            </Feed.Summary>
+                            <Divider/>
+                            <Feed.Date content='Avg LQS'/>
+                            <Feed.Summary>
+                            Avg#
                             </Feed.Summary>
                           </Feed.Content>
                         </Feed.Event>
