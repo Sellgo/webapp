@@ -70,7 +70,7 @@ export class Suppliers extends React.Component<Props, State> {
   };
   renderAddNewSupplierModal = () => {
     return (
-      <Modal closeIcon={true} trigger={
+      <Modal size={"tiny"} closeIcon={true} trigger={
         <Button
           basic color='black'
           primary={true}
@@ -80,37 +80,46 @@ export class Suppliers extends React.Component<Props, State> {
         <Modal.Header>
           <Grid columns={4}>
             <Grid.Row>
-              <Grid.Column>
+              <Grid.Column style={{ margin: 0 }} floated='left' width={6}>
                 Add New Supplier
               </Grid.Column>
-              <Grid.Column floated="left">
-                <Icon name="question circle"/>
+              <Grid.Column style={{ padding: 0 }} floated="left">
+                <Icon name="file" />
               </Grid.Column>
             </Grid.Row>
           </Grid>
         </Modal.Header>
         <Modal.Content>
-            <Grid columns={3}>
-              <Grid.Row>
-                <Grid.Column>
-                  Supplier Name*
+          <Grid columns={3}>
+            <Grid.Row>
+              <Grid.Column>
+                Supplier Name*
                 </Grid.Column>
-                <Grid.Column width={8} floated="left">
-                  <Input placeholder="question circle"/>
+              <Grid.Column width={8} floated="left">
+                <Input style={{ width: 300 }} placeholder="question circle" />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                Description
                 </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  Description
-                </Grid.Column>
-                <Grid.Column width={8} floated="left">
-                  <TextArea placeholder="Write your latest update here"/>
-                </Grid.Column>
-                <Grid.Column  width={1} floated="left">
-                  <Icon name="pencil"/>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+              <Grid.Column width={9} floated="left">
+                <Form>
+                  <TextArea style={{ minHeight: 100, width: 300, margin: "5px 0", padding: "9px" }} placeholder="Write your latest update here" />
+                </Form>
+              </Grid.Column>
+              <Grid.Column width={1} floated="left">
+                <Icon name="pencil" />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column style={{ marginTop: "10px", marginBottom: "10px" }} floated="right" width={9}>
+                <Checkbox />
+                &nbsp;
+                Automatically upload upon exit
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Modal.Content>
         <Modal.Actions>
           <Button
@@ -135,15 +144,15 @@ export class Suppliers extends React.Component<Props, State> {
             style={{ borderRadius: 20 }}
             icon="chevron down"
             labelPosition="right"
-            content="Upload Supplier CSV"/>
+            content="Upload Supplier CSV" />
           <Popup
-            trigger={<Icon name="question circle" circular/>}
+            trigger={<Icon name="question circle" circular />}
             content='Sellgo'
             position='top left'
             size='tiny'
           />
         </Modal.Actions>
-      </Modal>
+      </Modal >
     );
   };
   renderTable = () => {
@@ -153,7 +162,7 @@ export class Suppliers extends React.Component<Props, State> {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <Checkbox/>
+              <Checkbox />
             </Table.HeaderCell>
             <Table.HeaderCell>
               Supplier Name
@@ -189,7 +198,7 @@ export class Suppliers extends React.Component<Props, State> {
             return (
               <Table.Row key={value.id}>
                 <Table.Cell>
-                  <Checkbox/>
+                  <Checkbox />
                 </Table.Cell>
                 <Table.Cell>
                   <Table.Cell as={Link} to="/syn">
@@ -199,37 +208,37 @@ export class Suppliers extends React.Component<Props, State> {
                 <Table.Cell>{value.status}</Table.Cell>
                 <Table.Cell>
                   <Dropdown text='SYN'
-                            fluid
-                            selection
-                            options={[{
-                              key: 'One',
-                              text: 'One',
-                              value: 'One',
-                            },
-                              {
-                                key: 'Two',
-                                text: 'Two',
-                                value: 'Two',
-                              }]}>
+                    fluid
+                    selection
+                    options={[{
+                      key: 'One',
+                      text: 'One',
+                      value: 'One',
+                    },
+                    {
+                      key: 'Two',
+                      text: 'Two',
+                      value: 'Two',
+                    }]}>
                   </Dropdown>
                 </Table.Cell>
                 <Table.Cell>totProd/act</Table.Cell>
                 <Table.Cell>{value.rate}</Table.Cell>
                 <Table.Cell>
-                  <Input focus placeholder='Note'/>
+                  <Input focus placeholder='Note' />
                 </Table.Cell>
                 <Table.Cell>
                   <Table.Cell as={Link} to="/syn">
-                    <Icon name='cloud upload' style={{ color: 'black' }}/>&nbsp;
+                    <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
-                    <Icon name='refresh' style={{ color: 'black' }}/>&nbsp;
+                    <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
-                    <Icon name='pencil' style={{ color: 'black' }}/>&nbsp;
+                    <Icon name='pencil' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
-                    <Icon name='trash alternate' style={{ color: 'black' }}/>
+                    <Icon name='trash alternate' style={{ color: 'black' }} />
                     {/*{this.renderDeleteModal(value, index)}*/}
                   </Table.Cell>
                 </Table.Cell>
@@ -242,14 +251,14 @@ export class Suppliers extends React.Component<Props, State> {
             <Table.HeaderCell colSpan='3'>
               <Menu floated='right' pagination>
                 <Menu.Item as='a' icon>
-                  <Icon name='chevron left'/>
+                  <Icon name='chevron left' />
                 </Menu.Item>
                 <Menu.Item as='a'>1</Menu.Item>
                 <Menu.Item as='a'>2</Menu.Item>
                 <Menu.Item as='a'>3</Menu.Item>
                 <Menu.Item as='a'>4</Menu.Item>
                 <Menu.Item as='a' icon>
-                  <Icon name='chevron right'/>
+                  <Icon name='chevron right' />
                 </Menu.Item>
               </Menu>
             </Table.HeaderCell>
@@ -261,7 +270,7 @@ export class Suppliers extends React.Component<Props, State> {
   renderDeleteModal = (value: Supplier, index: any) => {
     return (
       <Modal trigger={
-        <Icon name='trash alternate' style={{ color: 'black' }}/>
+        <Icon name='trash alternate' style={{ color: 'black' }} />
       } onClose={this.close}>
         <Modal.Header>Delete Your Account</Modal.Header>
         <Modal.Content>
@@ -269,8 +278,8 @@ export class Suppliers extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative>No</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
+          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
         </Modal.Actions>
       </Modal>
     );
@@ -282,13 +291,13 @@ export class Suppliers extends React.Component<Props, State> {
     return (
       <Segment basic={true} className="setting">
 
-        <Divider/>
+        <Divider />
 
         <Grid>
           <Grid.Column width={5} floated='left' className={'middle aligned'}>
             {this.renderAddNewSupplierModal()}
             <Popup
-              trigger={<Icon name='question circle' circular/>}
+              trigger={<Icon name='question circle' circular />}
               content='Sellgo'
               position='top left'
               size='tiny'
