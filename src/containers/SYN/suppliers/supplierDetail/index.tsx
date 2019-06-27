@@ -27,7 +27,7 @@ import '../suppliers.css';
 
 import { Link } from 'react-router-dom';
 
-import { getProducts, getSellers, Product } from '../../../../Action/SYNActions';
+import { getProducts, Product } from '../../../../Action/SYNActions';
 
 interface State {
   isOpen: boolean;
@@ -36,6 +36,7 @@ interface State {
 interface Props {
   // getProducts(sellerID: string): () => void;
   // products: Product[];
+  match: { params: { sellerID: "" } };
 }
 
 export class SupplierDetail extends React.Component<Props, State> {
@@ -58,6 +59,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
+    // this.props.getProducts(this.props.match.params.sellerID);
   }
 
   handleModel = () => {
@@ -72,7 +74,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <Checkbox/>
+              <Checkbox />
             </Table.HeaderCell>
             <Table.HeaderCell>
               Supplier Name
@@ -90,14 +92,14 @@ export class SupplierDetail extends React.Component<Props, State> {
             <Table.HeaderCell colSpan='3'>
               <Menu floated='right' pagination>
                 <Menu.Item as='a' icon>
-                  <Icon name='chevron left'/>
+                  <Icon name='chevron left' />
                 </Menu.Item>
                 <Menu.Item as='a'>1</Menu.Item>
                 <Menu.Item as='a'>2</Menu.Item>
                 <Menu.Item as='a'>3</Menu.Item>
                 <Menu.Item as='a'>4</Menu.Item>
                 <Menu.Item as='a' icon>
-                  <Icon name='chevron right'/>
+                  <Icon name='chevron right' />
                 </Menu.Item>
               </Menu>
             </Table.HeaderCell>
@@ -109,7 +111,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
-        trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
+        trigger={<Icon name="trash alternate" style={{ color: 'black' }} />}
         onClose={this.close}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
@@ -118,8 +120,8 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative>No</Button>
-          <Button positive icon="checkmark" labelPosition="right" content="Yes"/>
-          <Button positive icon="checkmark" labelPosition="right" content="Yes"/>
+          <Button positive icon="checkmark" labelPosition="right" content="Yes" />
+          <Button positive icon="checkmark" labelPosition="right" content="Yes" />
         </Modal.Actions>
       </Modal>
     );
@@ -130,11 +132,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
-        <Divider/>
+        <Divider />
         <Grid>
           <Grid.Column width={5} floated="left" className={'middle aligned'}>
             <Popup
-              trigger={<Icon name='question circle' circular/>}
+              trigger={<Icon name='question circle' circular />}
               content="Sellgo"
               position="top left"
               size="tiny"
@@ -151,7 +153,7 @@ export class SupplierDetail extends React.Component<Props, State> {
               }}
             >
               <span style={{ padding: '8px' }}>
-               MORE DETAILS
+                MORE DETAILS
               </span>
             </div>
           </Grid.Column>
