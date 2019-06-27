@@ -90,29 +90,27 @@ export class Suppliers extends React.Component<Props, State> {
           </Grid>
         </Modal.Header>
         <Modal.Content>
-          <Modal.Description>
             <Grid columns={3}>
               <Grid.Row>
                 <Grid.Column>
-                  Add New Supplier
+                  Supplier Name*
                 </Grid.Column>
-                <Grid.Column floated="left">
-                  <Icon name="question circle"/>
+                <Grid.Column width={8} floated="left">
+                  <Input placeholder="question circle"/>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  Add New Supplier
+                  Description
                 </Grid.Column>
-                <Grid.Column floated="left">
-                  <Icon name="question circle"/>
-                </Grid.Column>
-                <Grid.Column floated="left">
+                <Grid.Column width={8} floated="left">
                   <TextArea placeholder="Write your latest update here"/>
+                </Grid.Column>
+                <Grid.Column  width={1} floated="left">
+                  <Icon name="pencil"/>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-          </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
           <Button
