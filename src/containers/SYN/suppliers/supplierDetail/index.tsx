@@ -35,7 +35,7 @@ interface State {
 interface Props {
   // getProducts(sellerID: string): () => void;
   // products: Product[];
-  match: { params: { sellerID: "" } };
+  match: { params: { sellerID: '' } };
 }
 
 export class SupplierDetail extends React.Component<Props, State> {
@@ -212,96 +212,126 @@ export class SupplierDetail extends React.Component<Props, State> {
     );
   };
   renderHeader = () => {
-    const items = [
-      {
-        header: 'Project Report - April',
-        description: 'Leverage agile',
-        meta: 'ROI: 30%',
-      },
-      {
-        header: 'Project Report - May',
-        description: 'Bring to the table',
-        meta: 'ROI: 34%',
-      },
-      {
-        header: 'Project Report - June',
-        description:
-          'Capitalise on low hanging fruit ',
-        meta: 'ROI: 27%',
-      },
-    ]
+
     return (
-      <Grid>
-        <Grid.Column width={5} floated="left" className={'middle aligned'}>
-          <Grid.Row>
-            Syn Preset
-          </Grid.Row>
-          <Card>
-            <Card.Content>
-              <Card.Header>Recent Activity</Card.Header>
-            </Card.Content>
-            <Card.Content>
-              <Feed>
-                <Feed.Event>
-                  <Feed.Label image='/images/avatar/small/jenny.jpg' />
-                  <Feed.Content>
-                    <Feed.Date content='1 day ago' />
-                    <Feed.Summary>
-                      You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
 
-                <Feed.Event>
-                  <Feed.Label image='/images/avatar/small/molly.png' />
-                  <Feed.Content>
-                    <Feed.Date content='3 days ago' />
-                    <Feed.Summary>
-                      You added <a>Molly Malone</a> as a friend.
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
+      <Card.Group fluid>
+        <Card raised>
+          <Card.Content>
+            <Card.Header>Recent Activity</Card.Header>
+          </Card.Content>
+          <Card.Content>
+            <Feed>
+              <Feed.Event>
+                <Feed.Label image='/images/avatar/small/jenny.jpg'/>
+                <Feed.Content>
+                  <Feed.Date content='1 day ago'/>
+                  <Feed.Summary>
+                    You added <a>Jenny Hess</a> to your <a>coworker</a> group.
+                  </Feed.Summary>
+                </Feed.Content>
+              </Feed.Event>
+              <Feed.Event>
+                <Feed.Label image='/images/avatar/small/molly.png'/>
+                <Feed.Content>
+                  <Feed.Date content='3 days ago'/>
+                  <Feed.Summary>
+                    You added <a>Molly Malone</a> as a friend.
+                  </Feed.Summary>
+                </Feed.Content>
+              </Feed.Event>
 
-                <Feed.Event>
-                  <Feed.Label image='/images/avatar/small/elliot.jpg' />
-                  <Feed.Content>
-                    <Feed.Date content='4 days ago' />
-                    <Feed.Summary>
-                      You added <a>Elliot Baker</a> to your <a>musicians</a> group.
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
-              </Feed>
-            </Card.Content>
-          </Card>
-        </Grid.Column>
-        <Grid.Column width={5} >
-          <Card.Group items={items}>
-          </Card.Group>
-            <div
-              className="ui"
-              style={{
-                display: 'inline-flex',
-                border: '1px solid #000',
-                padding: '11px',
-                borderRadius: '15px',
-              }}
-            >
-              <span style={{ padding: '8px' }}>
-               MORE DETAILS
-              </span>
-          </div>
-        </Grid.Column>
-      </Grid>
+              <Feed.Event>
+                <Feed.Label image='/images/avatar/small/elliot.jpg'/>
+                <Feed.Content>
+                  <Feed.Date content='4 days ago'/>
+                  <Feed.Summary>
+                    You added <a>Elliot Baker</a> to your <a>musicians</a> group.
+                  </Feed.Summary>
+                </Feed.Content>
+              </Feed.Event>
+            </Feed>
+          </Card.Content>
+        </Card>
+        <Card raised style={{width:800}}>
+          <Card.Content>
+            <Card.Header>Recent Activity</Card.Header>
+          </Card.Content>
+          <Card.Content>
+            <Card.Group itemsPerRow={3}>
+              <Card raised >
+                <Card.Content>
+                  <Feed>
+                    <Feed.Event>
+                      <Feed.Label image='/images/avatar/small/jenny.jpg'/>
+                      <Feed.Content>
+                        <Feed.Date content='1 day ago'/>
+                        <Feed.Summary>
+                          You added <a>Jenny Hess</a> to your <a>coworker</a> group.
+                        </Feed.Summary>
+                      </Feed.Content>
+                    </Feed.Event>
+                  </Feed>
+                </Card.Content>
+              </Card>
+              <Card raised >
+                <Card.Content>
+                  <Feed>
+                    <Feed.Event>
+                      <Feed.Label image='/images/avatar/small/jenny.jpg'/>
+                      <Feed.Content>
+                        <Feed.Date content='1 day ago'/>
+                        <Feed.Summary>
+                          You added <a>Jenny Hess</a> to your <a>coworker</a> group.
+                        </Feed.Summary>
+                      </Feed.Content>
+                    </Feed.Event>
+                  </Feed>
+                </Card.Content>
+              </Card>
+              <Card raised >
+                <Card.Content>
+                  <Feed>
+                    <Feed.Event>
+                      <Feed.Label image='/images/avatar/small/jenny.jpg'/>
+                      <Feed.Content>
+                        <Feed.Date content='1 day ago'/>
+                        <Feed.Summary>
+                          You added <a>Jenny Hess</a> to your <a>coworker</a> group.
+                        </Feed.Summary>
+                      </Feed.Content>
+                    </Feed.Event>
+                  </Feed>
+                </Card.Content>
+              </Card>
+            </Card.Group>
+            <Feed>
+              <Feed.Event>
+                <Feed.Label image='/images/avatar/small/jenny.jpg'/>
+                <Feed.Content>
+                  <Feed.Date content='1 day ago'/>
+                  <Feed.Summary>
+                    You added <a>Jenny Hess</a> to your <a>coworker</a> group.
+                  </Feed.Summary>
+                </Feed.Content>
+              </Feed.Event>
+            </Feed>
+          </Card.Content>
+        </Card>
+      </Card.Group>
     );
   };
 
   render() {
+
     const memberDate = `May 5 2018`;
     const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
         <Divider/>
+        <Grid.Row>
+          Syn Preset
+        </Grid.Row>
         {this.renderHeader()}
         <Divider/>
         {this.renderTable()}
