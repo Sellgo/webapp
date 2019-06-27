@@ -55,9 +55,9 @@ function App(Props: any) {
         <Route
           exact={true}
           path="/syn/:sellerID"
-          render={() => (
+          render={(routeProps) => (
             <AdminLayout auth={auth} {...Props} title={'SYN'}>
-              <SupplierDetail />
+              <SupplierDetail {...routeProps} />
             </AdminLayout>
           )}
         />

@@ -35,6 +35,7 @@ interface State {
 interface Props {
   // getProducts(sellerID: string): () => void;
   // products: Product[];
+  match: { params: { sellerID: "" } };
 }
 
 export class SupplierDetail extends React.Component<Props, State> {
@@ -76,6 +77,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
+    // this.props.getProducts(this.props.match.params.sellerID);
   }
 
   handleModel = () => {
@@ -192,7 +194,6 @@ export class SupplierDetail extends React.Component<Props, State> {
     );
   };
   renderDeleteModal = (value: Product, index: any) => {
-
     return (
       <Modal
         trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
@@ -277,16 +278,16 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Grid.Column width={5} >
           <Card.Group items={items}>
           </Card.Group>
-          <div
-            className="ui"
-            style={{
-              display: 'inline-flex',
-              border: '1px solid #000',
-              padding: '11px',
-              borderRadius: '15px',
-            }}
-          >
-          <span style={{ padding: '8px' }}>
+            <div
+              className="ui"
+              style={{
+                display: 'inline-flex',
+                border: '1px solid #000',
+                padding: '11px',
+                borderRadius: '15px',
+              }}
+            >
+              <span style={{ padding: '8px' }}>
                MORE DETAILS
               </span>
           </div>
