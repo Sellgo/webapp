@@ -27,13 +27,15 @@ import '../suppliers.css';
 
 import { Link } from 'react-router-dom';
 
-import { Supplier } from '../../../../Action/SYNActions';
+import { getProducts, getSellers, Product } from '../../../../Action/SYNActions';
 
 interface State {
   isOpen: boolean;
 }
 
 interface Props {
+  getProducts(sellerID: string): () => void;
+  products: Product[];
 }
 
 export class SupplierDetail extends React.Component<Props, State> {
@@ -104,19 +106,20 @@ export class SupplierDetail extends React.Component<Props, State> {
       </Table>
     );
   };
-  renderDeleteModal = (value: Supplier, index: any) => {
+  renderDeleteModal = (value: Product, index: any) => {
     return (
-      <Modal trigger={
-        <Icon name='trash alternate' style={{ color: 'black' }}/>
-      } onClose={this.close}>
+      <Modal
+        trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
+        onClose={this.close}
+      >
         <Modal.Header>Delete Your Account</Modal.Header>
         <Modal.Content>
           <p>Are you sure you want to delete your account</p>
         </Modal.Content>
         <Modal.Actions>
           <Button negative>No</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
+          <Button positive icon="checkmark" labelPosition="right" content="Yes"/>
+          <Button positive icon="checkmark" labelPosition="right" content="Yes"/>
         </Modal.Actions>
       </Modal>
     );
@@ -129,21 +132,24 @@ export class SupplierDetail extends React.Component<Props, State> {
       <Segment basic={true} className="setting">
         <Divider/>
         <Grid>
-          <Grid.Column width={5} floated='left' className={'middle aligned'}>
+          <Grid.Column width={5} floated="left" className={'middle aligned'}>
             <Popup
               trigger={<Icon name='question circle' circular/>}
-              content='Sellgo'
-              position='top left'
-              size='tiny'
+              content="Sellgo"
+              position="top left"
+              size="tiny"
             />
           </Grid.Column>
-          <Grid.Column width={5} floated='right'>
-            <div className="ui" style={{
-              display: 'inline-flex',
-              border: '1px solid #000',
-              padding: '11px',
-              borderRadius: '15px',
-            }}>
+          <Grid.Column width={5} floated="right">
+            <div
+              className="ui"
+              style={{
+                display: 'inline-flex',
+                border: '1px solid #000',
+                padding: '11px',
+                borderRadius: '15px',
+              }}
+            >
               <span style={{ padding: '8px' }}>
                MORE DETAILS
               </span>
@@ -164,19 +170,13 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 }
 
-// const mapStateToProps = (state: any) => {
-//   console.log('state state: ', state);
-//   return ({
-//     suppliers: state.synReducer.get('suppliers'),
-//   });
-// };
 const mapStateToProps = (state: any) => ({
-  suppliers: state.synReducer.get('suppliers'),
+  products: state.synReducer.get('products'),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getSellers: () => ({}),
+    getProducts: (sellerID: string) => dispatch(getProducts(sellerID)),
   };
 };
 

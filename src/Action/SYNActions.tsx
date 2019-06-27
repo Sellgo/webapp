@@ -20,7 +20,7 @@ export interface Supplier {
   website: string;
   xid: string;
 }
-export interface Products {
+export interface Product {
   contact: string;
   description: string;
   email: string;

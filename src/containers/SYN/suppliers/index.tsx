@@ -35,7 +35,6 @@ interface State {
 
 interface Props {
   getSellers(): () => void;
-
   suppliers: Supplier[];
 }
 
