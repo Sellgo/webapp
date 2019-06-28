@@ -17,7 +17,7 @@ export const SYNReducer = (state = initialState, action: any) => {
       return newState;
     case SET_PRODUCTS:
       const { actiondata } = action;
-      return state.setIn(['suppliers'], actiondata);
+      return state.setIn(['products'], actiondata);
     default:
       return state;
   }

@@ -57,14 +57,14 @@ export const getSellers = () => (dispatch: any) => {
       dispatch(setSellers(json.data));
       // return json.data;
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProducts = (sellerID: string) => (dispatch: any) => {
   // const userID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'seller/1000000001/supplier/',
+    url: URLS.BASE_URL_API + 'seller/' + sellerID + '/supplier/',
     headers,
   })
     .then(json => {
@@ -72,7 +72,7 @@ export const getProducts = (sellerID: string) => (dispatch: any) => {
       dispatch(setProducts(json.data));
       // return json.data;
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const setSellers = (data: {}) => ({
