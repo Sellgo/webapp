@@ -35,6 +35,7 @@ import {
   Supplier,
   getProductAttributes,
 } from '../../../../Action/SYNActions';
+import history from '../../../../history';
 
 interface State {
   isOpen: boolean;
@@ -89,7 +90,7 @@ export class SupplierDetail extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     this.setState({
-      products:nextProps.products
+      products: nextProps.products,
     });
   }
 
@@ -352,6 +353,17 @@ export class SupplierDetail extends React.Component<Props, State> {
                   value: 'ROI/ Return of Investment',
                 },
               ]}
+              onChange={(e, data) => {
+                console.log(data);
+                //TODO proof of concept for dropdown filter
+                if (data.value === 'ROI/ Return of Investment') {
+                  this.setState({
+                    ROIFilter: 24,
+                  }, () => {
+                    this.updateFilters();
+                  });
+                }
+              }}
             />
           </Grid.Column>
         </Grid.Row>
@@ -377,7 +389,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             this.setState(
                               {
                                 isFilterApplied: true,
-                                unitProfitFilter: parseInt(value,10),
+                                unitProfitFilter: parseInt(value, 10),
                               },
                               () => {
                                 this.updateFilters();
@@ -385,6 +397,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             );
                           }, 500);
                         }}
+                        value={this.state.unitProfitFilter}
                         min="0"
                         max="1000"
                         type="range"
@@ -412,7 +425,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             this.setState(
                               {
                                 isFilterApplied: true,
-                                marginFilter: parseInt(value,10),
+                                marginFilter: parseInt(value, 10),
                               },
                               () => {
                                 this.updateFilters();
@@ -420,6 +433,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             );
                           }, 500);
                         }}
+                        value={this.state.marginFilter}
                         min="0"
                         max="100"
                         type="range"
@@ -447,7 +461,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             this.setState(
                               {
                                 isFilterApplied: true,
-                                unitsPerMonth: parseInt(value,10),
+                                unitsPerMonth: parseInt(value, 10),
                               },
                               () => {
                                 this.updateFilters();
@@ -455,6 +469,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             );
                           }, 500);
                         }}
+                        value={this.state.unitsPerMonth}
                         min="0"
                         max="100"
                         type="range"
@@ -482,7 +497,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             this.setState(
                               {
                                 isFilterApplied: true,
-                                ROIFilter: parseInt(value,10),
+                                ROIFilter: parseInt(value, 10),
                               },
                               () => {
                                 this.updateFilters();
@@ -490,6 +505,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             );
                           }, 500);
                         }}
+                        value={this.state.ROIFilter}
                         min="0"
                         max="100"
                         type="range"
