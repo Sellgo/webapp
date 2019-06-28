@@ -18,7 +18,7 @@ import {
   Popup,
   Modal,
   TextArea,
-  Card,
+  Card, Label,
   Feed,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -135,7 +135,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </Grid>
                 </Table.Cell>
                 <Table.Cell>
-                  {this.renderAddNewSupplierModal(value)}
+                  {this.productDetailView(value)}
                 </Table.Cell>
                 <Table.Cell>
                   {value.roi}
@@ -189,46 +189,151 @@ export class SupplierDetail extends React.Component<Props, State> {
       </Table>
     );
   };
-  renderAddNewSupplierModal = (product: Product) => {
+  productDetailView = (product: Product) => {
     return (
       <Modal size={'large'} closeIcon={true} trigger={
         <Button basic style={{ borderRadius: 20 }} color='blue'>
           View
         </Button>
       }>
-        <Modal.Header>
-          <Grid>
+        <Modal.Content>
+          <Grid >
             <Grid.Column floated="left" width={14}>
-              <Grid>
+              <Grid style={{ height: 40 }}>
                 <Grid.Column floated="left" width={10}>
-                  {'product.Title' + ' and ' + 'product.Description'}
+                  <h2>
+                    {'product.Title' + ' and ' + 'product.Description'}
+                  </h2>
                 </Grid.Column>
-                <Grid.Column floated="left" width={2}>
+                <Grid.Column width={2}>
                   {'short Details'}
                 </Grid.Column>
               </Grid>
               <Divider/>
-              <Grid>
-                <Grid.Column floated="left" width={2}>
-                  {'short Details'}
+              <Grid style={{ margin: 0 }}>
+                <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
+                  <Grid.Row>
+                    Price
+                  </Grid.Row>
+                  <Grid.Row>
+                    Fees
+                  </Grid.Row>
+                  <Grid.Row>
+                    Product cost
+                  </Grid.Row>
+                  <Grid.Row>
+                    Inbound shipping cost
+                  </Grid.Row>
+                  <Grid.Row>
+                    Outbound shipping cost
+                  </Grid.Row>
+                  <Grid.Row>
+                    <h4>
+                      Profit
+                    </h4>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <h4>
+                      Margin
+                    </h4>
+                  </Grid.Row>
                 </Grid.Column>
                 <Grid.Column floated="left" width={2}>
-                  {'short Details'}
+                  <Grid.Row>
+                    Price
+                  </Grid.Row>
+                  <Grid.Row>
+                    Fees
+                  </Grid.Row>
+                  <Grid.Row>
+                    PCost
+                  </Grid.Row>
+                  <Grid.Row>
+                    ISCost
+                  </Grid.Row>
+                  <Grid.Row>
+                    OScost
+                  </Grid.Row>
+                  <Grid.Row>
+                    <h4>
+                      Profit
+                    </h4>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <h4>
+                      Margin
+                    </h4>
+                  </Grid.Row>
                 </Grid.Column>
-                <Grid.Column floated="left" width={2}>
-                  {'short Details'}
+                <Grid.Column floated="left" width={4}>
+                  <Grid.Row>
+                    Avg Monthly sales
+                  </Grid.Row>
+                  <Grid.Row>
+                    Avg monthly revnue
+                  </Grid.Row>
+                  <Grid.Row>
+                    Avg monthly profit
+                  </Grid.Row>
+                  <Grid.Row/>
+                  <br/>
+                  <Grid.Row/>
+                  <br/>
+                  <Grid.Row>
+                    <h4>
+                      ROI/ Return on Investment
+                    </h4>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <h4>
+                      ROII/ ROI Inventory
+                    </h4>
+                  </Grid.Row>
                 </Grid.Column>
-                <Grid.Column floated="left" width={2}>
-                  {'short Details'}
+                <Grid.Column floated="left" width={4}>
+                  <Grid.Row>
+                    moSales
+                  </Grid.Row>
+                  <Grid.Row>
+                    moRev
+                  </Grid.Row>
+                  <Grid.Row>
+                    moProf
+                  </Grid.Row>
+                  <Grid.Row/>
+                  <br/>
+                  <Grid.Row/>
+                  <br/>
+                  <Grid.Row>
+                    <h4>
+                      synMar
+                    </h4>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <h4>
+                      synMar
+                    </h4>
+                  </Grid.Row>
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            <Grid.Column floated="right" width={2}>
-              Image link and ASIN
+            <Grid.Column floated="right" width={2} >
+              <Image src={new URL('http://localhost:3000/images/intro.png')} size='mini'  style={{display:'inline-block'}}/>
+              <Icon name='amazon' style={{ color: 'black' }}/>
+              <p>
+                {'ASIN'}
+              </p>
+              <p>
+                {'UPC'}
+              </p>
+              <p>
+                {'MSKU'}
+              </p>
+              <p>
+                {'FNSKU'}
+              </p>
             </Grid.Column>
           </Grid>
-        </Modal.Header>
-        <Modal.Content>
           CHART HERE
         </Modal.Content>
       </Modal>

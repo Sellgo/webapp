@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URLS, SET_SELLERS, SET_PRODUCTS ,SET_PRODUCT_ATTRIBUTES} from '../constant/constant';
+import { URLS, SET_SELLERS, SET_PRODUCTS, SET_PRODUCT_ATTRIBUTES } from '../constant/constant';
 
 export interface Supplier {
   contact: string;
@@ -59,6 +59,10 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
   // const userID = localStorage.getItem('userId');
   const supplier = URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data/';
   console.log(supplier);
+
+
+
+
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data/',
@@ -66,25 +70,39 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      console.log(json.data);
-      for (let dataObject of json.data) {
-        console.log(dataObject.product_id);
-        // getProductAttributes(dataObject.id);
-        // const url = URLS.BASE_URL_API + 'product/' +  dataObject.product_id + '/attribute/';
-        // console.log(url);
-        // return axios({
-        //   method: 'get',
-        //   url: URLS.BASE_URL_API + 'product/' + dataObject.product_id + '/attribute/',
-        //   headers,
-        // })
-        //   .then(json => {
-        //     console.log(JSON.stringify(json.data));
-        //     // dispatch(setProductAttributes(json.data));
-        //     // return json.data;
-        //   })
-        //   .catch(error => {
-        //   });
-      }
+      console.log(JSON.stringify(json.data));
+
+      // axios({
+      //   method: 'get',
+      //   url: URLS.BASE_URL_API + 'attribute/',
+      //   headers,
+      // })
+      //   .then(json => {
+      //     console.log(JSON.stringify(json.data));
+      //     // dispatch(setProductAttributes(json.data));
+      //     // return json.data;
+      //   })
+      //   .catch(error => {
+      //   });
+
+      // for (let dataObject of json.data) {
+      //   console.log(dataObject.product_id);
+      // getProductAttributes(dataObject.id);
+      // const url = URLS.BASE_URL_API + 'product/' +  dataObject.product_id + '/attribute/';
+      // console.log(url);
+      // return axios({
+      //   method: 'get',
+      //   url: URLS.BASE_URL_API + 'product/' + dataObject.product_id + '/attribute/',
+      //   headers,
+      // })
+      //   .then(json => {
+      //     console.log(JSON.stringify(json.data));
+      //     // dispatch(setProductAttributes(json.data));
+      //     // return json.data;
+      //   })
+      //   .catch(error => {
+      //   });
+      // }
       dispatch(setProducts(json.data));
       // return json.data;
     })
