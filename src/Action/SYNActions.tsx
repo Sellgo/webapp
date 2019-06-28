@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URLS, SET_SELLERS, SET_PRODUCTS, SET_PRODUCT_ATTRIBUTES } from '../constant/constant';
+import { URLS, SET_SELLERS, SET_PRODUCTS, SET_PRODUCT_ATTRIBUTES, SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION } from '../constant/constant';
 
 export interface Supplier {
   contact: string;
@@ -19,6 +19,7 @@ export interface Supplier {
   upcharge_fee: string;
   website: string;
   xid: string;
+  new_supplier_id: string;
 }
 
 export interface Product {
@@ -49,6 +50,29 @@ export const getSellers = () => (dispatch: any) => {
     .then(json => {
       console.log(json.data);
       dispatch(setSellers(json.data));
+      // return json.data;
+    })
+    .catch(error => {
+    });
+};
+
+export const saveSupplierNameAndDescription = (name: string, description: string) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  console.log(name);
+  return axios({
+    method: 'POST',
+    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
+    url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+    data: {
+      name: name,
+      description: description,
+      supplier_group_id: 1
+    },
+    headers,
+  })
+    .then(json => {
+      console.log(json.data.id);
+      dispatch(setsaveSupplierNameAndDescription({ new_supplier_id: json.data.id }));
       // return json.data;
     })
     .catch(error => {
@@ -160,5 +184,9 @@ export const setProducts = (data: {}) => ({
 });
 export const setProductAttributes = (data: {}) => ({
   type: SET_PRODUCT_ATTRIBUTES,
+  data,
+});
+export const setsaveSupplierNameAndDescription = (data: {}) => ({
+  type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   data,
 });

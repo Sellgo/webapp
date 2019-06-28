@@ -27,24 +27,30 @@ import './suppliers.css';
 import history from '../../../history';
 import { Link } from 'react-router-dom';
 
-import { getSellers, Supplier } from '../../../Action/SYNActions';
+import { getSellers, Supplier, saveSupplierNameAndDescription } from '../../../Action/SYNActions';
 
 interface State {
   isOpen: boolean;
   size: string;
   modalOpen: boolean;
+  supplier_name: string;
+  supplier_description: string;
 }
 
 interface Props {
   getSellers(): () => void;
+  saveSupplierNameAndDescription(name: string, description: string): () => void;
   suppliers: Supplier[];
 }
 
 export class Suppliers extends React.Component<Props, State> {
-  state = {
+  state: State = {
     isOpen: false,
     size: '',
-    modalOpen: false
+    modalOpen: false,
+    supplier_name: "",
+    supplier_description: "",
+
   };
   message = {
     id: 1,
@@ -72,7 +78,7 @@ export class Suppliers extends React.Component<Props, State> {
     });
   };
 
-  fileChange = (e: any) => {
+  fileChange = (e: any): void => {
     console.log("this.props: ", this.props);
     console.log('e: ', e);
     // this.setState({ file: e.target.files[0] }, () => {
@@ -80,8 +86,10 @@ export class Suppliers extends React.Component<Props, State> {
     // });
   };
 
-  addNewSupplier() {
-    console.log("addNewSupplier()");
+  addNewSupplier = (): void => {
+    console.log(this.props);
+    this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description);
+    // console.log("addNewSupplier()", this.state.supplier_name, " ", this.state.supplier_description);
     // this.setState({ modalOpen: false });
   }
 
@@ -122,7 +130,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Supplier Name*
               </Grid.Column>
               <Grid.Column width={8} floated="left">
-                <Input style={{ width: 300 }} placeholder="question circle" />
+                <Input value={this.state.supplier_name} onChange={(event) => { this.setState({ supplier_name: event.target.value }) }} style={{ width: 300 }} placeholder="question circle" />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -131,7 +139,7 @@ export class Suppliers extends React.Component<Props, State> {
               </Grid.Column>
               <Grid.Column width={9} floated="left">
                 <Form>
-                  <TextArea style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
+                  <TextArea value={this.state.supplier_description} onChange={(event) => { this.setState({ supplier_description: (event.target as HTMLTextAreaElement).value }) }} style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
                     placeholder="Write your latest update here" />
                 </Form>
               </Grid.Column>
@@ -400,6 +408,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description))
   };
 };
 

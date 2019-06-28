@@ -3,6 +3,7 @@ import {
   SET_PRODUCT_ATTRIBUTES,
   SET_PRODUCTS,
   SET_SELLERS,
+  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION
 } from '../constant/constant';
 
 const initialState = Map({
@@ -28,6 +29,10 @@ export const SYNReducer = (state = initialState, action: any) => {
       // console.log('STATE UPDATED');
       // console.log(set_Product_Attribute);
       return state;
+    case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
+      state.setIn(['suppliers'], action.data);
+      return state;
+    // return newStateData;
     default:
       return state;
   }
