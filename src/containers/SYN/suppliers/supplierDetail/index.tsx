@@ -26,7 +26,14 @@ import './supplierDetail.css';
 
 import { Link } from 'react-router-dom';
 
-import { getProducts, getSellers, trackProduct, Product, Supplier,getProductAttributes } from '../../../../Action/SYNActions';
+import {
+  getProducts,
+  getSellers,
+  trackProduct,
+  Product,
+  Supplier,
+  getProductAttributes,
+} from '../../../../Action/SYNActions';
 
 interface State {
   isOpen: boolean;
@@ -34,6 +41,7 @@ interface State {
 
 interface Props {
   getProducts(supplierID: string): () => void;
+
   getProductAttributes(productID: string): () => void;
 
   trackProduct(productID: string, productTrackGroupID: string): () => void;
@@ -62,8 +70,9 @@ export class SupplierDetail extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
-      this.refetchProducts();
+    this.refetchProducts();
   }
+
   refetchProducts = () => {
     this.props.getProducts(this.props.match.params.supplierID);
   };
@@ -126,9 +135,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </Grid>
                 </Table.Cell>
                 <Table.Cell>
-                  <Button basic style={{ borderRadius: 20 }} color='blue'>
-                    View
-                  </Button>
+                  {this.renderAddNewSupplierModal(value)}
                 </Table.Cell>
                 <Table.Cell>
                   {value.roi}
@@ -144,7 +151,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Table.Cell>
                 <Table.Cell>
                   <Button basic style={{ borderRadius: 20 }} color='blue' onClick={() => {
-                    this.props.trackProduct(value.id,"2")
+                    this.props.trackProduct(value.id, '2');
                   }}>
                     Track Now
                   </Button>
@@ -182,6 +189,52 @@ export class SupplierDetail extends React.Component<Props, State> {
       </Table>
     );
   };
+  renderAddNewSupplierModal = (product: Product) => {
+    return (
+      <Modal size={'large'} closeIcon={true} trigger={
+        <Button basic style={{ borderRadius: 20 }} color='blue'>
+          View
+        </Button>
+      }>
+        <Modal.Header>
+          <Grid>
+            <Grid.Column floated="left" width={14}>
+              <Grid>
+                <Grid.Column floated="left" width={10}>
+                  {'product.Title' + ' and ' + 'product.Description'}
+                </Grid.Column>
+                <Grid.Column floated="left" width={2}>
+                  {'short Details'}
+                </Grid.Column>
+              </Grid>
+              <Divider/>
+              <Grid>
+                <Grid.Column floated="left" width={2}>
+                  {'short Details'}
+                </Grid.Column>
+                <Grid.Column floated="left" width={2}>
+                  {'short Details'}
+                </Grid.Column>
+                <Grid.Column floated="left" width={2}>
+                  {'short Details'}
+                </Grid.Column>
+                <Grid.Column floated="left" width={2}>
+                  {'short Details'}
+                </Grid.Column>
+              </Grid>
+            </Grid.Column>
+            <Grid.Column floated="right" width={2}>
+              Image link and ASIN
+            </Grid.Column>
+          </Grid>
+        </Modal.Header>
+        <Modal.Content>
+          CHART HERE
+        </Modal.Content>
+      </Modal>
+    );
+  };
+
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
