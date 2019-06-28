@@ -94,7 +94,7 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      console.log(JSON.stringify(json.data));
+      console.log(json.data);
 
       // axios({
       //   method: 'get',
