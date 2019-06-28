@@ -24,7 +24,7 @@ import { connect } from 'react-redux';
 // import { Modals } from '../../../components/Modals';
 // import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 import './suppliers.css';
-
+import history from '../../../history';
 import { Link } from 'react-router-dom';
 
 import { getSellers, Supplier } from '../../../Action/SYNActions';
@@ -35,6 +35,7 @@ interface State {
 
 interface Props {
   getSellers(): () => void;
+
   suppliers: Supplier[];
 }
 
@@ -70,7 +71,7 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   fileChange = (e: any) => {
-    console.log("e: ", e);
+    console.log('e: ', e);
     // this.setState({ file: e.target.files[0] }, () => {
     //   console.log("File chosen --->", this.state.file);
     // });
@@ -78,7 +79,7 @@ export class Suppliers extends React.Component<Props, State> {
 
   renderAddNewSupplierModal = () => {
     return (
-      <Modal size={"tiny"} closeIcon={true} trigger={
+      <Modal size={'tiny'} closeIcon={true} trigger={
         <Button
           basic color='black'
           primary={true}
@@ -92,7 +93,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Add New Supplier
               </Grid.Column>
               <Grid.Column style={{ padding: 0 }} floated="left">
-                <Icon name="file" />
+                <Icon name="file"/>
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -102,27 +103,28 @@ export class Suppliers extends React.Component<Props, State> {
             <Grid.Row>
               <Grid.Column>
                 Supplier Name*
-                </Grid.Column>
+              </Grid.Column>
               <Grid.Column width={8} floated="left">
-                <Input style={{ width: 300 }} placeholder="question circle" />
+                <Input style={{ width: 300 }} placeholder="question circle"/>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column>
                 Description
-                </Grid.Column>
+              </Grid.Column>
               <Grid.Column width={9} floated="left">
                 <Form>
-                  <TextArea style={{ minHeight: 100, width: 300, margin: "5px 0", padding: "9px" }} placeholder="Write your latest update here" />
+                  <TextArea style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
+                            placeholder="Write your latest update here"/>
                 </Form>
               </Grid.Column>
               <Grid.Column width={1} floated="left">
-                <Icon name="pencil" />
+                <Icon name="pencil"/>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column style={{ marginTop: "10px", marginBottom: "10px" }} floated="right" width={9}>
-                <Checkbox />
+              <Grid.Column style={{ marginTop: '10px', marginBottom: '10px' }} floated="right" width={9}>
+                <Checkbox/>
                 &nbsp;
                 Automatically upload upon exit
               </Grid.Column>
@@ -162,23 +164,44 @@ export class Suppliers extends React.Component<Props, State> {
             onChange={this.fileChange}
           />
           <Popup
-            trigger={<Icon name="question circle" circular />}
+            trigger={<Icon name="question circle" circular/>}
             content='Sellgo'
             position='top left'
             size='tiny'
           />
         </Modal.Actions>
-      </Modal >
+      </Modal>
     );
   };
   renderTable = () => {
     const suppliers = [...this.props.suppliers];
+    // const x: Supplier = {
+    //   name: 'Name',
+    //   item_active_count: 20,
+    //   contact: 'test',
+    //   description: 'description',
+    //   email: 'Long email',
+    //   seller_id: 'sellerID',
+    //   timezone: 'timezone',
+    //   status: 'Active',
+    //   freight_fee: '200',
+    //   id: 12,
+    //   item_total_count: 200,
+    //   phone: '2000000',
+    //   rate: '200',
+    //   supplier_group_id: 300,
+    //   upcharge_fee: '20000',
+    //   website: 'google.com',
+    //   xid: '123123',
+    // };
+    // suppliers.push(x);
+
     return (
       <Table basic='very'>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <Checkbox />
+              <Checkbox/>
             </Table.HeaderCell>
             <Table.HeaderCell>
               Supplier Name
@@ -194,27 +217,10 @@ export class Suppliers extends React.Component<Props, State> {
 
         <Table.Body>
           {suppliers.map((value: Supplier, index) => {
-            // contact: string;
-            // description: string;
-            // email: string;
-            // freight_fee: string;
-            // id: any;
-            // item_active_count: any;
-            // item_total_count: any;
-            // name: string;
-            // phone: string;
-            // rate: string;
-            // seller_id: any;
-            // status: string;
-            // supplier_group_id: any;
-            // timezone: string;
-            // upcharge_fee: string;
-            // website: string;
-            // xid: string;
             return (
               <Table.Row key={value.id}>
                 <Table.Cell>
-                  <Checkbox />
+                  <Checkbox/>
                 </Table.Cell>
                 <Table.Cell>
                   <Table.Cell as={Link} to={`/syn/${value.id}`}>
@@ -224,13 +230,19 @@ export class Suppliers extends React.Component<Props, State> {
                 <Table.Cell>{value.status}</Table.Cell>
                 <Table.Cell>
                   <Dropdown text='SYN'
-                    fluid
-                    selection
-                    options={[{
-                      key: 'SYN',
-                      text: 'SYN',
-                      value: 'SYN',
-                    }]}>
+                            fluid
+                            selection
+                            options={[{
+                              key: 'SYN',
+                              text: 'SYN',
+                              value: 'SYN',
+                            }]}
+                            onChange={(e, data) => {
+                              console.log(data);
+                              if (data.value === 'SYN') {
+                                history.push(`/syn/${value.id}`);
+                              }
+                            }}>
                   </Dropdown>
                 </Table.Cell>
                 <Table.Cell>
@@ -238,20 +250,20 @@ export class Suppliers extends React.Component<Props, State> {
                 </Table.Cell>
                 <Table.Cell>{value.rate}</Table.Cell>
                 <Table.Cell>
-                  <Input focus placeholder='Note' />
+                  <Input focus placeholder='Note'/>
                 </Table.Cell>
                 <Table.Cell>
-                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                    <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
-                  </Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
-                    <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
+                  <Table.Cell as={Link} to={`/syn/`}>
+                    <Icon name='cloud upload' style={{ color: 'black' }}/>&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                    <Icon name='pencil' style={{ color: 'black' }} />&nbsp;
+                    <Icon name='refresh' style={{ color: 'black' }}/>&nbsp;
+                  </Table.Cell>
+                  <Table.Cell as={Link} to={`/syn/`}>
+                    <Icon name='pencil' style={{ color: 'black' }}/>&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
-                    <Icon name='trash alternate' style={{ color: 'black' }} />
+                    <Icon name='trash alternate' style={{ color: 'black' }}/>
                     {/*{this.renderDeleteModal(value, index)}*/}
                   </Table.Cell>
                 </Table.Cell>
@@ -264,14 +276,14 @@ export class Suppliers extends React.Component<Props, State> {
             <Table.HeaderCell colSpan='3'>
               <Menu floated='right' pagination>
                 <Menu.Item as='a' icon>
-                  <Icon name='chevron left' />
+                  <Icon name='chevron left'/>
                 </Menu.Item>
                 <Menu.Item as='a'>1</Menu.Item>
                 <Menu.Item as='a'>2</Menu.Item>
                 <Menu.Item as='a'>3</Menu.Item>
                 <Menu.Item as='a'>4</Menu.Item>
                 <Menu.Item as='a' icon>
-                  <Icon name='chevron right' />
+                  <Icon name='chevron right'/>
                 </Menu.Item>
               </Menu>
             </Table.HeaderCell>
@@ -283,7 +295,7 @@ export class Suppliers extends React.Component<Props, State> {
   renderDeleteModal = (value: Supplier, index: any) => {
     return (
       <Modal trigger={
-        <Icon name='trash alternate' style={{ color: 'black' }} />
+        <Icon name='trash alternate' style={{ color: 'black' }}/>
       } onClose={this.close}>
         <Modal.Header>Delete Your Account</Modal.Header>
         <Modal.Content>
@@ -291,8 +303,8 @@ export class Suppliers extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative>No</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
-          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
+          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
         </Modal.Actions>
       </Modal>
     );
@@ -304,13 +316,13 @@ export class Suppliers extends React.Component<Props, State> {
     return (
       <Segment basic={true} className="setting">
 
-        <Divider />
+        <Divider/>
 
         <Grid>
           <Grid.Column width={5} floated='left' className={'middle aligned'}>
             {this.renderAddNewSupplierModal()}
             <Popup
-              trigger={<Icon name='question circle' circular />}
+              trigger={<Icon name='question circle' circular/>}
               content='Sellgo'
               position='top left'
               size='tiny'
