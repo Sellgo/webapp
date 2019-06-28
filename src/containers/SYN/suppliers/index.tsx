@@ -1,14 +1,10 @@
 import * as React from 'react';
 import {
   Button,
-  Container,
   Divider,
   Form,
   Grid,
-  Header,
-  Image,
   Segment,
-  Select,
   Table,
   Checkbox,
   Dropdown,
@@ -27,7 +23,7 @@ import './suppliers.css';
 import history from '../../../history';
 import { Link } from 'react-router-dom';
 
-import { getSellers, Supplier, saveSupplierNameAndDescription } from '../../../Action/SYNActions';
+import { getSellers, Supplier, saveSupplierNameAndDescription, New_Supplier, uploadCSV } from '../../../Action/SYNActions';
 
 interface State {
   isOpen: boolean;
@@ -35,12 +31,15 @@ interface State {
   modalOpen: boolean;
   supplier_name: string;
   supplier_description: string;
+  file: any;
 }
 
 interface Props {
   getSellers(): () => void;
   saveSupplierNameAndDescription(name: string, description: string): () => void;
+  uploadCSV(new_supplier_id: string, file: any): () => void;
   suppliers: Supplier[];
+  new_supplier_id: New_Supplier;
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -50,7 +49,7 @@ export class Suppliers extends React.Component<Props, State> {
     modalOpen: false,
     supplier_name: "",
     supplier_description: "",
-
+    file: ""
   };
   message = {
     id: 1,
@@ -71,6 +70,14 @@ export class Suppliers extends React.Component<Props, State> {
     this.props.getSellers();
   }
 
+  componentDidUpdate(prevProps: any) {
+    if (this.props.new_supplier_id !== prevProps.new_supplier_id) {
+      const formData = new FormData();
+      formData.append("file", this.state.file);
+      this.props.uploadCSV(String(this.props.new_supplier_id), formData);
+    }
+  }
+
   handleModel = () => {
     const { isOpen } = this.state;
     this.setState({
@@ -79,15 +86,13 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   fileChange = (e: any): void => {
-    console.log("this.props: ", this.props);
-    console.log('e: ', e);
-    // this.setState({ file: e.target.files[0] }, () => {
-    //   console.log("File chosen --->", this.state.file);
-    // });
+    this.setState({ file: e.target.files[0] }, () => {
+      console.log("File chosen --->", this.state.file);
+    });
   };
 
   addNewSupplier = (): void => {
-    console.log(this.props);
+    // console.log(this.props);
     this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description);
     // console.log("addNewSupplier()", this.state.supplier_name, " ", this.state.supplier_description);
     // this.setState({ modalOpen: false });
@@ -107,7 +112,8 @@ export class Suppliers extends React.Component<Props, State> {
             basic color='black'
             primary={true}
             style={{ borderRadius: '50px' }}
-            onClick={this.handleOpen}>
+            onClick={this.handleOpen}
+          >
             Add New Supplier
         </Button>
         }>
@@ -171,6 +177,7 @@ export class Suppliers extends React.Component<Props, State> {
             basic
             floated="left"
             color="blue"
+            disabled={((this.state.supplier_name == "") ? true : false)}
             style={{ borderRadius: 20 }}
             onClick={this.addNewSupplier}
             content="Save"
@@ -401,14 +408,17 @@ export class Suppliers extends React.Component<Props, State> {
 //     suppliers: state.synReducer.get('suppliers'),
 //   });
 // };
+
 const mapStateToProps = (state: any) => ({
   suppliers: state.synReducer.get('suppliers'),
+  new_supplier_id: state.synReducer.get("new_supplier")
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
-    saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description))
+    saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description)),
+    uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),
   };
 };
 

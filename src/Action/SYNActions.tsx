@@ -19,7 +19,10 @@ export interface Supplier {
   upcharge_fee: string;
   website: string;
   xid: string;
-  new_supplier_id: string;
+}
+
+export interface New_Supplier {
+  new_supplier_id: any;
 }
 
 export interface Product {
@@ -37,6 +40,11 @@ const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': 'application/json',
 };
+
+const headers_file = {
+  Authorization: `Bearer ${localStorage.getItem('idToken')}`,
+  "Content-type": "multipart/form-data"
+}
 
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
@@ -72,7 +80,29 @@ export const saveSupplierNameAndDescription = (name: string, description: string
   })
     .then(json => {
       console.log(json.data.id);
-      dispatch(setsaveSupplierNameAndDescription({ new_supplier_id: json.data.id }));
+      dispatch(setsaveSupplierNameAndDescription(json.data));
+      // return json.data;
+    })
+    .catch(error => {
+    });
+};
+
+export const uploadCSV = (new_supplier_id: string, file: FormData) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  return axios({
+    method: 'POST',
+    url: URLS.BASE_URL_API + `supplier/${new_supplier_id}/synthesis/upload/`,
+    // url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+    data: {
+      // seller_id: sellerID,
+      seller_id: '1000000052',
+      file: file
+    },
+    headers 
+  })
+    .then(json => {
+      console.log(json.data);
+      // dispatch(setsaveSupplierNameAndDescription(json.data));
       // return json.data;
     })
     .catch(error => {
@@ -83,9 +113,6 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
   // const userID = localStorage.getItem('userId');
   const supplier = URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data/';
   console.log(supplier);
-
-
-
 
   return axios({
     method: 'get',
@@ -133,6 +160,7 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     .catch(error => {
     });
 };
+
 export const getProductAttributes = (productID: string) => (dispatch: any) => {
   // api/product/3000000065/attribute/
   const url = URLS.BASE_URL_API + 'product/' + productID + '/attribute/';
@@ -150,6 +178,7 @@ export const getProductAttributes = (productID: string) => (dispatch: any) => {
     .catch(error => {
     });
 };
+
 export const trackProduct = (productID: string, productTrackGroupID: string) => (dispatch: any) => {
   // api/seller/(?P<seller_id>[0-9]+)/track/product/
   const sellerID = localStorage.getItem('userId');
@@ -182,10 +211,12 @@ export const setProducts = (data: {}) => ({
   type: SET_PRODUCTS,
   data,
 });
+
 export const setProductAttributes = (data: {}) => ({
   type: SET_PRODUCT_ATTRIBUTES,
   data,
 });
+
 export const setsaveSupplierNameAndDescription = (data: {}) => ({
   type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   data,

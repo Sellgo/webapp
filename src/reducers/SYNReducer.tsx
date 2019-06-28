@@ -9,6 +9,7 @@ import {
 const initialState = Map({
   suppliers: [],
   products: [],
+  new_supplier: null
 });
 
 export const SYNReducer = (state = initialState, action: any) => {
@@ -18,20 +19,18 @@ export const SYNReducer = (state = initialState, action: any) => {
       const newState = state.setIn(['suppliers'], data);
       return newState;
     case SET_PRODUCTS:
-      // console.log('ActionData');
-      // console.log(action.data);
       const newStateData = state.setIn(['products'], action.data);
-      // console.log('STATE UPDATED');
-      // console.log(newStateData);
       return newStateData;
     case SET_PRODUCT_ATTRIBUTES:
       const set_Product_Attribute = state.setIn(['products'], action.data);
-      // console.log('STATE UPDATED');
-      // console.log(set_Product_Attribute);
       return state;
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
-      state.setIn(['suppliers'], action.data);
-      return state;
+      console.log("action: ", action);
+      const data_NAME_DESC = action;
+      const new_supplier = state.setIn(['new_supplier'], action.data.id);
+      return new_supplier;
+    // state.setIn(['suppliers'], action.data);
+    // return state;
     // return newStateData;
     default:
       return state;
