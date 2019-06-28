@@ -39,10 +39,11 @@ const headers = {
 
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
+  console.log(sellerID);
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
-    // url: URLS.BASE_URL_API + 'seller/1000000001/supplier/',
+    // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
+    url: URLS.BASE_URL_API + 'seller/1000000052/supplier/',
     headers,
   })
     .then(json => {
@@ -61,6 +62,7 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data/',
+    // url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data/',
     headers,
   })
     .then(json => {
