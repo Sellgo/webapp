@@ -19,6 +19,7 @@ export interface SellField {
   auth0_user_id: string;
   firstName?: string;
   lastName?: string;
+  cdate?: string;
 }
 
 export interface MWSinfo {
@@ -65,10 +66,6 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
 export const getBasicInfoSeller = () => (dispatch: any) => {
   const userId = localStorage.getItem('userId');
   const email = localStorage.getItem('userEmail');
-  const userName = localStorage.getItem('userName');
-  dispatch(setBasicInfoSeller({ key: 'email', value: email }));
-  dispatch(setBasicInfoSeller({ key: 'firstName', value: userName }));
-
   const url = `?email=${email}`;
 
   return axios({
@@ -77,7 +74,7 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch(setBasicInfoSeller({ key: 'id', value: userId }));
+      dispatch(_getBasicInfoSeller(json.data));
       return json.data;
     })
     .catch(error => {});
@@ -113,6 +110,10 @@ export const updateamazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
     .catch(error => {})
 };
 
+export  const _getBasicInfoSeller = ( data: any ) =>({
+  type: GET_BASIC_INFO_SELLER,
+  data,
+})
 
 export const setBasicInfoSeller = (data: Field) => ({
   type: SET_BASIC_INFO_SELLER,
