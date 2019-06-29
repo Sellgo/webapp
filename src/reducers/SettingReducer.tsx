@@ -49,14 +49,15 @@ export const SettingReducer = (state = initialState, action: any) => {
       newState = state.setIn(['success'], data.value);
       return newState;
     case GET_BASIC_INFO_SELLER:
-    const {name, cdate, id, email, auth0_user_id}  = action.data ;
-    const fullName = name.split(' ');
+       const {name, cdate, id, email, auth0_user_id}  = action.data ;
+      const firstName =  name ? name.substr(0,name.indexOf(' ')) : '';
+      const lastName = name ? name.substr(name.indexOf(' ')+1) : '';
     const sellerData = {
       cdate,
       id,
       email,
-      firstName: fullName[0],
-      lastName:fullName[1],
+      firstName,
+      lastName,
       name: name,
       auth0_user_id,
     };
