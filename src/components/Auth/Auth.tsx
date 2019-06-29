@@ -37,9 +37,7 @@ export default class Auth {
         const data = response.data[0] ? response.data[0] : response.data;
         localStorage.setItem('userEmail', this.userProfile.name);
         if(data) {
-          localStorage.setItem('userData',JSON.stringify(data));
           localStorage.setItem('userId', data.id);
-          localStorage.setItem('userName', data.Name);
           localStorage.setItem('cDate', data.cdate);
         }
       })

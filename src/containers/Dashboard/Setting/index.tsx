@@ -150,7 +150,9 @@ class Setting extends React.Component<Props, State> {
   }
 
   render() {
-    let memberDate = moment(localStorage.getItem('cDate') || '').format('MMM DD YYYY');
+    const { cdate } = this.props.sellerData;
+
+    let memberDate = moment( cdate || moment()).format('MMM DD YYYY') ;
     const { isOpen } = this.state;
     const marketPlaceoptions = new Array();
     marketPlace.map((opt, key) => {
