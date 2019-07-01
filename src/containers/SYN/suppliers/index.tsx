@@ -74,7 +74,8 @@ export class Suppliers extends React.Component<Props, State> {
     if (this.props.new_supplier_id !== prevProps.new_supplier_id) {
       const formData = new FormData();
       formData.append("file", this.state.file);
-      this.props.uploadCSV(String(this.props.new_supplier_id), formData);
+      console.log("formData: ", formData);
+      this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
     }
   }
 
@@ -256,7 +257,7 @@ export class Suppliers extends React.Component<Props, State> {
                 <Table.Cell>
                   <Checkbox />
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell style={{ width: "350px" }}>
                   <Table.Cell as={Link} to={`/syn/${value.id}`}>
                     {value.name}
                   </Table.Cell>
@@ -286,7 +287,7 @@ export class Suppliers extends React.Component<Props, State> {
                 <Table.Cell>
                   <Input focus placeholder='Note' />
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell style={{ paddingRight: "10px" }}>
                   <Table.Cell as={Link} to={`/syn/`}>
                     <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>

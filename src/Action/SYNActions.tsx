@@ -43,7 +43,7 @@ const headers = {
 
 const headers_file = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-  "Content-type": "multipart/form-data"
+  'Content-Type': `multipart/form-data`
 }
 
 export const getSellers = () => (dispatch: any) => {
@@ -87,7 +87,11 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     });
 };
 
-export const uploadCSV = (new_supplier_id: string, file: FormData) => (dispatch: any) => {
+export const uploadCSV = (new_supplier_id: string, file: string) => (dispatch: any) => {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('idToken')}`,
+    'Content-Type': `multipart/form-data`
+  };
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'POST',
