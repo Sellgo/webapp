@@ -3,9 +3,9 @@ import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
   GET_BASIC_INFO_SELLER,
-  SET_AMAZONE_MWS,
+  SET_AMAZON_MWS,
 } from '../constant/constant';
-import {  URLS } from '../config';
+import { URLS } from '../config';
 
 export interface Field {
   key: string;
@@ -34,28 +34,27 @@ const headers = {
 };
 
 export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
-
-  let form_data = new FormData();
-  form_data.append('name', data.name);
-  form_data.append('id', data.id);
-  form_data.append('email', data.email);
-  form_data.append('auth0_user_id', data.auth0_user_id);
+  const formData = new FormData();
+  formData.append('name', data.name);
+  formData.append('id', data.id);
+  formData.append('email', data.email);
+  formData.append('auth0_user_id', data.auth0_user_id);
 
   return axios({
     method: 'PATCH',
     url: URLS.BASE_URL_API + `seller/`,
-    data: form_data,
+    data: formData,
     headers,
   })
     .then(json => {
-      dispatch(      {
+      dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
-        data:{ key: 'success', value: true },
+        data: { key: 'success', value: true },
       });
       setTimeout(() => {
-        dispatch(      {
+        dispatch({
           type: UPDATE_BASIC_INFO_SELLER,
-          data:{ key: 'success', value: false },
+          data: { key: 'success', value: false },
         });
       }, 1000);
 
@@ -66,14 +65,8 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
 export const getBasicInfoSeller = () => (dispatch: any) => {
   const userId = localStorage.getItem('userId');
   const email = localStorage.getItem('userEmail');
-  const auth0Id =localStorage.getItem('auth0_user_id');
-  let url =''
-  if(email !== '') {
-     url = `?email=${email}`;
-  } else {
-    url = `?auth0_user_id=${auth0Id}`;
-
-  }
+  const auth0Id = localStorage.getItem('auth0_user_id');
+  const url = email !== '' ? `?email=${email}` : `?auth0_user_id=${auth0Id}`;
 
   return axios({
     method: 'get',
@@ -81,53 +74,52 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch(_getBasicInfoSeller(json.data));
+      dispatch(getBasicInfoSellerDispatch(json.data));
       return json.data;
     })
     .catch(error => {});
 };
 
-export const updateamazonMWS = (id: string, data: MWSinfo) => (dispatch: any) => {
-
-  let form_data = new FormData();
-  form_data.append('seller_id', data.seller_id);
-  form_data.append('marketplace_id', data.marketplace_id);
-  form_data.append('token', data.token);
+export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) => {
+  const formData = new FormData();
+  formData.append('seller_id', data.seller_id);
+  formData.append('marketplace_id', data.marketplace_id);
+  formData.append('token', data.token);
 
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `seller/${id}/mws_auth/`,
-    data: form_data,
+    data: formData,
     headers,
   })
     .then(json => {
-      dispatch(      {
+      dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
-        data:{ key: 'success', value: true },
+        data: { key: 'success', value: true },
       });
       setTimeout(() => {
-        dispatch(      {
+        dispatch({
           type: UPDATE_BASIC_INFO_SELLER,
-          data:{ key: 'success', value: false },
+          data: { key: 'success', value: false },
         });
       }, 1000);
 
       return json.data;
     })
-    .catch(error => {})
+    .catch(error => {});
 };
 
-export  const _getBasicInfoSeller = ( data: any ) =>({
+export const getBasicInfoSellerDispatch = (data: any) => ({
   type: GET_BASIC_INFO_SELLER,
   data,
-})
+});
 
 export const setBasicInfoSeller = (data: Field) => ({
   type: SET_BASIC_INFO_SELLER,
   data,
 });
 
-export const setamazonMWS = (data: Field) => ({
-  type: SET_AMAZONE_MWS,
+export const setAmazonMWS = (data: Field) => ({
+  type: SET_AMAZON_MWS,
   data,
 });

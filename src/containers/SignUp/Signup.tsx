@@ -29,9 +29,9 @@ export class SignUp extends React.Component<any, State> {
     });
   };
 
-  handleMessage = () =>{
+  handleMessage = () => {
     this.setState({ isSuccess: !this.state.isSuccess });
-  }
+  };
 
   response = <MesssageComponent message={this.message} handleMessage={this.handleMessage} />;
 

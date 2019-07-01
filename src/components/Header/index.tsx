@@ -44,7 +44,7 @@ export class HeaderBar extends React.Component<any, HeaderBarState> {
             />
             {/* temporary removed*/}
             {/*<Menu.Item>*/}
-              {/*<Button as={Link} style={buttonStyle} to="/login" content="Sign In" />*/}
+            {/*<Button as={Link} style={buttonStyle} to="/login" content="Sign In" />*/}
             {/*</Menu.Item>*/}
             <Menu.Item>
               <Button style={buttonStyle} onClick={this.props.login} content="Sign In" />

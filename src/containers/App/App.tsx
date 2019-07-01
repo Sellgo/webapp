@@ -7,7 +7,7 @@ import Setting from '../Dashboard/Setting';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
 import { ProductTracker } from '../ProductTracker/ProductTracker';
-import  RecoverPass from '../RecoverPass';
+import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
 
 import Auth from '../../components/Auth/Auth';

@@ -24,27 +24,27 @@ export default class Auth {
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
     localStorage.setItem('auth0_user_id', this.userProfile.sub);
-    let form_data = new FormData();
+    const formData = new FormData();
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.userProfile.name)) {
       localStorage.setItem('userEmail', this.userProfile.name);
-      form_data.append('email', this.userProfile.name);
+      formData.append('email', this.userProfile.name);
     } else {
       localStorage.setItem('userEmail', '');
-      // form_data.append('email', '');
+      // formData.append('email', '');
     }
-    form_data.append('auth0_user_id', this.userProfile.sub);
-    form_data.append('name', this.userProfile.nickname);
+    if (this.userProfile.given_name || this.userProfile.family_name) {
+      formData.append('name', `${this.userProfile.given_name} ${this.userProfile.family_name}`);
+    } else {
+      formData.append('name', this.userProfile.nickname);
+    }
+    formData.append('auth0_user_id', this.userProfile.sub);
 
     axios
-      .post(
-        URLS.BASE_URL_API + 'seller/',
-        form_data,
-        { headers }
-      )
+      .post(URLS.BASE_URL_API + 'seller/', formData, { headers })
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
-        if(data) {
+        if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
         }

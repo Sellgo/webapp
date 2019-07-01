@@ -19,8 +19,8 @@ import {
   setBasicInfoSeller,
   updateBasicInfoSeller,
   getBasicInfoSeller,
-  setamazonMWS,
-  updateamazonMWS,
+  setAmazonMWS,
+  updateAmazonMWS,
   Field,
   SellField,
   MWSinfo,
@@ -33,21 +33,21 @@ interface State {
   isOpen: boolean;
 }
 
-type marketPlaceType = {
+interface MarketPlaceType {
   name?: string;
   id?: string;
   code?: string;
   link?: string;
-};
+}
 
 interface Props {
   setBasicInfoSeller(data: Field): () => void;
 
-  setamazonMWS(data: Field): () => void;
+  setAmazonMWS(data: Field): () => void;
 
   updateBasicInfoSeller(data: SellField): () => void;
 
-  updateamazonMWS(id: string, data: MWSinfo): () => void;
+  updateAmazonMWS(id: string, data: MWSinfo): () => void;
 
   getBasicInfoSeller(): () => void;
 
@@ -81,21 +81,21 @@ class Setting extends React.Component<Props, State> {
     this.props.updateBasicInfoSeller(data);
   };
 
-  componentWillReceiveProps(props: any){
-    if(props.isUpdate){
+  componentWillReceiveProps(props: any) {
+    if (props.isUpdate) {
       this.handleModel();
     }
   }
 
-  updateamazonMWS = () => {
+  updateAmazonMWS = () => {
     const { id } = this.props.sellerData;
     const { seller_id, marketplace_id, token } = this.props.amazonData;
     const data = {
-      seller_id: seller_id,
-      marketplace_id: marketplace_id,
-      token: token,
+      seller_id,
+      marketplace_id,
+      token,
     };
-    this.props.updateamazonMWS(id, data);
+    this.props.updateAmazonMWS(id, data);
   };
 
   handleModel = () => {
@@ -104,12 +104,14 @@ class Setting extends React.Component<Props, State> {
       isOpen: !isOpen,
     });
   };
-  isSuccessReset = (data : any) => {
+  isSuccessReset = (data: any) => {
     this.message.title = 'Reset Password';
     this.message.message = data.isFailed ? 'Password Reset Failed!' : 'Password Reset Successful!';
-    this.message.description = data.isFailed ? data.errorMgs : 'Please Check Your Email For Further Instruction.';
-    this.handleModel()
-  }
+    this.message.description = data.isFailed
+      ? data.errorMgs
+      : 'Please Check Your Email For Further Instruction.';
+    this.handleModel();
+  };
   setBasicInfoSeller = (e: any) => {
     const data = {
       key: e.target.name,
@@ -117,42 +119,41 @@ class Setting extends React.Component<Props, State> {
     };
     this.props.setBasicInfoSeller(data);
   };
-  setamazonMWS = (e: any) => {
+  setAmazonMWS = (e: any) => {
     const data = {
       key: e.target.name,
       value: e.target.value,
     };
-    this.props.setamazonMWS(data);
+    this.props.setAmazonMWS(data);
   };
 
-  setamazonMWSPlace = (e: any, field: any) => {
+  setAmazonMWSPlace = (e: any, field: any) => {
     const data = {
       key: field.name,
       value: field.value,
     };
-    this.props.setamazonMWS(data);
+    this.props.setAmazonMWS(data);
   };
   getmarketplaceDATA = (id: string) => {
     const data = marketPlace.filter(data => data.id === id);
     return data && data[0];
   };
 
-  showMeHow = (howUrl :string) => {
-    if(howUrl !== '') {
+  showMeHow = (howUrl: string) => {
+    if (howUrl !== '') {
       window.open(howUrl);
     } else {
       this.message.title = 'Failed';
       this.message.message = 'Marketplace Failed';
       this.message.description = 'Please choose a Marketplace.';
-      this.handleModel()
+      this.handleModel();
     }
-
-  }
+  };
 
   render() {
     const { cdate } = this.props.sellerData;
 
-    let memberDate = moment( cdate || moment()).format('MMM DD YYYY') ;
+    const memberDate = moment(cdate || moment()).format('MMM DD YYYY');
     const { isOpen } = this.state;
     const marketPlaceoptions = new Array();
     marketPlace.map((opt, key) => {
@@ -249,7 +250,7 @@ class Setting extends React.Component<Props, State> {
               <Grid>
                 <Grid.Row columns={1}>
                   <Grid.Column width={12}>
-                  <RecoverPass onlyEmail={true} isSuccessReset={this.isSuccessReset} />
+                    <RecoverPass onlyEmail={true} isSuccessReset={this.isSuccessReset} />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -273,7 +274,7 @@ class Setting extends React.Component<Props, State> {
                       options={marketPlaceoptions}
                       placeholder="select"
                       name="marketplace_id"
-                      onChange={this.setamazonMWSPlace}
+                      onChange={this.setAmazonMWSPlace}
                     />
                   </Grid.Column>
                   <Grid.Column width={5} verticalAlign="bottom">
@@ -290,7 +291,7 @@ class Setting extends React.Component<Props, State> {
                       label="Amazon Seller ID"
                       placeholder="Amazon Seller ID"
                       name="seller_id"
-                      onChange={e => this.setamazonMWS(e)}
+                      onChange={e => this.setAmazonMWS(e)}
                     />
                   </Grid.Column>
                   <Grid.Column width={9}>
@@ -298,12 +299,12 @@ class Setting extends React.Component<Props, State> {
                       label="MWS Auth Token"
                       placeholder="MWS Auth Token"
                       name="token"
-                      onChange={e => this.setamazonMWS(e)}
+                      onChange={e => this.setAmazonMWS(e)}
                     />
                     <Button
                       primary={true}
                       content="Add MWS Token"
-                      onClick={this.updateamazonMWS}
+                      onClick={this.updateAmazonMWS}
                       style={{ borderRadius: '50px' }}
                     />
                   </Grid.Column>
@@ -333,9 +334,9 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateBasicInfoSeller: (info: SellField) => dispatch(updateBasicInfoSeller(info)),
-    updateamazonMWS: (id: string, info: MWSinfo) => dispatch(updateamazonMWS(id, info)),
+    updateAmazonMWS: (id: string, info: MWSinfo) => dispatch(updateAmazonMWS(id, info)),
     setBasicInfoSeller: (data: Field) => dispatch(setBasicInfoSeller(data)),
-    setamazonMWS: (data: Field) => dispatch(setamazonMWS(data)),
+    setAmazonMWS: (data: Field) => dispatch(setAmazonMWS(data)),
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
   };
 };
