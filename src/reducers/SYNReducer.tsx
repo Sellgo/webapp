@@ -3,13 +3,26 @@ import {
   SET_PRODUCT_ATTRIBUTES,
   SET_PRODUCTS,
   SET_SELLERS,
-  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION
+  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+  SET_PRODUCT_TRACK_DATA,
+  SET_CHART_VALUES_1,
+  SET_CHART_VALUES_2,
+  SET_Product_Detail,
+  SET_Product_Detail_Chart_Values,
+  SET_Product_Detail_Chart_Values_2,
+
 } from '../constant/constant';
 
 const initialState = Map({
   suppliers: [],
   products: [],
-  new_supplier: null
+  products_track_data: [],
+  new_supplier: null,
+  chart_values_1: [],
+  chart_values_2: [],
+  product_detail: [],
+  product_detail_chart_values: [],
+  product_detail_chart_values_2: []
 });
 
 export const SYNReducer = (state = initialState, action: any) => {
@@ -25,13 +38,26 @@ export const SYNReducer = (state = initialState, action: any) => {
       const set_Product_Attribute = state.setIn(['products'], action.data);
       return state;
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
-      console.log("action: ", action);
-      const data_NAME_DESC = action;
       const new_supplier = state.setIn(['new_supplier'], action.data.id);
       return new_supplier;
-    // state.setIn(['suppliers'], action.data);
-    // return state;
-    // return newStateData;
+    case SET_PRODUCT_TRACK_DATA:
+      const set_product_track_data = state.setIn(['products_track_data'], action.data);
+      return set_product_track_data;
+    case SET_CHART_VALUES_1:
+      const set_chart_values_1 = state.setIn(['chart_values_1'], action.data);
+      return set_chart_values_1;
+    case SET_CHART_VALUES_2:
+      const set_chart_values_2 = state.setIn(['chart_values_2'], action.data);
+      return set_chart_values_2;
+    case SET_Product_Detail:
+      const product_detail = state.setIn(['product_detail'], action.data);
+      return product_detail;
+    case SET_Product_Detail_Chart_Values:
+      const product_detail_chart_values = state.setIn(['product_detail_chart_values'], action.data);
+      return product_detail_chart_values;
+    case SET_Product_Detail_Chart_Values_2:
+      const product_detail_chart_values_2 = state.setIn(['product_detail_chart_values_2'], action.data);
+      return product_detail_chart_values_2;
     default:
       return state;
   }

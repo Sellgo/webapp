@@ -1,27 +1,20 @@
 import * as React from 'react';
-import { render } from 'react-dom';
 import {
   Button,
-  Container,
   Divider,
-  Form,
   Grid,
-  Header,
   Image,
   Segment,
-  Select,
   Table,
   Checkbox,
   Dropdown,
-  Input,
   Icon,
   Menu,
-  Popup,
   Modal,
-  TextArea,
   Card,
-  Label,
   Feed,
+  Dimmer,
+  Loader
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './supplierDetail.css';
@@ -30,13 +23,30 @@ import { Link } from 'react-router-dom';
 
 import {
   getProducts,
-  getSellers,
+  // getSellers,
   trackProduct,
   Product,
-  Supplier,
+  // Supplier,
   getProductAttributes,
+  getProductTrackData,
+  getChartValues1,
+  getChartValues2,
+  getProductDetail,
+  getProductDetailChart,
+  getProductDetailChartPrice
 } from '../../../../Action/SYNActions';
-import history from '../../../../history';
+
+// interface 
+import {
+  ProductsTrackData,
+  ProductDetails,
+  ProductChartDetails,
+  ChartAveragePrice,
+  ChartAverageRank,
+  ProductChartDetailsPrice
+} from '../../../../Action/SYNActions';
+
+// import history from '../../../../history';
 
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -48,7 +58,8 @@ interface State {
   marginFilter: any;
   unitsPerMonth: any;
   ROIFilter: any;
-  products: Product[];
+  products: Array<Product>;
+  modalOpen: boolean;
 }
 
 interface Props {
@@ -58,7 +69,19 @@ interface Props {
 
   trackProduct(productID: string, productTrackGroupID: string): () => void;
 
+  getProductTrackData(): () => void;
+  getChartValues1(product_track_group_id: string): () => void;
+  getChartValues2(product_track_group_id: string): () => void;
+  getProductDetail(product_id: string): () => void;
+  getProductDetailChart(product_id: string): () => void;
+  getProductDetailChartPrice(product_id: string): () => void;
   products: Product[];
+  products_track_data: ProductsTrackData;
+  product_detail: ProductDetails;
+  chart_values_1: ChartAveragePrice[],
+  chart_values_2: ChartAverageRank[],
+  product_detail_chart_values: ProductChartDetails[];
+  product_detail_chart_values_2: ProductChartDetailsPrice[];
   match: { params: { supplierID: '' } };
 }
 
@@ -70,64 +93,64 @@ Highcharts.setOptions({
   }
 });
 
-const options: Highcharts.Options = {
-  title: {
-    text: 'Statistics',
-    align: 'left'
-  },
-  xAxis: {
-    categories: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun'
-    ],
-    labels: {
-      style: {
-        color: '#ccc'
-      }
-    }
-  },
-  credits: {
-    enabled: false
-  },
-  yAxis: {
-    title: {
-      text: ''
-    },
-    labels: {
-      formatter: function () {
-        return '$' + (this.value / 1000) + 'k';
-      },
-      style: {
-        color: '#ccc'
-      }
-    }
-  },
-  tooltip: {
-    pointFormat: '$<b>{point.y:,.0f}</b>'
-  },
-  legend: {
-    align: 'left',
-    itemStyle: {
-      color: '#ccc'
-    }
-  },
-  series: [{
-    type: 'areaspline',
-    name: "Products sold",
-    color: "#c0f1ff",
-    data: [10000, 1000, 8000, 4000, 8000, 2000]
-  },
-  {
-    type: 'areaspline',
-    name: "Total views",
-    color: "#a3a0fb78",
-    data: [5000, 3000, 5000, 7000, 5000, 10000]
-  }]
-}
+// const options: Highcharts.Options = {
+//   title: {
+//     text: 'Statistics',
+//     align: 'left'
+//   },
+//   xAxis: {
+//     categories: [
+//       'Jan',
+//       'Feb',
+//       'Mar',
+//       'Apr',
+//       'May',
+//       'Jun'
+//     ],
+//     labels: {
+//       style: {
+//         color: '#ccc'
+//       }
+//     }
+//   },
+//   credits: {
+//     enabled: false
+//   },
+//   yAxis: {
+//     title: {
+//       text: ''
+//     },
+//     labels: {
+//       formatter: function () {
+//         return '$' + (this.value / 1000) + 'k';
+//       },
+//       style: {
+//         color: '#ccc'
+//       }
+//     }
+//   },
+//   tooltip: {
+//     pointFormat: '$<b>{point.y:,.0f}</b>'
+//   },
+//   legend: {
+//     align: 'left',
+//     itemStyle: {
+//       color: '#ccc'
+//     }
+//   },
+//   series: [{
+//     type: 'areaspline',
+//     name: "Products sold",
+//     color: "#c0f1ff",
+//     data: [10000, 1000, 8000, 4000, 8000, 2000]
+//   },
+//   {
+//     type: 'areaspline',
+//     name: "Total views",
+//     color: "#a3a0fb78",
+//     data: [5000, 3000, 5000, 7000, 5000, 10000]
+//   }]
+// }
 
 export class SupplierDetail extends React.Component<Props, State> {
   state = {
@@ -137,7 +160,8 @@ export class SupplierDetail extends React.Component<Props, State> {
     marginFilter: 0,
     unitsPerMonth: 0,
     ROIFilter: 0,
-    products: []
+    products: [],
+    modalOpen: false,
   };
   message = {
     id: 1,
@@ -154,7 +178,10 @@ export class SupplierDetail extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
-    this.refetchProducts();
+    this.props.getProducts(this.props.match.params.supplierID);
+    this.props.getProductTrackData();
+    this.props.getChartValues1("2");
+    this.props.getChartValues2("2");
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
@@ -163,15 +190,23 @@ export class SupplierDetail extends React.Component<Props, State> {
     });
   }
 
-  refetchProducts = () => {
-    this.props.getProducts(this.props.match.params.supplierID);
-  };
+  // refetchProducts = () => {
+  // };
   handleModel = () => {
     const { isOpen } = this.state;
     this.setState({
       isOpen: !isOpen,
     });
   };
+
+  productDetailsWithVisualization = (product_id: string) => {
+    console.log("product_id: ", product_id)
+    this.props.getProductDetail(product_id);
+    this.props.getProductDetailChart(product_id);
+    this.props.getProductDetailChartPrice(product_id);
+    this.setState({ modalOpen: true });
+  }
+
   renderTable = () => {
     const productsTable: Product[] = this.state.products;
     return (
@@ -202,46 +237,62 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Table.Cell>
                   <Grid>
                     <Grid.Column floated="left">
-                      <Image src={new URL('http://localhost:3000/images/intro.png')} size="tiny" />
+                      <Image src={new URL(((value.image_url == null) ? 'http://localhost:3000/images/intro.png' : value.image_url))} size="tiny" />
                     </Grid.Column>
                     <Grid.Column width={8} floated="left" className={'middle aligned'}>
-                      <Grid.Row as={Link} to={`/syn/`}>
-                        {value.id}
+                      <Grid.Row as={Link}
+                        onClick={() => {
+                          this.productDetailsWithVisualization(String(value.product_id));
+                        }}>
+                        {value.title}
                       </Grid.Row>
-                      <Grid.Row style={{ display: 'inline-flex' }}>
-                        <Grid.Column>
+                      <Grid.Row>
+                        <Grid.Column style={{ display: 'inline-flex' }}>
                           <Image
-                            src={new URL('http://localhost:3000/images/intro.png')}
+                            src={new URL(((value.image_url == null) ? 'http://localhost:3000/images/intro.png' : value.image_url))}
                             size="mini"
                           />
-                        </Grid.Column>
-                        <Grid.Column as={Link} to={`/syn/`}>
-                          {'value.listCat'}
+                          {/* </Grid.Column> */}
+                          {/* <Grid.Column as={Link} to={`/syn/`}> */}
+                          {value.asin}
+                          {/* </Grid.Column> */}
                         </Grid.Column>
                       </Grid.Row>
                     </Grid.Column>
                   </Grid>
                 </Table.Cell>
-                <Table.Cell>{this.productDetailView(value)}</Table.Cell>
-                <Table.Cell>{value.roi}</Table.Cell>
-                <Table.Cell>{value.margin}</Table.Cell>
-                <Table.Cell>{value.sales_monthly}</Table.Cell>
-                <Table.Cell>{value.profit_monthly}</Table.Cell>
                 <Table.Cell>
                   <Button
                     basic={true}
                     style={{ borderRadius: 20 }}
                     color="blue"
                     onClick={() => {
-                      this.props.trackProduct(value.id, '2');
+                      this.productDetailsWithVisualization(String(value.product_id));
+                    }}
+                  >
+                    View
+                  </Button>
+                  {/* {this.productDetailView(String(value.product_id))} */}
+                </Table.Cell>
+                <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                <Table.Cell>{Number(value.margin).toLocaleString()}</Table.Cell>
+                <Table.Cell>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
+                <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                <Table.Cell>
+                  <Button
+                    basic={true}
+                    style={{ borderRadius: 20 }}
+                    color="blue"
+                    onClick={() => {
+                      this.props.trackProduct(String(value.id), '2');
                     }}
                   >
                     Track Now
                   </Button>
                 </Table.Cell>
-                <Table.Cell>{'value.lastSyn'}</Table.Cell>
+                <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
                 <Table.Cell>
-                  <Table.Cell as={Link} to={`/syn/`}>
+                  <Table.Cell as={Link} to={'//' + value.amazon_url}>
                     <Icon name="amazon" style={{ color: 'black' }} />
                     &nbsp;
                   </Table.Cell>
@@ -271,16 +322,33 @@ export class SupplierDetail extends React.Component<Props, State> {
       </Table>
     );
   };
-  productDetailView = (product: Product) => {
+
+  handleClose = () => this.setState({ modalOpen: false })
+
+  productDetailView = () => {
+    console.log("product_detail_chart_values: ", this.props)
+    console.log("productDetailView");
+    // this.props.product_detail_chart_values
+
+    let popup_rank_conainer: Array<number> = [];
+    let popup_price_conainer: Array<number> = [];
+
+    for (let i = 0; i < this.props.product_detail_chart_values.length; i++) {
+      popup_rank_conainer.push(Number(this.props.product_detail_chart_values[i].rank))
+    }
+    for (let i = 0; i < this.props.product_detail_chart_values_2.length; i++) {
+      popup_price_conainer.push(Number(this.props.product_detail_chart_values_2[i].price))
+    }
+    // this.props.getProductDetail(product_id);
+    // this.props.getProductDetailChart(product_id);
+    // getProductDegetProductDetailCharttail(product_id: string): () => void;
+    // (product_id: string): () => void;F
     return (
       <Modal
         size={'large'}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
         closeIcon={true}
-        trigger={
-          <Button basic={true} style={{ borderRadius: 20 }} color="blue">
-            View
-          </Button>
-        }
       >
         <Modal.Content>
           <Grid>
@@ -294,7 +362,7 @@ export class SupplierDetail extends React.Component<Props, State> {
               <Divider />
               <Grid style={{ margin: 0 }}>
                 <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
-                  <Grid.Row>Price</Grid.Row>
+                  <Grid.Row>Parice</Grid.Row>
                   <Grid.Row>Fees</Grid.Row>
                   <Grid.Row>Product cost</Grid.Row>
                   <Grid.Row>Inbound shipping cost</Grid.Row>
@@ -307,16 +375,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </Grid.Row>
                 </Grid.Column>
                 <Grid.Column floated="left" width={2}>
-                  <Grid.Row>Price</Grid.Row>
-                  <Grid.Row>Fees</Grid.Row>
-                  <Grid.Row>PCost</Grid.Row>
-                  <Grid.Row>ISCost</Grid.Row>
-                  <Grid.Row>OScost</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.price == null) ? 0 : Number(this.props.product_detail.price).toLocaleString()}</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.fees == null) ? 0 : Number(this.props.product_detail.fees).toLocaleString()}</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.product_cost == null) ? 0 : Number(this.props.product_detail.product_cost).toLocaleString()}</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.inb_shipping_cost == null) ? 0 : Number(this.props.product_detail.inb_shipping_cost).toLocaleString()}</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.oub_shipping_cost == null) ? 0 : Number(this.props.product_detail.oub_shipping_cost).toLocaleString()}</Grid.Row>
                   <Grid.Row>
-                    <h4>Profit</h4>
+                    <h4>{(this.props.product_detail.profit == null) ? 0 : Number(this.props.product_detail.profit).toLocaleString()}</h4>
                   </Grid.Row>
                   <Grid.Row>
-                    <h4>Margin</h4>
+                    <h4>{(this.props.product_detail.margin == null) ? 0 : Number(this.props.product_detail.margin).toLocaleString()}</h4>
                   </Grid.Row>
                 </Grid.Column>
                 <Grid.Column floated="left" width={4}>
@@ -335,18 +403,20 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </Grid.Row>
                 </Grid.Column>
                 <Grid.Column floated="left" width={4}>
-                  <Grid.Row>moSales</Grid.Row>
-                  <Grid.Row>moRev</Grid.Row>
-                  <Grid.Row>moProf</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.monthly_sales == null) ? 0 : Number(this.props.product_detail.monthly_sales).toLocaleString()}</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.monthly_revenue == null) ? 0 : Number(this.props.product_detail.monthly_revenue).toLocaleString()}</Grid.Row>
+                  <Grid.Row>{(this.props.product_detail.profit_monthly == null) ? 0 : Number(this.props.product_detail.profit_monthly).toLocaleString()}</Grid.Row>
                   <Grid.Row />
                   <br />
                   <Grid.Row />
                   <br />
                   <Grid.Row>
-                    <h4>synMar</h4>
+                    <h4>{(this.props.product_detail.roi == null) ? 0 : Number(this.props.product_detail.roi).toLocaleString()}</h4>
                   </Grid.Row>
                   <Grid.Row>
-                    <h4>synMar</h4>
+                    <h4>0
+                    {/* {(this.props.product_detail.upc == null) ? 0 : Number(this.props.product_detail.upc).toLocaleString()} */}
+                    </h4>
                   </Grid.Row>
                 </Grid.Column>
               </Grid>
@@ -358,13 +428,66 @@ export class SupplierDetail extends React.Component<Props, State> {
                 style={{ display: 'inline-block' }}
               />
               <Icon name="amazon" style={{ color: 'black' }} />
-              <p>{'ASIN'}</p>
-              <p>{'UPC'}</p>
+              <p>{this.props.product_detail.asin}</p>
+              <p>{this.props.product_detail.upc}</p>
               <p>{'MSKU'}</p>
               <p>{'FNSKU'}</p>
             </Grid.Column>
           </Grid>
-          CHART HERE
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={{
+              title: {
+                text: 'Statistics',
+                align: 'left'
+              },
+              xAxis: {
+                labels: {
+                  style: {
+                    color: '#ccc'
+                  }
+                }
+              },
+              credits: {
+                enabled: false
+              },
+              yAxis: {
+                title: {
+                  text: ''
+                },
+                labels: {
+                  formatter: function () {
+                    return '$' + (this.value / 1000) + 'k';
+                  },
+                  style: {
+                    color: '#ccc'
+                  }
+                }
+              },
+              tooltip: {
+                pointFormat: '$<b>{point.y:,.0f}</b>'
+              },
+              legend: {
+                align: 'left',
+                itemStyle: {
+                  color: '#ccc'
+                }
+              },
+              series: [{
+                type: 'areaspline',
+                name: "Products sold",
+                color: "#c0f1ff",
+                data: popup_price_conainer
+              },
+              {
+                type: 'areaspline',
+                name: "Total views",
+                color: "#a3a0fb78",
+                data: popup_rank_conainer
+              }]
+            }}
+            {...this.props}
+          />
         </Modal.Content>
       </Modal>
     );
@@ -653,6 +776,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       </Grid>
     );
   };
+
   updateFilters = () => {
     let products: Product[] = this.props.products;
     console.log('ROI FILTER VALUE : ' + this.state.ROIFilter);
@@ -668,7 +792,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       if (this.state.unitsPerMonth > 0 && parseInt(product.sales_monthly, 10) !== this.state.unitsPerMonth) {
         shouldAdd = false;
       }
-      if (this.state.ROIFilter > 0 && parseInt(product.roi, 10) !== this.state.ROIFilter) {
+      if (this.state.ROIFilter > 0 && parseInt(product.profit_monthly, 10) !== this.state.ROIFilter) {
         shouldAdd = false;
       }
       if (shouldAdd) {
@@ -681,7 +805,20 @@ export class SupplierDetail extends React.Component<Props, State> {
     });
     return;
   };
+
   renderHeaderSupplierMatrics = () => {
+
+    let avg_price = [];
+    let avg_rank = [];
+    console.log(this.props)
+    for (let i = 0; i < this.props.chart_values_1.length; i++) {
+      avg_price.push(Number(this.props.chart_values_1[i].avg_price));
+    }
+    for (let i = 0; i < this.props.chart_values_2.length; i++) {
+      avg_rank.push(Number(this.props.chart_values_2[i].avg_rank));
+    }
+    console.log("avg_price: ", avg_price)
+    console.log("avg_rank: ", avg_rank)
     return (
       <Grid.Column width={11} floated="left">
         <Grid.Row style={{ width: '95%' }}>
@@ -694,10 +831,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed.Event>
                         <Feed.Content>
                           <Feed.Date content="Avg Daily Units Sold" />
-                          <Feed.Summary>Avg#</Feed.Summary>
+                          <Feed.Summary>{Number(this.props.products_track_data.daily_sales).toLocaleString()}</Feed.Summary>
                           <Divider />
                           <Feed.Date content="Avg BB Price/ Fees" />
-                          <Feed.Summary>Avg#</Feed.Summary>
+                          <Feed.Summary>{Number(this.props.products_track_data.fees).toLocaleString()}</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
                     </Feed>
@@ -709,10 +846,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed.Event>
                         <Feed.Content>
                           <Feed.Date content="Avg Daily Revenue/ Profit" />
-                          <Feed.Summary>Avg#</Feed.Summary>
+                          <Feed.Summary>{Number(this.props.products_track_data.profit).toLocaleString()}</Feed.Summary>
                           <Divider />
                           <Feed.Date content="Avg BB Price/ Fees" />
-                          <Feed.Summary>Avg#</Feed.Summary>
+                          <Feed.Summary>{Number(this.props.products_track_data.profit).toLocaleString()}</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
                     </Feed>
@@ -724,10 +861,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed.Event>
                         <Feed.Content>
                           <Feed.Date content="Avg Daily Rank" />
-                          <Feed.Summary>Avg#</Feed.Summary>
+                          <Feed.Summary>{Number(this.props.products_track_data.daily_rank).toLocaleString()}</Feed.Summary>
                           <Divider />
                           <Feed.Date content="Avg LQS" />
-                          <Feed.Summary>Avg#</Feed.Summary>
+                          <Feed.Summary>{Number(this.props.products_track_data.daily_rank).toLocaleString()}</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
                     </Feed>
@@ -740,7 +877,56 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed.Summary>
                       <HighchartsReact
                         highcharts={Highcharts}
-                        options={options}
+                        options={{
+                          title: {
+                            text: 'Statistics',
+                            align: 'left'
+                          },
+                          xAxis: {
+                            labels: {
+                              style: {
+                                color: '#ccc'
+                              }
+                            }
+                          },
+                          credits: {
+                            enabled: false
+                          },
+                          yAxis: {
+                            title: {
+                              text: ''
+                            },
+                            labels: {
+                              formatter: function () {
+                                return '$' + (this.value / 1000) + 'k';
+                              },
+                              style: {
+                                color: '#ccc'
+                              }
+                            }
+                          },
+                          tooltip: {
+                            pointFormat: '$<b>{point.y:,.0f}</b>'
+                          },
+                          legend: {
+                            align: 'left',
+                            itemStyle: {
+                              color: '#ccc'
+                            }
+                          },
+                          series: [{
+                            type: 'areaspline',
+                            name: "Products sold",
+                            color: "#c0f1ff",
+                            data: avg_price
+                          },
+                          {
+                            type: 'areaspline',
+                            name: "Total views",
+                            color: "#a3a0fb78",
+                            data: avg_rank
+                          }]
+                        }}
                         {...this.props}
                       />
                     </Feed.Summary>
@@ -755,8 +941,9 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   render() {
-    const memberDate = `May 5 2018`;
-    const { isOpen } = this.state;
+    console.log("this.props: ", this.props)
+    // const memberDate = `May 5 2018`;
+    // const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
         <Divider />
@@ -803,6 +990,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Grid>
         <Divider />
         {this.renderTable()}
+        {this.productDetailView()}
       </Segment>
     );
   }
@@ -817,9 +1005,14 @@ export class SupplierDetail extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => {
-
   return {
     products: state.synReducer.get('products'),
+    products_track_data: state.synReducer.get('products_track_data'),
+    chart_values_1: state.synReducer.get('chart_values_1'),
+    chart_values_2: state.synReducer.get('chart_values_2'),
+    product_detail: state.synReducer.get('product_detail'),
+    product_detail_chart_values: state.synReducer.get('product_detail_chart_values'),
+    product_detail_chart_values_2: state.synReducer.get('product_detail_chart_values_2'),
   };
 };
 
@@ -827,6 +1020,12 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductAttributes: (productID: string) => dispatch(getProductAttributes(productID)),
+    getProductTrackData: () => dispatch(getProductTrackData()),
+    getProductDetail: (product_id: string) => dispatch(getProductDetail(product_id)),
+    getProductDetailChart: (product_id: string) => dispatch(getProductDetailChart(product_id)),
+    getProductDetailChartPrice: (product_id: string) => dispatch(getProductDetailChartPrice(product_id)),
+    getChartValues1: (product_track_group_id: string) => dispatch(getChartValues1(product_track_group_id)),
+    getChartValues2: (product_track_group_id: string) => dispatch(getChartValues2(product_track_group_id)),
     trackProduct: (supplierID: string, productTrackGroupID: string) =>
       dispatch(trackProduct(supplierID, productTrackGroupID)),
   };
