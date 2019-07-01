@@ -12,14 +12,16 @@ input[type=range]::-ms-thumb{box-shadow:0 0 0 #4285f4,0 0 0 #5a95f5;border:0 sol
 input[type=range]:focus::-ms-fill-lower{background:#4285f4}
 input[type=range]:focus::-ms-fill-upper{background:#4285f4}
 
-.min-max{    padding: 2px 8px;
+.min-max{    
+    /* padding: 2px 8px; */
+    text-align: center;
     border: 1px solid rgb(66, 133, 244);
     border-radius: 6px;}
 .slider{
-    padding: 0px 5px;
-    width: 192px !important;
+    /* padding: 0px 5px;
+    width: 192px !important; */
 }
 .min-max-slider-wrapper{
-    margin: 9px 0px !important;
-    display: inline-flex;
+    /* margin: 9px 0px !important;
+    display: inline-flex; */
 }

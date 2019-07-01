@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { render } from 'react-dom';
 import {
   Button,
   Container,
@@ -37,6 +38,9 @@ import {
 } from '../../../../Action/SYNActions';
 import history from '../../../../history';
 
+import * as Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+
 interface State {
   isOpen: boolean;
   isFilterApplied: boolean;
@@ -60,6 +64,71 @@ interface Props {
 
 let delayedTimer: any = null;
 
+Highcharts.setOptions({
+  lang: {
+    thousandsSep: ','
+  }
+});
+
+const options: Highcharts.Options = {
+  title: {
+    text: 'Statistics',
+    align: 'left'
+  },
+  xAxis: {
+    categories: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun'
+    ],
+    labels: {
+      style: {
+        color: '#ccc'
+      }
+    }
+  },
+  credits: {
+    enabled: false
+  },
+  yAxis: {
+    title: {
+      text: ''
+    },
+    labels: {
+      formatter: function () {
+        return '$' + (this.value / 1000) + 'k';
+      },
+      style: {
+        color: '#ccc'
+      }
+    }
+  },
+  tooltip: {
+    pointFormat: '$<b>{point.y:,.0f}</b>'
+  },
+  legend: {
+    align: 'left',
+    itemStyle: {
+      color: '#ccc'
+    }
+  },
+  series: [{
+    type: 'areaspline',
+    name: "Products sold",
+    color: "#c0f1ff",
+    data: [10000, 1000, 8000, 4000, 8000, 2000]
+  },
+  {
+    type: 'areaspline',
+    name: "Total views",
+    color: "#a3a0fb78",
+    data: [5000, 3000, 5000, 7000, 5000, 10000]
+  }]
+}
+
 export class SupplierDetail extends React.Component<Props, State> {
   state = {
     isOpen: false,
@@ -68,7 +137,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     marginFilter: 0,
     unitsPerMonth: 0,
     ROIFilter: 0,
-    products: [],
+    products: []
   };
   message = {
     id: 1,
@@ -110,17 +179,17 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1}>
-              <Checkbox/>
+              <Checkbox />
             </Table.HeaderCell>
             <Table.HeaderCell width={4}>Product Info</Table.HeaderCell>
-            <Table.HeaderCell width={1}/>
+            <Table.HeaderCell width={1} />
             <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
             <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
             <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
             <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
             <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
             <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
-            <Table.HeaderCell width={1}/>
+            <Table.HeaderCell width={1} />
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -128,12 +197,12 @@ export class SupplierDetail extends React.Component<Props, State> {
             return (
               <Table.Row key={index}>
                 <Table.Cell>
-                  <Checkbox/>
+                  <Checkbox />
                 </Table.Cell>
                 <Table.Cell>
                   <Grid>
                     <Grid.Column floated="left">
-                      <Image src={new URL('http://localhost:3000/images/intro.png')} size="tiny"/>
+                      <Image src={new URL('http://localhost:3000/images/intro.png')} size="tiny" />
                     </Grid.Column>
                     <Grid.Column width={8} floated="left" className={'middle aligned'}>
                       <Grid.Row as={Link} to={`/syn/`}>
@@ -173,7 +242,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Table.Cell>{'value.lastSyn'}</Table.Cell>
                 <Table.Cell>
                   <Table.Cell as={Link} to={`/syn/`}>
-                    <Icon name="amazon" style={{ color: 'black' }}/>
+                    <Icon name="amazon" style={{ color: 'black' }} />
                     &nbsp;
                   </Table.Cell>
                 </Table.Cell>
@@ -186,14 +255,14 @@ export class SupplierDetail extends React.Component<Props, State> {
             <Table.HeaderCell colSpan={10}>
               <Menu pagination={true}>
                 <Menu.Item as="a" icon={true}>
-                  <Icon name="chevron left"/>
+                  <Icon name="chevron left" />
                 </Menu.Item>
                 <Menu.Item as="a">1</Menu.Item>
                 <Menu.Item as="a">2</Menu.Item>
                 <Menu.Item as="a">3</Menu.Item>
                 <Menu.Item as="a">4</Menu.Item>
                 <Menu.Item as="a" icon={true}>
-                  <Icon name="chevron right"/>
+                  <Icon name="chevron right" />
                 </Menu.Item>
               </Menu>
             </Table.HeaderCell>
@@ -222,7 +291,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
                 <Grid.Column width={2}>{'short Details'}</Grid.Column>
               </Grid>
-              <Divider/>
+              <Divider />
               <Grid style={{ margin: 0 }}>
                 <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
                   <Grid.Row>Price</Grid.Row>
@@ -254,10 +323,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>Avg Monthly sales</Grid.Row>
                   <Grid.Row>Avg monthly revnue</Grid.Row>
                   <Grid.Row>Avg monthly profit</Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>ROI/ Return on Investment</h4>
                   </Grid.Row>
@@ -269,10 +338,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>moSales</Grid.Row>
                   <Grid.Row>moRev</Grid.Row>
                   <Grid.Row>moProf</Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>synMar</h4>
                   </Grid.Row>
@@ -288,7 +357,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 size="mini"
                 style={{ display: 'inline-block' }}
               />
-              <Icon name="amazon" style={{ color: 'black' }}/>
+              <Icon name="amazon" style={{ color: 'black' }} />
               <p>{'ASIN'}</p>
               <p>{'UPC'}</p>
               <p>{'MSKU'}</p>
@@ -304,7 +373,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
-        trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
+        trigger={<Icon name="trash alternate" style={{ color: 'black' }} />}
         onClose={this.close}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
@@ -313,8 +382,8 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative={true}>No</Button>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
         </Modal.Actions>
       </Modal>
     );
@@ -322,12 +391,12 @@ export class SupplierDetail extends React.Component<Props, State> {
 
   renderHeaderFilters = () => {
     return (
-      <Grid.Column width={5} style={{ marginTop: 15 }}>
-        <Grid.Row style={{ display: 'inline-flex' }}>
-          <Grid.Column>Syn Preset</Grid.Column>
-          <Grid.Column style={{ margin: '0 0 0 10px' }}>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column floated="left" width={6}>Syn Preset</Grid.Column>
+          <Grid.Column floated="right" width={10}>
             <Dropdown
-              style={{ width: '170px' }}
+              // style={{ width: '200px' }}
               placeholder="Select a preset"
               fluid={true}
               selection={true}
@@ -367,159 +436,221 @@ export class SupplierDetail extends React.Component<Props, State> {
             />
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row style={{ marginTop: 20 }}>
-          <Card raised={true} style={{ marginTop: 20 }}>
-            <Card.Content>
-              <Feed>
-                <Feed.Event>
-                  <Feed.Content>
-                    <Feed.Summary>
-                      Unit Profit <Icon title="Sellgo" name="question circle outline"/>
-                    </Feed.Summary>
-                    <Feed.Summary className="min-max-slider-wrapper">
-                      <div className="min-max">0</div>
-                      <input
-                        onChange={event => {
-                          const value = event.target.value;
-                          if (delayedTimer != null) {
-                            clearTimeout(delayedTimer);
-                          }
-                          delayedTimer = setTimeout(() => {
-                            console.log(event);
-                            this.setState(
-                              {
-                                isFilterApplied: true,
-                                unitProfitFilter: parseInt(value, 10),
-                              },
-                              () => {
-                                this.updateFilters();
-                              },
-                            );
-                          }, 500);
-                        }}
-                        value={this.state.unitProfitFilter}
-                        min="0"
-                        max="1000"
-                        type="range"
-                        className="slider"
-                      />
-                      <div className="min-max">100</div>
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
-                <Feed.Event>
-                  <Feed.Content>
-                    <Feed.Summary>
-                      Margin (%) <Icon title="Sellgo" name="question circle outline"/>
-                    </Feed.Summary>
-                    <Feed.Summary className="min-max-slider-wrapper">
-                      <div className="min-max">0</div>
-                      <input
-                        onChange={event => {
-                          const value = event.target.value;
-                          if (delayedTimer != null) {
-                            clearTimeout(delayedTimer);
-                          }
-                          delayedTimer = setTimeout(() => {
-                            console.log(event);
-                            this.setState(
-                              {
-                                isFilterApplied: true,
-                                marginFilter: parseInt(value, 10),
-                              },
-                              () => {
-                                this.updateFilters();
-                              },
-                            );
-                          }, 500);
-                        }}
-                        value={this.state.marginFilter}
-                        min="0"
-                        max="100"
-                        type="range"
-                        className="slider"
-                      />
-                      <div className="min-max">100</div>
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
-                <Feed.Event>
-                  <Feed.Content>
-                    <Feed.Summary>
-                      Units per Month <Icon title="Sellgo" name="question circle outline"/>
-                    </Feed.Summary>
-                    <Feed.Summary className="min-max-slider-wrapper">
-                      <div className="min-max">0</div>
-                      <input
-                        onChange={event => {
-                          const value = event.target.value;
-                          if (delayedTimer != null) {
-                            clearTimeout(delayedTimer);
-                          }
-                          delayedTimer = setTimeout(() => {
-                            console.log(event);
-                            this.setState(
-                              {
-                                isFilterApplied: true,
-                                unitsPerMonth: parseInt(value, 10),
-                              },
-                              () => {
-                                this.updateFilters();
-                              },
-                            );
-                          }, 500);
-                        }}
-                        value={this.state.unitsPerMonth}
-                        min="0"
-                        max="100"
-                        type="range"
-                        className="slider"
-                      />
-                      <div className="min-max">100</div>
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
-                <Feed.Event>
-                  <Feed.Content>
-                    <Feed.Summary>
-                      ROI/ Return of Investment{' '}
-                      <Icon title="Sellgo" name="question circle outline"/>
-                    </Feed.Summary>
-                    <Feed.Summary className="min-max-slider-wrapper">
-                      <div className="min-max">0</div>
-                      <input
-                        onChange={event => {
-                          const value = event.target.value;
-                          if (delayedTimer != null) {
-                            clearTimeout(delayedTimer);
-                          }
-                          delayedTimer = setTimeout(() => {
-                            this.setState(
-                              {
-                                isFilterApplied: true,
-                                ROIFilter: parseInt(value, 10),
-                              },
-                              () => {
-                                this.updateFilters();
-                              },
-                            );
-                          }, 500);
-                        }}
-                        value={this.state.ROIFilter}
-                        min="0"
-                        max="100"
-                        type="range"
-                        className="slider"
-                      />
-                      <div className="min-max">100</div>
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
-              </Feed>
-            </Card.Content>
-          </Card>
+        <Grid.Row>
+          <Grid.Column width={16} style={{ marginTop: 15 }}>
+            {/* <Grid.Row style={{ display: 'inline-flex' }}> */}
+
+
+            {/* </Grid.Row> */}
+            {/* <Grid.Row style={{ marginTop: 20 }}> */}
+            <Card raised={true}
+              style={{
+                // marginTop: 20, 
+                width: "100%"
+              }}
+            >
+              <Card.Content>
+                <Feed>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        Unit Profit <Icon title="Sellgo" name="question circle outline" />
+                      </Feed.Summary>
+                      <Feed.Summary className="min-max-slider-wrapper">
+                        <Grid>
+                          <Grid.Row>
+                            <Grid.Column floated="left" width={4}>
+                              <div className="min-max">0</div>
+                            </Grid.Column>
+                            <Grid.Column
+                              style={{ padding: 0 }}
+                              width={8}>
+
+                              <input
+                                onChange={event => {
+                                  const value = event.target.value;
+                                  if (delayedTimer != null) {
+                                    clearTimeout(delayedTimer);
+                                  }
+                                  delayedTimer = setTimeout(() => {
+                                    console.log(event);
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        unitProfitFilter: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }, 500);
+                                }}
+                                value={this.state.unitProfitFilter}
+                                min="0"
+                                max="1000"
+                                type="range"
+                                className="slider"
+                              />
+                            </Grid.Column>
+                            <Grid.Column floated="right" width={4}>
+                              <div className="min-max">100</div>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        Margin (%) <Icon title="Sellgo" name="question circle outline" />
+                      </Feed.Summary>
+                      <Feed.Summary className="min-max-slider-wrapper">
+                        <Grid>
+                          <Grid.Row>
+                            <Grid.Column floated="left" width={4}>
+                              <div className="min-max">0</div>
+                            </Grid.Column>
+                            <Grid.Column
+                              style={{ padding: 0 }}
+                              width={8}>
+                              <input
+                                onChange={event => {
+                                  const value = event.target.value;
+                                  if (delayedTimer != null) {
+                                    clearTimeout(delayedTimer);
+                                  }
+                                  delayedTimer = setTimeout(() => {
+                                    console.log(event);
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        marginFilter: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }, 500);
+                                }}
+                                value={this.state.marginFilter}
+                                min="0"
+                                max="100"
+                                type="range"
+                                className="slider"
+                              />
+                            </Grid.Column>
+                            <Grid.Column floated="right" width={4}>
+                              <div className="min-max">100</div>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        Units per Month <Icon title="Sellgo" name="question circle outline" />
+                      </Feed.Summary>
+                      <Feed.Summary className="min-max-slider-wrapper">
+                        <Grid>
+                          <Grid.Row>
+                            <Grid.Column floated="left" width={4}>
+                              <div className="min-max">0</div>
+                            </Grid.Column>
+                            <Grid.Column
+                              style={{ padding: 0 }}
+                              width={8}>
+                              <input
+                                onChange={event => {
+                                  const value = event.target.value;
+                                  if (delayedTimer != null) {
+                                    clearTimeout(delayedTimer);
+                                  }
+                                  delayedTimer = setTimeout(() => {
+                                    console.log(event);
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        unitsPerMonth: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }, 500);
+                                }}
+                                value={this.state.unitsPerMonth}
+                                min="0"
+                                max="100"
+                                type="range"
+                                className="slider"
+                              />
+                            </Grid.Column>
+                            <Grid.Column floated="right" width={4}>
+                              <div className="min-max">100</div>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        ROI/ Return of Investment{' '}
+                        <Icon title="Sellgo" name="question circle outline" />
+                      </Feed.Summary>
+                      <Feed.Summary className="min-max-slider-wrapper">
+                        <Grid>
+                          <Grid.Row>
+                            <Grid.Column floated="left" width={4}>
+                              <div className="min-max">0</div>
+                            </Grid.Column>
+                            <Grid.Column
+                              style={{ padding: 0 }}
+                              width={8}>
+                              <input
+                                onChange={event => {
+                                  const value = event.target.value;
+                                  if (delayedTimer != null) {
+                                    clearTimeout(delayedTimer);
+                                  }
+                                  delayedTimer = setTimeout(() => {
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        ROIFilter: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }, 500);
+                                }}
+                                value={this.state.ROIFilter}
+                                min="0"
+                                max="100"
+                                type="range"
+                                className="slider"
+                              />
+                            </Grid.Column>
+                            <Grid.Column floated="right" width={4}>
+                              <div className="min-max">100</div>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                </Feed>
+              </Card.Content>
+            </Card>
+            {/* </Grid.Row> */}
+          </Grid.Column>
         </Grid.Row>
-      </Grid.Column>
+      </Grid>
     );
   };
   updateFilters = () => {
@@ -562,25 +693,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Units Sold"/>
+                          <Feed.Date content="Avg Daily Units Sold" />
                           <Feed.Summary>Avg#</Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg BB Price/ Fees"/>
-                          <Feed.Summary>Avg#</Feed.Summary>
-                        </Feed.Content>
-                      </Feed.Event>
-                    </Feed>
-                  </Card.Content>
-                </Card>
-                <Card raised={true}>
-                  <Card.Content>
-                    <Feed>
-                      <Feed.Event>
-                        <Feed.Content>
-                          <Feed.Date content="Avg Daily Revenue/ Profit"/>
-                          <Feed.Summary>Avg#</Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg BB Price/ Fees"/>
+                          <Divider />
+                          <Feed.Date content="Avg BB Price/ Fees" />
                           <Feed.Summary>Avg#</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
@@ -592,10 +708,25 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Rank"/>
+                          <Feed.Date content="Avg Daily Revenue/ Profit" />
                           <Feed.Summary>Avg#</Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg LQS"/>
+                          <Divider />
+                          <Feed.Date content="Avg BB Price/ Fees" />
+                          <Feed.Summary>Avg#</Feed.Summary>
+                        </Feed.Content>
+                      </Feed.Event>
+                    </Feed>
+                  </Card.Content>
+                </Card>
+                <Card raised={true}>
+                  <Card.Content>
+                    <Feed>
+                      <Feed.Event>
+                        <Feed.Content>
+                          <Feed.Date content="Avg Daily Rank" />
+                          <Feed.Summary>Avg#</Feed.Summary>
+                          <Divider />
+                          <Feed.Date content="Avg LQS" />
                           <Feed.Summary>Avg#</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
@@ -606,7 +737,13 @@ export class SupplierDetail extends React.Component<Props, State> {
               <Feed>
                 <Feed.Event>
                   <Feed.Content>
-                    <Feed.Summary>Chart Here</Feed.Summary>
+                    <Feed.Summary>
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={options}
+                        {...this.props}
+                      />
+                    </Feed.Summary>
                   </Feed.Content>
                 </Feed.Event>
               </Feed>
@@ -622,12 +759,49 @@ export class SupplierDetail extends React.Component<Props, State> {
     const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
-        <Divider/>
-        <Grid style={{ marginLeft: 40 }}>
-          {this.renderHeaderFilters()}
-          {this.renderHeaderSupplierMatrics()}
+        <Divider />
+        <Grid>
+          <Grid.Row>
+            <Grid.Column floated="left" width={4}>
+              {this.renderHeaderFilters()}
+            </Grid.Column>
+            <Grid.Column floated="right" width={12}>
+              {this.renderHeaderSupplierMatrics()}
+            </Grid.Column >
+          </Grid.Row>
         </Grid>
-        <Divider/>
+        <Divider />
+        <Grid>
+          <Grid.Column width={5} floated='right'
+            style={{
+              padding: 0
+            }}>
+            <div className="ui" style={{
+              display: 'inline-flex',
+              // border: '1px solid #000',
+              // padding: '11px',
+              // borderRadius: '15px',
+            }}>
+              <span style={{ padding: '0 8px' }}>
+                Time Saved
+                <h2>
+                  <strong>
+                    99 hrs
+                 </strong>
+                </h2>
+              </span>
+              <span style={{ padding: '0 8px' }}>
+                Efficiency
+                <h2>
+                  <strong>
+                    99%
+                  </strong>
+                </h2>
+              </span>
+            </div>
+          </Grid.Column>
+        </Grid>
+        <Divider />
         {this.renderTable()}
       </Segment>
     );

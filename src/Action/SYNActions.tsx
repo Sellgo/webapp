@@ -98,7 +98,7 @@ export const uploadCSV = (new_supplier_id: string, file: FormData) => (dispatch:
       seller_id: '1000000052',
       file: file
     },
-    headers 
+    headers
   })
     .then(json => {
       console.log(json.data);
