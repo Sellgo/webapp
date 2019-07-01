@@ -35,8 +35,6 @@ export default class Auth {
     }
     if (this.userProfile.given_name || this.userProfile.family_name) {
       formData.append('name', `${this.userProfile.given_name} ${this.userProfile.family_name}`);
-    } else {
-      formData.append('name', this.userProfile.nickname);
     }
     formData.append('auth0_user_id', this.userProfile.sub);
 

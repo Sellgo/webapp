@@ -13,7 +13,7 @@ interface State {
   isSuccess: boolean;
   isFailed: boolean;
   email: string;
-  errorMgs: string;
+  errorMsg: string;
 }
 
 export default class RecoverPass extends React.Component<any, State> {
@@ -21,7 +21,7 @@ export default class RecoverPass extends React.Component<any, State> {
     isSuccess: false,
     isFailed: false,
     email: '',
-    errorMgs: '',
+    errorMsg: '',
   };
 
   public email: string = '';
@@ -37,7 +37,7 @@ export default class RecoverPass extends React.Component<any, State> {
   handleResponse = (response: any) => {
     if (response.status === 200) {
       this.setState({ isSuccess: !this.state.isSuccess });
-      this.props.isSuccessReset({ isFailed: false, errorMgs: '' });
+      this.props.isSuccessReset({ isFailed: false, errorMsg: '' });
     }
   };
   setEmail = (event: any) => {
@@ -50,14 +50,14 @@ export default class RecoverPass extends React.Component<any, State> {
     // please enter email or email field is empty
 
     if (reg.test(this.state.email) === false) {
-      this.setState({ isFailed: true, errorMgs: 'Please enter valid email address.' });
+      this.setState({ isFailed: true, errorMsg: 'Please enter valid email address.' });
       if (this.state.email === '') {
         this.props.isSuccessReset({
           isFailed: true,
-          errorMgs: 'Please enter email or email field is empty',
+          errorMsg: 'Please enter email or email field is empty',
         });
       } else {
-        this.props.isSuccessReset({ sFailed: true, errorMgs: 'Please enter valid email address.' });
+        this.props.isSuccessReset({ sFailed: true, errorMsg: 'Please enter valid email address.' });
       }
     } else {
       axios
@@ -66,8 +66,8 @@ export default class RecoverPass extends React.Component<any, State> {
           if (response.data) {
             this.sendRestRequest();
           } else {
-            this.setState({ isFailed: true, errorMgs: 'Email address is not exists.' });
-            this.props.isSuccessReset({ isFailed: true, errorMgs: 'Email address is not exists.' });
+            this.setState({ isFailed: true, errorMsg: 'Email address is not exists.' });
+            this.props.isSuccessReset({ isFailed: true, errorMsg: 'Email address is not exists.' });
           }
         })
         .catch();
@@ -84,7 +84,7 @@ export default class RecoverPass extends React.Component<any, State> {
       })
       .then(response => this.handleResponse(response))
       .catch(() => {
-        this.setState({ isFailed: true, errorMgs: 'Something Wrong' });
+        this.setState({ isFailed: true, errorMsg: 'Something Wrong' });
       });
   };
 
@@ -192,7 +192,7 @@ export default class RecoverPass extends React.Component<any, State> {
               <div className="logo-img">
                 <Logo centered={true} size="small" />
               </div>
-              {this.state.isFailed && <Message color="red">{this.state.errorMgs}</Message>}
+              {this.state.isFailed && <Message color="red">{this.state.errorMsg}</Message>}
               {this.state.isSuccess ? this.response : this.forgetPassForm}
             </Grid.Column>
           </Grid.Row>

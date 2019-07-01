@@ -108,7 +108,7 @@ class Setting extends React.Component<Props, State> {
     this.message.title = 'Reset Password';
     this.message.message = data.isFailed ? 'Password Reset Failed!' : 'Password Reset Successful!';
     this.message.description = data.isFailed
-      ? data.errorMgs
+      ? data.errorMsg
       : 'Please Check Your Email For Further Instruction.';
     this.handleModel();
   };
