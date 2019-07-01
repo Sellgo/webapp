@@ -66,7 +66,14 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
 export const getBasicInfoSeller = () => (dispatch: any) => {
   const userId = localStorage.getItem('userId');
   const email = localStorage.getItem('userEmail');
-  const url = `?email=${email}`;
+  const auth0Id =localStorage.getItem('auth0_user_id');
+  let url =''
+  if(email !== '') {
+     url = `?email=${email}`;
+  } else {
+    url = `?auth0_user_id=${auth0Id}`;
+
+  }
 
   return axios({
     method: 'get',

@@ -23,10 +23,19 @@ export default class Auth {
 
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
+    localStorage.setItem('auth0_user_id', this.userProfile.sub);
     let form_data = new FormData();
-    form_data.append('email', this.userProfile.name);
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(this.userProfile.name)) {
+      localStorage.setItem('userEmail', this.userProfile.name);
+      form_data.append('email', this.userProfile.name);
+    } else {
+      localStorage.setItem('userEmail', '');
+      // form_data.append('email', '');
+    }
     form_data.append('auth0_user_id', this.userProfile.sub);
     form_data.append('name', this.userProfile.nickname);
+
     axios
       .post(
         URLS.BASE_URL_API + 'seller/',
@@ -35,7 +44,6 @@ export default class Auth {
       )
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
-        localStorage.setItem('userEmail', this.userProfile.name);
         if(data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
