@@ -14,11 +14,11 @@ import {
   Card,
   Feed,
   Dimmer,
-  Loader, Pagination,
+  Loader,
+  Pagination,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './supplierDetail.css';
-
 import { Link } from 'react-router-dom';
 
 import {
@@ -27,23 +27,20 @@ import {
   trackProduct,
   Product,
   // Supplier,
-  getProductAttributes,
   getProductTrackData,
   getChartValues1,
   getChartValues2,
   getProductDetail,
   getProductDetailChart,
-  getProductDetailChartPrice
+  getProductDetailChartPrice,
 } from '../../../../Action/SYNActions';
-
-// interface 
 import {
   ProductsTrackData,
   ProductDetails,
   ProductChartDetails,
   ChartAveragePrice,
   ChartAverageRank,
-  ProductChartDetailsPrice
+  ProductChartDetailsPrice,
 } from '../../../../Action/SYNActions';
 
 // import history from '../../../../history';
@@ -54,30 +51,42 @@ import HighchartsReact from 'highcharts-react-official';
 interface State {
   isOpen: boolean;
   isFilterApplied: boolean;
-  unitProfitFilter: any;
-  marginFilter: any;
-  unitsPerMonth: any;
-  ROIFilter: any;
   products: Product[];
   modalOpen: boolean;
   currentPage: any;
   totalPages: any;
   pageSize: any;
+  unitProfitFilter: any;
+  marginFilter: any;
+  unitsPerMonthFilter: any;
+  profitPerMonthFilter: any;
+  minUnitProfit: any;
+  maxUnitProfit: any;
+  minMargin: any;
+  maxMargin: any;
+  minUnitsPerMonth: any;
+  maxUnitsPerMonth: any;
+  minProfitPerMonth: any;
+  maxProfitPerMonth: any;
 }
 
 interface Props {
   getProducts(supplierID: string): () => void;
 
-  getProductAttributes(productID: string): () => void;
-
   trackProduct(productID: string, productTrackGroupID: string): () => void;
 
   getProductTrackData(): () => void;
+
   getChartValues1(product_track_group_id: string): () => void;
+
   getChartValues2(product_track_group_id: string): () => void;
+
   getProductDetail(product_id: string): () => void;
+
   getProductDetailChart(product_id: string): () => void;
+
   getProductDetailChartPrice(product_id: string): () => void;
+
   products: Product[];
   products_track_data: ProductsTrackData;
   product_detail: ProductDetails;
@@ -92,8 +101,8 @@ let delayedTimer: any = null;
 
 Highcharts.setOptions({
   lang: {
-    thousandsSep: ','
-  }
+    thousandsSep: ',',
+  },
 });
 
 // const options: Highcharts.Options = {
@@ -159,15 +168,24 @@ export class SupplierDetail extends React.Component<Props, State> {
   state = {
     isOpen: false,
     isFilterApplied: false,
-    unitProfitFilter: 0,
-    marginFilter: 0,
-    unitsPerMonth: 0,
-    ROIFilter: 0,
+
     products: [],
     modalOpen: false,
     totalPages: 5,
     currentPage: 1,
     pageSize: 10,
+    unitProfitFilter: 0,
+    marginFilter: 0,
+    unitsPerMonthFilter: 0,
+    profitPerMonthFilter: 0,
+    minUnitProfit: 0,
+    maxUnitProfit: 100,
+    minMargin: 0,
+    maxMargin: 100,
+    minUnitsPerMonth: 0,
+    maxUnitsPerMonth: 100,
+    minProfitPerMonth: 0,
+    maxProfitPerMonth: 100,
   };
   message = {
     id: 1,
@@ -186,14 +204,86 @@ export class SupplierDetail extends React.Component<Props, State> {
     };
     this.props.getProducts(this.props.match.params.supplierID);
     this.props.getProductTrackData();
-    this.props.getChartValues1("2");
-    this.props.getChartValues2("2");
+    this.props.getChartValues1('2');
+    this.props.getChartValues2('2');
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
+    let minUnitProfit = Number.MAX_SAFE_INTEGER;
+    let maxUnitProfit = Number.MIN_SAFE_INTEGER;
+    let minMargin = Number.MAX_SAFE_INTEGER;
+    let maxMargin = Number.MIN_SAFE_INTEGER;
+    let minUnitsPerMonth = Number.MAX_SAFE_INTEGER;
+    let maxUnitsPerMonth = Number.MIN_SAFE_INTEGER;
+    let minProfitPerMonth = Number.MAX_SAFE_INTEGER;
+    let maxProfitPerMonth = Number.MIN_SAFE_INTEGER;
+    for (const product of nextProps.products) {
+      if (parseInt(product.profit, 10) < minUnitProfit) {
+        minUnitProfit = Math.floor(parseFloat(product.profit));
+
+      }
+      if (parseInt(product.profit, 10) > maxUnitProfit) {
+        maxUnitProfit = Math.ceil(parseFloat(product.profit));
+      }
+      if (parseInt(product.margin, 10) < minMargin) {
+        minMargin = Math.floor(parseFloat(product.margin));
+      }
+      if (parseInt(product.margin, 10) > maxMargin) {
+        maxMargin = Math.ceil(parseFloat(product.margin));
+      }
+      if (parseInt(product.sales_monthly, 10) < minUnitsPerMonth) {
+        minUnitsPerMonth = Math.floor(parseFloat(product.sales_monthly));
+      }
+      if (parseInt(product.sales_monthly, 10) > maxUnitsPerMonth) {
+        maxUnitsPerMonth = Math.ceil(parseFloat(product.sales_monthly));
+      }
+      if (parseInt(product.profit_monthly, 10) < minProfitPerMonth) {
+        minProfitPerMonth = Math.floor(parseFloat(product.profit_monthly));
+      }
+      if (parseInt(product.profit_monthly, 10) > maxProfitPerMonth) {
+        maxProfitPerMonth = Math.ceil(parseFloat(product.profit_monthly));
+      }
+    }
+    if (minUnitProfit === Number.MAX_SAFE_INTEGER) {
+      minUnitProfit = 0;
+    }
+    if (maxUnitProfit === Number.MIN_SAFE_INTEGER) {
+      maxUnitProfit = 100;
+    }
+    if (minMargin === Number.MAX_SAFE_INTEGER) {
+      minMargin = 0;
+    }
+    if (maxMargin === Number.MIN_SAFE_INTEGER) {
+      maxMargin = 100;
+    }
+    if (minUnitsPerMonth === Number.MAX_SAFE_INTEGER) {
+      minUnitsPerMonth = 0;
+    }
+    if (maxUnitsPerMonth === Number.MIN_SAFE_INTEGER) {
+      maxUnitsPerMonth = 100;
+    }
+    if (minProfitPerMonth === Number.MAX_SAFE_INTEGER) {
+      minProfitPerMonth = 0;
+    }
+    if (maxProfitPerMonth === Number.MIN_SAFE_INTEGER) {
+      maxProfitPerMonth = 100;
+    }
+
     this.setState({
       products: nextProps.products,
       totalPages: Math.ceil(nextProps.products.length / this.state.pageSize),
+      minUnitProfit,
+      maxUnitProfit,
+      minMargin,
+      maxMargin,
+      minUnitsPerMonth,
+      maxUnitsPerMonth,
+      minProfitPerMonth,
+      maxProfitPerMonth,
+      unitProfitFilter: maxUnitProfit,
+      profitPerMonthFilter: maxProfitPerMonth,
+      unitsPerMonthFilter: maxUnitsPerMonth,
+      marginFilter: maxMargin,
     });
   }
 
@@ -207,35 +297,35 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   productDetailsWithVisualization = (product_id: string) => {
-    console.log("product_id: ", product_id)
+    console.log('product_id: ', product_id);
     this.props.getProductDetail(product_id);
     this.props.getProductDetailChart(product_id);
     this.props.getProductDetailChartPrice(product_id);
     this.setState({ modalOpen: true });
-  }
+  };
 
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
     const productsTable: Product[] = this.state.products.slice(
       currentPage * this.state.pageSize,
-      (currentPage + 1) * this.state.pageSize
+      (currentPage + 1) * this.state.pageSize,
     );
     return (
       <Table basic="very">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1}>
-              <Checkbox />
+              <Checkbox/>
             </Table.HeaderCell>
             <Table.HeaderCell width={4}>Product Info</Table.HeaderCell>
-            <Table.HeaderCell width={1} />
+            <Table.HeaderCell width={1}/>
             <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
             <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
             <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
             <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
             <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
             <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
-            <Table.HeaderCell width={1} />
+            <Table.HeaderCell width={1}/>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -243,7 +333,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             return (
               <Table.Row key={index}>
                 <Table.Cell>
-                  <Checkbox />
+                  <Checkbox/>
                 </Table.Cell>
                 <Table.Cell>
                   <Grid>
@@ -252,9 +342,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                     </Grid.Column>
                     <Grid.Column width={8} floated="left" className={'middle aligned'}>
                       <Grid.Row as={Link}
-                        onClick={() => {
-                          this.productDetailsWithVisualization(String(value.product_id));
-                        }}>
+                                onClick={() => {
+                                  this.productDetailsWithVisualization(String(value.product_id));
+                                }}>
                         {value.title}
                       </Grid.Row>
                       <Grid.Row>
@@ -285,7 +375,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </Button>
                   {/* {this.productDetailView(String(value.product_id))} */}
                 </Table.Cell>
-                <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                <Table.Cell>{Number(value.profit).toLocaleString()}</Table.Cell>
                 <Table.Cell>{Number(value.margin).toLocaleString()}</Table.Cell>
                 <Table.Cell>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
                 <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
@@ -304,7 +394,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
                 <Table.Cell>
                   <Table.Cell as={Link} to={'//' + value.amazon_url}>
-                    <Icon name="amazon" style={{ color: 'black' }} />
+                    <Icon name="amazon" style={{ color: 'black' }}/>
                     &nbsp;
                   </Table.Cell>
                 </Table.Cell>
@@ -343,21 +433,21 @@ export class SupplierDetail extends React.Component<Props, State> {
     );
   };
 
-  handleClose = () => this.setState({ modalOpen: false })
+  handleClose = () => this.setState({ modalOpen: false });
 
   productDetailView = () => {
-    console.log("product_detail_chart_values: ", this.props)
-    console.log("productDetailView");
+    console.log('product_detail_chart_values: ', this.props);
+    console.log('productDetailView');
     // this.props.product_detail_chart_values
 
     let popup_rank_conainer: Array<number> = [];
     let popup_price_conainer: Array<number> = [];
 
     for (let i = 0; i < this.props.product_detail_chart_values.length; i++) {
-      popup_rank_conainer.push(Number(this.props.product_detail_chart_values[i].rank))
+      popup_rank_conainer.push(Number(this.props.product_detail_chart_values[i].rank));
     }
     for (let i = 0; i < this.props.product_detail_chart_values_2.length; i++) {
-      popup_price_conainer.push(Number(this.props.product_detail_chart_values_2[i].price))
+      popup_price_conainer.push(Number(this.props.product_detail_chart_values_2[i].price));
     }
     // this.props.getProductDetail(product_id);
     // this.props.getProductDetailChart(product_id);
@@ -379,7 +469,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
                 <Grid.Column width={2}>{'short Details'}</Grid.Column>
               </Grid>
-              <Divider />
+              <Divider/>
               <Grid style={{ margin: 0 }}>
                 <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
                   <Grid.Row>Parice</Grid.Row>
@@ -411,10 +501,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>Avg Monthly sales</Grid.Row>
                   <Grid.Row>Avg monthly revnue</Grid.Row>
                   <Grid.Row>Avg monthly profit</Grid.Row>
-                  <Grid.Row />
-                  <br />
-                  <Grid.Row />
-                  <br />
+                  <Grid.Row/>
+                  <br/>
+                  <Grid.Row/>
+                  <br/>
                   <Grid.Row>
                     <h4>ROI/ Return on Investment</h4>
                   </Grid.Row>
@@ -426,16 +516,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>{(this.props.product_detail.monthly_sales == null) ? 0 : Number(this.props.product_detail.monthly_sales).toLocaleString()}</Grid.Row>
                   <Grid.Row>{(this.props.product_detail.monthly_revenue == null) ? 0 : Number(this.props.product_detail.monthly_revenue).toLocaleString()}</Grid.Row>
                   <Grid.Row>{(this.props.product_detail.profit_monthly == null) ? 0 : Number(this.props.product_detail.profit_monthly).toLocaleString()}</Grid.Row>
-                  <Grid.Row />
-                  <br />
-                  <Grid.Row />
-                  <br />
+                  <Grid.Row/>
+                  <br/>
+                  <Grid.Row/>
+                  <br/>
                   <Grid.Row>
                     <h4>{(this.props.product_detail.roi == null) ? 0 : Number(this.props.product_detail.roi).toLocaleString()}</h4>
                   </Grid.Row>
                   <Grid.Row>
                     <h4>0
-                    {/* {(this.props.product_detail.upc == null) ? 0 : Number(this.props.product_detail.upc).toLocaleString()} */}
+                      {/* {(this.props.product_detail.upc == null) ? 0 : Number(this.props.product_detail.upc).toLocaleString()} */}
                     </h4>
                   </Grid.Row>
                 </Grid.Column>
@@ -447,7 +537,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 size="mini"
                 style={{ display: 'inline-block' }}
               />
-              <Icon name="amazon" style={{ color: 'black' }} />
+              <Icon name="amazon" style={{ color: 'black' }}/>
               <p>{this.props.product_detail.asin}</p>
               <p>{this.props.product_detail.upc}</p>
               <p>{'MSKU'}</p>
@@ -459,52 +549,52 @@ export class SupplierDetail extends React.Component<Props, State> {
             options={{
               title: {
                 text: 'Statistics',
-                align: 'left'
+                align: 'left',
               },
               xAxis: {
                 labels: {
                   style: {
-                    color: '#ccc'
-                  }
-                }
+                    color: '#ccc',
+                  },
+                },
               },
               credits: {
-                enabled: false
+                enabled: false,
               },
               yAxis: {
                 title: {
-                  text: ''
+                  text: '',
                 },
                 labels: {
-                  formatter: function () {
+                  formatter: function() {
                     return '$' + (this.value / 1000) + 'k';
                   },
                   style: {
-                    color: '#ccc'
-                  }
-                }
+                    color: '#ccc',
+                  },
+                },
               },
               tooltip: {
-                pointFormat: '$<b>{point.y:,.0f}</b>'
+                pointFormat: '$<b>{point.y:,.0f}</b>',
               },
               legend: {
                 align: 'left',
                 itemStyle: {
-                  color: '#ccc'
-                }
+                  color: '#ccc',
+                },
               },
               series: [{
                 type: 'areaspline',
-                name: "Products sold",
-                color: "#c0f1ff",
-                data: popup_price_conainer
+                name: 'Products sold',
+                color: '#c0f1ff',
+                data: popup_price_conainer,
               },
-              {
-                type: 'areaspline',
-                name: "Total views",
-                color: "#a3a0fb78",
-                data: popup_rank_conainer
-              }]
+                {
+                  type: 'areaspline',
+                  name: 'Total views',
+                  color: '#a3a0fb78',
+                  data: popup_rank_conainer,
+                }],
             }}
             {...this.props}
           />
@@ -516,7 +606,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
-        trigger={<Icon name="trash alternate" style={{ color: 'black' }} />}
+        trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
         onClose={this.close}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
@@ -525,8 +615,8 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative={true}>No</Button>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
         </Modal.Actions>
       </Modal>
     );
@@ -560,17 +650,17 @@ export class SupplierDetail extends React.Component<Props, State> {
                   value: 'Units per Month',
                 },
                 {
-                  key: 'ROI/ Return of Investment',
-                  text: 'ROI/ Return of Investment',
-                  value: 'ROI/ Return of Investment',
+                  key: 'Profit per Month',
+                  text: 'Profit per Month',
+                  value: 'Profit per Month',
                 },
               ]}
               onChange={(e, data) => {
                 console.log(data);
                 //TODO proof of concept for dropdown filter
-                if (data.value === 'ROI/ Return of Investment') {
+                if (data.value === 'Profit per Month') {
                   this.setState({
-                    ROIFilter: 24,
+                    profitPerMonthFilter: 24,
                   }, () => {
                     this.updateFilters();
                   });
@@ -587,56 +677,50 @@ export class SupplierDetail extends React.Component<Props, State> {
             {/* </Grid.Row> */}
             {/* <Grid.Row style={{ marginTop: 20 }}> */}
             <Card raised={true}
-              style={{
-                // marginTop: 20,
-                width: "100%"
-              }}
+                  style={{
+                    // marginTop: 20,
+                    width: '100%',
+                  }}
             >
               <Card.Content>
                 <Feed>
                   <Feed.Event>
                     <Feed.Content>
                       <Feed.Summary>
-                        Unit Profit <Icon title="Sellgo" name="question circle outline" />
+                        Unit Profit <Icon title="Sellgo" name="question circle outline"/>
                       </Feed.Summary>
                       <Feed.Summary className="min-max-slider-wrapper">
                         <Grid>
                           <Grid.Row>
                             <Grid.Column floated="left" width={4}>
-                              <div className="min-max">0</div>
+                              <div className="min-max">{this.state.minUnitProfit}</div>
                             </Grid.Column>
                             <Grid.Column
                               style={{ padding: 0 }}
                               width={8}>
-
                               <input
                                 onChange={event => {
                                   const value = event.target.value;
-                                  if (delayedTimer != null) {
-                                    clearTimeout(delayedTimer);
-                                  }
-                                  delayedTimer = setTimeout(() => {
-                                    console.log(event);
-                                    this.setState(
-                                      {
-                                        isFilterApplied: true,
-                                        unitProfitFilter: parseInt(value, 10),
-                                      },
-                                      () => {
-                                        this.updateFilters();
-                                      },
-                                    );
-                                  }, 500);
+                                  console.log(event);
+                                  this.setState(
+                                    {
+                                      isFilterApplied: true,
+                                      unitProfitFilter: parseInt(value, 10),
+                                    },
+                                    () => {
+                                      this.updateFilters();
+                                    },
+                                  );
                                 }}
                                 value={this.state.unitProfitFilter}
-                                min="0"
-                                max="1000"
+                                min={this.state.minUnitProfit}
+                                max={this.state.maxUnitProfit}
                                 type="range"
                                 className="slider"
                               />
                             </Grid.Column>
                             <Grid.Column floated="right" width={4}>
-                              <div className="min-max">100</div>
+                              <div className="min-max">{this.state.maxUnitProfit}</div>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
@@ -646,13 +730,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Feed.Event>
                     <Feed.Content>
                       <Feed.Summary>
-                        Margin (%) <Icon title="Sellgo" name="question circle outline" />
+                        Margin (%) <Icon title="Sellgo" name="question circle outline"/>
                       </Feed.Summary>
                       <Feed.Summary className="min-max-slider-wrapper">
                         <Grid>
                           <Grid.Row>
                             <Grid.Column floated="left" width={4}>
-                              <div className="min-max">0</div>
+                              <div className="min-max">{this.state.minMargin}</div>
                             </Grid.Column>
                             <Grid.Column
                               style={{ padding: 0 }}
@@ -660,31 +744,26 @@ export class SupplierDetail extends React.Component<Props, State> {
                               <input
                                 onChange={event => {
                                   const value = event.target.value;
-                                  if (delayedTimer != null) {
-                                    clearTimeout(delayedTimer);
-                                  }
-                                  delayedTimer = setTimeout(() => {
-                                    console.log(event);
-                                    this.setState(
-                                      {
-                                        isFilterApplied: true,
-                                        marginFilter: parseInt(value, 10),
-                                      },
-                                      () => {
-                                        this.updateFilters();
-                                      },
-                                    );
-                                  }, 500);
+                                  console.log(event);
+                                  this.setState(
+                                    {
+                                      isFilterApplied: true,
+                                      marginFilter: parseInt(value, 10),
+                                    },
+                                    () => {
+                                      this.updateFilters();
+                                    },
+                                  );
                                 }}
                                 value={this.state.marginFilter}
-                                min="0"
-                                max="100"
+                                min={this.state.minMargin}
+                                max={this.state.maxMargin}
                                 type="range"
                                 className="slider"
                               />
                             </Grid.Column>
                             <Grid.Column floated="right" width={4}>
-                              <div className="min-max">100</div>
+                              <div className="min-max">{this.state.maxMargin}</div>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
@@ -694,13 +773,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Feed.Event>
                     <Feed.Content>
                       <Feed.Summary>
-                        Units per Month <Icon title="Sellgo" name="question circle outline" />
+                        Units per Month <Icon title="Sellgo" name="question circle outline"/>
                       </Feed.Summary>
                       <Feed.Summary className="min-max-slider-wrapper">
                         <Grid>
                           <Grid.Row>
                             <Grid.Column floated="left" width={4}>
-                              <div className="min-max">0</div>
+                              <div className="min-max">{this.state.minUnitsPerMonth}</div>
                             </Grid.Column>
                             <Grid.Column
                               style={{ padding: 0 }}
@@ -708,31 +787,25 @@ export class SupplierDetail extends React.Component<Props, State> {
                               <input
                                 onChange={event => {
                                   const value = event.target.value;
-                                  if (delayedTimer != null) {
-                                    clearTimeout(delayedTimer);
-                                  }
-                                  delayedTimer = setTimeout(() => {
-                                    console.log(event);
-                                    this.setState(
-                                      {
-                                        isFilterApplied: true,
-                                        unitsPerMonth: parseInt(value, 10),
-                                      },
-                                      () => {
-                                        this.updateFilters();
-                                      },
-                                    );
-                                  }, 500);
+                                  this.setState(
+                                    {
+                                      isFilterApplied: true,
+                                      unitsPerMonthFilter: parseInt(value, 10),
+                                    },
+                                    () => {
+                                      this.updateFilters();
+                                    },
+                                  );
                                 }}
-                                value={this.state.unitsPerMonth}
-                                min="0"
-                                max="100"
+                                value={this.state.unitsPerMonthFilter}
+                                min={this.state.minProfitPerMonth}
+                                max={this.state.maxProfitPerMonth}
                                 type="range"
                                 className="slider"
                               />
                             </Grid.Column>
                             <Grid.Column floated="right" width={4}>
-                              <div className="min-max">100</div>
+                              <div className="min-max">{this.state.maxUnitsPerMonth}</div>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
@@ -742,45 +815,38 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Feed.Event>
                     <Feed.Content>
                       <Feed.Summary>
-                        ROI/ Return of Investment{' '}
-                        <Icon title="Sellgo" name="question circle outline" />
+                        Profit per Month {' '}
+                        <Icon title="Sellgo" name="question circle outline"/>
                       </Feed.Summary>
                       <Feed.Summary className="min-max-slider-wrapper">
                         <Grid>
                           <Grid.Row>
                             <Grid.Column floated="left" width={4}>
-                              <div className="min-max">0</div>
+                              <div className="min-max">{this.state.minProfitPerMonth}</div>
                             </Grid.Column>
-                            <Grid.Column
-                              style={{ padding: 0 }}
-                              width={8}>
+                            <Grid.Column style={{ padding: 0 }} width={8}>
                               <input
-                                // onChange={event => {
-                                //   // const value = event.target.value;
-                                //   // if (delayedTimer != null) {
-                                //   //   clearTimeout(delayedTimer);
-                                //   // }
-                                //   // delayedTimer = setTimeout(() => {
-                                //   //   this.setState(
-                                //   //     {
-                                //   //       isFilterApplied: true,
-                                //   //       ROIFilter: parseInt(value, 10),
-                                //   //     },
-                                //   //     () => {
-                                //   //       this.updateFilters();
-                                //   //     },
-                                //   //   );
-                                //   // }, 1000);
-                                // }}
-                                value={this.state.ROIFilter}
-                                min="0"
-                                max="100"
+                                onChange={event => {
+                                  const value = event.target.value;
+                                  this.setState(
+                                    {
+                                      isFilterApplied: true,
+                                      profitPerMonthFilter: parseInt(value, 10),
+                                    },
+                                    () => {
+                                      this.updateFilters();
+                                    },
+                                  );
+                                }}
+                                value={this.state.profitPerMonthFilter}
+                                min={this.state.minProfitPerMonth}
+                                max={this.state.maxProfitPerMonth}
                                 type="range"
                                 className="slider"
                               />
                             </Grid.Column>
                             <Grid.Column floated="right" width={4}>
-                              <div className="min-max">100</div>
+                              <div className="min-max">{this.state.maxProfitPerMonth}</div>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
@@ -798,23 +864,23 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   updateFilters = () => {
-    let products: Product[] = this.props.products;
-    console.log('ROI FILTER VALUE : ' + this.state.ROIFilter);
-    let newProducts: Product[] = [];
+    const products: Product[] = this.props.products;
+    console.log('PROFIT PER MONTH  FILTER VALUE : ' + this.state.profitPerMonthFilter);
+    const newProducts: Product[] = [];
     for (let product of products) {
       let shouldAdd = true;
-      // if (this.state.unitProfitFilter > 0 && parseInt(product.profit_monthly, 10) !== this.state.unitProfitFilter) {
-      //   shouldAdd = false;
-      // }
-      // if (this.state.marginFilter > 0 && parseInt(product.margin, 10) !== this.state.marginFilter) {
-      //   shouldAdd = false;
-      // }
-      // if (this.state.unitsPerMonth > 0 && parseInt(product.sales_monthly, 10) !== this.state.unitsPerMonth) {
-      //   shouldAdd = false;
-      // }
-      // if (this.state.ROIFilter > 0 && parseInt(product.profit_monthly, 10) !== this.state.ROIFilter) {
-      //   shouldAdd = false;
-      // }
+      if (this.state.unitProfitFilter !== this.state.maxUnitProfit && parseInt(product.profit_monthly, 10) > this.state.unitProfitFilter) {
+        shouldAdd = false;
+      }
+      if (this.state.marginFilter !== this.state.maxMargin && parseInt(product.margin, 10) > this.state.marginFilter) {
+        shouldAdd = false;
+      }
+      if (this.state.unitsPerMonthFilter !== this.state.maxUnitsPerMonth && parseInt(product.sales_monthly, 10) > this.state.unitsPerMonthFilter) {
+        shouldAdd = false;
+      }
+      if (this.state.profitPerMonthFilter !== this.state.maxProfitPerMonth && parseInt(product.profit_monthly, 10) > this.state.profitPerMonthFilter) {
+        shouldAdd = false;
+      }
       if (shouldAdd) {
         newProducts.push(product);
       }
@@ -830,15 +896,15 @@ export class SupplierDetail extends React.Component<Props, State> {
 
     let avg_price = [];
     let avg_rank = [];
-    console.log(this.props)
+    console.log(this.props);
     for (let i = 0; i < this.props.chart_values_1.length; i++) {
       avg_price.push(Number(this.props.chart_values_1[i].avg_price));
     }
     for (let i = 0; i < this.props.chart_values_2.length; i++) {
       avg_rank.push(Number(this.props.chart_values_2[i].avg_rank));
     }
-    console.log("avg_price: ", avg_price)
-    console.log("avg_rank: ", avg_rank)
+    console.log('avg_price: ', avg_price);
+    console.log('avg_rank: ', avg_rank);
     return (
       <Grid.Column width={11} floated="left">
         <Grid.Row style={{ width: '95%' }}>
@@ -850,10 +916,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Units Sold" />
+                          <Feed.Date content="Avg Daily Units Sold"/>
                           <Feed.Summary>{Number(this.props.products_track_data.daily_sales).toLocaleString()}</Feed.Summary>
-                          <Divider />
-                          <Feed.Date content="Avg BB Price/ Fees" />
+                          <Divider/>
+                          <Feed.Date content="Avg BB Price/ Fees"/>
                           <Feed.Summary>{Number(this.props.products_track_data.fees).toLocaleString()}</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
@@ -865,11 +931,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Revenue/ Profit" />
+                          <Feed.Date content="Avg Daily Revenue/ Profit"/>
                           <Feed.Summary>{Number(this.props.products_track_data.profit).toLocaleString()}</Feed.Summary>
-                          <Divider />
-                          <Feed.Date content="Avg BB Price/ Fees" />
-                          <Feed.Summary>{Number(this.props.products_track_data.profit).toLocaleString()}</Feed.Summary>
+                          <Divider/>
+                          <Feed.Date content="Avg ROI/ ROII"/>
+                          <Feed.Summary>{Number(this.props.products_track_data.roi).toLocaleString()}</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
                     </Feed>
@@ -880,10 +946,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Rank" />
+                          <Feed.Date content="Avg Daily Rank"/>
                           <Feed.Summary>{Number(this.props.products_track_data.daily_rank).toLocaleString()}</Feed.Summary>
-                          <Divider />
-                          <Feed.Date content="Avg LQS" />
+                          <Divider/>
+                          <Feed.Date content="Avg LQS"/>
                           <Feed.Summary>{Number(this.props.products_track_data.daily_rank).toLocaleString()}</Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
@@ -900,52 +966,52 @@ export class SupplierDetail extends React.Component<Props, State> {
                         options={{
                           title: {
                             text: 'Statistics',
-                            align: 'left'
+                            align: 'left',
                           },
                           xAxis: {
                             labels: {
                               style: {
-                                color: '#ccc'
-                              }
-                            }
+                                color: '#ccc',
+                              },
+                            },
                           },
                           credits: {
-                            enabled: false
+                            enabled: false,
                           },
                           yAxis: {
                             title: {
-                              text: ''
+                              text: '',
                             },
                             labels: {
-                              formatter: function () {
+                              formatter: function() {
                                 return '$' + (this.value / 1000) + 'k';
                               },
                               style: {
-                                color: '#ccc'
-                              }
-                            }
+                                color: '#ccc',
+                              },
+                            },
                           },
                           tooltip: {
-                            pointFormat: '$<b>{point.y:,.0f}</b>'
+                            pointFormat: '$<b>{point.y:,.0f}</b>',
                           },
                           legend: {
                             align: 'left',
                             itemStyle: {
-                              color: '#ccc'
-                            }
+                              color: '#ccc',
+                            },
                           },
                           series: [{
                             type: 'areaspline',
-                            name: "Products sold",
-                            color: "#c0f1ff",
-                            data: avg_price
+                            name: 'Products sold',
+                            color: '#c0f1ff',
+                            data: avg_price,
                           },
-                          {
-                            type: 'areaspline',
-                            name: "Total views",
-                            color: "#a3a0fb78",
-                            data: avg_rank
-                          }]
+                            {
+                              type: 'areaspline',
+                              name: 'Total views',
+                              color: '#a3a0fb78',
+                              data: avg_rank,
+                            }],
                         }}
                         {...this.props}
                       />
@@ -961,12 +1027,12 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   render() {
-    console.log("this.props: ", this.props)
+    console.log('this.props: ', this.props);
     // const memberDate = `May 5 2018`;
     // const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
-        <Divider />
+        <Divider/>
         <Grid>
           <Grid.Row>
             <Grid.Column floated="left" width={4}>
@@ -974,15 +1040,15 @@ export class SupplierDetail extends React.Component<Props, State> {
             </Grid.Column>
             <Grid.Column floated="right" width={12}>
               {this.renderHeaderSupplierMatrics()}
-            </Grid.Column >
+            </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Divider />
+        <Divider/>
         <Grid>
           <Grid.Column width={5} floated='right'
-            style={{
-              padding: 0
-            }}>
+                       style={{
+                         padding: 0,
+                       }}>
             <div className="ui" style={{
               display: 'inline-flex',
               // border: '1px solid #000',
@@ -1008,7 +1074,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             </div>
           </Grid.Column>
         </Grid>
-        <Divider />
+        <Divider/>
         {this.renderTable()}
         {this.productDetailView()}
       </Segment>
@@ -1039,7 +1105,6 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
-    getProductAttributes: (productID: string) => dispatch(getProductAttributes(productID)),
     getProductTrackData: () => dispatch(getProductTrackData()),
     getProductDetail: (product_id: string) => dispatch(getProductDetail(product_id)),
     getProductDetailChart: (product_id: string) => dispatch(getProductDetailChart(product_id)),
