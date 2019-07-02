@@ -14,7 +14,7 @@ import {
   Card,
   Feed,
   Dimmer,
-  Loader
+  Loader, Pagination,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './supplierDetail.css';
@@ -58,8 +58,11 @@ interface State {
   marginFilter: any;
   unitsPerMonth: any;
   ROIFilter: any;
-  products: Array<Product>;
+  products: Product[];
   modalOpen: boolean;
+  currentPage: any;
+  totalPages: any;
+  pageSize: any;
 }
 
 interface Props {
@@ -162,6 +165,9 @@ export class SupplierDetail extends React.Component<Props, State> {
     ROIFilter: 0,
     products: [],
     modalOpen: false,
+    totalPages: 5,
+    currentPage: 1,
+    pageSize: 10,
   };
   message = {
     id: 1,
@@ -187,6 +193,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     this.setState({
       products: nextProps.products,
+      totalPages: Math.ceil(nextProps.products.length / this.state.pageSize),
     });
   }
 
@@ -208,7 +215,11 @@ export class SupplierDetail extends React.Component<Props, State> {
   }
 
   renderTable = () => {
-    const productsTable: Product[] = this.state.products;
+    const currentPage = this.state.currentPage - 1;
+    const productsTable: Product[] = this.state.products.slice(
+      currentPage * this.state.pageSize,
+      (currentPage + 1) * this.state.pageSize
+    );
     return (
       <Table basic="very">
         <Table.Header>
@@ -237,7 +248,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Table.Cell>
                   <Grid>
                     <Grid.Column floated="left">
-                      <Image src={new URL(((value.image_url == null) ? 'http://localhost:3000/images/intro.png' : value.image_url))} size="tiny" />
+                      {/*<Image src={new URL(((value.image_url == null) ? 'http://localhost:3000/images/intro.png' : value.image_url))} size="tiny" />*/}
                     </Grid.Column>
                     <Grid.Column width={8} floated="left" className={'middle aligned'}>
                       <Grid.Row as={Link}
@@ -249,7 +260,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Grid.Row>
                         <Grid.Column style={{ display: 'inline-flex' }}>
                           <Image
-                            src={new URL(((value.image_url == null) ? 'http://localhost:3000/images/intro.png' : value.image_url))}
+                            // src={new URL(((value.image_url == null) ? 'http://localhost:3000/images/intro.png' : value.image_url))}
                             size="mini"
                           />
                           {/* </Grid.Column> */}
@@ -304,18 +315,27 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Table.Footer>
           <Table.Row textAlign="center">
             <Table.HeaderCell colSpan={10}>
-              <Menu pagination={true}>
-                <Menu.Item as="a" icon={true}>
-                  <Icon name="chevron left" />
-                </Menu.Item>
-                <Menu.Item as="a">1</Menu.Item>
-                <Menu.Item as="a">2</Menu.Item>
-                <Menu.Item as="a">3</Menu.Item>
-                <Menu.Item as="a">4</Menu.Item>
-                <Menu.Item as="a" icon={true}>
-                  <Icon name="chevron right" />
-                </Menu.Item>
-              </Menu>
+              {/*<Menu pagination={true}>*/}
+              {/*  <Menu.Item as="a" icon={true}>*/}
+              {/*    <Icon name="chevron left" />*/}
+              {/*  </Menu.Item>*/}
+              {/*  <Menu.Item as="a">1</Menu.Item>*/}
+              {/*  <Menu.Item as="a">2</Menu.Item>*/}
+              {/*  <Menu.Item as="a">3</Menu.Item>*/}
+              {/*  <Menu.Item as="a">4</Menu.Item>*/}
+              {/*  <Menu.Item as="a" icon={true}>*/}
+              {/*    <Icon name="chevron right" />*/}
+              {/*  </Menu.Item>*/}
+              {/*</Menu>*/}
+              <Pagination
+                totalPages={this.state.totalPages}
+                activePage={this.state.currentPage}
+                onPageChange={(event, data) => {
+                  this.setState({
+                    currentPage: data.activePage,
+                  });
+                }}
+              />
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>
@@ -568,7 +588,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             {/* <Grid.Row style={{ marginTop: 20 }}> */}
             <Card raised={true}
               style={{
-                // marginTop: 20, 
+                // marginTop: 20,
                 width: "100%"
               }}
             >
@@ -735,23 +755,23 @@ export class SupplierDetail extends React.Component<Props, State> {
                               style={{ padding: 0 }}
                               width={8}>
                               <input
-                                onChange={event => {
-                                  const value = event.target.value;
-                                  if (delayedTimer != null) {
-                                    clearTimeout(delayedTimer);
-                                  }
-                                  delayedTimer = setTimeout(() => {
-                                    this.setState(
-                                      {
-                                        isFilterApplied: true,
-                                        ROIFilter: parseInt(value, 10),
-                                      },
-                                      () => {
-                                        this.updateFilters();
-                                      },
-                                    );
-                                  }, 500);
-                                }}
+                                // onChange={event => {
+                                //   // const value = event.target.value;
+                                //   // if (delayedTimer != null) {
+                                //   //   clearTimeout(delayedTimer);
+                                //   // }
+                                //   // delayedTimer = setTimeout(() => {
+                                //   //   this.setState(
+                                //   //     {
+                                //   //       isFilterApplied: true,
+                                //   //       ROIFilter: parseInt(value, 10),
+                                //   //     },
+                                //   //     () => {
+                                //   //       this.updateFilters();
+                                //   //     },
+                                //   //   );
+                                //   // }, 1000);
+                                // }}
                                 value={this.state.ROIFilter}
                                 min="0"
                                 max="100"
@@ -783,18 +803,18 @@ export class SupplierDetail extends React.Component<Props, State> {
     let newProducts: Product[] = [];
     for (let product of products) {
       let shouldAdd = true;
-      if (this.state.unitProfitFilter > 0 && parseInt(product.profit_monthly, 10) !== this.state.unitProfitFilter) {
-        shouldAdd = false;
-      }
-      if (this.state.marginFilter > 0 && parseInt(product.margin, 10) !== this.state.marginFilter) {
-        shouldAdd = false;
-      }
-      if (this.state.unitsPerMonth > 0 && parseInt(product.sales_monthly, 10) !== this.state.unitsPerMonth) {
-        shouldAdd = false;
-      }
-      if (this.state.ROIFilter > 0 && parseInt(product.profit_monthly, 10) !== this.state.ROIFilter) {
-        shouldAdd = false;
-      }
+      // if (this.state.unitProfitFilter > 0 && parseInt(product.profit_monthly, 10) !== this.state.unitProfitFilter) {
+      //   shouldAdd = false;
+      // }
+      // if (this.state.marginFilter > 0 && parseInt(product.margin, 10) !== this.state.marginFilter) {
+      //   shouldAdd = false;
+      // }
+      // if (this.state.unitsPerMonth > 0 && parseInt(product.sales_monthly, 10) !== this.state.unitsPerMonth) {
+      //   shouldAdd = false;
+      // }
+      // if (this.state.ROIFilter > 0 && parseInt(product.profit_monthly, 10) !== this.state.ROIFilter) {
+      //   shouldAdd = false;
+      // }
       if (shouldAdd) {
         newProducts.push(product);
       }
