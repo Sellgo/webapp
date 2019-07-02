@@ -21,6 +21,11 @@ body {
   font-display: optional;
   font-size: 20px;
 }
+.ui.message {
+  margin-bottom: 0;
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
 .title {
   font-family: 'Montserrat', serif;
   font-weight: 700;
@@ -191,6 +196,9 @@ ul.control-dots {
 
 .p-t-40 {
   padding-top: 40px !important;
+}
+.p-t-20 {
+  padding-top: 20px !important;
 }
 
 .carousel .slide {
