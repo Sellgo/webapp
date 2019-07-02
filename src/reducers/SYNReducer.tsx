@@ -1,6 +1,5 @@
 import { Map } from 'immutable';
 import {
-  SET_PRODUCT_ATTRIBUTES,
   SET_PRODUCTS,
   SET_SELLERS,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
@@ -22,7 +21,7 @@ const initialState = Map({
   chart_values_2: [],
   product_detail: [],
   product_detail_chart_values: [],
-  product_detail_chart_values_2: []
+  product_detail_chart_values_2: [],
 });
 
 export const SYNReducer = (state = initialState, action: any) => {
@@ -34,9 +33,6 @@ export const SYNReducer = (state = initialState, action: any) => {
     case SET_PRODUCTS:
       const newStateData = state.setIn(['products'], action.data);
       return newStateData;
-    case SET_PRODUCT_ATTRIBUTES:
-      const set_Product_Attribute = state.setIn(['products'], action.data);
-      return state;
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
       const new_supplier = state.setIn(['new_supplier'], action.data.id);
       return new_supplier;

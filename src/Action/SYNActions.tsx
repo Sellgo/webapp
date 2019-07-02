@@ -2,7 +2,6 @@ import axios from 'axios';
 import {
   URLS, SET_SELLERS,
   SET_PRODUCTS,
-  SET_PRODUCT_ATTRIBUTES,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_PRODUCT_TRACK_DATA,
   SET_CHART_VALUES_1,
@@ -48,6 +47,7 @@ export interface Product {
   sales_monthly: string;
   title: string;
   tracking_status: string;
+  profit: string;
 }
 
 export interface ProductsTrackData {
@@ -116,8 +116,8 @@ const headers = {
 
 const headers_file = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-  'Content-Type': `multipart/form-data`
-}
+  'Content-Type': `multipart/form-data`,
+};
 
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
@@ -241,7 +241,7 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     data: {
       name: name,
       description: description,
-      supplier_group_id: 1
+      supplier_group_id: 1,
     },
     headers,
   })
@@ -257,7 +257,7 @@ export const saveSupplierNameAndDescription = (name: string, description: string
 export const uploadCSV = (new_supplier_id: string, file: string) => (dispatch: any) => {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-    'Content-Type': `multipart/form-data`
+    'Content-Type': `multipart/form-data`,
   };
   const sellerID = localStorage.getItem('userId');
   return axios({
@@ -267,9 +267,9 @@ export const uploadCSV = (new_supplier_id: string, file: string) => (dispatch: a
     data: {
       // seller_id: sellerID,
       seller_id: '1000000052',
-      file: file
+      file: file,
     },
-    headers
+    headers,
   })
     .then(json => {
       console.log(json.data);
@@ -282,7 +282,7 @@ export const uploadCSV = (new_supplier_id: string, file: string) => (dispatch: a
 
 export const getProducts = (supplierID: string) => (dispatch: any) => {
   const userID = localStorage.getItem('userId');
-  console.log("supplierID: ", supplierID);
+  console.log('supplierID: ', supplierID);
   // const supplier = URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data/';
   // console.log(supplier);
 
@@ -290,7 +290,7 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     method: 'get',
     // url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' +userID ,
     url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=1000000052',
-    headers
+    headers,
   })
     .then(json => {
       console.log(json.data);
@@ -333,23 +333,6 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     });
 };
 
-export const getProductAttributes = (productID: string) => (dispatch: any) => {
-  // api/product/3000000065/attribute/
-  const url = URLS.BASE_URL_API + 'product/' + productID + '/attribute/';
-  console.log(url);
-  return axios({
-    method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + productID + '/attribute/',
-    headers,
-  })
-    .then(json => {
-      console.log(json.data);
-      // dispatch(setProductAttributes(json.data));
-      // return json.data;
-    })
-    .catch(error => {
-    });
-};
 
 export const trackProduct = (productID: string, productTrackGroupID: string) => (dispatch: any) => {
   // api/seller/(?P<seller_id>[0-9]+)/track/product/
@@ -383,12 +366,6 @@ export const setProducts = (data: {}) => ({
   type: SET_PRODUCTS,
   data,
 });
-
-export const setProductAttributes = (data: {}) => ({
-  type: SET_PRODUCT_ATTRIBUTES,
-  data,
-});
-
 export const setsaveSupplierNameAndDescription = (data: {}) => ({
   type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   data,
