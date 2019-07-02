@@ -76,6 +76,9 @@ class Setting extends React.Component<Props, State> {
   }
 
   updateBasicInfoSeller = () => {
+    this.message.title = 'Information Updated';
+    this.message.message = 'Thank you for Updating';
+    this.message.description = 'You have successfully updated new information.';
     const { name, firstName, lastName, id, email, auth0_user_id } = this.props.sellerData;
     const data = { name: `${firstName} ${lastName}`, id, email, auth0_user_id };
     this.props.updateBasicInfoSeller(data);

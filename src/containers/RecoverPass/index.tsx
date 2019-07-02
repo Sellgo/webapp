@@ -51,13 +51,14 @@ export default class RecoverPass extends React.Component<any, State> {
 
     if (reg.test(this.state.email) === false) {
       this.setState({ isFailed: true, errorMsg: 'Please enter valid email address.' });
+      this.props.isSuccessReset({ isFailed: true, errorMsg: 'Please enter valid email address.' });
       if (this.state.email === '') {
         this.props.isSuccessReset({
           isFailed: true,
           errorMsg: 'Please enter email or email field is empty',
         });
       } else {
-        this.props.isSuccessReset({ sFailed: true, errorMsg: 'Please enter valid email address.' });
+        this.props.isSuccessReset({ isFailed: true, errorMsg: 'Please enter valid email address.' });
       }
     } else {
       axios
