@@ -18,8 +18,8 @@ const initialState = Map({
     cdate: '',
   },
   amazonMWS: {
-    seller_id: 0,
-    marketplace_id: 'DJIW28394D',
+    seller_id: '',
+    marketplace_id: '',
     token: '',
   },
   success: false,

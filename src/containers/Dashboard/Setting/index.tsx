@@ -95,7 +95,17 @@ class Setting extends React.Component<Props, State> {
       marketplace_id,
       token,
     };
-    this.props.updateAmazonMWS(id, data);
+    if (seller_id === '' || marketplace_id === '' || token === '') {
+      this.message.title = 'Failed';
+      this.message.message = 'Update Failed!';
+      this.message.description = 'All fields must be filled';
+      this.handleModel();
+    } else {
+      this.message.title = 'Information Updated';
+      this.message.message = 'Thank you for Updating';
+      this.message.description = 'You have successfully updated new information.';
+      this.props.updateAmazonMWS(id, data);
+    }
   };
 
   handleModel = () => {
