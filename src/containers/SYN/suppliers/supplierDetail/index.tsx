@@ -806,8 +806,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                                     );
                                   }}
                                   value={this.state.unitsPerMonthFilter}
-                                  min={this.state.minProfitPerMonth}
-                                  max={this.state.maxProfitPerMonth}
+                                  min={this.state.minUnitsPerMonth}
+                                  max={this.state.maxUnitsPerMonth}
                                   type="range"
                                   className="slider"
                                 />
