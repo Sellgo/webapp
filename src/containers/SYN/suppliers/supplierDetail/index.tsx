@@ -73,7 +73,7 @@ interface State {
 interface Props {
   getProducts(supplierID: string): () => void;
 
-  trackProduct(productID: string, productTrackGroupID: string): () => void;
+  trackProduct(productID: string, productTrackGroupID: string, status: string): () => void;
 
   getProductTrackData(): () => void;
 
@@ -382,12 +382,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Button
                     basic={true}
                     style={{ borderRadius: 20 }}
-                    color="blue"
+                    color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                     onClick={() => {
-                      this.props.trackProduct(String(value.id), '2');
+                      this.props.trackProduct(
+                        String(value.product_id),
+                        '2',
+                        value.tracking_status === 'active' ? 'inactive' : 'active'
+                      );
                     }}
                   >
-                    Track Now
+                    {value.tracking_status === 'active' ? 'Untrack' : 'Track Now'}
                   </Button>
                 </Table.Cell>
                 <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
@@ -883,6 +887,8 @@ export class SupplierDetail extends React.Component<Props, State> {
         shouldAdd = false;
       }
       if (this.state.unitsPerMonthFilter !== this.state.maxUnitsPerMonth && parseFloat(product.sales_monthly) > this.state.unitsPerMonthFilter) {
+        console.log(this.state.unitsPerMonthFilter);
+        console.log(this.state.maxUnitsPerMonth);
         shouldAdd = false;
       }
       if (this.state.profitPerMonthFilter !== this.state.maxProfitPerMonth && parseFloat(product.profit_monthly) > this.state.profitPerMonthFilter) {
@@ -903,15 +909,15 @@ export class SupplierDetail extends React.Component<Props, State> {
 
     let avg_price = [];
     let avg_rank = [];
-    console.log(this.props);
+    // console.log(this.props);
     for (let i = 0; i < this.props.chart_values_1.length; i++) {
       avg_price.push(Number(this.props.chart_values_1[i].avg_price));
     }
     for (let i = 0; i < this.props.chart_values_2.length; i++) {
       avg_rank.push(Number(this.props.chart_values_2[i].avg_rank));
     }
-    console.log('avg_price: ', avg_price);
-    console.log('avg_rank: ', avg_rank);
+    // console.log('avg_price: ', avg_price);
+    // console.log('avg_rank: ', avg_rank);
     return (
       <Grid.Column width={11} floated="left">
         <Grid.Row style={{ width: '95%' }}>
@@ -1062,22 +1068,22 @@ export class SupplierDetail extends React.Component<Props, State> {
               // padding: '11px',
               // borderRadius: '15px',
             }}>
+                      <span style={{ padding: '0 8px' }}>
+                      Time Saved
+                      <h2>
+                      <strong>
+                      99 hrs
+                      </strong>
+                      </h2>
+                      </span>
               <span style={{ padding: '0 8px' }}>
-                Time Saved
-                <h2>
-                  <strong>
-                    99 hrs
-                 </strong>
-                </h2>
-              </span>
-              <span style={{ padding: '0 8px' }}>
-                Efficiency
-                <h2>
-                  <strong>
-                    99%
-                  </strong>
-                </h2>
-              </span>
+                      Efficiency
+                      <h2>
+                      <strong>
+                      99%
+                      </strong>
+                      </h2>
+                      </span>
             </div>
           </Grid.Column>
         </Grid>
@@ -1118,8 +1124,8 @@ const mapDispatchToProps = (dispatch: any) => {
     getProductDetailChartPrice: (product_id: string) => dispatch(getProductDetailChartPrice(product_id)),
     getChartValues1: (product_track_group_id: string) => dispatch(getChartValues1(product_track_group_id)),
     getChartValues2: (product_track_group_id: string) => dispatch(getChartValues2(product_track_group_id)),
-    trackProduct: (supplierID: string, productTrackGroupID: string) =>
-      dispatch(trackProduct(supplierID, productTrackGroupID)),
+    trackProduct: (supplierID: string, productTrackGroupID: string, status: string) =>
+      dispatch(trackProduct(supplierID, productTrackGroupID, status)),
   };
 };
 

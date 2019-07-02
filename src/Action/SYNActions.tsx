@@ -264,7 +264,7 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
     data: {
       name: name,
       description: description,
-      supplier_group_id: 1
+      supplier_group_id: 1,
     },
     headers,
   })
@@ -356,7 +356,7 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
 };
 
 
-export const trackProduct = (productID: string, productTrackGroupID: string) => (dispatch: any) => {
+export const trackProduct = (productID: string, productTrackGroupID: string, status: string) => (dispatch: any) => {
   // api/seller/(?P<seller_id>[0-9]+)/track/product/
   const sellerID = localStorage.getItem('userId');
   console.log(productID);
@@ -364,10 +364,11 @@ export const trackProduct = (productID: string, productTrackGroupID: string) => 
     seller_id: sellerID,
     product_track_group_id: 2,
     product_id: productID,
+    status,
   };
   return axios({
     method: 'POST',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/track/product`,
+    url: URLS.BASE_URL_API + `seller/${sellerID}/track/product/`,
     data,
     headers,
   })
