@@ -220,7 +220,6 @@ export class SupplierDetail extends React.Component<Props, State> {
     for (const product of nextProps.products) {
       if (parseInt(product.profit, 10) < minUnitProfit) {
         minUnitProfit = Math.floor(parseFloat(product.profit));
-
       }
       if (parseInt(product.profit, 10) > maxUnitProfit) {
         maxUnitProfit = Math.ceil(parseFloat(product.profit));
@@ -245,28 +244,28 @@ export class SupplierDetail extends React.Component<Props, State> {
       }
     }
     if (minUnitProfit === Number.MAX_SAFE_INTEGER) {
-      minUnitProfit = 0;
+      minUnitProfit = -100;
     }
     if (maxUnitProfit === Number.MIN_SAFE_INTEGER) {
-      maxUnitProfit = 100;
+      maxUnitProfit = -100;
     }
     if (minMargin === Number.MAX_SAFE_INTEGER) {
-      minMargin = 0;
+      minMargin = -100;
     }
     if (maxMargin === Number.MIN_SAFE_INTEGER) {
-      maxMargin = 100;
+      maxMargin = -100;
     }
     if (minUnitsPerMonth === Number.MAX_SAFE_INTEGER) {
-      minUnitsPerMonth = 0;
+      minUnitsPerMonth = -100;
     }
     if (maxUnitsPerMonth === Number.MIN_SAFE_INTEGER) {
-      maxUnitsPerMonth = 100;
+      maxUnitsPerMonth = -100;
     }
     if (minProfitPerMonth === Number.MAX_SAFE_INTEGER) {
-      minProfitPerMonth = 0;
+      minProfitPerMonth = -100;
     }
     if (maxProfitPerMonth === Number.MIN_SAFE_INTEGER) {
-      maxProfitPerMonth = 100;
+      maxProfitPerMonth = -100;
     }
 
     this.setState({
@@ -660,7 +659,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 //TODO proof of concept for dropdown filter
                 if (data.value === 'Profit per Month') {
                   this.setState({
-                    profitPerMonthFilter: 24,
+                    profitPerMonthFilter: this.state.maxProfitPerMonth,
                   }, () => {
                     this.updateFilters();
                   });
@@ -684,175 +683,183 @@ export class SupplierDetail extends React.Component<Props, State> {
             >
               <Card.Content>
                 <Feed>
-                  <Feed.Event>
-                    <Feed.Content>
-                      <Feed.Summary>
-                        Unit Profit <Icon title="Sellgo" name="question circle outline"/>
-                      </Feed.Summary>
-                      <Feed.Summary className="min-max-slider-wrapper">
-                        <Grid>
-                          <Grid.Row>
-                            <Grid.Column floated="left" width={4}>
-                              <div className="min-max">{this.state.minUnitProfit}</div>
-                            </Grid.Column>
-                            <Grid.Column
-                              style={{ padding: 0 }}
-                              width={8}>
-                              <input
-                                onChange={event => {
-                                  const value = event.target.value;
-                                  console.log(event);
-                                  this.setState(
-                                    {
-                                      isFilterApplied: true,
-                                      unitProfitFilter: parseInt(value, 10),
-                                    },
-                                    () => {
-                                      this.updateFilters();
-                                    },
-                                  );
-                                }}
-                                value={this.state.unitProfitFilter}
-                                min={this.state.minUnitProfit}
-                                max={this.state.maxUnitProfit}
-                                type="range"
-                                className="slider"
-                              />
-                            </Grid.Column>
-                            <Grid.Column floated="right" width={4}>
-                              <div className="min-max">{this.state.maxUnitProfit}</div>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Feed.Summary>
-                    </Feed.Content>
-                  </Feed.Event>
-                  <Feed.Event>
-                    <Feed.Content>
-                      <Feed.Summary>
-                        Margin (%) <Icon title="Sellgo" name="question circle outline"/>
-                      </Feed.Summary>
-                      <Feed.Summary className="min-max-slider-wrapper">
-                        <Grid>
-                          <Grid.Row>
-                            <Grid.Column floated="left" width={4}>
-                              <div className="min-max">{this.state.minMargin}</div>
-                            </Grid.Column>
-                            <Grid.Column
-                              style={{ padding: 0 }}
-                              width={8}>
-                              <input
-                                onChange={event => {
-                                  const value = event.target.value;
-                                  console.log(event);
-                                  this.setState(
-                                    {
-                                      isFilterApplied: true,
-                                      marginFilter: parseInt(value, 10),
-                                    },
-                                    () => {
-                                      this.updateFilters();
-                                    },
-                                  );
-                                }}
-                                value={this.state.marginFilter}
-                                min={this.state.minMargin}
-                                max={this.state.maxMargin}
-                                type="range"
-                                className="slider"
-                              />
-                            </Grid.Column>
-                            <Grid.Column floated="right" width={4}>
-                              <div className="min-max">{this.state.maxMargin}</div>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Feed.Summary>
-                    </Feed.Content>
-                  </Feed.Event>
-                  <Feed.Event>
-                    <Feed.Content>
-                      <Feed.Summary>
-                        Units per Month <Icon title="Sellgo" name="question circle outline"/>
-                      </Feed.Summary>
-                      <Feed.Summary className="min-max-slider-wrapper">
-                        <Grid>
-                          <Grid.Row>
-                            <Grid.Column floated="left" width={4}>
-                              <div className="min-max">{this.state.minUnitsPerMonth}</div>
-                            </Grid.Column>
-                            <Grid.Column
-                              style={{ padding: 0 }}
-                              width={8}>
-                              <input
-                                onChange={event => {
-                                  const value = event.target.value;
-                                  this.setState(
-                                    {
-                                      isFilterApplied: true,
-                                      unitsPerMonthFilter: parseInt(value, 10),
-                                    },
-                                    () => {
-                                      this.updateFilters();
-                                    },
-                                  );
-                                }}
-                                value={this.state.unitsPerMonthFilter}
-                                min={this.state.minProfitPerMonth}
-                                max={this.state.maxProfitPerMonth}
-                                type="range"
-                                className="slider"
-                              />
-                            </Grid.Column>
-                            <Grid.Column floated="right" width={4}>
-                              <div className="min-max">{this.state.maxUnitsPerMonth}</div>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Feed.Summary>
-                    </Feed.Content>
-                  </Feed.Event>
-                  <Feed.Event>
-                    <Feed.Content>
-                      <Feed.Summary>
-                        Profit per Month {' '}
-                        <Icon title="Sellgo" name="question circle outline"/>
-                      </Feed.Summary>
-                      <Feed.Summary className="min-max-slider-wrapper">
-                        <Grid>
-                          <Grid.Row>
-                            <Grid.Column floated="left" width={4}>
-                              <div className="min-max">{this.state.minProfitPerMonth}</div>
-                            </Grid.Column>
-                            <Grid.Column style={{ padding: 0 }} width={8}>
-                              <input
-                                onChange={event => {
-                                  const value = event.target.value;
-                                  this.setState(
-                                    {
-                                      isFilterApplied: true,
-                                      profitPerMonthFilter: parseInt(value, 10),
-                                    },
-                                    () => {
-                                      this.updateFilters();
-                                    },
-                                  );
-                                }}
-                                value={this.state.profitPerMonthFilter}
-                                min={this.state.minProfitPerMonth}
-                                max={this.state.maxProfitPerMonth}
-                                type="range"
-                                className="slider"
-                              />
-                            </Grid.Column>
-                            <Grid.Column floated="right" width={4}>
-                              <div className="min-max">{this.state.maxProfitPerMonth}</div>
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </Feed.Summary>
-                    </Feed.Content>
-                  </Feed.Event>
+                  {this.state.minUnitProfit !== -100 ? (
+                    <Feed.Event>
+                      <Feed.Content>
+                        <Feed.Summary>
+                          Unit Profit <Icon title="Sellgo" name="question circle outline"/>
+                        </Feed.Summary>
+                        <Feed.Summary className="min-max-slider-wrapper">
+                          <Grid>
+                            <Grid.Row>
+                              <Grid.Column floated="left" width={4}>
+                                <div className="min-max">{this.state.minUnitProfit}</div>
+                              </Grid.Column>
+                              <Grid.Column
+                                style={{ padding: 0 }}
+                                width={8}>
+                                <input
+                                  onChange={event => {
+                                    const value = event.target.value;
+                                    console.log(event);
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        unitProfitFilter: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }}
+                                  value={this.state.unitProfitFilter}
+                                  min={this.state.minUnitProfit}
+                                  max={this.state.maxUnitProfit}
+                                  type="range"
+                                  className="slider"
+                                />
+                              </Grid.Column>
+                              <Grid.Column floated="right" width={4}>
+                                <div className="min-max">{this.state.maxUnitProfit}</div>
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Grid>
+                        </Feed.Summary>
+                      </Feed.Content>
+                    </Feed.Event>) : null
+                  }
+                  {this.state.minMargin !== -100 ? (
+                    <Feed.Event>
+                      <Feed.Content>
+                        <Feed.Summary>
+                          Margin (%) <Icon title="Sellgo" name="question circle outline"/>
+                        </Feed.Summary>
+                        <Feed.Summary className="min-max-slider-wrapper">
+                          <Grid>
+                            <Grid.Row>
+                              <Grid.Column floated="left" width={4}>
+                                <div className="min-max">{this.state.minMargin}</div>
+                              </Grid.Column>
+                              <Grid.Column
+                                style={{ padding: 0 }}
+                                width={8}>
+                                <input
+                                  onChange={event => {
+                                    const value = event.target.value;
+                                    console.log(event);
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        marginFilter: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }}
+                                  value={this.state.marginFilter}
+                                  min={this.state.minMargin}
+                                  max={this.state.maxMargin}
+                                  type="range"
+                                  className="slider"
+                                />
+                              </Grid.Column>
+                              <Grid.Column floated="right" width={4}>
+                                <div className="min-max">{this.state.maxMargin}</div>
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Grid>
+                        </Feed.Summary>
+                      </Feed.Content>
+                    </Feed.Event>) : null
+                  }
+                  {this.state.minProfitPerMonth !== -100 ? (
+                    <Feed.Event>
+                      <Feed.Content>
+                        <Feed.Summary>
+                          Units per Month <Icon title="Sellgo" name="question circle outline"/>
+                        </Feed.Summary>
+                        <Feed.Summary className="min-max-slider-wrapper">
+                          <Grid>
+                            <Grid.Row>
+                              <Grid.Column floated="left" width={4}>
+                                <div className="min-max">{this.state.minUnitsPerMonth}</div>
+                              </Grid.Column>
+                              <Grid.Column
+                                style={{ padding: 0 }}
+                                width={8}>
+                                <input
+                                  onChange={event => {
+                                    const value = event.target.value;
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        unitsPerMonthFilter: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }}
+                                  value={this.state.unitsPerMonthFilter}
+                                  min={this.state.minProfitPerMonth}
+                                  max={this.state.maxProfitPerMonth}
+                                  type="range"
+                                  className="slider"
+                                />
+                              </Grid.Column>
+                              <Grid.Column floated="right" width={4}>
+                                <div className="min-max">{this.state.maxUnitsPerMonth}</div>
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Grid>
+                        </Feed.Summary>
+                      </Feed.Content>
+                    </Feed.Event>) : null
+                  }
+                  {this.state.minProfitPerMonth !== -100 ? (
+                    <Feed.Event>
+                      <Feed.Content>
+                        <Feed.Summary>
+                          Profit per Month {' '}
+                          <Icon title="Sellgo" name="question circle outline"/>
+                        </Feed.Summary>
+                        <Feed.Summary className="min-max-slider-wrapper">
+                          <Grid>
+                            <Grid.Row>
+                              <Grid.Column floated="left" width={4}>
+                                <div className="min-max">{this.state.minProfitPerMonth}</div>
+                              </Grid.Column>
+                              <Grid.Column style={{ padding: 0 }} width={8}>
+                                <input
+                                  onChange={event => {
+                                    const value = event.target.value;
+                                    this.setState(
+                                      {
+                                        isFilterApplied: true,
+                                        profitPerMonthFilter: parseInt(value, 10),
+                                      },
+                                      () => {
+                                        this.updateFilters();
+                                      },
+                                    );
+                                  }}
+                                  value={this.state.profitPerMonthFilter}
+                                  min={this.state.minProfitPerMonth}
+                                  max={this.state.maxProfitPerMonth}
+                                  type="range"
+                                  className="slider"
+                                />
+                              </Grid.Column>
+                              <Grid.Column floated="right" width={4}>
+                                <div className="min-max">{this.state.maxProfitPerMonth}</div>
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Grid>
+                        </Feed.Summary>
+                      </Feed.Content>
+                    </Feed.Event>) : null
+                  }
                 </Feed>
               </Card.Content>
             </Card>
@@ -869,16 +876,16 @@ export class SupplierDetail extends React.Component<Props, State> {
     const newProducts: Product[] = [];
     for (let product of products) {
       let shouldAdd = true;
-      if (this.state.unitProfitFilter !== this.state.maxUnitProfit && parseInt(product.profit_monthly, 10) > this.state.unitProfitFilter) {
+      if (this.state.unitProfitFilter !== this.state.maxUnitProfit && parseFloat(product.profit_monthly) > this.state.unitProfitFilter) {
         shouldAdd = false;
       }
-      if (this.state.marginFilter !== this.state.maxMargin && parseInt(product.margin, 10) > this.state.marginFilter) {
+      if (this.state.marginFilter !== this.state.maxMargin && parseFloat(product.margin) > this.state.marginFilter) {
         shouldAdd = false;
       }
-      if (this.state.unitsPerMonthFilter !== this.state.maxUnitsPerMonth && parseInt(product.sales_monthly, 10) > this.state.unitsPerMonthFilter) {
+      if (this.state.unitsPerMonthFilter !== this.state.maxUnitsPerMonth && parseFloat(product.sales_monthly) > this.state.unitsPerMonthFilter) {
         shouldAdd = false;
       }
-      if (this.state.profitPerMonthFilter !== this.state.maxProfitPerMonth && parseInt(product.profit_monthly, 10) > this.state.profitPerMonthFilter) {
+      if (this.state.profitPerMonthFilter !== this.state.maxProfitPerMonth && parseFloat(product.profit_monthly) > this.state.profitPerMonthFilter) {
         shouldAdd = false;
       }
       if (shouldAdd) {
