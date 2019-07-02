@@ -40,12 +40,13 @@ interface State {
   totalPages: any;
   pageSize: any;
   updateDetails: boolean;
+  update_product_id: number
 }
 
 interface Props {
   getSellers(): () => void;
   saveSupplierNameAndDescription(name: string, description: string): () => void;
-  updateSupplierNameAndDescription(name: string, description: string): () => void;
+  updateSupplierNameAndDescription(name: string, description: string, update_product_id: number): () => void;
   uploadCSV(new_supplier_id: string, file: any): () => void;
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
@@ -63,6 +64,7 @@ export class Suppliers extends React.Component<Props, State> {
     currentPage: 1,
     pageSize: 10,
     updateDetails: false,
+    update_product_id: 0
   };
   message = {
     id: 1,
@@ -116,7 +118,7 @@ export class Suppliers extends React.Component<Props, State> {
 
   public addNewSupplier = (): void => {
     if (this.state.updateDetails) {
-      this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description);
+      this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, this.state.update_product_id);
       this.setState({ updateDetails: false });
       this.handleClose();
     }
@@ -127,13 +129,12 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   openUpdateSupplierPopup = (value: any): void => {
-    console.log("value: ", value)
-    this.setState({ updateDetails: true, supplier_name: value.name, supplier_description: value.description });
-    this.handleOpen();
+    console.log("value: ", value);
+    this.setState({ modalOpen: true, update_product_id: value.id, updateDetails: true, supplier_name: value.name, supplier_description: value.description });
   }
 
   handleOpen = () => {
-    this.setState({ modalOpen: true, updateDetails: false });
+    this.setState({ supplier_name: "", supplier_description: "", modalOpen: true, updateDetails: false });
   }
 
   handleClose = () => this.setState({ modalOpen: false, updateDetails: false });
@@ -318,7 +319,7 @@ export class Suppliers extends React.Component<Props, State> {
                   </Dropdown>
                 </Table.Cell>
                 <Table.Cell>
-                  {(value.item_total_count / value.item_active_count).toFixed(2)}
+                  {(value.item_total_count != null && value.item_active_count != null) ? (value.item_total_count / value.item_active_count).toFixed(2) : 0}
                 </Table.Cell>
                 <Table.Cell>{value.rate}</Table.Cell>
                 <Table.Cell>
@@ -445,7 +446,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
     saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description)),
-    updateSupplierNameAndDescription: (name: string, description: string) => dispatch(updateSupplierNameAndDescription(name, description)),
+    updateSupplierNameAndDescription: (name: string, description: string, update_product_id: number) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id)),
     uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),
   };
 };

@@ -241,7 +241,8 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     data: {
       name: name,
       description: description,
-      supplier_group_id: 1,
+      seller_id: 1000000052,
+      supplier_group_id: 1
     },
     headers,
   })
@@ -254,17 +255,17 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     });
 };
 
-export const updateSupplierNameAndDescription = (name: string, description: string) => (dispatch: any) => {
+export const updateSupplierNameAndDescription = (name: string, description: string, update_product_id: number) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   console.log(name);
   return axios({
     method: 'patch',
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+    url: URLS.BASE_URL_API + `seller`,
     data: {
       name: name,
       description: description,
-      supplier_group_id: 1,
+      id: update_product_id
     },
     headers,
   })
