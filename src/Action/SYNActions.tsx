@@ -254,7 +254,30 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     });
 };
 
-export const uploadCSV = (new_supplier_id: string, file: string) => (dispatch: any) => {
+export const updateSupplierNameAndDescription = (name: string, description: string) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  console.log(name);
+  return axios({
+    method: 'patch',
+    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
+    url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+    data: {
+      name: name,
+      description: description,
+      supplier_group_id: 1
+    },
+    headers,
+  })
+    .then(json => {
+      console.log(json.data.id);
+      // dispatch(updateSupplierNameAndDescription(json.data));
+      // return json.data;
+    })
+    .catch(error => {
+    });
+};
+
+export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('idToken')}`,
     'Content-Type': `multipart/form-data`
@@ -263,7 +286,7 @@ export const uploadCSV = (new_supplier_id: string, file: string) => (dispatch: a
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `supplier/${new_supplier_id}/synthesis/upload/`,
-    // url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+    // url: URLS.BASE_URL_API + `supplier/1000000052/synthesis/upload/`,
     data: {
       // seller_id: sellerID,
       seller_id: '1000000052',
@@ -274,7 +297,6 @@ export const uploadCSV = (new_supplier_id: string, file: string) => (dispatch: a
     .then(json => {
       console.log(json.data);
       // dispatch(setsaveSupplierNameAndDescription(json.data));
-      // return json.data;
     })
     .catch(error => {
     });
