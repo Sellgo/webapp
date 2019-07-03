@@ -233,7 +233,7 @@ export class Suppliers extends React.Component<Props, State> {
             basic
             floated="left"
             color="blue"
-            disabled={((this.state.supplier_name == '' || this.state.file == '') ? true : false)}
+            disabled={(((this.state.supplier_name == '' && this.state.file == '') || (!this.state.updateDetails && this.state.supplier_name == '')) ? true : false)}
             style={{ borderRadius: 20 }}
             onClick={this.addNewSupplier}
             content="Save"

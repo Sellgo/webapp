@@ -262,7 +262,7 @@ export const getProductTrackGroupId = (supplier_name: string, supplier_id: strin
     });
 };
 
-function createSupplierGroup (supplier_name: string)  {
+function createSupplierGroup(supplier_name: string) {
   const sellerID = localStorage.getItem('userId');
   var bodyFormData = new FormData();
   bodyFormData.set('name', supplier_name);
@@ -282,8 +282,7 @@ function createSupplierGroup (supplier_name: string)  {
 };
 
 export const saveSupplierNameAndDescription = (name: string, description: string) => (dispatch: any) => {
-  console.log("now calling to crerate supplier group")
-  createSupplierGroup(name);
+  // createSupplierGroup(name);
   var bodyFormData = new FormData();
   bodyFormData.set('name', name);
   bodyFormData.set('description', description);
@@ -296,17 +295,11 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
     url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
     data: bodyFormData,
-    // data: {
-    //   name: name,
-    //   description: description,
-    //   supplier_group_id: 1
-    // },
     headers,
   })
     .then(json => {
       console.log(json.data.id);
       dispatch(setsaveSupplierNameAndDescription(json.data));
-      // return json.data;
     })
     .catch(error => {
     });
@@ -314,29 +307,21 @@ export const saveSupplierNameAndDescription = (name: string, description: string
 
 export const updateSupplierNameAndDescription = (name: string, description: string, update_supplier_id: string) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-
   var bodyFormData = new FormData();
   bodyFormData.set('name', name);
   bodyFormData.set('description', description);
   bodyFormData.set('id', update_supplier_id);
   // bodyFormData.set('id', getProductTrackGroupId());
-
   return axios({
     method: 'patch',
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + `supplier`,
+    url: URLS.BASE_URL_API + `supplier/`,
     data: bodyFormData,
-    // data: {
-    //   name: name,
-    //   description: description,
-    //   id: update_supplier_id
-    // },
     headers,
   })
     .then(json => {
       console.log(json.data.id);
       // dispatch(updateSupplierNameAndDescription(json.data));
-      // return json.data;
     })
     .catch(error => {
     });
