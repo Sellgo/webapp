@@ -299,114 +299,113 @@ export class Suppliers extends React.Component<Props, State> {
     const suppliers = [...this.props.suppliers].slice(
       currentPage * this.state.pageSize,
       (currentPage + 1) * this.state.pageSize);
+    console.log("this.props.suppliers.: ", this.props.suppliers.length);
     return (
-      <Table basic='very'>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>
-              <Checkbox />
+      ((this.props.suppliers.length == 0) ?
+        <Segment>
+          <Loader hidden={(this.props.suppliers.length == 0) ? false : true} active inline='centered' size='massive'>Loading</Loader>
+        </Segment>
+        :
+        < Table basic='very' >
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                <Checkbox />
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Supplier Name
             </Table.HeaderCell>
-            <Table.HeaderCell>
-              Supplier Name
-            </Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
-            <Table.HeaderCell>Product to Listing Ratio</Table.HeaderCell>
-            <Table.HeaderCell>Supplier Rate (%)</Table.HeaderCell>
-            <Table.HeaderCell>Note</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-
-          <Table.Row key={"loader"}>
-            <Table.Cell>
-              <Loader active inline />
-            </Table.Cell>
-          </Table.Row>
-          
-          {suppliers.map((value: Supplier, index) => {
-            return (
-              <Table.Row key={value.id}>
-                <Table.Cell>
-                  <Checkbox />
-                </Table.Cell>
-                <Table.Cell style={{ width: '350px' }}>
-                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                    {value.name}
+              <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>Action</Table.HeaderCell>
+              <Table.HeaderCell>Product to Listing Ratio</Table.HeaderCell>
+              <Table.HeaderCell>Supplier Rate (%)</Table.HeaderCell>
+              <Table.HeaderCell>Note</Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {suppliers.map((value: Supplier, index) => {
+              return (
+                <Table.Row key={value.id}>
+                  <Table.Cell>
+                    <Checkbox />
                   </Table.Cell>
-                </Table.Cell>
-                <Table.Cell>{value.status}</Table.Cell>
-                <Table.Cell>
-                  <Dropdown text='SYN'
-                    fluid
-                    selection
-                    options={[{
-                      key: 'SYN',
-                      text: 'SYN',
-                      value: 'SYN',
-                    }]}
-                    onChange={(e, data) => {
-                      if (data.value === 'SYN') {
-                        history.push(`/syn/${value.id}`);
-                      }
-                    }}>
-                  </Dropdown>
-                </Table.Cell>
-                <Table.Cell>
-                  {(value.item_total_count != null && value.item_active_count != null) ? (value.item_total_count / value.item_active_count).toFixed(2) : 0}
-                </Table.Cell>
-                <Table.Cell>{value.rate}</Table.Cell>
-                <Table.Cell>
-                  <Input focus placeholder='Note' />
-                </Table.Cell>
-                <Table.Cell style={{ paddingRight: '10px' }}>
-                  <Table.Cell as={Link} to={`/syn/`}>
-                    <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
+                  <Table.Cell style={{ width: '350px' }}>
+                    <Table.Cell as={Link} to={`/syn/${value.id}`}>
+                      {value.name}
+                    </Table.Cell>
                   </Table.Cell>
-                  <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                    <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
+                  <Table.Cell>{value.status}</Table.Cell>
+                  <Table.Cell>
+                    <Dropdown text='SYN'
+                      fluid
+                      selection
+                      options={[{
+                        key: 'SYN',
+                        text: 'SYN',
+                        value: 'SYN',
+                      }]}
+                      onChange={(e, data) => {
+                        if (data.value === 'SYN') {
+                          history.push(`/syn/${value.id}`);
+                        }
+                      }}>
+                    </Dropdown>
                   </Table.Cell>
-                  <Table.Cell
-                    as={Link}
-                    to={'/#'}
-                    onClick={() => {
-                      this.openUpdateSupplierPopup(value);
-                    }}
-                  >
-                    <Icon
-                      name='pencil' style={{ color: 'black' }} />&nbsp;
+                  <Table.Cell>
+                    {(value.item_total_count != null && value.item_active_count != null) ? (value.item_total_count / value.item_active_count).toFixed(2) : 0}
                   </Table.Cell>
-                  <Table.Cell
-                    onClick={() => {
-                      this.deleteSupplier(value.id);
-                    }}
-                    as={Link} to="/syn">
-                    <Icon name='trash alternate' style={{ color: 'black' }} />
-                    {/*{this.renderDeleteModal(value, index)}*/}
+                  <Table.Cell>{value.rate}</Table.Cell>
+                  <Table.Cell>
+                    <Input focus placeholder='Note' />
                   </Table.Cell>
-                </Table.Cell>
-              </Table.Row>
-            );
-          })}
-        </Table.Body>
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan='3'>
-              <Pagination
-                totalPages={this.state.totalPages}
-                activePage={this.state.currentPage}
-                onPageChange={(event, data) => {
-                  this.setState({
-                    currentPage: data.activePage,
-                  });
-                }}
-              />
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-      </Table>
+                  <Table.Cell style={{ paddingRight: '10px' }}>
+                    <Table.Cell as={Link} to={`/syn/`}>
+                      <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
+                  </Table.Cell>
+                    <Table.Cell as={Link} to={`/syn/${value.id}`}>
+                      <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
+                  </Table.Cell>
+                    <Table.Cell
+                      as={Link}
+                      to={'/#'}
+                      onClick={() => {
+                        this.openUpdateSupplierPopup(value);
+                      }}
+                    >
+                      <Icon
+                        name='pencil' style={{ color: 'black' }} />&nbsp;
+                  </Table.Cell>
+                    <Table.Cell
+                      onClick={() => {
+                        this.deleteSupplier(value.id);
+                      }}
+                      as={Link} to="/syn">
+                      <Icon name='trash alternate' style={{ color: 'black' }} />
+                      {/*{this.renderDeleteModal(value, index)}*/}
+                    </Table.Cell>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan='3'>
+                <Pagination
+                  totalPages={this.state.totalPages}
+                  activePage={this.state.currentPage}
+                  onPageChange={(event, data) => {
+                    this.setState({
+                      currentPage: data.activePage,
+                    });
+                  }}
+                />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        </Table >
+      )
     );
   };
   renderDeleteModal = (value: Supplier, index: any) => {
