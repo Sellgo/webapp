@@ -40,13 +40,13 @@ interface State {
   totalPages: any;
   pageSize: any;
   updateDetails: boolean;
-  update_product_id: number
+  update_product_id: string
 }
 
 interface Props {
   getSellers(): () => void;
   saveSupplierNameAndDescription(name: string, description: string): () => void;
-  updateSupplierNameAndDescription(name: string, description: string, update_product_id: number): () => void;
+  updateSupplierNameAndDescription(name: string, description: string, update_product_id: string): () => void;
   uploadCSV(new_supplier_id: string, file: any): () => void;
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
@@ -64,7 +64,7 @@ export class Suppliers extends React.Component<Props, State> {
     currentPage: 1,
     pageSize: 10,
     updateDetails: false,
-    update_product_id: 0
+    update_product_id: "0"
   };
   message = {
     id: 1,
@@ -446,7 +446,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
     saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description)),
-    updateSupplierNameAndDescription: (name: string, description: string, update_product_id: number) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id)),
+    updateSupplierNameAndDescription: (name: string, description: string, update_product_id: string) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id)),
     uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),
   };
 };

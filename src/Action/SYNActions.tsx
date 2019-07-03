@@ -106,13 +106,14 @@ export interface ChartAverageRank {
   cdate: string;
 }
 
-
-// export
-
 const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-  'Content-Type': 'application/json',
+  'Content-Type': `multipart/form-data`,
 };
+// const headers = {
+//   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
+//   'Content-Type': 'application/json',
+// };
 
 const headers_file = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
@@ -231,19 +232,75 @@ export const getProductTrackData = () => (dispatch: any) => {
     });
 };
 
+export const getProductTrackGroupId = (supplier_name: string, supplier_id: string) => (dispatch: any) => {
+
+  const sellerID = localStorage.getItem('userId');
+
+  var bodyFormData = new FormData();
+  // bodyFormData.set('seller_id', String(sellerID));
+  bodyFormData.set('seller_id', '1000000052');
+  bodyFormData.set('name', supplier_name);
+  bodyFormData.set('supplier_id', supplier_id);
+
+  return axios({
+    method: 'POST',
+    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
+    url: URLS.BASE_URL_API + `seller/1000000052/track/group/`,
+    data: bodyFormData,
+    // data: {
+    //   name: name,
+    //   description: description,
+    //   supplier_group_id: 1
+    // },
+    headers,
+  })
+    .then(json => {
+      console.log(json.data.id);
+      dispatch(setsaveSupplierNameAndDescription(json.data));
+    })
+    .catch(error => {
+    });
+};
+
+function createSupplierGroup (supplier_name: string)  {
+  const sellerID = localStorage.getItem('userId');
+  var bodyFormData = new FormData();
+  bodyFormData.set('name', supplier_name);
+  return axios({
+    method: 'POST',
+    // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group`,
+    url: URLS.BASE_URL_API + `seller/1000000052/supplier_group`,
+    data: bodyFormData,
+    headers,
+  })
+    .then(json => {
+      console.log(json.data.id);
+      // dispatch(setsaveSupplierNameAndDescription(json.data));
+    })
+    .catch(error => {
+    });
+};
+
 export const saveSupplierNameAndDescription = (name: string, description: string) => (dispatch: any) => {
+  console.log("now calling to crerate supplier group")
+  createSupplierGroup(name);
+  var bodyFormData = new FormData();
+  bodyFormData.set('name', name);
+  bodyFormData.set('description', description);
+  bodyFormData.set('supplier_group_id', "2");
+
   const sellerID = localStorage.getItem('userId');
   console.log(name);
   return axios({
     method: 'POST',
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
     url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
-    data: {
-      name: name,
-      description: description,
-      seller_id: 1000000052,
-      supplier_group_id: 1
-    },
+    data: bodyFormData,
+    // data: {
+    //   name: name,
+    //   description: description,
+    //   supplier_group_id: 1
+    // },
     headers,
   })
     .then(json => {
@@ -255,18 +312,25 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     });
 };
 
-export const updateSupplierNameAndDescription = (name: string, description: string, update_product_id: number) => (dispatch: any) => {
+export const updateSupplierNameAndDescription = (name: string, description: string, update_supplier_id: string) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-  console.log(name);
+
+  var bodyFormData = new FormData();
+  bodyFormData.set('name', name);
+  bodyFormData.set('description', description);
+  bodyFormData.set('id', update_supplier_id);
+  // bodyFormData.set('id', getProductTrackGroupId());
+
   return axios({
     method: 'patch',
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + `seller`,
-    data: {
-      name: name,
-      description: description,
-      id: update_product_id
-    },
+    url: URLS.BASE_URL_API + `supplier`,
+    data: bodyFormData,
+    // data: {
+    //   name: name,
+    //   description: description,
+    //   id: update_supplier_id
+    // },
     headers,
   })
     .then(json => {
@@ -356,20 +420,17 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     });
 };
 
-
 export const trackProduct = (productID: string, productTrackGroupID: string, status: string) => (dispatch: any) => {
   // api/seller/(?P<seller_id>[0-9]+)/track/product/
   const sellerID = localStorage.getItem('userId');
   console.log(productID);
   const data = {
-    seller_id: sellerID,
-    product_track_group_id: 2,
-    product_id: productID,
+    id: '1072',
     status,
   };
   return axios({
-    method: 'POST',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/track/product/`,
+    method: 'PATCH',
+    url: URLS.BASE_URL_API + `track/product/`,
     data,
     headers,
   })
