@@ -139,7 +139,6 @@ export const getSellers = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setSellers(json.data));
       // return json.data;
     })
@@ -155,7 +154,6 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setTimeEfficiency(json.data));
       // return json.data;
     })
@@ -164,7 +162,6 @@ export const getTimeEfficiency = () => (dispatch: any) => {
 };
 export const getChartValues1 = (product_track_group_id: string) => (dispatch: any) => {
   // const sellerID = localStorage.getItem('userId');
-  // console.log(sellerID);
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_price,cdate',
@@ -179,7 +176,6 @@ export const getChartValues1 = (product_track_group_id: string) => (dispatch: an
 
 export const getChartValues2 = (product_track_group_id: string) => (dispatch: any) => {
   // const sellerID = localStorage.getItem('userId');
-  // console.log(sellerID);
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_rank,cdate',
@@ -194,7 +190,6 @@ export const getChartValues2 = (product_track_group_id: string) => (dispatch: an
 
 export const getProductDetail = (product_id: string) => (dispatch: any) => {
   // const sellerID = localStorage.getItem('userId');
-  // console.log(sellerID);
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/detail',
@@ -209,7 +204,6 @@ export const getProductDetail = (product_id: string) => (dispatch: any) => {
 
 export const getProductDetailChart = (product_id: string) => (dispatch: any) => {
   // const sellerID = localStorage.getItem('userId');   
-  // console.log(sellerID);
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=rank,cdate',
@@ -224,7 +218,6 @@ export const getProductDetailChart = (product_id: string) => (dispatch: any) => 
 
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
   // const sellerID = localStorage.getItem('userId');   
-  // console.log(sellerID);
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=price,cdate',
@@ -249,7 +242,6 @@ export const getProductTrackData = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setProductTrackData(json.data[0]));
     })
     .catch(error => {
@@ -261,12 +253,9 @@ export const getProductTrackGroupId = (supplierID: string, supplierName: string)
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();
-  // bodyFormData.set('seller_id', String(sellerID));
-  // bodyFormData.set('seller_id', '1000000052');
   bodyFormData.set('name', supplierName);
   bodyFormData.set('supplier_id', supplierID);
   bodyFormData.set('marketplace_id', 'US');
-  console.log(bodyFormData);
   return axios({
     method: 'POST',
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
@@ -280,8 +269,6 @@ export const getProductTrackGroupId = (supplierID: string, supplierName: string)
     headers,
   })
     .then(json => {
-      console.log('HERE ARE DETAILS');
-      console.log(json.data);
       dispatch(setsaveSupplierNameAndDescription(json.data));
     })
     .catch(error => {
@@ -346,7 +333,6 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
     headers,
   })
     .then(json => {
-      console.log(json.data.id);
       callBack(json.data);
       // dispatch(updateSupplierNameAndDescription(json.data));
     })
@@ -369,7 +355,6 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
     headers,
   })
     .then(json => {
-      console.log(json.data.id);
       callBack(json.data);
       // dispatch(updateSupplierNameAndDescription(json.data));
     })
@@ -398,7 +383,6 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     headers,
   })
     .then(json => {
-      console.log(json.data);
       // dispatch(setsaveSupplierNameAndDescription(json.data));
     })
     .catch(error => {
@@ -407,9 +391,6 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
 
 export const getProducts = (supplierID: string) => (dispatch: any) => {
   const userID = localStorage.getItem('userId');
-  console.log('supplierID: ', supplierID);
-  // const supplier = URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data/';
-  // console.log(supplier);
 
   return axios({
     method: 'get',
@@ -418,7 +399,6 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setProducts(json.data));
       // return json.data;
     })
@@ -427,14 +407,11 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
 };
 
 export const trackProduct = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
-  // api/seller/(?P<seller_id>[0-9]+)/track/product/
   const sellerID = localStorage.getItem('userId');
-  console.log(productID);
 
   const bodyFormData = new FormData();
   bodyFormData.set('id', productID);
   bodyFormData.set('status', status);
-  // bodyFormData.set('id', getProductTrackGroupId());
 
   return axios({
     method: 'PATCH',
@@ -443,10 +420,7 @@ export const trackProduct = (productID: string, productTrackGroupID: string, sta
     headers,
   })
     .then(json => {
-      console.log(json.data);
-      // getProducts(supplierID);
       dispatch(updateProduct(json.data));
-
     })
     .catch(error => {
     });

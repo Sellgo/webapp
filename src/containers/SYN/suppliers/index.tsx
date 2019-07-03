@@ -167,7 +167,6 @@ export class Suppliers extends React.Component<Props, State> {
 
   fileChange = (event: any): void => {
     this.setState({ file: event.target.files[0] }, () => {
-      console.log('File chosen --->', this.state.file);
     });
   };
 
@@ -175,7 +174,6 @@ export class Suppliers extends React.Component<Props, State> {
     if (this.state.updateDetails) {
       this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, this.state.update_product_id, (data: any) => {
         this.props.getSellers();
-        // console.log("hey now call back is here: ", data);
       });
       this.setState({ updateDetails: false });
       this.handleClose();
@@ -187,7 +185,6 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   openUpdateSupplierPopup = (value: any): void => {
-    console.log('value: ', value);
     this.setState({
       modalOpen: true,
       update_product_id: value.id,
@@ -330,10 +327,7 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   public deleteSupplier = () => {
-    console.log(this.state.delete_supplier_container);
-    // console.log("supplier_id: :", this.state.delete_supplier_container.id);
     this.props.deleteSupplier(this.state.delete_supplier_container.id, (data: any) => {
-      console.log("supplier deleted successfully: ", data);
       this.setState({ delete_confirmation: false });
       this.props.getSellers();
     });
@@ -344,7 +338,6 @@ export class Suppliers extends React.Component<Props, State> {
     const suppliers = [...this.props.suppliers].slice(
       currentPage * this.state.pageSize,
       (currentPage + 1) * this.state.pageSize);
-    console.log("this.props.suppliers.: ", this.props.suppliers.length);
     return (
       ((this.props.suppliers.length == 0) ?
         <Segment>
@@ -552,7 +545,6 @@ export class Suppliers extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => {
-  console.log(state.synReducer.get('time_efficiency_data')[0]);
   return {
     suppliers: state.synReducer.get('suppliers'),
     new_supplier_id: state.synReducer.get('new_supplier'),

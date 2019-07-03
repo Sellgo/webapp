@@ -305,7 +305,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   productDetailsWithVisualization = (product_id: string) => {
-    console.log('product_id: ', product_id);
     this.props.getProductDetail(product_id);
     this.props.getProductDetailChart(product_id);
     this.props.getProductDetailChartPrice(product_id);
@@ -323,17 +322,17 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1}>
-              <Checkbox/>
+              <Checkbox />
             </Table.HeaderCell>
             <Table.HeaderCell width={4}>Product Info</Table.HeaderCell>
-            <Table.HeaderCell width={1}/>
+            <Table.HeaderCell width={1} />
             <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
             <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
             <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
             <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
             <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
             <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
-            <Table.HeaderCell width={1}/>
+            <Table.HeaderCell width={1} />
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -341,7 +340,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             return (
               <Table.Row key={index}>
                 <Table.Cell>
-                  <Checkbox/>
+                  <Checkbox />
                 </Table.Cell>
                 <Table.Cell>
                   <Grid>
@@ -414,7 +413,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
                 <Table.Cell>
                   <Table.Cell as={Link} to={'//' + value.amazon_url}>
-                    <Icon name="amazon" style={{ color: 'black' }}/>
+                    <Icon name="amazon" style={{ color: 'black' }} />
                     &nbsp;
                   </Table.Cell>
                 </Table.Cell>
@@ -456,8 +455,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   handleClose = () => this.setState({ modalOpen: false });
 
   productDetailView = () => {
-    // console.log('product_detail_chart_values: ', this.props);
-    // console.log('productDetailView');
     // this.props.product_detail_chart_values
 
     const popup_rank_conainer: number[] = [];
@@ -484,7 +481,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
                 <Grid.Column width={2}>{'short Details'}</Grid.Column>
               </Grid>
-              <Divider/>
+              <Divider />
               <Grid style={{ margin: 0 }}>
                 <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
                   <Grid.Row>Parice</Grid.Row>
@@ -544,10 +541,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>Avg Monthly sales</Grid.Row>
                   <Grid.Row>Avg monthly revnue</Grid.Row>
                   <Grid.Row>Avg monthly profit</Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>ROI/ Return on Investment</h4>
                   </Grid.Row>
@@ -571,10 +568,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                       ? 0
                       : Number(this.props.product_detail.profit_monthly).toLocaleString()}
                   </Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>
                       {this.props.product_detail.roi == null
@@ -604,7 +601,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 style={{ display: 'inline-block' }}
               />
               <a href={this.props.product_detail.amazon_url}>
-                <Icon name="amazon" style={{ color: 'black' }}/>
+                <Icon name="amazon" style={{ color: 'black' }} />
               </a>
               <p>{this.props.product_detail.asin}</p>
               <p>{this.props.product_detail.upc}</p>
@@ -676,7 +673,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
-        trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
+        trigger={<Icon name="trash alternate" style={{ color: 'black' }} />}
         onClose={this.close}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
@@ -685,8 +682,8 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative={true}>No</Button>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
         </Modal.Actions>
       </Modal>
     );
@@ -728,7 +725,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                 },
               ]}
               onChange={(e, data) => {
-                console.log(data);
                 // TODO proof of concept for dropdown filter
                 if (data.value === 'Profit per Month') {
                   this.setState(
@@ -763,7 +759,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed.Event>
                       <Feed.Content>
                         <Feed.Summary>
-                          Unit Profit <Icon title="Sellgo" name="question circle outline"/>
+                          Unit Profit <Icon title="Sellgo" name="question circle outline" />
                         </Feed.Summary>
                         <Feed.Summary className="min-max-slider-wrapper">
                           <Grid>
@@ -775,7 +771,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <input
                                   onChange={event => {
                                     const value = event.target.value;
-                                    console.log(event);
                                     this.setState(
                                       {
                                         isFilterApplied: true,
@@ -806,7 +801,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed.Event>
                       <Feed.Content>
                         <Feed.Summary>
-                          Margin (%) <Icon title="Sellgo" name="question circle outline"/>
+                          Margin (%) <Icon title="Sellgo" name="question circle outline" />
                         </Feed.Summary>
                         <Feed.Summary className="min-max-slider-wrapper">
                           <Grid>
@@ -818,7 +813,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <input
                                   onChange={event => {
                                     const value = event.target.value;
-                                    console.log(event);
                                     this.setState(
                                       {
                                         isFilterApplied: true,
@@ -849,7 +843,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed.Event>
                       <Feed.Content>
                         <Feed.Summary>
-                          Units per Month <Icon title="Sellgo" name="question circle outline"/>
+                          Units per Month <Icon title="Sellgo" name="question circle outline" />
                         </Feed.Summary>
                         <Feed.Summary className="min-max-slider-wrapper">
                           <Grid>
@@ -891,7 +885,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed.Event>
                       <Feed.Content>
                         <Feed.Summary>
-                          Profit per Month <Icon title="Sellgo" name="question circle outline"/>
+                          Profit per Month <Icon title="Sellgo" name="question circle outline" />
                         </Feed.Summary>
                         <Feed.Summary className="min-max-slider-wrapper">
                           <Grid>
@@ -941,7 +935,6 @@ export class SupplierDetail extends React.Component<Props, State> {
 
   updateFilters = () => {
     const products: Product[] = this.props.products;
-    console.log('PROFIT PER MONTH  FILTER VALUE : ' + this.state.profitPerMonthFilter);
     const newProducts: Product[] = [];
     for (const product of products) {
       let shouldAdd = true;
@@ -961,8 +954,6 @@ export class SupplierDetail extends React.Component<Props, State> {
         this.state.unitsPerMonthFilter !== this.state.maxUnitsPerMonth &&
         parseFloat(product.sales_monthly) > this.state.unitsPerMonthFilter
       ) {
-        console.log(this.state.unitsPerMonthFilter);
-        console.log(this.state.maxUnitsPerMonth);
         shouldAdd = false;
       }
       if (
@@ -985,15 +976,12 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderHeaderSupplierMatrics = () => {
     const avg_price = [];
     const avg_rank = [];
-    // console.log(this.props);
     for (let i = 0; i < this.props.chart_values_1.length; i++) {
       avg_price.push(Number(this.props.chart_values_1[i].avg_price));
     }
     for (let i = 0; i < this.props.chart_values_2.length; i++) {
       avg_rank.push(Number(this.props.chart_values_2[i].avg_rank));
     }
-    // console.log('avg_price: ', avg_price);
-    // console.log('avg_rank: ', avg_rank);
     return (
       <Grid.Column width={11} floated="left">
         <Grid.Row style={{ width: '95%' }}>
@@ -1005,12 +993,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Units Sold"/>
+                          <Feed.Date content="Avg Daily Units Sold" />
                           <Feed.Summary>
                             {Number(this.props.products_track_data.daily_sales).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg BB Price/ Fees"/>
+                          <Divider />
+                          <Feed.Date content="Avg BB Price/ Fees" />
                           <Feed.Summary>
                             {Number(this.props.products_track_data.fees).toLocaleString()}
                           </Feed.Summary>
@@ -1024,12 +1012,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Revenue/ Profit"/>
+                          <Feed.Date content="Avg Daily Revenue/ Profit" />
                           <Feed.Summary>
                             {Number(this.props.products_track_data.profit).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg ROI/ ROII"/>
+                          <Divider />
+                          <Feed.Date content="Avg ROI/ ROII" />
                           <Feed.Summary>
                             {Number(this.props.products_track_data.roi).toLocaleString()}
                           </Feed.Summary>
@@ -1043,12 +1031,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Rank"/>
+                          <Feed.Date content="Avg Daily Rank" />
                           <Feed.Summary>
                             {Number(this.props.products_track_data.daily_rank).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg LQS"/>
+                          <Divider />
+                          <Feed.Date content="Avg LQS" />
                           <Feed.Summary>
                             {Number(this.props.products_track_data.daily_rank).toLocaleString()}
                           </Feed.Summary>
@@ -1134,7 +1122,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     // const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
-        <Divider/>
+        <Divider />
         <Grid>
           <Grid.Row>
             <Grid.Column floated="left" width={4}>
@@ -1145,7 +1133,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Divider/>
+        <Divider />
         <Grid>
           <Grid.Column
             width={5}
@@ -1178,7 +1166,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             </div>
           </Grid.Column>
         </Grid>
-        <Divider/>
+        <Divider />
         {this.renderTable()}
         {this.productDetailView()}
       </Segment>
