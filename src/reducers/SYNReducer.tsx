@@ -49,7 +49,6 @@ export const SYNReducer = (state = initialState, action: any) => {
       const newState = state.setIn(['suppliers'], data);
       return newState;
     case SET_PRODUCTS:
-      console.log(action.data);
       const newStateData = state.setIn(['products'], action.data);
       return newStateData;
     case UPDATE_PRODUCT:
@@ -62,7 +61,6 @@ export const SYNReducer = (state = initialState, action: any) => {
       }
       const updatedProducts = state.setIn(['products'], products);
       return updatedProducts;
-      console.log(action.data);
       return {
         ...state,
         products: products!.map((content, i) =>

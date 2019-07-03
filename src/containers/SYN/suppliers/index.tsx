@@ -71,16 +71,11 @@ interface State {
 
 interface Props {
   getSellers(): () => void;
-
   getTimeEfficiency(): () => void;
-
   saveSupplierNameAndDescription(name: string, description: string, callBack: any): () => any;
   updateSupplierNameAndDescription(name: string, description: string, update_product_id: string, callBack: any): () => any;
   deleteSupplier(supplier_id: any, callBack: any): () => any;
-
-
   uploadCSV(new_supplier_id: string, file: any): () => void;
-
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
@@ -147,10 +142,6 @@ export class Suppliers extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: any) {
-    if (this.props.new_supplier_id != null && this.props.new_supplier_id !== prevProps.new_supplier_id && this.state.file != "") {
-      this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
-      this.setState({ file: '' });
-    }
   }
 
   handleModel = () => {
@@ -169,14 +160,28 @@ export class Suppliers extends React.Component<Props, State> {
     if (this.state.updateDetails) {
       this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, this.state.update_product_id, (data: any) => {
         this.props.getSellers();
+
+        if (this.state.file != "") {
+          this.props.uploadCSV(String(this.state.update_product_id), this.state.file);
+          this.setState({ file: '' });
+        }
+
+        this.setState({ updateDetails: false });
+        this.handleClose();
+
       });
-      this.setState({ updateDetails: false });
-      this.handleClose();
     }
     else {
       this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, (data: any) => {
+
+        this.props.getSellers();
+
+        if (this.props.new_supplier_id != null && this.state.file != "") {
+          this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
+          this.setState({ file: '' });
+        }
+
         this.handleClose();
-        this.props.getSellers(); 
       });
     }
   };
@@ -388,9 +393,9 @@ export class Suppliers extends React.Component<Props, State> {
                     </Dropdown>
                   </Table.Cell>
                   <Table.Cell>
-                    {(value.item_total_count != null && value.item_active_count != null) ? (value.item_total_count / value.item_active_count).toFixed(2) : 0}
+                    {(value.item_total_count != null && value.item_active_count != null) ? Number((value.item_total_count / value.item_active_count).toFixed(2)).toLocaleString() : 0}
                   </Table.Cell>
-                  <Table.Cell>{value.rate}</Table.Cell>
+                  <Table.Cell>{Number(value.rate).toLocaleString()}</Table.Cell>
                   <Table.Cell>
                     <Input focus placeholder='Note' />
                   </Table.Cell>

@@ -374,13 +374,7 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `supplier/${new_supplier_id}/synthesis/upload/`,
-    // url: URLS.BASE_URL_API + `supplier/1000000052/synthesis/upload/`,
     data: bodyFormData,
-    // data: {
-    //   // seller_id: sellerID,
-    //   seller_id: '1000000052',
-    //   file: file,
-    // },
     headers,
   })
     .then(json => {

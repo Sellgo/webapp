@@ -11,7 +11,6 @@ input[type=range]::-ms-fill-upper{background:#4285f4;border:0 solid #4285f4;bord
 input[type=range]::-ms-thumb{box-shadow:0 0 0 #4285f4,0 0 0 #5a95f5;border:0 solid rgba(0,0,0,0);height:28px;width:7px;border-radius:50px;background:#4285f4;cursor:pointer;height:4.1px}
 input[type=range]:focus::-ms-fill-lower{background:#4285f4}
 input[type=range]:focus::-ms-fill-upper{background:#4285f4}
-
 .min-max{    
     text-align: center;
     border: 1px solid rgb(66, 133, 244);
@@ -21,8 +20,4 @@ input[type=range]:focus::-ms-fill-upper{background:#4285f4}
 }
 .popup-loader::after{
     border-color: #000000 transparent transparent !important;
-}
-.min-max-slider-wrapper{
-    /* margin: 9px 0px !important;
-    display: inline-flex; */
 }
