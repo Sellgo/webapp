@@ -74,7 +74,7 @@ interface Props {
 
   getTimeEfficiency(): () => void;
 
-  saveSupplierNameAndDescription(name: string, description: string): () => void;
+  saveSupplierNameAndDescription(name: string, description: string, callBack: any): () => any;
   updateSupplierNameAndDescription(name: string, description: string, update_product_id: string, callBack: any): () => any;
   deleteSupplier(supplier_id: any, callBack: any): () => any;
 
@@ -147,13 +147,8 @@ export class Suppliers extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: any) {
-    if (this.props.new_supplier_id != null && this.props.new_supplier_id !== prevProps.new_supplier_id) {
-
-      let formData = new FormData();
-      formData.append('file', this.state.file, this.state.file.name);
-
+    if (this.props.new_supplier_id != null && this.props.new_supplier_id !== prevProps.new_supplier_id && this.state.file != "") {
       this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
-
       this.setState({ file: '' });
     }
   }
@@ -179,8 +174,10 @@ export class Suppliers extends React.Component<Props, State> {
       this.handleClose();
     }
     else {
-      this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description);
-      this.handleClose();
+      this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, (data: any) => {
+        this.handleClose();
+        this.props.getSellers(); 
+      });
     }
   };
 
@@ -556,7 +553,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
-    saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description)),
+    saveSupplierNameAndDescription: (name: string, description: string, callBack: any) => dispatch(saveSupplierNameAndDescription(name, description, callBack)),
     updateSupplierNameAndDescription: (name: string, description: string, update_product_id: string, callBack: any) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),
     deleteSupplier: (supplier_id: any, callBack: any) => dispatch(deleteSupplier(supplier_id, callBack)),
     uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),

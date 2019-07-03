@@ -294,7 +294,7 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
     });
 };
 
-export const saveSupplierNameAndDescription = (name: string, description: string) => (dispatch: any) => {
+export const saveSupplierNameAndDescription = (name: string, description: string, callBack: any) => (dispatch: any) => {
   createSupplierGroup(name, (data: any) => {
     var bodyFormData = new FormData();
     bodyFormData.set('name', name);
@@ -311,6 +311,7 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     })
       .then(json => {
         dispatch(setsaveSupplierNameAndDescription(json.data));
+        (callBack(json.data));
       })
       .catch(error => {
       });
