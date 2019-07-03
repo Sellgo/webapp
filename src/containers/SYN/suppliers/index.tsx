@@ -12,7 +12,9 @@ import {
   Icon,
   Popup,
   Modal,
-  TextArea, Pagination,
+  TextArea,
+  Pagination,
+  Loader
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -317,6 +319,13 @@ export class Suppliers extends React.Component<Props, State> {
         </Table.Header>
 
         <Table.Body>
+
+          <Table.Row key={"loader"}>
+            <Table.Cell>
+              <Loader active inline />
+            </Table.Cell>
+          </Table.Row>
+          
           {suppliers.map((value: Supplier, index) => {
             return (
               <Table.Row key={value.id}>
