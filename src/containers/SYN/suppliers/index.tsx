@@ -370,7 +370,7 @@ export class Suppliers extends React.Component<Props, State> {
                   </Table.Cell>
                   <Table.Cell
                     as={Link}
-                    to={{}}
+                    to={'/#'}
                     onClick={() => {
                       this.openUpdateSupplierPopup(value);
                     }}
