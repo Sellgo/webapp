@@ -8,7 +8,7 @@ import {
   SET_CHART_VALUES_2,
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values,
-  SET_Product_Detail_Chart_Values_2,
+  SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY,
 } from '../constant/constant';
 
 export interface Supplier {
@@ -29,6 +29,13 @@ export interface Supplier {
   upcharge_fee: string;
   website: string;
   xid: string;
+}
+
+export interface TimeEfficiency {
+  saved_time: string;
+  efficiency: string;
+  id: any;
+  seller_id: any;
 }
 
 export interface New_Supplier {
@@ -84,6 +91,8 @@ export interface ProductDetails {
   rank: string;
   roi: string;
   upc: string;
+  amazon_url: string;
+  image_url: string;
 }
 
 export interface ProductChartDetails {
@@ -137,7 +146,22 @@ export const getSellers = () => (dispatch: any) => {
     .catch(error => {
     });
 };
-
+export const getTimeEfficiency = () => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  return axios({
+    method: 'get',
+    // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
+    url: URLS.BASE_URL_API + 'seller/1000000052/time_efficiency/',
+    headers,
+  })
+    .then(json => {
+      console.log(json.data);
+      dispatch(setTimeEfficiency(json.data));
+      // return json.data;
+    })
+    .catch(error => {
+    });
+};
 export const getChartValues1 = (product_track_group_id: string) => (dispatch: any) => {
   // const sellerID = localStorage.getItem('userId');
   // console.log(sellerID);
@@ -444,6 +468,11 @@ export const trackProduct = (productID: string, productTrackGroupID: string, sta
 
 export const setSellers = (data: {}) => ({
   type: SET_SELLERS,
+  data,
+});
+
+export const setTimeEfficiency = (data: {}) => ({
+  type: SET_TIME_EFFICIENCY,
   data,
 });
 
