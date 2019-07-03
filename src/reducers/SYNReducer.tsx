@@ -53,22 +53,24 @@ export const SYNReducer = (state = initialState, action: any) => {
       const newStateData = state.setIn(['products'], action.data);
       return newStateData;
     case UPDATE_PRODUCT:
-      // const products = state.get('products');
-      // // for (const product of products!) {
-      // //   if (product.product_id === action.data.product_id) {
-      // //     product.tracking_status = action.data.status;
-      // //   }
-      // // }
-      // // const updatedProducts = state.setIn(['products'], products);
-      // console.log(action.data);
-      // return {
-      //   ...state,
-      //   products: products!.map((content, i) =>
-      //     content.product_id === action.data.product_id
-      //       ? { ...content, tracking_status: action.data.status }
-      //       : content
-      //   ),
-      // }
+      let products = [];
+      for (const product of state.get('products')!) {
+        if (product.product_id === action.data.product_id) {
+          product.tracking_status = action.data.status;
+        }
+        products.push(product);
+      }
+      const updatedProducts = state.setIn(['products'], products);
+      return updatedProducts;
+      console.log(action.data);
+      return {
+        ...state,
+        products: products!.map((content, i) =>
+          content.product_id === action.data.product_id
+            ? { ...content, tracking_status: action.data.status }
+            : content,
+        ),
+      };
 
     case SET_TIME_EFFICIENCY:
       const timeEfficiencyState = state.setIn(['time_efficiency_data'], action.data);

@@ -346,12 +346,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Table.Cell>
                   <Grid>
                     <Grid.Column floated="left">
-                      {/* <Image
-                        src={
-                          new URL(((value.image_url == null) ?
-                            'http://localhost:3000/images/intro.png' :
-                            value.image_url))} size="tiny"
-                      /> */}
+                      {/*<Image*/}
+                      {/*  src={*/}
+                      {/*    new URL(((value.image_url == null) ?*/}
+                      {/*      'http://localhost:3000/images/intro.png' :*/}
+                      {/*      value.image_url))} size="tiny"*/}
+                      {/*/>*/}
                     </Grid.Column>
                     <Grid.Column width={8} floated="left" className={'middle aligned'}>
                       <Grid.Row
@@ -400,23 +400,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                     style={{ borderRadius: 20 }}
                     color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                     onClick={() => {
-
                       this.props.trackProduct(
                         String(value.product_track_id),
                         '2',
                         value.tracking_status === 'active' ? 'inactive' : 'active',
                         this.props.match.params.supplierID,
                       );
-
-                      console.log('HERE' + value.tracking_status);
-                      const products: Product[] = this.state.products;
-                      for (const product of products) {
-                        if (product.product_id === value.product_id) {
-                          product.tracking_status =
-                            value.tracking_status === 'active' ? 'inactive' : 'active';
-                        }
-                      }
-                      this.setState({ products });
                     }}
                   >
                     {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
