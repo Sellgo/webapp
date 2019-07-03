@@ -8,14 +8,30 @@ import {
   SET_CHART_VALUES_2,
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values,
-  SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY,
+  SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
 
 } from '../constant/constant';
-import { TimeEfficiency } from '../Action/SYNActions';
+import { Product, TimeEfficiency } from '../Action/SYNActions';
 
 const initialState = Map({
   suppliers: [],
-  products: [],
+  products: [
+    {
+      amazon_url: '',
+      asin: '',
+      id: '',
+      image_url: '',
+      last_syn: '',
+      margin: '',
+      product_id: '',
+      profit_monthly: '',
+      sales_monthly: '',
+      title: '',
+      tracking_status: '',
+      profit: '',
+      product_track_id: '',
+    },
+  ],
   time_efficiency_data: [],
   products_track_data: [],
   new_supplier: null,
@@ -33,8 +49,27 @@ export const SYNReducer = (state = initialState, action: any) => {
       const newState = state.setIn(['suppliers'], data);
       return newState;
     case SET_PRODUCTS:
+      console.log(action.data);
       const newStateData = state.setIn(['products'], action.data);
       return newStateData;
+    case UPDATE_PRODUCT:
+      // const products = state.get('products');
+      // // for (const product of products!) {
+      // //   if (product.product_id === action.data.product_id) {
+      // //     product.tracking_status = action.data.status;
+      // //   }
+      // // }
+      // // const updatedProducts = state.setIn(['products'], products);
+      // console.log(action.data);
+      // return {
+      //   ...state,
+      //   products: products!.map((content, i) =>
+      //     content.product_id === action.data.product_id
+      //       ? { ...content, tracking_status: action.data.status }
+      //       : content
+      //   ),
+      // }
+
     case SET_TIME_EFFICIENCY:
       const timeEfficiencyState = state.setIn(['time_efficiency_data'], action.data);
       return timeEfficiencyState;

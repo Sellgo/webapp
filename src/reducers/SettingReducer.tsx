@@ -21,7 +21,7 @@ const initialState = Map({
     token: '',
   },
   loading: false,
-  error: null,
+  error: {},
 });
 
 export const SettingReducer = (state = initialState, action: any) => {

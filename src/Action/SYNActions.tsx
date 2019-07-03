@@ -8,7 +8,7 @@ import {
   SET_CHART_VALUES_2,
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values,
-  SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY,
+  SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
 } from '../constant/constant';
 
 export interface Supplier {
@@ -55,6 +55,7 @@ export interface Product {
   title: string;
   tracking_status: string;
   profit: string;
+  product_track_id: string;
 }
 
 export interface ProductsTrackData {
@@ -130,8 +131,7 @@ const headers_file = {
 };
 
 export const getSellers = () => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
-  console.log(sellerID);
+
   return axios({
     method: 'get',
     // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
@@ -256,16 +256,17 @@ export const getProductTrackData = () => (dispatch: any) => {
     });
 };
 
-export const getProductTrackGroupId = (supplier_name: string, supplier_id: string) => (dispatch: any) => {
+export const getProductTrackGroupId = (supplierID: string,supplierName:string) => (dispatch: any) => {
 
   const sellerID = localStorage.getItem('userId');
 
-  var bodyFormData = new FormData();
+  const bodyFormData = new FormData();
   // bodyFormData.set('seller_id', String(sellerID));
-  bodyFormData.set('seller_id', '1000000052');
-  bodyFormData.set('name', supplier_name);
-  bodyFormData.set('supplier_id', supplier_id);
-
+  // bodyFormData.set('seller_id', '1000000052');
+  bodyFormData.set('name', supplierName);
+  bodyFormData.set('supplier_id', supplierID);
+  bodyFormData.set('marketplace_id', 'US');
+  console.log(bodyFormData);
   return axios({
     method: 'POST',
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
@@ -279,7 +280,8 @@ export const getProductTrackGroupId = (supplier_name: string, supplier_id: strin
     headers,
   })
     .then(json => {
-      console.log(json.data.id);
+      console.log('HERE ARE DETAILS');
+      console.log(json.data);
       dispatch(setsaveSupplierNameAndDescription(json.data));
     })
     .catch(error => {
@@ -417,38 +419,6 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
   })
     .then(json => {
       console.log(json.data);
-
-      // axios({
-      //   method: 'get',
-      //   url: URLS.BASE_URL_API + 'attribute/',
-      //   headers,
-      // })
-      //   .then(json => {
-      //     console.log(JSON.stringify(json.data));
-      //     // dispatch(setProductAttributes(json.data));
-      //     // return json.data;
-      //   })
-      //   .catch(error => {
-      //   });
-
-      // for (let dataObject of json.data) {
-      //   console.log(dataObject.product_id);
-      // getProductAttributes(dataObject.id);
-      // const url = URLS.BASE_URL_API + 'product/' +  dataObject.product_id + '/attribute/';
-      // console.log(url);
-      // return axios({
-      //   method: 'get',
-      //   url: URLS.BASE_URL_API + 'product/' + dataObject.product_id + '/attribute/',
-      //   headers,
-      // })
-      //   .then(json => {
-      //     console.log(JSON.stringify(json.data));
-      //     // dispatch(setProductAttributes(json.data));
-      //     // return json.data;
-      //   })
-      //   .catch(error => {
-      //   });
-      // }
       dispatch(setProducts(json.data));
       // return json.data;
     })
@@ -456,23 +426,27 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     });
 };
 
-export const trackProduct = (productID: string, productTrackGroupID: string, status: string) => (dispatch: any) => {
+export const trackProduct = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
   // api/seller/(?P<seller_id>[0-9]+)/track/product/
   const sellerID = localStorage.getItem('userId');
   console.log(productID);
-  const data = {
-    id: '1072',
-    status,
-  };
+
+  const bodyFormData = new FormData();
+  bodyFormData.set('id', productID);
+  bodyFormData.set('status', status);
+  // bodyFormData.set('id', getProductTrackGroupId());
+
   return axios({
     method: 'PATCH',
     url: URLS.BASE_URL_API + `track/product/`,
-    data,
+    data: bodyFormData,
     headers,
   })
     .then(json => {
       console.log(json.data);
-      return json.data;
+      // getProducts(supplierID);
+      dispatch(updateProduct(json.data));
+
     })
     .catch(error => {
     });
@@ -480,6 +454,10 @@ export const trackProduct = (productID: string, productTrackGroupID: string, sta
 
 export const setSellers = (data: {}) => ({
   type: SET_SELLERS,
+  data,
+});
+export const updateProduct = (data: {}) => ({
+  type: UPDATE_PRODUCT,
   data,
 });
 
