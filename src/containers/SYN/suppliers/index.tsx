@@ -284,6 +284,10 @@ export class Suppliers extends React.Component<Props, State> {
     );
   };
 
+  public deleteSupplier = (supplier_id: any) => {
+    console.log("supplier_id: :", supplier_id);
+    // this.props.deleteSupplier(supplier_id);
+  }
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
     const suppliers = [...this.props.suppliers].slice(
@@ -361,7 +365,11 @@ export class Suppliers extends React.Component<Props, State> {
                     <Icon
                       name='pencil' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
-                  <Table.Cell as={Link} to="/syn">
+                  <Table.Cell
+                    onClick={() => {
+                      this.deleteSupplier(value.id);
+                    }}
+                    as={Link} to="/syn">
                     <Icon name='trash alternate' style={{ color: 'black' }} />
                     {/*{this.renderDeleteModal(value, index)}*/}
                   </Table.Cell>
