@@ -29,6 +29,7 @@ import {
   uploadCSV,
   getTimeEfficiency,
   TimeEfficiency,
+  deleteSupplier,
 } from '../../../Action/SYNActions';
 
 interface State {
@@ -52,6 +53,7 @@ interface Props {
 
   saveSupplierNameAndDescription(name: string, description: string): () => void;
   updateSupplierNameAndDescription(name: string, description: string, update_product_id: string, callBack: any): () => any;
+  deleteSupplier(supplier_id: any, callBack: any): () => any;
 
 
   uploadCSV(new_supplier_id: string, file: any): () => void;
@@ -286,7 +288,9 @@ export class Suppliers extends React.Component<Props, State> {
 
   public deleteSupplier = (supplier_id: any) => {
     console.log("supplier_id: :", supplier_id);
-    // this.props.deleteSupplier(supplier_id);
+    this.props.deleteSupplier(supplier_id, (data: any) => {
+      console.log("supplier deleted successfully: ", data);
+    });
   }
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
@@ -481,6 +485,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
     saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description)),
     updateSupplierNameAndDescription: (name: string, description: string, update_product_id: string, callBack: any) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),
+    deleteSupplier: (supplier_id: any, callBack: any) => dispatch(deleteSupplier(supplier_id, callBack)),
     uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),
   };
 };

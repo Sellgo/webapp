@@ -329,6 +329,29 @@ export const saveSupplierNameAndDescription = (name: string, description: string
 
 };
 
+export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  // var bodyFormData = new FormData();
+  // bodyFormData.set('name', name);
+  // bodyFormData.set('description', description);
+  // bodyFormData.set('id', update_supplier_id);
+  // bodyFormData.set('id', getProductTrackGroupId());
+  return axios({
+    method: 'patch',
+    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
+    url: URLS.BASE_URL_API + `supplier`,
+    // data: bodyFormData,
+    headers,
+  })
+    .then(json => {
+      console.log(json.data.id);
+      callBack(json.data);
+      // dispatch(updateSupplierNameAndDescription(json.data));
+    })
+    .catch(error => {
+    });
+};
+
 export const updateSupplierNameAndDescription = (name: string, description: string, update_supplier_id: string, callBack: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   var bodyFormData = new FormData();
@@ -344,7 +367,7 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
     headers,
   })
     .then(json => {
-      console.log(json.data.id); 
+      console.log(json.data.id);
       callBack(json.data);
       // dispatch(updateSupplierNameAndDescription(json.data));
     })
