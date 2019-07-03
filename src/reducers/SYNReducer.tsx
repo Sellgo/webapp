@@ -8,13 +8,15 @@ import {
   SET_CHART_VALUES_2,
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values,
-  SET_Product_Detail_Chart_Values_2,
+  SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY,
 
 } from '../constant/constant';
+import { TimeEfficiency } from '../Action/SYNActions';
 
 const initialState = Map({
   suppliers: [],
   products: [],
+  time_efficiency_data: [],
   products_track_data: [],
   new_supplier: null,
   chart_values_1: [],
@@ -33,6 +35,9 @@ export const SYNReducer = (state = initialState, action: any) => {
     case SET_PRODUCTS:
       const newStateData = state.setIn(['products'], action.data);
       return newStateData;
+    case SET_TIME_EFFICIENCY:
+      const timeEfficiencyState = state.setIn(['time_efficiency_data'], action.data);
+      return timeEfficiencyState;
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
       const new_supplier = state.setIn(['new_supplier'], action.data.id);
       return new_supplier;
