@@ -14,7 +14,8 @@ import {
   Modal,
   TextArea,
   Pagination,
-  Loader
+  Loader,
+  Confirm
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -46,6 +47,26 @@ interface State {
   pageSize: any;
   updateDetails: boolean;
   update_product_id: string;
+  delete_confirmation: boolean;
+  delete_supplier_container: {
+    contact: string;
+    description: string;
+    email: string;
+    freight_fee: string;
+    id: number;
+    item_active_count: string;
+    item_total_count: string;
+    name: string;
+    phone: string;
+    rate: string;
+    seller_id: number;
+    status: string;
+    supplier_group_id: 1,
+    timezone: string;
+    upcharge_fee: string;
+    website: string;
+    xid: string;
+  }
 }
 
 interface Props {
@@ -78,6 +99,26 @@ export class Suppliers extends React.Component<Props, State> {
     pageSize: 10,
     updateDetails: false,
     update_product_id: "0",
+    delete_confirmation: false,
+    delete_supplier_container: {
+      contact: "",
+      description: "",
+      email: "",
+      freight_fee: "",
+      id: 0,
+      item_active_count: "",
+      item_total_count: "",
+      name: "",
+      phone: "",
+      rate: "",
+      seller_id: 0,
+      status: "",
+      supplier_group_id: 1,
+      timezone: "",
+      upcharge_fee: "",
+      website: "",
+      xid: "",
+    }
   };
   message = {
     id: 1,
@@ -288,11 +329,15 @@ export class Suppliers extends React.Component<Props, State> {
     );
   };
 
-  public deleteSupplier = (supplier_id: any) => {
-    console.log("supplier_id: :", supplier_id);
-    this.props.deleteSupplier(supplier_id, (data: any) => {
+  public deleteSupplier = () => {
+    console.log(this.state.delete_supplier_container);
+    // console.log("supplier_id: :", this.state.delete_supplier_container.id);
+    this.props.deleteSupplier(this.state.delete_supplier_container.id, (data: any) => {
       console.log("supplier deleted successfully: ", data);
+      this.setState({ delete_confirmation: false });
+      this.props.getSellers();
     });
+
   }
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
@@ -368,7 +413,7 @@ export class Suppliers extends React.Component<Props, State> {
                   </Table.Cell>
                     <Table.Cell
                       as={Link}
-                      to={'/#'}
+                      to={{}}
                       onClick={() => {
                         this.openUpdateSupplierPopup(value);
                       }}
@@ -378,7 +423,7 @@ export class Suppliers extends React.Component<Props, State> {
                   </Table.Cell>
                     <Table.Cell
                       onClick={() => {
-                        this.deleteSupplier(value.id);
+                        this.setState({ delete_confirmation: true, delete_supplier_container: value })
                       }}
                       as={Link} to="/syn">
                       <Icon name='trash alternate' style={{ color: 'black' }} />
@@ -404,6 +449,34 @@ export class Suppliers extends React.Component<Props, State> {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
+          <Confirm
+            content="Do you want to delete supplier?"
+            open={this.state.delete_confirmation}
+            onCancel={() => {
+              this.setState({
+                delete_confirmation: false,
+                delete_supplier_container: {
+                  contact: "",
+                  description: "",
+                  email: "",
+                  freight_fee: "",
+                  id: 0,
+                  item_active_count: "",
+                  item_total_count: "",
+                  name: "",
+                  phone: "",
+                  rate: "",
+                  seller_id: 0,
+                  status: "",
+                  supplier_group_id: 1,
+                  timezone: "",
+                  upcharge_fee: "",
+                  website: "",
+                  xid: "",
+                }
+              })
+            }}
+            onConfirm={() => { this.deleteSupplier() }} />
         </Table >
       )
     );

@@ -256,7 +256,7 @@ export const getProductTrackData = () => (dispatch: any) => {
     });
 };
 
-export const getProductTrackGroupId = (supplierID: string,supplierName:string) => (dispatch: any) => {
+export const getProductTrackGroupId = (supplierID: string, supplierName: string) => (dispatch: any) => {
 
   const sellerID = localStorage.getItem('userId');
 
@@ -333,16 +333,16 @@ export const saveSupplierNameAndDescription = (name: string, description: string
 
 export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-  // var bodyFormData = new FormData();
+  var bodyFormData = new FormData();
   // bodyFormData.set('name', name);
   // bodyFormData.set('description', description);
-  // bodyFormData.set('id', update_supplier_id);
-  // bodyFormData.set('id', getProductTrackGroupId());
+  bodyFormData.set('id', supplier_id);
+  bodyFormData.set('status', 'inactive');
   return axios({
     method: 'patch',
     // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + `supplier`,
-    // data: bodyFormData,
+    url: URLS.BASE_URL_API + `supplier/`,
+    data: bodyFormData,
     headers,
   })
     .then(json => {
