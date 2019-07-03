@@ -286,19 +286,19 @@ export const getProductTrackGroupId = (supplier_name: string, supplier_id: strin
     });
 };
 
-function createSupplierGroup(supplier_name: string) {
+function createSupplierGroup(supplier_name: string, call_back: any) {
   const sellerID = localStorage.getItem('userId');
   var bodyFormData = new FormData();
   bodyFormData.set('name', supplier_name);
   return axios({
     method: 'POST',
     // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group`,
-    url: URLS.BASE_URL_API + `seller/1000000052/supplier_group`,
+    url: URLS.BASE_URL_API + `seller/1000000052/supplier_group/`,
     data: bodyFormData,
     headers,
   })
     .then(json => {
-      console.log(json.data.id);
+      call_back(json.data);
       // dispatch(setsaveSupplierNameAndDescription(json.data));
     })
     .catch(error => {
@@ -306,30 +306,30 @@ function createSupplierGroup(supplier_name: string) {
 };
 
 export const saveSupplierNameAndDescription = (name: string, description: string) => (dispatch: any) => {
-  // createSupplierGroup(name);
-  var bodyFormData = new FormData();
-  bodyFormData.set('name', name);
-  bodyFormData.set('description', description);
-  bodyFormData.set('supplier_group_id', "2");
+  createSupplierGroup(name, (data: any) => {
+    var bodyFormData = new FormData();
+    bodyFormData.set('name', name);
+    bodyFormData.set('description', description);
+    bodyFormData.set('supplier_group_id', data.id);
 
-  const sellerID = localStorage.getItem('userId');
-  console.log(name);
-  return axios({
-    method: 'POST',
-    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
-    data: bodyFormData,
-    headers,
-  })
-    .then(json => {
-      console.log(json.data.id);
-      dispatch(setsaveSupplierNameAndDescription(json.data));
+    const sellerID = localStorage.getItem('userId');
+    return axios({
+      method: 'POST',
+      // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
+      url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+      data: bodyFormData,
+      headers,
     })
-    .catch(error => {
-    });
+      .then(json => {
+        dispatch(setsaveSupplierNameAndDescription(json.data));
+      })
+      .catch(error => {
+      });
+  });
+
 };
 
-export const updateSupplierNameAndDescription = (name: string, description: string, update_supplier_id: string) => (dispatch: any) => {
+export const updateSupplierNameAndDescription = (name: string, description: string, update_supplier_id: string, callBack: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   var bodyFormData = new FormData();
   bodyFormData.set('name', name);
@@ -344,7 +344,8 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
     headers,
   })
     .then(json => {
-      console.log(json.data.id);
+      console.log(json.data.id); 
+      callBack(json.data);
       // dispatch(updateSupplierNameAndDescription(json.data));
     })
     .catch(error => {
@@ -352,20 +353,23 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
 };
 
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-    'Content-Type': `multipart/form-data`,
-  };
   const sellerID = localStorage.getItem('userId');
+
+  var bodyFormData = new FormData();
+  // bodyFormData.set('seller_id', String(sellerID));
+  bodyFormData.set('seller_id', "1000000052");
+  bodyFormData.set('file', file);
+
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `supplier/${new_supplier_id}/synthesis/upload/`,
     // url: URLS.BASE_URL_API + `supplier/1000000052/synthesis/upload/`,
-    data: {
-      // seller_id: sellerID,
-      seller_id: '1000000052',
-      file: file,
-    },
+    data: bodyFormData,
+    // data: {
+    //   // seller_id: sellerID,
+    //   seller_id: '1000000052',
+    //   file: file,
+    // },
     headers,
   })
     .then(json => {

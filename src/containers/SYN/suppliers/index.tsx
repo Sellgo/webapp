@@ -51,7 +51,7 @@ interface Props {
   getTimeEfficiency(): () => void;
 
   saveSupplierNameAndDescription(name: string, description: string): () => void;
-  updateSupplierNameAndDescription(name: string, description: string, update_product_id: string): () => void;
+  updateSupplierNameAndDescription(name: string, description: string, update_product_id: string, callBack: any): () => any;
 
 
   uploadCSV(new_supplier_id: string, file: any): () => void;
@@ -107,7 +107,7 @@ export class Suppliers extends React.Component<Props, State> {
       let formData = new FormData();
       formData.append('file', this.state.file, this.state.file.name);
 
-      this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file.name);
+      this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
 
       this.setState({ file: '' });
     }
@@ -128,10 +128,14 @@ export class Suppliers extends React.Component<Props, State> {
 
   public addNewSupplier = (): void => {
     if (this.state.updateDetails) {
-      this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, this.state.update_product_id);
+      this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, this.state.update_product_id, (data: any) => {
+        this.props.getSellers();
+        // console.log("hey now call back is here: ", data);
+      });
       this.setState({ updateDetails: false });
       this.handleClose();
-    } else {
+    }
+    else {
       this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description);
       this.handleClose();
     }
@@ -166,18 +170,18 @@ export class Suppliers extends React.Component<Props, State> {
   renderAddNewSupplierModal = () => {
     return (
       <Modal size={'tiny'}
-             open={this.state.modalOpen}
-             onClose={this.handleClose}
-             closeIcon={true} trigger={
-        <Button
-          basic color='black'
-          primary={true}
-          style={{ borderRadius: '50px' }}
-          onClick={this.handleOpen}
-        >
-          Add New Supplier
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+        closeIcon={true} trigger={
+          <Button
+            basic color='black'
+            primary={true}
+            style={{ borderRadius: '50px' }}
+            onClick={this.handleOpen}
+          >
+            Add New Supplier
         </Button>
-      }>
+        }>
         <Modal.Header>
           <Grid columns={4}>
             <Grid.Row>
@@ -185,7 +189,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Add New Supplier
               </Grid.Column>
               <Grid.Column style={{ padding: 0 }} floated="left">
-                <Icon name="file"/>
+                <Icon name="file" />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -198,11 +202,11 @@ export class Suppliers extends React.Component<Props, State> {
               </Grid.Column>
               <Grid.Column width={8} floated="left">
                 <Input value={this.state.supplier_name}
-                       onChange={(event) => {
-                         this.onChangeSupplierName(event);
-                       }}
-                       style={{ width: 300 }}
-                       placeholder="question circle"/>
+                  onChange={(event) => {
+                    this.onChangeSupplierName(event);
+                  }}
+                  style={{ width: 300 }}
+                  placeholder="question circle" />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -212,21 +216,21 @@ export class Suppliers extends React.Component<Props, State> {
               <Grid.Column width={9} floated="left">
                 <Form>
                   <TextArea value={this.state.supplier_description}
-                            onChange={(event) => {
-                              this.onChangeSupplierDescription(event);
-                            }}
-                            style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
-                            placeholder="Write your latest update here"/>
+                    onChange={(event) => {
+                      this.onChangeSupplierDescription(event);
+                    }}
+                    style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
+                    placeholder="Write your latest update here" />
                 </Form>
               </Grid.Column>
               <Grid.Column width={1} floated="left">
                 <Icon
-                  name="pencil"/>
+                  name="pencil" />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column style={{ marginTop: '10px', marginBottom: '10px' }} floated="right" width={9}>
-                <Checkbox/>
+                <Checkbox />
                 &nbsp;
                 Automatically upload upon exit
               </Grid.Column>
@@ -267,10 +271,10 @@ export class Suppliers extends React.Component<Props, State> {
             type="file"
             hidden
             onChange={this.fileChange}
-            // webkitRelativePath=""
+          // webkitRelativePath=""
           />
           <Popup
-            trigger={<Icon name="question circle" circular/>}
+            trigger={<Icon name="question circle" circular />}
             content='Sellgo'
             position='top left'
             size='tiny'
@@ -290,7 +294,7 @@ export class Suppliers extends React.Component<Props, State> {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <Checkbox/>
+              <Checkbox />
             </Table.HeaderCell>
             <Table.HeaderCell>
               Supplier Name
@@ -309,7 +313,7 @@ export class Suppliers extends React.Component<Props, State> {
             return (
               <Table.Row key={value.id}>
                 <Table.Cell>
-                  <Checkbox/>
+                  <Checkbox />
                 </Table.Cell>
                 <Table.Cell style={{ width: '350px' }}>
                   <Table.Cell as={Link} to={`/syn/${value.id}`}>
@@ -319,18 +323,18 @@ export class Suppliers extends React.Component<Props, State> {
                 <Table.Cell>{value.status}</Table.Cell>
                 <Table.Cell>
                   <Dropdown text='SYN'
-                            fluid
-                            selection
-                            options={[{
-                              key: 'SYN',
-                              text: 'SYN',
-                              value: 'SYN',
-                            }]}
-                            onChange={(e, data) => {
-                              if (data.value === 'SYN') {
-                                history.push(`/syn/${value.id}`);
-                              }
-                            }}>
+                    fluid
+                    selection
+                    options={[{
+                      key: 'SYN',
+                      text: 'SYN',
+                      value: 'SYN',
+                    }]}
+                    onChange={(e, data) => {
+                      if (data.value === 'SYN') {
+                        history.push(`/syn/${value.id}`);
+                      }
+                    }}>
                   </Dropdown>
                 </Table.Cell>
                 <Table.Cell>
@@ -338,14 +342,14 @@ export class Suppliers extends React.Component<Props, State> {
                 </Table.Cell>
                 <Table.Cell>{value.rate}</Table.Cell>
                 <Table.Cell>
-                  <Input focus placeholder='Note'/>
+                  <Input focus placeholder='Note' />
                 </Table.Cell>
                 <Table.Cell style={{ paddingRight: '10px' }}>
                   <Table.Cell as={Link} to={`/syn/`}>
-                    <Icon name='cloud upload' style={{ color: 'black' }}/>&nbsp;
+                    <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                    <Icon name='refresh' style={{ color: 'black' }}/>&nbsp;
+                    <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell
                     as={Link}
@@ -355,10 +359,10 @@ export class Suppliers extends React.Component<Props, State> {
                     }}
                   >
                     <Icon
-                      name='pencil' style={{ color: 'black' }}/>&nbsp;
+                      name='pencil' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                   <Table.Cell as={Link} to="/syn">
-                    <Icon name='trash alternate' style={{ color: 'black' }}/>
+                    <Icon name='trash alternate' style={{ color: 'black' }} />
                     {/*{this.renderDeleteModal(value, index)}*/}
                   </Table.Cell>
                 </Table.Cell>
@@ -387,7 +391,7 @@ export class Suppliers extends React.Component<Props, State> {
   renderDeleteModal = (value: Supplier, index: any) => {
     return (
       <Modal trigger={
-        <Icon name='trash alternate' style={{ color: 'black' }}/>
+        <Icon name='trash alternate' style={{ color: 'black' }} />
       } onClose={this.close}>
         <Modal.Header>Delete Your Account</Modal.Header>
         <Modal.Content>
@@ -395,26 +399,24 @@ export class Suppliers extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative>No</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
+          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
         </Modal.Actions>
       </Modal>
     );
   };
 
   render() {
-    console.log("TIME EFFICIEYNCY DADADAFTA");
-    console.log(this.props.time_efficiency_data);
     const memberDate = `May 5 2018`;
     const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
-        <Divider/>
+        <Divider />
         <Grid>
           <Grid.Column width={5} floated='left' className={'middle aligned'}>
             {this.renderAddNewSupplierModal()}
             <Popup
-              trigger={<Icon name='question circle' circular/>}
+              trigger={<Icon name='question circle' circular />}
               content='Sellgo'
               position='top left'
               size='tiny'
@@ -431,15 +433,15 @@ export class Suppliers extends React.Component<Props, State> {
                 Time Saved
                 <h2>
                   <strong>
-                    {this.props.time_efficiency_data.length>0?this.props.time_efficiency_data[0].saved_time:null}
-                 </strong>
+                    {this.props.time_efficiency_data.length > 0 ? this.props.time_efficiency_data[0].saved_time : null}
+                  </strong>
                 </h2>
               </span>
               <span style={{ padding: '8px' }}>
                 Efficiency
                 <h2>
                   <strong>
-                     {this.props.time_efficiency_data.length>0?this.props.time_efficiency_data[0].efficiency:null}
+                    {this.props.time_efficiency_data.length > 0 ? this.props.time_efficiency_data[0].efficiency : null}
                   </strong>
                 </h2>
               </span>
@@ -457,7 +459,7 @@ export class Suppliers extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => {
-  console.log( state.synReducer.get('time_efficiency_data')[0]);
+  console.log(state.synReducer.get('time_efficiency_data')[0]);
   return {
     suppliers: state.synReducer.get('suppliers'),
     new_supplier_id: state.synReducer.get('new_supplier'),
@@ -470,7 +472,7 @@ const mapDispatchToProps = (dispatch: any) => {
     getSellers: () => dispatch(getSellers()),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
     saveSupplierNameAndDescription: (name: string, description: string) => dispatch(saveSupplierNameAndDescription(name, description)),
-    updateSupplierNameAndDescription: (name: string, description: string, update_product_id: string) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id)),
+    updateSupplierNameAndDescription: (name: string, description: string, update_product_id: string, callBack: any) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),
     uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),
   };
 };
