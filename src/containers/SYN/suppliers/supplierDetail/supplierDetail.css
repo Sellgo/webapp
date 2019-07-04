@@ -21,3 +21,14 @@ input[type=range]:focus::-ms-fill-upper{background:#4285f4}
 .popup-loader::after{
     border-color: #000000 transparent transparent !important;
 }
+
+.rangeslider-horizontal .rangeslider__fill {
+    background-color: #0e6fcf !important;
+}
+.rangeslider-horizontal .rangeslider__handle {
+    width: 9px!important;
+
+    border-radius: 9px!important;
+
+}
+.rangeslider__handle::after{display: none !important}

@@ -707,8 +707,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row>
-                                <Grid.Column floated="left" width={5}>
+                              <Grid.Row style={{alignItems:'center'}}>
+                                <Grid.Column floated="left"  width={5}>
                                   <div className="min-max">{this.state.minUnitProfit}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0 }} width={6}>
@@ -744,7 +744,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row>
+                              <Grid.Row style={{alignItems:'center'}}>
                                 <Grid.Column floated="left" width={5}>
                                   <div className="min-max">{this.state.minMargin}</div>
                                 </Grid.Column>
@@ -780,8 +780,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                             Units per Month <Icon title="Sellgo" name="question circle outline"/>
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
-                            <Grid inline='centered'>
-                              <Grid.Row>
+                            <Grid >
+                              <Grid.Row style={{alignItems:'center'}}>
                                 <Grid.Column floated="left" width={5}>
                                   <div className="min-max">{this.state.minUnitsPerMonth}</div>
                                 </Grid.Column>
@@ -818,7 +818,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row>
+                              <Grid.Row style={{alignItems:'center'}}>
                                 <Grid.Column floated="left" width={5}>
                                   <div className="min-max">{this.state.minProfitPerMonth}</div>
                                 </Grid.Column>
