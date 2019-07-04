@@ -132,7 +132,7 @@ const headers_file = {
 };
 
 export const getSellers = () => (dispatch: any) => {
-
+  const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
@@ -150,8 +150,8 @@ export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + 'seller/1000000052/time_efficiency/',
+    url: URLS.BASE_URL_API + `seller/1000000052/time_efficiency/`,
+    // url: URLS.BASE_URL_API + `seller/${sellerID}/time_efficiency/`,
     headers,
   })
     .then(json => {
@@ -259,8 +259,8 @@ export const getProductTrackGroupId = (supplierID: string, supplierName: string)
   bodyFormData.set('marketplace_id', 'US');
   return axios({
     method: 'POST',
-    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + `seller/1000000052/track/group/`,
+    url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
+    // url: URLS.BASE_URL_API + `seller/1000000052/track/group/`,
     data: bodyFormData,
     // data: {
     //   name: name,
@@ -282,8 +282,8 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
   bodyFormData.set('name', supplier_name);
   return axios({
     method: 'POST',
-    // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group`,
-    url: URLS.BASE_URL_API + `seller/1000000052/supplier_group/`,
+    url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group`,
+    // url: URLS.BASE_URL_API + `seller/1000000052/supplier_group/`,
     data: bodyFormData,
     headers,
   })
@@ -305,8 +305,8 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     const sellerID = localStorage.getItem('userId');
     return axios({
       method: 'POST',
-      // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-      url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+      url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
+      // url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
       data: bodyFormData,
       headers,
     })
@@ -368,8 +368,8 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
   const sellerID = localStorage.getItem('userId');
 
   var bodyFormData = new FormData();
-  // bodyFormData.set('seller_id', String(sellerID));
-  bodyFormData.set('seller_id', "1000000052");
+  bodyFormData.set('seller_id', String(sellerID));
+  // bodyFormData.set('seller_id', "1000000052");
   bodyFormData.set('file', file);
 
   return axios({
@@ -386,11 +386,11 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
 };
 
 export const getProducts = (supplierID: string) => (dispatch: any) => {
-  const userID = localStorage.getItem('userId');
+  const sellerID = localStorage.getItem('userId');
 
   return axios({
     method: 'get',
-    // url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' +userID ,
+    // url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' +sellerID ,
     url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=1000000052',
     headers,
   })
