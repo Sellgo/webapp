@@ -877,7 +877,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       let shouldAdd = true;
       if (
         this.state.unitProfitFilter !== this.state.minUnitProfit &&
-        parseFloat(product.profit_monthly) <= this.state.unitProfitFilter
+        parseFloat(product.profit) <= this.state.unitProfitFilter
       ) {
         shouldAdd = false;
       }
