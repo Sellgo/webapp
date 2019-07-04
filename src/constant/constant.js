@@ -5,12 +5,12 @@ export const URLS = {
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
 };
 
-export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';;
+export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';
+;
 export const SET_BASIC_INFO_SELLER = '/Dash/SETTING/SET_BASIC_INFO_SELLER';
 export const UPDATE_BASIC_INFO_SELLER = '/Dash/SETTING/UPDATE_BASIC_INFO_SELLER';
 export const GET_BASIC_INFO_SELLER = '/Dash/SETTING/GET_BASIC_INFO_SELLER';
 export const SET_AMAZONE_MWS = '/Dash/SETTING/AMAZONE_MWS';
-
 
 
 export const SET_TIME_EFFICIENCY = '/SYN/GET_TIME_EFFICIENCY';
@@ -24,3 +24,53 @@ export const SET_CHART_VALUES_2 = '/SYN/SET_CHART_VALUES_2';
 export const SET_Product_Detail = '/SYN/SET_Product_Detail';
 export const SET_Product_Detail_Chart_Values = '/SYN/SET_Product_Detail_Chart_Values';
 export const SET_Product_Detail_Chart_Values_2 = '/SYN/SET_Product_Detail_Chart_Values_2';
+
+
+/**
+ * NOTE: setting to 0 will default to minimum of the current products in list
+ *
+ */
+export const ProductFiltersPreset = [
+  {
+    key: 'Max Margin',
+    text: 'Max Margin',
+    data: {
+      marginFilter: 1000,
+      profitPerMonthFilter: 0,
+      unitProfitFilter: 0,
+      unitsPerMonthFilter: 5,
+    },
+  },
+  {
+    key: 'Max Profit Per Month',
+    text: 'Max Profit Per Month',
+    data: {
+      marginFilter: 0,
+      profitPerMonthFilter: 200000,
+      unitProfitFilter: 0,
+      unitsPerMonthFilter: 0,
+    },
+  },
+  {
+    key: 'Max Unit Profit',
+    text: 'Max Unit Profit',
+    data: {
+      marginFilter: 0,
+      profitPerMonthFilter: 0,
+      unitProfitFilter: 1000,
+      unitsPerMonthFilter: 0,
+    },
+  },
+  {
+    key: 'Max Units Per Month',
+    text: 'Max Units Per Month',
+    data: {
+      marginFilter: 0,
+      profitPerMonthFilter: 0,
+      unitProfitFilter: 0,
+      unitsPerMonthFilter: 1000,
+    },
+  }
+
+
+];
