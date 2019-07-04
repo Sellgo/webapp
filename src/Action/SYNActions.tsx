@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-   SET_SELLERS,
+  SET_SELLERS,
   SET_PRODUCTS,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_PRODUCT_TRACK_DATA,
@@ -135,8 +135,8 @@ export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + 'seller/1000000052/supplier/',
+    url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
+    // url: URLS.BASE_URL_API + 'seller/1000000052/supplier/',
     headers,
   })
     .then(json => {
@@ -150,8 +150,8 @@ export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + `seller/1000000052/time_efficiency/`,
-    // url: URLS.BASE_URL_API + `seller/${sellerID}/time_efficiency/`,
+    // url: URLS.BASE_URL_API + `seller/1000000052/time_efficiency/`,
+    url: URLS.BASE_URL_API + `seller/${sellerID}/time_efficiency/`,
     headers,
   })
     .then(json => {
@@ -162,7 +162,6 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     });
 };
 export const getChartValues1 = (product_track_group_id: string) => (dispatch: any) => {
-  // const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_price,cdate',
@@ -176,7 +175,6 @@ export const getChartValues1 = (product_track_group_id: string) => (dispatch: an
 };
 
 export const getChartValues2 = (product_track_group_id: string) => (dispatch: any) => {
-  // const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_rank,cdate',
@@ -190,7 +188,6 @@ export const getChartValues2 = (product_track_group_id: string) => (dispatch: an
 };
 
 export const getProductDetail = (product_id: string) => (dispatch: any) => {
-  // const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/detail',
@@ -204,7 +201,6 @@ export const getProductDetail = (product_id: string) => (dispatch: any) => {
 };
 
 export const getProductDetailChart = (product_id: string) => (dispatch: any) => {
-  // const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=rank,cdate',
@@ -218,7 +214,6 @@ export const getProductDetailChart = (product_id: string) => (dispatch: any) => 
 };
 
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
-  // const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=price,cdate',
@@ -259,8 +254,8 @@ export const getProductTrackGroupId = (supplierID: string, supplierName: string)
   bodyFormData.set('marketplace_id', 'US');
   return axios({
     method: 'POST',
-    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-    url: URLS.BASE_URL_API + `seller/1000000052/track/group/`,
+    url: URLS.BASE_URL_API + `seller/${sellerID}/track/group/`,
+    // url: URLS.BASE_URL_API + `seller/1000000052/track/group/`,
     data: bodyFormData,
     // data: {
     //   name: name,
@@ -282,8 +277,8 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
   bodyFormData.set('name', supplier_name);
   return axios({
     method: 'POST',
-    // url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group`,
-    url: URLS.BASE_URL_API + `seller/1000000052/supplier_group/`,
+    url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group/`,
+    // url: URLS.BASE_URL_API + `seller/1000000052/supplier_group/`,
     data: bodyFormData,
     headers,
   })
@@ -305,8 +300,8 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     const sellerID = localStorage.getItem('userId');
     return axios({
       method: 'POST',
-      // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
-      url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
+      url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
+      // url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
       data: bodyFormData,
       headers,
     })
@@ -329,7 +324,6 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
   bodyFormData.set('status', 'inactive');
   return axios({
     method: 'patch',
-    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
     url: URLS.BASE_URL_API + `supplier/`,
     data: bodyFormData,
     headers,
@@ -351,7 +345,6 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
   // bodyFormData.set('id', getProductTrackGroupId());
   return axios({
     method: 'patch',
-    // url: URLS.BASE_URL_API + `/seller/${sellerID}/supplier/`,
     url: URLS.BASE_URL_API + `supplier/`,
     data: bodyFormData,
     headers,
@@ -368,8 +361,8 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
   const sellerID = localStorage.getItem('userId');
 
   var bodyFormData = new FormData();
-  // bodyFormData.set('seller_id', String(sellerID));
-  bodyFormData.set('seller_id', "1000000052");
+  bodyFormData.set('seller_id', String(sellerID));
+  // bodyFormData.set('seller_id', "1000000052");
   bodyFormData.set('file', file);
 
   return axios({
@@ -390,8 +383,8 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
 
   return axios({
     method: 'get',
-    // url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' +sellerID ,
-    url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=1000000052',
+    url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' + sellerID,
+    // url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=1000000052',
     headers,
   })
     .then(json => {
@@ -444,7 +437,6 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
     });
 };
 export const trackProductWithPatch = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
-  // api/seller/(?P<seller_id>[0-9]+)/track/product/
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();

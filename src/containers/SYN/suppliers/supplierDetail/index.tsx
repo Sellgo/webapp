@@ -603,13 +603,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                   series: [
                     {
                       type: 'areaspline',
-                      name: 'Products sold',
+                      name: 'Price',
                       color: '#c0f1ff',
                       data: popup_price_conainer,
                     },
                     {
                       type: 'areaspline',
-                      name: 'Total views',
+                      name: 'Rank',
                       color: '#a3a0fb78',
                       data: popup_rank_conainer,
                     },
@@ -1025,13 +1025,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                               series: [
                                 {
                                   type: 'areaspline',
-                                  name: 'Products sold',
+                                  name: 'Avg Price',
                                   color: '#c0f1ff',
                                   data: avg_price,
                                 },
                                 {
                                   type: 'areaspline',
-                                  name: 'Total views',
+                                  name: 'Avg Rank',
                                   color: '#a3a0fb78',
                                   data: avg_rank,
                                 },

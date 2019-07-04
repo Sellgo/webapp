@@ -401,7 +401,11 @@ export class Suppliers extends React.Component<Props, State> {
                   </Table.Cell>
                   <Table.Cell style={{ paddingRight: '10px' }}>
                     <Table.Cell as={Link} to={`/syn/`}>
-                      <Icon name='cloud upload' style={{ color: 'black' }} />&nbsp;
+                      <Icon 
+                      onClick={() => {
+                        this.openUpdateSupplierPopup(value);
+                      }}
+                       name='cloud upload' style={{ color: 'black' }} />&nbsp;
                   </Table.Cell>
                     <Table.Cell as={Link} to={`/syn/${value.id}`}>
                       <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
