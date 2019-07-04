@@ -39,6 +39,7 @@ import {
   ProductChartDetailsPrice,
   Supplier,
   TimeEfficiency,
+  getTimeEfficiency,
 } from '../../../../Action/SYNActions';
 import {
   ProductFiltersPreset,
@@ -79,6 +80,8 @@ interface Props {
     status: string,
     supplierID: string,
   ): () => void;
+
+  getTimeEfficiency(): () => void;
 
   getProductTrackData(): () => void;
 
@@ -155,6 +158,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getProductTrackData();
     this.props.getChartValues1('2');
     this.props.getChartValues2('2');
+    if (this.props.time_efficiency_data.length === 0) {
+      this.props.getTimeEfficiency();
+
+    }
+
     // this.props.getProductTrackGroupId(this.props.match.params.supplierID);
   }
 
@@ -1147,6 +1155,9 @@ const mapDispatchToProps = (dispatch: any) => {
       status: string,
       supplierID: string,
     ) => dispatch(trackProductWithPatch(productID, productTrackGroupID, status, supplierID)),
+
+    getTimeEfficiency: () => dispatch(getTimeEfficiency()),
+
   };
 };
 
