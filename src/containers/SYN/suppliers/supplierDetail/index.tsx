@@ -18,10 +18,11 @@ import {
 import { connect } from 'react-redux';
 import './supplierDetail.css';
 import { Link } from 'react-router-dom';
-
+import 'react-rangeslider/lib/index.css';
+import Slider from 'react-rangeslider';
 import {
   getProducts,
-  trackProduct,
+  trackProductWithPatch,
   Product,
   getChartValues1,
   getChartValues2,
@@ -37,6 +38,7 @@ import {
   ChartAverageRank,
   ProductChartDetailsPrice,
   Supplier,
+  TimeEfficiency,
 } from '../../../../Action/SYNActions';
 
 // import history from '../../../../history';
@@ -69,7 +71,7 @@ interface State {
 interface Props {
   getProducts(supplierID: string): () => void;
 
-  trackProduct(
+  trackProductWithPatch(
     productID: string,
     productTrackGroupID: string,
     status: string,
@@ -90,7 +92,7 @@ interface Props {
 
   getProductDetailChartPrice(product_id: string): () => void;
 
-
+  time_efficiency_data: TimeEfficiency[];
   suppliers: Supplier[];
   products: Product[];
   products_track_data: ProductsTrackData;
@@ -158,6 +160,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
     let maxUnitProfit = Number.MIN_SAFE_INTEGER;
+
     let minMargin = Number.MAX_SAFE_INTEGER;
     let maxMargin = Number.MIN_SAFE_INTEGER;
     let minUnitsPerMonth = Number.MAX_SAFE_INTEGER;
@@ -165,12 +168,12 @@ export class SupplierDetail extends React.Component<Props, State> {
     let minProfitPerMonth = Number.MAX_SAFE_INTEGER;
     let maxProfitPerMonth = Number.MIN_SAFE_INTEGER;
     for (const product of nextProps.products) {
-      if (parseInt(product.profit, 10) < minUnitProfit) {
-        minUnitProfit = Math.ceil(parseFloat(product.profit));
-      }
-      if (parseInt(product.profit, 10) > maxUnitProfit) {
-        maxUnitProfit = Math.ceil(parseFloat(product.profit));
-      }
+      // if (parseInt(product.profit, 10) < minUnitProfit) {
+      //   minUnitProfit = Math.ceil(parseFloat(product.profit));
+      // }
+      // if (parseInt(product.profit, 10) > maxUnitProfit) {
+      //   maxUnitProfit = Math.ceil(parseFloat(product.profit));
+      // }
       if (parseInt(product.margin, 10) < minMargin) {
         minMargin = Math.ceil(parseFloat(product.margin));
       }
@@ -191,10 +194,10 @@ export class SupplierDetail extends React.Component<Props, State> {
       }
     }
     if (minUnitProfit === Number.MAX_SAFE_INTEGER) {
-      minUnitProfit = -100;
+      minUnitProfit = 0;
     }
     if (maxUnitProfit === Number.MIN_SAFE_INTEGER) {
-      maxUnitProfit = -100;
+      maxUnitProfit = 100;
     }
     if (minMargin === Number.MAX_SAFE_INTEGER) {
       minMargin = -100;
@@ -339,7 +342,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                         style={{ borderRadius: 20 }}
                         color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                         onClick={() => {
-                          this.props.trackProduct(
+                      this.props.trackProductWithPatch(
                             String(value.product_track_id),
                             '2',
                             value.tracking_status === 'active' ? 'inactive' : 'active',
@@ -698,9 +701,27 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <div className="min-max">{this.state.minUnitProfit}</div>
                               </Grid.Column>
                               <Grid.Column style={{ padding: 0 }} width={6}>
+                                {/*<Slider*/}
+                                {/*  min={this.state.minUnitProfit}*/}
+                                {/*  max={this.state.maxUnitProfit}*/}
+                                {/*  value={this.state.unitProfitFilter}*/}
+                                {/*  tooltip={true}*/}
+                                {/*  onChange={value => {*/}
+                                {/*    this.setState(*/}
+                                {/*      {*/}
+                                {/*        isFilterApplied: true,*/}
+                                {/*        unitProfitFilter: value,*/}
+                                {/*      },*/}
+                                {/*      () => {*/}
+                                {/*        this.updateFilters();*/}
+                                {/*      },*/}
+                                {/*    );*/}
+                                {/*  }}*/}
+                                {/*/>*/}
                                 <input
                                   onChange={event => {
                                     const value = event.target.value;
+                                    console.log(event);
                                     this.setState(
                                       {
                                         isFilterApplied: true,
@@ -1089,13 +1110,23 @@ export class SupplierDetail extends React.Component<Props, State> {
               <span style={{ padding: '0 8px' }}>
                 Time Saved
                 <h2>
-                  <strong>99 hrs</strong>
+                  <strong>
+                    {this.props.time_efficiency_data.length > 0
+                      ? this.props.time_efficiency_data[0].saved_time
+                      : null}{' '}
+                    hrs
+                  </strong>
                 </h2>
               </span>
               <span style={{ padding: '0 8px' }}>
                 Efficiency
                 <h2>
-                  <strong>99%</strong>
+                  <strong>
+                    {this.props.time_efficiency_data.length > 0
+                      ? this.props.time_efficiency_data[0].efficiency
+                      : null}
+                    %
+                  </strong>
                 </h2>
               </span>
             </div>
@@ -1119,6 +1150,7 @@ export class SupplierDetail extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => {
   return {
+    time_efficiency_data: state.synReducer.get('time_efficiency_data'),
     products: state.synReducer.get('products'),
     suppliers: state.synReducer.get('suppliers'),
     products_track_data: state.synReducer.get('products_track_data'),
@@ -1134,7 +1166,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductTrackData: () => dispatch(getProductTrackData()),
-    getProductTrackGroupId: (supplierID: string, supplierName: string) => dispatch(getProductTrackGroupId(supplierID, supplierName)),
+    getProductTrackGroupId: (supplierID: string, supplierName: string) =>
+      dispatch(getProductTrackGroupId(supplierID, supplierName)),
     getProductDetail: (product_id: string) => dispatch(getProductDetail(product_id)),
     getProductDetailChart: (product_id: string) => dispatch(getProductDetailChart(product_id)),
     getProductDetailChartPrice: (product_id: string) =>
@@ -1143,12 +1176,12 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(getChartValues1(product_track_group_id)),
     getChartValues2: (product_track_group_id: string) =>
       dispatch(getChartValues2(product_track_group_id)),
-    trackProduct: (
+    trackProductWithPatch: (
       productID: string,
       productTrackGroupID: string,
       status: string,
       supplierID: string,
-    ) => dispatch(trackProduct(productID, productTrackGroupID, status, supplierID)),
+    ) => dispatch(trackProductWithPatch(productID, productTrackGroupID, status, supplierID)),
   };
 };
 

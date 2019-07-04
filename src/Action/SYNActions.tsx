@@ -203,7 +203,7 @@ export const getProductDetail = (product_id: string) => (dispatch: any) => {
 };
 
 export const getProductDetailChart = (product_id: string) => (dispatch: any) => {
-  // const sellerID = localStorage.getItem('userId');   
+  // const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=rank,cdate',
@@ -217,7 +217,7 @@ export const getProductDetailChart = (product_id: string) => (dispatch: any) => 
 };
 
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
-  // const sellerID = localStorage.getItem('userId');   
+  // const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=price,cdate',
@@ -400,8 +400,33 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     .catch(error => {
     });
 };
+export const trackProductWithPost = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
+  // api/seller/(?P<seller_id>[0-9]+)/track/product/
 
-export const trackProduct = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
+  const bodyFormData = new FormData();
+  // bodyFormData.set('seller_id', sellerID);
+  bodyFormData.set('product_id', productID);
+  bodyFormData.set('status', status);
+  bodyFormData.set('product_track_group_id', productTrackGroupID);
+  // bodyFormData.set('id', getProductTrackGroupId());
+
+  return axios({
+    method: 'PATCH',
+    url: URLS.BASE_URL_API + `track/product/`,
+    data: bodyFormData,
+    headers,
+  })
+    .then(json => {
+      console.log(json.data);
+      // getProducts(supplierID);
+      dispatch(updateProduct(json.data));
+
+    })
+    .catch(error => {
+    });
+};
+export const trackProductWithPatch = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
+  // api/seller/(?P<seller_id>[0-9]+)/track/product/
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();
