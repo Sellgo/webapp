@@ -248,19 +248,22 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getProductDetailChartPrice(product_id);
     this.setState({ modalOpen: true });
   };
-
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
     const productsTable: Product[] = this.state.products.slice(
       currentPage * this.state.pageSize,
       (currentPage + 1) * this.state.pageSize,
     );
+    console.log("this.state.products: ", this.props.products);
+    // this.setState({}); 
     return (
-      ((this.state.products.length == 0)
+      ((this.props.products.length == 0 || (this.props.products.length == 1 && this.props.products[0].id != -10000000))
         ?
         (
           <Segment>
-            <Loader active inline='centered' size='massive'>Loading</Loader>
+            <Loader active inline='centered' size='massive'>
+              Loading
+            </Loader>
           </Segment>
         )
         :
@@ -283,86 +286,89 @@ export class SupplierDetail extends React.Component<Props, State> {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {productsTable.map((value, index) => {
-                return (
-                  <Table.Row key={index}>
-                    <Table.Cell>
-                      <Checkbox />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Grid>
-                        <Grid.Column floated="left">
-                          <Image
-                            src={(value.image_url == null) ? '/images/intro.png' : value.image_url}
-                            size="tiny"
-                          />
-                        </Grid.Column>
-                        <Grid.Column width={8} floated="left" className={'middle aligned'}>
-                          <Grid.Row
-                            as={Link}
-                            to={{}}
-                            onClick={() => {
-                              this.productDetailsWithVisualization(String(value.product_id));
-                            }}
-                          >
-                            {value.title}
-                          </Grid.Row>
-                          <Grid.Row>
-                            <Grid.Column style={{ display: 'inline-flex' }}>
-                              <Image
-                                src={(value.image_url == null) ? '/images/intro.png' : value.image_url}
-                                size="mini"
-                              />
-                              {value.asin}
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid.Column>
-                      </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        basic={true}
-                        style={{ borderRadius: 20 }}
-                        color="blue"
-                        onClick={() => {
-                          this.productDetailsWithVisualization(String(value.product_id));
-                        }}
-                      >
-                        View
+              {(
+                (this.props.products[0].id == -10000000)) ? "" :
+                productsTable.map((value, index) => {
+                  return (
+                    <Table.Row key={index}>
+                      <Table.Cell>
+                        <Checkbox />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid>
+                          <Grid.Column floated="left">
+                            <Image
+                              src={(value.image_url == null) ? '/images/intro.png' : value.image_url}
+                              size="tiny"
+                            />
+                          </Grid.Column>
+                          <Grid.Column width={8} floated="left" className={'middle aligned'}>
+                            <Grid.Row
+                              as={Link}
+                              to={{}}
+                              onClick={() => {
+                                this.productDetailsWithVisualization(String(value.product_id));
+                              }}
+                            >
+                              {value.title}
+                            </Grid.Row>
+                            <Grid.Row>
+                              <Grid.Column style={{ display: 'inline-flex' }}>
+                                <Image
+                                  src={(value.image_url == null) ? '/images/intro.png' : value.image_url}
+                                  size="mini"
+                                />
+                                {value.asin}
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Grid.Column>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          basic={true}
+                          style={{ borderRadius: 20 }}
+                          color="blue"
+                          onClick={() => {
+                            this.productDetailsWithVisualization(String(value.product_id));
+                          }}
+                        >
+                          View
                   </Button>
-                      {/* {this.productDetailView(String(value.product_id))} */}
-                    </Table.Cell>
-                    <Table.Cell>{Number(value.profit).toLocaleString()}</Table.Cell>
-                    <Table.Cell>{Number(value.margin).toLocaleString()}</Table.Cell>
-                    <Table.Cell>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
-                    <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        basic={true}
-                        style={{ borderRadius: 20 }}
-                        color={value.tracking_status === 'active' ? 'teal' : 'blue'}
-                        onClick={() => {
-                      this.props.trackProductWithPatch(
-                            String(value.product_track_id),
-                            '2',
-                            value.tracking_status === 'active' ? 'inactive' : 'active',
-                            this.props.match.params.supplierID,
-                          );
-                        }}
-                      >
-                        {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
-                      </Button>
-                    </Table.Cell>
-                    <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
-                    <Table.Cell>
-                      <Table.Cell as={Link} to={'//' + value.amazon_url}>
-                        <Icon name="amazon" style={{ color: 'black' }} />
-                        &nbsp;
+                        {/* {this.productDetailView(String(value.product_id))} */}
+                      </Table.Cell>
+                      <Table.Cell>{Number(value.profit).toLocaleString()}</Table.Cell>
+                      <Table.Cell>{Number(value.margin).toLocaleString()}</Table.Cell>
+                      <Table.Cell>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
+                      <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          basic={true}
+                          style={{ borderRadius: 20 }}
+                          color={value.tracking_status === 'active' ? 'teal' : 'blue'}
+                          onClick={() => {
+                            this.props.trackProductWithPatch(
+                              String(value.product_track_id),
+                              '2',
+                              value.tracking_status === 'active' ? 'inactive' : 'active',
+                              this.props.match.params.supplierID,
+                            );
+                          }}
+                        >
+                          {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
+                        </Button>
+                      </Table.Cell>
+                      <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
+                      <Table.Cell>
+                        <Table.Cell as={Link} to={'//' + value.amazon_url}>
+                          <Icon name="amazon" style={{ color: 'black' }} />
+                          &nbsp;
                   </Table.Cell>
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })}
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })
+              }
             </Table.Body>
             <Table.Footer>
               <Table.Row textAlign="center">

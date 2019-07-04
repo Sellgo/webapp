@@ -394,22 +394,39 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch(setProducts(json.data));
+      if (json.data.length == 0) {
+        dispatch(setProducts(
+          [{
+            amazon_url: null,
+            asin: null,
+            id: -10000000,
+            image_url: null,
+            last_syn: null,
+            margin: null,
+            product_id: null,
+            profit_monthly: null,
+            sales_monthly: null,
+            title: null,
+            tracking_status: null,
+            profit: null,
+            product_track_id: null
+          }]
+        ));
+      }
+      else {
+        dispatch(setProducts(json.data));
+      }
+      // console.log("json: ", json);
       // return json.data;
     })
     .catch(error => {
     });
 };
 export const trackProductWithPost = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
-  // api/seller/(?P<seller_id>[0-9]+)/track/product/
-
   const bodyFormData = new FormData();
-  // bodyFormData.set('seller_id', sellerID);
   bodyFormData.set('product_id', productID);
   bodyFormData.set('status', status);
   bodyFormData.set('product_track_group_id', productTrackGroupID);
-  // bodyFormData.set('id', getProductTrackGroupId());
-
   return axios({
     method: 'PATCH',
     url: URLS.BASE_URL_API + `track/product/`,
