@@ -257,46 +257,60 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getProductDetailChartPrice(product_id);
     this.setState({ modalOpen: true });
   };
-
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
     const productsTable: Product[] = this.state.products.slice(
       currentPage * this.state.pageSize,
       (currentPage + 1) * this.state.pageSize,
     );
+    console.log("this.state.products: ", this.props.products);
+    // this.setState({}); 
     return (
-      ((this.state.products.length == 0)
-          ?
-          (
-            <Segment>
-              <Loader active inline='centered' size='massive'>Loading</Loader>
-            </Segment>
-          )
-          :
-          (
-            <Table basic="very">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell width={1}>
-                    <Checkbox/>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell width={4}>Product Info</Table.HeaderCell>
-                  <Table.HeaderCell width={1}/>
-                  <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
-                  <Table.HeaderCell width={1}/>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {productsTable.map((value, index) => {
+      ((this.props.products.length == 0)
+        ?
+        (
+          <Segment>
+            <Loader active inline='centered' size='massive'>
+              Loading
+            </Loader>
+          </Segment>
+        )
+        :
+        (
+          <Table basic="very">
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell width={1}>
+                  <Checkbox />
+                </Table.HeaderCell>
+                <Table.HeaderCell width={4}>Product Info</Table.HeaderCell>
+                <Table.HeaderCell width={1} />
+                <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
+                <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
+                <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
+                <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
+                <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
+                <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
+                <Table.HeaderCell width={1} />
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {(
+                (this.props.products[0].id == -10000000)) ?
+                <Table.Row key={134}>
+                  <Table.Cell>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <h1>
+                      Data not found
+                    </h1>
+                  </Table.Cell>
+                </Table.Row> :
+                productsTable.map((value, index) => {
                   return (
                     <Table.Row key={index}>
                       <Table.Cell>
-                        <Checkbox/>
+                        <Checkbox />
                       </Table.Cell>
                       <Table.Cell>
                         <Grid>
@@ -338,7 +352,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                           }}
                         >
                           View
-                        </Button>
+                  </Button>
                         {/* {this.productDetailView(String(value.product_id))} */}
                       </Table.Cell>
                       <Table.Cell>{Number(value.profit).toLocaleString()}</Table.Cell>
@@ -365,31 +379,32 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
                       <Table.Cell>
                         <Table.Cell as={Link} to={'//' + value.amazon_url}>
-                          <Icon name="amazon" style={{ color: 'black' }}/>
+                          <Icon name="amazon" style={{ color: 'black' }} />
                           &nbsp;
-                        </Table.Cell>
+                  </Table.Cell>
                       </Table.Cell>
                     </Table.Row>
                   );
-                })}
-              </Table.Body>
-              <Table.Footer>
-                <Table.Row textAlign="center">
-                  <Table.HeaderCell colSpan={10}>
-                    <Pagination
-                      totalPages={this.state.totalPages}
-                      activePage={this.state.currentPage}
-                      onPageChange={(event, data) => {
-                        this.setState({
-                          currentPage: data.activePage,
-                        });
-                      }}
-                    />
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Footer>
-            </Table>
-          )
+                })
+              }
+            </Table.Body>
+            <Table.Footer>
+              <Table.Row textAlign="center">
+                <Table.HeaderCell colSpan={10}>
+                  <Pagination
+                    totalPages={this.state.totalPages}
+                    activePage={this.state.currentPage}
+                    onPageChange={(event, data) => {
+                      this.setState({
+                        currentPage: data.activePage,
+                      });
+                    }}
+                  />
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Footer>
+          </Table>
+        )
       )
     );
   };
@@ -417,7 +432,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
                 <Grid.Column width={2}>{'short Details'}</Grid.Column>
               </Grid>
-              <Divider/>
+              <Divider />
               <Grid style={{ margin: 0 }}>
                 <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
                   <Grid.Row>Parice</Grid.Row>
@@ -477,10 +492,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>Avg Monthly sales</Grid.Row>
                   <Grid.Row>Avg monthly revnue</Grid.Row>
                   <Grid.Row>Avg monthly profit</Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>ROI/ Return on Investment</h4>
                   </Grid.Row>
@@ -504,10 +519,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                       ? 0
                       : Number(this.props.product_detail.profit_monthly).toLocaleString()}
                   </Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>
                       {this.props.product_detail.roi == null
@@ -537,7 +552,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 style={{ display: 'inline-block' }}
               />
               <a href={this.props.product_detail.amazon_url}>
-                <Icon name="amazon" style={{ color: 'black' }}/>
+                <Icon name="amazon" style={{ color: 'black' }} />
               </a>
               <p>{this.props.product_detail.asin}</p>
               <p>{this.props.product_detail.upc}</p>
@@ -549,63 +564,63 @@ export class SupplierDetail extends React.Component<Props, State> {
             (popup_price_conainer.length == 0 && popup_rank_conainer.length == 0) ? (
               <Loader active inline='centered' className="popup-loader" size='massive'>Loading</Loader>
             ) : (
-              <HighchartsReact
-                highcharts={Highcharts}
-                options={{
-                  title: {
-                    text: 'Statistics',
-                    align: 'left',
-                  },
-                  xAxis: {
-                    labels: {
-                      style: {
-                        color: '#ccc',
-                      },
-                    },
-                  },
-                  credits: {
-                    enabled: false,
-                  },
-                  yAxis: {
+                <HighchartsReact
+                  highcharts={Highcharts}
+                  options={{
                     title: {
-                      text: '',
+                      text: 'Statistics',
+                      align: 'left',
                     },
-                    labels: {
-                      formatter() {
-                        return '$' + this.value / 1000 + 'k';
+                    xAxis: {
+                      labels: {
+                        style: {
+                          color: '#ccc',
+                        },
                       },
-                      style: {
+                    },
+                    credits: {
+                      enabled: false,
+                    },
+                    yAxis: {
+                      title: {
+                        text: '',
+                      },
+                      labels: {
+                        formatter() {
+                          return '$' + this.value / 1000 + 'k';
+                        },
+                        style: {
+                          color: '#ccc',
+                        },
+                      },
+                    },
+                    tooltip: {
+                      pointFormat: '$<b>{point.y:,.0f}</b>',
+                    },
+                    legend: {
+                      align: 'left',
+                      itemStyle: {
                         color: '#ccc',
                       },
                     },
-                  },
-                  tooltip: {
-                    pointFormat: '$<b>{point.y:,.0f}</b>',
-                  },
-                  legend: {
-                    align: 'left',
-                    itemStyle: {
-                      color: '#ccc',
-                    },
-                  },
-                  series: [
-                    {
-                      type: 'areaspline',
-                      name: 'Products sold',
-                      color: '#c0f1ff',
-                      data: popup_price_conainer,
-                    },
-                    {
-                      type: 'areaspline',
-                      name: 'Total views',
-                      color: '#a3a0fb78',
-                      data: popup_rank_conainer,
-                    },
-                  ],
-                }}
-                {...this.props}
-              />
-            )
+                    series: [
+                      {
+                        type: 'areaspline',
+                        name: 'Products sold',
+                        color: '#c0f1ff',
+                        data: popup_price_conainer,
+                      },
+                      {
+                        type: 'areaspline',
+                        name: 'Total views',
+                        color: '#a3a0fb78',
+                        data: popup_rank_conainer,
+                      },
+                    ],
+                  }}
+                  {...this.props}
+                />
+              )
           }
         </Modal.Content>
       </Modal>
@@ -615,7 +630,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
-        trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
+        trigger={<Icon name="trash alternate" style={{ color: 'black' }} />}
         onClose={this.close}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
@@ -624,8 +639,8 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative={true}>No</Button>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
         </Modal.Actions>
       </Modal>
     );
@@ -691,7 +706,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed.Event>
                         <Feed.Content>
                           <Feed.Summary>
-                            Unit Profit <Icon title="Sellgo" name="question circle outline"/>
+                            Unit Profit <Icon title="Sellgo" name="question circle outline" />
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
@@ -730,7 +745,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed.Event>
                         <Feed.Content>
                           <Feed.Summary>
-                            Margin (%) <Icon title="Sellgo" name="question circle outline"/>
+                            Margin (%) <Icon title="Sellgo" name="question circle outline" />
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
@@ -769,7 +784,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed.Event>
                         <Feed.Content>
                           <Feed.Summary>
-                            Units per Month <Icon title="Sellgo" name="question circle outline"/>
+                            Units per Month <Icon title="Sellgo" name="question circle outline" />
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
@@ -808,7 +823,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       <Feed.Event>
                         <Feed.Content>
                           <Feed.Summary>
-                            Profit per Month <Icon title="Sellgo" name="question circle outline"/>
+                            Profit per Month <Icon title="Sellgo" name="question circle outline" />
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
@@ -917,12 +932,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Units Sold"/>
+                          <Feed.Date content="Avg Daily Units Sold" />
                           <Feed.Summary>
                             {(this.props.products_track_data.daily_sales == null) ? '' : Number(this.props.products_track_data.daily_sales).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg BB Price/ Fees"/>
+                          <Divider />
+                          <Feed.Date content="Avg BB Price/ Fees" />
                           <Feed.Summary>
                             {(this.props.products_track_data.fees == null) ? '' : Number(this.props.products_track_data.fees).toLocaleString()}
                           </Feed.Summary>
@@ -936,12 +951,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Revenue/ Profit"/>
+                          <Feed.Date content="Avg Daily Revenue/ Profit" />
                           <Feed.Summary>
                             {(this.props.products_track_data.profit == null) ? '' : Number(this.props.products_track_data.profit).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg ROI/ ROII"/>
+                          <Divider />
+                          <Feed.Date content="Avg ROI/ ROII" />
                           <Feed.Summary>
                             {(this.props.products_track_data.roi == null) ? '' : Number(this.props.products_track_data.roi).toLocaleString()}
                           </Feed.Summary>
@@ -955,12 +970,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Rank"/>
+                          <Feed.Date content="Avg Daily Rank" />
                           <Feed.Summary>
                             {(this.props.products_track_data.daily_rank == null) ? '' : Number(this.props.products_track_data.daily_rank).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg LQS"/>
+                          <Divider />
+                          <Feed.Date content="Avg LQS" />
                           <Feed.Summary>
                             {(this.props.products_track_data.daily_rank == null) ? '' : Number(this.props.products_track_data.daily_rank).toLocaleString()}
                           </Feed.Summary>
@@ -1051,7 +1066,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     // const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
-        <Divider/>
+        <Divider />
         <Grid>
           <Grid.Row>
             <Grid.Column floated="left" width={4}>
@@ -1062,7 +1077,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Divider/>
+        <Divider />
         <Grid>
           <Grid.Column
             width={5}
@@ -1105,7 +1120,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             </div>
           </Grid.Column>
         </Grid>
-        <Divider/>
+        <Divider />
         {this.renderTable()}
         {this.productDetailView()}
       </Segment>
