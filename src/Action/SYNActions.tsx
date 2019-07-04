@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  URLS, SET_SELLERS,
+   SET_SELLERS,
   SET_PRODUCTS,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_PRODUCT_TRACK_DATA,
@@ -10,6 +10,7 @@ import {
   SET_Product_Detail_Chart_Values,
   SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
 } from '../constant/constant';
+import { URLS } from '../config';
 
 export interface Supplier {
   contact: string;
