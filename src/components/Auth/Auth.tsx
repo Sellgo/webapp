@@ -1,8 +1,7 @@
 import * as auth0 from 'auth0-js';
 import history from '../../history';
-import { AUTH_CONFIG } from './auth0-variables';
 import axios from 'axios';
-import { URLS } from '../../constant/constant';
+import { URLS, AUTH_CONFIG } from '../../config';
 
 export default class Auth {
   accessToken: any;
@@ -24,19 +23,29 @@ export default class Auth {
 
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
+    localStorage.setItem('auth0_user_id', this.userProfile.sub);
+    const formData = new FormData();
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(this.userProfile.name)) {
+      localStorage.setItem('userEmail', this.userProfile.name);
+      formData.append('email', this.userProfile.name);
+    } else {
+      localStorage.setItem('userEmail', '');
+      // formData.append('email', '');
+    }
+    if (this.userProfile.given_name || this.userProfile.family_name) {
+      formData.append('name', `${this.userProfile.given_name} ${this.userProfile.family_name}`);
+    }
+    formData.append('auth0_user_id', this.userProfile.sub);
+
     axios
-      .post(
-        URLS.BASE_URL_API + 'seller/',
-        {
-          email: this.userProfile.name,
-          auth0_user_id: this.userProfile.sub,
-          name: this.userProfile.nickname,
-        },
-        { headers }
-      )
+      .post(URLS.BASE_URL_API + 'seller/', formData, { headers })
       .then((response: any) => {
-        localStorage.setItem('userEmail', this.userProfile.name);
-        localStorage.setItem('userId', response.data.id);
+        const data = response.data[0] ? response.data[0] : response.data;
+        if (data) {
+          localStorage.setItem('userId', data.id);
+          localStorage.setItem('cDate', data.cdate);
+        }
       })
       .catch();
   };
@@ -74,10 +83,12 @@ export default class Auth {
       this.handleProfile(profile);
     });
   };
+
   handleProfile(profile: any) {
     this.registerSeller();
     history.replace('/dashboard');
   }
+
   public renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {

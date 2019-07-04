@@ -19,18 +19,22 @@ export class SignUp extends React.Component<any, State> {
     message: 'Thank you for registering',
     description: 'You have successfully create new account with Sellgo account.',
     description2: 'Please check your email to verify.',
-    to: '/login',
     button_text: 'Ok',
   };
 
-  loginSingUp = () => {
+  loginSignUp = () => {
     const { login } = this.props.auth;
     login().then(() => {
       this.setState({ isSuccess: !this.state.isSuccess });
     });
   };
 
-  response = <MesssageComponent message={this.message} />;
+  handleMessage = () => {
+    this.setState({ isSuccess: !this.state.isSuccess });
+  };
+
+  response = <MesssageComponent message={this.message} handleMessage={this.handleMessage} />;
+
   signUpForm = (
     <Segment basic={true} clearing={true}>
       <Grid>
@@ -65,7 +69,7 @@ export class SignUp extends React.Component<any, State> {
               <div>
                 <Button
                   style={buttonStyle}
-                  onClick={this.loginSingUp}
+                  onClick={this.loginSignUp}
                   className="primary-button"
                   content="Create your FREE account"
                 />

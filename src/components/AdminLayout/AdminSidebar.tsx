@@ -8,7 +8,7 @@ interface LayoutProps {
 }
 
 export class AdminSidebar extends React.Component<any, LayoutProps> {
-  componentWillMount() { }
+  componentWillMount() {}
   render() {
     const { logout } = this.props.auth;
     return (

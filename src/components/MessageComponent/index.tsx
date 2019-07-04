@@ -26,7 +26,12 @@ function MesssageComponent(props: any) {
           {!isModal ? (
             <Grid.Column textAlign="center" width={16}>
               <Grid.Row>
-                <Button as={Link} style={buttonStyle} to={items.to} content={items.button_text} />
+                <Button
+                  as={Link}
+                  style={buttonStyle}
+                  onClick={props.handleMessage}
+                  content={items.button_text}
+                />
               </Grid.Row>
             </Grid.Column>
           ) : (

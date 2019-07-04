@@ -7,15 +7,13 @@ import Setting from '../Dashboard/Setting';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
 import { ProductTracker } from '../ProductTracker/ProductTracker';
-import { RecoverPass } from '../RecoverPass';
+import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
-
+import Suppliers from '../SYN/suppliers';
+import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
-
-import Suppliers from '../SYN/suppliers';
-import SupplierDetail from '../SYN/suppliers/supplierDetail';
 
 const auth = new Auth();
 
@@ -43,6 +41,23 @@ function App(Props: any) {
             </AdminLayout>
           )}
         />
+      />
+        <Route
+          exact={true}
+          path="/dashboard"
+          render={Props => (
+            <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
+              <Dashboard />
+            </AdminLayout>
+          )}
+        />
+        <Route
+          path="/callback"
+          render={Props => {
+            handleAuthentication(Props.location);
+            return <Callback {...Props} />;
+          }}
+        />
         <Route
           exact={true}
           path="/syn"
@@ -60,22 +75,6 @@ function App(Props: any) {
               <SupplierDetail {...routeProps} />
             </AdminLayout>
           )}
-        />
-        <Route
-          exact={true}
-          path="/dashboard"
-          render={Props => (
-            <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
-              <Dashboard />
-            </AdminLayout>
-          )}
-        />
-        <Route
-          path="/callback"
-          render={Props => {
-            handleAuthentication(Props.location);
-            return <Callback {...Props} />;
-          }}
         />
         <Route
           render={() => (

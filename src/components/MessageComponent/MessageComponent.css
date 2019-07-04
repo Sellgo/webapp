@@ -19,3 +19,6 @@
   display: flex !important;
   justify-content: center;
 }
+.message-box {
+  z-index: 1;
+}

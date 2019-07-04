@@ -3,7 +3,8 @@ import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
   FETCH_AUTH_BEGIN,
-  SET_AMAZONE_MWS,
+  SET_AMAZON_MWS,
+  GET_BASIC_INFO_SELLER,
 } from '../constant/constant';
 
 const initialState = Map({
@@ -14,17 +15,21 @@ const initialState = Map({
     email: '',
     auth0_user_id: '',
     id: 0,
+    cdate: '',
   },
-  amazoneMWS: {
-    seller_id: 0,
-    marketplace_id: 'DJIW28394D',
+  amazonMWS: {
+    seller_id: '',
+    marketplace_id: '',
     token: '',
   },
+  success: false,
   loading: false,
-  error: {},
+  error: null,
 });
 
 export const SettingReducer = (state = initialState, action: any) => {
+  let newState = null;
+  let data = null;
   switch (action.type) {
     case FETCH_AUTH_BEGIN:
       return {
@@ -33,14 +38,32 @@ export const SettingReducer = (state = initialState, action: any) => {
         error: null,
       };
     case SET_BASIC_INFO_SELLER:
-      const { data } = action;
-      const { key, value } = data;
-      const newState = state.setIn(['profile', key], value);
+      data = action.data;
+      newState = state.setIn(['profile', data.key], data.value);
       return newState;
-    case SET_AMAZONE_MWS:
-      const { aData } = action;
-      const newMWS = state.setIn(['amazoneMWS', aData.key], aData.value);
-      return newMWS;
+    case SET_AMAZON_MWS:
+      data = action.data;
+      newState = state.setIn(['amazonMWS', data.key], data.value);
+      return newState;
+    case UPDATE_BASIC_INFO_SELLER:
+      data = action.data;
+      newState = state.setIn(['success'], data.value);
+      return newState;
+    case GET_BASIC_INFO_SELLER:
+      const { name, cdate, id, email, auth0_user_id } = action.data;
+      const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
+      const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
+      const sellerData = {
+        cdate,
+        id,
+        email,
+        firstName,
+        lastName,
+        name,
+        auth0_user_id,
+      };
+      newState = state.setIn(['profile'], sellerData);
+      return newState;
 
     default:
       return state;
