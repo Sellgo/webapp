@@ -266,7 +266,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     console.log("this.state.products: ", this.props.products);
     // this.setState({}); 
     return (
-      ((this.props.products.length == 0 || (this.props.products.length == 1 && this.props.products[0].id != -10000000))
+      ((this.props.products.length == 0)
         ?
         (
           <Segment>
@@ -296,7 +296,16 @@ export class SupplierDetail extends React.Component<Props, State> {
             </Table.Header>
             <Table.Body>
               {(
-                (this.props.products[0].id == -10000000)) ? "" :
+                (this.props.products[0].id == -10000000)) ?
+                <Table.Row key={134}>
+                  <Table.Cell>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <h1>
+                      Data not found
+                    </h1>
+                  </Table.Cell>
+                </Table.Row> :
                 productsTable.map((value, index) => {
                   return (
                     <Table.Row key={index}>
