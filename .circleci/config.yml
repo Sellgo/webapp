@@ -13,10 +13,16 @@ jobs:
       - run: 
           name: build
           command: CI=false npm run build
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - build
   deploy:
     machine:
         enabled: true
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - aws-s3/sync:
           from: build
           to: 's3://${AWS_S3_BUCKET_NAME}'
