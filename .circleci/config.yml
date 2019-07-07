@@ -5,7 +5,6 @@ jobs:
   build:
     docker:
       - image: circleci/node
-    working_directory: ~/circleci-webapp
     steps:
       - checkout
       - run: 
@@ -17,7 +16,6 @@ jobs:
   deploy:
     machine:
         enabled: true
-    working_directory: ~/circleci-webapp
     steps:
       - aws-s3/sync:
           from: build
