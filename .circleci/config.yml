@@ -1,15 +1,40 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@4.0.1
-  aws-ecs: circleci/aws-ecs@0.0.8
+  aws-s3: circleci/aws-s3@1.0.0
+jobs:
+  build:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run: 
+          name: install-npm
+          command: npm install
+      - run: 
+          name: build
+          command: CI=false npm run build
+      - persist_to_workspace:
+          root: build
+          paths: .
+  deploy:
+    machine:
+        enabled: true
+    steps:
+      - attach_workspace:
+          at: build
+      - aws-s3/sync:
+          from: build
+          to: 's3://${AWS_S3_BUCKET_NAME}'
+          overwrite: true
+
 workflows:
+  version: 2
   build-and-deploy:
     jobs:
-      - aws-ecr/build_and_push_image:
+      - build
+      - deploy:
+          requires:
+            - build
           filters:
             branches:
               only: master
-          account-url: AWS_ECR_ACCOUNT_URL
-          repo: "${AWS_ECR_REPO}"
-          region: AWS_DEFAULT_REGION
-          tag: "${CIRCLE_SHA1}"
