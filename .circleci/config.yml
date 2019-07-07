@@ -13,7 +13,7 @@ jobs:
           command: npm install
       - run: 
           name: build
-          command: npm run build
+          command: CI=false npm run build
   deploy:
     machine:
         enabled: true
