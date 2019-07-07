@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 orbs:
   aws-s3: circleci/aws-s3@1.0.0
 jobs:
@@ -21,9 +21,18 @@ jobs:
     working_directory: ~/circleci-webapp
     steps:
       - aws-s3/sync:
-          filters:
-            branches:
-              only: master
           from: bucket
           to: 's3://${AWS_S3_BUCKET_NAME}'
           overwrite: true
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
