@@ -83,15 +83,15 @@ interface Props {
 
   getTimeEfficiency(): () => void;
 
-  getProductTrackData(): () => void;
+  getProductTrackData(supplier_id: string): () => void;
 
   getProductTrackGroupId(supplierID: string, supplierName: string): () => void;
 
-  getChartValues1(product_track_group_id: string): () => void;
+  getChartValues1(supplier_id: string): () => void;
 
-  getChartValues2(product_track_group_id: string): () => void;
+  getChartValues2(supplier_id: string): () => void;
 
-  getProductDetail(product_id: string): () => void;
+  getProductDetail(product_id: string, supplier_id: string): () => void;
 
   getProductDetailChart(product_id: string): () => void;
 
@@ -155,9 +155,9 @@ export class SupplierDetail extends React.Component<Props, State> {
       value: localStorage.getItem('userId'),
     };
     this.props.getProducts(this.props.match.params.supplierID);
-    this.props.getProductTrackData();
-    this.props.getChartValues1('2');
-    this.props.getChartValues2('2');
+    this.props.getProductTrackData(this.props.match.params.supplierID);
+    this.props.getChartValues1(this.props.match.params.supplierID);
+    this.props.getChartValues2(this.props.match.params.supplierID);
     if (this.props.time_efficiency_data.length === 0) {
       this.props.getTimeEfficiency();
     }
@@ -250,8 +250,8 @@ export class SupplierDetail extends React.Component<Props, State> {
     });
   };
 
-  productDetailsWithVisualization = (product_id: string) => {
-    this.props.getProductDetail(product_id);
+  productDetailsWithVisualization = (product_id: string, supplier_id: string) => {
+    this.props.getProductDetail(product_id, supplier_id);
     this.props.getProductDetailChart(product_id);
     this.props.getProductDetailChartPrice(product_id);
     this.setState({ modalOpen: true });
@@ -322,7 +322,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 as={Link}
                                 to={{}}
                                 onClick={() => {
-                                  this.productDetailsWithVisualization(String(value.product_id));
+                                  this.productDetailsWithVisualization(String(value.product_id), String(this.props.match.params.supplierID));
                                 }}
                               >
                                 {value.title}
@@ -345,7 +345,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             style={{ borderRadius: 20 }}
                             color="blue"
                             onClick={() => {
-                              this.productDetailsWithVisualization(String(value.product_id));
+                              this.productDetailsWithVisualization(String(value.product_id), String(this.props.match.params.supplierID));
                             }}
                           >
                             View
@@ -1144,17 +1144,17 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
-    getProductTrackData: () => dispatch(getProductTrackData()),
+    getProductTrackData: (supplier_id: string) => dispatch(getProductTrackData(supplier_id)),
     getProductTrackGroupId: (supplierID: string, supplierName: string) =>
       dispatch(getProductTrackGroupId(supplierID, supplierName)),
-    getProductDetail: (product_id: string) => dispatch(getProductDetail(product_id)),
+    getProductDetail: (product_id: string, supplier_id: string) => dispatch(getProductDetail(product_id, supplier_id)),
     getProductDetailChart: (product_id: string) => dispatch(getProductDetailChart(product_id)),
     getProductDetailChartPrice: (product_id: string) =>
       dispatch(getProductDetailChartPrice(product_id)),
-    getChartValues1: (product_track_group_id: string) =>
-      dispatch(getChartValues1(product_track_group_id)),
-    getChartValues2: (product_track_group_id: string) =>
-      dispatch(getChartValues2(product_track_group_id)),
+    getChartValues1: (supplier_id: string) =>
+      dispatch(getChartValues1(supplier_id)),
+    getChartValues2: (supplier_id: string) =>
+      dispatch(getChartValues2(supplier_id)),
     trackProductWithPatch: (
       productID: string,
       productTrackGroupID: string,

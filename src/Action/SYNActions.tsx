@@ -11,6 +11,7 @@ import {
   SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
 } from '../constant/constant';
 import { URLS } from '../config';
+import supplierDetail from '../containers/SYN/suppliers/supplierDetail';
 
 export interface Supplier {
   contact: string;
@@ -161,10 +162,10 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     .catch(error => {
     });
 };
-export const getChartValues1 = (product_track_group_id: string) => (dispatch: any) => {
+export const getChartValues1 = (supplier_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_price,cdate',
+    url: URLS.BASE_URL_API + 'group/' + supplier_id + '/history/price/',
     headers,
   })
     .then(json => {
@@ -174,10 +175,10 @@ export const getChartValues1 = (product_track_group_id: string) => (dispatch: an
     });
 };
 
-export const getChartValues2 = (product_track_group_id: string) => (dispatch: any) => {
+export const getChartValues2 = (supplier_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_rank,cdate',
+    url: URLS.BASE_URL_API + 'group/' + supplier_id + '/history/rank/',
     headers,
   })
     .then(json => {
@@ -187,10 +188,10 @@ export const getChartValues2 = (product_track_group_id: string) => (dispatch: an
     });
 };
 
-export const getProductDetail = (product_id: string) => (dispatch: any) => {
+export const getProductDetail = (product_id: string, supplier_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/detail',
+    url: URLS.BASE_URL_API + 'product/' + product_id + '/detail?supplier_id='+supplier_id,
     headers,
   })
     .then(json => {
@@ -203,7 +204,7 @@ export const getProductDetail = (product_id: string) => (dispatch: any) => {
 export const getProductDetailChart = (product_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=rank,cdate',
+    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/rank/',
     headers,
   })
     .then(json => {
@@ -216,7 +217,7 @@ export const getProductDetailChart = (product_id: string) => (dispatch: any) => 
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=price,cdate',
+    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/price/',
     headers,
   })
     .then(json => {
@@ -227,10 +228,10 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
 };
 
 
-export const getProductTrackData = () => (dispatch: any) => {
+export const getProductTrackData = (supplier_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/track_data/?product_track_group_ids=2',
+    url: URLS.BASE_URL_API + 'group/track_data/?supplier_id='+supplier_id,
     // url: URLS.BASE_URL_API + 'group/track_data/',
     // data: {
     //   product_track_group_ids: 2
