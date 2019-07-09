@@ -14,7 +14,6 @@ import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
-
 const auth = new Auth();
 
 const handleAuthentication = (location: any) => {
@@ -41,7 +40,6 @@ function App(Props: any) {
             </AdminLayout>
           )}
         />
-      />
         <Route
           exact={true}
           path="/dashboard"

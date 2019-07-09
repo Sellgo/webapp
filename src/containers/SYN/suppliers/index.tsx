@@ -15,7 +15,7 @@ import {
   TextArea,
   Pagination,
   Loader,
-  Confirm
+  Confirm,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -71,11 +71,17 @@ interface State {
 
 interface Props {
   getSellers(): () => void;
+
   getTimeEfficiency(): () => void;
+
   saveSupplierNameAndDescription(name: string, description: string, callBack: any): () => any;
+
   updateSupplierNameAndDescription(name: string, description: string, update_product_id: string, callBack: any): () => any;
+
   deleteSupplier(supplier_id: any, callBack: any): () => any;
+
   uploadCSV(new_supplier_id: string, file: any): () => void;
+
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
@@ -93,27 +99,27 @@ export class Suppliers extends React.Component<Props, State> {
     currentPage: 1,
     pageSize: 10,
     updateDetails: false,
-    update_product_id: "0",
+    update_product_id: '0',
     delete_confirmation: false,
     delete_supplier_container: {
-      contact: "",
-      description: "",
-      email: "",
-      freight_fee: "",
+      contact: '',
+      description: '',
+      email: '',
+      freight_fee: '',
       id: 0,
-      item_active_count: "",
-      item_total_count: "",
-      name: "",
-      phone: "",
-      rate: "",
+      item_active_count: '',
+      item_total_count: '',
+      name: '',
+      phone: '',
+      rate: '',
       seller_id: 0,
-      status: "",
+      status: '',
       supplier_group_id: 1,
-      timezone: "",
-      upcharge_fee: "",
-      website: "",
-      xid: "",
-    }
+      timezone: '',
+      upcharge_fee: '',
+      website: '',
+      xid: '',
+    },
   };
   message = {
     id: 1,
@@ -161,7 +167,7 @@ export class Suppliers extends React.Component<Props, State> {
       this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, this.state.update_product_id, (data: any) => {
         this.props.getSellers();
 
-        if (this.state.file != "") {
+        if (this.state.file != '') {
           this.props.uploadCSV(String(this.state.update_product_id), this.state.file);
           this.setState({ file: '' });
         }
@@ -170,13 +176,12 @@ export class Suppliers extends React.Component<Props, State> {
         this.handleClose();
 
       });
-    }
-    else {
+    } else {
       this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, (data: any) => {
 
         this.props.getSellers();
 
-        if (this.props.new_supplier_id != null && this.state.file != "") {
+        if (this.props.new_supplier_id != null && this.state.file != '') {
           this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
           this.setState({ file: '' });
         }
@@ -214,18 +219,18 @@ export class Suppliers extends React.Component<Props, State> {
   renderAddNewSupplierModal = () => {
     return (
       <Modal size={'tiny'}
-        open={this.state.modalOpen}
-        onClose={this.handleClose}
-        closeIcon={true} trigger={
-          <Button
-            basic color='black'
-            primary={true}
-            style={{ borderRadius: '50px' }}
-            onClick={this.handleOpen}
-          >
-            Add New Supplier
+             open={this.state.modalOpen}
+             onClose={this.handleClose}
+             closeIcon={true} trigger={
+        <Button
+          basic color='black'
+          primary={true}
+          style={{ borderRadius: '50px' }}
+          onClick={this.handleOpen}
+        >
+          Add New Supplier
         </Button>
-        }>
+      }>
         <Modal.Header>
           <Grid columns={4}>
             <Grid.Row>
@@ -233,7 +238,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Add New Supplier
               </Grid.Column>
               <Grid.Column style={{ padding: 0 }} floated="left">
-                <Icon name="file" />
+                <Icon name="file"/>
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -246,11 +251,11 @@ export class Suppliers extends React.Component<Props, State> {
               </Grid.Column>
               <Grid.Column width={8} floated="left">
                 <Input value={this.state.supplier_name}
-                  onChange={(event) => {
-                    this.onChangeSupplierName(event);
-                  }}
-                  style={{ width: 300 }}
-                  placeholder="question circle" />
+                       onChange={(event) => {
+                         this.onChangeSupplierName(event);
+                       }}
+                       style={{ width: 300 }}
+                       placeholder="question circle"/>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -260,21 +265,21 @@ export class Suppliers extends React.Component<Props, State> {
               <Grid.Column width={9} floated="left">
                 <Form>
                   <TextArea value={this.state.supplier_description}
-                    onChange={(event) => {
-                      this.onChangeSupplierDescription(event);
-                    }}
-                    style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
-                    placeholder="Write your latest update here" />
+                            onChange={(event) => {
+                              this.onChangeSupplierDescription(event);
+                            }}
+                            style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
+                            placeholder="Write your latest update here"/>
                 </Form>
               </Grid.Column>
               <Grid.Column width={1} floated="left">
                 <Icon
-                  name="pencil" />
+                  name="pencil"/>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column style={{ marginTop: '10px', marginBottom: '10px' }} floated="right" width={9}>
-                <Checkbox />
+                <Checkbox/>
                 &nbsp;
                 Automatically upload upon exit
               </Grid.Column>
@@ -315,10 +320,10 @@ export class Suppliers extends React.Component<Props, State> {
             type="file"
             hidden
             onChange={this.fileChange}
-          // webkitRelativePath=""
+            // webkitRelativePath=""
           />
           <Popup
-            trigger={<Icon name="question circle" circular />}
+            trigger={<Icon name="question circle" circular/>}
             content='Sellgo'
             position='top left'
             size='tiny'
@@ -334,7 +339,7 @@ export class Suppliers extends React.Component<Props, State> {
       this.props.getSellers();
     });
 
-  }
+  };
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
     const suppliers = [...this.props.suppliers].slice(
@@ -342,148 +347,162 @@ export class Suppliers extends React.Component<Props, State> {
       (currentPage + 1) * this.state.pageSize);
     return (
       ((this.props.suppliers.length == 0) ?
-        <Segment>
-          <Loader hidden={(this.props.suppliers.length == 0) ? false : true} active inline='centered' size='massive'>Loading</Loader>
-        </Segment>
-        :
-        < Table basic='very' >
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>
-                <Checkbox />
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                Supplier Name
-            </Table.HeaderCell>
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Action</Table.HeaderCell>
-              <Table.HeaderCell>Product to Listing Ratio</Table.HeaderCell>
-              <Table.HeaderCell>Supplier Rate (%)</Table.HeaderCell>
-              <Table.HeaderCell>Note</Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {suppliers.map((value: Supplier, index) => {
-              return (
-                <Table.Row key={value.id}>
+          <Segment>
+            <Loader hidden={(this.props.suppliers.length == 0) ? false : true} active inline='centered'
+                    size='massive'>Loading</Loader>
+          </Segment>
+          :
+          < Table basic='very'>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>
+                  <Checkbox/>
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  Supplier Name
+                </Table.HeaderCell>
+                <Table.HeaderCell>Status</Table.HeaderCell>
+                <Table.HeaderCell>Action</Table.HeaderCell>
+                <Table.HeaderCell>Product to Listing Ratio</Table.HeaderCell>
+                <Table.HeaderCell>Supplier Rate (%)</Table.HeaderCell>
+                <Table.HeaderCell>Note</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {(
+                (this.props.suppliers[0].id == -10000000)) ?
+                <Table.Row key={134}>
                   <Table.Cell>
-                    <Checkbox />
-                  </Table.Cell>
-                  <Table.Cell style={{ width: '350px' }}>
-                    <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                      {value.name}
-                    </Table.Cell>
-                  </Table.Cell>
-                  <Table.Cell>{value.status}</Table.Cell>
-                  <Table.Cell>
-                    <Dropdown text='SYN'
-                      fluid
-                      selection
-                      options={[{
-                        key: 'SYN',
-                        text: 'SYN',
-                        value: 'SYN',
-                      }]}
-                      onChange={(e, data) => {
-                        if (data.value === 'SYN') {
-                          history.push(`/syn/${value.id}`);
-                        }
-                      }}>
-                    </Dropdown>
                   </Table.Cell>
                   <Table.Cell>
-                    {(value.item_total_count != null && value.item_active_count != null) ? Number((value.item_total_count / value.item_active_count).toFixed(2)).toLocaleString() : 0}
+                    <h1>
+                      Data not found
+                    </h1>
                   </Table.Cell>
-                  <Table.Cell>{Number(value.rate).toLocaleString()}</Table.Cell>
-                  <Table.Cell>
-                    <Input focus placeholder='Note' />
-                  </Table.Cell>
-                  <Table.Cell style={{ paddingRight: '10px' }}>
-                    <Table.Cell as={Link} to={`/syn/`}>
-                      <Icon 
-                      onClick={() => {
-                        this.openUpdateSupplierPopup(value);
-                      }}
-                       name='cloud upload' style={{ color: 'black' }} />&nbsp;
-                  </Table.Cell>
-                    <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                      <Icon name='refresh' style={{ color: 'black' }} />&nbsp;
-                  </Table.Cell>
-                    <Table.Cell
-                      as={Link}
-                      to={{}}
-                      onClick={() => {
-                        this.openUpdateSupplierPopup(value);
-                      }}
-                    >
-                      <Icon
-                        name='pencil' style={{ color: 'black' }} />&nbsp;
-                  </Table.Cell>
-                    <Table.Cell
-                      onClick={() => {
-                        this.setState({ delete_confirmation: true, delete_supplier_container: value })
-                      }}
-                      as={Link} to="/syn">
-                      <Icon name='trash alternate' style={{ color: 'black' }} />
-                      {/*{this.renderDeleteModal(value, index)}*/}
-                    </Table.Cell>
-                  </Table.Cell>
-                </Table.Row>
-              );
-            })}
-          </Table.Body>
-          <Table.Footer>
-            <Table.Row>
-              <Table.HeaderCell colSpan='3'>
-                <Pagination
-                  totalPages={this.state.totalPages}
-                  activePage={this.state.currentPage}
-                  onPageChange={(event, data) => {
-                    this.setState({
-                      currentPage: data.activePage,
-                    });
-                  }}
-                />
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
-          <Confirm
-            content="Do you want to delete supplier?"
-            open={this.state.delete_confirmation}
-            onCancel={() => {
-              this.setState({
-                delete_confirmation: false,
-                delete_supplier_container: {
-                  contact: "",
-                  description: "",
-                  email: "",
-                  freight_fee: "",
-                  id: 0,
-                  item_active_count: "",
-                  item_total_count: "",
-                  name: "",
-                  phone: "",
-                  rate: "",
-                  seller_id: 0,
-                  status: "",
-                  supplier_group_id: 1,
-                  timezone: "",
-                  upcharge_fee: "",
-                  website: "",
-                  xid: "",
-                }
-              })
-            }}
-            onConfirm={() => { this.deleteSupplier() }} />
-        </Table >
+                </Table.Row> :
+                suppliers.map((value: Supplier, index) => {
+                  return (
+                    <Table.Row key={value.id}>
+                      <Table.Cell>
+                        <Checkbox/>
+                      </Table.Cell>
+                      <Table.Cell style={{ width: '350px' }}>
+                        <Table.Cell as={Link} to={`/syn/${value.id}`}>
+                          {value.name}
+                        </Table.Cell>
+                      </Table.Cell>
+                      <Table.Cell>{value.status}</Table.Cell>
+                      <Table.Cell>
+                        <Dropdown text='SYN'
+                                  fluid
+                                  selection
+                                  options={[{
+                                    key: 'SYN',
+                                    text: 'SYN',
+                                    value: 'SYN',
+                                  }]}
+                                  onChange={(e, data) => {
+                                    if (data.value === 'SYN') {
+                                      history.push(`/syn/${value.id}`);
+                                    }
+                                  }}>
+                        </Dropdown>
+                      </Table.Cell>
+                      <Table.Cell>
+                        {(value.item_total_count != null && value.item_active_count != null) ? Number((value.item_total_count / value.item_active_count).toFixed(2)).toLocaleString() : 0}
+                      </Table.Cell>
+                      <Table.Cell>{Number(value.rate).toLocaleString()}</Table.Cell>
+                      <Table.Cell>
+                        <Input focus placeholder='Note'/>
+                      </Table.Cell>
+                      <Table.Cell style={{ paddingRight: '10px' }}>
+                        <Table.Cell as={Link} to={`/syn/`}>
+                          <Icon
+                            onClick={() => {
+                              this.openUpdateSupplierPopup(value);
+                            }}
+                            name='cloud upload' style={{ color: 'black' }}/>&nbsp;
+                        </Table.Cell>
+                        <Table.Cell as={Link} to={`/syn/${value.id}`}>
+                          <Icon name='refresh' style={{ color: 'black' }}/>&nbsp;
+                        </Table.Cell>
+                        <Table.Cell
+                          as={Link}
+                          to={{}}
+                          onClick={() => {
+                            this.openUpdateSupplierPopup(value);
+                          }}
+                        >
+                          <Icon
+                            name='pencil' style={{ color: 'black' }}/>&nbsp;
+                        </Table.Cell>
+                        <Table.Cell
+                          onClick={() => {
+                            this.setState({ delete_confirmation: true, delete_supplier_container: value });
+                          }}
+                          as={Link} to="/syn">
+                          <Icon name='trash alternate' style={{ color: 'black' }}/>
+                          {/*{this.renderDeleteModal(value, index)}*/}
+                        </Table.Cell>
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })}
+            </Table.Body>
+            <Table.Footer>
+              <Table.Row>
+                <Table.HeaderCell colSpan='3'>
+                  <Pagination
+                    totalPages={this.state.totalPages}
+                    activePage={this.state.currentPage}
+                    onPageChange={(event, data) => {
+                      this.setState({
+                        currentPage: data.activePage,
+                      });
+                    }}
+                  />
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Footer>
+            <Confirm
+              content="Do you want to delete supplier?"
+              open={this.state.delete_confirmation}
+              onCancel={() => {
+                this.setState({
+                  delete_confirmation: false,
+                  delete_supplier_container: {
+                    contact: '',
+                    description: '',
+                    email: '',
+                    freight_fee: '',
+                    id: 0,
+                    item_active_count: '',
+                    item_total_count: '',
+                    name: '',
+                    phone: '',
+                    rate: '',
+                    seller_id: 0,
+                    status: '',
+                    supplier_group_id: 1,
+                    timezone: '',
+                    upcharge_fee: '',
+                    website: '',
+                    xid: '',
+                  },
+                });
+              }}
+              onConfirm={() => {
+                this.deleteSupplier();
+              }}/>
+          </Table>
       )
     );
   };
   renderDeleteModal = (value: Supplier, index: any) => {
     return (
       <Modal trigger={
-        <Icon name='trash alternate' style={{ color: 'black' }} />
+        <Icon name='trash alternate' style={{ color: 'black' }}/>
       } onClose={this.close}>
         <Modal.Header>Delete Your Account</Modal.Header>
         <Modal.Content>
@@ -491,8 +510,8 @@ export class Suppliers extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative>No</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
-          <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
+          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
         </Modal.Actions>
       </Modal>
     );
@@ -503,12 +522,12 @@ export class Suppliers extends React.Component<Props, State> {
     const { isOpen } = this.state;
     return (
       <Segment basic={true} className="setting">
-        <Divider />
+        <Divider/>
         <Grid>
           <Grid.Column width={5} floated='left' className={'middle aligned'}>
             {this.renderAddNewSupplierModal()}
             <Popup
-              trigger={<Icon name='question circle' circular />}
+              trigger={<Icon name='question circle' circular/>}
               content='Sellgo'
               position='top left'
               size='tiny'
@@ -525,7 +544,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Time Saved
                 <h2>
                   <strong>
-                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + " hrs" : null}
+                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + ' hrs' : null}
                   </strong>
                 </h2>
               </span>
@@ -533,7 +552,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Efficiency
                 <h2>
                   <strong>
-                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + " %" : null}
+                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %' : null}
                   </strong>
                 </h2>
               </span>

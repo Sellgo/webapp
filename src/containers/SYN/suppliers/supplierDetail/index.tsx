@@ -19,7 +19,9 @@ import { connect } from 'react-redux';
 import './supplierDetail.css';
 import { Link } from 'react-router-dom';
 import 'react-rangeslider/lib/index.css';
-import Slider from 'react-rangeslider';
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css';
+
 import {
   getProducts,
   trackProductWithPatch,
@@ -126,10 +128,22 @@ export class SupplierDetail extends React.Component<Props, State> {
     totalPages: 5,
     currentPage: 1,
     pageSize: 10,
-    unitProfitFilter: 0,
-    marginFilter: 0,
-    unitsPerMonthFilter: 0,
-    profitPerMonthFilter: 0,
+    unitProfitFilter: {
+      min: 0,
+      max: 100,
+    },
+    marginFilter: {
+      min: 0,
+      max: 100,
+    },
+    unitsPerMonthFilter: {
+      min: 0,
+      max: 100,
+    },
+    profitPerMonthFilter: {
+      min: 0,
+      max: 100,
+    },
     minUnitProfit: 0,
     maxUnitProfit: 100,
     minMargin: 0,
@@ -236,10 +250,10 @@ export class SupplierDetail extends React.Component<Props, State> {
       maxUnitsPerMonth,
       minProfitPerMonth,
       maxProfitPerMonth,
-      unitProfitFilter: minUnitProfit,
-      profitPerMonthFilter: minProfitPerMonth,
-      unitsPerMonthFilter: minUnitsPerMonth,
-      marginFilter: minMargin,
+      unitProfitFilter: { min: minUnitProfit, max: maxUnitProfit },
+      profitPerMonthFilter: { min: minProfitPerMonth, max: maxProfitPerMonth },
+      unitsPerMonthFilter: { min: minUnitsPerMonth, max: maxUnitsPerMonth },
+      marginFilter: { min: minMargin, max: maxMargin },
     });
   }
 
@@ -280,7 +294,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.HeaderCell width={1}>
                     <Checkbox/>
                   </Table.HeaderCell>
-                  <Table.HeaderCell width={4}>Product Info</Table.HeaderCell>
+                  <Table.HeaderCell width={3} style={{ paddingLeft: 0 }}>Product Info</Table.HeaderCell>
                   <Table.HeaderCell width={1}/>
                   <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
                   <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
@@ -375,7 +389,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                         </Table.Cell>
                         <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
                         <Table.Cell>
-                          <Table.Cell as={Link} to={'//' + value.amazon_url}>
+                          <Table.Cell as={Link} to={'//' + value.amazon_url.split('//')[1]} target={'_blank'}>
                             <Icon name="amazon" style={{ color: 'black' }}/>
                             &nbsp;
                           </Table.Cell>
@@ -548,7 +562,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 size="mini"
                 style={{ display: 'inline-block' }}
               />
-              <a href={this.props.product_detail.amazon_url}>
+              <a href={this.props.product_detail.amazon_url} target={'_blank'}>
                 <Icon name="amazon" style={{ color: 'black' }}/>
               </a>
               <p>{this.props.product_detail.asin}</p>
@@ -667,13 +681,41 @@ export class SupplierDetail extends React.Component<Props, State> {
                 // TODO proof of concept for dropdown filter
                 const index: any = selectedData.value;
                 const data: any = ProductFiltersPreset[index].data;
-                console.log(ProductFiltersPreset[index].data);
+                const marginFilterUpdatedValue = data.marginFilter;
+                if (marginFilterUpdatedValue.max > this.state.maxMargin) {
+                  marginFilterUpdatedValue.max = this.state.maxMargin;
+                }
+                if (marginFilterUpdatedValue.min < this.state.minMargin) {
+                  marginFilterUpdatedValue.min = this.state.minMargin;
+                }
+                const profitPerMonthFilterUpdatedValue = data.profitPerMonthFilter;
+                if (profitPerMonthFilterUpdatedValue.max > this.state.maxProfitPerMonth) {
+                  profitPerMonthFilterUpdatedValue.max = this.state.maxProfitPerMonth;
+                }
+                if (profitPerMonthFilterUpdatedValue.min < this.state.minProfitPerMonth) {
+                  profitPerMonthFilterUpdatedValue.min = this.state.minProfitPerMonth;
+                }
+                const unitProfitFilterUpdatedValue = data.unitProfitFilter;
+                if (unitProfitFilterUpdatedValue.max > this.state.maxUnitProfit) {
+                  unitProfitFilterUpdatedValue.max = this.state.maxUnitProfit;
+                }
+                if (unitProfitFilterUpdatedValue.min < this.state.minUnitProfit) {
+                  unitProfitFilterUpdatedValue.min = this.state.minUnitProfit;
+                }
+                const unitsPerMonthFilterUpdatedValue = data.unitsPerMonthFilter;
+                if (unitsPerMonthFilterUpdatedValue.max > this.state.maxUnitsPerMonth) {
+                  unitsPerMonthFilterUpdatedValue.max = this.state.maxUnitsPerMonth;
+                }
+                if (unitsPerMonthFilterUpdatedValue.min < this.state.minUnitsPerMonth) {
+                  unitsPerMonthFilterUpdatedValue.min = this.state.minUnitsPerMonth;
+                }
+
                 this.setState(
                   {
-                    marginFilter: (data.marginFilter > this.state.maxMargin) ? this.state.maxMargin : (data.marginFilter < this.state.minMargin) ? this.state.minMargin : data.marginFilter,
-                    profitPerMonthFilter: (data.profitPerMonthFilter > this.state.maxProfitPerMonth) ? this.state.maxProfitPerMonth : (data.profitPerMonthFilter < this.state.minProfitPerMonth) ? this.state.minProfitPerMonth : data.profitPerMonthFilter,
-                    unitProfitFilter: (data.unitProfitFilter > this.state.maxUnitProfit) ? this.state.maxUnitProfit : (data.unitProfitFilter < this.state.minUnitProfit) ? this.state.minUnitProfit : data.unitProfitFilter,
-                    unitsPerMonthFilter: (data.unitsPerMonthFilter > this.state.maxUnitsPerMonth) ? this.state.maxUnitsPerMonth : (data.unitsPerMonthFilter < this.state.minUnitsPerMonth) ? this.state.minUnitsPerMonth : data.unitsPerMonthFilter,
+                    marginFilter: marginFilterUpdatedValue,
+                    profitPerMonthFilter: profitPerMonthFilterUpdatedValue,
+                    unitProfitFilter: unitProfitFilterUpdatedValue,
+                    unitsPerMonthFilter: unitsPerMonthFilterUpdatedValue,
                   },
                   () => {
                     this.updateFilters();
@@ -707,27 +749,30 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row style={{alignItems:'center'}}>
-                                <Grid.Column floated="left"  width={5}>
+                              <Grid.Row style={{ alignItems: 'center' }}>
+                                <Grid.Column floated="left" width={4}
+                                             style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}>
                                   <div className="min-max">{this.state.minUnitProfit}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0 }} width={6}>
-                                  <Slider
-                                    min={this.state.minUnitProfit}
-                                    max={this.state.maxUnitProfit}
+                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                  <InputRange
+                                    minValue={this.state.minUnitProfit}
+                                    maxValue={this.state.maxUnitProfit}
+                                    formatLabel={value => `${value}°`}
                                     value={this.state.unitProfitFilter}
-                                    tooltip={true}
                                     onChange={value => {
                                       this.setState({
                                         unitProfitFilter: value,
                                       });
                                     }}
-                                    onChangeComplete={() => {
+                                    onChangeComplete={(value) => {
                                       this.updateFilters();
                                     }}
                                   />
+
                                 </Grid.Column>
-                                <Grid.Column floated="right" width={5}>
+                                <Grid.Column floated="right" width={4}
+                                             style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}>
                                   <div className="min-max">{this.state.maxUnitProfit}</div>
                                 </Grid.Column>
                               </Grid.Row>
@@ -744,27 +789,31 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row style={{alignItems:'center'}}>
-                                <Grid.Column floated="left" width={5}>
+                              <Grid.Row style={{ alignItems: 'center' }}>
+                                <Grid.Column floated="left" width={4}
+                                             style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}>
                                   <div className="min-max">{this.state.minMargin}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0 }} width={6}>
-                                  <Slider
-                                    min={this.state.minMargin}
-                                    max={this.state.maxMargin}
+                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                  <InputRange
+                                    minValue={this.state.minMargin}
+                                    maxValue={this.state.maxMargin}
                                     value={this.state.marginFilter}
-                                    tooltip={true}
                                     onChange={value => {
                                       this.setState({
                                         marginFilter: value,
                                       });
                                     }}
-                                    onChangeComplete={() => {
+                                    onChangeComplete={(value) => {
                                       this.updateFilters();
                                     }}
                                   />
+
                                 </Grid.Column>
-                                <Grid.Column floated="right" width={5}>
+                                <Grid.Column
+                                  floated="right"
+                                  width={4}
+                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}>
                                   <div className="min-max">{this.state.maxMargin}</div>
                                 </Grid.Column>
                               </Grid.Row>
@@ -780,28 +829,35 @@ export class SupplierDetail extends React.Component<Props, State> {
                             Units per Month <Icon title="Sellgo" name="question circle outline"/>
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
-                            <Grid >
-                              <Grid.Row style={{alignItems:'center'}}>
-                                <Grid.Column floated="left" width={5}>
+                            <Grid>
+                              <Grid.Row style={{ alignItems: 'center' }}>
+                                <Grid.Column
+                                  floated="left"
+                                  width={4}
+                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.minUnitsPerMonth}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0 }} width={6}>
-                                  <Slider
-                                    min={this.state.minUnitsPerMonth}
-                                    max={this.state.maxUnitsPerMonth}
+                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                  <InputRange
+                                    minValue={this.state.minUnitsPerMonth}
+                                    maxValue={this.state.maxUnitsPerMonth}
                                     value={this.state.unitsPerMonthFilter}
-                                    tooltip={true}
                                     onChange={value => {
                                       this.setState({
                                         unitsPerMonthFilter: value,
                                       });
                                     }}
-                                    onChangeComplete={() => {
+                                    onChangeComplete={(value) => {
                                       this.updateFilters();
                                     }}
                                   />
                                 </Grid.Column>
-                                <Grid.Column floated="right" width={5}>
+                                <Grid.Column
+                                  floated="right"
+                                  width={4}
+                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.maxUnitsPerMonth}</div>
                                 </Grid.Column>
                               </Grid.Row>
@@ -818,29 +874,30 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row style={{alignItems:'center'}}>
-                                <Grid.Column floated="left" width={5}>
+                              <Grid.Row style={{ alignItems: 'center' }}>
+                                <Grid.Column floated="left" width={4}
+                                             style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}>
                                   <div className="min-max">{this.state.minProfitPerMonth}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0 }} width={6}>
-                                  <Slider
-                                    min={this.state.minProfitPerMonth}
-                                    max={this.state.maxProfitPerMonth}
+                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                  <InputRange
+                                    minValue={this.state.minProfitPerMonth}
+                                    maxValue={this.state.maxProfitPerMonth}
                                     value={this.state.profitPerMonthFilter}
-                                    tooltip={true}
                                     onChange={value => {
-                                      this.setState(
-                                        {
-                                          profitPerMonthFilter: value,
-                                        },
-                                      );
+                                      this.setState({
+                                        profitPerMonthFilter: value,
+                                      });
                                     }}
-                                    onChangeComplete={() => {
+                                    onChangeComplete={(value) => {
                                       this.updateFilters();
                                     }}
                                   />
                                 </Grid.Column>
-                                <Grid.Column floated="right" width={5}>
+                                <Grid.Column
+                                  floated="right"
+                                  width={4}
+                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}>
                                   <div className="min-max">{this.state.maxProfitPerMonth}</div>
                                 </Grid.Column>
                               </Grid.Row>
@@ -867,26 +924,50 @@ export class SupplierDetail extends React.Component<Props, State> {
     for (const product of products) {
       let shouldAdd = true;
       if (
-        this.state.unitProfitFilter !== this.state.minUnitProfit &&
-        parseFloat(product.profit_monthly) <= this.state.unitProfitFilter
+        this.state.unitProfitFilter.min !== this.state.minUnitProfit &&
+        parseFloat(product.profit) < this.state.unitProfitFilter.min
       ) {
         shouldAdd = false;
       }
       if (
-        this.state.marginFilter !== this.state.minMargin &&
-        parseFloat(product.margin) <= this.state.marginFilter
+        this.state.unitProfitFilter.max !== this.state.maxUnitProfit &&
+        parseFloat(product.profit) > this.state.unitProfitFilter.max
       ) {
         shouldAdd = false;
       }
       if (
-        this.state.unitsPerMonthFilter !== this.state.minUnitsPerMonth &&
-        parseFloat(product.sales_monthly) <= this.state.unitsPerMonthFilter
+        this.state.marginFilter.min !== this.state.minMargin &&
+        parseFloat(product.margin) < this.state.marginFilter.min
       ) {
         shouldAdd = false;
       }
       if (
-        this.state.profitPerMonthFilter !== this.state.minProfitPerMonth &&
-        parseFloat(product.profit_monthly) <= this.state.profitPerMonthFilter
+        this.state.marginFilter.max !== this.state.maxMargin &&
+        parseFloat(product.margin) > this.state.marginFilter.max
+      ) {
+        shouldAdd = false;
+      }
+      if (
+        this.state.unitsPerMonthFilter.min !== this.state.minUnitsPerMonth &&
+        parseFloat(product.sales_monthly) < this.state.unitsPerMonthFilter.min
+      ) {
+        shouldAdd = false;
+      }
+      if (
+        this.state.unitsPerMonthFilter.max !== this.state.maxUnitsPerMonth &&
+        parseFloat(product.sales_monthly) > this.state.unitsPerMonthFilter.max
+      ) {
+        shouldAdd = false;
+      }
+      if (
+        this.state.profitPerMonthFilter.min !== this.state.minProfitPerMonth &&
+        parseFloat(product.profit_monthly) < this.state.profitPerMonthFilter.min
+      ) {
+        shouldAdd = false;
+      }
+      if (
+        this.state.profitPerMonthFilter.max !== this.state.maxProfitPerMonth &&
+        parseFloat(product.profit_monthly) > this.state.profitPerMonthFilter.max
       ) {
         shouldAdd = false;
       }
@@ -896,8 +977,8 @@ export class SupplierDetail extends React.Component<Props, State> {
     }
     const totalPages = Math.ceil(newProducts.length / this.state.pageSize);
     this.setState({
-      totalPages: totalPages,
-      currentPage: (totalPages < this.state.currentPage) ? 1 : this.state.currentPage,
+      totalPages,
+      currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
       products: newProducts,
     });
     return;

@@ -32,7 +32,6 @@ export const marketPlace = [
 ];
 
 
-
 /**
  * NOTE: setting to 0 will default to minimum of the current products in list
  *
@@ -42,41 +41,89 @@ export const ProductFiltersPreset = [
     key: 'Max Margin',
     text: 'Max Margin',
     data: {
-      marginFilter: 1000,
-      profitPerMonthFilter: 0,
-      unitProfitFilter: 0,
-      unitsPerMonthFilter: 5,
+      marginFilter: {
+        min: 0,
+        max: 1000,
+      },
+      profitPerMonthFilter: {
+        min: 400,
+        max: 380000,
+      },
+      unitProfitFilter: {
+        min: 0,
+        max: 13140,
+      },
+      unitsPerMonthFilter: {
+        min: 4200,
+        max: 100000000,
+      },
     },
   },
   {
     key: 'Max Profit Per Month',
     text: 'Max Profit Per Month',
     data: {
-      marginFilter: 0,
-      profitPerMonthFilter: 200000,
-      unitProfitFilter: 0,
-      unitsPerMonthFilter: 0,
+      marginFilter: {
+        min: 0,
+        max: 1000,
+      },
+      profitPerMonthFilter: {
+        min: 0,
+        max: 400000,
+      },
+      unitProfitFilter: {
+        min: 0,
+        max: 1000,
+      },
+      unitsPerMonthFilter: {
+        min: 0,
+        max: 6000,
+      },
     },
   },
   {
     key: 'Max Unit Profit',
     text: 'Max Unit Profit',
     data: {
-      marginFilter: 0,
-      profitPerMonthFilter: 0,
-      unitProfitFilter: 1000,
-      unitsPerMonthFilter: 0,
+      marginFilter: {
+        min: 0,
+        max: 1000,
+      },
+      profitPerMonthFilter: {
+        min: 0,
+        max: 1000,
+      },
+      unitProfitFilter: {
+        min: 0,
+        max: 1000,
+      },
+      unitsPerMonthFilter: {
+        min: 0,
+        max: 400000,
+      },
     },
   },
   {
     key: 'Max Units Per Month',
     text: 'Max Units Per Month',
     data: {
-      marginFilter: 0,
-      profitPerMonthFilter: 0,
-      unitProfitFilter: 0,
-      unitsPerMonthFilter: 1000,
+      marginFilter: {
+        min: 30,
+        max: 1000,
+      },
+      profitPerMonthFilter: {
+        min: 370,
+        max: 250000,
+      },
+      unitProfitFilter: {
+        min: 12,
+        max: 5000,
+      },
+      unitsPerMonthFilter: {
+        min: 4099,
+        max: 400000,
+      },
     },
-  }
+  },
 ];
 

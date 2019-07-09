@@ -140,7 +140,32 @@ export const getSellers = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch(setSellers(json.data));
+
+      if (json.data.length == 0) {
+        dispatch(setSellers(
+          [{
+            contact: null,
+            description: null,
+            email: null,
+            freight_fee: null,
+            id: -10000000,
+            item_active_count: null,
+            item_total_count: null,
+            name: null,
+            phone: null,
+            rate: null,
+            seller_id: null,
+            status: null,
+            supplier_group_id: null,
+            timezone: null,
+            upcharge_fee: null,
+            website: null,
+            xid: null,
+          }],
+        ));
+      } else {
+        dispatch(setSellers(json.data));
+      }
       // return json.data;
     })
     .catch(error => {
@@ -403,11 +428,10 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
             title: null,
             tracking_status: null,
             profit: null,
-            product_track_id: null
-          }]
+            product_track_id: null,
+          }],
         ));
-      }
-      else {
+      } else {
         dispatch(setProducts(json.data));
       }
       // console.log("json: ", json);
