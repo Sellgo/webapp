@@ -11,7 +11,6 @@ import {
   SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
 } from '../constant/constant';
 import { URLS } from '../config';
-import supplierDetail from '../containers/SYN/suppliers/supplierDetail';
 
 export interface Supplier {
   contact: string;
