@@ -140,7 +140,7 @@ export const getSellers = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-
+      console.log(json.data);
       if (json.data.length == 0) {
         dispatch(setSellers(
           [{
@@ -169,6 +169,27 @@ export const getSellers = () => (dispatch: any) => {
       // return json.data;
     })
     .catch(error => {
+      dispatch(setSellers(
+        [{
+          contact: null,
+          description: null,
+          email: null,
+          freight_fee: null,
+          id: -10000000,
+          item_active_count: null,
+          item_total_count: null,
+          name: null,
+          phone: null,
+          rate: null,
+          seller_id: null,
+          status: null,
+          supplier_group_id: null,
+          timezone: null,
+          upcharge_fee: null,
+          website: null,
+          xid: null,
+        }],
+      ));
     });
 };
 export const getTimeEfficiency = () => (dispatch: any) => {
@@ -186,10 +207,10 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     .catch(error => {
     });
 };
-export const getChartValues1 = (product_track_group_id: string) => (dispatch: any) => {
+export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_price,cdate',
+    url: URLS.BASE_URL_API + 'group/' + supplierID + '/history/price',
     headers,
   })
     .then(json => {
@@ -199,10 +220,10 @@ export const getChartValues1 = (product_track_group_id: string) => (dispatch: an
     });
 };
 
-export const getChartValues2 = (product_track_group_id: string) => (dispatch: any) => {
+export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/' + product_track_group_id + '/history/?fields=avg_rank,cdate',
+    url: URLS.BASE_URL_API + 'group/' + supplierID + '/history/rank',
     headers,
   })
     .then(json => {
@@ -212,13 +233,14 @@ export const getChartValues2 = (product_track_group_id: string) => (dispatch: an
     });
 };
 
-export const getProductDetail = (product_id: string) => (dispatch: any) => {
+export const getProductDetail = (productID: string, supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/detail',
+    url: URLS.BASE_URL_API + 'product/' + productID + '/detail/?supplier_id=' + supplierID,
     headers,
   })
     .then(json => {
+      console.log(json.data);
       dispatch(setProductDetail(json.data[0]));
     })
     .catch(error => {
@@ -228,7 +250,7 @@ export const getProductDetail = (product_id: string) => (dispatch: any) => {
 export const getProductDetailChart = (product_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=rank,cdate',
+    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/rank',
     headers,
   })
     .then(json => {
@@ -241,7 +263,7 @@ export const getProductDetailChart = (product_id: string) => (dispatch: any) => 
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/?fields=price,cdate',
+    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/price',
     headers,
   })
     .then(json => {
@@ -252,10 +274,10 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
 };
 
 
-export const getProductTrackData = () => (dispatch: any) => {
+export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/track_data/?product_track_group_ids=2',
+    url: URLS.BASE_URL_API + 'group/track_data/?supplier_id=' + supplierID,
     // url: URLS.BASE_URL_API + 'group/track_data/',
     // data: {
     //   product_track_group_ids: 2
@@ -263,7 +285,28 @@ export const getProductTrackData = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch(setProductTrackData(json.data[0]));
+      if (json.data.length === 0) {
+        dispatch(
+          setProductTrackData({
+            avg_price: '',
+            daily_rank: 0,
+            daily_sales: '',
+            date_range: 0,
+            fees: '',
+            id: 0,
+            monthly_sales: '',
+            product_track_group_id: 0,
+            profit: '',
+            rating: '',
+            review: 0,
+            roi: '',
+            size_tier: '',
+            weight: '',
+          }),
+        );
+      } else {
+        dispatch(setProductTrackData(json.data[0]));
+      }
     })
     .catch(error => {
     });
@@ -438,15 +481,37 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
       // return json.data;
     })
     .catch(error => {
+      dispatch(setProducts(
+        [{
+          amazon_url: null,
+          asin: null,
+          id: -10000000,
+          image_url: null,
+          last_syn: null,
+          margin: null,
+          product_id: null,
+          profit_monthly: null,
+          sales_monthly: null,
+          title: null,
+          tracking_status: null,
+          profit: null,
+          product_track_id: null,
+        }],
+      ));
     });
 };
 export const trackProductWithPost = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
+  let sellerID = localStorage.getItem('userId');
+  if (sellerID == null) {
+    sellerID = '';
+  }
   const bodyFormData = new FormData();
   bodyFormData.set('product_id', productID);
   bodyFormData.set('status', status);
   bodyFormData.set('product_track_group_id', productTrackGroupID);
+  bodyFormData.set('seller_id', sellerID);
   return axios({
-    method: 'PATCH',
+    method: 'POST',
     url: URLS.BASE_URL_API + `track/product/`,
     data: bodyFormData,
     headers,
@@ -460,11 +525,11 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
     .catch(error => {
     });
 };
-export const trackProductWithPatch = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
+export const trackProductWithPatch = (product_track_id: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();
-  bodyFormData.set('id', productID);
+  bodyFormData.set('id', product_track_id);
   bodyFormData.set('status', status);
 
   return axios({

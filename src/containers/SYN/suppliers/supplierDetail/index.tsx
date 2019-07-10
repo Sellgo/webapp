@@ -25,9 +25,10 @@ import 'react-input-range/lib/css/index.css';
 import {
   getProducts,
   trackProductWithPatch,
+  trackProductWithPost,
   Product,
-  getChartValues1,
-  getChartValues2,
+  getProductsChartHistoryPrice,
+  getProductsChartHistoryRank,
   getProductDetail,
   getProductDetailChart,
   getProductDetailChartPrice,
@@ -43,9 +44,7 @@ import {
   TimeEfficiency,
   getTimeEfficiency,
 } from '../../../../Action/SYNActions';
-import {
-  ProductFiltersPreset,
-} from '../../../../constant/constant';
+import { ProductFiltersPreset } from '../../../../constant/constant';
 
 // import history from '../../../../history';
 
@@ -55,7 +54,7 @@ import HighchartsReact from 'highcharts-react-official';
 interface State {
   isOpen: boolean;
   products: Product[];
-  modalOpen: boolean;
+  productDetailModalOpen: boolean;
   currentPage: any;
   totalPages: any;
   pageSize: any;
@@ -82,18 +81,24 @@ interface Props {
     status: string,
     supplierID: string,
   ): () => void;
+  trackProductWithPost(
+    productID: string,
+    productTrackGroupID: string,
+    status: string,
+    supplierID: string,
+  ): () => void;
 
   getTimeEfficiency(): () => void;
 
-  getProductTrackData(): () => void;
+  getProductTrackData(supplierID: string): () => void;
 
   getProductTrackGroupId(supplierID: string, supplierName: string): () => void;
 
-  getChartValues1(product_track_group_id: string): () => void;
+  getProductsChartHistoryPrice(supplierID: string): () => void;
 
-  getChartValues2(product_track_group_id: string): () => void;
+  getProductsChartHistoryRank(supplierID: string): () => void;
 
-  getProductDetail(product_id: string): () => void;
+  getProductDetail(product_id: string, supplierID: string): () => void;
 
   getProductDetailChart(product_id: string): () => void;
 
@@ -124,7 +129,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     isOpen: false,
 
     products: [],
-    modalOpen: false,
+    productDetailModalOpen: false,
     totalPages: 5,
     currentPage: 1,
     pageSize: 10,
@@ -169,9 +174,9 @@ export class SupplierDetail extends React.Component<Props, State> {
       value: localStorage.getItem('userId'),
     };
     this.props.getProducts(this.props.match.params.supplierID);
-    this.props.getProductTrackData();
-    this.props.getChartValues1('2');
-    this.props.getChartValues2('2');
+    this.props.getProductTrackData(this.props.match.params.supplierID);
+    this.props.getProductsChartHistoryPrice(this.props.match.params.supplierID);
+    this.props.getProductsChartHistoryRank(this.props.match.params.supplierID);
     if (this.props.time_efficiency_data.length === 0) {
       this.props.getTimeEfficiency();
     }
@@ -265,10 +270,10 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   productDetailsWithVisualization = (product_id: string) => {
-    this.props.getProductDetail(product_id);
+    this.props.getProductDetail(product_id, this.props.match.params.supplierID);
     this.props.getProductDetailChart(product_id);
     this.props.getProductDetailChartPrice(product_id);
-    this.setState({ modalOpen: true });
+    this.setState({ productDetailModalOpen: true });
   };
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
@@ -276,151 +281,155 @@ export class SupplierDetail extends React.Component<Props, State> {
       currentPage * this.state.pageSize,
       (currentPage + 1) * this.state.pageSize,
     );
-    return (
-      ((this.props.products.length == 0)
-          ?
-          (
-            <Segment>
-              <Loader active inline='centered' size='massive'>
-                Loading
-              </Loader>
-            </Segment>
-          )
-          :
-          (
-            <Table basic="very">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell width={1}>
+    console.log(productsTable);
+    return this.props.products.length == 0 ? (
+      <Segment>
+        <Loader active={true} inline="centered" size="massive">
+          Loading
+        </Loader>
+      </Segment>
+    ) : (
+      <Table basic="very">
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell width={1}>
+              <Checkbox/>
+            </Table.HeaderCell>
+            <Table.HeaderCell width={3} style={{ paddingLeft: 0 }}>
+              Product Info
+            </Table.HeaderCell>
+            <Table.HeaderCell width={1}/>
+            <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
+            <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
+            <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
+            <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
+            <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
+            <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
+            <Table.HeaderCell width={1}/>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {this.props.products[0].id == -10000000 ? (
+            <Table.Row key={134}>
+              <Table.Cell/>
+              <Table.Cell>
+                <h1>Data not found</h1>
+              </Table.Cell>
+            </Table.Row>
+          ) : (
+            productsTable.map((value, index) => {
+              return (
+                <Table.Row key={index}>
+                  <Table.Cell>
                     <Checkbox/>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell width={3} style={{ paddingLeft: 0 }}>Product Info</Table.HeaderCell>
-                  <Table.HeaderCell width={1}/>
-                  <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
-                  <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
-                  <Table.HeaderCell width={1}/>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {(
-                  (this.props.products[0].id == -10000000)) ?
-                  <Table.Row key={134}>
-                    <Table.Cell>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <h1>
-                        Data not found
-                      </h1>
-                    </Table.Cell>
-                  </Table.Row> :
-                  productsTable.map((value, index) => {
-                    return (
-                      <Table.Row key={index}>
-                        <Table.Cell>
-                          <Checkbox/>
-                        </Table.Cell>
-                        <Table.Cell>
-                          <Grid>
-                            <Grid.Column floated="left">
-                              <Image
-                                src={(value.image_url == null) ? '/images/intro.png' : value.image_url}
-                                size="tiny"
-                              />
-                            </Grid.Column>
-                            <Grid.Column width={8} floated="left" className={'middle aligned'}>
-                              <Grid.Row
-                                as={Link}
-                                to={{}}
-                                onClick={() => {
-                                  this.productDetailsWithVisualization(String(value.product_id));
-                                }}
-                              >
-                                {value.title}
-                              </Grid.Row>
-                              <Grid.Row>
-                                <Grid.Column style={{ display: 'inline-flex' }}>
-                                  <Image
-                                    src={(value.image_url == null) ? '/images/intro.png' : value.image_url}
-                                    size="mini"
-                                  />
-                                  {value.asin}
-                                </Grid.Column>
-                              </Grid.Row>
-                            </Grid.Column>
-                          </Grid>
-                        </Table.Cell>
-                        <Table.Cell>
-                          <Button
-                            basic={true}
-                            style={{ borderRadius: 20 }}
-                            color="blue"
-                            onClick={() => {
-                              this.productDetailsWithVisualization(String(value.product_id));
-                            }}
-                          >
-                            View
-                          </Button>
-                          {/* {this.productDetailView(String(value.product_id))} */}
-                        </Table.Cell>
-                        <Table.Cell>{Number(value.profit).toLocaleString()}</Table.Cell>
-                        <Table.Cell>{Number(value.margin).toLocaleString()}</Table.Cell>
-                        <Table.Cell>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
-                        <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
-                        <Table.Cell>
-                          <Button
-                            basic={true}
-                            style={{ borderRadius: 20 }}
-                            color={value.tracking_status === 'active' ? 'teal' : 'blue'}
-                            onClick={() => {
-                              this.props.trackProductWithPatch(
-                                String(value.product_track_id),
-                                '2',
-                                value.tracking_status === 'active' ? 'inactive' : 'active',
-                                this.props.match.params.supplierID,
-                              );
-                            }}
-                          >
-                            {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
-                          </Button>
-                        </Table.Cell>
-                        <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
-                        <Table.Cell>
-                          <Table.Cell as={Link} to={'//' + value.amazon_url.split('//')[1]} target={'_blank'}>
-                            <Icon name="amazon" style={{ color: 'black' }}/>
-                            &nbsp;
-                          </Table.Cell>
-                        </Table.Cell>
-                      </Table.Row>
-                    );
-                  })
-                }
-              </Table.Body>
-              <Table.Footer>
-                <Table.Row textAlign="center">
-                  <Table.HeaderCell colSpan={10}>
-                    <Pagination
-                      totalPages={this.state.totalPages}
-                      activePage={this.state.currentPage}
-                      onPageChange={(event, data) => {
-                        this.setState({
-                          currentPage: data.activePage,
-                        });
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Grid>
+                      <Grid.Column floated="left">
+                        <Image
+                          src={value.image_url == null ? '/images/intro.png' : value.image_url}
+                          size="tiny"
+                        />
+                      </Grid.Column>
+                      <Grid.Column width={8} floated="left" className={'middle aligned'}>
+                        <Grid.Row
+                          as={Link}
+                          to={{}}
+                          onClick={() => {
+                            this.productDetailsWithVisualization(String(value.product_id));
+                          }}
+                        >
+                          {value.title}
+                        </Grid.Row>
+                        <Grid.Row>
+                          <Grid.Column style={{ display: 'inline-flex' }}>
+                            <Image
+                              src={value.image_url == null ? '/images/intro.png' : value.image_url}
+                              size="mini"
+                            />
+                            {value.asin}
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid.Column>
+                    </Grid>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      basic={true}
+                      style={{ borderRadius: 20 }}
+                      color="blue"
+                      onClick={() => {
+                        this.productDetailsWithVisualization(String(value.product_id));
                       }}
-                    />
-                  </Table.HeaderCell>
+                    >
+                      View
+                    </Button>
+                    {/* {this.productDetailView(String(value.product_id))} */}
+                  </Table.Cell>
+                  <Table.Cell>{Number(value.profit).toLocaleString()}</Table.Cell>
+                  <Table.Cell>{Number(value.margin).toLocaleString()}</Table.Cell>
+                  <Table.Cell>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
+                  <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      basic={true}
+                      style={{ borderRadius: 20 }}
+                      color={value.tracking_status === 'active' ? 'teal' : 'blue'}
+                      onClick={() => {
+                        if (value.tracking_status != null) {
+                          this.props.trackProductWithPatch(
+                            String(value.product_track_id),
+                            '2',
+                            value.tracking_status === 'active' ? 'inactive' : 'active',
+                            this.props.match.params.supplierID,
+                          );
+                        } else {
+                          this.props.trackProductWithPost(
+                            String(value.product_id),
+                            '2',
+                            'active',
+                            this.props.match.params.supplierID,
+                          );
+                        }
+                      }}
+                    >
+                      {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
+                    </Button>
+                  </Table.Cell>
+                  <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
+                  <Table.Cell>
+                    <Table.Cell
+                      as={Link}
+                      to={'//' + value.amazon_url.split('//')[1]}
+                      target={'_blank'}
+                    >
+                      <Icon name="amazon" style={{ color: 'black' }}/>
+                      &nbsp;
+                    </Table.Cell>
+                  </Table.Cell>
                 </Table.Row>
-              </Table.Footer>
-            </Table>
-          )
-      )
+              );
+            })
+          )}
+        </Table.Body>
+        <Table.Footer>
+          <Table.Row textAlign="center">
+            <Table.HeaderCell colSpan={10}>
+              <Pagination
+                totalPages={this.state.totalPages}
+                activePage={this.state.currentPage}
+                onPageChange={(event, data) => {
+                  this.setState({
+                    currentPage: data.activePage,
+                  });
+                }}
+              />
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
+      </Table>
     );
   };
-
-  handleClose = () => this.setState({ modalOpen: false });
 
   productDetailView = () => {
     const popup_rank_conainer: number[] = [];
@@ -433,7 +442,14 @@ export class SupplierDetail extends React.Component<Props, State> {
       popup_price_conainer.push(Number(this.props.product_detail_chart_values_2[i].price));
     }
     return (
-      <Modal size={'large'} open={this.state.modalOpen} onClose={this.handleClose} closeIcon={true}>
+      <Modal
+        size={'large'}
+        open={this.state.productDetailModalOpen}
+        onClose={() => {
+          this.setState({ productDetailModalOpen: false });
+        }}
+        closeIcon={true}
+      >
         <Modal.Content>
           <Grid>
             <Grid.Column floated="left" width={14}>
@@ -571,68 +587,68 @@ export class SupplierDetail extends React.Component<Props, State> {
               <p>{'FNSKU'}</p>
             </Grid.Column>
           </Grid>
-          {
-            (popup_price_conainer.length == 0 && popup_rank_conainer.length == 0) ? (
-              <Loader active inline='centered' className="popup-loader" size='massive'>Loading</Loader>
-            ) : (
-              <HighchartsReact
-                highcharts={Highcharts}
-                options={{
-                  title: {
-                    text: 'Statistics',
-                    align: 'left',
-                  },
-                  xAxis: {
-                    labels: {
-                      style: {
-                        color: '#ccc',
-                      },
-                    },
-                  },
-                  credits: {
-                    enabled: false,
-                  },
-                  yAxis: {
-                    title: {
-                      text: '',
-                    },
-                    labels: {
-                      formatter() {
-                        return '$' + this.value / 1000 + 'k';
-                      },
-                      style: {
-                        color: '#ccc',
-                      },
-                    },
-                  },
-                  tooltip: {
-                    pointFormat: '$<b>{point.y:,.0f}</b>',
-                  },
-                  legend: {
-                    align: 'left',
-                    itemStyle: {
+          {popup_price_conainer.length == 0 && popup_rank_conainer.length == 0 ? (
+            <Loader active={true} inline="centered" className="popup-loader" size="massive">
+              Loading
+            </Loader>
+          ) : (
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={{
+                title: {
+                  text: 'Statistics',
+                  align: 'left',
+                },
+                xAxis: {
+                  labels: {
+                    style: {
                       color: '#ccc',
                     },
                   },
-                  series: [
-                    {
-                      type: 'areaspline',
-                      name: 'Price',
-                      color: '#c0f1ff',
-                      data: popup_price_conainer,
+                },
+                credits: {
+                  enabled: false,
+                },
+                yAxis: {
+                  title: {
+                    text: '',
+                  },
+                  labels: {
+                    formatter() {
+                      return '$' + this.value / 1000 + 'k';
                     },
-                    {
-                      type: 'areaspline',
-                      name: 'Rank',
-                      color: '#a3a0fb78',
-                      data: popup_rank_conainer,
+                    style: {
+                      color: '#ccc',
                     },
-                  ],
-                }}
-                {...this.props}
-              />
-            )
-          }
+                  },
+                },
+                tooltip: {
+                  pointFormat: '$<b>{point.y:,.0f}</b>',
+                },
+                legend: {
+                  align: 'left',
+                  itemStyle: {
+                    color: '#ccc',
+                  },
+                },
+                series: [
+                  {
+                    type: 'areaspline',
+                    name: 'Price',
+                    color: '#c0f1ff',
+                    data: popup_price_conainer,
+                  },
+                  {
+                    type: 'areaspline',
+                    name: 'Rank',
+                    color: '#a3a0fb78',
+                    data: popup_rank_conainer,
+                  },
+                ],
+              }}
+              {...this.props}
+            />
+          )}
         </Modal.Content>
       </Modal>
     );
@@ -725,7 +741,10 @@ export class SupplierDetail extends React.Component<Props, State> {
             />
           </Grid.Column>
         </Grid.Row>
-        {(this.state.minUnitProfit !== -100 && this.state.minMargin !== -100 && this.state.minProfitPerMonth !== -100 && this.state.minProfitPerMonth !== -100) ?
+        {this.state.minUnitProfit !== -100 &&
+        this.state.minMargin !== -100 &&
+        this.state.minProfitPerMonth !== -100 &&
+        this.state.minProfitPerMonth !== -100 ? (
           <Grid.Row>
             <Grid.Column width={16} style={{ marginTop: 15 }}>
               {/* <Grid.Row style={{ display: 'inline-flex' }}> */}
@@ -750,29 +769,33 @@ export class SupplierDetail extends React.Component<Props, State> {
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
                               <Grid.Row style={{ alignItems: 'center' }}>
-                                <Grid.Column floated="left" width={4}
-                                             style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}>
+                                <Grid.Column
+                                  floated="left"
+                                  width={4}
+                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.minUnitProfit}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
                                   <InputRange
                                     minValue={this.state.minUnitProfit}
                                     maxValue={this.state.maxUnitProfit}
-                                    formatLabel={value => `${value}°`}
                                     value={this.state.unitProfitFilter}
                                     onChange={value => {
                                       this.setState({
                                         unitProfitFilter: value,
                                       });
                                     }}
-                                    onChangeComplete={(value) => {
+                                    onChangeComplete={value => {
                                       this.updateFilters();
                                     }}
                                   />
-
                                 </Grid.Column>
-                                <Grid.Column floated="right" width={4}
-                                             style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}>
+                                <Grid.Column
+                                  floated="right"
+                                  width={4}
+                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.maxUnitProfit}</div>
                                 </Grid.Column>
                               </Grid.Row>
@@ -790,8 +813,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
                               <Grid.Row style={{ alignItems: 'center' }}>
-                                <Grid.Column floated="left" width={4}
-                                             style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}>
+                                <Grid.Column
+                                  floated="left"
+                                  width={4}
+                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.minMargin}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
@@ -804,16 +830,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                                         marginFilter: value,
                                       });
                                     }}
-                                    onChangeComplete={(value) => {
+                                    onChangeComplete={value => {
                                       this.updateFilters();
                                     }}
                                   />
-
                                 </Grid.Column>
                                 <Grid.Column
                                   floated="right"
                                   width={4}
-                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}>
+                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.maxMargin}</div>
                                 </Grid.Column>
                               </Grid.Row>
@@ -848,7 +874,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                         unitsPerMonthFilter: value,
                                       });
                                     }}
-                                    onChangeComplete={(value) => {
+                                    onChangeComplete={value => {
                                       this.updateFilters();
                                     }}
                                   />
@@ -875,8 +901,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
                               <Grid.Row style={{ alignItems: 'center' }}>
-                                <Grid.Column floated="left" width={4}
-                                             style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}>
+                                <Grid.Column
+                                  floated="left"
+                                  width={4}
+                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.minProfitPerMonth}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
@@ -889,7 +918,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                         profitPerMonthFilter: value,
                                       });
                                     }}
-                                    onChangeComplete={(value) => {
+                                    onChangeComplete={value => {
                                       this.updateFilters();
                                     }}
                                   />
@@ -897,7 +926,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <Grid.Column
                                   floated="right"
                                   width={4}
-                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}>
+                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                >
                                   <div className="min-max">{this.state.maxProfitPerMonth}</div>
                                 </Grid.Column>
                               </Grid.Row>
@@ -912,8 +942,7 @@ export class SupplierDetail extends React.Component<Props, State> {
               {/* </Grid.Row> */}
             </Grid.Column>
           </Grid.Row>
-          : null
-        }
+        ) : null}
       </Grid>
     );
   };
@@ -1006,12 +1035,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                         <Feed.Content>
                           <Feed.Date content="Avg Daily Units Sold"/>
                           <Feed.Summary>
-                            {(this.props.products_track_data.daily_sales == null) ? '' : Number(this.props.products_track_data.daily_sales).toLocaleString()}
+                            {this.props.products_track_data.daily_sales == null
+                              ? ''
+                              : Number(this.props.products_track_data.daily_sales).toLocaleString()}
                           </Feed.Summary>
                           <Divider/>
                           <Feed.Date content="Avg BB Price/ Fees"/>
                           <Feed.Summary>
-                            {(this.props.products_track_data.fees == null) ? '' : Number(this.props.products_track_data.fees).toLocaleString()}
+                            {this.props.products_track_data.fees == null
+                              ? ''
+                              : Number(this.props.products_track_data.fees).toLocaleString()}
                           </Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
@@ -1025,12 +1058,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                         <Feed.Content>
                           <Feed.Date content="Avg Daily Revenue/ Profit"/>
                           <Feed.Summary>
-                            {(this.props.products_track_data.profit == null) ? '' : Number(this.props.products_track_data.profit).toLocaleString()}
+                            {this.props.products_track_data.profit == null
+                              ? ''
+                              : Number(this.props.products_track_data.profit).toLocaleString()}
                           </Feed.Summary>
                           <Divider/>
                           <Feed.Date content="Avg ROI/ ROII"/>
                           <Feed.Summary>
-                            {(this.props.products_track_data.roi == null) ? '' : Number(this.props.products_track_data.roi).toLocaleString()}
+                            {this.props.products_track_data.roi == null
+                              ? ''
+                              : Number(this.props.products_track_data.roi).toLocaleString()}
                           </Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
@@ -1044,12 +1081,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                         <Feed.Content>
                           <Feed.Date content="Avg Daily Rank"/>
                           <Feed.Summary>
-                            {(this.props.products_track_data.daily_rank == null) ? '' : Number(this.props.products_track_data.daily_rank).toLocaleString()}
+                            {this.props.products_track_data.daily_rank == null
+                              ? ''
+                              : Number(this.props.products_track_data.daily_rank).toLocaleString()}
                           </Feed.Summary>
                           <Divider/>
                           <Feed.Date content="Avg LQS"/>
                           <Feed.Summary>
-                            {(this.props.products_track_data.daily_rank == null) ? '' : Number(this.props.products_track_data.daily_rank).toLocaleString()}
+                            {this.props.products_track_data.daily_rank == null
+                              ? ''
+                              : Number(this.props.products_track_data.daily_rank).toLocaleString()}
                           </Feed.Summary>
                         </Feed.Content>
                       </Feed.Event>
@@ -1061,67 +1102,73 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Feed.Event>
                   <Feed.Content>
                     <Feed.Summary>
-                      {(avg_price.length == 0 && avg_rank.length == 0) ?
-                        (<Loader active inline='centered' className="popup-loader" size='massive'>Loading</Loader>) :
-                        (
-                          <HighchartsReact
-                            highcharts={Highcharts}
-                            options={{
-                              title: {
-                                text: 'Statistics',
-                                align: 'left',
-                              },
-                              xAxis: {
-                                labels: {
-                                  style: {
-                                    color: '#ccc',
-                                  },
-                                },
-                              },
-                              credits: {
-                                enabled: false,
-                              },
-                              yAxis: {
-                                title: {
-                                  text: '',
-                                },
-                                labels: {
-                                  formatter() {
-                                    return '$' + this.value / 1000 + 'k';
-                                  },
-                                  style: {
-                                    color: '#ccc',
-                                  },
-                                },
-                              },
-                              tooltip: {
-                                pointFormat: '$<b>{point.y:,.0f}</b>',
-                              },
-                              legend: {
-                                align: 'left',
-                                itemStyle: {
+                      {avg_price.length == 0 && avg_rank.length == 0 ? (
+                        <Loader
+                          active={true}
+                          inline="centered"
+                          className="popup-loader"
+                          size="massive"
+                        >
+                          Loading
+                        </Loader>
+                      ) : (
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            title: {
+                              text: 'Statistics',
+                              align: 'left',
+                            },
+                            xAxis: {
+                              labels: {
+                                style: {
                                   color: '#ccc',
                                 },
                               },
-                              series: [
-                                {
-                                  type: 'areaspline',
-                                  name: 'Avg Price',
-                                  color: '#c0f1ff',
-                                  data: avg_price,
+                            },
+                            credits: {
+                              enabled: false,
+                            },
+                            yAxis: {
+                              title: {
+                                text: '',
+                              },
+                              labels: {
+                                formatter() {
+                                  return '$' + this.value / 1000 + 'k';
                                 },
-                                {
-                                  type: 'areaspline',
-                                  name: 'Avg Rank',
-                                  color: '#a3a0fb78',
-                                  data: avg_rank,
+                                style: {
+                                  color: '#ccc',
                                 },
-                              ],
-                            }}
-                            {...this.props}
-                          />
-                        )
-                      }
+                              },
+                            },
+                            tooltip: {
+                              pointFormat: '$<b>{point.y:,.0f}</b>',
+                            },
+                            legend: {
+                              align: 'left',
+                              itemStyle: {
+                                color: '#ccc',
+                              },
+                            },
+                            series: [
+                              {
+                                type: 'areaspline',
+                                name: 'Avg Price',
+                                color: '#c0f1ff',
+                                data: avg_price,
+                              },
+                              {
+                                type: 'areaspline',
+                                name: 'Avg Rank',
+                                color: '#a3a0fb78',
+                                data: avg_rank,
+                              },
+                            ],
+                          }}
+                          {...this.props}
+                        />
+                      )}
                     </Feed.Summary>
                   </Feed.Content>
                 </Feed.Event>
@@ -1225,26 +1272,32 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
-    getProductTrackData: () => dispatch(getProductTrackData()),
+    getProductTrackData: (supplierID: string) => dispatch(getProductTrackData(supplierID)),
     getProductTrackGroupId: (supplierID: string, supplierName: string) =>
       dispatch(getProductTrackGroupId(supplierID, supplierName)),
-    getProductDetail: (product_id: string) => dispatch(getProductDetail(product_id)),
+    getProductDetail: (product_id: string, supplierID: string) =>
+      dispatch(getProductDetail(product_id, supplierID)),
     getProductDetailChart: (product_id: string) => dispatch(getProductDetailChart(product_id)),
     getProductDetailChartPrice: (product_id: string) =>
       dispatch(getProductDetailChartPrice(product_id)),
-    getChartValues1: (product_track_group_id: string) =>
-      dispatch(getChartValues1(product_track_group_id)),
-    getChartValues2: (product_track_group_id: string) =>
-      dispatch(getChartValues2(product_track_group_id)),
+    getProductsChartHistoryPrice: (supplierID: string) =>
+      dispatch(getProductsChartHistoryPrice(supplierID)),
+    getProductsChartHistoryRank: (supplierID: string) =>
+      dispatch(getProductsChartHistoryRank(supplierID)),
     trackProductWithPatch: (
       productID: string,
       productTrackGroupID: string,
       status: string,
       supplierID: string,
     ) => dispatch(trackProductWithPatch(productID, productTrackGroupID, status, supplierID)),
+    trackProductWithPost: (
+      productID: string,
+      productTrackGroupID: string,
+      status: string,
+      supplierID: string,
+    ) => dispatch(trackProductWithPost(productID, productTrackGroupID, status, supplierID)),
 
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
-
   };
 };
 
