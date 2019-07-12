@@ -112,7 +112,12 @@ export default class Auth {
       cb(err, profile);
     });
   }
-
+  public removeStoredItems=()=>{
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('idTokenExpires');
+  }
   public logout = () => {
     // Remove tokens and expiry time
     this.accessToken = null;
@@ -121,10 +126,7 @@ export default class Auth {
     // Remove user profile
     this.userProfile = null;
     // Remove isLoggedIn flag from localStorage
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('idToken');
-    localStorage.removeItem('idTokenExpires');
+    this.removeStoredItems();
     this.auth0.logout({
       returnTo: window.location.origin,
     });
