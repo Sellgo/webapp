@@ -8,6 +8,10 @@ interface Props {
 }
 
 export class PageHeader extends React.Component<Props> {
+  public state = {
+    canGoForwardTimes: 0,
+  };
+
   render() {
     const headerStyle = {
       marginTop: '1.5rem',
@@ -17,8 +21,15 @@ export class PageHeader extends React.Component<Props> {
         <Icon name="caret left" size="small" onClick={() => {
           // history.push(`/syn/`);
           history.goBack();
+          this.setState({ canGoForwardTimes: ++this.state.canGoForwardTimes });
         }}/>
-        <Icon name="caret right" size="small" color="grey"/>
+        <Icon name="caret right" size="small" color={this.state.canGoForwardTimes > 0 ? 'black' : 'grey'}
+              onClick={() => {
+                // history.push(`/syn/`);
+
+                this.setState({ canGoForwardTimes: (this.state.canGoForwardTimes > 0) ? --this.state.canGoForwardTimes : 0 });
+                history.goForward();
+              }}/>
         <Header.Content>{this.props.title}</Header.Content>
       </Header>
     );
