@@ -214,7 +214,18 @@ export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: a
     headers,
   })
     .then(json => {
-      dispatch(setChartValues1(json.data));
+      if (json.data.length > 0) {
+        dispatch(setChartValues1(json.data));
+      } else {
+        dispatch(
+          setChartValues1([
+            {
+              avg_price: '-1000000',
+              cdate: '-1000000',
+            },
+          ])
+        );
+      }
     })
     .catch(error => {
     });
@@ -512,7 +523,7 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
   bodyFormData.set('seller_id', sellerID);
   return axios({
     method: 'POST',
-    url: URLS.BASE_URL_API + `track/product/`,
+    url: URLS.BASE_URL_API + `seller/${sellerID}/track/product/`,
     data: bodyFormData,
     headers,
   })

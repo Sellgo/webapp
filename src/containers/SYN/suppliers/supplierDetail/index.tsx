@@ -81,6 +81,7 @@ interface Props {
     status: string,
     supplierID: string,
   ): () => void;
+
   trackProductWithPost(
     productID: string,
     productTrackGroupID: string,
@@ -281,7 +282,6 @@ export class SupplierDetail extends React.Component<Props, State> {
       currentPage * this.state.pageSize,
       (currentPage + 1) * this.state.pageSize,
     );
-    console.log(productsTable);
     return this.props.products.length == 0 ? (
       <Segment>
         <Loader active={true} inline="centered" size="massive">
@@ -455,7 +455,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             <Grid.Column floated="left" width={14}>
               <Grid style={{ height: 40 }}>
                 <Grid.Column floated="left" width={10}>
-                  <h2>{'Product Title' + ' & ' + 'Description'}</h2>
+                  <h2>{'Product Title :'+ ' & ' + 'Description'}</h2>
                 </Grid.Column>
                 <Grid.Column width={2}>{'short Details'}</Grid.Column>
               </Grid>
@@ -1014,14 +1014,16 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   renderHeaderSupplierMatrics = () => {
-    const avg_price = [];
+    const avg_price= [];
     const avg_rank = [];
+
     for (let i = 0; i < this.props.chart_values_1.length; i++) {
       avg_price.push(Number(this.props.chart_values_1[i].avg_price));
     }
     for (let i = 0; i < this.props.chart_values_2.length; i++) {
       avg_rank.push(Number(this.props.chart_values_2[i].avg_rank));
     }
+
     return (
       <Grid.Column width={11} floated="left">
         <Grid.Row style={{ width: '95%' }}>
@@ -1102,73 +1104,74 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Feed.Event>
                   <Feed.Content>
                     <Feed.Summary>
-                      {avg_price.length == 0 && avg_rank.length == 0 ? (
-                        <Loader
-                          active={true}
-                          inline="centered"
-                          className="popup-loader"
-                          size="massive"
-                        >
-                          Loading
-                        </Loader>
-                      ) : (
-                        <HighchartsReact
-                          highcharts={Highcharts}
-                          options={{
-                            title: {
-                              text: 'Statistics',
-                              align: 'left',
-                            },
-                            xAxis: {
-                              labels: {
-                                style: {
-                                  color: '#ccc',
-                                },
-                              },
-                            },
-                            credits: {
-                              enabled: false,
-                            },
-                            yAxis: {
+                      {avg_price!=undefined && avg_price.length == 0 && avg_rank.length == 0 ? (
+                          <Loader
+                            active={true}
+                            inline="centered"
+                            className="popup-loader"
+                            size="massive"
+                          >
+                            Loading
+                          </Loader>
+                        ) :
+                        (avg_price[0]!==-1000000) ? (
+                          <HighchartsReact
+                            highcharts={Highcharts}
+                            options={{
                               title: {
-                                text: '',
+                                text: 'Statistics',
+                                align: 'left',
                               },
-                              labels: {
-                                formatter() {
-                                  return '$' + this.value / 1000 + 'k';
+                              xAxis: {
+                                labels: {
+                                  style: {
+                                    color: '#ccc',
+                                  },
                                 },
-                                style: {
+                              },
+                              credits: {
+                                enabled: false,
+                              },
+                              yAxis: {
+                                title: {
+                                  text: '',
+                                },
+                                labels: {
+                                  formatter() {
+                                    return '$' + this.value / 1000 + 'k';
+                                  },
+                                  style: {
+                                    color: '#ccc',
+                                  },
+                                },
+                              },
+                              tooltip: {
+                                pointFormat: '$<b>{point.y:,.0f}</b>',
+                              },
+                              legend: {
+                                align: 'left',
+                                itemStyle: {
                                   color: '#ccc',
                                 },
                               },
-                            },
-                            tooltip: {
-                              pointFormat: '$<b>{point.y:,.0f}</b>',
-                            },
-                            legend: {
-                              align: 'left',
-                              itemStyle: {
-                                color: '#ccc',
-                              },
-                            },
-                            series: [
-                              {
-                                type: 'areaspline',
-                                name: 'Avg Price',
-                                color: '#c0f1ff',
-                                data: avg_price,
-                              },
-                              {
-                                type: 'areaspline',
-                                name: 'Avg Rank',
-                                color: '#a3a0fb78',
-                                data: avg_rank,
-                              },
-                            ],
-                          }}
-                          {...this.props}
-                        />
-                      )}
+                              series: [
+                                {
+                                  type: 'areaspline',
+                                  name: 'Avg Price',
+                                  color: '#c0f1ff',
+                                  data: avg_price,
+                                },
+                                {
+                                  type: 'areaspline',
+                                  name: 'Avg Rank',
+                                  color: '#a3a0fb78',
+                                  data: avg_rank,
+                                },
+                              ],
+                            }}
+                            {...this.props}
+                          />
+                        ) : null}
                     </Feed.Summary>
                   </Feed.Content>
                 </Feed.Event>

@@ -14,6 +14,7 @@ import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
+
 const auth = new Auth();
 
 const handleAuthentication = (location: any) => {
@@ -26,29 +27,12 @@ function App(Props: any) {
   return (
     <Router history={history}>
       <Switch>
-        <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />} />
-        <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
-        <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
-        <Route exact={true} path="/forgot-password" component={RecoverPass} />
-        <Route exact={true} path="/product-tracker" component={ProductTracker} />
-        <Route
-          exact={true}
-          path="/dashboard/setting"
-          render={() => (
-            <AdminLayout auth={auth} {...Props} title={'Setting'}>
-              <Setting />
-            </AdminLayout>
-          )}
-        />
-        <Route
-          exact={true}
-          path="/dashboard"
-          render={Props => (
-            <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
-              <Dashboard />
-            </AdminLayout>
-          )}
-        />
+
+        <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />}/>
+        <Route exact={true} path="/login" render={() => <Login auth={auth}/>}/>
+        <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth}/>}/>
+        <Route exact={true} path="/forgot-password" component={RecoverPass}/>
+        <Route exact={true} path="/product-tracker" component={ProductTracker}/>
         <Route
           path="/callback"
           render={Props => {
@@ -58,21 +42,64 @@ function App(Props: any) {
         />
         <Route
           exact={true}
+          path="/dashboard/setting"
+          render={() => {
+            if (localStorage.getItem('isLoggedIn')) {
+              return (
+                <AdminLayout auth={auth} {...Props} title={'Setting'}>
+                  <Setting/>
+                </AdminLayout>
+              );
+            } else {
+              history.push('/');
+            }
+          }}
+        />
+        <Route
+          exact={true}
+          path="/dashboard"
+          render={Props => {
+            if (localStorage.getItem('isLoggedIn')) {
+              return (
+                <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
+                  <Dashboard/>
+                </AdminLayout>
+              );
+            } else {
+              history.push('/');
+            }
+          }}
+        />
+
+        <Route
+          exact={true}
           path="/syn"
-          render={() => (
-            <AdminLayout auth={auth} {...Props} title={'SYN'}>
-              <Suppliers />
-            </AdminLayout>
-          )}
+          render={() => {
+            if (localStorage.getItem('isLoggedIn')) {
+              return (
+                <AdminLayout auth={auth} {...Props} title={'SYN'}>
+                  <Suppliers/>
+                </AdminLayout>
+              );
+            } else {
+              history.push('/');
+            }
+          }}
         />
         <Route
           exact={true}
           path="/syn/:supplierID"
-          render={(routeProps) => (
-            <AdminLayout auth={auth} {...Props} title={'SYN'}>
-              <SupplierDetail {...routeProps} />
-            </AdminLayout>
-          )}
+          render={routeProps => {
+            if (localStorage.getItem('isLoggedIn')) {
+              return (
+                <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
+                  <SupplierDetail {...routeProps} />
+                </AdminLayout>
+              );
+            } else {
+              history.push('/');
+            }
+          }}
         />
         <Route
           render={() => (
