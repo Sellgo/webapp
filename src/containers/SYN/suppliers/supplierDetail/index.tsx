@@ -462,7 +462,7 @@ export class SupplierDetail extends React.Component<Props, State> {
               <Divider/>
               <Grid style={{ margin: 0 }}>
                 <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
-                  <Grid.Row>Parice</Grid.Row>
+                  <Grid.Row>Price</Grid.Row>
                   <Grid.Row>Fees</Grid.Row>
                   <Grid.Row>Product cost</Grid.Row>
                   <Grid.Row>Inbound shipping cost</Grid.Row>
