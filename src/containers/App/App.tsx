@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Router, Switch } from 'react-router-dom';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
 import { AdminLayout } from '../../components/AdminLayout/index';
 import { Dashboard } from '../Dashboard';
@@ -14,6 +14,9 @@ import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
+import axios from 'axios';
+import { URLS } from '../../config';
+import { setTimeEfficiency } from '../../Action/SYNActions';
 
 const auth = new Auth();
 
@@ -23,11 +26,28 @@ const handleAuthentication = (location: any) => {
   }
 };
 
+const isAuthenticated = () => {
+  if (localStorage.getItem('isLoggedIn') === 'true') {
+    // const sellerID = localStorage.getItem('userId');
+    // const idToken = localStorage.getItem('idToken');
+    if (auth.isAuthenticated()) {
+      return true;
+    } else {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('idToken');
+      localStorage.removeItem('idTokenExpires');
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
 function App(Props: any) {
   return (
     <Router history={history}>
       <Switch>
-
         <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />}/>
         <Route exact={true} path="/login" render={() => <Login auth={auth}/>}/>
         <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth}/>}/>
@@ -44,14 +64,14 @@ function App(Props: any) {
           exact={true}
           path="/dashboard/setting"
           render={() => {
-            if (localStorage.getItem('isLoggedIn')) {
+            if (isAuthenticated()) {
               return (
                 <AdminLayout auth={auth} {...Props} title={'Setting'}>
                   <Setting/>
                 </AdminLayout>
               );
             } else {
-              history.push('/');
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
             }
           }}
         />
@@ -59,14 +79,14 @@ function App(Props: any) {
           exact={true}
           path="/dashboard"
           render={Props => {
-            if (localStorage.getItem('isLoggedIn')) {
+            if (isAuthenticated()) {
               return (
                 <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
                   <Dashboard/>
                 </AdminLayout>
               );
             } else {
-              history.push('/');
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
             }
           }}
         />
@@ -75,14 +95,14 @@ function App(Props: any) {
           exact={true}
           path="/syn"
           render={() => {
-            if (localStorage.getItem('isLoggedIn')) {
+            if (isAuthenticated()) {
               return (
                 <AdminLayout auth={auth} {...Props} title={'SYN'}>
                   <Suppliers/>
                 </AdminLayout>
               );
             } else {
-              history.push('/');
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
             }
           }}
         />
@@ -90,14 +110,14 @@ function App(Props: any) {
           exact={true}
           path="/syn/:supplierID"
           render={routeProps => {
-            if (localStorage.getItem('isLoggedIn')) {
+            if (isAuthenticated()) {
               return (
                 <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
                   <SupplierDetail {...routeProps} />
                 </AdminLayout>
               );
             } else {
-              history.push('/');
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
             }
           }}
         />

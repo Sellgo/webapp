@@ -73,12 +73,16 @@ export default class Auth {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
     // Set the time that the access token will expire at
-    const expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
-    this.accessToken = authResult.accessToken;
+    const date = new Date();
+    console.log(authResult.expiresIn);
+    console.log(date.getTime());
+    date.setSeconds(date.getSeconds() + authResult.expiresIn);
+    console.log(date.getTime());
+    this.expiresAt = date.getTime();
     this.idToken = authResult.idToken;
-    this.expiresAt = expiresAt;
-    localStorage.setItem('idToken', authResult.idToken);
-
+    this.accessToken = authResult.accessToken;
+    localStorage.setItem('idToken', this.idToken);
+    localStorage.setItem('idTokenExpires', String(this.expiresAt));
     this.getProfile((err: any, profile: any) => {
       this.handleProfile(profile);
     });
@@ -128,7 +132,7 @@ export default class Auth {
   };
 
   public isAuthenticated = () => {
-    const expiresAt = this.expiresAt;
-    return new Date().getTime() < expiresAt;
+    const expiresAt = localStorage.getItem('idTokenExpires');
+    return new Date().getTime() < new Date(Number(expiresAt)).getTime();
   };
 }
