@@ -118,11 +118,13 @@ export default class Auth {
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
-
     // Remove user profile
     this.userProfile = null;
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('idTokenExpires');
     this.auth0.logout({
       returnTo: window.location.origin,
     });
@@ -133,6 +135,9 @@ export default class Auth {
 
   public isAuthenticated = () => {
     const expiresAt = localStorage.getItem('idTokenExpires');
+    if (expiresAt === null) {
+      return false;
+    }
     return new Date().getTime() < new Date(Number(expiresAt)).getTime();
   };
 }

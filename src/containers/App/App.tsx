@@ -33,10 +33,7 @@ const isAuthenticated = () => {
     if (auth.isAuthenticated()) {
       return true;
     } else {
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('idToken');
-      localStorage.removeItem('idTokenExpires');
+      auth.logout();
       return false;
     }
   } else {
