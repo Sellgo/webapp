@@ -27,7 +27,7 @@ export class AdminHeader extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Menu borderless={true} fixed="top" style={{ height: this.height }} className="top-menu">
+        <Menu borderless={true} inverted={true} fixed="top" style={{ height: this.height,backgroundColor:'#444444' }} visible={true} className="top-menu">
           <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small" />} />
           <Menu.Item
             className="search-box"

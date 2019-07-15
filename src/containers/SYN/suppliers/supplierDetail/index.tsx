@@ -452,7 +452,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       >
         <Modal.Content>
           <Grid>
-            <Grid.Column floated="left" width={14}>
+            <Grid.Column floated="left" width={13}>
               <Grid style={{ height: 40 }}>
                 <Grid.Column  >
                   <h3>{this.props.product_detail.title}</h3>
@@ -566,7 +566,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            <Grid.Column floated="right" width={2}>
+            <Grid.Column floated="right" width={3}>
               <Image
                 src={
                   new URL(
@@ -583,8 +583,8 @@ export class SupplierDetail extends React.Component<Props, State> {
               </a>
               <p>{this.props.product_detail.asin}</p>
               <p>{this.props.product_detail.upc}</p>
-              <p>{'MSKU'}</p>
-              <p>{'FNSKU'}</p>
+              {/*<p>{'MSKU'}</p>*/}
+              {/*<p>{'FNSKU'}</p>*/}
             </Grid.Column>
           </Grid>
           {popup_price_conainer.length == 0 && popup_rank_conainer.length == 0 ? (

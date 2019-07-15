@@ -12,7 +12,7 @@ export class AdminSidebar extends React.Component<any, LayoutProps> {
   render() {
     const { logout } = this.props.auth;
     return (
-      <Sidebar as={Menu} borderless={true} inverted={true} vertical={true} visible={true}>
+      <Sidebar as={Menu} borderless={true} inverted={true} vertical={true} visible={true} >
         <Menu.Item>
           <Menu.Header as={Link} to="/">
             <Icon name="home" size="big" />
