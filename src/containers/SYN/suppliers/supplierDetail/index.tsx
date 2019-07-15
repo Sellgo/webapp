@@ -339,7 +339,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             this.productDetailsWithVisualization(String(value.product_id));
                           }}
                         >
-                          {value.title}
+                          {value.asin}
                         </Grid.Row>
                         <Grid.Row>
                           <Grid.Column style={{ display: 'inline-flex' }}>
@@ -431,7 +431,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     );
   };
 
-  productDetailView = () => {
+  productDetailViewModal = () => {
     const popup_rank_conainer: number[] = [];
     const popup_price_conainer: number[] = [];
 
@@ -454,10 +454,10 @@ export class SupplierDetail extends React.Component<Props, State> {
           <Grid>
             <Grid.Column floated="left" width={14}>
               <Grid style={{ height: 40 }}>
-                <Grid.Column floated="left" width={10}>
-                  <h2>{'Product Title :'+ ' & ' + 'Description'}</h2>
+                <Grid.Column  >
+                  <h3>{this.props.product_detail.title}</h3>
                 </Grid.Column>
-                <Grid.Column width={2}>{'short Details'}</Grid.Column>
+                {/*<Grid.Column floated="right" width={2}>{'short Details'}</Grid.Column>*/}
               </Grid>
               <Divider/>
               <Grid style={{ margin: 0 }}>
@@ -1244,7 +1244,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Grid>
         <Divider/>
         {this.renderTable()}
-        {this.productDetailView()}
+        {this.productDetailViewModal()}
       </Segment>
     );
   }

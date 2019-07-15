@@ -95,6 +95,7 @@ export interface ProductDetails {
   upc: string;
   amazon_url: string;
   image_url: string;
+  title:string;
 }
 
 export interface ProductChartDetails {

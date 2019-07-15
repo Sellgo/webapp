@@ -56,6 +56,7 @@ export const SYNReducer = (state = initialState, action: any) => {
       for (const product of state.get('products')!) {
         if (product.product_id === action.data.product_id) {
           product.tracking_status = action.data.status;
+          product.product_track_id = action.data.id;
         }
         products.push(product);
       }
