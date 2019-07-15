@@ -13,7 +13,7 @@ interface HomeState {
 export class Home extends React.Component<any, HomeState> {
   state = {
     heading: 'by become an Amazon Seller',
-    amount: 1000,
+    amount: 10000,
     cityName: 'USA',
   };
 
