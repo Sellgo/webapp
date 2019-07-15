@@ -26,6 +26,9 @@ jobs:
           from: build
           to: 's3://${AWS_S3_BUCKET_NAME}'
           overwrite: true
+      - run:
+          name: Invalidate Cloudfront cache
+          command: aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
 
 workflows:
   version: 2
@@ -35,6 +38,3 @@ workflows:
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: master
