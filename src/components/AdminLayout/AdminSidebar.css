@@ -3,9 +3,17 @@
   text-align: left;
   float: left;
   min-width: 2em;
+  background: white !important;
+
 }
 .top-logo {
   width: 260px;
+}
+i.red.icon{
+  color: #ffffff !important;
+}
+.ui.vertical.divider{
+  height:100% !important;
 }
 .top-menu {
   padding-right: 20px;

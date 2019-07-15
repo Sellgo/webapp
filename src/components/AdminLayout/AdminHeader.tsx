@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Dropdown, Icon, Image, Input, Menu, SemanticSIZES } from 'semantic-ui-react';
+import { Dropdown, Icon, Image, Input, Menu, SemanticSIZES, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
-  size,
-  centered,
-}) => (
+                                                                                size,
+                                                                                centered,
+                                                                              }) => (
   <Image
     ui={true}
     size={size || ('tiny' as SemanticSIZES)}
@@ -22,50 +22,47 @@ const options = [
 ];
 
 export class AdminHeader extends React.Component {
-  private readonly height = '5rem';
+  private readonly height = '4rem';
+  userName = 'FirstName LastName';
 
   render() {
     return (
       <React.Fragment>
-        <Menu borderless={true} inverted={true} fixed="top" style={{ height: this.height,backgroundColor:'#444444' }} visible={true} className="top-menu">
-          <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small" />} />
-          <Menu.Item
-            className="search-box"
-            content={
-              <Input
-                action={{ type: 'submit', content: '', icon: 'search' }}
-                placeholder="Search for UPC or ASIN or keyword"
-              />
-            }
-          />
-          <Menu.Item position="right">
-            <Dropdown
-              trigger={
-                <span>
-                  <Icon name="folder open" size="big" />
+        <Menu inverted={true} borderless={true} fixed="top" style={{ height: this.height, backgroundColor: '#444444' }}
+              visible={true} className="top-menu">
+          <Menu.Menu>
+            <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small"/>}/>
+            {/*<Menu.Item*/}
+            {/*  className="search-box"*/}
+            {/*  content={*/}
+            {/*    <Input*/}
+            {/*      action={{ type: 'submit', content: '', icon: 'search' }}*/}
+            {/*      placeholder="Search for UPC or ASIN or keyword"*/}
+            {/*    />*/}
+            {/*  }*/}
+            {/*/>*/}
+          </Menu.Menu>
+          <Menu.Menu position="right" fitted='horizontally' style={{ marginRight: 10 }}>
+
+            <Menu.Item>
+              <Icon name="search" size="big" color={'red'}/>
+            </Menu.Item>
+            <Menu.Item>
+              <Icon name="bell outline" size="big" color={'red'}/>
+            </Menu.Item>
+            <div style={{ width: 1, height: '100%',alignSelf:'center', backgroundColor: '#a4a4a4' }} />
+            <Menu.Item>
+              <Icon name="user circle" size="big" color={'red'}/>
+              <div style={{ textAlign: 'center' }}>
+                Hello
+                <span style={{ display: 'block', width: '100%'}}>
+                  {this.userName}
                 </span>
-              }
-              options={options}
-            />
-            <Dropdown
-              trigger={
-                <span>
-                  <Icon name="user" size="big" />
-                </span>
-              }
-              options={options}
-            />
-            <Dropdown
-              trigger={
-                <span>
-                  <Icon name="question circle outline" size="big" />
-                </span>
-              }
-              options={options}
-            />
-          </Menu.Item>
+              </div>
+            </Menu.Item>
+          </Menu.Menu>
         </Menu>
-        <div id="navbar-spacer" style={{ height: this.height }} />
+        <div id="navbar-spacer" style={{ height: this.height }}/>
       </React.Fragment>
     );
   }

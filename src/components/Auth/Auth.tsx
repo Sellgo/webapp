@@ -74,13 +74,11 @@ export default class Auth {
     localStorage.setItem('isLoggedIn', 'true');
     // Set the time that the access token will expire at
     const date = new Date();
-    console.log(authResult.expiresIn);
-    console.log(date.getTime());
     date.setSeconds(date.getSeconds() + authResult.expiresIn);
-    console.log(date.getTime());
     this.expiresAt = date.getTime();
     this.idToken = authResult.idToken;
     this.accessToken = authResult.accessToken;
+    console.log(authResult);
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
     this.getProfile((err: any, profile: any) => {
