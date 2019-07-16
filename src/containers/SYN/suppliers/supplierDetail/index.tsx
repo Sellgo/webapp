@@ -569,7 +569,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            <Grid.Column floated="right" width={3}>
+            <Grid.Column floated="right" width={3} centered style={{textAlign:'center'}}>
               <Image
                 src={
                   new URL(
@@ -578,13 +578,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                       : 'http://localhost:3000/images/intro.png',
                   )
                 }
-                size="mini"
+                size="tiny"
                 style={{ display: 'inline-block' }}
               />
               <a href={this.props.product_detail.amazon_url} target={'_blank'}>
                 <Icon name="amazon" style={{ color: 'black' }}/>
               </a>
-              <p>{this.props.product_detail.asin}</p>
+              <p style={{marginTop:10}}>{this.props.product_detail.asin}</p>
               <p>{this.props.product_detail.upc}</p>
               {/*<p>{'MSKU'}</p>*/}
               {/*<p>{'FNSKU'}</p>*/}
@@ -777,7 +777,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.minUnitProfit}</div>
+                                  <div className="min-max">{this.state.unitProfitFilter.min}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
                                   <InputRange
@@ -799,7 +799,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.maxUnitProfit}</div>
+                                  <div className="min-max">{this.state.unitProfitFilter.max}</div>
                                 </Grid.Column>
                               </Grid.Row>
                             </Grid>
@@ -821,7 +821,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.minMargin}</div>
+                                  <div className="min-max">{this.state.marginFilter.min}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
                                   <InputRange
@@ -843,7 +843,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.maxMargin}</div>
+                                  <div className="min-max">{this.state.marginFilter.max}</div>
                                 </Grid.Column>
                               </Grid.Row>
                             </Grid>
@@ -865,7 +865,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.minUnitsPerMonth}</div>
+                                  <div className="min-max">{this.state.unitsPerMonthFilter.min}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
                                   <InputRange
@@ -887,7 +887,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.maxUnitsPerMonth}</div>
+                                  <div className="min-max">{this.state.unitsPerMonthFilter.max}</div>
                                 </Grid.Column>
                               </Grid.Row>
                             </Grid>
@@ -909,7 +909,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.minProfitPerMonth}</div>
+                                  <div className="min-max">{this.state.profitPerMonthFilter.min}</div>
                                 </Grid.Column>
                                 <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
                                   <InputRange
@@ -931,7 +931,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
                                 >
-                                  <div className="min-max">{this.state.maxProfitPerMonth}</div>
+                                  <div className="min-max">{this.state.profitPerMonthFilter.max}</div>
                                 </Grid.Column>
                               </Grid.Row>
                             </Grid>

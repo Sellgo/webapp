@@ -40,9 +40,6 @@ input[type=range]:focus::-ms-fill-upper{background:#4285f4}
     border:1px solid #4285F4 !important;
 }
 .input-range__label{
-    color:#000000!important;
-}
-.input-range__label--min,.input-range__label--max{
     display:none !important;
 }
 
