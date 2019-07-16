@@ -106,6 +106,8 @@ export default class Auth {
       if (profile) {
         this.userProfile = profile;
         localStorage.setItem('auth0_user_id', this.userProfile.sub);
+        localStorage.setItem('nickName', this.userProfile.nickname);
+
       }
       cb(err, profile);
     });

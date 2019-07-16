@@ -23,18 +23,20 @@ const options = [
 
 export class AdminHeader extends React.Component<any> {
   private readonly height = '4rem';
-  userName = 'FirstName LastName';
+  userName = localStorage.getItem('nickName');
 
   render() {
     const { sellerData } = this.props;
     if (sellerData != undefined || sellerData != null) {
-      // this.userName = sellerData.firstName+" "+sellerData.lastName;
-      this.userName = sellerData.email;
+      if (sellerData.firstName.length > 0) {
+        this.userName = sellerData.firstName + ' ' + sellerData.lastName;
+        // this.userName = sellerData.email;
+      }
     }
     return (
       <React.Fragment>
         <Menu inverted={true} borderless={true} fixed="top" style={{ height: this.height, backgroundColor: '#444444' }}
-               className="top-menu">
+              className="top-menu">
           <Menu.Menu>
             <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small"/>}/>
             {/*<Menu.Item*/}
