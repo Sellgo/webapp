@@ -90,7 +90,7 @@ class Dashboard extends React.Component<Props, State> {
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'Dashboard'}>
         <Segment basic={true} className="setting">
           <DashBoardTabs/>
-          <Modals title="" size="small" open={isOpen} close={this.close}>
+          <Modals title="" size="small" open={isOpen} close={this.close} bCloseIcon={false}>
             <Container textAlign="center">
               <Segment textAlign="center" basic={true}>
                 <Logo size="small" centered={true}/>

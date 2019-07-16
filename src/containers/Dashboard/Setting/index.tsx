@@ -329,15 +329,15 @@ class Setting extends React.Component<Props, State> {
                 </Grid>
               </Form>
             </Container>
-            <Modals title="" size="small" open={isOpen} close={this.handleModel}>
+            <Modals title="" size="large" open={isOpen} close={this.handleModel} bCloseIcon={true}>
               <Container textAlign="center">
                 <MesssageComponent message={this.message} isModal={true}/>
                 <Segment textAlign="center" basic={true}>
-                  <Button style={buttonStyle} content="Ok" onClick={this.handleModel}/>
+                  <Button style={buttonStyle} content="Ok" onClick={this.handleModel} />
                 </Segment>
               </Container>
             </Modals>
-          </Segment>
+          </Segment>s
         </Segment>
       </AdminLayout>
     );
