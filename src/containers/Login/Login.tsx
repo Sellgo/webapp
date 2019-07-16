@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form, Grid, GridRow, Segment } from 'semantic-ui-react';
-import { Logo } from '../../components/AdminLayout/AdminHeader';
+import { Logo } from '../Dashboard/index';
 import IntroSlider from '../../components/IntroSlider';
 import PasswordShowHide from '../../components/Password/PasswordShowHide';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';

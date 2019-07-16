@@ -30,6 +30,7 @@ interface State {
 
 interface Props {
   getBasicInfoSeller(): () => void;
+
   match: { params: { auth: null } };
   sellerData: SellField;
 }
@@ -37,10 +38,16 @@ interface Props {
 class Dashboard extends React.Component<Props, State> {
   componentDidMount() {
     this.props.getBasicInfoSeller();
+    const visited = localStorage.getItem('FirstLogin');
+    console.log(visited);
+    if (!visited) {
+      localStorage['FirstLogin'] = true;
+      this.setState({ isOpen: true });
+    }
   }
 
   public state = {
-    isOpen: true,
+    isOpen: false,
     currentSteps: 1,
     totalStep: 4,
   };
@@ -80,7 +87,7 @@ class Dashboard extends React.Component<Props, State> {
       marginTop: '15px',
     };
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData}>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'Dashboard'}>
         <Segment basic={true} className="setting">
           <DashBoardTabs/>
           <Modals title="" size="small" open={isOpen} close={this.close}>

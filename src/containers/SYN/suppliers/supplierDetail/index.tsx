@@ -1195,7 +1195,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     // const memberDate = `May 5 2018`;
     // const { isOpen } = this.state;
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData}>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={"SYN"}>
         <Segment basic={true} className="setting">
           <Divider/>
           <Grid>

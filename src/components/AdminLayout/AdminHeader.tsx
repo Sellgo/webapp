@@ -9,9 +9,9 @@ export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
                                                                               }) => (
   <Image
     ui={true}
-    size={size || ('tiny' as SemanticSIZES)}
+    style={{width:80}}
     centered={centered || false}
-    src="https://user-images.githubusercontent.com/1359333/57185902-c66b3380-6e89-11e9-92ce-c5f0ef137eca.png"
+    src="/images/sellgo_logo.png"
   />
 );
 
@@ -22,7 +22,7 @@ const options = [
 ];
 
 export class AdminHeader extends React.Component<any> {
-  private readonly height = '4rem';
+  private readonly height = '3rem';
   userName = localStorage.getItem('nickName');
 
   render() {
@@ -35,7 +35,7 @@ export class AdminHeader extends React.Component<any> {
     }
     return (
       <React.Fragment>
-        <Menu inverted={true} borderless={true} fixed="top" style={{ height: this.height, backgroundColor: '#444444' }}
+        <Menu inverted={true} borderless={true} fixed="top" style={{ height: this.height, backgroundColor: '#444444',paddingLeft:80 }}
               className="top-menu">
           <Menu.Menu>
             <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small"/>}/>
@@ -52,15 +52,15 @@ export class AdminHeader extends React.Component<any> {
           <Menu.Menu position="right" fitted='horizontally' style={{ marginRight: 10 }}>
 
             <Menu.Item>
-              <Icon name="search" size="big" color={'red'}/>
+              <Icon name="search" style={{ fontSize: '1.6em' }} color={'red'}/>
             </Menu.Item>
             <Menu.Item>
-              <Icon name="bell outline" size="big" color={'red'}/>
+              <Icon name="bell" style={{ fontSize: '1.7em' }} color={'red'}/>
             </Menu.Item>
             <div style={{ width: 1, height: '100%', alignSelf: 'center', backgroundColor: '#a4a4a4' }}/>
             <Menu.Item>
-              <Icon name="user circle" size="big" color={'red'}/>
-              <div style={{ textAlign: 'center' }}>
+              <Icon name="user circle" style={{ fontSize: '1.9em'}} color={'red'}/>
+              <div style={{ textAlign: 'center', fontSize: 16 }}>
                 Hello
                 <span style={{ display: 'block', width: '100%' }}>
                   {this.userName}

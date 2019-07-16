@@ -189,7 +189,7 @@ class Setting extends React.Component<Props, State> {
     }
 
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData}>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={"Setting"}>
         <Segment basic={true} className="setting">
           <Header as="h2">Basic Information</Header>
           <Divider/>
