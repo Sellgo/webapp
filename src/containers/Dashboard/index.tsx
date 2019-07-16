@@ -79,7 +79,6 @@ class Dashboard extends React.Component<Props, State> {
     const disStyle = {
       marginTop: '15px',
     };
-    console.log(this.props.sellerData);
     return (
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData}>
         <Segment basic={true} className="setting">

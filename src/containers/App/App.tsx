@@ -33,7 +33,7 @@ const isAuthenticated = () => {
     if (auth.isAuthenticated()) {
       return true;
     } else {
-      auth.removeStoredItems();
+      auth.logout();
       return false;
     }
   } else {

@@ -23,7 +23,6 @@ export default class Auth {
 
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
-    localStorage.setItem('auth0_user_id', this.userProfile.sub);
     const formData = new FormData();
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.userProfile.name)) {
@@ -71,16 +70,16 @@ export default class Auth {
 
   public setSession = (authResult: any) => {
     // Set isLoggedIn flag in localStorage
-    localStorage.setItem('isLoggedIn', 'true');
     // Set the time that the access token will expire at
     const date = new Date();
     date.setSeconds(date.getSeconds() + authResult.expiresIn);
+    // date.setSeconds(date.getSeconds() + 20);
     this.expiresAt = date.getTime();
     this.idToken = authResult.idToken;
     this.accessToken = authResult.accessToken;
-    console.log(authResult);
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
+    localStorage.setItem('isLoggedIn', 'true');
     this.getProfile((err: any, profile: any) => {
       this.handleProfile(profile);
     });
@@ -106,6 +105,7 @@ export default class Auth {
     this.auth0.client.userInfo(this.accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;
+        localStorage.setItem('auth0_user_id', this.userProfile.sub);
       }
       cb(err, profile);
     });

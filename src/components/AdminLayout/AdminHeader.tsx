@@ -27,15 +27,14 @@ export class AdminHeader extends React.Component<any> {
 
   render() {
     const { sellerData } = this.props;
-    console.log(sellerData);
-    if(sellerData!=undefined || sellerData !=null){
+    if (sellerData != undefined || sellerData != null) {
       // this.userName = sellerData.firstName+" "+sellerData.lastName;
       this.userName = sellerData.email;
     }
     return (
       <React.Fragment>
         <Menu inverted={true} borderless={true} fixed="top" style={{ height: this.height, backgroundColor: '#444444' }}
-              visible={true} className="top-menu">
+               className="top-menu">
           <Menu.Menu>
             <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small"/>}/>
             {/*<Menu.Item*/}
@@ -56,12 +55,12 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item>
               <Icon name="bell outline" size="big" color={'red'}/>
             </Menu.Item>
-            <div style={{ width: 1, height: '100%',alignSelf:'center', backgroundColor: '#a4a4a4' }} />
+            <div style={{ width: 1, height: '100%', alignSelf: 'center', backgroundColor: '#a4a4a4' }}/>
             <Menu.Item>
               <Icon name="user circle" size="big" color={'red'}/>
               <div style={{ textAlign: 'center' }}>
                 Hello
-                <span style={{ display: 'block', width: '100%'}}>
+                <span style={{ display: 'block', width: '100%' }}>
                   {this.userName}
                 </span>
               </div>

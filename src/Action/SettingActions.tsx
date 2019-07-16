@@ -60,14 +60,17 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
 
       return json.data;
     })
-    .catch(() => {});
+    .catch(() => {
+    });
 };
 export const getBasicInfoSeller = () => (dispatch: any) => {
   const userId = localStorage.getItem('userId');
   const email = localStorage.getItem('userEmail');
   const auth0Id = localStorage.getItem('auth0_user_id');
   const url = email !== '' ? `?email=${email}` : `?auth0_user_id=${auth0Id}`;
-
+  if (headers.Authorization === 'Bearer null') {
+    headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
+  }
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + `seller${url}`,
@@ -77,7 +80,8 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
       dispatch(getBasicInfoSellerDispatch(json.data));
       return json.data;
     })
-    .catch(error => {});
+    .catch(error => {
+    });
 };
 
 export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) => {
@@ -106,7 +110,8 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
 
       return json.data;
     })
-    .catch(error => {});
+    .catch(error => {
+    });
 };
 
 export const getBasicInfoSellerDispatch = (data: any) => ({
