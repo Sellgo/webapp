@@ -50,6 +50,8 @@ import { ProductFiltersPreset } from '../../../../constant/constant';
 
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { SellField } from '../../../../Action/SettingActions';
+import { AdminLayout } from '../../../../components/AdminLayout';
 
 interface State {
   isOpen: boolean;
@@ -114,7 +116,8 @@ interface Props {
   chart_values_2: ChartAverageRank[];
   product_detail_chart_values: ProductChartDetails[];
   product_detail_chart_values_2: ProductChartDetailsPrice[];
-  match: { params: { supplierID: '' } };
+  sellerData: SellField;
+  match: { params: { supplierID: '',auth:'' } };
 }
 
 // const delayedTimer: any = null;
@@ -339,7 +342,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             this.productDetailsWithVisualization(String(value.product_id));
                           }}
                         >
-                          {value.asin}
+                          {value.title}
                         </Grid.Row>
                         <Grid.Row>
                           <Grid.Column style={{ display: 'inline-flex' }}>
@@ -454,7 +457,7 @@ export class SupplierDetail extends React.Component<Props, State> {
           <Grid>
             <Grid.Column floated="left" width={13}>
               <Grid style={{ height: 40 }}>
-                <Grid.Column  >
+                <Grid.Column>
                   <h3>{this.props.product_detail.title}</h3>
                 </Grid.Column>
                 {/*<Grid.Column floated="right" width={2}>{'short Details'}</Grid.Column>*/}
@@ -1014,7 +1017,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   renderHeaderSupplierMatrics = () => {
-    const avg_price= [];
+    const avg_price = [];
     const avg_rank = [];
 
     for (let i = 0; i < this.props.chart_values_1.length; i++) {
@@ -1104,7 +1107,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Feed.Event>
                   <Feed.Content>
                     <Feed.Summary>
-                      {avg_price!=undefined && avg_price.length == 0 && avg_rank.length == 0 ? (
+                      {avg_price != undefined && avg_price.length == 0 && avg_rank.length == 0 ? (
                           <Loader
                             active={true}
                             inline="centered"
@@ -1114,7 +1117,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             Loading
                           </Loader>
                         ) :
-                        (avg_price[0]!==-1000000) ? (
+                        (avg_price[0] !== -1000000) ? (
                           <HighchartsReact
                             highcharts={Highcharts}
                             options={{
@@ -1187,36 +1190,37 @@ export class SupplierDetail extends React.Component<Props, State> {
     // const memberDate = `May 5 2018`;
     // const { isOpen } = this.state;
     return (
-      <Segment basic={true} className="setting">
-        <Divider/>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column floated="left" width={4}>
-              {this.renderHeaderFilters()}
-            </Grid.Column>
-            <Grid.Column floated="right" width={12}>
-              {this.renderHeaderSupplierMatrics()}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        <Divider/>
-        <Grid>
-          <Grid.Column
-            width={5}
-            floated="right"
-            style={{
-              padding: 0,
-            }}
-          >
-            <div
-              className="ui"
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData}>
+        <Segment basic={true} className="setting">
+          <Divider/>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column floated="left" width={4}>
+                {this.renderHeaderFilters()}
+              </Grid.Column>
+              <Grid.Column floated="right" width={12}>
+                {this.renderHeaderSupplierMatrics()}
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <Divider/>
+          <Grid>
+            <Grid.Column
+              width={5}
+              floated="right"
               style={{
-                display: 'inline-flex',
-                // border: '1px solid #000',
-                // padding: '11px',
-                // borderRadius: '15px',
+                padding: 0,
               }}
             >
+              <div
+                className="ui"
+                style={{
+                  display: 'inline-flex',
+                  // border: '1px solid #000',
+                  // padding: '11px',
+                  // borderRadius: '15px',
+                }}
+              >
               <span style={{ padding: '0 8px' }}>
                 Time Saved
                 <h2>
@@ -1228,7 +1232,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </strong>
                 </h2>
               </span>
-              <span style={{ padding: '0 8px' }}>
+                <span style={{ padding: '0 8px' }}>
                 Efficiency
                 <h2>
                   <strong>
@@ -1239,13 +1243,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </strong>
                 </h2>
               </span>
-            </div>
-          </Grid.Column>
-        </Grid>
-        <Divider/>
-        {this.renderTable()}
-        {this.productDetailViewModal()}
-      </Segment>
+              </div>
+            </Grid.Column>
+          </Grid>
+          <Divider/>
+          {this.renderTable()}
+          {this.productDetailViewModal()}
+        </Segment>
+      </AdminLayout>
     );
   }
 
@@ -1269,6 +1274,8 @@ const mapStateToProps = (state: any) => {
     product_detail: state.synReducer.get('product_detail'),
     product_detail_chart_values: state.synReducer.get('product_detail_chart_values'),
     product_detail_chart_values_2: state.synReducer.get('product_detail_chart_values_2'),
+    sellerData: state.settings.get('profile'),
+
   };
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
 import { AdminLayout } from '../../components/AdminLayout/index';
-import { Dashboard } from '../Dashboard';
+import Dashboard from '../Dashboard';
 import Setting from '../Dashboard/Setting';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
@@ -60,12 +60,11 @@ function App(Props: any) {
         <Route
           exact={true}
           path="/dashboard/setting"
-          render={() => {
+          render={(routeProps) => {
+            routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return (
-                <AdminLayout auth={auth} {...Props} title={'Setting'}>
-                  <Setting/>
-                </AdminLayout>
+                  <Setting {...routeProps}/>
               );
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
@@ -75,12 +74,11 @@ function App(Props: any) {
         <Route
           exact={true}
           path="/dashboard"
-          render={Props => {
+          render={routeProps => {
+            routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return (
-                <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
-                  <Dashboard/>
-                </AdminLayout>
+                <Dashboard  {...routeProps} />
               );
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
@@ -91,12 +89,11 @@ function App(Props: any) {
         <Route
           exact={true}
           path="/syn"
-          render={() => {
+          render={(routeProps) => {
+            routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return (
-                <AdminLayout auth={auth} {...Props} title={'SYN'}>
-                  <Suppliers/>
-                </AdminLayout>
+                  <Suppliers {...routeProps} />
               );
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
@@ -107,11 +104,10 @@ function App(Props: any) {
           exact={true}
           path="/syn/:supplierID"
           render={routeProps => {
+            routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return (
-                <AdminLayout auth={auth} {...Props} title={'Dashboard'}>
                   <SupplierDetail {...routeProps} />
-                </AdminLayout>
               );
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;

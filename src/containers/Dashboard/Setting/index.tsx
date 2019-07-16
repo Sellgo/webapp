@@ -28,6 +28,7 @@ import {
 import './setting.css';
 import { marketPlace } from '../../../constant/constant';
 import RecoverPass from '../../RecoverPass';
+import { AdminLayout } from '../../../components/AdminLayout';
 
 interface State {
   isOpen: boolean;
@@ -54,6 +55,8 @@ interface Props {
   sellerData: SellField;
   amazonData: MWSinfo;
   isUpdate: boolean;
+  match: { params: { auth: null } };
+
 }
 
 class Setting extends React.Component<Props, State> {
@@ -180,168 +183,172 @@ class Setting extends React.Component<Props, State> {
     if (marketplaceDATA) {
       howUrl = `https://sellercentral.${
         marketplaceDATA.link
-      }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Denverton-${
+        }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Denverton-${
         marketplaceDATA.code
-      }&devMWSAccountId=${'4294-2444-1812'}`;
+        }&devMWSAccountId=${'4294-2444-1812'}`;
     }
 
     return (
-      <Segment basic={true} className="setting">
-        <Header as="h2">Basic Information</Header>
-        <Divider />
-        <Segment basic={true} padded="very">
-          <Container>
-            <Grid>
-              <Grid.Row>
-                <Grid.Column width={3} textAlign="center" className="upload-photo">
-                  <Image
-                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                    size="small"
-                    floated="left"
-                  />
-                  <Button
-                    basic={true}
-                    content="Upload Photo"
-                    style={{ borderRadius: '50px' }}
-                    size="small"
-                  />
-                </Grid.Column>
-                <Grid.Column width={13}>
-                  <Header as="h6" size="small">
-                    Member since: {memberDate}
-                  </Header>
-                  <Form>
-                    <Grid className="basic-info-update">
-                      <Grid.Row columns={2}>
-                        <Grid.Column width={5}>
-                          <Form.Input
-                            label="First Name"
-                            placeholder="First Name"
-                            name="firstName"
-                            value={firstName}
-                            onChange={e => this.setBasicInfoSeller(e)}
-                          />
-                        </Grid.Column>
-                        <Grid.Column width={5}>
-                          <Form.Input
-                            label="Last Name"
-                            placeholder="Last Name"
-                            name="lastName"
-                            value={lastName}
-                            onChange={e => this.setBasicInfoSeller(e)}
-                          />
-                        </Grid.Column>
-                        <Grid.Column width={10}>
-                          <Form.Input
-                            label="Email"
-                            placeholder="Email"
-                            name="email"
-                            value={email}
-                            onChange={e => this.setBasicInfoSeller(e)}
-                            fluid={true}
-                          />
-                          <Button
-                            primary={true}
-                            content="Update Information"
-                            onClick={this.updateBasicInfoSeller}
-                            style={{ borderRadius: '50px' }}
-                          />
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                  </Form>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Container>
-        </Segment>
-        <Header as="h2">Password</Header>
-        <Divider />
-        <Segment basic={true} padded="very">
-          <Container>
-            <Form>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData}>
+        <Segment basic={true} className="setting">
+          <Header as="h2">Basic Information</Header>
+          <Divider/>
+          <Segment basic={true} padded="very">
+            <Container>
               <Grid>
-                <Grid.Row columns={1}>
-                  <Grid.Column width={12}>
-                    <RecoverPass onlyEmail={true} isSuccessReset={this.isSuccessReset} />
+                <Grid.Row>
+                  <Grid.Column width={3} textAlign="center" className="upload-photo">
+                    <Image
+                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                      size="small"
+                      floated="left"
+                    />
+                    <Button
+                      basic={true}
+                      content="Upload Photo"
+                      style={{ borderRadius: '50px' }}
+                      size="small"
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={13}>
+                    <Header as="h6" size="small">
+                      Member since: {memberDate}
+                    </Header>
+                    <Form>
+                      <Grid className="basic-info-update">
+                        <Grid.Row columns={2}>
+                          <Grid.Column width={5}>
+                            <Form.Input
+                              label="First Name"
+                              placeholder="First Name"
+                              name="firstName"
+                              value={firstName}
+                              onChange={e => this.setBasicInfoSeller(e)}
+                            />
+                          </Grid.Column>
+                          <Grid.Column width={5}>
+                            <Form.Input
+                              label="Last Name"
+                              placeholder="Last Name"
+                              name="lastName"
+                              value={lastName}
+                              onChange={e => this.setBasicInfoSeller(e)}
+                            />
+                          </Grid.Column>
+                          <Grid.Column width={10}>
+                            <Form.Input
+                              label="Email"
+                              placeholder="Email"
+                              name="email"
+                              value={email}
+                              onChange={e => this.setBasicInfoSeller(e)}
+                              fluid={true}
+                            />
+                            <Button
+                              primary={true}
+                              content="Update Information"
+                              onClick={this.updateBasicInfoSeller}
+                              style={{ borderRadius: '50px' }}
+                            />
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                    </Form>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
-            </Form>
-          </Container>
-        </Segment>
-        <Header as="h2">Amazon MWS Authorization</Header>
-        <Divider />
-        <Segment basic={true}>
-          <Container>
+            </Container>
+          </Segment>
+          <Header as="h2">Password</Header>
+          <Divider/>
+          <Segment basic={true} padded="very">
+            <Container>
+              <Form>
+                <Grid>
+                  <Grid.Row columns={1}>
+                    <Grid.Column width={12}>
+                      <RecoverPass onlyEmail={true} isSuccessReset={this.isSuccessReset}/>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Form>
+            </Container>
+          </Segment>
+          <Header as="h2">Amazon MWS Authorization</Header>
+          <Divider/>
+          <Segment basic={true}>
+            <Container>
             <span className="autho-sub-hear">
               Please grant Amazon MWS and Amazon Seller Central access for each market.
             </span>
-            <Form className="autho-form">
-              <Grid>
-                <Grid.Row columns={2}>
-                  <Grid.Column width={5}>
-                    <Form.Select
-                      control={Select}
-                      label="Marketplace"
-                      options={marketPlaceoptions}
-                      placeholder="select"
-                      name="marketplace_id"
-                      onChange={this.setAmazonMWSPlace}
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={5} verticalAlign="bottom">
-                    <Button
-                      primary={true}
-                      content="Show me how >>"
-                      style={{ borderRadius: '50px' }}
-                      onClick={() => this.showMeHow(howUrl)}
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={6} />
-                  <Grid.Column width={9}>
-                    <Form.Input
-                      label="Amazon Seller ID"
-                      placeholder="Amazon Seller ID"
-                      name="seller_id"
-                      onChange={e => this.setAmazonMWS(e)}
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={9}>
-                    <Form.Input
-                      label="MWS Auth Token"
-                      placeholder="MWS Auth Token"
-                      name="token"
-                      onChange={e => this.setAmazonMWS(e)}
-                    />
-                    <Button
-                      primary={true}
-                      content="Add MWS Token"
-                      onClick={this.updateAmazonMWS}
-                      style={{ borderRadius: '50px' }}
-                    />
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Form>
-          </Container>
-          <Modals title="" size="small" open={isOpen} close={this.handleModel}>
-            <Container textAlign="center">
-              <MesssageComponent message={this.message} isModal={true} />
-              <Segment textAlign="center" basic={true}>
-                <Button style={buttonStyle} content="Ok" onClick={this.handleModel} />
-              </Segment>
+              <Form className="autho-form">
+                <Grid>
+                  <Grid.Row columns={2}>
+                    <Grid.Column width={5}>
+                      <Form.Select
+                        control={Select}
+                        label="Marketplace"
+                        options={marketPlaceoptions}
+                        placeholder="select"
+                        name="marketplace_id"
+                        onChange={this.setAmazonMWSPlace}
+                      />
+                    </Grid.Column>
+                    <Grid.Column width={5} verticalAlign="bottom">
+                      <Button
+                        primary={true}
+                        content="Show me how >>"
+                        style={{ borderRadius: '50px' }}
+                        onClick={() => this.showMeHow(howUrl)}
+                      />
+                    </Grid.Column>
+                    <Grid.Column width={6}/>
+                    <Grid.Column width={9}>
+                      <Form.Input
+                        label="Amazon Seller ID"
+                        placeholder="Amazon Seller ID"
+                        name="seller_id"
+                        onChange={e => this.setAmazonMWS(e)}
+                      />
+                    </Grid.Column>
+                    <Grid.Column width={9}>
+                      <Form.Input
+                        label="MWS Auth Token"
+                        placeholder="MWS Auth Token"
+                        name="token"
+                        onChange={e => this.setAmazonMWS(e)}
+                      />
+                      <Button
+                        primary={true}
+                        content="Add MWS Token"
+                        onClick={this.updateAmazonMWS}
+                        style={{ borderRadius: '50px' }}
+                      />
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Form>
             </Container>
-          </Modals>
+            <Modals title="" size="small" open={isOpen} close={this.handleModel}>
+              <Container textAlign="center">
+                <MesssageComponent message={this.message} isModal={true}/>
+                <Segment textAlign="center" basic={true}>
+                  <Button style={buttonStyle} content="Ok" onClick={this.handleModel}/>
+                </Segment>
+              </Container>
+            </Modals>
+          </Segment>
         </Segment>
-      </Segment>
+      </AdminLayout>
     );
   }
 }
+
 const mapStateToProps = (state: any) => ({
   sellerData: state.settings.get('profile'),
   amazonData: state.settings.get('amazonMWS'),
   isUpdate: state.settings.get('success'),
+
 });
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -356,5 +363,5 @@ const mapDispatchToProps = (dispatch: any) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Setting);

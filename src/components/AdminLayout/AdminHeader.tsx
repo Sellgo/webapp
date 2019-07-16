@@ -21,11 +21,17 @@ const options = [
   { key: 3, text: 'Choice 3', value: 3 },
 ];
 
-export class AdminHeader extends React.Component {
+export class AdminHeader extends React.Component<any> {
   private readonly height = '4rem';
   userName = 'FirstName LastName';
 
   render() {
+    const { sellerData } = this.props;
+    console.log(sellerData);
+    if(sellerData!=undefined || sellerData !=null){
+      // this.userName = sellerData.firstName+" "+sellerData.lastName;
+      this.userName = sellerData.email;
+    }
     return (
       <React.Fragment>
         <Menu inverted={true} borderless={true} fixed="top" style={{ height: this.height, backgroundColor: '#444444' }}

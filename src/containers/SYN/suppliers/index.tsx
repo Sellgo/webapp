@@ -34,6 +34,8 @@ import {
   TimeEfficiency,
   deleteSupplier,
 } from '../../../Action/SYNActions';
+import { AdminLayout } from '../../../components/AdminLayout';
+import { SellField } from '../../../Action/SettingActions';
 
 interface State {
   isOpen: boolean;
@@ -81,10 +83,12 @@ interface Props {
   deleteSupplier(supplier_id: any, callBack: any): () => any;
 
   uploadCSV(new_supplier_id: string, file: any): () => void;
-
+  match: { params: { auth: null } };
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
+  sellerData: SellField;
+
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -521,6 +525,7 @@ export class Suppliers extends React.Component<Props, State> {
     const memberDate = `May 5 2018`;
     const { isOpen } = this.state;
     return (
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData}>
       <Segment basic={true} className="setting">
         <Divider/>
         <Grid>
@@ -561,6 +566,7 @@ export class Suppliers extends React.Component<Props, State> {
         </Grid>
         {this.renderTable()}
       </Segment>
+      </AdminLayout>
     );
   }
 
@@ -574,6 +580,8 @@ const mapStateToProps = (state: any) => {
     suppliers: state.synReducer.get('suppliers'),
     new_supplier_id: state.synReducer.get('new_supplier'),
     time_efficiency_data: state.synReducer.get('time_efficiency_data'),
+    sellerData: state.settings.get('profile'),
+
   };
 };
 

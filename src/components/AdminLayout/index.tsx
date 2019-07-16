@@ -10,11 +10,11 @@ interface LayoutProps {
 }
 export class AdminLayout extends React.Component<any, LayoutProps> {
   public render() {
-    const { children, title, auth } = this.props;
+    const { children, title, auth, sellerData } = this.props;
 
     return (
       <React.Fragment>
-        <AdminHeader />
+        <AdminHeader sellerData={sellerData} />
         <Sidebar.Pushable style={{ minHeight: 'calc(100vh - 3rem)' }}>
           <AdminSidebar auth={auth} />
           <Sidebar.Pusher style={{ width: 'calc(100vw - 50px)' }}>
