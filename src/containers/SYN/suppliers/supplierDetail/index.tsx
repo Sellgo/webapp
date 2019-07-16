@@ -117,7 +117,7 @@ interface Props {
   product_detail_chart_values: ProductChartDetails[];
   product_detail_chart_values_2: ProductChartDetailsPrice[];
   sellerData: SellField;
-  match: { params: { supplierID: '',auth:'' } };
+  match: { params: { supplierID: '', auth: '' } };
 }
 
 // const delayedTimer: any = null;
@@ -569,23 +569,28 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            <Grid.Column floated="right" width={3} centered style={{textAlign:'center'}}>
-              <Image
-                src={
-                  new URL(
-                    this.props.product_detail.image_url != null
-                      ? this.props.product_detail.image_url
-                      : 'http://localhost:3000/images/intro.png',
-                  )
-                }
-                size="tiny"
-                style={{ display: 'inline-block' }}
-              />
-              <a href={this.props.product_detail.amazon_url} target={'_blank'}>
-                <Icon name="amazon" style={{ color: 'black' }}/>
-              </a>
-              <p style={{marginTop:10}}>{this.props.product_detail.asin}</p>
-              <p>{this.props.product_detail.upc}</p>
+            <Grid.Column floated="right" width={3} style={{ paddingLeft: 30 }}>
+              <div style={{position:'relative'}}>
+                <Image
+                  src={
+                    new URL(
+                      this.props.product_detail.image_url != null
+                        ? this.props.product_detail.image_url
+                        : 'http://localhost:3000/images/intro.png',
+                    )
+                  }
+                  size="tiny"
+                  style={{ display: 'inline-block' }}
+                />
+                <a style={{position:'absolute',right:20,top:'38%'}}
+                  href={this.props.product_detail.amazon_url}
+                  target={'_blank'}
+                >
+                  <Icon name="amazon" style={{ color: 'black' }}/>
+                </a>
+              </div>
+              <p style={{ marginTop: 10 }}>ASIN: {this.props.product_detail.asin}</p>
+              <p>UPC: {this.props.product_detail.upc}</p>
               {/*<p>{'MSKU'}</p>*/}
               {/*<p>{'FNSKU'}</p>*/}
             </Grid.Column>
