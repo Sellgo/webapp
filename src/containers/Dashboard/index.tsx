@@ -40,10 +40,10 @@ class Dashboard extends React.Component<Props, State> {
     this.props.getBasicInfoSeller();
     const visited = localStorage.getItem('FirstLogin');
     console.log(visited);
-    // if (!visited) {
+    if (!visited) {
       localStorage['FirstLogin'] = true;
       this.setState({ isOpen: true });
-    // }
+    }
   }
 
   public state = {
