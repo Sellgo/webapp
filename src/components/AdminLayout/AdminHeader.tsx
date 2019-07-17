@@ -2,6 +2,16 @@ import * as React from 'react';
 import { Dropdown, Icon, Image, Input, Menu, SemanticSIZES, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
+import {
+  getProductDetail, getProductDetailChartPrice,
+  getProductDetailChartRank,
+  getProducts, getProductsChartHistoryPrice, getProductsChartHistoryRank,
+  getProductTrackData,
+  getProductTrackGroupId, getTimeEfficiency, trackProductWithPatch, trackProductWithPost,
+} from '../../Action/SYNActions';
+import { connect } from 'react-redux';
+import { SupplierDetail } from '../../containers/SYN/suppliers/supplierDetail';
+import { SellField } from '../../Action/SettingActions';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
                                                                                 size,
@@ -22,7 +32,7 @@ const options = [
 ];
 
 export class AdminHeader extends React.Component<any> {
-  private readonly height = '3rem';
+  private readonly height = 45;
   userName = localStorage.getItem('nickName');
 
   render() {

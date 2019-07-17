@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Segment, Sidebar } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
 import { AdminSidebar } from './AdminSidebar';
-import { PageHeader } from './PageHeader';
+import  PageHeader  from './PageHeader';
 
 interface LayoutProps {
   children?: React.ReactNode;
