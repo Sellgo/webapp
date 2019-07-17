@@ -30,13 +30,13 @@ import {
   getProductsChartHistoryPrice,
   getProductsChartHistoryRank,
   getProductDetail,
-  getProductDetailChart,
+  getProductDetailChartRank,
   getProductDetailChartPrice,
   getProductTrackGroupId,
   getProductTrackData,
   ProductsTrackData,
   ProductDetails,
-  ProductChartDetails,
+  ProductChartDetailsRank,
   ChartAveragePrice,
   ChartAverageRank,
   ProductChartDetailsPrice,
@@ -103,7 +103,7 @@ interface Props {
 
   getProductDetail(product_id: string, supplierID: string): () => void;
 
-  getProductDetailChart(product_id: string): () => void;
+  getProductDetailChartRank(product_id: string): () => void;
 
   getProductDetailChartPrice(product_id: string): () => void;
 
@@ -112,10 +112,10 @@ interface Props {
   products: Product[];
   products_track_data: ProductsTrackData;
   product_detail: ProductDetails;
-  chart_values_1: ChartAveragePrice[];
-  chart_values_2: ChartAverageRank[];
-  product_detail_chart_values: ProductChartDetails[];
-  product_detail_chart_values_2: ProductChartDetailsPrice[];
+  chart_values_price: ChartAveragePrice[];
+  chart_values_rank: ChartAverageRank[];
+  product_detail_chart_values_rank: ProductChartDetailsRank[];
+  product_detail_chart_values_price: ProductChartDetailsPrice[];
   sellerData: SellField;
   match: { params: { supplierID: '', auth: '' } };
 }
@@ -275,7 +275,7 @@ export class SupplierDetail extends React.Component<Props, State> {
 
   productDetailsWithVisualization = (product_id: string) => {
     this.props.getProductDetail(product_id, this.props.match.params.supplierID);
-    this.props.getProductDetailChart(product_id);
+    this.props.getProductDetailChartRank(product_id);
     this.props.getProductDetailChartPrice(product_id);
     this.setState({ productDetailModalOpen: true });
   };
@@ -438,11 +438,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     const popup_rank_conainer: number[] = [];
     const popup_price_conainer: number[] = [];
 
-    for (let i = 0; i < this.props.product_detail_chart_values.length; i++) {
-      popup_rank_conainer.push(Number(this.props.product_detail_chart_values[i].rank));
+    for (let i = 0; i < this.props.product_detail_chart_values_rank.length; i++) {
+      popup_rank_conainer.push(Number(this.props.product_detail_chart_values_rank[i].rank));
     }
-    for (let i = 0; i < this.props.product_detail_chart_values_2.length; i++) {
-      popup_price_conainer.push(Number(this.props.product_detail_chart_values_2[i].price));
+    for (let i = 0; i < this.props.product_detail_chart_values_price.length; i++) {
+      popup_price_conainer.push(Number(this.props.product_detail_chart_values_price[i].price));
     }
     return (
       <Modal
@@ -1025,11 +1025,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     const avg_price = [];
     const avg_rank = [];
 
-    for (let i = 0; i < this.props.chart_values_1.length; i++) {
-      avg_price.push(Number(this.props.chart_values_1[i].avg_price));
+    for (let i = 0; i < this.props.chart_values_price.length; i++) {
+      avg_price.push(Number(this.props.chart_values_price[i].avg_price));
     }
-    for (let i = 0; i < this.props.chart_values_2.length; i++) {
-      avg_rank.push(Number(this.props.chart_values_2[i].avg_rank));
+    for (let i = 0; i < this.props.chart_values_rank.length; i++) {
+      avg_rank.push(Number(this.props.chart_values_rank[i].avg_rank));
     }
 
     return (
@@ -1274,11 +1274,11 @@ const mapStateToProps = (state: any) => {
     products: state.synReducer.get('products'),
     suppliers: state.synReducer.get('suppliers'),
     products_track_data: state.synReducer.get('products_track_data'),
-    chart_values_1: state.synReducer.get('chart_values_1'),
-    chart_values_2: state.synReducer.get('chart_values_2'),
+    chart_values_price: state.synReducer.get('chart_values_price'),
+    chart_values_rank: state.synReducer.get('chart_values_rank'),
     product_detail: state.synReducer.get('product_detail'),
-    product_detail_chart_values: state.synReducer.get('product_detail_chart_values'),
-    product_detail_chart_values_2: state.synReducer.get('product_detail_chart_values_2'),
+    product_detail_chart_values_rank: state.synReducer.get('product_detail_chart_values_rank'),
+    product_detail_chart_values_price: state.synReducer.get('product_detail_chart_values_price'),
     sellerData: state.settings.get('profile'),
 
   };
@@ -1292,7 +1292,7 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(getProductTrackGroupId(supplierID, supplierName)),
     getProductDetail: (product_id: string, supplierID: string) =>
       dispatch(getProductDetail(product_id, supplierID)),
-    getProductDetailChart: (product_id: string) => dispatch(getProductDetailChart(product_id)),
+    getProductDetailChartRank: (product_id: string) => dispatch(getProductDetailChartRank(product_id)),
     getProductDetailChartPrice: (product_id: string) =>
       dispatch(getProductDetailChartPrice(product_id)),
     getProductsChartHistoryPrice: (supplierID: string) =>

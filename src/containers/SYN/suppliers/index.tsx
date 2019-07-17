@@ -522,9 +522,6 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   render() {
-    const memberDate = `May 5 2018`;
-    const { isOpen } = this.state;
-    console.log(this.props.time_efficiency_data)
     return (
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={"SYN"}>
       <Segment basic={true} className="setting">

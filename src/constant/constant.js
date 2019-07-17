@@ -9,11 +9,11 @@ export const UPDATE_PRODUCT = '/SYN/UPDATE_PRODUCT';
 export const SET_PRODUCTS = '/SYN/SET_PRODUCTS';
 export const SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION = '/SYN/SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION';
 export const SET_PRODUCT_TRACK_DATA = '/SYN/SET_PRODUCT_TRACK_DATA';
-export const SET_CHART_VALUES_1 = '/SYN/SET_CHART_VALUES_1';
-export const SET_CHART_VALUES_2 = '/SYN/SET_CHART_VALUES_2';
+export const SET_CHART_VALUES_PRICE = '/SYN/SET_CHART_VALUES_PRICE';
+export const SET_CHART_VALUES_RANK = '/SYN/SET_CHART_VALUES_RANK';
 export const SET_Product_Detail = '/SYN/SET_Product_Detail';
-export const SET_Product_Detail_Chart_Values = '/SYN/SET_Product_Detail_Chart_Values';
-export const SET_Product_Detail_Chart_Values_2 = '/SYN/SET_Product_Detail_Chart_Values_2';
+export const SET_Product_Detail_Chart_Values_Rank = '/SYN/SET_Product_Detail_Chart_Values_Rank';
+export const SET_Product_Detail_Chart_Values_Price= '/SYN/SET_Product_Detail_Chart_Values_Price';
 
 
 export const marketPlace = [

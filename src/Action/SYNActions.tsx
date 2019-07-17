@@ -4,11 +4,11 @@ import {
   SET_PRODUCTS,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_PRODUCT_TRACK_DATA,
-  SET_CHART_VALUES_1,
-  SET_CHART_VALUES_2,
+  SET_CHART_VALUES_PRICE,
+  SET_CHART_VALUES_RANK,
   SET_Product_Detail,
-  SET_Product_Detail_Chart_Values,
-  SET_Product_Detail_Chart_Values_2, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
+  SET_Product_Detail_Chart_Values_Rank,
+  SET_Product_Detail_Chart_Values_Price, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -95,10 +95,10 @@ export interface ProductDetails {
   upc: string;
   amazon_url: string;
   image_url: string;
-  title:string;
+  title: string;
 }
 
-export interface ProductChartDetails {
+export interface ProductChartDetailsRank {
   rank: number;
   cdate: string
 }
@@ -122,10 +122,7 @@ const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': `multipart/form-data`,
 };
-// const headers = {
-//   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-//   'Content-Type': 'application/json',
-// };
+
 
 const headers_file = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
@@ -137,11 +134,9 @@ export const getSellers = () => (dispatch: any) => {
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
-    // url: URLS.BASE_URL_API + 'seller/1000000052/supplier/',
     headers,
   })
     .then(json => {
-      console.log(json.data);
       if (json.data.length == 0) {
         dispatch(setSellers(
           [{
@@ -167,7 +162,6 @@ export const getSellers = () => (dispatch: any) => {
       } else {
         dispatch(setSellers(json.data));
       }
-      // return json.data;
     })
     .catch(error => {
       dispatch(setSellers(
@@ -193,6 +187,7 @@ export const getSellers = () => (dispatch: any) => {
       ));
     });
 };
+
 export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
@@ -208,6 +203,7 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     .catch(error => {
     });
 };
+
 export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
@@ -216,15 +212,15 @@ export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: a
   })
     .then(json => {
       if (json.data.length > 0) {
-        dispatch(setChartValues1(json.data));
+        dispatch(setChartValuesPrice(json.data));
       } else {
         dispatch(
-          setChartValues1([
+          setChartValuesPrice([
             {
               avg_price: '-1000000',
               cdate: '-1000000',
             },
-          ])
+          ]),
         );
       }
     })
@@ -239,7 +235,7 @@ export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: an
     headers,
   })
     .then(json => {
-      dispatch(setChartValues2(json.data));
+      dispatch(setChartValuesRank(json.data));
     })
     .catch(error => {
     });
@@ -259,14 +255,14 @@ export const getProductDetail = (productID: string, supplierID: string) => (disp
     });
 };
 
-export const getProductDetailChart = (product_id: string) => (dispatch: any) => {
+export const getProductDetailChartRank = (product_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'product/' + product_id + '/history/rank',
     headers,
   })
     .then(json => {
-      dispatch(setProductDetailChart(json.data));
+      dispatch(setProductDetailChartRank(json.data));
     })
     .catch(error => {
     });
@@ -279,7 +275,7 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
     headers,
   })
     .then(json => {
-      dispatch(setProductDetailChart2(json.data));
+      dispatch(setProductDetailChartPrice(json.data));
     })
     .catch(error => {
     });
@@ -290,10 +286,6 @@ export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'group/track_data/?supplier_id=' + supplierID,
-    // url: URLS.BASE_URL_API + 'group/track_data/',
-    // data: {
-    //   product_track_group_ids: 2
-    // },
     headers,
   })
     .then(json => {
@@ -335,13 +327,8 @@ export const getProductTrackGroupId = (supplierID: string, supplierName: string)
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `seller/${sellerID}/track/group/`,
-    // url: URLS.BASE_URL_API + `seller/1000000052/track/group/`,
     data: bodyFormData,
-    // data: {
-    //   name: name,
-    //   description: description,
-    //   supplier_group_id: 1
-    // },
+
     headers,
   })
     .then(json => {
@@ -358,13 +345,11 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
   return axios({
     method: 'POST',
     url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group/`,
-    // url: URLS.BASE_URL_API + `seller/1000000052/supplier_group/`,
     data: bodyFormData,
     headers,
   })
     .then(json => {
       call_back(json.data);
-      // dispatch(setsaveSupplierNameAndDescription(json.data));
     })
     .catch(error => {
     });
@@ -512,6 +497,7 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
       ));
     });
 };
+
 export const trackProductWithPost = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
   let sellerID = localStorage.getItem('userId');
   if (sellerID == null) {
@@ -537,6 +523,7 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
     .catch(error => {
     });
 };
+
 export const trackProductWithPatch = (product_track_id: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
 
@@ -561,6 +548,7 @@ export const setSellers = (data: {}) => ({
   type: SET_SELLERS,
   data,
 });
+
 export const updateProduct = (data: {}) => ({
   type: UPDATE_PRODUCT,
   data,
@@ -575,6 +563,7 @@ export const setProducts = (data: {}) => ({
   type: SET_PRODUCTS,
   data,
 });
+
 export const setsaveSupplierNameAndDescription = (data: {}) => ({
   type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   data,
@@ -585,13 +574,13 @@ export const setProductTrackData = (data: {}) => ({
   data,
 });
 
-export const setChartValues1 = (data: {}) => ({
-  type: SET_CHART_VALUES_1,
+export const setChartValuesPrice = (data: {}) => ({
+  type: SET_CHART_VALUES_PRICE,
   data,
 });
 
-export const setChartValues2 = (data: {}) => ({
-  type: SET_CHART_VALUES_2,
+export const setChartValuesRank = (data: {}) => ({
+  type: SET_CHART_VALUES_RANK,
   data,
 });
 
@@ -599,11 +588,11 @@ export const setProductDetail = (data: {}) => ({
   type: SET_Product_Detail,
   data,
 });
-export const setProductDetailChart = (data: {}) => ({
-  type: SET_Product_Detail_Chart_Values,
+export const setProductDetailChartRank = (data: {}) => ({
+  type: SET_Product_Detail_Chart_Values_Rank,
   data,
 });
-export const setProductDetailChart2 = (data: {}) => ({
-  type: SET_Product_Detail_Chart_Values_2,
+export const setProductDetailChartPrice = (data: {}) => ({
+  type: SET_Product_Detail_Chart_Values_Price,
   data,
 });
