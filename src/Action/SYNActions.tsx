@@ -131,6 +131,9 @@ const headers_file = {
 
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
+  if (headers.Authorization === 'Bearer null') {
+    headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
+  }
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,

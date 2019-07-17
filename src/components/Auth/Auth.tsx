@@ -44,6 +44,8 @@ export default class Auth {
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
+          history.replace('/dashboard');
+
         }
       })
       .catch();
@@ -81,14 +83,9 @@ export default class Auth {
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
     localStorage.setItem('isLoggedIn', 'true');
     this.getProfile((err: any, profile: any) => {
-      this.handleProfile(profile);
+      this.registerSeller();
     });
   };
-
-  handleProfile(profile: any) {
-    this.registerSeller();
-    history.replace('/dashboard');
-  }
 
   public renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
