@@ -365,12 +365,12 @@ export class Suppliers extends React.Component<Props, State> {
                 <Table.HeaderCell>
                   Supplier Name
                 </Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Action</Table.HeaderCell>
-                <Table.HeaderCell>Product to Listing Ratio</Table.HeaderCell>
-                <Table.HeaderCell>Supplier Rate (%)</Table.HeaderCell>
-                <Table.HeaderCell>Note</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
+                <Table.HeaderCell textAlign='center' width={1}>Status</Table.HeaderCell>
+                <Table.HeaderCell textAlign='center'>Action</Table.HeaderCell>
+                <Table.HeaderCell textAlign='center'>Product to Listing Ratio</Table.HeaderCell>
+                <Table.HeaderCell textAlign='center'>Supplier Rate (%)</Table.HeaderCell>
+                {/*<Table.HeaderCell>Note</Table.HeaderCell>*/}
+                <Table.HeaderCell ></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -391,13 +391,13 @@ export class Suppliers extends React.Component<Props, State> {
                       <Table.Cell>
                         <Checkbox/>
                       </Table.Cell>
-                      <Table.Cell style={{ width: '350px' }}>
+                      <Table.Cell style={{ width: '600px' }}>
                         <Table.Cell as={Link} to={`/syn/${value.id}`}>
                           {value.name}
                         </Table.Cell>
                       </Table.Cell>
-                      <Table.Cell>{value.status}</Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell textAlign='center'>{value.status}</Table.Cell>
+                      <Table.Cell textAlign='center'>
                         <Dropdown text='SYN'
                                   fluid
                                   selection
@@ -413,14 +413,14 @@ export class Suppliers extends React.Component<Props, State> {
                                   }}>
                         </Dropdown>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell textAlign='center'>
                         {(value.item_total_count != null && value.item_active_count != null) ? Number((value.item_total_count / value.item_active_count).toFixed(2)).toLocaleString() : 0}
                       </Table.Cell>
-                      <Table.Cell>{Number(value.rate).toLocaleString()}</Table.Cell>
-                      <Table.Cell>
-                        <Input focus placeholder='Note'/>
-                      </Table.Cell>
-                      <Table.Cell style={{ paddingRight: '10px' }}>
+                      <Table.Cell textAlign='center'>{Number(value.rate).toLocaleString()}</Table.Cell>
+                      {/*<Table.Cell>*/}
+                      {/*  <Input focus placeholder='Note'/>*/}
+                      {/*</Table.Cell>*/}
+                      <Table.Cell textAlign='right' style={{ paddingRight: '10px' }}>
                         <Table.Cell as={Link} to={`/syn/`}>
                           <Icon
                             onClick={() => {

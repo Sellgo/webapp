@@ -17,7 +17,7 @@ export class AdminLayout extends React.Component<any, LayoutProps> {
         <AdminHeader sellerData={sellerData} />
         <Sidebar.Pushable style={{ minHeight: 'calc(100vh - 3rem)' }}>
           <AdminSidebar auth={auth} />
-          <Sidebar.Pusher style={{ width: 'calc(100vw - 50px)' }}>
+          <Sidebar.Pusher style={{ width: 'calc(100vw - 88px)' }}>
             <Segment basic={true}>
               <PageHeader title={title} />
               {children}

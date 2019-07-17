@@ -295,19 +295,19 @@ export class SupplierDetail extends React.Component<Props, State> {
       <Table basic="very">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell width={1}>
+            <Table.HeaderCell >
               <Checkbox/>
             </Table.HeaderCell>
-            <Table.HeaderCell width={3} style={{ paddingLeft: 0 }}>
+            <Table.HeaderCell  style={{ paddingLeft: 0 }}>
               Product Info
             </Table.HeaderCell>
-            <Table.HeaderCell width={1}/>
-            <Table.HeaderCell width={1}>Profit</Table.HeaderCell>
-            <Table.HeaderCell width={1}>Margin</Table.HeaderCell>
-            <Table.HeaderCell width={1}>Sales/mo</Table.HeaderCell>
-            <Table.HeaderCell width={1}>Profit/Mo</Table.HeaderCell>
-            <Table.HeaderCell width={1}>Add to Tracker</Table.HeaderCell>
-            <Table.HeaderCell width={1}>Last Syn</Table.HeaderCell>
+            <Table.HeaderCell />
+            <Table.HeaderCell >Profit</Table.HeaderCell>
+            <Table.HeaderCell >Margin</Table.HeaderCell>
+            <Table.HeaderCell >Sales/mo</Table.HeaderCell>
+            <Table.HeaderCell >Profit/Mo</Table.HeaderCell>
+            <Table.HeaderCell >Add to Tracker</Table.HeaderCell>
+            <Table.HeaderCell >Last Syn</Table.HeaderCell>
             <Table.HeaderCell width={1}/>
           </Table.Row>
         </Table.Header>
@@ -326,15 +326,15 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell>
                     <Checkbox/>
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell  style={{width:500}} >
                     <Grid>
-                      <Grid.Column floated="left">
+                      <Grid.Column  style={{marginRight:60,}} className={'middle aligned'}>
                         <Image
                           src={value.image_url == null ? '/images/intro.png' : value.image_url}
                           size="tiny"
                         />
                       </Grid.Column>
-                      <Grid.Column width={8} floated="left" className={'middle aligned'}>
+                      <Grid.Column width={12} fluid  className={'middle aligned'}>
                         <Grid.Row
                           as={Link}
                           to={{}}
