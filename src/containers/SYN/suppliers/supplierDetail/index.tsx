@@ -302,13 +302,13 @@ export class SupplierDetail extends React.Component<Props, State> {
               Product Info
             </Table.HeaderCell>
             <Table.HeaderCell />
-            <Table.HeaderCell >Profit</Table.HeaderCell>
-            <Table.HeaderCell >Margin</Table.HeaderCell>
-            <Table.HeaderCell >Sales/mo</Table.HeaderCell>
-            <Table.HeaderCell >Profit/Mo</Table.HeaderCell>
-            <Table.HeaderCell >Add to Tracker</Table.HeaderCell>
-            <Table.HeaderCell >Last Syn</Table.HeaderCell>
-            <Table.HeaderCell width={1}/>
+            <Table.HeaderCell textAlign='center' >Profit</Table.HeaderCell>
+            <Table.HeaderCell textAlign='center' >Margin</Table.HeaderCell>
+            <Table.HeaderCell textAlign='center'>Sales/mo</Table.HeaderCell>
+            <Table.HeaderCell textAlign='center'>Profit/Mo</Table.HeaderCell>
+            <Table.HeaderCell textAlign='center'>Add to Tracker</Table.HeaderCell>
+            <Table.HeaderCell textAlign='center'>Last Syn</Table.HeaderCell>
+            <Table.HeaderCell textAlign='center' width={1}/>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -369,11 +369,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                     </Button>
                     {/* {this.productDetailView(String(value.product_id))} */}
                   </Table.Cell>
-                  <Table.Cell>{Number(value.profit).toLocaleString()}</Table.Cell>
-                  <Table.Cell>{Number(value.margin).toLocaleString()}</Table.Cell>
-                  <Table.Cell>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
-                  <Table.Cell>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell textAlign='center'>{Number(value.profit).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>{Number(value.margin).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center' >{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>
                     <Button
                       basic={true}
                       style={{ borderRadius: 20 }}
@@ -399,7 +399,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
                     </Button>
                   </Table.Cell>
-                  <Table.Cell>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
                   <Table.Cell>
                     <Table.Cell
                       as={Link}
