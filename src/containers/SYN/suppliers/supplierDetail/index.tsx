@@ -59,7 +59,7 @@ interface State {
   productDetailModalOpen: boolean;
   currentPage: any;
   totalPages: any;
-  pageSize: any;
+  singlePageItemsCount: any;
   unitProfitFilter: any;
   marginFilter: any;
   unitsPerMonthFilter: any;
@@ -136,7 +136,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     productDetailModalOpen: false,
     totalPages: 5,
     currentPage: 1,
-    pageSize: 10,
+    singlePageItemsCount: 50,
     unitProfitFilter: {
       min: 0,
       max: 100,
@@ -250,7 +250,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     }
     this.setState({
       products: nextProps.products,
-      totalPages: Math.ceil(nextProps.products.length / this.state.pageSize),
+      totalPages: Math.ceil(nextProps.products.length / this.state.singlePageItemsCount),
       minUnitProfit,
       maxUnitProfit,
       minMargin,
@@ -282,8 +282,8 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
     const productsTable: Product[] = this.state.products.slice(
-      currentPage * this.state.pageSize,
-      (currentPage + 1) * this.state.pageSize,
+      currentPage * this.state.singlePageItemsCount,
+      (currentPage + 1) * this.state.singlePageItemsCount,
     );
     return this.props.products.length == 0 ? (
       <Segment>
@@ -1012,7 +1012,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         newProducts.push(product);
       }
     }
-    const totalPages = Math.ceil(newProducts.length / this.state.pageSize);
+    const totalPages = Math.ceil(newProducts.length / this.state.singlePageItemsCount);
     this.setState({
       totalPages,
       currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,

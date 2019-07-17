@@ -46,7 +46,7 @@ interface State {
   file: any;
   currentPage: any;
   totalPages: any;
-  pageSize: any;
+  singlePageItemsCount: any;
   updateDetails: boolean;
   update_product_id: string;
   delete_confirmation: boolean;
@@ -101,7 +101,7 @@ export class Suppliers extends React.Component<Props, State> {
     file: '',
     totalPages: 5,
     currentPage: 1,
-    pageSize: 10,
+    singlePageItemsCount: 10,
     updateDetails: false,
     update_product_id: '0',
     delete_confirmation: false,
@@ -147,7 +147,7 @@ export class Suppliers extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     this.setState({
-      totalPages: Math.ceil(nextProps.suppliers.length / this.state.pageSize),
+      totalPages: Math.ceil(nextProps.suppliers.length / this.state.singlePageItemsCount),
     });
   }
 
@@ -347,8 +347,8 @@ export class Suppliers extends React.Component<Props, State> {
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
     const suppliers = [...this.props.suppliers].slice(
-      currentPage * this.state.pageSize,
-      (currentPage + 1) * this.state.pageSize);
+      currentPage * this.state.singlePageItemsCount,
+      (currentPage + 1) * this.state.singlePageItemsCount);
     return (
       ((this.props.suppliers.length == 0) ?
           <Segment>
