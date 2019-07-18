@@ -44,7 +44,7 @@ import {
   TimeEfficiency,
   getTimeEfficiency,
 } from '../../../../Action/SYNActions';
-import { ProductFiltersPreset } from '../../../../constant/constant';
+import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
 
 // import history from '../../../../history';
 
@@ -296,7 +296,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Loader>
       </Segment>
     ) : (
-      <Table basic="very">
+      <Table basic="very" >
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
@@ -305,7 +305,6 @@ export class SupplierDetail extends React.Component<Props, State> {
             <Table.HeaderCell style={{paddingLeft: 0}}>
               Product Info
             </Table.HeaderCell>
-            <Table.HeaderCell/>
             <Table.HeaderCell textAlign='center'>Profit</Table.HeaderCell>
             <Table.HeaderCell textAlign='center'>Margin</Table.HeaderCell>
             <Table.HeaderCell textAlign='center'>Sales/mo</Table.HeaderCell>
@@ -330,7 +329,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell>
                     <Checkbox/>
                   </Table.Cell>
-                  <Table.Cell style={{width: 500}}>
+                  <Table.Cell style={{width: 600}}>
                     <Grid>
                       <Grid.Column style={{marginRight: 60}} className={'middle aligned'}>
                         <Image
@@ -338,7 +337,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                           size="tiny"
                         />
                       </Grid.Column>
-                      <Grid.Column width={12} className={'middle aligned'}>
+                      <Grid.Column width={10} className={'middle aligned'}>
                         <Grid.Row
                           as={Link}
                           to={{}}
@@ -358,20 +357,19 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Grid.Column>
                         </Grid.Row>
                       </Grid.Column>
+                      <Grid.Column style={{alignSelf: 'center'}}>
+                        <Button
+                          basic={true}
+                          style={{borderRadius: 20}}
+                          color="blue"
+                          onClick={() => {
+                            this.productDetailsWithVisualization(String(value.product_id));
+                          }}
+                        >
+                          View
+                        </Button>
+                      </Grid.Column>
                     </Grid>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Button
-                      basic={true}
-                      style={{borderRadius: 20}}
-                      color="blue"
-                      onClick={() => {
-                        this.productDetailsWithVisualization(String(value.product_id));
-                      }}
-                    >
-                      View
-                    </Button>
-                    {/* {this.productDetailView(String(value.product_id))} */}
                   </Table.Cell>
                   <Table.Cell textAlign='center'>{Number(value.profit).toLocaleString()}</Table.Cell>
                   <Table.Cell textAlign='center'>{Number(value.margin).toLocaleString()}</Table.Cell>
@@ -403,7 +401,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
                     </Button>
                   </Table.Cell>
-                  <Table.Cell textAlign='center'>{new Date(value.last_syn).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'><p style={{fontSize:13}}>{new Date(value.last_syn).toLocaleString()}</p></Table.Cell>
                   <Table.Cell>
                     <Table.Cell
                       as={Link}
@@ -1150,7 +1148,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 },
                                 labels: {
                                   formatter() {
-                                    return '$' + this.value / 1000 + 'k';
+                                    return  this.value / 1000 + 'k';
                                   },
                                   style: {
                                     color: '#ccc',
@@ -1158,7 +1156,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 },
                               },
                               tooltip: {
-                                pointFormat: '$<b>{point.y:,.0f}</b>',
+                                formatter() {
+                                  return  ((this.series.name =='Avg Price')?'$':'') + numberWithCommas(this.y) ;
+                                }
                               },
                               legend: {
                                 align: 'left',
@@ -1168,6 +1168,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                               },
                               series: [
                                 {
+
                                   type: 'areaspline',
                                   name: 'Avg Price',
                                   color: '#c0f1ff',

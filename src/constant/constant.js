@@ -13,9 +13,9 @@ export const SET_CHART_VALUES_PRICE = '/SYN/SET_CHART_VALUES_PRICE';
 export const SET_CHART_VALUES_RANK = '/SYN/SET_CHART_VALUES_RANK';
 export const SET_Product_Detail = '/SYN/SET_Product_Detail';
 export const SET_Product_Detail_Chart_Values_Rank = '/SYN/SET_Product_Detail_Chart_Values_Rank';
-export const SET_Product_Detail_Chart_Values_Price= '/SYN/SET_Product_Detail_Chart_Values_Price';
-export const SET_PAGE_HISTORY_COUNTER= '/SET_PAGE_HISTORY_COUNTER';
-export const UPLOAD_SYNTHESIS_FILE_ID= '/UPLOAD_SYNTHESIS_FILE_ID';
+export const SET_Product_Detail_Chart_Values_Price = '/SYN/SET_Product_Detail_Chart_Values_Price';
+export const SET_PAGE_HISTORY_COUNTER = '/SET_PAGE_HISTORY_COUNTER';
+export const UPLOAD_SYNTHESIS_FILE_ID = '/UPLOAD_SYNTHESIS_FILE_ID';
 
 
 export const marketPlace = [
@@ -129,3 +129,6 @@ export const ProductFiltersPreset = [
   },
 ];
 
+export const numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
