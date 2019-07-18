@@ -42,7 +42,7 @@ import {
   ProductChartDetailsPrice,
   Supplier,
   TimeEfficiency,
-  getTimeEfficiency,
+  getTimeEfficiency, getSellers,
 } from '../../../../Action/SYNActions';
 import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
 
@@ -76,6 +76,8 @@ interface State {
 
 interface Props {
   getProducts(supplierID: string): () => void;
+
+  getSellers(): () => void;
 
   trackProductWithPatch(
     productID: string,
@@ -184,15 +186,32 @@ export class SupplierDetail extends React.Component<Props, State> {
     if (this.props.time_efficiency_data.length === 0) {
       this.props.getTimeEfficiency();
     }
-    //    console.log(this.props.suppliers);
-    //    let selectedSupplier = this.props.suppliers.filter((supplier, index, array) => {
-    //      return (supplier.id == this.props.match.params.supplierID);
-    //    });
-    // console.log(selectedSupplier)
-    //    this.props.getProductTrackGroupId(this.props.match.params.supplierID, selectedSupplier[0].name);
+    if (this.props.suppliers.length == 0) {
+      this.props.getSellers();
+    } else {
+      let selectedSupplier = this.props.suppliers.filter((supplier, index, array) => {
+        return (supplier.id == this.props.match.params.supplierID);
+      });
+      console.log(selectedSupplier);
+      // this.props.getProductTrackGroupId(
+      //   this.props.match.params.supplierID,
+      //   selectedSupplier[0].name
+      // );
+    }
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
+    if (nextProps.suppliers.length > 0 && nextProps.suppliers.length != this.props.suppliers.length) {
+      let selectedSupplier = nextProps.suppliers.filter((supplier, index, array) => {
+        return (supplier.id == this.props.match.params.supplierID);
+      });
+      console.log(selectedSupplier);
+      // this.props.getProductTrackGroupId(
+      //   this.props.match.params.supplierID,
+      //   selectedSupplier[0].name,
+      // );
+    }
+
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
     let maxUnitProfit = Number.MIN_SAFE_INTEGER;
 
@@ -296,7 +315,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Loader>
       </Segment>
     ) : (
-      <Table basic="very" >
+      <Table basic="very">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
@@ -349,9 +368,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                         </Grid.Row>
                         <Grid.Row>
                           <Grid.Column style={{display: 'inline-flex'}}>
-                            <Image style={{marginRight:10}}
-                              src={value.image_url == null ? '/images/intro.png' : value.image_url}
-                              size="mini"
+                            <Image style={{marginRight: 10}}
+                                   src={value.image_url == null ? '/images/intro.png' : value.image_url}
+                                   size="mini"
                             />
                             {value.amazon_category_name}
                           </Grid.Column>
@@ -401,7 +420,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                       {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
                     </Button>
                   </Table.Cell>
-                  <Table.Cell textAlign='center'><p style={{fontSize:13}}>{new Date(value.last_syn).toLocaleString()}</p></Table.Cell>
+                  <Table.Cell textAlign='center'><p
+                    style={{fontSize: 13}}>{new Date(value.last_syn).toLocaleString()}</p></Table.Cell>
                   <Table.Cell>
                     <Table.Cell
                       as={Link}
@@ -1148,7 +1168,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 },
                                 labels: {
                                   formatter() {
-                                    return  this.value / 1000 + 'k';
+                                    return this.value / 1000 + 'k';
                                   },
                                   style: {
                                     color: '#ccc',
@@ -1157,8 +1177,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                               },
                               tooltip: {
                                 formatter() {
-                                  return  ((this.series.name =='Avg Price')?'$':'') + numberWithCommas(this.y) ;
-                                }
+                                  return ((this.series.name == 'Avg Price') ? '$' : '') + numberWithCommas(this.y);
+                                },
                               },
                               legend: {
                                 align: 'left',
@@ -1291,6 +1311,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    getSellers: () => dispatch(getSellers()),
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductTrackData: (supplierID: string) => dispatch(getProductTrackData(supplierID)),
     getProductTrackGroupId: (supplierID: string, supplierName: string) =>

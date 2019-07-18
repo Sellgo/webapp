@@ -321,7 +321,6 @@ export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
 };
 
 export const getProductTrackGroupId = (supplierID: string, supplierName: string) => (dispatch: any) => {
-
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();
