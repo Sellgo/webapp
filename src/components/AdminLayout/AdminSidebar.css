@@ -29,7 +29,7 @@ i.red.icon{
 }
 .ui.left.sidebar,
 .ui.right.sidebar {
-  width: 73px !important;
+  width: 60px !important;
   background: #444444;
 }
 .ui.visible.left.sidebar ~ .fixed,

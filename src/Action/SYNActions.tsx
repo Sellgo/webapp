@@ -8,7 +8,7 @@ import {
   SET_CHART_VALUES_RANK,
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values_Rank,
-  SET_Product_Detail_Chart_Values_Price, SET_TIME_EFFICIENCY, UPDATE_PRODUCT,
+  SET_Product_Detail_Chart_Values_Price, SET_TIME_EFFICIENCY, UPDATE_PRODUCT, UPLOAD_SYNTHESIS_FILE_ID,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -45,6 +45,7 @@ export interface New_Supplier {
 
 export interface Product {
   amazon_url: string;
+  amazon_category_name: string;
   asin: string;
   id: number;
   image_url: string;
@@ -440,6 +441,10 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     headers,
   })
     .then(json => {
+      dispatch({
+        type: UPLOAD_SYNTHESIS_FILE_ID,
+        data: json.data,
+      });
       // dispatch(setsaveSupplierNameAndDescription(json.data));
     })
     .catch(error => {
@@ -509,7 +514,7 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
   const bodyFormData = new FormData();
   bodyFormData.set('product_id', productID);
   bodyFormData.set('status', status);
-  bodyFormData.set('product_track_group_id', productTrackGroupID);
+  bodyFormData.set('product_track_group_id', '22');
   bodyFormData.set('seller_id', sellerID);
   return axios({
     method: 'POST',
@@ -591,10 +596,12 @@ export const setProductDetail = (data: {}) => ({
   type: SET_Product_Detail,
   data,
 });
+
 export const setProductDetailChartRank = (data: {}) => ({
   type: SET_Product_Detail_Chart_Values_Rank,
   data,
 });
+
 export const setProductDetailChartPrice = (data: {}) => ({
   type: SET_Product_Detail_Chart_Values_Price,
   data,

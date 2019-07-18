@@ -16,7 +16,6 @@ class PageHeader extends React.Component<Props> {
 
 
   render() {
-    console.log(this.props.pageHistoryCanGoForward);
     const headerStyle = {
       marginTop: '1.5rem',
     };

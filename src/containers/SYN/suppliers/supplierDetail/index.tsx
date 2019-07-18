@@ -13,7 +13,7 @@ import {
   Card,
   Feed,
   Loader,
-  Pagination,
+  Pagination, Label,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './supplierDetail.css';
@@ -184,8 +184,12 @@ export class SupplierDetail extends React.Component<Props, State> {
     if (this.props.time_efficiency_data.length === 0) {
       this.props.getTimeEfficiency();
     }
-
-    // this.props.getProductTrackGroupId(this.props.match.params.supplierID);
+    //    console.log(this.props.suppliers);
+    //    let selectedSupplier = this.props.suppliers.filter((supplier, index, array) => {
+    //      return (supplier.id == this.props.match.params.supplierID);
+    //    });
+    // console.log(selectedSupplier)
+    //    this.props.getProductTrackGroupId(this.props.match.params.supplierID, selectedSupplier[0].name);
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
@@ -259,15 +263,15 @@ export class SupplierDetail extends React.Component<Props, State> {
       maxUnitsPerMonth,
       minProfitPerMonth,
       maxProfitPerMonth,
-      unitProfitFilter: { min: minUnitProfit, max: maxUnitProfit },
-      profitPerMonthFilter: { min: minProfitPerMonth, max: maxProfitPerMonth },
-      unitsPerMonthFilter: { min: minUnitsPerMonth, max: maxUnitsPerMonth },
-      marginFilter: { min: minMargin, max: maxMargin },
+      unitProfitFilter: {min: minUnitProfit, max: maxUnitProfit},
+      profitPerMonthFilter: {min: minProfitPerMonth, max: maxProfitPerMonth},
+      unitsPerMonthFilter: {min: minUnitsPerMonth, max: maxUnitsPerMonth},
+      marginFilter: {min: minMargin, max: maxMargin},
     });
   }
 
   handleModel = () => {
-    const { isOpen } = this.state;
+    const {isOpen} = this.state;
     this.setState({
       isOpen: !isOpen,
     });
@@ -277,7 +281,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getProductDetail(product_id, this.props.match.params.supplierID);
     this.props.getProductDetailChartRank(product_id);
     this.props.getProductDetailChartPrice(product_id);
-    this.setState({ productDetailModalOpen: true });
+    this.setState({productDetailModalOpen: true});
   };
   renderTable = () => {
     const currentPage = this.state.currentPage - 1;
@@ -295,15 +299,15 @@ export class SupplierDetail extends React.Component<Props, State> {
       <Table basic="very">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell >
+            <Table.HeaderCell>
               <Checkbox/>
             </Table.HeaderCell>
-            <Table.HeaderCell  style={{ paddingLeft: 0 }}>
+            <Table.HeaderCell style={{paddingLeft: 0}}>
               Product Info
             </Table.HeaderCell>
-            <Table.HeaderCell />
-            <Table.HeaderCell textAlign='center' >Profit</Table.HeaderCell>
-            <Table.HeaderCell textAlign='center' >Margin</Table.HeaderCell>
+            <Table.HeaderCell/>
+            <Table.HeaderCell textAlign='center'>Profit</Table.HeaderCell>
+            <Table.HeaderCell textAlign='center'>Margin</Table.HeaderCell>
             <Table.HeaderCell textAlign='center'>Sales/mo</Table.HeaderCell>
             <Table.HeaderCell textAlign='center'>Profit/Mo</Table.HeaderCell>
             <Table.HeaderCell textAlign='center'>Add to Tracker</Table.HeaderCell>
@@ -326,15 +330,15 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell>
                     <Checkbox/>
                   </Table.Cell>
-                  <Table.Cell  style={{width:500}} >
+                  <Table.Cell style={{width: 500}}>
                     <Grid>
-                      <Grid.Column  style={{marginRight:60,}} className={'middle aligned'}>
+                      <Grid.Column style={{marginRight: 60}} className={'middle aligned'}>
                         <Image
                           src={value.image_url == null ? '/images/intro.png' : value.image_url}
                           size="tiny"
                         />
                       </Grid.Column>
-                      <Grid.Column width={12} fluid  className={'middle aligned'}>
+                      <Grid.Column width={12} className={'middle aligned'}>
                         <Grid.Row
                           as={Link}
                           to={{}}
@@ -345,12 +349,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                           {value.title}
                         </Grid.Row>
                         <Grid.Row>
-                          <Grid.Column style={{ display: 'inline-flex' }}>
-                            <Image
+                          <Grid.Column style={{display: 'inline-flex'}}>
+                            <Image style={{marginRight:10}}
                               src={value.image_url == null ? '/images/intro.png' : value.image_url}
                               size="mini"
                             />
-                            {value.asin}
+                            {value.amazon_category_name}
                           </Grid.Column>
                         </Grid.Row>
                       </Grid.Column>
@@ -359,7 +363,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell>
                     <Button
                       basic={true}
-                      style={{ borderRadius: 20 }}
+                      style={{borderRadius: 20}}
                       color="blue"
                       onClick={() => {
                         this.productDetailsWithVisualization(String(value.product_id));
@@ -372,11 +376,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell textAlign='center'>{Number(value.profit).toLocaleString()}</Table.Cell>
                   <Table.Cell textAlign='center'>{Number(value.margin).toLocaleString()}</Table.Cell>
                   <Table.Cell textAlign='center'>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
-                  <Table.Cell textAlign='center' >{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
                   <Table.Cell textAlign='center'>
                     <Button
                       basic={true}
-                      style={{ borderRadius: 20 }}
+                      style={{borderRadius: 20}}
                       color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                       onClick={() => {
                         if (value.tracking_status != null) {
@@ -406,7 +410,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       to={'//' + value.amazon_url.split('//')[1]}
                       target={'_blank'}
                     >
-                      <Icon name="amazon" style={{ color: 'black' }}/>
+                      <Icon name="amazon" style={{color: 'black'}}/>
                       &nbsp;
                     </Table.Cell>
                   </Table.Cell>
@@ -449,22 +453,22 @@ export class SupplierDetail extends React.Component<Props, State> {
         size={'large'}
         open={this.state.productDetailModalOpen}
         onClose={() => {
-          this.setState({ productDetailModalOpen: false });
+          this.setState({productDetailModalOpen: false});
         }}
         closeIcon={true}
       >
         <Modal.Content>
           <Grid>
             <Grid.Column floated="left" width={13}>
-              <Grid style={{ height: 40 }}>
+              <Grid style={{height: 40}}>
                 <Grid.Column>
                   <h3>{this.props.product_detail.title}</h3>
                 </Grid.Column>
                 {/*<Grid.Column floated="right" width={2}>{'short Details'}</Grid.Column>*/}
               </Grid>
               <Divider/>
-              <Grid style={{ margin: 0 }}>
-                <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
+              <Grid style={{margin: 0}}>
+                <Grid.Column style={{margin: 0}} floated="left" width={4}>
                   <Grid.Row>Price</Grid.Row>
                   <Grid.Row>Fees</Grid.Row>
                   <Grid.Row>Product cost</Grid.Row>
@@ -569,8 +573,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            <Grid.Column floated="right" width={3} style={{ paddingLeft: 30 }}>
-              <div style={{position:'relative'}}>
+            <Grid.Column floated="right" width={3} style={{paddingLeft: 30}}>
+              <div style={{position: 'relative'}}>
                 <Image
                   src={
                     new URL(
@@ -580,16 +584,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                     )
                   }
                   size="tiny"
-                  style={{ display: 'inline-block' }}
+                  style={{display: 'inline-block'}}
                 />
-                <a style={{position:'absolute',right:20,top:'38%'}}
-                  href={this.props.product_detail.amazon_url}
-                  target={'_blank'}
+                <a style={{position: 'absolute', right: 20, top: '38%'}}
+                   href={this.props.product_detail.amazon_url}
+                   target={'_blank'}
                 >
-                  <Icon name="amazon" style={{ color: 'black' }}/>
+                  <Icon name="amazon" style={{color: 'black'}}/>
                 </a>
               </div>
-              <p style={{ marginTop: 10 }}>ASIN: {this.props.product_detail.asin}</p>
+              <p style={{marginTop: 10}}>ASIN: {this.props.product_detail.asin}</p>
               <p>UPC: {this.props.product_detail.upc}</p>
               {/*<p>{'MSKU'}</p>*/}
               {/*<p>{'FNSKU'}</p>*/}
@@ -665,7 +669,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
-        trigger={<Icon name="trash alternate" style={{ color: 'black' }}/>}
+        trigger={<Icon name="trash alternate" style={{color: 'black'}}/>}
         onClose={this.close}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
@@ -754,7 +758,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         this.state.minProfitPerMonth !== -100 &&
         this.state.minProfitPerMonth !== -100 ? (
           <Grid.Row>
-            <Grid.Column width={16} style={{ marginTop: 15 }}>
+            <Grid.Column width={16} style={{marginTop: 15}}>
               {/* <Grid.Row style={{ display: 'inline-flex' }}> */}
 
               {/* </Grid.Row> */}
@@ -776,15 +780,15 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row style={{ alignItems: 'center' }}>
+                              <Grid.Row style={{alignItems: 'center'}}>
                                 <Grid.Column
                                   floated="left"
                                   width={4}
-                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
                                 >
                                   <div className="min-max">{this.state.unitProfitFilter.min}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
                                   <InputRange
                                     minValue={this.state.minUnitProfit}
                                     maxValue={this.state.maxUnitProfit}
@@ -802,7 +806,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <Grid.Column
                                   floated="right"
                                   width={4}
-                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
                                 >
                                   <div className="min-max">{this.state.unitProfitFilter.max}</div>
                                 </Grid.Column>
@@ -820,15 +824,15 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row style={{ alignItems: 'center' }}>
+                              <Grid.Row style={{alignItems: 'center'}}>
                                 <Grid.Column
                                   floated="left"
                                   width={4}
-                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
                                 >
                                   <div className="min-max">{this.state.marginFilter.min}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
                                   <InputRange
                                     minValue={this.state.minMargin}
                                     maxValue={this.state.maxMargin}
@@ -846,7 +850,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <Grid.Column
                                   floated="right"
                                   width={4}
-                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
                                 >
                                   <div className="min-max">{this.state.marginFilter.max}</div>
                                 </Grid.Column>
@@ -864,15 +868,15 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row style={{ alignItems: 'center' }}>
+                              <Grid.Row style={{alignItems: 'center'}}>
                                 <Grid.Column
                                   floated="left"
                                   width={4}
-                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
                                 >
                                   <div className="min-max">{this.state.unitsPerMonthFilter.min}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
                                   <InputRange
                                     minValue={this.state.minUnitsPerMonth}
                                     maxValue={this.state.maxUnitsPerMonth}
@@ -890,7 +894,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <Grid.Column
                                   floated="right"
                                   width={4}
-                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
                                 >
                                   <div className="min-max">{this.state.unitsPerMonthFilter.max}</div>
                                 </Grid.Column>
@@ -908,15 +912,15 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Feed.Summary>
                           <Feed.Summary className="min-max-slider-wrapper">
                             <Grid>
-                              <Grid.Row style={{ alignItems: 'center' }}>
+                              <Grid.Row style={{alignItems: 'center'}}>
                                 <Grid.Column
                                   floated="left"
                                   width={4}
-                                  style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
                                 >
                                   <div className="min-max">{this.state.profitPerMonthFilter.min}</div>
                                 </Grid.Column>
-                                <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
                                   <InputRange
                                     minValue={this.state.minProfitPerMonth}
                                     maxValue={this.state.maxProfitPerMonth}
@@ -934,7 +938,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 <Grid.Column
                                   floated="right"
                                   width={4}
-                                  style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
                                 >
                                   <div className="min-max">{this.state.profitPerMonthFilter.max}</div>
                                 </Grid.Column>
@@ -1034,8 +1038,8 @@ export class SupplierDetail extends React.Component<Props, State> {
 
     return (
       <Grid.Column width={11} floated="left">
-        <Grid.Row style={{ width: '95%' }}>
-          <Card raised={true} style={{ width: '100%' }}>
+        <Grid.Row style={{width: '95%'}}>
+          <Card raised={true} style={{width: '100%'}}>
             <Card.Content>
               <Card.Group itemsPerRow={3}>
                 <Card raised={true}>
@@ -1195,7 +1199,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     // const memberDate = `May 5 2018`;
     // const { isOpen } = this.state;
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={"SYN"}>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'SYN'}>
         <Segment basic={true} className="setting">
           <Divider/>
           <Grid>
@@ -1226,7 +1230,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   // borderRadius: '15px',
                 }}
               >
-              <span style={{ padding: '0 8px' }}>
+              <span style={{padding: '0 8px'}}>
                 Time Saved
                 <h2>
                   <strong>
@@ -1237,7 +1241,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </strong>
                 </h2>
               </span>
-                <span style={{ padding: '0 8px' }}>
+                <span style={{padding: '0 8px'}}>
                 Efficiency
                 <h2>
                   <strong>

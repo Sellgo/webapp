@@ -15,7 +15,7 @@ import {
   TextArea,
   Pagination,
   Loader,
-  Confirm,
+  Confirm, List,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -83,12 +83,13 @@ interface Props {
   deleteSupplier(supplier_id: any, callBack: any): () => any;
 
   uploadCSV(new_supplier_id: string, file: any): () => void;
+
   match: { params: { auth: null } };
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
-
+  synthesisFileID: any;
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -146,23 +147,25 @@ export class Suppliers extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
+    let shouldShowProgress = nextProps.synthesisFileID;
     this.setState({
       totalPages: Math.ceil(nextProps.suppliers.length / this.state.singlePageItemsCount),
     });
   }
 
   componentDidUpdate(prevProps: any) {
+
   }
 
   handleModel = () => {
-    const { isOpen } = this.state;
+    const {isOpen} = this.state;
     this.setState({
       isOpen: !isOpen,
     });
   };
 
   fileChange = (event: any): void => {
-    this.setState({ file: event.target.files[0] }, () => {
+    this.setState({file: event.target.files[0]}, () => {
     });
   };
 
@@ -170,13 +173,11 @@ export class Suppliers extends React.Component<Props, State> {
     if (this.state.updateDetails) {
       this.props.updateSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, this.state.update_product_id, (data: any) => {
         this.props.getSellers();
-
         if (this.state.file != '') {
           this.props.uploadCSV(String(this.state.update_product_id), this.state.file);
-          this.setState({ file: '' });
+          this.setState({file: ''});
         }
-
-        this.setState({ updateDetails: false });
+        this.setState({updateDetails: false});
         this.handleClose();
 
       });
@@ -187,7 +188,7 @@ export class Suppliers extends React.Component<Props, State> {
 
         if (this.props.new_supplier_id != null && this.state.file != '') {
           this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
-          this.setState({ file: '' });
+          this.setState({file: ''});
         }
 
         this.handleClose();
@@ -206,17 +207,17 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   handleOpen = () => {
-    this.setState({ supplier_name: '', supplier_description: '', modalOpen: true, updateDetails: false });
+    this.setState({supplier_name: '', supplier_description: '', modalOpen: true, updateDetails: false});
   };
 
-  handleClose = () => this.setState({ modalOpen: false, updateDetails: false });
+  handleClose = () => this.setState({modalOpen: false, updateDetails: false});
 
-  public onChangeSupplierDescription = async (event: React.FormEvent<HTMLTextAreaElement>) => {
-    this.setState({ supplier_description: (event.target as HTMLTextAreaElement).value });
+  public onChangeSupplierDescription = async(event: React.FormEvent<HTMLTextAreaElement>) => {
+    this.setState({supplier_description: (event.target as HTMLTextAreaElement).value});
     return false;
   };
-  public onChangeSupplierName = async (event: any) => {
-    this.setState({ supplier_name: event.target.value });
+  public onChangeSupplierName = async(event: any) => {
+    this.setState({supplier_name: event.target.value});
     return false;
   };
 
@@ -229,7 +230,7 @@ export class Suppliers extends React.Component<Props, State> {
         <Button
           basic color='black'
           primary={true}
-          style={{ borderRadius: '50px' }}
+          style={{borderRadius: '50px'}}
           onClick={this.handleOpen}
         >
           Add New Supplier
@@ -238,10 +239,10 @@ export class Suppliers extends React.Component<Props, State> {
         <Modal.Header>
           <Grid columns={4}>
             <Grid.Row>
-              <Grid.Column style={{ margin: 0 }} floated='left' width={6}>
+              <Grid.Column style={{margin: 0}} floated='left' width={6}>
                 Add New Supplier
               </Grid.Column>
-              <Grid.Column style={{ padding: 0 }} floated="left">
+              <Grid.Column style={{padding: 0}} floated="left">
                 <Icon name="file"/>
               </Grid.Column>
             </Grid.Row>
@@ -258,7 +259,7 @@ export class Suppliers extends React.Component<Props, State> {
                        onChange={(event) => {
                          this.onChangeSupplierName(event);
                        }}
-                       style={{ width: 300 }}
+                       style={{width: 300}}
                        placeholder="question circle"/>
               </Grid.Column>
             </Grid.Row>
@@ -272,7 +273,7 @@ export class Suppliers extends React.Component<Props, State> {
                             onChange={(event) => {
                               this.onChangeSupplierDescription(event);
                             }}
-                            style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
+                            style={{minHeight: 100, width: 300, margin: '5px 0', padding: '9px'}}
                             placeholder="Write your latest update here"/>
                 </Form>
               </Grid.Column>
@@ -282,7 +283,7 @@ export class Suppliers extends React.Component<Props, State> {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column style={{ marginTop: '10px', marginBottom: '10px' }} floated="right" width={9}>
+              <Grid.Column style={{marginTop: '10px', marginBottom: '10px'}} floated="right" width={9}>
                 <Checkbox/>
                 &nbsp;
                 Automatically upload upon exit
@@ -295,7 +296,7 @@ export class Suppliers extends React.Component<Props, State> {
             size="mini"
             basic
             color="grey"
-            style={{ borderRadius: 20 }}
+            style={{borderRadius: 20}}
             floated="left"
             onClick={this.handleClose}
             content="Cancel"
@@ -306,14 +307,14 @@ export class Suppliers extends React.Component<Props, State> {
             floated="left"
             color="blue"
             disabled={(((this.state.supplier_name == '' && this.state.file == '') || (!this.state.updateDetails && this.state.supplier_name == '')) ? true : false)}
-            style={{ borderRadius: 20 }}
+            style={{borderRadius: 20}}
             onClick={this.addNewSupplier}
             content="Save"
           />
           <Button
             size="mini"
             color="blue"
-            style={{ borderRadius: 20 }}
+            style={{borderRadius: 20}}
             icon="chevron down"
             labelPosition="right"
             content="Upload Supplier CSV"
@@ -339,7 +340,7 @@ export class Suppliers extends React.Component<Props, State> {
 
   public deleteSupplier = () => {
     this.props.deleteSupplier(this.state.delete_supplier_container.id, (data: any) => {
-      this.setState({ delete_confirmation: false });
+      this.setState({delete_confirmation: false});
       this.props.getSellers();
     });
 
@@ -370,7 +371,7 @@ export class Suppliers extends React.Component<Props, State> {
                 <Table.HeaderCell textAlign='center'>Product to Listing Ratio</Table.HeaderCell>
                 <Table.HeaderCell textAlign='center'>Supplier Rate (%)</Table.HeaderCell>
                 {/*<Table.HeaderCell>Note</Table.HeaderCell>*/}
-                <Table.HeaderCell ></Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -391,7 +392,7 @@ export class Suppliers extends React.Component<Props, State> {
                       <Table.Cell>
                         <Checkbox/>
                       </Table.Cell>
-                      <Table.Cell style={{ width: '600px' }}>
+                      <Table.Cell style={{width: '600px'}}>
                         <Table.Cell as={Link} to={`/syn/${value.id}`}>
                           {value.name}
                         </Table.Cell>
@@ -420,16 +421,16 @@ export class Suppliers extends React.Component<Props, State> {
                       {/*<Table.Cell>*/}
                       {/*  <Input focus placeholder='Note'/>*/}
                       {/*</Table.Cell>*/}
-                      <Table.Cell textAlign='right' style={{ paddingRight: '10px' }}>
+                      <Table.Cell textAlign='right' style={{paddingRight: '10px'}}>
                         <Table.Cell as={Link} to={`/syn/`}>
                           <Icon
                             onClick={() => {
                               this.openUpdateSupplierPopup(value);
                             }}
-                            name='cloud upload' style={{ color: 'black' }}/>&nbsp;
+                            name='cloud upload' style={{color: 'black'}}/>&nbsp;
                         </Table.Cell>
                         <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                          <Icon name='refresh' style={{ color: 'black' }}/>&nbsp;
+                          <Icon name='refresh' style={{color: 'black'}}/>&nbsp;
                         </Table.Cell>
                         <Table.Cell
                           as={Link}
@@ -439,14 +440,14 @@ export class Suppliers extends React.Component<Props, State> {
                           }}
                         >
                           <Icon
-                            name='pencil' style={{ color: 'black' }}/>&nbsp;
+                            name='pencil' style={{color: 'black'}}/>&nbsp;
                         </Table.Cell>
                         <Table.Cell
                           onClick={() => {
-                            this.setState({ delete_confirmation: true, delete_supplier_container: value });
+                            this.setState({delete_confirmation: true, delete_supplier_container: value});
                           }}
                           as={Link} to="/syn">
-                          <Icon name='trash alternate' style={{ color: 'black' }}/>
+                          <Icon name='trash alternate' style={{color: 'black'}}/>
                           {/*{this.renderDeleteModal(value, index)}*/}
                         </Table.Cell>
                       </Table.Cell>
@@ -506,7 +507,7 @@ export class Suppliers extends React.Component<Props, State> {
   renderDeleteModal = (value: Supplier, index: any) => {
     return (
       <Modal trigger={
-        <Icon name='trash alternate' style={{ color: 'black' }}/>
+        <Icon name='trash alternate' style={{color: 'black'}}/>
       } onClose={this.close}>
         <Modal.Header>Delete Your Account</Modal.Header>
         <Modal.Content>
@@ -523,27 +524,45 @@ export class Suppliers extends React.Component<Props, State> {
 
   render() {
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={"SYN"}>
-      <Segment basic={true} className="setting">
-        <Divider/>
-        <Grid>
-          <Grid.Column width={5} floated='left' className={'middle aligned'}>
-            {this.renderAddNewSupplierModal()}
-            <Popup
-              trigger={<Icon name='question circle' circular/>}
-              content='Sellgo'
-              position='top left'
-              size='tiny'
-            />
-          </Grid.Column>
-          <Grid.Column width={5} floated='right'>
-            <div className="ui" style={{
-              display: 'inline-flex',
-              border: '1px solid #000',
-              padding: '11px',
-              borderRadius: '15px',
-            }}>
-              <span style={{ padding: '8px' }}>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'SYN'}>
+        <Segment basic={true} className="setting">
+          <Divider/>
+          <Grid>
+            <Grid.Column width={5} floated='left' className={'middle aligned'}>
+              {this.renderAddNewSupplierModal()}
+              <Popup className={'addSupplierPopup'}
+                trigger={<Icon name='question circle' circular/>}
+                position='top left'
+                size='tiny'
+              >
+                <h4>
+                  Adding a Supplier
+                </h4>
+                To add a supplier:
+                <List as={'ol'}>
+                  <List.Item as='li'>
+                    In the Business menu, select the Suppliers.
+                  </List.Item>
+                  <List.Item as='li'>
+                    On the Suppliers tab, select New Supplier.
+                  </List.Item>
+                  <List.Item as='li'>
+                    On the New Supplier screen, enter the details of the suppler.
+                  </List.Item>
+                  <List.Item as='li'>
+                    Save the details of the new supplier.
+                  </List.Item>
+                </List>
+              </Popup>
+            </Grid.Column>
+            <Grid.Column width={5} floated='right'>
+              <div className="ui" style={{
+                display: 'inline-flex',
+                border: '1px solid #000',
+                padding: '11px',
+                borderRadius: '15px',
+              }}>
+              <span style={{padding: '8px'}}>
                 Time Saved
                 <h2>
                   <strong>
@@ -551,7 +570,7 @@ export class Suppliers extends React.Component<Props, State> {
                   </strong>
                 </h2>
               </span>
-              <span style={{ padding: '8px' }}>
+                <span style={{padding: '8px'}}>
                 Efficiency
                 <h2>
                   <strong>
@@ -559,11 +578,11 @@ export class Suppliers extends React.Component<Props, State> {
                   </strong>
                 </h2>
               </span>
-            </div>
-          </Grid.Column>
-        </Grid>
-        {this.renderTable()}
-      </Segment>
+              </div>
+            </Grid.Column>
+          </Grid>
+          {this.renderTable()}
+        </Segment>
       </AdminLayout>
     );
   }
@@ -576,6 +595,7 @@ export class Suppliers extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {
     suppliers: state.synReducer.get('suppliers'),
+    synthesisFileID: state.synReducer.get('synthesisFileID'),
     new_supplier_id: state.synReducer.get('new_supplier'),
     time_efficiency_data: state.synReducer.get('time_efficiency_data'),
     sellerData: state.settings.get('profile'),
