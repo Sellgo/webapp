@@ -150,21 +150,21 @@ export default class RecoverPass extends React.Component<any, State> {
           </Grid.Row>
         ) : (
           <Grid.Row columns={2}>
-            {/*<Grid.Column width={16}>*/}
-            {/*  <div className="heading">*/}
-            {/*    <h5 className="title-description">*/}
-            {/*      Please enter your email address to make password reset request*/}
-            {/*    </h5>*/}
-            {/*  </div>*/}
-            {/*</Grid.Column>*/}
-            {/*<Grid.Column width={10}>*/}
-            {/*  <Form.Input*/}
-            {/*    name="email"*/}
-            {/*    type="email"*/}
-            {/*    onChange={this.setEmail}*/}
-            {/*    placeholder="Email Address"*/}
-            {/*  />*/}
-            {/*</Grid.Column>*/}
+            <Grid.Column width={16}>
+              <div className="heading">
+                <h5 className="title-description">
+                  Please enter your email address to make password reset request
+                </h5>
+              </div>
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <Form.Input
+                name="email"
+                type="email"
+                onChange={this.setEmail}
+                placeholder="Email Address"
+              />
+            </Grid.Column>
             <Grid.Column width={6} verticalAlign="bottom">
               <Button
                 primary={true}
