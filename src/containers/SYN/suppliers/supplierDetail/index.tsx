@@ -14,6 +14,7 @@ import {
   Feed,
   Loader,
   Pagination, Label,
+  Progress,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './supplierDetail.css';
@@ -124,7 +125,8 @@ interface Props {
   product_detail_chart_values_rank: ProductChartDetailsRank[];
   product_detail_chart_values_price: ProductChartDetailsPrice[];
   sellerData: SellField;
-  synthesisFileID: {synthesis_file_id:0};
+  synthesisFileID: { synthesis_file_id: 0 };
+  synthesisFileProgressUpdates: { progress: 0 };
   productTrackGroup: [{ id: 0 }];
   match: { params: { supplierID: '', auth: '' } };
 }
@@ -202,10 +204,13 @@ export class SupplierDetail extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
 
-    console.log(nextProps.synthesisFileID);
-    // if(nextProps.synthesisFileID!=undefined){
-    //   getSynthesisProgressUpdates(String(nextProps.synthesisFileID.synthesis_file_id));
-    // }
+    if (nextProps.synthesisFileID.synthesis_file_id != undefined) {
+      if (nextProps.synthesisFileProgressUpdates.progress == undefined || nextProps.synthesisFileProgressUpdates.progress < 100) {
+        this.props.getSynthesisProgressUpdates(String(nextProps.synthesisFileID.synthesis_file_id));
+      }
+
+    }
+
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
     let maxUnitProfit = Number.MIN_SAFE_INTEGER;
 
@@ -1211,6 +1216,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   render() {
+    const progress = this.props.synthesisFileProgressUpdates.progress != undefined ? this.props.synthesisFileProgressUpdates.progress : '0';
     return (
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'SYN'}>
         <Segment basic={true} className="setting">
@@ -1227,6 +1233,14 @@ export class SupplierDetail extends React.Component<Props, State> {
           </Grid>
           <Divider/>
           <Grid>
+            <Grid.Column
+              width={10}
+              textAlign='center'
+            >
+                <Progress style={{width: '50%', alignSelf: 'center',margin:'auto'}} indicating
+                          percent={progress} autoSuccess/>
+                {'Progress: ' + progress+'%'}
+            </Grid.Column>
             <Grid.Column
               width={5}
               floated="right"
@@ -1285,6 +1299,7 @@ export class SupplierDetail extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {
     synthesisFileID: state.synReducer.get('synthesisFileID'),
+    synthesisFileProgressUpdates: state.synReducer.get('synthesisFileProgressUpdates'),
     time_efficiency_data: state.synReducer.get('time_efficiency_data'),
     products: state.synReducer.get('products'),
     suppliers: state.synReducer.get('suppliers'),
@@ -1327,7 +1342,9 @@ const mapDispatchToProps = (dispatch: any) => {
       status: string,
       supplierID: string,
     ) => dispatch(trackProductWithPost(productID, productTrackGroupID, status, supplierID)),
-    getSynthesisProgressUpdates: (synthesisFileID: string) => dispatch(getSynthesisProgressUpdates(synthesisFileID)),
+
+    getSynthesisProgressUpdates: (synthesisFileID: string) =>
+      dispatch(getSynthesisProgressUpdates(synthesisFileID)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
   };
 };

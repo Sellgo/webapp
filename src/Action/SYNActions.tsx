@@ -454,7 +454,7 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
 export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
   return axios({
     method: 'GET',
-    url: URLS.BASE_URL_API + `synthesis_progress/?=${synthesisFileID}`,
+    url: URLS.BASE_URL_API + `synthesis_progress/?synthesis_file_id=${synthesisFileID}`,
     headers,
   })
     .then(json => {

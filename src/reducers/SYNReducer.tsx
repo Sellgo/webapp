@@ -64,7 +64,6 @@ export const SYNReducer = (state = initialState, action: any) => {
         products.push(product);
       }
       return state.setIn(['products'], products);
-
     case SET_TIME_EFFICIENCY:
       return state.setIn(['time_efficiency_data'], action.data);
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
@@ -86,7 +85,6 @@ export const SYNReducer = (state = initialState, action: any) => {
     case UPLOAD_SYNTHESIS_FILE_ID:
       return state.setIn(['synthesisFileID'], action.data);
     case UPLOAD_SYNTHESIS_PROGRESS_UPDATES:
-      console.log(action.data);
       return state.setIn(['synthesisFileProgressUpdates'], action.data);
     default:
       return state;
