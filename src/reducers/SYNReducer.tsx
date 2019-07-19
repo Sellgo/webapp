@@ -1,17 +1,19 @@
 import { Map } from 'immutable';
 import {
-  SET_PRODUCTS,
-  SET_SELLERS,
-  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
-  SET_PRODUCT_TRACK_DATA,
+  GET_PRODUCT_TRACK_GROUP,
   SET_CHART_VALUES_PRICE,
   SET_CHART_VALUES_RANK,
   SET_Product_Detail,
+  SET_Product_Detail_Chart_Values_Price,
   SET_Product_Detail_Chart_Values_Rank,
-  SET_Product_Detail_Chart_Values_Price, SET_TIME_EFFICIENCY, UPDATE_PRODUCT, UPLOAD_SYNTHESIS_FILE_ID,
-
+  SET_PRODUCT_TRACK_DATA,
+  SET_PRODUCTS,
+  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+  SET_SELLERS,
+  SET_TIME_EFFICIENCY,
+  UPDATE_PRODUCT,
+  UPLOAD_SYNTHESIS_FILE_ID, UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
 } from '../constant/constant';
-import { Product, TimeEfficiency } from '../Action/SYNActions';
 
 const initialState = Map({
   suppliers: [],
@@ -40,17 +42,18 @@ const initialState = Map({
   product_detail: [],
   product_detail_chart_values_rank: [],
   product_detail_chart_values_price: [],
+  productTrackGroup: [],
+  synthesisFileID: [],
+  synthesisFileProgressUpdates: [],
 });
 
 export const SYNReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case SET_SELLERS:
-      const { data } = action;
-      const newState = state.setIn(['suppliers'], data);
-      return newState;
+      const {data} = action;
+      return state.setIn(['suppliers'], data);
     case SET_PRODUCTS:
-      const newStateData = state.setIn(['products'], action.data);
-      return newStateData;
+      return state.setIn(['products'], action.data);
     case UPDATE_PRODUCT:
       let products = [];
       for (const product of state.get('products')!) {
@@ -60,38 +63,31 @@ export const SYNReducer = (state = initialState, action: any) => {
         }
         products.push(product);
       }
-      const updatedProducts = state.setIn(['products'], products);
-      return updatedProducts;
+      return state.setIn(['products'], products);
 
     case SET_TIME_EFFICIENCY:
-      const timeEfficiencyState = state.setIn(['time_efficiency_data'], action.data);
-      return timeEfficiencyState;
+      return state.setIn(['time_efficiency_data'], action.data);
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
-      console.log(action.data);
-      const new_supplier = state.setIn(['new_supplier'], action.data.id);
-      return new_supplier;
+      return state.setIn(['new_supplier'], action.data.id);
     case SET_PRODUCT_TRACK_DATA:
-      const set_product_track_data = state.setIn(['products_track_data'], action.data);
-      return set_product_track_data;
+      return state.setIn(['products_track_data'], action.data);
     case SET_CHART_VALUES_PRICE:
-      const set_chart_values_1 = state.setIn(['chart_values_price'], action.data);
-      return set_chart_values_1;
+      return state.setIn(['chart_values_price'], action.data);
     case SET_CHART_VALUES_RANK:
-      const set_chart_values_2 = state.setIn(['chart_values_rank'], action.data);
-      return set_chart_values_2;
+      return state.setIn(['chart_values_rank'], action.data);
     case SET_Product_Detail:
-      const product_detail = state.setIn(['product_detail'], action.data);
-      return product_detail;
+      return state.setIn(['product_detail'], action.data);
     case SET_Product_Detail_Chart_Values_Rank:
-      const product_detail_chart_values_rank = state.setIn(['product_detail_chart_values_rank'], action.data);
-      return product_detail_chart_values_rank;
+      return state.setIn(['product_detail_chart_values_rank'], action.data);
     case SET_Product_Detail_Chart_Values_Price:
-      const product_detail_chart_values_price = state.setIn(['product_detail_chart_values_price'], action.data);
-      return product_detail_chart_values_price;
+      return state.setIn(['product_detail_chart_values_price'], action.data);
+    case GET_PRODUCT_TRACK_GROUP:
+      return state.setIn(['productTrackGroup'], action.data);
     case UPLOAD_SYNTHESIS_FILE_ID:
+      return state.setIn(['synthesisFileID'], action.data);
+    case UPLOAD_SYNTHESIS_PROGRESS_UPDATES:
       console.log(action.data);
-      const synthesisFileID = state.setIn(['synthesisFileID'], action.data);
-      return synthesisFileID;
+      return state.setIn(['synthesisFileProgressUpdates'], action.data);
     default:
       return state;
   }

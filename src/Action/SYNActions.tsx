@@ -8,7 +8,11 @@ import {
   SET_CHART_VALUES_RANK,
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values_Rank,
-  SET_Product_Detail_Chart_Values_Price, SET_TIME_EFFICIENCY, UPDATE_PRODUCT, UPLOAD_SYNTHESIS_FILE_ID,
+  SET_Product_Detail_Chart_Values_Price,
+  SET_TIME_EFFICIENCY,
+  UPDATE_PRODUCT,
+  UPLOAD_SYNTHESIS_FILE_ID,
+  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -271,6 +275,7 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
     headers,
   })
     .then(json => {
+      console.log(json.data);
       dispatch(setProductDetailChartPrice(json.data));
     })
     .catch(error => {
@@ -312,7 +317,22 @@ export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
     });
 };
 
-export const getProductTrackGroupId = (supplierID: string, supplierName: string) => (dispatch: any) => {
+export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  return axios({
+    method: 'GET',
+    url: URLS.BASE_URL_API + `seller/${sellerID}/track/group/?supplier_id=${supplierID}`,
+    headers,
+  })
+    .then(json => {
+      console.log(json.data);
+      dispatch(reduceProductTrackGroup(json.data));
+    })
+    .catch(error => {
+    });
+};
+
+export const postProductTrackGroupId = (supplierID: string, supplierName: string) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();
@@ -327,7 +347,8 @@ export const getProductTrackGroupId = (supplierID: string, supplierName: string)
     headers,
   })
     .then(json => {
-      dispatch(setsaveSupplierNameAndDescription(json.data));
+      console.log(json.data);
+      // dispatch(reduceProductTrackGroup(json.data));
     })
     .catch(error => {
     });
@@ -411,6 +432,41 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
     });
 };
 
+
+export const getLastFileID = (supplierID: string) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+
+  return axios({
+    method: 'GET',
+    url: URLS.BASE_URL_API + `supplier/${supplierID}/get_last_file_id/?seller_id=${sellerID}`,
+    headers,
+  })
+    .then(json => {
+      dispatch({
+        type: UPLOAD_SYNTHESIS_FILE_ID,
+        data: json.data,
+      });
+    })
+    .catch(error => {
+    });
+};
+
+export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
+  return axios({
+    method: 'GET',
+    url: URLS.BASE_URL_API + `synthesis_progress/?=${synthesisFileID}`,
+    headers,
+  })
+    .then(json => {
+      dispatch({
+        type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+        data: json.data,
+      });
+    })
+    .catch(error => {
+    });
+};
+
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
 
@@ -425,10 +481,10 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     headers,
   })
     .then(json => {
-      dispatch({
-        type: UPLOAD_SYNTHESIS_FILE_ID,
-        data: json.data,
-      });
+      // dispatch({
+      //   type: UPLOAD_SYNTHESIS_FILE_ID,
+      //   data: json.data,
+      // });
     })
     .catch(error => {
     });
@@ -494,7 +550,7 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
   const bodyFormData = new FormData();
   bodyFormData.set('product_id', productID);
   bodyFormData.set('status', status);
-  bodyFormData.set('product_track_group_id', '22');
+  bodyFormData.set('product_track_group_id', productTrackGroupID);
   bodyFormData.set('seller_id', sellerID);
   return axios({
     method: 'POST',
@@ -582,5 +638,10 @@ export const setProductDetailChartRank = (data: {}) => ({
 
 export const setProductDetailChartPrice = (data: {}) => ({
   type: SET_Product_Detail_Chart_Values_Price,
+  data,
+});
+
+export const reduceProductTrackGroup = (data: {}) => ({
+  type: GET_PRODUCT_TRACK_GROUP,
   data,
 });

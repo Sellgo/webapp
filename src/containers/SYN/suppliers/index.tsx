@@ -32,7 +32,7 @@ import {
   uploadCSV,
   getTimeEfficiency,
   TimeEfficiency,
-  deleteSupplier,
+  deleteSupplier, postProductTrackGroupId,
 } from '../../../Action/SYNActions';
 import { AdminLayout } from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
@@ -75,6 +75,7 @@ interface Props {
   getSellers(): () => void;
 
   getTimeEfficiency(): () => void;
+  postProductTrackGroupId(supplierID: string, supplierName: string): () => void;
 
   saveSupplierNameAndDescription(name: string, description: string, callBack: any): () => any;
 
@@ -89,7 +90,6 @@ interface Props {
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
-  synthesisFileID: any;
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -147,7 +147,6 @@ export class Suppliers extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
-    let shouldShowProgress = nextProps.synthesisFileID;
     this.setState({
       totalPages: Math.ceil(nextProps.suppliers.length / this.state.singlePageItemsCount),
     });
@@ -183,9 +182,9 @@ export class Suppliers extends React.Component<Props, State> {
       });
     } else {
       this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, (data: any) => {
-
+        console.log(data);
+        this.props.postProductTrackGroupId(data.id,this.state.supplier_name);
         this.props.getSellers();
-
         if (this.props.new_supplier_id != null && this.state.file != '') {
           this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
           this.setState({file: ''});
@@ -595,7 +594,6 @@ export class Suppliers extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {
     suppliers: state.synReducer.get('suppliers'),
-    synthesisFileID: state.synReducer.get('synthesisFileID'),
     new_supplier_id: state.synReducer.get('new_supplier'),
     time_efficiency_data: state.synReducer.get('time_efficiency_data'),
     sellerData: state.settings.get('profile'),
@@ -606,6 +604,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    postProductTrackGroupId: (supplierID: string, supplierName: string) =>
+      dispatch(postProductTrackGroupId(supplierID, supplierName)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
     saveSupplierNameAndDescription: (name: string, description: string, callBack: any) => dispatch(saveSupplierNameAndDescription(name, description, callBack)),
     updateSupplierNameAndDescription: (name: string, description: string, update_product_id: string, callBack: any) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),

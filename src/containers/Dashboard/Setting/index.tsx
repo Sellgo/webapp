@@ -215,6 +215,7 @@ class Setting extends React.Component<Props, State> {
     });
     const {marketplace_id} = this.props.amazonData;
     const marketplaceDATA = this.getmarketplaceDATA(marketplace_id);
+    console.log(marketplace_id);
     const {firstName, lastName, email} = this.props.sellerData;
 
     let howUrl = '';

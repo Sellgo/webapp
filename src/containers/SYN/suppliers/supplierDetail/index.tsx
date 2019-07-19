@@ -28,12 +28,14 @@ import {
   trackProductWithPost,
   Product,
   getProductsChartHistoryPrice,
+  getProductTrackGroupId,
   getProductsChartHistoryRank,
   getProductDetail,
   getProductDetailChartRank,
   getProductDetailChartPrice,
-  getProductTrackGroupId,
   getProductTrackData,
+  getLastFileID,
+  getSynthesisProgressUpdates,
   ProductsTrackData,
   ProductDetails,
   ProductChartDetailsRank,
@@ -96,7 +98,9 @@ interface Props {
 
   getProductTrackData(supplierID: string): () => void;
 
-  getProductTrackGroupId(supplierID: string, supplierName: string): () => void;
+  getLastFileID(supplierID: string): () => void;
+
+  getProductTrackGroupId(supplierID: string): () => void;
 
   getProductsChartHistoryPrice(supplierID: string): () => void;
 
@@ -108,6 +112,8 @@ interface Props {
 
   getProductDetailChartPrice(product_id: string): () => void;
 
+  getSynthesisProgressUpdates(synthesisFileID: string): () => void;
+
   time_efficiency_data: TimeEfficiency[];
   suppliers: Supplier[];
   products: Product[];
@@ -118,6 +124,8 @@ interface Props {
   product_detail_chart_values_rank: ProductChartDetailsRank[];
   product_detail_chart_values_price: ProductChartDetailsPrice[];
   sellerData: SellField;
+  synthesisFileID: {synthesis_file_id:0};
+  productTrackGroup: [{ id: 0 }];
   match: { params: { supplierID: '', auth: '' } };
 }
 
@@ -178,6 +186,8 @@ export class SupplierDetail extends React.Component<Props, State> {
       value: localStorage.getItem('userId'),
     };
     this.props.getProducts(this.props.match.params.supplierID);
+    this.props.getLastFileID(this.props.match.params.supplierID);
+    this.props.getProductTrackGroupId(this.props.match.params.supplierID);
     this.props.getProductTrackData(this.props.match.params.supplierID);
     this.props.getProductsChartHistoryPrice(this.props.match.params.supplierID);
     this.props.getProductsChartHistoryRank(this.props.match.params.supplierID);
@@ -186,23 +196,16 @@ export class SupplierDetail extends React.Component<Props, State> {
     }
     if (this.props.suppliers.length == 0) {
       this.props.getSellers();
-    } else {
-      let selectedSupplier = this.props.suppliers.filter((supplier, index, array) => {
-        return (supplier.id == this.props.match.params.supplierID);
-      });
-      console.log(selectedSupplier);
     }
+
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
-    if (nextProps.suppliers.length > 0 && nextProps.suppliers.length != this.props.suppliers.length) {
-      let selectedSupplier = nextProps.suppliers.filter((supplier, index, array) => {
-        return (supplier.id == this.props.match.params.supplierID);
-      });
-      console.log(selectedSupplier);
 
-    }
-
+    console.log(nextProps.synthesisFileID);
+    // if(nextProps.synthesisFileID!=undefined){
+    //   getSynthesisProgressUpdates(String(nextProps.synthesisFileID.synthesis_file_id));
+    // }
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
     let maxUnitProfit = Number.MIN_SAFE_INTEGER;
 
@@ -360,7 +363,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                         <Grid.Row>
                           <Grid.Column style={{display: 'inline-flex'}}>
                             <Image style={{marginRight: 10}}
-                                   src={value.image_url == null ? '/images/intro.png' : value.image_url}
+                                   src={'/images/intro.png'}
                                    size="mini"
                             />
                             {value.amazon_category_name}
@@ -401,7 +404,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                         } else {
                           this.props.trackProductWithPost(
                             String(value.product_id),
-                            '2',
+                            String(this.props.productTrackGroup[0].id),
                             'active',
                             this.props.match.params.supplierID,
                           );
@@ -1281,6 +1284,7 @@ export class SupplierDetail extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => {
   return {
+    synthesisFileID: state.synReducer.get('synthesisFileID'),
     time_efficiency_data: state.synReducer.get('time_efficiency_data'),
     products: state.synReducer.get('products'),
     suppliers: state.synReducer.get('suppliers'),
@@ -1288,20 +1292,20 @@ const mapStateToProps = (state: any) => {
     chart_values_price: state.synReducer.get('chart_values_price'),
     chart_values_rank: state.synReducer.get('chart_values_rank'),
     product_detail: state.synReducer.get('product_detail'),
+    productTrackGroup: state.synReducer.get('productTrackGroup'),
     product_detail_chart_values_rank: state.synReducer.get('product_detail_chart_values_rank'),
     product_detail_chart_values_price: state.synReducer.get('product_detail_chart_values_price'),
     sellerData: state.settings.get('profile'),
-
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    getLastFileID: (supplierID: string) => dispatch(getLastFileID(supplierID)),
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductTrackData: (supplierID: string) => dispatch(getProductTrackData(supplierID)),
-    getProductTrackGroupId: (supplierID: string, supplierName: string) =>
-      dispatch(getProductTrackGroupId(supplierID, supplierName)),
+    getProductTrackGroupId: (supplierID: string) => dispatch(getProductTrackGroupId(supplierID)),
     getProductDetail: (product_id: string, supplierID: string) =>
       dispatch(getProductDetail(product_id, supplierID)),
     getProductDetailChartRank: (product_id: string) => dispatch(getProductDetailChartRank(product_id)),
@@ -1323,7 +1327,7 @@ const mapDispatchToProps = (dispatch: any) => {
       status: string,
       supplierID: string,
     ) => dispatch(trackProductWithPost(productID, productTrackGroupID, status, supplierID)),
-
+    getSynthesisProgressUpdates: (synthesisFileID: string) => dispatch(getSynthesisProgressUpdates(synthesisFileID)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
   };
 };

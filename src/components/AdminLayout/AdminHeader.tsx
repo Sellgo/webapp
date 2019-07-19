@@ -7,7 +7,7 @@ import {
   getProductDetailChartRank,
   getProducts, getProductsChartHistoryPrice, getProductsChartHistoryRank,
   getProductTrackData,
-  getProductTrackGroupId, getTimeEfficiency, trackProductWithPatch, trackProductWithPost,
+  postProductTrackGroupId, getTimeEfficiency, trackProductWithPatch, trackProductWithPost,
 } from '../../Action/SYNActions';
 import { connect } from 'react-redux';
 import { SupplierDetail } from '../../containers/SYN/suppliers/supplierDetail';
