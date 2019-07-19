@@ -85,6 +85,9 @@ export const SYNReducer = (state = initialState, action: any) => {
     case SET_Product_Detail_Chart_Values_Rank:
       const product_detail_chart_values_rank = state.setIn(['product_detail_chart_values_rank'], action.data);
       return product_detail_chart_values_rank;
+    case SET_Product_Detail_Chart_Values_Price:
+      const product_detail_chart_values_price = state.setIn(['product_detail_chart_values_price'], action.data);
+      return product_detail_chart_values_price;
     case UPLOAD_SYNTHESIS_FILE_ID:
       console.log(action.data);
       const synthesisFileID = state.setIn(['synthesisFileID'], action.data);
