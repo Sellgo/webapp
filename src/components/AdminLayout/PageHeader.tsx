@@ -22,13 +22,11 @@ class PageHeader extends React.Component<Props> {
     return (
       <Header className="page-header" as="h1" style={{...headerStyle}}>
         <Icon name="caret left" size="small" onClick={() => {
-          // history.push(`/syn/`);
           this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward + 1);
             history.goBack();
         }}/>
         <Icon name="caret right" size="small" color={this.props.pageHistoryCanGoForward > 0 ? 'black' : 'grey'}
               onClick={() => {
-                // history.push(`/syn/`);
                 if (this.props.pageHistoryCanGoForward > 0) {
                   this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward - 1);
                   history.goForward();

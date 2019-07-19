@@ -46,7 +46,6 @@ import {
 } from '../../../../Action/SYNActions';
 import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
 
-// import history from '../../../../history';
 
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -122,7 +121,6 @@ interface Props {
   match: { params: { supplierID: '', auth: '' } };
 }
 
-// const delayedTimer: any = null;
 
 Highcharts.setOptions({
   lang: {
@@ -193,10 +191,6 @@ export class SupplierDetail extends React.Component<Props, State> {
         return (supplier.id == this.props.match.params.supplierID);
       });
       console.log(selectedSupplier);
-      // this.props.getProductTrackGroupId(
-      //   this.props.match.params.supplierID,
-      //   selectedSupplier[0].name
-      // );
     }
   }
 
@@ -206,10 +200,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         return (supplier.id == this.props.match.params.supplierID);
       });
       console.log(selectedSupplier);
-      // this.props.getProductTrackGroupId(
-      //   this.props.match.params.supplierID,
-      //   selectedSupplier[0].name,
-      // );
+
     }
 
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
@@ -653,8 +644,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                   },
                 },
                 tooltip: {
-                  pointFormat: '$<b>{point.y:,.0f}</b>',
+                  formatter() {
+                    return ((this.series.name == 'Price') ? '$' : '') + numberWithCommas(this.y);
+                  },
                 },
+
                 legend: {
                   align: 'left',
                   itemStyle: {
@@ -712,7 +706,6 @@ export class SupplierDetail extends React.Component<Props, State> {
           </Grid.Column>
           <Grid.Column floated="right" width={10}>
             <Dropdown
-              // style={{ width: '200px' }}
               placeholder="Select a preset"
               fluid={true}
               selection={true}
@@ -724,7 +717,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                 };
               })}
               onChange={(e, selectedData) => {
-                // TODO proof of concept for dropdown filter
                 const index: any = selectedData.value;
                 const data: any = ProductFiltersPreset[index].data;
                 const marginFilterUpdatedValue = data.marginFilter;
@@ -784,7 +776,6 @@ export class SupplierDetail extends React.Component<Props, State> {
               <Card
                 raised={true}
                 style={{
-                  // marginTop: 20,
                   width: '100%',
                 }}
               >
@@ -1217,8 +1208,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   render() {
-    // const memberDate = `May 5 2018`;
-    // const { isOpen } = this.state;
     return (
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'SYN'}>
         <Segment basic={true} className="setting">
@@ -1246,9 +1235,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                 className="ui"
                 style={{
                   display: 'inline-flex',
-                  // border: '1px solid #000',
-                  // padding: '11px',
-                  // borderRadius: '15px',
                 }}
               >
               <span style={{padding: '0 8px'}}>

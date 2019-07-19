@@ -16,6 +16,7 @@ export const SET_Product_Detail_Chart_Values_Rank = '/SYN/SET_Product_Detail_Cha
 export const SET_Product_Detail_Chart_Values_Price = '/SYN/SET_Product_Detail_Chart_Values_Price';
 export const SET_PAGE_HISTORY_COUNTER = '/SET_PAGE_HISTORY_COUNTER';
 export const UPLOAD_SYNTHESIS_FILE_ID = '/UPLOAD_SYNTHESIS_FILE_ID';
+export const UPLOAD_SELLER_IMAGE = '/UPLOAD_SELLER_IMAGE';
 
 
 export const marketPlace = [

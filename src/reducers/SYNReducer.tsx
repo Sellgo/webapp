@@ -62,14 +62,6 @@ export const SYNReducer = (state = initialState, action: any) => {
       }
       const updatedProducts = state.setIn(['products'], products);
       return updatedProducts;
-      // return {
-      //   ...state,
-      //   products: products!.map((content, i) =>
-      //     content.product_id === action.data.product_id
-      //       ? { ...content, tracking_status: action.data.status }
-      //       : content,
-      //   ),
-      // };
 
     case SET_TIME_EFFICIENCY:
       const timeEfficiencyState = state.setIn(['time_efficiency_data'], action.data);

@@ -63,6 +63,7 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
     .catch(() => {
     });
 };
+
 export const getBasicInfoSeller = () => (dispatch: any) => {
   const userId = localStorage.getItem('userId');
   const email = localStorage.getItem('userEmail');

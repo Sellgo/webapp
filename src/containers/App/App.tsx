@@ -28,8 +28,6 @@ const handleAuthentication = (location: any) => {
 
 const isAuthenticated = () => {
   if (localStorage.getItem('isLoggedIn') === 'true') {
-    // const sellerID = localStorage.getItem('userId');
-    // const idToken = localStorage.getItem('idToken');
     if (auth.isAuthenticated()) {
       return true;
     } else {

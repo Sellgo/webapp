@@ -40,7 +40,6 @@ export class AdminHeader extends React.Component<any> {
     if (sellerData != undefined || sellerData != null) {
       if (sellerData.firstName.length > 0) {
         this.userName = sellerData.firstName + ' ' + sellerData.lastName;
-        // this.userName = sellerData.email;
       }
     }
     return (
@@ -50,15 +49,6 @@ export class AdminHeader extends React.Component<any> {
               className="top-menu">
           <Menu.Menu>
             <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small"/>}/>
-            {/*<Menu.Item*/}
-            {/*  className="search-box"*/}
-            {/*  content={*/}
-            {/*    <Input*/}
-            {/*      action={{ type: 'submit', content: '', icon: 'search' }}*/}
-            {/*      placeholder="Search for UPC or ASIN or keyword"*/}
-            {/*    />*/}
-            {/*  }*/}
-            {/*/>*/}
           </Menu.Menu>
           <Menu.Menu position="right" fitted='horizontally' style={{marginRight: 10}}>
 

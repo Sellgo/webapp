@@ -196,13 +196,11 @@ export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    // url: URLS.BASE_URL_API + `seller/1000000052/time_efficiency/`,
     url: URLS.BASE_URL_API + `seller/${sellerID}/time_efficiency/`,
     headers,
   })
     .then(json => {
       dispatch(setTimeEfficiency(json.data));
-      // return json.data;
     })
     .catch(error => {
     });
@@ -369,7 +367,6 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     return axios({
       method: 'POST',
       url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
-      // url: URLS.BASE_URL_API + `seller/1000000052/supplier/`,
       data: bodyFormData,
       headers,
     })
@@ -386,8 +383,6 @@ export const saveSupplierNameAndDescription = (name: string, description: string
 export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   var bodyFormData = new FormData();
-  // bodyFormData.set('name', name);
-  // bodyFormData.set('description', description);
   bodyFormData.set('id', supplier_id);
   bodyFormData.set('status', 'inactive');
   return axios({
@@ -398,7 +393,6 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
   })
     .then(json => {
       callBack(json.data);
-      // dispatch(updateSupplierNameAndDescription(json.data));
     })
     .catch(error => {
     });
@@ -410,7 +404,6 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
   bodyFormData.set('name', name);
   bodyFormData.set('description', description);
   bodyFormData.set('id', update_supplier_id);
-  // bodyFormData.set('id', getProductTrackGroupId());
   return axios({
     method: 'patch',
     url: URLS.BASE_URL_API + `supplier/`,
@@ -419,7 +412,6 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
   })
     .then(json => {
       callBack(json.data);
-      // dispatch(updateSupplierNameAndDescription(json.data));
     })
     .catch(error => {
     });
@@ -430,7 +422,6 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
 
   var bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
-  // bodyFormData.set('seller_id', "1000000052");
   bodyFormData.set('file', file);
 
   return axios({
@@ -444,7 +435,6 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
         type: UPLOAD_SYNTHESIS_FILE_ID,
         data: json.data,
       });
-      // dispatch(setsaveSupplierNameAndDescription(json.data));
     })
     .catch(error => {
     });
@@ -456,7 +446,6 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
     url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' + sellerID,
-    // url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=1000000052',
     headers,
   })
     .then(json => {
@@ -481,8 +470,6 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
       } else {
         dispatch(setProducts(json.data));
       }
-      // console.log("json: ", json);
-      // return json.data;
     })
     .catch(error => {
       dispatch(setProducts(
@@ -523,9 +510,7 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
   })
     .then(json => {
       console.log(json.data);
-      // getProducts(supplierID);
       dispatch(updateProduct(json.data));
-
     })
     .catch(error => {
     });
