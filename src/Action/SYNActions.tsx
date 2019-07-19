@@ -124,12 +124,6 @@ const headers = {
   'Content-Type': `multipart/form-data`,
 };
 
-
-const headers_file = {
-  Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-  'Content-Type': `multipart/form-data`,
-};
-
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   if (headers.Authorization === 'Bearer null') {

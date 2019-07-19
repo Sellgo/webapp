@@ -4,7 +4,7 @@ import {
   UPDATE_BASIC_INFO_SELLER,
   FETCH_AUTH_BEGIN,
   SET_AMAZON_MWS,
-  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER,
+  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE,
 } from '../constant/constant';
 
 const initialState = Map({
@@ -22,10 +22,11 @@ const initialState = Map({
     marketplace_id: '',
     token: '',
   },
+  pageHistoryCanGoForward: 0,
+  updatedImage: {},
   success: false,
   loading: false,
   error: null,
-  pageHistoryCanGoForward: 0,
 });
 
 export const SettingReducer = (state = initialState, action: any) => {
@@ -67,8 +68,11 @@ export const SettingReducer = (state = initialState, action: any) => {
       return newState;
     case SET_PAGE_HISTORY_COUNTER:
       data = action.data;
-      console.log(data);
       newState = state.setIn(['pageHistoryCanGoForward'], data);
+      return newState;
+    case UPLOAD_SELLER_IMAGE:
+      data = action.data;
+      newState = state.setIn(['updatedImage'], data);
       return newState;
     default:
       return state;

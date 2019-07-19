@@ -18,6 +18,8 @@ import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 import {
   setBasicInfoSeller,
   updateBasicInfoSeller,
+  postSellerImage,
+  getSellerImage,
   getBasicInfoSeller,
   setAmazonMWS,
   updateAmazonMWS,
@@ -32,6 +34,10 @@ import { AdminLayout } from '../../../components/AdminLayout';
 
 interface State {
   isOpen: boolean;
+  imageFile: any;
+  imageView: string;
+  isImageSelected: boolean;
+  isImageUploadUnderProgress: boolean;
 }
 
 interface MarketPlaceType {
@@ -52,16 +58,27 @@ interface Props {
 
   getBasicInfoSeller(): () => void;
 
+  getSellerImage(): () => void;
+
+  postSellerImage(imageType: string, imagePath: any): () => void;
+
   sellerData: SellField;
   amazonData: MWSinfo;
   isUpdate: boolean;
   match: { params: { auth: null } };
+  updatedImage: {};
 
 }
 
 class Setting extends React.Component<Props, State> {
   state = {
     isOpen: false,
+    isImageSelected: false,
+    isImageUploadUnderProgress: false,
+    imageFile: {
+      type: '',
+    },
+    imageView: '',
   };
 
   message = {
@@ -73,29 +90,50 @@ class Setting extends React.Component<Props, State> {
     to: '/dashboard/setting',
     button_text: 'Ok',
   };
+  fileInputRef: any = React.createRef();
 
   componentDidMount() {
     this.props.getBasicInfoSeller();
+    this.props.getSellerImage();
   }
 
+  fileChange = (event: any): void => {
+    console.log(event.target.files);
+    if (event.target.files.length > 0) {
+      this.setState({
+        imageFile: event.target.files[0],
+        imageView: URL.createObjectURL(event.target.files[0]),
+        isImageSelected: true,
+      });
+    }
+  };
   updateBasicInfoSeller = () => {
     this.message.title = 'Information Updated';
     this.message.message = 'Thank you for Updating';
     this.message.description = 'You have successfully updated new information.';
-    const { name, firstName, lastName, id, email, auth0_user_id } = this.props.sellerData;
-    const data = { name: `${firstName} ${lastName}`, id, email, auth0_user_id };
+    const {name, firstName, lastName, id, email, auth0_user_id} = this.props.sellerData;
+    const data = {name: `${firstName} ${lastName}`, id, email, auth0_user_id};
     this.props.updateBasicInfoSeller(data);
   };
 
   componentWillReceiveProps(props: any) {
+    console.log(props.updatedImage.id);
+    if (props.updatedImage.id != undefined) {
+      this.setState({
+        imageView: props.updatedImage.image_url,
+        isImageUploadUnderProgress: false,
+        isImageSelected: false,
+      });
+    }
+
     if (props.isUpdate) {
       this.handleModel();
     }
   }
 
   updateAmazonMWS = () => {
-    const { id } = this.props.sellerData;
-    const { seller_id, marketplace_id, token } = this.props.amazonData;
+    const {id} = this.props.sellerData;
+    const {seller_id, marketplace_id, token} = this.props.amazonData;
     const data = {
       seller_id,
       marketplace_id,
@@ -115,7 +153,7 @@ class Setting extends React.Component<Props, State> {
   };
 
   handleModel = () => {
-    const { isOpen } = this.state;
+    const {isOpen} = this.state;
     this.setState({
       isOpen: !isOpen,
     });
@@ -167,17 +205,17 @@ class Setting extends React.Component<Props, State> {
   };
 
   render() {
-    const { cdate } = this.props.sellerData;
+    const {cdate} = this.props.sellerData;
 
     const memberDate = moment(cdate || moment()).format('MMM DD YYYY');
-    const { isOpen } = this.state;
+    const {isOpen} = this.state;
     const marketPlaceoptions = new Array();
     marketPlace.map((opt, key) => {
-      marketPlaceoptions.push({ key, text: opt.name, value: opt.id });
+      marketPlaceoptions.push({key, text: opt.name, value: opt.id});
     });
-    const { marketplace_id } = this.props.amazonData;
+    const {marketplace_id} = this.props.amazonData;
     const marketplaceDATA = this.getmarketplaceDATA(marketplace_id);
-    const { firstName, lastName, email } = this.props.sellerData;
+    const {firstName, lastName, email} = this.props.sellerData;
 
     let howUrl = '';
     if (marketplaceDATA) {
@@ -189,7 +227,7 @@ class Setting extends React.Component<Props, State> {
     }
 
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={"Setting"}>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'Setting'}>
         <Segment basic={true} className="setting">
           <Header as="h2">Basic Information</Header>
           <Divider/>
@@ -199,15 +237,33 @@ class Setting extends React.Component<Props, State> {
                 <Grid.Row>
                   <Grid.Column width={3} textAlign="center" className="upload-photo">
                     <Image
-                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                      size="small"
+                      src={(this.state.imageView.length > 0) ? this.state.imageView : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                      size={'small'}
                       floated="left"
                     />
                     <Button
                       basic={true}
-                      content="Upload Photo"
-                      style={{ borderRadius: '50px' }}
+                      content={'Select Photo'}
+                      style={{borderRadius: '50px'}}
                       size="small"
+                      onClick={() => this.fileInputRef.current.click()}
+                    />
+                    {
+                      ((this.state.isImageSelected)) ?
+                        <Button
+                          loading={this.state.isImageUploadUnderProgress}
+                          content={'Upload Photo'}
+                          style={{borderRadius: '50px', marginTop: 10}}
+                          size="tiny"
+                          onClick={() => this.uploadImage()}
+                        /> : null
+                    }
+                    <input
+                      ref={this.fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={this.fileChange}
                     />
                   </Grid.Column>
                   <Grid.Column width={13}>
@@ -248,7 +304,7 @@ class Setting extends React.Component<Props, State> {
                               primary={true}
                               content="Update Information"
                               onClick={this.updateBasicInfoSeller}
-                              style={{ borderRadius: '50px' }}
+                              style={{borderRadius: '50px'}}
                             />
                           </Grid.Column>
                         </Grid.Row>
@@ -298,7 +354,7 @@ class Setting extends React.Component<Props, State> {
                       <Button
                         primary={true}
                         content="Show me how >>"
-                        style={{ borderRadius: '50px' }}
+                        style={{borderRadius: '50px'}}
                         onClick={() => this.showMeHow(howUrl)}
                       />
                     </Grid.Column>
@@ -322,7 +378,7 @@ class Setting extends React.Component<Props, State> {
                         primary={true}
                         content="Add MWS Token"
                         onClick={this.updateAmazonMWS}
-                        style={{ borderRadius: '50px' }}
+                        style={{borderRadius: '50px'}}
                       />
                     </Grid.Column>
                   </Grid.Row>
@@ -333,7 +389,7 @@ class Setting extends React.Component<Props, State> {
               <Container textAlign="center">
                 <MesssageComponent message={this.message} isModal={true}/>
                 <Segment textAlign="center" basic={true}>
-                  <Button style={buttonStyle} content="Ok" onClick={this.handleModel} />
+                  <Button style={buttonStyle} content="Ok" onClick={this.handleModel}/>
                 </Segment>
               </Container>
             </Modals>
@@ -342,13 +398,22 @@ class Setting extends React.Component<Props, State> {
       </AdminLayout>
     );
   }
+
+  private uploadImage = () => {
+    this.setState({isImageUploadUnderProgress: true}, () => {
+      if (this.state.isImageSelected) {
+        this.props.postSellerImage(this.state.imageFile.type, this.state.imageFile);
+      }
+    });
+
+  };
 }
 
 const mapStateToProps = (state: any) => ({
   sellerData: state.settings.get('profile'),
   amazonData: state.settings.get('amazonMWS'),
   isUpdate: state.settings.get('success'),
-
+  updatedImage: state.settings.get('updatedImage'),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -358,6 +423,8 @@ const mapDispatchToProps = (dispatch: any) => {
     setBasicInfoSeller: (data: Field) => dispatch(setBasicInfoSeller(data)),
     setAmazonMWS: (data: Field) => dispatch(setAmazonMWS(data)),
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
+    getSellerImage: () => dispatch(getSellerImage()),
+    postSellerImage: (imageType: string, imagePath: any) => dispatch(postSellerImage(imageType, imagePath)),
   };
 };
 

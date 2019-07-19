@@ -3,7 +3,7 @@ import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
   GET_BASIC_INFO_SELLER,
-  SET_AMAZON_MWS,
+  SET_AMAZON_MWS, UPLOAD_SELLER_IMAGE,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -33,6 +33,46 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+export const postSellerImage = (imageType: string, imagePath: any) => (dispatch: any) => {
+  const formData = new FormData();
+  formData.append('image_type', imageType);
+  formData.append('image', imagePath);
+  const sellerID = localStorage.getItem('userId');
+
+  return axios({
+    method: 'POST',
+    url: URLS.BASE_URL_API + `image/${sellerID}/`,
+    data: formData,
+    headers,
+  })
+    .then(json => {
+      console.log(json.data);
+      dispatch(reduceUpdatedImage(json.data));
+    })
+    .catch(() => {
+    });
+
+};
+
+export const getSellerImage = () => (dispatch: any) => {
+
+  const formData = new FormData();
+  const sellerID = localStorage.getItem('userId');
+
+  return axios({
+    method: 'GET',
+    url: URLS.BASE_URL_API + `image/${sellerID}/`,
+    data: formData,
+    headers,
+  })
+    .then(json => {
+      console.log(json.data);
+      dispatch(reduceUpdatedImage(json.data));
+    })
+    .catch(() => {
+    });
+};
+
 export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
   const formData = new FormData();
   formData.append('name', data.name);
@@ -49,12 +89,12 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
     .then(json => {
       dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
-        data: { key: 'success', value: true },
+        data: {key: 'success', value: true},
       });
       setTimeout(() => {
         dispatch({
           type: UPDATE_BASIC_INFO_SELLER,
-          data: { key: 'success', value: false },
+          data: {key: 'success', value: false},
         });
       }, 1000);
 
@@ -100,12 +140,12 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
     .then(json => {
       dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
-        data: { key: 'success', value: true },
+        data: {key: 'success', value: true},
       });
       setTimeout(() => {
         dispatch({
           type: UPDATE_BASIC_INFO_SELLER,
-          data: { key: 'success', value: false },
+          data: {key: 'success', value: false},
         });
       }, 1000);
 
@@ -114,6 +154,11 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
     .catch(error => {
     });
 };
+
+export const reduceUpdatedImage = (data: any) => ({
+  type: UPLOAD_SELLER_IMAGE,
+  data,
+});
 
 export const getBasicInfoSellerDispatch = (data: any) => ({
   type: GET_BASIC_INFO_SELLER,
