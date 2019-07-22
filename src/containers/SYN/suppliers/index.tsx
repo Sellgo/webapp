@@ -565,7 +565,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Time Saved
                 <h2>
                   <strong>
-                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + ' hrs' : null}
+                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + ' hrs' : '0 hrs'}
                   </strong>
                 </h2>
               </span>
@@ -573,7 +573,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Efficiency
                 <h2>
                   <strong>
-                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %' : null}
+                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %' : '0 %'}
                   </strong>
                 </h2>
               </span>
