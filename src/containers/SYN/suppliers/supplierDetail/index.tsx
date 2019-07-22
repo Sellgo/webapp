@@ -1272,7 +1272,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                             },
                             series: [
                               {
-                                {
                                 type: 'areaspline',
                                 name: 'Avg Price',
                                 color: '#c0f1ff',
