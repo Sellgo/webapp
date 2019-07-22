@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/auth0-js": "^9.10.2",
+    "@types/auth0-lock": "^11.4.12",
     "@types/jest": "24.0.12",
     "@types/react": "16.8.16",
     "@types/react-dom": "16.8.4",
@@ -13,6 +14,7 @@
     "@types/react-router-dom": "^4.3.2",
     "@types/webpack-env": "^1.13.9",
     "auth0-js": "^9.10.4",
+    "auth0-lock": "^11.17.0",
     "axios": "^0.18.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.7.1",

@@ -309,10 +309,21 @@ export class SupplierDetail extends React.Component<Props, State> {
     const {sortedColumn, products, sortDirection} = this.state;
     if (sortedColumn !== clickedColumn) {
       const sortedProducts = products.sort((a, b) => {
-        if (a[clickedColumn] < b[clickedColumn]) {
+        let aColumn,bColumn;
+        if(clickedColumn=="profit"||clickedColumn=="margin"||clickedColumn=="sales_monthly"||clickedColumn=="profit_monthly"){
+          aColumn = Number(a[clickedColumn]);
+          bColumn = Number(b[clickedColumn]);
+        }else if(clickedColumn=="last_syn"){
+          aColumn = a[clickedColumn];
+          bColumn = b[clickedColumn];
+        }else{
+          aColumn = a[clickedColumn];
+          bColumn = b[clickedColumn];
+        }
+        if (aColumn < bColumn) {
           return -1;
         }
-        if (a[clickedColumn] > b[clickedColumn]) {
+        if (aColumn > bColumn) {
           return 1;
         }
         return 0;
