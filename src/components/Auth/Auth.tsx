@@ -23,7 +23,6 @@ export default class Auth {
 
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
-    localStorage.setItem('auth0_user_id', this.userProfile.sub);
     const formData = new FormData();
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.userProfile.name)) {
@@ -31,7 +30,6 @@ export default class Auth {
       formData.append('email', this.userProfile.name);
     } else {
       localStorage.setItem('userEmail', '');
-      // formData.append('email', '');
     }
     if (this.userProfile.given_name || this.userProfile.family_name) {
       formData.append('name', `${this.userProfile.given_name} ${this.userProfile.family_name}`);
@@ -45,6 +43,7 @@ export default class Auth {
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
+          history.replace('/dashboard');
         }
       })
       .catch();
@@ -71,23 +70,19 @@ export default class Auth {
 
   public setSession = (authResult: any) => {
     // Set isLoggedIn flag in localStorage
-    localStorage.setItem('isLoggedIn', 'true');
     // Set the time that the access token will expire at
-    const expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
-    this.accessToken = authResult.accessToken;
+    const date = new Date();
+    date.setSeconds(date.getSeconds() + authResult.expiresIn);
+    this.expiresAt = date.getTime();
     this.idToken = authResult.idToken;
-    this.expiresAt = expiresAt;
-    localStorage.setItem('idToken', authResult.idToken);
-
+    this.accessToken = authResult.accessToken;
+    localStorage.setItem('idToken', this.idToken);
+    localStorage.setItem('idTokenExpires', String(this.expiresAt));
+    localStorage.setItem('isLoggedIn', 'true');
     this.getProfile((err: any, profile: any) => {
-      this.handleProfile(profile);
+      this.registerSeller();
     });
   };
-
-  handleProfile(profile: any) {
-    this.registerSeller();
-    history.replace('/dashboard');
-  }
 
   public renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
@@ -104,9 +99,18 @@ export default class Auth {
     this.auth0.client.userInfo(this.accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;
+        localStorage.setItem('auth0_user_id', this.userProfile.sub);
+        localStorage.setItem('nickName', this.userProfile.nickname);
       }
       cb(err, profile);
     });
+  }
+
+  public removeStoredItems=()=>{
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('idTokenExpires');
   }
 
   public logout = () => {
@@ -114,11 +118,10 @@ export default class Auth {
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
-
     // Remove user profile
     this.userProfile = null;
     // Remove isLoggedIn flag from localStorage
-    localStorage.removeItem('isLoggedIn');
+    this.removeStoredItems();
     this.auth0.logout({
       returnTo: window.location.origin,
     });
@@ -128,7 +131,10 @@ export default class Auth {
   };
 
   public isAuthenticated = () => {
-    const expiresAt = this.expiresAt;
-    return new Date().getTime() < expiresAt;
+    const expiresAt = localStorage.getItem('idTokenExpires');
+    if (expiresAt === null) {
+      return false;
+    }
+    return new Date().getTime() < new Date(Number(expiresAt)).getTime();
   };
 }

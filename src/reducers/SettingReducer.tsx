@@ -4,7 +4,7 @@ import {
   UPDATE_BASIC_INFO_SELLER,
   FETCH_AUTH_BEGIN,
   SET_AMAZON_MWS,
-  GET_BASIC_INFO_SELLER,
+  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE,
 } from '../constant/constant';
 
 const initialState = Map({
@@ -22,6 +22,8 @@ const initialState = Map({
     marketplace_id: '',
     token: '',
   },
+  pageHistoryCanGoForward: 0,
+  updatedImage: {},
   success: false,
   loading: false,
   error: null,
@@ -50,7 +52,7 @@ export const SettingReducer = (state = initialState, action: any) => {
       newState = state.setIn(['success'], data.value);
       return newState;
     case GET_BASIC_INFO_SELLER:
-      const { name, cdate, id, email, auth0_user_id } = action.data;
+      const {name, cdate, id, email, auth0_user_id} = action.data;
       const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
       const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
       const sellerData = {
@@ -64,7 +66,14 @@ export const SettingReducer = (state = initialState, action: any) => {
       };
       newState = state.setIn(['profile'], sellerData);
       return newState;
-
+    case SET_PAGE_HISTORY_COUNTER:
+      data = action.data;
+      newState = state.setIn(['pageHistoryCanGoForward'], data);
+      return newState;
+    case UPLOAD_SELLER_IMAGE:
+      data = action.data;
+      newState = state.setIn(['updatedImage'], data);
+      return newState;
     default:
       return state;
   }

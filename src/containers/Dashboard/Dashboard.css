@@ -81,11 +81,8 @@
   width: 40px;
   left: 19px;
 }
-.ui.steps .active.step:after {
-  display: none;
-}
 .ui.steps .step:after {
-  display: none;
+  display: block;
 }
 .ui.steps .step .description {
   margin-top: 14px !important;

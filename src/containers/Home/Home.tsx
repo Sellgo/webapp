@@ -23,7 +23,7 @@ export class Home extends React.Component<any, HomeState> {
 
   componentDidMount() {
     const { renewSession, isAuthenticated } = this.props.auth;
-    if (localStorage.getItem('isLoggedIn') === 'true' && isAuthenticated) {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/dashboard');
     }
   }
@@ -33,7 +33,7 @@ export class Home extends React.Component<any, HomeState> {
     const { isAuthenticated, login } = this.props.auth;
     return (
       <Segment basic={true}>
-        {!isAuthenticated() && <HeaderBar login={login} />}
+        <HeaderBar login={login} />
         <Container>
           <Segment padded="very">
             <Grid className="home_desc">

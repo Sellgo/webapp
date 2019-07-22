@@ -3,9 +3,17 @@
   text-align: left;
   float: left;
   min-width: 2em;
+  background: white !important;
+
 }
 .top-logo {
   width: 260px;
+}
+i.red.icon{
+  color: #ffffff !important;
+}
+.ui.vertical.divider{
+  height:100% !important;
 }
 .top-menu {
   padding-right: 20px;
@@ -21,7 +29,7 @@
 }
 .ui.left.sidebar,
 .ui.right.sidebar {
-  width: 73px !important;
+  width: 60px !important;
   background: #444444;
 }
 .ui.visible.left.sidebar ~ .fixed,
@@ -33,4 +41,10 @@
 .ui[class*='bottom aligned'].grid > .row > .column {
   padding-right: 0;
   /*padding-left: 0;*/
+}
+.ui.vertical.menu .item>.header:not(.ui) {
+  margin: 0 0 0 !important;
+}
+i.big.icon, i.big.icons{
+  margin:0 !important;
 }
