@@ -50,7 +50,6 @@ import {
   getSellers,
 } from '../../../../Action/SYNActions';
 import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
-
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { SellField } from '../../../../Action/SettingActions';
@@ -75,7 +74,6 @@ interface State {
   maxUnitsPerMonth: any;
   minProfitPerMonth: any;
   maxProfitPerMonth: any;
-
   sortDirection: any;
   sortedColumn: string;
 }
@@ -132,7 +130,7 @@ interface Props {
   synthesisFileID: { synthesis_file_id: 0 };
   synthesisFileProgressUpdates: { progress: 0 };
   productTrackGroup: [{ id: 0 }];
-  match: { params: { supplierID: ''; auth: '' } };
+  match: { params: { supplierID: '', auth: '' } };
 }
 
 Highcharts.setOptions({
@@ -421,10 +419,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell>
                     <Checkbox/>
                   </Table.Cell>
-                  <Table.Cell
-                    style={{width: 600}}
-
-                  >
+                  <Table.Cell style={{width: 600}}>
                     <Grid>
                       <Grid.Column style={{marginRight: 60}} className={'middle aligned'}>
                         <Image
@@ -467,19 +462,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                       </Grid.Column>
                     </Grid>
                   </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.profit).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.margin).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.sales_monthly).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.profit_monthly).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
+                  <Table.Cell textAlign='center'>{Number(value.profit).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>{Number(value.margin).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign='center'>
                     <Button
                       basic={true}
                       style={{borderRadius: 20}}
@@ -1285,6 +1272,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             },
                             series: [
                               {
+                                {
                                 type: 'areaspline',
                                 name: 'Avg Price',
                                 color: '#c0f1ff',
