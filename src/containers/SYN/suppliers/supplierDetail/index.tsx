@@ -13,7 +13,8 @@ import {
   Card,
   Feed,
   Loader,
-  Pagination, Label,
+  Pagination,
+  Label,
   Progress,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -45,10 +46,10 @@ import {
   ProductChartDetailsPrice,
   Supplier,
   TimeEfficiency,
-  getTimeEfficiency, getSellers,
+  getTimeEfficiency,
+  getSellers,
 } from '../../../../Action/SYNActions';
 import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
-
 
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -74,6 +75,9 @@ interface State {
   maxUnitsPerMonth: any;
   minProfitPerMonth: any;
   maxProfitPerMonth: any;
+
+  sortDirection: any;
+  sortedColumn: string;
 }
 
 interface Props {
@@ -128,9 +132,8 @@ interface Props {
   synthesisFileID: { synthesis_file_id: 0 };
   synthesisFileProgressUpdates: { progress: 0 };
   productTrackGroup: [{ id: 0 }];
-  match: { params: { supplierID: '', auth: '' } };
+  match: { params: { supplierID: ''; auth: '' } };
 }
-
 
 Highcharts.setOptions({
   lang: {
@@ -171,6 +174,8 @@ export class SupplierDetail extends React.Component<Props, State> {
     maxUnitsPerMonth: 100,
     minProfitPerMonth: 0,
     maxProfitPerMonth: 100,
+    sortDirection: undefined,
+    sortedColumn: '',
   };
   message = {
     id: 1,
@@ -199,16 +204,16 @@ export class SupplierDetail extends React.Component<Props, State> {
     if (this.props.suppliers.length == 0) {
       this.props.getSellers();
     }
-
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
-
     if (nextProps.synthesisFileID.synthesis_file_id != undefined) {
-      if (nextProps.synthesisFileProgressUpdates.progress == undefined || nextProps.synthesisFileProgressUpdates.progress < 100) {
+      if (
+        nextProps.synthesisFileProgressUpdates.progress == undefined ||
+        nextProps.synthesisFileProgressUpdates.progress < 100
+      ) {
         this.props.getSynthesisProgressUpdates(String(nextProps.synthesisFileID.synthesis_file_id));
       }
-
     }
 
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
@@ -301,7 +306,38 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getProductDetailChartPrice(product_id);
     this.setState({productDetailModalOpen: true});
   };
+
+  handleSort = (clickedColumn: string) => {
+    const {sortedColumn, products, sortDirection} = this.state;
+    if (sortedColumn !== clickedColumn) {
+      const sortedProducts = products.sort((a, b) => {
+        if (a[clickedColumn] < b[clickedColumn]) {
+          return -1;
+        }
+        if (a[clickedColumn] > b[clickedColumn]) {
+          return 1;
+        }
+        return 0;
+      });
+
+      console.log(clickedColumn);
+      console.log(sortedColumn);
+      console.log(sortedProducts);
+      this.setState({
+        sortedColumn: clickedColumn,
+        products: sortedProducts,
+        sortDirection: 'ascending',
+      });
+    } else {
+      this.setState({
+        products: products.reverse(),
+        sortDirection: sortDirection === 'ascending' ? 'descending' : 'ascending',
+      });
+    }
+  };
+
   renderTable = () => {
+    const {sortedColumn, sortDirection} = this.state;
     const currentPage = this.state.currentPage - 1;
     const productsTable: Product[] = this.state.products.slice(
       currentPage * this.state.singlePageItemsCount,
@@ -314,22 +350,60 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Loader>
       </Segment>
     ) : (
-      <Table basic="very">
+      <Table sortable={true} basic="very">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
               <Checkbox/>
             </Table.HeaderCell>
-            <Table.HeaderCell style={{paddingLeft: 0}}>
+            <Table.HeaderCell
+              style={{paddingLeft: 0}}
+              sorted={sortedColumn === 'title' ? sortDirection : undefined}
+              onClick={() => this.handleSort('title')}
+            >
               Product Info
             </Table.HeaderCell>
-            <Table.HeaderCell textAlign='center'>Profit</Table.HeaderCell>
-            <Table.HeaderCell textAlign='center'>Margin</Table.HeaderCell>
-            <Table.HeaderCell textAlign='center'>Sales/mo</Table.HeaderCell>
-            <Table.HeaderCell textAlign='center'>Profit/Mo</Table.HeaderCell>
-            <Table.HeaderCell textAlign='center'>Add to Tracker</Table.HeaderCell>
-            <Table.HeaderCell textAlign='center'>Last Syn</Table.HeaderCell>
-            <Table.HeaderCell textAlign='center' width={1}/>
+            <Table.HeaderCell
+              textAlign="center"
+              style={{minWidth:120}}
+              sorted={sortedColumn === 'profit' ? sortDirection : undefined}
+              onClick={() => this.handleSort('profit')}
+            >
+              Profit
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              textAlign="center"
+              style={{minWidth:120}}
+              sorted={sortedColumn === 'margin' ? sortDirection : undefined}
+              onClick={() => this.handleSort('margin')}
+            >
+              Margin
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              textAlign="center"
+              style={{minWidth:120}}
+              sorted={sortedColumn === 'sales_monthly' ? sortDirection : undefined}
+              onClick={() => this.handleSort('sales_monthly')}
+            >
+              Sales/mo
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              textAlign="center"
+              style={{minWidth:120}}
+              sorted={sortedColumn === 'profit_monthly' ? sortDirection : undefined}
+              onClick={() => this.handleSort('profit_monthly')}
+            >
+              Profit/Mo
+            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Add to Tracker</Table.HeaderCell>
+            <Table.HeaderCell
+              textAlign="center"
+              style={{minWidth:120}}
+              sorted={sortedColumn === 'last_syn' ? sortDirection : undefined}
+              onClick={() => this.handleSort('last_syn')}
+            >
+              Last Syn</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center" width={1}/>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -347,7 +421,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell>
                     <Checkbox/>
                   </Table.Cell>
-                  <Table.Cell style={{width: 600}}>
+                  <Table.Cell
+                    style={{width: 600}}
+
+                  >
                     <Grid>
                       <Grid.Column style={{marginRight: 60}} className={'middle aligned'}>
                         <Image
@@ -367,9 +444,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                         </Grid.Row>
                         <Grid.Row>
                           <Grid.Column style={{display: 'inline-flex'}}>
-                            <Image style={{marginRight: 10}}
-                                   src={'/images/intro.png'}
-                                   size="mini"
+                            <Image
+                              style={{marginRight: 10}}
+                              src={'/images/intro.png'}
+                              size="mini"
                             />
                             {value.amazon_category_name}
                           </Grid.Column>
@@ -389,11 +467,19 @@ export class SupplierDetail extends React.Component<Props, State> {
                       </Grid.Column>
                     </Grid>
                   </Table.Cell>
-                  <Table.Cell textAlign='center'>{Number(value.profit).toLocaleString()}</Table.Cell>
-                  <Table.Cell textAlign='center'>{Number(value.margin).toLocaleString()}</Table.Cell>
-                  <Table.Cell textAlign='center'>{Number(value.sales_monthly).toLocaleString()}</Table.Cell>
-                  <Table.Cell textAlign='center'>{Number(value.profit_monthly).toLocaleString()}</Table.Cell>
-                  <Table.Cell textAlign='center'>
+                  <Table.Cell textAlign="center">
+                    {Number(value.profit).toLocaleString()}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {Number(value.margin).toLocaleString()}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {Number(value.sales_monthly).toLocaleString()}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {Number(value.profit_monthly).toLocaleString()}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
                     <Button
                       basic={true}
                       style={{borderRadius: 20}}
@@ -419,8 +505,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                       {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
                     </Button>
                   </Table.Cell>
-                  <Table.Cell textAlign='center'><p
-                    style={{fontSize: 13}}>{new Date(value.last_syn).toLocaleString()}</p></Table.Cell>
+                  <Table.Cell textAlign="center">
+                    <p style={{fontSize: 13}}>{new Date(value.last_syn).toLocaleString()}</p>
+                  </Table.Cell>
                   <Table.Cell>
                     <Table.Cell
                       as={Link}
@@ -603,9 +690,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   size="tiny"
                   style={{display: 'inline-block'}}
                 />
-                <a style={{position: 'absolute', right: 20, top: '38%'}}
-                   href={this.props.product_detail.amazon_url}
-                   target={'_blank'}
+                <a
+                  style={{position: 'absolute', right: 20, top: '38%'}}
+                  href={this.props.product_detail.amazon_url}
+                  target={'_blank'}
                 >
                   <Icon name="amazon" style={{color: 'black'}}/>
                 </a>
@@ -644,7 +732,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   },
                   labels: {
                     formatter() {
-                      return '$' + this.value / 1000 + 'k';
+                      return this.value / 1000 + 'k';
                     },
                     style: {
                       color: '#ccc',
@@ -653,7 +741,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 },
                 tooltip: {
                   formatter() {
-                    return ((this.series.name == 'Price') ? '$' : '') + numberWithCommas(this.y);
+                    return (this.series.name == 'Price' ? '$' : '') + numberWithCommas(this.y);
                   },
                 },
 
@@ -891,7 +979,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{padding: 0, paddingLeft: 10, marginRight: 10}}
                                 >
-                                  <div className="min-max">{this.state.unitsPerMonthFilter.min}</div>
+                                  <div className="min-max">
+                                    {this.state.unitsPerMonthFilter.min}
+                                  </div>
                                 </Grid.Column>
                                 <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
                                   <InputRange
@@ -913,7 +1003,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{padding: 0, marginLeft: 10, paddingRight: 10}}
                                 >
-                                  <div className="min-max">{this.state.unitsPerMonthFilter.max}</div>
+                                  <div className="min-max">
+                                    {this.state.unitsPerMonthFilter.max}
+                                  </div>
                                 </Grid.Column>
                               </Grid.Row>
                             </Grid>
@@ -935,7 +1027,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{padding: 0, paddingLeft: 10, marginRight: 10}}
                                 >
-                                  <div className="min-max">{this.state.profitPerMonthFilter.min}</div>
+                                  <div className="min-max">
+                                    {this.state.profitPerMonthFilter.min}
+                                  </div>
                                 </Grid.Column>
                                 <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
                                   <InputRange
@@ -957,7 +1051,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                                   width={4}
                                   style={{padding: 0, marginLeft: 10, paddingRight: 10}}
                                 >
-                                  <div className="min-max">{this.state.profitPerMonthFilter.max}</div>
+                                  <div className="min-max">
+                                    {this.state.profitPerMonthFilter.max}
+                                  </div>
                                 </Grid.Column>
                               </Grid.Row>
                             </Grid>
@@ -1134,76 +1230,77 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Feed.Content>
                     <Feed.Summary>
                       {avg_price != undefined && avg_price.length == 0 && avg_rank.length == 0 ? (
-                          <Loader
-                            active={true}
-                            inline="centered"
-                            className="popup-loader"
-                            size="massive"
-                          >
-                            Loading
-                          </Loader>
-                        ) :
-                        (avg_price[0] !== -1000000) ? (
-                          <HighchartsReact
-                            highcharts={Highcharts}
-                            options={{
-                              title: {
-                                text: 'Statistics',
-                                align: 'left',
-                              },
-                              xAxis: {
-                                labels: {
-                                  style: {
-                                    color: '#ccc',
-                                  },
-                                },
-                              },
-                              credits: {
-                                enabled: false,
-                              },
-                              yAxis: {
-                                title: {
-                                  text: '',
-                                },
-                                labels: {
-                                  formatter() {
-                                    return this.value / 1000 + 'k';
-                                  },
-                                  style: {
-                                    color: '#ccc',
-                                  },
-                                },
-                              },
-                              tooltip: {
-                                formatter() {
-                                  return ((this.series.name == 'Avg Price') ? '$' : '') + numberWithCommas(this.y);
-                                },
-                              },
-                              legend: {
-                                align: 'left',
-                                itemStyle: {
+                        <Loader
+                          active={true}
+                          inline="centered"
+                          className="popup-loader"
+                          size="massive"
+                        >
+                          Loading
+                        </Loader>
+                      ) : avg_price[0] !== -1000000 ? (
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            title: {
+                              text: 'Statistics',
+                              align: 'left',
+                            },
+                            xAxis: {
+                              labels: {
+                                style: {
                                   color: '#ccc',
                                 },
                               },
-                              series: [
-                                {
-
-                                  type: 'areaspline',
-                                  name: 'Avg Price',
-                                  color: '#c0f1ff',
-                                  data: avg_price,
+                            },
+                            credits: {
+                              enabled: false,
+                            },
+                            yAxis: {
+                              title: {
+                                text: '',
+                              },
+                              labels: {
+                                formatter() {
+                                  return this.value / 1000 + 'k';
                                 },
-                                {
-                                  type: 'areaspline',
-                                  name: 'Avg Rank',
-                                  color: '#a3a0fb78',
-                                  data: avg_rank,
+                                style: {
+                                  color: '#ccc',
                                 },
-                              ],
-                            }}
-                            {...this.props}
-                          />
-                        ) : null}
+                              },
+                            },
+                            tooltip: {
+                              formatter() {
+                                return (
+                                  (this.series.name == 'Avg Price' ? '$' : '') +
+                                  numberWithCommas(this.y)
+                                );
+                              },
+                            },
+                            legend: {
+                              align: 'left',
+                              itemStyle: {
+                                color: '#ccc',
+                              },
+                            },
+                            series: [
+                              {
+                                type: 'areaspline',
+                                name: 'Avg Price',
+                                color: '#c0f1ff',
+                                data: avg_price,
+                              },
+                              {
+                                type: 'areaspline',
+                                name: 'Avg Rank',
+                                color: '#a3a0fb78',
+                                data: avg_rank,
+                              },
+                            ],
+                          }}
+                          {...this.props}
+                        />
+                      ) : null}
                     </Feed.Summary>
                   </Feed.Content>
                 </Feed.Event>
@@ -1216,9 +1313,16 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   render() {
-    const progress = this.props.synthesisFileProgressUpdates.progress != undefined ? this.props.synthesisFileProgressUpdates.progress : '0';
+    const progress =
+      this.props.synthesisFileProgressUpdates.progress != undefined
+        ? this.props.synthesisFileProgressUpdates.progress
+        : '0';
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'SYN'}>
+      <AdminLayout
+        auth={this.props.match.params.auth}
+        sellerData={this.props.sellerData}
+        title={'SYN'}
+      >
         <Segment basic={true} className="setting">
           <Divider/>
           <Grid>
@@ -1233,13 +1337,14 @@ export class SupplierDetail extends React.Component<Props, State> {
           </Grid>
           <Divider/>
           <Grid>
-            <Grid.Column
-              width={10}
-              textAlign='center'
-            >
-                <Progress style={{width: '50%', alignSelf: 'center',margin:'auto'}} indicating
-                          percent={progress} autoSuccess/>
-                {'Progress: ' + progress+'%'}
+            <Grid.Column width={10} textAlign="center">
+              <Progress
+                style={{width: '50%', alignSelf: 'center', margin: 'auto'}}
+                indicating={true}
+                percent={progress}
+                autoSuccess={true}
+              />
+              {'Progress: ' + progress + '%'}
             </Grid.Column>
             <Grid.Column
               width={5}
@@ -1254,32 +1359,32 @@ export class SupplierDetail extends React.Component<Props, State> {
                   display: 'inline-flex',
                 }}
               >
-              <span style={{padding: '0 8px'}}>
-                Time Saved
-                <h2>
-                  <strong>
-                    {this.props.time_efficiency_data.length > 0
-                      ? this.props.time_efficiency_data[0].saved_time
-                      : '0'}{' '}
-                    hrs
-                  </strong>
-                </h2>
-              </span>
                 <span style={{padding: '0 8px'}}>
-                Efficiency
-                <h2>
-                  <strong>
-                    {this.props.time_efficiency_data.length > 0
-                      ? this.props.time_efficiency_data[0].efficiency
-                      : '0'}{' '}
-                    %
-                  </strong>
-                </h2>
-              </span>
+                  Time Saved
+                  <h2>
+                    <strong>
+                      {this.props.time_efficiency_data.length > 0
+                        ? this.props.time_efficiency_data[0].saved_time
+                        : '0'}{' '}
+                      hrs
+                    </strong>
+                  </h2>
+                </span>
+                <span style={{padding: '0 8px'}}>
+                  Efficiency
+                  <h2>
+                    <strong>
+                      {this.props.time_efficiency_data.length > 0
+                        ? this.props.time_efficiency_data[0].efficiency
+                        : '0'}{' '}
+                      %
+                    </strong>
+                  </h2>
+                </span>
               </div>
             </Grid.Column>
           </Grid>
-          <Divider/>
+          <Divider style={{paddingBottom: 0, marginBottom: 0}}/>
           {this.renderTable()}
           {this.productDetailViewModal()}
         </Segment>
@@ -1323,7 +1428,8 @@ const mapDispatchToProps = (dispatch: any) => {
     getProductTrackGroupId: (supplierID: string) => dispatch(getProductTrackGroupId(supplierID)),
     getProductDetail: (product_id: string, supplierID: string) =>
       dispatch(getProductDetail(product_id, supplierID)),
-    getProductDetailChartRank: (product_id: string) => dispatch(getProductDetailChartRank(product_id)),
+    getProductDetailChartRank: (product_id: string) =>
+      dispatch(getProductDetailChartRank(product_id)),
     getProductDetailChartPrice: (product_id: string) =>
       dispatch(getProductDetailChartPrice(product_id)),
     getProductsChartHistoryPrice: (supplierID: string) =>

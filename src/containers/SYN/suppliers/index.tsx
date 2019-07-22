@@ -503,23 +503,6 @@ export class Suppliers extends React.Component<Props, State> {
       )
     );
   };
-  renderDeleteModal = (value: Supplier, index: any) => {
-    return (
-      <Modal trigger={
-        <Icon name='trash alternate' style={{color: 'black'}}/>
-      } onClose={this.close}>
-        <Modal.Header>Delete Your Account</Modal.Header>
-        <Modal.Content>
-          <p>Are you sure you want to delete your account</p>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button negative>No</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
-        </Modal.Actions>
-      </Modal>
-    );
-  };
 
   render() {
     return (
@@ -586,9 +569,7 @@ export class Suppliers extends React.Component<Props, State> {
     );
   }
 
-  close = () => {
-    // this.setState({ open: false })
-  };
+
 }
 
 const mapStateToProps = (state: any) => {
