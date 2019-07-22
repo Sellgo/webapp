@@ -48,8 +48,6 @@ import {
   getTimeEfficiency, getSellers,
 } from '../../../../Action/SYNActions';
 import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
-
-
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { SellField } from '../../../../Action/SettingActions';
@@ -131,7 +129,6 @@ interface Props {
   match: { params: { supplierID: '', auth: '' } };
 }
 
-
 Highcharts.setOptions({
   lang: {
     thousandsSep: ',',
@@ -199,7 +196,6 @@ export class SupplierDetail extends React.Component<Props, State> {
     if (this.props.suppliers.length == 0) {
       this.props.getSellers();
     }
-
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
@@ -208,7 +204,6 @@ export class SupplierDetail extends React.Component<Props, State> {
       if (nextProps.synthesisFileProgressUpdates.progress == undefined || nextProps.synthesisFileProgressUpdates.progress < 100) {
         this.props.getSynthesisProgressUpdates(String(nextProps.synthesisFileID.synthesis_file_id));
       }
-
     }
 
     let minUnitProfit = Number.MAX_SAFE_INTEGER;

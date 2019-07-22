@@ -75,6 +75,7 @@ interface Props {
   getSellers(): () => void;
 
   getTimeEfficiency(): () => void;
+
   postProductTrackGroupId(supplierID: string, supplierName: string): () => void;
 
   saveSupplierNameAndDescription(name: string, description: string, callBack: any): () => any;
@@ -215,6 +216,7 @@ export class Suppliers extends React.Component<Props, State> {
     this.setState({supplier_description: (event.target as HTMLTextAreaElement).value});
     return false;
   };
+
   public onChangeSupplierName = async(event: any) => {
     this.setState({supplier_name: event.target.value});
     return false;
@@ -324,7 +326,6 @@ export class Suppliers extends React.Component<Props, State> {
             type="file"
             hidden
             onChange={this.fileChange}
-            // webkitRelativePath=""
           />
           <Popup
             trigger={<Icon name="question circle" circular/>}

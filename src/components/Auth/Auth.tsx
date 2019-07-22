@@ -30,7 +30,6 @@ export default class Auth {
       formData.append('email', this.userProfile.name);
     } else {
       localStorage.setItem('userEmail', '');
-      // formData.append('email', '');
     }
     if (this.userProfile.given_name || this.userProfile.family_name) {
       formData.append('name', `${this.userProfile.given_name} ${this.userProfile.family_name}`);
@@ -45,7 +44,6 @@ export default class Auth {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
           history.replace('/dashboard');
-
         }
       })
       .catch();
@@ -75,7 +73,6 @@ export default class Auth {
     // Set the time that the access token will expire at
     const date = new Date();
     date.setSeconds(date.getSeconds() + authResult.expiresIn);
-    // date.setSeconds(date.getSeconds() + 20);
     this.expiresAt = date.getTime();
     this.idToken = authResult.idToken;
     this.accessToken = authResult.accessToken;
@@ -104,17 +101,18 @@ export default class Auth {
         this.userProfile = profile;
         localStorage.setItem('auth0_user_id', this.userProfile.sub);
         localStorage.setItem('nickName', this.userProfile.nickname);
-
       }
       cb(err, profile);
     });
   }
+
   public removeStoredItems=()=>{
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userId');
     localStorage.removeItem('idToken');
     localStorage.removeItem('idTokenExpires');
   }
+
   public logout = () => {
     // Remove tokens and expiry time
     this.accessToken = null;

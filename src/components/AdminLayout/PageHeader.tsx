@@ -49,12 +49,14 @@ const mapDispatchToProps = (dispatch: any) => {
     updatePageHistoryCounter: (counter: any) => dispatch(updatePageHistoryCounterFunction(counter)),
   };
 };
+
 const updatePageHistoryCounterFunction = (counter: any) => (dispatch: any) => {
   dispatch({
     type: SET_PAGE_HISTORY_COUNTER,
     data: counter,
   });
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

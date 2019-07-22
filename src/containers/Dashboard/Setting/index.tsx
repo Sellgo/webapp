@@ -107,6 +107,7 @@ class Setting extends React.Component<Props, State> {
       });
     }
   };
+
   updateBasicInfoSeller = () => {
     this.message.title = 'Information Updated';
     this.message.message = 'Thank you for Updating';
