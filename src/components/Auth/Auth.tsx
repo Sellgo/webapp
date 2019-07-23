@@ -62,7 +62,6 @@ export default class Auth {
   };
 
   public handleAuthentication = () => {
-    console.log('here');
     this.auth0Lock.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);

@@ -37,6 +37,7 @@ import {
   getProductDetailChartPrice,
   getProductTrackData,
   getLastFileID,
+  resetProductData,
   getSynthesisProgressUpdates,
   ProductsTrackData,
   ProductDetails,
@@ -49,7 +50,11 @@ import {
   getTimeEfficiency,
   getSellers,
 } from '../../../../Action/SYNActions';
-import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
+import {
+  numberWithCommas,
+  ProductFiltersPreset,
+  UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+} from '../../../../constant/constant';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { SellField } from '../../../../Action/SettingActions';
@@ -98,6 +103,8 @@ interface Props {
   ): () => void;
 
   getTimeEfficiency(): () => void;
+
+  resetProductData(data: {}): () => void;
 
   getProductTrackData(supplierID: string): () => void;
 
@@ -190,6 +197,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
+    this.props.resetProductData({});
     this.props.getProducts(this.props.match.params.supplierID);
     this.props.getLastFileID(this.props.match.params.supplierID);
     this.props.getProductTrackGroupId(this.props.match.params.supplierID);
@@ -205,14 +213,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
-    if (nextProps.synthesisFileID.synthesis_file_id != undefined) {
-      if (
-        nextProps.synthesisFileProgressUpdates.progress == undefined ||
-        nextProps.synthesisFileProgressUpdates.progress < 100
-      ) {
-        this.props.getSynthesisProgressUpdates(String(nextProps.synthesisFileID.synthesis_file_id));
-      }
-    }
 
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
     let maxUnitProfit = Number.MIN_SAFE_INTEGER;
@@ -1430,6 +1430,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    resetProductData: (data: {}) => dispatch(resetProductData(data)),
     getLastFileID: (supplierID: string) => dispatch(getLastFileID(supplierID)),
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductTrackData: (supplierID: string) => dispatch(getProductTrackData(supplierID)),

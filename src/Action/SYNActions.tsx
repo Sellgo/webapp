@@ -12,7 +12,7 @@ import {
   SET_TIME_EFFICIENCY,
   UPDATE_PRODUCT,
   UPLOAD_SYNTHESIS_FILE_ID,
-  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES, SYN_RESET_PRODUCT_REDUCED_VALUES,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -190,6 +190,7 @@ export const getSellers = () => (dispatch: any) => {
     });
 };
 
+
 export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
@@ -325,7 +326,6 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(reduceProductTrackGroup(json.data));
     })
     .catch(error => {
@@ -442,10 +442,9 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch({
-        type: UPLOAD_SYNTHESIS_FILE_ID,
-        data: json.data,
-      });
+      dispatch(setSynthesisFileID(json.data));
+      dispatch(setProgressUpdatesValue({ progress: 0 }));
+      getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
     })
     .catch(error => {
     });
@@ -458,10 +457,12 @@ export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatc
     headers,
   })
     .then(json => {
-      dispatch({
-        type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
-        data: json.data,
-      });
+      dispatch(setProgressUpdatesValue(json.data));
+      if (json.data.progress != 100) {
+        setTimeout(() => {
+          getSynthesisProgressUpdates(synthesisFileID)(dispatch);
+        }, 2000);
+      }
     })
     .catch(error => {
     });
@@ -586,6 +587,18 @@ export const trackProductWithPatch = (product_track_id: string, productTrackGrou
     });
 };
 
+export const resetProductData = (data: {}) => ({
+  type: SYN_RESET_PRODUCT_REDUCED_VALUES,
+  data,
+});
+export const setSynthesisFileID = (data: {}) => ({
+  type: UPLOAD_SYNTHESIS_FILE_ID,
+  data,
+});
+export const setProgressUpdatesValue = (data: {}) => ({
+  type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+  data,
+});
 export const setSellers = (data: {}) => ({
   type: SET_SELLERS,
   data,
