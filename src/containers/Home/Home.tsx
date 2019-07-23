@@ -34,11 +34,11 @@ export class Home extends React.Component<any, HomeState> {
     const {isAuthenticated, login} = this.props.auth;
     return (
       <Segment basic={true}>
-        <HeaderBar login={login}/>
+        {/*<HeaderBar login={login}/>*/}
         <Container style={{height: 500, textAlign: 'center', paddingTop: '10%'}}>
-          <Image style={{width: 80}} centered={true} src="/images/sellgo_logo.png"/>
-          <div style={{marginBottom:5,marginTop:5}}><h3>Please Sign In</h3></div>
-          <div><Button style={buttonStyle} onClick={this.props.login} content="Sign In"/></div>
+          <Image style={{width: 150}} centered={true} src="/images/sellgo_logo_black.png"/>
+          <div style={{marginBottom:10,marginTop:20}}><h3>Please Sign In</h3></div>
+          <div><Button style={buttonStyle} onClick={login} content="Sign In"/></div>
         </Container>
       </Segment>
     );

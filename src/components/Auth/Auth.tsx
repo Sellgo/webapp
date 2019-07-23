@@ -20,7 +20,7 @@ export default class Auth {
     allowShowPassword: true,
     autoclose: true,
     theme: {
-      logo: '/images/sellgo_logo.png',
+      logo: '/images/sellgo_logo_black.png',
       primaryColor: '#4285F4',
     },
     languageDictionary: {
