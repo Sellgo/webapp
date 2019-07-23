@@ -493,17 +493,22 @@ export class SupplierDetail extends React.Component<Props, State> {
                       style={{ borderRadius: 20 }}
                       color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                       onClick={() => {
+                        let productTrackGroupID = 2;
+
+                        if (this.props.productTrackGroup[0].id === undefined) {
+                          productTrackGroupID = this.props.productTrackGroup[0].id;
+                        }
                         if (value.tracking_status != null) {
                           this.props.trackProductWithPatch(
                             String(value.product_track_id),
-                            '2',
+                            String(productTrackGroupID),
                             value.tracking_status === 'active' ? 'inactive' : 'active',
                             this.props.match.params.supplierID
                           );
                         } else {
                           this.props.trackProductWithPost(
                             String(value.product_id),
-                            String(this.props.productTrackGroup[0].id),
+                            String(productTrackGroupID),
                             'active',
                             this.props.match.params.supplierID
                           );
