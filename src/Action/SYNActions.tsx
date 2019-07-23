@@ -591,14 +591,17 @@ export const resetProductData = (data: {}) => ({
   type: SYN_RESET_PRODUCT_REDUCED_VALUES,
   data,
 });
+
 export const setSynthesisFileID = (data: {}) => ({
   type: UPLOAD_SYNTHESIS_FILE_ID,
   data,
 });
+
 export const setProgressUpdatesValue = (data: {}) => ({
   type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
   data,
 });
+
 export const setSellers = (data: {}) => ({
   type: SET_SELLERS,
   data,
