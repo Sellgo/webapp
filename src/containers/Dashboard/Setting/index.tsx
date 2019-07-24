@@ -120,7 +120,6 @@ class Setting extends React.Component<Props, State> {
   };
 
   componentWillReceiveProps(props: any) {
-    console.log(props.updatedImage.id);
     if (props.updatedImage.id != undefined) {
       this.setState({
         imageView: props.updatedImage.image_url,
@@ -218,7 +217,6 @@ class Setting extends React.Component<Props, State> {
     });
     const {marketplace_id} = this.props.amazonData;
     const marketplaceDATA = this.getmarketplaceDATA(marketplace_id);
-    console.log(marketplace_id);
     const {firstName, lastName, email} = this.props.sellerData;
 
     let howUrl = '';

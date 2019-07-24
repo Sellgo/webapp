@@ -82,7 +82,6 @@ export const getSellerImage = () => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(reduceUpdatedImage(json.data));
     })
     .catch(() => {

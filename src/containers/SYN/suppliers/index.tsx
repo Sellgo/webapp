@@ -15,7 +15,7 @@ import {
   TextArea,
   Pagination,
   Loader,
-  Confirm, List,
+  Confirm, List, Container,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -37,8 +37,12 @@ import {
 import { AdminLayout } from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
 import { localStorageKeys } from '../../../constant/constant';
+import { Modals } from '../../../components/Modals';
+import MesssageComponent from '../../../components/MessageComponent';
+import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 
 interface State {
+  isMessageModalOn: boolean;
   isOpen: boolean;
   size: string;
   modalOpen: boolean;
@@ -106,6 +110,7 @@ export class Suppliers extends React.Component<Props, State> {
     currentPage: 1,
     singlePageItemsCount: 10,
     updateDetails: false,
+    isMessageModalOn: false,
     update_product_id: '0',
     delete_confirmation: false,
     delete_supplier_container: {
@@ -136,6 +141,8 @@ export class Suppliers extends React.Component<Props, State> {
     description2: '',
     to: '/dashboard/setting',
     button_text: 'Ok',
+    icon: 'check circle',
+    color: '#cf3105',
   };
   fileInputRef: any = React.createRef();
 
@@ -157,13 +164,6 @@ export class Suppliers extends React.Component<Props, State> {
   componentDidUpdate(prevProps: any) {
 
   }
-
-  handleModel = () => {
-    const {isOpen} = this.state;
-    this.setState({
-      isOpen: !isOpen,
-    });
-  };
 
   fileChange = (event: any): void => {
     this.setState({file: event.target.files[0]}, () => {
@@ -198,21 +198,44 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   openUpdateSupplierPopup = (value: any): void => {
-    this.setState({
-      modalOpen: true,
-      update_product_id: value.id,
-      updateDetails: true,
-      supplier_name: value.name,
-      supplier_description: value.description,
-    });
+    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+      console.log('HERE');
+      this.setState({
+        modalOpen: true,
+        update_product_id: value.id,
+        updateDetails: true,
+        supplier_name: value.name,
+        supplier_description: value.description,
+      });
+    } else {
+      console.log('HERE');
+      this.message.title = '';
+      this.message.message = 'Unauthorized Access';
+      this.message.description = 'Please Setup MWS Authorization Token';
+      this.message.to = '/dashboard/setting';
+      this.message.icon = 'warning sign';
+      this.message.color = '#cf3105';
+      this.handleMessageModal();
+    }
   };
 
-  handleOpen = () => {
-    // if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-      this.setState({supplier_name: '', supplier_description: '', modalOpen: true, updateDetails: false});
-    // } else {
-    //
-    // }
+  handleAddNewSupplierModalOpen = () => {
+    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+      this.setState({
+        supplier_name: '',
+        supplier_description: '',
+        modalOpen: true,
+        updateDetails: false,
+      });
+    } else {
+      this.message.title = '';
+      this.message.message = 'Unauthorized Access';
+      this.message.description = 'Please Setup MWS Authorization Token';
+      this.message.to = '/dashboard/setting';
+      this.message.icon = 'warning sign';
+      this.message.color = '#cf3105';
+      this.handleMessageModal();
+    }
   };
 
   handleClose = () => this.setState({modalOpen: false, updateDetails: false});
@@ -237,7 +260,7 @@ export class Suppliers extends React.Component<Props, State> {
           basic color='black'
           primary={true}
           style={{borderRadius: '50px'}}
-          onClick={this.handleOpen}
+          onClick={this.handleAddNewSupplierModalOpen}
         >
           Add New Supplier
         </Button>
@@ -413,8 +436,18 @@ export class Suppliers extends React.Component<Props, State> {
                                     value: 'SYN',
                                   }]}
                                   onChange={(e, data) => {
-                                    if (data.value === 'SYN') {
-                                      history.push(`/syn/${value.id}`);
+                                    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+                                      if (data.value === 'SYN') {
+                                        history.push(`/syn/${value.id}`);
+                                      }
+                                    } else {
+                                      this.message.title = '';
+                                      this.message.message = 'Unauthorized Access';
+                                      this.message.description = 'Please Setup MWS Authorization Token';
+                                      this.message.to = '/dashboard/setting';
+                                      this.message.icon = 'warning sign';
+                                      this.message.color = '#cf3105';
+                                      this.handleMessageModal();
                                     }
                                   }}>
                         </Dropdown>
@@ -430,17 +463,23 @@ export class Suppliers extends React.Component<Props, State> {
                         <Table.Cell as={Link} to={`/syn/`}>
                           <Icon
                             onClick={() => {
-                              if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-                                this.openUpdateSupplierPopup(value);
-                              }
+                              this.openUpdateSupplierPopup(value);
                             }}
                             name='cloud upload' style={{color: 'black'}}
                           />&nbsp;
                         </Table.Cell>
-                        <Table.Cell as={Link} to={`/syn/${value.id}`}>
+                        <Table.Cell as={Link} >
                           <Icon name='refresh' style={{color: 'black'}}
                                 onClick={() => {
                                   if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+                                  } else {
+                                    this.message.title = '';
+                                    this.message.message = 'Unauthorized Access';
+                                    this.message.description = 'Please Setup MWS Authorization Token';
+                                    this.message.to = '/dashboard/setting';
+                                    this.message.icon = 'warning sign';
+                                    this.message.color = '#cf3105';
+                                    this.handleMessageModal();
                                   }
                                 }}
                           />&nbsp;
@@ -449,9 +488,7 @@ export class Suppliers extends React.Component<Props, State> {
                           as={Link}
                           to={{}}
                           onClick={() => {
-                            if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-                              this.openUpdateSupplierPopup(value);
-                            }
+                            this.openUpdateSupplierPopup(value);
                           }}
                         >
                           <Icon
@@ -580,12 +617,27 @@ export class Suppliers extends React.Component<Props, State> {
             </Grid.Column>
           </Grid>
           {this.renderTable()}
+          <Modals title="" size="large" open={this.state.isMessageModalOn} close={this.handleMessageModal}
+                  bCloseIcon={true}>
+            <Container textAlign="center">
+              <MesssageComponent message={this.message} isModal={true}/>
+              <Segment textAlign="center" basic={true}>
+                <Button style={buttonStyle} content="Ok" onClick={this.handleMessageModal} as={Link}
+                        to={this.message.to}/>
+              </Segment>
+            </Container>
+          </Modals>
         </Segment>
       </AdminLayout>
     );
   }
 
-
+  handleMessageModal = () => {
+    const {isMessageModalOn} = this.state;
+    this.setState({
+      isMessageModalOn: !isMessageModalOn,
+    });
+  };
 }
 
 const mapStateToProps = (state: any) => {

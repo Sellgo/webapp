@@ -188,6 +188,8 @@ export class SupplierDetail extends React.Component<Props, State> {
     description2: '',
     to: '/dashboard/setting',
     button_text: 'Ok',
+    icon: 'check circle',
+    color: '#0E6FCF',
   };
 
   componentDidMount() {
