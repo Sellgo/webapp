@@ -32,6 +32,8 @@ export default class RecoverPass extends React.Component<any, State> {
     description: 'Please Check Your Email For Further Instruction.',
     description2: '',
     button_text: 'Ok',
+    icon: 'check circle',
+    color: '#0E6FCF',
   };
 
   handleResponse = (response: any) => {

@@ -89,6 +89,8 @@ class Setting extends React.Component<Props, State> {
     description2: '',
     to: '/dashboard/setting',
     button_text: 'Ok',
+    icon: 'check circle',
+    color: '#0E6FCF',
   };
   fileInputRef: any = React.createRef();
 
@@ -395,7 +397,7 @@ class Setting extends React.Component<Props, State> {
                 </Segment>
               </Container>
             </Modals>
-          </Segment>s
+          </Segment>
         </Segment>
       </AdminLayout>
     );
@@ -407,7 +409,6 @@ class Setting extends React.Component<Props, State> {
         this.props.postSellerImage(this.state.imageFile.type, this.state.imageFile);
       }
     });
-
   };
 }
 

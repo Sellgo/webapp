@@ -16,7 +16,7 @@ function MesssageComponent(props: any) {
             <div className="heading-h1">{items.title}</div>
           </Grid.Column>
           <Grid.Column textAlign="center" width={16} className="header-msg">
-            <Icon name="check circle" size="big" style={{ color: '#0E6FCF' }} />
+            <Icon name={items.icon} size="big" style={{ color: items.color }} />
             <Header as="h3">{items.message}</Header>
           </Grid.Column>
           <Grid.Column textAlign="center" width={16}>
