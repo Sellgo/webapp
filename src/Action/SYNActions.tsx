@@ -439,8 +439,15 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
 
 
 export const getLastFileID = (supplierID: string) => (dispatch: any) => {
+  dispatch(setProgressUpdatesValue({progress: 0}));
+  if (progressTimer != null) {
+    clearTimeout(progressTimer);
+    if (progressAxiosCancel != null) {
+      progressAxiosCancel();
+    }
+    progressTimer = null;
+  }
   const sellerID = localStorage.getItem('userId');
-
   return axios({
     method: 'GET',
     url: URLS.BASE_URL_API + `supplier/${supplierID}/get_last_file_id/?seller_id=${sellerID}`,
@@ -448,15 +455,6 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
   })
     .then(json => {
       dispatch(setSynthesisFileID(json.data));
-      dispatch(setProgressUpdatesValue({progress: 0}));
-      if (progressTimer != null) {
-        clearTimeout(progressTimer);
-        if (progressAxiosCancel != null) {
-          progressAxiosCancel();
-        }
-        progressTimer = null;
-      }
-
       getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
     })
     .catch(error => {
