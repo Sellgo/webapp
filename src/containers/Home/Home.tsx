@@ -35,7 +35,7 @@ export class Home extends React.Component<any, HomeState> {
     return (
       <Segment basic={true}>
         {/*<HeaderBar login={login}/>*/}
-        <Container style={{height: 500, textAlign: 'center', paddingTop: '20%'}}>
+        <Container style={{height: 500, textAlign: 'center', paddingTop: '15%'}}>
           <Image style={{width: 150}} centered={true} src="/images/sellgo_logo_black.png"/>
           <div style={{marginBottom:10,marginTop:50}}><h3>Please Sign In</h3></div>
           <div><Button style={buttonStyle} onClick={login} content="Sign In"/></div>

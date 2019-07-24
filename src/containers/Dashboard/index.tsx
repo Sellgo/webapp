@@ -7,6 +7,7 @@ import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
 import {
   getBasicInfoSeller,
+  getIsMWSAuthorized,
   SellField,
 } from '../../Action/SettingActions';
 import { connect } from 'react-redux';
@@ -30,6 +31,7 @@ interface State {
 
 interface Props {
   getBasicInfoSeller(): () => void;
+  getIsMWSAuthorized(): () => void;
 
   match: { params: { auth: null } };
   sellerData: SellField;
@@ -38,6 +40,7 @@ interface Props {
 class Dashboard extends React.Component<Props, State> {
   componentDidMount() {
     this.props.getBasicInfoSeller();
+    this.props.getIsMWSAuthorized();
     const visited = localStorage.getItem('FirstLogin');
     console.log(visited);
     if (!visited) {
@@ -155,6 +158,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
+    getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
   };
 };
 

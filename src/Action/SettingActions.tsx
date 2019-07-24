@@ -3,7 +3,7 @@ import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
   GET_BASIC_INFO_SELLER,
-  SET_AMAZON_MWS, UPLOAD_SELLER_IMAGE,
+  SET_AMAZON_MWS, UPLOAD_SELLER_IMAGE, localStorageKeys,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -31,6 +31,22 @@ export interface MWSinfo {
 const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': 'application/json',
+};
+
+export const getIsMWSAuthorized = () => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const url = URLS.BASE_URL_API + `seller/${sellerID}/is_mws_authorized/`;
+  return axios({
+    method: 'GET',
+    url,
+    headers,
+  })
+    .then(json => {
+      localStorage.setItem(localStorageKeys.isMWSAuthorized, json.data.is_mws_authorized);
+    })
+    .catch(() => {
+    });
+
 };
 
 export const postSellerImage = (imageType: string, imagePath: any) => (dispatch: any) => {

@@ -27,6 +27,7 @@ const initialState = Map({
   success: false,
   loading: false,
   error: null,
+  isMWSAuthorized: false,
 });
 
 export const SettingReducer = (state = initialState, action: any) => {

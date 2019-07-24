@@ -36,6 +36,7 @@ import {
 } from '../../../Action/SYNActions';
 import { AdminLayout } from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
+import { localStorageKeys } from '../../../constant/constant';
 
 interface State {
   isOpen: boolean;
@@ -184,7 +185,7 @@ export class Suppliers extends React.Component<Props, State> {
     } else {
       this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, (data: any) => {
         console.log(data);
-        this.props.postProductTrackGroupId(data.id,this.state.supplier_name);
+        this.props.postProductTrackGroupId(data.id, this.state.supplier_name);
         this.props.getSellers();
         if (this.props.new_supplier_id != null && this.state.file != '') {
           this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
@@ -207,7 +208,11 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   handleOpen = () => {
-    this.setState({supplier_name: '', supplier_description: '', modalOpen: true, updateDetails: false});
+    // if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+      this.setState({supplier_name: '', supplier_description: '', modalOpen: true, updateDetails: false});
+    // } else {
+    //
+    // }
   };
 
   handleClose = () => this.setState({modalOpen: false, updateDetails: false});
@@ -425,18 +430,28 @@ export class Suppliers extends React.Component<Props, State> {
                         <Table.Cell as={Link} to={`/syn/`}>
                           <Icon
                             onClick={() => {
-                              this.openUpdateSupplierPopup(value);
+                              if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+                                this.openUpdateSupplierPopup(value);
+                              }
                             }}
-                            name='cloud upload' style={{color: 'black'}}/>&nbsp;
+                            name='cloud upload' style={{color: 'black'}}
+                          />&nbsp;
                         </Table.Cell>
                         <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                          <Icon name='refresh' style={{color: 'black'}}/>&nbsp;
+                          <Icon name='refresh' style={{color: 'black'}}
+                                onClick={() => {
+                                  if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+                                  }
+                                }}
+                          />&nbsp;
                         </Table.Cell>
                         <Table.Cell
                           as={Link}
                           to={{}}
                           onClick={() => {
-                            this.openUpdateSupplierPopup(value);
+                            if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+                              this.openUpdateSupplierPopup(value);
+                            }
                           }}
                         >
                           <Icon
@@ -514,9 +529,9 @@ export class Suppliers extends React.Component<Props, State> {
             <Grid.Column width={5} floated='left' className={'middle aligned'}>
               {this.renderAddNewSupplierModal()}
               <Popup className={'addSupplierPopup'}
-                trigger={<Icon name='question circle' circular/>}
-                position='top left'
-                size='tiny'
+                     trigger={<Icon name='question circle' circular/>}
+                     position='top left'
+                     size='tiny'
               >
                 <h4>
                   Adding a Supplier

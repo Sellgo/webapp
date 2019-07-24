@@ -22,6 +22,15 @@ export const GET_PRODUCT_TRACK_GROUP = '/SYN/GET_PRODUCT_TRACK_GROUP';
 export const SYN_RESET_PRODUCT_REDUCED_VALUES = '/SYN/SYN_RESET_PRODUCT_REDUCED_VALUES';
 
 
+/**
+ *
+ * keys for localstorage
+ */
+export const localStorageKeys = {
+  isMWSAuthorized: 'isMWSAuthorized',
+};
+
+
 export const marketPlace = [
   { name: 'Brazil', id: 'A2Q3Y263D00KWC', code: 'BR', link: 'amazon.com' },
   { name: 'Canada', id: 'A2EUQ1WTGCTBG2', code: 'CA', link: 'amazon.ca' },

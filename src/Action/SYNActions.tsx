@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { Cancel, Canceler } from 'axios';
 import {
   SET_SELLERS,
   SET_PRODUCTS,
@@ -15,6 +15,7 @@ import {
   GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES, SYN_RESET_PRODUCT_REDUCED_VALUES,
 } from '../constant/constant';
 import { URLS } from '../config';
+import { Simulate } from 'react-dom/test-utils';
 
 export interface Supplier {
   contact: string;
@@ -128,6 +129,9 @@ const headers = {
   'Content-Type': `multipart/form-data`,
 };
 
+let progressTimer: NodeJS.Timeout | null = null;
+const CancelToken = axios.CancelToken;
+let progressAxiosCancel: Canceler | null = null;
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   if (headers.Authorization === 'Bearer null') {
@@ -326,6 +330,7 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
     headers,
   })
     .then(json => {
+      console.log(json.data);
       dispatch(reduceProductTrackGroup(json.data));
     })
     .catch(error => {
@@ -443,7 +448,15 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
   })
     .then(json => {
       dispatch(setSynthesisFileID(json.data));
-      dispatch(setProgressUpdatesValue({ progress: 0 }));
+      dispatch(setProgressUpdatesValue({progress: 0}));
+      if (progressTimer != null) {
+        clearTimeout(progressTimer);
+        if (progressAxiosCancel != null) {
+          progressAxiosCancel();
+        }
+        progressTimer = null;
+      }
+
       getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
     })
     .catch(error => {
@@ -451,15 +464,20 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
 };
 
 export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
+  console.log('here');
+  console.log(synthesisFileID);
   return axios({
     method: 'GET',
     url: URLS.BASE_URL_API + `synthesis_progress/?synthesis_file_id=${synthesisFileID}`,
     headers,
+    cancelToken: new CancelToken(canceler => {
+      progressAxiosCancel = canceler;
+    }),
   })
     .then(json => {
       dispatch(setProgressUpdatesValue(json.data));
       if (json.data.progress != 100) {
-        setTimeout(() => {
+        progressTimer = setTimeout(() => {
           getSynthesisProgressUpdates(synthesisFileID)(dispatch);
         }, 2000);
       }
