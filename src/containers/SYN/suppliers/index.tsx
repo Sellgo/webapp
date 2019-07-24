@@ -34,6 +34,8 @@ import {
   TimeEfficiency,
   deleteSupplier, postProductTrackGroupId,
 } from '../../../Action/SYNActions';
+
+import { getIsMWSAuthorized} from '../../../Action/SettingActions';
 import { AdminLayout } from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
 import { localStorageKeys } from '../../../constant/constant';
@@ -80,6 +82,8 @@ interface Props {
   getSellers(): () => void;
 
   getTimeEfficiency(): () => void;
+
+  getIsMWSAuthorized(): () => void;
 
   postProductTrackGroupId(supplierID: string, supplierName: string): () => void;
 
@@ -151,6 +155,7 @@ export class Suppliers extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
+    this.props.getIsMWSAuthorized();
     this.props.getSellers();
     this.props.getTimeEfficiency();
   }
@@ -468,7 +473,7 @@ export class Suppliers extends React.Component<Props, State> {
                             name='cloud upload' style={{color: 'black'}}
                           />&nbsp;
                         </Table.Cell>
-                        <Table.Cell as={Link} >
+                        <Table.Cell as={Link}  >
                           <Icon name='refresh' style={{color: 'black'}}
                                 onClick={() => {
                                   if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
@@ -653,6 +658,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
     postProductTrackGroupId: (supplierID: string, supplierName: string) =>
       dispatch(postProductTrackGroupId(supplierID, supplierName)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),

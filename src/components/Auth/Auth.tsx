@@ -55,7 +55,7 @@ export default class Auth {
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
-          history.replace('/dashboard');
+          history.replace('/');
         }
       })
       .catch();

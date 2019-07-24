@@ -42,7 +42,6 @@ class Dashboard extends React.Component<Props, State> {
     this.props.getBasicInfoSeller();
     this.props.getIsMWSAuthorized();
     const visited = localStorage.getItem('FirstLogin');
-    console.log(visited);
     if (!visited) {
       localStorage['FirstLogin'] = true;
       this.setState({ isOpen: true });

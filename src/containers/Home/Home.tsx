@@ -25,7 +25,7 @@ export class Home extends React.Component<any, HomeState> {
   componentDidMount() {
     const {renewSession, isAuthenticated} = this.props.auth;
     if (localStorage.getItem('isLoggedIn') === 'true') {
-      history.replace('/dashboard');
+      history.replace('/syn');
     }
   }
 
