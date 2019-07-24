@@ -4,7 +4,7 @@ import {
   UPDATE_BASIC_INFO_SELLER,
   FETCH_AUTH_BEGIN,
   SET_AMAZON_MWS,
-  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE,
+  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE, GET_AMAZON_MWS,
 } from '../constant/constant';
 
 const initialState = Map({
@@ -46,6 +46,7 @@ export const SettingReducer = (state = initialState, action: any) => {
       return newState;
     case SET_AMAZON_MWS:
       data = action.data;
+      console.log(data);
       newState = state.setIn(['amazonMWS', data.key], data.value);
       return newState;
     case UPDATE_BASIC_INFO_SELLER:
@@ -74,6 +75,11 @@ export const SettingReducer = (state = initialState, action: any) => {
     case UPLOAD_SELLER_IMAGE:
       data = action.data;
       newState = state.setIn(['updatedImage'], data);
+      return newState;
+    case GET_AMAZON_MWS:
+      data = action.data;
+      console.log(data[0]);
+      newState = state.setIn(['amazonMWS'], data[0]);
       return newState;
     default:
       return state;

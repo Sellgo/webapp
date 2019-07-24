@@ -8,6 +8,7 @@ import {
   Header,
   Image,
   Segment,
+  Icon,
   Select,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -22,6 +23,8 @@ import {
   getSellerImage,
   getBasicInfoSeller,
   setAmazonMWS,
+  getMWSAuth,
+  deleteMWSAuth,
   updateAmazonMWS,
   Field,
   SellField,
@@ -52,6 +55,8 @@ interface Props {
 
   setAmazonMWS(data: Field): () => void;
 
+  getMWSAuth(): () => void;
+
   updateBasicInfoSeller(data: SellField): () => void;
 
   updateAmazonMWS(id: string, data: MWSinfo): () => void;
@@ -59,6 +64,8 @@ interface Props {
   getBasicInfoSeller(): () => void;
 
   getSellerImage(): () => void;
+
+  deleteMWSAuth(): () => void;
 
   postSellerImage(imageType: string, imagePath: any): () => void;
 
@@ -95,6 +102,7 @@ class Setting extends React.Component<Props, State> {
   fileInputRef: any = React.createRef();
 
   componentDidMount() {
+    this.props.getMWSAuth();
     this.props.getBasicInfoSeller();
     this.props.getSellerImage();
   }
@@ -227,7 +235,6 @@ class Setting extends React.Component<Props, State> {
         marketplaceDATA.code
         }&devMWSAccountId=${'4294-2444-1812'}`;
     }
-
     return (
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'Setting'}>
         <Segment basic={true} className="setting">
@@ -347,6 +354,7 @@ class Setting extends React.Component<Props, State> {
                         control={Select}
                         label="Marketplace"
                         options={marketPlaceoptions}
+                        value={this.props.amazonData.marketplace_id}
                         placeholder="select"
                         name="marketplace_id"
                         onChange={this.setAmazonMWSPlace}
@@ -365,6 +373,7 @@ class Setting extends React.Component<Props, State> {
                       <Form.Input
                         label="Amazon Seller ID"
                         placeholder="Amazon Seller ID"
+                        // value={this.props.amazonData.seller_id}
                         name="seller_id"
                         onChange={e => this.setAmazonMWS(e)}
                       />
@@ -373,6 +382,7 @@ class Setting extends React.Component<Props, State> {
                       <Form.Input
                         label="MWS Auth Token"
                         placeholder="MWS Auth Token"
+                        value={this.props.amazonData.token}
                         name="token"
                         onChange={e => this.setAmazonMWS(e)}
                       />
@@ -382,6 +392,16 @@ class Setting extends React.Component<Props, State> {
                         onClick={this.updateAmazonMWS}
                         style={{borderRadius: '50px'}}
                       />
+                      <Button
+                        primary={true}
+                        onClick={()=>{
+                          this.props.deleteMWSAuth();
+                        }}
+                        style={{borderRadius: '50px'}}
+                      >
+                        <Icon name={"delete"}/>
+                        Delete
+                      </Button>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
@@ -423,6 +443,8 @@ const mapDispatchToProps = (dispatch: any) => {
     updateAmazonMWS: (id: string, info: MWSinfo) => dispatch(updateAmazonMWS(id, info)),
     setBasicInfoSeller: (data: Field) => dispatch(setBasicInfoSeller(data)),
     setAmazonMWS: (data: Field) => dispatch(setAmazonMWS(data)),
+    getMWSAuth: () => dispatch(getMWSAuth()),
+    deleteMWSAuth: () => dispatch(deleteMWSAuth()),
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
     getSellerImage: () => dispatch(getSellerImage()),
     postSellerImage: (imageType: string, imagePath: any) => dispatch(postSellerImage(imageType, imagePath)),

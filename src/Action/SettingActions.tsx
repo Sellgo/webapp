@@ -3,7 +3,7 @@ import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
   GET_BASIC_INFO_SELLER,
-  SET_AMAZON_MWS, UPLOAD_SELLER_IMAGE, localStorageKeys,
+  SET_AMAZON_MWS, UPLOAD_SELLER_IMAGE, localStorageKeys, GET_AMAZON_MWS, PATCH_AMAZON_MWS,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -31,6 +31,38 @@ export interface MWSinfo {
 const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': 'application/json',
+};
+
+export const getMWSAuth = () => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const url = URLS.BASE_URL_API + `seller/${sellerID}/mws_auth/`;
+  return axios({
+    method: 'GET',
+    url,
+    headers,
+  })
+    .then(json => {
+      dispatch(reduceGetMWSAuth(json.data));
+    })
+    .catch(() => {
+    });
+
+};
+
+export const deleteMWSAuth = () => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const url = URLS.BASE_URL_API + `seller/${sellerID}/mws_auth/`;
+  return axios({
+    method: 'PATCH',
+    url,
+    headers,
+  })
+    .then(json => {
+      dispatch(reduceDeleteMWSAuth(json.data));
+    })
+    .catch(() => {
+    });
+
 };
 
 export const getIsMWSAuthorized = () => (dispatch: any) => {
@@ -141,6 +173,7 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
 };
 
 export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) => {
+  console.log(data);
   const formData = new FormData();
   formData.append('seller_id', data.seller_id);
   formData.append('marketplace_id', data.marketplace_id);
@@ -172,6 +205,16 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
 
 export const reduceUpdatedImage = (data: any) => ({
   type: UPLOAD_SELLER_IMAGE,
+  data,
+});
+
+export const reduceGetMWSAuth = (data: any) => ({
+  type: GET_AMAZON_MWS,
+  data,
+});
+
+export const reduceDeleteMWSAuth = (data: any) => ({
+  type: PATCH_AMAZON_MWS,
   data,
 });
 
