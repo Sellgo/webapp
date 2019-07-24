@@ -28,6 +28,7 @@ import {
   Supplier,
   saveSupplierNameAndDescription,
   updateSupplierNameAndDescription,
+  resetUploadCSVResponse,
   New_Supplier,
   uploadCSV,
   getTimeEfficiency,
@@ -35,7 +36,7 @@ import {
   deleteSupplier, postProductTrackGroupId,
 } from '../../../Action/SYNActions';
 
-import { getIsMWSAuthorized} from '../../../Action/SettingActions';
+import { getIsMWSAuthorized } from '../../../Action/SettingActions';
 import { AdminLayout } from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
 import { localStorageKeys } from '../../../constant/constant';
@@ -70,7 +71,7 @@ interface State {
     rate: string;
     seller_id: number;
     status: string;
-    supplier_group_id: 1,
+    supplier_group_id: 1;
     timezone: string;
     upcharge_fee: string;
     website: string;
@@ -82,6 +83,8 @@ interface Props {
   getSellers(): () => void;
 
   getTimeEfficiency(): () => void;
+
+  resetUploadCSVResponse(): () => void;
 
   getIsMWSAuthorized(): () => void;
 
@@ -100,6 +103,7 @@ interface Props {
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
+  uploadCSVResponse: { message: '', status: '' };
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -155,12 +159,31 @@ export class Suppliers extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
+    this.props.resetUploadCSVResponse();
     this.props.getIsMWSAuthorized();
     this.props.getSellers();
     this.props.getTimeEfficiency();
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
+    if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status && nextProps.uploadCSVResponse.status !== 'unset') {
+    // if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status ) {
+      console.log(nextProps.uploadCSVResponse);
+      this.message.message = nextProps.uploadCSVResponse.message;
+      this.message.description = ' ';
+      this.message.description2 = '    ';
+      this.message.to = '#';
+      if (nextProps.uploadCSVResponse.status == 'failed') {
+        this.message.title = 'Upload Failed';
+        this.message.icon = 'warning sign';
+        this.message.color = '#cf3105';
+      } else {
+        this.message.title = 'Upload Successful';
+        this.message.icon = 'check circle';
+        this.message.color = '#4285f4';
+      }
+      this.handleMessageModal();
+    }
     this.setState({
       totalPages: Math.ceil(nextProps.suppliers.length / this.state.singlePageItemsCount),
     });
@@ -189,7 +212,6 @@ export class Suppliers extends React.Component<Props, State> {
       });
     } else {
       this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, (data: any) => {
-        console.log(data);
         this.props.postProductTrackGroupId(data.id, this.state.supplier_name);
         this.props.getSellers();
         if (this.props.new_supplier_id != null && this.state.file != '') {
@@ -204,7 +226,6 @@ export class Suppliers extends React.Component<Props, State> {
 
   openUpdateSupplierPopup = (value: any): void => {
     if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-      console.log('HERE');
       this.setState({
         modalOpen: true,
         update_product_id: value.id,
@@ -213,7 +234,6 @@ export class Suppliers extends React.Component<Props, State> {
         supplier_description: value.description,
       });
     } else {
-      console.log('HERE');
       this.message.title = 'Unauthorized Access';
       this.message.message = 'MWS Auth token not found';
       this.message.description = 'Please Setup MWS Authorization Token';
@@ -225,22 +245,22 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   handleAddNewSupplierModalOpen = () => {
-    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-      this.setState({
-        supplier_name: '',
-        supplier_description: '',
-        modalOpen: true,
-        updateDetails: false,
-      });
-    } else {
-      this.message.title = 'Unauthorized Access';
-      this.message.message = 'MWS Auth token not found';
-      this.message.description = 'Please Setup MWS Authorization Token';
-      this.message.to = '/dashboard/setting';
-      this.message.icon = 'warning sign';
-      this.message.color = '#cf3105';
-      this.handleMessageModal();
-    }
+    // if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+    this.setState({
+      supplier_name: '',
+      supplier_description: '',
+      modalOpen: true,
+      updateDetails: false,
+    });
+    // } else {
+    //   this.message.title = 'Unauthorized Access';
+    //   this.message.message = 'MWS Auth token not found';
+    //   this.message.description = 'Please Setup MWS Authorization Token';
+    //   this.message.to = '/dashboard/setting';
+    //   this.message.icon = 'warning sign';
+    //   this.message.color = '#cf3105';
+    //   this.handleMessageModal();
+    // }
   };
 
   handleClose = () => this.setState({modalOpen: false, updateDetails: false});
@@ -357,6 +377,7 @@ export class Suppliers extends React.Component<Props, State> {
           <input
             ref={this.fileInputRef}
             type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             hidden
             onChange={this.fileChange}
           />
@@ -473,7 +494,7 @@ export class Suppliers extends React.Component<Props, State> {
                             name='cloud upload' style={{color: 'black'}}
                           />&nbsp;
                         </Table.Cell>
-                        <Table.Cell as={Link}  >
+                        <Table.Cell as={Link}>
                           <Icon name='refresh' style={{color: 'black'}}
                                 onClick={() => {
                                   if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
@@ -648,6 +669,7 @@ export class Suppliers extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {
     suppliers: state.synReducer.get('suppliers'),
+    uploadCSVResponse: state.synReducer.get('uploadCSVResponse'),
     new_supplier_id: state.synReducer.get('new_supplier'),
     time_efficiency_data: state.synReducer.get('time_efficiency_data'),
     sellerData: state.settings.get('profile'),
@@ -658,6 +680,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    resetUploadCSVResponse: () => dispatch(resetUploadCSVResponse()),
     getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
     postProductTrackGroupId: (supplierID: string, supplierName: string) =>
       dispatch(postProductTrackGroupId(supplierID, supplierName)),

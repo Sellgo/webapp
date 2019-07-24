@@ -11,7 +11,7 @@ import {
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_SELLERS,
   SET_TIME_EFFICIENCY, SYN_RESET_PRODUCT_REDUCED_VALUES,
-  UPDATE_PRODUCT,
+  UPDATE_PRODUCT, UPLOAD_CSV_RESPONSE,
   UPLOAD_SYNTHESIS_FILE_ID, UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
 } from '../constant/constant';
 
@@ -45,6 +45,7 @@ const initialState = Map({
   productTrackGroup: [],
   synthesisFileID: [],
   synthesisFileProgressUpdates: [],
+  uploadCSVResponse: [],
 });
 
 export const SYNReducer = (state = initialState, action: any) => {
@@ -86,12 +87,14 @@ export const SYNReducer = (state = initialState, action: any) => {
       return state.setIn(['synthesisFileID'], action.data);
     case UPLOAD_SYNTHESIS_PROGRESS_UPDATES:
       return state.setIn(['synthesisFileProgressUpdates'], action.data);
-
+    case UPLOAD_CSV_RESPONSE:
+      return state.setIn(['uploadCSVResponse'], action.data);
     case SYN_RESET_PRODUCT_REDUCED_VALUES:
       let updatedState = state.setIn(['synthesisFileProgressUpdates'], {progress: 0});
       updatedState = updatedState.setIn(['synthesisFileID'], {synthesis_file_id: 0});
       updatedState = updatedState.setIn(['productTrackGroup'], [{id: -10}]);
       return updatedState;
+
     default:
       return state;
   }

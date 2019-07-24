@@ -12,7 +12,7 @@ import {
   SET_TIME_EFFICIENCY,
   UPDATE_PRODUCT,
   UPLOAD_SYNTHESIS_FILE_ID,
-  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES, SYN_RESET_PRODUCT_REDUCED_VALUES,
+  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES, SYN_RESET_PRODUCT_REDUCED_VALUES, UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { URLS } from '../config';
 import { Simulate } from 'react-dom/test-utils';
@@ -485,8 +485,9 @@ export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatc
 };
 
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
 
+  const sellerID = localStorage.getItem('userId');
+  resetUploadCSVResponse();
   var bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
   bodyFormData.set('file', file);
@@ -498,12 +499,25 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     headers,
   })
     .then(json => {
-      // dispatch({
-      //   type: UPLOAD_SYNTHESIS_FILE_ID,
-      //   data: json.data,
-      // });
+      console.log('501 here');
+      dispatch({
+        type: UPLOAD_CSV_RESPONSE,
+        data: {
+          message: 'We will process your file within few hours',
+          status: 'success',
+        },
+      });
     })
     .catch(error => {
+      console.log('508 here');
+      dispatch({
+        type: UPLOAD_CSV_RESPONSE,
+        data: {
+          message:
+            'There is a problem while processing your file. Make sure your file conforms to our format',
+          status: 'failed',
+        },
+      });
     });
 };
 
@@ -608,6 +622,19 @@ export const resetProductData = (data: {}) => ({
   data,
 });
 
+export const resetUploadCSVResponse = () => (dispatch: any) => {
+  dispatch(
+    reduceUploadCSVResponse({
+        message: 'We will process your file within few hours',
+        status: 'unset',
+      },
+    ));
+};
+
+export const reduceUploadCSVResponse = (data: {}) => ({
+  type: UPLOAD_CSV_RESPONSE,
+  data,
+});
 export const setSynthesisFileID = (data: {}) => ({
   type: UPLOAD_SYNTHESIS_FILE_ID,
   data,
