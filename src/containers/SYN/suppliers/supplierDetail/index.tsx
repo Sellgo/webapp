@@ -196,9 +196,9 @@ export class SupplierDetail extends React.Component<Props, State> {
       value: localStorage.getItem('userId'),
     };
     this.props.resetProductData({});
-    this.props.getProducts(this.props.match.params.supplierID);
-    this.props.getLastFileID(this.props.match.params.supplierID);
     this.props.getProductTrackGroupId(this.props.match.params.supplierID);
+    this.props.getLastFileID(this.props.match.params.supplierID);
+    this.props.getProducts(this.props.match.params.supplierID);
     this.props.getProductTrackData(this.props.match.params.supplierID);
     this.props.getProductsChartHistoryPrice(this.props.match.params.supplierID);
     this.props.getProductsChartHistoryRank(this.props.match.params.supplierID);
@@ -345,8 +345,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   renderTable = () => {
-
-    console.log(this.props.productTrackGroup);
     const {sortedColumn, sortDirection} = this.state;
     const currentPage = this.state.currentPage - 1;
     const productsTable: Product[] = this.state.products.slice(
@@ -494,24 +492,23 @@ export class SupplierDetail extends React.Component<Props, State> {
                       color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                       onClick={() => {
                         let productTrackGroupID = 2;
-
-                        if (this.props.productTrackGroup[0].id === undefined) {
+                        if (this.props.productTrackGroup.length > 0 && this.props.productTrackGroup[0].id > 0) {
                           productTrackGroupID = this.props.productTrackGroup[0].id;
-                        }
-                        if (value.tracking_status != null) {
-                          this.props.trackProductWithPatch(
-                            String(value.product_track_id),
-                            String(productTrackGroupID),
-                            value.tracking_status === 'active' ? 'inactive' : 'active',
-                            this.props.match.params.supplierID,
-                          );
-                        } else {
-                          this.props.trackProductWithPost(
-                            String(value.product_id),
-                            String(productTrackGroupID),
-                            'active',
-                            this.props.match.params.supplierID,
-                          );
+                          if (value.tracking_status != null) {
+                            this.props.trackProductWithPatch(
+                              String(value.product_track_id),
+                              String(productTrackGroupID),
+                              value.tracking_status === 'active' ? 'inactive' : 'active',
+                              this.props.match.params.supplierID,
+                            );
+                          } else {
+                            this.props.trackProductWithPost(
+                              String(value.product_id),
+                              String(productTrackGroupID),
+                              'active',
+                              this.props.match.params.supplierID,
+                            );
+                          }
                         }
                       }}
                     >
