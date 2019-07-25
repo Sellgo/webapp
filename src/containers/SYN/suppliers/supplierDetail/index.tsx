@@ -284,15 +284,15 @@ export class SupplierDetail extends React.Component<Props, State> {
       maxUnitsPerMonth,
       minProfitPerMonth,
       maxProfitPerMonth,
-      unitProfitFilter: {min: minUnitProfit, max: maxUnitProfit},
-      profitPerMonthFilter: {min: minProfitPerMonth, max: maxProfitPerMonth},
-      unitsPerMonthFilter: {min: minUnitsPerMonth, max: maxUnitsPerMonth},
-      marginFilter: {min: minMargin, max: maxMargin},
+      unitProfitFilter: { min: minUnitProfit, max: maxUnitProfit },
+      profitPerMonthFilter: { min: minProfitPerMonth, max: maxProfitPerMonth },
+      unitsPerMonthFilter: { min: minUnitsPerMonth, max: maxUnitsPerMonth },
+      marginFilter: { min: minMargin, max: maxMargin },
     });
   }
 
   handleModel = () => {
-    const {isOpen} = this.state;
+    const { isOpen } = this.state;
     this.setState({
       isOpen: !isOpen,
     });
@@ -302,11 +302,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getProductDetail(product_id, this.props.match.params.supplierID);
     this.props.getProductDetailChartRank(product_id);
     this.props.getProductDetailChartPrice(product_id);
-    this.setState({productDetailModalOpen: true});
+    this.setState({ productDetailModalOpen: true });
   };
 
   handleSort = (clickedColumn: string) => {
-    const {sortedColumn, products, sortDirection} = this.state;
+    const { sortedColumn, products, sortDirection } = this.state;
     if (sortedColumn !== clickedColumn) {
       const sortedProducts = products.sort((a, b) => {
         let aColumn, bColumn;
@@ -347,7 +347,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   renderTable = () => {
-    const {sortedColumn, sortDirection} = this.state;
+    const { sortedColumn, sortDirection } = this.state;
     const currentPage = this.state.currentPage - 1;
     const productsTable: Product[] = this.state.products.slice(
       currentPage * this.state.singlePageItemsCount,
@@ -360,198 +360,198 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Loader>
       </Segment>
     ) : (
-      <Table sortable={true} basic="very">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>
-              <Checkbox/>
+        <Table sortable={true} basic="very">
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                <Checkbox />
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                style={{ paddingLeft: 0 }}
+                sorted={sortedColumn === 'title' ? sortDirection : undefined}
+                onClick={() => this.handleSort('title')}
+              >
+                Product Info
             </Table.HeaderCell>
-            <Table.HeaderCell
-              style={{paddingLeft: 0}}
-              sorted={sortedColumn === 'title' ? sortDirection : undefined}
-              onClick={() => this.handleSort('title')}
-            >
-              Product Info
+              <Table.HeaderCell
+                textAlign="center"
+                style={{ minWidth: 120 }}
+                sorted={sortedColumn === 'profit' ? sortDirection : undefined}
+                onClick={() => this.handleSort('profit')}
+              >
+                Profit
             </Table.HeaderCell>
-            <Table.HeaderCell
-              textAlign="center"
-              style={{minWidth: 120}}
-              sorted={sortedColumn === 'profit' ? sortDirection : undefined}
-              onClick={() => this.handleSort('profit')}
-            >
-              Profit
+              <Table.HeaderCell
+                textAlign="center"
+                style={{ minWidth: 120 }}
+                sorted={sortedColumn === 'margin' ? sortDirection : undefined}
+                onClick={() => this.handleSort('margin')}
+              >
+                Margin
             </Table.HeaderCell>
-            <Table.HeaderCell
-              textAlign="center"
-              style={{minWidth: 120}}
-              sorted={sortedColumn === 'margin' ? sortDirection : undefined}
-              onClick={() => this.handleSort('margin')}
-            >
-              Margin
+              <Table.HeaderCell
+                textAlign="center"
+                style={{ minWidth: 120 }}
+                sorted={sortedColumn === 'sales_monthly' ? sortDirection : undefined}
+                onClick={() => this.handleSort('sales_monthly')}
+              >
+                Sales/mo
             </Table.HeaderCell>
-            <Table.HeaderCell
-              textAlign="center"
-              style={{minWidth: 120}}
-              sorted={sortedColumn === 'sales_monthly' ? sortDirection : undefined}
-              onClick={() => this.handleSort('sales_monthly')}
-            >
-              Sales/mo
+              <Table.HeaderCell
+                textAlign="center"
+                style={{ minWidth: 120 }}
+                sorted={sortedColumn === 'profit_monthly' ? sortDirection : undefined}
+                onClick={() => this.handleSort('profit_monthly')}
+              >
+                Profit/Mo
             </Table.HeaderCell>
-            <Table.HeaderCell
-              textAlign="center"
-              style={{minWidth: 120}}
-              sorted={sortedColumn === 'profit_monthly' ? sortDirection : undefined}
-              onClick={() => this.handleSort('profit_monthly')}
-            >
-              Profit/Mo
+              <Table.HeaderCell textAlign="center">Add to Tracker</Table.HeaderCell>
+              <Table.HeaderCell
+                textAlign="center"
+                style={{ minWidth: 120 }}
+                sorted={sortedColumn === 'last_syn' ? sortDirection : undefined}
+                onClick={() => this.handleSort('last_syn')}
+              >
+                Last Syn
             </Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Add to Tracker</Table.HeaderCell>
-            <Table.HeaderCell
-              textAlign="center"
-              style={{minWidth: 120}}
-              sorted={sortedColumn === 'last_syn' ? sortDirection : undefined}
-              onClick={() => this.handleSort('last_syn')}
-            >
-              Last Syn
-            </Table.HeaderCell>
-            <Table.HeaderCell textAlign="center" width={1}/>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {this.props.products[0].id == -10000000 ? (
-            <Table.Row key={134}>
-              <Table.Cell/>
-              <Table.Cell>
-                <h1>Data not found</h1>
-              </Table.Cell>
+              <Table.HeaderCell textAlign="center" width={1} />
             </Table.Row>
-          ) : (
-            productsTable.map((value, index) => {
-              return (
-                <Table.Row key={index}>
-                  <Table.Cell>
-                    <Checkbox/>
-                  </Table.Cell>
-                  <Table.Cell style={{width: 600}}>
-                    <Grid>
-                      <Grid.Column style={{marginRight: 60}} className={'middle aligned'}>
-                        <Image
-                          src={value.image_url == null ? '/images/intro.png' : value.image_url}
-                          size="tiny"
-                        />
-                      </Grid.Column>
-                      <Grid.Column width={10} className={'middle aligned'}>
-                        <Grid.Row
-                          as={Link}
-                          to={{}}
-                          onClick={() => {
-                            this.productDetailsWithVisualization(String(value.product_id));
-                          }}
-                        >
-                          {value.title}
-                        </Grid.Row>
-                        <Grid.Row>
-                          <Grid.Column style={{display: 'inline-flex'}}>
+          </Table.Header>
+          <Table.Body>
+            {this.props.products[0].id == -10000000 ? (
+              <Table.Row key={134}>
+                <Table.Cell />
+                <Table.Cell>
+                  <h1>Data not found</h1>
+                </Table.Cell>
+              </Table.Row>
+            ) : (
+                productsTable.map((value, index) => {
+                  return (
+                    <Table.Row key={index}>
+                      <Table.Cell>
+                        <Checkbox />
+                      </Table.Cell>
+                      <Table.Cell style={{ width: 600 }}>
+                        <Grid>
+                          <Grid.Column style={{ marginRight: 60 }} className={'middle aligned'}>
                             <Image
-                              style={{marginRight: 10}}
-                              src={'/images/intro.png'}
-                              size="mini"
+                              src={value.image_url == null ? '/images/intro.png' : value.image_url}
+                              size="tiny"
                             />
-                            {value.amazon_category_name}
                           </Grid.Column>
-                        </Grid.Row>
-                      </Grid.Column>
-                      <Grid.Column style={{alignSelf: 'center'}}>
+                          <Grid.Column width={10} className={'middle aligned'}>
+                            <Grid.Row
+                              as={Link}
+                              to={{}}
+                              onClick={() => {
+                                this.productDetailsWithVisualization(String(value.product_id));
+                              }}
+                            >
+                              {value.title}
+                            </Grid.Row>
+                            <Grid.Row>
+                              <Grid.Column style={{ display: 'inline-flex' }}>
+                                <Image
+                                  style={{ marginRight: 10 }}
+                                  src={'/images/intro.png'}
+                                  size="mini"
+                                />
+                                {value.amazon_category_name}
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Grid.Column>
+                          <Grid.Column style={{ alignSelf: 'center' }}>
+                            <Button
+                              basic={true}
+                              style={{ borderRadius: 20 }}
+                              color="blue"
+                              onClick={() => {
+                                this.productDetailsWithVisualization(String(value.product_id));
+                              }}
+                            >
+                              View
+                        </Button>
+                          </Grid.Column>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">
+                        {Number(value.profit).toLocaleString()}
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">
+                        {Number(value.margin).toLocaleString()}
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">
+                        {Number(value.sales_monthly).toLocaleString()}
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">
+                        {Number(value.profit_monthly).toLocaleString()}
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">
                         <Button
                           basic={true}
-                          style={{borderRadius: 20}}
-                          color="blue"
+                          style={{ borderRadius: 20 }}
+                          color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                           onClick={() => {
-                            this.productDetailsWithVisualization(String(value.product_id));
+                            let productTrackGroupID = 2;
+                            if (this.props.productTrackGroup.length > 0 && this.props.productTrackGroup[0].id > 0) {
+                              productTrackGroupID = this.props.productTrackGroup[0].id;
+                              if (value.tracking_status != null) {
+                                this.props.trackProductWithPatch(
+                                  String(value.product_track_id),
+                                  String(productTrackGroupID),
+                                  value.tracking_status === 'active' ? 'inactive' : 'active',
+                                  this.props.match.params.supplierID,
+                                );
+                              } else {
+                                this.props.trackProductWithPost(
+                                  String(value.product_id),
+                                  String(productTrackGroupID),
+                                  'active',
+                                  this.props.match.params.supplierID,
+                                );
+                              }
+                            }
                           }}
                         >
-                          View
+                          {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
                         </Button>
-                      </Grid.Column>
-                    </Grid>
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.profit).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.margin).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.sales_monthly).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {Number(value.profit_monthly).toLocaleString()}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Button
-                      basic={true}
-                      style={{borderRadius: 20}}
-                      color={value.tracking_status === 'active' ? 'teal' : 'blue'}
-                      onClick={() => {
-                        let productTrackGroupID = 2;
-                        if (this.props.productTrackGroup.length > 0 && this.props.productTrackGroup[0].id > 0) {
-                          productTrackGroupID = this.props.productTrackGroup[0].id;
-                          if (value.tracking_status != null) {
-                            this.props.trackProductWithPatch(
-                              String(value.product_track_id),
-                              String(productTrackGroupID),
-                              value.tracking_status === 'active' ? 'inactive' : 'active',
-                              this.props.match.params.supplierID,
-                            );
-                          } else {
-                            this.props.trackProductWithPost(
-                              String(value.product_id),
-                              String(productTrackGroupID),
-                              'active',
-                              this.props.match.params.supplierID,
-                            );
-                          }
-                        }
-                      }}
-                    >
-                      {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
-                    </Button>
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <p style={{fontSize: 13}}>{new Date(value.last_syn).toLocaleString()}</p>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Table.Cell
-                      as={Link}
-                      to={'//' + value.amazon_url.split('//')[1]}
-                      target={'_blank'}
-                    >
-                      <Icon name="amazon" style={{color: 'black'}}/>
-                      &nbsp;
+                      </Table.Cell>
+                      <Table.Cell textAlign="center">
+                        <p style={{ fontSize: 13 }}>{new Date(value.last_syn).toLocaleString()}</p>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Table.Cell
+                          as={Link}
+                          to={'//' + value.amazon_url.split('//')[1]}
+                          target={'_blank'}
+                        >
+                          <Icon name="amazon" style={{ color: 'black' }} />
+                          &nbsp;
                     </Table.Cell>
-                  </Table.Cell>
-                </Table.Row>
-              );
-            })
-          )}
-        </Table.Body>
-        <Table.Footer>
-          <Table.Row textAlign="center">
-            <Table.HeaderCell colSpan={10}>
-              <Pagination
-                totalPages={this.state.totalPages}
-                activePage={this.state.currentPage}
-                onPageChange={(event, data) => {
-                  this.setState({
-                    currentPage: data.activePage,
-                  });
-                }}
-              />
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-      </Table>
-    );
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })
+              )}
+          </Table.Body>
+          <Table.Footer>
+            <Table.Row textAlign="center">
+              <Table.HeaderCell colSpan={10}>
+                <Pagination
+                  totalPages={this.state.totalPages}
+                  activePage={this.state.currentPage}
+                  onPageChange={(event, data) => {
+                    this.setState({
+                      currentPage: data.activePage,
+                    });
+                  }}
+                />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        </Table>
+      );
   };
 
   productDetailViewModal = () => {
@@ -564,27 +564,28 @@ export class SupplierDetail extends React.Component<Props, State> {
     for (let i = 0; i < this.props.product_detail_chart_values_price.length; i++) {
       popup_price_conainer.push(Number(this.props.product_detail_chart_values_price[i].price));
     }
+
     return (
       <Modal
         size={'large'}
         open={this.state.productDetailModalOpen}
         onClose={() => {
-          this.setState({productDetailModalOpen: false});
+          this.setState({ productDetailModalOpen: false });
         }}
         closeIcon={true}
       >
         <Modal.Content>
           <Grid>
             <Grid.Column floated="left" width={13}>
-              <Grid style={{height: 40}}>
+              <Grid style={{ height: 40 }}>
                 <Grid.Column>
                   <h3>{this.props.product_detail.title}</h3>
                 </Grid.Column>
                 {/*<Grid.Column floated="right" width={2}>{'short Details'}</Grid.Column>*/}
               </Grid>
-              <Divider/>
-              <Grid style={{margin: 0}}>
-                <Grid.Column style={{margin: 0}} floated="left" width={4}>
+              <Divider />
+              <Grid style={{ margin: 0 }}>
+                <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
                   <Grid.Row>Price</Grid.Row>
                   <Grid.Row>Fees</Grid.Row>
                   <Grid.Row>Product cost</Grid.Row>
@@ -642,10 +643,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>Avg Monthly sales</Grid.Row>
                   <Grid.Row>Avg monthly revnue</Grid.Row>
                   <Grid.Row>Avg monthly profit</Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>ROI/ Return on Investment</h4>
                   </Grid.Row>
@@ -669,10 +670,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                       ? 0
                       : Number(this.props.product_detail.profit_monthly).toLocaleString()}
                   </Grid.Row>
-                  <Grid.Row/>
-                  <br/>
-                  <Grid.Row/>
-                  <br/>
+                  <Grid.Row />
+                  <br />
+                  <Grid.Row />
+                  <br />
                   <Grid.Row>
                     <h4>
                       {this.props.product_detail.roi == null
@@ -689,8 +690,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
               </Grid>
             </Grid.Column>
-            <Grid.Column floated="right" width={3} style={{paddingLeft: 30}}>
-              <div style={{position: 'relative'}}>
+            <Grid.Column floated="right" width={3} style={{ paddingLeft: 30 }}>
+              <div style={{ position: 'relative' }}>
                 <Image
                   src={
                     new URL(
@@ -700,17 +701,17 @@ export class SupplierDetail extends React.Component<Props, State> {
                     )
                   }
                   size="tiny"
-                  style={{display: 'inline-block'}}
+                  style={{ display: 'inline-block' }}
                 />
                 <a
-                  style={{position: 'absolute', right: 20, top: '38%'}}
+                  style={{ position: 'absolute', right: 20, top: '38%' }}
                   href={this.props.product_detail.amazon_url}
                   target={'_blank'}
                 >
-                  <Icon name="amazon" style={{color: 'black'}}/>
+                  <Icon name="amazon" style={{ color: 'black' }} />
                 </a>
               </div>
-              <p style={{marginTop: 10}}>ASIN: {this.props.product_detail.asin}</p>
+              <p style={{ marginTop: 10 }}>ASIN: {this.props.product_detail.asin}</p>
               <p>UPC: {this.props.product_detail.upc}</p>
               {/*<p>{'MSKU'}</p>*/}
               {/*<p>{'FNSKU'}</p>*/}
@@ -721,64 +722,64 @@ export class SupplierDetail extends React.Component<Props, State> {
               Loading
             </Loader>
           ) : (
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                title: {
-                  text: 'Statistics',
-                  align: 'left',
-                },
-                xAxis: {
-                  labels: {
-                    style: {
-                      color: '#ccc',
-                    },
-                  },
-                },
-                credits: {
-                  enabled: false,
-                },
-                yAxis: {
-                  min: 0,
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={{
                   title: {
-                    text: '',
+                    text: 'Statistics',
+                    align: 'left',
                   },
-                  labels: {
-                    style: {
+                  xAxis: {
+                    labels: {
+                      style: {
+                        color: '#ccc',
+                      },
+                    },
+                  },
+                  credits: {
+                    enabled: false,
+                  },
+                  yAxis: {
+                    min: 0,
+                    title: {
+                      text: '',
+                    },
+                    labels: {
+                      style: {
+                        color: '#ccc',
+                      },
+                    },
+                  },
+                  tooltip: {
+                    formatter() {
+                      return (this.series.name == 'Price' ? '$' : '') + numberWithCommas(this.y);
+                    },
+                  },
+
+                  legend: {
+                    align: 'left',
+                    itemStyle: {
                       color: '#ccc',
                     },
                   },
-                },
-                tooltip: {
-                  formatter() {
-                    return (this.series.name == 'Price' ? '$' : '') + numberWithCommas(this.y);
-                  },
-                },
-
-                legend: {
-                  align: 'left',
-                  itemStyle: {
-                    color: '#ccc',
-                  },
-                },
-                series: [
-                  {
-                    type: 'areaspline',
-                    name: 'Price',
-                    color: '#c0f1ff',
-                    data: popup_price_conainer,
-                  },
-                  {
-                    type: 'areaspline',
-                    name: 'Rank',
-                    color: '#a3a0fb78',
-                    data: popup_rank_conainer,
-                  },
-                ],
-              }}
-              {...this.props}
-            />
-          )}
+                  series: [
+                    {
+                      type: 'areaspline',
+                      name: 'Price',
+                      color: '#c0f1ff',
+                      data: popup_price_conainer,
+                    },
+                    {
+                      type: 'areaspline',
+                      name: 'Rank',
+                      color: '#a3a0fb78',
+                      data: popup_rank_conainer,
+                    },
+                  ],
+                }}
+                {...this.props}
+              />
+            )}
         </Modal.Content>
       </Modal>
     );
@@ -787,7 +788,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderDeleteModal = (value: Product, index: any) => {
     return (
       <Modal
-        trigger={<Icon name="trash alternate" style={{color: 'black'}}/>}
+        trigger={<Icon name="trash alternate" style={{ color: 'black' }} />}
         onClose={this.close}
       >
         <Modal.Header>Delete Your Account</Modal.Header>
@@ -796,8 +797,8 @@ export class SupplierDetail extends React.Component<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button negative={true}>No</Button>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
-          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes"/>
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
+          <Button positive={true} icon="checkmark" labelPosition="right" content="Yes" />
         </Modal.Actions>
       </Modal>
     );
@@ -870,214 +871,214 @@ export class SupplierDetail extends React.Component<Props, State> {
           </Grid.Column>
         </Grid.Row>
         {this.state.minUnitProfit !== -100 &&
-        this.state.minMargin !== -100 &&
-        this.state.minProfitPerMonth !== -100 &&
-        this.state.minProfitPerMonth !== -100 ? (
-          <Grid.Row>
-            <Grid.Column width={16} style={{marginTop: 15}}>
-              {/* <Grid.Row style={{ display: 'inline-flex' }}> */}
+          this.state.minMargin !== -100 &&
+          this.state.minProfitPerMonth !== -100 &&
+          this.state.minProfitPerMonth !== -100 ? (
+            <Grid.Row>
+              <Grid.Column width={16} style={{ marginTop: 15 }}>
+                {/* <Grid.Row style={{ display: 'inline-flex' }}> */}
 
-              {/* </Grid.Row> */}
-              {/* <Grid.Row style={{ marginTop: 20 }}> */}
-              <Card
-                raised={true}
-                style={{
-                  width: '100%',
-                }}
-              >
-                <Card.Content>
-                  <Feed>
-                    {this.state.minUnitProfit !== -100 ? (
-                      <Feed.Event>
-                        <Feed.Content>
-                          <Feed.Summary>
-                            Unit Profit <Icon title="Sellgo" name="question circle outline"/>
-                          </Feed.Summary>
-                          <Feed.Summary className="min-max-slider-wrapper">
-                            <Grid>
-                              <Grid.Row style={{alignItems: 'center'}}>
-                                <Grid.Column
-                                  floated="left"
-                                  width={4}
-                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
-                                >
-                                  <div className="min-max">{this.state.unitProfitFilter.min}</div>
-                                </Grid.Column>
-                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
-                                  <InputRange
-                                    minValue={this.state.minUnitProfit}
-                                    maxValue={this.state.maxUnitProfit}
-                                    value={this.state.unitProfitFilter}
-                                    onChange={value => {
-                                      this.setState({
-                                        unitProfitFilter: value,
-                                      });
-                                    }}
-                                    onChangeComplete={value => {
-                                      this.updateFilters();
-                                    }}
-                                  />
-                                </Grid.Column>
-                                <Grid.Column
-                                  floated="right"
-                                  width={4}
-                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
-                                >
-                                  <div className="min-max">{this.state.unitProfitFilter.max}</div>
-                                </Grid.Column>
-                              </Grid.Row>
-                            </Grid>
-                          </Feed.Summary>
-                        </Feed.Content>
-                      </Feed.Event>
-                    ) : null}
-                    {this.state.minMargin !== -100 ? (
-                      <Feed.Event>
-                        <Feed.Content>
-                          <Feed.Summary>
-                            Margin (%) <Icon title="Sellgo" name="question circle outline"/>
-                          </Feed.Summary>
-                          <Feed.Summary className="min-max-slider-wrapper">
-                            <Grid>
-                              <Grid.Row style={{alignItems: 'center'}}>
-                                <Grid.Column
-                                  floated="left"
-                                  width={4}
-                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
-                                >
-                                  <div className="min-max">{this.state.marginFilter.min}</div>
-                                </Grid.Column>
-                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
-                                  <InputRange
-                                    minValue={this.state.minMargin}
-                                    maxValue={this.state.maxMargin}
-                                    value={this.state.marginFilter}
-                                    onChange={value => {
-                                      this.setState({
-                                        marginFilter: value,
-                                      });
-                                    }}
-                                    onChangeComplete={value => {
-                                      this.updateFilters();
-                                    }}
-                                  />
-                                </Grid.Column>
-                                <Grid.Column
-                                  floated="right"
-                                  width={4}
-                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
-                                >
-                                  <div className="min-max">{this.state.marginFilter.max}</div>
-                                </Grid.Column>
-                              </Grid.Row>
-                            </Grid>
-                          </Feed.Summary>
-                        </Feed.Content>
-                      </Feed.Event>
-                    ) : null}
-                    {this.state.minProfitPerMonth !== -100 ? (
-                      <Feed.Event>
-                        <Feed.Content>
-                          <Feed.Summary>
-                            Units per Month <Icon title="Sellgo" name="question circle outline"/>
-                          </Feed.Summary>
-                          <Feed.Summary className="min-max-slider-wrapper">
-                            <Grid>
-                              <Grid.Row style={{alignItems: 'center'}}>
-                                <Grid.Column
-                                  floated="left"
-                                  width={4}
-                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
-                                >
-                                  <div className="min-max">
-                                    {this.state.unitsPerMonthFilter.min}
-                                  </div>
-                                </Grid.Column>
-                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
-                                  <InputRange
-                                    minValue={this.state.minUnitsPerMonth}
-                                    maxValue={this.state.maxUnitsPerMonth}
-                                    value={this.state.unitsPerMonthFilter}
-                                    onChange={value => {
-                                      this.setState({
-                                        unitsPerMonthFilter: value,
-                                      });
-                                    }}
-                                    onChangeComplete={value => {
-                                      this.updateFilters();
-                                    }}
-                                  />
-                                </Grid.Column>
-                                <Grid.Column
-                                  floated="right"
-                                  width={4}
-                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
-                                >
-                                  <div className="min-max">
-                                    {this.state.unitsPerMonthFilter.max}
-                                  </div>
-                                </Grid.Column>
-                              </Grid.Row>
-                            </Grid>
-                          </Feed.Summary>
-                        </Feed.Content>
-                      </Feed.Event>
-                    ) : null}
-                    {this.state.minProfitPerMonth !== -100 ? (
-                      <Feed.Event>
-                        <Feed.Content>
-                          <Feed.Summary>
-                            Profit per Month <Icon title="Sellgo" name="question circle outline"/>
-                          </Feed.Summary>
-                          <Feed.Summary className="min-max-slider-wrapper">
-                            <Grid>
-                              <Grid.Row style={{alignItems: 'center'}}>
-                                <Grid.Column
-                                  floated="left"
-                                  width={4}
-                                  style={{padding: 0, paddingLeft: 10, marginRight: 10}}
-                                >
-                                  <div className="min-max">
-                                    {this.state.profitPerMonthFilter.min}
-                                  </div>
-                                </Grid.Column>
-                                <Grid.Column style={{padding: 0, paddingRight: 10}} width={7}>
-                                  <InputRange
-                                    minValue={this.state.minProfitPerMonth}
-                                    maxValue={this.state.maxProfitPerMonth}
-                                    value={this.state.profitPerMonthFilter}
-                                    onChange={value => {
-                                      this.setState({
-                                        profitPerMonthFilter: value,
-                                      });
-                                    }}
-                                    onChangeComplete={value => {
-                                      this.updateFilters();
-                                    }}
-                                  />
-                                </Grid.Column>
-                                <Grid.Column
-                                  floated="right"
-                                  width={4}
-                                  style={{padding: 0, marginLeft: 10, paddingRight: 10}}
-                                >
-                                  <div className="min-max">
-                                    {this.state.profitPerMonthFilter.max}
-                                  </div>
-                                </Grid.Column>
-                              </Grid.Row>
-                            </Grid>
-                          </Feed.Summary>
-                        </Feed.Content>
-                      </Feed.Event>
-                    ) : null}
-                  </Feed>
-                </Card.Content>
-              </Card>
-              {/* </Grid.Row> */}
-            </Grid.Column>
-          </Grid.Row>
-        ) : null}
+                {/* </Grid.Row> */}
+                {/* <Grid.Row style={{ marginTop: 20 }}> */}
+                <Card
+                  raised={true}
+                  style={{
+                    width: '100%',
+                  }}
+                >
+                  <Card.Content>
+                    <Feed>
+                      {this.state.minUnitProfit !== -100 ? (
+                        <Feed.Event>
+                          <Feed.Content>
+                            <Feed.Summary>
+                              Unit Profit <Icon title="Sellgo" name="question circle outline" />
+                            </Feed.Summary>
+                            <Feed.Summary className="min-max-slider-wrapper">
+                              <Grid>
+                                <Grid.Row style={{ alignItems: 'center' }}>
+                                  <Grid.Column
+                                    floated="left"
+                                    width={4}
+                                    style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  >
+                                    <div className="min-max">{this.state.unitProfitFilter.min}</div>
+                                  </Grid.Column>
+                                  <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                    <InputRange
+                                      minValue={this.state.minUnitProfit}
+                                      maxValue={this.state.maxUnitProfit}
+                                      value={this.state.unitProfitFilter}
+                                      onChange={value => {
+                                        this.setState({
+                                          unitProfitFilter: value,
+                                        });
+                                      }}
+                                      onChangeComplete={value => {
+                                        this.updateFilters();
+                                      }}
+                                    />
+                                  </Grid.Column>
+                                  <Grid.Column
+                                    floated="right"
+                                    width={4}
+                                    style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  >
+                                    <div className="min-max">{this.state.unitProfitFilter.max}</div>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              </Grid>
+                            </Feed.Summary>
+                          </Feed.Content>
+                        </Feed.Event>
+                      ) : null}
+                      {this.state.minMargin !== -100 ? (
+                        <Feed.Event>
+                          <Feed.Content>
+                            <Feed.Summary>
+                              Margin (%) <Icon title="Sellgo" name="question circle outline" />
+                            </Feed.Summary>
+                            <Feed.Summary className="min-max-slider-wrapper">
+                              <Grid>
+                                <Grid.Row style={{ alignItems: 'center' }}>
+                                  <Grid.Column
+                                    floated="left"
+                                    width={4}
+                                    style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  >
+                                    <div className="min-max">{this.state.marginFilter.min}</div>
+                                  </Grid.Column>
+                                  <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                    <InputRange
+                                      minValue={this.state.minMargin}
+                                      maxValue={this.state.maxMargin}
+                                      value={this.state.marginFilter}
+                                      onChange={value => {
+                                        this.setState({
+                                          marginFilter: value,
+                                        });
+                                      }}
+                                      onChangeComplete={value => {
+                                        this.updateFilters();
+                                      }}
+                                    />
+                                  </Grid.Column>
+                                  <Grid.Column
+                                    floated="right"
+                                    width={4}
+                                    style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  >
+                                    <div className="min-max">{this.state.marginFilter.max}</div>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              </Grid>
+                            </Feed.Summary>
+                          </Feed.Content>
+                        </Feed.Event>
+                      ) : null}
+                      {this.state.minProfitPerMonth !== -100 ? (
+                        <Feed.Event>
+                          <Feed.Content>
+                            <Feed.Summary>
+                              Units per Month <Icon title="Sellgo" name="question circle outline" />
+                            </Feed.Summary>
+                            <Feed.Summary className="min-max-slider-wrapper">
+                              <Grid>
+                                <Grid.Row style={{ alignItems: 'center' }}>
+                                  <Grid.Column
+                                    floated="left"
+                                    width={4}
+                                    style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  >
+                                    <div className="min-max">
+                                      {this.state.unitsPerMonthFilter.min}
+                                    </div>
+                                  </Grid.Column>
+                                  <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                    <InputRange
+                                      minValue={this.state.minUnitsPerMonth}
+                                      maxValue={this.state.maxUnitsPerMonth}
+                                      value={this.state.unitsPerMonthFilter}
+                                      onChange={value => {
+                                        this.setState({
+                                          unitsPerMonthFilter: value,
+                                        });
+                                      }}
+                                      onChangeComplete={value => {
+                                        this.updateFilters();
+                                      }}
+                                    />
+                                  </Grid.Column>
+                                  <Grid.Column
+                                    floated="right"
+                                    width={4}
+                                    style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  >
+                                    <div className="min-max">
+                                      {this.state.unitsPerMonthFilter.max}
+                                    </div>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              </Grid>
+                            </Feed.Summary>
+                          </Feed.Content>
+                        </Feed.Event>
+                      ) : null}
+                      {this.state.minProfitPerMonth !== -100 ? (
+                        <Feed.Event>
+                          <Feed.Content>
+                            <Feed.Summary>
+                              Profit per Month <Icon title="Sellgo" name="question circle outline" />
+                            </Feed.Summary>
+                            <Feed.Summary className="min-max-slider-wrapper">
+                              <Grid>
+                                <Grid.Row style={{ alignItems: 'center' }}>
+                                  <Grid.Column
+                                    floated="left"
+                                    width={4}
+                                    style={{ padding: 0, paddingLeft: 10, marginRight: 10 }}
+                                  >
+                                    <div className="min-max">
+                                      {this.state.profitPerMonthFilter.min}
+                                    </div>
+                                  </Grid.Column>
+                                  <Grid.Column style={{ padding: 0, paddingRight: 10 }} width={7}>
+                                    <InputRange
+                                      minValue={this.state.minProfitPerMonth}
+                                      maxValue={this.state.maxProfitPerMonth}
+                                      value={this.state.profitPerMonthFilter}
+                                      onChange={value => {
+                                        this.setState({
+                                          profitPerMonthFilter: value,
+                                        });
+                                      }}
+                                      onChangeComplete={value => {
+                                        this.updateFilters();
+                                      }}
+                                    />
+                                  </Grid.Column>
+                                  <Grid.Column
+                                    floated="right"
+                                    width={4}
+                                    style={{ padding: 0, marginLeft: 10, paddingRight: 10 }}
+                                  >
+                                    <div className="min-max">
+                                      {this.state.profitPerMonthFilter.max}
+                                    </div>
+                                  </Grid.Column>
+                                </Grid.Row>
+                              </Grid>
+                            </Feed.Summary>
+                          </Feed.Content>
+                        </Feed.Event>
+                      ) : null}
+                    </Feed>
+                  </Card.Content>
+                </Card>
+                {/* </Grid.Row> */}
+              </Grid.Column>
+            </Grid.Row>
+          ) : null}
       </Grid>
     );
   };
@@ -1151,18 +1152,22 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderHeaderSupplierMatrics = () => {
     const avg_price = [];
     const avg_rank = [];
-
     for (let i = 0; i < this.props.chart_values_price.length; i++) {
-      avg_price.push(Number(this.props.chart_values_price[i].avg_price));
+      avg_price.push([
+        new Date(this.props.chart_values_price[i].cdate).getTime(),
+        Number(this.props.chart_values_price[i].avg_price)
+      ]);
     }
     for (let i = 0; i < this.props.chart_values_rank.length; i++) {
-      avg_rank.push(Number(this.props.chart_values_rank[i].avg_rank));
+      avg_rank.push([
+        new Date(this.props.chart_values_rank[i].cdate).getTime(),
+        Number(this.props.chart_values_rank[i].avg_rank)
+      ]);
     }
-
     return (
       <Grid.Column width={11} floated="left">
-        <Grid.Row style={{width: '95%'}}>
-          <Card raised={true} style={{width: '100%'}}>
+        <Grid.Row style={{ width: '95%' }}>
+          <Card raised={true} style={{ width: '100%' }}>
             <Card.Content>
               <Card.Group itemsPerRow={3}>
                 <Card raised={true}>
@@ -1170,14 +1175,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Units Sold"/>
+                          <Feed.Date content="Avg Daily Units Sold" />
                           <Feed.Summary>
                             {this.props.products_track_data.daily_sales == null
                               ? ''
                               : Number(this.props.products_track_data.daily_sales).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg BB Price/ Fees"/>
+                          <Divider />
+                          <Feed.Date content="Avg BB Price/ Fees" />
                           <Feed.Summary>
                             {this.props.products_track_data.fees == null
                               ? ''
@@ -1193,14 +1198,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Revenue/ Profit"/>
+                          <Feed.Date content="Avg Daily Revenue/ Profit" />
                           <Feed.Summary>
                             {this.props.products_track_data.profit == null
                               ? ''
                               : Number(this.props.products_track_data.profit).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg ROI/ ROII"/>
+                          <Divider />
+                          <Feed.Date content="Avg ROI/ ROII" />
                           <Feed.Summary>
                             {this.props.products_track_data.roi == null
                               ? ''
@@ -1216,14 +1221,14 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Feed>
                       <Feed.Event>
                         <Feed.Content>
-                          <Feed.Date content="Avg Daily Rank"/>
+                          <Feed.Date content="Avg Daily Rank" />
                           <Feed.Summary>
                             {this.props.products_track_data.daily_rank == null
                               ? ''
                               : Number(this.props.products_track_data.daily_rank).toLocaleString()}
                           </Feed.Summary>
-                          <Divider/>
-                          <Feed.Date content="Avg LQS"/>
+                          <Divider />
+                          <Feed.Date content="Avg LQS" />
                           <Feed.Summary>
                             {this.props.products_track_data.daily_rank == null
                               ? ''
@@ -1248,15 +1253,17 @@ export class SupplierDetail extends React.Component<Props, State> {
                         >
                           Loading
                         </Loader>
-                      ) : avg_price[0] !== -1000000 ? (
+                      ) : avg_price[0][1] !== -1000000 ? (
                         <HighchartsReact
                           highcharts={Highcharts}
                           options={{
+                            chart: { zoomType: 'x' },
                             title: {
                               text: 'Statistics',
                               align: 'left',
                             },
                             xAxis: {
+                              type: 'datetime',
                               labels: {
                                 style: {
                                   color: '#ccc',
@@ -1293,13 +1300,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                             },
                             series: [
                               {
-                                type: 'areaspline',
+                                type: 'area',
                                 name: 'Avg Price',
                                 color: '#c0f1ff',
                                 data: avg_price,
                               },
                               {
-                                type: 'areaspline',
+                                type: 'area',
                                 name: 'Avg Rank',
                                 color: '#a3a0fb78',
                                 data: avg_rank,
@@ -1328,7 +1335,7 @@ export class SupplierDetail extends React.Component<Props, State> {
         title={'SYN'}
       >
         <Segment basic={true} className="setting">
-          <Divider/>
+          <Divider />
           <Grid>
             <Grid.Row>
               <Grid.Column floated="left" width={4}>
@@ -1339,9 +1346,9 @@ export class SupplierDetail extends React.Component<Props, State> {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Divider/>
+          <Divider />
           {this.renderMiddleRows()}
-          <Divider style={{paddingBottom: 0, marginBottom: 0}}/>
+          <Divider style={{ paddingBottom: 0, marginBottom: 0 }} />
           {this.renderTable()}
           {this.productDetailViewModal()}
         </Segment>
@@ -1358,45 +1365,45 @@ export class SupplierDetail extends React.Component<Props, State> {
       <Grid>
         <Grid.Column width={4} textAlign="center">
           <Dropdown text={String(this.state.singlePageItemsCount)}
-                    style={{width: '50%', alignSelf: 'center', margin: 'auto'}}
-                    fluid
-                    selection
-                    options={[
-                      {
-                        key: '10',
-                        text: '10',
-                        value: '10',
-                      },
-                      {
-                        key: '30',
-                        text: '30',
-                        value: '30',
-                      },
-                      {
-                        key: '50',
-                        text: '50',
-                        value: '50',
-                      },
-                      {
-                        key: '100',
-                        text: '100',
-                        value: '100',
-                      },
-                    ]}
-                    onChange={(e, data) => {
-                      const singlePageItemCounts =Number(data.value);
-                      const totalPages=  Math.ceil(this.props.products.length / singlePageItemCounts);
-                        this.setState({
-                        singlePageItemsCount: singlePageItemCounts,
-                        totalPages: totalPages,
-                        currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
-                      });
-                    }}>
+            style={{ width: '50%', alignSelf: 'center', margin: 'auto' }}
+            fluid
+            selection
+            options={[
+              {
+                key: '10',
+                text: '10',
+                value: '10',
+              },
+              {
+                key: '30',
+                text: '30',
+                value: '30',
+              },
+              {
+                key: '50',
+                text: '50',
+                value: '50',
+              },
+              {
+                key: '100',
+                text: '100',
+                value: '100',
+              },
+            ]}
+            onChange={(e, data) => {
+              const singlePageItemCounts = Number(data.value);
+              const totalPages = Math.ceil(this.props.products.length / singlePageItemCounts);
+              this.setState({
+                singlePageItemsCount: singlePageItemCounts,
+                totalPages: totalPages,
+                currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
+              });
+            }}>
           </Dropdown>
         </Grid.Column>
         <Grid.Column width={8} textAlign="center">
           <Progress
-            style={{width: '80%', alignSelf: 'center', margin: 'auto'}}
+            style={{ width: '80%', alignSelf: 'center', margin: 'auto' }}
             indicating={true}
             percent={progress}
             autoSuccess={true}
@@ -1416,7 +1423,7 @@ export class SupplierDetail extends React.Component<Props, State> {
               display: 'inline-flex',
             }}
           >
-            <span style={{padding: '0 8px'}}>
+            <span style={{ padding: '0 8px' }}>
               Time Saved
               <h2>
                 <strong>
@@ -1427,7 +1434,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </strong>
               </h2>
             </span>
-            <span style={{padding: '0 8px'}}>
+            <span style={{ padding: '0 8px' }}>
               Efficiency
               <h2>
                 <strong>
