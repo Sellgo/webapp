@@ -723,7 +723,9 @@ export class SupplierDetail extends React.Component<Props, State> {
           ) : (
             <HighchartsReact
               highcharts={Highcharts}
+              allowChartUpdate={true}
               options={{
+
                 title: {
                   text: 'Statistics',
                   align: 'left',
