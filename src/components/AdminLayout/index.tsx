@@ -1,45 +1,41 @@
 import * as React from 'react';
 import { Segment, Sidebar, Sticky } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
-import { AdminSidebar } from './AdminSidebar';
+import AdminSidebar from './AdminSidebar';
 import PageHeader from './PageHeader';
 import * as Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import { Field, MWSinfo, SellField, sideBarExpanded } from '../../Action/SettingActions';
+import { connect } from 'react-redux';
+import Auth from '../Auth/Auth';
 
 interface State {
-  isSidebarExpanded: boolean;
   width: any;
 }
 
-export class AdminLayout extends React.Component<any, State> {
+interface Props {
+
+  isSideBarExpanded: false;
+  title?: string;
+  auth: Auth;
+  sellerData?: SellField;
+
+}
+
+class AdminLayout extends React.Component<Props, State> {
   state = {
     isSidebarExpanded: false,
     width: 100,
   };
-  handleExpand = (isExpanded: boolean) => {
+
+  componentWillReceiveProps(nextProps: any): void {
     setTimeout(() => {
-      this.setState(
-        {
-          isSidebarExpanded: isExpanded,
-          width: isExpanded ? 95 : 100,
-        },
-        () => {
-          setTimeout(() => {
-            for (const chart of Highcharts.charts) {
-              console.log(chart);
-              if (chart) {
-
-                chart.reflow();
-                chart.redraw();
-                chart.update({}, true, false, true);
-              }
-            }
-          }, 2000);
-
-        },
-      );
+      this.setState({
+        width: nextProps.isSideBarExpanded ? 95 : 100,
+      });
     }, 150);
-  };
+  }
+
+
 
   public render() {
     const {children, title, auth, sellerData} = this.props;
@@ -48,7 +44,7 @@ export class AdminLayout extends React.Component<any, State> {
       <React.Fragment>
         <AdminHeader sellerData={sellerData}/>
         <Sidebar.Pushable style={{minHeight: 'calc(100vh)'}}>
-          <AdminSidebar auth={auth} handleExpand={this.handleExpand}/>
+          <AdminSidebar logout={auth.logout} />
           <Sidebar.Pusher style={{width: `calc(${this.state.width}vw - 55px)`, textAlign: 'center'}}>
             <Segment basic={true}>
               <PageHeader title={title}/>
@@ -60,3 +56,16 @@ export class AdminLayout extends React.Component<any, State> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => ({
+  isSideBarExpanded: state.settings.get('isSideBarExpanded'),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AdminLayout);

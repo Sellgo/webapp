@@ -2,81 +2,88 @@ import * as React from 'react';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
+import { Field, SellField, sideBarExpanded } from '../../Action/SettingActions';
+import { connect } from 'react-redux';
 
-interface State {
-  isSidebarExpanded: boolean;
+interface Props {
+  sideBarExpanded(data: Field): () => void;
+
+  logout(): void;
+
+  isSideBarExpanded: boolean;
+  title?: string;
 }
 
-export class AdminSidebar extends React.Component<any, State> {
-  state = {
-    isSidebarExpanded: false,
-  };
+class AdminSidebar extends React.Component<any, Props> {
 
-  componentWillMount() {}
+  componentWillReceiveProps(nextProps: any): void {
+  }
+
+  componentWillMount() {
+  }
 
   render() {
-    const { logout } = this.props.auth;
+    const logout = this.props.logout;
+    console.log(this.props.isSideBarExpanded);
     return (
       <Sidebar
         as={Menu}
         direction={'left'}
         animation={'push'}
-        width={this.state.isSidebarExpanded ? 'thin' : 'very thin'}
-        style={{ width: this.state.isSidebarExpanded ? 150 : 60 }}
+        width={this.props.isSideBarExpanded ? 'thin' : 'very thin'}
+        style={{width: this.props.isSideBarExpanded ? 150 : 60}}
         borderless={true}
         inverted={true}
         vertical={true}
         visible={true}
       >
-        <Menu.Item style={{ marginTop: 50 }} as={Link} to="/">
+        <Menu.Item style={{marginTop: 50}} as={Link} to="/">
           <Menu.Header>
             <div>
-              <Icon name="home" style={{ fontSize: 25 }} />
-              {this.state.isSidebarExpanded ? '  Home' : ''}
+              <Icon name="home" style={{fontSize: 25}}/>
+              {this.props.isSideBarExpanded ? '  Home' : ''}
             </div>
           </Menu.Header>
         </Menu.Item>
         <Menu.Item as={Link} to="/dashboard/setting">
-          <Menu.Header style={{ alignItems: 'center' }}>
+          <Menu.Header style={{alignItems: 'center'}}>
             <div>
-              <Icon name="setting" style={{ fontSize: 25 }} />
-              {this.state.isSidebarExpanded ? '  Settings' : ''}
+              <Icon name="setting" style={{fontSize: 25}}/>
+              {this.props.isSideBarExpanded ? '  Settings' : ''}
             </div>
           </Menu.Header>
         </Menu.Item>
         <Menu.Item as={Link} to="/syn">
           <Menu.Header>
             <div>
-              <Icon name="dot circle outline" style={{ fontSize: 25 }} />
-              {this.state.isSidebarExpanded ? '  SYN' : ''}
+              <Icon name="dot circle outline" style={{fontSize: 25}}/>
+              {this.props.isSideBarExpanded ? '  SYN' : ''}
             </div>
           </Menu.Header>
         </Menu.Item>
         <Menu.Item as="a" onClick={logout}>
           <Menu.Header>
             <div>
-              <Icon name="log out" style={{ fontSize: 25 }} />
-              {this.state.isSidebarExpanded ? '  Logout' : ''}
+              <Icon name="log out" style={{fontSize: 25}}/>
+              {this.props.isSideBarExpanded ? '  Logout' : ''}
             </div>
           </Menu.Header>
         </Menu.Item>
         <Menu.Item
           as="a"
           onClick={() => {
-            this.setState(
-              {
-                isSidebarExpanded: !this.state.isSidebarExpanded,
-              },
-              () => {
-                this.props.handleExpand(this.state.isSidebarExpanded);
-              }
-            );
+            const data = {
+              key: 'isSideBarExpanded',
+              value: !this.props.isSideBarExpanded,
+            };
+            this.props.sideBarExpanded(data);
+
           }}
         >
           <Menu.Header>
             <Icon
-              name={this.state.isSidebarExpanded ? 'chevron circle left' : 'chevron circle right'}
-              style={{ fontSize: 25 }}
+              name={this.props.isSideBarExpanded ? 'chevron circle left' : 'chevron circle right'}
+              style={{fontSize: 25}}
             />
           </Menu.Header>
         </Menu.Item>
@@ -84,3 +91,18 @@ export class AdminSidebar extends React.Component<any, State> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => ({
+  isSideBarExpanded: state.settings.get('isSideBarExpanded'),
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    sideBarExpanded: (data: Field) => dispatch(sideBarExpanded(data)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AdminSidebar);

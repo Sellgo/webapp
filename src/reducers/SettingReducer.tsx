@@ -4,7 +4,7 @@ import {
   UPDATE_BASIC_INFO_SELLER,
   FETCH_AUTH_BEGIN,
   SET_AMAZON_MWS,
-  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE, GET_AMAZON_MWS,
+  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE, GET_AMAZON_MWS, SIDE_BAR_EXPANDED,
 } from '../constant/constant';
 
 const initialState = Map({
@@ -29,12 +29,17 @@ const initialState = Map({
   loading: false,
   error: null,
   isMWSAuthorized: false,
+  isSideBarExpanded: false,
 });
 
 export const SettingReducer = (state = initialState, action: any) => {
   let newState = null;
   let data = null;
   switch (action.type) {
+    case SIDE_BAR_EXPANDED:
+      data = action.data;
+      newState = state.setIn(['isSideBarExpanded'], data.value);
+      return newState;
     case FETCH_AUTH_BEGIN:
       return {
         ...state,
@@ -80,11 +85,13 @@ export const SettingReducer = (state = initialState, action: any) => {
     case GET_AMAZON_MWS:
       data = action.data;
       if (data.length > 0) {
-        if (data[0].status !== null && data[0].status !=='inactive') {
+        if (data[0].status !== null && data[0].status !== 'inactive') {
           newState = state.setIn(['amazonMWS'], data[0]);
           return newState;
         }
       }
+      return state;
+
     default:
       return state;
   }

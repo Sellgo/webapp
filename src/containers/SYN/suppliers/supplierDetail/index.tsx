@@ -56,7 +56,8 @@ import {
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { SellField } from '../../../../Action/SettingActions';
-import { AdminLayout } from '../../../../components/AdminLayout';
+import AdminLayout from '../../../../components/AdminLayout';
+import Auth from '../../../../components/Auth/Auth';
 
 interface State {
   isOpen: boolean;
@@ -79,6 +80,8 @@ interface State {
   maxProfitPerMonth: any;
   sortDirection: any;
   sortedColumn: string;
+
+  isSideBarExpanded: boolean;
 }
 
 interface Props {
@@ -135,7 +138,9 @@ interface Props {
   synthesisFileID: { synthesis_file_id: 0 };
   synthesisFileProgressUpdates: { progress: 0 };
   productTrackGroup: [{ id: 0 }];
-  match: { params: { supplierID: ''; auth: '' } };
+  match: { params: { supplierID: ''; auth: Auth } };
+
+  isSideBarExpanded: false;
 }
 
 Highcharts.setOptions({
@@ -179,6 +184,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     maxProfitPerMonth: 100,
     sortDirection: undefined,
     sortedColumn: '',
+    isSideBarExpanded: false,
   };
   message = {
     id: 1,
@@ -213,6 +219,14 @@ export class SupplierDetail extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
+
+
+    console.log(nextProps.isSideBarExpanded);
+    if (this.state.isSideBarExpanded !== nextProps.isSideBarExpanded) {
+      this.setState({
+        isSideBarExpanded: nextProps.isSideBarExpanded,
+      });
+    }
 
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
     let maxUnitProfit = Number.MIN_SAFE_INTEGER;
@@ -1359,42 +1373,44 @@ export class SupplierDetail extends React.Component<Props, State> {
     return (
       <Grid>
         <Grid.Column width={4} textAlign="center">
-          <Dropdown text={String(this.state.singlePageItemsCount)}
-                    style={{width: '50%', alignSelf: 'center', margin: 'auto'}}
-                    fluid
-                    selection
-                    options={[
-                      {
-                        key: '10',
-                        text: '10',
-                        value: '10',
-                      },
-                      {
-                        key: '30',
-                        text: '30',
-                        value: '30',
-                      },
-                      {
-                        key: '50',
-                        text: '50',
-                        value: '50',
-                      },
-                      {
-                        key: '100',
-                        text: '100',
-                        value: '100',
-                      },
-                    ]}
-                    onChange={(e, data) => {
-                      const singlePageItemCounts =Number(data.value);
-                      const totalPages=  Math.ceil(this.props.products.length / singlePageItemCounts);
+          <div>{'Items per Page'}
+            <Dropdown text={String(this.state.singlePageItemsCount)}
+                      style={{width: '50%', alignSelf: 'center', margin: 'auto'}}
+                      fluid
+                      selection
+                      options={[
+                        {
+                          key: '10',
+                          text: '10',
+                          value: '10',
+                        },
+                        {
+                          key: '30',
+                          text: '30',
+                          value: '30',
+                        },
+                        {
+                          key: '50',
+                          text: '50',
+                          value: '50',
+                        },
+                        {
+                          key: '100',
+                          text: '100',
+                          value: '100',
+                        },
+                      ]}
+                      onChange={(e, data) => {
+                        const singlePageItemCounts = Number(data.value);
+                        const totalPages = Math.ceil(this.props.products.length / singlePageItemCounts);
                         this.setState({
-                        singlePageItemsCount: singlePageItemCounts,
-                        totalPages: totalPages,
-                        currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
-                      });
-                    }}>
-          </Dropdown>
+                          singlePageItemsCount: singlePageItemCounts,
+                          totalPages: totalPages,
+                          currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
+                        });
+                      }}>
+            </Dropdown>
+          </div>
         </Grid.Column>
         <Grid.Column width={8} textAlign="center">
           <Progress
@@ -1470,6 +1486,7 @@ const mapStateToProps = (state: any) => {
     product_detail_chart_values_rank: state.synReducer.get('product_detail_chart_values_rank'),
     product_detail_chart_values_price: state.synReducer.get('product_detail_chart_values_price'),
     sellerData: state.settings.get('profile'),
+    isSideBarExpanded: state.settings.get('isSideBarExpanded'),
   };
 };
 

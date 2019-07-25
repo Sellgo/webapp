@@ -37,12 +37,13 @@ import {
 } from '../../../Action/SYNActions';
 
 import { getIsMWSAuthorized } from '../../../Action/SettingActions';
-import { AdminLayout } from '../../../components/AdminLayout';
+import AdminLayout from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
 import { localStorageKeys } from '../../../constant/constant';
 import { Modals } from '../../../components/Modals';
 import MesssageComponent from '../../../components/MessageComponent';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
+import Auth from '../../../components/Auth/Auth';
 
 interface State {
   isMessageModalOn: boolean;
@@ -98,7 +99,7 @@ interface Props {
 
   uploadCSV(new_supplier_id: string, file: any): () => void;
 
-  match: { params: { auth: null } };
+  match: { params: { auth: Auth } };
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
@@ -167,7 +168,7 @@ export class Suppliers extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status && nextProps.uploadCSVResponse.status !== 'unset') {
-    // if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status ) {
+      // if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status ) {
       console.log(nextProps.uploadCSVResponse);
       this.message.message = nextProps.uploadCSVResponse.message;
       this.message.description = ' ';

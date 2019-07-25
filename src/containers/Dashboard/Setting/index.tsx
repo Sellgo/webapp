@@ -33,7 +33,8 @@ import {
 import './setting.css';
 import { marketPlace } from '../../../constant/constant';
 import RecoverPass from '../../RecoverPass';
-import { AdminLayout } from '../../../components/AdminLayout';
+import  AdminLayout  from '../../../components/AdminLayout';
+import Auth from '../../../components/Auth/Auth';
 
 interface State {
   isOpen: boolean;
@@ -72,7 +73,7 @@ interface Props {
   sellerData: SellField;
   amazonData: MWSinfo;
   isUpdate: boolean;
-  match: { params: { auth: null } };
+  match: { params: { auth: Auth } };
   updatedImage: {};
 
 }
