@@ -3,7 +3,7 @@ import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
   GET_BASIC_INFO_SELLER,
-  SET_AMAZON_MWS, UPLOAD_SELLER_IMAGE, localStorageKeys, GET_AMAZON_MWS, PATCH_AMAZON_MWS,
+  SET_AMAZON_MWS, UPLOAD_SELLER_IMAGE, localStorageKeys, GET_AMAZON_MWS, PATCH_AMAZON_MWS, SIDE_BAR_EXPANDED,
 } from '../constant/constant';
 import { URLS } from '../config';
 
@@ -236,5 +236,10 @@ export const setBasicInfoSeller = (data: Field) => ({
 
 export const setAmazonMWS = (data: Field) => ({
   type: SET_AMAZON_MWS,
+  data,
+});
+
+export const sideBarExpanded = (data: Field) => ({
+  type: SIDE_BAR_EXPANDED,
   data,
 });

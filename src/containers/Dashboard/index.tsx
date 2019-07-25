@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Container, Header, Image, Segment, SemanticSIZES, Step } from 'semantic-ui-react';
-import { AdminLayout } from '../../components/AdminLayout';
+import  AdminLayout  from '../../components/AdminLayout';
 import { Modals } from '../../components/Modals';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './Dashboard.css';
@@ -11,6 +11,7 @@ import {
   SellField,
 } from '../../Action/SettingActions';
 import { connect } from 'react-redux';
+import Auth from '../../components/Auth/Auth';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
                                                                                 size,
@@ -33,7 +34,7 @@ interface Props {
   getBasicInfoSeller(): () => void;
   getIsMWSAuthorized(): () => void;
 
-  match: { params: { auth: null } };
+  match: { params: { auth: Auth } };
   sellerData: SellField;
 }
 
