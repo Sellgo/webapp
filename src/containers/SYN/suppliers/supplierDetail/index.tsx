@@ -1321,10 +1321,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   render() {
-    const progress =
-      this.props.synthesisFileProgressUpdates.progress != undefined
-        ? this.props.synthesisFileProgressUpdates.progress
-        : '0';
     return (
       <AdminLayout
         auth={this.props.match.params.auth}
@@ -1344,54 +1340,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             </Grid.Row>
           </Grid>
           <Divider/>
-          <Grid>
-            <Grid.Column width={10} textAlign="center">
-              <Progress
-                style={{width: '50%', alignSelf: 'center', margin: 'auto'}}
-                indicating={true}
-                percent={progress}
-                autoSuccess={true}
-              />
-              {'Progress: ' + progress + '%'}
-            </Grid.Column>
-            <Grid.Column
-              width={5}
-              floated="right"
-              style={{
-                padding: 0,
-              }}
-            >
-              <div
-                className="ui"
-                style={{
-                  display: 'inline-flex',
-                }}
-              >
-                <span style={{padding: '0 8px'}}>
-                  Time Saved
-                  <h2>
-                    <strong>
-                      {this.props.time_efficiency_data.length > 0
-                        ? this.props.time_efficiency_data[0].saved_time
-                        : '0'}{' '}
-                      hrs
-                    </strong>
-                  </h2>
-                </span>
-                <span style={{padding: '0 8px'}}>
-                  Efficiency
-                  <h2>
-                    <strong>
-                      {this.props.time_efficiency_data.length > 0
-                        ? this.props.time_efficiency_data[0].efficiency
-                        : '0'}{' '}
-                      %
-                    </strong>
-                  </h2>
-                </span>
-              </div>
-            </Grid.Column>
-          </Grid>
+          {this.renderMiddleRows()}
           <Divider style={{paddingBottom: 0, marginBottom: 0}}/>
           {this.renderTable()}
           {this.productDetailViewModal()}
@@ -1399,6 +1348,101 @@ export class SupplierDetail extends React.Component<Props, State> {
       </AdminLayout>
     );
   }
+
+  renderMiddleRows = () => {
+    const progress =
+      this.props.synthesisFileProgressUpdates.progress != undefined
+        ? this.props.synthesisFileProgressUpdates.progress
+        : '0';
+    return (
+      <Grid>
+        <Grid.Column width={4} textAlign="center">
+          <Dropdown text={String(this.state.singlePageItemsCount)}
+                    style={{width: '50%', alignSelf: 'center', margin: 'auto'}}
+                    fluid
+                    selection
+                    options={[
+                      {
+                        key: '10',
+                        text: '10',
+                        value: '10',
+                      },
+                      {
+                        key: '30',
+                        text: '30',
+                        value: '30',
+                      },
+                      {
+                        key: '50',
+                        text: '50',
+                        value: '50',
+                      },
+                      {
+                        key: '100',
+                        text: '100',
+                        value: '100',
+                      },
+                    ]}
+                    onChange={(e, data) => {
+                      const singlePageItemCounts =Number(data.value);
+                      const totalPages=  Math.ceil(this.props.products.length / singlePageItemCounts);
+                        this.setState({
+                        singlePageItemsCount: singlePageItemCounts,
+                        totalPages: totalPages,
+                        currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
+                      });
+                    }}>
+          </Dropdown>
+        </Grid.Column>
+        <Grid.Column width={8} textAlign="center">
+          <Progress
+            style={{width: '80%', alignSelf: 'center', margin: 'auto'}}
+            indicating={true}
+            percent={progress}
+            autoSuccess={true}
+          />
+          {'Progress: ' + progress + '%'}
+        </Grid.Column>
+        <Grid.Column
+          width={4}
+          floated="right"
+          style={{
+            padding: 0,
+          }}
+        >
+          <div
+            className="ui"
+            style={{
+              display: 'inline-flex',
+            }}
+          >
+            <span style={{padding: '0 8px'}}>
+              Time Saved
+              <h2>
+                <strong>
+                  {this.props.time_efficiency_data.length > 0
+                    ? this.props.time_efficiency_data[0].saved_time
+                    : '0'}{' '}
+                  hrs
+                </strong>
+              </h2>
+            </span>
+            <span style={{padding: '0 8px'}}>
+              Efficiency
+              <h2>
+                <strong>
+                  {this.props.time_efficiency_data.length > 0
+                    ? this.props.time_efficiency_data[0].efficiency
+                    : '0'}{' '}
+                  %
+                </strong>
+              </h2>
+            </span>
+          </div>
+        </Grid.Column>
+      </Grid>
+    );
+  };
 
   show(size: string) {
     // this.setState({ size: size, open: true })
