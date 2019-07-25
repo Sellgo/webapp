@@ -22,7 +22,6 @@ const auth = new Auth();
 
 const handleAuthentication = (location: any) => {
   if (/access_token|id_token|error/.test(location.hash)) {
-    console.log(location);
     auth.handleAuthentication();
   }
 };
@@ -52,7 +51,6 @@ function App(Props: any) {
         <Route
           path="/callback"
           render={Props => {
-            console.log(Props);
             handleAuthentication(Props.location);
             return <Callback {...Props} />;
           }}

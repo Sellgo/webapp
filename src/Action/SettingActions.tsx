@@ -26,6 +26,7 @@ export interface MWSinfo {
   marketplace_id: string;
   seller_id: string;
   token: string;
+  id: any;
 }
 
 const headers = {
@@ -35,6 +36,7 @@ const headers = {
 
 export const getMWSAuth = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
+
   const url = URLS.BASE_URL_API + `seller/${sellerID}/mws_auth/`;
   return axios({
     method: 'GET',
@@ -49,12 +51,16 @@ export const getMWSAuth = () => (dispatch: any) => {
 
 };
 
-export const deleteMWSAuth = () => (dispatch: any) => {
+export const deleteMWSAuth = (mws_auth_id: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-  const url = URLS.BASE_URL_API + `seller/${sellerID}/mws_auth/`;
+  const url = URLS.BASE_URL_API + `mws_auth/`;
+  const formData = new FormData();
+  formData.append('id', mws_auth_id);
+  formData.append('status', 'inactive');
   return axios({
     method: 'PATCH',
     url,
+    data: formData,
     headers,
   })
     .then(json => {

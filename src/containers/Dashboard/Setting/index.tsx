@@ -65,7 +65,7 @@ interface Props {
 
   getSellerImage(): () => void;
 
-  deleteMWSAuth(): () => void;
+  deleteMWSAuth(mws_auth_id: any): () => void;
 
   postSellerImage(imageType: string, imagePath: any): () => void;
 
@@ -148,6 +148,7 @@ class Setting extends React.Component<Props, State> {
       seller_id,
       marketplace_id,
       token,
+      id: 0,
     };
     if (seller_id === '' || marketplace_id === '' || token === '') {
       this.message.title = 'Failed';
@@ -394,12 +395,12 @@ class Setting extends React.Component<Props, State> {
                       />
                       <Button
                         primary={true}
-                        onClick={()=>{
-                          this.props.deleteMWSAuth();
+                        onClick={() => {
+                          this.props.deleteMWSAuth(this.props.amazonData.id);
                         }}
                         style={{borderRadius: '50px'}}
                       >
-                        <Icon name={"delete"}/>
+                        <Icon name={'delete'}/>
                         Delete
                       </Button>
                     </Grid.Column>
@@ -444,7 +445,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setBasicInfoSeller: (data: Field) => dispatch(setBasicInfoSeller(data)),
     setAmazonMWS: (data: Field) => dispatch(setAmazonMWS(data)),
     getMWSAuth: () => dispatch(getMWSAuth()),
-    deleteMWSAuth: () => dispatch(deleteMWSAuth()),
+    deleteMWSAuth: (mws_auth_id: any) => dispatch(deleteMWSAuth(mws_auth_id)),
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
     getSellerImage: () => dispatch(getSellerImage()),
     postSellerImage: (imageType: string, imagePath: any) => dispatch(postSellerImage(imageType, imagePath)),

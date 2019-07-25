@@ -21,6 +21,7 @@ const initialState = Map({
     seller_id: '',
     marketplace_id: '',
     token: '',
+    id: '',
   },
   pageHistoryCanGoForward: 0,
   updatedImage: {},
@@ -78,9 +79,12 @@ export const SettingReducer = (state = initialState, action: any) => {
       return newState;
     case GET_AMAZON_MWS:
       data = action.data;
-      console.log(data[0]);
-      newState = state.setIn(['amazonMWS'], data[0]);
-      return newState;
+      if (data.length > 0) {
+        if (data[0].status !== null && data[0].status !=='inactive') {
+          newState = state.setIn(['amazonMWS'], data[0]);
+          return newState;
+        }
+      }
     default:
       return state;
   }
