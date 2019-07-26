@@ -571,14 +571,20 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   productDetailViewModal = () => {
-    const popup_rank_conainer: number[] = [];
-    const popup_price_conainer: number[] = [];
+    let popup_rank_conainer = [];
+    let popup_price_conainer = [];
 
     for (let i = 0; i < this.props.product_detail_chart_values_rank.length; i++) {
-      popup_rank_conainer.push(Number(this.props.product_detail_chart_values_rank[i].rank));
+      popup_rank_conainer.push([
+        new Date(this.props.product_detail_chart_values_rank[i].cdate).getTime(),
+        Number(this.props.product_detail_chart_values_rank[i].rank)
+      ]);
     }
     for (let i = 0; i < this.props.product_detail_chart_values_price.length; i++) {
-      popup_price_conainer.push(Number(this.props.product_detail_chart_values_price[i].price));
+      popup_price_conainer.push([
+        new Date(this.props.product_detail_chart_values_price[i].cdate).getTime(),
+        Number(this.props.product_detail_chart_values_price[i].price)
+      ]);
     }
 
     return (
@@ -742,11 +748,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                 highcharts={Highcharts}
                 allowChartUpdate={true}
                 options={{
+                  chart: { zoomType: 'x' },
                   title: {
                     text: 'Statistics',
                     align: 'left',
                   },
                   xAxis: {
+                    type: 'datetime',
                     labels: {
                       style: {
                         color: '#ccc',
@@ -781,13 +789,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                   },
                   series: [
                     {
-                      type: 'areaspline',
+                      type: 'area',
                       name: 'Price',
                       color: '#c0f1ff',
                       data: popup_price_conainer,
                     },
                     {
-                      type: 'areaspline',
+                      type: 'area',
                       name: 'Rank',
                       color: '#a3a0fb78',
                       data: popup_rank_conainer,
@@ -1184,7 +1192,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     return (
       <Grid.Column width={4} floated="left">
         <Grid.Row >
-          <Card raised={true} style={{ width: (this.state.isSideBarExpanded)?'98%':'93%' ,transition:'width 0.4s'}}>
+          <Card raised={true} style={{ width: (this.state.isSideBarExpanded) ? '98%' : '93%', transition: 'width 0.4s' }}>
             <Card.Content>
               <Card.Group itemsPerRow={3}>
                 <Card raised={true}>
@@ -1270,7 +1278,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                         >
                           Loading
                         </Loader>
-                      ) : avg_price[1][1] !== -1000000 ? (
+                      ) : (avg_price.length != 0 && avg_price[0][1] !== -1000000) ? (
                         <HighchartsReact
                           highcharts={Highcharts}
                           options={{
