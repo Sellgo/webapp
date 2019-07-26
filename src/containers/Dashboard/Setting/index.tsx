@@ -377,7 +377,7 @@ class Setting extends React.Component<Props, State> {
                       <Form.Input
                         label="Amazon Seller ID"
                         placeholder="Amazon Seller ID"
-                        // value={this.props.amazonData.seller_id}
+                        value={this.props.amazonData.seller_id}
                         name="seller_id"
                         onChange={e => this.setAmazonMWS(e)}
                       />

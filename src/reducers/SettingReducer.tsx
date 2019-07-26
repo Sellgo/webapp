@@ -24,6 +24,7 @@ const initialState = Map({
   },
   amazonMWS: {
     seller_id: '',
+    amazon_seller_id: '',
     marketplace_id: '',
     token: '',
     id: '',
@@ -100,6 +101,7 @@ export const SettingReducer = (state = initialState, action: any) => {
     case PATCH_AMAZON_MWS:
       data = {
         seller_id: '',
+        amazon_seller_id: '',
         marketplace_id: '',
         token: '',
         id: '',

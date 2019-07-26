@@ -44,7 +44,7 @@ class AdminLayout extends React.Component<Props, State> {
             style={{
               width: `calc(${this.state.width}vw - 55px)`,
               textAlign: 'center',
-              transition: 'width 0.1s',
+              transition: 'width 0.4s',
             }}
           >
             <Segment basic={true}>

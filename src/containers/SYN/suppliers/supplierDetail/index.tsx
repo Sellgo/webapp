@@ -1213,7 +1213,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             raised={true}
             style={{
               width: this.state.isSideBarExpanded ? '98%' : '93%',
-              transition: 'width 0.1s',
+              transition: 'width 0.4s',
             }}
           >
             <Card.Content>
