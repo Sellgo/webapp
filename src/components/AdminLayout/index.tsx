@@ -45,7 +45,13 @@ class AdminLayout extends React.Component<Props, State> {
         <AdminHeader sellerData={sellerData}/>
         <Sidebar.Pushable style={{minHeight: 'calc(100vh)'}}>
           <AdminSidebar logout={auth.logout} />
-          <Sidebar.Pusher style={{width: `calc(${this.state.width}vw - 55px)`, textAlign: 'center',transition: 'width 0.4s'}}>
+          <Sidebar.Pusher
+            style={{
+              width: `calc(${this.state.width}vw - 55px)`,
+              textAlign: 'center',
+              transition: 'width 0.4s',
+            }}
+          >
             <Segment basic={true}>
               <PageHeader title={title}/>
               {children}

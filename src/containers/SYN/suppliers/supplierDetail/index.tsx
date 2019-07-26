@@ -49,10 +49,7 @@ import {
   getTimeEfficiency,
   getSellers,
 } from '../../../../Action/SYNActions';
-import {
-  numberWithCommas,
-  ProductFiltersPreset,
-} from '../../../../constant/constant';
+import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { SellField } from '../../../../Action/SettingActions';
@@ -219,9 +216,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
-
-
-    console.log(nextProps.isSideBarExpanded);
     if (this.state.isSideBarExpanded !== nextProps.isSideBarExpanded) {
       setTimeout(() => {
         this.setState({
@@ -379,9 +373,6 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Table sortable={true} basic="very">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>
-                <Checkbox />
-              </Table.HeaderCell>
               <Table.HeaderCell
                 style={{ paddingLeft: 0 }}
                 sorted={sortedColumn === 'title' ? sortDirection : undefined}
@@ -445,9 +436,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                 productsTable.map((value, index) => {
                   return (
                     <Table.Row key={index}>
-                      <Table.Cell>
-                        <Checkbox />
-                      </Table.Cell>
                       <Table.Cell style={{ width: 600 }}>
                         <Grid>
                           <Grid.Column style={{ marginRight: 60 }} className={'middle aligned'}>
@@ -510,7 +498,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                           color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                           onClick={() => {
                             let productTrackGroupID = 2;
-                            if (this.props.productTrackGroup.length > 0 && this.props.productTrackGroup[0].id > 0) {
+                            if (
+                              this.props.productTrackGroup.length > 0 &&
+                              this.props.productTrackGroup[0].id > 0
+                            ) {
                               productTrackGroupID = this.props.productTrackGroup[0].id;
                               if (value.tracking_status != null) {
                                 this.props.trackProductWithPatch(
@@ -1180,19 +1171,25 @@ export class SupplierDetail extends React.Component<Props, State> {
     for (let i = 0; i < this.props.chart_values_price.length; i++) {
       avg_price.push([
         new Date(this.props.chart_values_price[i].cdate).getTime(),
-        Number(this.props.chart_values_price[i].avg_price)
+        Number(this.props.chart_values_price[i].avg_price),
       ]);
     }
     for (let i = 0; i < this.props.chart_values_rank.length; i++) {
       avg_rank.push([
         new Date(this.props.chart_values_rank[i].cdate).getTime(),
-        Number(this.props.chart_values_rank[i].avg_rank)
+        Number(this.props.chart_values_rank[i].avg_rank),
       ]);
     }
     return (
       <Grid.Column width={4} floated="left">
-        <Grid.Row >
-          <Card raised={true} style={{ width: (this.state.isSideBarExpanded) ? '98%' : '93%', transition: 'width 0.4s' }}>
+        <Grid.Row>
+          <Card
+            raised={true}
+            style={{
+              width: this.state.isSideBarExpanded ? '98%' : '93%',
+              transition: 'width 0.4s',
+            }}
+          >
             <Card.Content>
               <Card.Group itemsPerRow={3}>
                 <Card raised={true}>
@@ -1386,14 +1383,26 @@ export class SupplierDetail extends React.Component<Props, State> {
       this.props.synthesisFileProgressUpdates.progress != undefined
         ? this.props.synthesisFileProgressUpdates.progress
         : '0';
+    const totalProducts = this.props.products.length;
+    const totalPages = this.state.totalPages;
+    const singlePageItemsCount = this.state.singlePageItemsCount;
+    const currentPage = this.state.currentPage;
+    const maxCount = (currentPage * singlePageItemsCount > totalProducts) ? totalProducts : currentPage * singlePageItemsCount;
+    const minCount = (((currentPage - 1) * singlePageItemsCount) + 1);
+    console.log(totalPages);
+    console.log(currentPage * singlePageItemsCount);
+    console.log(((currentPage - 1) * singlePageItemsCount) + 1);
+
     return (
       <Grid>
         <Grid.Column width={4} textAlign="center">
-          <div>{'Items per Page'}
-            <Dropdown text={String(this.state.singlePageItemsCount)}
-              style={{ width: '50%', alignSelf: 'center', margin: 'auto' }}
-              fluid
-              selection
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div>{`${minCount}-${maxCount} of ${totalProducts} items`}</div>
+            <Dropdown
+              text={String(this.state.singlePageItemsCount)}
+              style={{ width: '40%', alignSelf: 'center', margin: 'auto' }}
+              fluid={true}
+              selection={true}
               options={[
                 {
                   key: '10',
@@ -1421,11 +1430,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                 const totalPages = Math.ceil(this.props.products.length / singlePageItemCounts);
                 this.setState({
                   singlePageItemsCount: singlePageItemCounts,
-                  totalPages: totalPages,
+                  totalPages,
                   currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
                 });
-              }}>
-            </Dropdown>
+              }}
+            />
+            <div>{'Items per Page'}</div>
           </div>
         </Grid.Column>
         <Grid.Column width={8} textAlign="center">
