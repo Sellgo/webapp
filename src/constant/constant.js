@@ -52,7 +52,7 @@ export const marketPlace = [
 
 
 /**
- * NOTE: setting to 0 will default to minimum of the current products in list
+ * NOTE: there should be difference of atleast 1 between min and max
  *
  */
 export const ProductFiltersPreset = [
