@@ -379,9 +379,6 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Table sortable={true} basic="very">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>
-                <Checkbox />
-              </Table.HeaderCell>
               <Table.HeaderCell
                 style={{ paddingLeft: 0 }}
                 sorted={sortedColumn === 'title' ? sortDirection : undefined}
@@ -445,9 +442,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                 productsTable.map((value, index) => {
                   return (
                     <Table.Row key={index}>
-                      <Table.Cell>
-                        <Checkbox />
-                      </Table.Cell>
                       <Table.Cell style={{ width: 600 }}>
                         <Grid>
                           <Grid.Column style={{ marginRight: 60 }} className={'middle aligned'}>
