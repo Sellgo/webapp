@@ -246,22 +246,22 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   handleAddNewSupplierModalOpen = () => {
-    // if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
     this.setState({
       supplier_name: '',
       supplier_description: '',
       modalOpen: true,
       updateDetails: false,
     });
-    // } else {
-    //   this.message.title = 'Unauthorized Access';
-    //   this.message.message = 'MWS Auth token not found';
-    //   this.message.description = 'Please Setup MWS Authorization Token';
-    //   this.message.to = '/dashboard/setting';
-    //   this.message.icon = 'warning sign';
-    //   this.message.color = '#cf3105';
-    //   this.handleMessageModal();
-    // }
+    } else {
+      this.message.title = 'Unauthorized Access';
+      this.message.message = 'MWS Auth token not found';
+      this.message.description = 'Please Setup MWS Authorization Token';
+      this.message.to = '/dashboard/setting';
+      this.message.icon = 'warning sign';
+      this.message.color = '#cf3105';
+      this.handleMessageModal();
+    }
   };
 
   handleClose = () => this.setState({modalOpen: false, updateDetails: false});

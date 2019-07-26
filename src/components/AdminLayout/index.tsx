@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Segment, Sidebar, Sticky } from 'semantic-ui-react';
+import { Segment, Sidebar,  } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
 import AdminSidebar from './AdminSidebar';
 import PageHeader from './PageHeader';
-import * as Highcharts from 'highcharts';
 import { Field, MWSinfo, SellField, sideBarExpanded } from '../../Action/SettingActions';
 import { connect } from 'react-redux';
 import Auth from '../Auth/Auth';
@@ -28,14 +27,10 @@ class AdminLayout extends React.Component<Props, State> {
   };
 
   componentWillReceiveProps(nextProps: any): void {
-    setTimeout(() => {
       this.setState({
         width: nextProps.isSideBarExpanded ? 95 : 100,
       });
-    }, 0);
   }
-
-
 
   public render() {
     const {children, title, auth, sellerData} = this.props;
@@ -49,7 +44,7 @@ class AdminLayout extends React.Component<Props, State> {
             style={{
               width: `calc(${this.state.width}vw - 55px)`,
               textAlign: 'center',
-              transition: 'width 0.4s',
+              transition: 'width 0.1s',
             }}
           >
             <Segment basic={true}>

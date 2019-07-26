@@ -217,11 +217,9 @@ export class SupplierDetail extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     if (this.state.isSideBarExpanded !== nextProps.isSideBarExpanded) {
-      setTimeout(() => {
         this.setState({
           isSideBarExpanded: nextProps.isSideBarExpanded,
         });
-      }, 0);
     }
 
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
@@ -1187,7 +1185,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             raised={true}
             style={{
               width: this.state.isSideBarExpanded ? '98%' : '93%',
-              transition: 'width 0.4s',
+              transition: 'width 0.1s',
             }}
           >
             <Card.Content>
@@ -1387,11 +1385,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     const totalPages = this.state.totalPages;
     const singlePageItemsCount = this.state.singlePageItemsCount;
     const currentPage = this.state.currentPage;
-    const maxCount = (currentPage * singlePageItemsCount > totalProducts) ? totalProducts : currentPage * singlePageItemsCount;
-    const minCount = (((currentPage - 1) * singlePageItemsCount) + 1);
-    console.log(totalPages);
-    console.log(currentPage * singlePageItemsCount);
-    console.log(((currentPage - 1) * singlePageItemsCount) + 1);
+    const maxCount =
+      currentPage * singlePageItemsCount > totalProducts
+        ? totalProducts
+        : currentPage * singlePageItemsCount;
+    const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
     return (
       <Grid>
