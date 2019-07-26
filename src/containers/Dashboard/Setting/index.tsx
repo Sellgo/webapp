@@ -129,6 +129,7 @@ class Setting extends React.Component<Props, State> {
   };
 
   componentWillReceiveProps(props: any) {
+    console.log(props.amazonData);
     if (props.updatedImage.id != undefined) {
       this.setState({
         imageView: props.updatedImage.image_url,
@@ -237,6 +238,7 @@ class Setting extends React.Component<Props, State> {
         marketplaceDATA.code
         }&devMWSAccountId=${'4294-2444-1812'}`;
     }
+
     return (
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'Setting'}>
         <Segment basic={true} className="setting">

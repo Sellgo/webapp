@@ -29,9 +29,9 @@ class AdminSidebar extends React.Component<any, Props> {
       <Sidebar
         as={Menu}
         direction={'left'}
-        animation={'push'}
+        animation={undefined}
         width={this.props.isSideBarExpanded ? 'thin' : 'very thin'}
-        style={{width: this.props.isSideBarExpanded ? 150 : 60}}
+        className={this.props.isSideBarExpanded ? 'AdjustedSideBarWidth' : 'SideBarWidth'}
         borderless={true}
         inverted={true}
         vertical={true}

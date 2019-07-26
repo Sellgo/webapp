@@ -4,7 +4,12 @@ import {
   UPDATE_BASIC_INFO_SELLER,
   FETCH_AUTH_BEGIN,
   SET_AMAZON_MWS,
-  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE, GET_AMAZON_MWS, SIDE_BAR_EXPANDED,
+  GET_BASIC_INFO_SELLER,
+  SET_PAGE_HISTORY_COUNTER,
+  UPLOAD_SELLER_IMAGE,
+  GET_AMAZON_MWS,
+  SIDE_BAR_EXPANDED,
+  PATCH_AMAZON_MWS,
 } from '../constant/constant';
 
 const initialState = Map({
@@ -85,13 +90,22 @@ export const SettingReducer = (state = initialState, action: any) => {
     case GET_AMAZON_MWS:
       data = action.data;
       if (data.length > 0) {
-        if (data[0].status !== null && data[0].status !== 'inactive') {
+        if (data[0].status !== 'inactive') {
+          console.log(data);
           newState = state.setIn(['amazonMWS'], data[0]);
           return newState;
         }
       }
       return state;
-
+    case PATCH_AMAZON_MWS:
+      data = {
+        seller_id: '',
+        marketplace_id: '',
+        token: '',
+        id: '',
+      };
+      newState = state.setIn(['amazonMWS'], data);
+      return newState;
     default:
       return state;
   }

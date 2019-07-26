@@ -223,9 +223,11 @@ export class SupplierDetail extends React.Component<Props, State> {
 
     console.log(nextProps.isSideBarExpanded);
     if (this.state.isSideBarExpanded !== nextProps.isSideBarExpanded) {
-      this.setState({
-        isSideBarExpanded: nextProps.isSideBarExpanded,
-      });
+      setTimeout(() => {
+        this.setState({
+          isSideBarExpanded: nextProps.isSideBarExpanded,
+        });
+      }, 0);
     }
 
     let minUnitProfit = Number.MAX_SAFE_INTEGER;
@@ -1180,9 +1182,9 @@ export class SupplierDetail extends React.Component<Props, State> {
       ]);
     }
     return (
-      <Grid.Column width={11} floated="left">
-        <Grid.Row style={{ width: '95%' }}>
-          <Card raised={true} style={{ width: '100%' }}>
+      <Grid.Column width={4} floated="left">
+        <Grid.Row >
+          <Card raised={true} style={{ width: (this.state.isSideBarExpanded)?'98%':'93%' ,transition:'width 0.4s'}}>
             <Card.Content>
               <Card.Group itemsPerRow={3}>
                 <Card raised={true}>
@@ -1268,7 +1270,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                         >
                           Loading
                         </Loader>
-                      ) : avg_price[0][1] !== -1000000 ? (
+                      ) : avg_price[1][1] !== -1000000 ? (
                         <HighchartsReact
                           highcharts={Highcharts}
                           options={{
