@@ -36,7 +36,7 @@ import {
   deleteSupplier, postProductTrackGroupId,
 } from '../../../Action/SYNActions';
 
-import { getIsMWSAuthorized } from '../../../Action/SettingActions';
+import { getIsMWSAuthorized, getBasicInfoSeller } from '../../../Action/SettingActions';
 import AdminLayout from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
 import { localStorageKeys } from '../../../constant/constant';
@@ -82,6 +82,8 @@ interface State {
 
 interface Props {
   getSellers(): () => void;
+
+  getBasicInfoSeller(): () => void;
 
   getTimeEfficiency(): () => void;
 
@@ -156,10 +158,8 @@ export class Suppliers extends React.Component<Props, State> {
   fileInputRef: any = React.createRef();
 
   componentDidMount() {
-    const data = {
-      key: 'userID',
-      value: localStorage.getItem('userId'),
-    };
+
+    this.props.getBasicInfoSeller();
     this.props.resetUploadCSVResponse();
     this.props.getIsMWSAuthorized();
     this.props.getSellers();
@@ -247,12 +247,12 @@ export class Suppliers extends React.Component<Props, State> {
 
   handleAddNewSupplierModalOpen = () => {
     if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-    this.setState({
-      supplier_name: '',
-      supplier_description: '',
-      modalOpen: true,
-      updateDetails: false,
-    });
+      this.setState({
+        supplier_name: '',
+        supplier_description: '',
+        modalOpen: true,
+        updateDetails: false,
+      });
     } else {
       this.message.title = 'Unauthorized Access';
       this.message.message = 'MWS Auth token not found';
@@ -681,6 +681,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
     resetUploadCSVResponse: () => dispatch(resetUploadCSVResponse()),
     getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
     postProductTrackGroupId: (supplierID: string, supplierName: string) =>
