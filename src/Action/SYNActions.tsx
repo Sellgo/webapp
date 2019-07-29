@@ -497,7 +497,6 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     headers,
   })
     .then(json => {
-      console.log('501 here');
       dispatch({
         type: UPLOAD_CSV_RESPONSE,
         data: {
@@ -507,7 +506,6 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
       });
     })
     .catch(error => {
-      console.log('508 here');
       dispatch({
         type: UPLOAD_CSV_RESPONSE,
         data: {

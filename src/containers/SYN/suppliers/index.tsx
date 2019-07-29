@@ -101,6 +101,7 @@ interface Props {
 
   uploadCSV(new_supplier_id: string, file: any): () => void;
 
+
   match: { params: { auth: Auth } };
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
@@ -168,7 +169,6 @@ export class Suppliers extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status && nextProps.uploadCSVResponse.status !== 'unset') {
-      // if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status ) {
       console.log(nextProps.uploadCSVResponse);
       this.message.message = nextProps.uploadCSVResponse.message;
       this.message.description = ' ';

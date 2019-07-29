@@ -77,7 +77,6 @@ interface State {
   maxProfitPerMonth: any;
   sortDirection: any;
   sortedColumn: string;
-
   isSideBarExpanded: boolean;
 }
 
@@ -136,7 +135,6 @@ interface Props {
   synthesisFileProgressUpdates: { progress: 0 };
   productTrackGroup: [{ id: 0 }];
   match: { params: { supplierID: ''; auth: Auth } };
-
   isSideBarExpanded: false;
 }
 
