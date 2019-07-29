@@ -253,7 +253,6 @@ export const getProductDetail = (productID: string, supplierID: string) => (disp
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setProductDetail(json.data[0]));
     })
     .catch(error => {
@@ -280,7 +279,6 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setProductDetailChartPrice(json.data));
     })
     .catch(error => {
@@ -330,7 +328,6 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(reduceProductTrackGroup(json.data));
     })
     .catch(error => {
@@ -352,7 +349,6 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
     headers,
   })
     .then(json => {
-      console.log(json.data);
       // dispatch(reduceProductTrackGroup(json.data));
     })
     .catch(error => {
@@ -586,7 +582,6 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(updateProduct(json.data));
     })
     .catch(error => {

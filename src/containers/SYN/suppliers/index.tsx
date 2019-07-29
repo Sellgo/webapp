@@ -169,7 +169,6 @@ export class Suppliers extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
     if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status && nextProps.uploadCSVResponse.status !== 'unset') {
-      console.log(nextProps.uploadCSVResponse);
       this.message.message = nextProps.uploadCSVResponse.message;
       this.message.description = ' ';
       this.message.description2 = '    ';

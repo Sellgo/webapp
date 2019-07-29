@@ -24,6 +24,7 @@ export interface SellField {
 
 export interface MWSinfo {
   marketplace_id: string;
+  amazon_seller_id: string;
   seller_id: string;
   token: string;
   id: any;
@@ -100,7 +101,6 @@ export const postSellerImage = (imageType: string, imagePath: any) => (dispatch:
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(reduceUpdatedImage(json.data));
     })
     .catch(() => {
@@ -179,10 +179,9 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
 };
 
 export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) => {
-  console.log(data);
   const formData = new FormData();
-  formData.append('seller_id', data.seller_id);
   formData.append('marketplace_id', data.marketplace_id);
+  formData.append('amazon_seller_id', data.amazon_seller_id);
   formData.append('token', data.token);
 
   return axios({

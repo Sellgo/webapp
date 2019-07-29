@@ -72,7 +72,7 @@ export class AdminHeader extends React.Component<any> {
             </Menu.Item>
           </Menu.Menu>
         </Menu>
-        <div id="navbar-spacer" style={{height: 30}}/>
+        <div id="navbar-spacer" style={{height: 45}}/>
       </React.Fragment>
     );
   }

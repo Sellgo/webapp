@@ -15,7 +15,6 @@ i.red.icon {
 }
 
 
-
 .top-menu {
     padding-right: 20px;
 }
@@ -34,12 +33,14 @@ i.red.icon {
 
 .ui.left.sidebar,
 .ui.right.sidebar,
-.ui[class*='very thin'].left.sidebar{
-    width: 60px ;
+.ui[class*='very thin'].left.sidebar {
+    width: 60px;
     background: #444444;
-    transition:width 0.3s;
+    transition: width 0.8s;
     min-height: fit-content;
-    position:fixed !important;
+    position: fixed !important;
+    height: 100vh !important;
+    margin-top:45px !important;
 }
 
 
@@ -58,6 +59,6 @@ i.big.icon, i.big.icons {
 }
 
 .AdjustedSideBarWidth {
-    width: 150px ;
+    width: 150px;
 }
 

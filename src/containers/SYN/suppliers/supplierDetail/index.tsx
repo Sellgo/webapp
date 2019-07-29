@@ -891,10 +891,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                   unitsPerMonthFilterUpdatedValue.min = this.state.minUnitsPerMonth;
                 }
 
-                console.log(data.profitPerMonthFilter);
-                console.log(this.state.minProfitPerMonth);
-                console.log(this.state.maxProfitPerMonth);
-                console.log(profitPerMonthFilterUpdatedValue);
                 this.setState(
                   {
                     marginFilter: marginFilterUpdatedValue,
@@ -1210,7 +1206,7 @@ export class SupplierDetail extends React.Component<Props, State> {
           <Card
             raised={true}
             style={{
-              width: this.state.isSideBarExpanded ? '98%' : '93%',
+              width: this.state.isSideBarExpanded ? '100%' : '95%',
               transition: 'width 0.4s',
             }}
           >

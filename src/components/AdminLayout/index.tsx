@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Segment, Sidebar,  } from 'semantic-ui-react';
+import { Segment, Sidebar } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
 import AdminSidebar from './AdminSidebar';
 import PageHeader from './PageHeader';
@@ -27,9 +27,9 @@ class AdminLayout extends React.Component<Props, State> {
   };
 
   componentWillReceiveProps(nextProps: any): void {
-      this.setState({
-        width: nextProps.isSideBarExpanded ? 95 : 100,
-      });
+    this.setState({
+      width: nextProps.isSideBarExpanded ? 95 : 100,
+    });
   }
 
   public render() {
@@ -38,21 +38,16 @@ class AdminLayout extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <AdminHeader sellerData={sellerData}/>
-        <Sidebar.Pushable style={{minHeight: 'calc(100vh)'}}>
-          <AdminSidebar logout={auth.logout} />
-          <Sidebar.Pusher
-            style={{
-              width: `calc(${this.state.width}vw - 55px)`,
-              textAlign: 'center',
-              transition: 'width 0.4s',
-            }}
-          >
-            <Segment basic={true}>
-              <PageHeader title={title}/>
-              {children}
-            </Segment>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
+        <AdminSidebar logout={auth.logout}/>
+
+        <Segment basic={true} style={{
+          paddingLeft: (this.props.isSideBarExpanded) ? 190 : 100,
+          paddingRight: (this.props.isSideBarExpanded) ? 20 : 20,
+          transition: 'width 0.8s,padding 0.8s',
+        }}>
+          <PageHeader title={title}/>
+          {children}
+        </Segment>
       </React.Fragment>
     );
   }

@@ -49,7 +49,6 @@ class AdminSidebar extends React.Component<Props, State> {
 
   render() {
     const logout = this.props.logout;
-    console.log(this.props.isSideBarExpanded);
     return (
       <Sidebar
         as={Menu}
@@ -62,7 +61,7 @@ class AdminSidebar extends React.Component<Props, State> {
         vertical={true}
         visible={true}
       >
-        <Menu.Item style={{marginTop: 50}} as={Link} to="/">
+        <Menu.Item as={Link} to="/">
           <Menu.Header>
             <div>
               <Icon name="home" style={{fontSize: 25}}/>
@@ -86,7 +85,7 @@ class AdminSidebar extends React.Component<Props, State> {
             </div>
           </Menu.Header>
         </Menu.Item>
-        <div style={{position: 'absolute', bottom: 30, width: '100%'}}>
+        <div style={{position: 'absolute', bottom: 60, width: '100%'}}>
           <Menu.Item style={{textAlign: 'bottom'}} as="a" onClick={logout}>
             <Menu.Header>
               <div>

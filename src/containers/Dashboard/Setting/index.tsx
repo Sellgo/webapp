@@ -9,7 +9,7 @@ import {
   Image,
   Segment,
   Icon,
-  Select,
+  Select, Modal,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -33,7 +33,7 @@ import {
 import './setting.css';
 import { marketPlace } from '../../../constant/constant';
 import RecoverPass from '../../RecoverPass';
-import  AdminLayout  from '../../../components/AdminLayout';
+import AdminLayout from '../../../components/AdminLayout';
 import Auth from '../../../components/Auth/Auth';
 
 interface State {
@@ -42,6 +42,8 @@ interface State {
   imageView: string;
   isImageSelected: boolean;
   isImageUploadUnderProgress: boolean;
+  isAmazonMWSAuthInfoOpen: boolean;
+  isDeleteModalOpen: boolean;
 }
 
 interface MarketPlaceType {
@@ -72,6 +74,7 @@ interface Props {
 
   sellerData: SellField;
   amazonData: MWSinfo;
+  amazonMWSFromServer: MWSinfo;
   isUpdate: boolean;
   match: { params: { auth: Auth } };
   updatedImage: {};
@@ -81,6 +84,8 @@ interface Props {
 class Setting extends React.Component<Props, State> {
   state = {
     isOpen: false,
+    isAmazonMWSAuthInfoOpen: false,
+    isDeleteModalOpen: false,
     isImageSelected: false,
     isImageUploadUnderProgress: false,
     imageFile: {
@@ -109,7 +114,6 @@ class Setting extends React.Component<Props, State> {
   }
 
   fileChange = (event: any): void => {
-    console.log(event.target.files);
     if (event.target.files.length > 0) {
       this.setState({
         imageFile: event.target.files[0],
@@ -129,7 +133,6 @@ class Setting extends React.Component<Props, State> {
   };
 
   componentWillReceiveProps(props: any) {
-    console.log(props.amazonData);
     if (props.updatedImage.id != undefined) {
       this.setState({
         imageView: props.updatedImage.image_url,
@@ -145,14 +148,15 @@ class Setting extends React.Component<Props, State> {
 
   updateAmazonMWS = () => {
     const {id} = this.props.sellerData;
-    const {seller_id, marketplace_id, token} = this.props.amazonData;
+    const {seller_id, marketplace_id, token, amazon_seller_id} = this.props.amazonData;
     const data = {
       seller_id,
       marketplace_id,
+      amazon_seller_id,
       token,
       id: 0,
     };
-    if (seller_id === '' || marketplace_id === '' || token === '') {
+    if (amazon_seller_id === '' || marketplace_id === '' || token === '') {
       this.message.title = 'Failed';
       this.message.message = 'Update Failed!';
       this.message.description = 'All fields must be filled';
@@ -238,7 +242,6 @@ class Setting extends React.Component<Props, State> {
         marketplaceDATA.code
         }&devMWSAccountId=${'4294-2444-1812'}`;
     }
-
     return (
       <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'Setting'}>
         <Segment basic={true} className="setting">
@@ -352,74 +355,199 @@ class Setting extends React.Component<Props, State> {
             </span>
               <Form className="autho-form">
                 <Grid>
-                  <Grid.Row columns={2}>
-                    <Grid.Column width={5}>
-                      <Form.Select
-                        control={Select}
-                        label="Marketplace"
-                        options={marketPlaceoptions}
-                        value={this.props.amazonData.marketplace_id}
-                        placeholder="select"
-                        name="marketplace_id"
-                        onChange={this.setAmazonMWSPlace}
-                      />
+                  <Grid.Row columns={3}>
+                    <Grid.Column width={8}>
+                      <Grid.Row columns={2}>
+                        <Grid.Column width={5}>
+                          <Form.Select
+                            control={Select}
+                            label="Marketplace"
+                            options={marketPlaceoptions}
+                            value={this.props.amazonData.marketplace_id}
+                            placeholder="select"
+                            name="marketplace_id"
+                            onChange={this.setAmazonMWSPlace}
+                          />
+                        </Grid.Column>
+                        <Grid.Column width={5} verticalAlign="bottom" floated={'right'}>
+                          <div
+                            onClick={() => {
+                              this.showMeHow(howUrl);
+                            }}
+                            style={{
+                              cursor: 'pointer',
+                              float: 'right',
+                            }}
+                          >
+                            <p style={{color: '#267DD4'}}> {'Show me how?'}</p>
+                          </div>
+                        </Grid.Column>
+                        <Grid.Column width={6}/>
+                        <Grid.Column width={10}>
+                          <Form.Input
+                            label="Amazon Seller ID"
+                            placeholder="Amazon Seller ID"
+                            value={this.props.amazonData.amazon_seller_id}
+                            name="amazon_seller_id"
+                            onChange={e => this.setAmazonMWS(e)}
+                          />
+                        </Grid.Column>
+                        <Grid.Column width={10}>
+                          <Form.Input
+                            label="MWS Auth Token"
+                            placeholder="MWS Auth Token"
+                            value={this.props.amazonData.token}
+                            name="token"
+                            onChange={e => this.setAmazonMWS(e)}
+                          />
+                          <Button
+                            primary={true}
+                            content="Add MWS Token"
+                            onClick={this.updateAmazonMWS}
+                            style={{borderRadius: '50px'}}
+                          />
+                        </Grid.Column>
+                      </Grid.Row>
                     </Grid.Column>
-                    <Grid.Column width={5} verticalAlign="bottom">
-                      <Button
-                        primary={true}
-                        content="Show me how >>"
-                        style={{borderRadius: '50px'}}
-                        onClick={() => this.showMeHow(howUrl)}
-                      />
-                    </Grid.Column>
-                    <Grid.Column width={6}/>
-                    <Grid.Column width={9}>
-                      <Form.Input
-                        label="Amazon Seller ID"
-                        placeholder="Amazon Seller ID"
-                        value={this.props.amazonData.seller_id}
-                        name="seller_id"
-                        onChange={e => this.setAmazonMWS(e)}
-                      />
-                    </Grid.Column>
-                    <Grid.Column width={9}>
-                      <Form.Input
-                        label="MWS Auth Token"
-                        placeholder="MWS Auth Token"
-                        value={this.props.amazonData.token}
-                        name="token"
-                        onChange={e => this.setAmazonMWS(e)}
-                      />
-                      <Button
-                        primary={true}
-                        content="Add MWS Token"
-                        onClick={this.updateAmazonMWS}
-                        style={{borderRadius: '50px'}}
-                      />
-                      <Button
-                        primary={true}
-                        onClick={() => {
-                          this.props.deleteMWSAuth(this.props.amazonData.id);
-                        }}
-                        style={{borderRadius: '50px'}}
-                      >
-                        <Icon name={'delete'}/>
-                        Delete
-                      </Button>
-                    </Grid.Column>
+                    {(this.props.amazonMWSFromServer.id != '') ?
+                      <Grid.Column width={1} style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
+                        <div onClick={() => {
+                          this.setState({
+                            isAmazonMWSAuthInfoOpen: !this.state.isAmazonMWSAuthInfoOpen,
+                          });
+                        }}>
+                          <Icon size={'big'}
+                                color={'blue'}
+                                name={(this.state.isAmazonMWSAuthInfoOpen) ? 'chevron circle left' : 'chevron circle right'}
+                                style={{color: 'black', display: 'inline-block'}}/>
+                          <p style={{color: '#267DD4'}}>{'info'}</p>
+                        </div>
+                      </Grid.Column> : null}
+                    {(this.props.amazonMWSFromServer.id != '') ?
+                      <Grid.Column width={7} style={{
+                        transition: 'visibility 1s ,opacity 1s',
+                        visibility: (this.state.isAmazonMWSAuthInfoOpen) ? 'visible' : 'hidden',
+                        opacity: (this.state.isAmazonMWSAuthInfoOpen) ? 1 : 0,
+                        padding: 0,
+                      }}>
+                        <div style={{
+                          height: 100,
+                        }}>
+                          <div style={{
+                            height: '100%', display: 'flex', alignItems: 'center', float: 'right',
+                          }}>
+                            <div
+                              onClick={() => {
+                                this.setState({isDeleteModalOpen: true});
+                                // this.props.deleteMWSAuth(this.props.amazonData.id);
+                              }}
+                              style={{
+                                borderRadius: '5px',
+                                color: '#ffffff',
+                                backgroundColor: '#ff0300',
+                                width: 34,
+                                height: 34,
+                                display: 'flex',
+                                paddingLeft: 3,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                              }}
+                            >
+                              <Icon name={'trash'} size={'large'} style={{textAlign: 'center'}}/>
+                            </div>
+                          </div>
+                          <div style={{
+                            overflow: 'hidden',
+                            marginRight: 70,
+                            backgroundColor: '#f0f0f0',
+                            marginBottom: 5,
+                            padding: 7,
+                          }}>
+                            <h4 style={{float: 'left', marginBottom: 0}}>{'Amazon Seller ID:'}</h4>
+                            <p style={{
+                              marginBottom: 0,
+                              marginLeft: 15,
+                              float: 'left',
+                            }}>{this.props.amazonMWSFromServer.amazon_seller_id}</p>
+                          </div>
+                          <div style={{
+                            overflow: 'hidden',
+                            marginRight: 70,
+                            backgroundColor: '#f0f0f0',
+                            marginBottom: 5,
+                            padding: 5,
+                          }}>
+                            <h4 style={{float: 'left', marginBottom: 0}}>{'MWS Auth Token:'}</h4>
+                            <p style={{
+                              marginBottom: 0,
+                              marginLeft: 15,
+                              float: 'left',
+                            }}>{this.props.amazonMWSFromServer.token}</p>
+                          </div>
+                          <div style={{
+                            overflow: 'hidden',
+                            marginRight: 70,
+                            backgroundColor: '#f0f0f0',
+                            marginBottom: 5,
+                            padding: 5,
+                          }}>
+                            <h4 style={{float: 'left', marginBottom: 0}}>{'Marketplace ID:'}</h4>
+                            <p style={{
+                              marginBottom: 0,
+                              marginLeft: 15,
+                              float: 'left',
+                            }}>{this.props.amazonMWSFromServer.marketplace_id}</p>
+
+                          </div>
+                        </div>
+                      </Grid.Column> : null}
                   </Grid.Row>
                 </Grid>
               </Form>
             </Container>
-            <Modals title="" size="large" open={isOpen} close={this.handleModel} bCloseIcon={true}>
-              <Container textAlign="center">
-                <MesssageComponent message={this.message} isModal={true}/>
-                <Segment textAlign="center" basic={true}>
-                  <Button style={buttonStyle} content="Ok" onClick={this.handleModel}/>
-                </Segment>
-              </Container>
-            </Modals>
           </Segment>
+          <Modals title="" size="large" open={isOpen} close={this.handleModel} bCloseIcon={true}>
+            <Container textAlign="center">
+              <MesssageComponent message={this.message} isModal={true}/>
+              <Segment textAlign="center" basic={true}>
+                <Button style={buttonStyle} content="Ok" onClick={this.handleModel}/>
+              </Segment>
+            </Container>
+          </Modals>
+          <Modal
+            closeIcon
+            open={this.state.isDeleteModalOpen}
+            onClose={() => {
+              this.setState({isDeleteModalOpen: false});
+            }}
+          >
+            <Modal.Content>
+              <Modal.Header>
+                <h3>Deleting MWS Auth Info</h3>
+              </Modal.Header>
+              <p>Are you sure you want to delete MWS Auth Info?</p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                color='red'
+                onClick={() => {
+                  this.setState({isDeleteModalOpen: false});
+                }}
+              >
+                No
+              </Button>
+              <Button
+                positive
+                icon='checkmark'
+                labelPosition='right'
+                content="Yes"
+                onClick={() => {
+                  this.props.deleteMWSAuth(this.props.amazonData.id);
+                  this.setState({isDeleteModalOpen: false});
+                }}
+              />
+            </Modal.Actions>
+          </Modal>
         </Segment>
       </AdminLayout>
     );
@@ -437,6 +565,7 @@ class Setting extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
   sellerData: state.settings.get('profile'),
   amazonData: state.settings.get('amazonMWS'),
+  amazonMWSFromServer: state.settings.get('amazonMWSFromServer'),
   isUpdate: state.settings.get('success'),
   updatedImage: state.settings.get('updatedImage'),
 });
