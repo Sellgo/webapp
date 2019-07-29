@@ -505,6 +505,21 @@ class Setting extends React.Component<Props, State> {
                               marginBottom: 0,
                               marginLeft: 15,
                               float: 'left',
+                            }}>{marketplaceNameFromServer.id}</p>
+
+                          </div>
+                          <div style={{
+                            overflow: 'hidden',
+                            marginRight: 70,
+                            backgroundColor: '#f0f0f0',
+                            marginBottom: 5,
+                            padding: 5,
+                          }}>
+                            <h4 style={{float: 'left', marginBottom: 0}}>{'Marketplace Name:'}</h4>
+                            <p style={{
+                              marginBottom: 0,
+                              marginLeft: 15,
+                              float: 'left',
                             }}>{marketplaceNameFromServer.name}</p>
 
                           </div>
