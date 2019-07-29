@@ -30,18 +30,19 @@ class AdminSidebar extends React.Component<Props, State> {
       // populate state fields according to props fields
     };
   }
+
   componentDidMount(): void {
     this.setState({isSideBarExpanded: this.props.isSideBarExpanded});
   }
 
   componentWillReceiveProps(nextProps: any): void {
-      if (nextProps.isSideBarExpanded) {
-        setTimeout(() => {
-          this.setState({isSideBarExpanded: nextProps.isSideBarExpanded});
-        }, 400);
-      } else {
+    if (nextProps.isSideBarExpanded) {
+      setTimeout(() => {
         this.setState({isSideBarExpanded: nextProps.isSideBarExpanded});
-      }
+      }, 400);
+    } else {
+      this.setState({isSideBarExpanded: nextProps.isSideBarExpanded});
+    }
   }
 
   componentWillMount() {
@@ -63,7 +64,7 @@ class AdminSidebar extends React.Component<Props, State> {
       >
         <Menu.Item as={Link} to="/">
           <Menu.Header>
-            <div>
+            <div style={{display: 'flex', alignItems: 'center'}}>
               <Icon name="home" style={{fontSize: 25}}/>
               {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  Home' : ''}
             </div>
@@ -71,7 +72,7 @@ class AdminSidebar extends React.Component<Props, State> {
         </Menu.Item>
         <Menu.Item as={Link} to="/syn">
           <Menu.Header>
-            <div>
+            <div style={{display: 'flex', alignItems: 'center'}}>
               <Icon name="dot circle outline" style={{fontSize: 25}}/>
               {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  SYN' : ''}
             </div>
@@ -79,7 +80,7 @@ class AdminSidebar extends React.Component<Props, State> {
         </Menu.Item>
         <Menu.Item as={Link} to="/dashboard/setting">
           <Menu.Header style={{alignItems: 'center'}}>
-            <div>
+            <div style={{display: 'flex', alignItems: 'center'}}>
               <Icon name="setting" style={{fontSize: 25}}/>
               {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  Settings' : ''}
             </div>
@@ -88,7 +89,7 @@ class AdminSidebar extends React.Component<Props, State> {
         <div style={{position: 'absolute', bottom: 60, width: '100%'}}>
           <Menu.Item style={{textAlign: 'bottom'}} as="a" onClick={logout}>
             <Menu.Header>
-              <div>
+              <div style={{display: 'flex', alignItems: 'center'}}>
                 <Icon name="log out" style={{fontSize: 25}}/>
                 {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  Logout' : ''}
               </div>
@@ -106,10 +107,12 @@ class AdminSidebar extends React.Component<Props, State> {
             }}
           >
             <Menu.Header>
-              <Icon
-                name={this.props.isSideBarExpanded ? 'chevron circle left' : 'chevron circle right'}
-                style={{fontSize: 25}}
-              />
+              <div style={{display:'flex',alignItems:'center'}}>
+                <Icon
+                  name={this.props.isSideBarExpanded ? 'chevron circle left' : 'chevron circle right'}
+                  style={{fontSize: 25}}
+                />
+              </div>
             </Menu.Header>
           </Menu.Item>
         </div>

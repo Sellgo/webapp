@@ -232,6 +232,7 @@ class Setting extends React.Component<Props, State> {
     });
     const {marketplace_id} = this.props.amazonData;
     const marketplaceDATA = this.getmarketplaceDATA(marketplace_id);
+    const marketplaceNameFromServer = this.getmarketplaceDATA(this.props.amazonMWSFromServer.marketplace_id);
     const {firstName, lastName, email} = this.props.sellerData;
 
     let howUrl = '';
@@ -410,7 +411,13 @@ class Setting extends React.Component<Props, State> {
                       </Grid.Row>
                     </Grid.Column>
                     {(this.props.amazonMWSFromServer.id != '') ?
-                      <Grid.Column width={1} style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
+                      <Grid.Column width={1} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        textAlign: 'center',
+                        justifyContent: 'center',
+                      }}>
                         <div onClick={() => {
                           this.setState({
                             isAmazonMWSAuthInfoOpen: !this.state.isAmazonMWSAuthInfoOpen,
@@ -428,10 +435,12 @@ class Setting extends React.Component<Props, State> {
                         transition: 'visibility 1s ,opacity 1s',
                         visibility: (this.state.isAmazonMWSAuthInfoOpen) ? 'visible' : 'hidden',
                         opacity: (this.state.isAmazonMWSAuthInfoOpen) ? 1 : 0,
-                        padding: 0,
+                        display: 'flex', alignItems: 'center',
+                        width: '100%',
                       }}>
                         <div style={{
                           height: 100,
+                          width:'100%'
                         }}>
                           <div style={{
                             height: '100%', display: 'flex', alignItems: 'center', float: 'right',
@@ -496,7 +505,7 @@ class Setting extends React.Component<Props, State> {
                               marginBottom: 0,
                               marginLeft: 15,
                               float: 'left',
-                            }}>{this.props.amazonMWSFromServer.marketplace_id}</p>
+                            }}>{marketplaceNameFromServer.name}</p>
 
                           </div>
                         </div>
@@ -542,7 +551,7 @@ class Setting extends React.Component<Props, State> {
                 labelPosition='right'
                 content="Yes"
                 onClick={() => {
-                  this.props.deleteMWSAuth(this.props.amazonData.id);
+                  this.props.deleteMWSAuth(this.props.amazonMWSFromServer.id);
                   this.setState({isDeleteModalOpen: false});
                 }}
               />
