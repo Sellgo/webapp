@@ -14,8 +14,7 @@ import {
   UPLOAD_SYNTHESIS_FILE_ID,
   GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES, SYN_RESET_PRODUCT_REDUCED_VALUES, UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
-import { URLS } from '../config';
-import { Simulate } from 'react-dom/test-utils';
+import { AppConfig } from '../config';
 
 export interface Supplier {
   contact: string;
@@ -139,7 +138,7 @@ export const getSellers = () => (dispatch: any) => {
   }
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/`,
     headers,
   })
     .then(json => {
@@ -199,7 +198,7 @@ export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/time_efficiency/`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/time_efficiency/`,
     headers,
   })
     .then(json => {
@@ -212,7 +211,7 @@ export const getTimeEfficiency = () => (dispatch: any) => {
 export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/' + supplierID + '/history/price',
+    url: AppConfig.BASE_URL_API + 'group/' + supplierID + '/history/price',
     headers,
   })
     .then(json => {
@@ -236,7 +235,7 @@ export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: a
 export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/' + supplierID + '/history/rank',
+    url: AppConfig.BASE_URL_API + 'group/' + supplierID + '/history/rank',
     headers,
   })
     .then(json => {
@@ -249,7 +248,7 @@ export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: an
 export const getProductDetail = (productID: string, supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + productID + '/detail/?supplier_id=' + supplierID,
+    url: AppConfig.BASE_URL_API + 'product/' + productID + '/detail/?supplier_id=' + supplierID,
     headers,
   })
     .then(json => {
@@ -262,7 +261,7 @@ export const getProductDetail = (productID: string, supplierID: string) => (disp
 export const getProductDetailChartRank = (product_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/rank',
+    url: AppConfig.BASE_URL_API + 'product/' + product_id + '/history/rank',
     headers,
   })
     .then(json => {
@@ -275,7 +274,7 @@ export const getProductDetailChartRank = (product_id: string) => (dispatch: any)
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'product/' + product_id + '/history/price',
+    url: AppConfig.BASE_URL_API + 'product/' + product_id + '/history/price',
     headers,
   })
     .then(json => {
@@ -289,7 +288,7 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
 export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'group/track_data/?supplier_id=' + supplierID,
+    url: AppConfig.BASE_URL_API + 'group/track_data/?supplier_id=' + supplierID,
     headers,
   })
     .then(json => {
@@ -324,7 +323,7 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'GET',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/track/group/?supplier_id=${supplierID}`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/track/group/?supplier_id=${supplierID}`,
     headers,
   })
     .then(json => {
@@ -343,7 +342,7 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
   bodyFormData.set('marketplace_id', 'US');
   return axios({
     method: 'POST',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/track/group/`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/track/group/`,
     data: bodyFormData,
 
     headers,
@@ -361,7 +360,7 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
   bodyFormData.set('name', supplier_name);
   return axios({
     method: 'POST',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/supplier_group/`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier_group/`,
     data: bodyFormData,
     headers,
   })
@@ -382,7 +381,7 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     const sellerID = localStorage.getItem('userId');
     return axios({
       method: 'POST',
-      url: URLS.BASE_URL_API + `seller/${sellerID}/supplier/`,
+      url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/`,
       data: bodyFormData,
       headers,
     })
@@ -403,7 +402,7 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
   bodyFormData.set('status', 'inactive');
   return axios({
     method: 'patch',
-    url: URLS.BASE_URL_API + `supplier/`,
+    url: AppConfig.BASE_URL_API + `supplier/`,
     data: bodyFormData,
     headers,
   })
@@ -422,7 +421,7 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
   bodyFormData.set('id', update_supplier_id);
   return axios({
     method: 'patch',
-    url: URLS.BASE_URL_API + `supplier/`,
+    url: AppConfig.BASE_URL_API + `supplier/`,
     data: bodyFormData,
     headers,
   })
@@ -446,7 +445,7 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'GET',
-    url: URLS.BASE_URL_API + `supplier/${supplierID}/get_last_file_id/?seller_id=${sellerID}`,
+    url: AppConfig.BASE_URL_API + `supplier/${supplierID}/get_last_file_id/?seller_id=${sellerID}`,
     headers,
   })
     .then(json => {
@@ -460,7 +459,7 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
 export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
   return axios({
     method: 'GET',
-    url: URLS.BASE_URL_API + `synthesis_progress/?synthesis_file_id=${synthesisFileID}`,
+    url: AppConfig.BASE_URL_API + `synthesis_progress/?synthesis_file_id=${synthesisFileID}`,
     headers,
     cancelToken: new CancelToken(canceler => {
       progressAxiosCancel = canceler;
@@ -488,7 +487,7 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
 
   return axios({
     method: 'POST',
-    url: URLS.BASE_URL_API + `supplier/${new_supplier_id}/synthesis/upload/`,
+    url: AppConfig.BASE_URL_API + `supplier/${new_supplier_id}/synthesis/upload/`,
     data: bodyFormData,
     headers,
   })
@@ -518,7 +517,7 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
 
   return axios({
     method: 'get',
-    url: URLS.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' + sellerID,
+    url: AppConfig.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' + sellerID,
     headers,
   })
     .then(json => {
@@ -577,7 +576,7 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
   bodyFormData.set('seller_id', sellerID);
   return axios({
     method: 'POST',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/track/product/`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/track/product/`,
     data: bodyFormData,
     headers,
   })
@@ -597,7 +596,7 @@ export const trackProductWithPatch = (product_track_id: string, productTrackGrou
 
   return axios({
     method: 'PATCH',
-    url: URLS.BASE_URL_API + `track/product/`,
+    url: AppConfig.BASE_URL_API + `track/product/`,
     data: bodyFormData,
     headers,
   })
