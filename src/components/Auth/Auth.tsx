@@ -1,4 +1,4 @@
-import * as auth0 from 'auth0-js';
+import Auth0Lock from 'auth0-lock';
 import history from '../../history';
 import axios from 'axios';
 import { URLS, AUTH_CONFIG } from '../../config';
@@ -9,20 +9,32 @@ export default class Auth {
   expiresAt: any;
   userProfile: any;
 
-  public auth0 = new auth0.WebAuth({
-    clientID: AUTH_CONFIG.clientID,
-    domain: AUTH_CONFIG.domain,
-    redirectUri: AUTH_CONFIG.callbackUrl,
-    responseType: 'token id_token',
-    scope: 'openid profile',
+  public auth0Lock = new Auth0Lock(AUTH_CONFIG.clientID, AUTH_CONFIG.domain, {
+    auth: {
+      redirectUrl: AUTH_CONFIG.callbackUrl,
+      responseType: 'token id_token',
+      params: {
+        scope: 'openid profile',
+      },
+    },
+    allowShowPassword: true,
+    autoclose: true,
+    theme: {
+      logo: '/images/sellgo_logo_black.png',
+      primaryColor: '#4285F4',
+    },
+    languageDictionary: {
+      emailInputPlaceholder: 'something@youremail.com',
+      title: '',
+    },
+    allowSignUp: false,
   });
-
   public login = () => {
-    this.auth0.authorize();
+    this.auth0Lock.show();
   };
 
   registerSeller = () => {
-    const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
+    const headers = {Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json'};
     const formData = new FormData();
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.userProfile.name)) {
@@ -37,20 +49,20 @@ export default class Auth {
     formData.append('auth0_user_id', this.userProfile.sub);
 
     axios
-      .post(URLS.BASE_URL_API + 'seller/', formData, { headers })
+      .post(URLS.BASE_URL_API + 'seller/', formData, {headers})
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
-          history.replace('/dashboard');
+          history.replace('/');
         }
       })
       .catch();
   };
 
   public handleAuthentication = () => {
-    this.auth0.parseHash((err, authResult) => {
+    this.auth0Lock.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
@@ -84,19 +96,8 @@ export default class Auth {
     });
   };
 
-  public renewSession = () => {
-    this.auth0.checkSession({}, (err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-      } else if (err) {
-        this.logout();
-        alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
-      }
-    });
-  };
-
   getProfile(cb: any) {
-    this.auth0.client.userInfo(this.accessToken, (err, profile) => {
+    this.auth0Lock.getUserInfo(this.accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;
         localStorage.setItem('auth0_user_id', this.userProfile.sub);
@@ -106,12 +107,12 @@ export default class Auth {
     });
   }
 
-  public removeStoredItems=()=>{
+  public removeStoredItems = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userId');
     localStorage.removeItem('idToken');
     localStorage.removeItem('idTokenExpires');
-  }
+  };
 
   public logout = () => {
     // Remove tokens and expiry time
@@ -122,12 +123,12 @@ export default class Auth {
     this.userProfile = null;
     // Remove isLoggedIn flag from localStorage
     this.removeStoredItems();
-    this.auth0.logout({
+    this.auth0Lock.logout({
       returnTo: window.location.origin,
     });
 
     // navigate to the home route
-    history.replace('/');
+    // history.replace('/');
   };
 
   public isAuthenticated = () => {

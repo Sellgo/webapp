@@ -44,9 +44,11 @@ export class AdminHeader extends React.Component<any> {
     }
     return (
       <React.Fragment>
-        <Menu inverted={true} borderless={true} fixed="top"
-              style={{height: this.height, backgroundColor: '#444444', paddingLeft: 80}}
-              className="top-menu">
+        <Menu
+          inverted={true} borderless={true} fixed="top"
+          style={{height: this.height, backgroundColor: '#444444', paddingLeft: 80}}
+          className="top-menu"
+        >
           <Menu.Menu>
             <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small"/>}/>
           </Menu.Menu>
@@ -70,7 +72,7 @@ export class AdminHeader extends React.Component<any> {
             </Menu.Item>
           </Menu.Menu>
         </Menu>
-        <div id="navbar-spacer" style={{height: this.height}}/>
+        <div id="navbar-spacer" style={{height: 45}}/>
       </React.Fragment>
     );
   }

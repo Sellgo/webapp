@@ -4,7 +4,12 @@ import {
   UPDATE_BASIC_INFO_SELLER,
   FETCH_AUTH_BEGIN,
   SET_AMAZON_MWS,
-  GET_BASIC_INFO_SELLER, SET_PAGE_HISTORY_COUNTER, UPLOAD_SELLER_IMAGE,
+  GET_BASIC_INFO_SELLER,
+  SET_PAGE_HISTORY_COUNTER,
+  UPLOAD_SELLER_IMAGE,
+  GET_AMAZON_MWS,
+  SIDE_BAR_EXPANDED,
+  PATCH_AMAZON_MWS,
 } from '../constant/constant';
 
 const initialState = Map({
@@ -19,20 +24,35 @@ const initialState = Map({
   },
   amazonMWS: {
     seller_id: '',
+    amazon_seller_id: '',
     marketplace_id: '',
     token: '',
+    id: '',
+  },
+  amazonMWSFromServer: {
+    seller_id: '',
+    amazon_seller_id: '',
+    marketplace_id: '',
+    token: '',
+    id: '',
   },
   pageHistoryCanGoForward: 0,
   updatedImage: {},
   success: false,
   loading: false,
   error: null,
+  isMWSAuthorized: false,
+  isSideBarExpanded: false,
 });
 
 export const SettingReducer = (state = initialState, action: any) => {
   let newState = null;
   let data = null;
   switch (action.type) {
+    case SIDE_BAR_EXPANDED:
+      data = action.data;
+      newState = state.setIn(['isSideBarExpanded'], data.value);
+      return newState;
     case FETCH_AUTH_BEGIN:
       return {
         ...state,
@@ -73,6 +93,25 @@ export const SettingReducer = (state = initialState, action: any) => {
     case UPLOAD_SELLER_IMAGE:
       data = action.data;
       newState = state.setIn(['updatedImage'], data);
+      return newState;
+    case GET_AMAZON_MWS:
+      data = action.data;
+      if (data.length > 0) {
+        if (data[0].status !== 'inactive') {
+          newState = state.setIn(['amazonMWSFromServer'], data[0]);
+          return newState;
+        }
+      }
+      return state;
+    case PATCH_AMAZON_MWS:
+      data = {
+        seller_id: '',
+        amazon_seller_id: '',
+        marketplace_id: '',
+        token: '',
+        id: '',
+      };
+      newState = state.setIn(['amazonMWS'], data);
       return newState;
     default:
       return state;

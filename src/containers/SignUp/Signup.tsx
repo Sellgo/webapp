@@ -20,6 +20,8 @@ export class SignUp extends React.Component<any, State> {
     description: 'You have successfully create new account with Sellgo account.',
     description2: 'Please check your email to verify.',
     button_text: 'Ok',
+    icon: 'check circle',
+    color: '#0E6FCF',
   };
 
   loginSignUp = () => {

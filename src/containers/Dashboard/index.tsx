@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { Button, Container, Header, Image, Segment, SemanticSIZES, Step } from 'semantic-ui-react';
-import { AdminLayout } from '../../components/AdminLayout';
+import  AdminLayout  from '../../components/AdminLayout';
 import { Modals } from '../../components/Modals';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
 import {
   getBasicInfoSeller,
+  getIsMWSAuthorized,
   SellField,
 } from '../../Action/SettingActions';
 import { connect } from 'react-redux';
+import Auth from '../../components/Auth/Auth';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
                                                                                 size,
@@ -30,16 +32,17 @@ interface State {
 
 interface Props {
   getBasicInfoSeller(): () => void;
+  getIsMWSAuthorized(): () => void;
 
-  match: { params: { auth: null } };
+  match: { params: { auth: Auth } };
   sellerData: SellField;
 }
 
 class Dashboard extends React.Component<Props, State> {
   componentDidMount() {
     this.props.getBasicInfoSeller();
+    this.props.getIsMWSAuthorized();
     const visited = localStorage.getItem('FirstLogin');
-    console.log(visited);
     if (!visited) {
       localStorage['FirstLogin'] = true;
       this.setState({ isOpen: true });
@@ -155,6 +158,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
+    getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
   };
 };
 

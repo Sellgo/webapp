@@ -15,7 +15,7 @@ import {
   TextArea,
   Pagination,
   Loader,
-  Confirm, List,
+  Confirm, List, Container,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -28,16 +28,25 @@ import {
   Supplier,
   saveSupplierNameAndDescription,
   updateSupplierNameAndDescription,
+  resetUploadCSVResponse,
   New_Supplier,
   uploadCSV,
   getTimeEfficiency,
   TimeEfficiency,
   deleteSupplier, postProductTrackGroupId,
 } from '../../../Action/SYNActions';
-import { AdminLayout } from '../../../components/AdminLayout';
+
+import { getIsMWSAuthorized, getBasicInfoSeller } from '../../../Action/SettingActions';
+import AdminLayout from '../../../components/AdminLayout';
 import { SellField } from '../../../Action/SettingActions';
+import { localStorageKeys } from '../../../constant/constant';
+import { Modals } from '../../../components/Modals';
+import MesssageComponent from '../../../components/MessageComponent';
+import buttonStyle from '../../../components/StyleComponent/StyleComponent';
+import Auth from '../../../components/Auth/Auth';
 
 interface State {
+  isMessageModalOn: boolean;
   isOpen: boolean;
   size: string;
   modalOpen: boolean;
@@ -63,7 +72,7 @@ interface State {
     rate: string;
     seller_id: number;
     status: string;
-    supplier_group_id: 1,
+    supplier_group_id: 1;
     timezone: string;
     upcharge_fee: string;
     website: string;
@@ -74,7 +83,13 @@ interface State {
 interface Props {
   getSellers(): () => void;
 
+  getBasicInfoSeller(): () => void;
+
   getTimeEfficiency(): () => void;
+
+  resetUploadCSVResponse(): () => void;
+
+  getIsMWSAuthorized(): () => void;
 
   postProductTrackGroupId(supplierID: string, supplierName: string): () => void;
 
@@ -86,11 +101,13 @@ interface Props {
 
   uploadCSV(new_supplier_id: string, file: any): () => void;
 
-  match: { params: { auth: null } };
+
+  match: { params: { auth: Auth } };
   suppliers: Supplier[];
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
+  uploadCSVResponse: { message: '', status: '' };
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -105,6 +122,7 @@ export class Suppliers extends React.Component<Props, State> {
     currentPage: 1,
     singlePageItemsCount: 10,
     updateDetails: false,
+    isMessageModalOn: false,
     update_product_id: '0',
     delete_confirmation: false,
     delete_supplier_container: {
@@ -135,19 +153,37 @@ export class Suppliers extends React.Component<Props, State> {
     description2: '',
     to: '/dashboard/setting',
     button_text: 'Ok',
+    icon: 'check circle',
+    color: '#cf3105',
   };
   fileInputRef: any = React.createRef();
 
   componentDidMount() {
-    const data = {
-      key: 'userID',
-      value: localStorage.getItem('userId'),
-    };
+
+    this.props.getBasicInfoSeller();
+    this.props.resetUploadCSVResponse();
+    this.props.getIsMWSAuthorized();
     this.props.getSellers();
     this.props.getTimeEfficiency();
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
+    if (nextProps.uploadCSVResponse.status !== this.props.uploadCSVResponse.status && nextProps.uploadCSVResponse.status !== 'unset') {
+      this.message.message = nextProps.uploadCSVResponse.message;
+      this.message.description = ' ';
+      this.message.description2 = '    ';
+      this.message.to = '#';
+      if (nextProps.uploadCSVResponse.status == 'failed') {
+        this.message.title = 'Upload Failed';
+        this.message.icon = 'warning sign';
+        this.message.color = '#cf3105';
+      } else {
+        this.message.title = 'Upload Successful';
+        this.message.icon = 'check circle';
+        this.message.color = '#4285f4';
+      }
+      this.handleMessageModal();
+    }
     this.setState({
       totalPages: Math.ceil(nextProps.suppliers.length / this.state.singlePageItemsCount),
     });
@@ -156,13 +192,6 @@ export class Suppliers extends React.Component<Props, State> {
   componentDidUpdate(prevProps: any) {
 
   }
-
-  handleModel = () => {
-    const {isOpen} = this.state;
-    this.setState({
-      isOpen: !isOpen,
-    });
-  };
 
   fileChange = (event: any): void => {
     this.setState({file: event.target.files[0]}, () => {
@@ -183,8 +212,7 @@ export class Suppliers extends React.Component<Props, State> {
       });
     } else {
       this.props.saveSupplierNameAndDescription(this.state.supplier_name, this.state.supplier_description, (data: any) => {
-        console.log(data);
-        this.props.postProductTrackGroupId(data.id,this.state.supplier_name);
+        this.props.postProductTrackGroupId(data.id, this.state.supplier_name);
         this.props.getSellers();
         if (this.props.new_supplier_id != null && this.state.file != '') {
           this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
@@ -197,17 +225,42 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   openUpdateSupplierPopup = (value: any): void => {
-    this.setState({
-      modalOpen: true,
-      update_product_id: value.id,
-      updateDetails: true,
-      supplier_name: value.name,
-      supplier_description: value.description,
-    });
+    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+      this.setState({
+        modalOpen: true,
+        update_product_id: value.id,
+        updateDetails: true,
+        supplier_name: value.name,
+        supplier_description: value.description,
+      });
+    } else {
+      this.message.title = 'Unauthorized Access';
+      this.message.message = 'MWS Auth token not found';
+      this.message.description = 'Please Setup MWS Authorization Token';
+      this.message.to = '/dashboard/setting';
+      this.message.icon = 'warning sign';
+      this.message.color = '#cf3105';
+      this.handleMessageModal();
+    }
   };
 
-  handleOpen = () => {
-    this.setState({supplier_name: '', supplier_description: '', modalOpen: true, updateDetails: false});
+  handleAddNewSupplierModalOpen = () => {
+    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+      this.setState({
+        supplier_name: '',
+        supplier_description: '',
+        modalOpen: true,
+        updateDetails: false,
+      });
+    } else {
+      this.message.title = 'Unauthorized Access';
+      this.message.message = 'MWS Auth token not found';
+      this.message.description = 'Please Setup MWS Authorization Token';
+      this.message.to = '/dashboard/setting';
+      this.message.icon = 'warning sign';
+      this.message.color = '#cf3105';
+      this.handleMessageModal();
+    }
   };
 
   handleClose = () => this.setState({modalOpen: false, updateDetails: false});
@@ -232,7 +285,7 @@ export class Suppliers extends React.Component<Props, State> {
           basic color='black'
           primary={true}
           style={{borderRadius: '50px'}}
-          onClick={this.handleOpen}
+          onClick={this.handleAddNewSupplierModalOpen}
         >
           Add New Supplier
         </Button>
@@ -324,6 +377,7 @@ export class Suppliers extends React.Component<Props, State> {
           <input
             ref={this.fileInputRef}
             type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             hidden
             onChange={this.fileChange}
           />
@@ -408,8 +462,18 @@ export class Suppliers extends React.Component<Props, State> {
                                     value: 'SYN',
                                   }]}
                                   onChange={(e, data) => {
-                                    if (data.value === 'SYN') {
-                                      history.push(`/syn/${value.id}`);
+                                    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+                                      if (data.value === 'SYN') {
+                                        history.push(`/syn/${value.id}`);
+                                      }
+                                    } else {
+                                      this.message.title = 'Unauthorized Access';
+                                      this.message.message = 'MWS Auth token not found';
+                                      this.message.description = 'Please Setup MWS Authorization Token';
+                                      this.message.to = '/dashboard/setting';
+                                      this.message.icon = 'warning sign';
+                                      this.message.color = '#cf3105';
+                                      this.handleMessageModal();
                                     }
                                   }}>
                         </Dropdown>
@@ -427,10 +491,24 @@ export class Suppliers extends React.Component<Props, State> {
                             onClick={() => {
                               this.openUpdateSupplierPopup(value);
                             }}
-                            name='cloud upload' style={{color: 'black'}}/>&nbsp;
+                            name='cloud upload' style={{color: 'black'}}
+                          />&nbsp;
                         </Table.Cell>
-                        <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                          <Icon name='refresh' style={{color: 'black'}}/>&nbsp;
+                        <Table.Cell as={Link}>
+                          <Icon name='refresh' style={{color: 'black'}}
+                                onClick={() => {
+                                  if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+                                  } else {
+                                    this.message.title = 'Unauthorized Access';
+                                    this.message.message = 'MWS Auth token not found';
+                                    this.message.description = 'Please Setup MWS Authorization Token';
+                                    this.message.to = '/dashboard/setting';
+                                    this.message.icon = 'warning sign';
+                                    this.message.color = '#cf3105';
+                                    this.handleMessageModal();
+                                  }
+                                }}
+                          />&nbsp;
                         </Table.Cell>
                         <Table.Cell
                           as={Link}
@@ -504,23 +582,6 @@ export class Suppliers extends React.Component<Props, State> {
       )
     );
   };
-  renderDeleteModal = (value: Supplier, index: any) => {
-    return (
-      <Modal trigger={
-        <Icon name='trash alternate' style={{color: 'black'}}/>
-      } onClose={this.close}>
-        <Modal.Header>Delete Your Account</Modal.Header>
-        <Modal.Content>
-          <p>Are you sure you want to delete your account</p>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button negative>No</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
-          <Button positive icon='checkmark' labelPosition='right' content='Yes'/>
-        </Modal.Actions>
-      </Modal>
-    );
-  };
 
   render() {
     return (
@@ -531,9 +592,9 @@ export class Suppliers extends React.Component<Props, State> {
             <Grid.Column width={5} floated='left' className={'middle aligned'}>
               {this.renderAddNewSupplierModal()}
               <Popup className={'addSupplierPopup'}
-                trigger={<Icon name='question circle' circular/>}
-                position='top left'
-                size='tiny'
+                     trigger={<Icon name='question circle' circular/>}
+                     position='top left'
+                     size='tiny'
               >
                 <h4>
                   Adding a Supplier
@@ -566,7 +627,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Time Saved
                 <h2>
                   <strong>
-                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + ' hrs' : null}
+                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + ' hrs' : '0 hrs'}
                   </strong>
                 </h2>
               </span>
@@ -574,7 +635,7 @@ export class Suppliers extends React.Component<Props, State> {
                 Efficiency
                 <h2>
                   <strong>
-                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %' : null}
+                    {this.props.time_efficiency_data.length > 0 ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %' : '0 %'}
                   </strong>
                 </h2>
               </span>
@@ -582,19 +643,33 @@ export class Suppliers extends React.Component<Props, State> {
             </Grid.Column>
           </Grid>
           {this.renderTable()}
+          <Modals title="" size="large" open={this.state.isMessageModalOn} close={this.handleMessageModal}
+                  bCloseIcon={true}>
+            <Container textAlign="center">
+              <MesssageComponent message={this.message} isModal={true}/>
+              <Segment textAlign="center" basic={true}>
+                <Button style={buttonStyle} content="Ok" onClick={this.handleMessageModal} as={Link}
+                        to={this.message.to}/>
+              </Segment>
+            </Container>
+          </Modals>
         </Segment>
       </AdminLayout>
     );
   }
 
-  close = () => {
-    // this.setState({ open: false })
+  handleMessageModal = () => {
+    const {isMessageModalOn} = this.state;
+    this.setState({
+      isMessageModalOn: !isMessageModalOn,
+    });
   };
 }
 
 const mapStateToProps = (state: any) => {
   return {
     suppliers: state.synReducer.get('suppliers'),
+    uploadCSVResponse: state.synReducer.get('uploadCSVResponse'),
     new_supplier_id: state.synReducer.get('new_supplier'),
     time_efficiency_data: state.synReducer.get('time_efficiency_data'),
     sellerData: state.settings.get('profile'),
@@ -605,6 +680,9 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getSellers: () => dispatch(getSellers()),
+    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
+    resetUploadCSVResponse: () => dispatch(resetUploadCSVResponse()),
+    getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
     postProductTrackGroupId: (supplierID: string, supplierName: string) =>
       dispatch(postProductTrackGroupId(supplierID, supplierName)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),

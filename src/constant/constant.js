@@ -2,7 +2,11 @@ export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';
 export const SET_BASIC_INFO_SELLER = '/Dash/SETTING/SET_BASIC_INFO_SELLER';
 export const UPDATE_BASIC_INFO_SELLER = '/Dash/SETTING/UPDATE_BASIC_INFO_SELLER';
 export const GET_BASIC_INFO_SELLER = '/Dash/SETTING/GET_BASIC_INFO_SELLER';
-export const SET_AMAZON_MWS = '/Dash/SETTING/AMAZON_MWS';
+export const SET_AMAZON_MWS = '/Dash/SETTING/SET_AMAZON_MWS';
+export const SIDE_BAR_EXPANDED = '/Dash/SETTING/SIDE_BAR_EXPANDED';
+export const GET_AMAZON_MWS = '/Dash/SETTING/GET_AMAZON_MWS';
+export const PATCH_AMAZON_MWS = '/Dash/SETTING/PATCH_AMAZON_MWS';
+export const UPLOAD_SELLER_IMAGE = '/Dash/SETTING/UPLOAD_SELLER_IMAGE';
 export const SET_TIME_EFFICIENCY = '/SYN/GET_TIME_EFFICIENCY';
 export const SET_SELLERS = '/SYN/SET_SELLERS';
 export const UPDATE_PRODUCT = '/SYN/UPDATE_PRODUCT';
@@ -15,10 +19,20 @@ export const SET_Product_Detail = '/SYN/SET_Product_Detail';
 export const SET_Product_Detail_Chart_Values_Rank = '/SYN/SET_Product_Detail_Chart_Values_Rank';
 export const SET_Product_Detail_Chart_Values_Price = '/SYN/SET_Product_Detail_Chart_Values_Price';
 export const SET_PAGE_HISTORY_COUNTER = '/SET_PAGE_HISTORY_COUNTER';
-export const UPLOAD_SYNTHESIS_FILE_ID = '/UPLOAD_SYNTHESIS_FILE_ID';
-export const UPLOAD_SYNTHESIS_PROGRESS_UPDATES = '/UPLOAD_SYNTHESIS_PROGRESS_UPDATES';
-export const UPLOAD_SELLER_IMAGE = '/UPLOAD_SELLER_IMAGE';
+export const UPLOAD_CSV_RESPONSE = '/SYN/UPLOAD_CSV_RESPONSE';
+export const UPLOAD_SYNTHESIS_FILE_ID = '/SYN/UPLOAD_SYNTHESIS_FILE_ID';
+export const UPLOAD_SYNTHESIS_PROGRESS_UPDATES = '/SYN/UPLOAD_SYNTHESIS_PROGRESS_UPDATES';
 export const GET_PRODUCT_TRACK_GROUP = '/SYN/GET_PRODUCT_TRACK_GROUP';
+export const SYN_RESET_PRODUCT_REDUCED_VALUES = '/SYN/SYN_RESET_PRODUCT_REDUCED_VALUES';
+
+
+/**
+ *
+ * keys for localstorage
+ */
+export const localStorageKeys = {
+  isMWSAuthorized: 'isMWSAuthorized',
+};
 
 
 export const marketPlace = [
@@ -38,7 +52,7 @@ export const marketPlace = [
 
 
 /**
- * NOTE: setting to 0 will default to minimum of the current products in list
+ * NOTE: there should be difference of atleast 1 between min and max
  *
  */
 export const ProductFiltersPreset = [

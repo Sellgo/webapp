@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { Cancel, Canceler } from 'axios';
 import {
   SET_SELLERS,
   SET_PRODUCTS,
@@ -12,9 +12,10 @@ import {
   SET_TIME_EFFICIENCY,
   UPDATE_PRODUCT,
   UPLOAD_SYNTHESIS_FILE_ID,
-  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES, SYN_RESET_PRODUCT_REDUCED_VALUES, UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { URLS } from '../config';
+import { Simulate } from 'react-dom/test-utils';
 
 export interface Supplier {
   contact: string;
@@ -128,6 +129,9 @@ const headers = {
   'Content-Type': `multipart/form-data`,
 };
 
+let progressTimer: NodeJS.Timeout | null = null;
+const CancelToken = axios.CancelToken;
+let progressAxiosCancel: Canceler | null = null;
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   if (headers.Authorization === 'Bearer null') {
@@ -190,6 +194,7 @@ export const getSellers = () => (dispatch: any) => {
     });
 };
 
+
 export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
@@ -248,7 +253,6 @@ export const getProductDetail = (productID: string, supplierID: string) => (disp
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setProductDetail(json.data[0]));
     })
     .catch(error => {
@@ -275,7 +279,6 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(setProductDetailChartPrice(json.data));
     })
     .catch(error => {
@@ -325,7 +328,6 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(reduceProductTrackGroup(json.data));
     })
     .catch(error => {
@@ -347,7 +349,6 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
     headers,
   })
     .then(json => {
-      console.log(json.data);
       // dispatch(reduceProductTrackGroup(json.data));
     })
     .catch(error => {
@@ -434,18 +435,23 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
 
 
 export const getLastFileID = (supplierID: string) => (dispatch: any) => {
+  dispatch(setProgressUpdatesValue({progress: 0}));
+  if (progressTimer != null) {
+    clearTimeout(progressTimer);
+    if (progressAxiosCancel != null) {
+      progressAxiosCancel();
+    }
+    progressTimer = null;
+  }
   const sellerID = localStorage.getItem('userId');
-
   return axios({
     method: 'GET',
     url: URLS.BASE_URL_API + `supplier/${supplierID}/get_last_file_id/?seller_id=${sellerID}`,
     headers,
   })
     .then(json => {
-      dispatch({
-        type: UPLOAD_SYNTHESIS_FILE_ID,
-        data: json.data,
-      });
+      dispatch(setSynthesisFileID(json.data));
+      getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
     })
     .catch(error => {
     });
@@ -456,20 +462,26 @@ export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatc
     method: 'GET',
     url: URLS.BASE_URL_API + `synthesis_progress/?synthesis_file_id=${synthesisFileID}`,
     headers,
+    cancelToken: new CancelToken(canceler => {
+      progressAxiosCancel = canceler;
+    }),
   })
     .then(json => {
-      dispatch({
-        type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
-        data: json.data,
-      });
+      dispatch(setProgressUpdatesValue(json.data));
+      if (json.data.progress != 100) {
+        progressTimer = setTimeout(() => {
+          getSynthesisProgressUpdates(synthesisFileID)(dispatch);
+        }, 2000);
+      }
     })
     .catch(error => {
     });
 };
 
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
 
+  const sellerID = localStorage.getItem('userId');
+  resetUploadCSVResponse();
   var bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
   bodyFormData.set('file', file);
@@ -481,12 +493,23 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     headers,
   })
     .then(json => {
-      // dispatch({
-      //   type: UPLOAD_SYNTHESIS_FILE_ID,
-      //   data: json.data,
-      // });
+      dispatch({
+        type: UPLOAD_CSV_RESPONSE,
+        data: {
+          message: 'We will process your file within few hours',
+          status: 'success',
+        },
+      });
     })
     .catch(error => {
+      dispatch({
+        type: UPLOAD_CSV_RESPONSE,
+        data: {
+          message:
+            'There is a problem while processing your file. Make sure your file conforms to our format',
+          status: 'failed',
+        },
+      });
     });
 };
 
@@ -559,7 +582,6 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
     headers,
   })
     .then(json => {
-      console.log(json.data);
       dispatch(updateProduct(json.data));
     })
     .catch(error => {
@@ -585,6 +607,34 @@ export const trackProductWithPatch = (product_track_id: string, productTrackGrou
     .catch(error => {
     });
 };
+
+export const resetProductData = (data: {}) => ({
+  type: SYN_RESET_PRODUCT_REDUCED_VALUES,
+  data,
+});
+
+export const resetUploadCSVResponse = () => (dispatch: any) => {
+  dispatch(
+    reduceUploadCSVResponse({
+        message: 'We will process your file within few hours',
+        status: 'unset',
+      },
+    ));
+};
+
+export const reduceUploadCSVResponse = (data: {}) => ({
+  type: UPLOAD_CSV_RESPONSE,
+  data,
+});
+export const setSynthesisFileID = (data: {}) => ({
+  type: UPLOAD_SYNTHESIS_FILE_ID,
+  data,
+});
+
+export const setProgressUpdatesValue = (data: {}) => ({
+  type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+  data,
+});
 
 export const setSellers = (data: {}) => ({
   type: SET_SELLERS,
