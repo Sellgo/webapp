@@ -1,9 +1,10 @@
 import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
-import  AdminLayout  from '../../components/AdminLayout/index';
+import AdminLayout from '../../components/AdminLayout/index';
 import Dashboard from '../Dashboard';
 import Setting from '../Dashboard/Setting';
+import Subscription from '../Dashboard/Subscription';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
 import { ProductTracker } from '../ProductTracker/ProductTracker';
@@ -43,11 +44,11 @@ function App(Props: any) {
   return (
     <Router history={history}>
       <Switch>
-        <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />}/>
-        <Route exact={true} path="/login" render={() => <Login auth={auth}/>}/>
-        <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth}/>}/>
-        <Route exact={true} path="/forgot-password" component={RecoverPass}/>
-        <Route exact={true} path="/product-tracker" component={ProductTracker}/>
+        <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />} />
+        <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
+        <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
+        <Route exact={true} path="/forgot-password" component={RecoverPass} />
+        <Route exact={true} path="/product-tracker" component={ProductTracker} />
         <Route
           path="/callback"
           render={Props => {
@@ -62,10 +63,24 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return (
-                  <Setting {...routeProps}/>
+                <Setting {...routeProps} />
               );
             } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
+            }
+          }}
+        />
+        <Route
+          exact={true}
+          path="/dashboard/subscription"
+          render={(routeProps) => {
+            routeProps.match.params.auth = auth;
+            if (isAuthenticated()) {
+              return (
+                <Subscription {...routeProps} />
+              );
+            } else {
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />
@@ -79,7 +94,7 @@ function App(Props: any) {
                 <Dashboard  {...routeProps} />
               );
             } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />
@@ -91,10 +106,10 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return (
-                  <Suppliers {...routeProps} />
+                <Suppliers {...routeProps} />
               );
             } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />
@@ -105,10 +120,10 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return (
-                  <SupplierDetail {...routeProps} />
+                <SupplierDetail {...routeProps} />
               );
             } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }}/>;
+              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />

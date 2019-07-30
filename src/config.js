@@ -5,6 +5,8 @@ export const URLS = {
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
 };
 
+export const STRIPE_API_KEY = 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J';
+
 export const AUTH_CONFIG = {
   domain: 'sellgo-dev.auth0.com',
   clientID: '75GLWPGkejOnogr8iuCkGSwmmgYJVnuW',
