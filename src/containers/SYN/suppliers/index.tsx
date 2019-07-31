@@ -314,7 +314,7 @@ export class Suppliers extends React.Component<Props, State> {
                          this.onChangeSupplierName(event);
                        }}
                        style={{width: 300}}
-                       placeholder="question circle"/>
+                       placeholder="Please Enter"/>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -328,7 +328,7 @@ export class Suppliers extends React.Component<Props, State> {
                               this.onChangeSupplierDescription(event);
                             }}
                             style={{minHeight: 100, width: 300, margin: '5px 0', padding: '9px'}}
-                            placeholder="Write your latest update here"/>
+                            placeholder="Supplier Description"/>
                 </Form>
               </Grid.Column>
               <Grid.Column width={1} floated="left">
@@ -382,7 +382,7 @@ export class Suppliers extends React.Component<Props, State> {
             onChange={this.fileChange}
           />
           <Popup
-            trigger={<Icon name="question circle" circular/>}
+            trigger={<Icon name="question circle" color={'grey'}/>}
             content='Sellgo'
             position='top left'
             size='tiny'
@@ -415,15 +415,30 @@ export class Suppliers extends React.Component<Props, State> {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>
-                  <Checkbox/>
-                </Table.HeaderCell>
-                <Table.HeaderCell>
                   Supplier Name
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign='center' width={1}>Status</Table.HeaderCell>
                 <Table.HeaderCell textAlign='center'>Action</Table.HeaderCell>
-                <Table.HeaderCell textAlign='center'>Product to Listing Ratio</Table.HeaderCell>
-                <Table.HeaderCell textAlign='center'>Supplier Rate (%)</Table.HeaderCell>
+                <Table.HeaderCell textAlign='center'>Product to Listing Ratio
+                  <span> {' '} 
+                      <Popup
+                          trigger={<Icon name='question circle' color={'grey'}/>}
+                          position='top left'
+                          size='tiny'
+                          content='Product to Listing Ratio'
+                      />
+                    </span>
+                </Table.HeaderCell>
+                <Table.HeaderCell textAlign='center'>Supplier Rate (%) 
+                  <span> {' '} 
+                    <Popup
+                        trigger={<Icon name='question circle' color={'grey'}/>}
+                        position='top left'
+                        size='tiny'
+                        content='Supplier Rate (%)'
+                    />
+                  </span>
+                </Table.HeaderCell>
                 {/*<Table.HeaderCell>Note</Table.HeaderCell>*/}
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
@@ -443,9 +458,6 @@ export class Suppliers extends React.Component<Props, State> {
                 suppliers.map((value: Supplier, index) => {
                   return (
                     <Table.Row key={value.id}>
-                      <Table.Cell>
-                        <Checkbox/>
-                      </Table.Cell>
                       <Table.Cell style={{width: '600px'}}>
                         <Table.Cell as={Link} to={`/syn/${value.id}`}>
                           {value.name}
@@ -486,14 +498,14 @@ export class Suppliers extends React.Component<Props, State> {
                       {/*  <Input focus placeholder='Note'/>*/}
                       {/*</Table.Cell>*/}
                       <Table.Cell textAlign='right' style={{paddingRight: '10px'}}>
-                        <Table.Cell as={Link} to={`/syn/`}>
+                        {/* <Table.Cell as={Link} to={`/syn/`}>
                           <Icon
                             onClick={() => {
                               this.openUpdateSupplierPopup(value);
                             }}
                             name='cloud upload' style={{color: 'black'}}
                           />&nbsp;
-                        </Table.Cell>
+                        </Table.Cell> */}
                         <Table.Cell as={Link}>
                           <Icon name='refresh' style={{color: 'black'}}
                                 onClick={() => {
@@ -585,7 +597,7 @@ export class Suppliers extends React.Component<Props, State> {
 
   render() {
     return (
-      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'SYN'}>
+      <AdminLayout auth={this.props.match.params.auth} sellerData={this.props.sellerData} title={'Synthesis'}>
         <Segment basic={true} className="setting">
           <Divider/>
           <Grid>
