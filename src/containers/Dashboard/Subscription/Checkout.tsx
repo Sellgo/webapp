@@ -2,7 +2,7 @@ import * as React from 'react';
 import StripeCheckout from "react-stripe-checkout"
 
 import { connect } from 'react-redux';
-import { STRIPE_API_KEY } from '../../../config';
+import { AppConfig } from '../../../config';
 import {
     updateSellerSubscription,
     Subscription
@@ -30,7 +30,7 @@ class Checkout extends React.Component<Props, State> {
                 description="Complete Purchase"
                 amount={100 * this.props.subscription.price}
                 token={token => this.handleToken(token)}
-                stripeKey={STRIPE_API_KEY}
+                stripeKey={AppConfig.STRIPE_API_KEY}
                 image={"/images/sellgo_stripe_logo.png"}
                 currency="USD"
             >

@@ -5,11 +5,13 @@ const URLS = {
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
 };
 
-export const API_ENDPOINTS ={
-  login : URLS.BASE_URL_API+'login/',
+export const API_ENDPOINTS = {
+  login: URLS.BASE_URL_API + 'login/',
 };
 
-export const STRIPE_API_KEY = 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J';
+const KEYS = {
+  STRIPE_API_KEY: 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J',
+}
 
 const AUTH_CONFIG = {
   domain: 'sellgo-dev.auth0.com',
@@ -20,12 +22,14 @@ const AUTH_CONFIG = {
 const prod = {
   ...AUTH_CONFIG,
   ...URLS,
+  ...KEYS,
   callbackUrl: 'https://app.sellgo-dev.com/callback',
 };
 
 const dev = {
   ...AUTH_CONFIG,
   ...URLS,
+  ...KEYS,
   callbackUrl: 'http://localhost:3000/callback',
 };
 

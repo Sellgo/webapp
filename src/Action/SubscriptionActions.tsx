@@ -4,7 +4,7 @@ import {
   GET_SELLER_SUBSCRIPTION,
   UPDATE_SELLER_SUBSCRIBTION,
 } from '../constant/constant';
-import { URLS } from '../config';
+import { AppConfig } from '../config';
 
 
 export interface Subscription {
@@ -25,7 +25,7 @@ export const getSubscriptions = () => (dispatch: any) => {
   if (headers.Authorization === 'Bearer null') {
     headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
   }
-  const url = URLS.BASE_URL_API + 'subscriptions/';
+  const url = AppConfig.BASE_URL_API + 'subscriptions/';
   return axios({
     method: 'GET',
     url,
@@ -43,7 +43,7 @@ export const getSellerSubscription = () => (dispatch: any) => {
     headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
   }
   const sellerID = localStorage.getItem('userId');
-  const url = URLS.BASE_URL_API + `seller/${sellerID}/subscription/`;
+  const url = AppConfig.BASE_URL_API + `seller/${sellerID}/subscription/`;
   return axios({
     method: 'GET',
     url,
@@ -65,7 +65,7 @@ export const updateSellerSubscription = (subscription: Subscription, token_id: a
   formData.append('token_id', token_id);
   return axios({
     method: 'POST',
-    url: URLS.BASE_URL_API + `seller/${sellerID}/subscription/`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/subscription/`,
     data: formData,
     headers,
   })
