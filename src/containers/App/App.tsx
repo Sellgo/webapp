@@ -14,9 +14,6 @@ import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
-import axios from 'axios';
-import { URLS } from '../../config';
-import { setTimeEfficiency } from '../../Action/SYNActions';
 
 const auth = new Auth();
 

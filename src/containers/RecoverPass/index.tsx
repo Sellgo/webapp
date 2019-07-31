@@ -7,7 +7,7 @@ import MesssageComponent from '../../components/MessageComponent';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './recoverPass.css';
 import axios from 'axios';
-import { URLS, AUTH_CONFIG } from '../../config';
+import { AppConfig  } from '../../config';
 
 interface State {
   isSuccess: boolean;
@@ -64,7 +64,7 @@ export default class RecoverPass extends React.Component<any, State> {
       }
     } else {
       axios
-        .get(URLS.BASE_URL_API + `seller/exists?email=${this.state.email}`)
+        .get(AppConfig.BASE_URL_API + `seller/exists?email=${this.state.email}`)
         .then(response => {
           if (response.data) {
             this.sendRestRequest();
@@ -80,10 +80,10 @@ export default class RecoverPass extends React.Component<any, State> {
   sendRestRequest = () => {
     this.setState({ isFailed: false });
     axios
-      .post(URLS.CHANGE_PASS_API_URL, {
-        client_id: AUTH_CONFIG.clientID,
+      .post(AppConfig.CHANGE_PASS_API_URL, {
+        client_id: AppConfig.clientID,
         email: this.state.email,
-        connection: AUTH_CONFIG.connection,
+        connection: AppConfig.connection,
       })
       .then(response => this.handleResponse(response))
       .catch(() => {

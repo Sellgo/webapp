@@ -1,7 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
 import axios from 'axios';
-import { URLS, AUTH_CONFIG } from '../../config';
+import { AppConfig } from '../../config';
 
 export default class Auth {
   accessToken: any;
@@ -9,9 +9,9 @@ export default class Auth {
   expiresAt: any;
   userProfile: any;
 
-  public auth0Lock = new Auth0Lock(AUTH_CONFIG.clientID, AUTH_CONFIG.domain, {
+  public auth0Lock = new Auth0Lock(AppConfig.clientID, AppConfig.domain, {
     auth: {
-      redirectUrl: AUTH_CONFIG.callbackUrl,
+      redirectUrl: AppConfig.callbackUrl,
       responseType: 'token id_token',
       params: {
         scope: 'openid profile',
@@ -49,7 +49,7 @@ export default class Auth {
     formData.append('auth0_user_id', this.userProfile.sub);
 
     axios
-      .post(URLS.BASE_URL_API + 'seller/', formData, {headers})
+      .post(AppConfig.BASE_URL_API + 'seller/', formData, {headers})
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
         if (data) {

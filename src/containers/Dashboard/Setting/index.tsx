@@ -249,28 +249,28 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Basic Information</Header>
           <Divider/>
           <Segment basic={true} padded="very">
-            <Container>
+            <Container  style={{width:'80%'}}>
               <Grid>
                 <Grid.Row>
-                  <Grid.Column width={3} textAlign="center" className="upload-photo">
+                  <Grid.Column width={3} textAlign="center" className="upload-photo" style={{display:'block',margin:'auto'}}>
                     <Image
                       src={(this.state.imageView.length > 0) ? this.state.imageView : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                       size={'small'}
-                      floated="left"
+                      style={{marginBottom:10,alignSelf:'center',padding:0,marginLeft:'auto',marginRight:'auto'}}
                     />
                     <Button
                       basic={true}
                       content={'Select Photo'}
-                      style={{borderRadius: '50px'}}
+                      style={{borderRadius: '50px',margin:'0 auto',display:'block'}}
                       size="small"
                       onClick={() => this.fileInputRef.current.click()}
                     />
                     {
-                      ((this.state.isImageSelected)) ?
+                      ((!this.state.isImageSelected)) ?
                         <Button
                           loading={this.state.isImageUploadUnderProgress}
                           content={'Upload Photo'}
-                          style={{borderRadius: '50px', marginTop: 10}}
+                          style={{borderRadius: '50px',margin:'0 auto', marginTop: 10}}
                           size="tiny"
                           onClick={() => this.uploadImage()}
                         /> : null
@@ -335,7 +335,7 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Password</Header>
           <Divider/>
           <Segment basic={true} padded="very">
-            <Container>
+            <Container  style={{width:'80%'}}>
               <Form>
                 <Grid>
                   <Grid.Row columns={1}>
@@ -350,14 +350,14 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Amazon MWS Authorization</Header>
           <Divider/>
           <Segment basic={true}>
-            <Container>
+            <Container style={{width:'80%'}}>
             <span className="autho-sub-hear">
               Please grant Amazon MWS and Amazon Seller Central access for each market.
             </span>
               <Form className="autho-form">
                 <Grid>
                   <Grid.Row columns={3}>
-                    <Grid.Column width={8}>
+                    <Grid.Column width={7}>
                       <Grid.Row columns={2}>
                         <Grid.Column width={5}>
                           <Form.Select
@@ -431,7 +431,7 @@ class Setting extends React.Component<Props, State> {
                         </div>
                       </Grid.Column> : null}
                     {(this.props.amazonMWSFromServer.id != '') ?
-                      <Grid.Column width={7} style={{
+                      <Grid.Column width={8} style={{
                         transition: 'visibility 1s ,opacity 1s',
                         visibility: (this.state.isAmazonMWSAuthInfoOpen) ? 'visible' : 'hidden',
                         opacity: (this.state.isAmazonMWSAuthInfoOpen) ? 1 : 0,
@@ -439,7 +439,7 @@ class Setting extends React.Component<Props, State> {
                         width: '100%',
                       }}>
                         <div style={{
-                          height: 100,
+                          height: 150,
                           width:'100%'
                         }}>
                           <div style={{
@@ -503,7 +503,7 @@ class Setting extends React.Component<Props, State> {
                             <h4 style={{float: 'left', marginBottom: 0}}>{'Marketplace ID:'}</h4>
                             <p style={{
                               marginBottom: 0,
-                              marginLeft: 15,
+                              marginLeft: 5,
                               float: 'left',
                             }}>{marketplaceNameFromServer.id}</p>
 
@@ -518,7 +518,7 @@ class Setting extends React.Component<Props, State> {
                             <h4 style={{float: 'left', marginBottom: 0}}>{'Marketplace Name:'}</h4>
                             <p style={{
                               marginBottom: 0,
-                              marginLeft: 15,
+                              marginLeft: 5,
                               float: 'left',
                             }}>{marketplaceNameFromServer.name}</p>
 
