@@ -70,20 +70,23 @@ export const updateSellerSubscription = (subscription: Subscription, token_id: a
     headers,
   })
     .then(json => {
-      dispatch(getSellerSubscription());
-      setTimeout(
+      Promise.resolve(dispatch(getSellerSubscription())).then(
         () => dispatch({
           type: UPDATE_SELLER_SUBSCRIBTION,
           data: { key: 'success', value: true },
-        }), 1000)
+        })).then(() => dispatch({
+          type: UPDATE_SELLER_SUBSCRIBTION,
+          data: { key: 'success', value: undefined },
+        }))
     })
     .catch(error => {
-      dispatch(getSellerSubscription());
-      setTimeout(
-        () => dispatch({
-          type: UPDATE_SELLER_SUBSCRIBTION,
-          data: { key: 'success', value: false },
-        }), 1000)
+      Promise.resolve(dispatch({
+        type: UPDATE_SELLER_SUBSCRIBTION,
+        data: { key: 'success', value: false },
+      })).then(() => dispatch({
+        type: UPDATE_SELLER_SUBSCRIBTION,
+        data: { key: 'success', value: undefined },
+      }))
     });
 };
 
