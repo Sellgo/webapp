@@ -1,0 +1,44 @@
+.pricing .basic-info-update.ui.grid {
+  margin-top: 5rem !important;
+}
+.pricing .upload-photo button {
+  margin-right: 2rem;
+}
+.pricing .autho-form {
+  margin-top: 1.5rem;
+}
+
+.ui.header {
+  font-family: 'Montserrat', 'serif' !important;
+}
+.pricing .autho-sub-hear,
+.pricing  {
+  font-size: 5rem !important;
+  font-weight: 400 !important;
+  padding-top: 50px !important;
+}
+.pricing-limit{
+  padding: 50px 0 50px 0
+}
+.pricing-individual{
+  border-radius: 10%;
+}
+
+.pricing .ui.form .field > label {
+  font-size: 1rem;
+}
+.pricing .autho-form .ui.form .field > label::after {
+  content: '\f059';
+}
+
+.pricing .ui.primary.button {
+  font-family: Montserrat;
+  font-weight: bold;
+  font-display: optional;
+  font-size: 1.2rem;
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-adius: 50px;
+  background: #4285f4;
+}
