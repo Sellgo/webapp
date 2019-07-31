@@ -595,7 +595,7 @@ export class Suppliers extends React.Component<Props, State> {
             <Grid.Column width={5} floated='left' className={'middle aligned'}>
               {this.renderAddNewSupplierModal()}
               <Popup className={'addSupplierPopup'}
-                     trigger={<Icon name='question circle' circular/>}
+                     trigger={<Icon name='question circle' size={'large'} color={'grey'}/>}
                      position='top left'
                      size='tiny'
               >
