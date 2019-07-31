@@ -10,9 +10,9 @@ import { URLS } from '../config';
 export interface Subscription {
   id: string;
   name: string;
-  price: Number;
-  synthesis_limit: Number;
-  track_limit: Number;
+  price: number;
+  synthesis_limit: number;
+  track_limit: number;
 }
 
 const headers = {
@@ -34,7 +34,7 @@ export const getSubscriptions = () => (dispatch: any) => {
     .then(json => {
       dispatch(getSubscriptionsDispatch(json.data));
     })
-    .catch(() => {
+    .catch((err) => {
     });
 };
 
@@ -52,7 +52,7 @@ export const getSellerSubscription = () => (dispatch: any) => {
     .then(json => {
       dispatch(getSellerSubscriptionDispatch(json.data[0]));
     })
-    .catch(() => {
+    .catch((err) => {
     });
 };
 
@@ -70,17 +70,20 @@ export const updateSellerSubscription = (subscription: Subscription, token_id: a
     headers,
   })
     .then(json => {
-      dispatch({
-        type: UPDATE_SELLER_SUBSCRIBTION,
-        data: { key: 'success', value: true },
-      });
-      return json.data;
+      dispatch(getSellerSubscription());
+      setTimeout(
+        () => dispatch({
+          type: UPDATE_SELLER_SUBSCRIBTION,
+          data: { key: 'success', value: true },
+        }), 1000)
     })
     .catch(error => {
-      dispatch({
-        type: UPDATE_SELLER_SUBSCRIBTION,
-        data: { key: 'success', value: false },
-      });
+      dispatch(getSellerSubscription());
+      setTimeout(
+        () => dispatch({
+          type: UPDATE_SELLER_SUBSCRIBTION,
+          data: { key: 'success', value: false },
+        }), 1000)
     });
 };
 

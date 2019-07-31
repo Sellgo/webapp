@@ -51,7 +51,6 @@ class SubscriptionPricing extends React.Component<Props, State> {
     isOpen: false
   };
   message = {
-    id: 1,
     title: 'Payment Successful',
     message: 'Thank you for the Payment',
     description: 'You have successfully subscribed to the plan.',
@@ -69,18 +68,11 @@ class SubscriptionPricing extends React.Component<Props, State> {
     if (props.isUpdate) {
       this.handleModel();
     }
-    else {
-      this.message = {
-        id: 1,
-        title: 'Payment UnSuccessful',
-        message: 'Please try again',
-        description: 'There might be an issue with the payment or you have entered incorrect Card details',
-        description2: '',
-        to: '',
-        button_text: 'Ok',
-        icon: 'check circle',
-        color: '#0E6FCF',
-      };
+    if (props.isUpdate === false) {
+      this.message.title = 'Payment Failed';
+      this.message.message = 'Please try again';
+      this.message.description = 'There might be an issue with the payment or you have entered incorrect Card details';
+      this.message.to = '/dashboard/subscription';
       this.handleModel();
     }
   }
@@ -109,16 +101,16 @@ class SubscriptionPricing extends React.Component<Props, State> {
                 <CardContent>
                   <Label attached='top' size={'big'}>{subscription.name} Plan</Label>
                   <Header size="huge" className="pricing">
-                    {subscription.price}$
-                        </Header>
+                    ${subscription.price}
+                  </Header>
                   <p>Per user / month</p>
                   <Divider />
                   <div className="pricing-limit">
                     <Header as="h4">
-                      {subscription.synthesis_limit} syn limit
+                      {subscription.synthesis_limit !== -1 ? subscription.synthesis_limit : 'unlimited'} syn limit
                         </Header>
                     <Header as="h4">
-                      {subscription.track_limit} track limit
+                      {subscription.track_limit !== -1 ? subscription.track_limit : 'unlimited'} track limit
                         </Header>
                     {subscribedSubscription ? subscribedSubscription.id === subscription.id ? <Header as="h4">
                       Valid Untill : {new Date(sellerSubscription.expiry_date).toDateString()}

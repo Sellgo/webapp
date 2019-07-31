@@ -28,7 +28,7 @@ class Checkout extends React.Component<Props, State> {
             <StripeCheckout
                 name="Sellgo"
                 description="Complete Purchase"
-                amount={1000}
+                amount={100 * this.props.subscription.price}
                 token={token => this.handleToken(token)}
                 stripeKey={STRIPE_API_KEY}
                 image={"/images/sellgo_stripe_logo.png"}
