@@ -453,15 +453,18 @@ export class Suppliers extends React.Component<Props, State> {
                       </Table.Cell>
                       <Table.Cell textAlign='center'>{value.status}</Table.Cell>
                       <Table.Cell textAlign='center'>
-                        <Dropdown text='SYN'
+                        <Dropdown text='Select SYN'
+                                  selectOnBlur={false}
                                   fluid
                                   selection
                                   options={[{
-                                    key: 'SYN',
+                                    key: '0',
                                     text: 'SYN',
                                     value: 'SYN',
                                   }]}
+
                                   onChange={(e, data) => {
+                                    console.log(data.value);
                                     if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
                                       if (data.value === 'SYN') {
                                         history.push(`/syn/${value.id}`);

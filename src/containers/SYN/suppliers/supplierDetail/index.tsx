@@ -653,7 +653,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 </Grid.Column>
                 <Grid.Column floated="left" width={4}>
                   <Grid.Row>Avg Monthly sales</Grid.Row>
-                  <Grid.Row>Avg monthly revnue</Grid.Row>
+                  <Grid.Row>Avg monthly revenue</Grid.Row>
                   <Grid.Row>Avg monthly profit</Grid.Row>
                   <Grid.Row/>
                   <br/>
@@ -780,7 +780,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 series: [
                   {
                     type: 'area',
-                    name: 'Price',
+                    name: 'Price ($)',
                     color: '#c0f1ff',
                     data: popup_price_conainer,
                   },
@@ -1346,7 +1346,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             series: [
                               {
                                 type: 'area',
-                                name: 'Avg Price',
+                                name: 'Avg Price ($)',
                                 color: '#c0f1ff',
                                 data: avg_price,
                               },
