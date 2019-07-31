@@ -41,9 +41,13 @@ class AdminLayout extends React.Component<Props, State> {
         <AdminSidebar logout={auth.logout}/>
 
         <Segment basic={true} style={{
+          height:'100%',
+          marginTop:0,
+          paddingTop:40,
           paddingLeft: (this.props.isSideBarExpanded) ? 190 : 100,
           paddingRight: (this.props.isSideBarExpanded) ? 20 : 20,
           transition: 'width 0.8s,padding 0.8s',
+          backgroundColor:'#f3f3f3f3',
         }}>
           <PageHeader title={title}/>
           {children}
