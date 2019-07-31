@@ -249,19 +249,20 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Basic Information</Header>
           <Divider/>
           <Segment basic={true} padded="very">
-            <Container  style={{width:'80%'}}>
+            <Container className={'setting-container'}>
               <Grid>
                 <Grid.Row>
-                  <Grid.Column width={3} textAlign="center" className="upload-photo" style={{display:'block',margin:'auto'}}>
+                  <Grid.Column width={3} textAlign="center" className="upload-photo div-center-block">
                     <Image
                       src={(this.state.imageView.length > 0) ? this.state.imageView : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                       size={'small'}
-                      style={{marginBottom:10,alignSelf:'center',padding:0,marginLeft:'auto',marginRight:'auto'}}
+                      className={'setting-profile-image'}
                     />
                     <Button
                       basic={true}
                       content={'Select Photo'}
-                      style={{borderRadius: '50px',margin:'0 auto',display:'block'}}
+                      className={'button-style'}
+                      style={{margin: '0 auto', display: 'block'}}
                       size="small"
                       onClick={() => this.fileInputRef.current.click()}
                     />
@@ -270,7 +271,8 @@ class Setting extends React.Component<Props, State> {
                         <Button
                           loading={this.state.isImageUploadUnderProgress}
                           content={'Upload Photo'}
-                          style={{borderRadius: '50px',margin:'0 auto', marginTop: 10}}
+                          className={'button-style'}
+                          style={{margin: '0 auto', marginTop: 10}}
                           size="tiny"
                           onClick={() => this.uploadImage()}
                         /> : null
@@ -321,7 +323,7 @@ class Setting extends React.Component<Props, State> {
                               primary={true}
                               content="Update Information"
                               onClick={this.updateBasicInfoSeller}
-                              style={{borderRadius: '50px'}}
+                              style={buttonStyle}
                             />
                           </Grid.Column>
                         </Grid.Row>
@@ -335,7 +337,7 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Password</Header>
           <Divider/>
           <Segment basic={true} padded="very">
-            <Container  style={{width:'80%'}}>
+            <Container className={'setting-container'}>
               <Form>
                 <Grid>
                   <Grid.Row columns={1}>
@@ -350,10 +352,10 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Amazon MWS Authorization</Header>
           <Divider/>
           <Segment basic={true}>
-            <Container style={{width:'80%'}}>
-            <span className="autho-sub-hear">
-              Please grant Amazon MWS and Amazon Seller Central access for each market.
-            </span>
+            <Container className={'setting-container'}>
+              <span className="autho-sub-hear">
+                Please grant Amazon MWS and Amazon Seller Central access for each market.
+              </span>
               <Form className="autho-form">
                 <Grid>
                   <Grid.Row columns={3}>
@@ -380,7 +382,7 @@ class Setting extends React.Component<Props, State> {
                               float: 'right',
                             }}
                           >
-                            <p style={{color: '#267DD4'}}> {'Show me how?'}</p>
+                            <p style={{color: '#4285F4'}}> {'Show me how?'}</p>
                           </div>
                         </Grid.Column>
                         <Grid.Column width={6}/>
@@ -405,7 +407,7 @@ class Setting extends React.Component<Props, State> {
                             primary={true}
                             content="Add MWS Token"
                             onClick={this.updateAmazonMWS}
-                            style={{borderRadius: '50px'}}
+                            style={buttonStyle}
                           />
                         </Grid.Column>
                       </Grid.Row>
@@ -427,7 +429,7 @@ class Setting extends React.Component<Props, State> {
                                 color={'blue'}
                                 name={(this.state.isAmazonMWSAuthInfoOpen) ? 'chevron circle left' : 'chevron circle right'}
                                 style={{color: 'black', display: 'inline-block'}}/>
-                          <p style={{color: '#267DD4'}}>{'info'}</p>
+                          <p style={{color: '#4285F4'}}>{'info'}</p>
                         </div>
                       </Grid.Column> : null}
                     {(this.props.amazonMWSFromServer.id != '') ?
@@ -440,7 +442,7 @@ class Setting extends React.Component<Props, State> {
                       }}>
                         <div style={{
                           height: 150,
-                          width:'100%'
+                          width: '100%',
                         }}>
                           <div style={{
                             height: '100%', display: 'flex', alignItems: 'center', float: 'right',
@@ -465,62 +467,22 @@ class Setting extends React.Component<Props, State> {
                               <Icon name={'trash'} size={'large'} style={{textAlign: 'center'}}/>
                             </div>
                           </div>
-                          <div style={{
-                            overflow: 'hidden',
-                            marginRight: 70,
-                            backgroundColor: '#f0f0f0',
-                            marginBottom: 5,
-                            padding: 7,
-                          }}>
-                            <h4 style={{float: 'left', marginBottom: 0}}>{'Amazon Seller ID:'}</h4>
-                            <p style={{
-                              marginBottom: 0,
-                              marginLeft: 15,
-                              float: 'left',
-                            }}>{this.props.amazonMWSFromServer.amazon_seller_id}</p>
+                          <div className={'setting-info-layout'}>
+                            <h4 className={'setting-h4-layout'}>{'Amazon Seller ID:'}</h4>
+                            <p className={'setting-p-layout'}>{this.props.amazonMWSFromServer.amazon_seller_id}</p>
                           </div>
-                          <div style={{
-                            overflow: 'hidden',
-                            marginRight: 70,
-                            backgroundColor: '#f0f0f0',
-                            marginBottom: 5,
-                            padding: 5,
-                          }}>
-                            <h4 style={{float: 'left', marginBottom: 0}}>{'MWS Auth Token:'}</h4>
-                            <p style={{
-                              marginBottom: 0,
-                              marginLeft: 15,
-                              float: 'left',
-                            }}>{this.props.amazonMWSFromServer.token}</p>
+                          <div className={'setting-info-layout'}>
+                            <h4 className={'setting-h4-layout'}>{'MWS Auth Token:'}</h4>
+                            <p className={'setting-p-layout'}>{this.props.amazonMWSFromServer.token}</p>
                           </div>
-                          <div style={{
-                            overflow: 'hidden',
-                            marginRight: 70,
-                            backgroundColor: '#f0f0f0',
-                            marginBottom: 5,
-                            padding: 5,
-                          }}>
-                            <h4 style={{float: 'left', marginBottom: 0}}>{'Marketplace ID:'}</h4>
-                            <p style={{
-                              marginBottom: 0,
-                              marginLeft: 5,
-                              float: 'left',
-                            }}>{marketplaceNameFromServer.id}</p>
+                          <div className={'setting-info-layout'}>
+                            <h4 className={'setting-h4-layout'}>{'Marketplace ID:'}</h4>
+                            <p className={'setting-p-layout'}>{marketplaceNameFromServer.id}</p>
 
                           </div>
-                          <div style={{
-                            overflow: 'hidden',
-                            marginRight: 70,
-                            backgroundColor: '#f0f0f0',
-                            marginBottom: 5,
-                            padding: 5,
-                          }}>
-                            <h4 style={{float: 'left', marginBottom: 0}}>{'Marketplace Name:'}</h4>
-                            <p style={{
-                              marginBottom: 0,
-                              marginLeft: 5,
-                              float: 'left',
-                            }}>{marketplaceNameFromServer.name}</p>
+                          <div className={'setting-info-layout'}>
+                            <h4 className={'setting-h4-layout'}>{'Marketplace Name:'}</h4>
+                            <p className={'setting-p-layout'}>{marketplaceNameFromServer.name}</p>
 
                           </div>
                         </div>
