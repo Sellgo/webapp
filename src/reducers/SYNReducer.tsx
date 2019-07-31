@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import {
   GET_PRODUCT_TRACK_GROUP,
   SET_CHART_VALUES_PRICE,
@@ -15,7 +14,7 @@ import {
   UPLOAD_SYNTHESIS_FILE_ID, UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
 } from '../constant/constant';
 
-const initialState = Map({
+const initialState = {
   suppliers: [],
   products: [
     {
@@ -42,58 +41,73 @@ const initialState = Map({
   product_detail: [],
   product_detail_chart_values_rank: [],
   product_detail_chart_values_price: [],
-  productTrackGroup: [],
-  synthesisFileID: [],
-  synthesisFileProgressUpdates: [],
+  productTrackGroup: [{id: 0}],
+  synthesisFileID: {synthesis_file_id: 0},
+  synthesisFileProgressUpdates: {progress: 0},
   uploadCSVResponse: [],
-});
+};
 
 export const SYNReducer = (state = initialState, action: any) => {
+  const newState = {...state};
   switch (action.type) {
     case SET_SELLERS:
-      const {data} = action;
-      return state.setIn(['suppliers'], data);
+      newState.suppliers = action.data;
+      return newState;
     case SET_PRODUCTS:
-      return state.setIn(['products'], action.data);
+      newState.products = action.data;
+      return newState;
     case UPDATE_PRODUCT:
-      let products = [];
-      for (const product of state.get('products')!) {
+      const products = [];
+      for (const product of state.products) {
         if (product.product_id === action.data.product_id) {
           product.tracking_status = action.data.status;
           product.product_track_id = action.data.id;
         }
         products.push(product);
       }
-      return state.setIn(['products'], products);
+      newState.products = action.data;
+      return newState;
     case SET_TIME_EFFICIENCY:
-      return state.setIn(['time_efficiency_data'], action.data);
+      newState.time_efficiency_data = action.data;
+      return newState;
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
-      return state.setIn(['new_supplier'], action.data.id);
+      newState.new_supplier = action.data;
+      return newState;
     case SET_PRODUCT_TRACK_DATA:
-      return state.setIn(['products_track_data'], action.data);
+      newState.products_track_data = action.data;
+      return newState;
     case SET_CHART_VALUES_PRICE:
-      return state.setIn(['chart_values_price'], action.data);
+      newState.chart_values_price = action.data;
+      return newState;
     case SET_CHART_VALUES_RANK:
-      return state.setIn(['chart_values_rank'], action.data);
+      newState.chart_values_rank = action.data;
+      return newState;
     case SET_Product_Detail:
-      return state.setIn(['product_detail'], action.data);
+      newState.product_detail = action.data;
+      return newState;
     case SET_Product_Detail_Chart_Values_Rank:
-      return state.setIn(['product_detail_chart_values_rank'], action.data);
+      newState.product_detail_chart_values_rank = action.data;
+      return newState;
     case SET_Product_Detail_Chart_Values_Price:
-      return state.setIn(['product_detail_chart_values_price'], action.data);
+      newState.product_detail_chart_values_price = action.data;
+      return newState;
     case GET_PRODUCT_TRACK_GROUP:
-      return state.setIn(['productTrackGroup'], action.data);
+      newState.productTrackGroup = action.data;
+      return newState;
     case UPLOAD_SYNTHESIS_FILE_ID:
-      return state.setIn(['synthesisFileID'], action.data);
+      newState.synthesisFileID = action.data;
+      return newState;
     case UPLOAD_SYNTHESIS_PROGRESS_UPDATES:
-      return state.setIn(['synthesisFileProgressUpdates'], action.data);
+      newState.synthesisFileProgressUpdates = action.data;
+      return newState;
     case UPLOAD_CSV_RESPONSE:
-      return state.setIn(['uploadCSVResponse'], action.data);
+      newState.uploadCSVResponse = action.data;
+      return newState;
     case SYN_RESET_PRODUCT_REDUCED_VALUES:
-      let updatedState = state.setIn(['synthesisFileProgressUpdates'], {progress: 0});
-      updatedState = updatedState.setIn(['synthesisFileID'], {synthesis_file_id: 0});
-      updatedState = updatedState.setIn(['productTrackGroup'], [{id: -10}]);
-      return updatedState;
+      newState.synthesisFileProgressUpdates = {progress: 0};
+      newState.synthesisFileID = {synthesis_file_id: 0};
+      newState.productTrackGroup = [{id: -10}];
+      return newState;
 
     default:
       return state;

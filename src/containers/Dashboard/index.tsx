@@ -152,7 +152,7 @@ class Dashboard extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-  sellerData: state.settings.get('profile'),
+  sellerData: state.settings.profile,
 });
 
 const mapDispatchToProps = (dispatch: any) => {

@@ -122,7 +122,7 @@ class AdminSidebar extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-  isSideBarExpanded: state.settings.get('isSideBarExpanded'),
+  isSideBarExpanded: state.settings.isSideBarExpanded,
 });
 
 const mapDispatchToProps = (dispatch: any) => {

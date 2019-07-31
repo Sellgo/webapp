@@ -314,10 +314,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.setState({productDetailModalOpen: true});
   };
 
-  handleSort = (clickedColumn: string) => {
-    const {sortedColumn, products, sortDirection} = this.state;
+  handleSort = (clickedColumn: keyof Product) => {
+    const {sortedColumn, sortDirection} = this.state;
+    const products = JSON.parse(JSON.stringify(this.state.products));
     if (sortedColumn !== clickedColumn) {
-      const sortedProducts = products.sort((a, b) => {
+      const sortedProducts = products.sort((a: Product, b: Product) => {
         let aColumn, bColumn;
         if (
           clickedColumn == 'profit' ||
@@ -439,7 +440,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <Grid>
                       <Grid.Column style={{marginRight: 60}} className={'middle aligned'}>
                         <Image
-                          style={{width:'auto',height:'auto',maxHeight:80,maxWidth:80}}
+                          style={{width: 'auto', height: 'auto', maxHeight: 80, maxWidth: 80}}
                           src={value.image_url == null ? '/images/intro.png' : value.image_url}
                           // size="tiny"
                         />
@@ -1523,20 +1524,20 @@ export class SupplierDetail extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => {
   return {
-    synthesisFileID: state.synReducer.get('synthesisFileID'),
-    synthesisFileProgressUpdates: state.synReducer.get('synthesisFileProgressUpdates'),
-    time_efficiency_data: state.synReducer.get('time_efficiency_data'),
-    products: state.synReducer.get('products'),
-    suppliers: state.synReducer.get('suppliers'),
-    products_track_data: state.synReducer.get('products_track_data'),
-    chart_values_price: state.synReducer.get('chart_values_price'),
-    chart_values_rank: state.synReducer.get('chart_values_rank'),
-    product_detail: state.synReducer.get('product_detail'),
-    productTrackGroup: state.synReducer.get('productTrackGroup'),
-    product_detail_chart_values_rank: state.synReducer.get('product_detail_chart_values_rank'),
-    product_detail_chart_values_price: state.synReducer.get('product_detail_chart_values_price'),
-    sellerData: state.settings.get('profile'),
-    isSideBarExpanded: state.settings.get('isSideBarExpanded'),
+    synthesisFileID: state.synReducer.synthesisFileID,
+    synthesisFileProgressUpdates: state.synReducer.synthesisFileProgressUpdates,
+    time_efficiency_data: state.synReducer.time_efficiency_data,
+    products: state.synReducer.products,
+    suppliers: state.synReducer.suppliers,
+    products_track_data: state.synReducer.products_track_data,
+    chart_values_price: state.synReducer.chart_values_price,
+    chart_values_rank: state.synReducer.chart_values_rank,
+    product_detail: state.synReducer.product_detail,
+    productTrackGroup: state.synReducer.productTrackGroup,
+    product_detail_chart_values_rank: state.synReducer.product_detail_chart_values_rank,
+    product_detail_chart_values_price: state.synReducer.product_detail_chart_values_price,
+    sellerData: state.settings.profile,
+    isSideBarExpanded: state.settings.isSideBarExpanded,
   };
 };
 

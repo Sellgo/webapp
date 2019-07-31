@@ -40,7 +40,7 @@ class PageHeader extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => {
   return {
-    pageHistoryCanGoForward: state.settings.get('pageHistoryCanGoForward'),
+    pageHistoryCanGoForward: state.settings.pageHistoryCanGoForward,
   };
 };
 

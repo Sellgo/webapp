@@ -453,7 +453,7 @@ export class Suppliers extends React.Component<Props, State> {
                       </Table.Cell>
                       <Table.Cell textAlign='center'>{value.status}</Table.Cell>
                       <Table.Cell textAlign='center'>
-                        <Dropdown text='Select SYN'
+                        <Dropdown text='SYN'
                                   selectOnBlur={false}
                                   fluid
                                   selection
@@ -671,12 +671,11 @@ export class Suppliers extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => {
   return {
-    suppliers: state.synReducer.get('suppliers'),
-    uploadCSVResponse: state.synReducer.get('uploadCSVResponse'),
-    new_supplier_id: state.synReducer.get('new_supplier'),
-    time_efficiency_data: state.synReducer.get('time_efficiency_data'),
-    sellerData: state.settings.get('profile'),
-
+    suppliers: state.synReducer.suppliers,
+    uploadCSVResponse: state.synReducer.uploadCSVResponse,
+    new_supplier_id: state.synReducer.new_supplier,
+    time_efficiency_data: state.synReducer.time_efficiency_data,
+    sellerData: state.settings.profile,
   };
 };
 

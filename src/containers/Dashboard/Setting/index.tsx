@@ -249,19 +249,26 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Basic Information</Header>
           <Divider/>
           <Segment basic={true} padded="very">
-            <Container  style={{width:'80%'}}>
+            <Container style={{width: '80%'}}>
               <Grid>
                 <Grid.Row>
-                  <Grid.Column width={3} textAlign="center" className="upload-photo" style={{display:'block',margin:'auto'}}>
+                  <Grid.Column width={3} textAlign="center" className="upload-photo"
+                               style={{display: 'block', margin: 'auto'}}>
                     <Image
                       src={(this.state.imageView.length > 0) ? this.state.imageView : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                       size={'small'}
-                      style={{marginBottom:10,alignSelf:'center',padding:0,marginLeft:'auto',marginRight:'auto'}}
+                      style={{
+                        marginBottom: 10,
+                        alignSelf: 'center',
+                        padding: 0,
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                      }}
                     />
                     <Button
                       basic={true}
                       content={'Select Photo'}
-                      style={{borderRadius: '50px',margin:'0 auto',display:'block'}}
+                      style={{borderRadius: '50px', margin: '0 auto', display: 'block'}}
                       size="small"
                       onClick={() => this.fileInputRef.current.click()}
                     />
@@ -270,7 +277,7 @@ class Setting extends React.Component<Props, State> {
                         <Button
                           loading={this.state.isImageUploadUnderProgress}
                           content={'Upload Photo'}
-                          style={{borderRadius: '50px',margin:'0 auto', marginTop: 10}}
+                          style={{borderRadius: '50px', margin: '0 auto', marginTop: 10}}
                           size="tiny"
                           onClick={() => this.uploadImage()}
                         /> : null
@@ -335,7 +342,7 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Password</Header>
           <Divider/>
           <Segment basic={true} padded="very">
-            <Container  style={{width:'80%'}}>
+            <Container style={{width: '80%'}}>
               <Form>
                 <Grid>
                   <Grid.Row columns={1}>
@@ -350,7 +357,7 @@ class Setting extends React.Component<Props, State> {
           <Header as="h2">Amazon MWS Authorization</Header>
           <Divider/>
           <Segment basic={true}>
-            <Container style={{width:'80%'}}>
+            <Container style={{width: '80%'}}>
             <span className="autho-sub-hear">
               Please grant Amazon MWS and Amazon Seller Central access for each market.
             </span>
@@ -440,7 +447,7 @@ class Setting extends React.Component<Props, State> {
                       }}>
                         <div style={{
                           height: 150,
-                          width:'100%'
+                          width: '100%',
                         }}>
                           <div style={{
                             height: '100%', display: 'flex', alignItems: 'center', float: 'right',
@@ -586,13 +593,16 @@ class Setting extends React.Component<Props, State> {
   };
 }
 
-const mapStateToProps = (state: any) => ({
-  sellerData: state.settings.get('profile'),
-  amazonData: state.settings.get('amazonMWS'),
-  amazonMWSFromServer: state.settings.get('amazonMWSFromServer'),
-  isUpdate: state.settings.get('success'),
-  updatedImage: state.settings.get('updatedImage'),
-});
+const mapStateToProps = (state: any) => {
+  console.log(state);
+  return  {
+      sellerData: state.settings.profile,
+      amazonData: state.settings.amazonMWS,
+      amazonMWSFromServer: state.settings.amazonMWSFromServer,
+      isUpdate: state.settings.success,
+      updatedImage: state.settings.updatedImage,
+  };
+};
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
