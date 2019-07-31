@@ -475,7 +475,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                             this.productDetailsWithVisualization(String(value.product_id));
                           }}
                         >
-                          View
+                          <strong>View</strong>
                         </Button>
                       </Grid.Column>
                     </Grid>
@@ -722,7 +722,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   href={this.props.product_detail.amazon_url}
                   target={'_blank'}
                 >
-                  <Icon name="amazon" style={{color: 'black'}}/>
+                  <Icon name="amazon" size={'large'} style={{color: 'black'}}/>
                 </a>
               </div>
               <p style={{marginTop: 10}}>ASIN: {this.props.product_detail.asin}</p>
