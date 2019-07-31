@@ -14,7 +14,6 @@ export const API_ENDPOINTS ={
   connection: 'Username-Password-Authentication',
 };
 
-
 const prod = {
   ...AUTH_CONFIG,
   ...URLS,
