@@ -24,7 +24,6 @@ export interface Supplier {
   id: any;
   item_active_count: any;
   item_total_count: any;
-  product_to_listing_ratio: any;
   name: string;
   phone: string;
   rate: string;
@@ -34,6 +33,7 @@ export interface Supplier {
   timezone: string;
   upcharge_fee: string;
   website: string;
+  p2l_ratio: any;
   xid: string;
 }
 

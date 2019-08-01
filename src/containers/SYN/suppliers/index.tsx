@@ -203,19 +203,9 @@ export class Suppliers extends React.Component<Props, State> {
       this.handleMessageModal();
     }
 
-    const supplierS = nextProps.suppliers.map((supplier: Supplier) => {
-      console.log(supplier);
-      supplier.product_to_listing_ratio =
-        supplier.item_total_count != null && supplier.item_active_count != null
-          ? Number(
-              (supplier.item_total_count / supplier.item_active_count).toFixed(2)
-            ).toLocaleString()
-          : 0;
-      return supplier;
-    });
     this.setState({
       totalPages: Math.ceil(nextProps.suppliers.length / this.state.singlePageItemsCount),
-      suppliers: supplierS,
+      suppliers: nextProps.suppliers,
     });
   }
 
@@ -518,8 +508,8 @@ export class Suppliers extends React.Component<Props, State> {
             <Table.HeaderCell textAlign="center">Action</Table.HeaderCell>
             <Table.HeaderCell
               textAlign="center"
-              sorted={sortedColumn === 'product_to_listing_ratio' ? sortDirection : undefined}
-              onClick={() => this.handleSort('product_to_listing_ratio')}
+              sorted={sortedColumn === 'p2l_ratio' ? sortDirection : undefined}
+              onClick={() => this.handleSort('p2l_ratio')}
             >
               Product to Listing Ratio
             </Table.HeaderCell>
@@ -586,7 +576,7 @@ export class Suppliers extends React.Component<Props, State> {
                       }}
                     />
                   </Table.Cell>
-                  <Table.Cell textAlign="center">{value.product_to_listing_ratio}</Table.Cell>
+                  <Table.Cell textAlign="center">{value.p2l_ratio}</Table.Cell>
                   <Table.Cell textAlign="center">{Number(value.rate).toLocaleString()}</Table.Cell>
                   {/*<Table.Cell>*/}
                   {/*  <Input focus placeholder='Note'/>*/}
