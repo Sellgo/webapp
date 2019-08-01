@@ -35,6 +35,7 @@ import {
   getProductDetail,
   getProductDetailChartRank,
   getProductDetailChartPrice,
+  getProductDetailChartKpi,
   getProductTrackData,
   getLastFileID,
   resetProductData,
@@ -45,6 +46,7 @@ import {
   ChartAveragePrice,
   ChartAverageRank,
   ProductChartDetailsPrice,
+  ProductChartDetailsKpi,
   Supplier,
   TimeEfficiency,
   getTimeEfficiency,
@@ -80,6 +82,7 @@ interface State {
   sortedColumn: string;
   isSideBarExpanded: boolean;
   showChart:any;
+  showProductChart:any;
 }
 
 interface Props {
@@ -121,6 +124,8 @@ interface Props {
 
   getProductDetailChartPrice(product_id: string): () => void;
 
+  getProductDetailChartKpi(supplierID: string): () => void;
+
   getSynthesisProgressUpdates(synthesisFileID: string): () => void;
 
   time_efficiency_data: TimeEfficiency[];
@@ -132,6 +137,7 @@ interface Props {
   chart_values_rank: ChartAverageRank[];
   product_detail_chart_values_rank: ProductChartDetailsRank[];
   product_detail_chart_values_price: ProductChartDetailsPrice[];
+  product_detail_chart_values_kpi: ProductChartDetailsKpi[];
   sellerData: SellField;
   synthesisFileID: { synthesis_file_id: 0 };
   synthesisFileProgressUpdates: { progress: 0 };
@@ -182,7 +188,8 @@ export class SupplierDetail extends React.Component<Props, State> {
     sortDirection: undefined,
     sortedColumn: '',
     isSideBarExpanded: false,
-    showChart:'chart0'
+    showChart:'chart0',
+    showProductChart:'chart0'
   };
   message = {
     id: 1,
@@ -314,6 +321,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getProductDetail(product_id, this.props.match.params.supplierID);
     this.props.getProductDetailChartRank(product_id);
     this.props.getProductDetailChartPrice(product_id);
+    this.props.getProductDetailChartKpi(product_id);
     this.setState({productDetailModalOpen: true});
   };
 
@@ -564,21 +572,7 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   productDetailViewModal = () => {
-    const popup_rank_conainer = [];
-    const popup_price_conainer = [];
-
-    for (let i = 0; i < this.props.product_detail_chart_values_rank.length; i++) {
-      popup_rank_conainer.push([
-        new Date(this.props.product_detail_chart_values_rank[i].cdate).getTime(),
-        Number(this.props.product_detail_chart_values_rank[i].rank),
-      ]);
-    }
-    for (let i = 0; i < this.props.product_detail_chart_values_price.length; i++) {
-      popup_price_conainer.push([
-        new Date(this.props.product_detail_chart_values_price[i].cdate).getTime(),
-        Number(this.props.product_detail_chart_values_price[i].price),
-      ]);
-    }
+    const { showProductChart } = this.state
 
     return (
       <Modal
@@ -732,72 +726,32 @@ export class SupplierDetail extends React.Component<Props, State> {
               {/*<p>{'FNSKU'}</p>*/}
             </Grid.Column>
           </Grid>
-          {popup_price_conainer.length == 0 && popup_rank_conainer.length == 0 ? (
-            <Loader active={true} inline="centered" className="popup-loader" size="massive">
-              Loading
-            </Loader>
-          ) : (
-            <HighchartsReact
-              highcharts={Highcharts}
-              allowChartUpdate={true}
-              options={{
-                chart: {zoomType: 'x'},
-                title: {
-                  text: 'Statistics',
-                  align: 'left',
-                },
-                xAxis: {
-                  type: 'datetime',
-                  labels: {
-                    style: {
-                      color: '#ccc',
-                    },
-                  },
-                },
-                credits: {
-                  enabled: false,
-                },
-                yAxis: {
-                  min: 0,
-                  title: {
-                    text: '',
-                  },
-                  labels: {
-                    style: {
-                      color: '#ccc',
-                    },
-                  },
-                },
-                tooltip: {
-                  formatter() {
-                    return (this.series.name == 'Price' ? '$' : '') + numberWithCommas(this.y);
-                  },
-                },
-
-                legend: {
-                  align: 'left',
-                  itemStyle: {
-                    color: '#ccc',
-                  },
-                },
-                series: [
-                  {
-                    type: 'area',
-                    name: 'Price',
-                    color: '#c0f1ff',
-                    data: popup_price_conainer,
-                  },
-                  {
-                    type: 'area',
-                    name: 'Rank',
-                    color: '#a3a0fb78',
-                    data: popup_rank_conainer,
-                  },
-                ],
-              }}
-              {...this.props}
-            />
-          )}
+          {this.props.product_detail_chart_values_rank.length && this.props.product_detail_chart_values_price.length ?
+            <React.Fragment>
+              <br/>
+              <this.renderProductCharts/>
+              <br/>
+              <Form>
+                <Form.Group inline>
+                  <label></label>
+                  <Form.Radio
+                    label='Statistics'
+                    value='chart0'
+                    checked={showProductChart === 'chart0'}
+                    onChange={(e,{value}) => this.handleProductChartChange(e,value)}
+                  />
+                  <Form.Radio
+                    label='Profit vs ROI'
+                    value='chart1'
+                    checked={showProductChart === 'chart1'}
+                    onChange={(e,{value}) => this.handleProductChartChange(e,value)}
+                  />
+                </Form.Group>
+              </Form>
+            </React.Fragment>
+            :
+            null
+          }
         </Modal.Content>
       </Modal>
     );
@@ -821,6 +775,200 @@ export class SupplierDetail extends React.Component<Props, State> {
       </Modal>
     );
   };
+
+  renderProductStatistics = (props:any) => {
+    const popup_price_conainer = props.popup_price_conainer;
+    const popup_rank_conainer = props.popup_rank_conainer;
+    return <HighchartsReact
+      highcharts={Highcharts}
+      allowChartUpdate={true}
+      options={{
+        chart: {zoomType: 'x'},
+        title: {
+          text: 'Statistics',
+          align: 'left',
+        },
+        xAxis: {
+          type: 'datetime',
+          labels: {
+            style: {
+              color: '#ccc',
+            },
+          },
+        },
+        credits: {
+          enabled: false,
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: '',
+          },
+          labels: {
+            style: {
+              color: '#ccc',
+            },
+          },
+        },
+        tooltip: {
+          formatter() {
+            return (this.series.name == 'Price' ? '$' : '') + numberWithCommas(this.y);
+          },
+        },
+
+        legend: {
+          align: 'left',
+          itemStyle: {
+            color: '#ccc',
+          },
+        },
+        series: [
+          {
+            type: 'area',
+            name: 'Price',
+            color: '#c0f1ff',
+            data: popup_price_conainer,
+          },
+          {
+            type: 'area',
+            name: 'Rank',
+            color: '#a3a0fb78',
+            data: popup_rank_conainer,
+          },
+        ],
+      }}
+      {...this.props}
+    />
+
+  }
+
+  renderROI = (props:any) => {
+    const product_timeline = props.product_timeline;
+    const product_profit = props.product_profit;
+    const product_roi = props.product_roi;
+    return <HighchartsReact //CEM 69
+      highcharts={Highcharts}
+      options={{
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Profit vs ROI'
+        },
+        xAxis: [{
+          type:'datetime',
+            categories: product_timeline,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+          gridLineWidth: 0,
+          minorGridLineWidth: 0,
+            lineWidth:2,
+            title: {
+                text: 'Total Profit',
+                align:'high',
+                style: {
+                    color: 'black'
+                }
+            }
+        }, { // Secondary yAxis
+          gridLineWidth: 0,
+          minorGridLineWidth: 0,
+            lineWidth:2,
+            title: {
+                text: 'ROI (%)',
+                align:'high',
+                style: {
+                    color: 'black'
+                }
+            },
+            labels: {
+              format: '{value}',
+              style: {
+                  color: 'black'
+              }
+            },
+            opposite: true
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            x: 120,
+            verticalAlign: 'top',
+            y: 100,
+            floating: true,
+            backgroundColor:
+                'rgba(255,255,255,0.25)'
+        },
+        series: [{
+            name: 'Total Profit',
+            type: 'spline',
+            yAxis: 1,
+            data: product_profit,
+
+        }, {
+            name: 'ROI (%)',
+            type: 'spline',
+            data: product_roi,
+        }]
+    }}
+      {...this.props}
+    />
+  }
+
+  handleProductChartChange = (e:any, showProductChart:any ) => this.setState({ showProductChart})
+    
+  renderProductCharts = () => {
+    switch(this.state.showProductChart){
+      case 'chart0':
+          const popup_rank_conainer = [];
+          const popup_price_conainer = [];
+      
+          for (let i = 0; i < this.props.product_detail_chart_values_rank.length; i++) {
+            popup_rank_conainer.push([
+              new Date(this.props.product_detail_chart_values_rank[i].cdate).getTime(),
+              Number(this.props.product_detail_chart_values_rank[i].rank),
+            ]);
+          }
+          for (let i = 0; i < this.props.product_detail_chart_values_price.length; i++) {
+            popup_price_conainer.push([
+              new Date(this.props.product_detail_chart_values_price[i].cdate).getTime(),
+              Number(this.props.product_detail_chart_values_price[i].price),
+            ]);
+          }
+        return popup_price_conainer.length == 0 && popup_rank_conainer.length == 0 ? 
+          <Loader
+          active={true}
+          inline="centered"
+          className="popup-loader"
+          size="massive"
+          >
+            Loading
+          </Loader>
+          :
+          <this.renderProductStatistics popup_price_conainer={popup_price_conainer} popup_rank_conainer = {popup_rank_conainer}/> 
+        
+      case 'chart1':
+          const product_timeline = [];
+          const product_profit = [];
+          const product_roi = [];
+
+          for (let i = 0; i < this.props.product_detail_chart_values_kpi.length; i++) {
+            product_timeline.push(new Date(this.props.product_detail_chart_values_kpi[i].cdate).toDateString());
+            product_profit.push(parseFloat(this.props.product_detail_chart_values_kpi[i].profit));
+            product_roi.push(parseFloat(this.props.product_detail_chart_values_kpi[i].roi));
+          }
+          return product_timeline.length && product_profit.length && product_roi.length ?
+            <this.renderROI product_timeline={product_timeline} product_profit={product_profit} product_roi = {product_roi}/>
+            :
+            null
+      default:
+          return null
+    }
+  }
 
   renderHeaderFilters = () => {
     return (
@@ -1250,84 +1398,6 @@ export class SupplierDetail extends React.Component<Props, State> {
         },
       ],
     }}
-    {...this.props}
-  />
-
-  renderROI = () => <HighchartsReact //CEM 69
-    highcharts={Highcharts}
-    options={{
-      chart: {
-          zoomType: 'xy'
-      },
-      title: {
-          text: 'Profit vs ROI'
-      },
-      xAxis: [{
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          crosshair: true
-      }],
-      yAxis: [{ // Primary yAxis
-        gridLineWidth: 0,
-        minorGridLineWidth: 0,
-          lineWidth:2,
-          title: {
-              text: 'Total Profit',
-              align:'high',
-              style: {
-                  color: 'black'
-              }
-          }
-      }, { // Secondary yAxis
-        gridLineWidth: 0,
-        minorGridLineWidth: 0,
-          lineWidth:2,
-          title: {
-              text: 'ROI (%)',
-              align:'high',
-              style: {
-                  color: 'lightblue'
-              }
-          },
-          labels: {
-            format: '{value}',
-            style: {
-                color: 'lightblue'
-            }
-          },
-          opposite: true
-      }],
-      tooltip: {
-          shared: true
-      },
-      legend: {
-          layout: 'vertical',
-          align: 'left',
-          x: 120,
-          verticalAlign: 'top',
-          y: 100,
-          floating: true,
-          backgroundColor:
-              'rgba(255,255,255,0.25)'
-      },
-      series: [{
-          name: 'Total Profit',
-          type: 'spline',
-          yAxis: 1,
-          data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
-          tooltip: {
-              valueSuffix: ' mm'
-          }
-
-      }, {
-          name: 'ROI (%)',
-          type: 'spline',
-          data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-          tooltip: {
-              valueSuffix: '°C'
-          }
-      }]
-  }}
     {...this.props}
   />
 
@@ -1970,6 +2040,7 @@ const mapStateToProps = (state: any) => {
     productTrackGroup: state.synReducer.get('productTrackGroup'),
     product_detail_chart_values_rank: state.synReducer.get('product_detail_chart_values_rank'),
     product_detail_chart_values_price: state.synReducer.get('product_detail_chart_values_price'),
+    product_detail_chart_values_kpi: state.synReducer.get('product_detail_chart_values_kpi'),
     sellerData: state.settings.get('profile'),
     isSideBarExpanded: state.settings.get('isSideBarExpanded'),
   };
@@ -1989,6 +2060,8 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(getProductDetailChartRank(product_id)),
     getProductDetailChartPrice: (product_id: string) =>
       dispatch(getProductDetailChartPrice(product_id)),
+    getProductDetailChartKpi: (product_id: string) =>
+      dispatch(getProductDetailChartKpi(product_id)),
     getProductsChartHistoryPrice: (supplierID: string) =>
       dispatch(getProductsChartHistoryPrice(supplierID)),
     getProductsChartHistoryRank: (supplierID: string) =>

@@ -6,6 +6,7 @@ import {
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values_Price,
   SET_Product_Detail_Chart_Values_Rank,
+  SET_Product_Detail_Chart_Values_Kpi,
   SET_PRODUCT_TRACK_DATA,
   SET_PRODUCTS,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
@@ -42,6 +43,7 @@ const initialState = Map({
   product_detail: [],
   product_detail_chart_values_rank: [],
   product_detail_chart_values_price: [],
+  product_detail_chart_values_kpi: [],
   productTrackGroup: [],
   synthesisFileID: [],
   synthesisFileProgressUpdates: [],
@@ -81,6 +83,8 @@ export const SYNReducer = (state = initialState, action: any) => {
       return state.setIn(['product_detail_chart_values_rank'], action.data);
     case SET_Product_Detail_Chart_Values_Price:
       return state.setIn(['product_detail_chart_values_price'], action.data);
+    case SET_Product_Detail_Chart_Values_Kpi:
+        return state.setIn(['product_detail_chart_values_kpi'], action.data);
     case GET_PRODUCT_TRACK_GROUP:
       return state.setIn(['productTrackGroup'], action.data);
     case UPLOAD_SYNTHESIS_FILE_ID:

@@ -9,6 +9,7 @@ import {
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values_Rank,
   SET_Product_Detail_Chart_Values_Price,
+  SET_Product_Detail_Chart_Values_Kpi,
   SET_TIME_EFFICIENCY,
   UPDATE_PRODUCT,
   UPLOAD_SYNTHESIS_FILE_ID,
@@ -113,6 +114,12 @@ export interface ProductChartDetailsRank {
 
 export interface ProductChartDetailsPrice {
   price: number;
+  cdate: string
+}
+
+export interface ProductChartDetailsKpi {
+  profit: string;
+  roi:string;
   cdate: string
 }
 
@@ -282,6 +289,19 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
   })
     .then(json => {
       dispatch(setProductDetailChartPrice(json.data));
+    })
+    .catch(error => {
+    });
+};
+
+export const getProductDetailChartKpi = (product_id: string) => (dispatch: any) => {
+  return axios({
+    method: 'get',
+    url: AppConfig.BASE_URL_API + 'product/' + product_id + '/history/kpi',
+    headers,
+  })
+    .then(json => {
+      dispatch(setProductDetailChartKpi(json.data));
     })
     .catch(error => {
     });
@@ -692,6 +712,11 @@ export const setProductDetailChartPrice = (data: {}) => ({
   type: SET_Product_Detail_Chart_Values_Price,
   data,
 });
+
+export const setProductDetailChartKpi = (data: {}) => ({
+  type: SET_Product_Detail_Chart_Values_Kpi,
+  data,
+})
 
 export const reduceProductTrackGroup = (data: {}) => ({
   type: GET_PRODUCT_TRACK_GROUP,
