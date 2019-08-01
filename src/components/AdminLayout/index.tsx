@@ -12,12 +12,10 @@ interface State {
 }
 
 interface Props {
-
   isSideBarExpanded: false;
   title?: string;
   auth: Auth;
   sellerData?: SellField;
-
 }
 
 class AdminLayout extends React.Component<Props, State> {
@@ -43,7 +41,7 @@ class AdminLayout extends React.Component<Props, State> {
         <Segment basic={true} style={{
           height:'100%',
           marginTop:0,
-          paddingTop:40,
+          paddingTop:20,
           paddingLeft: (this.props.isSideBarExpanded) ? 190 : 100,
           paddingRight: (this.props.isSideBarExpanded) ? 20 : 20,
           transition: 'width 0.8s,padding 0.8s',

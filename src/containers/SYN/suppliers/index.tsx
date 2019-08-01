@@ -708,7 +708,7 @@ export class Suppliers extends React.Component<Props, State> {
         title={'SYN'}
       >
         <Segment basic={true} className="setting">
-          <Divider />
+          <Divider style={{borderTop:'1px solid rgba(34,36,38,.20)',borderBottom:'1px solid rgba(34,36,38,.20)'}}/>
           <Grid>
             <Grid.Column width={5} floated="left" className={'middle aligned'}>
               {this.renderAddNewSupplierModal()}
