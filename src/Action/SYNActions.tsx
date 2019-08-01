@@ -138,7 +138,7 @@ export const getSellers = () => (dispatch: any) => {
   }
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/`,
+    url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/?status=active`,
     headers,
   })
     .then(json => {
@@ -434,7 +434,7 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
 
 
 export const getLastFileID = (supplierID: string) => (dispatch: any) => {
-  dispatch(setProgressUpdatesValue({progress: 0}));
+  dispatch(setProgressUpdatesValue({ progress: 0 }));
   if (progressTimer != null) {
     clearTimeout(progressTimer);
     if (progressAxiosCancel != null) {
@@ -615,9 +615,9 @@ export const resetProductData = (data: {}) => ({
 export const resetUploadCSVResponse = () => (dispatch: any) => {
   dispatch(
     reduceUploadCSVResponse({
-        message: 'We will process your file within few hours',
-        status: 'unset',
-      },
+      message: 'We will process your file within few hours',
+      status: 'unset',
+    },
     ));
 };
 
