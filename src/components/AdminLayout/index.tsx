@@ -33,7 +33,7 @@ class AdminLayout extends React.Component<Props, State> {
   }
 
   public render() {
-    const {children, title, auth, sellerData} = this.props;
+    const { children, title, auth, sellerData } = this.props;
 
     return (
       <React.Fragment>
