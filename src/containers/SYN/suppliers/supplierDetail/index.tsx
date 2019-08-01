@@ -15,6 +15,7 @@ import {
   Loader,
   Pagination,
   Progress,
+  Form,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './supplierDetail.css';
@@ -78,6 +79,7 @@ interface State {
   sortDirection: any;
   sortedColumn: string;
   isSideBarExpanded: boolean;
+  showChart:any;
 }
 
 interface Props {
@@ -180,6 +182,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     sortDirection: undefined,
     sortedColumn: '',
     isSideBarExpanded: false,
+    showChart:'chart0'
   };
   message = {
     id: 1,
@@ -1188,6 +1191,67 @@ export class SupplierDetail extends React.Component<Props, State> {
     return;
   };
 
+  renderStatistics = (props:any) => <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {zoomType: 'x'},
+      title: {
+        text: 'Statistics',
+        align: 'left',
+      },
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          style: {
+            color: '#ccc',
+          },
+        },
+      },
+      credits: {
+        enabled: false,
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: '',
+        },
+        labels: {
+          style: {
+            color: '#ccc',
+          },
+        },
+      },
+      tooltip: {
+        formatter() {
+          return (
+            (this.series.name == 'Avg Price' ? '$' : '') +
+            numberWithCommas(this.y)
+          );
+        },
+      },
+      legend: {
+        align: 'left',
+        itemStyle: {
+          color: '#ccc',
+        },
+      },
+      series: [
+        {
+          type: 'area',
+          name: 'Avg Price',
+          color: '#c0f1ff',
+          data: props.avg_price,
+        },
+        {
+          type: 'area',
+          name: 'Avg Rank',
+          color: '#a3a0fb78',
+          data: props.avg_rank,
+        },
+      ],
+    }}
+    {...this.props}
+  />
 
   renderROI = () => <HighchartsReact //CEM 69
     highcharts={Highcharts}
@@ -1267,7 +1331,12 @@ export class SupplierDetail extends React.Component<Props, State> {
     {...this.props}
   />
 
-renderProfit =() => <HighchartsReact //CEM 67
+renderProfit =(props:any) => {
+  const profit_monthly = props.profit_monthly;
+  const sales_monthly = props.sales_monthly;
+  const monthly_data = props.monthly_data;
+  
+  return <HighchartsReact //CEM 67
   highcharts={Highcharts}
   options={{
     chart: {
@@ -1280,6 +1349,7 @@ renderProfit =() => <HighchartsReact //CEM 67
         }
     },
     yAxis: {
+      min:0,
         title:{
           text:'Profit($)'
         }
@@ -1320,13 +1390,19 @@ renderProfit =() => <HighchartsReact //CEM 67
         },
         color:'green',
         name: 'SKUs',
-        data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6]]
+        data: monthly_data
     }]
   }}
   {...this.props}
   />
+}
 
-  renderHit = () => <HighchartsReact //CEM 68
+  renderHit = (props: any) => { 
+    const supplier = props.supplier;
+    const rate = parseFloat(supplier.rate);
+    const p2l_ratio = supplier.p2l_ratio - parseFloat(supplier.rate);
+    const miss = 100 - supplier.p2l_ratio;
+    return <HighchartsReact //CEM 68
     highcharts={Highcharts}
     options={{
       chart: {
@@ -1353,25 +1429,33 @@ renderProfit =() => <HighchartsReact //CEM 67
           name: 'SKUs',
           colorByPoint: true,
           data: [{
-              name: 'Profitable SKU',
-              y: 20,
+              name: 'Profitable SKUs',
+              y: rate,
               sliced: true,
               selected: true,
               color:'#FBC4C4'
           }, {
-              name: 'Hit',
-              y: 30,
+              name: 'Hit Non-Profitable SKUs',
+              y: p2l_ratio,
               color:'#C6ECEF'
           }, {
               name: 'Miss',
-              y: 50,
+              y: miss,
               color:'#ECEBEB'
           },]
       }]
   }}
     {...this.props}
   />
-  renderRevenue = () => <HighchartsReact //CEM 70
+  }
+
+  renderRevenue = (props:any) => { 
+    const productSKUs = props.productSKUs;
+    const product_cost = props.product_cost;
+    const fees = props.fees;
+    const profit = props.profit;
+
+    return  <HighchartsReact //CEM 70
     highcharts={Highcharts}
     options={{
       chart: {type:'column', zoomType:'x'},
@@ -1380,8 +1464,8 @@ renderProfit =() => <HighchartsReact //CEM 67
         align: 'center',
       },
       xAxis: {
-        categories: Array(50).fill('A'),
-        max:10,
+        categories: productSKUs,
+        //max:10,
         visible:false
       },
       yAxis: {
@@ -1389,7 +1473,7 @@ renderProfit =() => <HighchartsReact //CEM 67
         /* gridLineWidth: 0,
         minorGridLineWidth: 0, */
         title: {
-          text: '',
+          text: 'Revenue ($)',
         },
         stackLabels:{
           enabled:true,
@@ -1423,88 +1507,166 @@ renderProfit =() => <HighchartsReact //CEM 67
       }
       },
       series: [
-        {type:'column',color:'#CAE1F3',name:'Profit',data:Array(50).fill(1)},
-        {type:'column',color:'#F3D2CA',name:'Amz fee',data:Array(50).fill(1)},
-        {type:'column',color:'#F3E9CA',name:'COGS',data:Array(50).fill(1)},
+        {type:'column',color:'#CAE1F3',name:'Profit',data:profit},
+        {type:'column',color:'#F3D2CA',name:'Amz fee',data:fees},
+        {type:'column',color:'#F3E9CA',name:'COGS',data:product_cost},
       ],
     }}
     {...this.props}
   />
+}
 
-  renderPOFP = () => <HighchartsReact //CEM 70
-  highcharts={Highcharts}
-  options={{
-    chart: {type:'column', zoomType:'x'},
-    title: {
-      text: 'POFP',
-      align: 'center',
-    },
-    xAxis: {
-      categories: ['A','B','C','D','E','F'],
-      max:10,
-      visible:false
-    },
-    yAxis: {
-      //min: 0,
-      gridLineWidth: 0,
-      minorGridLineWidth: 0,
+  renderPOFP = (props: any) => {
+    const productSKUs= props.productSKUs;
+    const roi = props.roi;
+    const profit = props.profit;
+    
+    return  <HighchartsReact //CEM 70
+    highcharts={Highcharts}
+    options={{
+      chart: {type:'column', zoomType:'x'},
       title: {
-        text: 'ROI (%)',
+        text: 'Point of Firtst Profit (POFP)',
+        align: 'center',
       },
-      stackLabels:{
-        enabled:true,
-        format: '<b>ROI %</b>',
-        style:{
-          fontWeight:'bold',
-          color:'grey'
-        }
+      xAxis: {
+        categories: productSKUs,
+        //max:10,
+        visible:false
       },
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: '{series.name}: {point.y}'
-    },
-    legend: {
-      align: 'right',
-      x:-30,
-      verticalAlign:'top',
-      y:25,
-      floating:true,
-      backgroundColor:'white',
-      borderColor: '#CCC',
-      borderWidth: 1,
-      shadow: false
-    },
-    plotOptions:{
-      column: {
-        stacking: 'normal',
-        dataLabels: {
-            enabled: true
+      yAxis: {
+        //min: 0,
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+        title: {
+          text: 'Profit ($)',
         },
+        stackLabels:{
+          enabled:true,
+          format: '<b>ROI %</b>',
+          style:{
+            fontWeight:'bold',
+            color:'grey'
+          }
+        },
+      },
+      tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}'
+      },
+      legend: {
+        align: 'right',
+        x:-30,
+        verticalAlign:'top',
+        y:25,
+        floating:true,
+        backgroundColor:'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+      },
+      plotOptions:{
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+              enabled: true
+          },
+      }
+      },
+      series: [
+        {type:'column',color:'#CAE1F3',negativeColor:'#F3D2CA',name:'Profit',data:profit},
+      ],
+    }}
+    {...this.props}
+  />
+  }
+
+  handleChange = (e:any, showChart:any ) => this.setState({ showChart})
+    
+  renderCharts = () => {
+    const products = this.props.products.sort((a,b)=>parseFloat(b.profit)-parseFloat(a.profit));
+    let productSKUs = [];
+    let profit = [];
+    profit =products.map(e=>parseFloat(e.profit));
+    productSKUs = products.map(e=>e.title);
+    switch(this.state.showChart){
+      case 'chart0':
+        const avg_price = [];
+        const avg_rank = [];
+        for (let i = 0; i < this.props.chart_values_price.length; i++) {
+          avg_price.push([
+            new Date(this.props.chart_values_price[i].cdate).getTime(),
+            Number(this.props.chart_values_price[i].avg_price),
+          ]);
+        }
+        for (let i = 0; i < this.props.chart_values_rank.length; i++) {
+          avg_rank.push([
+            new Date(this.props.chart_values_rank[i].cdate).getTime(),
+            Number(this.props.chart_values_rank[i].avg_rank),
+          ]);
+        }
+
+        return avg_price != undefined && avg_price.length == 0 && avg_rank.length == 0 ?
+          <Loader
+          active={true}
+          inline="centered"
+          className="popup-loader"
+          size="massive"
+          >
+            Loading
+          </Loader>
+          :
+          avg_price.length != 0 && avg_price[0][1] !== -1000000 ? 
+            <this.renderStatistics avg_price={avg_price} avg_rank = {avg_rank}/> 
+            : 
+            null
+        
+      case 'chart1':
+          let monthly_data = [];
+          let profit_monthly = [];
+          let sales_monthly = [];
+          monthly_data = products.map(e=>{
+            return [parseFloat(e.sales_monthly),parseFloat(e.profit_monthly)]
+          });
+          profit_monthly =products.map(e=>parseFloat(e.profit_monthly));
+          sales_monthly =products.map(e=>parseFloat(e.sales_monthly));
+
+        return productSKUs.length && profit.length && profit_monthly.length && sales_monthly.length ?
+          <this.renderProfit productSKUs={productSKUs} profit_monthly={profit_monthly} sales_monthly = {sales_monthly} monthly_data={monthly_data}/>
+          :
+          null
+      case 'chart2':
+        const supplierID = this.props.match.params.supplierID;
+        const supplier = this.props.suppliers.filter(supplier => supplier.id === parseInt(supplierID))[0];
+        if(!supplier) this.props.getSellers();
+        return supplier && supplier['rate'] ? 
+          <this.renderHit supplier={supplier}/>
+          : 
+          null
+      case 'chart3':
+          let product_cost = [];
+          let fees = [];
+          product_cost = products.map(e=>parseFloat(e.product_cost));
+          fees =products.map(e=>parseFloat(e.fees));
+
+        return productSKUs.length && profit.length && product_cost.length && fees.length ?
+          <this.renderRevenue productSKUs={productSKUs} product_cost={product_cost} fees={fees} profit={profit}/>
+          :
+          null
+      case 'chart4':
+          let roi = [];
+          roi = products.map(e=>parseFloat(e.roi));
+        return productSKUs.length && roi.length ?
+          <this.renderPOFP productSKUs={productSKUs} roi = {roi} profit={profit}/>
+          :
+          null
+      default:
+          return null
     }
-    },
-    series: [
-      {type:'column',color:'#CAE1F3',negativeColor:'#F3D2CA',name:'Profit',data:[10,20,-1,24,36,-4]},
-    ],
-  }}
-  {...this.props}
-/>
+  }
 
   renderHeaderSupplierMatrics = () => {
-    const avg_price = [];
-    const avg_rank = [];
-    for (let i = 0; i < this.props.chart_values_price.length; i++) {
-      avg_price.push([
-        new Date(this.props.chart_values_price[i].cdate).getTime(),
-        Number(this.props.chart_values_price[i].avg_price),
-      ]);
-    }
-    for (let i = 0; i < this.props.chart_values_rank.length; i++) {
-      avg_rank.push([
-        new Date(this.props.chart_values_rank[i].cdate).getTime(),
-        Number(this.props.chart_values_rank[i].avg_rank),
-      ]);
-    }
+    const { showChart } = this.state
     return (
       <Grid.Column width={4} floated="left">
         <Grid.Row>
@@ -1591,78 +1753,50 @@ renderProfit =() => <HighchartsReact //CEM 67
                 <Feed.Event>
                   <Feed.Content>
                     <Feed.Summary>
-                      {avg_price != undefined && avg_price.length == 0 && avg_rank.length == 0 ? (
-                        <Loader
-                          active={true}
-                          inline="centered"
-                          className="popup-loader"
-                          size="massive"
-                        >
-                          Loading
-                        </Loader>
-                      ) : avg_price.length != 0 && avg_price[0][1] !== -1000000 ? (
-                        <HighchartsReact
-                          highcharts={Highcharts}
-                          options={{
-                            chart: {zoomType: 'x'},
-                            title: {
-                              text: 'Statistics',
-                              align: 'left',
-                            },
-                            xAxis: {
-                              type: 'datetime',
-                              labels: {
-                                style: {
-                                  color: '#ccc',
-                                },
-                              },
-                            },
-                            credits: {
-                              enabled: false,
-                            },
-                            yAxis: {
-                              min: 0,
-                              title: {
-                                text: '',
-                              },
-                              labels: {
-                                style: {
-                                  color: '#ccc',
-                                },
-                              },
-                            },
-                            tooltip: {
-                              formatter() {
-                                return (
-                                  (this.series.name == 'Avg Price' ? '$' : '') +
-                                  numberWithCommas(this.y)
-                                );
-                              },
-                            },
-                            legend: {
-                              align: 'left',
-                              itemStyle: {
-                                color: '#ccc',
-                              },
-                            },
-                            series: [
-                              {
-                                type: 'area',
-                                name: 'Avg Price',
-                                color: '#c0f1ff',
-                                data: avg_price,
-                              },
-                              {
-                                type: 'area',
-                                name: 'Avg Rank',
-                                color: '#a3a0fb78',
-                                data: avg_rank,
-                              },
-                            ],
-                          }}
-                          {...this.props}
-                        />
-                      ) : null}
+                      {this.props.products.length && this.props.suppliers.length ?
+                      <React.Fragment>
+                        <br/>
+                        <this.renderCharts/>
+                        <br/>
+                        <Form>
+                          <Form.Group inline>
+                            <label></label>
+                            <Form.Radio
+                              label='Statistics'
+                              value='chart0'
+                              checked={showChart === 'chart0'}
+                              onChange={(e,{value}) => this.handleChange(e,value)}
+                            />
+                            <Form.Radio
+                              label='Profit vs Unit Sold'
+                              value='chart1'
+                              checked={showChart === 'chart1'}
+                              onChange={(e,{value}) => this.handleChange(e,value)}
+                            />
+                            <Form.Radio
+                              label='Hit/Miss vs Profitable SKUs'
+                              value='chart2'
+                              checked={showChart === 'chart2'}
+                              onChange={(e,{value}) => this.handleChange(e,value)}
+                            />
+                            <Form.Radio
+                              label='Revenue Breakdown'
+                              value='chart3'
+                              checked={showChart === 'chart3'}
+                              onChange={(e,{value}) => this.handleChange(e,value)}
+                            />
+                            <Form.Radio
+                              label='Point of Firtst Profit (POFP)'
+                              value='chart4'
+                              checked={showChart === 'chart4'}
+                              onChange={(e,{value}) => this.handleChange(e,value)}
+                            />
+                          </Form.Group>
+                        </Form>
+                      </React.Fragment>
+                      :
+                      null
+                    }
                     </Feed.Summary>
                   </Feed.Content>
                 </Feed.Event>
