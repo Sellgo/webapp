@@ -12,10 +12,12 @@
 .ui.basic.primary.buttons .button:hover{
     color: #4285f4 !important;
     border:1px solid #4285f4 !important;
+    box-shadow:none !important;
 }
 .ui.basic.teal.button,
 .ui.basic.teal.button .button {
     border:1px solid !important;
+    box-shadow:none !important;
 }
 .ui.fluid.dropdown {
     border:1px solid #4285f4 !important;

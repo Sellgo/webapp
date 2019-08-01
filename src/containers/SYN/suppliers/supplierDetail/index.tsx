@@ -468,16 +468,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                           </Grid.Column>
                         </Grid.Row>
                       </Grid.Column>
-                      <Grid.Column style={{ alignSelf: 'center' }}>
+                      <Grid.Column style={{ alignSelf: 'center'}}>
                         <Button
                           basic={true}
-                          style={{ borderRadius: 20 }}
+                          style={{ borderRadius: 100,paddingTop:5,paddingBottom:5 ,paddingLeft:15,paddingRight:15}}
                           color="blue"
                           onClick={() => {
                             this.productDetailsWithVisualization(String(value.product_id));
                           }}
                         >
-                          <strong>View</strong>
+                          <h2 style={{fontSize:17}}>View</h2>
                         </Button>
                       </Grid.Column>
                     </Grid>
