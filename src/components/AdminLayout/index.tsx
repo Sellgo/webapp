@@ -40,6 +40,7 @@ class AdminLayout extends React.Component<Props, State> {
 
         <Segment basic={true} style={{
           height:'100%',
+          minHeight:'100vh',
           marginTop:0,
           paddingTop:20,
           paddingLeft: (this.props.isSideBarExpanded) ? 190 : 100,
