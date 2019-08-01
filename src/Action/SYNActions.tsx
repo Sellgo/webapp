@@ -62,6 +62,9 @@ export interface Product {
   tracking_status: string;
   profit: string;
   product_track_id: string;
+  roi:string;
+  product_cost:string;
+  fees:string;
 }
 
 export interface ProductsTrackData {
