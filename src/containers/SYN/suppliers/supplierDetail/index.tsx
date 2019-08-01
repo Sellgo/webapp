@@ -1188,6 +1188,250 @@ export class SupplierDetail extends React.Component<Props, State> {
     return;
   };
 
+
+  renderROI = () => <HighchartsReact //CEM 69
+    highcharts={Highcharts}
+    options={{
+      chart: {
+          zoomType: 'xy'
+      },
+      title: {
+          text: 'Profit vs ROI'
+      },
+      xAxis: [{
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          crosshair: true
+      }],
+      yAxis: [{ // Primary yAxis
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+          lineWidth:2,
+          title: {
+              text: 'Total Profit',
+              align:'high',
+              style: {
+                  color: 'black'
+              }
+          }
+      }, { // Secondary yAxis
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+          lineWidth:2,
+          title: {
+              text: 'ROI (%)',
+              align:'high',
+              style: {
+                  color: 'lightblue'
+              }
+          },
+          labels: {
+            format: '{value}',
+            style: {
+                color: 'lightblue'
+            }
+          },
+          opposite: true
+      }],
+      tooltip: {
+          shared: true
+      },
+      legend: {
+          layout: 'vertical',
+          align: 'left',
+          x: 120,
+          verticalAlign: 'top',
+          y: 100,
+          floating: true,
+          backgroundColor:
+              'rgba(255,255,255,0.25)'
+      },
+      series: [{
+          name: 'Total Profit',
+          type: 'spline',
+          yAxis: 1,
+          data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+          tooltip: {
+              valueSuffix: ' mm'
+          }
+
+      }, {
+          name: 'ROI (%)',
+          type: 'spline',
+          data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+          tooltip: {
+              valueSuffix: '°C'
+          }
+      }]
+  }}
+    {...this.props}
+  />
+
+renderProfit =() => <HighchartsReact //CEM 67
+  highcharts={Highcharts}
+  options={{
+    chart: {
+      type: 'scatter',
+      zoomType: 'xy'
+  },
+    xAxis: {
+        title:{
+          text:'Unit sold/mo'
+        }
+    },
+    yAxis: {
+        title:{
+          text:'Profit($)'
+        }
+    },
+    title: {
+        text: 'Profit vs Unit Sold/mo'
+    },
+    plotOptions: {
+      scatter: {
+          marker: {
+              radius: 5,
+              states: {
+                  hover: {
+                      enabled: true,
+                      lineColor: 'rgb(100,100,100)'
+                  }
+              }
+          },
+          states: {
+              hover: {
+                  marker: {
+                      enabled: false
+                  }
+              }
+          },
+          tooltip: {
+              headerFormat: '<b>{series.name}</b><br>',
+              pointFormat: '{point.x} cm, {point.y} kg'
+          }
+      }
+  },
+    series: [{
+        type: 'scatter',
+        regression:true,
+        regressionSettings:{
+          type:'linear',
+          color:'red'
+        },
+        color:'green',
+        name: 'SKUs',
+        data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6]]
+    }]
+  }}
+  {...this.props}
+  />
+
+  renderHit = () => <HighchartsReact //CEM 68
+    highcharts={Highcharts}
+    options={{
+      chart: {
+          type: 'pie'
+      },
+      title: {
+          text: 'Hit/Miss vs Profitable SKUs'
+      },
+      tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
+      plotOptions: {
+          pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                  enabled: true,
+                  format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+              }
+          }
+      },
+      series: [{
+          type:'pie',
+          name: 'SKUs',
+          colorByPoint: true,
+          data: [{
+              name: 'Profitable SKU',
+              y: 20,
+              sliced: true,
+              selected: true,
+              color:'#FBC4C4'
+          }, {
+              name: 'Hit',
+              y: 30,
+              color:'#C6ECEF'
+          }, {
+              name: 'Miss',
+              y: 50,
+              color:'#ECEBEB'
+          },]
+      }]
+  }}
+    {...this.props}
+  />
+  renderRevenue = () => <HighchartsReact //CEM 70
+    highcharts={Highcharts}
+    options={{
+      chart: {type:'column', zoomType:'x'},
+      title: {
+        text: 'Revenue Breakdown Comparison',
+        align: 'center',
+      },
+      xAxis: {
+        categories: Array(50).fill('A'),
+        max:10,
+        visible:false
+      },
+      yAxis: {
+        min: 0,
+        /* gridLineWidth: 0,
+        minorGridLineWidth: 0, */
+        title: {
+          text: '',
+        },
+        stackLabels:{
+          enabled:true,
+          style:{
+            fontWeight:'bold',
+            color:'grey'
+          }
+        },
+      },
+      tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+      },
+      legend: {
+        align: 'right',
+        x:-30,
+        verticalAlign:'top',
+        y:25,
+        floating:true,
+        backgroundColor:'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+      },
+      plotOptions:{
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+              enabled: true
+          },
+      }
+      },
+      series: [
+        {type:'column',color:'#CAE1F3',name:'Profit',data:Array(50).fill(1)},
+        {type:'column',color:'#F3D2CA',name:'Amz fee',data:Array(50).fill(1)},
+        {type:'column',color:'#F3E9CA',name:'COGS',data:Array(50).fill(1)},
+      ],
+    }}
+    {...this.props}
+  />
+  
+
   renderHeaderSupplierMatrics = () => {
     const avg_price = [];
     const avg_rank = [];
