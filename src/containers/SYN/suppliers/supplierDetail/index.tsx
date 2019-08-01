@@ -1430,7 +1430,65 @@ renderProfit =() => <HighchartsReact //CEM 67
     }}
     {...this.props}
   />
-  
+
+  renderPOFP = () => <HighchartsReact //CEM 70
+  highcharts={Highcharts}
+  options={{
+    chart: {type:'column', zoomType:'x'},
+    title: {
+      text: 'POFP',
+      align: 'center',
+    },
+    xAxis: {
+      categories: ['A','B','C','D','E','F'],
+      max:10,
+      visible:false
+    },
+    yAxis: {
+      //min: 0,
+      gridLineWidth: 0,
+      minorGridLineWidth: 0,
+      title: {
+        text: 'ROI (%)',
+      },
+      stackLabels:{
+        enabled:true,
+        format: '<b>ROI %</b>',
+        style:{
+          fontWeight:'bold',
+          color:'grey'
+        }
+      },
+    },
+    tooltip: {
+      headerFormat: '<b>{point.x}</b><br/>',
+      pointFormat: '{series.name}: {point.y}'
+    },
+    legend: {
+      align: 'right',
+      x:-30,
+      verticalAlign:'top',
+      y:25,
+      floating:true,
+      backgroundColor:'white',
+      borderColor: '#CCC',
+      borderWidth: 1,
+      shadow: false
+    },
+    plotOptions:{
+      column: {
+        stacking: 'normal',
+        dataLabels: {
+            enabled: true
+        },
+    }
+    },
+    series: [
+      {type:'column',color:'#CAE1F3',negativeColor:'#F3D2CA',name:'Profit',data:[10,20,-1,24,36,-4]},
+    ],
+  }}
+  {...this.props}
+/>
 
   renderHeaderSupplierMatrics = () => {
     const avg_price = [];
