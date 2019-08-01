@@ -18,6 +18,8 @@ import {
   Confirm,
   List,
   Container,
+  Card,
+  Feed,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -729,36 +731,35 @@ export class Suppliers extends React.Component<Props, State> {
               </Popup>
             </Grid.Column>
             <Grid.Column width={5} floated="right">
-              <div
-                className="ui"
-                style={{
-                  display: 'inline-flex',
-                  border: '1px solid #000',
-                  padding: '11px',
-                  borderRadius: '15px',
-                }}
-              >
-                <span style={{ padding: '8px' }}>
-                  Time Saved
-                  <h2>
-                    <strong>
-                      {this.props.time_efficiency_data.length > 0
-                        ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + ' hrs'
-                        : '0 hrs'}
-                    </strong>
-                  </h2>
-                </span>
-                <span style={{ padding: '8px' }}>
-                  Efficiency
-                  <h2>
-                    <strong>
-                      {this.props.time_efficiency_data.length > 0
-                        ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %'
-                        : '0 %'}
-                    </strong>
-                  </h2>
-                </span>
-              </div>
+              <Card raised={true} style={{ borderRadius: 10, width: 230 }}>
+                <Card.Content style={{ paddingTop: 4, paddingBottom: 4 }}>
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      padding: '11px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <span>
+                      Time Saved
+                      <h2>
+                        {this.props.time_efficiency_data.length > 0
+                          ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) +
+                            ' hrs'
+                          : '0 hrs'}
+                      </h2>
+                    </span>
+                    <span style={{ marginLeft: 15 }}>
+                      Efficiency
+                      <h2>
+                        {this.props.time_efficiency_data.length > 0
+                          ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %'
+                          : '0 %'}
+                      </h2>
+                    </span>
+                  </div>
+                </Card.Content>
+              </Card>
             </Grid.Column>
           </Grid>
           {this.renderTable()}
