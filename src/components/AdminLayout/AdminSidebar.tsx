@@ -5,8 +5,6 @@ import './AdminSidebar.css';
 import { Field, SellField, sideBarExpanded } from '../../Action/SettingActions';
 import { connect } from 'react-redux';
 
-
-
 interface State {
   isSideBarExpanded: boolean;
 }
@@ -21,7 +19,6 @@ interface Props {
 }
 
 class AdminSidebar extends React.Component<Props, State> {
-
   constructor(props: any) {
     super(props);
 
@@ -32,21 +29,20 @@ class AdminSidebar extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    this.setState({isSideBarExpanded: this.props.isSideBarExpanded});
+    this.setState({ isSideBarExpanded: this.props.isSideBarExpanded });
   }
 
   componentWillReceiveProps(nextProps: any): void {
     if (nextProps.isSideBarExpanded) {
       setTimeout(() => {
-        this.setState({isSideBarExpanded: nextProps.isSideBarExpanded});
+        this.setState({ isSideBarExpanded: nextProps.isSideBarExpanded });
       }, 400);
     } else {
-      this.setState({isSideBarExpanded: nextProps.isSideBarExpanded});
+      this.setState({ isSideBarExpanded: nextProps.isSideBarExpanded });
     }
   }
 
-  componentWillMount() {
-  }
+  componentWillMount() {}
 
   render() {
     const logout = this.props.logout;
@@ -71,35 +67,41 @@ class AdminSidebar extends React.Component<Props, State> {
       >
         <Menu.Item as={Link} to="/">
           <Menu.Header>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <Icon name="home" style={{fontSize: 25}}/>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon name="home" style={{ fontSize: 25 }} />
               {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  Home' : ''}
             </div>
           </Menu.Header>
         </Menu.Item>
         <Menu.Item as={Link} to="/syn">
           <Menu.Header>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <Icon name="dot circle outline" style={{fontSize: 25}}/>
-              {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  Synthesis' : ''}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon name="dot circle outline" style={{ fontSize: 25 }} />
+              {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded
+                ? '  Synthesis'
+                : ''}
             </div>
           </Menu.Header>
         </Menu.Item>
 
-        <div style={{position: 'absolute', bottom: 70, width: '100%'}}>
+        <div style={{ position: 'absolute', bottom: 70, width: '100%' }}>
           <Menu.Item as={Link} to="/dashboard/setting">
-            <Menu.Header style={{alignItems: 'center'}}>
-              <div style={{display: 'flex', alignItems: 'center'}}>
-                <Icon name="setting" style={{fontSize: 25}}/>
-                {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  Settings' : ''}
+            <Menu.Header style={{ alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Icon name="setting" style={{ fontSize: 25 }} />
+                {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded
+                  ? '  Settings'
+                  : ''}
               </div>
             </Menu.Header>
           </Menu.Item>
-          <Menu.Item style={{textAlign: 'bottom'}} as="a" onClick={logout}>
+          <Menu.Item style={{ textAlign: 'bottom' }} as="a" onClick={logout}>
             <Menu.Header>
-              <div style={{display: 'flex', alignItems: 'center'}}>
-                <Icon name="log out" style={{fontSize: 25}}/>
-                {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded ? '  Logout' : ''}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Icon name="log out" style={{ fontSize: 25 }} />
+                {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded
+                  ? '  Logout'
+                  : ''}
               </div>
             </Menu.Header>
           </Menu.Item>
@@ -111,14 +113,13 @@ class AdminSidebar extends React.Component<Props, State> {
                 value: !this.props.isSideBarExpanded,
               };
               this.props.sideBarExpanded(data);
-
             }}
           >
             <Menu.Header>
-              <div style={{display:'flex',alignItems:'center'}}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Icon
                   name={this.props.isSideBarExpanded ? 'chevron left' : 'chevron right'}
-                  style={{fontSize: 25}}
+                  style={{ fontSize: 25 }}
                 />
               </div>
             </Menu.Header>
@@ -141,5 +142,5 @@ const mapDispatchToProps = (dispatch: any) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(AdminSidebar);

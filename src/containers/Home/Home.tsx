@@ -23,22 +23,26 @@ export class Home extends React.Component<any, HomeState> {
   }
 
   componentDidMount() {
-    const {renewSession, isAuthenticated} = this.props.auth;
+    const { renewSession, isAuthenticated } = this.props.auth;
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/syn');
     }
   }
 
   public render() {
-    const {heading, amount, cityName} = this.state;
-    const {isAuthenticated, login} = this.props.auth;
+    const { heading, amount, cityName } = this.state;
+    const { isAuthenticated, login } = this.props.auth;
     return (
       <Segment basic={true}>
         {/*<HeaderBar login={login}/>*/}
-        <Container style={{height: 500, textAlign: 'center', paddingTop: '15%'}}>
-          <Image style={{width: 150}} centered={true} src="/images/sellgo_logo_black.png"/>
-          <div style={{marginBottom:10,marginTop:50}}><h3>Please Sign In</h3></div>
-          <div><Button style={buttonStyle} onClick={login} content="Sign In"/></div>
+        <Container style={{ height: 500, textAlign: 'center', paddingTop: '15%' }}>
+          <Image style={{ width: 150 }} centered={true} src="/images/sellgo_logo_black.png" />
+          <div style={{ marginBottom: 10, marginTop: 50 }}>
+            <h3>Please Sign In</h3>
+          </div>
+          <div>
+            <Button style={buttonStyle} onClick={login} content="Sign In" />
+          </div>
         </Container>
       </Segment>
     );

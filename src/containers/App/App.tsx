@@ -56,12 +56,10 @@ function App(Props: any) {
         <Route
           exact={true}
           path="/dashboard/setting"
-          render={(routeProps) => {
+          render={routeProps => {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
-              return (
-                <Setting {...routeProps} />
-              );
+              return <Setting {...routeProps} />;
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
@@ -70,12 +68,10 @@ function App(Props: any) {
         <Route
           exact={true}
           path="/dashboard/subscription"
-          render={(routeProps) => {
+          render={routeProps => {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
-              return (
-                <Subscription {...routeProps} />
-              );
+              return <Subscription {...routeProps} />;
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
@@ -87,9 +83,7 @@ function App(Props: any) {
           render={routeProps => {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
-              return (
-                <Dashboard  {...routeProps} />
-              );
+              return <Dashboard {...routeProps} />;
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
@@ -99,12 +93,10 @@ function App(Props: any) {
         <Route
           exact={true}
           path="/syn"
-          render={(routeProps) => {
+          render={routeProps => {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
-              return (
-                <Suppliers {...routeProps} />
-              );
+              return <Suppliers {...routeProps} />;
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
@@ -116,9 +108,7 @@ function App(Props: any) {
           render={routeProps => {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
-              return (
-                <SupplierDetail {...routeProps} />
-              );
+              return <SupplierDetail {...routeProps} />;
             } else {
               return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }

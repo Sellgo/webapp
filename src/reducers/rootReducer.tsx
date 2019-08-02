@@ -7,7 +7,7 @@ import { SYNReducer } from './SYNReducer';
 const rootReducer = combineReducers({
   settings: settingReducer,
   synReducer: SYNReducer,
-  subscription: SubscriptionReducer
+  subscription: SubscriptionReducer,
 });
 
 export default rootReducer;

@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const SubscriptionReducer = (state = initialState, action: any) => {
-  const newState = {...state};
+  const newState = { ...state };
   let data = null;
   switch (action.type) {
     case GET_SUBSCRIPTIONS:
@@ -31,4 +31,3 @@ export const SubscriptionReducer = (state = initialState, action: any) => {
       return state;
   }
 };
-

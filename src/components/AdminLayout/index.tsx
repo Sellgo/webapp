@@ -35,20 +35,23 @@ class AdminLayout extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <AdminHeader sellerData={sellerData}/>
-        <AdminSidebar logout={auth.logout}/>
+        <AdminHeader sellerData={sellerData} />
+        <AdminSidebar logout={auth.logout} />
 
-        <Segment basic={true} style={{
-          height:'100%',
-          minHeight:'100vh',
-          marginTop:0,
-          paddingTop:20,
-          paddingLeft: (this.props.isSideBarExpanded) ? 190 : 100,
-          paddingRight: (this.props.isSideBarExpanded) ? 20 : 20,
-          transition: 'width 0.8s,padding 0.8s',
-          backgroundColor:'#f3f3f3f3',
-        }}>
-          <PageHeader title={title}/>
+        <Segment
+          basic={true}
+          style={{
+            height: '100%',
+            minHeight: '100vh',
+            marginTop: 0,
+            paddingTop: 20,
+            paddingLeft: this.props.isSideBarExpanded ? 190 : 100,
+            paddingRight: this.props.isSideBarExpanded ? 20 : 20,
+            transition: 'width 0.8s,padding 0.8s',
+            backgroundColor: '#f3f3f3f3',
+          }}
+        >
+          <PageHeader title={title} />
           {children}
         </Segment>
       </React.Fragment>
@@ -66,5 +69,5 @@ const mapDispatchToProps = (dispatch: any) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(AdminLayout);

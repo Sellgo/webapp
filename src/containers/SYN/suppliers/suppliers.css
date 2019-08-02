@@ -1,5 +1,5 @@
-.addSupplierPopup{
-    max-width: 420px !important;
+.addSupplierPopup {
+  max-width: 420px !important;
 }
 
 .ui.basic.blue.button,
@@ -9,27 +9,27 @@
 .ui.basic.primary.button,
 .ui.basic.primary.button:hover,
 .ui.basic.primary.buttons .button,
-.ui.basic.primary.buttons .button:hover{
-    color: #4285f4 !important;
-    border:1px solid #4285f4 !important;
-    box-shadow:none !important;
+.ui.basic.primary.buttons .button:hover {
+  color: #4285f4 !important;
+  border: 1px solid #4285f4 !important;
+  box-shadow: none !important;
 }
 .ui.basic.teal.button,
 .ui.basic.teal.button .button {
-    border:1px solid !important;
-    box-shadow:none !important;
+  border: 1px solid !important;
+  box-shadow: none !important;
 }
 .ui.fluid.dropdown {
-    border:1px solid #4285f4 !important;
-    color: #4285f4 !important;
-    border-radius: 20px;
-    /*width:50% !important;*/
-    align-self: center;
+  border: 1px solid #4285f4 !important;
+  color: #4285f4 !important;
+  border-radius: 20px;
+  /*width:50% !important;*/
+  align-self: center;
 }
-.ui.selection.active.dropdown .menu{
-    border-radius: 0px 0px 20px 20px;
-    border:1px 1px 1px 1px solid !important;
-    border-color: #4285f4 !important;
-    box-shadow: 0 3px 4px 0 rgba(34,36,38,0.3) !important;
-    background-color: #ffffff !important;
+.ui.selection.active.dropdown .menu {
+  border-radius: 0px 0px 20px 20px;
+  border: 1px 1px 1px 1px solid !important;
+  border-color: #4285f4 !important;
+  box-shadow: 0 3px 4px 0 rgba(34, 36, 38, 0.3) !important;
+  background-color: #ffffff !important;
 }

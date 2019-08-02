@@ -46,7 +46,7 @@ const initialState = {
 };
 
 export const SettingReducer = (state = initialState, action: any) => {
-  const newState = {...state};
+  const newState = { ...state };
   let data = null;
   switch (action.type) {
     case SIDE_BAR_EXPANDED:
@@ -72,14 +72,13 @@ export const SettingReducer = (state = initialState, action: any) => {
       newState.success = data.value;
       return newState;
     case GET_BASIC_INFO_SELLER:
-
       // case 'FETCH_ALL_CURRENCIES_FORMAT': {
       //   return {
       //     ...state,
       //     allCurrenciesFormats: action.payload,
       //   };
       // }
-      const {name, cdate, id, email, auth0_user_id} = action.data;
+      const { name, cdate, id, email, auth0_user_id } = action.data;
       const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
       const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
       const sellerData = {

@@ -13,25 +13,31 @@ interface Props {
 }
 
 class PageHeader extends React.Component<Props> {
-
-
   render() {
     const headerStyle = {
       marginTop: '1.5rem',
     };
     return (
-      <Header className="page-header" as="h2" style={{...headerStyle}}>
-        <Icon name="arrow alternate circle left" size="small" onClick={() => {
-          this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward + 1);
+      <Header className="page-header" as="h2" style={{ ...headerStyle }}>
+        <Icon
+          name="arrow alternate circle left"
+          size="small"
+          onClick={() => {
+            this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward + 1);
             history.goBack();
-        }}/>
-        <Icon name="arrow alternate circle right" size="small" color={this.props.pageHistoryCanGoForward > 0 ? 'black' : 'grey'}
-              onClick={() => {
-                if (this.props.pageHistoryCanGoForward > 0) {
-                  this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward - 1);
-                  history.goForward();
-                }
-              }}/>
+          }}
+        />
+        <Icon
+          name="arrow alternate circle right"
+          size="small"
+          color={this.props.pageHistoryCanGoForward > 0 ? 'black' : 'grey'}
+          onClick={() => {
+            if (this.props.pageHistoryCanGoForward > 0) {
+              this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward - 1);
+              history.goForward();
+            }
+          }}
+        />
         <Header.Content>{this.props.title}</Header.Content>
       </Header>
     );
@@ -59,5 +65,5 @@ const updatePageHistoryCounterFunction = (counter: any) => (dispatch: any) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(PageHeader);

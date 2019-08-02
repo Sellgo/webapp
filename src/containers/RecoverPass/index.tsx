@@ -7,7 +7,7 @@ import MesssageComponent from '../../components/MessageComponent';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './recoverPass.css';
 import axios from 'axios';
-import { AppConfig  } from '../../config';
+import { AppConfig } from '../../config';
 
 interface State {
   isSuccess: boolean;
@@ -60,7 +60,10 @@ export default class RecoverPass extends React.Component<any, State> {
           errorMsg: 'Please enter email or email field is empty',
         });
       } else {
-        this.props.isSuccessReset({ isFailed: true, errorMsg: 'Please enter valid email address.' });
+        this.props.isSuccessReset({
+          isFailed: true,
+          errorMsg: 'Please enter valid email address.',
+        });
       }
     } else {
       axios

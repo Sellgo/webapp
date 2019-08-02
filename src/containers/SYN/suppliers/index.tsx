@@ -108,7 +108,7 @@ interface Props {
     name: string,
     description: string,
     update_product_id: string,
-    callBack: any,
+    callBack: any
   ): () => any;
 
   deleteSupplier(supplier_id: any, callBack: any): () => any;
@@ -120,7 +120,7 @@ interface Props {
   new_supplier_id: New_Supplier;
   time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
-  uploadCSVResponse: { message: '', status: '' };
+  uploadCSVResponse: { message: ''; status: '' };
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -209,12 +209,10 @@ export class Suppliers extends React.Component<Props, State> {
     });
   }
 
-  componentDidUpdate(prevProps: any) {
-  }
+  componentDidUpdate(prevProps: any) {}
 
   fileChange = (event: any): void => {
-    this.setState({file: event.target.files[0]}, () => {
-    });
+    this.setState({ file: event.target.files[0] }, () => {});
   };
 
   public addNewSupplier = (): void => {
@@ -227,11 +225,11 @@ export class Suppliers extends React.Component<Props, State> {
           this.props.getSellers();
           if (this.state.file != '') {
             this.props.uploadCSV(String(this.state.update_product_id), this.state.file);
-            this.setState({file: ''});
+            this.setState({ file: '' });
           }
-          this.setState({updateDetails: false});
+          this.setState({ updateDetails: false });
           this.handleClose();
-        },
+        }
       );
     } else {
       this.props.saveSupplierNameAndDescription(
@@ -242,11 +240,11 @@ export class Suppliers extends React.Component<Props, State> {
           this.props.getSellers();
           if (this.props.new_supplier_id != null && this.state.file != '') {
             this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
-            this.setState({file: ''});
+            this.setState({ file: '' });
           }
 
           this.handleClose();
-        },
+        }
       );
     }
   };
@@ -290,15 +288,15 @@ export class Suppliers extends React.Component<Props, State> {
     }
   };
 
-  handleClose = () => this.setState({modalOpen: false, updateDetails: false});
+  handleClose = () => this.setState({ modalOpen: false, updateDetails: false });
 
-  public onChangeSupplierDescription = async(event: React.FormEvent<HTMLTextAreaElement>) => {
-    this.setState({supplier_description: (event.target as HTMLTextAreaElement).value});
+  public onChangeSupplierDescription = async (event: React.FormEvent<HTMLTextAreaElement>) => {
+    this.setState({ supplier_description: (event.target as HTMLTextAreaElement).value });
     return false;
   };
 
-  public onChangeSupplierName = async(event: any) => {
-    this.setState({supplier_name: event.target.value});
+  public onChangeSupplierName = async (event: any) => {
+    this.setState({ supplier_name: event.target.value });
     return false;
   };
 
@@ -314,7 +312,7 @@ export class Suppliers extends React.Component<Props, State> {
             basic={true}
             color="black"
             primary={true}
-            style={{borderRadius: '50px'}}
+            style={{ borderRadius: '50px' }}
             onClick={this.handleAddNewSupplierModalOpen}
           >
             Add New Supplier
@@ -324,11 +322,11 @@ export class Suppliers extends React.Component<Props, State> {
         <Modal.Header>
           <Grid columns={4}>
             <Grid.Row>
-              <Grid.Column style={{margin: 0}} floated="left" width={6}>
+              <Grid.Column style={{ margin: 0 }} floated="left" width={6}>
                 Add New Supplier
               </Grid.Column>
-              <Grid.Column style={{padding: 0}} floated="left">
-                <Icon name="file"/>
+              <Grid.Column style={{ padding: 0 }} floated="left">
+                <Icon name="file" />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -343,8 +341,9 @@ export class Suppliers extends React.Component<Props, State> {
                   onChange={event => {
                     this.onChangeSupplierName(event);
                   }}
-                  style={{width: 300}}
-                  placeholder="Please Enter"/>
+                  style={{ width: 300 }}
+                  placeholder="Please Enter"
+                />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -356,21 +355,22 @@ export class Suppliers extends React.Component<Props, State> {
                     onChange={event => {
                       this.onChangeSupplierDescription(event);
                     }}
-                    style={{minHeight: 100, width: 300, margin: '5px 0', padding: '9px'}}
-                    placeholder="Supplier Description"/>
+                    style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
+                    placeholder="Supplier Description"
+                  />
                 </Form>
               </Grid.Column>
               <Grid.Column width={1} floated="left">
-                <Icon name="pencil"/>
+                <Icon name="pencil" />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column
-                style={{marginTop: '10px', marginBottom: '10px'}}
+                style={{ marginTop: '10px', marginBottom: '10px' }}
                 floated="right"
                 width={9}
               >
-                <Checkbox/>
+                <Checkbox />
                 &nbsp; Automatically upload upon exit
               </Grid.Column>
             </Grid.Row>
@@ -381,7 +381,7 @@ export class Suppliers extends React.Component<Props, State> {
             size="mini"
             basic={true}
             color="grey"
-            style={{borderRadius: 20}}
+            style={{ borderRadius: 20 }}
             floated="left"
             onClick={this.handleClose}
             content="Cancel"
@@ -395,14 +395,14 @@ export class Suppliers extends React.Component<Props, State> {
               (this.state.supplier_name == '' && this.state.file == '') ||
               (!this.state.updateDetails && this.state.supplier_name == '')
             }
-            style={{borderRadius: 20}}
+            style={{ borderRadius: 20 }}
             onClick={this.addNewSupplier}
             content="Save"
           />
           <Button
             size="mini"
             color="blue"
-            style={{borderRadius: 20}}
+            style={{ borderRadius: 20 }}
             icon="chevron down"
             labelPosition="right"
             content="Upload Supplier CSV"
@@ -416,7 +416,7 @@ export class Suppliers extends React.Component<Props, State> {
             onChange={this.fileChange}
           />
           <Popup
-            trigger={<Icon name="question circle" color={'grey'}/>}
+            trigger={<Icon name="question circle" color={'grey'} />}
             content="Sellgo"
             position="top left"
             size="tiny"
@@ -428,13 +428,13 @@ export class Suppliers extends React.Component<Props, State> {
 
   public deleteSupplier = () => {
     this.props.deleteSupplier(this.state.delete_supplier_container.id, (data: any) => {
-      this.setState({delete_confirmation: false});
+      this.setState({ delete_confirmation: false });
       this.props.getSellers();
     });
   };
 
   handleSort = (clickedColumn: keyof Supplier) => {
-    const {sortedColumn, sortDirection} = this.state;
+    const { sortedColumn, sortDirection } = this.state;
     const suppliers = JSON.parse(JSON.stringify(this.state.suppliers));
     console.log(clickedColumn);
     if (sortedColumn !== clickedColumn) {
@@ -470,11 +470,11 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   renderTable = () => {
-    const {sortedColumn, sortDirection} = this.state;
+    const { sortedColumn, sortDirection } = this.state;
     const currentPage = this.state.currentPage - 1;
     const suppliers = [...this.state.suppliers].slice(
       currentPage * this.state.singlePageItemsCount,
-      (currentPage + 1) * this.state.singlePageItemsCount,
+      (currentPage + 1) * this.state.singlePageItemsCount
     );
     return this.state.suppliers.length == 0 ? (
       <Segment>
@@ -500,35 +500,38 @@ export class Suppliers extends React.Component<Props, State> {
             <Table.HeaderCell textAlign="center" width={1}>
               Status
             </Table.HeaderCell>
-            <Table.HeaderCell textAlign='center'>Action</Table.HeaderCell>
+            <Table.HeaderCell textAlign="center">Action</Table.HeaderCell>
             <Table.HeaderCell
               textAlign="center"
               sorted={sortedColumn === 'p2l_ratio' ? sortDirection : undefined}
               onClick={() => this.handleSort('p2l_ratio')}
             >
               Product to Listing Ratio
-              <span> {' '}
+              <span>
+                {' '}
                 <Popup
-                  trigger={<Icon name='question circle' color={'grey'}/>}
-                  position='top left'
-                  size='tiny'
-                  content='Product to Listing Ratio'
+                  trigger={<Icon name="question circle" color={'grey'} />}
+                  position="top left"
+                  size="tiny"
+                  content="Product to Listing Ratio"
                 />
-                    </span>
+              </span>
             </Table.HeaderCell>
             <Table.HeaderCell
-              textAlign='center'
+              textAlign="center"
               sorted={sortedColumn === 'rate' ? sortDirection : undefined}
               onClick={() => this.handleSort('rate')}
-            >Supplier Rate (%)
-              <span> {' '}
+            >
+              Supplier Rate (%)
+              <span>
+                {' '}
                 <Popup
-                  trigger={<Icon name='question circle' color={'grey'}/>}
-                  position='top left'
-                  size='tiny'
-                  content='Supplier Rate (%)'
+                  trigger={<Icon name="question circle" color={'grey'} />}
+                  position="top left"
+                  size="tiny"
+                  content="Supplier Rate (%)"
                 />
-                  </span>
+              </span>
             </Table.HeaderCell>
             {/*<Table.HeaderCell>Note</Table.HeaderCell>*/}
             <Table.HeaderCell />
@@ -588,8 +591,8 @@ export class Suppliers extends React.Component<Props, State> {
                   {/*<Table.Cell>*/}
                   {/*  <Input focus placeholder='Note'/>*/}
                   {/*</Table.Cell>*/}
-                      <Table.Cell textAlign='right' style={{paddingRight: '10px'}}>
-                        {/* <Table.Cell as={Link} to={`/syn/`}>
+                  <Table.Cell textAlign="right" style={{ paddingRight: '10px' }}>
+                    {/* <Table.Cell as={Link} to={`/syn/`}>
                       <Icon
                         onClick={() => {
                           this.openUpdateSupplierPopup(value);
@@ -692,39 +695,44 @@ export class Suppliers extends React.Component<Props, State> {
           }}
         />
       </Table>
-  );
-};
+    );
+  };
 
-render() {
-  return (
+  render() {
+    return (
       <AdminLayout
         auth={this.props.match.params.auth}
         sellerData={this.props.sellerData}
         title={'Synthesis'}
       >
-      <Segment basic={true} className="setting">
-          <Divider style={{borderTop:'1px solid rgba(34,36,38,.20)',borderBottom:'1px solid rgba(34,36,38,.20)'}}/>
-        <Grid>
+        <Segment basic={true} className="setting">
+          <Divider
+            style={{
+              borderTop: '1px solid rgba(34,36,38,.20)',
+              borderBottom: '1px solid rgba(34,36,38,.20)',
+            }}
+          />
+          <Grid>
             <Grid.Column width={5} floated="left" className={'middle aligned'}>
-            {this.renderAddNewSupplierModal()}
+              {this.renderAddNewSupplierModal()}
               <Popup
                 className={'addSupplierPopup'}
                 trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
                 position="top left"
                 size="tiny"
-            >
+              >
                 <h4>Adding a Supplier</h4>
-              To add a supplier:
-              <List as={'ol'}>
+                To add a supplier:
+                <List as={'ol'}>
                   <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
                   <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
                   <List.Item as="li">
-                  On the New Supplier screen, enter the details of the suppler.
-                </List.Item>
+                    On the New Supplier screen, enter the details of the suppler.
+                  </List.Item>
                   <List.Item as="li">Save the details of the new supplier.</List.Item>
-              </List>
-            </Popup>
-          </Grid.Column>
+                </List>
+              </Popup>
+            </Grid.Column>
             <Grid.Column width={5} floated="right">
               <Card raised={true} style={{ borderRadius: 10, width: 230 }}>
                 <Card.Content style={{ paddingTop: 4, paddingBottom: 4 }}>
@@ -755,9 +763,9 @@ render() {
                   </div>
                 </Card.Content>
               </Card>
-          </Grid.Column>
-        </Grid>
-        {this.renderTable()}
+            </Grid.Column>
+          </Grid>
+          {this.renderTable()}
           <Modals
             title=""
             size="large"
@@ -765,9 +773,9 @@ render() {
             close={this.handleMessageModal}
             bCloseIcon={true}
           >
-          <Container textAlign="center">
+            <Container textAlign="center">
               <MesssageComponent message={this.message} isModal={true} />
-            <Segment textAlign="center" basic={true}>
+              <Segment textAlign="center" basic={true}>
                 <Button
                   style={buttonStyle}
                   content="Ok"
@@ -775,20 +783,20 @@ render() {
                   as={Link}
                   to={this.message.to}
                 />
-            </Segment>
-          </Container>
-        </Modals>
-      </Segment>
-    </AdminLayout>
-  );
-}
+              </Segment>
+            </Container>
+          </Modals>
+        </Segment>
+      </AdminLayout>
+    );
+  }
 
-handleMessageModal = () => {
+  handleMessageModal = () => {
     const { isMessageModalOn } = this.state;
-  this.setState({
-    isMessageModalOn: !isMessageModalOn,
-  });
-};
+    this.setState({
+      isMessageModalOn: !isMessageModalOn,
+    });
+  };
 }
 
 const mapStateToProps = (state: any) => {

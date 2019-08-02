@@ -6,7 +6,6 @@ import {
 } from '../constant/constant';
 import { AppConfig } from '../config';
 
-
 export interface Subscription {
   id: string;
   name: string;
@@ -19,7 +18,6 @@ const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': 'application/json',
 };
-
 
 export const getSubscriptions = () => (dispatch: any) => {
   if (headers.Authorization === 'Bearer null') {
@@ -34,8 +32,7 @@ export const getSubscriptions = () => (dispatch: any) => {
     .then(json => {
       dispatch(getSubscriptionsDispatch(json.data));
     })
-    .catch((err) => {
-    });
+    .catch(err => {});
 };
 
 export const getSellerSubscription = () => (dispatch: any) => {
@@ -52,12 +49,12 @@ export const getSellerSubscription = () => (dispatch: any) => {
     .then(json => {
       dispatch(getSellerSubscriptionDispatch(json.data[0]));
     })
-    .catch((err) => {
-    });
+    .catch(err => {});
 };
 
-
-export const updateSellerSubscription = (subscription: Subscription, token_id: any) => (dispatch: any) => {
+export const updateSellerSubscription = (subscription: Subscription, token_id: any) => (
+  dispatch: any
+) => {
   const sellerID = localStorage.getItem('userId');
   const formData = new FormData();
   formData.append('seller_id', JSON.stringify(sellerID));
@@ -70,23 +67,32 @@ export const updateSellerSubscription = (subscription: Subscription, token_id: a
     headers,
   })
     .then(json => {
-      Promise.resolve(dispatch(getSellerSubscription())).then(
-        () => dispatch({
-          type: UPDATE_SELLER_SUBSCRIBTION,
-          data: { key: 'success', value: true },
-        })).then(() => dispatch({
-          type: UPDATE_SELLER_SUBSCRIBTION,
-          data: { key: 'success', value: undefined },
-        }))
+      Promise.resolve(dispatch(getSellerSubscription()))
+        .then(() =>
+          dispatch({
+            type: UPDATE_SELLER_SUBSCRIBTION,
+            data: { key: 'success', value: true },
+          })
+        )
+        .then(() =>
+          dispatch({
+            type: UPDATE_SELLER_SUBSCRIBTION,
+            data: { key: 'success', value: undefined },
+          })
+        );
     })
     .catch(error => {
-      Promise.resolve(dispatch({
-        type: UPDATE_SELLER_SUBSCRIBTION,
-        data: { key: 'success', value: false },
-      })).then(() => dispatch({
-        type: UPDATE_SELLER_SUBSCRIBTION,
-        data: { key: 'success', value: undefined },
-      }))
+      Promise.resolve(
+        dispatch({
+          type: UPDATE_SELLER_SUBSCRIBTION,
+          data: { key: 'success', value: false },
+        })
+      ).then(() =>
+        dispatch({
+          type: UPDATE_SELLER_SUBSCRIBTION,
+          data: { key: 'success', value: undefined },
+        })
+      );
     });
 };
 
@@ -99,4 +105,3 @@ export const getSellerSubscriptionDispatch = (data: any) => ({
   type: GET_SELLER_SUBSCRIPTION,
   data,
 });
-

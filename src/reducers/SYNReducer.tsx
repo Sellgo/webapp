@@ -10,9 +10,12 @@ import {
   SET_PRODUCTS,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_SELLERS,
-  SET_TIME_EFFICIENCY, SYN_RESET_PRODUCT_REDUCED_VALUES,
-  UPDATE_PRODUCT, UPLOAD_CSV_RESPONSE,
-  UPLOAD_SYNTHESIS_FILE_ID, UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+  SET_TIME_EFFICIENCY,
+  SYN_RESET_PRODUCT_REDUCED_VALUES,
+  UPDATE_PRODUCT,
+  UPLOAD_CSV_RESPONSE,
+  UPLOAD_SYNTHESIS_FILE_ID,
+  UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
 } from '../constant/constant';
 
 const initialState = {
@@ -43,14 +46,14 @@ const initialState = {
   product_detail_chart_values_rank: [],
   product_detail_chart_values_price: [],
   product_detail_chart_values_kpi: [],
-  productTrackGroup: [{id: 0}],
+  productTrackGroup: [{ id: 0 }],
   synthesisFileID: { synthesis_file_id: 0 },
-  synthesisFileProgressUpdates: {progress: 0},
+  synthesisFileProgressUpdates: { progress: 0 },
   uploadCSVResponse: [],
 };
 
 export const SYNReducer = (state = initialState, action: any) => {
-  const newState = {...state};
+  const newState = { ...state };
   switch (action.type) {
     case SET_SELLERS:
       newState.suppliers = action.data;
@@ -109,9 +112,9 @@ export const SYNReducer = (state = initialState, action: any) => {
       newState.uploadCSVResponse = action.data;
       return newState;
     case SYN_RESET_PRODUCT_REDUCED_VALUES:
-      newState.synthesisFileProgressUpdates = {progress: 0};
-      newState.synthesisFileID = {synthesis_file_id: 0};
-      newState.productTrackGroup = [{id: -10}];
+      newState.synthesisFileProgressUpdates = { progress: 0 };
+      newState.synthesisFileID = { synthesis_file_id: 0 };
+      newState.productTrackGroup = [{ id: -10 }];
       return newState;
 
     default:
