@@ -11,6 +11,7 @@ import {
   PATCH_AMAZON_MWS,
 } from '../constant/constant';
 import { MWSinfo, SellField } from '../Action/SettingActions';
+import { object } from 'prop-types';
 
 const initialState = {
   profile: {
@@ -28,14 +29,18 @@ const initialState = {
     marketplace_id: '',
     token: '',
     id: '',
+    status:'',
   },
-  amazonMWSFromServer: {
-    seller_id: '',
-    amazon_seller_id: '',
-    marketplace_id: '',
-    token: '',
-    id: '',
-  },
+  amazonMWSFromServer: [
+    {
+      seller_id: '',
+      amazon_seller_id: '',
+      marketplace_id: '',
+      token: '',
+      id: '',
+      status: '',
+    },
+  ],
   pageHistoryCanGoForward: 0,
   updatedImage: {},
   success: false,
@@ -46,7 +51,7 @@ const initialState = {
 };
 
 export const SettingReducer = (state = initialState, action: any) => {
-  const newState = { ...state };
+  const newState = {...state};
   let data = null;
   switch (action.type) {
     case SIDE_BAR_EXPANDED:
@@ -60,15 +65,20 @@ export const SettingReducer = (state = initialState, action: any) => {
     case SET_BASIC_INFO_SELLER:
       data = action.data;
       const key: keyof SellField = data.key;
-      newState.profile[key] = data.value;
+      const profile = {...newState.profile};
+      profile[key] = data.value;
+      newState.profile = profile;
       return newState;
     case SET_AMAZON_MWS:
       data = action.data;
       const newKey: keyof MWSinfo = data.key;
-      newState.amazonMWS[newKey] = data.value;
+      const amazonMWS = {...newState.amazonMWS};
+      amazonMWS[newKey] = data.value;
+      newState.amazonMWS = amazonMWS;
       return newState;
     case UPDATE_BASIC_INFO_SELLER:
       data = action.data;
+      console.log(data);
       newState.success = data.value;
       return newState;
     case GET_BASIC_INFO_SELLER:
@@ -78,7 +88,7 @@ export const SettingReducer = (state = initialState, action: any) => {
       //     allCurrenciesFormats: action.payload,
       //   };
       // }
-      const { name, cdate, id, email, auth0_user_id } = action.data;
+      const {name, cdate, id, email, auth0_user_id} = action.data;
       const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
       const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
       const sellerData = {
@@ -103,20 +113,30 @@ export const SettingReducer = (state = initialState, action: any) => {
     case GET_AMAZON_MWS:
       data = action.data;
       if (data.length > 0) {
-        if (data[0].status !== 'inactive') {
-          newState.amazonMWSFromServer = data[0];
-          return newState;
-        }
+        // if (data[0].status !== 'inactive') {
+        newState.amazonMWSFromServer = data;
+        return newState;
+        // }
       }
       return state;
     case PATCH_AMAZON_MWS:
+      // data = action.data;
+      console.log(action.data);
       data = {
         seller_id: '',
         amazon_seller_id: '',
         marketplace_id: '',
         token: '',
         id: '',
+        status:'',
       };
+      const amazonMWSfromServer = [...newState.amazonMWSFromServer];
+      for (const index in amazonMWSfromServer) {
+        if (amazonMWSfromServer[index].id === action.data.id) {
+          amazonMWSfromServer[index].status = 'inactive';
+        }
+      }
+      newState.amazonMWSFromServer = amazonMWSfromServer;
       newState.amazonMWS = data;
       return newState;
     default:

@@ -1,3 +1,5 @@
+import { MarketplaceFields } from '../interfaces/MarketplaceFields';
+
 export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';
 export const SET_BASIC_INFO_SELLER = '/Dash/SETTING/SET_BASIC_INFO_SELLER';
 export const UPDATE_BASIC_INFO_SELLER = '/Dash/SETTING/UPDATE_BASIC_INFO_SELLER';
@@ -29,7 +31,6 @@ export const GET_SUBSCRIPTIONS = '/SUBSCRIBE/GET_SUBSCRIPTIONS';
 export const GET_SELLER_SUBSCRIPTION = '/SUBSCRIBE/GET_SELLER_SUBSCRIPTION';
 export const UPDATE_SELLER_SUBSCRIBTION = '/SUBSCRIBE/UPDATE_SELLER_SUBSCRIBTION';
 
-
 /**
  *
  * keys for localstorage
@@ -38,8 +39,7 @@ export const localStorageKeys = {
   isMWSAuthorized: 'isMWSAuthorized',
 };
 
-
-export const marketPlace = [
+export const marketPlace: MarketplaceFields[] = [
   { name: 'Brazil', id: 'A2Q3Y263D00KWC', code: 'BR', link: 'amazon.com' },
   { name: 'Canada', id: 'A2EUQ1WTGCTBG2', code: 'CA', link: 'amazon.ca' },
   { name: 'Mexico', id: 'A1AM78C64UM0Y8', code: 'MX', link: 'amazon.com.mx' },
@@ -150,6 +150,6 @@ export const ProductFiltersPreset = [
   },
 ];
 
-export const numberWithCommas = (x) => {
+export const numberWithCommas = (x:any) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
