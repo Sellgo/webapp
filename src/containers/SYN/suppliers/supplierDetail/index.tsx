@@ -153,6 +153,7 @@ Highcharts.setOptions({
   },
 });
 let SupplierDetailState: SupplierDetail;
+
 export class SupplierDetail extends React.Component<Props, State> {
   state = {
     isOpen: false,
@@ -748,8 +749,8 @@ export class SupplierDetail extends React.Component<Props, State> {
               <this.renderProductCharts />
               <br />
               <Form>
-                <Form.Group inline>
-                  <label></label>
+                <Form.Group inline={true}>
+                  <label />
                   <Form.Radio
                     label="Statistics"
                     value="chart0"
@@ -827,7 +828,12 @@ export class SupplierDetail extends React.Component<Props, State> {
           },
           tooltip: {
             formatter() {
-              return (this.series.name == 'Price' ? '$' : '') + numberWithCommas(this.y);
+              return (
+                (this.series.name == 'Price' ? '$' : '') +
+                numberWithCommas(this.y) +
+                ' | ' +
+                new Date(this.x).toLocaleDateString()
+              );
             },
           },
 
@@ -862,7 +868,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     const product_profit = props.product_profit;
     const product_roi = props.product_roi;
     return (
-      <HighchartsReact //CEM 69
+      <HighchartsReact // CEM 69
         highcharts={Highcharts}
         options={{
           chart: {
@@ -1440,7 +1446,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     const monthly_data = props.monthly_data;
 
     return (
-      <HighchartsReact //CEM 67
+      <HighchartsReact // CEM 67
         highcharts={Highcharts}
         options={{
           chart: {
@@ -1510,7 +1516,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     const p2l_ratio = supplier.p2l_ratio - parseFloat(supplier.rate);
     const miss = 100 - supplier.p2l_ratio;
     return (
-      <HighchartsReact //CEM 68
+      <HighchartsReact // CEM 68
         highcharts={Highcharts}
         options={{
           chart: {
@@ -1571,7 +1577,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     const profit = props.profit;
 
     return (
-      <HighchartsReact //CEM 70
+      <HighchartsReact // CEM 70
         highcharts={Highcharts}
         options={{
           chart: { type: 'column', zoomType: 'x' },
@@ -1581,13 +1587,13 @@ export class SupplierDetail extends React.Component<Props, State> {
           },
           xAxis: {
             categories: productSKUs,
-            //max:10,
+            // max:10,
             visible: false,
           },
           yAxis: {
             min: 0,
             /* gridLineWidth: 0,
-        minorGridLineWidth: 0, */
+             minorGridLineWidth: 0, */
             title: {
               text: 'Revenue ($)',
             },
@@ -1639,21 +1645,21 @@ export class SupplierDetail extends React.Component<Props, State> {
     const profit = props.profit;
 
     return (
-      <HighchartsReact //CEM 70
+      <HighchartsReact // CEM 70
         highcharts={Highcharts}
         options={{
           chart: { type: 'column', zoomType: 'x' },
           title: {
-            text: 'Point of Firtst Profit (POFP)',
+            text: 'Point of First Profit (POFP)',
             align: 'center',
           },
           xAxis: {
             categories: productSKUs,
-            //max:10,
+            // max:10,
             visible: false,
           },
           yAxis: {
-            //min: 0,
+            // min: 0,
             gridLineWidth: 0,
             minorGridLineWidth: 0,
             title: {
@@ -1767,8 +1773,10 @@ export class SupplierDetail extends React.Component<Props, State> {
         const supplier = this.props.suppliers.filter(
           supplier => supplier.id === parseInt(supplierID)
         )[0];
-        if (!supplier) this.props.getSellers();
-        return supplier && supplier['rate'] ? <this.renderHit supplier={supplier} /> : null;
+        if (!supplier) {
+          this.props.getSellers();
+        }
+        return supplier && supplier.rate ? <this.renderHit supplier={supplier} /> : null;
       case 'chart3':
         let product_cost = [];
         let fees = [];
@@ -1888,8 +1896,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                           <this.renderCharts />
                           <br />
                           <Form>
-                            <Form.Group inline>
-                              <label></label>
+                            <Form.Group inline={true}>
+                              <label />
                               <Form.Radio
                                 label="Statistics"
                                 value="chart0"
@@ -1915,7 +1923,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
                               />
                               <Form.Radio
-                                label="Point of Firtst Profit (POFP)"
+                                label="Point of First Profit (POFP)"
                                 value="chart4"
                                 checked={showChart === 'chart4'}
                                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
