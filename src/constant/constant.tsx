@@ -54,7 +54,6 @@ export const marketPlace: MarketplaceFields[] = [
   { name: 'Turkey', id: 'APJ6JRA9NG5V4', code: 'TR', link: 'amazon.com' },
 ];
 
-
 /**
  * NOTE: there should be difference of atleast 1 between min and max
  *
@@ -150,6 +149,6 @@ export const ProductFiltersPreset = [
   },
 ];
 
-export const numberWithCommas = (x:any) => {
+export const numberWithCommas = (x: any) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

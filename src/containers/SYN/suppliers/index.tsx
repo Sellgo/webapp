@@ -552,7 +552,10 @@ export class Suppliers extends React.Component<Props, State> {
                     </Table.Cell>
                   </Table.Cell>
                   <Table.Cell textAlign="center">{value.status}</Table.Cell>
-                  <Table.Cell textAlign="center" style={{display:'flex',justifyContent: 'center'}}>
+                  <Table.Cell
+                    textAlign="center"
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
                     <Dropdown
                       className={'SynDropDown'}
                       text="SYN"
@@ -591,13 +594,13 @@ export class Suppliers extends React.Component<Props, State> {
                   {/*</Table.Cell>*/}
                   <Table.Cell textAlign="right" style={{ paddingRight: '10px' }}>
                     {/* <Table.Cell as={Link} to={`/syn/`}>
-                      <Icon
-                        onClick={() => {
-                          this.openUpdateSupplierPopup(value);
-                        }}
-                            name='cloud upload' style={{color: 'black'}}
-                          />&nbsp;
-                        </Table.Cell> */}
+                     <Icon
+                     onClick={() => {
+                     this.openUpdateSupplierPopup(value);
+                     }}
+                     name='cloud upload' style={{color: 'black'}}
+                     />&nbsp;
+                     </Table.Cell> */}
                     <Table.Cell as={Link}>
                       <Icon
                         name="refresh"
@@ -733,12 +736,19 @@ export class Suppliers extends React.Component<Props, State> {
             </Grid.Column>
             <Grid.Column width={5} floated="right">
               <Card raised={true} style={{ borderRadius: 10, width: 260 }}>
-                <Card.Content style={{ paddingTop: 4, paddingBottom: 4, }}>
+                <Card.Content
+                  style={{
+                    paddingTop: 4,
+                    paddingBottom: 4,
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
                   <div
                     style={{
-                      display: 'inline-flex',
+                      display: 'flex',
                       padding: '11px',
-                      justifyContent: 'center',
+                      // width: '100%',
                     }}
                   >
                     <span>
@@ -750,7 +760,13 @@ export class Suppliers extends React.Component<Props, State> {
                           : '0 hrs'}
                       </h2>
                     </span>
-                    <span style={{ marginLeft: 15 }}>
+                    <Popup
+                      trigger={<Icon name="question circle" color={'grey'} />}
+                      content="Time Saved"
+                      position="top left"
+                      size="tiny"
+                    />
+                    <span style={{ marginLeft: 15, flex: 'right' }}>
                       Efficiency
                       <h2>
                         {this.props.time_efficiency_data.length > 0

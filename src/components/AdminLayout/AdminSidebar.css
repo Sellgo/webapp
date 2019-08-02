@@ -39,6 +39,7 @@ i.red.icon {
   position: fixed !important;
   height: 100vh !important;
   margin-top: 45px !important;
+  overflow-y: visible !important;
 }
 
 .ui[class*='middle aligned'].grid > .row > .column,

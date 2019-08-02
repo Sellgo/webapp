@@ -29,7 +29,7 @@ const initialState = {
     marketplace_id: '',
     token: '',
     id: '',
-    status:'',
+    status: '',
   },
   amazonMWSFromServer: [
     {
@@ -51,7 +51,7 @@ const initialState = {
 };
 
 export const SettingReducer = (state = initialState, action: any) => {
-  const newState = {...state};
+  const newState = { ...state };
   let data = null;
   switch (action.type) {
     case SIDE_BAR_EXPANDED:
@@ -65,14 +65,14 @@ export const SettingReducer = (state = initialState, action: any) => {
     case SET_BASIC_INFO_SELLER:
       data = action.data;
       const key: keyof SellField = data.key;
-      const profile = {...newState.profile};
+      const profile = { ...newState.profile };
       profile[key] = data.value;
       newState.profile = profile;
       return newState;
     case SET_AMAZON_MWS:
       data = action.data;
       const newKey: keyof MWSinfo = data.key;
-      const amazonMWS = {...newState.amazonMWS};
+      const amazonMWS = { ...newState.amazonMWS };
       amazonMWS[newKey] = data.value;
       newState.amazonMWS = amazonMWS;
       return newState;
@@ -88,7 +88,7 @@ export const SettingReducer = (state = initialState, action: any) => {
       //     allCurrenciesFormats: action.payload,
       //   };
       // }
-      const {name, cdate, id, email, auth0_user_id} = action.data;
+      const { name, cdate, id, email, auth0_user_id } = action.data;
       const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
       const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
       const sellerData = {
@@ -128,7 +128,7 @@ export const SettingReducer = (state = initialState, action: any) => {
         marketplace_id: '',
         token: '',
         id: '',
-        status:'',
+        status: '',
       };
       const amazonMWSfromServer = [...newState.amazonMWSFromServer];
       for (const index in amazonMWSfromServer) {

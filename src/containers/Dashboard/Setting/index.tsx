@@ -266,7 +266,7 @@ class Setting extends React.Component<Props, State> {
     let selectedAmazonMWSFromServer: MWSinfo | null = null;
     if (marketplace_id.length > 0) {
       for (const amazonmwsobj of this.props.amazonMWSFromServer) {
-        if (amazonmwsobj.marketplace_id == marketplace_id && amazonmwsobj.status!='inactive') {
+        if (amazonmwsobj.marketplace_id == marketplace_id && amazonmwsobj.status != 'inactive') {
           selectedAmazonMWSFromServer = amazonmwsobj;
         }
       }

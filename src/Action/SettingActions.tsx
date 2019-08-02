@@ -53,8 +53,7 @@ export const getMWSAuth = () => (dispatch: any) => {
     .then(json => {
       dispatch(reduceGetMWSAuth(json.data));
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 export const deleteMWSAuth = (mws_auth_id: any) => (dispatch: any) => {
@@ -72,8 +71,7 @@ export const deleteMWSAuth = (mws_auth_id: any) => (dispatch: any) => {
     .then(json => {
       dispatch(reduceDeleteMWSAuth(json.data));
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 export const getIsMWSAuthorized = () => (dispatch: any) => {
@@ -87,8 +85,7 @@ export const getIsMWSAuthorized = () => (dispatch: any) => {
     .then(json => {
       localStorage.setItem(localStorageKeys.isMWSAuthorized, json.data.is_mws_authorized);
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 export const postSellerImage = (imageType: string, imagePath: any) => (dispatch: any) => {
@@ -106,8 +103,7 @@ export const postSellerImage = (imageType: string, imagePath: any) => (dispatch:
     .then(json => {
       dispatch(reduceUpdatedImage(json.data));
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 export const getSellerImage = () => (dispatch: any) => {
@@ -123,8 +119,7 @@ export const getSellerImage = () => (dispatch: any) => {
     .then(json => {
       dispatch(reduceUpdatedImage(json.data));
     })
-    .catch(() => {
-    });
+    .catch(() => {});
 };
 
 export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
@@ -143,12 +138,12 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
     .then(json => {
       dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
-        data: {key: 'success', value: true, },
+        data: { key: 'success', value: true },
       });
       setTimeout(() => {
         dispatch({
           type: UPDATE_BASIC_INFO_SELLER,
-          data: {key: 'success', value: false},
+          data: { key: 'success', value: false },
         });
       }, 1000);
 
@@ -157,7 +152,7 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
     .catch(() => {
       dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
-        data: {key: 'success', value: false},
+        data: { key: 'success', value: false },
       });
     });
 };
@@ -179,8 +174,7 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
       dispatch(getBasicInfoSellerDispatch(json.data));
       return json.data;
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) => {
@@ -198,19 +192,18 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
     .then(json => {
       dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
-        data: {key: 'success', value: true},
+        data: { key: 'success', value: true },
       });
       setTimeout(() => {
         dispatch({
           type: UPDATE_BASIC_INFO_SELLER,
-          data: {key: 'success', value: false},
+          data: { key: 'success', value: false },
         });
       }, 1000);
 
       return json.data;
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const reduceUpdatedImage = (data: any) => ({

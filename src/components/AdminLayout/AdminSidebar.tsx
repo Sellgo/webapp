@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Menu, Sidebar } from 'semantic-ui-react';
+import { Icon, Menu, Sidebar, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
 import { Field, SellField, sideBarExpanded } from '../../Action/SettingActions';
@@ -76,8 +76,26 @@ class AdminSidebar extends React.Component<Props, State> {
             </div>
           </Menu.Header>
         </Menu.Item>
-
-        <div style={{ position: 'absolute', bottom: 70, width: '100%' }}>
+        <div style={{ position: 'absolute', bottom: 80, width: '100%' }}>
+          <div
+            onClick={() => {
+              const data = {
+                key: 'isSideBarExpanded',
+                value: !this.props.isSideBarExpanded,
+              };
+              this.props.sideBarExpanded(data);
+            }}
+            style={{ position: 'absolute', right: -16, top: -25, zIndex: 999 }}
+          >
+            <Image
+              style={{ width: 30 }}
+              src={
+                this.props.isSideBarExpanded
+                  ? '/images/chevron_left_circle.png'
+                  : '/images/chevron_right_circle.png'
+              }
+            />
+          </div>
           <Menu.Item as={Link} to="/dashboard/setting">
             <Menu.Header style={{ alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -98,31 +116,81 @@ class AdminSidebar extends React.Component<Props, State> {
               </div>
             </Menu.Header>
           </Menu.Item>
-          <Menu.Item
-            as="a"
-            onClick={() => {
-              const data = {
-                key: 'isSideBarExpanded',
-                value: !this.props.isSideBarExpanded,
-              };
-              this.props.sideBarExpanded(data);
-            }}
-          >
-            <Menu.Header>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Icon
-                  name={this.props.isSideBarExpanded ? 'chevron left' : 'chevron right'}
-                  style={{ fontSize: 25 }}
-                />
-              </div>
-            </Menu.Header>
-          </Menu.Item>
         </div>
       </Sidebar>
     );
   }
 }
-
+{
+  /*<div onClick={() => {*/
+}
+{
+  /*  const data = {*/
+}
+{
+  /*    key: 'isSideBarExpanded',*/
+}
+{
+  /*    value: !this.props.isSideBarExpanded,*/
+}
+{
+  /*  };*/
+}
+{
+  /*  this.props.sideBarExpanded(data);*/
+}
+{
+  /*}}*/
+}
+{
+  /*  //position: absolute;right: 6px;box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 1px 0px;border-radius: 100px;background-color: white;/* padding: 0px; */
+  /* margin: 0px; height: 20px;width: 20px;line-height: 0.9;}
+{/*     style={{*/
+}
+{
+  /*       position: 'absolute',*/
+}
+{
+  /*       right: -18,*/
+}
+{
+  /*       boxShadow: '10px -10px rgba(0,0,0,0.6)',*/
+}
+{
+  /*       borderRadius: 100,*/
+}
+{
+  /*       backgroundColor: 'white',*/
+}
+{
+  /*       padding: 0,*/
+}
+{
+  /*       margin: 0,*/
+}
+{
+  /*     }}>*/
+}
+{
+  /*  <Icon*/
+}
+{
+  /*    //style="font-size: 28px;right: 2px;position: relative;/* box-shadow: 0 0px 0px 0 #ccc; */
+  /* -webkit-text-fill-color: #fff; }
+{/*    name={this.props.isSideBarExpanded ? 'chevron circle left' : 'chevron circle right'}*/
+}
+{
+  /*    color={'blue'}*/
+}
+{
+  /*    style={{fontSize: 25}}*/
+}
+{
+  /*  />*/
+}
+{
+  /*</div>*/
+}
 const mapStateToProps = (state: any) => ({
   isSideBarExpanded: state.settings.isSideBarExpanded,
 });

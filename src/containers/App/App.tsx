@@ -60,8 +60,6 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return <Setting {...routeProps} />;
-            } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />
@@ -72,8 +70,6 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return <Subscription {...routeProps} />;
-            } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />
@@ -84,8 +80,6 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return <Dashboard {...routeProps} />;
-            } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />
@@ -97,8 +91,6 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return <Suppliers {...routeProps} />;
-            } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />
@@ -109,8 +101,6 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return <SupplierDetail {...routeProps} />;
-            } else {
-              return <Redirect to={{ pathname: '/', state: { from: Props.location } }} />;
             }
           }}
         />

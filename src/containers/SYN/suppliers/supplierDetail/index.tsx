@@ -512,10 +512,13 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell textAlign="center">
                     <Button
                       basic={true}
-                      style={{ borderRadius: 20, paddingTop: 5,
+                      style={{
+                        borderRadius: 20,
+                        paddingTop: 5,
                         paddingBottom: 5,
                         paddingLeft: 15,
-                        paddingRight: 15, }}
+                        paddingRight: 15,
+                      }}
                       color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                       onClick={() => {
                         let productTrackGroupID = 2;
@@ -542,7 +545,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                         }
                       }}
                     >
-                      <h2 style={{ fontSize: 17 }}>{value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}</h2>
+                      <h2 style={{ fontSize: 17 }}>
+                        {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
+                      </h2>
                     </Button>
                   </Table.Cell>
                   <Table.Cell textAlign="center">
@@ -1397,7 +1402,12 @@ export class SupplierDetail extends React.Component<Props, State> {
         },
         tooltip: {
           formatter() {
-            return (this.series.name == 'Avg Price' ? '$' : '') + numberWithCommas(this.y);
+            return (
+              (this.series.name == 'Avg Price' ? '$' : '') +
+              numberWithCommas(this.y) +
+              ' | ' +
+              new Date(this.x).toLocaleDateString()
+            );
           },
         },
         legend: {
