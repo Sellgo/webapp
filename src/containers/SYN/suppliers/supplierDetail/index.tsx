@@ -1707,7 +1707,7 @@ export class SupplierDetail extends React.Component<Props, State> {
     );
   };
 
-  handleChange = (e: any, showChart: any) => this.setState({ showChart });
+  handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
     const products = this.props.products.sort(
@@ -1895,31 +1895,31 @@ export class SupplierDetail extends React.Component<Props, State> {
                                 label="Statistics"
                                 value="chart0"
                                 checked={showChart === 'chart0'}
-                                onChange={(e, { value }) => this.handleChange(e, value)}
+                                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
                               />
                               <Form.Radio
                                 label="Profit vs Unit Sold"
                                 value="chart1"
                                 checked={showChart === 'chart1'}
-                                onChange={(e, { value }) => this.handleChange(e, value)}
+                                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
                               />
                               <Form.Radio
                                 label="Hit/Miss vs Profitable SKUs"
                                 value="chart2"
                                 checked={showChart === 'chart2'}
-                                onChange={(e, { value }) => this.handleChange(e, value)}
+                                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
                               />
                               <Form.Radio
                                 label="Revenue Breakdown"
                                 value="chart3"
                                 checked={showChart === 'chart3'}
-                                onChange={(e, { value }) => this.handleChange(e, value)}
+                                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
                               />
                               <Form.Radio
                                 label="Point of Firtst Profit (POFP)"
                                 value="chart4"
                                 checked={showChart === 'chart4'}
-                                onChange={(e, { value }) => this.handleChange(e, value)}
+                                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
                               />
                             </Form.Group>
                           </Form>
