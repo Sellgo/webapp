@@ -142,7 +142,7 @@ class Setting extends React.Component<Props, State> {
       });
     }
 
-    if (this.props.isUpdate!==props.isUpdate&&props.isUpdate) {
+    if (this.props.isUpdate !== props.isUpdate && props.isUpdate) {
       this.handleModel();
     }
   }

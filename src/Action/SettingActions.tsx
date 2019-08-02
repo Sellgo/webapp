@@ -203,7 +203,6 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
           data: { key: 'success', value: false },
         });
       }, 1000);
-
     });
 };
 
