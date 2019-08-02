@@ -824,13 +824,13 @@ export class SupplierDetail extends React.Component<Props, State> {
         },
         series: [
           {
-            type: 'area',
+            type: 'line',
             name: 'Price',
             color: '#c0f1ff',
             data: popup_price_conainer,
           },
           {
-            type: 'area',
+            type: 'line',
             name: 'Rank',
             color: '#a3a0fb78',
             data: popup_rank_conainer,
@@ -1385,13 +1385,13 @@ export class SupplierDetail extends React.Component<Props, State> {
       },
       series: [
         {
-          type: 'area',
+          type: 'line',
           name: 'Avg Price',
           color: '#c0f1ff',
           data: props.avg_price,
         },
         {
-          type: 'area',
+          type: 'line',
           name: 'Avg Rank',
           color: '#a3a0fb78',
           data: props.avg_rank,
