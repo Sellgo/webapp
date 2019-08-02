@@ -82,7 +82,6 @@ interface State {
   sortDirection: any;
   sortedColumn: string;
   isSideBarExpanded: boolean;
-  SYNSubtitle: string;
   showChart: any;
   showProductChart: any;
 }
@@ -190,7 +189,6 @@ export class SupplierDetail extends React.Component<Props, State> {
     sortDirection: undefined,
     sortedColumn: '',
     isSideBarExpanded: false,
-    SYNSubtitle: 'Avg Price & Avg Rank',
     showChart: 'chart0',
     showProductChart: 'chart0',
   };
@@ -514,7 +512,10 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Table.Cell textAlign="center">
                     <Button
                       basic={true}
-                      style={{ borderRadius: 20 }}
+                      style={{ borderRadius: 20, paddingTop: 5,
+                        paddingBottom: 5,
+                        paddingLeft: 15,
+                        paddingRight: 15, }}
                       color={value.tracking_status === 'active' ? 'teal' : 'blue'}
                       onClick={() => {
                         let productTrackGroupID = 2;
@@ -541,7 +542,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                         }
                       }}
                     >
-                      {value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}
+                      <h2 style={{ fontSize: 17 }}>{value.tracking_status == 'active' ? 'Untrack' : 'Track Now'}</h2>
                     </Button>
                   </Table.Cell>
                   <Table.Cell textAlign="center">
@@ -796,10 +797,6 @@ export class SupplierDetail extends React.Component<Props, State> {
           chart: { zoomType: 'x' },
           title: {
             text: 'Statistics',
-            align: 'left',
-          },
-          subtitle: {
-            text: 'Price $',
             align: 'left',
           },
           xAxis: {

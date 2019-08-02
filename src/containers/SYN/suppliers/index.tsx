@@ -734,8 +734,8 @@ export class Suppliers extends React.Component<Props, State> {
               </Popup>
             </Grid.Column>
             <Grid.Column width={5} floated="right">
-              <Card raised={true} style={{ borderRadius: 10, width: 230 }}>
-                <Card.Content style={{ paddingTop: 4, paddingBottom: 4 }}>
+              <Card raised={true} style={{ borderRadius: 10, width: 260 }}>
+                <Card.Content style={{ paddingTop: 4, paddingBottom: 4, }}>
                   <div
                     style={{
                       display: 'inline-flex',

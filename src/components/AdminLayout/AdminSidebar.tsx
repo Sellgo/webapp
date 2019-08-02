@@ -57,13 +57,6 @@ class AdminSidebar extends React.Component<Props, State> {
         inverted={true}
         vertical={true}
         visible={true}
-        onClick={() => {
-          const data = {
-            key: 'isSideBarExpanded',
-            value: !this.props.isSideBarExpanded,
-          };
-          this.props.sideBarExpanded(data);
-        }}
       >
         <Menu.Item as={Link} to="/">
           <Menu.Header>
