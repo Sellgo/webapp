@@ -555,8 +555,9 @@ export class Suppliers extends React.Component<Props, State> {
                     </Table.Cell>
                   </Table.Cell>
                   <Table.Cell textAlign="center">{value.status}</Table.Cell>
-                  <Table.Cell textAlign="center">
+                  <Table.Cell textAlign="center" style={{display:'flex',justifyContent: 'center'}}>
                     <Dropdown
+                      className={'SynDropDown'}
                       text="SYN"
                       selectOnBlur={false}
                       fluid={true}
