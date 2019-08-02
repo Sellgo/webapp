@@ -78,16 +78,9 @@ export const SettingReducer = (state = initialState, action: any) => {
       return newState;
     case UPDATE_BASIC_INFO_SELLER:
       data = action.data;
-      console.log(data);
       newState.success = data.value;
       return newState;
     case GET_BASIC_INFO_SELLER:
-      // case 'FETCH_ALL_CURRENCIES_FORMAT': {
-      //   return {
-      //     ...state,
-      //     allCurrenciesFormats: action.payload,
-      //   };
-      // }
       const { name, cdate, id, email, auth0_user_id } = action.data;
       const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
       const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
