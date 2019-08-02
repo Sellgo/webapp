@@ -5,6 +5,7 @@ import {
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values_Price,
   SET_Product_Detail_Chart_Values_Rank,
+  SET_Product_Detail_Chart_Values_Kpi,
   SET_PRODUCT_TRACK_DATA,
   SET_PRODUCTS,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
@@ -41,8 +42,9 @@ const initialState = {
   product_detail: [],
   product_detail_chart_values_rank: [],
   product_detail_chart_values_price: [],
+  product_detail_chart_values_kpi: [],
   productTrackGroup: [{id: 0}],
-  synthesisFileID: {synthesis_file_id: 0},
+  synthesisFileID: { synthesis_file_id: 0 },
   synthesisFileProgressUpdates: {progress: 0},
   uploadCSVResponse: [],
 };
@@ -87,6 +89,9 @@ export const SYNReducer = (state = initialState, action: any) => {
       return newState;
     case SET_Product_Detail_Chart_Values_Rank:
       newState.product_detail_chart_values_rank = action.data;
+      return newState;
+    case SET_Product_Detail_Chart_Values_Kpi:
+      newState.product_detail_chart_values_kpi = action.data;
       return newState;
     case SET_Product_Detail_Chart_Values_Price:
       newState.product_detail_chart_values_price = action.data;
