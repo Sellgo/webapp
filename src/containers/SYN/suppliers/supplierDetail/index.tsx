@@ -438,7 +438,6 @@ export class SupplierDetail extends React.Component<Props, State> {
         <Table.Body>
           {this.props.products[0].id == -10000000 ? (
             <Table.Row key={134}>
-              <Table.Cell />
               <Table.Cell>
                 <h1>Data not found</h1>
               </Table.Cell>
