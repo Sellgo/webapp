@@ -734,7 +734,7 @@ export class Suppliers extends React.Component<Props, State> {
               </Popup>
             </Grid.Column>
             <Grid.Column width={5} floated="right">
-              <Card raised={true} style={{ borderRadius: 10, width: 260 }}>
+              <Card raised={true} style={{ borderRadius: 10, width: 290 }}>
                 <Card.Content
                   style={{
                     paddingTop: 4,
@@ -759,12 +759,6 @@ export class Suppliers extends React.Component<Props, State> {
                           : '0 hrs'}
                       </h2>
                     </span>
-                    <Popup
-                      trigger={<Icon name="question circle" color={'grey'} />}
-                      content="Time Saved"
-                      position="top left"
-                      size="tiny"
-                    />
                     <span style={{ marginLeft: 15, flex: 'right' }}>
                       Efficiency
                       <h2>

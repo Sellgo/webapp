@@ -190,10 +190,13 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
     headers,
   })
     .then(json => {
+      getMWSAuth()(dispatch);
       dispatch({
         type: UPDATE_BASIC_INFO_SELLER,
         data: { key: 'success', value: true },
       });
+    })
+    .catch(error => {
       setTimeout(() => {
         dispatch({
           type: UPDATE_BASIC_INFO_SELLER,
@@ -201,9 +204,7 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
         });
       }, 1000);
 
-      return json.data;
-    })
-    .catch(error => {});
+    });
 };
 
 export const reduceUpdatedImage = (data: any) => ({

@@ -142,12 +142,13 @@ class Setting extends React.Component<Props, State> {
       });
     }
 
-    if (props.isUpdate) {
+    if (this.props.isUpdate!==props.isUpdate&&props.isUpdate) {
       this.handleModel();
     }
   }
 
   updateAmazonMWS = () => {
+    const sellerID = localStorage.getItem('userId');
     const { id } = this.props.sellerData;
     const { seller_id, marketplace_id, token, amazon_seller_id } = this.props.amazonData;
     const data = {
