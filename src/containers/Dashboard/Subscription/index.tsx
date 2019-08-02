@@ -55,7 +55,7 @@ class SubscriptionPricing extends React.Component<Props, State> {
     message: 'Thank you for the Payment',
     description: 'You have successfully subscribed to the plan.',
     description2: '',
-    to: '/syn',
+    to: '/dashboard/subscription',
     button_text: 'Ok',
     icon: 'check circle',
     color: '#0E6FCF',
@@ -100,12 +100,12 @@ class SubscriptionPricing extends React.Component<Props, State> {
               <Card key={index} style={{ display: 'inline-block', margin: '10px', verticalAlign: 'baseline' }}>
                 <CardContent>
                   <Label attached='top' size={'big'}>{subscription.name} Plan</Label>
-                  <Header size="huge" className="pricing">
+                  <Header size="huge" className="price">
                     ${subscription.price}
                   </Header>
                   <p>Per user / month</p>
                   <Divider />
-                  <div className="pricing-limit">
+                  <div className="limit">
                     <Header as="h4">
                       {subscription.synthesis_limit !== -1 ? subscription.synthesis_limit : 'unlimited'} syn limit
                         </Header>

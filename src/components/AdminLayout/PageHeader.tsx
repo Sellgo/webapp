@@ -20,12 +20,12 @@ class PageHeader extends React.Component<Props> {
       marginTop: '1.5rem',
     };
     return (
-      <Header className="page-header" as="h1" style={{...headerStyle}}>
-        <Icon name="caret left" size="small" onClick={() => {
+      <Header className="page-header" as="h2" style={{...headerStyle}}>
+        <Icon name="arrow alternate circle left" size="small" onClick={() => {
           this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward + 1);
             history.goBack();
         }}/>
-        <Icon name="caret right" size="small" color={this.props.pageHistoryCanGoForward > 0 ? 'black' : 'grey'}
+        <Icon name="arrow alternate circle right" size="small" color={this.props.pageHistoryCanGoForward > 0 ? 'black' : 'grey'}
               onClick={() => {
                 if (this.props.pageHistoryCanGoForward > 0) {
                   this.props.updatePageHistoryCounter(this.props.pageHistoryCanGoForward - 1);

@@ -536,7 +536,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                       to={'//' + value.amazon_url.split('//')[1]}
                       target={'_blank'}
                     >
-                      <Icon name="amazon" style={{ color: 'black' }} />
+                      <Icon name="amazon" size={'large'} style={{color: 'black'}}/>
                       &nbsp;
                     </Table.Cell>
                   </Table.Cell>
@@ -1406,7 +1406,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       <AdminLayout
         auth={this.props.match.params.auth}
         sellerData={this.props.sellerData}
-        title={'SYN'}
+        title={'Synthesis'}
       >
         <Segment basic={true} className="setting">
           <Divider />
