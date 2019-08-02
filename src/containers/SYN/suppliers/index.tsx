@@ -360,9 +360,6 @@ export class Suppliers extends React.Component<Props, State> {
                   />
                 </Form>
               </Grid.Column>
-              <Grid.Column width={1} floated="left">
-                <Icon name="pencil" />
-              </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column
