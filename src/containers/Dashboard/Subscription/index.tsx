@@ -183,10 +183,10 @@ class SubscriptionPricing extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-  sellerSubscription: state.subscription.get('sellerSubscription'),
-  subscriptions: state.subscription.get('subscriptions'),
-  isUpdate: state.subscription.get('success'),
-  sellerData: state.settings.get('profile'),
+  sellerSubscription: state.subscription.sellerSubscription,
+  subscriptions: state.subscription.subscriptions,
+  isUpdate: state.subscription.success,
+  sellerData: state.settings.profile,
 });
 
 const mapDispatchToProps = (dispatch: any) => {
