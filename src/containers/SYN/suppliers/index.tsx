@@ -33,7 +33,6 @@ import {
   saveSupplierNameAndDescription,
   updateSupplierNameAndDescription,
   resetUploadCSVResponse,
-  New_Supplier,
   uploadCSV,
   getTimeEfficiency,
   TimeEfficiency,
@@ -117,7 +116,7 @@ interface Props {
 
   match: { params: { auth: Auth } };
   suppliers: Supplier[];
-  new_supplier_id: New_Supplier;
+  new_supplier: string;
   time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
   uploadCSVResponse: { message: ''; status: '' };
@@ -238,8 +237,9 @@ export class Suppliers extends React.Component<Props, State> {
         (data: any) => {
           this.props.postProductTrackGroupId(data.id, this.state.supplier_name);
           this.props.getSellers();
-          if (this.props.new_supplier_id != null && this.state.file != '') {
-            this.props.uploadCSV(String(this.props.new_supplier_id), this.state.file);
+          console.log(this.props.new_supplier);
+          if (this.props.new_supplier != null && this.state.file != '') {
+            this.props.uploadCSV(String(this.props.new_supplier), this.state.file);
             this.setState({ file: '' });
           }
 
@@ -810,7 +810,7 @@ const mapStateToProps = (state: any) => {
   return {
     suppliers: state.synReducer.suppliers,
     uploadCSVResponse: state.synReducer.uploadCSVResponse,
-    new_supplier_id: state.synReducer.new_supplier,
+    new_supplier: state.synReducer.new_supplier,
     time_efficiency_data: state.synReducer.time_efficiency_data,
     sellerData: state.settings.profile,
   };

@@ -76,7 +76,7 @@ export const SYNReducer = (state = initialState, action: any) => {
       newState.time_efficiency_data = action.data;
       return newState;
     case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
-      newState.new_supplier = action.data;
+      newState.new_supplier = action.data.id;
       return newState;
     case SET_PRODUCT_TRACK_DATA:
       newState.products_track_data = action.data;

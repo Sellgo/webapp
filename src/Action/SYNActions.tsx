@@ -48,9 +48,6 @@ export interface TimeEfficiency {
   seller_id: any;
 }
 
-export interface New_Supplier {
-  new_supplier_id: any;
-}
 
 export interface Product {
   amazon_url: string;
