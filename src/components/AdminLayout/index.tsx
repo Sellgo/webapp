@@ -12,12 +12,10 @@ interface State {
 }
 
 interface Props {
-
   isSideBarExpanded: false;
   title?: string;
   auth: Auth;
   sellerData?: SellField;
-
 }
 
 class AdminLayout extends React.Component<Props, State> {
@@ -33,19 +31,27 @@ class AdminLayout extends React.Component<Props, State> {
   }
 
   public render() {
-    const {children, title, auth, sellerData} = this.props;
+    const { children, title, auth, sellerData } = this.props;
 
     return (
       <React.Fragment>
-        <AdminHeader sellerData={sellerData}/>
-        <AdminSidebar logout={auth.logout}/>
+        <AdminHeader sellerData={sellerData} />
+        <AdminSidebar logout={auth.logout} />
 
-        <Segment basic={true} style={{
-          paddingLeft: (this.props.isSideBarExpanded) ? 190 : 100,
-          paddingRight: (this.props.isSideBarExpanded) ? 20 : 20,
-          transition: 'width 0.8s,padding 0.8s',
-        }}>
-          <PageHeader title={title}/>
+        <Segment
+          basic={true}
+          style={{
+            height: '100%',
+            minHeight: '100vh',
+            marginTop: 0,
+            paddingTop: 20,
+            paddingLeft: this.props.isSideBarExpanded ? 190 : 100,
+            paddingRight: this.props.isSideBarExpanded ? 20 : 20,
+            transition: 'width 0.8s,padding 0.8s',
+            backgroundColor: '#f3f3f3f3',
+          }}
+        >
+          <PageHeader title={title} />
           {children}
         </Segment>
       </React.Fragment>
@@ -54,7 +60,7 @@ class AdminLayout extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: any) => ({
-  isSideBarExpanded: state.settings.get('isSideBarExpanded'),
+  isSideBarExpanded: state.settings.isSideBarExpanded,
 });
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -63,5 +69,5 @@ const mapDispatchToProps = (dispatch: any) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(AdminLayout);

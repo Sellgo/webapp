@@ -1,64 +1,62 @@
 /* Otherwise the icons on the left navbar will be floated right */
 .ui.vertical.menu .item > i.icon {
-    text-align: left;
-    float: left;
-    background: white !important;
-
+  text-align: left;
+  float: left;
+  background: white !important;
 }
 
 .top-logo {
-    width: 260px;
+  width: 260px;
 }
 
 i.red.icon {
-    color: #ffffff !important;
+  color: #ffffff !important;
 }
 
-
 .top-menu {
-    padding-right: 20px;
+  padding-right: 20px;
 }
 
 .ui.dropdown {
-    padding-right: 20px;
+  padding-right: 20px;
 }
 
 .search-box {
-    min-width: 400px;
+  min-width: 400px;
 }
 
 .page-header i.grey.icon {
-    color: #aaaaaa !important;
+  color: #aaaaaa !important;
 }
 
 .ui.left.sidebar,
 .ui.right.sidebar,
 .ui[class*='very thin'].left.sidebar {
-    width: 60px;
-    background: #444444;
-    transition: width 0.8s;
-    min-height: fit-content;
-    position: fixed !important;
-    height: 100vh !important;
-    margin-top:45px !important;
+  width: 60px;
+  background: #444444;
+  transition: width 0.8s;
+  min-height: fit-content;
+  position: fixed !important;
+  height: 100vh !important;
+  margin-top: 45px !important;
+  overflow-y: visible !important;
 }
-
 
 .ui[class*='middle aligned'].grid > .row > .column,
 .ui[class*='bottom aligned'].grid > .row > .column {
-    padding-right: 0;
-    /*padding-left: 0;*/
+  padding-right: 0;
+  /*padding-left: 0;*/
 }
 
 .ui.vertical.menu .item > .header:not(.ui) {
-    margin: 0 0 0 !important;
+  margin: 0 0 0 !important;
 }
 
-i.big.icon, i.big.icons {
-    margin: 0 !important;
+i.big.icon,
+i.big.icons {
+  margin: 0 !important;
 }
 
 .AdjustedSideBarWidth {
-    width: 150px;
+  width: 150px;
 }
-

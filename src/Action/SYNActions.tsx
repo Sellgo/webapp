@@ -9,10 +9,14 @@ import {
   SET_Product_Detail,
   SET_Product_Detail_Chart_Values_Rank,
   SET_Product_Detail_Chart_Values_Price,
+  SET_Product_Detail_Chart_Values_Kpi,
   SET_TIME_EFFICIENCY,
   UPDATE_PRODUCT,
   UPLOAD_SYNTHESIS_FILE_ID,
-  GET_PRODUCT_TRACK_GROUP, UPLOAD_SYNTHESIS_PROGRESS_UPDATES, SYN_RESET_PRODUCT_REDUCED_VALUES, UPLOAD_CSV_RESPONSE,
+  GET_PRODUCT_TRACK_GROUP,
+  UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
+  SYN_RESET_PRODUCT_REDUCED_VALUES,
+  UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
 
@@ -33,6 +37,7 @@ export interface Supplier {
   timezone: string;
   upcharge_fee: string;
   website: string;
+  p2l_ratio: any;
   xid: string;
 }
 
@@ -43,9 +48,6 @@ export interface TimeEfficiency {
   seller_id: any;
 }
 
-export interface New_Supplier {
-  new_supplier_id: any;
-}
 
 export interface Product {
   amazon_url: string;
@@ -62,6 +64,9 @@ export interface Product {
   tracking_status: string;
   profit: string;
   product_track_id: string;
+  roi: string;
+  product_cost: string;
+  fees: string;
 }
 
 export interface ProductsTrackData {
@@ -105,12 +110,18 @@ export interface ProductDetails {
 
 export interface ProductChartDetailsRank {
   rank: number;
-  cdate: string
+  cdate: string;
 }
 
 export interface ProductChartDetailsPrice {
   price: number;
-  cdate: string
+  cdate: string;
+}
+
+export interface ProductChartDetailsKpi {
+  profit: string;
+  roi: string;
+  cdate: string;
 }
 
 export interface ChartAveragePrice {
@@ -143,8 +154,37 @@ export const getSellers = () => (dispatch: any) => {
   })
     .then(json => {
       if (json.data.length == 0) {
-        dispatch(setSellers(
-          [{
+        dispatch(
+          setSellers([
+            {
+              contact: null,
+              description: null,
+              email: null,
+              freight_fee: null,
+              id: -10000000,
+              item_active_count: null,
+              item_total_count: null,
+              name: null,
+              phone: null,
+              rate: null,
+              seller_id: null,
+              status: null,
+              supplier_group_id: null,
+              timezone: null,
+              upcharge_fee: null,
+              website: null,
+              xid: null,
+            },
+          ])
+        );
+      } else {
+        dispatch(setSellers(json.data));
+      }
+    })
+    .catch(error => {
+      dispatch(
+        setSellers([
+          {
             contact: null,
             description: null,
             email: null,
@@ -162,37 +202,11 @@ export const getSellers = () => (dispatch: any) => {
             upcharge_fee: null,
             website: null,
             xid: null,
-          }],
-        ));
-      } else {
-        dispatch(setSellers(json.data));
-      }
-    })
-    .catch(error => {
-      dispatch(setSellers(
-        [{
-          contact: null,
-          description: null,
-          email: null,
-          freight_fee: null,
-          id: -10000000,
-          item_active_count: null,
-          item_total_count: null,
-          name: null,
-          phone: null,
-          rate: null,
-          seller_id: null,
-          status: null,
-          supplier_group_id: null,
-          timezone: null,
-          upcharge_fee: null,
-          website: null,
-          xid: null,
-        }],
-      ));
+          },
+        ])
+      );
     });
 };
-
 
 export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
@@ -204,8 +218,7 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     .then(json => {
       dispatch(setTimeEfficiency(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: any) => {
@@ -224,12 +237,11 @@ export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: a
               avg_price: '-1000000',
               cdate: '-1000000',
             },
-          ]),
+          ])
         );
       }
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: any) => {
@@ -241,8 +253,7 @@ export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: an
     .then(json => {
       dispatch(setChartValuesRank(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const getProductDetail = (productID: string, supplierID: string) => (dispatch: any) => {
@@ -254,8 +265,7 @@ export const getProductDetail = (productID: string, supplierID: string) => (disp
     .then(json => {
       dispatch(setProductDetail(json.data[0]));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const getProductDetailChartRank = (product_id: string) => (dispatch: any) => {
@@ -267,8 +277,7 @@ export const getProductDetailChartRank = (product_id: string) => (dispatch: any)
     .then(json => {
       dispatch(setProductDetailChartRank(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
@@ -280,10 +289,20 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
     .then(json => {
       dispatch(setProductDetailChartPrice(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
+export const getProductDetailChartKpi = (product_id: string) => (dispatch: any) => {
+  return axios({
+    method: 'get',
+    url: AppConfig.BASE_URL_API + 'product/' + product_id + '/history/kpi',
+    headers,
+  })
+    .then(json => {
+      dispatch(setProductDetailChartKpi(json.data));
+    })
+    .catch(error => {});
+};
 
 export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
   return axios({
@@ -309,14 +328,13 @@ export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
             roi: '',
             size_tier: '',
             weight: '',
-          }),
+          })
         );
       } else {
         dispatch(setProductTrackData(json.data[0]));
       }
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) => {
@@ -329,11 +347,12 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
     .then(json => {
       dispatch(reduceProductTrackGroup(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
-export const postProductTrackGroupId = (supplierID: string, supplierName: string) => (dispatch: any) => {
+export const postProductTrackGroupId = (supplierID: string, supplierName: string) => (
+  dispatch: any
+) => {
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();
@@ -350,8 +369,7 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
     .then(json => {
       // dispatch(reduceProductTrackGroup(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 function createSupplierGroup(supplier_name: string, call_back: any) {
@@ -367,11 +385,14 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
     .then(json => {
       call_back(json.data);
     })
-    .catch(error => {
-    });
-};
+    .catch(error => {});
+}
 
-export const saveSupplierNameAndDescription = (name: string, description: string, callBack: any) => (dispatch: any) => {
+export const saveSupplierNameAndDescription = (
+  name: string,
+  description: string,
+  callBack: any
+) => (dispatch: any) => {
   createSupplierGroup(name, (data: any) => {
     var bodyFormData = new FormData();
     bodyFormData.set('name', name);
@@ -387,12 +408,10 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     })
       .then(json => {
         dispatch(setsaveSupplierNameAndDescription(json.data));
-        (callBack(json.data));
+        callBack(json.data);
       })
-      .catch(error => {
-      });
+      .catch(error => {});
   });
-
 };
 
 export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: any) => {
@@ -409,11 +428,15 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
     .then(json => {
       callBack(json.data);
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
-export const updateSupplierNameAndDescription = (name: string, description: string, update_supplier_id: string, callBack: any) => (dispatch: any) => {
+export const updateSupplierNameAndDescription = (
+  name: string,
+  description: string,
+  update_supplier_id: string,
+  callBack: any
+) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   var bodyFormData = new FormData();
   bodyFormData.set('name', name);
@@ -428,10 +451,8 @@ export const updateSupplierNameAndDescription = (name: string, description: stri
     .then(json => {
       callBack(json.data);
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
-
 
 export const getLastFileID = (supplierID: string) => (dispatch: any) => {
   dispatch(setProgressUpdatesValue({ progress: 0 }));
@@ -452,8 +473,7 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
       dispatch(setSynthesisFileID(json.data));
       getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
@@ -473,12 +493,10 @@ export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatc
         }, 2000);
       }
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
-
   const sellerID = localStorage.getItem('userId');
   resetUploadCSVResponse();
   var bodyFormData = new FormData();
@@ -517,13 +535,43 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
 
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + 'supplier/' + supplierID + '/synthesis_data_compact/?seller_id=' + sellerID,
+    url:
+      AppConfig.BASE_URL_API +
+      'supplier/' +
+      supplierID +
+      '/synthesis_data_compact/?seller_id=' +
+      sellerID,
     headers,
   })
     .then(json => {
       if (json.data.length == 0) {
-        dispatch(setProducts(
-          [{
+        dispatch(
+          setProducts([
+            {
+              amazon_url: null,
+              asin: null,
+              id: -10000000,
+              image_url: null,
+              last_syn: null,
+              margin: null,
+              product_id: null,
+              profit_monthly: null,
+              sales_monthly: null,
+              title: null,
+              tracking_status: null,
+              profit: null,
+              product_track_id: null,
+            },
+          ])
+        );
+      } else {
+        dispatch(setProducts(json.data));
+      }
+    })
+    .catch(error => {
+      dispatch(
+        setProducts([
+          {
             amazon_url: null,
             asin: null,
             id: -10000000,
@@ -537,34 +585,18 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
             tracking_status: null,
             profit: null,
             product_track_id: null,
-          }],
-        ));
-      } else {
-        dispatch(setProducts(json.data));
-      }
-    })
-    .catch(error => {
-      dispatch(setProducts(
-        [{
-          amazon_url: null,
-          asin: null,
-          id: -10000000,
-          image_url: null,
-          last_syn: null,
-          margin: null,
-          product_id: null,
-          profit_monthly: null,
-          sales_monthly: null,
-          title: null,
-          tracking_status: null,
-          profit: null,
-          product_track_id: null,
-        }],
-      ));
+          },
+        ])
+      );
     });
 };
 
-export const trackProductWithPost = (productID: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
+export const trackProductWithPost = (
+  productID: string,
+  productTrackGroupID: string,
+  status: string,
+  supplierID: string
+) => (dispatch: any) => {
   let sellerID = localStorage.getItem('userId');
   if (sellerID == null) {
     sellerID = '';
@@ -583,11 +615,15 @@ export const trackProductWithPost = (productID: string, productTrackGroupID: str
     .then(json => {
       dispatch(updateProduct(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
-export const trackProductWithPatch = (product_track_id: string, productTrackGroupID: string, status: string, supplierID: string) => (dispatch: any) => {
+export const trackProductWithPatch = (
+  product_track_id: string,
+  productTrackGroupID: string,
+  status: string,
+  supplierID: string
+) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
 
   const bodyFormData = new FormData();
@@ -603,8 +639,7 @@ export const trackProductWithPatch = (product_track_id: string, productTrackGrou
     .then(json => {
       dispatch(updateProduct(json.data));
     })
-    .catch(error => {
-    });
+    .catch(error => {});
 };
 
 export const resetProductData = (data: {}) => ({
@@ -617,8 +652,8 @@ export const resetUploadCSVResponse = () => (dispatch: any) => {
     reduceUploadCSVResponse({
       message: 'We will process your file within few hours',
       status: 'unset',
-    },
-    ));
+    })
+  );
 };
 
 export const reduceUploadCSVResponse = (data: {}) => ({
@@ -687,6 +722,11 @@ export const setProductDetailChartRank = (data: {}) => ({
 
 export const setProductDetailChartPrice = (data: {}) => ({
   type: SET_Product_Detail_Chart_Values_Price,
+  data,
+});
+
+export const setProductDetailChartKpi = (data: {}) => ({
+  type: SET_Product_Detail_Chart_Values_Kpi,
   data,
 });
 

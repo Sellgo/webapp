@@ -4,8 +4,6 @@ import AdminLayout from '../../components/AdminLayout';
 
 export class ProductTracker extends React.Component {
   render() {
-    return (
-      <Header as="h1">Product Tracker</Header>
-    );
+    return <Header as="h1">Product Tracker</Header>;
   }
 }

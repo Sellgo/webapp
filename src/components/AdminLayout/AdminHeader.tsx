@@ -3,11 +3,17 @@ import { Dropdown, Icon, Image, Input, Menu, SemanticSIZES, Divider } from 'sema
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
 import {
-  getProductDetail, getProductDetailChartPrice,
+  getProductDetail,
+  getProductDetailChartPrice,
   getProductDetailChartRank,
-  getProducts, getProductsChartHistoryPrice, getProductsChartHistoryRank,
+  getProducts,
+  getProductsChartHistoryPrice,
+  getProductsChartHistoryRank,
   getProductTrackData,
-  postProductTrackGroupId, getTimeEfficiency, trackProductWithPatch, trackProductWithPost,
+  postProductTrackGroupId,
+  getTimeEfficiency,
+  trackProductWithPatch,
+  trackProductWithPost,
 } from '../../Action/SYNActions';
 import { connect } from 'react-redux';
 import { SupplierDetail } from '../../containers/SYN/suppliers/supplierDetail';
@@ -17,13 +23,13 @@ export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   size,
   centered,
 }) => (
-    <Image
-      ui={true}
-      style={{ width: 80 }}
-      centered={centered || false}
-      src="/images/sellgo_logo.png"
-    />
-  );
+  <Image
+    ui={true}
+    style={{ width: 80 }}
+    centered={centered || false}
+    src="/images/sellgo_logo.png"
+  />
+);
 
 const options = [
   { key: 1, text: 'Choice 1', value: 1 },
@@ -45,15 +51,16 @@ export class AdminHeader extends React.Component<any> {
     return (
       <React.Fragment>
         <Menu
-          inverted={true} borderless={true} fixed="top"
+          inverted={true}
+          borderless={true}
+          fixed="top"
           style={{ height: this.height, backgroundColor: '#444444', paddingLeft: 80 }}
           className="top-menu"
         >
           <Menu.Menu>
             <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small" />} />
           </Menu.Menu>
-          <Menu.Menu position="right" fitted='horizontally' style={{ marginRight: 10 }}>
-
+          <Menu.Menu position="right" fitted="horizontally" style={{ marginRight: 10 }}>
             <Menu.Item as={Link} to="/dashboard/subscription">
               <Icon name="rss" style={{ fontSize: 25 }} color={'red'} />
             </Menu.Item>
@@ -63,14 +70,14 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item>
               <Icon name="bell" style={{ fontSize: 25 }} color={'red'} />
             </Menu.Item>
-            <div style={{ width: 1, height: '100%', alignSelf: 'center', backgroundColor: '#a4a4a4' }} />
+            <div
+              style={{ width: 1, height: '100%', alignSelf: 'center', backgroundColor: '#a4a4a4' }}
+            />
             <Menu.Item>
               <Icon name="user circle" style={{ fontSize: 25 }} color={'red'} />
               <div style={{ textAlign: 'center', fontSize: 16 }}>
                 Hello
-                <span style={{ display: 'block', width: '100%' }}>
-                  {this.userName}
-                </span>
+                <span style={{ display: 'block', width: '100%' }}>{this.userName}</span>
               </div>
             </Menu.Item>
           </Menu.Menu>

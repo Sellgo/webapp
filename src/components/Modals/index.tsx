@@ -14,7 +14,13 @@ export class Modals extends React.Component<ModalsProps, {}> {
   render() {
     const { open, close, children, title, bCloseIcon } = this.props;
     return (
-      <Modal open={open} onClose={close} size={'small'} className="customeModal" closeIcon={bCloseIcon}>
+      <Modal
+        open={open}
+        onClose={close}
+        size={'small'}
+        className="customeModal"
+        closeIcon={bCloseIcon}
+      >
         {title && <Modal.Header>{title}</Modal.Header>}
         <Modal.Content>{children}</Modal.Content>
       </Modal>

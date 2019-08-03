@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
@@ -11,15 +10,17 @@ import {
   SIDE_BAR_EXPANDED,
   PATCH_AMAZON_MWS,
 } from '../constant/constant';
+import { MWSinfo, SellField } from '../Action/SettingActions';
+import { object } from 'prop-types';
 
-const initialState = Map({
+const initialState = {
   profile: {
     name: '',
     firstName: '',
     lastName: '',
     email: '',
     auth0_user_id: '',
-    id: 0,
+    id: '0',
     cdate: '',
   },
   amazonMWS: {
@@ -28,14 +29,18 @@ const initialState = Map({
     marketplace_id: '',
     token: '',
     id: '',
+    status: '',
   },
-  amazonMWSFromServer: {
-    seller_id: '',
-    amazon_seller_id: '',
-    marketplace_id: '',
-    token: '',
-    id: '',
-  },
+  amazonMWSFromServer: [
+    {
+      seller_id: '',
+      amazon_seller_id: '',
+      marketplace_id: '',
+      token: '',
+      id: '',
+      status: '',
+    },
+  ],
   pageHistoryCanGoForward: 0,
   updatedImage: {},
   success: false,
@@ -43,36 +48,40 @@ const initialState = Map({
   error: null,
   isMWSAuthorized: false,
   isSideBarExpanded: false,
-});
+};
 
 export const SettingReducer = (state = initialState, action: any) => {
-  let newState = null;
+  const newState = { ...state };
   let data = null;
   switch (action.type) {
     case SIDE_BAR_EXPANDED:
       data = action.data;
-      newState = state.setIn(['isSideBarExpanded'], data.value);
+      newState.isSideBarExpanded = data.value;
       return newState;
     case FETCH_AUTH_BEGIN:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
+      newState.loading = true;
+      newState.error = null;
+      return newState;
     case SET_BASIC_INFO_SELLER:
       data = action.data;
-      newState = state.setIn(['profile', data.key], data.value);
+      const key: keyof SellField = data.key;
+      const profile = { ...newState.profile };
+      profile[key] = data.value;
+      newState.profile = profile;
       return newState;
     case SET_AMAZON_MWS:
       data = action.data;
-      newState = state.setIn(['amazonMWS', data.key], data.value);
+      const newKey: keyof MWSinfo = data.key;
+      const amazonMWS = { ...newState.amazonMWS };
+      amazonMWS[newKey] = data.value;
+      newState.amazonMWS = amazonMWS;
       return newState;
     case UPDATE_BASIC_INFO_SELLER:
       data = action.data;
-      newState = state.setIn(['success'], data.value);
+      newState.success = data.value;
       return newState;
     case GET_BASIC_INFO_SELLER:
-      const {name, cdate, id, email, auth0_user_id} = action.data;
+      const { name, cdate, id, email, auth0_user_id } = action.data;
       const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
       const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
       const sellerData = {
@@ -84,34 +93,44 @@ export const SettingReducer = (state = initialState, action: any) => {
         name,
         auth0_user_id,
       };
-      newState = state.setIn(['profile'], sellerData);
+      newState.profile = sellerData;
       return newState;
     case SET_PAGE_HISTORY_COUNTER:
       data = action.data;
-      newState = state.setIn(['pageHistoryCanGoForward'], data);
+      newState.pageHistoryCanGoForward = data;
       return newState;
     case UPLOAD_SELLER_IMAGE:
       data = action.data;
-      newState = state.setIn(['updatedImage'], data);
+      newState.updatedImage = data;
       return newState;
     case GET_AMAZON_MWS:
       data = action.data;
       if (data.length > 0) {
-        if (data[0].status !== 'inactive') {
-          newState = state.setIn(['amazonMWSFromServer'], data[0]);
-          return newState;
-        }
+        // if (data[0].status !== 'inactive') {
+        newState.amazonMWSFromServer = data;
+        return newState;
+        // }
       }
       return state;
     case PATCH_AMAZON_MWS:
+      // data = action.data;
+      console.log(action.data);
       data = {
         seller_id: '',
         amazon_seller_id: '',
         marketplace_id: '',
         token: '',
         id: '',
+        status: '',
       };
-      newState = state.setIn(['amazonMWS'], data);
+      const amazonMWSfromServer = [...newState.amazonMWSFromServer];
+      for (const index in amazonMWSfromServer) {
+        if (amazonMWSfromServer[index].id === action.data.id) {
+          amazonMWSfromServer[index].status = 'inactive';
+        }
+      }
+      newState.amazonMWSFromServer = amazonMWSfromServer;
+      newState.amazonMWS = data;
       return newState;
     default:
       return state;

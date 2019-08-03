@@ -1,3 +1,5 @@
+import { MarketplaceFields } from '../interfaces/MarketplaceFields';
+
 export const FETCH_AUTH_BEGIN = 'LogInPage/FETCH_AUTH_BEGIN';
 export const SET_BASIC_INFO_SELLER = '/Dash/SETTING/SET_BASIC_INFO_SELLER';
 export const UPDATE_BASIC_INFO_SELLER = '/Dash/SETTING/UPDATE_BASIC_INFO_SELLER';
@@ -18,6 +20,7 @@ export const SET_CHART_VALUES_RANK = '/SYN/SET_CHART_VALUES_RANK';
 export const SET_Product_Detail = '/SYN/SET_Product_Detail';
 export const SET_Product_Detail_Chart_Values_Rank = '/SYN/SET_Product_Detail_Chart_Values_Rank';
 export const SET_Product_Detail_Chart_Values_Price = '/SYN/SET_Product_Detail_Chart_Values_Price';
+export const SET_Product_Detail_Chart_Values_Kpi = '/SYN/SET_Product_Detail_Chart_Values_Kpi';
 export const SET_PAGE_HISTORY_COUNTER = '/SET_PAGE_HISTORY_COUNTER';
 export const UPLOAD_CSV_RESPONSE = '/SYN/UPLOAD_CSV_RESPONSE';
 export const UPLOAD_SYNTHESIS_FILE_ID = '/SYN/UPLOAD_SYNTHESIS_FILE_ID';
@@ -28,7 +31,6 @@ export const GET_SUBSCRIPTIONS = '/SUBSCRIBE/GET_SUBSCRIPTIONS';
 export const GET_SELLER_SUBSCRIPTION = '/SUBSCRIBE/GET_SELLER_SUBSCRIPTION';
 export const UPDATE_SELLER_SUBSCRIBTION = '/SUBSCRIBE/UPDATE_SELLER_SUBSCRIBTION';
 
-
 /**
  *
  * keys for localstorage
@@ -37,8 +39,7 @@ export const localStorageKeys = {
   isMWSAuthorized: 'isMWSAuthorized',
 };
 
-
-export const marketPlace = [
+export const marketPlace: MarketplaceFields[] = [
   { name: 'Brazil', id: 'A2Q3Y263D00KWC', code: 'BR', link: 'amazon.com' },
   { name: 'Canada', id: 'A2EUQ1WTGCTBG2', code: 'CA', link: 'amazon.ca' },
   { name: 'Mexico', id: 'A1AM78C64UM0Y8', code: 'MX', link: 'amazon.com.mx' },
@@ -52,7 +53,6 @@ export const marketPlace = [
   { name: 'Italy', id: 'APJ6JRA9NG5V4', code: 'IT', link: 'amazon.com' },
   { name: 'Turkey', id: 'APJ6JRA9NG5V4', code: 'TR', link: 'amazon.com' },
 ];
-
 
 /**
  * NOTE: there should be difference of atleast 1 between min and max
@@ -149,6 +149,6 @@ export const ProductFiltersPreset = [
   },
 ];
 
-export const numberWithCommas = (x) => {
+export const numberWithCommas = (x: any) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
