@@ -70,7 +70,7 @@ export const SYNReducer = (state = initialState, action: any) => {
         }
         products.push(product);
       }
-      newState.products = action.data;
+      newState.products = products;
       return newState;
     case SET_TIME_EFFICIENCY:
       newState.time_efficiency_data = action.data;
