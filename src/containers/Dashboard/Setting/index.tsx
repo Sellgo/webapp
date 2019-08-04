@@ -416,7 +416,6 @@ class Setting extends React.Component<Props, State> {
                         <div
                           onClick={() => {
                             this.setState({ isDeleteModalOpen: true });
-                            // this.props.deleteMWSAuth(this.props.amazonData.id);
                           }}
                           style={{
                             borderRadius: '5px',

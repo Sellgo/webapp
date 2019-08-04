@@ -106,14 +106,11 @@ export const SettingReducer = (state = initialState, action: any) => {
     case GET_AMAZON_MWS:
       data = action.data;
       if (data.length > 0) {
-        // if (data[0].status !== 'inactive') {
         newState.amazonMWSFromServer = data;
         return newState;
-        // }
       }
       return state;
     case PATCH_AMAZON_MWS:
-      // data = action.data;
       console.log(action.data);
       data = {
         seller_id: '',

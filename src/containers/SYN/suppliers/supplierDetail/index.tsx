@@ -453,7 +453,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                         <Image
                           style={{ width: 'auto', height: 'auto', maxHeight: 80, maxWidth: 80 }}
                           src={value.image_url == null ? '/images/intro.png' : value.image_url}
-                          // size="tiny"
                         />
                       </Grid.Column>
                       <Grid.Column width={10} className={'middle aligned'}>
