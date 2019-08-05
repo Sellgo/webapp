@@ -114,7 +114,7 @@ class SubscriptionPricing extends React.Component<Props, State> {
                     {subscription.name} Plan
                   </Label>
                   <Header size="huge" className="price">
-                    ${subscription.price}
+                    $X{/* ${subscription.price} */}
                   </Header>
                   <p>Per user / month</p>
                   <Divider />
