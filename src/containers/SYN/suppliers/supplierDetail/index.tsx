@@ -827,33 +827,23 @@ export class SupplierDetail extends React.Component<Props, State> {
             },
           },
           tooltip: {
-            formatter() {
-              return (
-                (this.series.name == 'Price' ? '$' : '') +
-                numberWithCommas(this.y) +
-                ' | ' +
-                new Date(this.x).toLocaleDateString()
-              );
-            },
+            shared:true,
           },
 
           legend: {
             align: 'left',
-            itemStyle: {
-              color: '#ccc',
-            },
           },
           series: [
             {
               type: 'line',
-              name: 'Price',
-              color: '#c0f1ff',
+              name: 'Price($)',
+              color: '#CAE1F3',
               data: popup_price_conainer,
             },
             {
               type: 'line',
               name: 'Rank',
-              color: '#a3a0fb78',
+              color: '#F3E9CA',
               data: popup_rank_conainer,
             },
           ],
@@ -891,7 +881,7 @@ export class SupplierDetail extends React.Component<Props, State> {
               minorGridLineWidth: 0,
               lineWidth: 2,
               title: {
-                text: 'Total Profit',
+                text: 'Total Profit($)',
                 align: 'high',
                 style: {
                   color: 'black',
@@ -904,7 +894,7 @@ export class SupplierDetail extends React.Component<Props, State> {
               minorGridLineWidth: 0,
               lineWidth: 2,
               title: {
-                text: 'ROI (%)',
+                text: 'ROI(%)',
                 align: 'high',
                 style: {
                   color: 'black',
@@ -933,13 +923,13 @@ export class SupplierDetail extends React.Component<Props, State> {
           },
           series: [
             {
-              name: 'Total Profit',
+              name: 'Total Profit($)',
               type: 'spline',
               yAxis: 1,
               data: product_profit,
             },
             {
-              name: 'ROI (%)',
+              name: 'ROI(%)',
               type: 'spline',
               data: product_roi,
             },
@@ -1406,32 +1396,22 @@ export class SupplierDetail extends React.Component<Props, State> {
           },
         },
         tooltip: {
-          formatter() {
-            return (
-              (this.series.name == 'Avg Price' ? '$' : '') +
-              numberWithCommas(this.y) +
-              ' | ' +
-              new Date(this.x).toLocaleDateString()
-            );
-          },
+          shared:true,
         },
         legend: {
           align: 'left',
-          itemStyle: {
-            color: '#ccc',
-          },
         },
         series: [
           {
             type: 'line',
-            name: 'Avg Price',
-            color: '#c0f1ff',
+            name: 'Avg Price($)',
+            color: '#CAE1F3',
             data: props.avg_price,
           },
           {
             type: 'line',
             name: 'Avg Rank',
-            color: '#a3a0fb78',
+            color: '#F3E9CA',
             data: props.avg_rank,
           },
         ],
@@ -1485,11 +1465,12 @@ export class SupplierDetail extends React.Component<Props, State> {
                   },
                 },
               },
-              tooltip: {
-                headerFormat: '<b>{series.name}</b><br>',
-                pointFormat: '{point.x} cm, {point.y} kg',
-              },
+              
             },
+          },
+          tooltip: {
+            headerFormat: '<br/>',
+            pointFormat: '{point.name}<br/>Units sold: {point.x} u/mo<br/> Profit($): {point.y}',
           },
           series: [
             {
@@ -1499,7 +1480,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                 type: 'linear',
                 color: 'red',
               },
-              color: 'green',
+              color: '#CAE1F3',
+              negativeColor:'#F3D2CA',
               name: 'SKUs',
               data: monthly_data,
             },
@@ -1554,7 +1536,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 {
                   name: 'Hit Non-Profitable SKUs',
                   y: p2l_ratio,
-                  color: '#C6ECEF',
+                  color: '#CAE1F3',
                 },
                 {
                   name: 'Miss',
@@ -1607,7 +1589,7 @@ export class SupplierDetail extends React.Component<Props, State> {
           },
           tooltip: {
             headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
+            pointFormat: '{series.name}: {point.y}<br/>Total($): {point.stackTotal}',
           },
           legend: {
             align: 'right',
@@ -1629,9 +1611,9 @@ export class SupplierDetail extends React.Component<Props, State> {
             },
           },
           series: [
-            { type: 'column', color: '#CAE1F3', name: 'Profit', data: profit },
-            { type: 'column', color: '#F3D2CA', name: 'Amz fee', data: fees },
-            { type: 'column', color: '#F3E9CA', name: 'COGS', data: product_cost },
+            { type: 'column', color: '#CAE1F3', name: 'Profit($)', data: profit },
+            { type: 'column', color: '#F3D2CA', name: 'Amz fee($)', data: fees },
+            { type: 'column', color: '#F3E9CA', name: 'COGS($)', data: product_cost },
           ],
         }}
         {...this.props}
@@ -1663,7 +1645,7 @@ export class SupplierDetail extends React.Component<Props, State> {
             gridLineWidth: 0,
             minorGridLineWidth: 0,
             title: {
-              text: 'Profit ($)',
+              text: 'Profit($)',
             },
             stackLabels: {
               enabled: true,
@@ -1676,7 +1658,7 @@ export class SupplierDetail extends React.Component<Props, State> {
           },
           tooltip: {
             headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat: '{series.name}: {point.y}',
+            pointFormat: 'ROI(%): {point.name} <br/> {series.name}: {point.y}',
           },
           legend: {
             align: 'right',
@@ -1702,8 +1684,8 @@ export class SupplierDetail extends React.Component<Props, State> {
               type: 'column',
               color: '#CAE1F3',
               negativeColor: '#F3D2CA',
-              name: 'Profit',
-              data: profit,
+              name: 'Profit($)',
+              data: roi,
             },
           ],
         }}
@@ -1715,13 +1697,13 @@ export class SupplierDetail extends React.Component<Props, State> {
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
-    const products = this.props.products.sort(
-      (a, b) => parseFloat(b.profit) - parseFloat(a.profit)
+    const products = this.state.products.sort(
+      (a, b) => parseFloat(b['profit']) - parseFloat(a['profit'])
     );
     let productSKUs = [];
     let profit = [];
-    profit = products.map(e => parseFloat(e.profit));
-    productSKUs = products.map(e => e.title);
+    profit = products.map(e => parseFloat(e['profit']));
+    productSKUs = products.map(e => e['title']);
     switch (this.state.showChart) {
       case 'chart0':
         const avg_price = [];
@@ -1752,10 +1734,10 @@ export class SupplierDetail extends React.Component<Props, State> {
         let profit_monthly = [];
         let sales_monthly = [];
         monthly_data = products.map(e => {
-          return [parseFloat(e.sales_monthly), parseFloat(e.profit_monthly)];
+          return { name: e['title'], x: parseFloat(e['sales_monthly']), y: parseFloat(e['profit_monthly']) };
         });
-        profit_monthly = products.map(e => parseFloat(e.profit_monthly));
-        sales_monthly = products.map(e => parseFloat(e.sales_monthly));
+        profit_monthly = products.map(e => parseFloat(e['profit_monthly']));
+        sales_monthly = products.map(e => parseFloat(e['sales_monthly']));
 
         return productSKUs.length &&
           profit.length &&
@@ -1780,8 +1762,8 @@ export class SupplierDetail extends React.Component<Props, State> {
       case 'chart3':
         let product_cost = [];
         let fees = [];
-        product_cost = products.map(e => parseFloat(e.product_cost));
-        fees = products.map(e => parseFloat(e.fees));
+        product_cost = products.map(e => parseFloat(e['product_cost']));
+        fees = products.map(e => parseFloat(e['fees']));
 
         return productSKUs.length && profit.length && product_cost.length && fees.length ? (
           <this.renderRevenue
@@ -1793,7 +1775,9 @@ export class SupplierDetail extends React.Component<Props, State> {
         ) : null;
       case 'chart4':
         let roi = [];
-        roi = products.map(e => parseFloat(e.roi));
+        roi = products.map(e => {
+          return { name: parseFloat(e['roi']), y: parseFloat(e['profit']) }
+        });
         return productSKUs.length && roi.length ? (
           <this.renderPOFP productSKUs={productSKUs} roi={roi} profit={profit} />
         ) : null;
@@ -1977,7 +1961,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       this.props.synthesisFileProgressUpdates.progress != undefined
         ? this.props.synthesisFileProgressUpdates.progress
         : '0';
-    const totalProducts = this.props.products.length;
+    const totalProducts = this.state.products.length;
     const totalPages = this.state.totalPages;
     const singlePageItemsCount = this.state.singlePageItemsCount;
     const currentPage = this.state.currentPage;
