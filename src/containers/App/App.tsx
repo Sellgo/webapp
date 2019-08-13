@@ -15,6 +15,7 @@ import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
+import UploadSupplierFiles from '../UploadSupplierFiles';
 
 const auth = new Auth();
 
@@ -101,6 +102,17 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return <SupplierDetail {...routeProps} />;
+            }
+          }}
+        />
+        <Route
+          exact={true}
+          // todo replace path with a suitable one
+          path="/upload-supplier"
+          render={routeProps => {
+            routeProps.match.params.auth = auth;
+            if (isAuthenticated()) {
+              return <UploadSupplierFiles {...routeProps} />;
             }
           }}
         />
