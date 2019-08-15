@@ -1,4 +1,5 @@
 import React from 'react';
+import get from 'lodash/get';
 import { connect } from 'react-redux';
 import Stepper from '../../components/Stepper';
 import { setUploadSupplierStep } from '../../Action/UploadSupplierFilesActions';
@@ -33,7 +34,7 @@ export const UploadSupplierFiles = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    value: state.settings.profile,
+    value: get(state, 'uploadSupplierFiles.currentStep', 0),
   };
 };
 
