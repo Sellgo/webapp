@@ -1,8 +1,10 @@
 import React from 'react';
+import styles from './UploadSupplierFiles.module.css';
 import { Segment, Container, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import AdminLayout from '../../components/AdminLayout';
 import UploadSteps from './UploadSteps';
+import SupplierInformation from './SupplierInformation';
 
 interface Props {
   match: any;
@@ -31,10 +33,10 @@ export const UploadSupplierFiles = (props: Props) => {
       sellerData={props.sellerData}
       title={'Upload Supplier Files'}
     >
-      <Segment>
+      <Segment className={styles.container}>
         <UploadSteps />
         <Grid stackable={true} columns={2}>
-          <Grid.Column>
+          <Grid.Column stretched={false} style={{ width: 'initial' }}>
             <video height="240" controls={true}>
               <source
                 // change with real video
@@ -44,7 +46,9 @@ export const UploadSupplierFiles = (props: Props) => {
               Your browser does not support the video tag.
             </video>
           </Grid.Column>
-          <Grid.Column>Info</Grid.Column>
+          <Grid.Column>
+            <SupplierInformation />
+          </Grid.Column>
         </Grid>
       </Segment>
     </AdminLayout>
