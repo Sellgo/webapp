@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { connect } from 'react-redux';
 import Stepper from '../../components/Stepper';
 import { setUploadSupplierStep } from '../../Action/UploadSupplierFilesActions';
+import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 
 interface Props {
   value: number;
@@ -25,16 +26,25 @@ const steps = [
 ];
 
 export const UploadSupplierFiles = (props: Props) => {
+  const { value } = props;
   return (
     <Stepper {...props}>
-      {({ Step }) => steps.map(step => <Step key={step.title} title={step.title} />)}
+      {({ Step }) =>
+        steps.map((step, index) => (
+          <Step
+            key={step.title}
+            title={step.title}
+            disabled={index < value - 1 || index > value + 1}
+          />
+        ))
+      }
     </Stepper>
   );
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    value: get(state, 'uploadSupplierFiles.currentStep', 0),
+    value: currentStepSelector(state),
   };
 };
 

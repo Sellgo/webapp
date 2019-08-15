@@ -3,7 +3,7 @@ import { Form, TextArea, Icon, Grid, Modal } from 'semantic-ui-react';
 import { useInput } from '../../hooks';
 import styles from './UploadSupplierFiles.module.css';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SelectField } from '../../components/ReduxFormFields';
+import { InputField, SelectField, TextAreaField } from '../../components/ReduxFormFields';
 import timezones from '../../constant/timezones';
 import accountStatuses from '../../constant/accountStatuses';
 import terms from '../../constant/terms';
@@ -105,8 +105,13 @@ const SupplierInformation = () => {
                 placeholder="Supplier Name"
               />
               <Form.Field>
-                <label>Description</label>
-                <TextArea placeholder="Write your latest update here" {...descriptionBind} />
+                <Field
+                  required={true}
+                  component={TextAreaField}
+                  name="description"
+                  label="Description"
+                  placeholder="Write your latest update here"
+                />
               </Form.Field>
               <Icon
                 name="arrow circle right"
