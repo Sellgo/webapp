@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AdminLayout from '../../components/AdminLayout';
 import UploadSteps from './UploadSteps';
 import SupplierInformation from './SupplierInformation';
+import Actions from './Actions';
 
 interface Props {
   match: any;
@@ -50,6 +51,7 @@ export const UploadSupplierFiles = (props: Props) => {
             <SupplierInformation />
           </Grid.Column>
         </Grid>
+        <Actions />
       </Segment>
     </AdminLayout>
   );

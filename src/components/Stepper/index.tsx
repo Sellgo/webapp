@@ -3,7 +3,8 @@ import 'rc-steps/assets/iconfont.css';
 import React from 'react';
 import Steps, { Step } from 'rc-steps';
 
-export interface StepComponent extends React.StatelessComponent<{ title: string; icon?: string }> {}
+export interface StepComponent
+  extends React.StatelessComponent<{ title: string; icon?: string; disabled?: boolean }> {}
 
 export interface StepperProps {
   value?: number;

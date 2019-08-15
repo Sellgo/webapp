@@ -1,5 +1,11 @@
 import React from 'react';
-import { Form, Input as InputComponent, Select as SelectComponent, Label } from 'semantic-ui-react';
+import {
+  Form,
+  Input as InputComponent,
+  Select as SelectComponent,
+  Label,
+  TextArea as TextAreaComponent,
+} from 'semantic-ui-react';
 
 interface InputProps {
   checked?: boolean;
@@ -78,6 +84,26 @@ export const SelectField = ({
       onChange={(event, data) => input.onChange(data.value)}
       {...custom}
     />
+    {touched && error ? (
+      <Label basic={true} color="red" pointing={true}>
+        {error}
+      </Label>
+    ) : null}
+  </Form.Field>
+);
+
+export const TextAreaField = ({
+  input,
+  required,
+  meta: { touched, error },
+  label,
+  width,
+  inline,
+  ...rest
+}: FieldProps) => (
+  <Form.Field error={!!(touched && error)} required={required} width={width} inline={inline}>
+    {label && <label>{label}</label>}
+    <TextAreaComponent required={required} {...input} {...rest} />
     {touched && error ? (
       <Label basic={true} color="red" pointing={true}>
         {error}
