@@ -6,28 +6,21 @@ import AdminLayout from '../../components/AdminLayout';
 import UploadSteps from './UploadSteps';
 import SupplierInformation from './SupplierInformation';
 import Actions from './Actions';
+import SelectFile from './SelectFile';
+import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 
 interface Props {
   match: any;
   sellerData: any;
+  currentStep: number;
 }
 
-const steps = [
-  {
-    title: 'Add New Supplier',
-  },
-  {
-    title: 'Select File',
-  },
-  {
-    title: 'Data Mapping',
-  },
-  {
-    title: 'Data Validation',
-  },
-];
+const Steps = [SupplierInformation, SelectFile];
 
 export const UploadSupplierFiles = (props: Props) => {
+  const { currentStep } = props;
+  const StepComponent = Steps[currentStep];
+
   return (
     <AdminLayout
       auth={props.match.params.auth}
@@ -47,8 +40,8 @@ export const UploadSupplierFiles = (props: Props) => {
               Your browser does not support the video tag.
             </video>
           </Grid.Column>
-          <Grid.Column>
-            <SupplierInformation />
+          <Grid.Column className={styles.flex}>
+            <StepComponent />
           </Grid.Column>
         </Grid>
         <Actions />
@@ -59,6 +52,7 @@ export const UploadSupplierFiles = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   sellerData: state.settings.profile,
+  currentStep: currentStepSelector(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => {
