@@ -95,7 +95,7 @@ const SupplierInformation = () => {
     <Form>
       <Grid columns={2}>
         <Grid.Row>
-          <Grid.Column>
+          <Grid.Column width={4}>
             <div className={styles.form_container}>
               <Field
                 required={true}
@@ -120,16 +120,7 @@ const SupplierInformation = () => {
               />
             </div>
           </Grid.Column>
-          <Grid.Column>
-            {detailsOpen && (
-              <Modal open={detailsOpen} onClose={() => setDetailsOpen(false)}>
-                <Modal.Header>Supplier Details</Modal.Header>
-                <Modal.Content>
-                  <SupplierDetails />
-                </Modal.Content>
-              </Modal>
-            )}
-          </Grid.Column>
+          <Grid.Column width={12}>{detailsOpen && <SupplierDetails />}</Grid.Column>
         </Grid.Row>
       </Grid>
     </Form>
