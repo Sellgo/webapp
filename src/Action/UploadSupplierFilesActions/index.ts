@@ -12,7 +12,7 @@ import parse from 'csv-parse/lib/es5/index';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 import { getStepSpecification, Step } from './StepSpecifications';
 
-export const setUploadSupplierStep = (nextStep: number) => (
+export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ) => {
@@ -36,12 +36,24 @@ export const setUploadSupplierStep = (nextStep: number) => (
   // if step is decreased we should clean up previous step
   const cleanUpRequired = currentStep > nextStep;
   const cleaner = (dispatch: any, getState: any) => {};
-  cleaner(dispatch, getState);
 
-  dispatch({
-    type: SET_UPLOAD_SUPPLIER_STEP,
-    payload: nextStep,
-  });
+  if (cleanUpRequired) {
+    cleaner(dispatch, getState);
+  }
+
+  try {
+    if (stepSpecification.finalizeStep) {
+      // add loader
+      await stepSpecification.finalizeStep();
+    }
+
+    dispatch({
+      type: SET_UPLOAD_SUPPLIER_STEP,
+      payload: nextStep,
+    });
+  } catch (error) {
+    // display error ?
+  }
 };
 
 export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File) => ({

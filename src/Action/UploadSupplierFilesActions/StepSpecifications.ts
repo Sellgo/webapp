@@ -2,12 +2,14 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { UploadSteps } from '../../constant/constant';
-import { isValid, submit } from 'redux-form';
+import { isValid, submit, getFormValues } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
+import { saveSupplierNameAndDescription } from '../SYNActions';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
   abstract validate(): boolean;
+  finalizeStep?(): Promise<void>;
   abstract cleanUp(): void;
 }
 
@@ -22,6 +24,19 @@ export class AddNewSupplierStep extends Step {
     }
 
     return isFormValid;
+  }
+
+  async finalizeStep() {
+    const formValues: any = getFormValues('supplier-info')(this.getState());
+
+    try {
+      // add other form values
+      const { supplierName, description } = formValues;
+
+      await this.dispatch(saveSupplierNameAndDescription(supplierName, description));
+    } catch (error) {
+      throw error;
+    }
   }
 
   cleanUp() {}
