@@ -9,6 +9,7 @@ import Actions from './Actions';
 import SelectFile from './SelectFile';
 import DataMapping from './DataMapping';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
+import DataValidation from './DataValidation';
 
 interface Props {
   match: any;
@@ -16,7 +17,7 @@ interface Props {
   currentStep: number;
 }
 
-const Steps = [SupplierInformation, SelectFile, DataMapping];
+const Steps = [SupplierInformation, SelectFile, DataMapping, DataValidation];
 
 export const UploadSupplierFiles = (props: Props) => {
   const { currentStep } = props;

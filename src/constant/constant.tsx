@@ -175,3 +175,10 @@ export const FieldsToMap = [
     label: 'Title',
   },
 ];
+
+export enum UploadSteps {
+  AddNewSupplier,
+  SelectFile,
+  DataMapping,
+  DataValidation,
+}

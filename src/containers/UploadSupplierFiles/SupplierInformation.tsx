@@ -88,7 +88,6 @@ const SupplierDetails = () => (
 );
 
 const SupplierInformation = () => {
-  const { value: description, bind: descriptionBind } = useInput('');
   const [detailsOpen, setDetailsOpen] = useState(false);
 
   return (
