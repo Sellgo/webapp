@@ -60,7 +60,7 @@ export const InputField = ({
 interface OptionsFieldProps extends FieldProps {
   options: Array<{
     text: string;
-    value: string;
+    value: string | number;
   }>;
 }
 

@@ -33,6 +33,7 @@ export const UPDATE_SELLER_SUBSCRIBTION = '/SUBSCRIBE/UPDATE_SELLER_SUBSCRIBTION
 export const SET_UPLOAD_SUPPLIER_STEP = 'SET_UPLOAD_SUPPLIER_STEP';
 export const SET_CSV = 'SET_CSV';
 export const SET_RAW_CSV = 'SET_RAW_CSV';
+export const MAP_COLUMN = 'MAP_COLUMN';
 
 /**
  *
@@ -155,3 +156,22 @@ export const ProductFiltersPreset = [
 export const numberWithCommas = (x: any) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+export const FieldsToMap = [
+  {
+    key: 'UPC',
+    label: 'UPC/ EAN/ ASIN',
+  },
+  {
+    key: 'Cost',
+    label: 'Cost',
+  },
+  {
+    key: 'Supplier SKU',
+    label: 'Supplier SKU',
+  },
+  {
+    key: 'Title',
+    label: 'Title',
+  },
+];
