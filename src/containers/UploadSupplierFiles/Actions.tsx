@@ -7,7 +7,7 @@ import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 
 interface ActionsProps {
   currentStep: number;
-  setStep: typeof setUploadSupplierStep;
+  setStep: (nextStep: number) => void;
 }
 
 const Actions = ({ setStep, currentStep }: ActionsProps) => {

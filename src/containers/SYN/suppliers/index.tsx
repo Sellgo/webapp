@@ -269,13 +269,8 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   handleAddNewSupplierModalOpen = () => {
-    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-      this.setState({
-        supplier_name: '',
-        supplier_description: '',
-        modalOpen: true,
-        updateDetails: false,
-      });
+    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) === 'true') {
+      history.push('/upload-supplier');
     } else {
       this.message.title = 'Unauthorized Access';
       this.message.message = 'MWS Auth token not found';

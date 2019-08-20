@@ -7,7 +7,9 @@ import { InputField, SelectField, TextAreaField } from '../../components/ReduxFo
 import timezones from '../../constant/timezones';
 import accountStatuses from '../../constant/accountStatuses';
 import terms from '../../constant/terms';
+import isRequired from '../../utils/validations/isRequired';
 
+const required = isRequired();
 interface InputFieldProps {
   label: string;
   placeholder?: string;
@@ -98,6 +100,7 @@ const SupplierInformation = () => {
             <div className={styles.form_container}>
               <Field
                 required={true}
+                validate={required}
                 component={InputField}
                 name="supplierName"
                 label="Supplier Name"
@@ -106,6 +109,7 @@ const SupplierInformation = () => {
               <Form.Field>
                 <Field
                   required={true}
+                  validate={required}
                   component={TextAreaField}
                   name="description"
                   label="Description"
@@ -113,7 +117,7 @@ const SupplierInformation = () => {
                 />
               </Form.Field>
               <Icon
-                name="arrow circle right"
+                name={!detailsOpen ? 'arrow circle right' : 'arrow circle left'}
                 className={styles.supplier_details_toggle}
                 onClick={() => setDetailsOpen(!detailsOpen)}
               />
@@ -126,4 +130,4 @@ const SupplierInformation = () => {
   );
 };
 
-export default reduxForm({ form: 'supplier-info' })(SupplierInformation);
+export default reduxForm({ form: 'supplier-info', onSubmit: () => {} })(SupplierInformation);
