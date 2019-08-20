@@ -10,7 +10,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5/index';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
-import { getStepSpecification } from './StepSpecifications';
+import { getStepSpecification, Step } from './StepSpecifications';
 
 export const setUploadSupplierStep = (nextStep: number) => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -23,7 +23,7 @@ export const setUploadSupplierStep = (nextStep: number) => (
   }
 
   const currentStep = currentStepSelector(getState());
-  const stepSpecification = new (getStepSpecification(currentStep))(dispatch, getState);
+  const stepSpecification: Step = new (getStepSpecification(currentStep))(dispatch, getState);
 
   // if step is increased we need to validate before moving on
   const validationRequired = currentStep < nextStep;
