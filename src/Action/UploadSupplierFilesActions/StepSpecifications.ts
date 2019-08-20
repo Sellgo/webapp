@@ -3,8 +3,9 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { UploadSteps } from '../../constant/constant';
 import { isValid, submit } from 'redux-form';
+import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
 
-abstract class Step {
+export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
   abstract validate(): boolean;
   abstract cleanUp(): void;
@@ -28,7 +29,10 @@ export class AddNewSupplierStep extends Step {
 
 export class SelectFileStep extends Step {
   validate() {
-    return false;
+    const state = this.getState();
+    const csvFile = csvFileSelector(state);
+
+    return Boolean(csvFile);
   }
 
   cleanUp() {}
@@ -36,7 +40,8 @@ export class SelectFileStep extends Step {
 
 export class DataMappingStep extends Step {
   validate() {
-    return false;
+    // todo: change to decent validation
+    return true;
   }
 
   cleanUp() {}
@@ -44,7 +49,8 @@ export class DataMappingStep extends Step {
 
 export class DataValidationStep extends Step {
   validate() {
-    return false;
+    // todo: change to decent validation
+    return true;
   }
 
   cleanUp() {}
@@ -54,7 +60,15 @@ export function getStepSpecification(stepNumber: number) {
   switch (stepNumber) {
     case UploadSteps.AddNewSupplier:
       return AddNewSupplierStep;
-      break;
+
+    case UploadSteps.SelectFile:
+      return SelectFileStep;
+
+    case UploadSteps.DataMapping:
+      return DataMappingStep;
+
+    case UploadSteps.DataValidation:
+      return DataValidationStep;
 
     default:
       throw new Error('Step not defined');
