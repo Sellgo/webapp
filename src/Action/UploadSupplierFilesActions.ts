@@ -87,3 +87,15 @@ export const mapColumn = (csvColumn: string | number, targetColumn: string) => (
   csvColumn,
   targetColumn,
 });
+
+export const validateAndUploadCsv = () => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  getState: () => any
+) => {
+  // integrate with backend
+  await new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 2000);
+  });
+};
