@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { SET_UPLOAD_SUPPLIER_STEP, SET_CSV, SET_RAW_CSV } from '../constant/constant';
+import { SET_UPLOAD_SUPPLIER_STEP, SET_CSV, SET_RAW_CSV, MAP_COLUMN } from '../constant/constant';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5/index';
@@ -81,3 +81,9 @@ export const prepareCsv = (csvFile?: File) => async (
 
   reader.readAsText(csvFile);
 };
+
+export const mapColumn = (csvColumn: string | number, targetColumn: string) => ({
+  type: MAP_COLUMN,
+  csvColumn,
+  targetColumn,
+});

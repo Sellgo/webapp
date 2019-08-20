@@ -1,4 +1,4 @@
-import { SET_UPLOAD_SUPPLIER_STEP, SET_CSV, SET_RAW_CSV } from '../constant/constant';
+import { SET_UPLOAD_SUPPLIER_STEP, SET_CSV, SET_RAW_CSV, MAP_COLUMN } from '../constant/constant';
 import { setIn } from '../utils/immutablity';
 import { AnyAction, Reducer } from 'redux';
 
@@ -6,12 +6,18 @@ interface UploadSupplierFilesState {
   readonly currentStep: number;
   readonly csvString: string | null;
   readonly csvFile: File | null;
+  readonly rawCsv: string | null;
+  readonly csv: string[][] | null;
+  readonly columnMappings: {};
 }
 
 const initialState: UploadSupplierFilesState = {
   currentStep: 0,
   csvString: null,
   csvFile: null,
+  columnMappings: {},
+  rawCsv: null,
+  csv: null,
 };
 
 export const UploadSupplierFilesReducer = (
@@ -29,6 +35,11 @@ export const UploadSupplierFilesReducer = (
     }
     case SET_UPLOAD_SUPPLIER_STEP:
       return setIn(state, 'currentStep', action.payload);
+
+    case MAP_COLUMN: {
+      return setIn(state, ['columnMappings', action.csvColumn], action.targetColumn);
+    }
+
     default:
       return state;
   }

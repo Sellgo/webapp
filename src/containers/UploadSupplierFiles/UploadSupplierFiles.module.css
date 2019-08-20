@@ -2,6 +2,10 @@
   font-size: 0.7vw;
 }
 
+.marginTop {
+  margin-top: 1em !important;
+}
+
 .form_container {
   position: relative;
 }
@@ -25,4 +29,17 @@
 
 .flex {
   flex: 1;
+}
+
+.previewTableContainer {
+  height: 20em;
+  overflow: auto;
+}
+
+.previewTableContainer tr{
+  height: 2em;
+}
+
+.previewTableContainer td{
+  padding: 0.4em !important;
 }
