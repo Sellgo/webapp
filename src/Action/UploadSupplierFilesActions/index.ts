@@ -1,18 +1,48 @@
 import get from 'lodash/get';
-import { SET_UPLOAD_SUPPLIER_STEP, SET_CSV, SET_RAW_CSV, MAP_COLUMN } from '../constant/constant';
+import {
+  SET_UPLOAD_SUPPLIER_STEP,
+  SET_CSV,
+  SET_RAW_CSV,
+  MAP_COLUMN,
+  UploadSteps,
+} from '../../constant/constant';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5/index';
+import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
+import { getStepSpecification } from './StepSpecifications';
 
-export const setUploadSupplierStep = (
-  nextStep: number
-): {
-  type: string;
-  payload: number;
-} => ({
-  type: SET_UPLOAD_SUPPLIER_STEP,
-  payload: nextStep,
-});
+export const setUploadSupplierStep = (nextStep: number) => (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  getState: () => any
+) => {
+  const isStepWithinRange = Object.values(UploadSteps).indexOf(nextStep) !== -1;
+
+  if (!isStepWithinRange) {
+    return;
+  }
+
+  const currentStep = currentStepSelector(getState());
+  const stepSpecification = new (getStepSpecification(currentStep))(dispatch, getState);
+
+  // if step is increased we need to validate before moving on
+  const validationRequired = currentStep < nextStep;
+  const isValid = !validationRequired || stepSpecification.validate();
+
+  if (!isValid) {
+    return;
+  }
+
+  // if step is decreased we should clean up previous step
+  const cleanUpRequired = currentStep > nextStep;
+  const cleaner = (dispatch: any, getState: any) => {};
+  cleaner(dispatch, getState);
+
+  dispatch({
+    type: SET_UPLOAD_SUPPLIER_STEP,
+    payload: nextStep,
+  });
+};
 
 export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File) => ({
   type: SET_RAW_CSV,
