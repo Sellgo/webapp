@@ -6,7 +6,7 @@ export const currentStepSelector = (state: object): number =>
 export const csvSelector = (state: object): string[][] =>
   get(state, 'uploadSupplierFiles.csv', null);
 
-export const columnMappingsSelector = (state: object): {} =>
-  get(state, 'uploadSupplierFiles.columnMappings', {});
+export const columnMappingsSelector = (state: object): [] =>
+  get(state, 'uploadSupplierFiles.columnMappings', []);
 
-export const csvFileSelector = (state: object): {} => get(state, 'uploadSupplierFiles.csvFile');
+export const csvFileSelector = (state: object): File => get(state, 'uploadSupplierFiles.csvFile');

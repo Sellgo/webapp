@@ -9,8 +9,20 @@ import {
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5/index';
-import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
+import { currentStepSelector, csvFileSelector, columnMappingsSelector } from '../../selectors/UploadSupplierFiles';
 import { getStepSpecification, Step } from './StepSpecifications';
+import { sellerIDSelector } from '../../selectors/user';
+import { newSupplierIdSelector } from '../../selectors/syn';
+import { AppConfig } from '../../config';
+import Axios from 'axios';
+
+const headers = {
+  Authorization: `Bearer ${localStorage.getItem('idToken')}`,
+  'Content-Type': `multipart/form-data`,
+};
+// we need a better way to store file
+// sadly redux store doesn't allow storage of files
+let csv: File;
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -56,11 +68,14 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   }
 };
 
-export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File) => ({
-  type: SET_RAW_CSV,
-  csvString,
-  csvFile,
-});
+export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File) => {
+  csv = csvFile;
+  return {
+    type: SET_RAW_CSV,
+    csvString,
+    csvFile,
+  };
+};
 
 export const setCsv = (csv: string) => ({
   type: SET_CSV,
@@ -134,10 +149,22 @@ export const validateAndUploadCsv = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ) => {
-  // integrate with backend
-  await new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 2000);
-  });
+  const sellerID = sellerIDSelector();
+  const supplierID = newSupplierIdSelector(getState());
+  const file = csvFileSelector(getState());
+  const columnMappings = columnMappingsSelector(getState());
+
+  try {
+    const bodyFormData = new FormData();
+    bodyFormData.set('seller_id', String(sellerID));
+    bodyFormData.set('file', csv);
+    bodyFormData.set('column_map', columnMappings.join(','));
+
+    await Axios({
+      method: 'POST',
+      url: AppConfig.BASE_URL_API + `supplier/${String(supplierID)}/synthesis/upload/`,
+      data: bodyFormData,
+      headers,
+    });
+  } catch (error) {}
 };
