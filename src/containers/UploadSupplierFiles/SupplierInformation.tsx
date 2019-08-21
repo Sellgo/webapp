@@ -130,4 +130,4 @@ const SupplierInformation = () => {
   );
 };
 
-export default reduxForm({ form: 'supplier-info', onSubmit: () => {} })(SupplierInformation);
+export default SupplierInformation;
