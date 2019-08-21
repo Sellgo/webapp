@@ -15,7 +15,7 @@ const initialState: UploadSupplierFilesState = {
   currentStep: 0,
   csvString: null,
   csvFile: null,
-  columnMappings: {},
+  columnMappings: [],
   rawCsv: null,
   csv: null,
 };
