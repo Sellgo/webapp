@@ -10,6 +10,7 @@ import SelectFile from './SelectFile';
 import DataMapping from './DataMapping';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 import DataValidation from './DataValidation';
+import FormWrapper from './FormWrapper';
 
 interface Props {
   match: any;
@@ -43,7 +44,9 @@ export const UploadSupplierFiles = (props: Props) => {
             </video>
           </Grid.Column>
           <Grid.Column className={styles.flex}>
-            <StepComponent />
+            <FormWrapper>
+              <StepComponent />
+            </FormWrapper>
           </Grid.Column>
         </Grid>
         <Actions />
