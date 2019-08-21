@@ -34,6 +34,7 @@ export const SET_UPLOAD_SUPPLIER_STEP = 'SET_UPLOAD_SUPPLIER_STEP';
 export const SET_CSV = 'SET_CSV';
 export const SET_RAW_CSV = 'SET_RAW_CSV';
 export const MAP_COLUMN = 'MAP_COLUMN';
+export const CLEANUP_UPLOAD_SUPPLIER = 'CLEANUP_UPLOAD_SUPPLIER';
 
 /**
  *
@@ -159,11 +160,11 @@ export const numberWithCommas = (x: any) => {
 
 export const FieldsToMap = [
   {
-    key: 'UPC',
+    key: 'upc',
     label: 'UPC/ EAN/ ASIN',
   },
   {
-    key: 'Cost',
+    key: 'cost',
     label: 'Cost',
   },
   {
