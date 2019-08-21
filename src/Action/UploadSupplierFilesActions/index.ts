@@ -4,6 +4,7 @@ import {
   SET_CSV,
   SET_RAW_CSV,
   MAP_COLUMN,
+  CLEANUP_UPLOAD_SUPPLIER,
   UploadSteps,
 } from '../../constant/constant';
 import { ThunkDispatch } from 'redux-thunk';
@@ -15,6 +16,7 @@ import { sellerIDSelector } from '../../selectors/user';
 import { newSupplierIdSelector } from '../../selectors/syn';
 import { AppConfig } from '../../config';
 import Axios from 'axios';
+import reduce from 'lodash/reduce';
 
 const headers = {
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
@@ -154,11 +156,24 @@ export const validateAndUploadCsv = () => async (
   const file = csvFileSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
 
+  const reversedColumnMappings: any = reduce(
+    columnMappings,
+    (result: {}, value, key) => {
+      return {
+        ...result,
+        [value]: key,
+      };
+    },
+    {}
+  );
+
   try {
     const bodyFormData = new FormData();
     bodyFormData.set('seller_id', String(sellerID));
     bodyFormData.set('file', csv);
     bodyFormData.set('column_map', columnMappings.join(','));
+    bodyFormData.set('cost', reversedColumnMappings.cost);
+    bodyFormData.set('upc', reversedColumnMappings.upc);
 
     await Axios({
       method: 'POST',
@@ -168,3 +183,7 @@ export const validateAndUploadCsv = () => async (
     });
   } catch (error) {}
 };
+
+export const cleanupUploadSupplier = () => ({
+  type: CLEANUP_UPLOAD_SUPPLIER,
+});
