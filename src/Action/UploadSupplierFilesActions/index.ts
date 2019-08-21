@@ -5,12 +5,17 @@ import {
   SET_RAW_CSV,
   MAP_COLUMN,
   CLEANUP_UPLOAD_SUPPLIER,
+  REMOVE_COLUMN_MAPPINGS,
   UploadSteps,
 } from '../../constant/constant';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5/index';
-import { currentStepSelector, csvFileSelector, columnMappingsSelector } from '../../selectors/UploadSupplierFiles';
+import {
+  currentStepSelector,
+  csvFileSelector,
+  columnMappingsSelector,
+} from '../../selectors/UploadSupplierFiles';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/user';
 import { newSupplierIdSelector } from '../../selectors/syn';
@@ -24,7 +29,7 @@ const headers = {
 };
 // we need a better way to store file
 // sadly redux store doesn't allow storage of files
-let csv: File;
+let csv: File | null;
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -49,10 +54,9 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   // if step is decreased we should clean up previous step
   const cleanUpRequired = currentStep > nextStep;
-  const cleaner = (dispatch: any, getState: any) => {};
 
   if (cleanUpRequired) {
-    cleaner(dispatch, getState);
+    stepSpecification.cleanUp(nextStep);
   }
 
   try {
@@ -70,8 +74,9 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   }
 };
 
-export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File) => {
+export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null) => {
   csv = csvFile;
+
   return {
     type: SET_RAW_CSV,
     csvString,
@@ -168,6 +173,10 @@ export const validateAndUploadCsv = () => async (
   );
 
   try {
+    if (!csv) {
+      return;
+    }
+
     const bodyFormData = new FormData();
     bodyFormData.set('seller_id', String(sellerID));
     bodyFormData.set('file', csv);
@@ -186,4 +195,8 @@ export const validateAndUploadCsv = () => async (
 
 export const cleanupUploadSupplier = () => ({
   type: CLEANUP_UPLOAD_SUPPLIER,
+});
+
+export const removeColumnMappings = () => ({
+  type: REMOVE_COLUMN_MAPPINGS,
 });

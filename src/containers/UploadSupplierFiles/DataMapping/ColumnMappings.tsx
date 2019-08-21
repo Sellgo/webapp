@@ -4,7 +4,10 @@ import styles from '../UploadSupplierFiles.module.css';
 import { FieldsToMap } from '../../../constant/constant';
 import { Field } from 'redux-form';
 import { SelectField } from '../../../components/ReduxFormFields';
-import { csvSelector, columnMappingsSelector } from '../../../selectors/UploadSupplierFiles';
+import {
+  csvSelector,
+  reversedColumnMappingsSelector,
+} from '../../../selectors/UploadSupplierFiles';
 import { connect } from 'react-redux';
 import { mapColumn } from '../../../Action/UploadSupplierFilesActions';
 import reduce from 'lodash/reduce';
@@ -12,26 +15,18 @@ import reduce from 'lodash/reduce';
 interface ColumnMappingsProps {
   availableFields: string[];
   mapColumn: typeof mapColumn;
-  columnMappings: {};
+  reversedColumnMappings: { [key: string]: string};
 }
 
-const ColumnMappings = ({ availableFields, mapColumn, columnMappings }: ColumnMappingsProps) => {
+const ColumnMappings = ({
+  availableFields,
+  mapColumn,
+  reversedColumnMappings,
+}: ColumnMappingsProps) => {
   const availableFieldOptions = availableFields.map((availableField, index) => ({
     text: availableField,
     value: index,
   }));
-
-  // to make it easier for us to find which Fields was mapped
-  const reversedColumnMappings: any = reduce(
-    columnMappings,
-    (result: {}, value, key) => {
-      return {
-        ...result,
-        [value]: key,
-      };
-    },
-    {}
-  );
 
   return (
     <>
@@ -62,7 +57,7 @@ const ColumnMappings = ({ availableFields, mapColumn, columnMappings }: ColumnMa
 
 const mapStateToProps = (state: {}) => ({
   availableFields: csvSelector(state).length > 0 ? csvSelector(state)[0] : [],
-  columnMappings: columnMappingsSelector(state),
+  reversedColumnMappings: reversedColumnMappingsSelector(state),
 });
 
 const mapDispatchToProps = {
