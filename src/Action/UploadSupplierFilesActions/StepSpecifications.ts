@@ -1,19 +1,40 @@
+import { FieldsToMap } from './../../constant/constant';
+import {
+  columnMappingsSelector,
+  reversedColumnMappingsSelector,
+} from './../../selectors/UploadSupplierFiles/index';
 // tslint:disable:max-classes-per-file
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { UploadSteps } from '../../constant/constant';
-import { isValid, submit, getFormValues } from 'redux-form';
+import { isValid, submit, getFormValues, destroy } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
 import { saveSupplierNameAndDescription } from '../SYNActions';
+import { setRawCsv, removeColumnMappings } from '.';
+import isNil from 'lodash/isNil';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
   abstract validate(): boolean;
+  abstract cleanStep(): void;
+  abstract step: number;
   finalizeStep?(): Promise<void>;
-  abstract cleanUp(): void;
+  cleanUp(targetStep: number) {
+    this.cleanStep();
+
+    if (this.step === targetStep || this.step === 0) {
+      return;
+    }
+
+    const nextStepToClean = new (getStepSpecification(this.step - 1))(this.dispatch, this.getState);
+
+    nextStepToClean.cleanUp(targetStep);
+  }
 }
 
 export class AddNewSupplierStep extends Step {
+  step = UploadSteps.AddNewSupplier;
+
   validate() {
     const state = this.getState();
     const isFormValid = isValid('supplier-info')(state);
@@ -39,10 +60,14 @@ export class AddNewSupplierStep extends Step {
     }
   }
 
-  cleanUp() {}
+  cleanStep() {
+    this.dispatch(destroy('supplier-info'));
+  }
 }
 
 export class SelectFileStep extends Step {
+  step = UploadSteps.SelectFile;
+
   validate() {
     const state = this.getState();
     const csvFile = csvFileSelector(state);
@@ -50,25 +75,47 @@ export class SelectFileStep extends Step {
     return Boolean(csvFile);
   }
 
-  cleanUp() {}
+  cleanStep() {
+    // remove file
+    this.dispatch(setRawCsv('', null));
+
+    // remove mappings
+    this.dispatch(removeColumnMappings());
+  }
 }
 
 export class DataMappingStep extends Step {
+  step = UploadSteps.DataMapping;
+
   validate() {
+    const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
+    const requiredFieldsAreMapped = FieldsToMap.reduce((mappedCorrectly, fieldToMap) => {
+      if (!mappedCorrectly) {
+        return false;
+      }
+
+      if (!fieldToMap.required) {
+        return true;
+      }
+
+      return !isNil(reversedColumnMappings[fieldToMap.key]);
+    }, true);
+
     // todo: change to decent validation
-    return true;
+    return requiredFieldsAreMapped;
   }
 
-  cleanUp() {}
+  cleanStep() {}
 }
 
 export class DataValidationStep extends Step {
+  step = UploadSteps.DataValidation;
+
   validate() {
-    // todo: change to decent validation
     return true;
   }
 
-  cleanUp() {}
+  cleanStep() {}
 }
 
 export function getStepSpecification(stepNumber: number) {
@@ -87,6 +134,5 @@ export function getStepSpecification(stepNumber: number) {
 
     default:
       throw new Error('Step not defined');
-      break;
   }
 }

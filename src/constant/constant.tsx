@@ -35,6 +35,7 @@ export const SET_CSV = 'SET_CSV';
 export const SET_RAW_CSV = 'SET_RAW_CSV';
 export const MAP_COLUMN = 'MAP_COLUMN';
 export const CLEANUP_UPLOAD_SUPPLIER = 'CLEANUP_UPLOAD_SUPPLIER';
+export const REMOVE_COLUMN_MAPPINGS = 'REMOVE_COLUMN_MAPPINGS';
 
 /**
  *
@@ -162,18 +163,21 @@ export const FieldsToMap = [
   {
     key: 'upc',
     label: 'UPC/ EAN/ ASIN',
+    required: true,
   },
   {
     key: 'cost',
     label: 'Cost',
+    required: true,
   },
   {
     key: 'Supplier SKU',
     label: 'Supplier SKU',
   },
   {
-    key: 'Title',
+    key: 'title',
     label: 'Title',
+    required: true,
   },
 ];
 
