@@ -33,7 +33,6 @@ import {
   saveSupplierNameAndDescription,
   updateSupplierNameAndDescription,
   resetUploadCSVResponse,
-  uploadCSV,
   getTimeEfficiency,
   TimeEfficiency,
   deleteSupplier,
@@ -112,8 +111,6 @@ interface Props {
   ): () => any;
 
   deleteSupplier(supplier_id: any, callBack: any): () => any;
-
-  uploadCSV(new_supplier_id: string, file: any): () => void;
 
   match: { params: { auth: Auth } };
   suppliers: Supplier[];
@@ -213,40 +210,6 @@ export class Suppliers extends React.Component<Props, State> {
 
   fileChange = (event: any): void => {
     this.setState({ file: event.target.files[0] }, () => {});
-  };
-
-  public addNewSupplier = (): void => {
-    if (this.state.updateDetails) {
-      this.props.updateSupplierNameAndDescription(
-        this.state.supplier_name,
-        this.state.supplier_description,
-        this.state.update_product_id,
-        (data: any) => {
-          this.props.getSellers();
-          if (this.state.file != '') {
-            this.props.uploadCSV(String(this.state.update_product_id), this.state.file);
-            this.setState({ file: '' });
-          }
-          this.setState({ updateDetails: false });
-          this.handleClose();
-        }
-      );
-    } else {
-      this.props.saveSupplierNameAndDescription(
-        this.state.supplier_name,
-        this.state.supplier_description,
-        (data: any) => {
-          this.props.postProductTrackGroupId(data.id, this.state.supplier_name);
-          this.props.getSellers();
-          if (this.props.new_supplier != null && this.state.file != '') {
-            this.props.uploadCSV(String(this.props.new_supplier), this.state.file);
-            this.setState({ file: '' });
-          }
-
-          this.handleClose();
-        }
-      );
-    }
   };
 
   openUpdateSupplierPopup = (value: any): void => {
@@ -737,7 +700,6 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),
     deleteSupplier: (supplier_id: any, callBack: any) =>
       dispatch(deleteSupplier(supplier_id, callBack)),
-    uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),
   };
 };
 
