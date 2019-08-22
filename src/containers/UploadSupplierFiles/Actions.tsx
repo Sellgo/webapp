@@ -8,14 +8,15 @@ import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 interface ActionsProps {
   currentStep: number;
   setStep: (nextStep: number) => void;
+  className?: string;
 }
 
-const Actions = ({ setStep, currentStep }: ActionsProps) => {
+const Actions = ({ setStep, currentStep, className }: ActionsProps) => {
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
 
   return (
-    <div className={styles.actions}>
+    <div className={`${className || ''} ${styles.actions}`}>
       <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
         Previous
       </Button>

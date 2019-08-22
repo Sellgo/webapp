@@ -49,6 +49,7 @@ import { Modals } from '../../../components/Modals';
 import MesssageComponent from '../../../components/MessageComponent';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 import Auth from '../../../components/Auth/Auth';
+import UploadSupplierFiles from '../../UploadSupplierFiles';
 
 interface State {
   isMessageModalOn: boolean;
@@ -270,7 +271,12 @@ export class Suppliers extends React.Component<Props, State> {
 
   handleAddNewSupplierModalOpen = () => {
     if (localStorage.getItem(localStorageKeys.isMWSAuthorized) === 'true') {
-      history.push('/upload-supplier');
+      this.setState({
+        supplier_name: '',
+        supplier_description: '',
+        modalOpen: true,
+        updateDetails: false,
+      });
     } else {
       this.message.title = 'Unauthorized Access';
       this.message.message = 'MWS Auth token not found';
@@ -301,6 +307,7 @@ export class Suppliers extends React.Component<Props, State> {
         open={this.state.modalOpen}
         onClose={this.handleClose}
         closeIcon={true}
+        style={{ width: '90%' }}
         trigger={
           <Button
             basic={true}
@@ -313,106 +320,9 @@ export class Suppliers extends React.Component<Props, State> {
           </Button>
         }
       >
-        <Modal.Header>
-          <Grid columns={4}>
-            <Grid.Row>
-              <Grid.Column style={{ margin: 0 }} floated="left" width={6}>
-                Add New Supplier
-              </Grid.Column>
-              <Grid.Column style={{ padding: 0 }} floated="left">
-                <Icon name="file" />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Modal.Header>
         <Modal.Content>
-          <Grid columns={3}>
-            <Grid.Row>
-              <Grid.Column>Supplier Name*</Grid.Column>
-              <Grid.Column width={8} floated="left">
-                <Input
-                  value={this.state.supplier_name}
-                  onChange={event => {
-                    this.onChangeSupplierName(event);
-                  }}
-                  style={{ width: 300 }}
-                  placeholder="Please Enter"
-                />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column>Description</Grid.Column>
-              <Grid.Column width={9} floated="left">
-                <Form>
-                  <TextArea
-                    value={this.state.supplier_description}
-                    onChange={event => {
-                      this.onChangeSupplierDescription(event);
-                    }}
-                    style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
-                    placeholder="Supplier Description"
-                  />
-                </Form>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column
-                style={{ marginTop: '10px', marginBottom: '10px' }}
-                floated="right"
-                width={9}
-              >
-                <Checkbox />
-                &nbsp; Automatically upload upon exit
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+          <UploadSupplierFiles />
         </Modal.Content>
-        <Modal.Actions>
-          <Button
-            size="mini"
-            basic={true}
-            color="grey"
-            style={{ borderRadius: 20 }}
-            floated="left"
-            onClick={this.handleClose}
-            content="Cancel"
-          />
-          <Button
-            size="mini"
-            basic={true}
-            floated="left"
-            color="blue"
-            disabled={
-              (this.state.supplier_name == '' && this.state.file == '') ||
-              (!this.state.updateDetails && this.state.supplier_name == '')
-            }
-            style={{ borderRadius: 20 }}
-            onClick={this.addNewSupplier}
-            content="Save"
-          />
-          <Button
-            size="mini"
-            color="blue"
-            style={{ borderRadius: 20 }}
-            icon="chevron down"
-            labelPosition="right"
-            content="Upload Supplier CSV"
-            onClick={() => this.fileInputRef.current.click()}
-          />
-          <input
-            ref={this.fileInputRef}
-            type="file"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            hidden={true}
-            onChange={this.fileChange}
-          />
-          <Popup
-            trigger={<Icon name="question circle" color={'grey'} />}
-            content="Sellgo"
-            position="top left"
-            size="tiny"
-          />
-        </Modal.Actions>
       </Modal>
     );
   };

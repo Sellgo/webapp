@@ -38,7 +38,7 @@ const ColumnMappings = ({
           {FieldsToMap.map(({ key, label }) => (
             <Grid.Column key={key} width={3}>
               <Form.Field>
-                <label>{label}</label>
+                <label className="block">{label}</label>
                 <Select
                   style={{ minWidth: '10em' }}
                   onChange={(event, data) => mapColumn(data.value as number, key)}
