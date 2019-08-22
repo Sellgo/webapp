@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useAsyncEffect } from '../../hooks';
 import { validateAndUploadCsv } from '../../Action/UploadSupplierFilesActions';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Dimmer, Icon } from 'semantic-ui-react';
+import styles from './UploadSupplierFiles.module.css';
 
 interface DataValidationProps {
   validateAndUploadCsv: any;
@@ -24,14 +25,25 @@ const DataValidation = (props: DataValidationProps) => {
   }, []);
 
   if (loading) {
-    return <Loader active={loading} />;
+    return (
+      <Dimmer active={true} inverted={true}>
+        <Loader size="huge">Loading</Loader>
+      </Dimmer>
+    );
   }
 
   if (error) {
-    return <div>Something went wrong!</div>;
+    return <div className="center-child">Something went wrong!</div>;
   }
 
-  return <div>Completed</div>;
+  return (
+    <div className={styles.successMessage}>
+      <Icon name="check circle" size="huge" className={styles.checkCircle} />
+      <p>
+        <b>Supplier successfully added</b>
+      </p>
+    </div>
+  );
 };
 
 const mapStateToProps = () => ({});
