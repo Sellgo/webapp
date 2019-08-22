@@ -2,20 +2,18 @@ import React from 'react';
 import { Header, Grid, GridColumn, Select, Form } from 'semantic-ui-react';
 import styles from '../UploadSupplierFiles.module.css';
 import { FieldsToMap } from '../../../constant/constant';
-import { Field } from 'redux-form';
-import { SelectField } from '../../../components/ReduxFormFields';
 import {
-  csvSelector,
   reversedColumnMappingsSelector,
+  csvHeaderSelector,
 } from '../../../selectors/UploadSupplierFiles';
 import { connect } from 'react-redux';
 import { mapColumn } from '../../../Action/UploadSupplierFilesActions';
-import reduce from 'lodash/reduce';
+import isNil from 'lodash/isNil';
 
 interface ColumnMappingsProps {
   availableFields: string[];
   mapColumn: typeof mapColumn;
-  reversedColumnMappings: { [key: string]: string};
+  reversedColumnMappings: { [key: string]: number };
 }
 
 const ColumnMappings = ({
@@ -42,7 +40,7 @@ const ColumnMappings = ({
                 <Select
                   style={{ minWidth: '10em' }}
                   onChange={(event, data) => mapColumn(data.value as number, key)}
-                  value={parseInt(reversedColumnMappings[key], 10)}
+                  value={isNil(reversedColumnMappings[key]) ? -1 : reversedColumnMappings[key]}
                   name={key}
                   options={availableFieldOptions}
                 />
@@ -56,7 +54,7 @@ const ColumnMappings = ({
 };
 
 const mapStateToProps = (state: {}) => ({
-  availableFields: csvSelector(state).length > 0 ? csvSelector(state)[0] : [],
+  availableFields: csvHeaderSelector(state),
   reversedColumnMappings: reversedColumnMappingsSelector(state),
 });
 

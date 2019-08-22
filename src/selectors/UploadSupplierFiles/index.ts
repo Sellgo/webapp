@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
+import numberToLetter from '../../utils/numberToLetter';
 
 export const currentStepSelector = (state: object): number =>
   get(state, 'uploadSupplierFiles.currentStep', 0);
@@ -11,11 +12,23 @@ export const csvSelector = (state: object): string[][] =>
 export const columnMappingsSelector = (state: object): [] =>
   get(state, 'uploadSupplierFiles.columnMappings', []);
 
+export const csvHeaderSelector = createSelector(
+  [csvSelector],
+  csv => {
+    const headerRow = csv.length > 0 ? csv[0] : [];
+
+    // convert header to alphabet
+    const alphabeticHeader = headerRow.map((data, index) => numberToLetter(index));
+
+    return alphabeticHeader;
+  }
+);
+
 export const csvFileSelector = (state: object): File => get(state, 'uploadSupplierFiles.csvFile');
 
 export const reversedColumnMappingsSelector = createSelector(
   [columnMappingsSelector],
-  (columnMappings): { [key: string]: string } => {
+  (columnMappings): { [key: string]: number } => {
     return reduce(
       columnMappings,
       (result: {}, value, key) => {
