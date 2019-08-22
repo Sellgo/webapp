@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import PreviewTable from './PreviewTable';
-import Message from './Message';
 import ColumnMappings from './ColumnMappings';
 import styles from '../UploadSupplierFiles.module.css';
 
