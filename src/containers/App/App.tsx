@@ -16,6 +16,8 @@ import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
 import UploadSupplierFiles from '../UploadSupplierFiles';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const auth = new Auth();
 
@@ -40,91 +42,94 @@ const isAuthenticated = () => {
 
 function App(Props: any) {
   return (
-    <Router history={history}>
-      <Switch>
-        <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />} />
-        <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
-        <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
-        <Route exact={true} path="/forgot-password" component={RecoverPass} />
-        <Route exact={true} path="/product-tracker" component={ProductTracker} />
-        <Route
-          path="/callback"
-          render={Props => {
-            handleAuthentication(Props.location);
-            return <Callback {...Props} />;
-          }}
-        />
-        <Route
-          exact={true}
-          path="/dashboard/setting"
-          render={routeProps => {
-            routeProps.match.params.auth = auth;
-            if (isAuthenticated()) {
-              return <Setting {...routeProps} />;
-            }
-          }}
-        />
-        <Route
-          exact={true}
-          path="/dashboard/subscription"
-          render={routeProps => {
-            routeProps.match.params.auth = auth;
-            if (isAuthenticated()) {
-              return <Subscription {...routeProps} />;
-            }
-          }}
-        />
-        <Route
-          exact={true}
-          path="/dashboard"
-          render={routeProps => {
-            routeProps.match.params.auth = auth;
-            if (isAuthenticated()) {
-              return <Dashboard {...routeProps} />;
-            }
-          }}
-        />
+    <div>
+      <ToastContainer position="bottom-right" hideProgressBar={true} bodyClassName="toast-body" />
+      <Router history={history}>
+        <Switch>
+          <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />} />
+          <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
+          <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
+          <Route exact={true} path="/forgot-password" component={RecoverPass} />
+          <Route exact={true} path="/product-tracker" component={ProductTracker} />
+          <Route
+            path="/callback"
+            render={Props => {
+              handleAuthentication(Props.location);
+              return <Callback {...Props} />;
+            }}
+          />
+          <Route
+            exact={true}
+            path="/dashboard/setting"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <Setting {...routeProps} />;
+              }
+            }}
+          />
+          <Route
+            exact={true}
+            path="/dashboard/subscription"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <Subscription {...routeProps} />;
+              }
+            }}
+          />
+          <Route
+            exact={true}
+            path="/dashboard"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <Dashboard {...routeProps} />;
+              }
+            }}
+          />
 
-        <Route
-          exact={true}
-          path="/syn"
-          render={routeProps => {
-            routeProps.match.params.auth = auth;
-            if (isAuthenticated()) {
-              return <Suppliers {...routeProps} />;
-            }
-          }}
-        />
-        <Route
-          exact={true}
-          path="/syn/:supplierID"
-          render={routeProps => {
-            routeProps.match.params.auth = auth;
-            if (isAuthenticated()) {
-              return <SupplierDetail {...routeProps} />;
-            }
-          }}
-        />
-        <Route
-          exact={true}
-          // todo replace path with a suitable one
-          path="/upload-supplier"
-          render={routeProps => {
-            routeProps.match.params.auth = auth;
-            if (isAuthenticated()) {
-              return <UploadSupplierFiles {...routeProps} />;
-            }
-          }}
-        />
-        <Route
-          render={() => (
-            <AdminLayout auth={auth} {...Props}>
-              <Segment>Page not found</Segment>
-            </AdminLayout>
-          )}
-        />
-      </Switch>
-    </Router>
+          <Route
+            exact={true}
+            path="/syn"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <Suppliers {...routeProps} />;
+              }
+            }}
+          />
+          <Route
+            exact={true}
+            path="/syn/:supplierID"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <SupplierDetail {...routeProps} />;
+              }
+            }}
+          />
+          <Route
+            exact={true}
+            // todo replace path with a suitable one
+            path="/upload-supplier"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <UploadSupplierFiles {...routeProps} />;
+              }
+            }}
+          />
+          <Route
+            render={() => (
+              <AdminLayout auth={auth} {...Props}>
+                <Segment>Page not found</Segment>
+              </AdminLayout>
+            )}
+          />
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

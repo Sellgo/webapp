@@ -9,15 +9,19 @@ import { AnyAction } from 'redux';
 import { UploadSteps } from '../../constant/constant';
 import { isValid, submit, getFormValues, destroy } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
+import { error } from '../../utils/notifications';
 import { saveSupplierNameAndDescription } from '../SYNActions';
 import { setRawCsv, removeColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
-  abstract validate(): boolean;
+  abstract validate(): string | undefined;
   abstract cleanStep(): void;
   abstract step: number;
+  error(message: string) {
+    error(message);
+  }
   finalizeStep?(): Promise<void>;
   cleanUp(targetStep: number) {
     this.cleanStep();
@@ -38,13 +42,15 @@ export class AddNewSupplierStep extends Step {
   validate() {
     const state = this.getState();
     const isFormValid = isValid('supplier-info')(state);
+    let errorMessage;
 
     if (!isFormValid) {
       // submitting will make errors visible
       this.dispatch(submit('supplier-info'));
+      errorMessage = 'Please fill required fields';
     }
 
-    return isFormValid;
+    return errorMessage;
   }
 
   async finalizeStep() {
@@ -71,8 +77,10 @@ export class SelectFileStep extends Step {
   validate() {
     const state = this.getState();
     const csvFile = csvFileSelector(state);
+    const fileSet = Boolean(csvFile);
+    const errorMessage = fileSet ? undefined : 'Please select a csv file';
 
-    return Boolean(csvFile);
+    return errorMessage;
   }
 
   cleanStep() {
@@ -89,20 +97,13 @@ export class DataMappingStep extends Step {
 
   validate() {
     const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
-    const requiredFieldsAreMapped = FieldsToMap.reduce((mappedCorrectly, fieldToMap) => {
-      if (!mappedCorrectly) {
-        return false;
-      }
+    const unmappedFieldNames = FieldsToMap.filter(fieldToMap => fieldToMap.required)
+      .filter(fieldToMap => isNil(reversedColumnMappings[fieldToMap.key]))
+      .map(fieldToMap => fieldToMap.label);
 
-      if (!fieldToMap.required) {
-        return true;
-      }
+    const requiredFieldsAreMapped = unmappedFieldNames.length === 0;
 
-      return !isNil(reversedColumnMappings[fieldToMap.key]);
-    }, true);
-
-    // todo: change to decent validation
-    return requiredFieldsAreMapped;
+    return requiredFieldsAreMapped ? undefined : `Please map ${unmappedFieldNames.join(', ')}`;
   }
 
   cleanStep() {}
@@ -112,7 +113,7 @@ export class DataValidationStep extends Step {
   step = UploadSteps.DataValidation;
 
   validate() {
-    return true;
+    return undefined;
   }
 
   cleanStep() {}
