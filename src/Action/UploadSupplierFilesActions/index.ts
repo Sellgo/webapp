@@ -160,7 +160,6 @@ export const validateAndUploadCsv = () => async (
 ) => {
   const sellerID = sellerIDSelector();
   const supplierID = newSupplierIdSelector(getState());
-  const file = csvFileSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
 
   const reversedColumnMappings: any = reduce(
@@ -174,25 +173,23 @@ export const validateAndUploadCsv = () => async (
     {}
   );
 
-  try {
-    if (!csv) {
-      return;
-    }
+  if (!csv) {
+    return;
+  }
 
-    const bodyFormData = new FormData();
-    bodyFormData.set('seller_id', String(sellerID));
-    bodyFormData.set('file', csv);
-    bodyFormData.set('cost', reversedColumnMappings.cost);
-    bodyFormData.set('upc', reversedColumnMappings.upc);
-    bodyFormData.set('title', reversedColumnMappings.title);
+  const bodyFormData = new FormData();
+  bodyFormData.set('seller_id', String(sellerID));
+  bodyFormData.set('filee', csv);
+  bodyFormData.set('cost', reversedColumnMappings.cost);
+  bodyFormData.set('upc', reversedColumnMappings.upc);
+  bodyFormData.set('title', reversedColumnMappings.title);
 
-    await Axios({
-      method: 'POST',
-      url: AppConfig.BASE_URL_API + `supplier/${String(supplierID)}/synthesis/upload/`,
-      data: bodyFormData,
-      headers,
-    });
-  } catch (error) {}
+  await Axios({
+    method: 'POST',
+    url: AppConfig.BASE_URL_API + `supplier/${String(supplierID)}/synthesis/upload/`,
+    data: bodyFormData,
+    headers,
+  });
 };
 
 export const cleanupUploadSupplier = () => ({
