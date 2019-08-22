@@ -71,7 +71,8 @@ export const setUploadSupplierStep = (nextStep: number) => async (
       type: SET_UPLOAD_SUPPLIER_STEP,
       payload: nextStep,
     });
-  } catch (error) {
+  } catch (err) {
+    error('Something went wrong');
     // display error ?
   }
 };
