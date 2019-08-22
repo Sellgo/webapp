@@ -114,7 +114,6 @@ export const SettingReducer = (state = initialState, action: any) => {
       return state;
     case PATCH_AMAZON_MWS:
       // data = action.data;
-      console.log(action.data);
       data = {
         seller_id: '',
         amazon_seller_id: '',

@@ -217,7 +217,7 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     .then(json => {
       dispatch(setTimeEfficiency(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: any) => {
@@ -240,7 +240,7 @@ export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: a
         );
       }
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: any) => {
@@ -252,7 +252,7 @@ export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: an
     .then(json => {
       dispatch(setChartValuesRank(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductDetail = (productID: string, supplierID: string) => (dispatch: any) => {
@@ -264,7 +264,7 @@ export const getProductDetail = (productID: string, supplierID: string) => (disp
     .then(json => {
       dispatch(setProductDetail(json.data[0]));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductDetailChartRank = (product_id: string) => (dispatch: any) => {
@@ -276,7 +276,7 @@ export const getProductDetailChartRank = (product_id: string) => (dispatch: any)
     .then(json => {
       dispatch(setProductDetailChartRank(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
@@ -288,7 +288,7 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
     .then(json => {
       dispatch(setProductDetailChartPrice(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductDetailChartKpi = (product_id: string) => (dispatch: any) => {
@@ -300,7 +300,7 @@ export const getProductDetailChartKpi = (product_id: string) => (dispatch: any) 
     .then(json => {
       dispatch(setProductDetailChartKpi(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
@@ -333,7 +333,7 @@ export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
         dispatch(setProductTrackData(json.data[0]));
       }
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) => {
@@ -346,7 +346,7 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
     .then(json => {
       dispatch(reduceProductTrackGroup(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const postProductTrackGroupId = (supplierID: string, supplierName: string) => (
@@ -368,7 +368,7 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
     .then(json => {
       // dispatch(reduceProductTrackGroup(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 function createSupplierGroup(supplier_name: string, call_back: any) {
@@ -384,7 +384,7 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
     .then(json => {
       call_back(json.data);
     })
-    .catch(error => {});
+    .catch(error => { });
 }
 
 export const saveSupplierNameAndDescription = (
@@ -409,7 +409,7 @@ export const saveSupplierNameAndDescription = (
         dispatch(setsaveSupplierNameAndDescription(json.data));
         callBack(json.data);
       })
-      .catch(error => {});
+      .catch(error => { });
   });
 };
 
@@ -427,7 +427,7 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
     .then(json => {
       callBack(json.data);
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const updateSupplierNameAndDescription = (
@@ -450,7 +450,7 @@ export const updateSupplierNameAndDescription = (
     .then(json => {
       callBack(json.data);
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getLastFileID = (supplierID: string) => (dispatch: any) => {
@@ -472,7 +472,7 @@ export const getLastFileID = (supplierID: string) => (dispatch: any) => {
       dispatch(setSynthesisFileID(json.data));
       getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
@@ -492,7 +492,7 @@ export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatc
         }, 2000);
       }
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
@@ -614,7 +614,7 @@ export const trackProductWithPost = (
     .then(json => {
       dispatch(updateProduct(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const trackProductWithPatch = (
@@ -638,7 +638,7 @@ export const trackProductWithPatch = (
     .then(json => {
       dispatch(updateProduct(json.data));
     })
-    .catch(error => {});
+    .catch(error => { });
 };
 
 export const resetProductData = (data: {}) => ({
