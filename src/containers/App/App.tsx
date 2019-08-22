@@ -110,17 +110,6 @@ function App(Props: any) {
             }}
           />
           <Route
-            exact={true}
-            // todo replace path with a suitable one
-            path="/upload-supplier"
-            render={routeProps => {
-              routeProps.match.params.auth = auth;
-              if (isAuthenticated()) {
-                return <UploadSupplierFiles {...routeProps} />;
-              }
-            }}
-          />
-          <Route
             render={() => (
               <AdminLayout auth={auth} {...Props}>
                 <Segment>Page not found</Segment>
