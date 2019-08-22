@@ -1,3 +1,4 @@
+import { error } from './../../utils/notifications';
 import get from 'lodash/get';
 import {
   SET_UPLOAD_SUPPLIER_STEP,
@@ -46,9 +47,10 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   // if step is increased we need to validate before moving on
   const validationRequired = currentStep < nextStep;
-  const isValid = !validationRequired || stepSpecification.validate();
+  const errorMessage = validationRequired ? stepSpecification.validate() : undefined;
 
-  if (!isValid) {
+  if (errorMessage) {
+    error(errorMessage);
     return;
   }
 
