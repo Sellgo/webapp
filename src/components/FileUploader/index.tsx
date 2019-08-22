@@ -17,7 +17,7 @@ function FileUploader(props: FileUploaderProps) {
 
   // cloud download
   return (
-    <button {...getRootProps()} className={styles.container} tabIndex={-1}>
+    <button {...getRootProps()} className={`file-uploader ${styles.container}`} tabIndex={-1}>
       <input {...getInputProps()} />
       <Icon name="cloud upload" size="huge" className={styles.cloud} />
       <br />
