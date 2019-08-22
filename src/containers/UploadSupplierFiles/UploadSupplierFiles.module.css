@@ -1,5 +1,21 @@
+.container {
+  min-height: 32em;
+  display: flex;
+  flex-direction: column;
+}
+
 .container, .container :global(.form) {
-  font-size: 0.7vw;
+  font-size: 0.9vw;
+}
+
+.container :global(.row) {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.container :global(.ui.grid) {
+  margin-top: -1rem !important;
+  margin-bottom: -1rem !important;
 }
 
 .marginTop {
@@ -19,7 +35,7 @@
 }
 
 .actions {
-  margin-left: 60%;
+  margin-left: auto;
 }
 
 .action {
@@ -42,4 +58,14 @@
 
 .previewTableContainer td{
   padding: 0.4em !important;
+}
+
+.section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.section :global(.file-uploader) {
+  flex: 1;
 }

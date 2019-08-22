@@ -180,9 +180,9 @@ export const validateAndUploadCsv = () => async (
     const bodyFormData = new FormData();
     bodyFormData.set('seller_id', String(sellerID));
     bodyFormData.set('file', csv);
-    bodyFormData.set('column_map', columnMappings.join(','));
     bodyFormData.set('cost', reversedColumnMappings.cost);
     bodyFormData.set('upc', reversedColumnMappings.upc);
+    bodyFormData.set('title', reversedColumnMappings.title);
 
     await Axios({
       method: 'POST',
