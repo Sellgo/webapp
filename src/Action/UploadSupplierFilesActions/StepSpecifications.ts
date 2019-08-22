@@ -2,6 +2,7 @@ import { FieldsToMap } from './../../constant/constant';
 import {
   columnMappingsSelector,
   reversedColumnMappingsSelector,
+  csvSelector,
 } from './../../selectors/UploadSupplierFiles/index';
 // tslint:disable:max-classes-per-file
 import { ThunkDispatch } from 'redux-thunk';
@@ -13,6 +14,11 @@ import { error } from '../../utils/notifications';
 import { saveSupplierNameAndDescription } from '../SYNActions';
 import { setRawCsv, removeColumnMappings } from '.';
 import isNil from 'lodash/isNil';
+import every from 'lodash/every';
+import uniq from 'lodash/uniq';
+import some from 'lodash/some';
+import isEmpty from 'lodash/isEmpty';
+import validator from 'validator';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
@@ -91,11 +97,12 @@ export class SelectFileStep extends Step {
     this.dispatch(removeColumnMappings());
   }
 }
+(<any>window).test = validator.isDecimal;
 
 export class DataMappingStep extends Step {
   step = UploadSteps.DataMapping;
 
-  validate() {
+  allFieldsMapped() {
     const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
     const unmappedFieldNames = FieldsToMap.filter(fieldToMap => fieldToMap.required)
       .filter(fieldToMap => isNil(reversedColumnMappings[fieldToMap.key]))
@@ -104,6 +111,50 @@ export class DataMappingStep extends Step {
     const requiredFieldsAreMapped = unmappedFieldNames.length === 0;
 
     return requiredFieldsAreMapped ? undefined : `Please map ${unmappedFieldNames.join(', ')}`;
+  }
+
+  validateFields() {
+    const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
+    const csv = csvSelector(this.getState());
+
+    // ignore first row as it is header
+    const [_, ...rows] = csv;
+
+    const upc: string[] = [];
+    const title: string[] = [];
+    const cost: string[]= [];
+
+    rows.forEach(row => {
+      upc.push(row[reversedColumnMappings.upc]);
+      title.push(row[reversedColumnMappings.title]);
+      cost.push(row[reversedColumnMappings.cost]);
+    });
+
+    // validate cost
+    if (!every(cost, value => validator.isDecimal(value.toString()))) {
+      return 'cost must be a valid amount';
+    }
+    // validate upc
+    if (!every(upc, validator.isNumeric)) {
+      return 'upc must be numeric';
+    }
+
+    if (uniq(upc).length !== upc.length) {
+      return 'upc must be unique';
+    }
+
+    if (some(upc, isEmpty)) {
+      return 'upc can\'t be empty';
+    }
+
+    // validate title
+    if (some(title, isEmpty)) {
+      return 'upc can\'t be empty';
+    }
+  }
+
+  validate() {
+    return this.allFieldsMapped() || this.validateFields();
   }
 
   cleanStep() {}

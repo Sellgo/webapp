@@ -262,3 +262,10 @@ a {
 .toast-body {
   font-size: 16px;
 }
+
+.center-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}

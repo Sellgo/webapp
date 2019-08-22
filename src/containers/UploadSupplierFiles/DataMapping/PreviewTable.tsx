@@ -1,23 +1,29 @@
 import React from 'react';
 import { Table, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { csvSelector, columnMappingsSelector } from '../../../selectors/UploadSupplierFiles';
+import {
+  csvSelector,
+  columnMappingsSelector,
+  csvHeaderSelector,
+} from '../../../selectors/UploadSupplierFiles';
 import reduce from 'lodash/reduce';
 
+const NUMBER_OF_ROWS_TO_DISPLAY = 6;
 interface PreviewTableProps {
   csv: string[][];
+  columnHeaders: string[];
   columnMappings: any;
 }
 
 const PreviewTable = (props: PreviewTableProps) => {
-  const { csv, columnMappings } = props;
+  const { csv, columnMappings, columnHeaders } = props;
   if (csv.length === 0) {
     return <div>Empty Table</div>;
   }
 
-  const columnHeaders = csv.length > 0 ? csv[0] : [];
-  const previewRows = csv.slice(1, 6);
-  const remainingRowsLength = csv.length > 6 ? csv.length - 6 : 0;
+  const previewRows = csv.slice(0, NUMBER_OF_ROWS_TO_DISPLAY);
+  const remainingRowsLength =
+    csv.length > NUMBER_OF_ROWS_TO_DISPLAY ? csv.length - NUMBER_OF_ROWS_TO_DISPLAY : 0;
 
   return (
     <Table celled={true}>
@@ -30,12 +36,6 @@ const PreviewTable = (props: PreviewTableProps) => {
       </Table.Header>
 
       <Table.Body>
-        <Table.Row>
-          {columnHeaders.map((columnHeader, index) => (
-            <Table.Cell key={columnHeader}>{columnMappings[index]}</Table.Cell>
-          ))}
-        </Table.Row>
-
         {previewRows.map((previewRow, index) => (
           <Table.Row key={index}>
             {previewRow.map((previewRowValue, index) => (
@@ -58,6 +58,7 @@ const PreviewTable = (props: PreviewTableProps) => {
 };
 
 const mapStateToProps = (state: object) => ({
+  columnHeaders: csvHeaderSelector(state),
   csv: csvSelector(state),
   columnMappings: columnMappingsSelector(state),
 });
