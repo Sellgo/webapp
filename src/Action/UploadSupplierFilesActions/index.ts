@@ -132,13 +132,12 @@ export const prepareCsv = (csvFile?: File) => async (
   }
 
   const reader = new FileReader();
-  const statusFlag = 'csv_import';
 
   reader.onloadend = () => {
     const csvString = reader.result;
 
     if (!csvString || reader.error) {
-      // handle error csv
+      error('Error occurred while uploading csv. Please try again later.');
     } else {
       dispatch(setRawCsv(csvString, csvFile));
       dispatch(parseCsv());
