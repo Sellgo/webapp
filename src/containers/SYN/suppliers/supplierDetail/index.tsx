@@ -375,7 +375,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       currentPage * this.state.singlePageItemsCount,
       (currentPage + 1) * this.state.singlePageItemsCount
     );
-    return this.props.products.length == 0 ? (
+    return this.state.products.length === 0 ? (
       <Segment>
         <Loader active={true} inline="centered" size="massive">
           Loading
@@ -961,9 +961,7 @@ export class SupplierDetail extends React.Component<Props, State> {
           ]);
         }
         return popup_price_conainer.length == 0 && popup_rank_conainer.length == 0 ? (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
+          <Loader active={true} inline="centered" className="popup-loader" size="massive">Loading</Loader>
         ) : (
             <this.renderProductStatistics
               popup_price_conainer={popup_price_conainer}
@@ -983,13 +981,10 @@ export class SupplierDetail extends React.Component<Props, State> {
           product_profit.push(parseFloat(this.props.product_detail_chart_values_kpi[i].profit));
           product_roi.push(parseFloat(this.props.product_detail_chart_values_kpi[i].roi));
         }
-        return product_timeline.length && product_profit.length && product_roi.length ? (
-          <this.renderROI
-            product_timeline={product_timeline}
-            product_profit={product_profit}
-            product_roi={product_roi}
+        return product_timeline.length && product_profit.length && product_roi.length ?
+          <this.renderROI product_timeline={product_timeline} product_profit={product_profit} product_roi={product_roi}
           />
-        ) : null;
+          : <Loader active={true} inline="centered" className="popup-loader" size="massive">Loading</Loader>;
       default:
         return null;
     }
@@ -1758,36 +1753,26 @@ export class SupplierDetail extends React.Component<Props, State> {
         return productSKUs.length &&
           profit.length &&
           profit_monthly.length &&
-          sales_monthly.length ? (
-            <this.renderProfit
-              productSKUs={productSKUs}
-              profit_monthly={profit_monthly}
-              sales_monthly={sales_monthly}
-              monthly_data={monthly_data}
-            />
-          ) : null;
+          sales_monthly.length ?
+          <this.renderProfit productSKUs={productSKUs} profit_monthly={profit_monthly} sales_monthly={sales_monthly} monthly_data={monthly_data} />
+          : <Loader active={true} inline="centered" className="popup-loader" size="massive">Loading</Loader>;
       case 'chart3':
         let product_cost = [];
         let fees = [];
         product_cost = products.map(e => parseFloat(e['product_cost']));
         fees = products.map(e => parseFloat(e['fees']));
 
-        return productSKUs.length && profit.length && product_cost.length && fees.length ? (
-          <this.renderRevenue
-            productSKUs={productSKUs}
-            product_cost={product_cost}
-            fees={fees}
-            profit={profit}
-          />
-        ) : null;
+        return productSKUs.length && profit.length && product_cost.length && fees.length ?
+          <this.renderRevenue productSKUs={productSKUs} product_cost={product_cost} fees={fees} profit={profit} />
+          : <Loader active={true} inline="centered" className="popup-loader" size="massive">Loading</Loader>;
       case 'chart4':
         let roi = [];
         roi = products.map(e => {
           return { name: parseFloat(e['roi']), y: parseFloat(e['profit']) }
         });
-        return productSKUs.length && roi.length ? (
+        return productSKUs.length && roi.length ?
           <this.renderPOFP productSKUs={productSKUs} roi={roi} profit={profit} />
-        ) : null;
+          : <Loader active={true} inline="centered" className="popup-loader" size="massive">Loading</Loader>;
       default:
         return null;
     }
