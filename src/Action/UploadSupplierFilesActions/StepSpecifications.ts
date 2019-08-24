@@ -97,7 +97,7 @@ export class SelectFileStep extends Step {
     this.dispatch(removeColumnMappings());
   }
 }
-(<any>window).test = validator.isDecimal;
+(window as any).test = validator.isDecimal;
 
 export class DataMappingStep extends Step {
   step = UploadSteps.DataMapping;
@@ -121,12 +121,10 @@ export class DataMappingStep extends Step {
     const [_, ...rows] = csv;
 
     const upc: string[] = [];
-    const title: string[] = [];
-    const cost: string[]= [];
+    const cost: string[] = [];
 
     rows.forEach(row => {
       upc.push(row[reversedColumnMappings.upc]);
-      title.push(row[reversedColumnMappings.title]);
       cost.push(row[reversedColumnMappings.cost]);
     });
 
@@ -144,11 +142,6 @@ export class DataMappingStep extends Step {
     }
 
     if (some(upc, isEmpty)) {
-      return 'upc can\'t be empty';
-    }
-
-    // validate title
-    if (some(title, isEmpty)) {
       return 'upc can\'t be empty';
     }
   }
