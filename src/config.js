@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
 
 const KEYS = {
   STRIPE_API_KEY: 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J',
-}
+};
 
 const AUTH_CONFIG = {
   domain: 'sellgo-dev.auth0.com',

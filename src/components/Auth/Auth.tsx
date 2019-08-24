@@ -27,7 +27,7 @@ export default class Auth {
       emailInputPlaceholder: 'something@youremail.com',
       title: '',
     },
-    allowSignUp: false,
+    allowSignUp: true,
   });
   public login = () => {
     this.auth0Lock.show();
