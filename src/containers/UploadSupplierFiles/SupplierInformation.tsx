@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { Form, TextArea, Icon, Grid, Modal } from 'semantic-ui-react';
-import { useInput } from '../../hooks';
+import React from 'react';
+import { Form, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import { InputField, SelectField, TextAreaField } from '../../components/ReduxFormFields';
 import timezones from '../../constant/timezones';
 import accountStatuses from '../../constant/accountStatuses';
@@ -10,11 +9,7 @@ import terms from '../../constant/terms';
 import isRequired from '../../utils/validations/isRequired';
 
 const required = isRequired();
-interface InputFieldProps {
-  label: string;
-  placeholder?: string;
-  name: string;
-}
+
 const SupplierDetails = () => (
   <Form>
     <Grid columns={3} divided={true} className={styles.grid}>
@@ -90,8 +85,6 @@ const SupplierDetails = () => (
 );
 
 const SupplierInformation = () => {
-  const [detailsOpen, setDetailsOpen] = useState(false);
-
   return (
     <Form>
       <Grid columns={2}>
@@ -116,14 +109,9 @@ const SupplierInformation = () => {
                   placeholder="Write your latest update here"
                 />
               </Form.Field>
-              <Icon
-                name={!detailsOpen ? 'arrow circle right' : 'arrow circle left'}
-                className={styles.supplier_details_toggle}
-                onClick={() => setDetailsOpen(!detailsOpen)}
-              />
             </div>
           </Grid.Column>
-          <Grid.Column width={12}>{detailsOpen && <SupplierDetails />}</Grid.Column>
+          <Grid.Column width={12}>{<SupplierDetails />}</Grid.Column>
         </Grid.Row>
       </Grid>
     </Form>
