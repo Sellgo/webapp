@@ -38,6 +38,7 @@ export const CLEANUP_UPLOAD_SUPPLIER = 'CLEANUP_UPLOAD_SUPPLIER';
 export const REMOVE_COLUMN_MAPPINGS = 'REMOVE_COLUMN_MAPPINGS';
 export const OPEN = 'OPEN';
 export const CLOSE = 'CLOSE';
+export const FINISH_UPLOAD = 'FINISH_UPLOAD';
 
 /**
  *

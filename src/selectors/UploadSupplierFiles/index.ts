@@ -41,3 +41,6 @@ export const reversedColumnMappingsSelector = createSelector(
     );
   }
 );
+
+export const processCompletedSelector = (state: object): boolean =>
+  get(state, 'uploadSupplierFiles.completed', false);

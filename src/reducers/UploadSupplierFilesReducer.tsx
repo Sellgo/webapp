@@ -5,6 +5,7 @@ import {
   MAP_COLUMN,
   CLEANUP_UPLOAD_SUPPLIER,
   REMOVE_COLUMN_MAPPINGS,
+  FINISH_UPLOAD,
 } from '../constant/constant';
 import { setIn } from '../utils/immutablity';
 import { AnyAction, Reducer } from 'redux';
@@ -16,9 +17,11 @@ interface UploadSupplierFilesState {
   readonly rawCsv: string | null;
   readonly csv: string[][] | null;
   readonly columnMappings: {};
+  readonly completed: boolean;
 }
 
 const initialState: UploadSupplierFilesState = {
+  completed: false,
   currentStep: 0,
   csvString: null,
   csvFile: null,
@@ -54,6 +57,9 @@ export const UploadSupplierFilesReducer = (
 
     case REMOVE_COLUMN_MAPPINGS:
       return setIn(state, 'columnMappings', []);
+
+    case FINISH_UPLOAD:
+      return setIn(state, 'completed', true);
 
     default:
       return state;
