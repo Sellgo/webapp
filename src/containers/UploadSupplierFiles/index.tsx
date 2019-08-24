@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './UploadSupplierFiles.module.css';
 import { Segment, Container, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -11,17 +11,24 @@ import DataMapping from './DataMapping';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 import DataValidation from './DataValidation';
 import FormWrapper from './FormWrapper';
+import { cleanupUploadSupplier } from '../../Action/UploadSupplierFilesActions';
 
 interface Props {
   currentStep: number;
+  cleanupUploadSupplier: typeof cleanupUploadSupplier;
 }
 
 const Steps = [SupplierInformation, SelectFile, DataMapping, DataValidation];
 
 export const UploadSupplierFiles = (props: Props) => {
-  const { currentStep } = props;
+  const { currentStep, cleanupUploadSupplier } = props;
   const StepComponent = Steps[currentStep];
 
+  useEffect(() => {
+    return () => {
+      cleanupUploadSupplier();
+    };
+  }, []);
   return (
     <div className={styles.container}>
       <UploadSteps />
@@ -41,8 +48,8 @@ const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {};
+const mapDispatchToProps = {
+  cleanupUploadSupplier,
 };
 
 export default connect(
