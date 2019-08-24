@@ -49,6 +49,8 @@ import MesssageComponent from '../../../components/MessageComponent';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 import Auth from '../../../components/Auth/Auth';
 import UploadSupplierFiles from '../../UploadSupplierFiles';
+import { openUploadSupplierModal, closeUploadSupplierModal } from '../../../Action/modals';
+import get from 'lodash/get';
 
 interface State {
   isMessageModalOn: boolean;
@@ -118,6 +120,9 @@ interface Props {
   time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
   uploadCSVResponse: { message: ''; status: '' };
+  openUploadSupplierModal: typeof openUploadSupplierModal;
+  closeUploadSupplierModal: typeof closeUploadSupplierModal;
+  uploadSupplierModalOpen: boolean;
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -214,8 +219,8 @@ export class Suppliers extends React.Component<Props, State> {
 
   openUpdateSupplierPopup = (value: any): void => {
     if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
+      this.props.openUploadSupplierModal();
       this.setState({
-        modalOpen: true,
         update_product_id: value.id,
         updateDetails: true,
         supplier_name: value.name,
@@ -234,10 +239,10 @@ export class Suppliers extends React.Component<Props, State> {
 
   handleAddNewSupplierModalOpen = () => {
     if (localStorage.getItem(localStorageKeys.isMWSAuthorized) === 'true') {
+      this.props.openUploadSupplierModal();
       this.setState({
         supplier_name: '',
         supplier_description: '',
-        modalOpen: true,
         updateDetails: false,
       });
     } else {
@@ -251,7 +256,10 @@ export class Suppliers extends React.Component<Props, State> {
     }
   };
 
-  handleClose = () => this.setState({ modalOpen: false, updateDetails: false });
+  handleClose = () => {
+    this.props.closeUploadSupplierModal();
+    this.setState({ updateDetails: false });
+  };
 
   public onChangeSupplierDescription = async (event: React.FormEvent<HTMLTextAreaElement>) => {
     this.setState({ supplier_description: (event.target as HTMLTextAreaElement).value });
@@ -267,7 +275,7 @@ export class Suppliers extends React.Component<Props, State> {
     return (
       <Modal
         size={'tiny'}
-        open={this.state.modalOpen}
+        open={this.props.uploadSupplierModalOpen}
         onClose={this.handleClose}
         closeIcon={true}
         style={{ width: '90%' }}
@@ -680,6 +688,7 @@ const mapStateToProps = (state: any) => {
     new_supplier: state.synReducer.new_supplier,
     time_efficiency_data: state.synReducer.time_efficiency_data,
     sellerData: state.settings.profile,
+    uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
   };
 };
 
@@ -702,6 +711,8 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),
     deleteSupplier: (supplier_id: any, callBack: any) =>
       dispatch(deleteSupplier(supplier_id, callBack)),
+    openUploadSupplierModal: () => dispatch(openUploadSupplierModal()),
+    closeUploadSupplierModal: () => dispatch(closeUploadSupplierModal()),
   };
 };
 
