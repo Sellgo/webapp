@@ -36,10 +36,6 @@ const SupplierDetails = () => (
         <Grid.Column>
           <Field component={SelectField} name="timezone" label="Timezone" options={timezones} />
         </Grid.Column>
-        <Grid.Column>
-          {/* todo: replace with correct keys values */}
-          <Field component={SelectField} name="group" label="Group" />
-        </Grid.Column>
       </Grid.Row>
       <Grid.Row>
         <Grid.Column>
