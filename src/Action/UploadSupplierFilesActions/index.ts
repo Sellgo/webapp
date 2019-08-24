@@ -8,6 +8,7 @@ import {
   CLEANUP_UPLOAD_SUPPLIER,
   REMOVE_COLUMN_MAPPINGS,
   UploadSteps,
+  FINISH_UPLOAD,
 } from '../../constant/constant';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -198,4 +199,8 @@ export const cleanupUploadSupplier = () => ({
 
 export const removeColumnMappings = () => ({
   type: REMOVE_COLUMN_MAPPINGS,
+});
+
+export const finishUpload = () => ({
+  type: FINISH_UPLOAD,
 });
