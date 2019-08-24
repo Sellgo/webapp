@@ -1,7 +1,7 @@
 const DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: ' https://api.sellgo-dev.com/api/',
+  BASE_URL_API: 'http://3.222.245.214/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
 };
 
