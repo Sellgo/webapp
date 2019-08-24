@@ -287,9 +287,9 @@ class Setting extends React.Component<Props, State> {
     if (marketplaceDATA) {
       howUrl = `https://sellercentral.${
         marketplaceDATA.link
-        }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Denverton-${
+      }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Denverton-${
         marketplaceDATA.code
-        }&devMWSAccountId=${'4294-2444-1812'}`;
+      }&devMWSAccountId=${'4294-2444-1812'}`;
     }
     return (
       <Segment basic={true}>
