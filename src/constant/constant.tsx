@@ -39,7 +39,7 @@ export const REMOVE_COLUMN_MAPPINGS = 'REMOVE_COLUMN_MAPPINGS';
 export const OPEN = 'OPEN';
 export const CLOSE = 'CLOSE';
 export const FINISH_UPLOAD = 'FINISH_UPLOAD';
-
+export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
 /**
  *
  * keys for localstorage
@@ -180,7 +180,6 @@ export const FieldsToMap = [
   {
     key: 'title',
     label: 'Title',
-    required: true,
   },
 ];
 

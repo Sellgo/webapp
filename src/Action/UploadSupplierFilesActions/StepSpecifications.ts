@@ -3,6 +3,7 @@ import {
   columnMappingsSelector,
   reversedColumnMappingsSelector,
   csvSelector,
+  isFirstRowHeaderSelector,
 } from './../../selectors/UploadSupplierFiles/index';
 // tslint:disable:max-classes-per-file
 import { ThunkDispatch } from 'redux-thunk';
@@ -115,10 +116,11 @@ export class DataMappingStep extends Step {
 
   validateFields() {
     const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
+    const hasHeaders = isFirstRowHeaderSelector(this.getState());
     const csv = csvSelector(this.getState());
 
-    // ignore first row as it is header
-    const [_, ...rows] = csv;
+    // ignore first row if it is header
+    const rows = hasHeaders ? csv.slice(1) : csv;
 
     const upc: string[] = [];
     const cost: string[] = [];
