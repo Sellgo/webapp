@@ -6,6 +6,7 @@ import {
   CLEANUP_UPLOAD_SUPPLIER,
   REMOVE_COLUMN_MAPPINGS,
   FINISH_UPLOAD,
+  TOGGLE_FIRST_ROW_HEADER,
 } from '../constant/constant';
 import { setIn } from '../utils/immutablity';
 import { AnyAction, Reducer } from 'redux';
@@ -18,10 +19,12 @@ interface UploadSupplierFilesState {
   readonly csv: string[][] | null;
   readonly columnMappings: {};
   readonly completed: boolean;
+  readonly isFirstRowHeader: boolean;
 }
 
 const initialState: UploadSupplierFilesState = {
   completed: false,
+  isFirstRowHeader: false,
   currentStep: 0,
   csvString: null,
   csvFile: null,
@@ -61,6 +64,8 @@ export const UploadSupplierFilesReducer = (
     case FINISH_UPLOAD:
       return setIn(state, 'completed', true);
 
+    case TOGGLE_FIRST_ROW_HEADER:
+      return setIn(state, 'isFirstRowHeader', !state.isFirstRowHeader);
     default:
       return state;
   }

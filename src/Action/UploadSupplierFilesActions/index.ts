@@ -1,3 +1,4 @@
+import { isFirstRowHeaderSelector } from './../../selectors/UploadSupplierFiles/index';
 import { error } from './../../utils/notifications';
 import get from 'lodash/get';
 import {
@@ -9,6 +10,7 @@ import {
   REMOVE_COLUMN_MAPPINGS,
   UploadSteps,
   FINISH_UPLOAD,
+  TOGGLE_FIRST_ROW_HEADER,
 } from '../../constant/constant';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -25,10 +27,11 @@ import { AppConfig } from '../../config';
 import Axios from 'axios';
 import reduce from 'lodash/reduce';
 
-const headers = {
+const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': `multipart/form-data`,
-};
+});
+
 // we need a better way to store file
 // sadly redux store doesn't allow storage of files
 let csv: File | null;
@@ -175,21 +178,23 @@ export const validateAndUploadCsv = () => async (
   );
 
   if (!csv) {
-    return;
+    throw new Error('please upload a csv file');
   }
 
   const bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
-  bodyFormData.set('filee', csv);
+  bodyFormData.set('file', csv);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
   bodyFormData.set('title', reversedColumnMappings.title);
+  // correct this
+  bodyFormData.set('has_header', isFirstRowHeaderSelector(getState()).toString());
 
   await Axios({
     method: 'POST',
     url: AppConfig.BASE_URL_API + `supplier/${String(supplierID)}/synthesis/upload/`,
     data: bodyFormData,
-    headers,
+    headers: getHeaders(),
   });
 };
 
@@ -203,4 +208,8 @@ export const removeColumnMappings = () => ({
 
 export const finishUpload = () => ({
   type: FINISH_UPLOAD,
+});
+
+export const toggleFirstRowHeader = () => ({
+  type: TOGGLE_FIRST_ROW_HEADER,
 });
