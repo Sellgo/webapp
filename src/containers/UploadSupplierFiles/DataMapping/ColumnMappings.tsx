@@ -1,25 +1,30 @@
 import React from 'react';
-import { Header, Grid, GridColumn, Select, Form } from 'semantic-ui-react';
+import { Header, Grid, GridColumn, Select, Form, Checkbox } from 'semantic-ui-react';
 import styles from '../UploadSupplierFiles.module.css';
 import { FieldsToMap } from '../../../constant/constant';
 import {
   reversedColumnMappingsSelector,
   csvHeaderSelector,
+  isFirstRowHeaderSelector,
 } from '../../../selectors/UploadSupplierFiles';
 import { connect } from 'react-redux';
-import { mapColumn } from '../../../Action/UploadSupplierFilesActions';
+import { mapColumn, toggleFirstRowHeader } from '../../../Action/UploadSupplierFilesActions';
 import isNil from 'lodash/isNil';
 
 interface ColumnMappingsProps {
   availableFields: string[];
   mapColumn: typeof mapColumn;
   reversedColumnMappings: { [key: string]: number };
+  isFirstRowHeader: boolean;
+  toggleFirstRowHeader: typeof toggleFirstRowHeader;
 }
 
 const ColumnMappings = ({
   availableFields,
   mapColumn,
   reversedColumnMappings,
+  isFirstRowHeader,
+  toggleFirstRowHeader,
 }: ColumnMappingsProps) => {
   const availableFieldOptions = availableFields.map((availableField, index) => ({
     text: availableField,
@@ -29,7 +34,13 @@ const ColumnMappings = ({
   return (
     <>
       <Header className={styles.marginTop} as="h3">
-        Column Mapping
+        <span>Column Mapping{'  '}</span>
+        <Checkbox
+          style={{ marginLeft: 20 }}
+          checked={isFirstRowHeader}
+          onChange={toggleFirstRowHeader}
+          label="has headers?"
+        />
       </Header>
       <Grid>
         <Grid.Row>
@@ -56,10 +67,12 @@ const ColumnMappings = ({
 const mapStateToProps = (state: {}) => ({
   availableFields: csvHeaderSelector(state),
   reversedColumnMappings: reversedColumnMappingsSelector(state),
+  isFirstRowHeader: isFirstRowHeaderSelector(state),
 });
 
 const mapDispatchToProps = {
   mapColumn,
+  toggleFirstRowHeader,
 };
 
 export default connect(
