@@ -2,29 +2,17 @@ import * as React from 'react';
 import {
   Button,
   Divider,
-  Form,
   Grid,
   Segment,
-  Table,
-  Checkbox,
-  Dropdown,
-  Input,
   Icon,
   Popup,
   Modal,
-  TextArea,
-  Pagination,
-  Loader,
-  Confirm,
   List,
   Container,
   Card,
-  Feed,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-
 import './suppliers.css';
-import history from '../../../history';
 import { Link } from 'react-router-dom';
 
 import {
@@ -51,6 +39,8 @@ import Auth from '../../../components/Auth/Auth';
 import UploadSupplierFiles from '../../UploadSupplierFiles';
 import { openUploadSupplierModal, closeUploadSupplierModal } from '../../../Action/modals';
 import get from 'lodash/get';
+import SuppliersTable from './SuppliersTable';
+import { suppliersSelector } from '../../../selectors/suppliers';
 
 interface State {
   isMessageModalOn: boolean;
@@ -204,11 +194,6 @@ export class Suppliers extends React.Component<Props, State> {
       }
       this.handleMessageModal();
     }
-
-    this.setState({
-      totalPages: Math.ceil(nextProps.suppliers.length / this.state.singlePageItemsCount),
-      suppliers: nextProps.suppliers,
-    });
   }
 
   componentDidUpdate(prevProps: any) {}
@@ -261,6 +246,15 @@ export class Suppliers extends React.Component<Props, State> {
     this.setState({ updateDetails: false });
   };
 
+  handleMessageChange = (message: any) => {
+    this.message = {
+      ...this.message,
+      ...message,
+    };
+
+    this.handleMessageModal();
+  };
+
   public onChangeSupplierDescription = async (event: React.FormEvent<HTMLTextAreaElement>) => {
     this.setState({ supplier_description: (event.target as HTMLTextAreaElement).value });
     return false;
@@ -303,272 +297,6 @@ export class Suppliers extends React.Component<Props, State> {
       this.setState({ delete_confirmation: false });
       this.props.getSellers();
     });
-  };
-
-  handleSort = (clickedColumn: keyof Supplier) => {
-    const { sortedColumn, sortDirection } = this.state;
-    const suppliers = JSON.parse(JSON.stringify(this.state.suppliers));
-    if (sortedColumn !== clickedColumn) {
-      const sortedSuppliers = suppliers.sort((a: Supplier, b: Supplier) => {
-        let aColumn, bColumn;
-        if (clickedColumn == 'rate') {
-          aColumn = Number(a[clickedColumn]);
-          bColumn = Number(b[clickedColumn]);
-        } else {
-          aColumn = a[clickedColumn];
-          bColumn = b[clickedColumn];
-        }
-
-        if (aColumn < bColumn) {
-          return -1;
-        }
-        if (aColumn > bColumn) {
-          return 1;
-        }
-        return 0;
-      });
-      this.setState({
-        sortedColumn: clickedColumn,
-        suppliers: sortedSuppliers,
-        sortDirection: 'ascending',
-      });
-    } else {
-      this.setState({
-        suppliers: suppliers.reverse(),
-        sortDirection: sortDirection === 'ascending' ? 'descending' : 'ascending',
-      });
-    }
-  };
-
-  renderTable = () => {
-    const { sortedColumn, sortDirection } = this.state;
-    const currentPage = this.state.currentPage - 1;
-    const suppliers = [...this.state.suppliers].slice(
-      currentPage * this.state.singlePageItemsCount,
-      (currentPage + 1) * this.state.singlePageItemsCount
-    );
-    return this.state.suppliers.length == 0 ? (
-      <Segment>
-        <Loader
-          hidden={this.state.suppliers.length == 0 ? false : true}
-          active={true}
-          inline="centered"
-          size="massive"
-        >
-          Loading
-        </Loader>
-      </Segment>
-    ) : (
-      <Table sortable={true} basic="very">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell
-              sorted={sortedColumn === 'name' ? sortDirection : undefined}
-              onClick={() => this.handleSort('name')}
-            >
-              Supplier Name
-            </Table.HeaderCell>
-            <Table.HeaderCell textAlign="center" width={1}>
-              Status
-            </Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Action</Table.HeaderCell>
-            <Table.HeaderCell
-              textAlign="center"
-              sorted={sortedColumn === 'p2l_ratio' ? sortDirection : undefined}
-              onClick={() => this.handleSort('p2l_ratio')}
-            >
-              Product to Listing Ratio
-              <span>
-                {' '}
-                <Popup
-                  trigger={<Icon name="question circle" color={'grey'} />}
-                  position="top left"
-                  size="tiny"
-                  content="Product to Listing Ratio"
-                />
-              </span>
-            </Table.HeaderCell>
-            <Table.HeaderCell
-              textAlign="center"
-              sorted={sortedColumn === 'rate' ? sortDirection : undefined}
-              onClick={() => this.handleSort('rate')}
-            >
-              Supplier Rate (%)
-              <span>
-                {' '}
-                <Popup
-                  trigger={<Icon name="question circle" color={'grey'} />}
-                  position="top left"
-                  size="tiny"
-                  content="Supplier Rate (%)"
-                />
-              </span>
-            </Table.HeaderCell>
-            {/*<Table.HeaderCell>Note</Table.HeaderCell>*/}
-            <Table.HeaderCell />
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {this.state.suppliers[0].id == -10000000 ? (
-            <Table.Row key={134}>
-              <Table.Cell>
-                <h1>Data not found</h1>
-              </Table.Cell>
-            </Table.Row>
-          ) : (
-            suppliers.map((value: Supplier, index) => {
-              return (
-                <Table.Row key={value.id}>
-                  <Table.Cell style={{ width: '600px' }}>
-                    <Table.Cell as={Link} to={`/syn/${value.id}`}>
-                      {value.name}
-                    </Table.Cell>
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">{value.status}</Table.Cell>
-                  <Table.Cell
-                    textAlign="center"
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                  >
-                    <Dropdown
-                      className={'SynDropDown'}
-                      text="SYN"
-                      selectOnBlur={false}
-                      fluid={true}
-                      selection={true}
-                      options={[
-                        {
-                          key: '0',
-                          text: 'SYN',
-                          value: 'SYN',
-                        },
-                      ]}
-                      onChange={(e, data) => {
-                        if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-                          if (data.value === 'SYN') {
-                            history.push(`/syn/${value.id}`);
-                          }
-                        } else {
-                          this.message.title = 'Unauthorized Access';
-                          this.message.message = 'MWS Auth token not found';
-                          this.message.description = 'Please Setup MWS Authorization Token';
-                          this.message.to = '/dashboard/setting';
-                          this.message.icon = 'warning sign';
-                          this.message.color = '#cf3105';
-                          this.handleMessageModal();
-                        }
-                      }}
-                    />
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">{value.p2l_ratio}</Table.Cell>
-                  <Table.Cell textAlign="center">{Number(value.rate).toLocaleString()}</Table.Cell>
-                  {/*<Table.Cell>*/}
-                  {/*  <Input focus placeholder='Note'/>*/}
-                  {/*</Table.Cell>*/}
-                  <Table.Cell textAlign="right" style={{ paddingRight: '10px' }}>
-                    {/* <Table.Cell as={Link} to={`/syn/`}>
-                     <Icon
-                     onClick={() => {
-                     this.openUpdateSupplierPopup(value);
-                     }}
-                     name='cloud upload' style={{color: 'black'}}
-                     />&nbsp;
-                     </Table.Cell> */}
-                    <Table.Cell as={Link}>
-                      <Icon
-                        name="refresh"
-                        style={{ color: 'black' }}
-                        onClick={() => {
-                          if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-                          } else {
-                            this.message.title = 'Unauthorized Access';
-                            this.message.message = 'MWS Auth token not found';
-                            this.message.description = 'Please Setup MWS Authorization Token';
-                            this.message.to = '/dashboard/setting';
-                            this.message.icon = 'warning sign';
-                            this.message.color = '#cf3105';
-                            this.handleMessageModal();
-                          }
-                        }}
-                      />
-                      &nbsp;
-                    </Table.Cell>
-                    <Table.Cell
-                      as={Link}
-                      to={{}}
-                      onClick={() => {
-                        this.openUpdateSupplierPopup(value);
-                      }}
-                    >
-                      <Icon name="pencil" style={{ color: 'black' }} />
-                      &nbsp;
-                    </Table.Cell>
-                    <Table.Cell
-                      onClick={() => {
-                        this.setState({
-                          delete_confirmation: true,
-                          delete_supplier_container: value,
-                        });
-                      }}
-                      as={Link}
-                      to="/syn"
-                    >
-                      <Icon name="trash alternate" style={{ color: 'black' }} />
-                      {/*{this.renderDeleteModal(value, index)}*/}
-                    </Table.Cell>
-                  </Table.Cell>
-                </Table.Row>
-              );
-            })
-          )}
-        </Table.Body>
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan="3">
-              <Pagination
-                totalPages={this.state.totalPages}
-                activePage={this.state.currentPage}
-                onPageChange={(event, data) => {
-                  this.setState({
-                    currentPage: data.activePage,
-                  });
-                }}
-              />
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-        <Confirm
-          content="Do you want to delete supplier?"
-          open={this.state.delete_confirmation}
-          onCancel={() => {
-            this.setState({
-              delete_confirmation: false,
-              delete_supplier_container: {
-                contact: '',
-                description: '',
-                email: '',
-                freight_fee: '',
-                id: 0,
-                item_active_count: '',
-                item_total_count: '',
-                name: '',
-                phone: '',
-                rate: '',
-                seller_id: 0,
-                status: '',
-                supplier_group_id: 1,
-                timezone: '',
-                upcharge_fee: '',
-                website: '',
-                xid: '',
-              },
-            });
-          }}
-          onConfirm={() => {
-            this.deleteSupplier();
-          }}
-        />
-      </Table>
-    );
   };
 
   render() {
@@ -645,7 +373,47 @@ export class Suppliers extends React.Component<Props, State> {
               </Card>
             </Grid.Column>
           </Grid>
-          {this.renderTable()}
+          <SuppliersTable
+            delete_confirmation={this.state.delete_confirmation}
+            onMessageChange={this.handleMessageChange}
+            onEdit={this.openUpdateSupplierPopup}
+            onDelete={(value: any) => {
+              this.setState({
+                delete_confirmation: true,
+                delete_supplier_container: value,
+              });
+            }}
+            onPageChange={(data: any) => {
+              this.setState({
+                currentPage: data.activePage,
+              });
+            }}
+            onCancelDelete={() => {
+              this.setState({
+                delete_confirmation: false,
+                delete_supplier_container: {
+                  contact: '',
+                  description: '',
+                  email: '',
+                  freight_fee: '',
+                  id: 0,
+                  item_active_count: '',
+                  item_total_count: '',
+                  name: '',
+                  phone: '',
+                  rate: '',
+                  seller_id: 0,
+                  status: '',
+                  supplier_group_id: 1,
+                  timezone: '',
+                  upcharge_fee: '',
+                  website: '',
+                  xid: '',
+                },
+              });
+            }}
+            onDeleteSupplier={this.deleteSupplier}
+          />
           <Modals
             title=""
             size="large"
@@ -681,7 +449,7 @@ export class Suppliers extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => {
   return {
-    suppliers: state.synReducer.suppliers,
+    suppliers: suppliersSelector(state),
     uploadCSVResponse: state.synReducer.uploadCSVResponse,
     new_supplier: state.synReducer.new_supplier,
     time_efficiency_data: state.synReducer.time_efficiency_data,

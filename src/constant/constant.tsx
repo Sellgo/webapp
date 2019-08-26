@@ -40,6 +40,10 @@ export const OPEN = 'OPEN';
 export const CLOSE = 'CLOSE';
 export const FINISH_UPLOAD = 'FINISH_UPLOAD';
 export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
+export const SET_SUPPLIERS = 'SET_SUPPLIERS';
+export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
+export const UPDATE_SUPPLIER = 'UPDATE_SUPPLIER';
+
 /**
  *
  * keys for localstorage

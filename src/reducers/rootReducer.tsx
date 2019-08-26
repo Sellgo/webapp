@@ -4,8 +4,9 @@ import settingReducer from './SettingReducer';
 import { SubscriptionReducer } from './SubscriptionReducer';
 import { SYNReducer } from './SYNReducer';
 import UploadSupplierFilesReducer from './UploadSupplierFilesReducer';
-import { reducer as formReducer } from 'redux-form'
+import { reducer as formReducer } from 'redux-form';
 import modalsReducer from './modals';
+import suppliersReducer from './suppliers';
 
 const rootReducer = combineReducers({
   settings: settingReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   uploadSupplierFiles: UploadSupplierFilesReducer,
   form: formReducer,
   modals: modalsReducer,
+  suppliers: suppliersReducer,
 });
 
 export default rootReducer;
