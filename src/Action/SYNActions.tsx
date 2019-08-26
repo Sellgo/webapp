@@ -19,8 +19,10 @@ import {
   UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
+import { updateSupplier } from './suppliers';
 
 export interface Supplier {
+  supplier_id: number;
   contact: string;
   description: string;
   email: string;
@@ -39,6 +41,7 @@ export interface Supplier {
   website: string;
   p2l_ratio: any;
   xid: string;
+  path: string;
 }
 
 export interface TimeEfficiency {
@@ -428,9 +431,10 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
     data: bodyFormData,
     headers,
   })
-    .then(json => {
-      callBack(json.data);
-    })
+  .then(json => {
+    dispatch(updateSupplier(json.data))
+    callBack(json.data);
+  })
     .catch(error => {});
 };
 
