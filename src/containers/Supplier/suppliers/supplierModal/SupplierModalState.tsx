@@ -38,14 +38,17 @@ const SupplierModalState: React.SFC<Props> = props => {
           <Icon name="plus square outline" color={'blue'} size="big" />
         </div>
         <span className="circleHeader">
-          <h4>Add New Supplier</h4>{' '}
-          <Popup
-            content={renderSupplyHelpPopUp()}
-            on="click"
-            pinned
-            trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
-            wide
-          />
+          <div className="circleHeaderTitle">
+            <h4>Add New Supplier</h4>{' '}
+            <Popup
+              content={renderSupplyHelpPopUp()}
+              on="click"
+              pinned
+              trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
+              wide
+            />
+          </div>
+          <p className="circleHeaderDescription">Add supplier information</p>
         </span>
       </div>
       <div className={props.supplierModalState > 1 ? 'lineState--active' : 'lineState'} />
@@ -61,14 +64,17 @@ const SupplierModalState: React.SFC<Props> = props => {
           <Icon name="file" color={props.supplierModalState > 1 ? 'blue' : 'grey'} size="big" />
         </div>
         <span className="circleHeader">
-          <h4>New Supply File</h4>{' '}
-          <Popup
-            content={renderSupplyHelpPopUp()}
-            on="click"
-            pinned
-            trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
-            wide
-          />
+          <div className="circleHeaderTitle">
+            <h4>New Supply File</h4>{' '}
+            <Popup
+              content={renderSupplyHelpPopUp()}
+              on="click"
+              pinned
+              trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
+              wide
+            />
+          </div>
+          <p className="circleHeaderDescription">Browse csv file to upload</p>
         </span>
       </div>
 
@@ -89,14 +95,17 @@ const SupplierModalState: React.SFC<Props> = props => {
           />
         </div>
         <span className="circleHeader">
-          <h4>Data Mapping</h4>{' '}
-          <Popup
-            content={renderSupplyHelpPopUp()}
-            on="click"
-            pinned
-            trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
-            wide
-          />
+          <div className="circleHeaderTitle">
+            <h4>Data Mapping</h4>{' '}
+            <Popup
+              content={renderSupplyHelpPopUp()}
+              on="click"
+              pinned
+              trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
+              wide
+            />
+          </div>
+          <p className="circleHeaderDescription">Tell us what your csv headers mean</p>
         </span>
       </div>
 
@@ -116,15 +125,22 @@ const SupplierModalState: React.SFC<Props> = props => {
             size="big"
           />
         </div>
-        <span className="circleHeader">
-          <h4>Data Validation</h4>{' '}
-          <Popup
-            content={renderSupplyHelpPopUp()}
-            on="click"
-            pinned
-            trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
-            wide
-          />
+        <span style={{ bottom: '-56px' }} className="circleHeader">
+          <div className="circleHeaderTitle">
+            <h4>Data Validation</h4>{' '}
+            <Popup
+              content={renderSupplyHelpPopUp()}
+              on="click"
+              pinned
+              trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
+              wide
+            />
+          </div>
+          <p className="circleHeaderDescription">
+            Help us to ensure the process
+            <br />
+            is efficient and secure
+          </p>
         </span>
       </div>
     </div>

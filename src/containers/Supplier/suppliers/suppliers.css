@@ -47,7 +47,7 @@
   width: 90%;
   margin: auto;
   margin-top: 4em;
-  margin-bottom: 4em;
+  margin-bottom: 6em;
 }
 
 .supplierModalState .circleState {
@@ -108,7 +108,27 @@
   position: absolute;
   font-size: 12px;
   bottom: -40px;
+}
+
+.supplierModalState .circleHeader--two {
+  position: absolute;
+  font-size: 12px;
+  bottom: -56px;
+}
+
+.supplierModalState .circleHeader .circleHeaderTitle {
   display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.supplierModalState .circleHeaderDescription {
+  text-align: center;
+}
+
+.supplierModalState .circleHeader .circleHeaderTitle h4 {
+  margin-bottom: 0;
 }
 
 .supplierForm h4 {

@@ -57,6 +57,8 @@ import SupplierModalPage4 from './supplierModal/SupplierModalPage4';
 import SupplierModalState from './supplierModal/SupplierModalState';
 
 interface State {
+  isKeepDataMapSetting: boolean;
+  isSkipDataMapping: boolean;
   shortSupplyData: string;
   supplyData: any;
   supplierModalState: number;
@@ -146,6 +148,8 @@ interface Props {
 
 export class Suppliers extends React.Component<Props, State> {
   state: State = {
+    isSkipDataMapping: false,
+    isKeepDataMapSetting: false,
     supplyData: [],
     shortSupplyData: '',
     supplierModalState: 1,
@@ -350,6 +354,30 @@ export class Suppliers extends React.Component<Props, State> {
     if (this.state.supplierModalState === 1 && this.state.supplier_name === '') {
       const newError = { supplier_name_error: 'No Supplier Name' };
       this.setState({ supplierFormError: newError });
+    } else if (this.state.supplierModalState === 2 && this.state.isSkipDataMapping) {
+      if (this.state.supplyErrorMessages.length === 0) {
+        this.props.saveSupplierNameAndDescription(
+          this.state.supplier_name,
+          this.state.supplier_description,
+          (data: any) => {
+            this.props.postProductTrackGroupId(data.id, this.state.supplier_name);
+            this.props.getSellers();
+            console.log(this.props.new_supplier);
+            if (this.props.new_supplier != null && this.state.file != '') {
+              console.log('FILE IM SENDING', this.state.file);
+              this.props.uploadCSV(
+                String(this.props.new_supplier),
+                this.state.file,
+                this.state.upc,
+                this.state.cost,
+                this.state.title,
+                this.state.msrp
+              );
+            }
+          }
+        );
+      }
+      this.setState({ supplierModalState: 4 });
     } else if (this.state.supplierModalState === 3 && this.state.supplyErrorMessages.length === 0) {
       this.props.saveSupplierNameAndDescription(
         this.state.supplier_name,
@@ -379,6 +407,7 @@ export class Suppliers extends React.Component<Props, State> {
       this.setState({ supplierModalState: this.state.supplierModalState + 1 });
     }
   };
+
   previousModalState = () =>
     this.setState({ supplierModalState: this.state.supplierModalState + -1 });
 
@@ -566,6 +595,14 @@ export class Suppliers extends React.Component<Props, State> {
     }
   };
 
+  onSkipDataMapping = (e: React.SyntheticEvent, data: any) => {
+    this.setState({ isSkipDataMapping: data.checked });
+  };
+
+  onKeepDataMapSetting = (e: React.SyntheticEvent, data: any) => {
+    this.setState({ isKeepDataMapSetting: data.checked });
+  };
+
   renderAddNewSupplierModal = () => {
     return (
       <Modal
@@ -577,18 +614,38 @@ export class Suppliers extends React.Component<Props, State> {
         <SupplierModalState supplierModalState={this.state.supplierModalState} />
         <Modal.Content>{this.renderSupplierModalContent()}</Modal.Content>
         <div
-          style={{ display: 'flex', justifyContent: 'flex-end', padding: '1.5rem', paddingTop: 0 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            padding: '1.5rem',
+            paddingTop: 0,
+            alignItems: 'center',
+          }}
         >
           {this.state.supplierModalState === 2 && (
-            <Button
-              size="small"
-              basic={true}
-              color="grey"
-              style={{ borderRadius: 20 }}
-              onClick={() => console.log('download template')}
-            >
-              <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
-            </Button>
+            <div>
+              <Button
+                size="small"
+                basic={true}
+                color="grey"
+                style={{ borderRadius: 20 }}
+                onClick={() => console.log('download template')}
+              >
+                <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
+              </Button>
+              <Checkbox
+                style={{ marginLeft: '1em' }}
+                onChange={this.onSkipDataMapping}
+                label="Skip Data Mapping"
+              />
+            </div>
+          )}
+          {this.state.supplierModalState === 3 && (
+            <Checkbox
+              style={{ marginLeft: '1em' }}
+              onChange={this.onKeepDataMapSetting}
+              label="Keep Data Map Setting"
+            />
           )}
           {(this.state.supplierModalState === 2 ||
             this.state.supplierModalState === 3 ||
