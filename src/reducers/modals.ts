@@ -11,9 +11,14 @@ interface ModalsStateInterface {
 export default (state: ModalsStateInterface = {}, action: ModalsAction) => {
   switch (action.type) {
     case OPEN:
-      return setIn(state, `${action.key}.open`, true);
+      return setIn(state, action.key, {
+        open: true,
+        meta: action.meta || {},
+      });
+
     case CLOSE:
-      return setIn(state, `${action.key}.open`, false);
+      return setIn(state, action.key, { open: false });
+
     default:
       return state;
   }

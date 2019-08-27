@@ -19,7 +19,15 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
         action.payload.map((supplier: Supplier) => supplier.supplier_id)
       );
 
-      const suppliersById = keyBy(action.payload, (supplier: Supplier) => supplier.supplier_id);
+      const suppliersWithCorrectId = action.payload.map((supplier: Supplier) => ({
+        ...supplier,
+        id: supplier.supplier_id,
+      }));
+
+      const suppliersById = keyBy(
+        suppliersWithCorrectId,
+        (supplier: Supplier) => supplier.supplier_id
+      );
 
       return setIn(newState, 'suppliersById', suppliersById);
     }

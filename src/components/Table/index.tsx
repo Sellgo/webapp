@@ -18,7 +18,6 @@ export interface TableProps {
 }
 
 const renderCell = (row: { [key: string]: any }, column: Column) => {
-  console.log({name: row.name})
   if (column.render) {
     return column.render(row);
   }
@@ -33,7 +32,6 @@ const useSort = (initialValue: number) => {
   const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
 
   const handleSort = (clickedColumn: number) => {
-    console.log({ clickedColumn });
     if (sortedColumnIndex !== clickedColumn) {
       setSortedColumnIndex(clickedColumn);
       setSortDirection('ascending');
