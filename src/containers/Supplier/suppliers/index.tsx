@@ -57,6 +57,10 @@ import SupplierModalPage4 from './supplierModal/SupplierModalPage4';
 import SupplierModalState from './supplierModal/SupplierModalState';
 
 interface State {
+  terms: string;
+  timezone: string;
+  account_status: string;
+  group: string;
   isKeepDataMapSetting: boolean;
   isSkipDataMapping: boolean;
   shortSupplyData: string;
@@ -148,6 +152,10 @@ interface Props {
 
 export class Suppliers extends React.Component<Props, State> {
   state: State = {
+    terms: '',
+    timezone: '',
+    account_status: '',
+    group: '',
     isSkipDataMapping: false,
     isKeepDataMapSetting: false,
     supplyData: [],
@@ -557,6 +565,10 @@ export class Suppliers extends React.Component<Props, State> {
     this.setState({ supplierModalState: 2, isSkipDataMapping: false });
   };
 
+  onChangeTerms = (term: string) => {
+    this.setState({ terms: term });
+  };
+
   renderSupplierModalContent = () => {
     switch (this.state.supplierModalState) {
       case 1:
@@ -567,6 +579,12 @@ export class Suppliers extends React.Component<Props, State> {
             onChangeSupplierDescription={this.onChangeSupplierDescription}
             supplier_name={this.state.supplier_name}
             supplierFormError={this.state.supplierFormError}
+            onChangeColumnHeaderKey={this.onChangeColumnHeaderKey}
+            timezone={this.state.timezone}
+            account_status={this.state.account_status}
+            group={this.state.group}
+            terms={this.state.terms}
+            onChangeTerms={this.onChangeTerms}
           />
         );
       case 2:

@@ -47,7 +47,9 @@ export default class SupplierModalPage3 extends React.Component<any, State> {
             {/* <Header as="h2">File: {this.props.file.name}</Header> */}
             <Grid columns={4}>
               <Grid.Column>
-                <Grid.Row>UPC/EAN/ASIN</Grid.Row>
+                <Grid.Row>
+                  <h4>UPC/EAN/ASIN</h4>
+                </Grid.Row>
                 <Dropdown
                   name="upc"
                   className={'supplyColumnDropDown'}
@@ -60,7 +62,9 @@ export default class SupplierModalPage3 extends React.Component<any, State> {
                 />
               </Grid.Column>
               <Grid.Column>
-                <Grid.Row>COST</Grid.Row>
+                <Grid.Row>
+                  <h4>COST</h4>
+                </Grid.Row>
                 <Dropdown
                   name="cost"
                   className={'supplyColumnDropDown'}
@@ -73,7 +77,9 @@ export default class SupplierModalPage3 extends React.Component<any, State> {
                 />
               </Grid.Column>
               <Grid.Column>
-                <Grid.Row>SKU</Grid.Row>
+                <Grid.Row>
+                  <h4>SKU</h4>
+                </Grid.Row>
                 <Dropdown
                   name="msrp"
                   className={'supplyColumnDropDown'}
@@ -86,7 +92,9 @@ export default class SupplierModalPage3 extends React.Component<any, State> {
                 />
               </Grid.Column>
               <Grid.Column>
-                <Grid.Row>TITLE</Grid.Row>
+                <Grid.Row>
+                  <h4>TITLE</h4>
+                </Grid.Row>
                 <Dropdown
                   name="title"
                   className={'supplyColumnDropDown'}
@@ -99,7 +107,7 @@ export default class SupplierModalPage3 extends React.Component<any, State> {
                 />
               </Grid.Column>
             </Grid>
-            <Segment color="yellow">
+            <Segment style={{ marginTop: 0 }} color="yellow">
               This is just a preview of your table for mapping the proper columns
             </Segment>
             <CsvToHtmlTable

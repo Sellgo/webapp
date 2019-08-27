@@ -15,7 +15,12 @@ const renderSupplyHelpPopUp = () => {
       </p>
       <div>
         <h3>
-          <Icon name="youtube play" size={'large'} color={'black'} />
+          <Icon
+            style={{ color: '#FF0000 !important' }}
+            className="youtubeIcon"
+            name="youtube play"
+            size={'large'}
+          />
           Youtube Tutorial
         </h3>
       </div>

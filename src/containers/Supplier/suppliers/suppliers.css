@@ -133,8 +133,59 @@
 
 .supplierForm h4 {
   margin-bottom: 4px;
+  font-size: 14px;
 }
 
 .supplierModalPage3 .ui.table {
   font-size: 12px;
+}
+
+.sellGoCard {
+  border: 1px solid #707070;
+  border-radius: 10px;
+  padding: 12px 32px;
+}
+
+.ui.labeled.input > .label {
+  font-size: 12px;
+}
+
+.supplyColumnDropDown {
+  height: 30px;
+  border: 1px solid #a2a2a2 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+  margin-bottom: 8px;
+}
+
+.ui.selection.dropdown {
+  min-height: 30px;
+}
+
+.multipleButtonRadio {
+  min-height: 30px;
+  border-radius: 5px;
+  border: 1px solid #a2a2a2 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  font-size: 12px;
+  text-align: center;
+  align-items: center;
+}
+
+.radioButtonActive {
+  border-bottom: 2px solid #4285f4;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radioButton {
+  cursor: pointer;
+}
+
+.youtubeIcon {
+  color: #ff0000 !important;
 }
