@@ -11,6 +11,7 @@ import { ProductTracker } from '../ProductTracker/ProductTracker';
 import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
 import Suppliers from '../SYN/suppliers';
+import SupplierPage from '../Supplier/suppliers';
 import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
@@ -83,7 +84,6 @@ function App(Props: any) {
             }
           }}
         />
-
         <Route
           exact={true}
           path="/syn"
@@ -101,6 +101,16 @@ function App(Props: any) {
             routeProps.match.params.auth = auth;
             if (isAuthenticated()) {
               return <SupplierDetail {...routeProps} />;
+            }
+          }}
+        />
+        <Route
+          exact={true}
+          path="/supplier"
+          render={routeProps => {
+            routeProps.match.params.auth = auth;
+            if (isAuthenticated()) {
+              return <SupplierPage {...routeProps} />;
             }
           }}
         />

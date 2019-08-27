@@ -16,6 +16,7 @@ interface Props {
   title?: string;
   auth: Auth;
   sellerData?: SellField;
+  callToAction?: any;
 }
 
 class AdminLayout extends React.Component<Props, State> {
@@ -31,7 +32,7 @@ class AdminLayout extends React.Component<Props, State> {
   }
 
   public render() {
-    const { children, title, auth, sellerData } = this.props;
+    const { children, title, auth, sellerData, callToAction } = this.props;
 
     return (
       <React.Fragment>
@@ -51,8 +52,9 @@ class AdminLayout extends React.Component<Props, State> {
             backgroundColor: '#f3f3f3f3',
           }}
         >
-          <PageHeader title={title} />
+          <PageHeader title={title} callToAction={callToAction} />
           {children}
+          test
         </Segment>
       </React.Fragment>
     );

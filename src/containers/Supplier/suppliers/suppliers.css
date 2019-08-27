@@ -1,0 +1,115 @@
+.addSupplierPopup {
+  max-width: 420px !important;
+}
+
+.ui.basic.blue.button,
+.ui.basic.blue.button:hover,
+.ui.basic.blue.button .button,
+.ui.basic.blue.button .button:hover,
+.ui.basic.primary.button,
+.ui.basic.primary.button:hover,
+.ui.basic.primary.buttons .button,
+.ui.basic.primary.buttons .button:hover {
+  color: #4285f4 !important;
+  border: 1px solid #4285f4 !important;
+  box-shadow: none !important;
+}
+.ui.basic.teal.button,
+.ui.basic.teal.button .button {
+  border: 1px solid !important;
+  box-shadow: none !important;
+}
+.SynDropDown {
+  border: 1px solid #4285f4 !important;
+  color: #4285f4 !important;
+  border-radius: 20px !important;
+  width: 65% !important;
+  align-self: center !important;
+}
+.SynDropDown > .text {
+  font-size: 14px !important;
+  font-weight: 900 !important;
+}
+.SynDropDown .menu {
+  border-radius: 0px 0px 20px 20px !important;
+  border: 1px 1px 1px 1px solid !important;
+  border-color: #4285f4 !important;
+  box-shadow: 0 3px 4px 0 rgba(34, 36, 38, 0.3) !important;
+  background-color: #ffffff !important;
+}
+
+.supplierModalState {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
+  width: 90%;
+  margin: auto;
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+
+.supplierModalState .circleState {
+  border: 2px solid #aaaaaa;
+  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.supplierModalState .circleState--active {
+  border: 2px solid #4285f4;
+  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.supplierModalState .circleState--error {
+  border: 2px solid #db2828;
+  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.supplierModalState .lineState {
+  height: 3px;
+  width: 8vw;
+  background: #aaaaaa;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.supplierModalState .lineState--active {
+  height: 4px;
+  width: 8vw;
+  background: #4285f4;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.supplierModalState .lineState--error {
+  height: 4px;
+  width: 8vw;
+  background: #db2828;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.supplierModalState .circleHeader {
+  position: absolute;
+  font-size: 14px;
+  bottom: -32px;
+}
+/* 
+.supplyDataTable {
+
+} */

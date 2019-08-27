@@ -495,12 +495,23 @@ export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatc
     .catch(error => {});
 };
 
-export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
+export const uploadCSV = (
+  new_supplier_id: string,
+  file: any,
+  upc: string = '1',
+  cost: string = '2',
+  title: string = '3',
+  msrp: string = '4'
+) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   resetUploadCSVResponse();
   var bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
   bodyFormData.set('file', file);
+  bodyFormData.set('upc', upc);
+  bodyFormData.set('cost', cost);
+  bodyFormData.set('title', title);
+  bodyFormData.set('msrp', msrp);
 
   return axios({
     method: 'POST',
@@ -509,13 +520,13 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     headers,
   })
     .then(json => {
-      dispatch({
-        type: UPLOAD_CSV_RESPONSE,
-        data: {
-          message: 'We will process your file within few hours',
-          status: 'success',
-        },
-      });
+      // dispatch({
+      //   type: UPLOAD_CSV_RESPONSE,
+      //   data: {
+      //     message: 'We will process your file within few hours',
+      //     status: 'success',
+      //   },
+      // });
     })
     .catch(error => {
       dispatch({

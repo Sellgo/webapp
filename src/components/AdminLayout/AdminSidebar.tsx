@@ -76,6 +76,16 @@ class AdminSidebar extends React.Component<Props, State> {
             </div>
           </Menu.Header>
         </Menu.Item>
+        <Menu.Item as={Link} to="/supplier">
+          <Menu.Header>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon name="warehouse" style={{ fontSize: 25 }} />
+              {this.state.isSideBarExpanded != null && this.state.isSideBarExpanded
+                ? '  Supplier'
+                : ''}
+            </div>
+          </Menu.Header>
+        </Menu.Item>
         <div style={{ position: 'absolute', bottom: 80, width: '100%' }}>
           <div
             onClick={() => {

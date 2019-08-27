@@ -40,6 +40,7 @@ import {
   postProductTrackGroupId,
   Product,
 } from '../../../Action/SYNActions';
+import Papa from 'papaparse';
 
 import { getIsMWSAuthorized, getBasicInfoSeller } from '../../../Action/SettingActions';
 import AdminLayout from '../../../components/AdminLayout';
@@ -49,8 +50,16 @@ import { Modals } from '../../../components/Modals';
 import MesssageComponent from '../../../components/MessageComponent';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 import Auth from '../../../components/Auth/Auth';
+import SupplierModalPage1 from './supplierModal/SupplierModalPage1';
+import SupplierModalPage2 from './supplierModal/SupplierModalPage2';
+import SupplierModalPage3 from './supplierModal/SupplierModalPage3';
+import SupplierModalPage4 from './supplierModal/SupplierModalPage4';
+import SupplierModalState from './supplierModal/SupplierModalState';
 
 interface State {
+  shortSupplyData: string;
+  supplyData: any;
+  supplierModalState: number;
   isMessageModalOn: boolean;
   isOpen: boolean;
   size: string;
@@ -86,6 +95,12 @@ interface State {
   };
   sortDirection: any;
   sortedColumn: string;
+  supplyErrorMessages: any;
+  upc: string;
+  cost: string;
+  title: string;
+  msrp: string;
+  supplierFormError: any;
 }
 
 interface Props {
@@ -112,7 +127,14 @@ interface Props {
 
   deleteSupplier(supplier_id: any, callBack: any): () => any;
 
-  uploadCSV(new_supplier_id: string, file: any): () => void;
+  uploadCSV(
+    new_supplier_id: string,
+    file: any,
+    upc: string,
+    cost: string,
+    title: string,
+    msrp: string
+  ): () => void;
 
   match: { params: { auth: Auth } };
   suppliers: Supplier[];
@@ -124,6 +146,9 @@ interface Props {
 
 export class Suppliers extends React.Component<Props, State> {
   state: State = {
+    supplyData: [],
+    shortSupplyData: '',
+    supplierModalState: 1,
     suppliers: [],
     isOpen: false,
     size: '',
@@ -159,6 +184,12 @@ export class Suppliers extends React.Component<Props, State> {
     },
     sortDirection: undefined,
     sortedColumn: '',
+    supplyErrorMessages: [],
+    upc: '1',
+    cost: '3',
+    title: '2',
+    msrp: '4',
+    supplierFormError: {},
   };
   message = {
     id: 1,
@@ -223,7 +254,14 @@ export class Suppliers extends React.Component<Props, State> {
         (data: any) => {
           this.props.getSellers();
           if (this.state.file != '') {
-            this.props.uploadCSV(String(this.state.update_product_id), this.state.file);
+            this.props.uploadCSV(
+              String(this.state.update_product_id),
+              this.state.file,
+              this.state.upc,
+              this.state.cost,
+              this.state.title,
+              this.state.msrp
+            );
             this.setState({ file: '' });
           }
           this.setState({ updateDetails: false });
@@ -239,8 +277,14 @@ export class Suppliers extends React.Component<Props, State> {
           this.props.getSellers();
           console.log(this.props.new_supplier);
           if (this.props.new_supplier != null && this.state.file != '') {
-            console.log('FILE IM SENDING', this.state.file);
-            this.props.uploadCSV(String(this.props.new_supplier), this.state.file);
+            this.props.uploadCSV(
+              String(this.props.new_supplier),
+              this.state.file,
+              this.state.upc,
+              this.state.cost,
+              this.state.title,
+              this.state.msrp
+            );
             this.setState({ file: '' });
           }
 
@@ -291,133 +335,274 @@ export class Suppliers extends React.Component<Props, State> {
 
   handleClose = () => this.setState({ modalOpen: false, updateDetails: false });
 
+  resetUploadState = () => {
+    this.setState({
+      supplier_name: '',
+      supplier_description: '',
+      file: '',
+      supplierModalState: 1,
+      supplierFormError: {},
+      supplyErrorMessages: [],
+    });
+  };
+
+  nextModalState = () => {
+    if (this.state.supplierModalState === 1 && this.state.supplier_name === '') {
+      const newError = { supplier_name_error: 'No Supplier Name' };
+      this.setState({ supplierFormError: newError });
+    } else if (this.state.supplierModalState === 3 && this.state.supplyErrorMessages.length === 0) {
+      this.props.saveSupplierNameAndDescription(
+        this.state.supplier_name,
+        this.state.supplier_description,
+        (data: any) => {
+          this.props.postProductTrackGroupId(data.id, this.state.supplier_name);
+          this.props.getSellers();
+          console.log(this.props.new_supplier);
+          if (this.props.new_supplier != null && this.state.file != '') {
+            console.log('FILE IM SENDING', this.state.file);
+            this.props.uploadCSV(
+              String(this.props.new_supplier),
+              this.state.file,
+              this.state.upc,
+              this.state.cost,
+              this.state.title,
+              this.state.msrp
+            );
+            this.setState({ supplierModalState: this.state.supplierModalState + 1 });
+          }
+        }
+      );
+    } else if (this.state.supplierModalState === 4) {
+      this.handleClose();
+      this.resetUploadState();
+    } else {
+      this.setState({ supplierModalState: this.state.supplierModalState + 1 });
+    }
+  };
+  previousModalState = () =>
+    this.setState({ supplierModalState: this.state.supplierModalState + -1 });
+
   public onChangeSupplierDescription = async (event: React.FormEvent<HTMLTextAreaElement>) => {
     this.setState({ supplier_description: (event.target as HTMLTextAreaElement).value });
     return false;
   };
 
   public onChangeSupplierName = async (event: any) => {
+    if (event.target.value !== '') {
+      this.setState({ supplierFormError: {} });
+    }
     this.setState({ supplier_name: event.target.value });
     return false;
+  };
+
+  checkUpcPriceNumeric = (data: any) => {
+    data.map((row: any, index: number) => {
+      if (row.UPC) {
+        if (!isNaN(row.UPC)) {
+        } else {
+          this.setState(
+            {
+              supplyErrorMessages: [
+                ...this.state.supplyErrorMessages,
+                `ROW ${index + 2} : Error in UPC (not a number)`,
+              ],
+            },
+            () => console.log(this.state.supplyErrorMessages)
+          );
+          console.log(`ROW ${index + 2} : Error in UPC (not a number)`);
+        }
+      }
+    });
+  };
+
+  checkUpcDuplicateAndBlank = (data: any) => {
+    var valueArr = data.map((row: any) => {
+      return row.UPC;
+    });
+    valueArr.some((row: any, idx: number) => {
+      if (valueArr.indexOf(row) != idx && row !== '') {
+        this.setState({
+          supplyErrorMessages: [
+            ...this.state.supplyErrorMessages,
+            `${row} : Error in UPC (duplicate)`,
+          ],
+        });
+        console.log(`${row} : Error in UPC (duplicate)`);
+      } else if (row === '') {
+        this.setState({
+          supplyErrorMessages: [...this.state.supplyErrorMessages, `Blank UPC found in ${idx + 2}`],
+        });
+        console.log(`Blank UPC found in ${idx + 2}`);
+      }
+    });
+  };
+
+  checkSupplierDataLength = (data: any) => {
+    if (data.length > 15000) {
+      this.setState({
+        supplyErrorMessages: [
+          ...this.state.supplyErrorMessages,
+          `Supplier rows exceeds limit (15000)`,
+        ],
+      });
+      console.log('Supplier rows exceeds 15000');
+    } else {
+      console.log('You good');
+    }
+  };
+
+  changeSupplyHeaders = (chunk: any) => {
+    var rows = chunk.split(/\r\n|\r|\n/);
+    var headings = rows[0].split(',');
+    headings[1] = 'product_cost';
+    rows[0] = headings.join();
+    return rows.join('\n');
+  };
+
+  checkDelimiter = (delimiter: string) => {
+    if (delimiter !== ',') {
+      this.setState({
+        supplyErrorMessages: [
+          ...this.state.supplyErrorMessages,
+          `Delimiter used is not a comma (,)`,
+        ],
+      });
+    }
+  };
+
+  checkBreakLine = (data: any) => {
+    console.log('LOOK', data);
+    data.every((rowItem: any, index: number) => {
+      Object.values(rowItem).every((k: any) => {
+        if ((k.match(/\n/g) || []).length !== 0) {
+          this.setState({
+            supplyErrorMessages: [
+              ...this.state.supplyErrorMessages,
+              `Row ${index + 2}: Linebreak found`,
+            ],
+          });
+        }
+        return true;
+      });
+    });
+  };
+
+  updateData = (result: any) => {
+    this.checkUpcPriceNumeric(result.data);
+    this.checkUpcDuplicateAndBlank(result.data);
+    this.checkSupplierDataLength(result.data);
+    this.checkDelimiter(result.meta.delimiter);
+    this.checkBreakLine(result.data);
+    const shortArray = result.data.slice(0, 5);
+    this.setState({
+      supplyData: result.data,
+      shortSupplyData: Papa.unparse(shortArray),
+    });
+  };
+
+  onDrop = (acceptedFiles: any) => {
+    acceptedFiles.forEach((file: any) => {
+      this.setState({ file, supplyErrorMessages: [] }, () => {
+        Papa.parse(this.state.file, {
+          // beforeFirstChunk: this.changeSupplyHeaders,
+          skipEmptyLines: 'greedy',
+          complete: this.updateData,
+          header: true,
+        });
+      });
+      console.log('FILE:', file);
+    });
+  };
+
+  onChangeColumnHeaderKey = (e: Event, data: any) => {
+    let change: any = {};
+    change[data.name] = data.value;
+    this.setState(change);
+  };
+
+  backToUpload = () => {
+    this.setState({ supplierModalState: 2 });
+  };
+
+  renderSupplierModalContent = () => {
+    switch (this.state.supplierModalState) {
+      case 1:
+        return (
+          <SupplierModalPage1
+            onChangeSupplierName={this.onChangeSupplierName}
+            supplier_description={this.state.supplier_description}
+            onChangeSupplierDescription={this.onChangeSupplierDescription}
+            supplier_name={this.state.supplier_name}
+            supplierFormError={this.state.supplierFormError}
+          />
+        );
+      case 2:
+        return <SupplierModalPage2 onDrop={this.onDrop} file={this.state.file} />;
+
+      case 3:
+        return (
+          <SupplierModalPage3
+            onChangeColumnHeaderKey={this.onChangeColumnHeaderKey}
+            file={this.state.file}
+            shortSupplyData={this.state.shortSupplyData}
+            upc={this.state.upc}
+            cost={this.state.cost}
+            title={this.state.title}
+            msrp={this.state.msrp}
+          />
+        );
+
+      case 4:
+        return (
+          <SupplierModalPage4
+            supplyErrorMessages={this.state.supplyErrorMessages}
+            supplier_name={this.state.supplier_name}
+            backToUpload={this.backToUpload}
+          />
+        );
+
+      default:
+        break;
+    }
   };
 
   renderAddNewSupplierModal = () => {
     return (
       <Modal
-        size={'tiny'}
         open={this.state.modalOpen}
         onClose={this.handleClose}
         closeIcon={true}
-        trigger={
-          <Button
-            basic={true}
-            color="black"
-            primary={true}
-            style={{ borderRadius: '50px' }}
-            onClick={this.handleAddNewSupplierModalOpen}
-          >
-            Add New Supplier
-          </Button>
-        }
+        style={{ width: '85%' }}
       >
         <Modal.Header>
-          <Grid columns={4}>
-            <Grid.Row>
-              <Grid.Column style={{ margin: 0 }} floated="left" width={6}>
-                Add New Supplier
-              </Grid.Column>
-              <Grid.Column style={{ padding: 0 }} floated="left">
-                <Icon name="file" />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+          <SupplierModalState supplierModalState={this.state.supplierModalState} />
         </Modal.Header>
-        <Modal.Content>
-          <Grid columns={3}>
-            <Grid.Row>
-              <Grid.Column>Supplier Name*</Grid.Column>
-              <Grid.Column width={8} floated="left">
-                <Input
-                  value={this.state.supplier_name}
-                  onChange={event => {
-                    this.onChangeSupplierName(event);
-                  }}
-                  style={{ width: 300 }}
-                  placeholder="Please Enter"
-                />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column>Description</Grid.Column>
-              <Grid.Column width={9} floated="left">
-                <Form>
-                  <TextArea
-                    value={this.state.supplier_description}
-                    onChange={event => {
-                      this.onChangeSupplierDescription(event);
-                    }}
-                    style={{ minHeight: 100, width: 300, margin: '5px 0', padding: '9px' }}
-                    placeholder="Supplier Description"
-                  />
-                </Form>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column
-                style={{ marginTop: '10px', marginBottom: '10px' }}
-                floated="right"
-                width={9}
-              >
-                <Checkbox />
-                &nbsp; Automatically upload upon exit
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Modal.Content>
-        <Modal.Actions>
+        <Modal.Content>{this.renderSupplierModalContent()}</Modal.Content>
+        <Modal.Actions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          {(this.state.supplierModalState === 2 ||
+            this.state.supplierModalState === 3 ||
+            (this.state.supplierModalState === 4 &&
+              this.state.supplyErrorMessages.length !== 0)) && (
+            <Button
+              size="small"
+              basic={true}
+              color="grey"
+              style={{ borderRadius: 20 }}
+              onClick={this.previousModalState}
+              content="Back"
+            />
+          )}
           <Button
-            size="mini"
+            size="small"
             basic={true}
-            color="grey"
-            style={{ borderRadius: 20 }}
-            floated="left"
-            onClick={this.handleClose}
-            content="Cancel"
-          />
-          <Button
-            size="mini"
-            basic={true}
-            floated="left"
             color="blue"
             disabled={
-              (this.state.supplier_name == '' && this.state.file == '') ||
-              (!this.state.updateDetails && this.state.supplier_name == '')
+              (this.state.file === '' && this.state.supplierModalState === 2) ||
+              (this.state.supplyErrorMessages.length !== 0 && this.state.supplierModalState === 4)
             }
             style={{ borderRadius: 20 }}
-            onClick={this.addNewSupplier}
-            content="Save"
-          />
-          <Button
-            size="mini"
-            color="blue"
-            style={{ borderRadius: 20 }}
-            icon="chevron down"
-            labelPosition="right"
-            content="Upload Supplier CSV"
-            onClick={() => this.fileInputRef.current.click()}
-          />
-          <input
-            ref={this.fileInputRef}
-            type="file"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            hidden={true}
-            onChange={this.fileChange}
-          />
-          <Popup
-            trigger={<Icon name="question circle" color={'grey'} />}
-            content="Sellgo"
-            position="top left"
-            size="tiny"
+            onClick={this.nextModalState}
+            content={this.state.supplierModalState === 4 ? 'Close' : 'Next'}
           />
         </Modal.Actions>
       </Modal>
@@ -531,7 +716,6 @@ export class Suppliers extends React.Component<Props, State> {
                 />
               </span>
             </Table.HeaderCell>
-            {/*<Table.HeaderCell>Note</Table.HeaderCell>*/}
             <Table.HeaderCell />
           </Table.Row>
         </Table.Header>
@@ -589,18 +773,7 @@ export class Suppliers extends React.Component<Props, State> {
                   </Table.Cell>
                   <Table.Cell textAlign="center">{value.p2l_ratio}</Table.Cell>
                   <Table.Cell textAlign="center">{Number(value.rate).toLocaleString()}</Table.Cell>
-                  {/*<Table.Cell>*/}
-                  {/*  <Input focus placeholder='Note'/>*/}
-                  {/*</Table.Cell>*/}
                   <Table.Cell textAlign="right" style={{ paddingRight: '10px' }}>
-                    {/* <Table.Cell as={Link} to={`/syn/`}>
-                     <Icon
-                     onClick={() => {
-                     this.openUpdateSupplierPopup(value);
-                     }}
-                     name='cloud upload' style={{color: 'black'}}
-                     />&nbsp;
-                     </Table.Cell> */}
                     <Table.Cell as={Link}>
                       <Icon
                         name="refresh"
@@ -641,7 +814,6 @@ export class Suppliers extends React.Component<Props, State> {
                       to="/syn"
                     >
                       <Icon name="trash alternate" style={{ color: 'black' }} />
-                      {/*{this.renderDeleteModal(value, index)}*/}
                     </Table.Cell>
                   </Table.Cell>
                 </Table.Row>
@@ -704,7 +876,18 @@ export class Suppliers extends React.Component<Props, State> {
       <AdminLayout
         auth={this.props.match.params.auth}
         sellerData={this.props.sellerData}
-        title={'Synthesis'}
+        title={'Suppliers'}
+        callToAction={
+          <Button
+            basic={true}
+            color="black"
+            primary={true}
+            style={{ borderRadius: '50px' }}
+            onClick={this.handleAddNewSupplierModalOpen}
+          >
+            Add New Supplier
+          </Button>
+        }
       >
         <Segment basic={true} className="setting">
           <Divider
@@ -716,23 +899,6 @@ export class Suppliers extends React.Component<Props, State> {
           <Grid>
             <Grid.Column width={5} floated="left" className={'middle aligned'}>
               {this.renderAddNewSupplierModal()}
-              <Popup
-                className={'addSupplierPopup'}
-                trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
-                position="top left"
-                size="tiny"
-              >
-                <h4>Adding a Supplier</h4>
-                To add a supplier:
-                <List as={'ol'}>
-                  <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
-                  <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
-                  <List.Item as="li">
-                    On the New Supplier screen, enter the details of the suppler.
-                  </List.Item>
-                  <List.Item as="li">Save the details of the new supplier.</List.Item>
-                </List>
-              </Popup>
             </Grid.Column>
             <Grid.Column width={5} floated="right">
               <Card raised={true} style={{ borderRadius: 10, width: 290 }}>
@@ -748,7 +914,6 @@ export class Suppliers extends React.Component<Props, State> {
                     style={{
                       display: 'flex',
                       padding: '11px',
-                      // width: '100%',
                     }}
                   >
                     <span>
@@ -836,7 +1001,14 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),
     deleteSupplier: (supplier_id: any, callBack: any) =>
       dispatch(deleteSupplier(supplier_id, callBack)),
-    uploadCSV: (new_supplier_id: string, file: any) => dispatch(uploadCSV(new_supplier_id, file)),
+    uploadCSV: (
+      new_supplier_id: string,
+      file: any,
+      upc: string,
+      cost: string,
+      title: string,
+      msrp: string
+    ) => dispatch(uploadCSV(new_supplier_id, file, upc, cost, title, msrp)),
   };
 };
 
