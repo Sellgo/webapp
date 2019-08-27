@@ -91,7 +91,7 @@ const SupplierInformation = () => {
                 required={true}
                 validate={required}
                 component={InputField}
-                name="supplierName"
+                name="name"
                 label="Supplier Name"
                 placeholder="Supplier Name"
               />

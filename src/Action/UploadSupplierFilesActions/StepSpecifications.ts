@@ -12,7 +12,7 @@ import { UploadSteps } from '../../constant/constant';
 import { isValid, submit, getFormValues, destroy } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
 import { error } from '../../utils/notifications';
-import { saveSupplierNameAndDescription } from '../SYNActions';
+import { saveSupplierNameAndDescription, setsaveSupplierNameAndDescription } from '../SYNActions';
 import { setRawCsv, removeColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import every from 'lodash/every';
@@ -20,6 +20,7 @@ import uniq from 'lodash/uniq';
 import some from 'lodash/some';
 import isEmpty from 'lodash/isEmpty';
 import validator from 'validator';
+import get from 'lodash/get';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
@@ -64,10 +65,15 @@ export class AddNewSupplierStep extends Step {
     const formValues: any = getFormValues('supplier-info')(this.getState());
 
     try {
-      // add other form values
-      const { supplierName, description } = formValues;
+      const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
+      if (!existingSupplier) {
+        // add other form values
+        const { name, description } = formValues;
 
-      await this.dispatch(saveSupplierNameAndDescription(supplierName, description));
+        await this.dispatch(saveSupplierNameAndDescription(name, description));
+      } else {
+        this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
+      }
     } catch (error) {
       throw error;
     }
