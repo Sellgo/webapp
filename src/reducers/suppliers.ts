@@ -4,6 +4,7 @@ import { AnyAction } from 'redux';
 import { SET_SUPPLIERS, RESET_SUPPLIERS, UPDATE_SUPPLIER } from '../constant/constant';
 import { Suppliers } from '../Action/suppliers';
 import keyBy from 'lodash/keyBy';
+import get from 'lodash/get';
 
 const initialState = {
   supplierIds: [],
@@ -35,6 +36,7 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
     case UPDATE_SUPPLIER: {
       const supplier: Supplier = action.payload;
       return setIn(state, `suppliersById.${supplier.id}`, {
+        ...get(state, `suppliersById.${supplier.id}`),
         ...supplier,
         supplier_id: supplier.id,
       });

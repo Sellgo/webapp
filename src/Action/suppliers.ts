@@ -5,15 +5,13 @@ import { sellerIDSelector } from '../selectors/user';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../config';
+import { supplierIdsSelector, suppliersSelector } from '../selectors/suppliers';
+import { Supplier } from './SYNActions';
 
 const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': `multipart/form-data`,
 });
-
-export interface Supplier {
-  id: number;
-}
 
 export interface Suppliers {
   supplierIds: number[];
@@ -38,14 +36,47 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
   );
 
   dispatch(setSuppliers(response.data));
+  dispatch(fetchSynthesisProgressUpdates());
 };
 
+function timeout(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export const fetchSynthesisProgressUpdates = () => async (
-  dispatch: ThunkDispatch<{}, {}, AnyAction>
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  getState: () => {}
 ) => {
-  const response = await Axios.get(AppConfig.BASE_URL_API + `synthesis_progress`, {
-    headers: getHeaders(),
-  });
+  let suppliers = suppliersSelector(getState());
+
+  while (suppliers.length > 0) {
+    const requests = suppliers.map(supplier => {
+      return Axios.get(
+        AppConfig.BASE_URL_API +
+          `synthesis_progress/?synthesis_file_id=${supplier.synthesis_file_id}`,
+        {
+          headers: getHeaders(),
+        }
+      );
+    });
+    const responses = await Promise.all(requests);
+    responses.forEach((response, index) => {
+      const data = response.data;
+      const supplier = suppliers[index];
+      dispatch(
+        updateSupplier({
+          ...supplier,
+          ...data,
+        })
+      );
+    });
+
+    suppliers = suppliers.filter((supplier, index) => {
+      return responses[index].data.progress !== 100;
+    });
+
+    await timeout(2000);
+  }
 };
 
 export const updateSupplier = (supplier: Supplier) => ({

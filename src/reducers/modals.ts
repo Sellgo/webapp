@@ -13,7 +13,7 @@ export default (state: ModalsStateInterface = {}, action: ModalsAction) => {
     case OPEN:
       return setIn(state, action.key, {
         open: true,
-        meta: action.meta || {},
+        meta: action.meta || null,
       });
 
     case CLOSE:
