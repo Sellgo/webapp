@@ -408,8 +408,12 @@ export class Suppliers extends React.Component<Props, State> {
     }
   };
 
-  previousModalState = () =>
+  previousModalState = () => {
+    if (this.state.supplierModalState === 3) {
+      this.setState({ isSkipDataMapping: false });
+    }
     this.setState({ supplierModalState: this.state.supplierModalState + -1 });
+  };
 
   public onChangeSupplierDescription = async (event: React.FormEvent<HTMLTextAreaElement>) => {
     this.setState({ supplier_description: (event.target as HTMLTextAreaElement).value });
@@ -550,7 +554,7 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   backToUpload = () => {
-    this.setState({ supplierModalState: 2 });
+    this.setState({ supplierModalState: 2, isSkipDataMapping: false });
   };
 
   renderSupplierModalContent = () => {
