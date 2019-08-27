@@ -38,7 +38,7 @@ const SupplierModalState: React.SFC<Props> = props => {
           <Icon name="plus square outline" color={'blue'} size="big" />
         </div>
         <span className="circleHeader">
-          Add New Supplier{' '}
+          <h4>Add New Supplier</h4>{' '}
           <Popup
             content={renderSupplyHelpPopUp()}
             on="click"
@@ -61,7 +61,7 @@ const SupplierModalState: React.SFC<Props> = props => {
           <Icon name="file" color={props.supplierModalState > 1 ? 'blue' : 'grey'} size="big" />
         </div>
         <span className="circleHeader">
-          New Supply File{' '}
+          <h4>New Supply File</h4>{' '}
           <Popup
             content={renderSupplyHelpPopUp()}
             on="click"
@@ -89,7 +89,7 @@ const SupplierModalState: React.SFC<Props> = props => {
           />
         </div>
         <span className="circleHeader">
-          Data Mapping{' '}
+          <h4>Data Mapping</h4>{' '}
           <Popup
             content={renderSupplyHelpPopUp()}
             on="click"
@@ -117,7 +117,7 @@ const SupplierModalState: React.SFC<Props> = props => {
           />
         </div>
         <span className="circleHeader">
-          Data Validation{' '}
+          <h4>Data Validation</h4>{' '}
           <Popup
             content={renderSupplyHelpPopUp()}
             on="click"

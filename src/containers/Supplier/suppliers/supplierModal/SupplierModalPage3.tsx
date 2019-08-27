@@ -42,71 +42,73 @@ export default class SupplierModalPage3 extends React.Component<any, State> {
   render() {
     return (
       <React.Fragment>
-        <div style={{ minHeight: '40vh' }}>
-          {/* <Header as="h2">File: {this.props.file.name}</Header> */}
-          <Grid columns={4}>
-            <Grid.Column>
-              <Grid.Row>UPC/EAN/ASIN</Grid.Row>
-              <Dropdown
-                name="upc"
-                className={'supplyColumnDropDown'}
-                selectOnBlur={false}
-                fluid={true}
-                selection={true}
-                options={this.headerOptions}
-                onChange={this.props.onChangeColumnHeaderKey}
-                value={this.props.upc}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Grid.Row>COST</Grid.Row>
-              <Dropdown
-                name="cost"
-                className={'supplyColumnDropDown'}
-                selectOnBlur={false}
-                fluid={true}
-                selection={true}
-                options={this.headerOptions}
-                onChange={this.props.onChangeColumnHeaderKey}
-                value={this.props.cost}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Grid.Row>SKU</Grid.Row>
-              <Dropdown
-                name="msrp"
-                className={'supplyColumnDropDown'}
-                selectOnBlur={false}
-                fluid={true}
-                selection={true}
-                options={this.headerOptions}
-                onChange={this.props.onChangeColumnHeaderKey}
-                value={this.props.msrp}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Grid.Row>TITLE</Grid.Row>
-              <Dropdown
-                name="title"
-                className={'supplyColumnDropDown'}
-                selectOnBlur={false}
-                fluid={true}
-                selection={true}
-                options={this.headerOptions}
-                onChange={this.props.onChangeColumnHeaderKey}
-                value={this.props.title}
-              />
-            </Grid.Column>
-          </Grid>
-          <Segment color="yellow">
-            This is just a preview of your table for mapping the proper columns
-          </Segment>
-          <CsvToHtmlTable
-            tableClassName={'ui celled table'}
-            data={this.props.shortSupplyData}
-            csvDelimiter=","
-          />
-        </div>
+        <Segment>
+          <div className="supplierModalPage3" style={{ minHeight: '40vh' }}>
+            {/* <Header as="h2">File: {this.props.file.name}</Header> */}
+            <Grid columns={4}>
+              <Grid.Column>
+                <Grid.Row>UPC/EAN/ASIN</Grid.Row>
+                <Dropdown
+                  name="upc"
+                  className={'supplyColumnDropDown'}
+                  selectOnBlur={false}
+                  fluid={true}
+                  selection={true}
+                  options={this.headerOptions}
+                  onChange={this.props.onChangeColumnHeaderKey}
+                  value={this.props.upc}
+                />
+              </Grid.Column>
+              <Grid.Column>
+                <Grid.Row>COST</Grid.Row>
+                <Dropdown
+                  name="cost"
+                  className={'supplyColumnDropDown'}
+                  selectOnBlur={false}
+                  fluid={true}
+                  selection={true}
+                  options={this.headerOptions}
+                  onChange={this.props.onChangeColumnHeaderKey}
+                  value={this.props.cost}
+                />
+              </Grid.Column>
+              <Grid.Column>
+                <Grid.Row>SKU</Grid.Row>
+                <Dropdown
+                  name="msrp"
+                  className={'supplyColumnDropDown'}
+                  selectOnBlur={false}
+                  fluid={true}
+                  selection={true}
+                  options={this.headerOptions}
+                  onChange={this.props.onChangeColumnHeaderKey}
+                  value={this.props.msrp}
+                />
+              </Grid.Column>
+              <Grid.Column>
+                <Grid.Row>TITLE</Grid.Row>
+                <Dropdown
+                  name="title"
+                  className={'supplyColumnDropDown'}
+                  selectOnBlur={false}
+                  fluid={true}
+                  selection={true}
+                  options={this.headerOptions}
+                  onChange={this.props.onChangeColumnHeaderKey}
+                  value={this.props.title}
+                />
+              </Grid.Column>
+            </Grid>
+            <Segment color="yellow">
+              This is just a preview of your table for mapping the proper columns
+            </Segment>
+            <CsvToHtmlTable
+              tableClassName={'ui celled table'}
+              data={this.props.shortSupplyData}
+              csvDelimiter=","
+            />
+          </div>
+        </Segment>
       </React.Fragment>
     );
   }

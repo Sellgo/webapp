@@ -18,16 +18,24 @@ export default class SupplierModalPage2 extends React.Component<any, {}> {
                 backgroundColor: '#EEEEEE',
                 borderRadius: '24px',
                 border: '2px dashed grey',
+                paddingBottom: 0,
               }}
               {...getRootProps()}
             >
               <input {...getInputProps()} />
-              <Icon name="cloud upload" color={'grey'} size="huge" />
+              <Icon
+                name="cloud upload"
+                color={!!this.props.file.name ? 'blue' : 'grey'}
+                size="massive"
+              />
               <br />
               {!!this.props.file ? (
                 <p>File Selected: {this.props.file.name}</p>
               ) : (
-                <p>Drag & drop your CSV file here, or click to select the file </p>
+                <div>
+                  <h4>Upload filled-in Supplier File(s) here</h4>
+                  <p>Drag and drop, or click to select</p>
+                </div>
               )}
             </div>
           )}

@@ -257,5 +257,13 @@ a {
 
 .ui.input {
   width: 100% !important;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+}
+
+.ui.input > input {
+  padding: 0.4em 1em !important;
+}
+
+.ui.dimmer {
+  background-color: #000000a6;
 }

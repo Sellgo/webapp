@@ -574,11 +574,22 @@ export class Suppliers extends React.Component<Props, State> {
         closeIcon={true}
         style={{ width: '85%' }}
       >
-        <Modal.Header>
-          <SupplierModalState supplierModalState={this.state.supplierModalState} />
-        </Modal.Header>
+        <SupplierModalState supplierModalState={this.state.supplierModalState} />
         <Modal.Content>{this.renderSupplierModalContent()}</Modal.Content>
-        <Modal.Actions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div
+          style={{ display: 'flex', justifyContent: 'flex-end', padding: '1.5rem', paddingTop: 0 }}
+        >
+          {this.state.supplierModalState === 2 && (
+            <Button
+              size="small"
+              basic={true}
+              color="grey"
+              style={{ borderRadius: 20 }}
+              onClick={() => console.log('download template')}
+            >
+              <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
+            </Button>
+          )}
           {(this.state.supplierModalState === 2 ||
             this.state.supplierModalState === 3 ||
             (this.state.supplierModalState === 4 &&
@@ -587,7 +598,7 @@ export class Suppliers extends React.Component<Props, State> {
               size="small"
               basic={true}
               color="grey"
-              style={{ borderRadius: 20 }}
+              style={{ borderRadius: 20, marginLeft: '1em' }}
               onClick={this.previousModalState}
               content="Back"
             />
@@ -600,11 +611,11 @@ export class Suppliers extends React.Component<Props, State> {
               (this.state.file === '' && this.state.supplierModalState === 2) ||
               (this.state.supplyErrorMessages.length !== 0 && this.state.supplierModalState === 4)
             }
-            style={{ borderRadius: 20 }}
+            style={{ borderRadius: 20, marginLeft: '1em' }}
             onClick={this.nextModalState}
             content={this.state.supplierModalState === 4 ? 'Close' : 'Next'}
           />
-        </Modal.Actions>
+        </div>
       </Modal>
     );
   };

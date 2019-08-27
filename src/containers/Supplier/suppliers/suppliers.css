@@ -46,15 +46,15 @@
   justify-content: center;
   width: 90%;
   margin: auto;
-  margin-top: 1em;
-  margin-bottom: 2em;
+  margin-top: 4em;
+  margin-bottom: 4em;
 }
 
 .supplierModalState .circleState {
   border: 2px solid #aaaaaa;
   border-radius: 100px;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,8 +63,8 @@
 .supplierModalState .circleState--active {
   border: 2px solid #4285f4;
   border-radius: 100px;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,8 +73,8 @@
 .supplierModalState .circleState--error {
   border: 2px solid #db2828;
   border-radius: 100px;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@
 
 .supplierModalState .lineState {
   height: 3px;
-  width: 8vw;
+  width: 12vw;
   background: #aaaaaa;
   margin-top: auto;
   margin-bottom: auto;
@@ -90,7 +90,7 @@
 
 .supplierModalState .lineState--active {
   height: 4px;
-  width: 8vw;
+  width: 12vw;
   background: #4285f4;
   margin-top: auto;
   margin-bottom: auto;
@@ -98,7 +98,7 @@
 
 .supplierModalState .lineState--error {
   height: 4px;
-  width: 8vw;
+  width: 12vw;
   background: #db2828;
   margin-top: auto;
   margin-bottom: auto;
@@ -106,10 +106,15 @@
 
 .supplierModalState .circleHeader {
   position: absolute;
-  font-size: 14px;
-  bottom: -32px;
+  font-size: 12px;
+  bottom: -40px;
+  display: flex;
 }
-/* 
-.supplyDataTable {
 
-} */
+.supplierForm h4 {
+  margin-bottom: 4px;
+}
+
+.supplierModalPage3 .ui.table {
+  font-size: 12px;
+}
