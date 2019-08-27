@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import get from 'lodash/get';
-import { Supplier } from '../../../../Action/SYNActions';
+import { Supplier, setFavouriteSupplier } from '../../../../Action/SYNActions';
 import {
   resetSuppliers,
   fetchSuppliers,
@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { localStorageKeys } from '../../../../constant/constant';
 import history from '../../../../history';
 import { suppliersSelector } from '../../../../selectors/suppliers';
+import isNil from 'lodash/isNil';
 
 interface SuppliersTableProps {
   delete_confirmation: boolean;
@@ -27,6 +28,8 @@ interface SuppliersTableProps {
   fetchSuppliers: () => void;
   fetchSynthesisProgressUpdates: () => void;
   resetSuppliers: typeof resetSuppliers;
+  favourite: (id: number) => void;
+  unFavourite: (id: number) => void;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -74,8 +77,16 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderOperations = (row: Supplier) => {
     return (
       <div className="operations">
-        <Icon name="thumbs up" style={{ color: 'black' }} />
-        <Icon name="thumbs down" style={{ color: 'black' }} />
+        <Icon
+          name="thumbs up"
+          onClick={() => this.props.favourite(row.id)}
+          style={{ color: 'black' }}
+        />
+        <Icon
+          name="thumbs down"
+          onClick={() => this.props.unFavourite(row.id)}
+          style={{ color: 'black' }}
+        />
         <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
         <Icon
           name="trash alternate"
@@ -85,6 +96,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       </div>
     );
   };
+
+  renderSpeed = (row: Supplier) => (!isNil(row.speed) ? `${row.speed}/min` : '');
+
+  renderCompleted = (row: Supplier) => (!isNil(row.progress) ? `${row.progress}%` : '');
 
   columns: Column[] = [
     {
@@ -109,15 +124,15 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     },
     {
       label: 'Inventory',
-      dataKey: 'inventory',
+      dataKey: 'item_total_count',
     },
     {
       label: 'Speed',
-      dataKey: 'speed',
+      render: this.renderSpeed,
     },
     {
       label: 'Completed',
-      dataKey: 'completed',
+      render: this.renderCompleted,
     },
     {
       label: 'Product to Listing Ratio',
@@ -175,6 +190,8 @@ const mapDispatchToProps = {
   resetSuppliers,
   fetchSuppliers,
   fetchSynthesisProgressUpdates,
+  favourite: (id: number) => setFavouriteSupplier(id, true),
+  unFavourite: (id: number) => setFavouriteSupplier(id, false),
 };
 
 export default connect(
