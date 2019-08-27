@@ -42,6 +42,9 @@ export interface Supplier {
   p2l_ratio: any;
   xid: string;
   path: string;
+  synthesis_file_id: number;
+  speed: number;
+  progress: number;
 }
 
 export interface TimeEfficiency {
@@ -431,10 +434,10 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
     data: bodyFormData,
     headers,
   })
-  .then(json => {
-    dispatch(updateSupplier(json.data))
-    callBack(json.data);
-  })
+    .then(json => {
+      dispatch(updateSupplier(json.data));
+      callBack(json.data);
+    })
     .catch(error => {});
 };
 
@@ -741,3 +744,21 @@ export const reduceProductTrackGroup = (data: {}) => ({
   type: GET_PRODUCT_TRACK_GROUP,
   data,
 });
+
+export const setFavouriteSupplier = (supplier_id: any, isFavourite: any) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const bodyFormData = new FormData();
+  bodyFormData.set('id', supplier_id);
+  bodyFormData.set('tag', isFavourite ? 'like' : 'dislike');
+
+  return axios({
+    method: 'patch',
+    url: AppConfig.BASE_URL_API + `supplier/`,
+    data: bodyFormData,
+    headers,
+  })
+    .then(json => {
+      dispatch(updateSupplier(json.data));
+    })
+    .catch(error => {});
+};
