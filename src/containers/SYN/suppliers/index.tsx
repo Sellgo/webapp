@@ -202,14 +202,14 @@ export class Suppliers extends React.Component<Props, State> {
     this.setState({ file: event.target.files[0] }, () => {});
   };
 
-  openUpdateSupplierPopup = (value: any): void => {
+  openUpdateSupplierPopup = (supplier: Supplier): void => {
     if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
-      this.props.openUploadSupplierModal();
+      this.props.openUploadSupplierModal(supplier);
       this.setState({
-        update_product_id: value.id,
+        update_product_id: supplier.id,
         updateDetails: true,
-        supplier_name: value.name,
-        supplier_description: value.description,
+        supplier_name: supplier.name,
+        supplier_description: supplier.description,
       });
     } else {
       this.message.title = 'Unauthorized Access';
@@ -477,7 +477,8 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(updateSupplierNameAndDescription(name, description, update_product_id, callBack)),
     deleteSupplier: (supplier_id: any, callBack: any) =>
       dispatch(deleteSupplier(supplier_id, callBack)),
-    openUploadSupplierModal: () => dispatch(openUploadSupplierModal()),
+    openUploadSupplierModal: (supplier?: Supplier) =>
+      dispatch(openUploadSupplierModal(supplier ? supplier : undefined)),
     closeUploadSupplierModal: () => dispatch(closeUploadSupplierModal()),
   };
 };
