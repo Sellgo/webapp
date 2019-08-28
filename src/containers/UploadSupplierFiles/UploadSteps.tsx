@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Stepper from '../../components/Stepper';
 import { setUploadSupplierStep } from '../../Action/UploadSupplierFilesActions';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
+import { Icon } from 'semantic-ui-react';
+import styles from './UploadSupplierFiles.module.css';
 
 interface Props {
   value: number;
@@ -13,28 +15,33 @@ interface Props {
 const steps = [
   {
     title: 'Add New Supplier',
+    icon: <Icon name="folder" />,
   },
   {
     title: 'Select File',
+    icon: <Icon name="file" />,
   },
   {
     title: 'Data Mapping',
+    icon: <Icon name="copy" />,
   },
   {
     title: 'Data Validation',
+    icon: <Icon name="book" />,
   },
 ];
 
 export const UploadSupplierFiles = (props: Props) => {
   const { value } = props;
   return (
-    <Stepper {...props}>
+    <Stepper className={styles.stepper} {...props}>
       {({ Step }) =>
         steps.map((step, index) => (
           <Step
             key={step.title}
             title={step.title}
             disabled={index < value - 1 || index > value + 1}
+            icon={step.icon}
           />
         ))
       }
