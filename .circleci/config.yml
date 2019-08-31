@@ -7,18 +7,18 @@ jobs:
       - image: circleci/node
     steps:
       - checkout
-      - run: 
+      - run:
           name: install-npm
           command: npm install
-      - run: 
+      - run:
           name: build
-          command: CI=false npm run build
+          command: CI=false REACT_APP_ENV=production npm run build
       - persist_to_workspace:
           root: build
           paths: .
   deploy:
     machine:
-        enabled: true
+      enabled: true
     steps:
       - attach_workspace:
           at: build
@@ -36,6 +36,7 @@ workflows:
     jobs:
       - build
       - deploy:
+          context: production
           requires:
             - build
           filters:
