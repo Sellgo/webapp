@@ -126,7 +126,7 @@
   display: flex;
 }
 .stepper :global(.rc-steps-item-tail) {
-  margin-left: 50px !important;
+  margin-left: 49px !important;
   margin-top: 14px !important;
 }
 .stepper :global(.rc-steps-icon) {
