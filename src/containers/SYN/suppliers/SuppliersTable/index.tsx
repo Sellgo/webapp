@@ -8,7 +8,7 @@ import {
 } from '../../../../Action/suppliers';
 import { connect } from 'react-redux';
 import columns from './columns';
-import { Table, Dropdown, Icon, Confirm } from 'semantic-ui-react';
+import { Table, Dropdown, Icon, Confirm, Segment, Loader } from 'semantic-ui-react';
 import GenericTable, { Column } from '../../../../components/Table';
 import { Link } from 'react-router-dom';
 import { localStorageKeys } from '../../../../constant/constant';
@@ -49,8 +49,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
   renderActions = (row: Supplier) => (
     <Dropdown
-      className={'SynDropDown'}
-      text="SYN"
+      className={'SynDropDownLink'}
+      text="Choose an action"
+      //text="SYN"
       selectOnBlur={false}
       fluid={true}
       selection={true}
@@ -60,11 +61,42 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           text: 'SYN',
           value: 'SYN',
         },
+        {
+          key: '1',
+          text: (
+            <a href={row.file_url} download>
+              Download Supplier File
+            </a>
+          ),
+          value: 'dwn_sp_file',
+        },
+        {
+          key: '2',
+          text: (
+            <a href={row.report_url} download>
+              Download Results
+            </a>
+          ),
+          value: 'dwn_res',
+        },
+        {
+          key: '3',
+          text: 'Rerun',
+          value: 'rerun',
+        },
+        {
+          key: '4',
+          text: 'Delete',
+          value: 'delete',
+        },
       ]}
       onChange={(e, data) => {
         if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
           if (data.value === 'SYN') {
             history.push(`/syn/${row.supplier_id}`);
+          }
+          if (data.value === 'rerun') {
+            // perform rerun
           }
         } else {
           const message: any = {};
@@ -76,6 +108,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           message.color = '#cf3105';
 
           this.props.onMessageChange(message);
+        }
+        if (data.value === 'delete') {
+          this.props.onDelete({ ...row, id: row.supplier_id });
         }
       }}
     />
@@ -167,7 +202,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const { resetSuppliers, fetchSuppliers, fetchSynthesisProgressUpdates } = this.props;
     resetSuppliers();
     fetchSuppliers();
-    fetchSynthesisProgressUpdates();
+    if (this.props.suppliers.length !== 1 && this.props.suppliers[0] !== undefined)
+      fetchSynthesisProgressUpdates();
   }
 
   componentWillUnmount() {
@@ -177,7 +213,18 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   render() {
     const { suppliers, delete_confirmation, onCancelDelete, onDeleteSupplier } = this.props;
 
-    return (
+    return suppliers.length === 1 && suppliers[0] === undefined ? (
+      <Segment>
+        <Loader
+          hidden={suppliers.length === 1 && suppliers[0] === undefined ? false : true}
+          active={true}
+          inline="centered"
+          size="massive"
+        >
+          Loading
+        </Loader>
+      </Segment>
+    ) : (
       <>
         <GenericTable
           data={suppliers.filter(supplier => supplier.status !== 'inactive')}

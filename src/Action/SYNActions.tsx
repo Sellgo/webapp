@@ -47,6 +47,8 @@ export interface Supplier {
   progress: number;
   udate: Date;
   tag: string;
+  file_url: string;
+  report_url: string;
 }
 
 export interface TimeEfficiency {

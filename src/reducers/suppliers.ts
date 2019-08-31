@@ -7,7 +7,7 @@ import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
 
 const initialState = {
-  supplierIds: [],
+  supplierIds: [-1],
   suppliersById: {},
 };
 

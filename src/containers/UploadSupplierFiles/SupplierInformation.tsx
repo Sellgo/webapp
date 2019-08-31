@@ -110,8 +110,8 @@ const SupplierInformation = () => {
               />
               <Form.Field>
                 <Field
-                  required={true}
-                  validate={required}
+                  //required={true}
+                  //validate={required}
                   component={TextAreaField}
                   name="description"
                   label="Description"
