@@ -39,7 +39,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     </Table.Cell>
   );
 
-  renderFileName = (row: Supplier) => row.path.split('/').pop() || '';
+  renderFileName = (row: Supplier) => {
+    const fileName = row.path.split('/').pop() || '';
+    return (
+      <a href={row.path} download>
+        {fileName}
+      </a>
+    );
+  };
   renderActions = (row: Supplier) => (
     <Dropdown
       className={'SynDropDown'}
@@ -80,12 +87,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         <Icon
           name="thumbs up"
           onClick={() => this.props.favourite(row.id)}
-          style={{ color: 'black' }}
+          style={row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }}
         />
         <Icon
           name="thumbs down"
           onClick={() => this.props.unFavourite(row.id)}
-          style={{ color: 'black' }}
+          style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
         <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
         <Icon
@@ -99,17 +106,19 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderSpeed = (row: Supplier) => (!isNil(row.speed) ? `${row.speed}/min` : '');
 
-  renderCompleted = (row: Supplier) => (!isNil(row.progress) ? `${row.progress}%` : '');
+  renderProgress = (row: Supplier) => (!isNil(row.progress) ? `${row.progress}%` : '');
+
+  renderCompleted = (row: Supplier) => new Date(row.udate).toLocaleString();
 
   columns: Column[] = [
     {
-      label: 'Supplier Name',
+      label: 'Supplier',
       dataKey: 'name',
       sortable: true,
       render: this.renderName,
     },
     {
-      label: 'File Name',
+      label: 'Filename',
       dataKey: 'fileName',
       render: this.renderFileName,
     },
@@ -129,6 +138,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Speed',
       render: this.renderSpeed,
+    },
+    {
+      label: 'Progress',
+      render: this.renderProgress,
     },
     {
       label: 'Completed',

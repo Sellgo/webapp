@@ -49,7 +49,7 @@ const useSort = (initialValue: number) => {
 
 const GenericTable = (props: TableProps) => {
   const { data, columns, singlePageItemsCount = 10 } = props;
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
 
   const { sortedColumnIndex, sortDirection, setSort } = useSort(0);
@@ -80,8 +80,7 @@ const GenericTable = (props: TableProps) => {
       : data;
 
   rows = sortDirection === 'ascending' ? rows.reverse() : rows;
-  rows = rows.slice(currentPage * singlePageItemsCount, (currentPage + 1) * singlePageItemsCount);
-
+  rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
   return rows.length === 0 ? (
     <Segment>
       <Loader
@@ -94,7 +93,7 @@ const GenericTable = (props: TableProps) => {
       </Loader>
     </Segment>
   ) : (
-    <Table sortable={true} basic="very">
+    <Table sortable={true} basic="very" textAlign="center">
       <Table.Header>
         <Table.Row>
           {columns.map((column, index) => {
@@ -136,7 +135,7 @@ const GenericTable = (props: TableProps) => {
             <Pagination
               totalPages={totalPages}
               activePage={currentPage}
-              onPageChange={(event, data) => setCurrentPage(data.activePage ? +data.activePage : 0)}
+              onPageChange={(event, data) => setCurrentPage(Number(data.activePage))}
             />
           </Table.HeaderCell>
         </Table.Row>

@@ -39,7 +39,7 @@ const ColumnMappings = ({
           style={{ marginLeft: 20 }}
           checked={isFirstRowHeader}
           onChange={toggleFirstRowHeader}
-          label="has headers?"
+          label="has header?"
         />
       </Header>
       <Grid>

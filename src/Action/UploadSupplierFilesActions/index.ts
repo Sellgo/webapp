@@ -196,6 +196,7 @@ export const validateAndUploadCsv = () => async (
     data: bodyFormData,
     headers: getHeaders(),
   });
+  dispatch(finishUpload());
 };
 
 export const cleanupUploadSupplier = () => ({
