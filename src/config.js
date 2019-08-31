@@ -12,10 +12,6 @@ const PROD_URLS = {
   CHANGE_PASS_API_URL: 'https://sellgo.auth0.com/dbconnections/change_password',
 };
 
-export const API_ENDPOINTS = {
-  login: URLS.BASE_URL_API + 'login/',
-};
-
 const DEV_KEYS = {
   STRIPE_API_KEY: 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J',
 };
@@ -57,4 +53,14 @@ const local = {
   callbackUrl: 'http://localhost:3000/callback',
 };
 
-export const AppConfig = process.env.NODE_ENV === 'development' ? local : dev;
+function getAppConfig() {
+  if (process.env.REACT_APP_ENV === 'production') {
+    return prod;
+  } else if (process.env.REACT_APP_ENV === 'development') {
+    return dev;
+  }
+
+  return local;
+}
+
+export const AppConfig = getAppConfig();
