@@ -12,7 +12,11 @@ import { UploadSteps } from '../../constant/constant';
 import { isValid, submit, getFormValues, destroy } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
 import { error } from '../../utils/notifications';
-import { saveSupplierNameAndDescription, setsaveSupplierNameAndDescription } from '../SYNActions';
+import {
+  saveSupplierNameAndDescription,
+  setsaveSupplierNameAndDescription,
+  postProductTrackGroupId,
+} from '../SYNActions';
 import { setRawCsv, removeColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import every from 'lodash/every';
@@ -70,7 +74,8 @@ export class AddNewSupplierStep extends Step {
         // add other form values
         const { name, description } = formValues;
 
-        await this.dispatch(saveSupplierNameAndDescription(name, description));
+        const data: any = await this.dispatch(saveSupplierNameAndDescription(name, description));
+        this.dispatch(postProductTrackGroupId(data.id, name));
       } else {
         this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }
@@ -137,7 +142,12 @@ export class DataMappingStep extends Step {
     });
 
     // validate cost
-    if (!every(cost, value => validator.isDecimal(value.toString()))) {
+    if (
+      !every(
+        cost,
+        value => validator.isDecimal(value.toString()) || validator.isInt(value.toString())
+      )
+    ) {
       return 'cost must be a valid amount';
     }
     // validate upc
@@ -145,9 +155,9 @@ export class DataMappingStep extends Step {
       return 'upc must be numeric';
     }
 
-    if (uniq(upc).length !== upc.length) {
+    /* if (uniq(upc).length !== upc.length) {
       return 'upc must be unique';
-    }
+    } */
 
     if (some(upc, isEmpty)) {
       return 'upc can\'t be empty';

@@ -15,19 +15,22 @@ interface Props {
 const steps = [
   {
     title: 'Add New Supplier',
-    icon: <Icon name="folder" />,
+    icon: <Icon className="plus square" />,
   },
   {
     title: 'Select File',
     icon: <Icon name="file" />,
+    description: '',
   },
   {
     title: 'Data Mapping',
     icon: <Icon name="copy" />,
+    description: '',
   },
   {
     title: 'Data Validation',
     icon: <Icon name="book" />,
+    description: '',
   },
 ];
 
@@ -42,6 +45,7 @@ export const UploadSupplierFiles = (props: Props) => {
             title={step.title}
             disabled={index < value - 1 || index > value + 1}
             icon={step.icon}
+            description={step.description}
           />
         ))
       }

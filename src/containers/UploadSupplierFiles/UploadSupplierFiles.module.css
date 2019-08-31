@@ -4,8 +4,10 @@
   flex-direction: column;
 }
 
-.container, .container :global(.form) {
+.container,
+.container :global(.form) {
   font-size: 0.9vw;
+  margin: 5px 20px;
 }
 
 .container :global(.row) {
@@ -14,8 +16,8 @@
 }
 
 .container :global(.ui.grid) {
-  margin-top: -1rem !important;
-  margin-bottom: -1rem !important;
+  -margin-top: -1rem !important;
+  -margin-bottom: -1rem !important;
 }
 
 .marginTop {
@@ -35,7 +37,14 @@
 }
 
 .actions {
-  margin-left: auto;
+  -margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.downloadOptions {
+  margin-right: 50px;
 }
 
 .action {
@@ -52,11 +61,11 @@
   overflow: auto;
 }
 
-.previewTableContainer tr{
+.previewTableContainer tr {
   height: 2em;
 }
 
-.previewTableContainer td{
+.previewTableContainer td {
   padding: 0.4em !important;
 }
 
@@ -66,25 +75,47 @@
   flex-direction: column;
 }
 
+.supplier_information {
+  border: 1px solid #707070;
+  padding: 15px !important;
+  border-radius: 10px;
+  font-family: 'Montserrat';
+}
+
+.supplier_information_label {
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 20px;
+}
+
 .section :global(.file-uploader) {
   flex: 1;
+  min-height: 20em;
 }
 
 .checkCircle {
-  color: #4285F4;
+  color: #4285f4;
 }
 
-.successMessage {
+.checkError {
+  color: red;
+}
+
+.validationMessage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   flex: 1;
+  min-height: 20em;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .stepper {
-
+  padding: 10px 100px !important;
 }
+
 .stepper :global(.rc-steps-item-container) {
   display: flex;
   flex-direction: column;
@@ -94,8 +125,13 @@
 .stepper :global(.rc-steps-item) {
   display: flex;
 }
-
+.stepper :global(.rc-steps-item-tail) {
+  margin-left: 50px !important;
+  margin-top: 14px !important;
+}
 .stepper :global(.rc-steps-icon) {
+  font-size: 25px !important;
+  padding: 0 0 0 0.25rem !important;
   width: 50px !important;
   height: 50px !important;
   display: flex;
@@ -104,3 +140,14 @@
   border: 1px solid;
   border-radius: 50%;
 }
+.stepper :global(.rc-steps-item-icon) {
+  margin-left: 6px !important;
+}
+
+.stepper :global(.rc-steps-item-process .rc-steps-item-title) {
+  color: black !important;
+}
+
+/* .stepper :global(.rc-steps-item-content) {
+  width: auto !important;
+} */

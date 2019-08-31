@@ -24,7 +24,7 @@ interface UploadSupplierFilesState {
 
 const initialState: UploadSupplierFilesState = {
   completed: false,
-  isFirstRowHeader: false,
+  isFirstRowHeader: true,
   currentStep: 0,
   csvString: null,
   csvFile: null,

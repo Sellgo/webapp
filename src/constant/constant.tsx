@@ -169,7 +169,7 @@ export const numberWithCommas = (x: any) => {
 export const FieldsToMap = [
   {
     key: 'upc',
-    label: 'UPC/ EAN/ ASIN',
+    label: 'UPC',
     required: true,
   },
   {

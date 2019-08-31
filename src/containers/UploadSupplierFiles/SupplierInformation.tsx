@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Grid } from 'semantic-ui-react';
+import { Form, Grid, Popup, Icon } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';
 import { Field } from 'redux-form';
 import { InputField, SelectField, TextAreaField } from '../../components/ReduxFormFields';
@@ -82,7 +82,20 @@ const SupplierDetails = () => (
 
 const SupplierInformation = () => {
   return (
-    <Form>
+    <Form className={styles.supplier_information}>
+      <label className={styles.supplier_information_label}>
+        Supplier Information
+        <span>
+          {' '}
+          <Popup
+            trigger={<Icon name="question circle" color={'grey'} />}
+            position="top left"
+            size="tiny"
+            content="Supplier Information"
+          />
+        </span>
+      </label>
+      <br />
       <Grid columns={2}>
         <Grid.Row>
           <Grid.Column width={4}>

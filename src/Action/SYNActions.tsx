@@ -45,6 +45,8 @@ export interface Supplier {
   synthesis_file_id: number;
   speed: number;
   progress: number;
+  udate: Date;
+  tag: string;
 }
 
 export interface TimeEfficiency {
