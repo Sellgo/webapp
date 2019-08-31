@@ -148,11 +148,11 @@ export class DataMappingStep extends Step {
         value => validator.isDecimal(value.toString()) || validator.isInt(value.toString())
       )
     ) {
-      return 'cost must be a valid amount';
+      return 'Cost must be a valid amount';
     }
     // validate upc
     if (!every(upc, validator.isNumeric)) {
-      return 'upc must be numeric';
+      return 'UPC must be numeric';
     }
 
     /* if (uniq(upc).length !== upc.length) {
@@ -160,7 +160,7 @@ export class DataMappingStep extends Step {
     } */
 
     if (some(upc, isEmpty)) {
-      return 'upc can\'t be empty';
+      return 'UPC can\'t be empty';
     }
   }
 
