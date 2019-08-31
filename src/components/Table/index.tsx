@@ -81,7 +81,7 @@ const GenericTable = (props: TableProps) => {
 
   rows = sortDirection === 'ascending' ? rows.reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-  return rows.length === 0 ? (
+  /* return rows.length === 0 ? (
     <Segment>
       <Loader
         hidden={rows.length === 0 ? false : true}
@@ -92,7 +92,8 @@ const GenericTable = (props: TableProps) => {
         Loading
       </Loader>
     </Segment>
-  ) : (
+  ) :  */
+  return (
     <Table sortable={true} basic="very" textAlign="center">
       <Table.Header>
         <Table.Row>

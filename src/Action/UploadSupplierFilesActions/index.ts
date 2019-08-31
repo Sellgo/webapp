@@ -186,7 +186,7 @@ export const validateAndUploadCsv = () => async (
   bodyFormData.set('file', csv);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
-  bodyFormData.set('title', reversedColumnMappings.title);
+  if (reversedColumnMappings.title) bodyFormData.set('title', reversedColumnMappings.title);
   // correct this
   bodyFormData.set('has_header', isFirstRowHeaderSelector(getState()).toString());
 
