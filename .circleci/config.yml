@@ -66,11 +66,11 @@ workflows:
       - build-dev:
           filters:
             branches:
-              only: feature/SI-17
+              only: develop
       - deploy:
           context: development
           requires:
             - build-dev
           filters:
             branches:
-              only: feature/SI-17
+              only: develop
