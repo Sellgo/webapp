@@ -51,9 +51,9 @@ workflows:
   build-and-deploy-prod:
     jobs:
       - build-prod:
-        filters:
-          branches:
-            only: master
+          filters:
+            branches:
+              only: master
       - deploy:
           context: production
           requires:
@@ -64,9 +64,9 @@ workflows:
   build-and-deploy-dev:
     jobs:
       - build-dev:
-        filters:
-          branches:
-            only: feature/SI-17
+          filters:
+            branches:
+              only: feature/SI-17
       - deploy:
           context: development
           requires:
