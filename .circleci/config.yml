@@ -50,7 +50,10 @@ workflows:
   version: 2
   build-and-deploy-prod:
     jobs:
-      - build-prod
+      - build-prod:
+        filters:
+          branches:
+            only: master
       - deploy:
           context: production
           requires:
@@ -60,7 +63,10 @@ workflows:
               only: master
   build-and-deploy-dev:
     jobs:
-      - build-dev
+      - build-dev:
+        filters:
+          branches:
+            only: feature/SI-17
       - deploy:
           context: development
           requires:
