@@ -43,4 +43,4 @@ workflows:
             - build
           filters:
             branches:
-              only: feature/SI-17
+              only: master
