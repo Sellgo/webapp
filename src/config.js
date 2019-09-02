@@ -17,7 +17,7 @@ const DEV_KEYS = {
 };
 
 const PROD_KEYS = {
-  STRIPE_API_KEY: 'sk_test_wTCFHhf2EqI755kHp1UNyYes00PePscgM8',
+  STRIPE_API_KEY: 'pk_test_UPhri9y50WZi2u2rmejSw3Na00jvxft8y5',
 };
 
 const DEV_AUTH_CONFIG = {
