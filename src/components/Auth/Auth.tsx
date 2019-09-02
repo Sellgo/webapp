@@ -27,6 +27,7 @@ export default class Auth {
       emailInputPlaceholder: 'something@youremail.com',
       title: '',
       signUpTitle: '',
+      forgotPasswordTitle: '',
     },
     allowSignUp: true,
   });
