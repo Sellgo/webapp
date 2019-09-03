@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import get from 'lodash/get';
-import { Supplier, setFavouriteSupplier } from '../../../../Action/SYNActions';
+import { Supplier, setFavouriteSupplier, postSynthesisRerun } from '../../../../Action/SYNActions';
 import {
   resetSuppliers,
   fetchSuppliers,
@@ -30,6 +30,7 @@ interface SuppliersTableProps {
   resetSuppliers: typeof resetSuppliers;
   favourite: (id: number) => void;
   unFavourite: (id: number) => void;
+  reRun: (supplier: Supplier) => void;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -50,22 +51,22 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderActions = (row: Supplier) => (
     <Dropdown
       className={'SynDropDownLink'}
-      text="Choose an action"
-      //text="SYN"
+      text="SYN"
+      floating
       selectOnBlur={false}
-      fluid={true}
-      selection={true}
+      fluid
+      selection
       options={[
         {
           key: '0',
-          text: 'SYN',
+          text: <Dropdown.Item icon="spinner" text=" Synthesis" />,
           value: 'SYN',
         },
         {
           key: '1',
           text: (
             <a href={row.file_url} download>
-              Download Supplier File
+              <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
             </a>
           ),
           value: 'dwn_sp_file',
@@ -74,29 +75,27 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           key: '2',
           text: (
             <a href={row.report_url} download>
-              Download Results
+              <Dropdown.Item icon="download" text=" Download Results" />
             </a>
           ),
           value: 'dwn_res',
         },
         {
           key: '3',
-          text: 'Rerun',
+          text: (
+            <Dropdown.Item
+              icon="sync alternate"
+              text=" Rerun"
+              onClick={() => this.props.reRun(row)}
+            />
+          ),
           value: 'rerun',
-        },
-        {
-          key: '4',
-          text: 'Delete',
-          value: 'delete',
         },
       ]}
       onChange={(e, data) => {
         if (localStorage.getItem(localStorageKeys.isMWSAuthorized) == 'true') {
           if (data.value === 'SYN') {
             history.push(`/syn/${row.supplier_id}`);
-          }
-          if (data.value === 'rerun') {
-            // perform rerun
           }
         } else {
           const message: any = {};
@@ -108,9 +107,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           message.color = '#cf3105';
 
           this.props.onMessageChange(message);
-        }
-        if (data.value === 'delete') {
-          this.props.onDelete({ ...row, id: row.supplier_id });
         }
       }}
     />
@@ -155,10 +151,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Filename',
       dataKey: 'fileName',
+      sortable: true,
       render: this.renderFileName,
     },
     {
       label: 'Status',
+      sortable: true,
       dataKey: 'status',
     },
     {
@@ -168,22 +166,27 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     },
     {
       label: 'Inventory',
+      sortable: true,
       dataKey: 'item_total_count',
     },
     {
       label: 'Speed',
+      sortable: true,
       render: this.renderSpeed,
     },
     {
       label: 'Progress',
+      sortable: true,
       render: this.renderProgress,
     },
     {
       label: 'Completed',
+      sortable: true,
       render: this.renderCompleted,
     },
     {
       label: 'Product to Listing Ratio',
+      sortable: true,
       dataKey: 'p2l_ratio',
     },
     {
@@ -230,7 +233,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={suppliers.filter(supplier => supplier.status !== 'inactive')}
           columns={this.columns}
         />
-        ;
         <Confirm
           content="Do you want to delete supplier?"
           open={delete_confirmation}
@@ -252,6 +254,7 @@ const mapDispatchToProps = {
   fetchSynthesisProgressUpdates,
   favourite: (id: number) => setFavouriteSupplier(id, true),
   unFavourite: (id: number) => setFavouriteSupplier(id, false),
+  reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
 };
 
 export default connect(

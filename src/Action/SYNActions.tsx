@@ -19,7 +19,7 @@ import {
   UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
-import { updateSupplier } from './suppliers';
+import { updateSupplier, fetchSynthesisProgressUpdates } from './suppliers';
 
 export interface Supplier {
   supplier_id: number;
@@ -763,6 +763,23 @@ export const setFavouriteSupplier = (supplier_id: any, isFavourite: any) => (dis
   })
     .then(json => {
       dispatch(updateSupplier(json.data));
+    })
+    .catch(error => {});
+};
+
+export const postSynthesisRerun = (supplier: any) => (dispatch: any) => {
+  const bodyFormData = new FormData();
+  bodyFormData.set('synthesis_file_id', supplier.synthesis_file_id);
+  return axios({
+    method: 'POST',
+    url: AppConfig.BASE_URL_API + `synthesis/rerun/`,
+    data: bodyFormData,
+
+    headers,
+  })
+    .then(json => {
+      dispatch(updateSupplier({ ...supplier, ...{ progress: 0 } }));
+      dispatch(fetchSynthesisProgressUpdates());
     })
     .catch(error => {});
 };

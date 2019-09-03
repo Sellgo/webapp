@@ -94,54 +94,56 @@ const GenericTable = (props: TableProps) => {
     </Segment>
   ) :  */
   return (
-    <Table sortable={true} basic="very" textAlign="center">
-      <Table.Header>
-        <Table.Row>
-          {columns.map((column, index) => {
-            return (
-              <Table.HeaderCell
-                key={column.dataKey || index}
-                sorted={sortedColumnIndex === index ? sortDirection : undefined}
-                onClick={column.sortable ? () => setSort(index) : undefined}
-              >
-                {column.label}
-              </Table.HeaderCell>
-            );
-          })}
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {!rows.length ? (
-          <Table.Row key={134}>
-            <Table.Cell>
-              <h1>Data not found</h1>
-            </Table.Cell>
+    <div className="scroll-table">
+      <Table sortable={true} basic="very" textAlign="center">
+        <Table.Header>
+          <Table.Row>
+            {columns.map((column, index) => {
+              return (
+                <Table.HeaderCell
+                  key={column.dataKey || index}
+                  sorted={sortedColumnIndex === index ? sortDirection : undefined}
+                  onClick={column.sortable ? () => setSort(index) : undefined}
+                >
+                  {column.label}
+                </Table.HeaderCell>
+              );
+            })}
           </Table.Row>
-        ) : (
-          rows.map((row, index) => {
-            return (
-              <Table.Row key={index}>
-                {columns.map((column, index) => (
-                  <Table.Cell key={column.dataKey || index}>{renderCell(row, column)}</Table.Cell>
-                ))}
-              </Table.Row>
-            );
-          })
-        )}
-      </Table.Body>
-      <Table.Footer>
-        <Table.Row>
-          <Table.HeaderCell colSpan={columns.length}>
-            {/* todo */}
-            <Pagination
-              totalPages={totalPages}
-              activePage={currentPage}
-              onPageChange={(event, data) => setCurrentPage(Number(data.activePage))}
-            />
-          </Table.HeaderCell>
-        </Table.Row>
-      </Table.Footer>
-    </Table>
+        </Table.Header>
+        <Table.Body>
+          {!rows.length ? (
+            <Table.Row key={134}>
+              <Table.Cell>
+                <h1>Data not found</h1>
+              </Table.Cell>
+            </Table.Row>
+          ) : (
+            rows.map((row, index) => {
+              return (
+                <Table.Row key={index}>
+                  {columns.map((column, index) => (
+                    <Table.Cell key={column.dataKey || index}>{renderCell(row, column)}</Table.Cell>
+                  ))}
+                </Table.Row>
+              );
+            })
+          )}
+        </Table.Body>
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell colSpan={columns.length}>
+              {/* todo */}
+              <Pagination
+                totalPages={totalPages}
+                activePage={currentPage}
+                onPageChange={(event, data) => setCurrentPage(Number(data.activePage))}
+              />
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
+      </Table>
+    </div>
   );
 };
 

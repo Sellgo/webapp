@@ -19,6 +19,14 @@
   border: 1px solid !important;
   box-shadow: none !important;
 }
+
+.scroll-table {
+  overflow-x: auto;
+}
+.ui.selection.dropdown .menu {
+  width: max-content !important;
+}
+
 .SynDropDown {
   border: 1px solid #4285f4 !important;
   color: #4285f4 !important;
@@ -36,6 +44,7 @@
   border-color: #4285f4 !important;
   box-shadow: 0 3px 4px 0 rgba(34, 36, 38, 0.3) !important;
   background-color: #ffffff !important;
+  min-width: max-content !important;
 }
 
 .SynDropDownLink a {
