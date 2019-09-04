@@ -194,7 +194,7 @@ export const FieldsToMap = [
 export const DefaultSelect = {
   value: '',
   key: '',
-  text: 'Select',
+  text: '',
 };
 
 export enum UploadSteps {
