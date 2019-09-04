@@ -22,6 +22,7 @@
 
 .scroll-table {
   overflow-x: auto;
+  padding-bottom: 100px;
 }
 .ui.selection.dropdown .menu {
   width: max-content !important;

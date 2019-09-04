@@ -47,7 +47,7 @@ const Actions = ({
   return (
     <div className={`${className || ''} ${styles.actions}`}>
       <div className={styles.downloadOptions}>
-        {currentStep == 1 && (
+        {currentStep === 1 && (
           <div>
             <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
               <Button
@@ -81,6 +81,11 @@ const Actions = ({
             Previous
           </Button>
         )}
+        {currentStep === 1 && (
+          <Button onClick={closeModal} className={styles.action} basic={true} color="red">
+            Dismiss
+          </Button>
+        )}
         {hasNextStep && (
           <Button
             onClick={onNextStep}
@@ -89,7 +94,7 @@ const Actions = ({
             color="black"
             primary={true}
           >
-            Next
+            {currentStep === 0 ? 'Save & Proceed' : 'Next'}
           </Button>
         )}
       </div>

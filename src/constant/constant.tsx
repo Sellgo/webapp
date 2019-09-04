@@ -185,7 +185,17 @@ export const FieldsToMap = [
     key: 'title',
     label: 'Title',
   },
+  {
+    key: 'msrp',
+    label: 'MSRP',
+  },
 ];
+
+export const DefaultSelect = {
+  value: '',
+  key: '',
+  text: 'Select',
+};
 
 export enum UploadSteps {
   AddNewSupplier,

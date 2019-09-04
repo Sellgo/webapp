@@ -36,7 +36,7 @@ const DataValidation = (props: DataValidationProps) => {
   }
 
   return (
-    <div className={styles.validationMessage}>
+    <div className={styles.ouline_box}>
       {error ? (
         <React.Fragment>
           <Icon name="exclamation circle" size="big" className={styles.checkError} />

@@ -400,6 +400,7 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
 export const saveSupplierNameAndDescription = (
   name: string,
   description: string,
+  other: any,
   callBack?: any
 ) => (dispatch: any) => {
   // add promise support without breaking existing callback structure
@@ -409,7 +410,9 @@ export const saveSupplierNameAndDescription = (
       bodyFormData.set('name', name);
       bodyFormData.set('description', description);
       bodyFormData.set('supplier_group_id', data.id);
-
+      for (let param in other) {
+        bodyFormData.set(param, other[param]);
+      }
       const sellerID = localStorage.getItem('userId');
       return axios({
         method: 'POST',
@@ -449,23 +452,33 @@ export const updateSupplierNameAndDescription = (
   name: string,
   description: string,
   update_supplier_id: string,
-  callBack: any
+  other: any,
+  callBack?: any
 ) => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
-  const bodyFormData = new FormData();
-  bodyFormData.set('name', name);
-  bodyFormData.set('description', description);
-  bodyFormData.set('id', update_supplier_id);
-  return axios({
-    method: 'patch',
-    url: AppConfig.BASE_URL_API + `supplier/`,
-    data: bodyFormData,
-    headers,
-  })
-    .then(json => {
-      callBack(json.data);
+  // add promise support without breaking existing callback structure
+  return new Promise((resolve, reject) => {
+    const sellerID = localStorage.getItem('userId');
+    const bodyFormData = new FormData();
+    bodyFormData.set('name', name);
+    bodyFormData.set('description', description);
+    bodyFormData.set('id', update_supplier_id);
+    for (let param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+    return axios({
+      method: 'patch',
+      url: AppConfig.BASE_URL_API + `supplier/`,
+      data: bodyFormData,
+      headers,
     })
-    .catch(error => {});
+      .then(json => {
+        dispatch(updateSupplier(json.data));
+        //dispatch(setsaveSupplierNameAndDescription(json.data));
+        callBack && callBack(json.data);
+        resolve(json.data);
+      })
+      .catch(error => {});
+  });
 };
 
 export const getLastFileID = (supplierID: string) => (dispatch: any) => {

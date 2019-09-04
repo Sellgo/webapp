@@ -268,7 +268,7 @@ export class Suppliers extends React.Component<Props, State> {
   renderAddNewSupplierModal = () => {
     return (
       <Modal
-        size={'tiny'}
+        size={'large'}
         open={this.props.uploadSupplierModalOpen}
         onClose={this.handleClose}
         closeIcon={true}

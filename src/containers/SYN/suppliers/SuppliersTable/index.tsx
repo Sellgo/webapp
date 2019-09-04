@@ -15,6 +15,7 @@ import { localStorageKeys } from '../../../../constant/constant';
 import history from '../../../../history';
 import { suppliersSelector } from '../../../../selectors/suppliers';
 import isNil from 'lodash/isNil';
+import PieChartModal from './PieChartModal';
 
 interface SuppliersTableProps {
   delete_confirmation: boolean;
@@ -34,6 +35,7 @@ interface SuppliersTableProps {
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
+  state = { showPieChartModalOpen: false, supplier: undefined };
   renderName = (row: Supplier) => (
     <Table.Cell as={Link} to={`/syn/${row.supplier_id}`}>
       {row.name}
@@ -141,6 +143,22 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderCompleted = (row: Supplier) => new Date(row.udate).toLocaleString();
 
+  handlePieChartModalOpen = (supplier: any) => {
+    this.setState({ showPieChartModalOpen: true, supplier });
+  };
+  handleClose = () => {
+    this.setState({ showPieChartModalOpen: false, supplier: undefined });
+  };
+
+  renderPLRatio = (row: Supplier) => (
+    <>
+      {(row.p2l_ratio.toString().indexOf('.') === -1
+        ? row.p2l_ratio.toString() + '.00'
+        : row.p2l_ratio) + '  '}
+      <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
+    </>
+  );
+
   columns: Column[] = [
     {
       label: 'Supplier',
@@ -188,6 +206,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       label: 'Product to Listing Ratio',
       sortable: true,
       dataKey: 'p2l_ratio',
+      render: this.renderPLRatio,
     },
     {
       label: 'Supplier Rate (%)',
@@ -238,6 +257,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           open={delete_confirmation}
           onCancel={onCancelDelete}
           onConfirm={onDeleteSupplier}
+        />
+        <PieChartModal
+          supplier={this.state.supplier}
+          showPieChartModalOpen={this.state.showPieChartModalOpen}
+          handleClose={this.handleClose}
         />
       </>
     );

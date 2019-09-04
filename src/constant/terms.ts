@@ -1,28 +1,28 @@
 // todo: replace with correct keys values
 export default [
   {
-    value: '1',
-    key: '1',
+    value: 'paid_by_order',
+    key: 'paid_by_order',
     text: 'Paid when Order',
   },
   {
-    value: '2',
-    key: '2',
+    value: '30d',
+    key: '30d',
     text: '30 Days',
   },
   {
-    value: '3',
-    key: '3',
+    value: '60d',
+    key: '60d',
     text: '60 Days',
   },
   {
-    value: '4',
-    key: '4',
+    value: '90d',
+    key: '90d',
     text: '90 Days',
   },
   {
-    value: '5',
-    key: '5',
+    value: 'custom',
+    key: 'custom',
     text: 'custom',
   },
 ];

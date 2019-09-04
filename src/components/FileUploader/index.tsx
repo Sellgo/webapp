@@ -24,7 +24,7 @@ function FileUploader(props: FileUploaderProps) {
       <p className={`${styles.description} ${styles.marginTop}`}>
         <b>Upload filled-in Supplier File(s) here</b>
         <br />
-        <p className={styles.description}>Drag and drop, or click to select</p>
+        <span className={styles.description}>Drag and drop, or click to select</span>
       </p>
     </button>
   );

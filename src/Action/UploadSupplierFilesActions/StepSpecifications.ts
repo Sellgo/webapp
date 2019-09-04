@@ -16,6 +16,7 @@ import {
   saveSupplierNameAndDescription,
   setsaveSupplierNameAndDescription,
   postProductTrackGroupId,
+  updateSupplierNameAndDescription,
 } from '../SYNActions';
 import { setRawCsv, removeColumnMappings } from '.';
 import isNil from 'lodash/isNil';
@@ -70,14 +71,23 @@ export class AddNewSupplierStep extends Step {
 
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
+      const { name, description, ...other } = formValues;
       if (!existingSupplier) {
         // add other form values
-        const { name, description } = formValues;
-
-        const data: any = await this.dispatch(saveSupplierNameAndDescription(name, description));
+        const data: any = await this.dispatch(
+          saveSupplierNameAndDescription(name, description, other)
+        );
         this.dispatch(postProductTrackGroupId(data.id, name));
       } else {
-        this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
+        for (let param in existingSupplier) {
+          if (existingSupplier[param] === other[param]) {
+            delete other[param];
+          }
+        }
+        await this.dispatch(
+          updateSupplierNameAndDescription(name, description, existingSupplier.id, other)
+        );
+        //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }
     } catch (error) {
       throw error;
