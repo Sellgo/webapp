@@ -45,11 +45,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderFileName = (row: Supplier) => {
     if (!row.file_status) return '';
-    const fileName = row.path ? row.path.split('/').pop() : '';
     return (
       <a href={row.file_url} download>
-        {' '}
-        {fileName}{' '}
+        {row.file_name}
       </a>
     );
   };
@@ -141,9 +139,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     );
   };
 
-  renderSpeed = (row: Supplier) => (!isNil(row.speed) ? `${row.speed}/min` : '');
+  renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
 
-  renderProgress = (row: Supplier) => (!isNil(row.progress) ? `${row.progress}%` : '');
+  renderProgress = (row: Supplier) => (row.progress !== -1 ? `${row.progress}%` : '');
 
   renderCompleted = (row: Supplier) => {
     if (row.file_status !== 'completed') return '';
@@ -183,7 +181,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     },
     {
       label: 'Filename',
-      dataKey: 'fileName',
+      dataKey: 'file_name',
       sortable: true,
       render: this.renderFileName,
     },
@@ -200,33 +198,42 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Inventory',
       sortable: true,
+      type: 'number',
       dataKey: 'item_total_count',
     },
     {
       label: 'Speed',
+      dataKey: 'speed',
       sortable: true,
+      type: 'number',
       render: this.renderSpeed,
     },
     {
       label: 'Progress',
+      dataKey: 'progress',
       sortable: true,
+      type: 'number',
       render: this.renderProgress,
     },
     {
       label: 'Completed',
+      dataKey: 'udate',
       sortable: true,
+      type: 'date',
       render: this.renderCompleted,
     },
     {
       label: 'Product to Listing Ratio',
-      sortable: true,
       dataKey: 'p2l_ratio',
+      sortable: true,
+      type: 'number',
       render: this.renderPLRatio,
     },
     {
       label: 'Supplier Rate (%)',
       dataKey: 'rate',
       sortable: true,
+      type: 'number',
       render: this.renderSupplierRate,
     },
     {

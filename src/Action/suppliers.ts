@@ -37,7 +37,7 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
   const suppliers = response.data.map((supplier: any) => {
     if (supplier['file_status'] === 'completed')
       return { ...supplier, ...{ progress: 100, speed: 0 } };
-    return supplier;
+    return { ...supplier, ...{ progress: -1, speed: -1 } };
   });
   dispatch(setSuppliers(suppliers));
   dispatch(fetchSynthesisProgressUpdates());

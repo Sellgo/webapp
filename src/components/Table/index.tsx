@@ -8,7 +8,7 @@ export interface Column {
   dataKey?: string;
   label?: string;
   sortable?: boolean;
-  type?: 'number' | 'string';
+  type?: 'number' | 'string' | 'date';
 }
 
 export interface TableProps {
@@ -52,7 +52,7 @@ const GenericTable = (props: TableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
 
-  const { sortedColumnIndex, sortDirection, setSort } = useSort(0);
+  const { sortedColumnIndex, sortDirection, setSort } = useSort(-1);
 
   let rows =
     sortedColumnIndex >= 0
@@ -64,9 +64,12 @@ const GenericTable = (props: TableProps) => {
           if (sortedColumn.type === 'number') {
             aColumn = Number(a[sortedColumn.dataKey || '']);
             bColumn = Number(b[sortedColumn.dataKey || '']);
+          } else if (sortedColumn.type === 'date') {
+            aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
+            bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
           } else {
-            aColumn = a[sortedColumn.dataKey || ''];
-            bColumn = b[sortedColumn.dataKey || ''];
+            aColumn = a[sortedColumn.dataKey || ''] || '';
+            bColumn = b[sortedColumn.dataKey || ''] || '';
           }
 
           if (aColumn < bColumn) {

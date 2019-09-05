@@ -41,7 +41,7 @@ export interface Supplier {
   website: string;
   p2l_ratio: any;
   xid: string;
-  path: string;
+  file_name: string;
   synthesis_file_id: number;
   speed: number;
   progress: number;
