@@ -178,7 +178,7 @@ export const FieldsToMap = [
     required: true,
   },
   {
-    key: 'Supplier SKU',
+    key: 'sku',
     label: 'Supplier SKU',
   },
   {

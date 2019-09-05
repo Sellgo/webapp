@@ -17,7 +17,7 @@ interface UploadSupplierFilesState {
   readonly csvFile: File | null;
   readonly rawCsv: string | null;
   readonly csv: string[][] | null;
-  readonly columnMappings: {};
+  readonly columnMappings: [];
   readonly completed: boolean;
   readonly isFirstRowHeader: boolean;
 }
@@ -51,7 +51,18 @@ export const UploadSupplierFilesReducer = (
       return setIn(state, 'currentStep', action.payload);
 
     case MAP_COLUMN: {
-      return setIn(state, ['columnMappings', action.csvColumn], action.targetColumn);
+      let newColumnMappings = [];
+      state.columnMappings.forEach((e, i) => {
+        if (e === action.targetColumn) {
+          newColumnMappings[i] = undefined;
+        } else {
+          newColumnMappings[i] = e;
+        }
+      });
+      if (action.csvColumn !== -1) {
+        newColumnMappings[action.csvColumn] = action.targetColumn;
+      }
+      return setIn(state, 'columnMappings', newColumnMappings);
     }
 
     case CLEANUP_UPLOAD_SUPPLIER: {

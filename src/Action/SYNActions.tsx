@@ -473,7 +473,7 @@ export const updateSupplierNameAndDescription = (
     })
       .then(json => {
         dispatch(updateSupplier(json.data));
-        //dispatch(setsaveSupplierNameAndDescription(json.data));
+        dispatch(setsaveSupplierNameAndDescription(json.data));
         callBack && callBack(json.data);
         resolve(json.data);
       })

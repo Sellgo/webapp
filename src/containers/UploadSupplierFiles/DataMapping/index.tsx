@@ -6,7 +6,7 @@ import styles from '../UploadSupplierFiles.module.css';
 
 const DataMapping = () => {
   return (
-    <Grid verticalAlign="middle" className={styles.supplier_information}>
+    <Grid verticalAlign="middle" className={styles.ouline_box}>
       <Grid.Row>
         <Grid.Column>
           <ColumnMappings />

@@ -53,7 +53,7 @@ const ColumnMappings = ({
                   onChange={(event, data) => mapColumn(data.value as number, key)}
                   value={isNil(reversedColumnMappings[key]) ? -1 : reversedColumnMappings[key]}
                   name={key}
-                  options={availableFieldOptions}
+                  options={[{ text: '', value: -1 }, ...availableFieldOptions]}
                 />
               </Form.Field>
             </Grid.Column>
