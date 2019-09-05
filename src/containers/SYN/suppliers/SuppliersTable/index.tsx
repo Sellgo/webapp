@@ -17,8 +17,6 @@ import { suppliersSelector } from '../../../../selectors/suppliers';
 import isNil from 'lodash/isNil';
 import PieChartModal from './PieChartModal';
 
-const ensure2Digits = (num: number) => (num > 9 ? `${num}` : `0${num}`);
-
 interface SuppliersTableProps {
   delete_confirmation: boolean;
   suppliers: Supplier[];
@@ -158,10 +156,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderPLRatio = (row: Supplier) => {
     if (row.file_status !== 'completed') return '';
     return (
-      <>
-        <div className="product-ratio-with-pie">{row.p2l_ratio}</div>
+      <div>
+        <div className="product-ratio-with-pie">
+          {row.p2l_ratio.toString().indexOf('.') === -1
+            ? row.p2l_ratio.toString() + '.00'
+            : row.p2l_ratio}
+        </div>
         <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
-      </>
+      </div>
     );
   };
 
