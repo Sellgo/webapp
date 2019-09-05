@@ -159,9 +159,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (row.file_status !== 'completed') return '';
     return (
       <>
-        {`${ensure2Digits(Math.floor(Math.abs(row.p2l_ratio)))}.${ensure2Digits(
-          Math.floor(Math.abs((row.p2l_ratio % 1) * 100))
-        )}  `}
+        <div className="product-ratio-with-pie">{row.p2l_ratio}</div>
         <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
       </>
     );
@@ -223,7 +221,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderCompleted,
     },
     {
-      label: 'Product to Listing Ratio',
+      label: 'Product to Listing Ratio (%)',
       dataKey: 'p2l_ratio',
       sortable: true,
       type: 'number',

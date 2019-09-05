@@ -60,3 +60,7 @@
 .operations i {
   cursor: pointer;
 }
+.product-ratio-with-pie {
+  display: inline-block;
+  min-width: 50px;
+}
