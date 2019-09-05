@@ -46,7 +46,7 @@ const SupplierDetails = () => (
       <Grid.Column>
         <Field
           component={SelectField}
-          name="status"
+          name="account_status"
           label="Account Status"
           options={[DefaultSelect, ...accountStatuses]}
         />

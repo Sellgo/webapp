@@ -95,7 +95,7 @@ const GenericTable = (props: TableProps) => {
   ) :  */
   return (
     <div className="scroll-table">
-      <Table sortable={true} basic="very" textAlign="center">
+      <Table sortable={true} basic="very" textAlign="left">
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => {

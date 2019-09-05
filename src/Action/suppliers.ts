@@ -29,13 +29,17 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
-    `${AppConfig.BASE_URL_API}seller/${String(sellerID)}/supplier_compact`,
+    `${AppConfig.BASE_URL_API}seller/${String(sellerID)}/supplier_compact/?status=active`,
     {
       headers: getHeaders(),
     }
   );
-
-  dispatch(setSuppliers(response.data));
+  const suppliers = response.data.map((supplier: any) => {
+    if (supplier['file_status'] === 'completed')
+      return { ...supplier, ...{ progress: 100, speed: 0 } };
+    return supplier;
+  });
+  dispatch(setSuppliers(suppliers));
   dispatch(fetchSynthesisProgressUpdates());
 };
 
@@ -48,7 +52,9 @@ export const fetchSynthesisProgressUpdates = () => async (
   getState: () => {}
 ) => {
   let suppliers = suppliersSelector(getState());
-
+  suppliers = suppliers.filter(
+    supplier => supplier.file_status !== null && supplier.file_status !== 'completed'
+  );
   while (suppliers.length > 0) {
     const requests = suppliers.map(supplier => {
       return Axios.get(

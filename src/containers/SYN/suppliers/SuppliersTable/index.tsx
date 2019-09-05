@@ -17,6 +17,8 @@ import { suppliersSelector } from '../../../../selectors/suppliers';
 import isNil from 'lodash/isNil';
 import PieChartModal from './PieChartModal';
 
+const ensure2Digits = (num: number) => (num > 9 ? `${num}` : `0${num}`);
+
 interface SuppliersTableProps {
   delete_confirmation: boolean;
   suppliers: Supplier[];
@@ -36,17 +38,18 @@ interface SuppliersTableProps {
 
 class SuppliersTable extends Component<SuppliersTableProps> {
   state = { showPieChartModalOpen: false, supplier: undefined };
-  renderName = (row: Supplier) => (
-    <Table.Cell as={Link} to={`/syn/${row.supplier_id}`}>
-      {row.name}
-    </Table.Cell>
-  );
+  renderName = (row: Supplier) => {
+    if (row.file_status !== 'completed') return row.name;
+    return <Link to={`/syn/${row.supplier_id}`}>{row.name}</Link>;
+  };
 
   renderFileName = (row: Supplier) => {
-    const fileName = row.path.split('/').pop() || '';
+    if (!row.file_status) return '';
+    const fileName = row.path ? row.path.split('/').pop() : '';
     return (
-      <a href={row.path} download>
-        {fileName}
+      <a href={row.file_url} download>
+        {' '}
+        {fileName}{' '}
       </a>
     );
   };
@@ -58,6 +61,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       selectOnBlur={false}
       fluid
       selection
+      disabled={row.file_status !== 'completed' ? true : false}
       options={[
         {
           key: '0',
@@ -141,7 +145,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderProgress = (row: Supplier) => (!isNil(row.progress) ? `${row.progress}%` : '');
 
-  renderCompleted = (row: Supplier) => new Date(row.udate).toLocaleString();
+  renderCompleted = (row: Supplier) => {
+    if (row.file_status !== 'completed') return '';
+    return new Date(row.udate).toLocaleString();
+  };
 
   handlePieChartModalOpen = (supplier: any) => {
     this.setState({ showPieChartModalOpen: true, supplier });
@@ -150,14 +157,22 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.setState({ showPieChartModalOpen: false, supplier: undefined });
   };
 
-  renderPLRatio = (row: Supplier) => (
-    <>
-      {(row.p2l_ratio.toString().indexOf('.') === -1
-        ? row.p2l_ratio.toString() + '.00'
-        : row.p2l_ratio) + '  '}
-      <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
-    </>
-  );
+  renderPLRatio = (row: Supplier) => {
+    if (row.file_status !== 'completed') return '';
+    return (
+      <>
+        {`${ensure2Digits(Math.floor(Math.abs(row.p2l_ratio)))}.${ensure2Digits(
+          Math.floor(Math.abs((row.p2l_ratio % 1) * 100))
+        )}  `}
+        <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
+      </>
+    );
+  };
+
+  renderSupplierRate = (row: Supplier) => {
+    if (row.file_status !== 'completed') return '';
+    return row.rate;
+  };
 
   columns: Column[] = [
     {
@@ -173,9 +188,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderFileName,
     },
     {
-      label: 'Status',
+      label: 'Account Status',
       sortable: true,
-      dataKey: 'status',
+      dataKey: 'account_status',
     },
     {
       label: 'Action',
@@ -212,7 +227,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       label: 'Supplier Rate (%)',
       dataKey: 'rate',
       sortable: true,
-      type: 'number',
+      render: this.renderSupplierRate,
     },
     {
       label: '',

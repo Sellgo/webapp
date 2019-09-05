@@ -19,7 +19,7 @@ import {
   UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
-import { updateSupplier, fetchSynthesisProgressUpdates } from './suppliers';
+import { updateSupplier, fetchSynthesisProgressUpdates, fetchSuppliers } from './suppliers';
 
 export interface Supplier {
   supplier_id: number;
@@ -49,6 +49,7 @@ export interface Supplier {
   tag: string;
   file_url: string;
   report_url: string;
+  file_status: string;
 }
 
 export interface TimeEfficiency {
@@ -421,6 +422,7 @@ export const saveSupplierNameAndDescription = (
         headers,
       })
         .then(json => {
+          dispatch(fetchSuppliers());
           dispatch(setsaveSupplierNameAndDescription(json.data));
           callBack && callBack(json.data);
           resolve(json.data);
@@ -791,7 +793,7 @@ export const postSynthesisRerun = (supplier: any) => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch(updateSupplier({ ...supplier, ...{ progress: 0 } }));
+      dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: '' } }));
       dispatch(fetchSynthesisProgressUpdates());
     })
     .catch(error => {});
