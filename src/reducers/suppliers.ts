@@ -44,7 +44,12 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
       const newState = setIn(state, 'supplierIds', [...get(state, 'supplierIds'), supplierId]);
 
       const newSupplierById: any = {};
-      newSupplierById[supplierId] = { ...supplier, supplier_id: supplierId };
+      newSupplierById[supplierId] = {
+        ...supplier,
+        supplier_id: supplierId,
+        progress: -1,
+        speed: -1,
+      };
       return setIn(newState, 'suppliersById', {
         ...get(state, 'suppliersById'),
         ...newSupplierById,

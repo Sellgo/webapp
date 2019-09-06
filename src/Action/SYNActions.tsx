@@ -409,7 +409,7 @@ export const saveSupplierNameAndDescription = (
     createSupplierGroup(name, (data: any) => {
       const bodyFormData = new FormData();
       bodyFormData.set('name', name);
-      bodyFormData.set('description', description);
+      if (description) bodyFormData.set('description', description);
       bodyFormData.set('supplier_group_id', data.id);
       for (let param in other) {
         bodyFormData.set(param, other[param]);
