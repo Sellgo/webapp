@@ -1,5 +1,9 @@
-import { UPDATE_SUPPLIER } from './../constant/constant';
-import { SET_SUPPLIERS, RESET_SUPPLIERS } from '../constant/constant';
+import {
+  SET_SUPPLIERS,
+  RESET_SUPPLIERS,
+  UPDATE_SUPPLIER,
+  ADD_SUPPLIER,
+} from './../constant/constant';
 import Axios from 'axios';
 import { sellerIDSelector } from '../selectors/user';
 import { AnyAction } from 'redux';
@@ -43,6 +47,23 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
   dispatch(fetchSynthesisProgressUpdates());
 };
 
+export const fetchSupplier = (supplierId: number) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  const sellerID = sellerIDSelector();
+
+  const response = await Axios.get(
+    `${AppConfig.BASE_URL_API}seller/${String(sellerID)}/supplier_compact/?supplier_id=${String(
+      supplierId
+    )}`,
+    {
+      headers: getHeaders(),
+    }
+  );
+  if (response.data.length)
+    return dispatch(updateSupplier({ ...response.data[0], id: supplierId }));
+};
+
 function timeout(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -78,6 +99,7 @@ export const fetchSynthesisProgressUpdates = () => async (
     });
 
     suppliers = suppliers.filter((supplier, index) => {
+      if (responses[index].data.progress === 100) dispatch(fetchSupplier(supplier.supplier_id));
       return responses[index].data.progress !== 100;
     });
 
@@ -87,5 +109,10 @@ export const fetchSynthesisProgressUpdates = () => async (
 
 export const updateSupplier = (supplier: Supplier) => ({
   type: UPDATE_SUPPLIER,
+  payload: supplier,
+});
+
+export const addSupplier = (supplier: Supplier) => ({
+  type: ADD_SUPPLIER,
   payload: supplier,
 });

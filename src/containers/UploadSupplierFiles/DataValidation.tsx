@@ -2,25 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useAsyncEffect } from '../../hooks';
 import { validateAndUploadCsv } from '../../Action/UploadSupplierFilesActions';
-import { fetchSuppliers } from '../../Action/suppliers';
 import { Loader, Dimmer, Icon } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';
 
 interface DataValidationProps {
   validateAndUploadCsv: any;
-  fetchSuppliers: any;
 }
 
 const DataValidation = (props: DataValidationProps) => {
-  const { validateAndUploadCsv, fetchSuppliers } = props;
+  const { validateAndUploadCsv } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
   useAsyncEffect(async () => {
     setLoading(true);
     try {
       await validateAndUploadCsv();
-      await fetchSuppliers();
     } catch (error) {
       setError(error);
     }
@@ -62,7 +58,6 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   validateAndUploadCsv,
-  fetchSuppliers,
 };
 
 export default connect(

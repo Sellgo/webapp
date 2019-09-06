@@ -26,6 +26,7 @@ import { newSupplierIdSelector } from '../../selectors/syn';
 import { AppConfig } from '../../config';
 import Axios from 'axios';
 import reduce from 'lodash/reduce';
+import { fetchSupplier, fetchSynthesisProgressUpdates } from '../suppliers';
 
 const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
@@ -199,6 +200,8 @@ export const validateAndUploadCsv = () => async (
     headers: getHeaders(),
   });
   dispatch(finishUpload());
+  await dispatch(fetchSupplier(supplierID));
+  dispatch(fetchSynthesisProgressUpdates());
 };
 
 export const cleanupUploadSupplier = () => ({

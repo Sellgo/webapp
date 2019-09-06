@@ -19,7 +19,7 @@ import {
   UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
-import { updateSupplier, fetchSynthesisProgressUpdates, fetchSuppliers } from './suppliers';
+import { updateSupplier, fetchSynthesisProgressUpdates, addSupplier } from './suppliers';
 
 export interface Supplier {
   supplier_id: number;
@@ -422,7 +422,7 @@ export const saveSupplierNameAndDescription = (
         headers,
       })
         .then(json => {
-          dispatch(fetchSuppliers());
+          dispatch(addSupplier(json.data));
           dispatch(setsaveSupplierNameAndDescription(json.data));
           callBack && callBack(json.data);
           resolve(json.data);
