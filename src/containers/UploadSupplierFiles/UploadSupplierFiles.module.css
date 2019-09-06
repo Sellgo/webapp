@@ -1,0 +1,156 @@
+.container {
+  min-height: 32em;
+  display: flex;
+  flex-direction: column;
+}
+
+.container,
+.container :global(.form) {
+  font-size: 0.9vw;
+  margin: 5px 20px;
+}
+
+.container :global(.row) {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.container :global(.ui.grid) {
+  -margin-top: -1rem !important;
+  -margin-bottom: -1rem !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.marginTop {
+  margin-top: 1em !important;
+}
+
+.form_container {
+  position: relative;
+}
+
+.supplier_details_toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.actions {
+  -margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.downloadOptions {
+  margin-right: 50px;
+}
+
+.action {
+  border-radius: 50px !important;
+  min-width: 110px;
+}
+
+.flex {
+  flex: 1;
+}
+
+.previewTableContainer {
+  height: 20em;
+  overflow: auto;
+}
+
+.previewTableContainer tr {
+  height: 2em;
+}
+
+.previewTableContainer td {
+  padding: 0.4em !important;
+}
+
+.section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.supplier_information {
+  border: 1px solid #707070;
+  padding: 15px !important;
+  border-radius: 10px;
+  font-family: 'Montserrat';
+}
+
+.supplier_information_label {
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 20px;
+}
+
+.section :global(.file-uploader) {
+  flex: 1;
+  min-height: 20em;
+}
+
+.checkCircle {
+  color: #4285f4;
+}
+
+.checkError {
+  color: red;
+}
+
+.ouline_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 20em;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 15px !important;
+}
+
+.stepper {
+  padding: 10px 100px !important;
+}
+
+.stepper :global(.rc-steps-item-container) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stepper :global(.rc-steps-item) {
+  display: flex;
+}
+.stepper :global(.rc-steps-item-tail) {
+  margin-left: 49px !important;
+  margin-top: 14px !important;
+}
+.stepper :global(.rc-steps-icon) {
+  font-size: 25px !important;
+  padding: 0 0 0 0.25rem !important;
+  width: 50px !important;
+  height: 50px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 50%;
+}
+.stepper :global(.rc-steps-item-icon) {
+  margin-left: 6px !important;
+}
+
+.stepper :global(.rc-steps-item-process .rc-steps-item-title) {
+  color: black !important;
+}
+
+/* .stepper :global(.rc-steps-item-content) {
+  width: auto !important;
+} */

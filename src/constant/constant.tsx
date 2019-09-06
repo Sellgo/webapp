@@ -30,6 +30,20 @@ export const SYN_RESET_PRODUCT_REDUCED_VALUES = '/SYN/SYN_RESET_PRODUCT_REDUCED_
 export const GET_SUBSCRIPTIONS = '/SUBSCRIBE/GET_SUBSCRIPTIONS';
 export const GET_SELLER_SUBSCRIPTION = '/SUBSCRIBE/GET_SELLER_SUBSCRIPTION';
 export const UPDATE_SELLER_SUBSCRIBTION = '/SUBSCRIBE/UPDATE_SELLER_SUBSCRIBTION';
+export const SET_UPLOAD_SUPPLIER_STEP = 'SET_UPLOAD_SUPPLIER_STEP';
+export const SET_CSV = 'SET_CSV';
+export const SET_RAW_CSV = 'SET_RAW_CSV';
+export const MAP_COLUMN = 'MAP_COLUMN';
+export const CLEANUP_UPLOAD_SUPPLIER = 'CLEANUP_UPLOAD_SUPPLIER';
+export const REMOVE_COLUMN_MAPPINGS = 'REMOVE_COLUMN_MAPPINGS';
+export const OPEN = 'OPEN';
+export const CLOSE = 'CLOSE';
+export const FINISH_UPLOAD = 'FINISH_UPLOAD';
+export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
+export const SET_SUPPLIERS = 'SET_SUPPLIERS';
+export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
+export const UPDATE_SUPPLIER = 'UPDATE_SUPPLIER';
+export const ADD_SUPPLIER = 'ADD_SUPPLIER';
 
 /**
  *
@@ -152,3 +166,41 @@ export const ProductFiltersPreset = [
 export const numberWithCommas = (x: any) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+export const FieldsToMap = [
+  {
+    key: 'upc',
+    label: 'UPC',
+    required: true,
+  },
+  {
+    key: 'cost',
+    label: 'Cost',
+    required: true,
+  },
+  {
+    key: 'sku',
+    label: 'Supplier SKU',
+  },
+  {
+    key: 'title',
+    label: 'Title',
+  },
+  {
+    key: 'msrp',
+    label: 'MSRP',
+  },
+];
+
+export const DefaultSelect = {
+  value: '',
+  key: '',
+  text: '',
+};
+
+export enum UploadSteps {
+  AddNewSupplier,
+  SelectFile,
+  DataMapping,
+  DataValidation,
+}

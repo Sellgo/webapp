@@ -26,6 +26,8 @@ export default class Auth {
     languageDictionary: {
       emailInputPlaceholder: 'something@youremail.com',
       title: '',
+      signUpTitle: '',
+      forgotPasswordTitle: '',
     },
     allowSignUp: true,
   });
