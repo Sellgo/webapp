@@ -137,6 +137,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     );
   };
 
+  renderInventory = (row: Supplier) => {
+    if (row.file_status !== 'completed') return '';
+    return row.item_total_count;
+  };
   renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
 
   renderProgress = (row: Supplier) => (row.progress !== -1 ? `${row.progress}%` : '');
@@ -200,6 +204,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       sortable: true,
       type: 'number',
       dataKey: 'item_total_count',
+      render: this.renderInventory,
     },
     {
       label: 'Speed',

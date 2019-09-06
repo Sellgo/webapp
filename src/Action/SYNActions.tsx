@@ -793,7 +793,7 @@ export const postSynthesisRerun = (supplier: any) => (dispatch: any) => {
     headers,
   })
     .then(json => {
-      dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: '' } }));
+      dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
       dispatch(fetchSynthesisProgressUpdates());
     })
     .catch(error => {});
