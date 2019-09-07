@@ -74,7 +74,8 @@ export const fetchSynthesisProgressUpdates = () => async (
 ) => {
   let suppliers = suppliersSelector(getState());
   suppliers = suppliers.filter(
-    supplier => supplier.file_status !== null && supplier.file_status !== 'completed'
+    supplier =>
+      supplier.file_status && supplier.file_status !== null && supplier.file_status !== 'completed'
   );
   while (suppliers.length > 0) {
     const requests = suppliers.map(supplier => {
