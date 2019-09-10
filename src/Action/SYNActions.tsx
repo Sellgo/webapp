@@ -19,8 +19,10 @@ import {
   UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
+import { updateSupplier, fetchSynthesisProgressUpdates, addSupplier } from './suppliers';
 
 export interface Supplier {
+  supplier_id: number;
   contact: string;
   description: string;
   email: string;
@@ -39,6 +41,15 @@ export interface Supplier {
   website: string;
   p2l_ratio: any;
   xid: string;
+  file_name: string;
+  synthesis_file_id: number;
+  speed: number;
+  progress: number;
+  udate: Date;
+  tag: string;
+  file_url: string;
+  report_url: string;
+  file_status: string;
 }
 
 export interface TimeEfficiency {
@@ -373,7 +384,7 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
 
 function createSupplierGroup(supplier_name: string, call_back: any) {
   const sellerID = localStorage.getItem('userId');
-  var bodyFormData = new FormData();
+  const bodyFormData = new FormData();
   bodyFormData.set('name', supplier_name);
   return axios({
     method: 'POST',
@@ -390,32 +401,40 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
 export const saveSupplierNameAndDescription = (
   name: string,
   description: string,
-  callBack: any
+  other: any,
+  callBack?: any
 ) => (dispatch: any) => {
-  createSupplierGroup(name, (data: any) => {
-    var bodyFormData = new FormData();
-    bodyFormData.set('name', name);
-    bodyFormData.set('description', description);
-    bodyFormData.set('supplier_group_id', data.id);
-
-    const sellerID = localStorage.getItem('userId');
-    return axios({
-      method: 'POST',
-      url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/`,
-      data: bodyFormData,
-      headers,
-    })
-      .then(json => {
-        dispatch(setsaveSupplierNameAndDescription(json.data));
-        callBack(json.data);
+  // add promise support without breaking existing callback structure
+  return new Promise((resolve, reject) => {
+    createSupplierGroup(name, (data: any) => {
+      const bodyFormData = new FormData();
+      bodyFormData.set('name', name);
+      if (description) bodyFormData.set('description', description);
+      bodyFormData.set('supplier_group_id', data.id);
+      for (let param in other) {
+        bodyFormData.set(param, other[param]);
+      }
+      const sellerID = localStorage.getItem('userId');
+      return axios({
+        method: 'POST',
+        url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/`,
+        data: bodyFormData,
+        headers,
       })
-      .catch(error => {});
+        .then(json => {
+          dispatch(addSupplier(json.data));
+          dispatch(setsaveSupplierNameAndDescription(json.data));
+          callBack && callBack(json.data);
+          resolve(json.data);
+        })
+        .catch(error => {});
+    });
   });
 };
 
 export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-  var bodyFormData = new FormData();
+  const bodyFormData = new FormData();
   bodyFormData.set('id', supplier_id);
   bodyFormData.set('status', 'inactive');
   return axios({
@@ -425,6 +444,7 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
     headers,
   })
     .then(json => {
+      dispatch(updateSupplier(json.data));
       callBack(json.data);
     })
     .catch(error => {});
@@ -434,23 +454,33 @@ export const updateSupplierNameAndDescription = (
   name: string,
   description: string,
   update_supplier_id: string,
-  callBack: any
+  other: any,
+  callBack?: any
 ) => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
-  var bodyFormData = new FormData();
-  bodyFormData.set('name', name);
-  bodyFormData.set('description', description);
-  bodyFormData.set('id', update_supplier_id);
-  return axios({
-    method: 'patch',
-    url: AppConfig.BASE_URL_API + `supplier/`,
-    data: bodyFormData,
-    headers,
-  })
-    .then(json => {
-      callBack(json.data);
+  // add promise support without breaking existing callback structure
+  return new Promise((resolve, reject) => {
+    const sellerID = localStorage.getItem('userId');
+    const bodyFormData = new FormData();
+    bodyFormData.set('name', name);
+    bodyFormData.set('description', description);
+    bodyFormData.set('id', update_supplier_id);
+    for (let param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+    return axios({
+      method: 'patch',
+      url: AppConfig.BASE_URL_API + `supplier/`,
+      data: bodyFormData,
+      headers,
     })
-    .catch(error => {});
+      .then(json => {
+        dispatch(updateSupplier(json.data));
+        dispatch(setsaveSupplierNameAndDescription(json.data));
+        callBack && callBack(json.data);
+        resolve(json.data);
+      })
+      .catch(error => {});
+  });
 };
 
 export const getLastFileID = (supplierID: string) => (dispatch: any) => {
@@ -498,7 +528,7 @@ export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatc
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   resetUploadCSVResponse();
-  var bodyFormData = new FormData();
+  const bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
   bodyFormData.set('file', file);
 
@@ -733,3 +763,38 @@ export const reduceProductTrackGroup = (data: {}) => ({
   type: GET_PRODUCT_TRACK_GROUP,
   data,
 });
+
+export const setFavouriteSupplier = (supplier_id: any, isFavourite: any) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const bodyFormData = new FormData();
+  bodyFormData.set('id', supplier_id);
+  bodyFormData.set('tag', isFavourite ? 'like' : 'dislike');
+
+  return axios({
+    method: 'patch',
+    url: AppConfig.BASE_URL_API + `supplier/`,
+    data: bodyFormData,
+    headers,
+  })
+    .then(json => {
+      dispatch(updateSupplier(json.data));
+    })
+    .catch(error => {});
+};
+
+export const postSynthesisRerun = (supplier: any) => (dispatch: any) => {
+  const bodyFormData = new FormData();
+  bodyFormData.set('synthesis_file_id', supplier.synthesis_file_id);
+  return axios({
+    method: 'POST',
+    url: AppConfig.BASE_URL_API + `synthesis/rerun/`,
+    data: bodyFormData,
+
+    headers,
+  })
+    .then(json => {
+      dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
+      dispatch(fetchSynthesisProgressUpdates());
+    })
+    .catch(error => {});
+};

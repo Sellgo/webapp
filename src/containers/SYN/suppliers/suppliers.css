@@ -19,11 +19,20 @@
   border: 1px solid !important;
   box-shadow: none !important;
 }
+
+.scroll-table {
+  overflow-x: auto;
+  padding-bottom: 100px;
+}
+.ui.selection.dropdown .menu {
+  width: max-content !important;
+}
+
 .SynDropDown {
   border: 1px solid #4285f4 !important;
   color: #4285f4 !important;
-  border-radius: 20px !important;
-  width: 65% !important;
+  border-radius: 5px !important;
+  -width: 65% !important;
   align-self: center !important;
 }
 .SynDropDown > .text {
@@ -31,9 +40,27 @@
   font-weight: 900 !important;
 }
 .SynDropDown .menu {
-  border-radius: 0px 0px 20px 20px !important;
+  border-radius: 0px 0px 5px 5px !important;
   border: 1px 1px 1px 1px solid !important;
   border-color: #4285f4 !important;
   box-shadow: 0 3px 4px 0 rgba(34, 36, 38, 0.3) !important;
   background-color: #ffffff !important;
+  min-width: max-content !important;
+}
+
+.SynDropDownLink a {
+  color: black !important;
+}
+
+.operations {
+  display: flex;
+  align-items: center;
+}
+
+.operations i {
+  cursor: pointer;
+}
+.product-ratio-with-pie {
+  display: inline-block;
+  min-width: 50px;
 }
