@@ -8,6 +8,7 @@ export interface Column {
   dataKey?: string;
   label?: string;
   sortable?: boolean;
+  show?: boolean;
   type?: 'number' | 'string' | 'date';
 }
 
@@ -51,13 +52,13 @@ const GenericTable = (props: TableProps) => {
   const { data, columns, singlePageItemsCount = 10 } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
-
+  const showColumns = columns.filter(e => e.show);
   const { sortedColumnIndex, sortDirection, setSort } = useSort(-1);
 
   let rows =
     sortedColumnIndex >= 0
       ? [...data].sort((a, b) => {
-          const sortedColumn = columns[sortedColumnIndex];
+          const sortedColumn = showColumns[sortedColumnIndex];
 
           let aColumn, bColumn;
 
@@ -101,7 +102,7 @@ const GenericTable = (props: TableProps) => {
       <Table sortable={true} basic="very" textAlign="left">
         <Table.Header>
           <Table.Row>
-            {columns.map((column, index) => {
+            {showColumns.map((column, index) => {
               return (
                 <Table.HeaderCell
                   key={column.dataKey || index}
@@ -125,7 +126,7 @@ const GenericTable = (props: TableProps) => {
             rows.map((row, index) => {
               return (
                 <Table.Row key={index}>
-                  {columns.map((column, index) => (
+                  {showColumns.map((column, index) => (
                     <Table.Cell key={column.dataKey || index}>{renderCell(row, column)}</Table.Cell>
                   ))}
                 </Table.Row>
@@ -135,7 +136,7 @@ const GenericTable = (props: TableProps) => {
         </Table.Body>
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan={columns.length}>
+            <Table.HeaderCell colSpan={showColumns.length}>
               {/* todo */}
               <Pagination
                 totalPages={totalPages}

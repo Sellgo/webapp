@@ -7,6 +7,7 @@ import { SET_PAGE_HISTORY_COUNTER, UPDATE_BASIC_INFO_SELLER } from '../../consta
 
 interface Props {
   title?: string;
+  callToAction?: any;
   pageHistoryCanGoForward: any;
 
   updatePageHistoryCounter(counter: any): () => void;
@@ -16,6 +17,7 @@ class PageHeader extends React.Component<Props> {
   render() {
     const headerStyle = {
       marginTop: '1.5rem',
+      display: 'flex',
     };
     return (
       <Header className="page-header" as="h2" style={{ ...headerStyle }}>
@@ -39,6 +41,7 @@ class PageHeader extends React.Component<Props> {
           }}
         />
         <Header.Content>{this.props.title}</Header.Content>
+        <Header.Content style={{ marginLeft: 'auto' }}>{this.props.callToAction}</Header.Content>
       </Header>
     );
   }

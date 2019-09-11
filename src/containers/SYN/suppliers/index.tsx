@@ -22,7 +22,6 @@ import {
   updateSupplierNameAndDescription,
   resetUploadCSVResponse,
   getTimeEfficiency,
-  TimeEfficiency,
   deleteSupplier,
   postProductTrackGroupId,
   Product,
@@ -107,7 +106,6 @@ interface Props {
   match: { params: { auth: Auth } };
   suppliers: Supplier[];
   new_supplier: string;
-  time_efficiency_data: TimeEfficiency[];
   sellerData: SellField;
   uploadCSVResponse: { message: ''; status: '' };
   openUploadSupplierModal: typeof openUploadSupplierModal;
@@ -275,10 +273,8 @@ export class Suppliers extends React.Component<Props, State> {
         style={{ width: '90%' }}
         trigger={
           <Button
-            basic={true}
-            color="black"
             primary={true}
-            style={{ borderRadius: '50px' }}
+            className="add-new-supplier"
             onClick={this.handleAddNewSupplierModalOpen}
           >
             Add New Supplier
@@ -305,6 +301,28 @@ export class Suppliers extends React.Component<Props, State> {
         auth={this.props.match.params.auth}
         sellerData={this.props.sellerData}
         title={'Synthesis'}
+        callToAction={
+          <>
+            {this.renderAddNewSupplierModal()}
+            <Popup
+              className={'addSupplierPopup'}
+              trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
+              position="top left"
+              size="tiny"
+            >
+              <h4>Adding a Supplier</h4>
+              To add a supplier:
+              <List as={'ol'}>
+                <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
+                <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
+                <List.Item as="li">
+                  On the New Supplier screen, enter the details of the suppler.
+                </List.Item>
+                <List.Item as="li">Save the details of the new supplier.</List.Item>
+              </List>
+            </Popup>
+          </>
+        }
       >
         <Segment basic={true} className="setting">
           <Divider
@@ -313,66 +331,6 @@ export class Suppliers extends React.Component<Props, State> {
               borderBottom: '1px solid rgba(34,36,38,.20)',
             }}
           />
-          <Grid>
-            <Grid.Column width={5} floated="left" className={'middle aligned'}>
-              {this.renderAddNewSupplierModal()}
-              <Popup
-                className={'addSupplierPopup'}
-                trigger={<Icon name="question circle" size={'large'} color={'grey'} />}
-                position="top left"
-                size="tiny"
-              >
-                <h4>Adding a Supplier</h4>
-                To add a supplier:
-                <List as={'ol'}>
-                  <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
-                  <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
-                  <List.Item as="li">
-                    On the New Supplier screen, enter the details of the suppler.
-                  </List.Item>
-                  <List.Item as="li">Save the details of the new supplier.</List.Item>
-                </List>
-              </Popup>
-            </Grid.Column>
-            <Grid.Column width={5} floated="right">
-              <Card raised={true} style={{ borderRadius: 10, width: 290 }}>
-                <Card.Content
-                  style={{
-                    paddingTop: 4,
-                    paddingBottom: 4,
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      padding: '11px',
-                      // width: '100%',
-                    }}
-                  >
-                    <span>
-                      Time Saved
-                      <h2>
-                        {this.props.time_efficiency_data.length > 0
-                          ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) +
-                            ' hrs'
-                          : '0 hrs'}
-                      </h2>
-                    </span>
-                    <span style={{ marginLeft: 15, flex: 'right' }}>
-                      Efficiency
-                      <h2>
-                        {this.props.time_efficiency_data.length > 0
-                          ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %'
-                          : '0 %'}
-                      </h2>
-                    </span>
-                  </div>
-                </Card.Content>
-              </Card>
-            </Grid.Column>
-          </Grid>
           <SuppliersTable
             delete_confirmation={this.state.delete_confirmation}
             onMessageChange={this.handleMessageChange}
@@ -452,7 +410,6 @@ const mapStateToProps = (state: any) => {
     suppliers: suppliersSelector(state),
     uploadCSVResponse: state.synReducer.uploadCSVResponse,
     new_supplier: state.synReducer.new_supplier,
-    time_efficiency_data: state.synReducer.time_efficiency_data,
     sellerData: state.settings.profile,
     uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
   };
