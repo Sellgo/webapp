@@ -43,7 +43,6 @@ export const UserOnboarding = ({ closeModal }: Props) => {
           </Grid.Row>
           <Grid.Row>
             <Pagination
-              defaultActivePage={1}
               firstItem={null}
               lastItem={null}
               pointing
