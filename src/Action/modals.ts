@@ -17,3 +17,7 @@ export const openUploadSupplierModal = (supplier?: Supplier): ModalsAction =>
   open('uploadSupplier', supplier);
 
 export const closeUploadSupplierModal = (): ModalsAction => close('uploadSupplier');
+
+export const openUserOnboardingModal = (): ModalsAction => open('userOnboarding');
+
+export const closeUserOnboardingModal = (): ModalsAction => close('userOnboarding');
