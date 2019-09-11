@@ -10,6 +10,7 @@ import {
   List,
   Container,
   Card,
+  Confirm,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './suppliers.css';
@@ -77,6 +78,7 @@ interface State {
   };
   sortDirection: any;
   sortedColumn: string;
+  exit_confirmation: boolean;
 }
 
 interface Props {
@@ -150,6 +152,7 @@ export class Suppliers extends React.Component<Props, State> {
     },
     sortDirection: undefined,
     sortedColumn: '',
+    exit_confirmation: false,
   };
   message = {
     id: 1,
@@ -268,7 +271,9 @@ export class Suppliers extends React.Component<Props, State> {
       <Modal
         size={'large'}
         open={this.props.uploadSupplierModalOpen}
-        onClose={this.handleClose}
+        onClose={() => {
+          this.setState({ exit_confirmation: true });
+        }}
         closeIcon={true}
         style={{ width: '90%' }}
         trigger={
@@ -392,6 +397,17 @@ export class Suppliers extends React.Component<Props, State> {
               </Segment>
             </Container>
           </Modals>
+          <Confirm
+            content="Do you want to exit?"
+            open={this.state.exit_confirmation}
+            onCancel={() => {
+              this.setState({ exit_confirmation: false });
+            }}
+            onConfirm={() => {
+              this.setState({ exit_confirmation: false });
+              this.handleClose();
+            }}
+          />
         </Segment>
       </AdminLayout>
     );
