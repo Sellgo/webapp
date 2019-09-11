@@ -20,9 +20,7 @@ import {
 } from '../SYNActions';
 import { setRawCsv, removeColumnMappings } from '.';
 import isNil from 'lodash/isNil';
-import every from 'lodash/every';
-import uniq from 'lodash/uniq';
-import some from 'lodash/some';
+import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import validator from 'validator';
 import get from 'lodash/get';
@@ -151,27 +149,31 @@ export class DataMappingStep extends Step {
       cost.push(row[reversedColumnMappings.cost]);
     });
 
+    let ix: number;
+
     // validate cost
-    if (
-      !every(
-        cost,
-        value => validator.isDecimal(value.toString()) || validator.isInt(value.toString())
-      )
-    ) {
-      return 'Cost must be a valid amount';
+    ix = findIndex(
+      cost,
+      value => !validator.isDecimal(value.toString()) && !validator.isInt(value.toString())
+    );
+    if (ix != -1) {
+      return 'Cost must be a valid amount: Line ' + (hasHeaders ? ix + 2 : ix + 1);
     }
+
     // validate upc
-    if (!every(upc, validator.isNumeric)) {
-      return 'UPC must be numeric';
+    ix = findIndex(upc, value => isEmpty(value));
+    if (ix != -1) {
+      return "UPC can't be empty: Line " + (hasHeaders ? ix + 2 : ix + 1);
+    }
+
+    ix = findIndex(upc, value => !validator.isNumeric(value));
+    if (ix != -1) {
+      return 'UPC must be numeric: Line ' + (hasHeaders ? ix + 2 : ix + 1);
     }
 
     /* if (uniq(upc).length !== upc.length) {
       return 'upc must be unique';
     } */
-
-    if (some(upc, isEmpty)) {
-      return 'UPC can\'t be empty';
-    }
   }
 
   validate() {
