@@ -18,7 +18,11 @@ const DataValidation = (props: DataValidationProps) => {
     try {
       await validateAndUploadCsv();
     } catch (error) {
-      setError(error);
+      let errors = ['Something went wrong!'];
+      if (error && error.response && error.response.data && error.response.data.error) {
+        errors = error.response.data.error;
+      }
+      setError(errors.join());
     }
     setLoading(false);
   }, []);
@@ -38,7 +42,7 @@ const DataValidation = (props: DataValidationProps) => {
           <Icon name="exclamation circle" size="big" className={styles.checkError} />
           <br />
           <p>
-            <b>Something went wrong!</b>
+            <b>{error}</b>
           </p>
         </React.Fragment>
       ) : (
