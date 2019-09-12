@@ -3,11 +3,13 @@ import head from 'lodash/head';
 import FileUploader from '../../components/FileUploader';
 import { connect } from 'react-redux';
 import { prepareCsv } from '../../Action/UploadSupplierFilesActions';
+import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
 
 const acceptedFileFormats = ['.csv'];
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state: {}) => ({
   accept: acceptedFileFormats,
+  fileName: csvFileSelector(state),
 });
 
 const mapDispatchToProps = {

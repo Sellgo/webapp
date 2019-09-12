@@ -1,4 +1,7 @@
-import { isFirstRowHeaderSelector } from './../../selectors/UploadSupplierFiles/index';
+import {
+  isFirstRowHeaderSelector,
+  saveColumnMappingSettingSelector,
+} from './../../selectors/UploadSupplierFiles/index';
 import { error } from './../../utils/notifications';
 import get from 'lodash/get';
 import {
@@ -11,6 +14,9 @@ import {
   UploadSteps,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
+  SET_SAVED_COLUMN_MAPPINGS,
+  SET_SAVE_COLUMN_MAPPING_SETTING,
+  SET_SKIP_COLUMN_MAPPING_CHECK,
 } from '../../constant/constant';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -84,11 +90,15 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
 export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null) => {
   csv = csvFile;
-
+  const csvJSONFile: any = {};
+  if (csvFile !== null) {
+    csvJSONFile['lastModified'] = csvFile.lastModified;
+    csvJSONFile['name'] = csvFile.name;
+  }
   return {
     type: SET_RAW_CSV,
     csvString,
-    csvFile,
+    csvJSONFile,
   };
 };
 
@@ -159,6 +169,43 @@ export const mapColumn = (csvColumn: string | number, targetColumn: string) => (
   targetColumn,
 });
 
+export const setSavedColumnMappings = (savedColumnMappings: any) => ({
+  type: SET_SAVED_COLUMN_MAPPINGS,
+  payload: savedColumnMappings,
+});
+
+export const setSaveColumnMappingSetting = (checked: boolean) => ({
+  type: SET_SAVE_COLUMN_MAPPING_SETTING,
+  payload: checked,
+});
+
+export const setSkipColumnMappingCheck = (checked: boolean) => ({
+  type: SET_SKIP_COLUMN_MAPPING_CHECK,
+  payload: checked,
+});
+
+export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+  const sellerID = sellerIDSelector();
+
+  const response = await Axios.get(
+    `${AppConfig.BASE_URL_API}seller/${String(sellerID)}/csv-column-mapping`,
+    {
+      headers: getHeaders(),
+    }
+  );
+  if (response.data) {
+    const { upc, product_cost, sku, title, msrp } = response.data;
+    const columnMappings = [];
+    if (upc !== null) columnMappings[upc] = 'upc';
+    if (product_cost !== null) columnMappings[product_cost] = 'cost';
+    if (sku !== null) columnMappings[sku] = 'sku';
+    if (title !== null) columnMappings[title] = 'title';
+    if (msrp !== null) columnMappings[msrp] = 'msrp';
+    dispatch(setSavedColumnMappings(columnMappings));
+    dispatch(setSkipColumnMappingCheck(true));
+  }
+};
+
 export const validateAndUploadCsv = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
@@ -166,6 +213,7 @@ export const validateAndUploadCsv = () => async (
   const sellerID = sellerIDSelector();
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
+  const saveColumnMappingSetting = saveColumnMappingSettingSelector(getState());
 
   const reversedColumnMappings: any = reduce(
     columnMappings,
@@ -187,11 +235,12 @@ export const validateAndUploadCsv = () => async (
   bodyFormData.set('file', csv);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
+  if (saveColumnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
   if (reversedColumnMappings.title) bodyFormData.set('title', reversedColumnMappings.title);
   if (reversedColumnMappings.sku) bodyFormData.set('sku', reversedColumnMappings.sku);
   if (reversedColumnMappings.msrp) bodyFormData.set('msrp', reversedColumnMappings.msrp);
   // correct this
-  bodyFormData.set('has_header', isFirstRowHeaderSelector(getState()).toString());
+  if (isFirstRowHeaderSelector(getState())) bodyFormData.set('has_header', 'True');
 
   await Axios({
     method: 'POST',

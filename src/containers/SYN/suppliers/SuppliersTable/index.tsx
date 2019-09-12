@@ -125,6 +125,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   );
 
   renderOperations = (row: Supplier) => {
+    if (row.file_status !== 'completed' && row.file_status !== null) return '';
     return (
       <div className="operations">
         <Icon
