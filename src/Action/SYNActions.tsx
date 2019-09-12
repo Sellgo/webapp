@@ -20,7 +20,7 @@ import {
 } from '../constant/constant';
 import { AppConfig } from '../config';
 import { updateSupplier, fetchSynthesisProgressUpdates, addSupplier } from './suppliers';
-
+import { success, error } from '../utils/notifications';
 export interface Supplier {
   supplier_id: number;
   contact: string;
@@ -427,7 +427,9 @@ export const saveSupplierNameAndDescription = (
           callBack && callBack(json.data);
           resolve(json.data);
         })
-        .catch(error => {});
+        .catch(err => {
+          error(err.response.data);
+        });
     });
   });
 };
@@ -479,7 +481,9 @@ export const updateSupplierNameAndDescription = (
         callBack && callBack(json.data);
         resolve(json.data);
       })
-      .catch(error => {});
+      .catch(err => {
+        error(err.response.data);
+      });
   });
 };
 
@@ -795,6 +799,9 @@ export const postSynthesisRerun = (supplier: any) => (dispatch: any) => {
     .then(json => {
       dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
       dispatch(fetchSynthesisProgressUpdates());
+      success('Rerun successfully initiated!');
     })
-    .catch(error => {});
+    .catch(err => {
+      error('Rerun failed. Try again!');
+    });
 };
