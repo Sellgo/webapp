@@ -38,10 +38,12 @@ export const reversedColumnMappingsSelector = createSelector(
     return reduce(
       columnMappings,
       (result: {}, value, key) => {
-        return {
-          ...result,
-          [value]: key,
-        };
+        return value
+          ? {
+              ...result,
+              [value]: key,
+            }
+          : result;
       },
       {}
     );
