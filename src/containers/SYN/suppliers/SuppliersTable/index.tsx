@@ -85,12 +85,16 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         },
         {
           key: '2',
-          text: (
-            <a href={row.report_url} download>
+          text:
+            row.report_url === null ? (
               <Dropdown.Item icon="download" text=" Download Results" />
-            </a>
-          ),
+            ) : (
+              <a href={row.report_url} download>
+                <Dropdown.Item icon="download" text=" Download Results" />
+              </a>
+            ),
           value: 'dwn_res',
+          disabled: row.report_url === null ? true : false,
         },
         {
           key: '3',
