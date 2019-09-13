@@ -428,7 +428,9 @@ export const saveSupplierNameAndDescription = (
           resolve(json.data);
         })
         .catch(err => {
-          error(err.response.data);
+          for (let er in err.response.data) {
+            error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+          }
         });
     });
   });
@@ -482,7 +484,9 @@ export const updateSupplierNameAndDescription = (
         resolve(json.data);
       })
       .catch(err => {
-        error(err.response.data);
+        for (let er in err.response.data) {
+          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+        }
       });
   });
 };
