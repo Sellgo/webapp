@@ -19,7 +19,13 @@ import {
   postProductTrackGroupId,
   updateSupplierNameAndDescription,
 } from '../SYNActions';
-import { setRawCsv, removeColumnMappings, fetchColumnMappings } from '.';
+import {
+  setRawCsv,
+  removeColumnMappings,
+  fetchColumnMappings,
+  toggleFirstRowHeader,
+  setSkipColumnMappingCheck,
+} from '.';
 import isNil from 'lodash/isNil';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -116,6 +122,23 @@ export class SelectFileStep extends Step {
     const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
     const hasHeaders = isFirstRowHeaderSelector(this.getState());
     const csv = csvSelector(this.getState());
+
+    const labels = csv.length ? csv[0] : [];
+    /* const hasHeaders = labels.every(e => e.match(/^[a-zA-Z]+$/) !== null);
+    if (!hasHeaders) this.dispatch(toggleFirstRowHeader()); */
+    const skipCheck = Object.keys(reversedColumnMappings).every(column => {
+      const labelMapping = labels.filter(
+        (label, i) => label.toLocaleLowerCase().indexOf(column.toLocaleLowerCase()) !== -1
+      );
+      const labelIndex = labels.indexOf(labelMapping.length ? labelMapping[0] : '');
+      return labelMapping.length && reversedColumnMappings[column] === labelIndex ? true : false;
+    });
+
+    if (!skipCheck) {
+      this.dispatch(setSkipColumnMappingCheck(false));
+      this.dispatch(removeColumnMappings());
+      return 'Mismatch in Column Mappings. Proceed to Next Step!';
+    }
 
     // ignore first row if it is header
     const rows = hasHeaders ? csv.slice(1) : csv;
