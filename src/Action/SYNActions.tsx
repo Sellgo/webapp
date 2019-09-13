@@ -776,7 +776,7 @@ export const setFavouriteSupplier = (supplier_id: any, isFavourite: any) => (dis
   const sellerID = localStorage.getItem('userId');
   const bodyFormData = new FormData();
   bodyFormData.set('id', supplier_id);
-  bodyFormData.set('tag', isFavourite ? 'like' : 'dislike');
+  bodyFormData.set('tag', isFavourite);
 
   return axios({
     method: 'patch',

@@ -37,8 +37,8 @@ interface SuppliersTableProps {
   fetchSynthesisProgressUpdates: () => void;
   fetchSupplierTableColumns: () => void;
   resetSuppliers: typeof resetSuppliers;
-  favourite: (id: number) => void;
-  unFavourite: (id: number) => void;
+  favourite: (id: number, tag: string) => void;
+  unFavourite: (id: number, tag: string) => void;
   reRun: (supplier: Supplier) => void;
   showTab: string;
   showColumns: any;
@@ -139,12 +139,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       <div className="operations">
         <Icon
           name="thumbs up"
-          onClick={() => this.props.favourite(row.id)}
+          onClick={() => this.props.favourite(row.id, row.tag === 'like' ? '' : 'like')}
           style={row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }}
         />
         <Icon
           name="thumbs down"
-          onClick={() => this.props.unFavourite(row.id)}
+          onClick={() => this.props.unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
           style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
         <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
@@ -379,8 +379,8 @@ const mapDispatchToProps = {
   fetchSuppliers,
   fetchSynthesisProgressUpdates,
   fetchSupplierTableColumns,
-  favourite: (id: number) => setFavouriteSupplier(id, true),
-  unFavourite: (id: number) => setFavouriteSupplier(id, false),
+  favourite: (id: number, tag: string) => setFavouriteSupplier(id, tag),
+  unFavourite: (id: number, tag: string) => setFavouriteSupplier(id, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
 };
 
