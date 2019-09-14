@@ -98,14 +98,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         },
         {
           key: '3',
-          text: (
-            <Dropdown.Item
-              icon="sync alternate"
-              text=" Rerun"
-              onClick={() => this.props.reRun(row)}
-            />
-          ),
+          text: <Dropdown.Item icon="sync alternate" text=" Rerun" />,
           value: 'rerun',
+          onClick: () => this.props.reRun(row),
         },
       ]}
       onChange={(e, data) => {
