@@ -153,7 +153,7 @@ export const prepareCsv = (csvFile?: File) => async (
     const csvString = reader.result;
 
     if (!csvString || reader.error) {
-      error('Error occurred while uploading csv. Please try again later.');
+      error('Error occurred while uploading csv.');
     } else {
       dispatch(setRawCsv(csvString, csvFile));
       dispatch(parseCsv());
