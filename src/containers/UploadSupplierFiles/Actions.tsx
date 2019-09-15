@@ -2,13 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styles from './UploadSupplierFiles.module.css';
 import { Button, Checkbox, Icon } from 'semantic-ui-react';
-import { setUploadSupplierStep } from '../../Action/UploadSupplierFilesActions';
-import { currentStepSelector, processCompletedSelector } from '../../selectors/UploadSupplierFiles';
+import {
+  setUploadSupplierStep,
+  setSaveColumnMappingSetting,
+  setSkipColumnMappingCheck,
+} from '../../Action/UploadSupplierFilesActions';
+import {
+  currentStepSelector,
+  processCompletedSelector,
+  saveColumnMappingSettingSelector,
+  skipColumnMappingCheckSelector,
+} from '../../selectors/UploadSupplierFiles';
 import { closeUploadSupplierModal } from '../../Action/modals';
 
 interface ActionsProps {
   currentStep: number;
   setStep: (nextStep: number) => void;
+  setColumnSetting: (checked: boolean) => void;
+  setSkipCheck: (checked: boolean) => void;
+  saveColumnMappingSetting: boolean;
+  skipColumnMappingCheck: boolean;
   className?: string;
   processCompleted: boolean;
   closeModal: typeof closeUploadSupplierModal;
@@ -20,6 +33,10 @@ const Actions = ({
   className,
   processCompleted,
   closeModal,
+  setColumnSetting,
+  saveColumnMappingSetting,
+  skipColumnMappingCheck,
+  setSkipCheck,
 }: ActionsProps) => {
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
@@ -48,32 +65,34 @@ const Actions = ({
     <div className={`${className || ''} ${styles.actions}`}>
       <div className={styles.downloadOptions}>
         {currentStep === 1 && (
-          <div>
-            <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
-              <Button
-                size="small"
-                basic={true}
-                color="grey"
-                style={{ borderRadius: 20 }}
-                onClick={() => console.log('download template')}
-              >
-                <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
-              </Button>
-            </a>
-            {/* <Checkbox
-              style={{ marginLeft: '1em' }}
-              onChange={onSkipStep}
-              label="Skip Data Mapping "
-            /> */}
-          </div>
+          <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
+            <Button
+              size="small"
+              basic={true}
+              color="grey"
+              style={{ borderRadius: 20 }}
+              onClick={() => console.log('download template')}
+            >
+              <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
+            </Button>
+          </a>
         )}
-        {/* currentStep === 2 && (
+        {currentStep === 1 && skipColumnMappingCheck && (
           <Checkbox
             style={{ marginLeft: '1em' }}
-            onChange={onSkipStep}
-            label="Keep Data Map Setting "
+            checked={skipColumnMappingCheck}
+            onChange={(ev, data) => setSkipCheck(data.checked || false)}
+            label="Skip Data Mapping"
           />
-        ) */}
+        )}
+        {currentStep === 2 && (
+          <Checkbox
+            style={{ marginLeft: '1em' }}
+            checked={saveColumnMappingSetting}
+            onChange={(ev, data) => setColumnSetting(data.checked || false)}
+            label="Save Data Map Setting"
+          />
+        )}
       </div>
       <div>
         {hasPrevStep && (
@@ -86,17 +105,28 @@ const Actions = ({
             Dismiss
           </Button>
         )}
-        {hasNextStep && (
-          <Button
-            onClick={onNextStep}
-            className={styles.action}
-            basic={true}
-            color="black"
-            primary={true}
-          >
-            {currentStep === 0 ? 'Save & Proceed' : 'Next'}
-          </Button>
-        )}
+        {hasNextStep &&
+          (currentStep === 1 && skipColumnMappingCheck ? (
+            <Button
+              onClick={onSkipStep}
+              className={styles.action}
+              basic={true}
+              color="black"
+              primary={true}
+            >
+              {'Finish'}
+            </Button>
+          ) : (
+            <Button
+              onClick={onNextStep}
+              className={styles.action}
+              basic={true}
+              color="black"
+              primary={true}
+            >
+              {currentStep === 0 ? 'Save & Proceed' : 'Next'}
+            </Button>
+          ))}
       </div>
     </div>
   );
@@ -105,11 +135,15 @@ const Actions = ({
 const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   processCompleted: processCompletedSelector(state),
+  skipColumnMappingCheck: skipColumnMappingCheckSelector(state),
+  saveColumnMappingSetting: saveColumnMappingSettingSelector(state),
 });
 
 const mapDispatchToProps = {
   setStep: setUploadSupplierStep,
   closeModal: closeUploadSupplierModal,
+  setColumnSetting: setSaveColumnMappingSetting,
+  setSkipCheck: setSkipColumnMappingCheck,
 };
 
 export default connect(

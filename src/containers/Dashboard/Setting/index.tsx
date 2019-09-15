@@ -627,7 +627,7 @@ class Setting extends React.Component<Props, State> {
                   size="small"
                   onClick={() => this.fileInputRef.current.click()}
                 />
-                {!this.state.isImageSelected ? (
+                {this.state.isImageSelected ? (
                   <Button
                     loading={this.state.isImageUploadUnderProgress}
                     content={'Upload Photo'}

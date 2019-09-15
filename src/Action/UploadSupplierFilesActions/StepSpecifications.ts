@@ -4,6 +4,7 @@ import {
   reversedColumnMappingsSelector,
   csvSelector,
   isFirstRowHeaderSelector,
+  skipColumnMappingCheckSelector,
 } from './../../selectors/UploadSupplierFiles/index';
 // tslint:disable:max-classes-per-file
 import { ThunkDispatch } from 'redux-thunk';
@@ -18,14 +19,19 @@ import {
   postProductTrackGroupId,
   updateSupplierNameAndDescription,
 } from '../SYNActions';
-import { setRawCsv, removeColumnMappings } from '.';
+import {
+  setRawCsv,
+  removeColumnMappings,
+  fetchColumnMappings,
+  toggleFirstRowHeader,
+  setSkipColumnMappingCheck,
+} from '.';
 import isNil from 'lodash/isNil';
-import every from 'lodash/every';
-import uniq from 'lodash/uniq';
-import some from 'lodash/some';
+import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import validator from 'validator';
 import get from 'lodash/get';
+import { openUploadSupplierModal } from '../modals';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
@@ -78,6 +84,7 @@ export class AddNewSupplierStep extends Step {
           saveSupplierNameAndDescription(name, description, other)
         );
         this.dispatch(postProductTrackGroupId(data.id, name));
+        this.dispatch(openUploadSupplierModal(data));
       } else {
         for (let param in existingSupplier) {
           if (existingSupplier[param] === other[param]) {
@@ -89,34 +96,98 @@ export class AddNewSupplierStep extends Step {
         );
         //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }
+      this.dispatch(fetchColumnMappings());
     } catch (error) {
       throw error;
     }
   }
 
   cleanStep() {
-    this.dispatch(destroy('supplier-info'));
+    // this.dispatch(destroy('supplier-info'));
   }
 }
 
 export class SelectFileStep extends Step {
   step = UploadSteps.SelectFile;
 
-  validate() {
+  checkFile() {
     const state = this.getState();
     const csvFile = csvFileSelector(state);
     const fileSet = Boolean(csvFile);
     const errorMessage = fileSet ? undefined : 'Please select a csv file';
-
     return errorMessage;
+  }
+
+  validateFields() {
+    const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
+    const hasHeaders = isFirstRowHeaderSelector(this.getState());
+    const csv = csvSelector(this.getState());
+
+    const labels = csv.length ? csv[0] : [];
+    /* const hasHeaders = labels.every(e => e.match(/^[a-zA-Z]+$/) !== null);
+    if (!hasHeaders) this.dispatch(toggleFirstRowHeader()); */
+    const skipCheck = Object.keys(reversedColumnMappings).every(column => {
+      const labelMapping = labels.filter(
+        (label, i) => label.toLocaleLowerCase().indexOf(column.toLocaleLowerCase()) !== -1
+      );
+      const labelIndex = labels.indexOf(labelMapping.length ? labelMapping[0] : '');
+      return labelMapping.length && reversedColumnMappings[column] === labelIndex ? true : false;
+    });
+
+    if (!skipCheck) {
+      this.dispatch(setSkipColumnMappingCheck(false));
+      this.dispatch(removeColumnMappings());
+      return 'Mismatch in Column Mappings. Proceed to Next Step!';
+    }
+
+    // ignore first row if it is header
+    const rows = hasHeaders ? csv.slice(1) : csv;
+
+    const upc: string[] = [];
+    const cost: string[] = [];
+
+    rows.forEach(row => {
+      upc.push(row[reversedColumnMappings.upc]);
+      cost.push(row[reversedColumnMappings.cost]);
+    });
+
+    let ix: number;
+
+    // validate cost
+    ix = findIndex(
+      cost,
+      value => !validator.isDecimal(value.toString()) && !validator.isInt(value.toString())
+    );
+    if (ix != -1) {
+      return 'Cost must be a valid amount: Line ' + (hasHeaders ? ix + 2 : ix + 1);
+    }
+
+    // validate upc
+    ix = findIndex(upc, value => isEmpty(value));
+    if (ix != -1) {
+      return "UPC can't be empty: Line " + (hasHeaders ? ix + 2 : ix + 1);
+    }
+
+    ix = findIndex(upc, value => !validator.isNumeric(value));
+    if (ix != -1) {
+      return 'UPC must be numeric: Line ' + (hasHeaders ? ix + 2 : ix + 1);
+    }
+
+    /* if (uniq(upc).length !== upc.length) {
+      return 'upc must be unique';
+    } */
+  }
+
+  validate() {
+    const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
+    return this.checkFile() || (skipColumnMappingCheck ? this.validateFields() : undefined);
   }
 
   cleanStep() {
     // remove file
-    this.dispatch(setRawCsv('', null));
-
+    // this.dispatch(setRawCsv('', null));
     // remove mappings
-    this.dispatch(removeColumnMappings());
+    // this.dispatch(removeColumnMappings());
   }
 }
 (window as any).test = validator.isDecimal;
@@ -151,27 +222,31 @@ export class DataMappingStep extends Step {
       cost.push(row[reversedColumnMappings.cost]);
     });
 
+    let ix: number;
+
     // validate cost
-    if (
-      !every(
-        cost,
-        value => validator.isDecimal(value.toString()) || validator.isInt(value.toString())
-      )
-    ) {
-      return 'Cost must be a valid amount';
+    ix = findIndex(
+      cost,
+      value => !validator.isDecimal(value.toString()) && !validator.isInt(value.toString())
+    );
+    if (ix != -1) {
+      return 'Cost must be a valid amount: Line ' + (hasHeaders ? ix + 2 : ix + 1);
     }
+
     // validate upc
-    if (!every(upc, validator.isNumeric)) {
-      return 'UPC must be numeric';
+    ix = findIndex(upc, value => isEmpty(value));
+    if (ix != -1) {
+      return "UPC can't be empty: Line " + (hasHeaders ? ix + 2 : ix + 1);
+    }
+
+    ix = findIndex(upc, value => !validator.isNumeric(value));
+    if (ix != -1) {
+      return 'UPC must be numeric: Line ' + (hasHeaders ? ix + 2 : ix + 1);
     }
 
     /* if (uniq(upc).length !== upc.length) {
       return 'upc must be unique';
     } */
-
-    if (some(upc, isEmpty)) {
-      return 'UPC can\'t be empty';
-    }
   }
 
   validate() {

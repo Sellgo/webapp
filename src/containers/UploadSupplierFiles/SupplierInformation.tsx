@@ -12,7 +12,7 @@ import isRequired from '../../utils/validations/isRequired';
 const required = isRequired();
 
 const SupplierDetails = () => (
-  <Grid columns={3} divided={true} className={styles.grid}>
+  <Grid columns={3} className={styles.grid}>
     <Grid.Row>
       <Grid.Column>
         <Field
@@ -20,18 +20,26 @@ const SupplierDetails = () => (
           name="contact"
           label="Contact Person"
           placeholder="First Last"
+          maxLength="100"
         />
       </Grid.Column>
       <Grid.Column>
-        <Field component={InputField} name="phone" label="Phone" placeholder="Phone" />
+        <Field component={InputField} name="phone" label="Phone" placeholder="Phone" type="tel" />
       </Grid.Column>
       <Grid.Column>
-        <Field component={InputField} name="email" label="Email" placeholder="Email" />
+        <Field component={InputField} name="email" label="Email" placeholder="Email" type="email" />
       </Grid.Column>
     </Grid.Row>
     <Grid.Row>
       <Grid.Column>
-        <Field component={InputField} name="website" label="Website" placeholder="Website" />
+        <Field
+          component={InputField}
+          name="website"
+          label="Website"
+          placeholder="Website"
+          type="url"
+          maxLength="200"
+        />
       </Grid.Column>
       <Grid.Column>
         <Field
@@ -71,6 +79,7 @@ const SupplierDetails = () => (
             label: { basic: true, content: '%' },
             labelPosition: 'right',
           }}
+          type="number"
         />
       </Grid.Column>
       <Grid.Column>
@@ -83,6 +92,7 @@ const SupplierDetails = () => (
             label: { basic: true, content: '$' },
             labelPosition: 'right',
           }}
+          type="number"
         />
       </Grid.Column>
     </Grid.Row>
@@ -118,6 +128,7 @@ const SupplierInformation = () => {
                     name="name"
                     label="Supplier Name"
                     placeholder="Supplier Name"
+                    maxLength="100"
                   />
                 </Grid.Row>
                 <Grid.Row>
@@ -128,6 +139,7 @@ const SupplierInformation = () => {
                     name="description"
                     label="Description"
                     placeholder="Write your latest update here"
+                    maxLength="100"
                   />
                 </Grid.Row>
               </div>
