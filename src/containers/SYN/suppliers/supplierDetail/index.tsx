@@ -469,9 +469,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                         <Grid.Row>
                           <Grid.Column style={{ display: 'inline-flex' }}>
                             <Image
-                              style={{ marginRight: 10 }}
-                              src={'/images/intro.png'}
-                              size="mini"
+                              style={{ width: 26, height: 26, marginRight: 10 }}
+                              src={'/images/atvpdkikx0der.png'}
                             />
                             {value.amazon_category_name}
                           </Grid.Column>
