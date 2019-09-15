@@ -44,6 +44,11 @@ export const SET_SUPPLIERS = 'SET_SUPPLIERS';
 export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
 export const UPDATE_SUPPLIER = 'UPDATE_SUPPLIER';
 export const ADD_SUPPLIER = 'ADD_SUPPLIER';
+export const SET_SUPPLIERS_TABLE_COLUMNS = 'SET_SUPPLIERS_TABLE_COLUMNS';
+export const SET_SUPPLIERS_TABLE_TAB = 'SET_SUPPLIERS_TABLE_TAB';
+export const SET_SAVE_COLUMN_MAPPING_SETTING = 'SET_SAVE_COLUMN_MAPPING_SETTING';
+export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
+export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
 
 /**
  *
@@ -175,7 +180,7 @@ export const FieldsToMap = [
   },
   {
     key: 'cost',
-    label: 'Cost',
+    label: 'Product Cost',
     required: true,
   },
   {

@@ -44,7 +44,7 @@ const PreviewTable = (props: PreviewTableProps) => {
           </Table.Row>
         ))}
       </Table.Body>
-      {remainingRowsLength && (
+      {remainingRowsLength ? (
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan={columnHeaders.length}>
@@ -52,6 +52,8 @@ const PreviewTable = (props: PreviewTableProps) => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>
+      ) : (
+        ''
       )}
     </Table>
   );

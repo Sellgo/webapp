@@ -8,6 +8,7 @@ export interface Column {
   dataKey?: string;
   label?: string;
   sortable?: boolean;
+  show?: boolean;
   type?: 'number' | 'string' | 'date';
 }
 
@@ -27,13 +28,13 @@ const renderCell = (row: { [key: string]: any }, column: Column) => {
   }
 };
 
-const useSort = (initialValue: number) => {
-  const [sortedColumnIndex, setSortedColumnIndex] = useState(initialValue);
+const useSort = (initialValue: string) => {
+  const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
   const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
 
-  const handleSort = (clickedColumn: number) => {
-    if (sortedColumnIndex !== clickedColumn) {
-      setSortedColumnIndex(clickedColumn);
+  const handleSort = (clickedColumn: string) => {
+    if (sortedColumnKey !== clickedColumn) {
+      setSortedColumnKey(clickedColumn);
       setSortDirection('ascending');
     } else {
       setSortDirection(sortDirection === 'ascending' ? 'descending' : 'ascending');
@@ -41,7 +42,7 @@ const useSort = (initialValue: number) => {
   };
 
   return {
-    sortedColumnIndex,
+    sortedColumnKey,
     sortDirection,
     setSort: handleSort,
   };
@@ -51,36 +52,35 @@ const GenericTable = (props: TableProps) => {
   const { data, columns, singlePageItemsCount = 10 } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
+  const showColumns = columns.filter(e => e.show);
+  const { sortedColumnKey, sortDirection, setSort } = useSort('');
+  const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
 
-  const { sortedColumnIndex, sortDirection, setSort } = useSort(-1);
+  let rows = checkSortedColumnExist.length
+    ? [...data].sort((a, b) => {
+        const sortedColumn = checkSortedColumnExist[0];
+        let aColumn, bColumn;
 
-  let rows =
-    sortedColumnIndex >= 0
-      ? [...data].sort((a, b) => {
-          const sortedColumn = columns[sortedColumnIndex];
+        if (sortedColumn.type === 'number') {
+          aColumn = Number(a[sortedColumn.dataKey || '']);
+          bColumn = Number(b[sortedColumn.dataKey || '']);
+        } else if (sortedColumn.type === 'date') {
+          aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
+          bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
+        } else {
+          aColumn = a[sortedColumn.dataKey || ''] || '';
+          bColumn = b[sortedColumn.dataKey || ''] || '';
+        }
 
-          let aColumn, bColumn;
-
-          if (sortedColumn.type === 'number') {
-            aColumn = Number(a[sortedColumn.dataKey || '']);
-            bColumn = Number(b[sortedColumn.dataKey || '']);
-          } else if (sortedColumn.type === 'date') {
-            aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
-            bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
-          } else {
-            aColumn = a[sortedColumn.dataKey || ''] || '';
-            bColumn = b[sortedColumn.dataKey || ''] || '';
-          }
-
-          if (aColumn < bColumn) {
-            return -1;
-          }
-          if (aColumn > bColumn) {
-            return 1;
-          }
-          return 0;
-        })
-      : data;
+        if (aColumn < bColumn) {
+          return -1;
+        }
+        if (aColumn > bColumn) {
+          return 1;
+        }
+        return 0;
+      })
+    : data;
 
   rows = sortDirection === 'ascending' ? rows.reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
@@ -101,12 +101,12 @@ const GenericTable = (props: TableProps) => {
       <Table sortable={true} basic="very" textAlign="left">
         <Table.Header>
           <Table.Row>
-            {columns.map((column, index) => {
+            {showColumns.map((column, index) => {
               return (
                 <Table.HeaderCell
                   key={column.dataKey || index}
-                  sorted={sortedColumnIndex === index ? sortDirection : undefined}
-                  onClick={column.sortable ? () => setSort(index) : undefined}
+                  sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
+                  onClick={column.sortable ? () => setSort(column.dataKey || '') : undefined}
                 >
                   {column.label}
                 </Table.HeaderCell>
@@ -125,7 +125,7 @@ const GenericTable = (props: TableProps) => {
             rows.map((row, index) => {
               return (
                 <Table.Row key={index}>
-                  {columns.map((column, index) => (
+                  {showColumns.map((column, index) => (
                     <Table.Cell key={column.dataKey || index}>{renderCell(row, column)}</Table.Cell>
                   ))}
                 </Table.Row>
@@ -135,7 +135,7 @@ const GenericTable = (props: TableProps) => {
         </Table.Body>
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan={columns.length}>
+            <Table.HeaderCell colSpan={showColumns.length}>
               {/* todo */}
               <Pagination
                 totalPages={totalPages}
