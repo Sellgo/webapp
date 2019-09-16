@@ -96,7 +96,8 @@ export class AddNewSupplierStep extends Step {
         );
         //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }
-      this.dispatch(fetchColumnMappings());
+      const columnMappings = columnMappingsSelector(this.getState());
+      if (!columnMappings.length) this.dispatch(fetchColumnMappings());
     } catch (error) {
       throw error;
     }
@@ -135,9 +136,7 @@ export class SelectFileStep extends Step {
     });
 
     if (!skipCheck) {
-      this.dispatch(setSkipColumnMappingCheck(false));
-      this.dispatch(removeColumnMappings());
-      return 'Mismatch in Column Mappings. Proceed to Next Step!';
+      return 'Mismatch in Column Mappings. Unable to Skip Data Mapping!';
     }
 
     // ignore first row if it is header
@@ -180,7 +179,13 @@ export class SelectFileStep extends Step {
 
   validate() {
     const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
-    return this.checkFile() || (skipColumnMappingCheck ? this.validateFields() : undefined);
+    const errorCheck =
+      this.checkFile() || (skipColumnMappingCheck ? this.validateFields() : undefined);
+    if (!errorCheck && !skipColumnMappingCheck) {
+      this.dispatch(removeColumnMappings());
+      return;
+    }
+    return errorCheck;
   }
 
   cleanStep() {
@@ -188,6 +193,9 @@ export class SelectFileStep extends Step {
     // this.dispatch(setRawCsv('', null));
     // remove mappings
     // this.dispatch(removeColumnMappings());
+    const columnMappings = columnMappingsSelector(this.getState());
+    if (!columnMappings.length) this.dispatch(fetchColumnMappings());
+    else this.dispatch(setSkipColumnMappingCheck(true));
   }
 }
 (window as any).test = validator.isDecimal;
