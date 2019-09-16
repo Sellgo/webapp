@@ -77,10 +77,7 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
     }
 
     case SET_SUPPLIERS_TABLE_COLUMNS: {
-      return setIn(state, 'suppliersTableColumns', {
-        ...get(state, `suppliersTableColumns`),
-        ...action.payload,
-      });
+      return setIn(state, 'suppliersTableColumns', action.payload);
     }
 
     default:

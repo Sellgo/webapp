@@ -1,6 +1,5 @@
 import { FieldsToMap } from './../../constant/constant';
 import {
-  columnMappingsSelector,
   reversedColumnMappingsSelector,
   csvSelector,
   isFirstRowHeaderSelector,
@@ -15,17 +14,10 @@ import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
 import { error } from '../../utils/notifications';
 import {
   saveSupplierNameAndDescription,
-  setsaveSupplierNameAndDescription,
   postProductTrackGroupId,
   updateSupplierNameAndDescription,
 } from '../SYNActions';
-import {
-  setRawCsv,
-  removeColumnMappings,
-  fetchColumnMappings,
-  toggleFirstRowHeader,
-  setSkipColumnMappingCheck,
-} from '.';
+import { removeColumnMappings, fetchColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -96,8 +88,7 @@ export class AddNewSupplierStep extends Step {
         );
         //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }
-      const columnMappings = columnMappingsSelector(this.getState());
-      if (!columnMappings.length) this.dispatch(fetchColumnMappings());
+      this.dispatch(fetchColumnMappings());
     } catch (error) {
       throw error;
     }
@@ -193,9 +184,7 @@ export class SelectFileStep extends Step {
     // this.dispatch(setRawCsv('', null));
     // remove mappings
     // this.dispatch(removeColumnMappings());
-    const columnMappings = columnMappingsSelector(this.getState());
-    if (!columnMappings.length) this.dispatch(fetchColumnMappings());
-    else this.dispatch(setSkipColumnMappingCheck(true));
+    this.dispatch(fetchColumnMappings());
   }
 }
 (window as any).test = validator.isDecimal;
