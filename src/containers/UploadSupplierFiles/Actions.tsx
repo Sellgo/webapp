@@ -12,6 +12,7 @@ import {
   processCompletedSelector,
   saveColumnMappingSettingSelector,
   skipColumnMappingCheckSelector,
+  columnMappingsSelector,
 } from '../../selectors/UploadSupplierFiles';
 import { closeUploadSupplierModal } from '../../Action/modals';
 
@@ -22,6 +23,7 @@ interface ActionsProps {
   setSkipCheck: (checked: boolean) => void;
   saveColumnMappingSetting: boolean;
   skipColumnMappingCheck: boolean;
+  columnMappings: any;
   className?: string;
   processCompleted: boolean;
   closeModal: typeof closeUploadSupplierModal;
@@ -37,6 +39,7 @@ const Actions = ({
   saveColumnMappingSetting,
   skipColumnMappingCheck,
   setSkipCheck,
+  columnMappings,
 }: ActionsProps) => {
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
@@ -77,7 +80,7 @@ const Actions = ({
             </Button>
           </a>
         )}
-        {currentStep === 1 && skipColumnMappingCheck && (
+        {currentStep === 1 && columnMappings.length > 0 && (
           <Checkbox
             style={{ marginLeft: '1em' }}
             checked={skipColumnMappingCheck}
@@ -137,6 +140,7 @@ const mapStateToProps = (state: any) => ({
   processCompleted: processCompletedSelector(state),
   skipColumnMappingCheck: skipColumnMappingCheckSelector(state),
   saveColumnMappingSetting: saveColumnMappingSettingSelector(state),
+  columnMappings: columnMappingsSelector(state),
 });
 
 const mapDispatchToProps = {
