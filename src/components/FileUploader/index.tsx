@@ -6,13 +6,16 @@ import styles from './FileUploader.module.css';
 interface FileUploaderProps {
   onDrop: (acceptedFiles: File[]) => void;
   accept: string[];
+  fileName: any;
 }
 function FileUploader(props: FileUploaderProps) {
-  const { accept, onDrop } = props;
+  const { accept, onDrop, fileName } = props;
+  const multiple = false;
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
     onDrop,
     accept,
+    multiple,
   });
 
   // cloud download
@@ -25,6 +28,13 @@ function FileUploader(props: FileUploaderProps) {
         <b>Upload filled-in Supplier File(s) here</b>
         <br />
         <span className={styles.description}>Drag and drop, or click to select</span>
+        <br />
+        <br />
+        <b>
+          {fileName !== null ? fileName.name : ' '}
+          {/*   {acceptedFiles.length > 0 &&
+            acceptedFiles.map(acceptedFile => <li key={acceptedFile.name}>{acceptedFile.name}</li>)} */}
+        </b>
       </p>
     </button>
   );

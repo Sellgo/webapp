@@ -469,9 +469,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                         <Grid.Row>
                           <Grid.Column style={{ display: 'inline-flex' }}>
                             <Image
-                              style={{ marginRight: 10 }}
-                              src={'/images/intro.png'}
-                              size="mini"
+                              style={{ width: 26, height: 26, marginRight: 10 }}
+                              src={'/images/atvpdkikx0der.png'}
                             />
                             {value.amazon_category_name}
                           </Grid.Column>
@@ -614,8 +613,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>Price</Grid.Row>
                   <Grid.Row>Fees</Grid.Row>
                   <Grid.Row>Product cost</Grid.Row>
-                  <Grid.Row>Inbound shipping cost</Grid.Row>
-                  <Grid.Row>Outbound shipping cost</Grid.Row>
                   <Grid.Row>
                     <h4>Profit (in $)</h4>
                   </Grid.Row>
@@ -623,7 +620,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                     <h4>Margin</h4>
                   </Grid.Row>
                 </Grid.Column>
-                <Grid.Column floated="left" width={2}>
+                <Grid.Column floated="left" width={4}>
                   <Grid.Row>
                     {this.props.product_detail.price == null
                       ? 0
@@ -638,16 +635,6 @@ export class SupplierDetail extends React.Component<Props, State> {
                     {this.props.product_detail.product_cost == null
                       ? 0
                       : Number(this.props.product_detail.product_cost).toLocaleString()}
-                  </Grid.Row>
-                  <Grid.Row>
-                    {this.props.product_detail.inb_shipping_cost == null
-                      ? 0
-                      : Number(this.props.product_detail.inb_shipping_cost).toLocaleString()}
-                  </Grid.Row>
-                  <Grid.Row>
-                    {this.props.product_detail.oub_shipping_cost == null
-                      ? 0
-                      : Number(this.props.product_detail.oub_shipping_cost).toLocaleString()}
                   </Grid.Row>
                   <Grid.Row>
                     <h4>
@@ -668,15 +655,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                   <Grid.Row>Avg monthly sales</Grid.Row>
                   <Grid.Row>Avg monthly revenue</Grid.Row>
                   <Grid.Row>Avg monthly profit</Grid.Row>
-                  <Grid.Row />
-                  <br />
-                  <Grid.Row />
-                  <br />
                   <Grid.Row>
                     <h4>ROI/ Return on Investment</h4>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <h4>ROII/ ROI Inventory</h4>
                   </Grid.Row>
                 </Grid.Column>
                 <Grid.Column floated="left" width={4}>
@@ -695,21 +675,11 @@ export class SupplierDetail extends React.Component<Props, State> {
                       ? 0
                       : Number(this.props.product_detail.profit_monthly).toLocaleString()}
                   </Grid.Row>
-                  <Grid.Row />
-                  <br />
-                  <Grid.Row />
-                  <br />
                   <Grid.Row>
                     <h4>
                       {this.props.product_detail.roi == null
                         ? 0
                         : Number(this.props.product_detail.roi).toLocaleString() + ' %'}
-                    </h4>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <h4>
-                      0
-                      {/* {(this.props.product_detail.upc == null) ? 0 : Number(this.props.product_detail.upc).toLocaleString()} */}
                     </h4>
                   </Grid.Row>
                 </Grid.Column>

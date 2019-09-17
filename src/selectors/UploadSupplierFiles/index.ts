@@ -12,6 +12,12 @@ export const csvSelector = (state: object): string[][] =>
 export const columnMappingsSelector = (state: object): [] =>
   get(state, 'uploadSupplierFiles.columnMappings', []);
 
+export const saveColumnMappingSettingSelector = (state: object): boolean =>
+  get(state, 'uploadSupplierFiles.saveColumnMappingSetting', false);
+
+export const skipColumnMappingCheckSelector = (state: object): boolean =>
+  get(state, 'uploadSupplierFiles.skipColumnMappingCheck', false);
+
 export const csvHeaderSelector = createSelector(
   [csvSelector],
   csv => {
@@ -32,10 +38,12 @@ export const reversedColumnMappingsSelector = createSelector(
     return reduce(
       columnMappings,
       (result: {}, value, key) => {
-        return {
-          ...result,
-          [value]: key,
-        };
+        return value
+          ? {
+              ...result,
+              [value]: key,
+            }
+          : result;
       },
       {}
     );

@@ -3,6 +3,8 @@ import {
   RESET_SUPPLIERS,
   UPDATE_SUPPLIER,
   ADD_SUPPLIER,
+  SET_SUPPLIERS_TABLE_COLUMNS,
+  SET_SUPPLIERS_TABLE_TAB,
 } from './../constant/constant';
 import Axios from 'axios';
 import { sellerIDSelector } from '../selectors/user';
@@ -116,4 +118,23 @@ export const updateSupplier = (supplier: Supplier) => ({
 export const addSupplier = (supplier: Supplier) => ({
   type: ADD_SUPPLIER,
   payload: supplier,
+});
+
+export const fetchSupplierTableColumns = () => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  let suppliersTableColumns: any = localStorage.getItem('suppliersTableColumns');
+  if (!suppliersTableColumns) suppliersTableColumns = {};
+  else suppliersTableColumns = JSON.parse(suppliersTableColumns);
+  dispatch(setSupplierTableColumns(suppliersTableColumns));
+};
+
+export const setSupplierTableColumns = (column: any) => ({
+  type: SET_SUPPLIERS_TABLE_COLUMNS,
+  payload: column,
+});
+
+export const setSupplierTableTab = (tab: string) => ({
+  type: SET_SUPPLIERS_TABLE_TAB,
+  payload: tab,
 });

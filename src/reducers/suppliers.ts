@@ -6,6 +6,8 @@ import {
   RESET_SUPPLIERS,
   UPDATE_SUPPLIER,
   ADD_SUPPLIER,
+  SET_SUPPLIERS_TABLE_COLUMNS,
+  SET_SUPPLIERS_TABLE_TAB,
 } from '../constant/constant';
 import { Suppliers } from '../Action/suppliers';
 import keyBy from 'lodash/keyBy';
@@ -14,6 +16,8 @@ import get from 'lodash/get';
 const initialState = {
   supplierIds: [-1],
   suppliersById: {},
+  suppliersTableColumns: {},
+  suppliersTableTab: 'all',
 };
 
 export default (state: Suppliers = initialState, action: AnyAction) => {
@@ -66,7 +70,15 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
     }
 
     case RESET_SUPPLIERS:
-      return initialState;
+      return { ...state, ...{ supplierIds: [-1], suppliersById: {} } };
+
+    case SET_SUPPLIERS_TABLE_TAB: {
+      return setIn(state, 'suppliersTableTab', action.payload);
+    }
+
+    case SET_SUPPLIERS_TABLE_COLUMNS: {
+      return setIn(state, 'suppliersTableColumns', action.payload);
+    }
 
     default:
       return state;
