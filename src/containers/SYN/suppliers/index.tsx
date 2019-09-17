@@ -37,10 +37,16 @@ import MesssageComponent from '../../../components/MessageComponent';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 import Auth from '../../../components/Auth/Auth';
 import UploadSupplierFiles from '../../UploadSupplierFiles';
-import { openUploadSupplierModal, closeUploadSupplierModal } from '../../../Action/modals';
+import {
+  openUploadSupplierModal,
+  closeUploadSupplierModal,
+  openUserOnboardingModal,
+  closeUserOnboardingModal,
+} from '../../../Action/modals';
 import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
 import { suppliersSelector } from '../../../selectors/suppliers';
+import UserOnboarding from '../../UserOnboarding';
 
 interface State {
   isMessageModalOn: boolean;
@@ -113,6 +119,9 @@ interface Props {
   openUploadSupplierModal: typeof openUploadSupplierModal;
   closeUploadSupplierModal: typeof closeUploadSupplierModal;
   uploadSupplierModalOpen: boolean;
+  openUserOnboardingModal: typeof openUserOnboardingModal;
+  closeUserOnboardingModal: typeof closeUserOnboardingModal;
+  userOnboardingModalOpen: boolean;
 }
 
 export class Suppliers extends React.Component<Props, State> {
@@ -173,6 +182,11 @@ export class Suppliers extends React.Component<Props, State> {
     this.props.getIsMWSAuthorized();
     this.props.getSellers();
     this.props.getTimeEfficiency();
+    const visited = localStorage.getItem('firstLogin');
+    if (!visited) {
+      this.props.openUserOnboardingModal();
+      localStorage['firstLogin'] = true;
+    }
   }
 
   componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
@@ -300,6 +314,16 @@ export class Suppliers extends React.Component<Props, State> {
     });
   };
 
+  renderUserOnboardingModal = () => {
+    return (
+      <Modal size={'small'} open={this.props.userOnboardingModalOpen}>
+        <Modal.Content>
+          <UserOnboarding />
+        </Modal.Content>
+      </Modal>
+    );
+  };
+
   render() {
     return (
       <AdminLayout
@@ -408,6 +432,7 @@ export class Suppliers extends React.Component<Props, State> {
               this.handleClose();
             }}
           />
+          {this.renderUserOnboardingModal()}
         </Segment>
       </AdminLayout>
     );
@@ -428,6 +453,7 @@ const mapStateToProps = (state: any) => {
     new_supplier: state.synReducer.new_supplier,
     sellerData: state.settings.profile,
     uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
+    userOnboardingModalOpen: get(state, 'modals.userOnboarding.open', false),
   };
 };
 
@@ -453,6 +479,8 @@ const mapDispatchToProps = (dispatch: any) => {
     openUploadSupplierModal: (supplier?: Supplier) =>
       dispatch(openUploadSupplierModal(supplier ? supplier : undefined)),
     closeUploadSupplierModal: () => dispatch(closeUploadSupplierModal()),
+    openUserOnboardingModal: () => dispatch(openUserOnboardingModal()),
+    closeUserOnboardingModal: () => dispatch(closeUserOnboardingModal()),
   };
 };
 
