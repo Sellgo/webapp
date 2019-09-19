@@ -36,10 +36,10 @@ export interface MWSinfo {
   id: any;
 }
 
-const headers = {
+const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-  'Content-Type': 'application/json',
-};
+  'Content-Type': `multipart/form-data`,
+});
 
 export const getMWSAuth = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
@@ -48,7 +48,7 @@ export const getMWSAuth = () => (dispatch: any) => {
   return axios({
     method: 'GET',
     url,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(reduceGetMWSAuth(json.data));
@@ -66,7 +66,7 @@ export const deleteMWSAuth = (mws_auth_id: any) => (dispatch: any) => {
     method: 'PATCH',
     url,
     data: formData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(reduceDeleteMWSAuth(json.data));
@@ -80,7 +80,7 @@ export const getIsMWSAuthorized = () => (dispatch: any) => {
   return axios({
     method: 'GET',
     url,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       localStorage.setItem(localStorageKeys.isMWSAuthorized, json.data.is_mws_authorized);
@@ -98,7 +98,7 @@ export const postSellerImage = (imageType: string, imagePath: any) => (dispatch:
     method: 'POST',
     url: AppConfig.BASE_URL_API + `sellers/${sellerID}/image`,
     data: formData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(reduceUpdatedImage(json.data));
@@ -114,7 +114,7 @@ export const getSellerImage = () => (dispatch: any) => {
     method: 'GET',
     url: AppConfig.BASE_URL_API + `sellers/${sellerID}/image`,
     data: formData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(reduceUpdatedImage(json.data));
@@ -133,7 +133,7 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
     method: 'PATCH',
     url: AppConfig.BASE_URL_API + `sellers/${sellerID}`,
     data: formData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch({
@@ -162,13 +162,10 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
   const email = localStorage.getItem('userEmail');
   const auth0Id = localStorage.getItem('auth0_user_id');
   const url = email !== '' ? `?email=${email}` : `?auth0_user_id=${auth0Id}`;
-  if (headers.Authorization === 'Bearer null') {
-    headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
-  }
   return axios({
     method: 'get',
     url: AppConfig.BASE_URL_API + `sellers${url}`,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(getBasicInfoSellerDispatch(json.data));
@@ -187,7 +184,7 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
     method: 'POST',
     url: AppConfig.BASE_URL_API + `sellers/${id}/mws-auth`,
     data: formData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       getMWSAuth()(dispatch);
