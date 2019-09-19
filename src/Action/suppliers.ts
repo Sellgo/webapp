@@ -12,13 +12,8 @@ import { sellerIDSelector } from '../selectors/user';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../config';
-import { supplierIdsSelector, suppliersSelector } from '../selectors/suppliers';
+import { suppliersSelector } from '../selectors/suppliers';
 import { Supplier } from './SYNActions';
-
-const getHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-  'Content-Type': `multipart/form-data`,
-});
 
 export interface Suppliers {
   supplierIds: number[];
@@ -34,12 +29,8 @@ export const resetSuppliers = () => ({ type: RESET_SUPPLIERS });
 
 export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   const sellerID = sellerIDSelector();
-
   const response = await Axios.get(
-    `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?status=active`,
-    {
-      headers: getHeaders(),
-    }
+    `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?status=active`
   );
   const suppliers = response.data.map((supplier: any) => {
     if (supplier['file_status'] === 'completed')
@@ -58,10 +49,7 @@ export const fetchSupplier = (supplierId: number) => async (
   const response = await Axios.get(
     `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?supplier_id=${String(
       supplierId
-    )}`,
-    {
-      headers: getHeaders(),
-    }
+    )}`
   );
   if (response.data.length) {
     dispatch(updateSupplier({ ...response.data[0], id: supplierId }));
@@ -89,10 +77,7 @@ export const fetchSynthesisProgressUpdates = () => async (
         AppConfig.BASE_URL_API +
           `sellers/${sellerID}/suppliers/${String(
             supplier.supplier_id
-          )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`,
-        {
-          headers: getHeaders(),
-        }
+          )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
       );
     });
     const responses = await Promise.all(requests);
