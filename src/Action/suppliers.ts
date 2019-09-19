@@ -1,6 +1,7 @@
 import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
+  SELECT_SUPPLIER,
   UPDATE_SUPPLIER,
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
@@ -35,7 +36,7 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
-    `${AppConfig.BASE_URL_API}seller/${String(sellerID)}/supplier_compact/?status=active`,
+    `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?status=active`,
     {
       headers: getHeaders(),
     }
@@ -55,15 +56,17 @@ export const fetchSupplier = (supplierId: number) => async (
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
-    `${AppConfig.BASE_URL_API}seller/${String(sellerID)}/supplier_compact/?supplier_id=${String(
+    `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?supplier_id=${String(
       supplierId
     )}`,
     {
       headers: getHeaders(),
     }
   );
-  if (response.data.length)
-    return dispatch(updateSupplier({ ...response.data[0], id: supplierId }));
+  if (response.data.length) {
+    dispatch(updateSupplier({ ...response.data[0], id: supplierId }));
+    dispatch(selectSupplier({ ...response.data[0], id: supplierId }));
+  }
 };
 
 function timeout(ms: number) {
@@ -74,6 +77,7 @@ export const fetchSynthesisProgressUpdates = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => {}
 ) => {
+  const sellerID = sellerIDSelector();
   let suppliers = suppliersSelector(getState());
   suppliers = suppliers.filter(
     supplier =>
@@ -83,7 +87,9 @@ export const fetchSynthesisProgressUpdates = () => async (
     const requests = suppliers.map(supplier => {
       return Axios.get(
         AppConfig.BASE_URL_API +
-          `synthesis_progress/?synthesis_file_id=${supplier.synthesis_file_id}`,
+          `sellers/${sellerID}/suppliers/${String(
+            supplier.supplier_id
+          )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`,
         {
           headers: getHeaders(),
         }
@@ -109,6 +115,11 @@ export const fetchSynthesisProgressUpdates = () => async (
     await timeout(2000);
   }
 };
+
+export const selectSupplier = (supplier: Supplier) => ({
+  type: SELECT_SUPPLIER,
+  payload: supplier,
+});
 
 export const updateSupplier = (supplier: Supplier) => ({
   type: UPDATE_SUPPLIER,
