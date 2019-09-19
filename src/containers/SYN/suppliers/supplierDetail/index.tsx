@@ -38,9 +38,6 @@ import {
   getProductDetailChartPrice,
   getProductDetailChartKpi,
   getProductTrackData,
-  getLastFileID,
-  resetProductData,
-  getSynthesisProgressUpdates,
   ProductsTrackData,
   ProductDetails,
   ProductChartDetailsRank,
@@ -108,11 +105,7 @@ interface Props {
 
   fetchSupplier(supplierID: number): () => void;
 
-  resetProductData(data: {}): () => void;
-
   getProductTrackData(supplierID: string): () => void;
-
-  getLastFileID(supplierID: string): () => void;
 
   getProductTrackGroupId(supplierID: string): () => void;
 
@@ -128,8 +121,6 @@ interface Props {
 
   getProductDetailChartKpi(supplierID: string): () => void;
 
-  getSynthesisProgressUpdates(synthesisFileID: string): () => void;
-
   time_efficiency_data: TimeEfficiency[];
   supplier: Supplier;
   products: Product[];
@@ -142,7 +133,6 @@ interface Props {
   product_detail_chart_values_kpi: ProductChartDetailsKpi[];
   sellerData: SellField;
   synthesisFileID: { synthesis_file_id: 0 };
-  synthesisFileProgressUpdates: { progress: 0 };
   productTrackGroup: [{ id: 0 }];
   match: { params: { supplierID: ''; auth: Auth } };
   isSideBarExpanded: false;
@@ -212,9 +202,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
-    this.props.resetProductData({});
     this.props.getProductTrackGroupId(this.props.match.params.supplierID);
-    this.props.getLastFileID(this.props.match.params.supplierID);
     this.props.getProducts(this.props.match.params.supplierID);
     this.props.getProductTrackData(this.props.match.params.supplierID);
     this.props.fetchSupplier(Number(this.props.match.params.supplierID));
@@ -1947,10 +1935,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   }
 
   renderMiddleRows = () => {
-    const progress =
-      this.props.synthesisFileProgressUpdates.progress != undefined
-        ? this.props.synthesisFileProgressUpdates.progress
-        : '0';
     const totalProducts = this.state.products.length;
     const totalPages = this.state.totalPages;
     const singlePageItemsCount = this.state.singlePageItemsCount;
@@ -1965,7 +1949,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       <Grid>
         <Grid.Column width={4} textAlign="center">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div>{`${minCount}-${maxCount} of ${totalProducts} items`}</div>
+            {`${minCount}-${maxCount} of ${totalProducts} items`}
             <Dropdown
               text={String(this.state.singlePageItemsCount)}
               style={{ width: '40%', alignSelf: 'center', margin: 'auto' }}
@@ -2003,17 +1987,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                 });
               }}
             />
-            <div>{'Items per Page'}</div>
+            Items per Page
           </div>
-        </Grid.Column>
-        <Grid.Column width={8} textAlign="center">
-          <Progress
-            style={{ width: '80%', alignSelf: 'center', margin: 'auto' }}
-            indicating={true}
-            percent={progress}
-            autoSuccess={true}
-          />
-          {'Progress: ' + progress + '%'}
         </Grid.Column>
         <Grid.Column
           width={4}
@@ -2068,7 +2043,6 @@ export class SupplierDetail extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {
     synthesisFileID: state.synReducer.synthesisFileID,
-    synthesisFileProgressUpdates: state.synReducer.synthesisFileProgressUpdates,
     time_efficiency_data: state.synReducer.time_efficiency_data,
     products: state.synReducer.products,
     supplier: supplierSelector(state),
@@ -2087,8 +2061,6 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    resetProductData: (data: {}) => dispatch(resetProductData(data)),
-    getLastFileID: (supplierID: string) => dispatch(getLastFileID(supplierID)),
     fetchSupplier: (supplierID: number) => dispatch(fetchSupplier(supplierID)),
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductTrackData: (supplierID: string) => dispatch(getProductTrackData(supplierID)),
@@ -2117,9 +2089,6 @@ const mapDispatchToProps = (dispatch: any) => {
       status: string,
       supplierID: string
     ) => dispatch(trackProductWithPost(productID, productTrackGroupID, status, supplierID)),
-
-    getSynthesisProgressUpdates: (synthesisFileID: string) =>
-      dispatch(getSynthesisProgressUpdates(synthesisFileID)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
   };
 };

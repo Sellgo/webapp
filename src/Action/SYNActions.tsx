@@ -14,8 +14,6 @@ import {
   UPDATE_PRODUCT,
   UPLOAD_SYNTHESIS_FILE_ID,
   GET_PRODUCT_TRACK_GROUP,
-  UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
-  SYN_RESET_PRODUCT_REDUCED_VALUES,
   UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
@@ -493,48 +491,6 @@ export const updateSupplierNameAndDescription = (
   });
 };
 
-export const getLastFileID = (supplierID: string) => (dispatch: any) => {
-  dispatch(setProgressUpdatesValue({ progress: 0 }));
-  if (progressTimer != null) {
-    clearTimeout(progressTimer);
-    if (progressAxiosCancel != null) {
-      progressAxiosCancel();
-    }
-    progressTimer = null;
-  }
-  const sellerID = localStorage.getItem('userId');
-  return axios({
-    method: 'GET',
-    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/get_last_file_id`,
-    headers: getHeaders(),
-  })
-    .then(json => {
-      dispatch(setSynthesisFileID(json.data));
-      getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
-    })
-    .catch(error => {});
-};
-
-export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
-  return axios({
-    method: 'GET',
-    url: AppConfig.BASE_URL_API + `synthesis_progress/?synthesis_file_id=${synthesisFileID}`,
-    headers: getHeaders(),
-    cancelToken: new CancelToken(canceler => {
-      progressAxiosCancel = canceler;
-    }),
-  })
-    .then(json => {
-      dispatch(setProgressUpdatesValue(json.data));
-      if (json.data.progress != 100) {
-        progressTimer = setTimeout(() => {
-          getSynthesisProgressUpdates(synthesisFileID)(dispatch);
-        }, 2000);
-      }
-    })
-    .catch(error => {});
-};
-
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   resetUploadCSVResponse();
@@ -677,11 +633,6 @@ export const trackProductWithPatch = (
     .catch(error => {});
 };
 
-export const resetProductData = (data: {}) => ({
-  type: SYN_RESET_PRODUCT_REDUCED_VALUES,
-  data,
-});
-
 export const resetUploadCSVResponse = () => (dispatch: any) => {
   dispatch(
     reduceUploadCSVResponse({
@@ -697,11 +648,6 @@ export const reduceUploadCSVResponse = (data: {}) => ({
 });
 export const setSynthesisFileID = (data: {}) => ({
   type: UPLOAD_SYNTHESIS_FILE_ID,
-  data,
-});
-
-export const setProgressUpdatesValue = (data: {}) => ({
-  type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
   data,
 });
 
