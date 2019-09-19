@@ -21,7 +21,6 @@ export interface SellField {
   name: string;
   id: string;
   email: string;
-  auth0_user_id: string;
   firstName?: string;
   lastName?: string;
   cdate?: string;
@@ -127,7 +126,6 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
   const formData = new FormData();
   formData.append('name', data.name);
   formData.append('email', data.email);
-  formData.append('auth0_user_id', data.auth0_user_id);
 
   return axios({
     method: 'PATCH',
@@ -158,13 +156,10 @@ export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
 };
 
 export const getBasicInfoSeller = () => (dispatch: any) => {
-  const userId = localStorage.getItem('userId');
-  const email = localStorage.getItem('userEmail');
-  const auth0Id = localStorage.getItem('auth0_user_id');
-  const url = email !== '' ? `?email=${email}` : `?auth0_user_id=${auth0Id}`;
+  const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + `sellers${url}`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}`,
     headers: getHeaders(),
   })
     .then(json => {
