@@ -44,7 +44,7 @@ const headers = {
 export const getMWSAuth = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
 
-  const url = AppConfig.BASE_URL_API + `seller/${sellerID}/mws_auth/`;
+  const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/mws-auth`;
   return axios({
     method: 'GET',
     url,
@@ -58,7 +58,7 @@ export const getMWSAuth = () => (dispatch: any) => {
 
 export const deleteMWSAuth = (mws_auth_id: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-  const url = AppConfig.BASE_URL_API + `mws_auth/`;
+  const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/mws-auth`;
   const formData = new FormData();
   formData.append('id', mws_auth_id);
   formData.append('status', 'inactive');
@@ -76,7 +76,7 @@ export const deleteMWSAuth = (mws_auth_id: any) => (dispatch: any) => {
 
 export const getIsMWSAuthorized = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-  const url = AppConfig.BASE_URL_API + `seller/${sellerID}/is_mws_authorized/`;
+  const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/mws-authorized`;
   return axios({
     method: 'GET',
     url,
@@ -96,7 +96,7 @@ export const postSellerImage = (imageType: string, imagePath: any) => (dispatch:
 
   return axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `image/${sellerID}/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/image`,
     data: formData,
     headers,
   })
@@ -112,7 +112,7 @@ export const getSellerImage = () => (dispatch: any) => {
 
   return axios({
     method: 'GET',
-    url: AppConfig.BASE_URL_API + `image/${sellerID}/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/image`,
     data: formData,
     headers,
   })
@@ -123,15 +123,15 @@ export const getSellerImage = () => (dispatch: any) => {
 };
 
 export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
+  const sellerID = data.id;
   const formData = new FormData();
   formData.append('name', data.name);
-  formData.append('id', data.id);
   formData.append('email', data.email);
   formData.append('auth0_user_id', data.auth0_user_id);
 
   return axios({
     method: 'PATCH',
-    url: AppConfig.BASE_URL_API + `seller/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}`,
     data: formData,
     headers,
   })
@@ -167,7 +167,7 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
   }
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + `seller${url}`,
+    url: AppConfig.BASE_URL_API + `sellers${url}`,
     headers,
   })
     .then(json => {
@@ -185,7 +185,7 @@ export const updateAmazonMWS = (id: string, data: MWSinfo) => (dispatch: any) =>
 
   return axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `seller/${id}/mws_auth/`,
+    url: AppConfig.BASE_URL_API + `sellers/${id}/mws-auth`,
     data: formData,
     headers,
   })
