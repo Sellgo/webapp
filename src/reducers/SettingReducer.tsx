@@ -19,7 +19,6 @@ const initialState = {
     firstName: '',
     lastName: '',
     email: '',
-    auth0_user_id: '',
     id: '0',
     cdate: '',
   },
@@ -81,7 +80,7 @@ export const SettingReducer = (state = initialState, action: any) => {
       newState.success = data.value;
       return newState;
     case GET_BASIC_INFO_SELLER:
-      const { name, cdate, id, email, auth0_user_id } = action.data;
+      const { name, cdate, id, email } = action.data;
       const firstName = name ? name.substr(0, name.indexOf(' ')) : '';
       const lastName = name ? name.substr(name.indexOf(' ') + 1) : '';
       const sellerData = {
@@ -91,7 +90,6 @@ export const SettingReducer = (state = initialState, action: any) => {
         firstName,
         lastName,
         name,
-        auth0_user_id,
       };
       newState.profile = sellerData;
       return newState;

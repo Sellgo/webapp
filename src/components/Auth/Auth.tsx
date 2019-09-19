@@ -94,9 +94,9 @@ export default class Auth {
     this.auth0Lock.getUserInfo(this.accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;
-        localStorage.setItem('auth0_user_id', this.userProfile.sub);
-        localStorage.setItem('nickName', this.userProfile.nickname);
+        localStorage.setItem('userName', this.userProfile.name);
         localStorage.setItem('userEmail', this.userProfile.email);
+        localStorage.setItem('userPicture', this.userProfile.picture);
       }
       cb(err, profile);
     });
@@ -108,8 +108,8 @@ export default class Auth {
     localStorage.removeItem('idToken');
     localStorage.removeItem('idTokenExpires');
     localStorage.removeItem('userEmail');
-    localStorage.removeItem('nickName');
-    localStorage.removeItem('auth0_user_id');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userPicture');
     // localStorage.clear();
   };
 
