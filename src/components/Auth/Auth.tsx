@@ -51,7 +51,7 @@ export default class Auth {
     formData.append('auth0_user_id', this.userProfile.sub);
 
     axios
-      .post(AppConfig.BASE_URL_API + 'seller/', formData, { headers })
+      .post(AppConfig.BASE_URL_API + 'sellers', formData, { headers })
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
         if (data) {
