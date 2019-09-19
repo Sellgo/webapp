@@ -51,7 +51,6 @@ import {
   Supplier,
   TimeEfficiency,
   getTimeEfficiency,
-  getSellers,
 } from '../../../../Action/SYNActions';
 import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
 import * as Highcharts from 'highcharts';
@@ -59,6 +58,8 @@ import HighchartsReact from 'highcharts-react-official';
 import { SellField } from '../../../../Action/SettingActions';
 import AdminLayout from '../../../../components/AdminLayout';
 import Auth from '../../../../components/Auth/Auth';
+import { supplierSelector } from '../../../../selectors/suppliers';
+import { fetchSupplier } from '../../../../Action/suppliers';
 
 interface State {
   isOpen: boolean;
@@ -89,8 +90,6 @@ interface State {
 interface Props {
   getProducts(supplierID: string): () => void;
 
-  getSellers(): () => void;
-
   trackProductWithPatch(
     productID: string,
     productTrackGroupID: string,
@@ -106,6 +105,8 @@ interface Props {
   ): () => void;
 
   getTimeEfficiency(): () => void;
+
+  fetchSupplier(supplierID: number): () => void;
 
   resetProductData(data: {}): () => void;
 
@@ -130,7 +131,7 @@ interface Props {
   getSynthesisProgressUpdates(synthesisFileID: string): () => void;
 
   time_efficiency_data: TimeEfficiency[];
-  suppliers: Supplier[];
+  supplier: Supplier;
   products: Product[];
   products_track_data: ProductsTrackData;
   product_detail: ProductDetails;
@@ -216,13 +217,11 @@ export class SupplierDetail extends React.Component<Props, State> {
     this.props.getLastFileID(this.props.match.params.supplierID);
     this.props.getProducts(this.props.match.params.supplierID);
     this.props.getProductTrackData(this.props.match.params.supplierID);
+    this.props.fetchSupplier(Number(this.props.match.params.supplierID));
     //this.props.getProductsChartHistoryPrice(this.props.match.params.supplierID);
     //this.props.getProductsChartHistoryRank(this.props.match.params.supplierID);
     if (this.props.time_efficiency_data.length === 0) {
       this.props.getTimeEfficiency();
-    }
-    if (this.props.suppliers.length == 0) {
-      this.props.getSellers();
     }
   }
 
@@ -1710,12 +1709,7 @@ export class SupplierDetail extends React.Component<Props, State> {
 
       case 'chart0':
         const supplierID = this.props.match.params.supplierID;
-        const supplier = this.props.suppliers.filter(
-          supplier => supplier.id === parseInt(supplierID)
-        )[0];
-        if (!supplier) {
-          this.props.getSellers();
-        }
+        const supplier = this.props.supplier;
         return supplier && supplier.rate ? <this.renderHit supplier={supplier} /> : null;
 
       case 'chart1':
@@ -1870,7 +1864,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Feed.Event>
                   <Feed.Content>
                     <Feed.Summary>
-                      {this.props.products.length && this.props.suppliers.length ? (
+                      {this.props.products.length ? (
                         <React.Fragment>
                           <br />
                           <this.renderCharts />
@@ -2077,7 +2071,7 @@ const mapStateToProps = (state: any) => {
     synthesisFileProgressUpdates: state.synReducer.synthesisFileProgressUpdates,
     time_efficiency_data: state.synReducer.time_efficiency_data,
     products: state.synReducer.products,
-    suppliers: state.synReducer.suppliers,
+    supplier: supplierSelector(state),
     products_track_data: state.synReducer.products_track_data,
     chart_values_price: state.synReducer.chart_values_price,
     chart_values_rank: state.synReducer.chart_values_rank,
@@ -2093,9 +2087,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getSellers: () => dispatch(getSellers()),
     resetProductData: (data: {}) => dispatch(resetProductData(data)),
     getLastFileID: (supplierID: string) => dispatch(getLastFileID(supplierID)),
+    fetchSupplier: (supplierID: number) => dispatch(fetchSupplier(supplierID)),
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductTrackData: (supplierID: string) => dispatch(getProductTrackData(supplierID)),
     getProductTrackGroupId: (supplierID: string) => dispatch(getProductTrackGroupId(supplierID)),
