@@ -61,7 +61,7 @@ export default class Auth {
         this.setSession(authResult);
       } else if (err) {
         history.replace('/');
-        alert(`Error: ${err.error}. Check the Sellgo Support team for further details.`);
+        alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);
       }
     });
   };

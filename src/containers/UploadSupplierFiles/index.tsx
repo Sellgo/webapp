@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './UploadSupplierFiles.module.css';
-import { Segment, Container, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import AdminLayout from '../../components/AdminLayout';
 import UploadSteps from './UploadSteps';
 import SupplierInformation from './SupplierInformation';
 import Actions from './Actions';
@@ -11,7 +9,7 @@ import DataMapping from './DataMapping';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 import DataValidation from './DataValidation';
 import FormWrapper from './FormWrapper';
-import { cleanupUploadSupplier } from '../../Action/UploadSupplierFilesActions';
+import { cleanupUploadSupplier } from '../../actions/UploadSupplierFiles';
 
 interface Props {
   currentStep: number;

@@ -1,23 +1,7 @@
 import * as React from 'react';
-import { Dropdown, Icon, Image, Input, Menu, SemanticSIZES, Divider } from 'semantic-ui-react';
+import { Icon, Image, Menu, SemanticSIZES } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
-import {
-  getProductDetail,
-  getProductDetailChartPrice,
-  getProductDetailChartRank,
-  getProducts,
-  getProductsChartHistoryPrice,
-  getProductsChartHistoryRank,
-  getProductTrackData,
-  postProductTrackGroupId,
-  getTimeEfficiency,
-  trackProductWithPatch,
-  trackProductWithPost,
-} from '../../Action/SYNActions';
-import { connect } from 'react-redux';
-import { SupplierDetail } from '../../containers/SYN/suppliers/supplierDetail';
-import { SellField } from '../../Action/SettingActions';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   size,
@@ -31,12 +15,6 @@ export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   />
 );
 
-const options = [
-  { key: 1, text: 'Choice 1', value: 1 },
-  { key: 2, text: 'Choice 2', value: 2 },
-  { key: 3, text: 'Choice 3', value: 3 },
-];
-
 export class AdminHeader extends React.Component<any> {
   private readonly height = 45;
   userName = localStorage.getItem('userName');
@@ -44,7 +22,7 @@ export class AdminHeader extends React.Component<any> {
 
   render() {
     const { sellerData } = this.props;
-    if (sellerData != undefined || sellerData != null) {
+    if (sellerData !== undefined || sellerData !== null) {
       if (sellerData.firstName.length > 0) {
         this.userName = sellerData.firstName + ' ' + sellerData.lastName;
       }

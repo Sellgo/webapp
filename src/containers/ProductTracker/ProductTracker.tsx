@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Header, Segment } from 'semantic-ui-react';
-import AdminLayout from '../../components/AdminLayout';
+import { Header } from 'semantic-ui-react';
 
 export class ProductTracker extends React.Component {
   render() {

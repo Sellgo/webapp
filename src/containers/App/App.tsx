@@ -4,17 +4,17 @@ import { Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import AdminLayout from '../../components/AdminLayout/index';
 import Dashboard from '../Dashboard';
-import Setting from '../Dashboard/Setting';
+import Setting from '../Dashboard/Settings';
 import Subscription from '../Dashboard/Subscription';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
 import { ProductTracker } from '../ProductTracker/ProductTracker';
 import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
-import Suppliers from '../SYN/suppliers';
-import SupplierDetail from '../SYN/suppliers/supplierDetail';
+import Suppliers from '../Synthesis/Suppliers';
+import SupplierDetail from '../Synthesis/Suppliers/SupplierDetail';
 import Auth from '../../components/Auth/Auth';
-import Callback from '../../components/Callback/Callback';
+import Callback from '../../components/Callback';
 import history from '../../history';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -92,7 +92,7 @@ function App(Props: any) {
 
           <Route
             exact={true}
-            path="/syn"
+            path="/synthesis"
             render={routeProps => {
               routeProps.match.params.auth = auth;
               if (isAuthenticated()) {
@@ -102,7 +102,7 @@ function App(Props: any) {
           />
           <Route
             exact={true}
-            path="/syn/:supplierID"
+            path="/synthesis/:supplierID"
             render={routeProps => {
               routeProps.match.params.auth = auth;
               if (isAuthenticated()) {

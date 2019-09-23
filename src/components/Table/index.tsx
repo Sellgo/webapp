@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
-import { Segment, Loader, Table, Pagination, Confirm } from 'semantic-ui-react';
-import { connect } from 'react-redux';
+import { Table, Pagination } from 'semantic-ui-react';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;

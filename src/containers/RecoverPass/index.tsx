@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Form, Grid, GridRow, Segment, Message, Select } from 'semantic-ui-react';
+import { Button, Form, Grid, GridRow, Segment, Message } from 'semantic-ui-react';
 import { Logo } from '../../components/AdminLayout/AdminHeader';
 import IntroSlider from '../../components/IntroSlider';
 import MesssageComponent from '../../components/MessageComponent';
@@ -48,7 +48,7 @@ export default class RecoverPass extends React.Component<any, State> {
   };
 
   changePassword = () => {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     // please enter email or email field is empty
 
     if (reg.test(this.state.email) === false) {

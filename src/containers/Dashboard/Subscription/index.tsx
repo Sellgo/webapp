@@ -20,9 +20,9 @@ import {
   getSellerSubscription,
   getSubscriptions,
   Subscription,
-} from '../../../Action/SubscriptionActions';
+} from '../../../actions/Settings/Subscription';
 
-import { SellField } from '../../../Action/SettingActions';
+import { SellField } from '../../../actions/Settings';
 import './subscription.css';
 
 import AdminLayout from '../../../components/AdminLayout';

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styles from './UserOnboarding.module.css';
 import { Grid, Pagination, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { closeUserOnboardingModal } from '../../Action/modals';
-import { userOnboarding as totalViews } from '../../constant/userOnboarding';
+import { closeUserOnboardingModal } from '../../actions/Modals';
+import { userOnboarding as totalViews } from '../../constants/userOnboarding';
 
 interface Props {
   closeModal: typeof closeUserOnboardingModal;
@@ -30,6 +30,7 @@ export const UserOnboarding = ({ closeModal }: Props) => {
               Your browser does not support the video tag.
             </video> */}
             <iframe
+              title="User Onboarding"
               width="660"
               height="415"
               src={viewContent.url}

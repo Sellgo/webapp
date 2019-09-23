@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
 import head from 'lodash/head';
 import FileUploader from '../../components/FileUploader';
 import { connect } from 'react-redux';
-import { prepareCsv } from '../../Action/UploadSupplierFilesActions';
+import { prepareCsv } from '../../actions/UploadSupplierFiles';
 import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
 
 const acceptedFileFormats = ['.csv'];

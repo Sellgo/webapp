@@ -6,7 +6,7 @@ import {
   setUploadSupplierStep,
   setSaveColumnMappingSetting,
   setSkipColumnMappingCheck,
-} from '../../Action/UploadSupplierFilesActions';
+} from '../../actions/UploadSupplierFiles';
 import {
   currentStepSelector,
   processCompletedSelector,
@@ -14,7 +14,7 @@ import {
   skipColumnMappingCheckSelector,
   columnMappingsSelector,
 } from '../../selectors/UploadSupplierFiles';
-import { closeUploadSupplierModal } from '../../Action/modals';
+import { closeUploadSupplierModal } from '../../actions/Modals';
 
 interface ActionsProps {
   currentStep: number;

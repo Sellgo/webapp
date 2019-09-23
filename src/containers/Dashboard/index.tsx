@@ -5,7 +5,7 @@ import { Modals } from '../../components/Modals';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
-import { getBasicInfoSeller, getIsMWSAuthorized, SellField } from '../../Action/SettingActions';
+import { getBasicInfoSeller, getIsMWSAuthorized, SellField } from '../../actions/Settings';
 import { connect } from 'react-redux';
 import Auth from '../../components/Auth/Auth';
 
@@ -82,9 +82,6 @@ class Dashboard extends React.Component<Props, State> {
 
   public render() {
     const { isOpen, currentSteps } = this.state;
-    const disStyle = {
-      marginTop: '15px',
-    };
     return (
       <AdminLayout
         auth={this.props.match.params.auth}

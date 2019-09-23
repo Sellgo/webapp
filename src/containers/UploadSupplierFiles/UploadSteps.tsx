@@ -1,8 +1,7 @@
 import React from 'react';
-import get from 'lodash/get';
 import { connect } from 'react-redux';
 import Stepper from '../../components/Stepper';
-import { setUploadSupplierStep } from '../../Action/UploadSupplierFilesActions';
+import { setUploadSupplierStep } from '../../actions/UploadSupplierFiles';
 import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
 import { Icon } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';

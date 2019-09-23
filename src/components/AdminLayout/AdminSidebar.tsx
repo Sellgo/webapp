@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Icon, Menu, Sidebar, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
-import { Field, SellField, sideBarExpanded } from '../../Action/SettingActions';
+import { Field, sideBarExpanded } from '../../actions/Settings';
 import { connect } from 'react-redux';
 
 interface State {
@@ -66,7 +66,7 @@ class AdminSidebar extends React.Component<Props, State> {
             </div>
           </Menu.Header>
         </Menu.Item>
-        <Menu.Item as={Link} to="/syn">
+        <Menu.Item as={Link} to="/synthesis">
           <Menu.Header>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Icon name="dot circle outline" style={{ fontSize: 25 }} />
@@ -121,76 +121,7 @@ class AdminSidebar extends React.Component<Props, State> {
     );
   }
 }
-{
-  /*<div onClick={() => {*/
-}
-{
-  /*  const data = {*/
-}
-{
-  /*    key: 'isSideBarExpanded',*/
-}
-{
-  /*    value: !this.props.isSideBarExpanded,*/
-}
-{
-  /*  };*/
-}
-{
-  /*  this.props.sideBarExpanded(data);*/
-}
-{
-  /*}}*/
-}
-{
-  /*  //position: absolute;right: 6px;box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 1px 0px;border-radius: 100px;background-color: white;/* padding: 0px; */
-  /* margin: 0px; height: 20px;width: 20px;line-height: 0.9;}
-{/*     style={{*/
-}
-{
-  /*       position: 'absolute',*/
-}
-{
-  /*       right: -18,*/
-}
-{
-  /*       boxShadow: '10px -10px rgba(0,0,0,0.6)',*/
-}
-{
-  /*       borderRadius: 100,*/
-}
-{
-  /*       backgroundColor: 'white',*/
-}
-{
-  /*       padding: 0,*/
-}
-{
-  /*       margin: 0,*/
-}
-{
-  /*     }}>*/
-}
-{
-  /*  <Icon*/
-}
-{
-  /*    //style="font-size: 28px;right: 2px;position: relative;/* box-shadow: 0 0px 0px 0 #ccc; */
-  /* -webkit-text-fill-color: #fff; }
-{/*    name={this.props.isSideBarExpanded ? 'chevron circle left' : 'chevron circle right'}*/
-}
-{
-  /*    color={'blue'}*/
-}
-{
-  /*    style={{fontSize: 25}}*/
-}
-{
-  /*  />*/
-}
-{
-  /*</div>*/
-}
+
 const mapStateToProps = (state: any) => ({
   isSideBarExpanded: state.settings.isSideBarExpanded,
 });

@@ -1,12 +1,11 @@
 import React from 'react';
-import { Table, Label } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {
   csvSelector,
   columnMappingsSelector,
   csvHeaderSelector,
 } from '../../../selectors/UploadSupplierFiles';
-import reduce from 'lodash/reduce';
 
 const NUMBER_OF_ROWS_TO_DISPLAY = 6;
 interface PreviewTableProps {
@@ -16,7 +15,7 @@ interface PreviewTableProps {
 }
 
 const PreviewTable = (props: PreviewTableProps) => {
-  const { csv, columnMappings, columnHeaders } = props;
+  const { csv, columnHeaders } = props;
   if (csv.length === 0) {
     return <div>Empty Table</div>;
   }

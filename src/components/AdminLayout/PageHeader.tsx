@@ -3,7 +3,7 @@ import { Header, Icon } from 'semantic-ui-react';
 import './AdminSidebar.css';
 import history from '../../history';
 import { connect } from 'react-redux';
-import { SET_PAGE_HISTORY_COUNTER, UPDATE_BASIC_INFO_SELLER } from '../../constant/constant';
+import { SET_PAGE_HISTORY_COUNTER } from '../../constants/constants';
 
 interface Props {
   title?: string;

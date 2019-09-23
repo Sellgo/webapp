@@ -12,7 +12,7 @@ function FileUploader(props: FileUploaderProps) {
   const { accept, onDrop, fileName } = props;
   const multiple = false;
 
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept,
     multiple,

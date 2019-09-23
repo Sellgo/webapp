@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { Form, TextArea, Icon, Grid, Modal } from 'semantic-ui-react';
 import { reduxForm } from 'redux-form';
 import get from 'lodash/get';
 import { connect } from 'react-redux';

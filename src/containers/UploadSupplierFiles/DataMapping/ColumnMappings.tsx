@@ -1,14 +1,14 @@
 import React from 'react';
-import { Header, Grid, GridColumn, Select, Form, Checkbox } from 'semantic-ui-react';
+import { Header, Grid, Select, Form, Checkbox } from 'semantic-ui-react';
 import styles from '../UploadSupplierFiles.module.css';
-import { FieldsToMap } from '../../../constant/constant';
+import { FieldsToMap } from '../../../constants/constants';
 import {
   reversedColumnMappingsSelector,
   csvHeaderSelector,
   isFirstRowHeaderSelector,
 } from '../../../selectors/UploadSupplierFiles';
 import { connect } from 'react-redux';
-import { mapColumn, toggleFirstRowHeader } from '../../../Action/UploadSupplierFilesActions';
+import { mapColumn, toggleFirstRowHeader } from '../../../actions/UploadSupplierFiles';
 import isNil from 'lodash/isNil';
 
 interface ColumnMappingsProps {

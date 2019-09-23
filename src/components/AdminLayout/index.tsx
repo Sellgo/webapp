@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Segment, Sidebar } from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
 import AdminSidebar from './AdminSidebar';
 import PageHeader from './PageHeader';
-import { Field, MWSinfo, SellField, sideBarExpanded } from '../../Action/SettingActions';
+import { SellField } from '../../actions/Settings';
 import { connect } from 'react-redux';
 import Auth from '../Auth/Auth';
 
