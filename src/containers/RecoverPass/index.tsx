@@ -67,7 +67,7 @@ export default class RecoverPass extends React.Component<any, State> {
       }
     } else {
       axios
-        .get(AppConfig.BASE_URL_API + `seller/exists?email=${this.state.email}`)
+        .get(AppConfig.BASE_URL_API + `sellers/exists?email=${this.state.email}`)
         .then(response => {
           if (response.data) {
             this.sendRestRequest();

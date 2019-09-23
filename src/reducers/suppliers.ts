@@ -4,6 +4,7 @@ import { AnyAction } from 'redux';
 import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
+  SELECT_SUPPLIER,
   UPDATE_SUPPLIER,
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
@@ -81,6 +82,10 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
         ...get(state, 'suppliersTableColumns'),
         ...action.payload,
       });
+    }
+
+    case SELECT_SUPPLIER: {
+      return setIn(state, 'supplier', action.payload);
     }
 
     default:

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
+import axios from 'axios';
 import AdminLayout from '../../components/AdminLayout/index';
 import Dashboard from '../Dashboard';
 import Setting from '../Dashboard/Setting';
@@ -15,7 +16,6 @@ import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
-import UploadSupplierFiles from '../UploadSupplierFiles';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -30,6 +30,7 @@ const handleAuthentication = (location: any) => {
 const isAuthenticated = () => {
   if (localStorage.getItem('isLoggedIn') === 'true') {
     if (auth.isAuthenticated()) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('idToken')}`;
       return true;
     } else {
       auth.logout();
