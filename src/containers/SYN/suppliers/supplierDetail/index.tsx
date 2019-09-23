@@ -745,19 +745,19 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   renderProductStatistics = (props: any) => {
-    const { popup_rank_conainer, popup_price_conainer } = props;
+    const { popup_rank_container, popup_price_container } = props;
     const data = [
       {
         type: 'line',
         name: 'Price($)',
         color: '#CAE1F3',
-        data: popup_price_conainer,
+        data: popup_price_container,
       },
       {
         type: 'line',
         name: 'Rank',
         color: '#F3E9CA',
-        data: popup_rank_conainer,
+        data: popup_rank_container,
       },
     ];
     const chartOptions = {
@@ -795,29 +795,29 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderProductCharts = () => {
     switch (this.state.showProductChart) {
       case 'chart0':
-        const popup_rank_conainer = [];
-        const popup_price_conainer = [];
+        const popup_rank_container = [];
+        const popup_price_container = [];
 
         for (let i = 0; i < this.props.product_detail_chart_values_rank.length; i++) {
-          popup_rank_conainer.push([
+          popup_rank_container.push([
             new Date(this.props.product_detail_chart_values_rank[i].cdate).getTime(),
             Number(this.props.product_detail_chart_values_rank[i].rank),
           ]);
         }
         for (let i = 0; i < this.props.product_detail_chart_values_price.length; i++) {
-          popup_price_conainer.push([
+          popup_price_container.push([
             new Date(this.props.product_detail_chart_values_price[i].cdate).getTime(),
             Number(this.props.product_detail_chart_values_price[i].price),
           ]);
         }
-        return popup_price_conainer.length == 0 && popup_rank_conainer.length == 0 ? (
+        return popup_price_container.length == 0 && popup_rank_container.length == 0 ? (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
             Loading
           </Loader>
         ) : (
           <this.renderProductStatistics
-            popup_price_conainer={popup_price_conainer}
-            popup_rank_conainer={popup_rank_conainer}
+            popup_price_container={popup_price_container}
+            popup_rank_container={popup_rank_container}
           />
         );
 
