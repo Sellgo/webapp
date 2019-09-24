@@ -1,0 +1,55 @@
+.pageHeadRight {
+  display: flex;
+  float: right;
+  justify-content: flex-end;
+}
+.pageHeadRight .ui.tiny.progress {
+  width: 148px;
+  margin-right: 15px;
+  top: 12px;
+}
+.pageHeadRight .ui.progress > .label {
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: -4px;
+}
+.pageHeadRight .ui.tiny.progress .bar {
+  height: 8px;
+}
+.profitSysLeft .ui.divider:not(.vertical):not(.horizontal) {
+  border-top: 1px solid #ababab;
+}
+.profitSysLeft .ui.card > .content > .header {
+  font-weight: 300;
+}
+.profitSysLeft .ui.card > .content > p {
+  font-size: 14px;
+  padding-top: 10px;
+}
+.profitSysLeft .ui.card > .content > span {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  align-items: center;
+}
+.products {
+  padding-left: 10px;
+}
+.searchDropdown {
+  padding-top: 20px;
+}
+.basicKpi {
+  padding-top: 20px;
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.basicKpi .icon.question.circle:before {
+  line-height: 1;
+  font-size: 1.5em;
+  padding-left: 10px;
+}
+.basicKpi .icon.angle.up:before {
+  content: '\f106';
+  font-size: 20px;
+}

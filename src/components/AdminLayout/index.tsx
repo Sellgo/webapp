@@ -6,6 +6,7 @@ import PageHeader from './PageHeader';
 import { Field, MWSinfo, SellField, sideBarExpanded } from '../../Action/SettingActions';
 import { connect } from 'react-redux';
 import Auth from '../Auth/Auth';
+import BreadCrumb from '../BreadCrumb';
 
 interface State {
   width: any;
@@ -17,6 +18,7 @@ interface Props {
   auth: Auth;
   sellerData?: SellField;
   callToAction?: any;
+  showBreadCrumb?: boolean;
 }
 
 class AdminLayout extends React.Component<Props, State> {
@@ -32,7 +34,7 @@ class AdminLayout extends React.Component<Props, State> {
   }
 
   public render() {
-    const { children, title, auth, sellerData, callToAction } = this.props;
+    const { children, title, auth, sellerData, callToAction, showBreadCrumb } = this.props;
 
     return (
       <React.Fragment>
@@ -52,6 +54,7 @@ class AdminLayout extends React.Component<Props, State> {
             backgroundColor: '#f3f3f3f3',
           }}
         >
+          {showBreadCrumb && <BreadCrumb />}
           <PageHeader title={title} callToAction={callToAction} />
           {children}
         </Segment>

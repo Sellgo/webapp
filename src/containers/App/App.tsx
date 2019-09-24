@@ -13,6 +13,7 @@ import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
 import Suppliers from '../SYN/suppliers';
 import SupplierDetail from '../SYN/suppliers/supplierDetail';
+import ProfitSys from '../ProfitSys/index';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
@@ -107,6 +108,16 @@ function App(Props: any) {
               routeProps.match.params.auth = auth;
               if (isAuthenticated()) {
                 return <SupplierDetail {...routeProps} />;
+              }
+            }}
+          />
+          <Route
+            exact={true}
+            path="/profitSys"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <ProfitSys {...routeProps} />;
               }
             }}
           />
