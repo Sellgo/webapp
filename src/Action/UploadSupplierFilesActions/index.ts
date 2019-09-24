@@ -188,7 +188,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
-    `${AppConfig.BASE_URL_API}seller/${String(sellerID)}/csv-column-mapping`,
+    `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/csv-column-mapping`,
     {
       headers: getHeaders(),
     }
@@ -203,6 +203,8 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (msrp !== null) columnMappings[msrp] = 'msrp';
     dispatch(setSavedColumnMappings(columnMappings));
     dispatch(setSkipColumnMappingCheck(true));
+  } else {
+    dispatch(removeColumnMappings());
   }
 };
 
@@ -244,7 +246,9 @@ export const validateAndUploadCsv = () => async (
 
   await Axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `supplier/${String(supplierID)}/synthesis/upload/`,
+    url:
+      AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
     data: bodyFormData,
     headers: getHeaders(),
   });

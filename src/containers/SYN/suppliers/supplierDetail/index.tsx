@@ -6,7 +6,6 @@ import {
   Image,
   Segment,
   Table,
-  Checkbox,
   Dropdown,
   Icon,
   Modal,
@@ -14,7 +13,6 @@ import {
   Feed,
   Loader,
   Pagination,
-  Progress,
   Form,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -38,9 +36,6 @@ import {
   getProductDetailChartPrice,
   getProductDetailChartKpi,
   getProductTrackData,
-  getLastFileID,
-  resetProductData,
-  getSynthesisProgressUpdates,
   ProductsTrackData,
   ProductDetails,
   ProductChartDetailsRank,
@@ -51,14 +46,18 @@ import {
   Supplier,
   TimeEfficiency,
   getTimeEfficiency,
-  getSellers,
 } from '../../../../Action/SYNActions';
 import { numberWithCommas, ProductFiltersPreset } from '../../../../constant/constant';
-import * as Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import { SellField } from '../../../../Action/SettingActions';
 import AdminLayout from '../../../../components/AdminLayout';
 import Auth from '../../../../components/Auth/Auth';
+import { supplierSelector } from '../../../../selectors/suppliers';
+import { fetchSupplier } from '../../../../Action/suppliers';
+import StackChart from '../../../../components/Chart/StackChart';
+import PieChart from '../../../../components/Chart/PieChart';
+import ScatterChart from '../../../../components/Chart/ScatterChart';
+import SplineChart from '../../../../components/Chart/SplineChart';
+import LineChart from '../../../../components/Chart/LineChart';
 
 interface State {
   isOpen: boolean;
@@ -89,8 +88,6 @@ interface State {
 interface Props {
   getProducts(supplierID: string): () => void;
 
-  getSellers(): () => void;
-
   trackProductWithPatch(
     productID: string,
     productTrackGroupID: string,
@@ -107,11 +104,9 @@ interface Props {
 
   getTimeEfficiency(): () => void;
 
-  resetProductData(data: {}): () => void;
+  fetchSupplier(supplierID: number): () => void;
 
   getProductTrackData(supplierID: string): () => void;
-
-  getLastFileID(supplierID: string): () => void;
 
   getProductTrackGroupId(supplierID: string): () => void;
 
@@ -127,10 +122,8 @@ interface Props {
 
   getProductDetailChartKpi(supplierID: string): () => void;
 
-  getSynthesisProgressUpdates(synthesisFileID: string): () => void;
-
   time_efficiency_data: TimeEfficiency[];
-  suppliers: Supplier[];
+  supplier: Supplier;
   products: Product[];
   products_track_data: ProductsTrackData;
   product_detail: ProductDetails;
@@ -141,17 +134,11 @@ interface Props {
   product_detail_chart_values_kpi: ProductChartDetailsKpi[];
   sellerData: SellField;
   synthesisFileID: { synthesis_file_id: 0 };
-  synthesisFileProgressUpdates: { progress: 0 };
   productTrackGroup: [{ id: 0 }];
   match: { params: { supplierID: ''; auth: Auth } };
   isSideBarExpanded: false;
 }
 
-Highcharts.setOptions({
-  lang: {
-    thousandsSep: ',',
-  },
-});
 let SupplierDetailState: SupplierDetail;
 
 export class SupplierDetail extends React.Component<Props, State> {
@@ -211,18 +198,14 @@ export class SupplierDetail extends React.Component<Props, State> {
       key: 'userID',
       value: localStorage.getItem('userId'),
     };
-    this.props.resetProductData({});
     this.props.getProductTrackGroupId(this.props.match.params.supplierID);
-    this.props.getLastFileID(this.props.match.params.supplierID);
     this.props.getProducts(this.props.match.params.supplierID);
     this.props.getProductTrackData(this.props.match.params.supplierID);
+    this.props.fetchSupplier(Number(this.props.match.params.supplierID));
     //this.props.getProductsChartHistoryPrice(this.props.match.params.supplierID);
     //this.props.getProductsChartHistoryRank(this.props.match.params.supplierID);
     if (this.props.time_efficiency_data.length === 0) {
       this.props.getTimeEfficiency();
-    }
-    if (this.props.suppliers.length == 0) {
-      this.props.getSellers();
     }
   }
 
@@ -762,152 +745,49 @@ export class SupplierDetail extends React.Component<Props, State> {
   };
 
   renderProductStatistics = (props: any) => {
-    const popup_price_conainer = props.popup_price_conainer;
-    const popup_rank_conainer = props.popup_rank_conainer;
-    return (
-      <HighchartsReact
-        highcharts={Highcharts}
-        allowChartUpdate={true}
-        options={{
-          chart: { zoomType: 'x' },
-          title: {
-            text: 'Statistics',
-            align: 'left',
-          },
-          xAxis: {
-            type: 'datetime',
-            labels: {
-              style: {
-                color: '#ccc',
-              },
-            },
-          },
-          credits: {
-            enabled: false,
-          },
-          yAxis: {
-            min: 0,
-            title: {
-              text: '',
-            },
-            labels: {
-              style: {
-                color: '#ccc',
-              },
-            },
-          },
-          tooltip: {
-            shared: true,
-          },
-
-          legend: {
-            align: 'left',
-          },
-          series: [
-            {
-              type: 'line',
-              name: 'Price($)',
-              color: '#CAE1F3',
-              data: popup_price_conainer,
-            },
-            {
-              type: 'line',
-              name: 'Rank',
-              color: '#F3E9CA',
-              data: popup_rank_conainer,
-            },
-          ],
-        }}
-        {...this.props}
-      />
-    );
+    const { popup_rank_container, popup_price_container } = props;
+    const data = [
+      {
+        type: 'line',
+        name: 'Price($)',
+        color: '#CAE1F3',
+        data: popup_price_container,
+      },
+      {
+        type: 'line',
+        name: 'Rank',
+        color: '#F3E9CA',
+        data: popup_rank_container,
+      },
+    ];
+    const chartOptions = {
+      title: 'Product Statistics',
+      data: data,
+    };
+    return <LineChart options={chartOptions} />;
   };
 
   renderROI = (props: any) => {
-    const product_timeline = props.product_timeline;
-    const product_profit = props.product_profit;
-    const product_roi = props.product_roi;
-    return (
-      <HighchartsReact // CEM 69
-        highcharts={Highcharts}
-        options={{
-          chart: {
-            zoomType: 'xy',
-          },
-          title: {
-            text: 'Profit vs ROI',
-          },
-          xAxis: [
-            {
-              type: 'datetime',
-              categories: product_timeline,
-              crosshair: true,
-            },
-          ],
-          yAxis: [
-            {
-              // Primary yAxis
-              gridLineWidth: 0,
-              minorGridLineWidth: 0,
-              lineWidth: 2,
-              title: {
-                text: 'Total Profit($)',
-                align: 'high',
-                style: {
-                  color: 'black',
-                },
-              },
-            },
-            {
-              // Secondary yAxis
-              gridLineWidth: 0,
-              minorGridLineWidth: 0,
-              lineWidth: 2,
-              title: {
-                text: 'ROI(%)',
-                align: 'high',
-                style: {
-                  color: 'black',
-                },
-              },
-              labels: {
-                format: '{value}',
-                style: {
-                  color: 'black',
-                },
-              },
-              opposite: true,
-            },
-          ],
-          tooltip: {
-            shared: true,
-          },
-          legend: {
-            layout: 'vertical',
-            align: 'left',
-            x: 120,
-            verticalAlign: 'top',
-            y: 100,
-            floating: true,
-            backgroundColor: 'rgba(255,255,255,0.25)',
-          },
-          series: [
-            {
-              name: 'Total Profit($)',
-              type: 'spline',
-              yAxis: 1,
-              data: product_profit,
-            },
-            {
-              name: 'ROI(%)',
-              type: 'spline',
-              data: product_roi,
-            },
-          ],
-        }}
-        {...this.props}
-      />
-    );
+    const { product_timeline, product_profit, product_roi } = props;
+    const data = [
+      {
+        name: 'Total Profit($)',
+        type: 'spline',
+        yAxis: 1,
+        data: product_profit,
+      },
+      {
+        name: 'ROI(%)',
+        type: 'spline',
+        data: product_roi,
+      },
+    ];
+    const chartOptions = {
+      title: 'Profit vs ROI',
+      product_timeline: product_timeline,
+      data: data,
+    };
+    return <SplineChart options={chartOptions} />;
   };
 
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
@@ -915,29 +795,29 @@ export class SupplierDetail extends React.Component<Props, State> {
   renderProductCharts = () => {
     switch (this.state.showProductChart) {
       case 'chart0':
-        const popup_rank_conainer = [];
-        const popup_price_conainer = [];
+        const popup_rank_container = [];
+        const popup_price_container = [];
 
         for (let i = 0; i < this.props.product_detail_chart_values_rank.length; i++) {
-          popup_rank_conainer.push([
+          popup_rank_container.push([
             new Date(this.props.product_detail_chart_values_rank[i].cdate).getTime(),
             Number(this.props.product_detail_chart_values_rank[i].rank),
           ]);
         }
         for (let i = 0; i < this.props.product_detail_chart_values_price.length; i++) {
-          popup_price_conainer.push([
+          popup_price_container.push([
             new Date(this.props.product_detail_chart_values_price[i].cdate).getTime(),
             Number(this.props.product_detail_chart_values_price[i].price),
           ]);
         }
-        return popup_price_conainer.length == 0 && popup_rank_conainer.length == 0 ? (
+        return popup_price_container.length == 0 && popup_rank_container.length == 0 ? (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
             Loading
           </Loader>
         ) : (
           <this.renderProductStatistics
-            popup_price_conainer={popup_price_conainer}
-            popup_rank_conainer={popup_rank_conainer}
+            popup_price_container={popup_price_container}
+            popup_rank_container={popup_rank_container}
           />
         );
 
@@ -1338,333 +1218,115 @@ export class SupplierDetail extends React.Component<Props, State> {
     return;
   };
 
-  renderStatistics = (props: any) => (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={{
-        chart: { zoomType: 'x' },
-        title: {
-          text: 'Statistics',
-          align: 'left',
-        },
-        xAxis: {
-          type: 'datetime',
-          labels: {
-            style: {
-              color: '#ccc',
-            },
-          },
-        },
-        credits: {
-          enabled: false,
-        },
-        yAxis: {
-          min: 0,
-          title: {
-            text: '',
-          },
-          labels: {
-            style: {
-              color: '#ccc',
-            },
-          },
-        },
-        tooltip: {
-          shared: true,
-        },
-        legend: {
-          align: 'left',
-        },
-        series: [
-          {
-            type: 'line',
-            name: 'Avg Price($)',
-            color: '#CAE1F3',
-            data: props.avg_price,
-          },
-          {
-            type: 'line',
-            name: 'Avg Rank',
-            color: '#F3E9CA',
-            data: props.avg_rank,
-          },
-        ],
-      }}
-      {...this.props}
-    />
-  );
+  renderStatistics = (props: any) => {
+    const { avg_price, avg_rank } = props;
+    const data = [
+      {
+        type: 'line',
+        name: 'Avg Price($)',
+        color: '#CAE1F3',
+        data: avg_price,
+      },
+      {
+        type: 'line',
+        name: 'Avg Rank',
+        color: '#F3E9CA',
+        data: avg_rank,
+      },
+    ];
+    const chartOptions = {
+      title: 'Supplier Statistics',
+      data: data,
+    };
+    return <LineChart options={chartOptions} />;
+  };
 
   renderProfit = (props: any) => {
-    const profit_monthly = props.profit_monthly;
-    const sales_monthly = props.sales_monthly;
-    const monthly_data = props.monthly_data;
-
-    return (
-      <HighchartsReact // CEM 67
-        highcharts={Highcharts}
-        options={{
-          chart: {
-            type: 'scatter',
-            zoomType: 'xy',
-          },
-          xAxis: {
-            title: {
-              text: 'Unit sold/mo',
-            },
-          },
-          yAxis: {
-            min: 0,
-            title: {
-              text: 'Profit($)',
-            },
-          },
-          title: {
-            text: 'Profit vs Unit Sold/mo',
-          },
-          plotOptions: {
-            scatter: {
-              marker: {
-                radius: 5,
-                states: {
-                  hover: {
-                    enabled: true,
-                    lineColor: 'rgb(100,100,100)',
-                  },
-                },
-              },
-              states: {
-                hover: {
-                  marker: {
-                    enabled: false,
-                  },
-                },
-              },
-            },
-          },
-          tooltip: {
-            headerFormat: '<br/>',
-            pointFormat: '{point.name}<br/>Units sold: {point.x} u/mo<br/> Profit($): {point.y}',
-          },
-          series: [
-            {
-              type: 'scatter',
-              regression: true,
-              regressionSettings: {
-                type: 'linear',
-                color: 'red',
-              },
-              color: '#CAE1F3',
-              negativeColor: '#F3D2CA',
-              name: 'SKUs',
-              data: monthly_data,
-            },
-          ],
-        }}
-        {...this.props}
-      />
-    );
+    const { monthly_data, sales_monthly, profit_monthly } = props;
+    const data = [
+      {
+        type: 'scatter',
+        regression: true,
+        regressionSettings: {
+          type: 'linear',
+          color: 'red',
+        },
+        color: '#CAE1F3',
+        negativeColor: '#F3D2CA',
+        name: 'SKUs',
+        data: monthly_data,
+      },
+    ];
+    const chartOptions = {
+      title: 'Profit vs Unit Sold/mo',
+      data: data,
+    };
+    return <ScatterChart options={chartOptions} />;
   };
 
   renderHit = (props: any) => {
-    const supplier = props.supplier;
+    const { supplier } = props;
     const rate = parseFloat(supplier.rate);
     const p2l_ratio = supplier.p2l_ratio - parseFloat(supplier.rate);
     const miss = 100 - supplier.p2l_ratio;
-    return (
-      <HighchartsReact // CEM 68
-        highcharts={Highcharts}
-        options={{
-          chart: {
-            type: 'pie',
-          },
-          title: {
-            text: 'Hit/Miss vs Profitable SKUs',
-          },
-          tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
-          },
-          plotOptions: {
-            pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                enabled: true,
-                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-              },
-            },
-          },
-          series: [
-            {
-              type: 'pie',
-              name: 'SKUs',
-              colorByPoint: true,
-              data: [
-                {
-                  name: 'Profitable SKUs',
-                  y: rate,
-                  sliced: true,
-                  selected: true,
-                  color: '#FBC4C4',
-                },
-                {
-                  name: 'Hit Non-Profitable SKUs',
-                  y: p2l_ratio,
-                  color: '#CAE1F3',
-                },
-                {
-                  name: 'Miss',
-                  y: miss,
-                  color: '#ECEBEB',
-                },
-              ],
-            },
-          ],
-        }}
-        {...this.props}
-      />
-    );
+    const data = [
+      {
+        name: 'Profitable SKUs',
+        y: rate,
+        sliced: true,
+        selected: true,
+        color: '#FBC4C4',
+      },
+      {
+        name: 'Hit Non-Profitable SKUs',
+        y: p2l_ratio,
+        color: '#CAE1F3',
+      },
+      {
+        name: 'Miss',
+        y: miss,
+        color: '#ECEBEB',
+      },
+    ];
+    const chartOptions = {
+      title: 'Hit/Miss vs Profitable SKUs',
+      name: 'SKUs',
+      data: data,
+    };
+    return <PieChart options={chartOptions} />;
   };
 
   renderRevenue = (props: any) => {
-    const productSKUs = props.productSKUs;
-    const product_cost = props.product_cost;
-    const fees = props.fees;
-    const profit = props.profit;
-
-    return (
-      <HighchartsReact // CEM 70
-        highcharts={Highcharts}
-        options={{
-          chart: { type: 'column', zoomType: 'x' },
-          title: {
-            text: 'Revenue Breakdown Comparison',
-            align: 'center',
-          },
-          xAxis: {
-            categories: productSKUs,
-            // max:10,
-            visible: false,
-          },
-          yAxis: {
-            min: 0,
-            /* gridLineWidth: 0,
-             minorGridLineWidth: 0, */
-            title: {
-              text: 'Revenue ($)',
-            },
-            stackLabels: {
-              enabled: true,
-              style: {
-                fontWeight: 'bold',
-                color: 'grey',
-              },
-            },
-          },
-          tooltip: {
-            headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat: '{series.name}: {point.y}<br/>Total($): {point.stackTotal}',
-          },
-          legend: {
-            align: 'right',
-            x: -30,
-            verticalAlign: 'top',
-            y: 25,
-            floating: true,
-            backgroundColor: 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false,
-          },
-          plotOptions: {
-            column: {
-              stacking: 'normal',
-              dataLabels: {
-                enabled: true,
-              },
-            },
-          },
-          series: [
-            { type: 'column', color: '#CAE1F3', name: 'Profit($)', data: profit },
-            { type: 'column', color: '#F3D2CA', name: 'Amz fee($)', data: fees },
-            { type: 'column', color: '#F3E9CA', name: 'COGS($)', data: product_cost },
-          ],
-        }}
-        {...this.props}
-      />
-    );
+    const { profit, product_cost, fees, productSKUs } = props;
+    const data = [
+      { color: '#CAE1F3', name: 'Profit($)', data: profit },
+      { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
+      { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
+    ];
+    const chartOptions = {
+      title: 'Revenue Breakdown Comparison',
+      productSKUs: productSKUs,
+      data: data,
+    };
+    return <StackChart options={chartOptions} />;
   };
 
   renderPOFP = (props: any) => {
-    const productSKUs = props.productSKUs;
-    const roi = props.roi;
-    const profit = props.profit;
-
-    return (
-      <HighchartsReact // CEM 70
-        highcharts={Highcharts}
-        options={{
-          chart: { type: 'column', zoomType: 'x' },
-          title: {
-            text: 'Point of First Profit (POFP)',
-            align: 'center',
-          },
-          xAxis: {
-            categories: productSKUs,
-            // max:10,
-            visible: false,
-          },
-          yAxis: {
-            // min: 0,
-            gridLineWidth: 0,
-            minorGridLineWidth: 0,
-            title: {
-              text: 'Profit($)',
-            },
-            stackLabels: {
-              enabled: true,
-              format: '<b>ROI %</b>',
-              style: {
-                fontWeight: 'bold',
-                color: 'grey',
-              },
-            },
-          },
-          tooltip: {
-            headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat: 'ROI(%): {point.name} <br/> {series.name}: {point.y}',
-          },
-          legend: {
-            align: 'right',
-            x: -30,
-            verticalAlign: 'top',
-            y: 25,
-            floating: true,
-            backgroundColor: 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false,
-          },
-          plotOptions: {
-            column: {
-              stacking: 'normal',
-              dataLabels: {
-                enabled: true,
-              },
-            },
-          },
-          series: [
-            {
-              type: 'column',
-              color: '#CAE1F3',
-              negativeColor: '#F3D2CA',
-              name: 'Profit($)',
-              data: roi,
-            },
-          ],
-        }}
-        {...this.props}
-      />
-    );
+    const { profit, roi, productSKUs } = props;
+    const data = [
+      {
+        color: '#CAE1F3',
+        negativeColor: '#F3D2CA',
+        name: 'Profit($)',
+        data: profit,
+      },
+    ];
+    const chartOptions = {
+      title: 'Point of First Profit (POFP)',
+      productSKUs: productSKUs,
+      data: data,
+    };
+    return <StackChart options={chartOptions} />;
   };
 
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
@@ -1710,12 +1372,7 @@ export class SupplierDetail extends React.Component<Props, State> {
 
       case 'chart0':
         const supplierID = this.props.match.params.supplierID;
-        const supplier = this.props.suppliers.filter(
-          supplier => supplier.id === parseInt(supplierID)
-        )[0];
-        if (!supplier) {
-          this.props.getSellers();
-        }
+        const supplier = this.props.supplier;
         return supplier && supplier.rate ? <this.renderHit supplier={supplier} /> : null;
 
       case 'chart1':
@@ -1870,7 +1527,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Feed.Event>
                   <Feed.Content>
                     <Feed.Summary>
-                      {this.props.products.length && this.props.suppliers.length ? (
+                      {this.props.products.length ? (
                         <React.Fragment>
                           <br />
                           <this.renderCharts />
@@ -1953,10 +1610,6 @@ export class SupplierDetail extends React.Component<Props, State> {
   }
 
   renderMiddleRows = () => {
-    const progress =
-      this.props.synthesisFileProgressUpdates.progress != undefined
-        ? this.props.synthesisFileProgressUpdates.progress
-        : '0';
     const totalProducts = this.state.products.length;
     const totalPages = this.state.totalPages;
     const singlePageItemsCount = this.state.singlePageItemsCount;
@@ -1971,7 +1624,7 @@ export class SupplierDetail extends React.Component<Props, State> {
       <Grid>
         <Grid.Column width={4} textAlign="center">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div>{`${minCount}-${maxCount} of ${totalProducts} items`}</div>
+            {`${minCount}-${maxCount} of ${totalProducts} items`}
             <Dropdown
               text={String(this.state.singlePageItemsCount)}
               style={{ width: '40%', alignSelf: 'center', margin: 'auto' }}
@@ -2009,17 +1662,8 @@ export class SupplierDetail extends React.Component<Props, State> {
                 });
               }}
             />
-            <div>{'Items per Page'}</div>
+            Items per Page
           </div>
-        </Grid.Column>
-        <Grid.Column width={8} textAlign="center">
-          <Progress
-            style={{ width: '80%', alignSelf: 'center', margin: 'auto' }}
-            indicating={true}
-            percent={progress}
-            autoSuccess={true}
-          />
-          {'Progress: ' + progress + '%'}
         </Grid.Column>
         <Grid.Column
           width={4}
@@ -2074,10 +1718,9 @@ export class SupplierDetail extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {
     synthesisFileID: state.synReducer.synthesisFileID,
-    synthesisFileProgressUpdates: state.synReducer.synthesisFileProgressUpdates,
     time_efficiency_data: state.synReducer.time_efficiency_data,
     products: state.synReducer.products,
-    suppliers: state.synReducer.suppliers,
+    supplier: supplierSelector(state),
     products_track_data: state.synReducer.products_track_data,
     chart_values_price: state.synReducer.chart_values_price,
     chart_values_rank: state.synReducer.chart_values_rank,
@@ -2093,9 +1736,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getSellers: () => dispatch(getSellers()),
-    resetProductData: (data: {}) => dispatch(resetProductData(data)),
-    getLastFileID: (supplierID: string) => dispatch(getLastFileID(supplierID)),
+    fetchSupplier: (supplierID: number) => dispatch(fetchSupplier(supplierID)),
     getProducts: (supplierID: string) => dispatch(getProducts(supplierID)),
     getProductTrackData: (supplierID: string) => dispatch(getProductTrackData(supplierID)),
     getProductTrackGroupId: (supplierID: string) => dispatch(getProductTrackGroupId(supplierID)),
@@ -2123,9 +1764,6 @@ const mapDispatchToProps = (dispatch: any) => {
       status: string,
       supplierID: string
     ) => dispatch(trackProductWithPost(productID, productTrackGroupID, status, supplierID)),
-
-    getSynthesisProgressUpdates: (synthesisFileID: string) =>
-      dispatch(getSynthesisProgressUpdates(synthesisFileID)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),
   };
 };
