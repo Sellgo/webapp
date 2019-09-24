@@ -13,7 +13,7 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
 import { suppliersSelector } from '../../selectors/Suppliers';
-import { Supplier } from '../Synthesis';
+import { Supplier } from '../../interfaces/Supplier';
 
 export interface Suppliers {
   supplierIds: number[];

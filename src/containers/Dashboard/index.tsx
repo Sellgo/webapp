@@ -5,9 +5,10 @@ import { Modals } from '../../components/Modals';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
-import { getBasicInfoSeller, getIsMWSAuthorized, SellField } from '../../actions/Settings';
+import { getBasicInfoSeller, getAmazonMWSAuthorized } from '../../actions/Settings';
 import { connect } from 'react-redux';
 import Auth from '../../components/Auth/Auth';
+import { Seller } from '../../interfaces/Seller';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   size,
@@ -28,16 +29,16 @@ interface State {
 
 interface Props {
   getBasicInfoSeller(): () => void;
-  getIsMWSAuthorized(): () => void;
+  getAmazonMWSAuthorized(): () => void;
 
   match: { params: { auth: Auth } };
-  sellerData: SellField;
+  sellerData: Seller;
 }
 
 class Dashboard extends React.Component<Props, State> {
   componentDidMount() {
     this.props.getBasicInfoSeller();
-    this.props.getIsMWSAuthorized();
+    this.props.getAmazonMWSAuthorized();
     const visited = localStorage.getItem('FirstLogin');
     if (!visited) {
       localStorage['FirstLogin'] = true;
@@ -155,7 +156,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
-    getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
+    getAmazonMWSAuthorized: () => dispatch(getAmazonMWSAuthorized()),
   };
 };
 

@@ -27,26 +27,15 @@ import {
   getProducts,
   trackProductWithPatch,
   trackProductWithPost,
-  Product,
   getProductTrackGroupId,
   getProductDetail,
   getProductDetailChartRank,
   getProductDetailChartPrice,
   getProductDetailChartKpi,
   getProductTrackData,
-  ProductsTrackData,
-  ProductDetails,
-  ProductChartDetailsRank,
-  ChartAveragePrice,
-  ChartAverageRank,
-  ProductChartDetailsPrice,
-  ProductChartDetailsKpi,
-  Supplier,
-  TimeEfficiency,
   getTimeEfficiency,
 } from '../../../../actions/Synthesis';
 import { ProductFiltersPreset } from '../../../../constants/constants';
-import { SellField } from '../../../../actions/Settings';
 import AdminLayout from '../../../../components/AdminLayout';
 import Auth from '../../../../components/Auth/Auth';
 import { supplierSelector } from '../../../../selectors/Suppliers';
@@ -56,6 +45,17 @@ import PieChart from '../../../../components/Chart/PieChart';
 import ScatterChart from '../../../../components/Chart/ScatterChart';
 import SplineChart from '../../../../components/Chart/SplineChart';
 import LineChart from '../../../../components/Chart/LineChart';
+import {
+  Product,
+  ProductsTrackData,
+  ProductDetails,
+  ProductChartDetailsRank,
+  ProductChartDetailsPrice,
+  ProductChartDetailsKpi,
+} from '../../../../interfaces/Product';
+import { TimeEfficiency } from '../../../../interfaces/Metrics';
+import { Supplier } from '../../../../interfaces/Supplier';
+import { Seller } from '../../../../interfaces/Seller';
 
 interface State {
   isOpen: boolean;
@@ -121,12 +121,10 @@ interface Props {
   products: Product[];
   products_track_data: ProductsTrackData;
   product_detail: ProductDetails;
-  chart_values_price: ChartAveragePrice[];
-  chart_values_rank: ChartAverageRank[];
   product_detail_chart_values_rank: ProductChartDetailsRank[];
   product_detail_chart_values_price: ProductChartDetailsPrice[];
   product_detail_chart_values_kpi: ProductChartDetailsKpi[];
-  sellerData: SellField;
+  sellerData: Seller;
   synthesisFileID: { synthesis_file_id: 0 };
   productTrackGroup: [{ id: 0 }];
   match: { params: { supplierID: ''; auth: Auth } };
@@ -1203,29 +1201,6 @@ export class SupplierDetail extends React.Component<Props, State> {
     return;
   };
 
-  renderStatistics = (props: any) => {
-    const { avg_price, avg_rank } = props;
-    const data = [
-      {
-        type: 'line',
-        name: 'Avg Price($)',
-        color: '#CAE1F3',
-        data: avg_price,
-      },
-      {
-        type: 'line',
-        name: 'Avg Rank',
-        color: '#F3E9CA',
-        data: avg_rank,
-      },
-    ];
-    const chartOptions = {
-      title: 'Supplier Statistics',
-      data: data,
-    };
-    return <LineChart options={chartOptions} />;
-  };
-
   renderProfit = (props: any) => {
     const { monthly_data, sales_monthly, profit_monthly } = props;
     const data = [
@@ -1331,30 +1306,6 @@ export class SupplierDetail extends React.Component<Props, State> {
     profit = products.map(e => parseFloat(e['profit']));
     productSKUs = products.map(e => e['title']);
     switch (this.state.showChart) {
-      case 'chart-1':
-        const avg_price = [];
-        const avg_rank = [];
-        for (let i = 0; i < this.props.chart_values_price.length; i++) {
-          avg_price.push([
-            new Date(this.props.chart_values_price[i].cdate).getTime(),
-            Number(this.props.chart_values_price[i].avg_price),
-          ]);
-        }
-        for (let i = 0; i < this.props.chart_values_rank.length; i++) {
-          avg_rank.push([
-            new Date(this.props.chart_values_rank[i].cdate).getTime(),
-            Number(this.props.chart_values_rank[i].avg_rank),
-          ]);
-        }
-
-        return avg_price !== undefined && avg_price.length === 0 && avg_rank.length === 0 ? (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
-        ) : avg_price.length !== 0 && avg_price[0][1] !== -1000000 ? (
-          <this.renderStatistics avg_price={avg_price} avg_rank={avg_rank} />
-        ) : null;
-
       case 'chart0':
         const supplier = this.props.supplier;
         return supplier && supplier.rate ? <this.renderHit supplier={supplier} /> : null;

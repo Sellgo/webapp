@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { Supplier } from '../../../../actions/Synthesis';
 import { Column } from '../../../../components/Table';
+import { Supplier } from '../../../../interfaces/Supplier';
 
 const renderName = (row: Supplier) => (
   <Table.Cell as={Link} to={`/synthesis/${row.id}`}>

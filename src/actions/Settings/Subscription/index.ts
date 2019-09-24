@@ -5,14 +5,7 @@ import {
   UPDATE_SELLER_SUBSCRIBTION,
 } from '../../../constants/constants';
 import { AppConfig } from '../../../config';
-
-export interface Subscription {
-  id: string;
-  name: string;
-  price: number;
-  synthesis_limit: number;
-  track_limit: number;
-}
+import { Subscription } from '../../../interfaces/Seller';
 
 export const getSubscriptions = () => (dispatch: any) => {
   return Axios.get(AppConfig.BASE_URL_API + 'subscriptions')

@@ -15,7 +15,6 @@ import './suppliers.css';
 import { Link } from 'react-router-dom';
 
 import {
-  Supplier,
   saveSupplierNameAndDescription,
   updateSupplierNameAndDescription,
   getTimeEfficiency,
@@ -23,10 +22,8 @@ import {
   postProductTrackGroupId,
 } from '../../../actions/Synthesis';
 
-import { getIsMWSAuthorized, getBasicInfoSeller } from '../../../actions/Settings';
+import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../../actions/Settings';
 import AdminLayout from '../../../components/AdminLayout';
-import { SellField } from '../../../actions/Settings';
-import { localStorageKeys } from '../../../constants/constants';
 import { Modals } from '../../../components/Modals';
 import MesssageComponent from '../../../components/MessageComponent';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
@@ -42,6 +39,9 @@ import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../../UserOnboarding';
 import { suppliersSelector } from '../../../selectors/Suppliers';
+import { Seller } from '../../../interfaces/Seller';
+import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
+import { Supplier } from '../../../interfaces/Supplier';
 
 interface State {
   isMessageModalOn: boolean;
@@ -87,7 +87,7 @@ interface Props {
 
   getTimeEfficiency(): () => void;
 
-  getIsMWSAuthorized(): () => void;
+  getAmazonMWSAuthorized(): () => void;
 
   postProductTrackGroupId(supplierID: string, supplierName: string): () => void;
 
@@ -104,8 +104,9 @@ interface Props {
 
   match: { params: { auth: Auth } };
   suppliers: Supplier[];
+  amazonMWSAuthorized: boolean;
   new_supplier: string;
-  sellerData: SellField;
+  sellerData: Seller;
   uploadCSVResponse: { message: ''; status: '' };
   openUploadSupplierModal: typeof openUploadSupplierModal;
   closeUploadSupplierModal: typeof closeUploadSupplierModal;
@@ -169,7 +170,7 @@ export class Suppliers extends React.Component<Props, State> {
 
   componentDidMount() {
     this.props.getBasicInfoSeller();
-    this.props.getIsMWSAuthorized();
+    this.props.getAmazonMWSAuthorized();
     this.props.getTimeEfficiency();
     const visited = localStorage.getItem('firstLogin');
     if (!visited) {
@@ -207,7 +208,7 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   openUpdateSupplierPopup = (supplier: Supplier): void => {
-    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) === 'true') {
+    if (this.props.amazonMWSAuthorized) {
       this.props.openUploadSupplierModal(supplier);
       this.setState({
         update_product_id: supplier.id,
@@ -227,7 +228,7 @@ export class Suppliers extends React.Component<Props, State> {
   };
 
   handleAddNewSupplierModalOpen = () => {
-    if (localStorage.getItem(localStorageKeys.isMWSAuthorized) === 'true') {
+    if (this.props.amazonMWSAuthorized) {
       this.props.openUploadSupplierModal();
       this.setState({
         supplier_name: '',
@@ -437,6 +438,7 @@ export class Suppliers extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {
     suppliers: suppliersSelector(state),
+    amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
     uploadCSVResponse: state.synthesis.uploadCSVResponse,
     new_supplier: state.synthesis.new_supplier,
     sellerData: state.settings.profile,
@@ -448,7 +450,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
-    getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
+    getAmazonMWSAuthorized: () => dispatch(getAmazonMWSAuthorized()),
     postProductTrackGroupId: (supplierID: string, supplierName: string) =>
       dispatch(postProductTrackGroupId(supplierID, supplierName)),
     getTimeEfficiency: () => dispatch(getTimeEfficiency()),

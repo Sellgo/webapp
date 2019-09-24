@@ -9,8 +9,10 @@ import {
   GET_AMAZON_MWS,
   SIDE_BAR_EXPANDED,
   PATCH_AMAZON_MWS,
+  SET_AMAZON_MWS_AUTHORIZED,
 } from '../../constants/constants';
-import { MWSinfo, SellField } from '../../actions/Settings';
+import { Seller, AmazonMWS } from '../../interfaces/Seller';
+import { setIn } from '../../utils/immutablity';
 
 const initialState = {
   profile: {
@@ -44,7 +46,6 @@ const initialState = {
   success: false,
   loading: false,
   error: null,
-  isMWSAuthorized: false,
   isSideBarExpanded: false,
 };
 
@@ -62,14 +63,14 @@ export default (state = initialState, action: any) => {
       return newState;
     case SET_BASIC_INFO_SELLER:
       data = action.data;
-      const key: keyof SellField = data.key;
+      const key: keyof Seller = data.key;
       const profile = { ...newState.profile };
       profile[key] = data.value;
       newState.profile = profile;
       return newState;
     case SET_AMAZON_MWS:
       data = action.data;
-      const newKey: keyof MWSinfo = data.key;
+      const newKey: keyof AmazonMWS = data.key;
       const amazonMWS = { ...newState.amazonMWS };
       amazonMWS[newKey] = data.value;
       newState.amazonMWS = amazonMWS;
@@ -128,6 +129,10 @@ export default (state = initialState, action: any) => {
       newState.amazonMWSFromServer = amazonMWSfromServer;
       newState.amazonMWS = data;
       return newState;
+
+    case SET_AMAZON_MWS_AUTHORIZED:
+      return setIn(state, 'amazonMWSAuthorized', action.payload);
+
     default:
       return state;
   }

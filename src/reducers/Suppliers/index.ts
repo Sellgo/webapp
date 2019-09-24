@@ -1,5 +1,4 @@
 import { setIn } from '../../utils/immutablity/setIn';
-import { Supplier } from '../../actions/Synthesis';
 import { AnyAction } from 'redux';
 import {
   SET_SUPPLIERS,
@@ -13,6 +12,7 @@ import {
 import { Suppliers } from '../../actions/Suppliers';
 import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
+import { Supplier } from '../../interfaces/Supplier';
 
 const initialState = {
   supplierIds: [-1],

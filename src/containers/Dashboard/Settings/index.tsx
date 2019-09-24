@@ -27,9 +27,6 @@ import {
   getMWSAuth,
   deleteMWSAuth,
   updateAmazonMWS,
-  Field,
-  SellField,
-  MWSinfo,
 } from '../../../actions/Settings';
 import './setting.css';
 import { marketPlace } from '../../../constants/constants';
@@ -37,6 +34,7 @@ import RecoverPass from '../../RecoverPass';
 import AdminLayout from '../../../components/AdminLayout';
 import Auth from '../../../components/Auth/Auth';
 import { MarketplaceFields } from '../../../interfaces/MarketplaceFields';
+import { Seller, AmazonMWS } from '../../../interfaces/Seller';
 
 interface State {
   isOpen: boolean;
@@ -56,15 +54,15 @@ interface MarketPlaceType {
 }
 
 interface Props {
-  setBasicInfoSeller(data: Field): () => void;
+  setBasicInfoSeller(data: any): () => void;
 
-  setAmazonMWS(data: Field): () => void;
+  setAmazonMWS(data: any): () => void;
 
   getMWSAuth(): () => void;
 
-  updateBasicInfoSeller(data: SellField): () => void;
+  updateBasicInfoSeller(data: Seller): () => void;
 
-  updateAmazonMWS(id: string, data: MWSinfo): () => void;
+  updateAmazonMWS(id: string, data: AmazonMWS): () => void;
 
   getBasicInfoSeller(): () => void;
 
@@ -74,9 +72,9 @@ interface Props {
 
   postSellerImage(imageType: string, imagePath: any): () => void;
 
-  sellerData: SellField;
-  amazonData: MWSinfo;
-  amazonMWSFromServer: MWSinfo[];
+  sellerData: Seller;
+  amazonData: AmazonMWS;
+  amazonMWSFromServer: AmazonMWS[];
   isUpdate: boolean;
   match: { params: { auth: Auth } };
   updatedImage: {};
@@ -262,7 +260,7 @@ class Setting extends React.Component<Props, State> {
     const { marketplace_id } = this.props.amazonData;
     const marketplaceDATA = this.getmarketplaceDATA(marketplace_id);
 
-    let selectedAmazonMWSFromServer: MWSinfo | null = null;
+    let selectedAmazonMWSFromServer: AmazonMWS | null = null;
     if (marketplace_id.length > 0) {
       for (const amazonmwsobj of this.props.amazonMWSFromServer) {
         if (amazonmwsobj.marketplace_id === marketplace_id && amazonmwsobj.status !== 'inactive') {
@@ -523,7 +521,7 @@ class Setting extends React.Component<Props, State> {
 
   private ModalDeleteMWSAuth() {
     const { marketplace_id } = this.props.amazonData;
-    let selectedAmazonMWSFromServer: MWSinfo | null = null;
+    let selectedAmazonMWSFromServer: AmazonMWS | null = null;
 
     if (marketplace_id.length > 0) {
       for (const amazonmwsobj of this.props.amazonMWSFromServer) {
@@ -715,10 +713,10 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateBasicInfoSeller: (info: SellField) => dispatch(updateBasicInfoSeller(info)),
-    updateAmazonMWS: (id: string, info: MWSinfo) => dispatch(updateAmazonMWS(id, info)),
-    setBasicInfoSeller: (data: Field) => dispatch(setBasicInfoSeller(data)),
-    setAmazonMWS: (data: Field) => dispatch(setAmazonMWS(data)),
+    updateBasicInfoSeller: (info: Seller) => dispatch(updateBasicInfoSeller(info)),
+    updateAmazonMWS: (id: string, info: AmazonMWS) => dispatch(updateAmazonMWS(id, info)),
+    setBasicInfoSeller: (data: any) => dispatch(setBasicInfoSeller(data)),
+    setAmazonMWS: (data: any) => dispatch(setAmazonMWS(data)),
     getMWSAuth: () => dispatch(getMWSAuth()),
     deleteMWSAuth: (mws_auth_id: any) => dispatch(deleteMWSAuth(mws_auth_id)),
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),

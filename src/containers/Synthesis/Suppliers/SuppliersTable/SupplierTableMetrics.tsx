@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Card } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { TimeEfficiency } from '../../../../actions/Synthesis';
 import { supplierMetricsSelector } from '../../../../selectors/Synthesis';
+import { TimeEfficiency } from '../../../../interfaces/Metrics';
 
 interface SupplierTableMetricsProps {
   time_efficiency_data: TimeEfficiency[];

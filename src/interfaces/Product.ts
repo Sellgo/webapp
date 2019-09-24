@@ -55,3 +55,19 @@ export interface ProductDetails {
   image_url: string;
   title: string;
 }
+
+export interface ProductChartDetailsRank {
+  rank: number;
+  cdate: string;
+}
+
+export interface ProductChartDetailsPrice {
+  price: number;
+  cdate: string;
+}
+
+export interface ProductChartDetailsKpi {
+  profit: string;
+  roi: string;
+  cdate: string;
+}

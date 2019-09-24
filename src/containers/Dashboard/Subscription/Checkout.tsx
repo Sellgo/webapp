@@ -3,7 +3,8 @@ import StripeCheckout from 'react-stripe-checkout';
 
 import { connect } from 'react-redux';
 import { AppConfig } from '../../../config';
-import { updateSellerSubscription, Subscription } from '../../../actions/Settings/Subscription';
+import { updateSellerSubscription } from '../../../actions/Settings/Subscription';
+import { Subscription } from '../../../interfaces/Seller';
 
 interface State {}
 

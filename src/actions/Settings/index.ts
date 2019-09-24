@@ -5,35 +5,13 @@ import {
   GET_BASIC_INFO_SELLER,
   SET_AMAZON_MWS,
   UPLOAD_SELLER_IMAGE,
-  localStorageKeys,
   GET_AMAZON_MWS,
   PATCH_AMAZON_MWS,
   SIDE_BAR_EXPANDED,
+  SET_AMAZON_MWS_AUTHORIZED,
 } from '../../constants/constants';
 import { AppConfig } from '../../config';
-
-export interface Field {
-  key: string;
-  value: any;
-}
-
-export interface SellField {
-  name: string;
-  id: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  cdate?: string;
-}
-
-export interface MWSinfo {
-  status: string;
-  marketplace_id: string;
-  amazon_seller_id: string;
-  seller_id: string;
-  token: string;
-  id: any;
-}
+import { AmazonMWS, Seller } from '../../interfaces/Seller';
 
 export const getMWSAuth = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
@@ -56,11 +34,11 @@ export const deleteMWSAuth = (mws_auth_id: any) => (dispatch: any) => {
     .catch(() => {});
 };
 
-export const getIsMWSAuthorized = () => (dispatch: any) => {
+export const getAmazonMWSAuthorized = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/mws-authorized`)
     .then(json => {
-      localStorage.setItem(localStorageKeys.isMWSAuthorized, json.data.is_mws_authorized);
+      dispatch(setAmazonMWSAuthorized(json.data.is_mws_authorized));
     })
     .catch(() => {});
 };
@@ -88,7 +66,7 @@ export const getSellerImage = () => (dispatch: any) => {
     .catch(() => {});
 };
 
-export const updateBasicInfoSeller = (data: SellField) => (dispatch: any) => {
+export const updateBasicInfoSeller = (data: Seller) => (dispatch: any) => {
   const sellerID = data.id;
   const bodyFormData = new FormData();
   bodyFormData.append('name', data.name);
@@ -127,7 +105,7 @@ export const getBasicInfoSeller = () => (dispatch: any) => {
     .catch(error => {});
 };
 
-export const updateAmazonMWS = (sellerID: string, data: MWSinfo) => (dispatch: any) => {
+export const updateAmazonMWS = (sellerID: string, data: AmazonMWS) => (dispatch: any) => {
   const bodyFormData = new FormData();
   bodyFormData.append('marketplace_id', data.marketplace_id);
   bodyFormData.append('amazon_seller_id', data.amazon_seller_id);
@@ -171,17 +149,22 @@ export const getBasicInfoSellerDispatch = (data: any) => ({
   data,
 });
 
-export const setBasicInfoSeller = (data: Field) => ({
+export const setBasicInfoSeller = (data: any) => ({
   type: SET_BASIC_INFO_SELLER,
   data,
 });
 
-export const setAmazonMWS = (data: Field) => ({
+export const setAmazonMWS = (data: any) => ({
   type: SET_AMAZON_MWS,
   data,
 });
 
-export const sideBarExpanded = (data: Field) => ({
+export const sideBarExpanded = (data: any) => ({
   type: SIDE_BAR_EXPANDED,
   data,
+});
+
+export const setAmazonMWSAuthorized = (amazonMWSAuthorized: boolean) => ({
+  type: SET_AMAZON_MWS_AUTHORIZED,
+  payload: amazonMWSAuthorized,
 });

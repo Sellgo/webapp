@@ -1,5 +1,5 @@
 import { OPEN, CLOSE } from '../../constants/constants';
-import { Supplier } from '../Synthesis';
+import { Supplier } from '../../interfaces/Supplier';
 
 export interface ModalsAction {
   type: typeof OPEN | typeof CLOSE;

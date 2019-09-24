@@ -45,14 +45,7 @@ export const SET_SUPPLIERS_TABLE_TAB = 'SET_SUPPLIERS_TABLE_TAB';
 export const SET_SAVE_COLUMN_MAPPING_SETTING = 'SET_SAVE_COLUMN_MAPPING_SETTING';
 export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
 export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
-
-/**
- *
- * keys for localstorage
- */
-export const localStorageKeys = {
-  isMWSAuthorized: 'isMWSAuthorized',
-};
+export const SET_AMAZON_MWS_AUTHORIZED = 'SET_AMAZON_MWS_AUTHORIZED';
 
 export const marketPlace: MarketplaceFields[] = [
   { name: 'Brazil', id: 'A2Q3Y263D00KWC', code: 'BR', link: 'amazon.com' },

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Icon, Menu, Sidebar, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
-import { Field, sideBarExpanded } from '../../actions/Settings';
+import { sideBarExpanded } from '../../actions/Settings';
 import { connect } from 'react-redux';
 
 interface State {
@@ -10,7 +10,7 @@ interface State {
 }
 
 interface Props {
-  sideBarExpanded(data: Field): () => void;
+  sideBarExpanded(data: any): () => void;
 
   logout(): void;
 
@@ -128,7 +128,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    sideBarExpanded: (data: Field) => dispatch(sideBarExpanded(data)),
+    sideBarExpanded: (data: any) => dispatch(sideBarExpanded(data)),
   };
 };
 

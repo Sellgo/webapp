@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Supplier, setFavouriteSupplier, postSynthesisRerun } from '../../../../actions/Synthesis';
+import { setFavouriteSupplier, postSynthesisRerun } from '../../../../actions/Synthesis';
 import {
   resetSuppliers,
   fetchSuppliers,
@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
 import GenericTable, { Column } from '../../../../components/Table';
 import { Link } from 'react-router-dom';
-import { localStorageKeys } from '../../../../constants/constants';
 import history from '../../../../history';
 import {
   suppliersSelector,
@@ -21,6 +20,7 @@ import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';
 import SupplierTableMetrics from './SupplierTableMetrics';
+import { Supplier } from '../../../../interfaces/Supplier';
 
 interface SuppliersTableProps {
   delete_confirmation: boolean;
@@ -102,20 +102,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         },
       ]}
       onChange={(e, data) => {
-        if (localStorage.getItem(localStorageKeys.isMWSAuthorized) === 'true') {
-          if (data.value === 'SYN') {
-            history.push(`/synthesis/${row.supplier_id}`);
-          }
-        } else {
-          const message: any = {};
-          message.title = 'Unauthorized Access';
-          message.message = 'MWS Auth token not found';
-          message.description = 'Please Setup MWS Authorization Token';
-          message.to = '/dashboard/setting';
-          message.icon = 'warning sign';
-          message.color = '#cf3105';
-
-          this.props.onMessageChange(message);
+        if (data.value === 'SYN') {
+          history.push(`/synthesis/${row.supplier_id}`);
         }
       }}
     />

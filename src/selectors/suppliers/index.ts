@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import get from 'lodash/get';
-import { Supplier } from '../../actions/Synthesis';
+import { Supplier } from '../../interfaces/Supplier';
 
 export const supplierIdsSelector = (state: {}): number[] => get(state, 'suppliers.supplierIds');
 export const suppliersByIdSelector = (state: {}): { [key: number]: Supplier } =>

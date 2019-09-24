@@ -16,18 +16,14 @@ import buttonStyle from '../../../components/StyleComponent/StyleComponent';
 
 import { Link } from 'react-router-dom';
 
-import {
-  getSellerSubscription,
-  getSubscriptions,
-  Subscription,
-} from '../../../actions/Settings/Subscription';
+import { getSellerSubscription, getSubscriptions } from '../../../actions/Settings/Subscription';
 
-import { SellField } from '../../../actions/Settings';
 import './subscription.css';
 
 import AdminLayout from '../../../components/AdminLayout';
 import Auth from '../../../components/Auth/Auth';
 import Checkout from './Checkout';
+import { Seller, Subscription } from '../../../interfaces/Seller';
 
 interface State {
   isOpen: boolean;
@@ -38,7 +34,7 @@ interface Props {
 
   getSellerSubscription(): () => void;
 
-  sellerData: SellField;
+  sellerData: Seller;
   sellerSubscription: any;
   subscriptions: Subscription[];
   isUpdate: boolean;

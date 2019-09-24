@@ -3,9 +3,9 @@ import { Segment } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
 import AdminSidebar from './AdminSidebar';
 import PageHeader from './PageHeader';
-import { SellField } from '../../actions/Settings';
 import { connect } from 'react-redux';
 import Auth from '../Auth/Auth';
+import { Seller } from '../../interfaces/Seller';
 
 interface State {
   width: any;
@@ -15,7 +15,7 @@ interface Props {
   isSideBarExpanded: false;
   title?: string;
   auth: Auth;
-  sellerData?: SellField;
+  sellerData?: Seller;
   callToAction?: any;
 }
 
