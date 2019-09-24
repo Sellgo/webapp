@@ -39,7 +39,8 @@ const options = [
 
 export class AdminHeader extends React.Component<any> {
   private readonly height = 45;
-  userName = localStorage.getItem('nickName');
+  userName = localStorage.getItem('userName');
+  userPicture = localStorage.getItem('userPicture');
 
   render() {
     const { sellerData } = this.props;
@@ -74,7 +75,11 @@ export class AdminHeader extends React.Component<any> {
               style={{ width: 1, height: '100%', alignSelf: 'center', backgroundColor: '#a4a4a4' }}
             />
             <Menu.Item>
-              <Icon name="user circle" style={{ fontSize: 25 }} color={'red'} />
+              {this.userPicture ? (
+                <Image src={this.userPicture} avatar />
+              ) : (
+                <Icon name="user circle" style={{ fontSize: 25 }} color={'red'} />
+              )}
               <div style={{ textAlign: 'center', fontSize: 16 }}>
                 Hello
                 <span style={{ display: 'block', width: '100%' }}>{this.userName}</span>

@@ -14,20 +14,17 @@ export interface Subscription {
   track_limit: number;
 }
 
-const headers = {
+const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
-  'Content-Type': 'application/json',
-};
+  'Content-Type': `multipart/form-data`,
+});
 
 export const getSubscriptions = () => (dispatch: any) => {
-  if (headers.Authorization === 'Bearer null') {
-    headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
-  }
-  const url = AppConfig.BASE_URL_API + 'subscriptions/';
+  const url = AppConfig.BASE_URL_API + 'subscriptions';
   return axios({
     method: 'GET',
     url,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(getSubscriptionsDispatch(json.data));
@@ -36,15 +33,12 @@ export const getSubscriptions = () => (dispatch: any) => {
 };
 
 export const getSellerSubscription = () => (dispatch: any) => {
-  if (headers.Authorization === 'Bearer null') {
-    headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
-  }
   const sellerID = localStorage.getItem('userId');
-  const url = AppConfig.BASE_URL_API + `seller/${sellerID}/subscription/`;
+  const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription`;
   return axios({
     method: 'GET',
     url,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(getSellerSubscriptionDispatch(json.data[0]));
@@ -62,9 +56,9 @@ export const updateSellerSubscription = (subscription: Subscription, token_id: a
   formData.append('token_id', token_id);
   return axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `seller/${sellerID}/subscription/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription`,
     data: formData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       Promise.resolve(dispatch(getSellerSubscription()))

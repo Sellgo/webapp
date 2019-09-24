@@ -14,7 +14,7 @@ export default class Auth {
       redirectUrl: AppConfig.callbackUrl,
       responseType: 'token id_token',
       params: {
-        scope: 'openid profile',
+        scope: 'openid profile email',
       },
     },
     allowShowPassword: true,
@@ -38,20 +38,12 @@ export default class Auth {
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
     const formData = new FormData();
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(this.userProfile.name)) {
-      localStorage.setItem('userEmail', this.userProfile.name);
-      formData.append('email', this.userProfile.name);
-    } else {
-      localStorage.setItem('userEmail', '');
-    }
-    if (this.userProfile.given_name || this.userProfile.family_name) {
-      formData.append('name', `${this.userProfile.given_name} ${this.userProfile.family_name}`);
-    }
+    formData.append('email', this.userProfile.email);
+    formData.append('name', `${this.userProfile.name}`);
     formData.append('auth0_user_id', this.userProfile.sub);
 
     axios
-      .post(AppConfig.BASE_URL_API + 'seller/', formData, { headers })
+      .post(AppConfig.BASE_URL_API + 'sellers', formData, { headers })
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
         if (data) {
@@ -69,7 +61,7 @@ export default class Auth {
         this.setSession(authResult);
       } else if (err) {
         history.replace('/');
-        alert(`Error: ${err.error}. Check the console for further details.`);
+        alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);
       }
     });
   };
@@ -102,8 +94,9 @@ export default class Auth {
     this.auth0Lock.getUserInfo(this.accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;
-        localStorage.setItem('auth0_user_id', this.userProfile.sub);
-        localStorage.setItem('nickName', this.userProfile.nickname);
+        localStorage.setItem('userName', this.userProfile.name);
+        localStorage.setItem('userEmail', this.userProfile.email);
+        localStorage.setItem('userPicture', this.userProfile.picture);
       }
       cb(err, profile);
     });
@@ -114,6 +107,9 @@ export default class Auth {
     localStorage.removeItem('userId');
     localStorage.removeItem('idToken');
     localStorage.removeItem('idTokenExpires');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userPicture');
   };
 
   public logout = () => {

@@ -19,8 +19,8 @@ const DataValidation = (props: DataValidationProps) => {
       await validateAndUploadCsv();
     } catch (error) {
       let errors = ['Something went wrong!'];
-      if (error && error.response && error.response.data && error.response.data.error) {
-        errors = error.response.data.error;
+      if (error && error.response && error.response.data && error.response.data.message) {
+        errors = error.response.data.message;
       }
       setError(errors.join());
     }

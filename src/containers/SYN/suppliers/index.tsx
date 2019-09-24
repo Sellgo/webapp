@@ -88,8 +88,6 @@ interface State {
 }
 
 interface Props {
-  getSellers(): () => void;
-
   getBasicInfoSeller(): () => void;
 
   getTimeEfficiency(): () => void;
@@ -180,7 +178,6 @@ export class Suppliers extends React.Component<Props, State> {
     this.props.getBasicInfoSeller();
     this.props.resetUploadCSVResponse();
     this.props.getIsMWSAuthorized();
-    this.props.getSellers();
     this.props.getTimeEfficiency();
     const visited = localStorage.getItem('firstLogin');
     if (!visited) {
@@ -310,7 +307,6 @@ export class Suppliers extends React.Component<Props, State> {
   public deleteSupplier = () => {
     this.props.deleteSupplier(this.state.delete_supplier_container.id, (data: any) => {
       this.setState({ delete_confirmation: false });
-      this.props.getSellers();
     });
   };
 
@@ -459,7 +455,6 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getSellers: () => dispatch(getSellers()),
     getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
     resetUploadCSVResponse: () => dispatch(resetUploadCSVResponse()),
     getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),

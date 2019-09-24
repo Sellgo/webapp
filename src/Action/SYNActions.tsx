@@ -14,13 +14,12 @@ import {
   UPDATE_PRODUCT,
   UPLOAD_SYNTHESIS_FILE_ID,
   GET_PRODUCT_TRACK_GROUP,
-  UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
-  SYN_RESET_PRODUCT_REDUCED_VALUES,
   UPLOAD_CSV_RESPONSE,
 } from '../constant/constant';
 import { AppConfig } from '../config';
 import { updateSupplier, fetchSynthesisProgressUpdates, addSupplier } from './suppliers';
 import { success, error } from '../utils/notifications';
+import { sellerIDSelector } from '../selectors/user';
 export interface Supplier {
   supplier_id: number;
   contact: string;
@@ -144,23 +143,20 @@ export interface ChartAverageRank {
   cdate: string;
 }
 
-const headers = {
+const getHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('idToken')}`,
   'Content-Type': `multipart/form-data`,
-};
+});
 
 let progressTimer: NodeJS.Timeout | null = null;
 const CancelToken = axios.CancelToken;
 let progressAxiosCancel: Canceler | null = null;
 export const getSellers = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-  if (headers.Authorization === 'Bearer null') {
-    headers.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
-  }
   return axios({
     method: 'get',
     url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/?status=active`,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       if (json.data.length == 0) {
@@ -222,8 +218,8 @@ export const getTimeEfficiency = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + `seller/${sellerID}/time_efficiency/`,
-    headers,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/time-efficiency`,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(setTimeEfficiency(json.data));
@@ -235,7 +231,7 @@ export const getProductsChartHistoryPrice = (supplierID: string) => (dispatch: a
   return axios({
     method: 'get',
     url: AppConfig.BASE_URL_API + 'group/' + supplierID + '/history/price',
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       if (json.data.length > 0) {
@@ -258,7 +254,7 @@ export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: an
   return axios({
     method: 'get',
     url: AppConfig.BASE_URL_API + 'group/' + supplierID + '/history/rank',
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(setChartValuesRank(json.data));
@@ -267,10 +263,13 @@ export const getProductsChartHistoryRank = (supplierID: string) => (dispatch: an
 };
 
 export const getProductDetail = (productID: string, supplierID: string) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + 'product/' + productID + '/detail/?supplier_id=' + supplierID,
-    headers,
+    url:
+      AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/detail`,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(setProductDetail(json.data[0]));
@@ -278,11 +277,11 @@ export const getProductDetail = (productID: string, supplierID: string) => (disp
     .catch(error => {});
 };
 
-export const getProductDetailChartRank = (product_id: string) => (dispatch: any) => {
+export const getProductDetailChartRank = (productID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + 'product/' + product_id + '/history/rank',
-    headers,
+    url: AppConfig.BASE_URL_API + `products/${productID}/history/rank`,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(setProductDetailChartRank(json.data));
@@ -290,11 +289,11 @@ export const getProductDetailChartRank = (product_id: string) => (dispatch: any)
     .catch(error => {});
 };
 
-export const getProductDetailChartPrice = (product_id: string) => (dispatch: any) => {
+export const getProductDetailChartPrice = (productID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + 'product/' + product_id + '/history/price',
-    headers,
+    url: AppConfig.BASE_URL_API + `products/${productID}/history/price`,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(setProductDetailChartPrice(json.data));
@@ -302,11 +301,11 @@ export const getProductDetailChartPrice = (product_id: string) => (dispatch: any
     .catch(error => {});
 };
 
-export const getProductDetailChartKpi = (product_id: string) => (dispatch: any) => {
+export const getProductDetailChartKpi = (productID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + 'product/' + product_id + '/history/kpi',
-    headers,
+    url: AppConfig.BASE_URL_API + `products/${productID}/history/kpi`,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(setProductDetailChartKpi(json.data));
@@ -315,10 +314,11 @@ export const getProductDetailChartKpi = (product_id: string) => (dispatch: any) 
 };
 
 export const getProductTrackData = (supplierID: string) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'get',
-    url: AppConfig.BASE_URL_API + 'group/track_data/?supplier_id=' + supplierID,
-    headers,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/group/track-data`,
+    headers: getHeaders(),
   })
     .then(json => {
       if (json.data.length === 0) {
@@ -351,8 +351,8 @@ export const getProductTrackGroupId = (supplierID: string) => (dispatch: any) =>
   const sellerID = localStorage.getItem('userId');
   return axios({
     method: 'GET',
-    url: AppConfig.BASE_URL_API + `seller/${sellerID}/track/group/?supplier_id=${supplierID}`,
-    headers,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(reduceProductTrackGroup(json.data));
@@ -371,10 +371,10 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
   bodyFormData.set('marketplace_id', 'US');
   return axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `seller/${sellerID}/track/group/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`,
     data: bodyFormData,
 
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       // dispatch(reduceProductTrackGroup(json.data));
@@ -388,9 +388,9 @@ function createSupplierGroup(supplier_name: string, call_back: any) {
   bodyFormData.set('name', supplier_name);
   return axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier_group/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/supplier-group`,
     data: bodyFormData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       call_back(json.data);
@@ -417,9 +417,9 @@ export const saveSupplierNameAndDescription = (
       const sellerID = localStorage.getItem('userId');
       return axios({
         method: 'POST',
-        url: AppConfig.BASE_URL_API + `seller/${sellerID}/supplier/`,
+        url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`,
         data: bodyFormData,
-        headers,
+        headers: getHeaders(),
       })
         .then(json => {
           dispatch(addSupplier(json.data));
@@ -443,9 +443,9 @@ export const deleteSupplier = (supplier_id: any, callBack: any) => (dispatch: an
   bodyFormData.set('status', 'inactive');
   return axios({
     method: 'patch',
-    url: AppConfig.BASE_URL_API + `supplier/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplier_id}`,
     data: bodyFormData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(updateSupplier(json.data));
@@ -473,9 +473,9 @@ export const updateSupplierNameAndDescription = (
     }
     return axios({
       method: 'patch',
-      url: AppConfig.BASE_URL_API + `supplier/`,
+      url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${update_supplier_id}`,
       data: bodyFormData,
-      headers,
+      headers: getHeaders(),
     })
       .then(json => {
         dispatch(updateSupplier(json.data));
@@ -491,48 +491,6 @@ export const updateSupplierNameAndDescription = (
   });
 };
 
-export const getLastFileID = (supplierID: string) => (dispatch: any) => {
-  dispatch(setProgressUpdatesValue({ progress: 0 }));
-  if (progressTimer != null) {
-    clearTimeout(progressTimer);
-    if (progressAxiosCancel != null) {
-      progressAxiosCancel();
-    }
-    progressTimer = null;
-  }
-  const sellerID = localStorage.getItem('userId');
-  return axios({
-    method: 'GET',
-    url: AppConfig.BASE_URL_API + `supplier/${supplierID}/get_last_file_id/?seller_id=${sellerID}`,
-    headers,
-  })
-    .then(json => {
-      dispatch(setSynthesisFileID(json.data));
-      getSynthesisProgressUpdates(json.data.synthesis_file_id)(dispatch);
-    })
-    .catch(error => {});
-};
-
-export const getSynthesisProgressUpdates = (synthesisFileID: string) => (dispatch: any) => {
-  return axios({
-    method: 'GET',
-    url: AppConfig.BASE_URL_API + `synthesis_progress/?synthesis_file_id=${synthesisFileID}`,
-    headers,
-    cancelToken: new CancelToken(canceler => {
-      progressAxiosCancel = canceler;
-    }),
-  })
-    .then(json => {
-      dispatch(setProgressUpdatesValue(json.data));
-      if (json.data.progress != 100) {
-        progressTimer = setTimeout(() => {
-          getSynthesisProgressUpdates(synthesisFileID)(dispatch);
-        }, 2000);
-      }
-    })
-    .catch(error => {});
-};
-
 export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   resetUploadCSVResponse();
@@ -544,7 +502,7 @@ export const uploadCSV = (new_supplier_id: string, file: any) => (dispatch: any)
     method: 'POST',
     url: AppConfig.BASE_URL_API + `supplier/${new_supplier_id}/synthesis/upload/`,
     data: bodyFormData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch({
@@ -573,12 +531,8 @@ export const getProducts = (supplierID: string) => (dispatch: any) => {
   return axios({
     method: 'get',
     url:
-      AppConfig.BASE_URL_API +
-      'supplier/' +
-      supplierID +
-      '/synthesis_data_compact/?seller_id=' +
-      sellerID,
-    headers,
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data-compact`,
+    headers: getHeaders(),
   })
     .then(json => {
       if (json.data.length == 0) {
@@ -645,9 +599,9 @@ export const trackProductWithPost = (
   bodyFormData.set('seller_id', sellerID);
   return axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `seller/${sellerID}/track/product/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`,
     data: bodyFormData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(updateProduct(json.data));
@@ -669,20 +623,15 @@ export const trackProductWithPatch = (
 
   return axios({
     method: 'PATCH',
-    url: AppConfig.BASE_URL_API + `track/product/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`,
     data: bodyFormData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(updateProduct(json.data));
     })
     .catch(error => {});
 };
-
-export const resetProductData = (data: {}) => ({
-  type: SYN_RESET_PRODUCT_REDUCED_VALUES,
-  data,
-});
 
 export const resetUploadCSVResponse = () => (dispatch: any) => {
   dispatch(
@@ -699,11 +648,6 @@ export const reduceUploadCSVResponse = (data: {}) => ({
 });
 export const setSynthesisFileID = (data: {}) => ({
   type: UPLOAD_SYNTHESIS_FILE_ID,
-  data,
-});
-
-export const setProgressUpdatesValue = (data: {}) => ({
-  type: UPLOAD_SYNTHESIS_PROGRESS_UPDATES,
   data,
 });
 
@@ -780,9 +724,9 @@ export const setFavouriteSupplier = (supplier_id: any, isFavourite: any) => (dis
 
   return axios({
     method: 'patch',
-    url: AppConfig.BASE_URL_API + `supplier/`,
+    url: AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplier_id}`,
     data: bodyFormData,
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(updateSupplier(json.data));
@@ -790,15 +734,18 @@ export const setFavouriteSupplier = (supplier_id: any, isFavourite: any) => (dis
     .catch(error => {});
 };
 
-export const postSynthesisRerun = (supplier: any) => (dispatch: any) => {
+export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  bodyFormData.set('synthesis_file_id', supplier.synthesis_file_id);
+  bodyFormData.set('synthesis_file_id', String(supplier.synthesis_file_id));
   return axios({
     method: 'POST',
-    url: AppConfig.BASE_URL_API + `synthesis/rerun/`,
+    url:
+      AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplier.supplier_id}/synthesis/rerun`,
     data: bodyFormData,
 
-    headers,
+    headers: getHeaders(),
   })
     .then(json => {
       dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
