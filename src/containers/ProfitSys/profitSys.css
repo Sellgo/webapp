@@ -38,18 +38,9 @@
 .searchDropdown {
   padding-top: 20px;
 }
-.basicKpi {
-  padding-top: 20px;
-  padding-left: 10px;
-  display: flex;
-  justify-content: space-between;
+.customCheck {
+  padding-left: 20px;
 }
-.basicKpi .icon.question.circle:before {
-  line-height: 1;
-  font-size: 1.5em;
-  padding-left: 10px;
-}
-.basicKpi .icon.angle.up:before {
-  content: '\f106';
-  font-size: 20px;
+.listDisplay {
+  display: table-caption;
 }

@@ -39,7 +39,7 @@ class AdminLayout extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <AdminHeader sellerData={sellerData} />
-        <AdminSidebar logout={auth.logout} />
+        {/* <AdminSidebar logout={auth.logout} /> */}
 
         <Segment
           basic={true}
@@ -48,8 +48,8 @@ class AdminLayout extends React.Component<Props, State> {
             minHeight: '100vh',
             marginTop: 0,
             paddingTop: 20,
-            paddingLeft: this.props.isSideBarExpanded ? 190 : 100,
-            paddingRight: this.props.isSideBarExpanded ? 20 : 20,
+            // paddingLeft: this.props.isSideBarExpanded ? 190 : 100,
+            // paddingRight: this.props.isSideBarExpanded ? 20 : 20,
             transition: 'width 0.8s,padding 0.8s',
             backgroundColor: '#f3f3f3f3',
           }}

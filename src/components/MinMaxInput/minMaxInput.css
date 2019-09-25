@@ -1,0 +1,15 @@
+.minMaxInput {
+  padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.minMaxInput {
+  font-size: 12px;
+}
+.minMaxInput .icon.question.circle:before {
+  line-height: 1;
+  font-size: 1.5em;
+  padding-left: 10px;
+}
+.inputContainer {
+}

@@ -1,0 +1,13 @@
+.rangeSlider {
+  padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.rangeSlider {
+  font-size: 12px;
+}
+.rangeSlider .icon.question.circle:before {
+  line-height: 1;
+  font-size: 1.5em;
+  padding-left: 10px;
+}

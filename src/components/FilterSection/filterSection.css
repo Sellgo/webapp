@@ -1,0 +1,23 @@
+.filterHead {
+  padding-top: 20px;
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.filterHead > p {
+  font-weight: 600;
+  font-size: 15px;
+}
+.filterHead .icon.question.circle:before {
+  line-height: 1;
+  font-size: 1.5em;
+  padding-left: 10px;
+}
+.filterHead .icon.angle.up:before {
+  content: '\f106';
+  font-size: 20px;
+}
+.filterHead .icon.angle.down:before {
+  content: '\f107';
+  font-size: 20px;
+}
