@@ -211,7 +211,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     }
     return (
       <React.Fragment>
-        <Divider />
         <this.renderCharts />
         <br />
         <Form>
