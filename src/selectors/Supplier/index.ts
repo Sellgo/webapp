@@ -18,3 +18,5 @@ export const suppliersTableTabSelector = (state: {}): string =>
 export const suppliersTableColumnsSelector = (state: {}) =>
   get(state, 'suppliers.suppliersTableColumns');
 export const supplierSelector = (state: {}) => get(state, 'suppliers.supplier');
+
+export const supplierProductsSelector = (state: {}) => get(state, 'supplier.products');

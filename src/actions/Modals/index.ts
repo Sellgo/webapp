@@ -1,5 +1,6 @@
 import { OPEN, CLOSE } from '../../constants/constants';
 import { Supplier } from '../../interfaces/Supplier';
+import { Product } from '../../interfaces/Product';
 
 export interface ModalsAction {
   type: typeof OPEN | typeof CLOSE;
@@ -20,3 +21,10 @@ export const closeUploadSupplierModal = (): ModalsAction => close('uploadSupplie
 export const openUserOnboardingModal = (): ModalsAction => open('userOnboarding');
 
 export const closeUserOnboardingModal = (): ModalsAction => close('userOnboarding');
+
+export const openSupplierProductDetailModal = (product?: Product): ModalsAction => {
+  console.log(product);
+  return open('supplierProductDetail', product);
+};
+
+export const closeSupplierProductDetailModal = (): ModalsAction => close('supplierProductDetail');

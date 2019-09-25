@@ -38,7 +38,7 @@ import {
 import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../../UserOnboarding';
-import { suppliersSelector } from '../../../selectors/Suppliers';
+import { suppliersSelector } from '../../../selectors/Supplier';
 import { Seller } from '../../../interfaces/Seller';
 import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import { Supplier } from '../../../interfaces/Supplier';

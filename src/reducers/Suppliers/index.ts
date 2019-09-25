@@ -1,9 +1,8 @@
-import { setIn } from '../../utils/immutablity/setIn';
+import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
 import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
-  SELECT_SUPPLIER,
   UPDATE_SUPPLIER,
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
@@ -70,8 +69,9 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
       });
     }
 
-    case RESET_SUPPLIERS:
+    case RESET_SUPPLIERS: {
       return { ...state, ...{ supplierIds: [-1], suppliersById: {} } };
+    }
 
     case SET_SUPPLIERS_TABLE_TAB: {
       return setIn(state, 'suppliersTableTab', action.payload);
@@ -80,11 +80,6 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
     case SET_SUPPLIERS_TABLE_COLUMNS: {
       return setIn(state, 'suppliersTableColumns', action.payload);
     }
-
-    case SELECT_SUPPLIER: {
-      return setIn(state, 'supplier', action.payload);
-    }
-
     default:
       return state;
   }

@@ -7,6 +7,8 @@ import uploadSupplierFilesReducer from './UploadSupplierFiles';
 import { reducer as formReducer } from 'redux-form';
 import modalsReducer from './Modals';
 import suppliersReducer from './Suppliers';
+import supplierReducer from './Supplier';
+import productReducer from './Products';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -16,6 +18,8 @@ const rootReducer = combineReducers({
   form: formReducer,
   modals: modalsReducer,
   suppliers: suppliersReducer,
+  supplier: supplierReducer,
+  product: productReducer,
 });
 
 export default rootReducer;

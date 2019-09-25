@@ -15,7 +15,7 @@ import {
   suppliersSelector,
   suppliersTableTabSelector,
   suppliersTableColumnsSelector,
-} from '../../../../selectors/Suppliers';
+} from '../../../../selectors/Supplier';
 import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';

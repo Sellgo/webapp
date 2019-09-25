@@ -125,7 +125,9 @@ const GenericTable = (props: TableProps) => {
               return (
                 <Table.Row key={index}>
                   {showColumns.map((column, index) => (
-                    <Table.Cell key={column.dataKey || index}>{renderCell(row, column)}</Table.Cell>
+                    <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                      {renderCell(row, column)}
+                    </Table.Cell>
                   ))}
                 </Table.Row>
               );

@@ -34,7 +34,7 @@ export interface ProductsTrackData {
   weight: string;
 }
 
-export interface ProductDetails {
+export interface ProductDetail {
   asin: string;
   fees: string;
   id: number;

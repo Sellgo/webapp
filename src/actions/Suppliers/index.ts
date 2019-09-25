@@ -1,7 +1,6 @@
 import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
-  SELECT_SUPPLIER,
   UPDATE_SUPPLIER,
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
@@ -12,8 +11,16 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
-import { suppliersSelector } from '../../selectors/Suppliers';
+import { suppliersSelector } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
+import {
+  SET_SUPPLIER_DETAILS,
+  SET_SUPPLIER_PRODUCTS,
+  RESET_SUPPLIER_PRODUCTS,
+  SET_SUPPLIER_PRODUCTS_TRACK_DATA,
+  RESET_SUPPLIER,
+} from '../../constants/Synthesis/Suppliers';
+import { Product } from '../../interfaces/Product';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -41,19 +48,18 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
   dispatch(fetchSynthesisProgressUpdates());
 };
 
-export const fetchSupplier = (supplierId: number) => async (
+export const fetchSupplier = (supplierID: any) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
-    `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?supplier_id=${String(
-      supplierId
-    )}`
+    `${AppConfig.BASE_URL_API}sellers/${String(
+      sellerID
+    )}/suppliers-compact?supplier_id=${supplierID}`
   );
   if (response.data.length) {
-    dispatch(updateSupplier({ ...response.data[0], id: supplierId }));
-    dispatch(selectSupplier({ ...response.data[0], id: supplierId }));
+    dispatch(updateSupplier({ ...response.data[0], id: supplierID }));
   }
 };
 
@@ -101,11 +107,6 @@ export const fetchSynthesisProgressUpdates = () => async (
   }
 };
 
-export const selectSupplier = (supplier: Supplier) => ({
-  type: SELECT_SUPPLIER,
-  payload: supplier,
-});
-
 export const updateSupplier = (supplier: Supplier) => ({
   type: UPDATE_SUPPLIER,
   payload: supplier,
@@ -134,3 +135,64 @@ export const setSupplierTableTab = (tab: string) => ({
   type: SET_SUPPLIERS_TABLE_TAB,
   payload: tab,
 });
+
+export const resetSupplier = () => ({ type: RESET_SUPPLIER });
+
+export const setSupplierProducts = (products: Product[]) => ({
+  type: SET_SUPPLIER_PRODUCTS,
+  payload: products,
+});
+
+export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
+
+export const fetchSupplierProducts = (supplierID: any) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  const sellerID = sellerIDSelector();
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data-compact`
+  );
+  if (response.data.length) {
+    const products = response.data;
+    dispatch(setSupplierProducts(products));
+  }
+};
+
+export const setSupplierDetails = (supplier: Supplier) => ({
+  type: SET_SUPPLIER_DETAILS,
+  payload: supplier,
+});
+
+export const fetchSupplierDetails = (supplierID: any) => (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  const sellerID = sellerIDSelector();
+
+  Axios.get(
+    `${AppConfig.BASE_URL_API}sellers/${String(
+      sellerID
+    )}/suppliers-compact?supplier_id=${supplierID}`
+  ).then(response => {
+    console.log(response.data);
+    if (response.data.length) {
+      dispatch(setSupplierDetails(response.data[0]));
+    }
+  });
+};
+
+export const setSupplierProductsTrackData = (data: any) => ({
+  type: SET_SUPPLIER_PRODUCTS_TRACK_DATA,
+  payload: data,
+});
+
+export const fetchSupplierProductsTrackData = (supplierID: any) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  const sellerID = sellerIDSelector();
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/group/track-data`
+  );
+  if (response.data.length) {
+    dispatch(setSupplierProductsTrackData(response.data[0]));
+  }
+};
