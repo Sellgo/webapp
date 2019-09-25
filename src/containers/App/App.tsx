@@ -12,7 +12,7 @@ import { ProductTracker } from '../ProductTracker/ProductTracker';
 import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
 import Suppliers from '../Synthesis/Suppliers';
-import SupplierDetail from '../Synthesis/Suppliers/SupplierDetails';
+import SupplierDetail from '../Synthesis/Suppliers/Supplier';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback';
 import history from '../../history';
