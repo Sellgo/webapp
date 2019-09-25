@@ -21,8 +21,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
   componentDidMount() {
     const { supplierID, fetchSupplierDetails, fetchSupplierProducts } = this.props;
-    //fetchSupplierDetails(supplierID);
-    //fetchSupplierProducts(supplierID);
+    fetchSupplierDetails(supplierID);
+    fetchSupplierProducts(supplierID);
   }
 
   renderProfit = (props: any) => {
@@ -116,9 +116,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
-    const { supplierDetails, products, fetchSupplierDetails, supplierID } = this.props;
+    const { supplierDetails, products, supplierID } = this.props;
 
-    const showProducts = products.sort((a, b) => parseFloat(b['profit']) - parseFloat(a['profit']));
+    const showProducts = [...products].sort(
+      (a, b) => parseFloat(b['profit']) - parseFloat(a['profit'])
+    );
     let productSKUs = [];
     let profit = [];
     profit = showProducts.map(e => parseFloat(e['profit']));
