@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom';
 import {
   saveSupplierNameAndDescription,
   updateSupplierNameAndDescription,
-  getTimeEfficiency,
   deleteSupplier,
   postProductTrackGroupId,
 } from '../../../actions/Synthesis';
@@ -84,8 +83,6 @@ interface State {
 
 interface Props {
   getBasicInfoSeller(): () => void;
-
-  getTimeEfficiency(): () => void;
 
   getAmazonMWSAuthorized(): () => void;
 
@@ -171,7 +168,6 @@ export class Suppliers extends React.Component<Props, State> {
   componentDidMount() {
     this.props.getBasicInfoSeller();
     this.props.getAmazonMWSAuthorized();
-    this.props.getTimeEfficiency();
     const visited = localStorage.getItem('firstLogin');
     if (!visited) {
       this.props.openUserOnboardingModal();
@@ -453,7 +449,6 @@ const mapDispatchToProps = (dispatch: any) => {
     getAmazonMWSAuthorized: () => dispatch(getAmazonMWSAuthorized()),
     postProductTrackGroupId: (supplierID: string, supplierName: string) =>
       dispatch(postProductTrackGroupId(supplierID, supplierName)),
-    getTimeEfficiency: () => dispatch(getTimeEfficiency()),
     saveSupplierNameAndDescription: (name: string, description: string, callBack: any) =>
       dispatch(saveSupplierNameAndDescription(name, description, callBack)),
     updateSupplierNameAndDescription: (

@@ -7,6 +7,8 @@ import {
   RESET_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_DETAILS,
   RESET_SUPPLIER,
+  UPDATE_SUPPLIER_PRODUCT,
+  SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
 } from '../../constants/Synthesis/Suppliers';
 
 const initialState = {
@@ -31,7 +33,6 @@ const initialState = {
 };
 
 export default (state = initialState, action: AnyAction) => {
-  console.log(state, action);
   switch (action.type) {
     case SET_SUPPLIER_PRODUCTS: {
       return setIn(state, 'products', action.payload);
@@ -47,9 +48,22 @@ export default (state = initialState, action: AnyAction) => {
       };
       return setIn(state, 'details', hit);
     }
+    case UPDATE_SUPPLIER_PRODUCT:
+      const updateProduct = action.payload;
+      const products = get(state, 'products').map((product: any) => {
+        const checkProduct = product;
+        if (checkProduct.product_id === updateProduct.product_id) {
+          checkProduct.tracking_status = updateProduct.status;
+          checkProduct.product_track_id = updateProduct.id;
+        }
+        return checkProduct;
+      });
+      return setIn(state, 'products', products);
     case SET_SUPPLIER_PRODUCTS_TRACK_DATA: {
       return setIn(state, 'trackData', action.payload);
     }
+    case SET_SUPPLIER_PRODUCT_TRACKER_GROUP:
+      return setIn(state, 'productTrackerGroup', action.payload);
     case RESET_SUPPLIER: {
       return initialState;
     }

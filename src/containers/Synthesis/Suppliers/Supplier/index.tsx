@@ -6,11 +6,6 @@ import 'react-rangeslider/lib/index.css';
 import 'react-input-range/lib/css/index.css';
 import '../suppliers.css';
 
-import {
-  trackProductWithPatch,
-  trackProductWithPost,
-  getProductTrackGroupId,
-} from '../../../../actions/Synthesis';
 import AdminLayout from '../../../../components/AdminLayout';
 import Auth from '../../../../components/Auth/Auth';
 import { Seller } from '../../../../interfaces/Seller';
@@ -23,23 +18,7 @@ import SupplierDetails from './SupplierDetails';
 import { resetSupplier } from '../../../../actions/Suppliers';
 
 interface SupplierProps {
-  // trackProductWithPatch(
-  //   productID: string,
-  //   productTrackGroupID: string,
-  //   status: string,
-  //   supplierID: string
-  // ): () => void;
-
-  // trackProductWithPost(
-  //   productID: string,
-  //   productTrackGroupID: string,
-  //   status: string,
-  //   supplierID: string
-  // ): () => void;
-
-  //getProductTrackGroupId(supplierID: string): () => void;
   sellerData: Seller;
-  //productTrackGroup: [{ id: 0 }];
   match: { params: { supplierID: ''; auth: Auth } };
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
@@ -47,9 +26,7 @@ interface SupplierProps {
 }
 
 export class Supplier extends React.Component<SupplierProps> {
-  componentDidMount() {
-    //this.props.getProductTrackGroupId(this.props.match.params.supplierID);
-  }
+  componentDidMount() {}
   componentWillUnmount() {
     this.props.resetSupplier();
   }
@@ -102,21 +79,7 @@ const mapStateToProps = (state: any) => ({
   sellerData: state.settings.profile,
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
-
 const mapDispatchToProps = {
-  getProductTrackGroupId: (supplierID: string) => getProductTrackGroupId(supplierID),
-  trackProductWithPatch: (
-    productID: string,
-    productTrackGroupID: string,
-    status: string,
-    supplierID: string
-  ) => trackProductWithPatch(productID, productTrackGroupID, status, supplierID),
-  trackProductWithPost: (
-    productID: string,
-    productTrackGroupID: string,
-    status: string,
-    supplierID: string
-  ) => trackProductWithPost(productID, productTrackGroupID, status, supplierID),
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
   resetSupplier: () => resetSupplier(),
 };

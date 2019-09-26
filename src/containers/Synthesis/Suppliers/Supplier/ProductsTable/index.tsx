@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { Icon, Segment, Loader, Grid, Image, Button } from 'semantic-ui-react';
+import { Icon, Segment, Loader, Grid, Image, Button, Dropdown } from 'semantic-ui-react';
 import GenericTable, { Column } from '../../../../../components/Table';
 import { Link } from 'react-router-dom';
 import { Product } from '../../../../../interfaces/Product';
 import { openSupplierProductDetailModal } from '../../../../../actions/Modals';
-import { resetSupplierProducts, fetchSupplierProducts } from '../../../../../actions/Suppliers';
+import {
+  resetSupplierProducts,
+  fetchSupplierProducts,
+  fetchSupplierProductTrackerGroup,
+  updateProductTrackingStatus,
+} from '../../../../../actions/Suppliers';
 import { supplierProductsSelector } from '../../../../../selectors/Supplier';
+import get from 'lodash/get';
+import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
 
 interface ProductsTableProps {
   supplierID: any;
   products: Product[];
+  productTrackerGroup: any;
   fetchSupplierProducts: (supplierID: any) => void;
   resetSupplierProducts: typeof resetSupplierProducts;
+  fetchProductTrackerGroup: (supplierID: any) => void;
+  updateProductTrackingStatus: (
+    status: string,
+    productID?: any,
+    productTrackerID?: any,
+    productTrackerGroupID?: any
+  ) => void;
   openProductDetailModal: (product?: Product) => void;
 }
 
@@ -72,6 +87,7 @@ class ProductsTable extends Component<ProductsTableProps> {
   };
 
   renderTracker = (row: Product) => {
+    const { productTrackerGroup, updateProductTrackingStatus } = this.props;
     return (
       <Button
         basic={true}
@@ -83,30 +99,27 @@ class ProductsTable extends Component<ProductsTableProps> {
           paddingRight: 15,
         }}
         color={row.tracking_status === 'active' ? 'teal' : 'blue'}
-        /* onClick={() => {
-      let productTrackGroupID = 2;
-      if (
-        this.props.productTrackGroup.length > 0 &&
-        this.props.productTrackGroup[0].id > 0
-      ) {
-        productTrackGroupID = this.props.productTrackGroup[0].id;
-        if (row.tracking_status !== null) {
-          this.props.trackProductWithPatch(
-            String(row.product_track_id),
-            String(productTrackGroupID),
-            row.tracking_status === 'active' ? 'inactive' : 'active',
-            this.props.match.params.supplierID
-          );
-        } else {
-          this.props.trackProductWithPost(
-            String(row.product_id),
-            String(productTrackGroupID),
-            'active',
-            this.props.match.params.supplierID
-          );
-        }
-      }
-    }} */
+        onClick={() => {
+          let productTrackerGroupID = 2;
+          if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
+            productTrackerGroupID = productTrackerGroup[0].id;
+            if (row.tracking_status !== null) {
+              updateProductTrackingStatus(
+                row.tracking_status === 'active' ? 'inactive' : 'active',
+                undefined,
+                row.product_track_id,
+                undefined
+              );
+            } else {
+              updateProductTrackingStatus(
+                'active',
+                row.product_id,
+                undefined,
+                productTrackerGroupID
+              );
+            }
+          }
+        }}
       >
         <h2 style={{ fontSize: 17 }}>
           {row.tracking_status === 'active' ? 'Untrack' : 'Track Now'}
@@ -196,10 +209,85 @@ class ProductsTable extends Component<ProductsTableProps> {
     },
   ];
 
+  MiddleRows = () => {
+    const { products } = this.props;
+    const singlePageItemsCount = 10;
+    const totalProducts = products.length;
+    const currentPage = 1;
+    const maxCount =
+      currentPage * singlePageItemsCount > totalProducts
+        ? totalProducts
+        : currentPage * singlePageItemsCount;
+    const minCount = (currentPage - 1) * singlePageItemsCount + 1;
+
+    return (
+      <Grid>
+        <Grid.Column width={4} textAlign="center">
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {`${minCount}-${maxCount} of ${totalProducts} items`}
+            <Dropdown
+              text={String(singlePageItemsCount)}
+              style={{ width: '40%', alignSelf: 'center', margin: 'auto' }}
+              fluid={true}
+              selection={true}
+              options={[
+                {
+                  key: '10',
+                  text: '10',
+                  value: '10',
+                },
+                {
+                  key: '30',
+                  text: '30',
+                  value: '30',
+                },
+                {
+                  key: '50',
+                  text: '50',
+                  value: '50',
+                },
+                {
+                  key: '100',
+                  text: '100',
+                  value: '100',
+                },
+              ]}
+              onChange={(e, data) => {
+                const singlePageItemCounts = Number(data.value);
+                const totalPages = Math.ceil(products.length / singlePageItemCounts);
+                /* this.setState({
+                  singlePageItemsCount: singlePageItemCounts,
+                  totalPages,
+                  currentPage: totalPages < currentPage ? 1 : currentPage,
+                }); */
+              }}
+            />
+            Items per Page
+          </div>
+        </Grid.Column>
+        <Grid.Column
+          width={4}
+          floated="right"
+          style={{
+            padding: 0,
+          }}
+        >
+          <SupplierTableMetrics />
+        </Grid.Column>
+      </Grid>
+    );
+  };
+
   componentDidMount() {
-    const { supplierID, resetSupplierProducts, fetchSupplierProducts } = this.props;
+    const {
+      supplierID,
+      resetSupplierProducts,
+      fetchSupplierProducts,
+      fetchProductTrackerGroup,
+    } = this.props;
     resetSupplierProducts();
     fetchSupplierProducts(supplierID);
+    fetchProductTrackerGroup(supplierID);
   }
 
   componentWillUnmount() {
@@ -227,6 +315,7 @@ class ProductsTable extends Component<ProductsTableProps> {
     const columns = this.columns;
     return (
       <>
+        <this.MiddleRows />
         <GenericTable data={data} columns={columns} />
       </>
     );
@@ -235,11 +324,19 @@ class ProductsTable extends Component<ProductsTableProps> {
 
 const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
+  productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
 });
 
 const mapDispatchToProps = {
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
+  fetchProductTrackerGroup: (supplierID: any) => fetchSupplierProductTrackerGroup(supplierID),
+  updateProductTrackingStatus: (
+    status: string,
+    productID?: any,
+    productTrackerID?: any,
+    productTrackerGroupID?: any
+  ) => updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
 };
 
@@ -247,101 +344,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ProductsTable);
-
-/* 
-renderMiddleRows = () => {
-  const totalProducts = this.state.products.length;
-  const singlePageItemsCount = this.state.singlePageItemsCount;
-  const currentPage = this.state.currentPage;
-  const maxCount =
-    currentPage * singlePageItemsCount > totalProducts
-      ? totalProducts
-      : currentPage * singlePageItemsCount;
-  const minCount = (currentPage - 1) * singlePageItemsCount + 1;
-
-  return (
-    <Grid>
-      <Grid.Column width={4} textAlign="center">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {`${minCount}-${maxCount} of ${totalProducts} items`}
-          <Dropdown
-            text={String(this.state.singlePageItemsCount)}
-            style={{ width: '40%', alignSelf: 'center', margin: 'auto' }}
-            fluid={true}
-            selection={true}
-            options={[
-              {
-                key: '10',
-                text: '10',
-                value: '10',
-              },
-              {
-                key: '30',
-                text: '30',
-                value: '30',
-              },
-              {
-                key: '50',
-                text: '50',
-                value: '50',
-              },
-              {
-                key: '100',
-                text: '100',
-                value: '100',
-              },
-            ]}
-            onChange={(e, data) => {
-              const singlePageItemCounts = Number(data.value);
-              const totalPages = Math.ceil(this.props.products.length / singlePageItemCounts);
-              this.setState({
-                singlePageItemsCount: singlePageItemCounts,
-                totalPages,
-                currentPage: totalPages < this.state.currentPage ? 1 : this.state.currentPage,
-              });
-            }}
-          />
-          Items per Page
-        </div>
-      </Grid.Column>
-      <Grid.Column
-        width={4}
-        floated="right"
-        style={{
-          padding: 0,
-        }}
-      >
-        <div
-          className="ui"
-          style={{
-            display: 'inline-flex',
-          }}
-        >
-          <span style={{ padding: '0 8px' }}>
-            Time Saved
-            <h2>
-              <strong>
-                {this.props.time_efficiency_data.length > 0
-                  ? this.props.time_efficiency_data[0].saved_time
-                  : '0'}{' '}
-                hrs
-              </strong>
-            </h2>
-          </span>
-          <span style={{ padding: '0 8px' }}>
-            Efficiency
-            <h2>
-              <strong>
-                {this.props.time_efficiency_data.length > 0
-                  ? this.props.time_efficiency_data[0].efficiency
-                  : '0'}{' '}
-                %
-              </strong>
-            </h2>
-          </span>
-        </div>
-      </Grid.Column>
-    </Grid>
-  );
-};
- */

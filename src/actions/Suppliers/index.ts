@@ -19,6 +19,8 @@ import {
   RESET_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PRODUCTS_TRACK_DATA,
   RESET_SUPPLIER,
+  SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
+  UPDATE_SUPPLIER_PRODUCT,
 } from '../../constants/Synthesis/Suppliers';
 import { Product } from '../../interfaces/Product';
 
@@ -173,7 +175,6 @@ export const fetchSupplierDetails = (supplierID: any) => (
       sellerID
     )}/suppliers-compact?supplier_id=${supplierID}`
   ).then(response => {
-    console.log(response.data);
     if (response.data.length) {
       dispatch(setSupplierDetails(response.data[0]));
     }
@@ -196,3 +197,53 @@ export const fetchSupplierProductsTrackData = (supplierID: any) => async (
     dispatch(setSupplierProductsTrackData(response.data[0]));
   }
 };
+
+export const setSupplierProductTrackerGroup = (data: any) => ({
+  type: SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
+  payload: data,
+});
+
+export const fetchSupplierProductTrackerGroup = (supplierID: string) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  return Axios.get(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`
+  )
+    .then(json => {
+      dispatch(setSupplierProductTrackerGroup(json.data));
+    })
+    .catch(error => {});
+};
+
+export const updateProductTrackingStatus = (
+  status: string,
+  productID?: string,
+  productTrackerID?: string,
+  productTrackerGroupID?: string
+) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const bodyFormData = new FormData();
+
+  bodyFormData.set('seller_id', sellerID || '');
+  bodyFormData.set('status', status);
+
+  if (productTrackerID) bodyFormData.set('id', productTrackerID);
+  if (productID) bodyFormData.set('product_id', productID);
+  if (productTrackerGroupID) bodyFormData.set('product_track_group_id', productTrackerGroupID);
+
+  return !productTrackerID
+    ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
+        .then(json => {
+          dispatch(updateSupplierProduct(json.data));
+        })
+        .catch(error => {})
+    : Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
+        .then(json => {
+          dispatch(updateSupplierProduct(json.data));
+        })
+        .catch(error => {});
+};
+
+export const updateSupplierProduct = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCT,
+  payload: data,
+});

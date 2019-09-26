@@ -3,11 +3,17 @@ import { Card } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { supplierMetricsSelector } from '../../../../selectors/Synthesis';
 import { TimeEfficiency } from '../../../../interfaces/Metrics';
+import { getTimeEfficiency } from '../../../../actions/Synthesis';
 
 interface SupplierTableMetricsProps {
   time_efficiency_data: TimeEfficiency[];
+  getTimeEfficiency: () => void;
 }
 class SupplierTableMetrics extends Component<SupplierTableMetricsProps> {
+  componentDidMount() {
+    const { getTimeEfficiency } = this.props;
+    getTimeEfficiency();
+  }
   render() {
     return (
       <div>
@@ -55,7 +61,9 @@ const mapStateToProps = (state: {}) => ({
   time_efficiency_data: supplierMetricsSelector(state),
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getTimeEfficiency: () => getTimeEfficiency(),
+};
 
 export default connect(
   mapStateToProps,
