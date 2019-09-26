@@ -86,6 +86,11 @@
   background: #dfe8f3 !important;
 }
 
+.filterContent .input-range__track--active {
+  height: 2px !important;
+  background: #4285f4 !important;
+}
+
 .filterContent .input-range__slider {
   background: #5381db;
 }
