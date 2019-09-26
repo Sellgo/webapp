@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { ProductFiltersPreset } from '../../../../../constants/constants';
 import { Product } from '../../../../../interfaces/Product';
 import InputRange from 'react-input-range';
+import 'react-rangeslider/lib/index.css';
+import 'react-input-range/lib/css/index.css';
 import { supplierProductsSelector } from '../../../../../selectors/Supplier';
+import './SupplierFilters.css';
 
-interface SupplierKPIProps {
+interface SupplierFiltersProps {
   products: Product[];
 }
-class SupplierKPI extends Component<SupplierKPIProps> {
+class SupplierFilters extends Component<SupplierFiltersProps> {
   state = {
     unitProfitFilter: {
       min: 0,
@@ -36,8 +39,86 @@ class SupplierKPI extends Component<SupplierKPIProps> {
     minProfitPerMonth: 0,
     maxProfitPerMonth: 100,
   };
+
+  componentDidMount() {
+    const { products } = this.props;
+    let minUnitProfit = Number.MAX_SAFE_INTEGER;
+    let maxUnitProfit = Number.MIN_SAFE_INTEGER;
+
+    let minMargin = Number.MAX_SAFE_INTEGER;
+    let maxMargin = Number.MIN_SAFE_INTEGER;
+    let minUnitsPerMonth = Number.MAX_SAFE_INTEGER;
+    let maxUnitsPerMonth = Number.MIN_SAFE_INTEGER;
+    let minProfitPerMonth = Number.MAX_SAFE_INTEGER;
+    let maxProfitPerMonth = Number.MIN_SAFE_INTEGER;
+    for (const product of products) {
+      if (parseInt(product.profit, 10) < minUnitProfit) {
+        minUnitProfit = Math.floor(parseFloat(product.profit));
+      }
+      if (parseInt(product.profit, 10) > maxUnitProfit) {
+        maxUnitProfit = Math.floor(parseFloat(product.profit));
+      }
+      if (parseInt(product.margin, 10) < minMargin) {
+        minMargin = Math.floor(parseFloat(product.margin));
+      }
+      if (parseInt(product.margin, 10) > maxMargin) {
+        maxMargin = Math.floor(parseFloat(product.margin));
+      }
+      if (parseInt(product.sales_monthly, 10) < minUnitsPerMonth) {
+        minUnitsPerMonth = Math.floor(parseFloat(product.sales_monthly));
+      }
+      if (parseInt(product.sales_monthly, 10) > maxUnitsPerMonth) {
+        maxUnitsPerMonth = Math.floor(parseFloat(product.sales_monthly));
+      }
+      if (parseInt(product.profit_monthly, 10) < minProfitPerMonth) {
+        minProfitPerMonth = Math.floor(parseFloat(product.profit_monthly));
+      }
+      if (parseInt(product.profit_monthly, 10) > maxProfitPerMonth) {
+        maxProfitPerMonth = Math.floor(parseFloat(product.profit_monthly));
+      }
+    }
+    if (minUnitProfit === Number.MAX_SAFE_INTEGER) {
+      minUnitProfit = -100;
+    }
+    if (maxUnitProfit === Number.MIN_SAFE_INTEGER) {
+      maxUnitProfit = -100;
+    }
+    if (minMargin === Number.MAX_SAFE_INTEGER) {
+      minMargin = -100;
+    }
+    if (maxMargin === Number.MIN_SAFE_INTEGER) {
+      maxMargin = -100;
+    }
+    if (minUnitsPerMonth === Number.MAX_SAFE_INTEGER) {
+      minUnitsPerMonth = -100;
+    }
+    if (maxUnitsPerMonth === Number.MIN_SAFE_INTEGER) {
+      maxUnitsPerMonth = -100;
+    }
+    if (minProfitPerMonth === Number.MAX_SAFE_INTEGER) {
+      minProfitPerMonth = -100;
+    }
+    if (maxProfitPerMonth === Number.MIN_SAFE_INTEGER) {
+      maxProfitPerMonth = -100;
+    }
+    this.setState({
+      minUnitProfit,
+      maxUnitProfit,
+      minMargin,
+      maxMargin,
+      minUnitsPerMonth,
+      maxUnitsPerMonth,
+      minProfitPerMonth,
+      maxProfitPerMonth,
+      unitProfitFilter: { min: minUnitProfit, max: maxUnitProfit },
+      profitPerMonthFilter: { min: minProfitPerMonth, max: maxProfitPerMonth },
+      unitsPerMonthFilter: { min: minUnitsPerMonth, max: maxUnitsPerMonth },
+      marginFilter: { min: minMargin, max: maxMargin },
+    });
+  }
+
   updateFilters = () => {
-    const products: Product[] = this.props.products;
+    const { products } = this.props;
     const newProducts: Product[] = [];
     for (const product of products) {
       let shouldAdd = true;
@@ -411,4 +492,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SupplierKPI);
+)(SupplierFilters);
