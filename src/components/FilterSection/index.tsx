@@ -2,25 +2,43 @@ import * as React from 'react';
 import { Popup, Icon } from 'semantic-ui-react';
 import './filterSection.css';
 
-const FilterSection = (props: any) => {
-  const { title, children } = props;
-  return (
-    <div className={''}>
-      <div className={'filterHead'}>
-        <p>
-          {title}
-          <Popup
-            className={'addSupplierPopup'}
-            trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
-            position="top left"
-            size="tiny"
+class FilterSection extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      isOpen: true,
+    };
+  }
+  _handleIsOpenMenu = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  render() {
+    const { title, children } = this.props;
+    const { isOpen } = this.state;
+    return (
+      <div className={''}>
+        <div className={'filterHead'}>
+          <p>
+            {title}
+            <Popup
+              className={'addSupplierPopup'}
+              trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
+              position="top left"
+              size="tiny"
+            />
+          </p>
+          <Icon
+            name={isOpen ? 'angle up' : 'angle down'}
+            size={'small'}
+            color={'grey'}
+            onClick={this._handleIsOpenMenu}
           />
-        </p>
-        <Icon name="angle up" size={'small'} color={'grey'} />
+        </div>
+        <div className={'content'}>{isOpen && children}</div>
       </div>
-      <div className={'content'}>{children}</div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default FilterSection;

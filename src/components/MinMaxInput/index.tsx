@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Popup, Icon, Input } from 'semantic-ui-react';
+import { Popup, Icon, Input, Container } from 'semantic-ui-react';
 
 import './minMaxInput.css';
 
 const MinMaxInput = (props: any) => {
   const { title, minPlaceHolder, maxPlaceHolder } = props;
   return (
-    <>
+    <Container>
       <div className={'minMaxInput'}>
         <p>
           {title}
@@ -23,7 +23,7 @@ const MinMaxInput = (props: any) => {
         <Icon name="arrow right" />
         <Input placeholder={maxPlaceHolder}></Input>
       </div>
-    </>
+    </Container>
   );
 };
 

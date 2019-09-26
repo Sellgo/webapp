@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Popup, Icon, Button } from 'semantic-ui-react';
+import { Popup, Icon, Button, Container } from 'semantic-ui-react';
 import InputRange from 'react-input-range';
 import './rangeSlider.css';
 
 const RangeSlider = (props: any) => {
   const { title } = props;
   return (
-    <>
+    <Container>
       <div className={'rangeSlider'}>
         <p>
           {title}
@@ -32,7 +32,7 @@ const RangeSlider = (props: any) => {
       <Button basic color="grey" content="Grey">
         Max
       </Button>
-    </>
+    </Container>
   );
 };
 
