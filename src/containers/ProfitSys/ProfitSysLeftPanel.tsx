@@ -10,7 +10,7 @@ import './profitSys.css';
 class ProfitSysLeftPanel extends React.Component<any, {}> {
   public render() {
     return (
-      <Grid.Column width={4} className={'profitSysLeft'}>
+      <Grid.Column width={3} className={'profitSysLeft'}>
         <AdviceCard />
         <p className={'products'}>xxx of xxx products</p>
         <Divider fitted />

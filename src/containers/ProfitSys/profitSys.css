@@ -1,12 +1,26 @@
+.three.wide.column.profitSysLeft {
+  padding-right: 10px;
+  width: 17% !important;
+}
+
+.ui.grid > [class*='thirteen wide'].column {
+  padding-left: 10px;
+  width: 83% !important;
+}
 .pageHeadRight {
   display: flex;
   float: right;
   justify-content: flex-end;
 }
+.pageHeadRight .add-new-supplier {
+  padding: 12px 61px;
+  background: #349af8;
+}
 .pageHeadRight .ui.tiny.progress {
-  width: 148px;
+  width: 250px;
   margin-right: 15px;
   top: 12px;
+  height: 6px;
 }
 .pageHeadRight .ui.progress > .label {
   font-size: 10px;
@@ -14,17 +28,26 @@
   margin-top: -4px;
 }
 .pageHeadRight .ui.tiny.progress .bar {
-  height: 8px;
+  height: 6px;
 }
 .profitSysLeft .ui.divider:not(.vertical):not(.horizontal) {
-  border-top: 1px solid #ababab;
+  border-top: 1px solid #707070;
+}
+.profitSysLeft .ui.card {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 25px;
 }
 .profitSysLeft .ui.card > .content > .header {
-  font-weight: 300;
+  font-size: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: normal;
 }
 .profitSysLeft .ui.card > .content > p {
   font-size: 14px;
   padding-top: 10px;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 14px;
 }
 .profitSysLeft .ui.card > .content > span {
   display: flex;
@@ -34,13 +57,35 @@
 }
 .products {
   padding-left: 10px;
+  font-size: 20px;
+  margin-bottom: 26px;
 }
 .searchDropdown {
-  padding-top: 20px;
+  padding-top: 38px;
 }
 .customCheck {
-  padding-left: 20px;
+  width: 100%;
+  margin-bottom: 21px;
 }
-.listDisplay {
-  display: table-caption;
+.customCheck .ui.checkbox label {
+  font-size: 16px;
+}
+.wrap_radio {
+  display: flex;
+  align-items: center;
+}
+.wrap_radio .ui.checked.fitted.toggle.checkbox {
+  margin-right: 11px;
+}
+.track_row {
+  border-top: 1px solid #707070;
+}
+
+.filterContent .input-range__track {
+  height: 2px !important;
+  background: #dfe8f3 !important;
+}
+
+.filterContent .input-range__slider {
+  background: #5381db;
 }

@@ -17,7 +17,7 @@ class FilterSection extends React.Component<any, any> {
     const { title, children } = this.props;
     const { isOpen } = this.state;
     return (
-      <div className={''}>
+      <div className={'filterHeadBox'}>
         <div className={'filterHead'}>
           <p>
             {title}
@@ -35,7 +35,7 @@ class FilterSection extends React.Component<any, any> {
             onClick={this._handleIsOpenMenu}
           />
         </div>
-        <div className={'content'}>{isOpen && children}</div>
+        <div className={'filterContent'}>{isOpen && children}</div>
       </div>
     );
   }

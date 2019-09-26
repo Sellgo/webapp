@@ -26,12 +26,11 @@ const RangeSlider = (props: any) => {
         onChange={value => console.log(value)}
         onChangeComplete={value => console.log(value)}
       />
-      <Button basic color="grey" content="Grey">
-        Min
-      </Button>
-      <Button basic color="grey" content="Grey">
-        Max
-      </Button>
+
+      <div className="rangeBtns">
+        <Button>Min</Button>
+        <Button>Max</Button>
+      </div>
     </Container>
   );
 };

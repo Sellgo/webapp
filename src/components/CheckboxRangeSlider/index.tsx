@@ -8,25 +8,30 @@ const CheckboxRangeSlider = (props: any) => {
   return (
     <Container>
       <div className={'checkRangeSlider'}>
-        <p>
+        <span className="wrapCheckbox">
           <Checkbox />
-          {title}
+          <span>{title}</span>
           <Popup
             className={'addSupplierPopup'}
             trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
             position="top left"
             size="tiny"
           />
-        </p>
+        </span>
       </div>
-      <InputRange
-        maxValue={20}
-        minValue={0}
-        formatLabel={value => `${value}`}
-        value={5}
-        onChange={value => console.log(value)}
-        onChangeComplete={value => console.log(value)}
-      />
+
+      <div className="wrapCheckRange">
+        <span>Min</span>
+        <InputRange
+          maxValue={20}
+          minValue={0}
+          formatLabel={value => `${value}`}
+          value={5}
+          onChange={value => console.log(value)}
+          onChangeComplete={value => console.log(value)}
+        />
+        <span>Max</span>
+      </div>
     </Container>
   );
 };
