@@ -29,9 +29,9 @@ class FilterSection extends React.Component<any, any> {
             />
           </p>
           <Icon
-            name={isOpen ? 'angle up' : 'angle down'}
+            name={isOpen ? 'chevron up' : 'chevron down'}
             size={'small'}
-            color={'grey'}
+            className={'up_icon'}
             onClick={this._handleIsOpenMenu}
           />
         </div>

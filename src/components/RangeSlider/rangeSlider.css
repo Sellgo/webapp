@@ -1,5 +1,5 @@
 .rangeSlider {
-  padding-left: 10px;
+  padding-left: 19px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 18px;
@@ -9,8 +9,8 @@
 }
 .rangeSlider .icon.question.circle:before {
   line-height: 1;
-  font-size: 13px;
-  padding-left: 10px;
+  font-size: 15px;
+  padding-left: 14px;
   color: #98aeca;
 }
 .rangeInput {
@@ -28,7 +28,7 @@
   min-height: 10px;
   font-weight: normal;
   box-shadow: 0 1px 1px #ccc;
-  width: 65px;
+  width: 59px;
   text-align: center;
 }
 

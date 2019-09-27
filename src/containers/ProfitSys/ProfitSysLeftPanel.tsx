@@ -13,7 +13,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
       <Grid.Column width={3} className={'profitSysLeft'}>
         <AdviceCard />
         <p className={'products'}>xxx of xxx products</p>
-        <Divider fitted />
+
         <div className="searchDropdown">
           <Dropdown placeholder="Select a Preset" fluid search selection />
         </div>

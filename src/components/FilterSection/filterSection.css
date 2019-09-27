@@ -1,8 +1,8 @@
 .filterHead {
-  padding-left: 10px;
+  padding-left: 15px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 43px;
 }
 .filterHead > p {
   font-weight: 600;
@@ -11,22 +11,25 @@
 }
 .filterHead .icon.question.circle:before {
   line-height: 1;
-  font-size: 13px;
-  padding-left: 10px;
+  font-size: 15px;
+  padding-left: 14px;
   color: #98aeca;
 }
-.filterHead .icon.angle.up:before {
-  content: '\f106';
-  font-size: 26px;
+.filterHead .icon.chevron.up:before {
+  font-size: 23px;
 }
-.filterHead .icon.angle.down:before {
-  content: '\f107';
-  font-size: 26px;
+.filterHead .up_icon {
+  color: #000;
+  margin-right: 20px;
+  margin-top: 3px;
+}
+.filterHead .icon.chevron.down:before {
+  font-size: 23px;
 }
 .filterHeadBox {
-  margin-top: 39px;
+  margin-top: 43px;
 }
 
 .filterContent .ui.container {
-  margin-bottom: 27px;
+  margin-bottom: 31px;
 }

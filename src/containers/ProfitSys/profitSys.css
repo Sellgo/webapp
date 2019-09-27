@@ -1,11 +1,13 @@
 .three.wide.column.profitSysLeft {
   padding-right: 10px;
-  width: 17% !important;
+  width: 17.5% !important;
 }
-
+.ui.grid.profitSysWrap {
+  margin-top: 30px !important;
+}
 .ui.grid > [class*='thirteen wide'].column {
   padding-left: 10px;
-  width: 83% !important;
+  width: 82.5% !important;
 }
 .pageHeadRight {
   display: flex;
@@ -42,6 +44,7 @@
   font-size: 20px;
   font-family: 'Montserrat', sans-serif;
   font-weight: normal;
+  margin-top: 6px;
 }
 .profitSysLeft .ui.card > .content > p {
   font-size: 14px;
@@ -54,11 +57,15 @@
   justify-content: space-between;
   padding-top: 10px;
   align-items: center;
+  padding-bottom: 5px;
 }
 .products {
-  padding-left: 10px;
   font-size: 20px;
-  margin-bottom: 26px;
+  width: calc(100% - 20px);
+  margin-left: 10px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #707070;
+  padding: 0 0 26px 10px;
 }
 .searchDropdown {
   padding-top: 38px;
