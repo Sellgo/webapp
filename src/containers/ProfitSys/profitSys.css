@@ -216,11 +216,11 @@
 @media only screen and (min-width: 1250px) and (max-width: 1500px) {
   .three.wide.column.profitSysLeft {
     padding-right: 10px;
-    width: 21% !important;
+    width: 23% !important;
   }
   .ui.grid > [class*='thirteen wide'].column {
     padding-left: 10px;
-    width: 79% !important;
+    width: 77% !important;
   }
 
   .profitSysLeft .ui.card > .content > .header {
