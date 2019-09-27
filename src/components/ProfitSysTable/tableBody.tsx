@@ -6,7 +6,8 @@ import Pricing from './pricing';
 import DetailButtons from './detailButtons';
 import Ratings from './ratings';
 
-const TableBody = ({ data, onSelectItem }) => {
+const TableBody = (props: any) => {
+  const { data, onSelectItem } = props;
   return (
     <Table.Body>
       {Array.isArray(data) &&

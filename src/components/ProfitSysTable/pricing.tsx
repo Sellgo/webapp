@@ -1,7 +1,8 @@
 import React from 'react';
 import { Rating, Image } from 'semantic-ui-react';
 
-const Pricing = ({ starRatings, totalReviews, price, category, amazonSrc, primeSrc }) => {
+const Pricing = (props: any) => {
+  const { starRatings, totalReviews, price, category, amazonSrc, primeSrc } = props;
   return (
     <React.Fragment>
       <div className="price_row">

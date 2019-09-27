@@ -72,6 +72,8 @@ class ProfitSys extends React.Component<any, {}> {
                 <LineChart options={options} />
               </Segment>
               <ProfitSysTable />
+
+              <div className="showMore">Show More Results</div>
             </Grid.Column>
           </Grid>
         </>

@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Icon, Label } from 'semantic-ui-react';
 import Hotspot from '../../assets/images/wifi-icon.svg';
 
-const DetailButtons = ({ ratings }) => {
+const DetailButtons = (props: any) => {
+  const { ratings } = props;
   return (
     <div>
       <div>
