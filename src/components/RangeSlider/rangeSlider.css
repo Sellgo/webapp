@@ -13,13 +13,13 @@
   padding-left: 10px;
   color: #98aeca;
 }
-.rangeBtns {
+.rangeInput {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
   align-items: center;
 }
-.rangeBtns .ui.button {
+.rangeInput .ui.input > input {
   background: transparent;
   border: 1px solid #dfe8f3;
   font-size: 14px;
@@ -28,4 +28,18 @@
   min-height: 10px;
   font-weight: normal;
   box-shadow: 0 1px 1px #ccc;
+  width: 65px;
+  text-align: center;
+}
+
+.rangeInput .ui.input > input::-webkit-input-placeholder {
+  color: #98aeca;
+}
+
+.rangeInput .ui.input > input:-ms-input-placeholder {
+  color: #98aeca;
+}
+
+.rangeInput .ui.input > input::placeholder {
+  color: #98aeca;
 }

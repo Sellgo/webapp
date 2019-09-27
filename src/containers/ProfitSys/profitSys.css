@@ -94,3 +94,190 @@
 .filterContent .input-range__slider {
   background: #5381db;
 }
+
+/*====================Media screen ============================*/
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .three.wide.column.profitSysLeft {
+    padding-right: 10px;
+    width: 36% !important;
+  }
+  .ui.grid > [class*='thirteen wide'].column {
+    padding-left: 10px;
+    width: 64% !important;
+  }
+  .profitSysLeft .ui.card > .content > .header {
+    font-size: 16px;
+  }
+  .profitSysLeft .ui.card > .content > p {
+    font-size: 13px;
+  }
+  .track_row span {
+    font-size: 13px;
+  }
+  .products {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .filterHead > p {
+    font-size: 16px;
+  }
+  .rangeSlider p {
+    font-size: 13px;
+  }
+  .rangeInput .ui.input > input {
+    font-size: 13px;
+    width: 61px;
+  }
+  .minMaxInput p {
+    font-size: 13px;
+  }
+  .inputContainer .ui.input > input {
+    font-size: 13px;
+    width: 104px;
+  }
+  .wrapCheckbox span {
+    font-size: 13px;
+  }
+  .customCheck label {
+    font-size: 13px !important;
+  }
+  .filterHead .icon.angle.up:before {
+    font-size: 20px;
+  }
+  .filterHead .icon.angle.down:before {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1250px) {
+  .three.wide.column.profitSysLeft {
+    padding-right: 10px;
+    width: 28% !important;
+  }
+  .ui.grid > [class*='thirteen wide'].column {
+    padding-left: 10px;
+    width: 72% !important;
+  }
+  .profitSysLeft .ui.card > .content > .header {
+    font-size: 16px;
+  }
+  .profitSysLeft .ui.card > .content > p {
+    font-size: 13px;
+  }
+  .track_row span {
+    font-size: 13px;
+  }
+  .products {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .filterHead > p {
+    font-size: 16px;
+  }
+  .rangeSlider p {
+    font-size: 13px;
+  }
+  .rangeInput .ui.input > input {
+    font-size: 13px;
+    width: 61px;
+  }
+  .minMaxInput p {
+    font-size: 13px;
+  }
+  .inputContainer .ui.input > input {
+    font-size: 13px;
+    width: 104px;
+  }
+  .wrapCheckbox span {
+    font-size: 13px;
+  }
+  .customCheck label {
+    font-size: 13px !important;
+  }
+  .filterHead .icon.angle.up:before {
+    font-size: 20px;
+  }
+  .filterHead .icon.angle.down:before {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 1100px) and (max-width: 1400px) {
+  .profitSysLeft .ui.card > .content > .header {
+    font-size: 16px;
+  }
+  .profitSysLeft .ui.card > .content > p {
+    font-size: 13px;
+  }
+  .track_row span {
+    font-size: 11px;
+  }
+  .wrap_radio {
+    width: 64px;
+  }
+  .wrap_radio .ui.checked.fitted.toggle.checkbox {
+    margin-right: 5px;
+    margin-top: 6px;
+  }
+  .wrap_radio .ui.toggle.checkbox .box:before,
+  .wrap_radio .ui.toggle.checkbox label:before {
+    width: 40px;
+    height: 15px;
+  }
+  .wrap_radio .ui.toggle.checkbox .box:after,
+  .wrap_radio .ui.toggle.checkbox label:after {
+    width: 13px;
+    height: 13px;
+    top: 1px;
+  }
+  .products {
+    font-size: 16px;
+    margin-bottom: 17px;
+  }
+  .searchDropdown {
+    padding-top: 32px;
+  }
+  .filterHead > p {
+    font-size: 15px;
+  }
+  .rangeSlider p {
+    font-size: 13px;
+  }
+  .rangeInput .ui.input > input {
+    font-size: 12px;
+    width: 54px;
+  }
+  .minMaxInput p {
+    font-size: 13px;
+  }
+  .inputContainer .ui.input > input {
+    font-size: 12px;
+    width: 86px;
+  }
+  .wrapCheckbox span {
+    font-size: 13px;
+  }
+  .ui.checkbox.customCheck input.hidden + label {
+    font-size: 13px;
+  }
+  .filterHead .icon.angle.up:before {
+    content: '\f106';
+    font-size: 20px;
+  }
+  .filterHead .icon.angle.down:before {
+    content: '\f107';
+    font-size: 20px;
+  }
+  .filterHead .icon.question.circle:before {
+    font-size: 12px;
+    padding-left: 5px;
+  }
+  .minMaxInput .icon.question.circle:before {
+    font-size: 12px;
+    padding-left: 5px;
+  }
+  .wrapCheckRange span {
+    font-size: 13px;
+  }
+}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Popup, Icon, Button, Container } from 'semantic-ui-react';
+import { Popup, Icon, Input, Container } from 'semantic-ui-react';
 import InputRange from 'react-input-range';
 import './rangeSlider.css';
 
@@ -27,9 +27,9 @@ const RangeSlider = (props: any) => {
         onChangeComplete={value => console.log(value)}
       />
 
-      <div className="rangeBtns">
-        <Button>Min</Button>
-        <Button>Max</Button>
+      <div className="rangeInput">
+        <Input placeholder={'Min'}></Input>
+        <Input placeholder={'Max'}></Input>
       </div>
     </Container>
   );

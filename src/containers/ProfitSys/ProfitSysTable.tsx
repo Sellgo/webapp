@@ -49,7 +49,7 @@ class ProfitSysTable extends React.Component<any, any> {
     return (
       <React.Fragment>
         <div className="wrap_tbl">
-          <Table sortable celled className="cstm_tbl unstackable">
+          <Table sortable celled className="cstm_tbl tableRowSpace unstackable">
             <TableHeader
               header={header}
               onSelectAll={this.handleSelectAll}
