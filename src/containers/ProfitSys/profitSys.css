@@ -306,4 +306,13 @@
   .wrapCheckRange span {
     font-size: 13px;
   }
+  .filterHead .icon.chevron.up:before {
+    font-size: 18px;
+  }
+  .filterHeadBox {
+    margin-top: 25px;
+  }
+  .filterHead {
+    margin-bottom: 25px;
+  }
 }
