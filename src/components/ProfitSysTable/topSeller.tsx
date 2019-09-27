@@ -2,7 +2,8 @@ import React from 'react';
 import { Label, Checkbox, Image } from 'semantic-ui-react';
 import { TOP_SELLER } from '../../utils/constants';
 
-const Topseller = ({ crownSrc, topSellerImg, index, checked, onSelectItem }) => {
+const Topseller = (props: any) => {
+  const { crownSrc, topSellerImg, index, checked, onSelectItem } = props;
   return (
     <div className="top_seller_col">
       <Label>

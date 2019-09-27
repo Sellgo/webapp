@@ -2,7 +2,8 @@ import React from 'react';
 import { Breadcrumb } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-const ProductDescription = ({ seller, sections, productId, productImg }) => {
+const ProductDescription = (props: any) => {
+  const { seller, sections, productId, productImg } = props;
   return (
     <div>
       <p className="seller_name">

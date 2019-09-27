@@ -1,7 +1,8 @@
 import React from 'react';
 import { Table, Checkbox, Icon } from 'semantic-ui-react';
 
-const TableHeader = ({ header, column, direction, sortOnClick, onSelectAll }) => {
+const TableHeader = (props: any) => {
+  const { header, column, direction, sortOnClick, onSelectAll } = props;
   return (
     <Table.Header>
       <Table.Row>
