@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useAsyncEffect } from '../../hooks';
-import { validateAndUploadCsv } from '../../actions/UploadSupplierFiles';
+import { useAsyncEffect } from '../../../hooks';
+import { validateAndUploadCsv } from '../../../actions/UploadSupplierFiles';
 import { Loader, Dimmer, Icon } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';
 

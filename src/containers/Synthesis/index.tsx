@@ -6,7 +6,7 @@ import './synthesis.css';
 import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../actions/Settings';
 import AdminLayout from '../../components/AdminLayout';
 import Auth from '../../components/Auth/Auth';
-import UploadSupplierFiles from '../UploadSupplierFiles';
+import UploadSupplierFiles from './UploadSupplierFiles';
 import {
   openUploadSupplierModal,
   closeUploadSupplierModal,

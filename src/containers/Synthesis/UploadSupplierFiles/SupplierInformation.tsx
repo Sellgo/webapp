@@ -2,12 +2,12 @@ import React from 'react';
 import { Form, Grid, Popup, Icon } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';
 import { Field } from 'redux-form';
-import { InputField, SelectField, TextAreaField } from '../../components/ReduxFormFields';
-import { DefaultSelect } from '../../constants/constants';
-import timezones from '../../constants/timezones';
-import accountStatuses from '../../constants/accountStatus';
-import terms from '../../constants/terms';
-import isRequired from '../../utils/validations/isRequired';
+import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
+import { DefaultSelect } from '../../../constants/constants';
+import timezones from '../../../constants/timezones';
+import accountStatuses from '../../../constants/accountStatus';
+import terms from '../../../constants/terms';
+import isRequired from '../../../utils/validations/isRequired';
 
 const required = isRequired();
 

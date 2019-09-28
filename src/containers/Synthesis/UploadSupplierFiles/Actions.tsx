@@ -6,15 +6,15 @@ import {
   setUploadSupplierStep,
   setSaveColumnMappingSetting,
   setSkipColumnMappingCheck,
-} from '../../actions/UploadSupplierFiles';
+} from '../../../actions/UploadSupplierFiles';
 import {
   currentStepSelector,
   processCompletedSelector,
   saveColumnMappingSettingSelector,
   skipColumnMappingCheckSelector,
   columnMappingsSelector,
-} from '../../selectors/UploadSupplierFiles';
-import { closeUploadSupplierModal } from '../../actions/Modals';
+} from '../../../selectors/UploadSupplierFiles';
+import { closeUploadSupplierModal } from '../../../actions/Modals';
 
 interface ActionsProps {
   currentStep: number;

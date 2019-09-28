@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Stepper from '../../components/Stepper';
-import { setUploadSupplierStep } from '../../actions/UploadSupplierFiles';
-import { currentStepSelector } from '../../selectors/UploadSupplierFiles';
+import Stepper from '../../../components/Stepper';
+import { setUploadSupplierStep } from '../../../actions/UploadSupplierFiles';
+import { currentStepSelector } from '../../../selectors/UploadSupplierFiles';
 import { Icon } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';
 
