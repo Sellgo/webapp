@@ -7,22 +7,22 @@ import {
   setFavouriteSupplier,
   postSynthesisRerun,
   deleteSupplier,
-} from '../../../../actions/Suppliers';
+} from '../../../actions/Suppliers';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
-import GenericTable, { Column } from '../../../../components/Table';
+import GenericTable, { Column } from '../../../components/Table';
 import { Link } from 'react-router-dom';
-import history from '../../../../history';
+import history from '../../../history';
 import {
   suppliersSelector,
   suppliersTableTabSelector,
   suppliersTableColumnsSelector,
-} from '../../../../selectors/Supplier';
+} from '../../../selectors/Supplier';
 import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';
 import SupplierTableMetrics from './SupplierTableMetrics';
-import { Supplier } from '../../../../interfaces/Supplier';
+import { Supplier } from '../../../interfaces/Supplier';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];

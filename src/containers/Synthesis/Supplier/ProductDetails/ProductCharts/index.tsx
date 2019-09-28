@@ -5,9 +5,9 @@ import {
   fetchSupplierProductDetailChartRank,
   fetchSupplierProductDetailChartPrice,
   fetchSupplierProductDetailChartKPI,
-} from '../../../../../../actions/Products';
-import SplineChart from '../../../../../../components/Chart/SplineChart';
-import LineChart from '../../../../../../components/Chart/LineChart';
+} from '../../../../../actions/Products';
+import SplineChart from '../../../../../components/Chart/SplineChart';
+import LineChart from '../../../../../components/Chart/LineChart';
 import { Loader, Form, Divider } from 'semantic-ui-react';
 
 interface ProductChartsProps {

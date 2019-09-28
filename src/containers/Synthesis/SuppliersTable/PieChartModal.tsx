@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'semantic-ui-react';
-import PieChart from '../../../../components/Chart/PieChart';
+import PieChart from '../../../components/Chart/PieChart';
 
 const PieChartModal = (props: any) => {
   const { supplier, showPieChartModalOpen, handleClose } = props;

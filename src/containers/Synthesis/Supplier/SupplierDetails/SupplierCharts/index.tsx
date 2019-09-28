@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import StackChart from '../../../../../../components/Chart/StackChart';
-import PieChart from '../../../../../../components/Chart/PieChart';
-import ScatterChart from '../../../../../../components/Chart/ScatterChart';
+import StackChart from '../../../../../components/Chart/StackChart';
+import PieChart from '../../../../../components/Chart/PieChart';
+import ScatterChart from '../../../../../components/Chart/ScatterChart';
 import { Loader, Form, Divider } from 'semantic-ui-react';
-import { Product } from '../../../../../../interfaces/Product';
-import { Supplier } from '../../../../../../interfaces/Supplier';
-import { fetchSupplierDetails, fetchSupplierProducts } from '../../../../../../actions/Suppliers';
-import { findFilterProducts } from '../../../../../../constants/Synthesis/Suppliers';
+import { Product } from '../../../../../interfaces/Product';
+import { Supplier } from '../../../../../interfaces/Supplier';
+import { fetchSupplierDetails, fetchSupplierProducts } from '../../../../../actions/Suppliers';
+import { findFilterProducts } from '../../../../../constants/Synthesis/Suppliers';
 
 interface SupplierChartsProps {
   supplierID: any;

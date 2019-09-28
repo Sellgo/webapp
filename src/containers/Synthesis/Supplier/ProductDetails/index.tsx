@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProductData from './ProductData';
 import ProductCharts from './ProductCharts';
-import { resetSupplierProductDetails } from '../../../../../actions/Products';
+import { resetSupplierProductDetails } from '../../../../actions/Products';
 
 const ProductDetails = (props: any) => {
   const { resetProductDetails } = props;

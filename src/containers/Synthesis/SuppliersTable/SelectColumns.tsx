@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { setSupplierTableColumns } from '../../../../actions/Suppliers';
-import { Column } from '../../../../components/Table';
+import { setSupplierTableColumns } from '../../../actions/Suppliers';
+import { Column } from '../../../components/Table';
 
 interface SelectColumnsProps {
   columns: Column[];

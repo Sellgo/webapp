@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { Card, Grid, Dropdown, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { Product } from '../../../../../interfaces/Product';
+import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
 import 'react-input-range/lib/css/index.css';
-import { supplierProductsSelector } from '../../../../../selectors/Supplier';
+import { supplierProductsSelector } from '../../../../selectors/Supplier';
 import './SupplierFilters.css';
-import SliderRange from '../../../../../components/SliderRange';
-import { updateSupplierFilterRanges } from '../../../../../actions/Suppliers';
+import SliderRange from '../../../../components/SliderRange';
+import { updateSupplierFilterRanges } from '../../../../actions/Suppliers';
 import {
   initialFilterRanges,
   findMinMaxRange,
   findFilterProducts,
   dataKeys,
   dataKeyMapping,
-} from '../../../../../constants/Synthesis/Suppliers';
+} from '../../../../constants/Synthesis/Suppliers';
 import get from 'lodash/get';
-import { DefaultSelect } from '../../../../../constants/constants';
+import { DefaultSelect } from '../../../../constants/constants';
 
 interface SupplierFiltersProps {
   products: Product[];

@@ -2,17 +2,17 @@ import * as React from 'react';
 import { Divider, Grid, Segment, Modal, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import AdminLayout from '../../../../components/AdminLayout';
-import Auth from '../../../../components/Auth/Auth';
-import { Seller } from '../../../../interfaces/Seller';
+import AdminLayout from '../../../components/AdminLayout';
+import Auth from '../../../components/Auth/Auth';
+import { Seller } from '../../../interfaces/Seller';
 import ProductsTable from './ProductsTable';
 import get from 'lodash/get';
 import ProductDetails from './ProductDetails';
-import { closeSupplierProductDetailModal } from '../../../../actions/Modals';
+import { closeSupplierProductDetailModal } from '../../../actions/Modals';
 import SupplierDetails from './SupplierDetails';
-import { resetSupplier } from '../../../../actions/Suppliers';
+import { resetSupplier } from '../../../actions/Suppliers';
 import SupplierFilters from './SupplierFilters';
-import { supplierProductsSelector } from '../../../../selectors/Supplier';
+import { supplierProductsSelector } from '../../../selectors/Supplier';
 
 interface SupplierProps {
   products: any;

@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Button, Divider, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import './suppliers.css';
+import './synthesis.css';
 
-import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../../actions/Settings';
-import AdminLayout from '../../../components/AdminLayout';
-import Auth from '../../../components/Auth/Auth';
-import UploadSupplierFiles from '../../UploadSupplierFiles';
+import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../actions/Settings';
+import AdminLayout from '../../components/AdminLayout';
+import Auth from '../../components/Auth/Auth';
+import UploadSupplierFiles from '../UploadSupplierFiles';
 import {
   openUploadSupplierModal,
   closeUploadSupplierModal,
   openUserOnboardingModal,
   closeUserOnboardingModal,
-} from '../../../actions/Modals';
+} from '../../actions/Modals';
 import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
-import UserOnboarding from '../../UserOnboarding';
-import { Seller } from '../../../interfaces/Seller';
-import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
-import { error } from '../../../utils/notifications';
+import UserOnboarding from '../UserOnboarding';
+import { Seller } from '../../interfaces/Seller';
+import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
+import { error } from '../../utils/notifications';
 
-interface SuppliersProps {
+interface SynthesisProps {
   amazonMWSAuthorized: boolean;
   uploadSupplierModalOpen: boolean;
   userOnboardingModalOpen: boolean;
@@ -33,7 +33,7 @@ interface SuppliersProps {
   closeUploadSupplierModal: () => void;
 }
 
-class Suppliers extends Component<SuppliersProps> {
+class Synthesis extends Component<SynthesisProps> {
   state = { exit_confirmation: false };
   fileInputRef: any = React.createRef();
 
@@ -191,4 +191,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Suppliers);
+)(Synthesis);

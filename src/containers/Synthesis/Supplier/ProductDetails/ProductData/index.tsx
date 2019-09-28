@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Divider, Image, Icon } from 'semantic-ui-react';
 import get from 'lodash/get';
-import { fetchSupplierProductDetails } from '../../../../../../actions/Products';
-import { ProductDetail } from '../../../../../../interfaces/Product';
+import { fetchSupplierProductDetails } from '../../../../../actions/Products';
+import { ProductDetail } from '../../../../../interfaces/Product';
 
 interface ProductDataProps {
   product: any;

@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { Icon, Segment, Loader, Grid, Image, Button, Dropdown } from 'semantic-ui-react';
-import GenericTable, { Column } from '../../../../../components/Table';
+import GenericTable, { Column } from '../../../../components/Table';
 import { Link } from 'react-router-dom';
-import { Product } from '../../../../../interfaces/Product';
-import { openSupplierProductDetailModal } from '../../../../../actions/Modals';
+import { Product } from '../../../../interfaces/Product';
+import { openSupplierProductDetailModal } from '../../../../actions/Modals';
 import {
   resetSupplierProducts,
   fetchSupplierProducts,
   fetchSupplierProductTrackerGroup,
   updateProductTrackingStatus,
-} from '../../../../../actions/Suppliers';
+} from '../../../../actions/Suppliers';
 import get from 'lodash/get';
 import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
-import { findFilterProducts } from '../../../../../constants/Synthesis/Suppliers';
+import { findFilterProducts } from '../../../../constants/Synthesis/Suppliers';
 
 interface ProductsTableProps {
   supplierID: any;

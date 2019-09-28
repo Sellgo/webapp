@@ -11,8 +11,8 @@ import { Login } from '../Login/Login';
 import { ProductTracker } from '../ProductTracker/ProductTracker';
 import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
-import Suppliers from '../Synthesis/Suppliers';
-import SupplierDetail from '../Synthesis/Suppliers/Supplier';
+import Synthesis from '../Synthesis';
+import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback';
 import history from '../../history';
@@ -96,7 +96,7 @@ function App(Props: any) {
             render={routeProps => {
               routeProps.match.params.auth = auth;
               if (isAuthenticated()) {
-                return <Suppliers {...routeProps} />;
+                return <Synthesis {...routeProps} />;
               }
             }}
           />

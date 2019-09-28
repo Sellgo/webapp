@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { setSupplierTableTab } from '../../../../actions/Suppliers';
+import { setSupplierTableTab } from '../../../actions/Suppliers';
 
 interface SupplierMenuProps {
   allCount: number;
