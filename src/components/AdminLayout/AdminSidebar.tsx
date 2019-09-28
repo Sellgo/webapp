@@ -96,7 +96,7 @@ class AdminSidebar extends React.Component<Props, State> {
               }
             />
           </div>
-          <Menu.Item as={Link} to="/dashboard/setting">
+          <Menu.Item as={Link} to="/settings">
             <Menu.Header style={{ alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Icon name="setting" style={{ fontSize: 25 }} />

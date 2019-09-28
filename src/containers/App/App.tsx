@@ -4,8 +4,8 @@ import { Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import AdminLayout from '../../components/AdminLayout/index';
 import Dashboard from '../Dashboard';
-import Settings from '../Dashboard/Settings';
-import Subscription from '../Dashboard/Subscription';
+import Settings from '../Settings';
+import Subscription from '../Settings/Subscription';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
 import { ProductTracker } from '../ProductTracker/ProductTracker';
@@ -61,7 +61,7 @@ function App(Props: any) {
           />
           <Route
             exact={true}
-            path="/dashboard/setting"
+            path="/settings"
             render={routeProps => {
               routeProps.match.params.auth = auth;
               if (isAuthenticated()) {
@@ -71,7 +71,7 @@ function App(Props: any) {
           />
           <Route
             exact={true}
-            path="/dashboard/subscription"
+            path="/settings/subscription"
             render={routeProps => {
               routeProps.match.params.auth = auth;
               if (isAuthenticated()) {

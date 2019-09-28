@@ -40,7 +40,7 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small" />} />
           </Menu.Menu>
           <Menu.Menu position="right" fitted="horizontally" style={{ marginRight: 10 }}>
-            <Menu.Item as={Link} to="/dashboard/subscription">
+            <Menu.Item as={Link} to="/settings/subscription">
               <Icon name="rss" style={{ fontSize: 25 }} color={'red'} />
             </Menu.Item>
             <Menu.Item>

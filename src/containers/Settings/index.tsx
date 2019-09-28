@@ -14,9 +14,9 @@ import {
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import MesssageComponent from '../../../components/MessageComponent';
-import { Modals } from '../../../components/Modals';
-import buttonStyle from '../../../components/StyleComponent/StyleComponent';
+import MesssageComponent from '../../components/MessageComponent';
+import { Modals } from '../../components/Modals';
+import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import {
   setBasicInfoSeller,
   updateBasicInfoSeller,
@@ -27,14 +27,14 @@ import {
   getMWSAuth,
   deleteMWSAuth,
   updateAmazonMWS,
-} from '../../../actions/Settings';
+} from '../../actions/Settings';
 import './setting.css';
-import { marketPlace } from '../../../constants/constants';
-import RecoverPass from '../../RecoverPass';
-import AdminLayout from '../../../components/AdminLayout';
-import Auth from '../../../components/Auth/Auth';
-import { MarketplaceFields } from '../../../interfaces/MarketplaceFields';
-import { Seller, AmazonMWS } from '../../../interfaces/Seller';
+import { marketPlace } from '../../constants/constants';
+import RecoverPass from '../RecoverPass';
+import AdminLayout from '../../components/AdminLayout';
+import Auth from '../../components/Auth/Auth';
+import { MarketplaceFields } from '../../interfaces/MarketplaceFields';
+import { Seller, AmazonMWS } from '../../interfaces/Seller';
 
 interface State {
   isOpen: boolean;
