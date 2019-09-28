@@ -9,12 +9,11 @@ import {
   RESET_SUPPLIER,
   UPDATE_SUPPLIER_PRODUCT,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
-  UPDATE_FILTER_SUPPLIER_PRODUCTS,
+  UPDATE_SUPPLIER_FILTER_RANGES,
 } from '../../constants/Synthesis/Suppliers';
 
 const initialState = {
   products: [undefined],
-  filterProducts: [undefined],
   details: {},
   trackData: {
     avg_price: '',
@@ -32,13 +31,13 @@ const initialState = {
     size_tier: '',
     weight: '',
   },
+  filterRanges: undefined,
 };
 
 export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_SUPPLIER_PRODUCTS: {
-      const newState = setIn(state, 'products', action.payload);
-      return setIn(newState, 'filterProducts', action.payload);
+      return setIn(state, 'products', action.payload);
     }
     case RESET_SUPPLIER_PRODUCTS: {
       return initialState;
@@ -70,8 +69,8 @@ export default (state = initialState, action: AnyAction) => {
     case RESET_SUPPLIER: {
       return initialState;
     }
-    case UPDATE_FILTER_SUPPLIER_PRODUCTS:
-      return setIn(state, 'filterProducts', action.payload);
+    case UPDATE_SUPPLIER_FILTER_RANGES:
+      return setIn(state, 'filterRanges', action.payload);
     default:
       return state;
   }

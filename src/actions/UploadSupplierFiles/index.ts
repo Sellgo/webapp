@@ -119,7 +119,7 @@ export const parseCsv = () => (
   const getParsedCsv = (err: Error | undefined, output: string) => {
     if (err) {
       // tslint:disable-next-line:no-console
-      console.log({ err });
+      //console.log({ err });
     } else {
       dispatch(setCsv(output));
     }

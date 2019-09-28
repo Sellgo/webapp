@@ -21,7 +21,8 @@ import {
   RESET_SUPPLIER,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
   UPDATE_SUPPLIER_PRODUCT,
-  UPDATE_FILTER_SUPPLIER_PRODUCTS,
+  UPDATE_SUPPLIER_FILTER_RANGES,
+  findMinMaxRange,
 } from '../../constants/Synthesis/Suppliers';
 import { Product } from '../../interfaces/Product';
 
@@ -158,6 +159,7 @@ export const fetchSupplierProducts = (supplierID: any) => async (
   if (response.data.length) {
     const products = response.data;
     dispatch(setSupplierProducts(products));
+    dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
   }
 };
 
@@ -249,7 +251,7 @@ export const updateSupplierProduct = (data: any) => ({
   payload: data,
 });
 
-export const updateFilterSupplierProducts = (products: Product[]) => ({
-  type: UPDATE_FILTER_SUPPLIER_PRODUCTS,
-  payload: products,
+export const updateSupplierFilterRanges = (filterRanges: any) => ({
+  type: UPDATE_SUPPLIER_FILTER_RANGES,
+  payload: filterRanges,
 });

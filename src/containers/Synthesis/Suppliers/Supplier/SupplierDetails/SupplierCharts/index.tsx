@@ -8,11 +8,13 @@ import { Loader, Form, Divider } from 'semantic-ui-react';
 import { Product } from '../../../../../../interfaces/Product';
 import { Supplier } from '../../../../../../interfaces/Supplier';
 import { fetchSupplierDetails, fetchSupplierProducts } from '../../../../../../actions/Suppliers';
+import { findFilterProducts } from '../../../../../../constants/Synthesis/Suppliers';
 
 interface SupplierChartsProps {
   supplierID: any;
   supplierDetails: Supplier;
   products: Product[];
+  filterRanges: any;
   fetchSupplierProducts: (supplierID: any) => void;
   fetchSupplierDetails: (supplierID: any) => void;
 }
@@ -116,9 +118,10 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
-    const { supplierDetails, products, supplierID } = this.props;
+    const { supplierDetails, products, filterRanges, supplierID } = this.props;
+    const filteredProducts = findFilterProducts(products, filterRanges);
 
-    const showProducts = [...products].sort(
+    const showProducts = [...filteredProducts].sort(
       (a, b) => parseFloat(b['profit']) - parseFloat(a['profit'])
     );
     let productSKUs = [];
@@ -196,8 +199,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   render() {
-    const { products } = this.props;
-    if (products.length === 1 && products[0] === undefined) {
+    const { products, filterRanges } = this.props;
+    if ((products.length === 1 && products[0] === undefined) || filterRanges === undefined) {
       return (
         <Loader
           hidden={products.length === 1 && products[0] === undefined ? false : true}
@@ -249,7 +252,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
 const mapStateToProps = (state: {}) => ({
   supplierDetails: get(state, 'supplier.details'),
-  products: get(state, 'supplier.filterProducts'),
+  products: get(state, 'supplier.products'),
+  filterRanges: get(state, 'supplier.filterRanges'),
 });
 
 const mapDispatchToProps = {

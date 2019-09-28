@@ -4,8 +4,7 @@ import InputRange from 'react-input-range';
 import './sliderRange.css';
 
 const SliderRange = (props: any) => {
-  const { title, datKey, range, handleChange } = props;
-  const [filter, setFilter] = useState({ min: range.min, max: range.max });
+  const { title, dataKey, range, filterRange, handleChange, handleCompleteChange } = props;
   return (
     <Container>
       <div className={'rangeSlider'}>
@@ -22,31 +21,47 @@ const SliderRange = (props: any) => {
       <InputRange
         maxValue={range.max}
         minValue={range.min}
-        value={filter}
-        onChange={(value: any) => setFilter(value)}
-        onChangeComplete={(value: any) => handleChange(datKey, value)}
+        value={{
+          min: filterRange.min === '' ? 0 : Number(filterRange.min),
+          max: filterRange.max === '' ? 0 : Number(filterRange.max),
+        }}
+        onChange={(value: any) => handleChange(dataKey, value)}
+        onChangeComplete={(value: any) => handleCompleteChange(dataKey, value)}
       />
 
       <div className="rangeInput">
         <Input
           placeholder={'Min'}
           id="min"
-          min={filter['min']}
-          max={filter['max']}
-          value={filter['min']}
+          type="number"
+          value={filterRange['min']}
           onChange={(e, { id, value }) => {
-            setFilter({ min: Number(value), max: filter.max });
+            if (value < filterRange.max) {
+              handleChange(dataKey, { min: value, max: filterRange.max });
+            }
+          }}
+          onBlur={(e: any) => {
+            const value = e.target.value;
+            if (value < filterRange.max) {
+              handleChange(dataKey, { min: value, max: filterRange.max });
+            }
           }}
         ></Input>
         <Input
           placeholder={'Max'}
           id="max"
-          min={filter['min']}
-          max={filter['max']}
           type="number"
-          value={filter['max']}
+          value={filterRange['max']}
           onChange={(e, { id, value }) => {
-            setFilter({ max: Number(value), min: filter.min });
+            if (value > filterRange.min) {
+              handleChange(dataKey, { max: value, min: filterRange.min });
+            }
+          }}
+          onBlur={(e: any) => {
+            const value = e.target.value;
+            if (value > filterRange.min) {
+              handleChange(dataKey, { max: value, min: filterRange.min });
+            }
           }}
         ></Input>
       </div>

@@ -12,13 +12,14 @@ import {
   fetchSupplierProductTrackerGroup,
   updateProductTrackingStatus,
 } from '../../../../../actions/Suppliers';
-import { supplierProductsSelector } from '../../../../../selectors/Supplier';
 import get from 'lodash/get';
 import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
+import { findFilterProducts } from '../../../../../constants/Synthesis/Suppliers';
 
 interface ProductsTableProps {
   supplierID: any;
   products: Product[];
+  filterRanges: any;
   productTrackerGroup: any;
   fetchSupplierProducts: (supplierID: any) => void;
   resetSupplierProducts: typeof resetSupplierProducts;
@@ -209,8 +210,8 @@ class ProductsTable extends Component<ProductsTableProps> {
     },
   ];
 
-  MiddleRows = () => {
-    const { products } = this.props;
+  MiddleRows = (props: any) => {
+    const { products } = props;
     const singlePageItemsCount = 10;
     const totalProducts = products.length;
     const currentPage = 1;
@@ -295,9 +296,9 @@ class ProductsTable extends Component<ProductsTableProps> {
   }
 
   render() {
-    const { products } = this.props;
+    const { products, filterRanges } = this.props;
 
-    if (products.length === 1 && products[0] === undefined) {
+    if ((products.length === 1 && products[0] === undefined) || filterRanges === undefined) {
       return (
         <Segment>
           <Loader
@@ -311,11 +312,12 @@ class ProductsTable extends Component<ProductsTableProps> {
         </Segment>
       );
     }
-    const data = products;
+    const filteredProducts = findFilterProducts(products, filterRanges);
+    const data = filteredProducts;
     const columns = this.columns;
     return (
       <>
-        <this.MiddleRows />
+        <this.MiddleRows products={filteredProducts} />
         <GenericTable data={data} columns={columns} />
       </>
     );
@@ -323,7 +325,8 @@ class ProductsTable extends Component<ProductsTableProps> {
 }
 
 const mapStateToProps = (state: {}) => ({
-  products: get(state, 'supplier.filterProducts'),
+  products: get(state, 'supplier.products'),
+  filterRanges: get(state, 'supplier.filterRanges'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
 });
 

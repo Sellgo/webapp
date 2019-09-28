@@ -22,9 +22,7 @@ export const openUserOnboardingModal = (): ModalsAction => open('userOnboarding'
 
 export const closeUserOnboardingModal = (): ModalsAction => close('userOnboarding');
 
-export const openSupplierProductDetailModal = (product?: Product): ModalsAction => {
-  console.log(product);
-  return open('supplierProductDetail', product);
-};
+export const openSupplierProductDetailModal = (product?: Product): ModalsAction =>
+  open('supplierProductDetail', product);
 
 export const closeSupplierProductDetailModal = (): ModalsAction => close('supplierProductDetail');

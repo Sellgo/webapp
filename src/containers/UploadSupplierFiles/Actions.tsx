@@ -69,13 +69,7 @@ const Actions = ({
       <div className={styles.downloadOptions}>
         {currentStep === 1 && (
           <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
-            <Button
-              size="small"
-              basic={true}
-              color="grey"
-              style={{ borderRadius: 20 }}
-              onClick={() => console.log('download template')}
-            >
+            <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
             </Button>
           </a>
