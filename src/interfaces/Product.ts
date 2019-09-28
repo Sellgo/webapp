@@ -54,6 +54,7 @@ export interface ProductDetail {
   amazon_url: string;
   image_url: string;
   title: string;
+  package_quantity: string;
 }
 
 export interface ProductChartDetailsRank {

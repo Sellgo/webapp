@@ -249,7 +249,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
 const mapStateToProps = (state: {}) => ({
   supplierDetails: get(state, 'supplier.details'),
-  products: get(state, 'supplier.products'),
+  products: get(state, 'supplier.filterProducts'),
 });
 
 const mapDispatchToProps = {

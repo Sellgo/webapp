@@ -323,7 +323,7 @@ class ProductsTable extends Component<ProductsTableProps> {
 }
 
 const mapStateToProps = (state: {}) => ({
-  products: supplierProductsSelector(state),
+  products: get(state, 'supplier.filterProducts'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
 });
 

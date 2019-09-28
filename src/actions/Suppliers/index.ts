@@ -21,6 +21,7 @@ import {
   RESET_SUPPLIER,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
   UPDATE_SUPPLIER_PRODUCT,
+  UPDATE_FILTER_SUPPLIER_PRODUCTS,
 } from '../../constants/Synthesis/Suppliers';
 import { Product } from '../../interfaces/Product';
 
@@ -246,4 +247,9 @@ export const updateProductTrackingStatus = (
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
   payload: data,
+});
+
+export const updateFilterSupplierProducts = (products: Product[]) => ({
+  type: UPDATE_FILTER_SUPPLIER_PRODUCTS,
+  payload: products,
 });

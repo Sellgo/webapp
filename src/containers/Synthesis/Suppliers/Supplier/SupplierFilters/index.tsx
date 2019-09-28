@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Grid, Dropdown, Feed, Icon } from 'semantic-ui-react';
+import { Card, Grid, Dropdown, Feed, Icon, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { ProductFiltersPreset } from '../../../../../constants/constants';
 import { Product } from '../../../../../interfaces/Product';
@@ -8,9 +8,12 @@ import 'react-rangeslider/lib/index.css';
 import 'react-input-range/lib/css/index.css';
 import { supplierProductsSelector } from '../../../../../selectors/Supplier';
 import './SupplierFilters.css';
+import SliderRange from '../../../../../components/SliderRange';
+import { updateFilterSupplierProducts } from '../../../../../actions/Suppliers';
 
 interface SupplierFiltersProps {
   products: Product[];
+  updateFilterProducts: (products: any) => void;
 }
 class SupplierFilters extends Component<SupplierFiltersProps> {
   state = {
@@ -176,7 +179,82 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     }
     return newProducts;
   };
+  handleChange = (datKey: any, range: any) => {
+    console.log(datKey, range);
+    const { products, updateFilterProducts } = this.props;
+    const filterProducts = products.filter(
+      (p: any) => p[datKey] >= range.min && p[datKey] <= range.max
+    );
+    updateFilterProducts(filterProducts);
+  };
   render() {
+    const { products } = this.props;
+    if (products.length === 1 && products[0] === undefined) return <div></div>;
+    const minProfit = Math.min(...products.map((p: any) => Number(p.profit)));
+    const maxProfit = Math.max(...products.map((p: any) => Number(p.profit)));
+
+    const minMargin = Math.min(...products.map((p: any) => Number(p.margin)));
+    const maxMargin = Math.max(...products.map((p: any) => Number(p.margin)));
+
+    const minSalesMonthly = Math.min(...products.map((p: any) => Number(p.sales_monthly)));
+    const maxSalesMonthly = Math.max(...products.map((p: any) => Number(p.sales_monthly)));
+
+    const minProfitMonthly = Math.min(...products.map((p: any) => Number(p.profit_monthly)));
+    const maxProfitMonthly = Math.max(...products.map((p: any) => Number(p.profit_monthly)));
+
+    return (
+      <Grid>
+        <Grid.Row>
+          <Grid.Column floated="left" width={6}>
+            Syn Preset
+          </Grid.Column>
+          <Grid.Column floated="right" width={10}>
+            <Dropdown />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={16} style={{ marginTop: 15 }}>
+            <Card
+              raised={true}
+              style={{
+                width: '100%',
+                padding: '10px',
+              }}
+            >
+              <Card.Content>
+                <SliderRange
+                  title="Unit Profit"
+                  datKey="profit"
+                  range={{ min: minProfit, max: maxProfit }}
+                  handleChange={this.handleChange}
+                />
+                <Divider />
+                <SliderRange
+                  title="Margin"
+                  datKey="margin"
+                  range={{ min: minMargin, max: maxMargin }}
+                  handleChange={this.handleChange}
+                />
+                <Divider />
+                <SliderRange
+                  title="Units Per Month"
+                  datKey="sales_monthly"
+                  range={{ min: minSalesMonthly, max: maxSalesMonthly }}
+                  handleChange={this.handleChange}
+                />
+                <Divider />
+                <SliderRange
+                  title="Profit Per Month"
+                  datKey="profit_monthly"
+                  range={{ min: minProfitMonthly, max: maxProfitMonthly }}
+                  handleChange={this.handleChange}
+                />
+              </Card.Content>
+            </Card>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    );
     return (
       <div>
         <Grid>
@@ -487,7 +565,9 @@ const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  updateFilterProducts: (products: any) => updateFilterSupplierProducts(products),
+};
 
 export default connect(
   mapStateToProps,
