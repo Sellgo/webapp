@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { setFavouriteSupplier, postSynthesisRerun } from '../../../../actions/Synthesis';
 import {
   resetSuppliers,
   fetchSuppliers,
   fetchSynthesisProgressUpdates,
   fetchSupplierTableColumns,
+  setFavouriteSupplier,
+  postSynthesisRerun,
+  deleteSupplier,
 } from '../../../../actions/Suppliers';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
@@ -23,27 +25,22 @@ import SupplierTableMetrics from './SupplierTableMetrics';
 import { Supplier } from '../../../../interfaces/Supplier';
 
 interface SuppliersTableProps {
-  delete_confirmation: boolean;
   suppliers: Supplier[];
-  onMessageChange: any;
   onEdit: any;
-  onDelete: any;
-  onPageChange: any;
-  onCancelDelete: any;
-  onDeleteSupplier: any;
   fetchSuppliers: () => void;
   fetchSynthesisProgressUpdates: () => void;
   fetchSupplierTableColumns: () => void;
   resetSuppliers: typeof resetSuppliers;
-  favourite: (id: number, tag: string) => void;
-  unFavourite: (id: number, tag: string) => void;
+  favourite: (supplierID: number, tag: string) => void;
+  unFavourite: (supplierID: number, tag: string) => void;
   reRun: (supplier: Supplier) => void;
+  deleteSupplier: (supplierID: any) => void;
   showTab: string;
   showColumns: any;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
-  state = { showPieChartModalOpen: false, supplier: undefined };
+  state = { showPieChartModalOpen: false, supplier: undefined, showDeleteConfirm: false };
   renderName = (row: Supplier) => {
     if (row.file_status !== 'completed') return row.name;
     return <Link to={`/synthesis/${row.supplier_id}`}>{row.name}</Link>;
@@ -109,6 +106,16 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     />
   );
 
+  handleCancelDelete = () => {
+    this.setState({ showDeleteConfirm: false });
+  };
+  handleConfirmDelete = () => {
+    this.setState({ showDeleteConfirm: false });
+    const { deleteSupplier } = this.props;
+    const { supplier } = this.state;
+    deleteSupplier(supplier);
+  };
+
   renderOperations = (row: Supplier) => {
     if (
       row.file_status !== 'completed' &&
@@ -116,23 +123,24 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       row.file_status !== undefined
     )
       return '';
+    const { favourite, unFavourite } = this.props;
     return (
       <div className="operations">
         <Icon
           name="thumbs up"
-          onClick={() => this.props.favourite(row.id, row.tag === 'like' ? '' : 'like')}
+          onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
           style={row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }}
         />
         <Icon
           name="thumbs down"
-          onClick={() => this.props.unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
+          onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
           style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
         <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
         <Icon
           name="trash alternate"
           style={{ color: 'black' }}
-          onClick={() => this.props.onDelete({ ...row, id: row.supplier_id })}
+          onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
         />
       </div>
     );
@@ -277,16 +285,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   componentWillUnmount() {
     this.props.resetSuppliers();
   }
-
   render() {
-    const {
-      suppliers,
-      delete_confirmation,
-      onCancelDelete,
-      onDeleteSupplier,
-      showTab,
-      showColumns,
-    } = this.props;
+    const { suppliers, showTab, showColumns } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -335,9 +335,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         <GenericTable data={data} columns={columns} />
         <Confirm
           content="Do you want to delete supplier?"
-          open={delete_confirmation}
-          onCancel={onCancelDelete}
-          onConfirm={onDeleteSupplier}
+          open={this.state.showDeleteConfirm}
+          onCancel={this.handleCancelDelete}
+          onConfirm={this.handleConfirmDelete}
         />
         <PieChartModal
           supplier={this.state.supplier}
@@ -360,9 +360,10 @@ const mapDispatchToProps = {
   fetchSuppliers,
   fetchSynthesisProgressUpdates,
   fetchSupplierTableColumns,
-  favourite: (id: number, tag: string) => setFavouriteSupplier(id, tag),
-  unFavourite: (id: number, tag: string) => setFavouriteSupplier(id, tag),
+  favourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
+  unFavourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
+  deleteSupplier: (supplier: any) => deleteSupplier(supplier),
 };
 
 export default connect(

@@ -25,6 +25,7 @@ import {
   findMinMaxRange,
 } from '../../constants/Synthesis/Suppliers';
 import { Product } from '../../interfaces/Product';
+import { success, error } from '../../utils/notifications';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -65,6 +66,56 @@ export const fetchSupplier = (supplierID: any) => async (
   if (response.data.length) {
     dispatch(updateSupplier({ ...response.data[0], id: supplierID }));
   }
+};
+
+export const deleteSupplier = (supplier: any) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('status', 'inactive');
+  Axios.patch(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplier.supplier_id}`,
+    bodyFormData
+  )
+    .then(json => {
+      dispatch(updateSupplier(json.data));
+    })
+    .catch(error => {});
+};
+
+export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (dispatch: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const bodyFormData = new FormData();
+  bodyFormData.set('tag', isFavourite);
+
+  return Axios.patch(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}`,
+    bodyFormData
+  )
+    .then(json => {
+      dispatch(updateSupplier(json.data));
+    })
+    .catch(error => {});
+};
+
+export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('synthesis_file_id', String(supplier.synthesis_file_id));
+  return Axios.post(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplier.supplier_id}/synthesis/rerun`,
+    bodyFormData
+  )
+    .then(json => {
+      dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
+      dispatch(fetchSynthesisProgressUpdates());
+      success('Rerun successfully initiated!');
+    })
+    .catch(err => {
+      error('Rerun failed. Try again!');
+    });
 };
 
 function timeout(ms: number) {
