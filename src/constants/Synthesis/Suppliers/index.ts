@@ -8,6 +8,12 @@ export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
 
 export const dataKeys: any = ['profit', 'margin', 'sales_monthly', 'profit_monthly'];
+export const dataKeyMapping: any = {
+  profit: { text: 'Unit Profit', presetText: 'Max Profit' },
+  margin: { text: 'Margin', presetText: 'Max Margin' },
+  sales_monthly: { text: 'Unit Sales Per Month', presetText: 'Max Unit Sales Per Month' },
+  profit_monthly: { text: 'Profit Per Month', presetText: 'Max Profit Per Month' },
+};
 export const initalRange = { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
 export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
   if (!fr[dk]) fr[dk] = initalRange;

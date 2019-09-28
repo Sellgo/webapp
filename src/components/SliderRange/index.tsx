@@ -36,13 +36,13 @@ const SliderRange = (props: any) => {
           type="number"
           value={filterRange['min']}
           onChange={(e, { id, value }) => {
-            if (value < filterRange.max) {
+            if (value < filterRange.max && value >= range.min) {
               handleChange(dataKey, { min: value, max: filterRange.max });
             }
           }}
           onBlur={(e: any) => {
             const value = e.target.value;
-            if (value < filterRange.max) {
+            if (value < filterRange.max && value >= range.min) {
               handleChange(dataKey, { min: value, max: filterRange.max });
             }
           }}
@@ -53,13 +53,13 @@ const SliderRange = (props: any) => {
           type="number"
           value={filterRange['max']}
           onChange={(e, { id, value }) => {
-            if (value > filterRange.min) {
+            if (value > filterRange.min && value <= range.max) {
               handleChange(dataKey, { max: value, min: filterRange.min });
             }
           }}
           onBlur={(e: any) => {
             const value = e.target.value;
-            if (value > filterRange.min) {
+            if (value > filterRange.min && value <= range.max) {
               handleChange(dataKey, { max: value, min: filterRange.min });
             }
           }}

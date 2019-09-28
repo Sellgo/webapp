@@ -13,8 +13,10 @@ import {
   findMinMaxRange,
   findFilterProducts,
   dataKeys,
+  dataKeyMapping,
 } from '../../../../../constants/Synthesis/Suppliers';
 import get from 'lodash/get';
+import { DefaultSelect } from '../../../../../constants/constants';
 
 interface SupplierFiltersProps {
   products: Product[];
@@ -30,6 +32,25 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     const productRanges = findMinMaxRange(products);
     this.setState({ productRanges });
   }
+
+  handlePresetChange = (e: any, { value }: any) => {
+    const { products, updateFilterRanges } = this.props;
+    const { productRanges } = this.state;
+    if (value === '') {
+      updateFilterRanges(productRanges);
+    } else {
+      const newFilterRanges = { ...productRanges };
+      const presetRange = {
+        min: productRanges[value].min < 0 ? 0 : productRanges[value].min,
+        max: productRanges[value].max,
+      };
+      newFilterRanges[value] = presetRange;
+      const filteredProducts = findFilterProducts(products, newFilterRanges);
+      const updatedFilterRanges: any = findMinMaxRange(filteredProducts);
+      updatedFilterRanges[value] = presetRange;
+      updateFilterRanges(updatedFilterRanges);
+    }
+  };
 
   handleChange = (dataKey: any, range: any) => {
     //console.log(dataKey, range);
@@ -74,10 +95,23 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
       <Grid>
         <Grid.Row>
           <Grid.Column floated="left" width={6}>
-            Syn Preset
+            Synthesis Preset
           </Grid.Column>
           <Grid.Column floated="right" width={10}>
-            <Dropdown />
+            <Dropdown
+              placeholder="Select a preset"
+              fluid={true}
+              selection={true}
+              options={[
+                DefaultSelect,
+                ...dataKeys.map((dk: any) => ({
+                  key: dk,
+                  text: dataKeyMapping[dk].presetText,
+                  value: dk,
+                })),
+              ]}
+              onChange={this.handlePresetChange}
+            />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -94,7 +128,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
                   ? dataKeys.map((dk: string) => (
                       <React.Fragment key={dk}>
                         <SliderRange
-                          title="Unit Profit"
+                          title={dataKeyMapping[dk].text}
                           dataKey={dk}
                           range={productRanges[dk]}
                           filterRange={filterRanges[dk]}
