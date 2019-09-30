@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination } from 'semantic-ui-react';
+import SelectItemsCount from './SelectItemsCount';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -15,6 +16,7 @@ export interface TableProps {
   singlePageItemsCount?: number;
   data: Array<{ [key: string]: any }>;
   columns: Column[];
+  setSinglePageItemsCount?: (itemsCount: number) => void;
 }
 
 const renderCell = (row: { [key: string]: any }, column: Column) => {
@@ -48,7 +50,7 @@ const useSort = (initialValue: string) => {
 };
 
 const GenericTable = (props: TableProps) => {
-  const { data, columns, singlePageItemsCount = 10 } = props;
+  const { data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
   const showColumns = columns.filter(e => e.show);
@@ -97,6 +99,17 @@ const GenericTable = (props: TableProps) => {
   ) :  */
   return (
     <div className="scroll-table">
+      {setSinglePageItemsCount ? (
+        <SelectItemsCount
+          totalCount={data.length}
+          singlePageItemsCount={singlePageItemsCount}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setSinglePageItemsCount={setSinglePageItemsCount}
+        />
+      ) : (
+        ''
+      )}
       <Table sortable={true} basic="very" textAlign="left">
         <Table.Header>
           <Table.Row>

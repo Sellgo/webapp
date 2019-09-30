@@ -9,3 +9,26 @@ export const defaultSelect = {
   key: '',
   text: '',
 };
+
+export const selectItemsCountList = [
+  {
+    key: '10',
+    text: '10',
+    value: '10',
+  },
+  {
+    key: '30',
+    text: '30',
+    value: '30',
+  },
+  {
+    key: '50',
+    text: '50',
+    value: '50',
+  },
+  {
+    key: '100',
+    text: '100',
+    value: '100',
+  },
+];
