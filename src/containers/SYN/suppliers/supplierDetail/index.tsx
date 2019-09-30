@@ -595,7 +595,9 @@ export class SupplierDetail extends React.Component<Props, State> {
                 <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
                   <Grid.Row>Price</Grid.Row>
                   <Grid.Row>Fees</Grid.Row>
-                  <Grid.Row>Product cost</Grid.Row>
+                  <Grid.Row>Product Cost</Grid.Row>
+                  <Grid.Row>Package Quantity</Grid.Row>
+                  <Grid.Row>Total Cost</Grid.Row>
                   <Grid.Row>
                     <h4>Profit (in $)</h4>
                   </Grid.Row>
@@ -618,6 +620,16 @@ export class SupplierDetail extends React.Component<Props, State> {
                     {this.props.product_detail.product_cost == null
                       ? 0
                       : Number(this.props.product_detail.product_cost).toLocaleString()}
+                  </Grid.Row>
+                  <Grid.Row>
+                    {this.props.product_detail.package_quantity == null
+                      ? 1
+                      : Number(this.props.product_detail.package_quantity).toLocaleString()}
+                  </Grid.Row>
+                  <Grid.Row>
+                    {this.props.product_detail.total_cost == null
+                      ? 0
+                      : Number(this.props.product_detail.total_cost).toLocaleString()}
                   </Grid.Row>
                   <Grid.Row>
                     <h4>
