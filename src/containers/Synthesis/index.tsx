@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Button, Divider, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.css';
-
 import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../actions/Settings';
-import AdminLayout from '../../components/AdminLayout';
 import Auth from '../../components/Auth/Auth';
 import UploadSupplierFiles from './UploadSupplierFiles';
 import {
@@ -16,6 +14,7 @@ import {
 import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../UserOnboarding';
+import PageHeader from '../../components/PageHeader';
 import { Seller } from '../../interfaces/Seller';
 import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
 import { error } from '../../utils/notifications';
@@ -118,33 +117,32 @@ class Synthesis extends Component<SynthesisProps> {
 
   render() {
     return (
-      <AdminLayout
-        auth={this.props.match.params.auth}
-        sellerData={this.props.sellerData}
-        title={'Synthesis'}
-        callToAction={
-          <>
-            {this.renderAddNewSupplierModal()}
-            <Popup
-              className={'addSupplierPopup'}
-              trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
-              position="top left"
-              size="tiny"
-            >
-              <h4>Adding a Supplier</h4>
-              To add a supplier:
-              <List as={'ol'}>
-                <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
-                <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
-                <List.Item as="li">
-                  On the New Supplier screen, enter the details of the suppler.
-                </List.Item>
-                <List.Item as="li">Save the details of the new supplier.</List.Item>
-              </List>
-            </Popup>
-          </>
-        }
-      >
+      <>
+        <PageHeader
+          title={'Synthesis'}
+          callToAction={
+            <>
+              {this.renderAddNewSupplierModal()}
+              <Popup
+                className={'addSupplierPopup'}
+                trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
+                position="top left"
+                size="tiny"
+              >
+                <h4>Adding a Supplier</h4>
+                To add a supplier:
+                <List as={'ol'}>
+                  <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
+                  <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
+                  <List.Item as="li">
+                    On the New Supplier screen, enter the details of the suppler.
+                  </List.Item>
+                  <List.Item as="li">Save the details of the new supplier.</List.Item>
+                </List>
+              </Popup>
+            </>
+          }
+        />
         <Segment basic={true} className="setting">
           <Divider
             style={{
@@ -166,7 +164,7 @@ class Synthesis extends Component<SynthesisProps> {
           />
           {this.renderUserOnboardingModal()}
         </Segment>
-      </AdminLayout>
+      </>
     );
   }
 }

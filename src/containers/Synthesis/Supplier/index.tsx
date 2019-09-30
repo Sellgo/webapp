@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Divider, Grid, Segment, Modal, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-
-import AdminLayout from '../../../components/AdminLayout';
 import Auth from '../../../components/Auth/Auth';
+import PageHeader from '../../../components/PageHeader';
 import { Seller } from '../../../interfaces/Seller';
 import ProductsTable from './ProductsTable';
 import get from 'lodash/get';
@@ -65,11 +64,8 @@ export class Supplier extends React.Component<SupplierProps> {
 
   render() {
     return (
-      <AdminLayout
-        auth={this.props.match.params.auth}
-        sellerData={this.props.sellerData}
-        title={'Synthesis'}
-      >
+      <>
+        <PageHeader title={'Synthesis'} />
         <Segment basic={true} className="setting">
           <Divider />
           <Grid>
@@ -86,7 +82,7 @@ export class Supplier extends React.Component<SupplierProps> {
           <ProductsTable supplierID={this.props.match.params.supplierID} />
           <this.ProductDetailModal />
         </Segment>
-      </AdminLayout>
+      </>
     );
   }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Icon, Image, Menu, SemanticSIZES } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import './AdminSidebar.css';
+import './AdminHeader.css';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   size,
@@ -21,12 +21,6 @@ export class AdminHeader extends React.Component<any> {
   userPicture = localStorage.getItem('userPicture');
 
   render() {
-    const { sellerData } = this.props;
-    if (sellerData !== undefined || sellerData !== null) {
-      if (sellerData.firstName.length > 0) {
-        this.userName = sellerData.firstName + ' ' + sellerData.lastName;
-      }
-    }
     return (
       <React.Fragment>
         <Menu

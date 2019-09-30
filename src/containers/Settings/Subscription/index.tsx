@@ -20,8 +20,8 @@ import { getSellerSubscription, getSubscriptions } from '../../../actions/Settin
 
 import './subscription.css';
 
-import AdminLayout from '../../../components/AdminLayout';
 import Auth from '../../../components/Auth/Auth';
+import PageHeader from '../../../components/PageHeader';
 import Checkout from './Checkout';
 import { Seller, Subscription } from '../../../interfaces/Seller';
 
@@ -91,11 +91,8 @@ class SubscriptionPricing extends React.Component<Props, State> {
       : 'Choose the one that best fits you!';
 
     return (
-      <AdminLayout
-        auth={this.props.match.params.auth}
-        sellerData={this.props.sellerData}
-        title={'Subscription'}
-      >
+      <>
+        <PageHeader title="Subscription" />
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Header as="h2">{header}</Header>
           <Divider />
@@ -173,7 +170,7 @@ class SubscriptionPricing extends React.Component<Props, State> {
             </Segment>
           </Container>
         </Modals>
-      </AdminLayout>
+      </>
     );
   }
 }

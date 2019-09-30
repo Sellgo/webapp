@@ -31,8 +31,8 @@ import {
 import './setting.css';
 import { marketPlace } from '../../constants/constants';
 import RecoverPass from '../RecoverPass';
-import AdminLayout from '../../components/AdminLayout';
 import Auth from '../../components/Auth/Auth';
+import PageHeader from '../../components/PageHeader';
 import { MarketplaceFields } from '../../interfaces/MarketplaceFields';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
 
@@ -224,11 +224,8 @@ class Setting extends React.Component<Props, State> {
   render() {
     const { isOpen } = this.state;
     return (
-      <AdminLayout
-        auth={this.props.match.params.auth}
-        sellerData={this.props.sellerData}
-        title={'Settings'}
-      >
+      <>
+        <PageHeader title="Settings" />
         <Segment basic={true} className="setting">
           <Header as="h2">Basic Information</Header>
           <Divider />
@@ -249,7 +246,7 @@ class Setting extends React.Component<Props, State> {
           </Modals>
           {this.ModalDeleteMWSAuth()}
         </Segment>
-      </AdminLayout>
+      </>
     );
   }
 

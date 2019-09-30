@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Header, Icon } from 'semantic-ui-react';
-import './AdminSidebar.css';
+import './index.css';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { SET_PAGE_HISTORY_COUNTER } from '../../constants/constants';

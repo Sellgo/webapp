@@ -1,8 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import { Segment } from 'semantic-ui-react';
 import axios from 'axios';
-import AdminLayout from '../../components/AdminLayout/index';
+import AdminLayout from '../../components/AdminLayout';
 import Dashboard from '../Dashboard';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
@@ -15,6 +14,7 @@ import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback';
+import NotFound from '../../components/NotFound';
 import history from '../../history';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,6 +41,30 @@ const isAuthenticated = () => {
   }
 };
 
+const PrivateRoute = ({ component: Component, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        if (isAuthenticated()) {
+          // TODO: Rather than pass auth by mutating props either
+          // 1) export instance from Auth.tsx so we can import it anywhere
+          // 2) or make available via redux or context provider
+          props.match.params.auth = auth;
+
+          return (
+            <AdminLayout>
+              <Component {...props} />
+            </AdminLayout>
+          );
+        } else {
+          return <Redirect to="/" />;
+        }
+      }}
+    />
+  );
+};
+
 function App(Props: any) {
   return (
     <div>
@@ -54,69 +78,18 @@ function App(Props: any) {
           <Route exact={true} path="/product-tracker" component={ProductTracker} />
           <Route
             path="/callback"
-            render={Props => {
-              handleAuthentication(Props.location);
+            render={props => {
+              handleAuthentication(props.location);
               return <Callback {...Props} />;
             }}
           />
-          <Route
-            exact={true}
-            path="/settings"
-            render={routeProps => {
-              routeProps.match.params.auth = auth;
-              if (isAuthenticated()) {
-                return <Settings {...routeProps} />;
-              }
-            }}
-          />
-          <Route
-            exact={true}
-            path="/settings/subscription"
-            render={routeProps => {
-              routeProps.match.params.auth = auth;
-              if (isAuthenticated()) {
-                return <Subscription {...routeProps} />;
-              }
-            }}
-          />
-          <Route
-            exact={true}
-            path="/dashboard"
-            render={routeProps => {
-              routeProps.match.params.auth = auth;
-              if (isAuthenticated()) {
-                return <Dashboard {...routeProps} />;
-              }
-            }}
-          />
 
-          <Route
-            exact={true}
-            path="/synthesis"
-            render={routeProps => {
-              routeProps.match.params.auth = auth;
-              if (isAuthenticated()) {
-                return <Synthesis {...routeProps} />;
-              }
-            }}
-          />
-          <Route
-            exact={true}
-            path="/synthesis/:supplierID"
-            render={routeProps => {
-              routeProps.match.params.auth = auth;
-              if (isAuthenticated()) {
-                return <SupplierDetail {...routeProps} />;
-              }
-            }}
-          />
-          <Route
-            render={() => (
-              <AdminLayout auth={auth} {...Props}>
-                <Segment>Page not found</Segment>
-              </AdminLayout>
-            )}
-          />
+          <PrivateRoute exact={true} path="/setting" component={Settings} />
+          <PrivateRoute exact={true} path="/settings/subscription" component={Subscription} />
+          <PrivateRoute exact={true} path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
+          <PrivateRoute exact={true} path="/synthesis/:supplierID" component={SupplierDetail} />
+          <Route component={NotFound} />
         </Switch>
       </Router>
     </div>
