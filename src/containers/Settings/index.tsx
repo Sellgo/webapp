@@ -29,7 +29,7 @@ import {
   updateAmazonMWS,
 } from '../../actions/Settings';
 import './setting.css';
-import { marketPlace } from '../../constants/constants';
+import { marketPlace } from '../../constants/Settings';
 import RecoverPass from '../RecoverPass';
 import AdminLayout from '../../components/AdminLayout';
 import Auth from '../../components/Auth/Auth';

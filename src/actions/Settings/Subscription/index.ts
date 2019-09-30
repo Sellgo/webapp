@@ -3,7 +3,7 @@ import {
   GET_SUBSCRIPTIONS,
   GET_SELLER_SUBSCRIPTION,
   UPDATE_SELLER_SUBSCRIBTION,
-} from '../../../constants/constants';
+} from '../../../constants/Settings';
 import { AppConfig } from '../../../config';
 import { Subscription } from '../../../interfaces/Seller';
 

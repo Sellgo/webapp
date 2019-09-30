@@ -3,10 +3,10 @@ import { Form, Grid, Popup, Icon } from 'semantic-ui-react';
 import styles from './UploadSupplierFiles.module.css';
 import { Field } from 'redux-form';
 import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
-import { DefaultSelect } from '../../../constants/constants';
-import timezones from '../../../constants/timezones';
-import accountStatuses from '../../../constants/accountStatus';
-import terms from '../../../constants/terms';
+import { defaultSelect } from '../../../constants';
+import timezones from '../../../constants/UploadSupplier/timezones';
+import { accountStatus } from '../../../constants/UploadSupplier';
+import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
 
 const required = isRequired();
@@ -46,7 +46,7 @@ const SupplierDetails = () => (
           component={SelectField}
           name="timezone"
           label="Timezone"
-          options={[DefaultSelect, ...timezones]}
+          options={[defaultSelect, ...timezones]}
         />
       </Grid.Column>
     </Grid.Row>
@@ -56,7 +56,7 @@ const SupplierDetails = () => (
           component={SelectField}
           name="account_status"
           label="Account Status"
-          options={[DefaultSelect, ...accountStatuses]}
+          options={[defaultSelect, ...accountStatus]}
         />
       </Grid.Column>
       <Grid.Column width={8}>
@@ -64,7 +64,7 @@ const SupplierDetails = () => (
           component={SelectField}
           name="terms"
           label="Terms"
-          options={[DefaultSelect, ...terms]}
+          options={[defaultSelect, ...terms]}
         />
       </Grid.Column>
     </Grid.Row>

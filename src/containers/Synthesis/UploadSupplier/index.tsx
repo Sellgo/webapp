@@ -6,10 +6,10 @@ import SupplierInformation from './SupplierInformation';
 import Actions from './Actions';
 import SelectFile from './SelectFile';
 import DataMapping from './DataMapping';
-import { currentStepSelector } from '../../../selectors/UploadSupplierFiles';
+import { currentStepSelector } from '../../../selectors/UploadSupplier';
 import DataValidation from './DataValidation';
 import FormWrapper from './FormWrapper';
-import { cleanupUploadSupplier } from '../../../actions/UploadSupplierFiles';
+import { cleanupUploadSupplier } from '../../../actions/UploadSupplier';
 
 interface Props {
   currentStep: number;

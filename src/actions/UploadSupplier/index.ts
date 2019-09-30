@@ -1,7 +1,7 @@
 import {
   isFirstRowHeaderSelector,
   saveColumnMappingSettingSelector,
-} from '../../selectors/UploadSupplierFiles/index';
+} from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
 import get from 'lodash/get';
 import {
@@ -17,14 +17,14 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
-} from '../../constants/constants';
+} from '../../constants/UploadSupplier';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5';
-import { currentStepSelector, columnMappingsSelector } from '../../selectors/UploadSupplierFiles';
+import { currentStepSelector, columnMappingsSelector } from '../../selectors/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
-import { newSupplierIdSelector } from '../../selectors/Synthesis';
+import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
 import Axios from 'axios';
 import reduce from 'lodash/reduce';

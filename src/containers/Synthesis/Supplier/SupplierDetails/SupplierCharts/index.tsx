@@ -8,7 +8,7 @@ import { Loader, Form } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
-import { findFilterProducts } from '../../../../../constants/Synthesis/Suppliers';
+import { findFilterProducts } from '../../../../../constants/Suppliers';
 
 interface SupplierChartsProps {
   supplierID: any;

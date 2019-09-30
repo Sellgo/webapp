@@ -104,7 +104,6 @@ export class Supplier extends React.Component<SupplierProps> {
 
 const mapStateToProps = (state: any) => ({
   products: supplierProductsSelector(state),
-  productTrackGroup: state.synthesis.productTrackGroup,
   sellerInfo: state.settings.profile,
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });

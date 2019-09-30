@@ -5,7 +5,9 @@ import {
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
-} from '../../constants/constants';
+  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+  SET_TIME_EFFICIENCY,
+} from '../../constants/Suppliers';
 import Axios from 'axios';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
@@ -23,7 +25,7 @@ import {
   UPDATE_SUPPLIER_PRODUCT,
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
-} from '../../constants/Synthesis/Suppliers';
+} from '../../constants/Suppliers';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 
@@ -85,7 +87,7 @@ export const deleteSupplier = (supplier: any) => async (
 };
 
 export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
+  const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.set('tag', isFavourite);
 
@@ -258,7 +260,7 @@ export const setSupplierProductTrackerGroup = (data: any) => ({
 });
 
 export const fetchSupplierProductTrackerGroup = (supplierID: string) => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
+  const sellerID = sellerIDSelector();
   return Axios.get(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`
   )
@@ -274,7 +276,7 @@ export const updateProductTrackingStatus = (
   productTrackerID?: string,
   productTrackerGroupID?: string
 ) => (dispatch: any) => {
-  const sellerID = localStorage.getItem('userId');
+  const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
 
   bodyFormData.set('seller_id', sellerID || '');
@@ -305,4 +307,112 @@ export const updateSupplierProduct = (data: any) => ({
 export const updateSupplierFilterRanges = (filterRanges: any) => ({
   type: UPDATE_SUPPLIER_FILTER_RANGES,
   payload: filterRanges,
+});
+
+export const getTimeEfficiency = () => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/time-efficiency`)
+    .then(json => {
+      dispatch(setTimeEfficiency(json.data));
+    })
+    .catch(error => {});
+};
+
+export const postProductTrackGroupId = (supplierID: string, supplierName: string) => (
+  dispatch: any
+) => {
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('name', supplierName);
+  bodyFormData.set('supplier_id', supplierID);
+  bodyFormData.set('marketplace_id', 'US');
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`,
+    bodyFormData
+  )
+    .then(json => {})
+    .catch(error => {});
+};
+
+const createSupplierGroup = (supplierName: string) => {
+  return new Promise((resolve, reject) => {
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+    bodyFormData.set('name', supplierName);
+    return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/supplier-group`, bodyFormData)
+      .then(json => {
+        resolve(json.data);
+      })
+      .catch(error => {});
+  });
+};
+
+export const saveSupplierNameAndDescription = (name: string, description: string, other: any) => (
+  dispatch: any
+) => {
+  return new Promise((resolve, reject) => {
+    createSupplierGroup(name).then((data: any) => {
+      const sellerID = sellerIDSelector();
+      const bodyFormData = new FormData();
+      bodyFormData.set('name', name);
+      if (description) bodyFormData.set('description', description);
+      bodyFormData.set('supplier_group_id', data.id);
+      for (let param in other) {
+        bodyFormData.set(param, other[param]);
+      }
+      return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
+        .then(json => {
+          dispatch(addSupplier(json.data));
+          dispatch(setsaveSupplierNameAndDescription(json.data));
+          resolve(json.data);
+        })
+        .catch(err => {
+          for (let er in err.response.data) {
+            error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+          }
+        });
+    });
+  });
+};
+
+export const updateSupplierNameAndDescription = (
+  name: string,
+  description: string,
+  supplierID: string,
+  other: any
+) => (dispatch: any) => {
+  return new Promise((resolve, reject) => {
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+    bodyFormData.set('name', name);
+    bodyFormData.set('description', description);
+    bodyFormData.set('id', supplierID);
+    for (let param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+    return Axios.patch(
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}`,
+      bodyFormData
+    )
+      .then(json => {
+        dispatch(updateSupplier(json.data));
+        dispatch(setsaveSupplierNameAndDescription(json.data));
+        resolve(json.data);
+      })
+      .catch(err => {
+        for (let er in err.response.data) {
+          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+        }
+      });
+  });
+};
+
+export const setTimeEfficiency = (data: {}) => ({
+  type: SET_TIME_EFFICIENCY,
+  payload: data,
+});
+
+export const setsaveSupplierNameAndDescription = (data: {}) => ({
+  type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+  payload: data,
 });

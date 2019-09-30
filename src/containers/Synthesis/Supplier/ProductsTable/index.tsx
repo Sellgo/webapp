@@ -12,7 +12,7 @@ import {
 } from '../../../../actions/Suppliers';
 import get from 'lodash/get';
 import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
-import { findFilterProducts } from '../../../../constants/Synthesis/Suppliers';
+import { findFilterProducts } from '../../../../constants/Suppliers';
 
 interface ProductsTableProps {
   supplierID: any;

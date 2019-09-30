@@ -2,7 +2,7 @@ import {
   GET_SUBSCRIPTIONS,
   GET_SELLER_SUBSCRIPTION,
   UPDATE_SELLER_SUBSCRIBTION,
-} from '../../../constants/constants';
+} from '../../../constants/Settings';
 
 const initialState = {
   sellerSubscription: undefined,

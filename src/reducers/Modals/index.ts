@@ -1,4 +1,4 @@
-import { CLOSE, OPEN } from '../../constants/constants';
+import { CLOSE, OPEN } from '../../constants';
 import { setIn } from '../../utils/immutablity';
 import { ModalsAction } from '../../actions/Modals';
 

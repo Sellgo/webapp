@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Icon, Menu, Sidebar, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './AdminSidebar.css';
-import { sideBarExpanded } from '../../actions/Settings';
 import { connect } from 'react-redux';
 
 interface State {
@@ -126,11 +125,7 @@ const mapStateToProps = (state: any) => ({
   isSideBarExpanded: state.settings.isSideBarExpanded,
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    sideBarExpanded: (data: any) => dispatch(sideBarExpanded(data)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => {};
 
 export default connect(
   mapStateToProps,

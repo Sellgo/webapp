@@ -1,4 +1,4 @@
-import { OPEN, CLOSE } from '../../constants/constants';
+import { OPEN, CLOSE } from '../../constants';
 import { Supplier } from '../../interfaces/Supplier';
 import { Product } from '../../interfaces/Product';
 

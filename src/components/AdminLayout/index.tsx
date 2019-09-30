@@ -37,7 +37,6 @@ class AdminLayout extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <AdminHeader sellerData={sellerData} />
-        <AdminSidebar logout={auth.logout} />
 
         <Segment
           basic={true}

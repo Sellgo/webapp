@@ -1,22 +1,22 @@
-import { FieldsToMap } from '../../constants/constants';
+import { FieldsToMap } from '../../constants/UploadSupplier';
 import {
   reversedColumnMappingsSelector,
   csvSelector,
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
-} from '../../selectors/UploadSupplierFiles/index';
+} from '../../selectors/UploadSupplier/index';
 // tslint:disable:max-classes-per-file
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { UploadSteps } from '../../constants/constants';
+import { UploadSteps } from '../../constants/UploadSupplier';
 import { isValid, submit, getFormValues } from 'redux-form';
-import { csvFileSelector } from '../../selectors/UploadSupplierFiles';
+import { csvFileSelector } from '../../selectors/UploadSupplier';
 import { error } from '../../utils/notifications';
 import {
   saveSupplierNameAndDescription,
   postProductTrackGroupId,
   updateSupplierNameAndDescription,
-} from '../Synthesis';
+} from '../Suppliers';
 import { removeColumnMappings, fetchColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import findIndex from 'lodash/findIndex';

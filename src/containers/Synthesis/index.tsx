@@ -7,7 +7,7 @@ import history from '../../history';
 import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../actions/Settings';
 import AdminLayout from '../../components/AdminLayout';
 import Auth from '../../components/Auth/Auth';
-import UploadSupplierFiles from './UploadSupplierFiles';
+import UploadSupplier from './UploadSupplier';
 import {
   openUploadSupplierModal,
   closeUploadSupplierModal,
@@ -96,7 +96,7 @@ class Synthesis extends Component<SynthesisProps> {
           }
         >
           <Modal.Content>
-            <UploadSupplierFiles />
+            <UploadSupplier />
           </Modal.Content>
         </Modal>
         <Popup
