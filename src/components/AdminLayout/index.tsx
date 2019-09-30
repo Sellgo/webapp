@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { Segment } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
+import Auth from '../Auth/Auth';
 
-interface Props {}
+interface Props {
+  auth: Auth;
+}
 
 class AdminLayout extends React.Component<Props> {
   public render() {
-    const { children } = this.props;
+    const { children, auth } = this.props;
 
     return (
       <React.Fragment>
-        <AdminHeader />
+        <AdminHeader auth={auth} />
 
         <Segment
           basic={true}

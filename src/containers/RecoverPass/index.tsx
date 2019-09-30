@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form, Grid, GridRow, Segment, Message } from 'semantic-ui-react';
-import { Logo } from '../../components/AdminLayout/AdminHeader';
+import Logo from '../../components/Logo';
 import IntroSlider from '../../components/IntroSlider';
 import MesssageComponent from '../../components/MessageComponent';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';

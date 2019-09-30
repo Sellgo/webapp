@@ -53,7 +53,7 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
           props.match.params.auth = auth;
 
           return (
-            <AdminLayout>
+            <AdminLayout auth={auth}>
               <Component {...props} />
             </AdminLayout>
           );
@@ -84,7 +84,7 @@ function App(Props: any) {
             }}
           />
 
-          <PrivateRoute exact={true} path="/setting" component={Settings} />
+          <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/subscription" component={Subscription} />
           <PrivateRoute exact={true} path="/dashboard" component={Dashboard} />
           <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
