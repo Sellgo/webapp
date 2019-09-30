@@ -10,7 +10,7 @@ import {
   UPDATE_SUPPLIER_PRODUCT,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
   UPDATE_SUPPLIER_FILTER_RANGES,
-} from '../../constants/Synthesis/Suppliers';
+} from '../../constants/Suppliers';
 
 const initialState = {
   products: [undefined],

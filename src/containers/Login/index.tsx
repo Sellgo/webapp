@@ -7,7 +7,7 @@ import PasswordShowHide from '../../components/Password/PasswordShowHide';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './login.css';
 
-export class Login extends React.Component<any, {}> {
+export default class Login extends React.Component<any, {}> {
   render() {
     const { login } = this.props.auth;
     return (

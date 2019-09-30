@@ -14,9 +14,9 @@ import {
   findFilterProducts,
   dataKeys,
   dataKeyMapping,
-} from '../../../../constants/Synthesis/Suppliers';
+} from '../../../../constants/Suppliers';
 import get from 'lodash/get';
-import { DefaultSelect } from '../../../../constants/constants';
+import { defaultSelect } from '../../../../constants';
 
 interface SupplierFiltersProps {
   products: Product[];
@@ -103,7 +103,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
               fluid={true}
               selection={true}
               options={[
-                DefaultSelect,
+                defaultSelect,
                 ...dataKeys.map((dk: any) => ({
                   key: dk,
                   text: dataKeyMapping[dk].presetText,

@@ -11,7 +11,7 @@ interface HomeState {
   cityName: string;
 }
 
-export class Home extends React.Component<any, HomeState> {
+export default class Home extends React.Component<any, HomeState> {
   state = {
     heading: 'by become an Amazon Seller',
     amount: 1000,

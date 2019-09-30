@@ -7,9 +7,8 @@ import {
   UPLOAD_SELLER_IMAGE,
   GET_AMAZON_MWS,
   PATCH_AMAZON_MWS,
-  SIDE_BAR_EXPANDED,
   SET_AMAZON_MWS_AUTHORIZED,
-} from '../../constants/constants';
+} from '../../constants/Settings';
 import { AppConfig } from '../../config';
 import { AmazonMWS, Seller } from '../../interfaces/Seller';
 
@@ -156,11 +155,6 @@ export const setBasicInfoSeller = (data: any) => ({
 
 export const setAmazonMWS = (data: any) => ({
   type: SET_AMAZON_MWS,
-  data,
-});
-
-export const sideBarExpanded = (data: any) => ({
-  type: SIDE_BAR_EXPANDED,
   data,
 });
 

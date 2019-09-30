@@ -7,7 +7,9 @@ import {
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
-} from '../../constants/constants';
+  SET_TIME_EFFICIENCY,
+  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+} from '../../constants/Suppliers';
 import { Suppliers } from '../../actions/Suppliers';
 import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
@@ -18,6 +20,8 @@ const initialState = {
   suppliersById: {},
   suppliersTableColumns: {},
   suppliersTableTab: 'all',
+  timeEfficiency: [],
+  newSupplier: null,
 };
 
 export default (state: Suppliers = initialState, action: AnyAction) => {
@@ -80,6 +84,12 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
     case SET_SUPPLIERS_TABLE_COLUMNS: {
       return setIn(state, 'suppliersTableColumns', action.payload);
     }
+
+    case SET_TIME_EFFICIENCY:
+      return setIn(state, 'timeEfficiency', action.payload);
+
+    case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
+      return setIn(state, 'newSupplier', action.payload.id);
     default:
       return state;
   }

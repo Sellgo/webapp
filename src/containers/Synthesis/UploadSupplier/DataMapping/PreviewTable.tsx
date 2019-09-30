@@ -5,7 +5,7 @@ import {
   csvSelector,
   columnMappingsSelector,
   csvHeaderSelector,
-} from '../../../../selectors/UploadSupplierFiles';
+} from '../../../../selectors/UploadSupplier';
 
 const NUMBER_OF_ROWS_TO_DISPLAY = 6;
 interface PreviewTableProps {

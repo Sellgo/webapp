@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Divider, Image, Icon, Card, Feed } from 'semantic-ui-react';
+import { Divider, Card, Feed } from 'semantic-ui-react';
 import get from 'lodash/get';
 import { fetchSupplierProductsTrackData } from '../../../../../actions/Suppliers';
 

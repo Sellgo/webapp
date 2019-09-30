@@ -10,7 +10,7 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
-} from '../../constants/constants';
+} from '../../constants/UploadSupplier';
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
 

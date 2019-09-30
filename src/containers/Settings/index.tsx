@@ -29,7 +29,7 @@ import {
   updateAmazonMWS,
 } from '../../actions/Settings';
 import './setting.css';
-import { marketPlace } from '../../constants/constants';
+import { marketPlace } from '../../constants/Settings';
 import RecoverPass from '../RecoverPass';
 import Auth from '../../components/Auth/Auth';
 import PageHeader from '../../components/PageHeader';
@@ -285,7 +285,7 @@ class Setting extends React.Component<Props, State> {
       }&devMWSAccountId=${'4294-2444-1812'}`;
     }
     return (
-      <Segment basic={true}>
+      <Segment basic={true} id="amazon-mws">
         <Container style={{ width: '80%' }}>
           <span className="autho-sub-hear">
             Please grant Amazon MWS and Amazon Seller Central access for each market.

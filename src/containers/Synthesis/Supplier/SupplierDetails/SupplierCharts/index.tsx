@@ -4,27 +4,25 @@ import get from 'lodash/get';
 import StackChart from '../../../../../components/Chart/StackChart';
 import PieChart from '../../../../../components/Chart/PieChart';
 import ScatterChart from '../../../../../components/Chart/ScatterChart';
-import { Loader, Form, Divider } from 'semantic-ui-react';
+import { Loader, Form } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
-import { fetchSupplierDetails, fetchSupplierProducts } from '../../../../../actions/Suppliers';
-import { findFilterProducts } from '../../../../../constants/Synthesis/Suppliers';
+import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
+import { findFilterProducts } from '../../../../../constants/Suppliers';
 
 interface SupplierChartsProps {
   supplierID: any;
   supplierDetails: Supplier;
   products: Product[];
   filterRanges: any;
-  fetchSupplierProducts: (supplierID: any) => void;
   fetchSupplierDetails: (supplierID: any) => void;
 }
 class SupplierCharts extends Component<SupplierChartsProps> {
   state = { showChart: 'chart0' };
 
   componentDidMount() {
-    const { supplierID, fetchSupplierDetails, fetchSupplierProducts } = this.props;
+    const { supplierID, fetchSupplierDetails } = this.props;
     fetchSupplierDetails(supplierID);
-    fetchSupplierProducts(supplierID);
   }
 
   renderProfit = (props: any) => {
@@ -258,7 +256,6 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {
   fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),
-  fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
 };
 
 export default connect(

@@ -7,7 +7,7 @@ import {
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_PRICE,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI,
   RESET_SUPPLIER_PRODUCT_DETAILS,
-} from '../../constants/Synthesis/Products';
+} from '../../constants/Products';
 
 const initialState = {
   details: {},

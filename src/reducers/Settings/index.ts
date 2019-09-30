@@ -1,16 +1,14 @@
 import {
   SET_BASIC_INFO_SELLER,
   UPDATE_BASIC_INFO_SELLER,
-  FETCH_AUTH_BEGIN,
   SET_AMAZON_MWS,
   GET_BASIC_INFO_SELLER,
   SET_PAGE_HISTORY_COUNTER,
   UPLOAD_SELLER_IMAGE,
   GET_AMAZON_MWS,
-  SIDE_BAR_EXPANDED,
   PATCH_AMAZON_MWS,
   SET_AMAZON_MWS_AUTHORIZED,
-} from '../../constants/constants';
+} from '../../constants/Settings';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
 import { setIn } from '../../utils/immutablity';
 
@@ -53,14 +51,6 @@ export default (state = initialState, action: any) => {
   const newState = { ...state };
   let data = null;
   switch (action.type) {
-    case SIDE_BAR_EXPANDED:
-      data = action.data;
-      newState.isSideBarExpanded = data.value;
-      return newState;
-    case FETCH_AUTH_BEGIN:
-      newState.loading = true;
-      newState.error = null;
-      return newState;
     case SET_BASIC_INFO_SELLER:
       data = action.data;
       const key: keyof Seller = data.key;
