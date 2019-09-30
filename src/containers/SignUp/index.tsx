@@ -9,7 +9,7 @@ interface State {
   isSuccess: boolean;
 }
 
-export class SignUp extends React.Component<any, State> {
+export default class SignUp extends React.Component<any, State> {
   state = {
     isSuccess: false,
   };

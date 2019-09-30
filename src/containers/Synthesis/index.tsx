@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Divider, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.css';
+import history from '../../history';
 
 import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../actions/Settings';
 import AdminLayout from '../../components/AdminLayout';
@@ -50,7 +51,9 @@ class Synthesis extends Component<SynthesisProps> {
     if (amazonMWSAuthorized) {
       openUploadSupplierModal(supplier);
     } else {
-      error('UnAuthorized Access! Please add Amazon MWS Token.');
+      error('UnAuthorized Access! Please add Amazon MWS Token.', {
+        onClose: () => history.push('/settings#amazon-mws'),
+      });
     }
   };
 
@@ -59,7 +62,9 @@ class Synthesis extends Component<SynthesisProps> {
     if (amazonMWSAuthorized) {
       openUploadSupplierModal();
     } else {
-      error('UnAuthorized Access! Please add Amazon MWS Token.');
+      error('UnAuthorized Access! Please add Amazon MWS Token.', {
+        onClose: () => history.push('/settings#amazon-mws'),
+      });
     }
   };
 
