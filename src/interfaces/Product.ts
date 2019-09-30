@@ -55,6 +55,7 @@ export interface ProductDetail {
   image_url: string;
   title: string;
   package_quantity: string;
+  total_cost: number;
 }
 
 export interface ProductChartDetailsRank {
