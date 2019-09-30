@@ -11,6 +11,18 @@
   height: 64px;
 }
 
+.admin-header .divider {
+  width: 1px;
+  height: 100%;
+  align-self: center;
+  background-color: #a4a4a4;
+}
+
+.admin-header .username {
+  margin-left: 7px;
+  font-weight: bold;
+}
+
 .admin-header .navbar-spacer {
   height: 64px;
 }

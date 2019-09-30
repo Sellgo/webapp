@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown, SemanticSIZES } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import './AdminHeader.css';
@@ -22,15 +22,13 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item as={Link} to="/settings/subscription" className="icon-item">
               <Icon name="rss" />
             </Menu.Item>
-            <Menu.Item className="icon-item">
+            <Menu.Item as={Link} to="/search" className="icon-item">
               <Icon name="search" />
             </Menu.Item>
-            <Menu.Item className="icon-item">
+            <Menu.Item as={Link} to="/notifications" className="icon-item">
               <Icon name="bell" />
             </Menu.Item>
-            <div
-              style={{ width: 1, height: '100%', alignSelf: 'center', backgroundColor: '#a4a4a4' }}
-            />
+            <div className="divider" />
             <Menu.Item>
               <Dropdown
                 trigger={
@@ -38,9 +36,9 @@ export class AdminHeader extends React.Component<any> {
                     {this.userPicture ? (
                       <Image src={this.userPicture} avatar />
                     ) : (
-                      <Icon name="user circle" style={{ fontSize: 25 }} color={'red'} />
+                      <Icon name="user circle" style={{ fontSize: 25 }} />
                     )}
-                    <span style={{ marginLeft: '7px', fontWeight: 'bold' }}>{this.userName}</span>
+                    <span className="username">{this.userName}</span>
                   </>
                 }
                 pointing="top left"
