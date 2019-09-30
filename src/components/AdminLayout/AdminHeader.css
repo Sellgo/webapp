@@ -5,10 +5,18 @@
 */
 
 .admin-header .top-menu {
-  padding-left: 80px;
+  padding-left: 40px;
   padding-right: 20px;
   background-color: #3b4557 !important;
   height: 64px;
+}
+
+.admin-header .ui.menu .item {
+  font-weight: bold;
+}
+
+.admin-header .main-menu {
+  margin-left: 30px !important;
 }
 
 .admin-header .divider {
@@ -18,21 +26,20 @@
   background-color: #a4a4a4;
 }
 
-.admin-header .username {
-  margin-left: 7px;
-  font-weight: bold;
-}
-
 .admin-header .navbar-spacer {
   height: 64px;
 }
 
-.admin-header .icon-item {
-  padding-left: 26px !important;
-  padding-right: 26px !important;
+.admin-header .right-menu > .item {
+  padding-left: 26px;
+  padding-right: 26px;
 }
 
-.admin-header .icon-item i {
+.admin-header .right-menu > .item > i {
   font-size: 24px;
   margin: 0 !important;
+}
+
+.admin-header .username {
+  margin-left: 7px;
 }
