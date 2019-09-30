@@ -623,7 +623,7 @@ export class SupplierDetail extends React.Component<Props, State> {
                   </Grid.Row>
                   <Grid.Row>
                     {this.props.product_detail.package_quantity == null
-                      ? 0
+                      ? 1
                       : Number(this.props.product_detail.package_quantity).toLocaleString()}
                   </Grid.Row>
                   <Grid.Row>
