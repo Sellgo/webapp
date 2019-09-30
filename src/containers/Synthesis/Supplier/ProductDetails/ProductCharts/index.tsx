@@ -34,19 +34,19 @@ class ProductCharts extends Component<ProductChartsProps> {
   }
 
   renderProductStatistics = (props: any) => {
-    const { popup_rank_container, popup_price_container } = props;
+    const { popupRankContainer, popupPriceContainer } = props;
     const data = [
       {
         type: 'line',
         name: 'Price($)',
         color: '#CAE1F3',
-        data: popup_price_container,
+        data: popupPriceContainer,
       },
       {
         type: 'line',
         name: 'Rank',
         color: '#F3E9CA',
-        data: popup_rank_container,
+        data: popupRankContainer,
       },
     ];
     const chartOptions = {
@@ -57,23 +57,23 @@ class ProductCharts extends Component<ProductChartsProps> {
   };
 
   renderROI = (props: any) => {
-    const { product_timeline, product_profit, product_roi } = props;
+    const { productTimeline, productProfit, productROI } = props;
     const data = [
       {
         name: 'Total Profit($)',
         type: 'spline',
         yAxis: 1,
-        data: product_profit,
+        data: productProfit,
       },
       {
         name: 'ROI(%)',
         type: 'spline',
-        data: product_roi,
+        data: productROI,
       },
     ];
     const chartOptions = {
       title: 'Profit vs ROI',
-      product_timeline: product_timeline,
+      productTimeline: productTimeline,
       data: data,
     };
     return <SplineChart options={chartOptions} />;
@@ -85,47 +85,47 @@ class ProductCharts extends Component<ProductChartsProps> {
     const { productDetailRank, productDetailPrice, productDetailKPI } = this.props;
     switch (this.state.showProductChart) {
       case 'chart0':
-        const popup_rank_container = [];
-        const popup_price_container = [];
+        const popupRankContainer = [];
+        const popupPriceContainer = [];
 
         for (let i = 0; i < productDetailRank.length; i++) {
-          popup_rank_container.push([
+          popupRankContainer.push([
             new Date(productDetailRank[i].cdate).getTime(),
             Number(productDetailRank[i].rank),
           ]);
         }
         for (let i = 0; i < productDetailPrice.length; i++) {
-          popup_price_container.push([
+          popupPriceContainer.push([
             new Date(productDetailPrice[i].cdate).getTime(),
             Number(productDetailPrice[i].price),
           ]);
         }
-        return popup_price_container.length === 0 && popup_rank_container.length === 0 ? (
+        return popupPriceContainer.length === 0 && popupRankContainer.length === 0 ? (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
             Loading
           </Loader>
         ) : (
           <this.renderProductStatistics
-            popup_price_container={popup_price_container}
-            popup_rank_container={popup_rank_container}
+            popupPriceContainer={popupPriceContainer}
+            popupRankContainer={popupRankContainer}
           />
         );
 
       case 'chart1':
-        const product_timeline = [];
-        const product_profit = [];
-        const product_roi = [];
+        const productTimeline = [];
+        const productProfit = [];
+        const productROI = [];
 
         for (let i = 0; i < productDetailKPI.length; i++) {
-          product_timeline.push(new Date(productDetailKPI[i].cdate).toDateString());
-          product_profit.push(parseFloat(productDetailKPI[i].profit));
-          product_roi.push(parseFloat(productDetailKPI[i].roi));
+          productTimeline.push(new Date(productDetailKPI[i].cdate).toDateString());
+          productProfit.push(parseFloat(productDetailKPI[i].profit));
+          productROI.push(parseFloat(productDetailKPI[i].roi));
         }
-        return product_timeline.length && product_profit.length && product_roi.length ? (
+        return productTimeline.length && productProfit.length && productROI.length ? (
           <this.renderROI
-            product_timeline={product_timeline}
-            product_profit={product_profit}
-            product_roi={product_roi}
+            productTimeline={productTimeline}
+            productProfit={productProfit}
+            productROI={productROI}
           />
         ) : (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">

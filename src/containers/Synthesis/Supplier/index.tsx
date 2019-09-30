@@ -10,23 +10,34 @@ import get from 'lodash/get';
 import ProductDetails from './ProductDetails';
 import { closeSupplierProductDetailModal } from '../../../actions/Modals';
 import SupplierDetails from './SupplierDetails';
-import { resetSupplier } from '../../../actions/Suppliers';
+import {
+  resetSupplier,
+  fetchSupplierProducts,
+  resetSupplierProducts,
+} from '../../../actions/Suppliers';
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 
 interface SupplierProps {
   products: any;
-  sellerData: Seller;
+  sellerInfo: Seller;
   match: { params: { supplierID: ''; auth: Auth } };
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
   resetSupplier: () => void;
+  fetchSupplierProducts: (supplierID: any) => void;
+  resetSupplierProducts: typeof resetSupplierProducts;
 }
 
 export class Supplier extends React.Component<SupplierProps> {
-  componentDidMount() {}
+  componentDidMount() {
+    const { fetchSupplierProducts, match } = this.props;
+    fetchSupplierProducts(match.params.supplierID);
+  }
   componentWillUnmount() {
-    this.props.resetSupplier();
+    const { resetSupplier, resetSupplierProducts } = this.props;
+    resetSupplierProducts();
+    resetSupplier();
   }
 
   DisplaySupplierFilters = () => {
@@ -67,7 +78,7 @@ export class Supplier extends React.Component<SupplierProps> {
     return (
       <AdminLayout
         auth={this.props.match.params.auth}
-        sellerData={this.props.sellerData}
+        sellerData={this.props.sellerInfo}
         title={'Synthesis'}
       >
         <Segment basic={true} className="setting">
@@ -94,12 +105,14 @@ export class Supplier extends React.Component<SupplierProps> {
 const mapStateToProps = (state: any) => ({
   products: supplierProductsSelector(state),
   productTrackGroup: state.synthesis.productTrackGroup,
-  sellerData: state.settings.profile,
+  sellerInfo: state.settings.profile,
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
 const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
   resetSupplier: () => resetSupplier(),
+  fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
+  resetSupplierProducts: () => resetSupplierProducts(),
 };
 
 export default connect(

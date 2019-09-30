@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom';
 import { Product } from '../../../../interfaces/Product';
 import { openSupplierProductDetailModal } from '../../../../actions/Modals';
 import {
-  resetSupplierProducts,
-  fetchSupplierProducts,
   fetchSupplierProductTrackerGroup,
   updateProductTrackingStatus,
 } from '../../../../actions/Suppliers';
@@ -21,8 +19,6 @@ interface ProductsTableProps {
   products: Product[];
   filterRanges: any;
   productTrackerGroup: any;
-  fetchSupplierProducts: (supplierID: any) => void;
-  resetSupplierProducts: typeof resetSupplierProducts;
   fetchProductTrackerGroup: (supplierID: any) => void;
   updateProductTrackingStatus: (
     status: string,
@@ -280,19 +276,8 @@ class ProductsTable extends Component<ProductsTableProps> {
   };
 
   componentDidMount() {
-    const {
-      supplierID,
-      resetSupplierProducts,
-      fetchSupplierProducts,
-      fetchProductTrackerGroup,
-    } = this.props;
-    resetSupplierProducts();
-    fetchSupplierProducts(supplierID);
+    const { supplierID, fetchProductTrackerGroup } = this.props;
     fetchProductTrackerGroup(supplierID);
-  }
-
-  componentWillUnmount() {
-    this.props.resetSupplierProducts();
   }
 
   render() {
@@ -331,8 +316,6 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
-  resetSupplierProducts: () => resetSupplierProducts(),
   fetchProductTrackerGroup: (supplierID: any) => fetchSupplierProductTrackerGroup(supplierID),
   updateProductTrackingStatus: (
     status: string,

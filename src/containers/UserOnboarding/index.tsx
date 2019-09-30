@@ -3,7 +3,7 @@ import styles from './UserOnboarding.module.css';
 import { Grid, Pagination, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { closeUserOnboardingModal } from '../../actions/Modals';
-import { userOnboarding as totalViews } from '../../constants/userOnboarding';
+import { userOnboarding as totalViews } from '../../constants/UserOnboarding';
 
 interface Props {
   closeModal: typeof closeUserOnboardingModal;
