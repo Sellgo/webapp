@@ -8,12 +8,12 @@ import Setting from '../Dashboard/Setting';
 import Subscription from '../Dashboard/Subscription';
 import { Home } from '../Home/Home';
 import { Login } from '../Login/Login';
-import { ProductTracker } from '../ProductTracker/ProductTracker';
 import RecoverPass from '../RecoverPass';
 import { SignUp } from '../SignUp/Signup';
 import Suppliers from '../SYN/suppliers';
 import SupplierDetail from '../SYN/suppliers/supplierDetail';
 import ProfitSys from '../ProfitSys/index';
+import ProductTracker from '../ProductTracker/index';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback/Callback';
 import history from '../../history';
@@ -118,6 +118,16 @@ function App(Props: any) {
               routeProps.match.params.auth = auth;
               if (isAuthenticated()) {
                 return <ProfitSys {...routeProps} />;
+              }
+            }}
+          />
+          <Route
+            exact={true}
+            path="/productTracker"
+            render={routeProps => {
+              routeProps.match.params.auth = auth;
+              if (isAuthenticated()) {
+                return <ProductTracker {...routeProps} />;
               }
             }}
           />

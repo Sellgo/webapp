@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button, Progress, Divider, Segment, Grid } from 'semantic-ui-react';
-import ProfitSysLeftPanel from './leftFilterPanel';
+import ProfitSysLeftPanel from '../ProfitSys/leftFilterPanel';
 import AdminLayout from '../../components/AdminLayout';
 import LineChart from '../../components/Chart/LineChart';
-import ProfitSysTable from './ProfitSysTable';
-import './profitSys.css';
+import ProfitSysTable from '../ProfitSys/ProfitSysTable';
+import '../ProfitSys/profitSys.css';
 
 const options = {
   chart: {
@@ -44,13 +44,13 @@ const options = {
   ],
 };
 
-class ProfitSys extends React.Component<any, {}> {
+class ProductTracker extends React.Component<any, {}> {
   public render() {
     return (
       <AdminLayout
         auth={this.props.match.params.auth}
         sellerData={this.props.sellerData}
-        title={'Profit Synthesis of <Supplier Name>'}
+        title={'Product Tracker'}
         showBreadCrumb={true}
         callToAction={
           <div className={'pageHeadRight'}>
@@ -58,7 +58,7 @@ class ProfitSys extends React.Component<any, {}> {
               80 tracked out of 100
             </Progress>
             <Button primary={true} className="add-new-supplier">
-              Upgrade
+              Add Suppliers
             </Button>
           </div>
         }
@@ -72,7 +72,6 @@ class ProfitSys extends React.Component<any, {}> {
                 <LineChart options={options} />
               </Segment>
               <ProfitSysTable />
-
               <div className="showMore">Show More Results</div>
             </Grid.Column>
           </Grid>
@@ -82,4 +81,4 @@ class ProfitSys extends React.Component<any, {}> {
   }
 }
 
-export default ProfitSys;
+export default ProductTracker;
