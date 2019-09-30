@@ -33,8 +33,9 @@ class ProductData extends Component<ProductDataProps> {
             <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
               <Grid.Row>Price</Grid.Row>
               <Grid.Row>Fees</Grid.Row>
-              <Grid.Row>Product cost</Grid.Row>
+              <Grid.Row>Product Cost</Grid.Row>
               <Grid.Row>Package Quantity</Grid.Row>
+              <Grid.Row>Total Cost</Grid.Row>
               <Grid.Row>
                 <h4>Profit (in $)</h4>
               </Grid.Row>
@@ -55,9 +56,14 @@ class ProductData extends Component<ProductDataProps> {
                   : Number(productDetails.product_cost).toLocaleString()}
               </Grid.Row>
               <Grid.Row>
-                {!productDetails.package_quantity || productDetails.package_quantity === null
+                {productDetails.package_quantity === null
                   ? 1
                   : Number(productDetails.package_quantity).toLocaleString()}
+              </Grid.Row>
+              <Grid.Row>
+                {productDetails.total_cost === null
+                  ? 0
+                  : Number(productDetails.total_cost).toLocaleString()}
               </Grid.Row>
               <Grid.Row>
                 <h4>

@@ -17,6 +17,7 @@ import {
 } from '../../../../constants/Suppliers';
 import get from 'lodash/get';
 import { defaultSelect } from '../../../../constants';
+import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
 
 interface SupplierFiltersProps {
   products: Product[];
@@ -142,6 +143,9 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
               </Card.Content>
             </Card>
           </Grid.Column>
+        </Grid.Row>
+        <Grid.Row style={{ justifyContent: 'center', marginTop: 15 }}>
+          <SupplierTableMetrics />
         </Grid.Row>
       </Grid>
     );

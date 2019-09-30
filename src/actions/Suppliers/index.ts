@@ -1,3 +1,10 @@
+import Axios from 'axios';
+import { sellerIDSelector } from '../../selectors/Seller';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppConfig } from '../../config';
+import { suppliersSelector } from '../../selectors/Supplier';
+import { Supplier } from '../../interfaces/Supplier';
 import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
@@ -7,15 +14,6 @@ import {
   SET_SUPPLIERS_TABLE_TAB,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_TIME_EFFICIENCY,
-} from '../../constants/Suppliers';
-import Axios from 'axios';
-import { sellerIDSelector } from '../../selectors/Seller';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppConfig } from '../../config';
-import { suppliersSelector } from '../../selectors/Supplier';
-import { Supplier } from '../../interfaces/Supplier';
-import {
   SET_SUPPLIER_DETAILS,
   SET_SUPPLIER_PRODUCTS,
   RESET_SUPPLIER_PRODUCTS,
@@ -25,6 +23,7 @@ import {
   UPDATE_SUPPLIER_PRODUCT,
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
+  SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
 } from '../../constants/Suppliers';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
@@ -307,6 +306,11 @@ export const updateSupplierProduct = (data: any) => ({
 export const updateSupplierFilterRanges = (filterRanges: any) => ({
   type: UPDATE_SUPPLIER_FILTER_RANGES,
   payload: filterRanges,
+});
+
+export const setSupplierSinglePageItemsCount = (itemsCount: number) => ({
+  type: SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
+  payload: itemsCount,
 });
 
 export const getTimeEfficiency = () => (dispatch: any) => {

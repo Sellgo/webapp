@@ -10,6 +10,7 @@ import {
   UPDATE_SUPPLIER_PRODUCT,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
   UPDATE_SUPPLIER_FILTER_RANGES,
+  SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
 } from '../../constants/Suppliers';
 
 const initialState = {
@@ -32,6 +33,7 @@ const initialState = {
     weight: '',
   },
   filterRanges: undefined,
+  singlePageItemsCount: 10,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -71,6 +73,8 @@ export default (state = initialState, action: AnyAction) => {
     }
     case UPDATE_SUPPLIER_FILTER_RANGES:
       return setIn(state, 'filterRanges', action.payload);
+    case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT:
+      return setIn(state, 'singlePageItemsCount', action.payload);
     default:
       return state;
   }

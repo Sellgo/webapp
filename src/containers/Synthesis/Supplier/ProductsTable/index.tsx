@@ -9,9 +9,9 @@ import { openSupplierProductDetailModal } from '../../../../actions/Modals';
 import {
   fetchSupplierProductTrackerGroup,
   updateProductTrackingStatus,
+  setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
 import get from 'lodash/get';
-import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
 import { findFilterProducts } from '../../../../constants/Suppliers';
 
 interface ProductsTableProps {
@@ -19,6 +19,7 @@ interface ProductsTableProps {
   products: Product[];
   filterRanges: any;
   productTrackerGroup: any;
+  singlePageItemsCount: number;
   fetchProductTrackerGroup: (supplierID: any) => void;
   updateProductTrackingStatus: (
     status: string,
@@ -27,6 +28,7 @@ interface ProductsTableProps {
     productTrackerGroupID?: any
   ) => void;
   openProductDetailModal: (product?: Product) => void;
+  setSinglePageItemsCount: (itemsCount: any) => void;
 }
 
 class ProductsTable extends Component<ProductsTableProps> {
@@ -206,82 +208,13 @@ class ProductsTable extends Component<ProductsTableProps> {
     },
   ];
 
-  MiddleRows = (props: any) => {
-    const { products } = props;
-    const singlePageItemsCount = 10;
-    const totalProducts = products.length;
-    const currentPage = 1;
-    const maxCount =
-      currentPage * singlePageItemsCount > totalProducts
-        ? totalProducts
-        : currentPage * singlePageItemsCount;
-    const minCount = (currentPage - 1) * singlePageItemsCount + 1;
-
-    return (
-      <Grid>
-        <Grid.Column width={4} textAlign="center">
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {`${minCount}-${maxCount} of ${totalProducts} items`}
-            <Dropdown
-              text={String(singlePageItemsCount)}
-              style={{ width: '40%', alignSelf: 'center', margin: 'auto' }}
-              fluid={true}
-              selection={true}
-              options={[
-                {
-                  key: '10',
-                  text: '10',
-                  value: '10',
-                },
-                {
-                  key: '30',
-                  text: '30',
-                  value: '30',
-                },
-                {
-                  key: '50',
-                  text: '50',
-                  value: '50',
-                },
-                {
-                  key: '100',
-                  text: '100',
-                  value: '100',
-                },
-              ]}
-              onChange={(e, data) => {
-                const singlePageItemCounts = Number(data.value);
-                const totalPages = Math.ceil(products.length / singlePageItemCounts);
-                /* this.setState({
-                  singlePageItemsCount: singlePageItemCounts,
-                  totalPages,
-                  currentPage: totalPages < currentPage ? 1 : currentPage,
-                }); */
-              }}
-            />
-            Items per Page
-          </div>
-        </Grid.Column>
-        <Grid.Column
-          width={4}
-          floated="right"
-          style={{
-            padding: 0,
-          }}
-        >
-          <SupplierTableMetrics />
-        </Grid.Column>
-      </Grid>
-    );
-  };
-
   componentDidMount() {
     const { supplierID, fetchProductTrackerGroup } = this.props;
     fetchProductTrackerGroup(supplierID);
   }
 
   render() {
-    const { products, filterRanges } = this.props;
+    const { products, filterRanges, singlePageItemsCount, setSinglePageItemsCount } = this.props;
 
     if ((products.length === 1 && products[0] === undefined) || filterRanges === undefined) {
       return (
@@ -301,10 +234,12 @@ class ProductsTable extends Component<ProductsTableProps> {
     const data = filteredProducts;
     const columns = this.columns;
     return (
-      <>
-        <this.MiddleRows products={filteredProducts} />
-        <GenericTable data={data} columns={columns} />
-      </>
+      <GenericTable
+        data={data}
+        columns={columns}
+        singlePageItemsCount={singlePageItemsCount}
+        setSinglePageItemsCount={setSinglePageItemsCount}
+      />
     );
   }
 }
@@ -313,6 +248,7 @@ const mapStateToProps = (state: {}) => ({
   products: get(state, 'supplier.products'),
   filterRanges: get(state, 'supplier.filterRanges'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
+  singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
 });
 
 const mapDispatchToProps = {
@@ -324,6 +260,7 @@ const mapDispatchToProps = {
     productTrackerGroupID?: any
   ) => updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
+  setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
 };
 
 export default connect(

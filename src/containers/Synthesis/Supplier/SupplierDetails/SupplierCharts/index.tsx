@@ -15,6 +15,7 @@ interface SupplierChartsProps {
   supplierDetails: Supplier;
   products: Product[];
   filterRanges: any;
+  singlePageItemsCount: number;
   fetchSupplierDetails: (supplierID: any) => void;
 }
 class SupplierCharts extends Component<SupplierChartsProps> {
@@ -116,12 +117,13 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
-    const { supplierDetails, products, filterRanges, supplierID } = this.props;
+    const { supplierDetails, products, filterRanges, singlePageItemsCount } = this.props;
     const filteredProducts = findFilterProducts(products, filterRanges);
 
-    const showProducts = [...filteredProducts].sort(
+    const sortProducts = [...filteredProducts].sort(
       (a, b) => parseFloat(b['profit']) - parseFloat(a['profit'])
     );
+    const showProducts = sortProducts.slice(0, singlePageItemsCount);
     let productSKUs = [];
     let profit = [];
     profit = showProducts.map(e => parseFloat(e['profit']));
@@ -252,6 +254,7 @@ const mapStateToProps = (state: {}) => ({
   supplierDetails: get(state, 'supplier.details'),
   products: get(state, 'supplier.products'),
   filterRanges: get(state, 'supplier.filterRanges'),
+  singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
 });
 
 const mapDispatchToProps = {
