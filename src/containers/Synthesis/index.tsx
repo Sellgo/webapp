@@ -46,7 +46,7 @@ class Synthesis extends Component<SynthesisProps> {
   }
 
   openUpdateSupplierPopup = (supplier: any): void => {
-    const { amazonMWSAuthorized } = this.props;
+    const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
     if (amazonMWSAuthorized) {
       openUploadSupplierModal(supplier);
     } else {
@@ -55,7 +55,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   handleAddNewSupplierModalOpen = () => {
-    const { amazonMWSAuthorized } = this.props;
+    const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
     if (amazonMWSAuthorized) {
       openUploadSupplierModal();
     } else {
@@ -64,6 +64,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   handleClose = () => {
+    const { closeUploadSupplierModal } = this.props;
     closeUploadSupplierModal();
   };
 

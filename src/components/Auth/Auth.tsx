@@ -18,6 +18,7 @@ export default class Auth {
       },
     },
     allowShowPassword: true,
+    rememberLastLogin: false,
     autoclose: true,
     theme: {
       logo: '/images/sellgo_logo_black.png',
@@ -61,7 +62,11 @@ export default class Auth {
         this.setSession(authResult);
       } else if (err) {
         history.replace('/');
-        alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);
+        if (err.code === 'unauthorized') {
+          this.auth0Lock.show({ flashMessage: { type: 'error', text: err.description || '' } });
+        } else {
+          alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);
+        }
       }
     });
   };
