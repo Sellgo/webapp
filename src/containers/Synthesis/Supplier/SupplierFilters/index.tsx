@@ -28,6 +28,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   state = {
     productRanges: initialFilterRanges,
   };
+
   componentDidMount() {
     const { products } = this.props;
     const productRanges = findMinMaxRange(products);
@@ -49,24 +50,6 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
       const filteredProducts = findFilterProducts(products, newFilterRanges);
       const updatedFilterRanges: any = findMinMaxRange(filteredProducts);
       updatedFilterRanges[value] = presetRange;
-      updateFilterRanges(updatedFilterRanges);
-    }
-  };
-
-  handleChange = (dataKey: any, range: any) => {
-    //console.log(dataKey, range);
-
-    const { products, updateFilterRanges } = this.props;
-    const { productRanges } = this.state;
-    const newFilterRanges = { ...productRanges };
-    newFilterRanges[dataKey] = range;
-
-    if (range.min === '' || range.max === '' || range.min > range.max) {
-      updateFilterRanges(newFilterRanges);
-    } else {
-      const filteredProducts = findFilterProducts(products, newFilterRanges);
-      const updatedFilterRanges: any = findMinMaxRange(filteredProducts);
-      updatedFilterRanges[dataKey] = range;
       updateFilterRanges(updatedFilterRanges);
     }
   };
@@ -133,7 +116,6 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
                           dataKey={dk}
                           range={productRanges[dk]}
                           filterRange={filterRanges[dk]}
-                          handleChange={this.handleChange}
                           handleCompleteChange={this.handleCompleteChange}
                         />
                         <Divider />

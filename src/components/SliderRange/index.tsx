@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Popup, Icon, Input, Container } from 'semantic-ui-react';
 import InputRange from 'react-input-range';
 import './sliderRange.css';
 
 const SliderRange = (props: any) => {
-  const { title, dataKey, range, filterRange, handleChange, handleCompleteChange } = props;
+  const [filterRangeLocal, setFilterRangeLocal] = useState(props.filterRange);
+
+  useEffect(() => {
+    setFilterRangeLocal(props.filterRange);
+  }, [props.filterRange]);
+
+  const handleLocalChange = (value: any) => {
+    setFilterRangeLocal(value);
+  };
+
+  const { title, dataKey, range, filterRange, handleCompleteChange } = props;
   return (
     <Container>
       <div className={'rangeSlider'}>
@@ -22,10 +32,10 @@ const SliderRange = (props: any) => {
         maxValue={range.max}
         minValue={range.min}
         value={{
-          min: filterRange.min === '' ? 0 : Number(filterRange.min),
-          max: filterRange.max === '' ? 0 : Number(filterRange.max),
+          min: filterRangeLocal.min === '' ? 0 : Number(filterRangeLocal.min),
+          max: filterRangeLocal.max === '' ? 0 : Number(filterRangeLocal.max),
         }}
-        onChange={(value: any) => handleChange(dataKey, value)}
+        onChange={(value: any) => handleLocalChange(value)}
         onChangeComplete={(value: any) => handleCompleteChange(dataKey, value)}
       />
 
@@ -34,35 +44,39 @@ const SliderRange = (props: any) => {
           placeholder={'Min'}
           id="min"
           type="number"
-          value={filterRange['min']}
+          value={filterRangeLocal['min']}
           onChange={(e, { id, value }) => {
             if (value < filterRange.max && value >= range.min) {
-              handleChange(dataKey, { min: value, max: filterRange.max });
+              handleCompleteChange(dataKey, { min: value, max: filterRange.max });
             }
           }}
+          /*
           onBlur={(e: any) => {
             const value = e.target.value;
             if (value < filterRange.max && value >= range.min) {
-              handleChange(dataKey, { min: value, max: filterRange.max });
+              handleCompleteChange(dataKey, { min: value, max: filterRange.max });
             }
           }}
+          */
         ></Input>
         <Input
           placeholder={'Max'}
           id="max"
           type="number"
-          value={filterRange['max']}
+          value={filterRangeLocal['max']}
           onChange={(e, { id, value }) => {
             if (value > filterRange.min && value <= range.max) {
-              handleChange(dataKey, { max: value, min: filterRange.min });
+              handleCompleteChange(dataKey, { max: value, min: filterRange.min });
             }
           }}
+          /*
           onBlur={(e: any) => {
             const value = e.target.value;
             if (value > filterRange.min && value <= range.max) {
-              handleChange(dataKey, { max: value, min: filterRange.min });
+              handleCompleteChange(dataKey, { max: value, min: filterRange.min });
             }
           }}
+          */
         ></Input>
       </div>
     </Container>
