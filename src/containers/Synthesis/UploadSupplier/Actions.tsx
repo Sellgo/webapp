@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styles from './UploadSupplierFiles.module.css';
+import styles from './UploadSupplier.module.css';
 import { Button, Checkbox, Icon } from 'semantic-ui-react';
 import {
   setUploadSupplierStep,

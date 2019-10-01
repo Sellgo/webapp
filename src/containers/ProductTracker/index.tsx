@@ -1,9 +1,17 @@
 import * as React from 'react';
-import { Header } from 'semantic-ui-react';
+import { Header, Segment } from 'semantic-ui-react';
+import PageHeader from '../../components/PageHeader';
 
 class ProductTracker extends React.Component {
   render() {
-    return <Header as="h1">Product Tracker</Header>;
+    return (
+      <>
+        <PageHeader title="Product Tracker" />
+        <Segment basic={true}>
+          <Header as="h4">Product Tracker will be coming soon!</Header>
+        </Segment>
+      </>
+    );
   }
 }
 

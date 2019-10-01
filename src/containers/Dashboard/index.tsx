@@ -4,11 +4,8 @@ import { Modals } from '../../components/Modals';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
-import { getBasicInfoSeller, getAmazonMWSAuthorized } from '../../actions/Settings';
 import { connect } from 'react-redux';
-import Auth from '../../components/Auth/Auth';
 import PageHeader from '../../components/PageHeader';
-import { Seller } from '../../interfaces/Seller';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   size,
@@ -27,18 +24,10 @@ interface State {
   currentSteps: number;
 }
 
-interface Props {
-  getBasicInfoSeller(): () => void;
-  getAmazonMWSAuthorized(): () => void;
+interface DashboardProps {}
 
-  match: { params: { auth: Auth } };
-  sellerData: Seller;
-}
-
-class Dashboard extends React.Component<Props, State> {
+class Dashboard extends React.Component<DashboardProps, State> {
   componentDidMount() {
-    this.props.getBasicInfoSeller();
-    this.props.getAmazonMWSAuthorized();
     const visited = localStorage.getItem('FirstLogin');
     if (!visited) {
       localStorage['FirstLogin'] = true;
@@ -146,16 +135,9 @@ class Dashboard extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  sellerData: state.settings.profile,
-});
+const mapStateToProps = (state: any) => ({});
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
-    getAmazonMWSAuthorized: () => dispatch(getAmazonMWSAuthorized()),
-  };
-};
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

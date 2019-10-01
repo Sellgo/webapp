@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useAsyncEffect } from '../../../hooks';
 import { validateAndUploadCsv } from '../../../actions/UploadSupplier';
 import { Loader, Dimmer, Icon } from 'semantic-ui-react';
-import styles from './UploadSupplierFiles.module.css';
+import styles from './UploadSupplier.module.css';
 
 interface DataValidationProps {
   validateAndUploadCsv: any;

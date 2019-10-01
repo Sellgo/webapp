@@ -6,7 +6,7 @@ import { TimeEfficiency } from '../../../interfaces/Metrics';
 import { getTimeEfficiency } from '../../../actions/Suppliers';
 
 interface SupplierTableMetricsProps {
-  time_efficiency_data: TimeEfficiency[];
+  timeEfficiency: TimeEfficiency[];
   getTimeEfficiency: () => void;
 }
 class SupplierTableMetrics extends Component<SupplierTableMetricsProps> {
@@ -36,16 +36,16 @@ class SupplierTableMetrics extends Component<SupplierTableMetricsProps> {
               <span>
                 Time Saved
                 <h2>
-                  {this.props.time_efficiency_data.length > 0
-                    ? Number(this.props.time_efficiency_data[0].saved_time).toFixed(0) + ' hrs'
+                  {this.props.timeEfficiency.length > 0
+                    ? Number(this.props.timeEfficiency[0].saved_time).toFixed(0) + ' hrs'
                     : '0 hrs'}
                 </h2>
               </span>
               <span style={{ marginLeft: 15, flex: 'right' }}>
                 Efficiency
                 <h2>
-                  {this.props.time_efficiency_data.length > 0
-                    ? Number(this.props.time_efficiency_data[0].efficiency).toFixed(0) + ' %'
+                  {this.props.timeEfficiency.length > 0
+                    ? Number(this.props.timeEfficiency[0].efficiency).toFixed(0) + ' %'
                     : '0 %'}
                 </h2>
               </span>
@@ -58,7 +58,7 @@ class SupplierTableMetrics extends Component<SupplierTableMetricsProps> {
 }
 
 const mapStateToProps = (state: {}) => ({
-  time_efficiency_data: supplierMetricsSelector(state),
+  timeEfficiency: supplierMetricsSelector(state),
 });
 
 const mapDispatchToProps = {

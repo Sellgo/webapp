@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styles from './UploadSupplierFiles.module.css';
+import styles from './UploadSupplier.module.css';
 import { connect } from 'react-redux';
 import UploadSteps from './UploadSteps';
 import SupplierInformation from './SupplierInformation';
@@ -18,7 +18,7 @@ interface Props {
 
 const Steps = [SupplierInformation, SelectFile, DataMapping, DataValidation];
 
-export const UploadSupplierFiles = (props: Props) => {
+export const UploadSupplier = (props: Props) => {
   const { currentStep, cleanupUploadSupplier } = props;
   const StepComponent = Steps[currentStep];
 
@@ -53,4 +53,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UploadSupplierFiles);
+)(UploadSupplier);
