@@ -14,7 +14,7 @@ import {
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
 
-interface UploadSupplierFilesState {
+interface UploadSupplierState {
   readonly currentStep: number;
   readonly csvString: string | null;
   readonly csvFile: File | null;
@@ -25,7 +25,7 @@ interface UploadSupplierFilesState {
   readonly isFirstRowHeader: boolean;
 }
 
-const initialState: UploadSupplierFilesState = {
+const initialState: UploadSupplierState = {
   completed: false,
   isFirstRowHeader: true,
   currentStep: 0,
@@ -37,9 +37,9 @@ const initialState: UploadSupplierFilesState = {
 };
 
 export default (
-  state: UploadSupplierFilesState = initialState,
+  state: UploadSupplierState = initialState,
   action: AnyAction
-): UploadSupplierFilesState => {
+): UploadSupplierState => {
   switch (action.type) {
     case SET_CSV: {
       return setIn(state, 'csv', action.payload);

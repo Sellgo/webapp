@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Button,
   Container,
@@ -13,35 +13,28 @@ import { connect } from 'react-redux';
 import MesssageComponent from '../../../components/MessageComponent';
 import { Modals } from '../../../components/Modals';
 import buttonStyle from '../../../components/StyleComponent/StyleComponent';
-
 import { Link } from 'react-router-dom';
-
 import { getSellerSubscription, getSubscriptions } from '../../../actions/Settings/Subscription';
-
 import './subscription.css';
-
 import Auth from '../../../components/Auth/Auth';
 import PageHeader from '../../../components/PageHeader';
 import Checkout from './Checkout';
-import { Seller, Subscription } from '../../../interfaces/Seller';
+import { Subscription } from '../../../interfaces/Seller';
 
 interface State {
   isOpen: boolean;
 }
 
-interface Props {
-  getSubscriptions(): () => void;
-
-  getSellerSubscription(): () => void;
-
-  sellerData: Seller;
+interface SubscriptionProps {
+  getSubscriptions: () => void;
+  getSellerSubscription: () => void;
   sellerSubscription: any;
   subscriptions: Subscription[];
   isUpdate: boolean;
   match: { params: { auth: Auth } };
 }
 
-class SubscriptionPricing extends React.Component<Props, State> {
+class SubscriptionPricing extends React.Component<SubscriptionProps, State> {
   state = {
     isOpen: false,
   };
@@ -50,7 +43,7 @@ class SubscriptionPricing extends React.Component<Props, State> {
     message: 'Thank you for the Payment',
     description: 'You have successfully subscribed to the plan.',
     description2: '',
-    to: '/dashboard/subscription',
+    to: '/settings/subscription',
     button_text: 'Ok',
     icon: 'check circle',
     color: '#0E6FCF',
@@ -68,7 +61,7 @@ class SubscriptionPricing extends React.Component<Props, State> {
       this.message.message = 'Please try again';
       this.message.description =
         'There might be an issue with the payment or you have entered incorrect Card details';
-      this.message.to = '/dashboard/subscription';
+      this.message.to = '/settings/subscription';
       this.handleModel();
     }
   }
@@ -179,14 +172,11 @@ const mapStateToProps = (state: any) => ({
   sellerSubscription: state.subscription.sellerSubscription,
   subscriptions: state.subscription.subscriptions,
   isUpdate: state.subscription.success,
-  sellerData: state.settings.profile,
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    getSubscriptions: () => dispatch(getSubscriptions()),
-    getSellerSubscription: () => dispatch(getSellerSubscription()),
-  };
+const mapDispatchToProps = {
+  getSubscriptions: () => getSubscriptions(),
+  getSellerSubscription: () => getSellerSubscription(),
 };
 
 export default connect(

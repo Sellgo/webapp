@@ -12,7 +12,7 @@ import productReducer from './Products';
 const rootReducer = combineReducers({
   settings: settingsReducer,
   subscription: subscriptionReducer,
-  uploadSupplierFiles: uploadSupplierReducer,
+  uploadSupplier: uploadSupplierReducer,
   form: formReducer,
   modals: modalsReducer,
   suppliers: suppliersReducer,

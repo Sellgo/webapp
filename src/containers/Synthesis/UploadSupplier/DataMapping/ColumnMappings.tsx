@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, Grid, Select, Form, Checkbox } from 'semantic-ui-react';
-import styles from '../UploadSupplierFiles.module.css';
+import styles from '../UploadSupplier.module.css';
 import { FieldsToMap } from '../../../../constants/UploadSupplier';
 import {
   reversedColumnMappingsSelector,

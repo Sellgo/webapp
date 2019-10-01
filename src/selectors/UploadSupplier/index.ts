@@ -4,19 +4,18 @@ import { createSelector } from 'reselect';
 import numberToLetter from '../../utils/numberToLetter';
 
 export const currentStepSelector = (state: object): number =>
-  get(state, 'uploadSupplierFiles.currentStep', 0);
+  get(state, 'uploadSupplier.currentStep', 0);
 
-export const csvSelector = (state: object): string[][] =>
-  get(state, 'uploadSupplierFiles.csv', null);
+export const csvSelector = (state: object): string[][] => get(state, 'uploadSupplier.csv', null);
 
 export const columnMappingsSelector = (state: object): [] =>
-  get(state, 'uploadSupplierFiles.columnMappings', []);
+  get(state, 'uploadSupplier.columnMappings', []);
 
 export const saveColumnMappingSettingSelector = (state: object): boolean =>
-  get(state, 'uploadSupplierFiles.saveColumnMappingSetting', false);
+  get(state, 'uploadSupplier.saveColumnMappingSetting', false);
 
 export const skipColumnMappingCheckSelector = (state: object): boolean =>
-  get(state, 'uploadSupplierFiles.skipColumnMappingCheck', false);
+  get(state, 'uploadSupplier.skipColumnMappingCheck', false);
 
 export const csvHeaderSelector = createSelector(
   [csvSelector],
@@ -30,7 +29,7 @@ export const csvHeaderSelector = createSelector(
   }
 );
 
-export const csvFileSelector = (state: object): File => get(state, 'uploadSupplierFiles.csvFile');
+export const csvFileSelector = (state: object): File => get(state, 'uploadSupplier.csvFile');
 
 export const reversedColumnMappingsSelector = createSelector(
   [columnMappingsSelector],
@@ -51,7 +50,7 @@ export const reversedColumnMappingsSelector = createSelector(
 );
 
 export const processCompletedSelector = (state: object): boolean =>
-  get(state, 'uploadSupplierFiles.completed', false);
+  get(state, 'uploadSupplier.completed', false);
 
 export const isFirstRowHeaderSelector = (state: object): boolean =>
-  get(state, 'uploadSupplierFiles.isFirstRowHeader', false);
+  get(state, 'uploadSupplier.isFirstRowHeader', false);

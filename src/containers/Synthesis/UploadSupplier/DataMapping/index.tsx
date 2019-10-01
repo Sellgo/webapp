@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import PreviewTable from './PreviewTable';
 import ColumnMappings from './ColumnMappings';
-import styles from '../UploadSupplierFiles.module.css';
+import styles from '../UploadSupplier.module.css';
 
 const DataMapping = () => {
   return (

@@ -1,19 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
-
 import { connect } from 'react-redux';
 import { AppConfig } from '../../../config';
 import { updateSellerSubscription } from '../../../actions/Settings/Subscription';
 import { Subscription } from '../../../interfaces/Seller';
 
-interface State {}
-
-interface Props {
-  updateSellerSubscription(subscription: Subscription, data: any): () => void;
+interface CheckoutProps {
+  updateSellerSubscription: (subscription: Subscription, data: any) => void;
   subscription: Subscription;
 }
 
-class Checkout extends React.Component<Props, State> {
+class Checkout extends React.Component<CheckoutProps> {
   handleToken = (token: any) => {
     const subscription = this.props.subscription;
     this.props.updateSellerSubscription(subscription, token.id);
@@ -37,11 +34,8 @@ class Checkout extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({});
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    updateSellerSubscription: (sub: Subscription, data: any) =>
-      dispatch(updateSellerSubscription(sub, data)),
-  };
+const mapDispatchToProps = {
+  updateSellerSubscription: (sub: Subscription, data: any) => updateSellerSubscription(sub, data),
 };
 
 export default connect(

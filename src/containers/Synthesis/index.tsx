@@ -3,8 +3,7 @@ import { Button, Divider, Segment, Icon, Popup, Modal, List, Confirm } from 'sem
 import { connect } from 'react-redux';
 import './synthesis.css';
 import history from '../../history';
-import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../actions/Settings';
-import Auth from '../../components/Auth/Auth';
+import { getAmazonMWSAuthorized } from '../../actions/Settings';
 import UploadSupplier from './UploadSupplier';
 import {
   openUploadSupplierModal,
@@ -15,7 +14,6 @@ import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../UserOnboarding';
 import PageHeader from '../../components/PageHeader';
-import { Seller } from '../../interfaces/Seller';
 import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
 import { error } from '../../utils/notifications';
 
@@ -23,9 +21,6 @@ interface SynthesisProps {
   amazonMWSAuthorized: boolean;
   uploadSupplierModalOpen: boolean;
   userOnboardingModalOpen: boolean;
-  match: { params: { auth: Auth } };
-  sellerInfo: Seller;
-  getBasicInfoSeller: () => void;
   getAmazonMWSAuthorized: () => void;
   openUserOnboardingModal: () => void;
   openUploadSupplierModal: (supplier?: any) => void;
@@ -35,8 +30,7 @@ interface SynthesisProps {
 class Synthesis extends Component<SynthesisProps> {
   state = { exitConfirmation: false };
   componentDidMount() {
-    const { getBasicInfoSeller, getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
-    getBasicInfoSeller();
+    const { getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
     getAmazonMWSAuthorized();
     const visited = localStorage.getItem('firstLogin');
     if (!visited) {
@@ -162,13 +156,11 @@ class Synthesis extends Component<SynthesisProps> {
 
 const mapStateToProps = (state: any) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
-  sellerInfo: state.settings.profile,
   uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
   userOnboardingModalOpen: get(state, 'modals.userOnboarding.open', false),
 });
 
 const mapDispatchToProps = {
-  getBasicInfoSeller,
   getAmazonMWSAuthorized,
   openUploadSupplierModal: (supplier?: any) =>
     openUploadSupplierModal(supplier ? supplier : undefined),

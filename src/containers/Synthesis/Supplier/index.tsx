@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { Divider, Grid, Segment, Modal, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import Auth from '../../../components/Auth/Auth';
 import PageHeader from '../../../components/PageHeader';
-import { Seller } from '../../../interfaces/Seller';
 import ProductsTable from './ProductsTable';
 import get from 'lodash/get';
 import ProductDetails from './ProductDetails';
@@ -19,8 +17,7 @@ import { supplierProductsSelector } from '../../../selectors/Supplier';
 
 interface SupplierProps {
   products: any;
-  sellerInfo: Seller;
-  match: { params: { supplierID: ''; auth: Auth } };
+  match: { params: { supplierID: '' } };
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
   resetSupplier: () => void;
@@ -108,7 +105,6 @@ export class Supplier extends React.Component<SupplierProps> {
 
 const mapStateToProps = (state: any) => ({
   products: supplierProductsSelector(state),
-  sellerInfo: state.settings.profile,
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
 const mapDispatchToProps = {

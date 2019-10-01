@@ -4,7 +4,7 @@ import Stepper from '../../../components/Stepper';
 import { setUploadSupplierStep } from '../../../actions/UploadSupplier';
 import { currentStepSelector } from '../../../selectors/UploadSupplier';
 import { Icon } from 'semantic-ui-react';
-import styles from './UploadSupplierFiles.module.css';
+import styles from './UploadSupplier.module.css';
 
 interface Props {
   value: number;
@@ -33,7 +33,7 @@ const steps = [
   },
 ];
 
-export const UploadSupplierFiles = (props: Props) => {
+export const UploadSteps = (props: Props) => {
   const { value } = props;
   return (
     <Stepper className={styles.stepper} {...props}>
@@ -65,4 +65,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UploadSupplierFiles);
+)(UploadSteps);

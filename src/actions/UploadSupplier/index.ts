@@ -102,7 +102,7 @@ export const parseCsv = () => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
-  const rawString = get(getState(), 'uploadSupplierFiles.rawCsv');
+  const rawString = get(getState(), 'uploadSupplier.rawCsv');
 
   if (!rawString) {
     return;
@@ -119,7 +119,6 @@ export const parseCsv = () => (
   const getParsedCsv = (err: Error | undefined, output: string) => {
     if (err) {
       // tslint:disable-next-line:no-console
-      //console.log({ err });
     } else {
       dispatch(setCsv(output));
     }

@@ -46,31 +46,24 @@ interface State {
   isDeleteModalOpen: boolean;
 }
 
-interface MarketPlaceType {
-  name?: string;
-  id?: string;
-  code?: string;
-  link?: string;
-}
+interface SettingsProps {
+  setBasicInfoSeller: (data: any) => void;
 
-interface Props {
-  setBasicInfoSeller(data: any): () => void;
+  setAmazonMWS: (data: any) => void;
 
-  setAmazonMWS(data: any): () => void;
+  getMWSAuth: () => void;
 
-  getMWSAuth(): () => void;
+  updateBasicInfoSeller: (data: Seller) => void;
 
-  updateBasicInfoSeller(data: Seller): () => void;
+  updateAmazonMWS: (id: string, data: AmazonMWS) => void;
 
-  updateAmazonMWS(id: string, data: AmazonMWS): () => void;
+  getBasicInfoSeller: () => void;
 
-  getBasicInfoSeller(): () => void;
+  getSellerImage: () => void;
 
-  getSellerImage(): () => void;
+  deleteMWSAuth: (mwsAuthID: any) => void;
 
-  deleteMWSAuth(mws_auth_id: any): () => void;
-
-  postSellerImage(imageType: string, imagePath: any): () => void;
+  postSellerImage: (imageType: string, imagePath: any) => void;
 
   sellerData: Seller;
   amazonData: AmazonMWS;
@@ -80,7 +73,7 @@ interface Props {
   updatedImage: {};
 }
 
-class Setting extends React.Component<Props, State> {
+class Settings extends React.Component<SettingsProps, State> {
   state = {
     isOpen: false,
     isAmazonMWSAuthInfoOpen: false,
@@ -99,7 +92,7 @@ class Setting extends React.Component<Props, State> {
     message: 'Thank you for Updating',
     description: 'You have successfully updated new information.',
     description2: '',
-    to: '/dashboard/setting',
+    to: '/settings',
     button_text: 'Ok',
     icon: 'check circle',
     color: '#0E6FCF',
@@ -708,22 +701,19 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    updateBasicInfoSeller: (info: Seller) => dispatch(updateBasicInfoSeller(info)),
-    updateAmazonMWS: (id: string, info: AmazonMWS) => dispatch(updateAmazonMWS(id, info)),
-    setBasicInfoSeller: (data: any) => dispatch(setBasicInfoSeller(data)),
-    setAmazonMWS: (data: any) => dispatch(setAmazonMWS(data)),
-    getMWSAuth: () => dispatch(getMWSAuth()),
-    deleteMWSAuth: (mws_auth_id: any) => dispatch(deleteMWSAuth(mws_auth_id)),
-    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
-    getSellerImage: () => dispatch(getSellerImage()),
-    postSellerImage: (imageType: string, imagePath: any) =>
-      dispatch(postSellerImage(imageType, imagePath)),
-  };
+const mapDispatchToProps = {
+  updateBasicInfoSeller: (info: Seller) => updateBasicInfoSeller(info),
+  updateAmazonMWS: (id: string, info: AmazonMWS) => updateAmazonMWS(id, info),
+  setBasicInfoSeller: (data: any) => setBasicInfoSeller(data),
+  setAmazonMWS: (data: any) => setAmazonMWS(data),
+  getMWSAuth: () => getMWSAuth(),
+  deleteMWSAuth: (mwsAuthID: any) => deleteMWSAuth(mwsAuthID),
+  getBasicInfoSeller: () => getBasicInfoSeller(),
+  getSellerImage: () => getSellerImage(),
+  postSellerImage: (imageType: string, imagePath: any) => postSellerImage(imageType, imagePath),
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Setting);
+)(Settings);
