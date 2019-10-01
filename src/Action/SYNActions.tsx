@@ -115,6 +115,8 @@ export interface ProductDetails {
   amazon_url: string;
   image_url: string;
   title: string;
+  package_quantity: string;
+  total_cost: number;
 }
 
 export interface ProductChartDetailsRank {
