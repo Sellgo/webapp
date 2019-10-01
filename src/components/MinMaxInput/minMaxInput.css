@@ -1,0 +1,44 @@
+.minMaxInput {
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.minMaxInput p {
+  font-size: 16px;
+}
+.minMaxInput .icon.question.circle:before {
+  line-height: 1;
+  font-size: 13px;
+  padding-left: 10px;
+  color: #98aeca;
+}
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.inputContainer .ui.input > input {
+  background: transparent;
+  border: 1px solid #dfe8f3;
+  font-size: 14px;
+  color: #98aeca;
+  padding: 4px 10px;
+  min-height: 10px;
+  font-weight: normal;
+  box-shadow: 0 1px 1px #ccc;
+  width: 115px;
+  text-align: center;
+}
+
+.inputContainer .ui.input > input::-webkit-input-placeholder {
+  color: #98aeca;
+}
+
+.inputContainer .ui.input > input:-ms-input-placeholder {
+  color: #98aeca;
+}
+
+.inputContainer .ui.input > input::placeholder {
+  color: #98aeca;
+}

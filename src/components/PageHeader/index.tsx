@@ -5,27 +5,37 @@ import './index.css';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { SET_PAGE_HISTORY_COUNTER } from '../../constants/Settings';
+import BreadCrumb from '../BreadCrumb';
 
 interface Props {
   title?: string;
   callToAction?: any;
   pageHistoryCanGoForward: any;
   updatePageHistoryCounter(counter: any): () => void;
+  showBreadCrumb?: boolean;
 }
 
 class PageHeader extends React.Component<Props> {
   render() {
-    const { title, callToAction, pageHistoryCanGoForward, updatePageHistoryCounter } = this.props;
+    const {
+      title,
+      callToAction,
+      pageHistoryCanGoForward,
+      updatePageHistoryCounter,
+      showBreadCrumb,
+    } = this.props;
 
     const headerStyle = {
       marginTop: '1.5rem',
       display: 'flex',
     };
+
     return (
       <>
         <Helmet>
           <title>Sellgo - {title}</title>
         </Helmet>
+        {showBreadCrumb && <BreadCrumb />}
         <Header className="page-header" as="h2" style={{ ...headerStyle }}>
           <Icon
             name="arrow alternate circle left"
