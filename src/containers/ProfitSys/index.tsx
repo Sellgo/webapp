@@ -3,6 +3,7 @@ import { Button, Progress, Divider, Segment, Grid } from 'semantic-ui-react';
 import ProfitSysLeftPanel from './leftFilterPanel';
 import PageHeader from '../../components/PageHeader';
 import LineChart from '../../components/Chart/LineChart';
+import CallToAction from './CallToAction';
 import ProfitSysTable from './ProfitSysTable';
 import './profitSys.css';
 
@@ -55,16 +56,7 @@ class ProfitSys extends React.Component<any, {}> {
             { content: 'Profit Syn', to: '/synthesis' },
             { content: 'Supplier Name' },
           ]}
-          callToAction={
-            <div className={'pageHeadRight'}>
-              <Progress percent={10} size="tiny">
-                80 tracked out of 100
-              </Progress>
-              <Button primary={true} className="add-new-supplier">
-                Upgrade
-              </Button>
-            </div>
-          }
+          callToAction={<CallToAction />}
         />
 
         <Divider fitted />
