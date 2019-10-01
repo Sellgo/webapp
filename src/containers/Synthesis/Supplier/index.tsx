@@ -30,47 +30,16 @@ export class Supplier extends React.Component<SupplierProps> {
     const { fetchSupplierProducts, match } = this.props;
     fetchSupplierProducts(match.params.supplierID);
   }
+
   componentWillUnmount() {
     const { resetSupplier, resetSupplierProducts } = this.props;
     resetSupplierProducts();
     resetSupplier();
   }
 
-  DisplaySupplierFilters = () => {
-    const { products } = this.props;
-    if (products.length === 1 && products[0] === undefined) {
-      return (
-        <Segment>
-          <Loader
-            hidden={products.length === 1 && products[0] === undefined ? false : true}
-            active={true}
-            inline="centered"
-            size="massive"
-          >
-            Loading
-          </Loader>
-        </Segment>
-      );
-    }
-    return <SupplierFilters />;
-  };
-
-  ProductDetailModal = () => {
-    return (
-      <Modal
-        size={'large'}
-        open={this.props.productDetailsModalOpen}
-        onClose={this.props.closeProductDetailModal}
-        closeIcon={true}
-      >
-        <Modal.Content>
-          <ProductDetails />
-        </Modal.Content>
-      </Modal>
-    );
-  };
-
   render() {
+    const { products } = this.props;
+
     return (
       <>
         <PageHeader
@@ -84,19 +53,46 @@ export class Supplier extends React.Component<SupplierProps> {
 
         <Segment basic={true} className="setting">
           <Divider />
+
           <Grid>
             <Grid.Row>
               <Grid.Column floated="left" width={4}>
-                <this.DisplaySupplierFilters />
+                {products.length === 1 && products[0] === undefined ? (
+                  <Segment>
+                    <Loader
+                      hidden={products.length === 1 && products[0] === undefined ? false : true}
+                      active={true}
+                      inline="centered"
+                      size="massive"
+                    >
+                      Loading
+                    </Loader>
+                  </Segment>
+                ) : (
+                  <SupplierFilters />
+                )}
               </Grid.Column>
+
               <Grid.Column floated="right" width={12}>
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
+
           <Divider />
+
           <ProductsTable supplierID={this.props.match.params.supplierID} />
-          <this.ProductDetailModal />
+
+          <Modal
+            size={'large'}
+            open={this.props.productDetailsModalOpen}
+            onClose={this.props.closeProductDetailModal}
+            closeIcon={true}
+          >
+            <Modal.Content>
+              <ProductDetails />
+            </Modal.Content>
+          </Modal>
         </Segment>
       </>
     );
