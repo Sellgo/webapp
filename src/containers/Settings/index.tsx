@@ -92,7 +92,7 @@ class Settings extends React.Component<SettingsProps, State> {
     message: 'Thank you for Updating',
     description: 'You have successfully updated new information.',
     description2: '',
-    to: '/dashboard/setting',
+    to: '/settings',
     button_text: 'Ok',
     icon: 'check circle',
     color: '#0E6FCF',

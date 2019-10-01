@@ -43,7 +43,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps, State> {
     message: 'Thank you for the Payment',
     description: 'You have successfully subscribed to the plan.',
     description2: '',
-    to: '/dashboard/subscription',
+    to: '/settings/subscription',
     button_text: 'Ok',
     icon: 'check circle',
     color: '#0E6FCF',
@@ -61,7 +61,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps, State> {
       this.message.message = 'Please try again';
       this.message.description =
         'There might be an issue with the payment or you have entered incorrect Card details';
-      this.message.to = '/dashboard/subscription';
+      this.message.to = '/settings/subscription';
       this.handleModel();
     }
   }
