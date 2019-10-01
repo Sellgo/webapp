@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Progress, Divider, Segment, Grid } from 'semantic-ui-react';
-import ProfitSysLeftPanel from '../ProfitSys/leftFilterPanel';
+import ProfitSysLeftPanel from '../ProfitSys/FilterPanel';
 import PageHeader from '../../components/PageHeader';
 import LineChart from '../../components/Chart/LineChart';
 import ProfitSysTable from '../ProfitSys/ProfitSysTable';

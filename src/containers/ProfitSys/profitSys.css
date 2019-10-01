@@ -1,38 +1,8 @@
-.ui.grid.profitSysWrap {
-  margin-top: 30px !important;
-}
 .ui.grid > [class*='thirteen wide'].column {
   padding-left: 10px;
   width: 82.5% !important;
 }
 
-.profitSysLeft .ui.divider:not(.vertical):not(.horizontal) {
-  border-top: 1px solid #707070;
-}
-.profitSysLeft .ui.card {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 25px;
-}
-.profitSysLeft .ui.card > .content > .header {
-  font-size: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: normal;
-  margin-top: 6px;
-}
-.profitSysLeft .ui.card > .content > p {
-  font-size: 14px;
-  padding-top: 10px;
-  font-family: 'Montserrat', sans-serif;
-  margin-bottom: 14px;
-}
-.profitSysLeft .ui.card > .content > span {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
-  align-items: center;
-  padding-bottom: 5px;
-}
 .products {
   font-size: 20px;
   width: calc(100% - 20px);

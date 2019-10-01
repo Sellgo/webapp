@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Button, Progress, Divider, Segment, Grid } from 'semantic-ui-react';
-import ProfitSysLeftPanel from './leftFilterPanel';
+import FilterPanel from './FilterPanel';
 import PageHeader from '../../components/PageHeader';
 import LineChart from '../../components/Chart/LineChart';
 import CallToAction from './CallToAction';
 import ProfitSysTable from './ProfitSysTable';
+import './index.css';
 import './profitSys.css';
 
 const options = {
@@ -60,19 +61,21 @@ class ProfitSys extends React.Component<any, {}> {
         />
 
         <Divider fitted />
-        <Grid className={'profitSysWrap'}>
-          <Grid.Column mobile={6} tablet={6} computer={4} className={'profitSysLeft'}>
-            <ProfitSysLeftPanel />
-          </Grid.Column>
-          <Grid.Column mobile={10} tablet={10} computer={12}>
-            <Segment>
-              <LineChart options={options} />
-            </Segment>
-            <ProfitSysTable />
+        <div className="profitSysWrap">
+          <Grid>
+            <Grid.Column mobile={6} tablet={6} computer={4}>
+              <FilterPanel />
+            </Grid.Column>
+            <Grid.Column mobile={10} tablet={10} computer={12}>
+              <Segment>
+                <LineChart options={options} />
+              </Segment>
+              <ProfitSysTable />
 
-            <div className="showMore">Show More Results</div>
-          </Grid.Column>
-        </Grid>
+              <div className="showMore">Show More Results</div>
+            </Grid.Column>
+          </Grid>
+        </div>
       </>
     );
   }

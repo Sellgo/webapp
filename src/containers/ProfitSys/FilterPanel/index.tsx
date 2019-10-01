@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { Divider, Grid, Dropdown, Checkbox, List } from 'semantic-ui-react';
-import AdviceCard from '../../components/AdviceCard';
-import FilterSection from '../../components/FilterSection';
-import RangeSlider from '../../components/RangeSlider';
-import MinMaxInput from '../../components/MinMaxInput';
-import CheckboxRangeSlider from '../../components/CheckboxRangeSlider';
-import './profitSys.css';
+import AdviceCard from '../../../components/AdviceCard';
+import FilterSection from '../../../components/FilterSection';
+import RangeSlider from '../../../components/RangeSlider';
+import MinMaxInput from '../../../components/MinMaxInput';
+import CheckboxRangeSlider from '../../../components/CheckboxRangeSlider';
+import './index.css';
+import '../profitSys.css';
 
 class ProfitSysLeftPanel extends React.Component<any, {}> {
   public render() {
     return (
-      <>
+      <div className="profitSysFilterPanel">
         <AdviceCard />
         <p className={'products'}>xxx of xxx products</p>
 
@@ -110,7 +111,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
           />
           <RangeSlider title={'Avg Review Rate'}></RangeSlider>
         </FilterSection>
-      </>
+      </div>
     );
   }
 }
