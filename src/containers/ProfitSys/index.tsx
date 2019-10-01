@@ -69,8 +69,10 @@ class ProfitSys extends React.Component<any, {}> {
 
         <Divider fitted />
         <Grid className={'profitSysWrap'}>
-          <ProfitSysLeftPanel />
-          <Grid.Column width={13}>
+          <Grid.Column mobile={6} tablet={6} computer={4} className={'profitSysLeft'}>
+            <ProfitSysLeftPanel />
+          </Grid.Column>
+          <Grid.Column mobile={10} tablet={10} computer={12}>
             <Segment>
               <LineChart options={options} />
             </Segment>

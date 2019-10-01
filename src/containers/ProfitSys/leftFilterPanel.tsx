@@ -10,7 +10,7 @@ import './profitSys.css';
 class ProfitSysLeftPanel extends React.Component<any, {}> {
   public render() {
     return (
-      <Grid.Column width={3} className={'profitSysLeft'}>
+      <>
         <AdviceCard />
         <p className={'products'}>xxx of xxx products</p>
 
@@ -110,7 +110,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
           />
           <RangeSlider title={'Avg Review Rate'}></RangeSlider>
         </FilterSection>
-      </Grid.Column>
+      </>
     );
   }
 }
