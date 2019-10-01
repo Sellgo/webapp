@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import settingsReducer from './Settings';
 import subscriptionReducer from './Settings/Subscription';
-import uploadSupplierFilesReducer from './UploadSupplierFiles';
+import uploadSupplierReducer from './UploadSupplier';
 import { reducer as formReducer } from 'redux-form';
 import modalsReducer from './Modals';
 import suppliersReducer from './Suppliers';
@@ -12,7 +12,7 @@ import productReducer from './Products';
 const rootReducer = combineReducers({
   settings: settingsReducer,
   subscription: subscriptionReducer,
-  uploadSupplierFiles: uploadSupplierFilesReducer,
+  uploadSupplierFiles: uploadSupplierReducer,
   form: formReducer,
   modals: modalsReducer,
   suppliers: suppliersReducer,

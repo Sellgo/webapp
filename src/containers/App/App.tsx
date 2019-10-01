@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import axios from 'axios';
+import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import Dashboard from '../Dashboard';
 import Settings from '../Settings';
@@ -30,7 +30,7 @@ const handleAuthentication = (location: any) => {
 const isAuthenticated = () => {
   if (localStorage.getItem('isLoggedIn') === 'true') {
     if (auth.isAuthenticated()) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('idToken')}`;
+      Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('idToken')}`;
       return true;
     } else {
       auth.logout();
@@ -65,22 +65,26 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
   );
 };
 
-function App(Props: any) {
+function App(props: any) {
   return (
     <div>
       <ToastContainer position="bottom-right" hideProgressBar={true} bodyClassName="toast-body" />
       <Router history={history}>
         <Switch>
-          <Route exact={true} path="/" render={Props => <Home auth={auth} {...Props} />} />
+          <Route
+            exact={true}
+            path="/"
+            render={renderProps => <Home auth={auth} {...renderProps} />}
+          />
           <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
           <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
           <Route exact={true} path="/forgot-password" component={RecoverPass} />
           <Route exact={true} path="/product-tracker" component={ProductTracker} />
           <Route
             path="/callback"
-            render={props => {
-              handleAuthentication(props.location);
-              return <Callback {...Props} />;
+            render={renderProps => {
+              handleAuthentication(renderProps.location);
+              return <Callback {...renderProps} />;
             }}
           />
 
