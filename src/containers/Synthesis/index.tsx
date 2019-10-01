@@ -133,7 +133,11 @@ class Synthesis extends Component<SynthesisProps> {
   render() {
     return (
       <>
-        <PageHeader title="Synthesis" callToAction={this.renderAddNewSupplierModal()} />
+        <PageHeader
+          title="Synthesis"
+          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Syn' }]}
+          callToAction={this.renderAddNewSupplierModal()}
+        />
         <Segment basic={true}>
           <Divider />
 

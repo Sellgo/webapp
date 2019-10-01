@@ -12,7 +12,7 @@ interface Props {
   callToAction?: any;
   pageHistoryCanGoForward: any;
   updatePageHistoryCounter(counter: any): () => void;
-  showBreadCrumb?: boolean;
+  breadcrumb?: any;
 }
 
 class PageHeader extends React.Component<Props> {
@@ -22,7 +22,7 @@ class PageHeader extends React.Component<Props> {
       callToAction,
       pageHistoryCanGoForward,
       updatePageHistoryCounter,
-      showBreadCrumb,
+      breadcrumb,
     } = this.props;
 
     const headerStyle = {
@@ -35,7 +35,9 @@ class PageHeader extends React.Component<Props> {
         <Helmet>
           <title>Sellgo - {title}</title>
         </Helmet>
-        {showBreadCrumb && <BreadCrumb />}
+
+        {breadcrumb && breadcrumb.length && <BreadCrumb sections={breadcrumb} />}
+
         <Header className="page-header" as="h2" style={{ ...headerStyle }}>
           <Icon
             name="arrow alternate circle left"

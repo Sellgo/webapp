@@ -76,7 +76,14 @@ export class Supplier extends React.Component<SupplierProps> {
   render() {
     return (
       <>
-        <PageHeader title={'Synthesis'} />
+        <PageHeader
+          title={'Synthesis'}
+          breadcrumb={[
+            { content: 'Home', to: '/' },
+            { content: 'Profit Syn', to: '/synthesis' },
+            { content: 'Supplier Name' },
+          ]}
+        />
 
         <Segment basic={true} className="setting">
           <Divider />

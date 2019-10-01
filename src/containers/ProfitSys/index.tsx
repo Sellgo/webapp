@@ -50,7 +50,11 @@ class ProfitSys extends React.Component<any, {}> {
       <>
         <PageHeader
           title={'Profit Synthesis of <Supplier Name>'}
-          showBreadCrumb={true}
+          breadcrumb={[
+            { content: 'Home', to: '/' },
+            { content: 'Profit Syn', to: '/synthesis' },
+            { content: 'Supplier Name' },
+          ]}
           callToAction={
             <div className={'pageHeadRight'}>
               <Progress percent={10} size="tiny">
