@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Form, Grid, Select, Segment, Icon } from 'semantic-ui-react';
+import { Button, Container, Form, Grid, Select, Segment, Icon, Confirm } from 'semantic-ui-react';
 import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
 
@@ -34,6 +34,7 @@ const SellerAmazonMWS = (props: any) => {
   const [marketplaceLocal, setmarketplaceLocal] = useState(defaultMarketplace);
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
   const [showAmazonAuthInfo, setShowAmazonAuthInfo] = useState(false);
+  const [deleteConfirmation, setdeleteConfirmation] = useState(false);
 
   useEffect(() => {
     handleMarketPlaceLocalChange(marketplaceLocal.id);
@@ -201,7 +202,7 @@ const SellerAmazonMWS = (props: any) => {
                       }}
                     >
                       <div
-                        onClick={() => deleteMWSAuth(amazonMWSLocal.id)}
+                        onClick={() => setdeleteConfirmation(true)}
                         style={{
                           borderRadius: '5px',
                           color: '#ffffff',
@@ -304,6 +305,15 @@ const SellerAmazonMWS = (props: any) => {
           </Grid>
         </Form>
       </Container>
+      <Confirm
+        content="Do you want to delete Amazon MWS Auth Credentials?"
+        open={deleteConfirmation}
+        onCancel={() => setdeleteConfirmation(false)}
+        onConfirm={() => {
+          deleteMWSAuth(amazonMWSLocal.id);
+          setdeleteConfirmation(false);
+        }}
+      />
     </Segment>
   );
 };
