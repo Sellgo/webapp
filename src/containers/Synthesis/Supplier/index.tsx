@@ -15,6 +15,9 @@ import {
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 
+// Migrated from profitSys
+import CallToAction from './CallToAction';
+
 interface SupplierProps {
   products: any;
   match: { params: { supplierID: '' } };
@@ -43,12 +46,13 @@ export class Supplier extends React.Component<SupplierProps> {
     return (
       <>
         <PageHeader
-          title={'Synthesis'}
+          title={'Profit Synthesis of <Supplier Name>'}
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: 'Profit Syn', to: '/synthesis' },
             { content: 'Supplier Name' },
           ]}
+          callToAction={<CallToAction />}
         />
 
         <Segment basic={true} className="setting">
@@ -75,13 +79,12 @@ export class Supplier extends React.Component<SupplierProps> {
 
               <Grid.Column floated="right" width={12}>
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
+                <ProductsTable supplierID={this.props.match.params.supplierID} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
 
           <Divider />
-
-          <ProductsTable supplierID={this.props.match.params.supplierID} />
 
           <Modal
             size={'large'}

@@ -19,6 +19,9 @@ import get from 'lodash/get';
 import { defaultSelect } from '../../../../constants';
 import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
 
+// Migrated from profitSys
+import AdviceCard from '../../../../components/AdviceCard';
+
 interface SupplierFiltersProps {
   products: Product[];
   filterRanges: any;
@@ -76,60 +79,67 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     const { productRanges } = this.state;
 
     return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column floated="left" width={6}>
-            Synthesis Preset
-          </Grid.Column>
-          <Grid.Column floated="right" width={10}>
-            <Dropdown
-              placeholder="Select a preset"
-              fluid={true}
-              selection={true}
-              options={[
-                defaultSelect,
-                ...dataKeys.map((dk: any) => ({
-                  key: dk,
-                  text: dataKeyMapping[dk].presetText,
-                  value: dk,
-                })),
-              ]}
-              onChange={this.handlePresetChange}
-            />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column width={16} style={{ marginTop: 15 }}>
-            <Card
-              raised={true}
-              style={{
-                width: '100%',
-                padding: '10px',
-              }}
-            >
-              <Card.Content>
-                {filterRanges
-                  ? dataKeys.map((dk: string) => (
-                      <React.Fragment key={dk}>
-                        <SliderRange
-                          title={dataKeyMapping[dk].text}
-                          dataKey={dk}
-                          range={productRanges[dk]}
-                          filterRange={filterRanges[dk]}
-                          handleCompleteChange={this.handleCompleteChange}
-                        />
-                        <Divider />
-                      </React.Fragment>
-                    ))
-                  : ''}
-              </Card.Content>
-            </Card>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row style={{ justifyContent: 'center', marginTop: 15 }}>
-          <SupplierTableMetrics />
-        </Grid.Row>
-      </Grid>
+      <div className="profitSysFilterPanel">
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={16}>
+              <AdviceCard />
+            </Grid.Column>
+
+            <Grid.Column floated="left" width={6}>
+              Synthesis Preset
+            </Grid.Column>
+            <Grid.Column floated="right" width={10}>
+              <Dropdown
+                placeholder="Select a preset"
+                fluid={true}
+                selection={true}
+                options={[
+                  defaultSelect,
+                  ...dataKeys.map((dk: any) => ({
+                    key: dk,
+                    text: dataKeyMapping[dk].presetText,
+                    value: dk,
+                  })),
+                ]}
+                onChange={this.handlePresetChange}
+              />
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column width={16} style={{ marginTop: 15 }}>
+              <Card
+                raised={true}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                }}
+              >
+                <Card.Content>
+                  {filterRanges
+                    ? dataKeys.map((dk: string) => (
+                        <React.Fragment key={dk}>
+                          <SliderRange
+                            title={dataKeyMapping[dk].text}
+                            dataKey={dk}
+                            range={productRanges[dk]}
+                            filterRange={filterRanges[dk]}
+                            handleCompleteChange={this.handleCompleteChange}
+                          />
+                          <Divider />
+                        </React.Fragment>
+                      ))
+                    : ''}
+                </Card.Content>
+              </Card>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row style={{ justifyContent: 'center', marginTop: 15 }}>
+            <SupplierTableMetrics />
+          </Grid.Row>
+        </Grid>
+      </div>
     );
   }
 }
