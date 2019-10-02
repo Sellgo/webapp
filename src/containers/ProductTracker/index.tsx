@@ -4,7 +4,6 @@ import ProfitSysLeftPanel from '../ProfitSys/FilterPanel';
 import PageHeader from '../../components/PageHeader';
 import LineChart from '../../components/Chart/LineChart';
 import ProfitSysTable from '../ProfitSys/ProfitSysTable';
-import '../ProfitSys/profitSys.css';
 
 const options = {
   chart: {

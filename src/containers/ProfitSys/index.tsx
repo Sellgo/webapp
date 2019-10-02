@@ -6,7 +6,6 @@ import LineChart from '../../components/Chart/LineChart';
 import CallToAction from './CallToAction';
 import ProfitSysTable from './ProfitSysTable';
 import './index.css';
-import './profitSys.css';
 
 const options = {
   chart: {

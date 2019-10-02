@@ -6,7 +6,6 @@ import RangeSlider from '../../../components/RangeSlider';
 import MinMaxInput from '../../../components/MinMaxInput';
 import CheckboxRangeSlider from '../../../components/CheckboxRangeSlider';
 import './index.scss';
-import '../profitSys.css';
 
 class ProfitSysLeftPanel extends React.Component<any, {}> {
   public render() {
