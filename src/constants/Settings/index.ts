@@ -1,12 +1,12 @@
 import { MarketplaceFields } from '../../interfaces/MarketplaceFields';
 
-export const SET_BASIC_INFO_SELLER = 'SET_BASIC_INFO_SELLER';
-export const UPDATE_BASIC_INFO_SELLER = 'UPDATE_BASIC_INFO_SELLER';
-export const GET_BASIC_INFO_SELLER = 'GET_BASIC_INFO_SELLER';
-export const SET_AMAZON_MWS = 'SET_AMAZON_MWS';
-export const GET_AMAZON_MWS = 'GET_AMAZON_MWS';
-export const PATCH_AMAZON_MWS = 'PATCH_AMAZON_MWS';
-export const UPLOAD_SELLER_IMAGE = 'UPLOAD_SELLER_IMAGE';
+export const SET_SELLER_AMAZON_MWS_AUTH = 'SET_SELLER_AMAZON_MWS_AUTH';
+export const UPDATE_SELLER_AMAZON_MWS_AUTH = 'UPDATE_SELLER_AMAZON_MWS_AUTH';
+export const SET_SELLER_PROFILE_IMAGE = 'SET_SELLER_PROFILE_IMAGE';
+export const SET_SELLER_INFO = 'SET_SELLER_INFO';
+export const UPDATE_SELLER_INFO = 'UPDATE_SELLER_INFO';
+export const DELETE_SELLER_AMAZON_MWS_AUTH = 'DELETE_SELLER_AMAZON_MWS_AUTH';
+
 export const SET_PAGE_HISTORY_COUNTER = 'SET_PAGE_HISTORY_COUNTER';
 export const GET_SUBSCRIPTIONS = 'GET_SUBSCRIPTIONS';
 export const GET_SELLER_SUBSCRIPTION = 'GET_SELLER_SUBSCRIPTION';
@@ -14,7 +14,7 @@ export const UPDATE_SELLER_SUBSCRIBTION = 'UPDATE_SELLER_SUBSCRIBTION';
 
 export const SET_AMAZON_MWS_AUTHORIZED = 'SET_AMAZON_MWS_AUTHORIZED';
 
-export const marketPlace: MarketplaceFields[] = [
+export const defaultMarketPlaces = [
   { name: 'Brazil', id: 'A2Q3Y263D00KWC', code: 'BR', link: 'amazon.com' },
   { name: 'Canada', id: 'A2EUQ1WTGCTBG2', code: 'CA', link: 'amazon.ca' },
   { name: 'Mexico', id: 'A1AM78C64UM0Y8', code: 'MX', link: 'amazon.com.mx' },

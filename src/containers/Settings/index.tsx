@@ -14,73 +14,39 @@ import {
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import MesssageComponent from '../../components/MessageComponent';
-import { Modals } from '../../components/Modals';
-import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import {
-  setBasicInfoSeller,
-  updateBasicInfoSeller,
-  postSellerImage,
-  getSellerImage,
-  getBasicInfoSeller,
-  setAmazonMWS,
-  getMWSAuth,
-  deleteMWSAuth,
-  updateAmazonMWS,
+  updateSellerInfo,
+  updateSellerAmazonMWSAuth,
+  getSellerInfo,
+  getSellerAmazonMWSAuth,
+  deleteSellerAmazonMWSAuth,
+  updateSellerProfileImage,
+  getSellerprofileImage,
+  setSellerInfo,
 } from '../../actions/Settings';
 import './setting.css';
-import { marketPlace } from '../../constants/Settings';
-import RecoverPass from '../RecoverPass';
+import { defaultMarketPlaces } from '../../constants/Settings';
 import AdminLayout from '../../components/AdminLayout';
 import Auth from '../../components/Auth/Auth';
-import { MarketplaceFields } from '../../interfaces/MarketplaceFields';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
+import { error } from '../../utils/notifications';
 
-interface State {
-  isOpen: boolean;
-  imageFile: any;
-  imageView: string;
-  isImageSelected: boolean;
-  isImageUploadUnderProgress: boolean;
-  isAmazonMWSAuthInfoOpen: boolean;
-  isDeleteModalOpen: boolean;
-}
-
-interface MarketPlaceType {
-  name?: string;
-  id?: string;
-  code?: string;
-  link?: string;
-}
-
-interface Props {
-  setBasicInfoSeller(data: any): () => void;
-
-  setAmazonMWS(data: any): () => void;
-
-  getMWSAuth(): () => void;
-
-  updateBasicInfoSeller(data: Seller): () => void;
-
-  updateAmazonMWS(id: string, data: AmazonMWS): () => void;
-
-  getBasicInfoSeller(): () => void;
-
-  getSellerImage(): () => void;
-
-  deleteMWSAuth(mws_auth_id: any): () => void;
-
-  postSellerImage(imageType: string, imagePath: any): () => void;
-
-  sellerData: Seller;
-  amazonData: AmazonMWS;
-  amazonMWSFromServer: AmazonMWS[];
-  isUpdate: boolean;
+interface SettingsProps {
+  updateAmazonMWSAuth: (data: AmazonMWS) => void;
+  getAmazonMWSAuth: () => void;
+  deleteMWSAuth: (mwsAuthID: any) => void;
+  getSeller: () => void;
+  updateSeller: (data: any) => void;
+  setSeller: (data: any) => void;
+  getprofileImage: () => void;
+  updateProfileImage: (imageType: string, imagePath: any) => void;
   match: { params: { auth: Auth } };
-  updatedImage: {};
+  profile: Seller;
+  amazonMWSAuth: AmazonMWS[];
+  profileImage: any;
 }
 
-class Setting extends React.Component<Props, State> {
+class Settings extends React.Component<SettingsProps> {
   state = {
     isOpen: false,
     isAmazonMWSAuthInfoOpen: false,
@@ -93,23 +59,13 @@ class Setting extends React.Component<Props, State> {
     imageView: '',
   };
 
-  message = {
-    id: 1,
-    title: 'Information Updated',
-    message: 'Thank you for Updating',
-    description: 'You have successfully updated new information.',
-    description2: '',
-    to: '/dashboard/setting',
-    button_text: 'Ok',
-    icon: 'check circle',
-    color: '#0E6FCF',
-  };
   fileInputRef: any = React.createRef();
 
   componentDidMount() {
-    this.props.getMWSAuth();
-    this.props.getBasicInfoSeller();
-    this.props.getSellerImage();
+    const { getAmazonMWSAuth, getSeller, getprofileImage } = this.props;
+    getSeller();
+    getprofileImage();
+    getAmazonMWSAuth();
   }
 
   fileChange = (event: any): void => {
@@ -122,157 +78,45 @@ class Setting extends React.Component<Props, State> {
     }
   };
 
-  updateBasicInfoSeller = () => {
-    this.message.title = 'Information Updated';
-    this.message.message = 'Thank you for Updating';
-    this.message.description = 'You have successfully updated new information.';
-    const { firstName, lastName, id, email } = this.props.sellerData;
-    const data = { name: `${firstName} ${lastName}`, id, email };
-    this.props.updateBasicInfoSeller(data);
-  };
-
-  componentWillReceiveProps(props: any) {
-    if (props.updatedImage.id !== undefined) {
-      this.setState({
-        imageView: props.updatedImage.image_url,
-        isImageUploadUnderProgress: false,
-        isImageSelected: false,
-      });
-    }
-
-    if (this.props.isUpdate !== props.isUpdate && props.isUpdate) {
-      this.handleModel();
-    }
-  }
-
-  updateAmazonMWS = () => {
-    const { id } = this.props.sellerData;
-    const { seller_id, marketplace_id, token, amazon_seller_id } = this.props.amazonData;
-    const data = {
-      seller_id,
-      marketplace_id,
-      amazon_seller_id,
-      token,
-      status: 'active',
-      id: 0,
-    };
-    if (amazon_seller_id === '' || marketplace_id === '' || token === '') {
-      this.message.title = 'Failed';
-      this.message.message = 'Update Failed!';
-      this.message.description = 'All fields must be filled';
-      this.handleModel();
-    } else {
-      this.message.title = 'Information Updated';
-      this.message.message = 'Thank you for Updating';
-      this.message.description = 'You have successfully updated new information.';
-      this.props.updateAmazonMWS(id, data);
-    }
-  };
-
-  handleModel = () => {
-    const { isOpen } = this.state;
-    this.setState({
-      isOpen: !isOpen,
-    });
-  };
-  isSuccessReset = (data: any) => {
-    this.message.title = 'Reset Password';
-    this.message.message = data.isFailed ? 'Password Reset Failed!' : 'Password Reset Successful!';
-    this.message.description = data.isFailed
-      ? data.errorMsg
-      : 'Please Check Your Email For Further Instruction.';
-    this.handleModel();
-  };
-  setBasicInfoSeller = (e: any) => {
-    const data = {
-      key: e.target.name,
-      value: e.target.value,
-    };
-    this.props.setBasicInfoSeller(data);
-  };
-  setAmazonMWS = (e: any) => {
-    const data = {
-      key: e.target.name,
-      value: e.target.value,
-    };
-    this.props.setAmazonMWS(data);
-  };
-
-  setAmazonMWSPlace = (e: any, field: any) => {
-    const data = {
-      key: field.name,
-      value: field.value,
-    };
-    this.props.setAmazonMWS(data);
-  };
-  getmarketplaceDATA = (id: string) => {
-    const data = marketPlace.filter(data => data.id === id);
-    return data && data[0];
-  };
-
-  showMeHow = (howUrl: string) => {
-    if (howUrl !== '') {
-      window.open(howUrl);
-    } else {
-      this.message.title = 'Failed';
-      this.message.message = 'Marketplace Failed';
-      this.message.description = 'Please choose a Marketplace.';
-      this.handleModel();
-    }
-  };
-
   render() {
-    const { isOpen } = this.state;
     return (
       <AdminLayout
         auth={this.props.match.params.auth}
-        sellerData={this.props.sellerData}
+        sellerData={this.props.profile}
         title={'Settings'}
       >
         <Segment basic={true} className="setting">
           <Header as="h2">Basic Information</Header>
           <Divider />
-          {this.SegmentUserInfo()}
-          <Header as="h2">Password</Header>
+          <this.SellerInformation />
           <Divider />
-          {this.SegmentResetPassword()}
           <Header as="h2">Amazon MWS Authorization</Header>
           <Divider />
-          {this.SegmentAmazonMWS()}
-          <Modals title="" size="large" open={isOpen} close={this.handleModel} bCloseIcon={true}>
-            <Container textAlign="center">
-              <MesssageComponent message={this.message} isModal={true} />
-              <Segment textAlign="center" basic={true}>
-                <Button style={buttonStyle} content="Ok" onClick={this.handleModel} />
-              </Segment>
-            </Container>
-          </Modals>
-          {this.ModalDeleteMWSAuth()}
         </Segment>
       </AdminLayout>
     );
   }
 
-  private SegmentAmazonMWS() {
-    const marketPlaceoptions = marketPlace.map((opt, key) => {
+  /* private SegmentAmazonMWS() {
+    const marketPlaceoptions = defaultMarketPlaces.map((opt, key) => {
       return { key, text: opt.name, value: opt.id };
     });
-    const { marketplace_id } = this.props.amazonData;
+    const { marketplace_id } = this.props.amazonMWSAuth;
     const marketplaceDATA = this.getmarketplaceDATA(marketplace_id);
 
-    let selectedAmazonMWSFromServer: AmazonMWS | null = null;
+    let amazonMWSAuth: AmazonMWS | null = null;
     if (marketplace_id.length > 0) {
       for (const amazonmwsobj of this.props.amazonMWSFromServer) {
         if (amazonmwsobj.marketplace_id === marketplace_id && amazonmwsobj.status !== 'inactive') {
-          selectedAmazonMWSFromServer = amazonmwsobj;
+          amazonMWSAuth = amazonmwsobj;
         }
       }
     }
     let marketPlaceNameFromServer = '';
     let marketPlaceIDFromServer = '';
-    if (selectedAmazonMWSFromServer != null) {
+    if (amazonMWSAuth != null) {
       const marketplaceFromServer: MarketplaceFields = this.getmarketplaceDATA(
-        selectedAmazonMWSFromServer.marketplace_id
+        amazonMWSAuth.marketplace_id
       );
       if (marketplaceFromServer !== undefined) {
         marketPlaceNameFromServer = marketplaceFromServer.name;
@@ -342,7 +186,7 @@ class Setting extends React.Component<Props, State> {
                       />
                       <Button
                         primary={true}
-                        disabled={selectedAmazonMWSFromServer != null}
+                        disabled={amazonMWSAuth != null}
                         content="Add MWS Token"
                         onClick={this.updateAmazonMWS}
                         style={{ borderRadius: '50px' }}
@@ -350,7 +194,7 @@ class Setting extends React.Component<Props, State> {
                     </Grid.Column>
                   </Grid.Row>
                 </Grid.Column>
-                {selectedAmazonMWSFromServer != null ? (
+                {amazonMWSAuth != null ? (
                   <Grid.Column
                     width={1}
                     style={{
@@ -382,7 +226,7 @@ class Setting extends React.Component<Props, State> {
                     </div>
                   </Grid.Column>
                 ) : null}
-                {selectedAmazonMWSFromServer != null ? (
+                {amazonMWSAuth != null ? (
                   <Grid.Column
                     width={8}
                     style={{
@@ -445,7 +289,7 @@ class Setting extends React.Component<Props, State> {
                             float: 'left',
                           }}
                         >
-                          {selectedAmazonMWSFromServer.amazon_seller_id}
+                          {amazonMWSAuth.amazon_seller_id}
                         </p>
                       </div>
                       <div
@@ -465,7 +309,7 @@ class Setting extends React.Component<Props, State> {
                             float: 'left',
                           }}
                         >
-                          {selectedAmazonMWSFromServer.token}
+                          {amazonMWSAuth.token}
                         </p>
                       </div>
                       <div
@@ -517,16 +361,16 @@ class Setting extends React.Component<Props, State> {
         </Container>
       </Segment>
     );
-  }
+  }*/
 
-  private ModalDeleteMWSAuth() {
-    const { marketplace_id } = this.props.amazonData;
-    let selectedAmazonMWSFromServer: AmazonMWS | null = null;
+  AmazonMWSAuthDeleteModal() {
+    const { marketplace_id } = this.props.amazonMWSAuth[0];
+    let amazonMWSAuth: AmazonMWS | null = null;
 
     if (marketplace_id.length > 0) {
-      for (const amazonmwsobj of this.props.amazonMWSFromServer) {
+      for (const amazonmwsobj of this.props.amazonMWSAuth) {
         if (amazonmwsobj.marketplace_id === marketplace_id) {
-          selectedAmazonMWSFromServer = amazonmwsobj;
+          amazonMWSAuth = amazonmwsobj;
         }
       }
     }
@@ -559,9 +403,7 @@ class Setting extends React.Component<Props, State> {
             labelPosition="right"
             content="Yes"
             onClick={() => {
-              this.props.deleteMWSAuth(
-                selectedAmazonMWSFromServer != null ? selectedAmazonMWSFromServer.id : '1'
-              );
+              this.props.deleteMWSAuth(amazonMWSAuth != null ? amazonMWSAuth.id : '1');
               this.setState({ isDeleteModalOpen: false });
             }}
           />
@@ -570,25 +412,21 @@ class Setting extends React.Component<Props, State> {
     );
   }
 
-  private SegmentResetPassword = () => {
-    return (
-      <Segment basic={true} padded="very">
-        <Container style={{ width: '80%' }}>
-          <Form>
-            <Grid>
-              <Grid.Row columns={1}>
-                <Grid.Column width={12}>
-                  <RecoverPass onlyEmail={true} isSuccessReset={this.isSuccessReset} />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Form>
-        </Container>
-      </Segment>
-    );
+  uploadImage = () => {
+    this.setState({ isImageUploadUnderProgress: true }, () => {
+      if (this.state.isImageSelected) {
+        this.props.updateProfileImage(this.state.imageFile.type, this.state.imageFile);
+      }
+    });
   };
-  private SegmentUserInfo = () => {
-    const { firstName, lastName, email, cdate } = this.props.sellerData;
+  SellerInformation = () => {
+    const { profile, profileImage } = this.props;
+    const { name, email, cdate } = profile;
+    console.log(profile, profileImage);
+    let firstName = '';
+    let lastName = '';
+    if (name) [firstName, lastName] = name.split(' ').splice(0, 2);
+    console.log(name, firstName, lastName);
     const memberDate = moment(cdate || moment()).format('MMM DD YYYY');
     return (
       <Segment basic={true} padded="very">
@@ -603,8 +441,8 @@ class Setting extends React.Component<Props, State> {
               >
                 <Image
                   src={
-                    this.state.imageView.length > 0
-                      ? this.state.imageView
+                    profileImage.image_url
+                      ? profileImage.image_url
                       : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
                   }
                   size={'small'}
@@ -625,7 +463,7 @@ class Setting extends React.Component<Props, State> {
                 />
                 {this.state.isImageSelected ? (
                   <Button
-                    loading={this.state.isImageUploadUnderProgress}
+                    loading={!this.props.profileImage}
                     content={'Upload Photo'}
                     style={{ borderRadius: '50px', margin: '0 auto', marginTop: 10 }}
                     size="tiny"
@@ -653,7 +491,9 @@ class Setting extends React.Component<Props, State> {
                           placeholder="First Name"
                           name="firstName"
                           value={firstName}
-                          onChange={e => this.setBasicInfoSeller(e)}
+                          onChange={(e, { value }) =>
+                            this.props.setSeller({ name: value.trim() + ' ' + lastName })
+                          }
                         />
                       </Grid.Column>
                       <Grid.Column width={5}>
@@ -662,7 +502,9 @@ class Setting extends React.Component<Props, State> {
                           placeholder="Last Name"
                           name="lastName"
                           value={lastName}
-                          onChange={e => this.setBasicInfoSeller(e)}
+                          onChange={(e, { value }) =>
+                            this.props.setSeller({ name: firstName + ' ' + value.trim() })
+                          }
                         />
                       </Grid.Column>
                       <Grid.Column width={10}>
@@ -671,13 +513,13 @@ class Setting extends React.Component<Props, State> {
                           placeholder="Email"
                           name="email"
                           value={email}
-                          onChange={e => this.setBasicInfoSeller(e)}
+                          onChange={(e, { value }) => this.props.setSeller({ email: value.trim() })}
                           fluid={true}
                         />
                         <Button
                           primary={true}
                           content="Update Information"
-                          onClick={this.updateBasicInfoSeller}
+                          onClick={() => this.props.updateSeller(this.props.profile)}
                           style={{ borderRadius: '50px' }}
                         />
                       </Grid.Column>
@@ -691,42 +533,29 @@ class Setting extends React.Component<Props, State> {
       </Segment>
     );
   };
-
-  private uploadImage = () => {
-    this.setState({ isImageUploadUnderProgress: true }, () => {
-      if (this.state.isImageSelected) {
-        this.props.postSellerImage(this.state.imageFile.type, this.state.imageFile);
-      }
-    });
-  };
 }
 
 const mapStateToProps = (state: any) => {
   return {
-    sellerData: state.settings.profile,
-    amazonData: state.settings.amazonMWS,
-    amazonMWSFromServer: state.settings.amazonMWSFromServer,
-    isUpdate: state.settings.success,
-    updatedImage: state.settings.updatedImage,
+    profile: state.settings.profile,
+    amazonMWSAuth: state.settings.amazonMWSAuth,
+    profileImage: state.settings.profileImage,
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    updateBasicInfoSeller: (info: Seller) => dispatch(updateBasicInfoSeller(info)),
-    updateAmazonMWS: (id: string, info: AmazonMWS) => dispatch(updateAmazonMWS(id, info)),
-    setBasicInfoSeller: (data: any) => dispatch(setBasicInfoSeller(data)),
-    setAmazonMWS: (data: any) => dispatch(setAmazonMWS(data)),
-    getMWSAuth: () => dispatch(getMWSAuth()),
-    deleteMWSAuth: (mws_auth_id: any) => dispatch(deleteMWSAuth(mws_auth_id)),
-    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
-    getSellerImage: () => dispatch(getSellerImage()),
-    postSellerImage: (imageType: string, imagePath: any) =>
-      dispatch(postSellerImage(imageType, imagePath)),
-  };
+const mapDispatchToProps = {
+  updateAmazonMWSAuth: (data: AmazonMWS) => updateSellerAmazonMWSAuth(data),
+  getAmazonMWSAuth: () => getSellerAmazonMWSAuth(),
+  deleteMWSAuth: (mwsAuthID: any) => deleteSellerAmazonMWSAuth(mwsAuthID),
+  getSeller: () => getSellerInfo(),
+  updateSeller: (data: any) => updateSellerInfo(data),
+  setSeller: (data: any) => setSellerInfo(data),
+  getprofileImage: () => getSellerprofileImage(),
+  updateProfileImage: (imageType: string, imagePath: any) =>
+    updateSellerProfileImage(imageType, imagePath),
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Setting);
+)(Settings);
