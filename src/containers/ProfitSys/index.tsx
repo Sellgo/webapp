@@ -4,7 +4,7 @@ import FilterPanel from './FilterPanel';
 import PageHeader from '../../components/PageHeader';
 import LineChart from '../../components/Chart/LineChart';
 import CallToAction from './CallToAction';
-import ProfitSysTable from './ProfitSysTable';
+import Table from './Table';
 import './index.css';
 
 const options = {
@@ -69,7 +69,7 @@ class ProfitSys extends React.Component<any, {}> {
               <Segment>
                 <LineChart options={options} />
               </Segment>
-              <ProfitSysTable />
+              <Table />
 
               <div className="showMore">Show More Results</div>
             </Grid.Column>

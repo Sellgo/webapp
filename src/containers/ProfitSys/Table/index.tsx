@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table, Segment } from 'semantic-ui-react';
-import TableHeader from '../../components/ProfitSysTable/tableHeader';
-import TableBody from '../../components/ProfitSysTable/tableBody';
-import { RAW_DATA, HEADER } from '../../utils/constants';
-import './profitSysTable.css';
+import TableHeader from '../../../components/ProfitSysTable/tableHeader';
+import TableBody from '../../../components/ProfitSysTable/tableBody';
+import { RAW_DATA, HEADER } from '../../../utils/constants';
+import './index.scss';
 import _ from 'lodash';
 
 class ProfitSysTable extends React.Component<any, any> {
@@ -47,20 +47,18 @@ class ProfitSysTable extends React.Component<any, any> {
   render() {
     const { column, data, direction, header } = this.state;
     return (
-      <React.Fragment>
-        <div className="wrap_tbl">
-          <Table sortable celled className="cstm_tbl tableRowSpace unstackable">
-            <TableHeader
-              header={header}
-              onSelectAll={this.handleSelectAll}
-              sortOnClick={this.handleSort}
-              column={column}
-              direction={direction}
-            />
-            <TableBody data={data} onSelectItem={this.handleItemSelect} />
-          </Table>
-        </div>
-      </React.Fragment>
+      <div className="profitSysTable">
+        <Table sortable celled className="cstm_tbl tableRowSpace unstackable">
+          <TableHeader
+            header={header}
+            onSelectAll={this.handleSelectAll}
+            sortOnClick={this.handleSort}
+            column={column}
+            direction={direction}
+          />
+          <TableBody data={data} onSelectItem={this.handleItemSelect} />
+        </Table>
+      </div>
     );
   }
 }
