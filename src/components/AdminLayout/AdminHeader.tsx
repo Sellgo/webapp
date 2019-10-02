@@ -21,12 +21,6 @@ export class AdminHeader extends React.Component<any> {
   userPicture = localStorage.getItem('userPicture');
 
   render() {
-    const { sellerData } = this.props;
-    if (sellerData !== undefined || sellerData !== null) {
-      if (sellerData.firstName.length > 0) {
-        this.userName = sellerData.firstName + ' ' + sellerData.lastName;
-      }
-    }
     return (
       <React.Fragment>
         <Menu

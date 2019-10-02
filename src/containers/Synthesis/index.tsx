@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './synthesis.css';
 import history from '../../history';
 
-import { getAmazonMWSAuthorized, getBasicInfoSeller } from '../../actions/Settings';
+import { getAmazonMWSAuthorized, getSellerInfo } from '../../actions/Settings';
 import AdminLayout from '../../components/AdminLayout';
 import Auth from '../../components/Auth/Auth';
 import UploadSupplier from './UploadSupplier';
@@ -26,7 +26,7 @@ interface SynthesisProps {
   userOnboardingModalOpen: boolean;
   match: { params: { auth: Auth } };
   sellerInfo: Seller;
-  getBasicInfoSeller: () => void;
+  getSellerInfo: () => void;
   getAmazonMWSAuthorized: () => void;
   openUserOnboardingModal: () => void;
   openUploadSupplierModal: (supplier?: any) => void;
@@ -36,8 +36,8 @@ interface SynthesisProps {
 class Synthesis extends Component<SynthesisProps> {
   state = { exitConfirmation: false };
   componentDidMount() {
-    const { getBasicInfoSeller, getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
-    getBasicInfoSeller();
+    const { getSellerInfo, getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
+    getSellerInfo();
     getAmazonMWSAuthorized();
     const visited = localStorage.getItem('firstLogin');
     if (!visited) {
@@ -169,7 +169,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  getBasicInfoSeller,
+  getSellerInfo,
   getAmazonMWSAuthorized,
   openUploadSupplierModal: (supplier?: any) =>
     openUploadSupplierModal(supplier ? supplier : undefined),

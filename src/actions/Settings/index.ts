@@ -115,7 +115,7 @@ export const getSellerInfo = () => (dispatch: any) => {
 };
 
 export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
-  const sellerID = data.id;
+  const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.append('name', data.name);
   bodyFormData.append('email', data.email);

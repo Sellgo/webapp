@@ -5,7 +5,7 @@ import { Modals } from '../../components/Modals';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
-import { getBasicInfoSeller, getAmazonMWSAuthorized } from '../../actions/Settings';
+import { getSellerInfo, getAmazonMWSAuthorized } from '../../actions/Settings';
 import { connect } from 'react-redux';
 import Auth from '../../components/Auth/Auth';
 import { Seller } from '../../interfaces/Seller';
@@ -155,7 +155,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
+    getBasicInfoSeller: () => dispatch(getSellerInfo()),
     getAmazonMWSAuthorized: () => dispatch(getAmazonMWSAuthorized()),
   };
 };

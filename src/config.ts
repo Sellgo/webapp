@@ -1,3 +1,10 @@
+const LOCAL_URLS = {
+  BASE_URL: 'http://localhost:8000',
+  BASE_URL_AUTH: 'localhost:8000',
+  BASE_URL_API: 'http://localhost:8000/api/',
+  CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
+};
+
 const DEV_URLS = {
   BASE_URL: 'https://app.sellgo-dev.com',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
@@ -48,7 +55,7 @@ const dev = {
 
 const local = {
   ...DEV_AUTH_CONFIG,
-  ...DEV_URLS,
+  ...LOCAL_URLS,
   ...DEV_KEYS,
   callbackUrl: 'http://localhost:3000/callback',
 };
