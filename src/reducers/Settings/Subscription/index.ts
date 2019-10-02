@@ -1,31 +1,18 @@
-import {
-  GET_SUBSCRIPTIONS,
-  GET_SELLER_SUBSCRIPTION,
-  UPDATE_SELLER_SUBSCRIBTION,
-} from '../../../constants/Settings';
+import { SET_PRICING_SUBSCRIPTIONS, SET_SELLER_SUBSCRIPTION } from '../../../constants/Settings';
+import { AnyAction } from 'redux';
+import { setIn } from '../../../utils/immutablity';
 
 const initialState = {
   sellerSubscription: undefined,
   subscriptions: [],
-  success: undefined,
 };
 
-export default (state = initialState, action: any) => {
-  const newState = { ...state };
-  let data = null;
+export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
-    case GET_SUBSCRIPTIONS:
-      data = action.data;
-      newState.subscriptions = data;
-      return newState;
-    case GET_SELLER_SUBSCRIPTION:
-      data = action.data;
-      newState.sellerSubscription = data;
-      return newState;
-    case UPDATE_SELLER_SUBSCRIBTION:
-      data = action.data;
-      newState.success = data.value;
-      return newState;
+    case SET_PRICING_SUBSCRIPTIONS:
+      return setIn(state, 'subscriptions', action.payload);
+    case SET_SELLER_SUBSCRIPTION:
+      return setIn(state, 'sellerSubscription', action.payload);
     default:
       return state;
   }
