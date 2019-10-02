@@ -1,28 +1,12 @@
-.products {
-  font-size: 20px;
-  width: calc(100% - 20px);
-  margin-left: 10px;
-  margin-bottom: 0;
-  border-bottom: 1px solid #707070;
-  padding: 0 0 26px 10px;
-}
-.searchDropdown {
-  padding-top: 38px;
-}
-.customCheck {
-  width: 100%;
-  margin-bottom: 21px;
-}
-.customCheck .ui.checkbox label {
-  font-size: 16px;
-}
 .wrap_radio {
   display: flex;
   align-items: center;
 }
+
 .wrap_radio .ui.checked.fitted.toggle.checkbox {
   margin-right: 11px;
 }
+
 .track_row {
   border-top: 1px solid #707070;
 }
