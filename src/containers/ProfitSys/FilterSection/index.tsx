@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Popup, Icon } from 'semantic-ui-react';
-import './filterSection.css';
+import './index.scss';
 
 class FilterSection extends React.Component<any, any> {
   constructor(props: any) {
@@ -9,6 +9,7 @@ class FilterSection extends React.Component<any, any> {
       isOpen: true,
     };
   }
+
   _handleIsOpenMenu = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
@@ -17,12 +18,12 @@ class FilterSection extends React.Component<any, any> {
     const { title, children } = this.props;
     const { isOpen } = this.state;
     return (
-      <div className={'filterHeadBox'}>
-        <div className={'filterHead'}>
+      <div className="filterSection">
+        <div className="filterHead">
           <p>
             {title}
             <Popup
-              className={'addSupplierPopup'}
+              className="addSupplierPopup"
               trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
               position="top left"
               size="tiny"
@@ -30,12 +31,12 @@ class FilterSection extends React.Component<any, any> {
           </p>
           <Icon
             name={isOpen ? 'chevron up' : 'chevron down'}
-            size={'small'}
-            className={'up_icon'}
+            size="small"
+            className="up_icon"
             onClick={this._handleIsOpenMenu}
           />
         </div>
-        <div className={'filterContent'}>{isOpen && children}</div>
+        <div className="filterContent">{isOpen && children}</div>
       </div>
     );
   }

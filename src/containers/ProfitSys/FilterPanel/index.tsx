@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Divider, Grid, Dropdown, Checkbox, List } from 'semantic-ui-react';
-import AdviceCard from '../../../components/AdviceCard';
-import FilterSection from '../../../components/FilterSection';
-import RangeSlider from '../../../components/RangeSlider';
-import MinMaxInput from '../../../components/MinMaxInput';
-import CheckboxRangeSlider from '../../../components/CheckboxRangeSlider';
+import AdviceCard from '../AdviceCard';
+import FilterSection from '../FilterSection';
+import RangeSlider from '../RangeSlider';
+import MinMaxInput from '../MinMaxInput';
+import CheckboxRangeSlider from '../CheckboxRangeSlider';
 import './index.scss';
 
 class ProfitSysLeftPanel extends React.Component<any, {}> {
@@ -17,12 +17,14 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
         <div className="searchDropdown">
           <Dropdown placeholder="Select a Preset" fluid search selection />
         </div>
+
         <FilterSection title={'Basic KPI'}>
           <RangeSlider title={'Unit Profit'}></RangeSlider>
           <RangeSlider title={'Margin (%)'}></RangeSlider>
           <RangeSlider title={'Units Per Month'}></RangeSlider>
           <RangeSlider title={'ROI/ Return On Investment'}></RangeSlider>
         </FilterSection>
+
         <FilterSection title={'Revenue'}>
           <MinMaxInput
             title={'Avg Monthly Revenue'}
@@ -31,6 +33,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
           />
           <CheckboxRangeSlider title={'ROI Inventory'} />
         </FilterSection>
+
         <FilterSection title={'Pricing'}>
           <MinMaxInput
             title={'Avg BB price'}
@@ -40,12 +43,15 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
           <CheckboxRangeSlider title={'Price Stability in 30 days'} />
           <Checkbox label={<label>Show Price History</label>} className="customCheck" />
         </FilterSection>
+
         <FilterSection title={'Seasonal'}>
           <Checkbox label={<label>Show Peak Season</label>} className="customCheck" />
         </FilterSection>
+
         <FilterSection title={'Rating'}>
           <CheckboxRangeSlider title={'Avg Rating'} />
         </FilterSection>
+
         <FilterSection title={'Sales'}>
           <MinMaxInput
             title={'Avg Best Seller Rating'}
@@ -58,6 +64,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
             maxPlaceHolder={'Max S2R'}
           />
         </FilterSection>
+
         <FilterSection title={'Sellers'}>
           <List
             className="listDisplay"
@@ -68,6 +75,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
             ]}
           />
         </FilterSection>
+
         <FilterSection title={'Product Tier'}>
           <List
             className="listDisplay"
@@ -78,6 +86,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
             ]}
           />
         </FilterSection>
+
         <FilterSection title={'Sellability'}>
           <List
             className="listDisplay"
@@ -89,6 +98,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
             ]}
           />
         </FilterSection>
+
         <FilterSection title={'Multi-pack Analysis'}>
           <List
             className="listDisplay"

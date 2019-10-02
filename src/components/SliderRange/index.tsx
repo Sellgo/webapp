@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Popup, Icon, Input, Container } from 'semantic-ui-react';
-import InputRange from 'react-input-range';
+import InputRange from '../InputRange';
 import './sliderRange.css';
 
 const SliderRange = (props: any) => {

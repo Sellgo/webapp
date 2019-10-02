@@ -5,7 +5,7 @@ import PageHeader from '../../components/PageHeader';
 import LineChart from '../../components/Chart/LineChart';
 import CallToAction from './CallToAction';
 import Table from './Table';
-import './index.css';
+import './index.scss';
 
 const options = {
   chart: {

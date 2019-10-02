@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Progress } from 'semantic-ui-react';
-import './index.css';
+import './index.scss';
 
 export default function CallToAction() {
   return (

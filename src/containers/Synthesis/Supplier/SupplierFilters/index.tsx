@@ -3,9 +3,8 @@ import { Card, Grid, Dropdown, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
-import 'react-input-range/lib/css/index.css';
 import { supplierProductsSelector } from '../../../../selectors/Supplier';
-import './SupplierFilters.css';
+
 import SliderRange from '../../../../components/SliderRange';
 import { updateSupplierFilterRanges } from '../../../../actions/Suppliers';
 import {
@@ -20,13 +19,20 @@ import { defaultSelect } from '../../../../constants';
 import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
 
 // Migrated from profitSys
-import AdviceCard from '../../../../components/AdviceCard';
+import AdviceCard from '../AdviceCard';
+
+// Original CSS
+// TODO: scope and merge with new index.scss style
+import './SupplierFilters.css';
+// New css
+import './index.scss';
 
 interface SupplierFiltersProps {
   products: Product[];
   filterRanges: any;
   updateFilterRanges: (filterRanges: any) => void;
 }
+
 class SupplierFilters extends Component<SupplierFiltersProps> {
   state = {
     productRanges: initialFilterRanges,
@@ -77,6 +83,46 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     const { products, filterRanges } = this.props;
     if (products.length === 1 && products[0] === undefined) return <div></div>;
     const { productRanges } = this.state;
+
+    return (
+      <div className="profitSysFilterPanel">
+        <AdviceCard />
+        <p className={'products'}>xxx of xxx products</p>
+
+        <div className="searchDropdown">
+          <Dropdown
+            placeholder="Select a Preset"
+            fluid
+            search
+            selection
+            options={[
+              defaultSelect,
+              ...dataKeys.map((dk: any) => ({
+                key: dk,
+                text: dataKeyMapping[dk].presetText,
+                value: dk,
+              })),
+            ]}
+            onChange={this.handlePresetChange}
+          />
+        </div>
+
+        {filterRanges
+          ? dataKeys.map((dk: string) => (
+              <React.Fragment key={dk}>
+                <SliderRange
+                  title={dataKeyMapping[dk].text}
+                  dataKey={dk}
+                  range={productRanges[dk]}
+                  filterRange={filterRanges[dk]}
+                  handleCompleteChange={this.handleCompleteChange}
+                />
+                <Divider />
+              </React.Fragment>
+            ))
+          : ''}
+      </div>
+    );
 
     return (
       <div className="profitSysFilterPanel">

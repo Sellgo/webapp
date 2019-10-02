@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Popup, Icon, Input, Container } from 'semantic-ui-react';
-import InputRange from 'react-input-range';
-import './rangeSlider.css';
+import InputRange from '../../../components/InputRange';
+import './index.scss';
 
 const RangeSlider = (props: any) => {
   const { title } = props;
   return (
-    <Container>
-      <div className={'rangeSlider'}>
+    <Container className="rangeSlider">
+      <div className="rangeTitle">
         <p>
           {title}
           <Popup
@@ -21,10 +21,10 @@ const RangeSlider = (props: any) => {
       <InputRange
         maxValue={20}
         minValue={0}
-        formatLabel={value => `${value}`}
+        formatLabel={(value: any) => `${value}`}
         value={{ min: 5, max: 10 }}
-        onChange={value => console.log(value)}
-        onChangeComplete={value => console.log(value)}
+        onChange={(value: any) => console.log(value)}
+        onChangeComplete={(value: any) => console.log(value)}
       />
 
       <div className="rangeInput">
