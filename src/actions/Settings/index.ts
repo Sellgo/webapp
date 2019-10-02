@@ -10,7 +10,7 @@ import {
 import { AppConfig } from '../../config';
 import { AmazonMWS, Seller } from '../../interfaces/Seller';
 import { sellerIDSelector } from '../../selectors/Seller';
-import { success } from '../../utils/notifications';
+import { success, error } from '../../utils/notifications';
 
 export const getSellerAmazonMWSAuth = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
@@ -38,7 +38,9 @@ export const updateSellerAmazonMWSAuth = (data: AmazonMWS) => (dispatch: any) =>
       dispatch(updateAmazonMWSAuth(json.data));
       success('Seller Amazon MWS Updated!');
     })
-    .catch(error => {});
+    .catch(err => {
+      error(err.response.data.message || 'Invalid Credentials. Please try again!');
+    });
 };
 
 export const updateAmazonMWSAuth = (data: any) => ({
