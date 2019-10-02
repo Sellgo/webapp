@@ -1,36 +1,10 @@
 .profitSysFilterPanel {
+  // Not sure what element this is
   .ui.divider:not(.vertical):not(.horizontal) {
     border-top: 1px solid #707070;
   }
 
-  .ui.card {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 25px;
-  }
-
-  .ui.card > .content > .header {
-    font-size: 20px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: normal;
-    margin-top: 6px;
-  }
-
-  .ui.card > .content > p {
-    font-size: 14px;
-    padding-top: 10px;
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 14px;
-  }
-
-  .ui.card > .content > span {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 10px;
-    align-items: center;
-    padding-bottom: 5px;
-  }
-
+  // Where it says "xxx of xxx products"
   .products {
     font-size: 20px;
     width: calc(100% - 20px);
@@ -40,156 +14,131 @@
     padding: 0 0 26px 10px;
   }
 
+  // Dropdown that says "select a preset"
   .searchDropdown {
     padding-top: 38px;
   }
+}
 
-  .customCheck {
-    width: 100%;
-    margin-bottom: 21px;
-  }
-
-  .customCheck .ui.checkbox label {
-    font-size: 16px;
-  }
-
-  .wrap_radio {
-    display: flex;
-    align-items: center;
-  }
-
-  .wrap_radio .ui.checked.fitted.toggle.checkbox {
-    margin-right: 11px;
-  }
-
-  .track_row {
-    border-top: 1px solid #707070;
-  }
-
-  .filterContent .input-range__track {
+/* FILTER */
+.filterContent {
+  .input-range__track {
     height: 2px !important;
     background: #dfe8f3 !important;
   }
 
-  .filterContent .input-range__track--active {
+  .input-range__track--active {
     height: 2px !important;
     background: #4285f4 !important;
   }
 
-  .filterContent .input-range__slider {
+  .input-range__slider {
     background: #5381db;
   }
 
-  @media screen and (max-width: 1500px) {
-    .ui.card > .content > .header {
+  // For option that has no range slider
+  // Just a checkbox like "Show Price History"
+  // We could make this a subcomponent TitleWithCheck that
+  // gets used inside the RangeSlider component or on its own
+  .customCheck {
+    width: 100%;
+    margin-bottom: 21px;
+
+    .ui.checkbox label {
       font-size: 16px;
     }
+  }
 
-    .ui.card > .content > p {
-      font-size: 13px;
-    }
-
-    .track_row span {
-      font-size: 13px;
-    }
-
+  @media screen and (max-width: 1500px) {
+    // Where it says "xxx of xxx products"
     .products {
       font-size: 16px;
       margin-bottom: 20px;
-    }
-
-    .filterHead > p {
-      font-size: 16px;
-    }
-
-    .rangeSlider p {
-      font-size: 13px;
-    }
-
-    .rangeInput .ui.input > input {
-      font-size: 13px;
-      width: 61px;
-    }
-
-    .minMaxInput p {
-      font-size: 13px;
-    }
-
-    .inputContainer .ui.input > input {
-      font-size: 13px;
-      width: 104px;
-    }
-
-    .wrapCheckbox span {
-      font-size: 13px;
-    }
-
-    .customCheck label {
-      font-size: 13px !important;
-    }
-
-    /* Migrated from old media queries. Should we use this or above? */
-    .ui.checkbox.customCheck input.hidden + label {
-      font-size: 13px;
-    }
-
-    .filterHead .icon.angle.up:before {
-      font-size: 20px;
-    }
-    .filterHead .icon.angle.down:before {
-      font-size: 20px;
-    }
-
-    /* 
-      Below CSS was migrated from old media queries and was within (min-width: 1250px) and (max-width: 1500px) 
-      Some confusing logic (like making text smaller on a bigger screen so for now
-      assuming these styles we're meant for everything up to 1500px
-    */
-
-    .wrap_radio {
-      width: 64px;
-    }
-    .wrap_radio .ui.checked.fitted.toggle.checkbox {
-      margin-right: 5px;
-      margin-top: 6px;
-    }
-    .wrap_radio .ui.toggle.checkbox .box:before,
-    .wrap_radio .ui.toggle.checkbox label:before {
-      width: 40px;
-      height: 15px;
-    }
-    .wrap_radio .ui.toggle.checkbox .box:after,
-    .wrap_radio .ui.toggle.checkbox label:after {
-      width: 13px;
-      height: 13px;
-      top: 1px;
     }
 
     .searchDropdown {
       padding-top: 32px;
     }
 
-    .filterHead .icon.question.circle:before {
-      font-size: 12px;
-      padding-left: 5px;
-    }
-
-    .minMaxInput .icon.question.circle:before {
-      font-size: 12px;
-      padding-left: 5px;
-    }
-
-    .wrapCheckRange span {
-      font-size: 13px;
-    }
-    .filterHead .icon.chevron.up:before {
-      font-size: 18px;
-    }
+    // Container around filter category and multiple filters
     .filterHeadBox {
       margin-top: 25px;
     }
+
+    /* Category for multiple filters */
     .filterHead {
       margin-bottom: 25px;
+
+      > p {
+        font-size: 16px;
+      }
+
+      .icon.angle.up:before {
+        font-size: 20px;
+      }
+
+      .icon.angle.down:before {
+        font-size: 20px;
+      }
+
+      .icon.question.circle:before {
+        font-size: 12px;
+        padding-left: 5px;
+      }
+
+      .icon.chevron.up:before {
+        font-size: 18px;
+      }
+
+      .icon.chevron.up:before {
+        font-size: 18px;
+      }
+    }
+
+    .filterContent {
+      .rangeSlider p {
+        font-size: 13px;
+      }
+
+      .rangeInput .ui.input > input {
+        font-size: 13px;
+        width: 61px;
+      }
+
+      .minMaxInput p {
+        font-size: 13px;
+      }
+
+      .minMaxInput .icon.question.circle:before {
+        font-size: 12px;
+        padding-left: 5px;
+      }
+
+      .inputContainer .ui.input > input {
+        font-size: 13px;
+        width: 104px;
+      }
+
+      .wrapCheckRange span {
+        font-size: 13px;
+      }
+
+      .wrapCheckbox span {
+        font-size: 13px;
+      }
+
+      // For option that has no range slider
+      // Just a checkbox like "Show Price History"
+      // We could make this a subcomponent TitleWithCheck that
+      // gets used inside the RangeSlider component or on its own
+      .customCheck label {
+        font-size: 13px !important;
+      }
+
+      /* Migrated from old media queries. Should we use this or above? */
+      .ui.checkbox.customCheck input.hidden + label {
+        font-size: 13px;
+      }
     }
   }
 }

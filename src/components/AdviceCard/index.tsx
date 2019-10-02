@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Divider, Card, Radio } from 'semantic-ui-react';
+import './index.scss';
 
 export interface AdviceCardProps {}
 
@@ -13,7 +14,6 @@ const AdviceCard = (props: AdviceCardProps) => {
         <span className="track_row">
           <span> Track liked product</span>
           <span className="wrap_radio">
-            {' '}
             <Radio toggle checked={true} /> On{' '}
           </span>
         </span>
