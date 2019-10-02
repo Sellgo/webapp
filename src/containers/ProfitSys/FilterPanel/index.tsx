@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { Divider, Grid, Dropdown, Checkbox, List } from 'semantic-ui-react';
 import AdviceCard from '../AdviceCard';
-import FilterSection from '../FilterSection';
+import FilterSection from '../../../components/FilterSection';
+
+// NOTE: 3 types of range selectors and <Checkbox are used
 import RangeSlider from '../RangeSlider';
 import MinMaxInput from '../MinMaxInput';
 import CheckboxRangeSlider from '../CheckboxRangeSlider';
+
 import './index.scss';
 
 class ProfitSysLeftPanel extends React.Component<any, {}> {

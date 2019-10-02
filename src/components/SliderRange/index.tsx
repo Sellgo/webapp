@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Popup, Icon, Input, Container } from 'semantic-ui-react';
 import InputRange from '../InputRange';
-import './sliderRange.css';
+import './index.scss';
 
 const SliderRange = (props: any) => {
   const [filterRangeLocal, setFilterRangeLocal] = useState(props.filterRange);
@@ -15,14 +15,15 @@ const SliderRange = (props: any) => {
   };
 
   const { title, dataKey, range, filterRange, handleCompleteChange } = props;
+
   return (
-    <Container>
-      <div className={'rangeSlider'}>
+    <Container className="rangeSlider">
+      <div className="rangeTitle">
         <p>
           {title}
           <Popup
-            className={'addSupplierPopup'}
-            trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
+            className="addSupplierPopup"
+            trigger={<Icon name="question circle" size="small" color="grey" />}
             position="top left"
             size="tiny"
           />
@@ -41,7 +42,7 @@ const SliderRange = (props: any) => {
 
       <div className="rangeInput">
         <Input
-          placeholder={'Min'}
+          placeholder="Min"
           id="min"
           type="number"
           value={filterRangeLocal['min']}
@@ -60,7 +61,7 @@ const SliderRange = (props: any) => {
           */
         ></Input>
         <Input
-          placeholder={'Max'}
+          placeholder="Max"
           id="max"
           type="number"
           value={filterRangeLocal['max']}

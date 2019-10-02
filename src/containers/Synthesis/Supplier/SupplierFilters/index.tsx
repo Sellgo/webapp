@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
 import { supplierProductsSelector } from '../../../../selectors/Supplier';
-
+import FilterSection from '../../../../components/FilterSection';
 import SliderRange from '../../../../components/SliderRange';
 import { updateSupplierFilterRanges } from '../../../../actions/Suppliers';
 import {
@@ -106,9 +106,9 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
             onChange={this.handlePresetChange}
           />
         </div>
-
-        {filterRanges
-          ? dataKeys.map((dk: string) => (
+        {filterRanges && (
+          <FilterSection title={'Basic KPI'}>
+            {dataKeys.map((dk: string) => (
               <React.Fragment key={dk}>
                 <SliderRange
                   title={dataKeyMapping[dk].text}
@@ -117,10 +117,10 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
                   filterRange={filterRanges[dk]}
                   handleCompleteChange={this.handleCompleteChange}
                 />
-                <Divider />
               </React.Fragment>
-            ))
-          : ''}
+            ))}
+          </FilterSection>
+        )}
       </div>
     );
 
