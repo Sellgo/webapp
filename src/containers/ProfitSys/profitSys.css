@@ -24,6 +24,7 @@
 .filterContent .input-range__slider {
   background: #5381db;
 }
+
 .showMore {
   width: 100%;
   background: #dbdbdb;
@@ -37,106 +38,72 @@
 
 /*====================Media screen ============================*/
 
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
+@media screen and (max-width: 1500px) {
   .profitSysLeft .ui.card > .content > .header {
     font-size: 16px;
   }
+
   .profitSysLeft .ui.card > .content > p {
     font-size: 13px;
   }
+
   .track_row span {
     font-size: 13px;
   }
+
   .products {
     font-size: 16px;
     margin-bottom: 20px;
   }
+
   .filterHead > p {
     font-size: 16px;
   }
+
   .rangeSlider p {
     font-size: 13px;
   }
+
   .rangeInput .ui.input > input {
     font-size: 13px;
     width: 61px;
   }
+
   .minMaxInput p {
     font-size: 13px;
   }
+
   .inputContainer .ui.input > input {
     font-size: 13px;
     width: 104px;
   }
+
   .wrapCheckbox span {
     font-size: 13px;
   }
+
   .customCheck label {
     font-size: 13px !important;
   }
+
+  /* Migrated from old media queries. Should we use this or above? */
+  .ui.checkbox.customCheck input.hidden + label {
+    font-size: 13px;
+  }
+
   .filterHead .icon.angle.up:before {
     font-size: 20px;
   }
   .filterHead .icon.angle.down:before {
     font-size: 20px;
   }
-}
 
-@media only screen and (min-width: 1023px) and (max-width: 1250px) {
-  .profitSysLeft .ui.card > .content > .header {
-    font-size: 16px;
-  }
-  .profitSysLeft .ui.card > .content > p {
-    font-size: 13px;
-  }
-  .track_row span {
-    font-size: 13px;
-  }
-  .products {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  .filterHead > p {
-    font-size: 16px;
-  }
-  .rangeSlider p {
-    font-size: 13px;
-  }
-  .rangeInput .ui.input > input {
-    font-size: 13px;
-    width: 61px;
-  }
-  .minMaxInput p {
-    font-size: 13px;
-  }
-  .inputContainer .ui.input > input {
-    font-size: 13px;
-    width: 104px;
-  }
-  .wrapCheckbox span {
-    font-size: 13px;
-  }
-  .customCheck label {
-    font-size: 13px !important;
-  }
-  .filterHead .icon.angle.up:before {
-    font-size: 20px;
-  }
-  .filterHead .icon.angle.down:before {
-    font-size: 20px;
-  }
-}
+  /* 
+    Below CSS was migrated from old media queries and was within (min-width: 1250px) and (max-width: 1500px) 
+    Some confusing logic (like making text smaller on a bigger screen so for now
+    assuming these styles we're meant for everything up to 1500px
+  */
 
-@media only screen and (min-width: 1250px) and (max-width: 1500px) {
-  .profitSysLeft .ui.card > .content > .header {
-    font-size: 16px;
-  }
-  .profitSysLeft .ui.card > .content > p {
-    font-size: 13px;
-  }
-  .track_row span {
-    font-size: 11px;
-  }
   .wrap_radio {
     width: 64px;
   }
@@ -155,52 +122,20 @@
     height: 13px;
     top: 1px;
   }
-  .products {
-    font-size: 16px;
-    margin-bottom: 17px;
-  }
   .searchDropdown {
     padding-top: 32px;
   }
-  .filterHead > p {
-    font-size: 15px;
-  }
-  .rangeSlider p {
-    font-size: 13px;
-  }
-  .rangeInput .ui.input > input {
-    font-size: 12px;
-    width: 54px;
-  }
-  .minMaxInput p {
-    font-size: 13px;
-  }
-  .inputContainer .ui.input > input {
-    font-size: 12px;
-    width: 108px;
-  }
-  .wrapCheckbox span {
-    font-size: 13px;
-  }
-  .ui.checkbox.customCheck input.hidden + label {
-    font-size: 13px;
-  }
-  .filterHead .icon.angle.up:before {
-    content: '\f106';
-    font-size: 20px;
-  }
-  .filterHead .icon.angle.down:before {
-    content: '\f107';
-    font-size: 20px;
-  }
+
   .filterHead .icon.question.circle:before {
     font-size: 12px;
     padding-left: 5px;
   }
+
   .minMaxInput .icon.question.circle:before {
     font-size: 12px;
     padding-left: 5px;
   }
+
   .wrapCheckRange span {
     font-size: 13px;
   }
