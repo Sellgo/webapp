@@ -79,7 +79,7 @@ const SellerAmazonMWS = (props: any) => {
     }
   };
 
-  const showMeHowUrl = marketplaceLocal
+  const showMeHowUrl = marketplaceLocal.id
     ? `https://sellercentral.${
         marketplaceLocal.link
       }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Denverton-${
