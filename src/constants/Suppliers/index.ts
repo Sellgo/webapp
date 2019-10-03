@@ -17,20 +17,127 @@ export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
 export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT';
 
-export const dataKeys: any = ['profit', 'margin', 'sales_monthly', 'profit_monthly'];
+// Two types of settings:
+// - Display features
+// - Filters
+// --- Range
+// --- Checklist
+
+// dataKeys is for:
+// - getting meta data from dataKeyMapping
+// - looking up min/max range values for a given setting (give the list of products)
+// - storing and looking up current setting value in component's local state
+// TODO: Rename to filterSettingKeys (?)
+export const dataKeys: any = [
+  // Basic KPI
+  'profit',
+  'margin',
+  'sales_monthly',
+  'profit_monthly',
+  // Revenue
+  'monthly_revenue',
+  'roi_inventory',
+];
+
+// Meta data for each dataKeys above
 export const dataKeyMapping: any = {
-  profit: { text: 'Unit Profit', presetText: 'Max Profit' },
-  margin: { text: 'Margin', presetText: 'Max Margin' },
-  sales_monthly: { text: 'Unit Sales Per Month', presetText: 'Max Unit Sales Per Month' },
-  profit_monthly: { text: 'Profit Per Month', presetText: 'Max Profit Per Month' },
+  // Basic KPI
+  profit: {
+    text: 'Unit Profit',
+    presetText: 'Max Profit',
+    showSlider: true,
+    showInputs: true,
+    groupId: 'basic',
+  },
+  margin: {
+    text: 'Margin',
+    presetText: 'Max Margin',
+    showSlider: true,
+    showInputs: true,
+    groupId: 'basic',
+  },
+  sales_monthly: {
+    text: 'Unit Sales Per Month',
+    presetText: 'Max Unit Sales Per Month',
+    showSlider: true,
+    showInputs: true,
+    groupId: 'basic',
+  },
+  profit_monthly: {
+    text: 'Profit Per Month',
+    presetText: 'Max Profit Per Month',
+    showSlider: true,
+    showInputs: true,
+    groupId: 'basic',
+  },
+  // Revenue
+  monthly_revenue: {
+    text: 'Avg Monthly Revenue',
+    presetText: 'Max vg Monthly Revenue',
+    showSlider: false,
+    showInputs: true,
+    groupId: 'revenue',
+  },
+  roi_inventory: {
+    text: 'ROI Inventory',
+    presetText: 'Max ROI Inventory',
+    showSlider: true,
+    showInputs: false,
+    groupId: 'revenue',
+  },
 };
+
+export const groupKeyMapping: any = {
+  basic: {
+    text: 'Basic KPI',
+  },
+  revenue: {
+    text: 'Revenue',
+  },
+};
+
 export const initalRange = { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
+
 export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
   if (!fr[dk]) fr[dk] = initalRange;
   return fr;
 }, {});
 
+// Returns an array of groups, each containing an array of filters
+// under the group.filters property.
+export const findFiltersGrouped = () => {
+  let groups: any = {};
+
+  // Iterate through dataKeys and sort into groups
+  // along with extended data from dataKeyMapping
+  dataKeys.forEach((dk: string) => {
+    const data = dataKeyMapping[dk];
+    const groupId: string = data.groupId;
+    if (!groups[groupId]) {
+      groups[groupId] = {
+        ...groupKeyMapping[groupId],
+        filters: [],
+      };
+    }
+
+    // Push data into group.filters with key as id
+    groups[groupId].filters.push({ id: dk, ...data });
+  });
+
+  // Convert object to array and add key as id
+  const groupsArray = Object.keys(groups).map(key => {
+    return {
+      id: key,
+      ...groups[key],
+    };
+  });
+
+  return groupsArray;
+};
+
 export const findMinMaxRange = (products: any) => {
+  //console.log('[findMinMaxRange] products', products);
+
   const updatedFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => Number(p[dk]));
