@@ -3,8 +3,8 @@ import { Button, Container, Form, Grid, Select, Segment, Icon, Confirm } from 's
 import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
 
-const marketplaceOptions = defaultMarketplaces.map((opt, key) => {
-  return { key, text: opt.name, value: opt.id };
+const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
+  return { key, text: name, value: id, disabled };
 });
 
 const showMeHow = (showMeHowUrl: any) => {
