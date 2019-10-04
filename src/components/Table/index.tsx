@@ -17,6 +17,7 @@ export interface TableProps {
   data: Array<{ [key: string]: any }>;
   columns: Column[];
   setSinglePageItemsCount?: (itemsCount: number) => void;
+  showSelectItemsCounts?: boolean;
 }
 
 const renderCell = (row: { [key: string]: any }, column: Column) => {
@@ -50,7 +51,13 @@ const useSort = (initialValue: string) => {
 };
 
 const GenericTable = (props: TableProps) => {
-  const { data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
+  const {
+    data,
+    columns,
+    singlePageItemsCount = 10,
+    setSinglePageItemsCount,
+    showSelectItemsCounts = true,
+  } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
   const showColumns = columns.filter(e => e.show);
@@ -99,7 +106,7 @@ const GenericTable = (props: TableProps) => {
   ) :  */
   return (
     <div className="scroll-table">
-      {setSinglePageItemsCount ? (
+      {setSinglePageItemsCount && showSelectItemsCounts ? (
         <SelectItemsCount
           totalCount={data.length}
           singlePageItemsCount={singlePageItemsCount}

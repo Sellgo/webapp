@@ -18,8 +18,10 @@ const SupplierDetails = (props: any) => {
             }}
           >
             <Card.Content>
+              {/*
               <SupplierData supplierID={supplierID} />
               <Divider />
+              */}
               <Feed>
                 <Feed.Event>
                   <Feed.Content>
