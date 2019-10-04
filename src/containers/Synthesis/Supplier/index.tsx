@@ -57,11 +57,9 @@ export class Supplier extends React.Component<SupplierProps> {
         />
 
         <Segment basic={true} className="setting">
-          <Divider />
-
           <Grid>
             <Grid.Row>
-              <Grid.Column floated="left" width={4}>
+              <Grid.Column floated="left" width={3}>
                 {products.length === 1 && products[0] === undefined ? (
                   <Segment>
                     <Loader
@@ -78,7 +76,7 @@ export class Supplier extends React.Component<SupplierProps> {
                 )}
               </Grid.Column>
 
-              <Grid.Column floated="right" width={12}>
+              <Grid.Column floated="right" width={13}>
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
                 <ProductsTable supplierID={this.props.match.params.supplierID} />
               </Grid.Column>

@@ -132,9 +132,8 @@ class Synthesis extends Component<SynthesisProps> {
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Syn' }]}
           callToAction={this.renderAddNewSupplierModal()}
         />
-        <Segment basic={true}>
-          <Divider />
 
+        <Segment basic={true}>
           <SuppliersTable onEdit={this.openUpdateSupplierPopup} />
           <Confirm
             content="Do you want to exit?"

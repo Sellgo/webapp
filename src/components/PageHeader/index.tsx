@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Header, Icon } from 'semantic-ui-react';
+import { Header, Icon, Divider } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
-import './index.css';
 import history from '../../history';
 import { connect } from 'react-redux';
 import { SET_PAGE_HISTORY_COUNTER } from '../../constants/Settings';
 import BreadCrumb from '../BreadCrumb';
+import './index.scss';
 
 interface Props {
   title?: string;
@@ -25,42 +25,41 @@ class PageHeader extends React.Component<Props> {
       breadcrumb,
     } = this.props;
 
-    const headerStyle = {
-      marginTop: '1.5rem',
-      display: 'flex',
-    };
-
     return (
       <>
         <Helmet>
           <title>Sellgo - {title}</title>
         </Helmet>
 
-        {breadcrumb && breadcrumb.length && <BreadCrumb sections={breadcrumb} />}
+        <div className="pageHeader">
+          {breadcrumb && breadcrumb.length && <BreadCrumb sections={breadcrumb} />}
 
-        <Header className="page-header" as="h2" style={{ ...headerStyle }}>
-          <Icon
-            name="arrow alternate circle left"
-            size="small"
-            onClick={() => {
-              updatePageHistoryCounter(pageHistoryCanGoForward + 1);
-              history.goBack();
-            }}
-          />
-          <Icon
-            name="arrow alternate circle right"
-            size="small"
-            color={pageHistoryCanGoForward > 0 ? 'black' : 'grey'}
-            onClick={() => {
-              if (pageHistoryCanGoForward > 0) {
-                updatePageHistoryCounter(pageHistoryCanGoForward - 1);
-                history.goForward();
-              }
-            }}
-          />
-          <Header.Content>{title}</Header.Content>
-          <Header.Content style={{ marginLeft: 'auto' }}>{callToAction}</Header.Content>
-        </Header>
+          <Header className="page-header" as="h2">
+            <Icon
+              name="arrow alternate circle left"
+              size="small"
+              onClick={() => {
+                updatePageHistoryCounter(pageHistoryCanGoForward + 1);
+                history.goBack();
+              }}
+            />
+            <Icon
+              name="arrow alternate circle right"
+              size="small"
+              color={pageHistoryCanGoForward > 0 ? 'black' : 'grey'}
+              onClick={() => {
+                if (pageHistoryCanGoForward > 0) {
+                  updatePageHistoryCounter(pageHistoryCanGoForward - 1);
+                  history.goForward();
+                }
+              }}
+            />
+            <Header.Content>{title}</Header.Content>
+            <Header.Content style={{ marginLeft: 'auto' }}>{callToAction}</Header.Content>
+          </Header>
+        </div>
+
+        <Divider />
       </>
     );
   }
