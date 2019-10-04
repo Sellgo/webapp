@@ -13,8 +13,6 @@ import {
 } from '../../../../actions/Suppliers';
 import { findFilterProducts, addTempDataToProducts } from '../../../../constants/Suppliers';
 import GenericTable, { Column } from '../../../../components/Table';
-
-// Importing ProductTable subcomponents so we can pass to column render method
 import TopSeller from './topSeller';
 import ProductDescriptionWrap from './productDescriptionWrap';
 import DetailButtons from './detailButtons';
@@ -97,29 +95,81 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ checkedItems: newCheckedItems });
   };
 
+  renderTopSeller = (row: Product) => {
+    const { checkedItems } = this.state;
+    return (
+      <TopSeller item={row} checked={checkedItems[row.id]} onSelectItem={this.handleItemSelect} />
+    );
+  };
+  renderProductInfo = (row: Product) => {
+    const { checkedItems } = this.state;
+    return <ProductDescriptionWrap item={row} />;
+  };
+  renderProfit = (row: Product) => `$${row.profit} /item`;
+  renderMargin = (row: Product) => `${row.margin}%`;
+  renderUnitSold = (row: Product) => {
+    return (
+      <>
+        <p className="mg_botm0">{row.unitSoldPerDay} /day</p>
+        <p className="fnt12">{row.unitSoldPerMonth} /mo</p>
+      </>
+    );
+  };
+  renderProfitMonthly = (row: Product) => `$${row.profit_monthly}`;
+  renderRoi = (row: Product) => `${row.roi}%`;
+  renderDetailButtons = (row: Product) => {
+    const {
+      supplierID,
+      openProductDetailModal,
+      productTrackerGroup,
+      updateProductTrackingStatus,
+    } = this.props;
+
+    return (
+      <DetailButtons
+        ratings={row.ratings}
+        isTracking={row.tracking_status === 'active'}
+        onViewDetails={() => {
+          openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
+        }}
+        onTrack={() => {
+          let productTrackerGroupID = 2;
+          if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
+            productTrackerGroupID = productTrackerGroup[0].id;
+            if (row.tracking_status !== null) {
+              updateProductTrackingStatus(
+                row.tracking_status === 'active' ? 'inactive' : 'active',
+                undefined,
+                row.product_track_id,
+                undefined
+              );
+            } else {
+              updateProductTrackingStatus(
+                'active',
+                row.product_id,
+                undefined,
+                productTrackerGroupID
+              );
+            }
+          }
+        }}
+      />
+    );
+  };
+
   columns: Column[] = [
     {
       label: '',
       sortable: false,
       show: true,
-      render: (row: Product) => {
-        const { checkedItems } = this.state;
-        return (
-          <TopSeller
-            item={row}
-            checked={checkedItems[row.id]}
-            onSelectItem={this.handleItemSelect}
-          />
-        );
-      },
+      render: this.renderTopSeller,
     },
+
     {
       label: 'PRODUCT INFORMATION',
       sortable: false,
       show: true,
-      render: (row: Product) => {
-        return <ProductDescriptionWrap item={row} />;
-      },
+      render: this.renderProductInfo,
     },
     {
       label: 'Profit',
@@ -127,7 +177,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
-      render: (row: Product) => `$${row.profit} /item`,
+      render: this.renderProfit,
     },
     {
       label: 'Margin',
@@ -135,7 +185,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
-      render: (row: Product) => `${row.margin}%`,
+      render: this.renderMargin,
     },
     {
       label: 'Unit Sold',
@@ -143,14 +193,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
-      render: (row: Product) => {
-        return (
-          <>
-            <p className="mg_botm0">{row.unitSoldPerDay} /day</p>
-            <p className="fnt12">{row.unitSoldPerMonth} /mo</p>
-          </>
-        );
-      },
+      render: this.renderUnitSold,
     },
     {
       label: 'Profit/Mo',
@@ -158,7 +201,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
-      render: (row: Product) => `$${row.profit_monthly}`,
+      render: this.renderProfitMonthly,
     },
     {
       label: 'ROI',
@@ -166,52 +209,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
-      render: (row: Product) => `${row.roi}%`,
+      render: this.renderRoi,
     },
 
     {
       label: 'Other Sort',
       show: true,
       sortable: false,
-      render: (row: Product) => {
-        const {
-          supplierID,
-          openProductDetailModal,
-          productTrackerGroup,
-          updateProductTrackingStatus,
-        } = this.props;
-
-        return (
-          <DetailButtons
-            ratings={row.ratings}
-            isTracking={row.tracking_status === 'active'}
-            onViewDetails={() => {
-              openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
-            }}
-            onTrack={() => {
-              let productTrackerGroupID = 2;
-              if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
-                productTrackerGroupID = productTrackerGroup[0].id;
-                if (row.tracking_status !== null) {
-                  updateProductTrackingStatus(
-                    row.tracking_status === 'active' ? 'inactive' : 'active',
-                    undefined,
-                    row.product_track_id,
-                    undefined
-                  );
-                } else {
-                  updateProductTrackingStatus(
-                    'active',
-                    row.product_id,
-                    undefined,
-                    productTrackerGroupID
-                  );
-                }
-              }
-            }}
-          />
-        );
-      },
+      render: this.renderDetailButtons,
     },
   ];
 
