@@ -1,18 +1,23 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import { connect } from 'react-redux';
-import { Icon, Segment, Loader, Grid, Image, Button, Dropdown } from 'semantic-ui-react';
-import GenericTable, { Column } from '../../../../components/Table';
-import { Link } from 'react-router-dom';
+import { Segment, Loader, Checkbox } from 'semantic-ui-react';
+import './index.scss';
+import _ from 'lodash';
 import { Product } from '../../../../interfaces/Product';
+import get from 'lodash/get';
 import { openSupplierProductDetailModal } from '../../../../actions/Modals';
 import {
   fetchSupplierProductTrackerGroup,
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
-import get from 'lodash/get';
-import { findFilterProducts } from '../../../../constants/Suppliers';
+import { findFilterProducts, addTempDataToProducts } from '../../../../constants/Suppliers';
+import GenericTable, { Column } from '../../../../components/Table';
+
+// Importing ProductTable subcomponents so we can pass to column render method
+import TopSeller from './topSeller';
+import ProductDescriptionWrap from './productDescriptionWrap';
+import DetailButtons from './detailButtons';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -31,132 +36,90 @@ interface ProductsTableProps {
   setSinglePageItemsCount: (itemsCount: any) => void;
 }
 
-class ProductsTable extends Component<ProductsTableProps> {
-  renderProductInformation = (row: Product) => {
-    const { supplierID, openProductDetailModal } = this.props;
-    return (
-      <Grid>
-        <Grid.Column style={{ marginRight: 60 }} className={'middle aligned'}>
-          <Image
-            style={{ width: 'auto', height: 'auto', maxHeight: 80, maxWidth: 80 }}
-            src={row.image_url === null ? '/images/intro.png' : row.image_url}
-            // size="tiny"
-          />
-        </Grid.Column>
-        <Grid.Column width={10} className={'middle aligned'}>
-          <Grid.Row
-            as={Link}
-            to={{}}
-            onClick={() => {
-              openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
-            }}
-          >
-            {row.title}
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column style={{ display: 'inline-flex' }}>
-              <Image
-                style={{ width: 26, height: 26, marginRight: 10 }}
-                src={'/images/atvpdkikx0der.png'}
-              />
-              {row.amazon_category_name}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid.Column>
-        <Grid.Column style={{ alignSelf: 'center' }}>
-          <Button
-            basic={true}
-            style={{
-              borderRadius: 100,
-              paddingTop: 5,
-              paddingBottom: 5,
-              paddingLeft: 15,
-              paddingRight: 15,
-            }}
-            color="blue"
-            onClick={() => {
-              openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
-            }}
-          >
-            <h2 style={{ fontSize: 17 }}>View</h2>
-          </Button>
-        </Grid.Column>
-      </Grid>
-    );
+interface ProductsTableState {
+  checkedItems: { [index: number]: {} };
+  filteredProducts: Product[];
+}
+
+class ProductsTable extends React.Component<ProductsTableProps> {
+  state: ProductsTableState = {
+    checkedItems: {},
+    filteredProducts: [],
   };
 
-  renderTracker = (row: Product) => {
-    const { productTrackerGroup, updateProductTrackingStatus } = this.props;
-    return (
-      <Button
-        basic={true}
-        style={{
-          borderRadius: 20,
-          paddingTop: 5,
-          paddingBottom: 5,
-          paddingLeft: 15,
-          paddingRight: 15,
-        }}
-        color={row.tracking_status === 'active' ? 'teal' : 'blue'}
-        onClick={() => {
-          let productTrackerGroupID = 2;
-          if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
-            productTrackerGroupID = productTrackerGroup[0].id;
-            if (row.tracking_status !== null) {
-              updateProductTrackingStatus(
-                row.tracking_status === 'active' ? 'inactive' : 'active',
-                undefined,
-                row.product_track_id,
-                undefined
-              );
-            } else {
-              updateProductTrackingStatus(
-                'active',
-                row.product_id,
-                undefined,
-                productTrackerGroupID
-              );
-            }
-          }
-        }}
-      >
-        <h2 style={{ fontSize: 17 }}>
-          {row.tracking_status === 'active' ? 'Untrack' : 'Track Now'}
-        </h2>
-      </Button>
-    );
+  componentDidMount() {
+    const { supplierID, fetchProductTrackerGroup } = this.props;
+    fetchProductTrackerGroup(supplierID);
+  }
+
+  componentWillReceiveProps(props: any) {
+    console.log('[componentWillReceiveProps]');
+
+    // Do nothing if we have no products or filterRanges
+    // This code looks weird, but is copy of existing check in render() method
+    if (
+      (props.products.length === 1 && props.products[0] === undefined) ||
+      props.filterRanges === undefined
+    ) {
+      return;
+    }
+
+    // If products or filterRanges change fetch a new list of products
+    if (this.props.products !== props.products || this.props.filterRanges !== props.filterRanges) {
+      console.log('[componentWillReceiveProps] refilter');
+      let filteredProducts = findFilterProducts(props.products, props.filterRanges);
+      // Add hardcoded data to products that new design expects
+      filteredProducts = addTempDataToProducts(filteredProducts);
+      this.setState({ filteredProducts });
+    }
+  }
+
+  handleSelectAll = (event: any, isChecked: any) => {
+    const { filteredProducts } = this.state;
+
+    let newCheckedItems: any = {};
+    filteredProducts.forEach((item: any) => {
+      newCheckedItems[item.id] = isChecked;
+    });
+
+    this.setState({ checkedItems: newCheckedItems });
   };
 
-  renderCompleted = (row: Product) => {
-    return new Date(row.last_syn).toLocaleString();
-  };
+  handleItemSelect = (e: any, isChecked: any, itemId: any) => {
+    console.log('[handleItemSelect] itemId', itemId);
 
-  handlePieChartModalOpen = (supplier: any) => {
-    this.setState({ showPieChartModalOpen: true, supplier });
-  };
-  handleClose = () => {
-    this.setState({ showPieChartModalOpen: false, supplier: undefined });
-  };
+    const { checkedItems } = this.state;
+    const newCheckedItems = {
+      ...checkedItems,
+      [itemId]: isChecked,
+    };
 
-  renderPLRatio = (row: Product) => {
-    return <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />;
-  };
-
-  renderAmazonProductLink = (row: Product) => {
-    return (
-      <a href={'//' + row.amazon_url.split('//')[1]} target="_blank">
-        <Icon name="amazon" size={'large'} style={{ color: 'black' }} />
-      </a>
-    );
+    this.setState({ checkedItems: newCheckedItems });
   };
 
   columns: Column[] = [
     {
-      label: 'Product Information',
-      dataKey: 'title',
-      sortable: true,
+      label: '',
+      sortable: false,
       show: true,
-      render: this.renderProductInformation,
+      render: (row: Product) => {
+        const { checkedItems } = this.state;
+        return (
+          <TopSeller
+            item={row}
+            checked={checkedItems[row.id]}
+            onSelectItem={this.handleItemSelect}
+          />
+        );
+      },
+    },
+    {
+      label: 'PRODUCT INFORMATION',
+      sortable: false,
+      show: true,
+      render: (row: Product) => {
+        return <ProductDescriptionWrap item={row} />;
+      },
     },
     {
       label: 'Profit',
@@ -164,6 +127,7 @@ class ProductsTable extends Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
+      render: (row: Product) => `$${row.profit} /item`,
     },
     {
       label: 'Margin',
@@ -171,13 +135,22 @@ class ProductsTable extends Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
+      render: (row: Product) => `${row.margin}%`,
     },
     {
-      label: 'Sales/Mo',
-      dataKey: 'sales_monthly',
+      label: 'Unit Sold',
+      dataKey: 'unitSoldPerMonth',
       type: 'number',
       sortable: true,
       show: true,
+      render: (row: Product) => {
+        return (
+          <>
+            <p className="mg_botm0">{row.unitSoldPerDay} /day</p>
+            <p className="fnt12">{row.unitSoldPerMonth} /mo</p>
+          </>
+        );
+      },
     },
     {
       label: 'Profit/Mo',
@@ -185,42 +158,77 @@ class ProductsTable extends Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
+      render: (row: Product) => `$${row.profit_monthly}`,
     },
     {
-      label: 'Add To Tracker',
-      dataKey: 'track',
-      show: true,
-      render: this.renderTracker,
-    },
-    {
-      label: 'Last Synthesis',
-      dataKey: 'last_syn',
+      label: 'ROI',
+      dataKey: 'roi',
+      type: 'number',
       sortable: true,
-      type: 'date',
       show: true,
-      render: this.renderCompleted,
+      render: (row: Product) => `${row.roi}%`,
     },
+
     {
-      label: 'Amazon',
-      dataKey: 'amazon_url',
+      label: 'Other Sort',
       show: true,
-      render: this.renderAmazonProductLink,
+      sortable: false,
+      render: (row: Product) => {
+        const {
+          supplierID,
+          openProductDetailModal,
+          productTrackerGroup,
+          updateProductTrackingStatus,
+        } = this.props;
+
+        return (
+          <DetailButtons
+            ratings={row.ratings}
+            isTracking={row.tracking_status === 'active'}
+            onViewDetails={() => {
+              openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
+            }}
+            onTrack={() => {
+              let productTrackerGroupID = 2;
+              if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
+                productTrackerGroupID = productTrackerGroup[0].id;
+                if (row.tracking_status !== null) {
+                  updateProductTrackingStatus(
+                    row.tracking_status === 'active' ? 'inactive' : 'active',
+                    undefined,
+                    row.product_track_id,
+                    undefined
+                  );
+                } else {
+                  updateProductTrackingStatus(
+                    'active',
+                    row.product_id,
+                    undefined,
+                    productTrackerGroupID
+                  );
+                }
+              }
+            }}
+          />
+        );
+      },
     },
   ];
 
-  componentDidMount() {
-    const { supplierID, fetchProductTrackerGroup } = this.props;
-    fetchProductTrackerGroup(supplierID);
-  }
-
   render() {
-    const { products, filterRanges, singlePageItemsCount, setSinglePageItemsCount } = this.props;
+    const { filterRanges, singlePageItemsCount, setSinglePageItemsCount } = this.props;
+    const { filteredProducts } = this.state;
 
-    if ((products.length === 1 && products[0] === undefined) || filterRanges === undefined) {
+    if (
+      (filteredProducts.length === 1 && filteredProducts[0] === undefined) ||
+      filterRanges === undefined
+    ) {
       return (
         <Segment>
           <Loader
-            hidden={products.length === 1 && products[0] === undefined ? false : true}
+            hidden={
+              filteredProducts.length === 1 && filteredProducts[0] === undefined ? false : true
+            }
             active={true}
             inline="centered"
             size="massive"
@@ -230,16 +238,16 @@ class ProductsTable extends Component<ProductsTableProps> {
         </Segment>
       );
     }
-    const filteredProducts = findFilterProducts(products, filterRanges);
-    const data = filteredProducts;
-    const columns = this.columns;
+
     return (
-      <GenericTable
-        data={data}
-        columns={columns}
-        singlePageItemsCount={singlePageItemsCount}
-        setSinglePageItemsCount={setSinglePageItemsCount}
-      />
+      <div className="productsTable">
+        <GenericTable
+          data={filteredProducts}
+          columns={this.columns}
+          singlePageItemsCount={singlePageItemsCount}
+          setSinglePageItemsCount={setSinglePageItemsCount}
+        />
+      </div>
     );
   }
 }

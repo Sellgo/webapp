@@ -35,8 +35,8 @@ export const dataKeys: any = [
   'sales_monthly',
   'profit_monthly',
   // Revenue
-  'monthly_revenue',
-  'roi_inventory',
+  //'monthly_revenue',
+  //'roi_inventory',
 ];
 
 // Meta data for each dataKeys above
@@ -160,4 +160,30 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
     );
   const updatedFilterProducts = products.filter(filterRange);
   return updatedFilterProducts;
+};
+
+// Add hardcoded data to products that new design expects
+export const addTempDataToProducts = (products: any) => {
+  return products.map((product: any) => {
+    return {
+      ...product,
+      price: 23.99,
+      categoryRank: 421,
+      countryImg: '/static/media/flag_icon.30aeec5a.svg',
+      ratings: 9.3,
+      // We have product.amazon_category_name but new design needs a breadcrumb
+      sections: [
+        { key: 'Toys & Games', content: 'Toys & Games', link: true },
+        { key: 'Learning & Education', content: 'Learning & Education', link: true },
+      ],
+      seller: 'Top Bright',
+      starRatings: 4,
+      totalReviews: 500,
+      // TODO: Merge this into one object
+      // which is needed for column render method
+      // or pass full product object to render method and don't require a dataKey (do we do this already?)
+      unitSoldPerDay: 192,
+      unitSoldPerMonth: 5777,
+    };
+  });
 };

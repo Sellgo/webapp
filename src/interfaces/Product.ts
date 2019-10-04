@@ -16,6 +16,11 @@ export interface Product {
   roi: string;
   product_cost: string;
   fees: string;
+  // Extra fields not returned by API but used by new design
+  // For now we hardcode this data
+  ratings: number;
+  unitSoldPerDay: number;
+  unitSoldPerMonth: number;
 }
 export interface ProductsTrackData {
   avg_price: string;
