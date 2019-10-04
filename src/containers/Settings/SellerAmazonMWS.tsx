@@ -11,7 +11,7 @@ const showMeHow = (showMeHowUrl: any) => {
   if (showMeHowUrl) {
     window.open(showMeHowUrl, '_blank');
   } else {
-    error('Please choose a Marketplace');
+    error('Please choose a Marketplace!');
   }
 };
 const defaultMarketplace = {
@@ -28,13 +28,17 @@ const defaultAmazonMWS = {
   marketplaceName: '',
   saved: false,
 };
+const defaultShowCredentials = {
+  amazonSellerID: false,
+  authToken: false,
+};
 
 const SellerAmazonMWS = (props: any) => {
   const { amazonMWSAuth, updateAmazonMWSAuth, deleteMWSAuth } = props;
   const [marketplaceLocal, setmarketplaceLocal] = useState(defaultMarketplace);
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
-  const [showAmazonAuthInfo, setShowAmazonAuthInfo] = useState(false);
-  const [deleteConfirmation, setdeleteConfirmation] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [showCredentials, setShowCredentials] = useState(defaultShowCredentials);
 
   useEffect(() => {
     handleMarketPlaceLocalChange(marketplaceLocal.id);
@@ -60,11 +64,17 @@ const SellerAmazonMWS = (props: any) => {
         };
     setmarketplaceLocal(updatedMarketplaceLocal);
     setamazonMWSLocal(updatedAmazonMWSLocal);
-    setShowAmazonAuthInfo(false);
   };
 
   const handleAmazonMWSLocalChange = (data: any) => {
     setamazonMWSLocal({ ...amazonMWSLocal, ...data });
+  };
+
+  const handleShowCredentialsLocalChange = (data: any) => {
+    setShowCredentials({
+      ...showCredentials,
+      ...data,
+    });
   };
 
   const handleAmazonMWSAuthUpdate = () => {
@@ -72,11 +82,12 @@ const SellerAmazonMWS = (props: any) => {
       amazonMWSLocal.amazon_seller_id &&
       amazonMWSLocal.token &&
       amazonMWSLocal.marketplace_id &&
-      !amazonMWSLocal.saved
+      !amazonMWSLocal.saved &&
+      !amazonMWSLocal.id
     ) {
       updateAmazonMWSAuth(amazonMWSLocal);
     } else {
-      error('Please provide valid Amazon MWS Credentials');
+      error('Please provide valid Amazon Seller Central credentials!');
     }
   };
 
@@ -126,192 +137,88 @@ const SellerAmazonMWS = (props: any) => {
                   <Grid.Column width={10}>
                     <Form.Input
                       label="Amazon Seller ID"
-                      placeholder="Amazon Seller ID"
-                      value={amazonMWSLocal ? amazonMWSLocal.amazon_seller_id : ''}
+                      placeholder="A1B23CD4EFG567"
+                      value={amazonMWSLocal.amazon_seller_id}
+                      type={
+                        amazonMWSLocal.saved === showCredentials.amazonSellerID
+                          ? 'text'
+                          : 'password'
+                      }
                       name="amazon_seller_id"
                       onChange={(e, { value }) =>
                         handleAmazonMWSLocalChange({ amazon_seller_id: value })
                       }
                       readOnly={amazonMWSLocal.saved}
+                      icon={
+                        <Icon
+                          link
+                          name={
+                            amazonMWSLocal.saved === showCredentials.amazonSellerID
+                              ? 'eye'
+                              : 'eye slash'
+                          }
+                          onClick={() =>
+                            handleShowCredentialsLocalChange({
+                              amazonSellerID: !showCredentials.amazonSellerID,
+                            })
+                          }
+                        />
+                      }
                     />
                   </Grid.Column>
                   <Grid.Column width={10}>
                     <Form.Input
                       label="MWS Auth Token"
-                      placeholder="MWS Auth Token"
-                      value={amazonMWSLocal ? amazonMWSLocal.token : ''}
+                      placeholder="amzn.mws.1a2b3c4d-5e6f........"
+                      value={amazonMWSLocal.token}
+                      type={
+                        amazonMWSLocal.saved === showCredentials.authToken ? 'text' : 'password'
+                      }
                       name="token"
                       onChange={(e, { value }) => handleAmazonMWSLocalChange({ token: value })}
                       readOnly={amazonMWSLocal.saved}
+                      icon={
+                        <Icon
+                          link
+                          name={
+                            amazonMWSLocal.saved === showCredentials.authToken ? 'eye' : 'eye slash'
+                          }
+                          onClick={() =>
+                            handleShowCredentialsLocalChange({
+                              authToken: !showCredentials.authToken,
+                            })
+                          }
+                        />
+                      }
                     />
                     <Button
-                      disabled={amazonMWSLocal ? amazonMWSLocal.saved : false}
+                      disabled={amazonMWSLocal.saved}
                       primary={true}
                       content="Add MWS Token"
                       style={{ borderRadius: '50px' }}
                       onClick={handleAmazonMWSAuthUpdate}
                     />
+                    <Button
+                      disabled={!amazonMWSLocal.saved}
+                      color="red"
+                      content="Delete"
+                      style={{ borderRadius: '50px' }}
+                      onClick={() => setDeleteConfirmation(true)}
+                    />
                   </Grid.Column>
                 </Grid.Row>
               </Grid.Column>
-              {amazonMWSLocal.saved ? (
-                <Grid.Column
-                  width={1}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <div onClick={() => setShowAmazonAuthInfo(!showAmazonAuthInfo)}>
-                    <Icon
-                      size={'big'}
-                      color={'blue'}
-                      name={showAmazonAuthInfo ? 'chevron circle left' : 'chevron circle right'}
-                      style={{ color: 'black', display: 'inline-block' }}
-                    />
-                    <p style={{ color: '#267DD4' }}>{'info'}</p>
-                  </div>
-                </Grid.Column>
-              ) : null}
-              {amazonMWSLocal.saved ? (
-                <Grid.Column
-                  width={8}
-                  style={{
-                    visibility: showAmazonAuthInfo ? 'visible' : 'hidden',
-                    opacity: 'showAmazonAuthInfo' ? 1 : 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
-                  }}
-                >
-                  <div
-                    style={{
-                      height: 150,
-                      width: '100%',
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        float: 'right',
-                      }}
-                    >
-                      <div
-                        onClick={() => setdeleteConfirmation(true)}
-                        style={{
-                          borderRadius: '5px',
-                          color: '#ffffff',
-                          backgroundColor: '#ff0300',
-                          width: 34,
-                          height: 34,
-                          display: 'flex',
-                          paddingLeft: 3,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Icon name={'trash'} size={'large'} style={{ textAlign: 'center' }} />
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        overflow: 'hidden',
-                        marginRight: 70,
-                        backgroundColor: '#f0f0f0',
-                        marginBottom: 5,
-                        padding: 7,
-                      }}
-                    >
-                      <h4 style={{ float: 'left', marginBottom: 0 }}>{'Amazon Seller ID:'}</h4>
-                      <p
-                        style={{
-                          marginBottom: 0,
-                          marginLeft: 15,
-                          float: 'left',
-                        }}
-                      >
-                        {amazonMWSLocal.amazon_seller_id}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        overflow: 'hidden',
-                        marginRight: 70,
-                        backgroundColor: '#f0f0f0',
-                        marginBottom: 5,
-                        padding: 7,
-                      }}
-                    >
-                      <h4 style={{ float: 'left', marginBottom: 0 }}>{'MWS Auth Token:'}</h4>
-                      <p
-                        style={{
-                          marginBottom: 0,
-                          marginLeft: 15,
-                          float: 'left',
-                        }}
-                      >
-                        {amazonMWSLocal.token}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        overflow: 'hidden',
-                        marginRight: 70,
-                        backgroundColor: '#f0f0f0',
-                        marginBottom: 5,
-                        padding: 7,
-                      }}
-                    >
-                      <h4 style={{ float: 'left', marginBottom: 0 }}>{'Marketplace ID:'}</h4>
-                      <p
-                        style={{
-                          marginBottom: 0,
-                          marginLeft: 15,
-                          float: 'left',
-                        }}
-                      >
-                        {amazonMWSLocal.marketplace_id}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        overflow: 'hidden',
-                        marginRight: 70,
-                        backgroundColor: '#f0f0f0',
-                        marginBottom: 5,
-                        padding: 7,
-                      }}
-                    >
-                      <h4 style={{ float: 'left', marginBottom: 0 }}>{'Marketplace Name:'}</h4>
-                      <p
-                        style={{
-                          marginBottom: 0,
-                          marginLeft: 15,
-                          float: 'left',
-                        }}
-                      >
-                        {amazonMWSLocal.marketplaceName}
-                      </p>
-                    </div>
-                  </div>
-                </Grid.Column>
-              ) : null}
             </Grid.Row>
           </Grid>
         </Form>
       </Container>
       <Confirm
-        content="Do you want to delete Amazon MWS Auth Credentials?"
+        content="Do you want to delete Amazon Seller Central credentials?"
         open={deleteConfirmation}
-        onCancel={() => setdeleteConfirmation(false)}
+        onCancel={() => setDeleteConfirmation(false)}
         onConfirm={() => {
-          deleteMWSAuth(amazonMWSLocal.id);
-          setdeleteConfirmation(false);
+          if (amazonMWSLocal.id && amazonMWSLocal.saved) deleteMWSAuth(amazonMWSLocal.id);
+          setDeleteConfirmation(false);
         }}
       />
     </Segment>
