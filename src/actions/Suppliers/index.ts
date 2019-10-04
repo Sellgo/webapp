@@ -24,6 +24,7 @@ import {
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
+  addTempDataToProducts,
 } from '../../constants/Suppliers';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
@@ -209,7 +210,13 @@ export const fetchSupplierProducts = (supplierID: any) => async (
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data-compact`
   );
   if (response.data.length) {
-    const products = response.data;
+    let products = response.data;
+
+    // TODO: REMOVE THIS
+    // Adding extra data to each supplier that our new front-end design expects
+    // Just a quick hack until API is updated
+    products = addTempDataToProducts(products);
+
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
   }

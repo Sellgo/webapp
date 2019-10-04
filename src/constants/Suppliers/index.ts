@@ -35,8 +35,8 @@ export const dataKeys: any = [
   'sales_monthly',
   'profit_monthly',
   // Revenue
-  //'monthly_revenue',
-  //'roi_inventory',
+  'monthly_revenue',
+  'roi_inventory',
 ];
 
 // Meta data for each dataKeys above
@@ -184,6 +184,9 @@ export const addTempDataToProducts = (products: any) => {
       // or pass full product object to render method and don't require a dataKey (do we do this already?)
       unitSoldPerDay: 192,
       unitSoldPerMonth: 5777,
+      // Fields expected by new filters design
+      monthly_revenue: 5,
+      roi_inventory: 5,
     };
   });
 };

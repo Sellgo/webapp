@@ -64,10 +64,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     // If products or filterRanges change fetch a new list of products
     if (this.props.products !== props.products || this.props.filterRanges !== props.filterRanges) {
-      console.log('[componentWillReceiveProps] refilter');
-      let filteredProducts = findFilterProducts(props.products, props.filterRanges);
-      // Add hardcoded data to products that new design expects
-      filteredProducts = addTempDataToProducts(filteredProducts);
+      const filteredProducts = findFilterProducts(props.products, props.filterRanges);
       this.setState({ filteredProducts });
     }
   }
