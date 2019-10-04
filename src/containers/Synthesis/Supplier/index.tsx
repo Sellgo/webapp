@@ -9,6 +9,7 @@ import ProductDetails from './ProductDetails';
 import { closeSupplierProductDetailModal } from '../../../actions/Modals';
 import SupplierDetails from './SupplierDetails';
 import {
+  fetchSupplierDetails,
   resetSupplier,
   fetchSupplierProducts,
   resetSupplierProducts,
@@ -20,10 +21,12 @@ import { supplierProductsSelector } from '../../../selectors/Supplier';
 import CallToAction from './CallToAction';
 
 interface SupplierProps {
+  supplierDetails: any;
   products: any;
   match: { params: { supplierID: '' } };
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
+  fetchSupplierDetails: (supplierID: any) => void;
   resetSupplier: () => void;
   fetchSupplierProducts: (supplierID: any) => void;
   resetSupplierProducts: typeof resetSupplierProducts;
@@ -31,7 +34,8 @@ interface SupplierProps {
 
 export class Supplier extends React.Component<SupplierProps> {
   componentDidMount() {
-    const { fetchSupplierProducts, match } = this.props;
+    const { fetchSupplierDetails, fetchSupplierProducts, match } = this.props;
+    fetchSupplierDetails(match.params.supplierID);
     fetchSupplierProducts(match.params.supplierID);
   }
 
@@ -42,16 +46,16 @@ export class Supplier extends React.Component<SupplierProps> {
   }
 
   render() {
-    const { products } = this.props;
+    const { products, supplierDetails } = this.props;
 
     return (
       <>
         <PageHeader
-          title={'Profit Synthesis of <Supplier Name>'}
+          title={`Profit Synthesis of ${supplierDetails.name || 'Supplier'}`}
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: 'Profit Syn', to: '/synthesis' },
-            { content: 'Supplier Name' },
+            { content: supplierDetails.name || 'Supplier' },
           ]}
           callToAction={<CallToAction />}
         />
@@ -102,11 +106,13 @@ export class Supplier extends React.Component<SupplierProps> {
 }
 
 const mapStateToProps = (state: any) => ({
+  supplierDetails: get(state, 'supplier.details'),
   products: supplierProductsSelector(state),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
 const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
+  fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),
   resetSupplier: () => resetSupplier(),
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),

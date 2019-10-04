@@ -47,6 +47,7 @@ export default (state = initialState, action: AnyAction) => {
     case SET_SUPPLIER_DETAILS: {
       const supplier = action.payload;
       const hit = {
+        name: supplier.name,
         rate: supplier.rate,
         p2l_ratio: supplier.p2l_ratio,
       };
