@@ -14,12 +14,14 @@ const Topseller = (props: any) => {
         {TOP_SELLER}
       </Label>
       <div className="dsp_flex prod_img">
+        {/*
         <span>
           <Checkbox
             onChange={(e, data) => onSelectItem(e, data.checked, item.id)}
             checked={checked}
           />
         </span>
+        */}
         <Image src={item.image_url} />
       </div>
     </div>
