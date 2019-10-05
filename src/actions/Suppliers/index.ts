@@ -15,6 +15,7 @@ import {
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   SET_TIME_EFFICIENCY,
   SET_SUPPLIER_DETAILS,
+  IS_LOADING_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PRODUCTS,
   RESET_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PRODUCTS_TRACK_DATA,
@@ -195,6 +196,11 @@ export const setSupplierTableTab = (tab: string) => ({
 
 export const resetSupplier = () => ({ type: RESET_SUPPLIER });
 
+export const isLoadingSupplierProducts = (value: boolean) => ({
+  type: IS_LOADING_SUPPLIER_PRODUCTS,
+  payload: value,
+});
+
 export const setSupplierProducts = (products: Product[]) => ({
   type: SET_SUPPLIER_PRODUCTS,
   payload: products,
@@ -205,14 +211,18 @@ export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
 export const fetchSupplierProducts = (supplierID: any) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
+  dispatch(isLoadingSupplierProducts(true));
+
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data-compact`
   );
-  if (response.data.length) {
-    let products = response.data;
 
-    // TODO: REMOVE THIS
+  if (response.data.length) {
+    dispatch(isLoadingSupplierProducts(false));
+
+    let products = response.data;
+    // TEMPORARY
     // Adding extra data to each supplier that our new front-end design expects
     // Just a quick hack until API is updated
     products = addTempDataToProducts(products);

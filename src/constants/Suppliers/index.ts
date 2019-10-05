@@ -8,6 +8,7 @@ export const ADD_SUPPLIER = 'ADD_SUPPLIER';
 export const SET_SUPPLIERS_TABLE_COLUMNS = 'SET_SUPPLIERS_TABLE_COLUMNS';
 export const SET_SUPPLIERS_TABLE_TAB = 'SET_SUPPLIERS_TABLE_TAB';
 export const SET_SUPPLIER_DETAILS = 'SET_SUPPLIER_DETAILS';
+export const IS_LOADING_SUPPLIER_PRODUCTS = 'IS_LOADING_SUPPLIER_PRODUCTS';
 export const SET_SUPPLIER_PRODUCTS = 'SET_SUPPLIER_PRODUCTS';
 export const RESET_SUPPLIER_PRODUCTS = 'RESET_SUPPLIER_PRODUCTS';
 export const SET_SUPPLIER_PRODUCTS_TRACK_DATA = 'SET_SUPPLIER_PRODUCTS_TRACK_DATA';
@@ -185,8 +186,9 @@ export const addTempDataToProducts = (products: any) => {
       unitSoldPerDay: 192,
       unitSoldPerMonth: 5777,
       // Fields expected by new filters design
-      monthly_revenue: 5,
-      roi_inventory: 5,
+      // Give it some random variation so filters have a range
+      monthly_revenue: Math.floor(Math.random() * 1000) + 1,
+      roi_inventory: Math.floor(Math.random() * 100) + 1,
     };
   });
 };

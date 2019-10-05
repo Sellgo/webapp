@@ -22,6 +22,7 @@ import CallToAction from './CallToAction';
 
 interface SupplierProps {
   supplierDetails: any;
+  isLoadingSupplierProducts: boolean;
   products: any;
   match: { params: { supplierID: '' } };
   productDetailsModalOpen: false;
@@ -46,7 +47,7 @@ export class Supplier extends React.Component<SupplierProps> {
   }
 
   render() {
-    const { products, supplierDetails } = this.props;
+    const { isLoadingSupplierProducts, supplierDetails } = this.props;
 
     return (
       <>
@@ -64,14 +65,9 @@ export class Supplier extends React.Component<SupplierProps> {
           <Grid>
             <Grid.Row>
               <Grid.Column floated="left" width={3}>
-                {products.length === 1 && products[0] === undefined ? (
+                {isLoadingSupplierProducts ? (
                   <Segment>
-                    <Loader
-                      hidden={products.length === 1 && products[0] === undefined ? false : true}
-                      active={true}
-                      inline="centered"
-                      size="massive"
-                    >
+                    <Loader active={true} inline="centered" size="massive">
                       Loading
                     </Loader>
                   </Segment>
@@ -107,9 +103,11 @@ export class Supplier extends React.Component<SupplierProps> {
 
 const mapStateToProps = (state: any) => ({
   supplierDetails: get(state, 'supplier.details'),
+  isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: supplierProductsSelector(state),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
+
 const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
   fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),

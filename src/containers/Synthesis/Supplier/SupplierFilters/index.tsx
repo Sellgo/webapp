@@ -32,6 +32,7 @@ import './index.scss';
 
 interface SupplierFiltersProps {
   products: Product[];
+  filteredProducts: Product[];
   filterRanges: any;
   updateFilterRanges: (filterRanges: any) => void;
 }
@@ -43,8 +44,20 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
   componentDidMount() {
     const { products } = this.props;
-    const productRanges = findMinMaxRange(products);
-    this.setState({ productRanges });
+
+    if (products) {
+      // Get min and max range for each filter setting based on all products
+      const productRanges = findMinMaxRange(products);
+      this.setState({ productRanges });
+    }
+  }
+
+  componentWillReceiveProps(props: any) {
+    if (props.products && props.products !== this.props.products) {
+      // Get min and max range for each filter setting based on all products
+      const productRanges = findMinMaxRange(props.products);
+      this.setState({ productRanges });
+    }
   }
 
   handlePresetChange = (e: any, { value }: any) => {
@@ -124,7 +137,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   };
 
   render() {
-    const { products, filterRanges } = this.props;
+    const { products, filteredProducts, filterRanges } = this.props;
     if (products.length === 1 && products[0] === undefined) return <div></div>;
     const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();
@@ -132,7 +145,9 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     return (
       <div className="synthesisSupplierFilters">
         <AdviceCard />
-        <p className="products">xxx of xxx products</p>
+        <p className="products">
+          {filteredProducts.length} of {products.length} products
+        </p>
 
         <div className="searchDropdown">
           <Dropdown
@@ -172,11 +187,12 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
 const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
+  filteredProducts: get(state, 'supplier.filteredProducts'),
   filterRanges: get(state, 'supplier.filterRanges'),
 });
 
 const mapDispatchToProps = {
-  updateFilterRanges: (products: any) => updateSupplierFilterRanges(products),
+  updateFilterRanges: (filterRanges: any) => updateSupplierFilterRanges(filterRanges),
 };
 
 export default connect(

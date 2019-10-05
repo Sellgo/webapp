@@ -19,7 +19,9 @@ import DetailButtons from './detailButtons';
 
 interface ProductsTableProps {
   supplierID: any;
+  isLoadingSupplierProducts: boolean;
   products: Product[];
+  filteredProducts: Product[];
   filterRanges: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
@@ -36,13 +38,11 @@ interface ProductsTableProps {
 
 interface ProductsTableState {
   checkedItems: { [index: number]: {} };
-  filteredProducts: Product[];
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
     checkedItems: {},
-    filteredProducts: [],
   };
 
   componentDidMount() {
@@ -50,27 +50,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     fetchProductTrackerGroup(supplierID);
   }
 
-  componentWillReceiveProps(props: any) {
-    console.log('[componentWillReceiveProps]');
-
-    // Do nothing if we have no products or filterRanges
-    // This code looks weird, but is copy of existing check in render() method
-    if (
-      (props.products.length === 1 && props.products[0] === undefined) ||
-      props.filterRanges === undefined
-    ) {
-      return;
-    }
-
-    // If products or filterRanges change fetch a new list of products
-    if (this.props.products !== props.products || this.props.filterRanges !== props.filterRanges) {
-      const filteredProducts = findFilterProducts(props.products, props.filterRanges);
-      this.setState({ filteredProducts });
-    }
-  }
-
   handleSelectAll = (event: any, isChecked: any) => {
-    const { filteredProducts } = this.state;
+    const { filteredProducts } = this.props;
 
     let newCheckedItems: any = {};
     filteredProducts.forEach((item: any) => {
@@ -81,8 +62,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   handleItemSelect = (e: any, isChecked: any, itemId: any) => {
-    console.log('[handleItemSelect] itemId', itemId);
-
     const { checkedItems } = this.state;
     const newCheckedItems = {
       ...checkedItems,
@@ -218,23 +197,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   ];
 
   render() {
-    const { filterRanges, singlePageItemsCount, setSinglePageItemsCount } = this.props;
-    const { filteredProducts } = this.state;
+    const {
+      isLoadingSupplierProducts,
+      filteredProducts,
+      filterRanges,
+      singlePageItemsCount,
+      setSinglePageItemsCount,
+    } = this.props;
+    //const { filteredProducts } = this.state;
 
-    if (
-      (filteredProducts.length === 1 && filteredProducts[0] === undefined) ||
-      filterRanges === undefined
-    ) {
+    if (isLoadingSupplierProducts) {
       return (
         <Segment>
-          <Loader
-            hidden={
-              filteredProducts.length === 1 && filteredProducts[0] === undefined ? false : true
-            }
-            active={true}
-            inline="centered"
-            size="massive"
-          >
+          <Loader active={true} inline="centered" size="massive">
             Loading
           </Loader>
         </Segment>
@@ -256,7 +231,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 }
 
 const mapStateToProps = (state: {}) => ({
+  isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: get(state, 'supplier.products'),
+  filteredProducts: get(state, 'supplier.filteredProducts'),
   filterRanges: get(state, 'supplier.filterRanges'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
