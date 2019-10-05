@@ -88,7 +88,7 @@ function App(props: any) {
           />
 
           <PrivateRoute exact={true} path="/settings" component={Settings} />
-          <PrivateRoute exact={true} path="/settings/subscription" component={Subscription} />
+          <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute exact={true} path="/dashboard" component={Dashboard} />
           <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
           <PrivateRoute exact={true} path="/synthesis/:supplierID" component={SupplierDetail} />

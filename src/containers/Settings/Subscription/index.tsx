@@ -36,7 +36,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     return (
       <>
-        <PageHeader title="Subscription" />
+        <PageHeader title="Pricing Plans" />
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Header as="h2">{header}</Header>
           <Divider />
