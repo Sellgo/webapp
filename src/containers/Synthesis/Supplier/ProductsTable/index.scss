@@ -11,8 +11,10 @@
     font-family: 'Montserrat', sans-serif;
     margin-bottom: 7px;
     line-height: 20px;
-    width: 491px;
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .dsp_flex {
@@ -26,16 +28,14 @@
     white-space: pre-wrap;
     line-height: 17px;
     text-align: left;
-  }
-
-  .ui.breadcrumb i {
-    color: #349af8 !important;
+    i {
+      color: #349af8 !important;
+    }
   }
 
   .ui.table {
     border-collapse: separate;
     border-spacing: 0 20px;
-
     border: none;
     background: transparent;
     padding: 0 10px;
@@ -69,6 +69,10 @@
       text-align: left;
     }
 
+    tr td p.stat {
+      white-space: nowrap;
+    }
+
     tr td .prod_img img {
       width: 100%;
       max-height: 100px;
@@ -76,13 +80,17 @@
       margin-top: 6px;
     }
 
+    // Thumbnail
     tr td:nth-child(1) {
       padding-left: 5px;
       vertical-align: top;
-      width: 125px;
-
+      width: 180px;
       padding: 12px 20px 12px 12px;
-      width: 540px;
+    }
+
+    // Product info
+    tr td:nth-child(2) {
+      min-width: 250px;
     }
 
     tr td:nth-child(3),
@@ -91,12 +99,17 @@
     tr td:nth-child(6),
     tr td:nth-child(7) {
       width: 110px;
-      padding-top: 80px;
+      vertical-align: middle;
+      padding: 0 0.5rem;
     }
 
+    // Track/detail buttons
     tr td:last-child {
       vertical-align: middle;
-      padding: 0;
+      padding: 0 0.5rem;
+      span {
+        white-space: nowrap;
+      }
     }
     tr th:nth-child(1) {
       font-size: 16px;
@@ -131,7 +144,6 @@
     font-weight: 600;
   }
   .wrap_prod_information {
-    width: 491px;
     display: flex;
     justify-content: space-between;
   }
@@ -186,7 +198,7 @@
 
   span.price_rate {
     color: #eb675e;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
   }
   .catogy_toy {
@@ -202,7 +214,7 @@
   .rgt_prod {
     width: auto;
     position: relative;
-    margin-top: -25px;
+    //margin-top: -25px;
     text-align: right;
   }
   .amaon_img_size {
@@ -330,9 +342,7 @@
       font-size: 13px;
       line-height: 17px;
     }
-    .rgt_prod {
-      margin-top: -18px;
-    }
+
     .flag_row span {
       font-size: 13px;
     }
@@ -369,9 +379,7 @@
       font-size: 13px;
       line-height: 17px;
     }
-    .rgt_prod {
-      margin-top: -18px;
-    }
+
     .flag_row span {
       font-size: 13px;
     }
@@ -405,9 +413,6 @@
     }
     .flag_row span {
       font-size: 13px;
-    }
-    .rgt_prod {
-      margin-top: -17px;
     }
   }
 }

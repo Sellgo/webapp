@@ -81,18 +81,18 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { checkedItems } = this.state;
     return <ProductDescriptionWrap item={row} />;
   };
-  renderProfit = (row: Product) => `$${row.profit} /item`;
-  renderMargin = (row: Product) => `${row.margin}%`;
+  renderProfit = (row: Product) => <p className="stat">{row.profit} /item</p>;
+  renderMargin = (row: Product) => <p className="stat">${row.margin}%</p>;
   renderUnitSold = (row: Product) => {
     return (
       <>
-        <p className="mg_botm0">{row.unitSoldPerDay} /day</p>
-        <p className="fnt12">{row.unitSoldPerMonth} /mo</p>
+        <p className="stat mg_botm0">{row.unitSoldPerDay} /day</p>
+        <p className="stat fnt12">{row.unitSoldPerMonth} /mo</p>
       </>
     );
   };
-  renderProfitMonthly = (row: Product) => `$${row.profit_monthly}`;
-  renderRoi = (row: Product) => `${row.roi}%`;
+  renderProfitMonthly = (row: Product) => <p className="stat">{row.profit_monthly}</p>;
+  renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
   renderDetailButtons = (row: Product) => {
     const {
       supplierID,

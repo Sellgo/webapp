@@ -21,7 +21,6 @@ const DetailButtons = (props: any) => {
       <div>
         <Button primary className="view_detail_btn" onClick={onViewDetails}>
           <span>View Details</span>
-          <Icon name="angle down" />
         </Button>
       </div>
     </div>
