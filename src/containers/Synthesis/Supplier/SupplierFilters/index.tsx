@@ -144,7 +144,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
     return (
       <div className="synthesisSupplierFilters">
-        <AdviceCard />
+        {/*<AdviceCard />*/}
         <p className="products">
           {filteredProducts.length} of {products.length} products
         </p>

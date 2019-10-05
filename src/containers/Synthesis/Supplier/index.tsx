@@ -58,7 +58,7 @@ export class Supplier extends React.Component<SupplierProps> {
             { content: 'Profit Syn', to: '/synthesis' },
             { content: supplierDetails.name || 'Supplier' },
           ]}
-          callToAction={<CallToAction />}
+          //callToAction={<CallToAction />}
         />
 
         <Segment basic={true} className="setting">

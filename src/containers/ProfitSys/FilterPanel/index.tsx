@@ -14,7 +14,7 @@ class ProfitSysLeftPanel extends React.Component<any, {}> {
   public render() {
     return (
       <div className="profitSysFilterPanel">
-        <AdviceCard />
+        {/*<AdviceCard />*/}
         <p className={'products'}>xxx of xxx products</p>
 
         <div className="searchDropdown">

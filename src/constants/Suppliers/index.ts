@@ -36,8 +36,8 @@ export const dataKeys: any = [
   'sales_monthly',
   'profit_monthly',
   // Revenue
-  'monthly_revenue',
-  'roi_inventory',
+  //'monthly_revenue',
+  //'roi_inventory',
 ];
 
 // Meta data for each dataKeys above
