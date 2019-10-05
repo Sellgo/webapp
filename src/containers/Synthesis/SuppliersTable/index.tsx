@@ -23,6 +23,8 @@ import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';
 import SupplierTableMetrics from './SupplierTableMetrics';
 import { Supplier } from '../../../interfaces/Supplier';
+import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
+import { error } from '../../../utils/notifications';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];
@@ -37,10 +39,18 @@ interface SuppliersTableProps {
   deleteSupplier: (supplierID: any) => void;
   showTab: string;
   showColumns: any;
+  amazonMWSAuthorized: boolean;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
   state = { showPieChartModalOpen: false, supplier: undefined, showDeleteConfirm: false };
+
+  handleAmazonMWSAuthError = () => {
+    error('UnAuthorized Access! Please add Amazon Seller Central credentials', {
+      onClose: () => history.push('/settings#amazon-mws'),
+    });
+  };
+
   renderName = (row: Supplier) => {
     if (row.file_status !== 'completed') return row.name;
     return <Link to={`/synthesis/${row.supplier_id}`}>{row.name}</Link>;
@@ -54,57 +64,64 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       </a>
     );
   };
-  renderActions = (row: Supplier) => (
-    <Dropdown
-      className={'SynDropDownLink'}
-      text="SYN"
-      floating
-      selectOnBlur={false}
-      fluid
-      selection
-      disabled={row.file_status !== 'completed' ? true : false}
-      options={[
-        {
-          key: '0',
-          text: <Dropdown.Item icon="spinner" text=" Synthesis" />,
-          value: 'SYN',
-        },
-        {
-          key: '1',
-          text: (
-            <a href={row.file_url} download>
-              <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
-            </a>
-          ),
-          value: 'dwn_sp_file',
-        },
-        {
-          key: '2',
-          text:
-            row.report_url === null ? (
-              <Dropdown.Item icon="download" text=" Download Results" />
-            ) : (
-              <a href={row.report_url} download>
-                <Dropdown.Item icon="download" text=" Download Results" />
+  renderActions = (row: Supplier) => {
+    const { amazonMWSAuthorized } = this.props;
+    return (
+      <Dropdown
+        className={'SynDropDownLink'}
+        text="SYN"
+        floating
+        selectOnBlur={false}
+        fluid
+        selection
+        disabled={row.file_status !== 'completed' ? true : false}
+        options={[
+          {
+            key: '0',
+            text: <Dropdown.Item icon="spinner" text=" Synthesis" />,
+            value: 'SYN',
+          },
+          {
+            key: '1',
+            text: (
+              <a href={row.file_url} download>
+                <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
               </a>
             ),
-          value: 'dwn_res',
-          disabled: row.report_url === null ? true : false,
-        },
-        {
-          key: '3',
-          text: <Dropdown.Item icon="sync alternate" text=" Rerun" />,
-          value: 'rerun',
-          onClick: () => this.props.reRun(row),
-        },
-      ]}
-      onChange={(e, data) => {
-        if (data.value === 'SYN') {
-          history.push(`/synthesis/${row.supplier_id}`);
-        }
-      }}
-    />
-  );
+            value: 'dwn_sp_file',
+          },
+          {
+            key: '2',
+            text:
+              row.report_url === null ? (
+                <Dropdown.Item icon="download" text=" Download Results" />
+              ) : (
+                <a href={row.report_url} download>
+                  <Dropdown.Item icon="download" text=" Download Results" />
+                </a>
+              ),
+            value: 'dwn_res',
+            disabled: row.report_url === null ? true : false,
+          },
+          {
+            key: '3',
+            text: <Dropdown.Item icon="sync alternate" text=" Rerun" />,
+            value: 'rerun',
+            disabled: !amazonMWSAuthorized,
+            onClick: () => {
+              if (amazonMWSAuthorized) this.props.reRun(row);
+              else this.handleAmazonMWSAuthError();
+            },
+          },
+        ]}
+        onChange={(e, data) => {
+          if (data.value === 'SYN') {
+            history.push(`/synthesis/${row.supplier_id}`);
+          }
+        }}
+      />
+    );
+  };
 
   handleCancelDelete = () => {
     this.setState({ showDeleteConfirm: false });
@@ -353,6 +370,7 @@ const mapStateToProps = (state: {}) => ({
   suppliers: suppliersSelector(state),
   showTab: suppliersTableTabSelector(state),
   showColumns: suppliersTableColumnsSelector(state),
+  amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
 });
 
 const mapDispatchToProps = {

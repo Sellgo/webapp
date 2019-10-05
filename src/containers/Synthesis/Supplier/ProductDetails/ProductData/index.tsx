@@ -22,7 +22,7 @@ class ProductData extends Component<ProductDataProps> {
     return (
       <Grid>
         <Grid.Column floated="left" width={13}>
-          <Grid style={{ height: 40 }}>
+          <Grid>
             <Grid.Column>
               <h3>{productDetails.title}</h3>
             </Grid.Column>

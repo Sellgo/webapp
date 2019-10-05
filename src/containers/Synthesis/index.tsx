@@ -44,7 +44,7 @@ class Synthesis extends Component<SynthesisProps> {
     if (amazonMWSAuthorized) {
       openUploadSupplierModal(supplier);
     } else {
-      error('UnAuthorized Access! Please add Amazon MWS Token.', {
+      error('UnAuthorized Access! Please add Amazon Seller Central credentials', {
         onClose: () => history.push('/settings#amazon-mws'),
       });
     }
@@ -55,7 +55,7 @@ class Synthesis extends Component<SynthesisProps> {
     if (amazonMWSAuthorized) {
       openUploadSupplierModal();
     } else {
-      error('UnAuthorized Access! Please add Amazon MWS Token.', {
+      error('UnAuthorized Access! Please add Amazon Seller Central credentials', {
         onClose: () => history.push('/settings#amazon-mws'),
       });
     }
