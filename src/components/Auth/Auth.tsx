@@ -52,7 +52,10 @@ export default class Auth {
           history.replace('/');
         }
       })
-      .catch();
+      .catch(err => {
+        alert(`Error: ${err.message}. Check with Sellgo Support Team for further details.`);
+        this.logout();
+      });
   };
 
   public handleAuthentication = () => {
