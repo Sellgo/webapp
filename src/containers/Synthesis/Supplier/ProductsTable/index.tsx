@@ -14,7 +14,7 @@ import {
 import { findFilterProducts, addTempDataToProducts } from '../../../../constants/Suppliers';
 import GenericTable, { Column } from '../../../../components/Table';
 import TopSeller from './topSeller';
-import ProductDescriptionWrap from './productDescriptionWrap';
+import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 
 interface ProductsTableProps {
@@ -79,7 +79,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
   renderProductInfo = (row: Product) => {
     const { checkedItems } = this.state;
-    return <ProductDescriptionWrap item={row} />;
+    return <ProductDescription item={row} />;
   };
   renderProfit = (row: Product) => <p className="stat">${row.profit} /item</p>;
   renderMargin = (row: Product) => <p className="stat">${row.margin}%</p>;

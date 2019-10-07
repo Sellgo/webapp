@@ -82,8 +82,6 @@ export class Supplier extends React.Component<SupplierProps> {
             </Grid.Row>
           </Grid>
 
-          <Divider />
-
           <Modal
             size={'large'}
             open={this.props.productDetailsModalOpen}

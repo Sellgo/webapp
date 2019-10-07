@@ -5,7 +5,7 @@ import Hotspot from '../../../../assets/images/wifi-icon.svg';
 const DetailButtons = (props: any) => {
   const { ratings, onViewDetails, onTrack, isTracking } = props;
   return (
-    <div>
+    <div className="detailButtons">
       <div>
         <Button as="div" labelPosition="right" className="track_btn">
           <Button icon className="track_wrap" onClick={onTrack}>
