@@ -81,7 +81,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { checkedItems } = this.state;
     return <ProductDescriptionWrap item={row} />;
   };
-  renderProfit = (row: Product) => <p className="stat">{row.profit} /item</p>;
+  renderProfit = (row: Product) => <p className="stat">${row.profit} /item</p>;
   renderMargin = (row: Product) => <p className="stat">${row.margin}%</p>;
   renderUnitSold = (row: Product) => {
     return (
@@ -139,6 +139,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: false,
       show: true,
       render: this.renderTopSeller,
+      //render: () => 'Test 1',
     },
 
     {
@@ -146,7 +147,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: false,
       show: true,
       render: this.renderProductInfo,
+      //render: () => 'Test 2',
     },
+
     {
       label: 'Profit',
       dataKey: 'profit',
@@ -179,6 +182,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       render: this.renderProfitMonthly,
     },
+
     {
       label: 'ROI',
       dataKey: 'roi',

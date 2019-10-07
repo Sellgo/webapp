@@ -11,13 +11,11 @@ const Pricing = (props: any) => {
         <span className="price_head">Price: </span>
         <span className="price_rate">${price}</span>
       </div>
-      {/*
       <div className="catogy_toy">
         <span>
           #{categoryRank} in {categoryName}
         </span>
       </div>
-      */}
       <div className="bottm_img">
         <Image src={amazonImg} className="amaon_img_size" />
         <Image src={PRIME_IMAGE} />

@@ -189,6 +189,7 @@ export const addTempDataToProducts = (products: any) => {
       // Give it some random variation so filters have a range
       monthly_revenue: Math.floor(Math.random() * 1000) + 1,
       roi_inventory: Math.floor(Math.random() * 100) + 1,
+      topSeller: Math.floor(Math.random() * 2) + 1 === 2,
     };
   });
 };

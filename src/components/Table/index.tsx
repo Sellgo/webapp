@@ -105,7 +105,7 @@ const GenericTable = (props: TableProps) => {
     </Segment>
   ) :  */
   return (
-    <div className="scroll-table">
+    <div>
       {setSinglePageItemsCount && showSelectItemsCounts ? (
         <SelectItemsCount
           totalCount={data.length}
