@@ -17,7 +17,6 @@ import {
 } from '../../../../constants/Suppliers';
 import get from 'lodash/get';
 import { defaultSelect } from '../../../../constants';
-import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
 import AdviceCard from '../AdviceCard';
 import './index.scss';
 
@@ -77,9 +76,6 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     const newFilterRanges = { ...productRanges };
 
     if (range.min === '' || range.max === '' || range.min > range.max) {
-      // Is it possible for min/max to be empty or min to be bigger than max?
-      // Looks like we just update this filterRange in that case and avoid
-      // updating the others so that their values don't get messed up.
       updateFilterRanges(productRanges);
     } else {
       // Update this filter range
@@ -87,9 +83,8 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
       // Get products that match the new set of filter ranges
       const filteredProducts = findFilterProducts(products, newFilterRanges);
       // Then update all filter ranges based on the new set of products
-      // The result is that changing one filter affects the min/max range of others
       const updatedFilterRanges: any = findMinMaxRange(filteredProducts);
-
+      // But keep this filter range at value we just applied
       updatedFilterRanges[dataKey] = range;
 
       updateFilterRanges(updatedFilterRanges);
@@ -98,27 +93,24 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
   renderFilterComponent = (filter: any, productRange: any, filterRange: any) => {
     if (filter.showSlider) {
-      // TODO: Replace with functional MixMaxInput component (from ProditSys)
       return (
         <SliderRange
           title={filter.text}
           dataKey={filter.id}
           showInputs={filter.showInputs}
-          // Min and max range
           range={productRange}
-          // Current slider start/end
           filterRange={filterRange}
           handleCompleteChange={this.handleCompleteChange}
         />
       );
     } else {
+      // This shouldn't happen as showSlider is always true
+      // TODO: Use new MinMaxInput component here to handle filter with just inputs
       return (
         <SliderRange
           title={filter.text}
           dataKey={filter.id}
-          // Min and max range
           range={productRange}
-          // Current slider start/end
           filterRange={filterRange}
           handleCompleteChange={this.handleCompleteChange}
         />

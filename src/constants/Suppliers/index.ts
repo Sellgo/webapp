@@ -137,8 +137,6 @@ export const findFiltersGrouped = () => {
 };
 
 export const findMinMaxRange = (products: any) => {
-  //console.log('[findMinMaxRange] products', products);
-
   const updatedFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => Number(p[dk]));
@@ -180,13 +178,9 @@ export const addTempDataToProducts = (products: any) => {
       seller: 'Top Bright',
       starRatings: 4,
       totalReviews: 500,
-      // TODO: Merge this into one object
-      // which is needed for column render method
-      // or pass full product object to render method and don't require a dataKey (do we do this already?)
       unitSoldPerDay: 192,
       unitSoldPerMonth: 5777,
-      // Fields expected by new filters design
-      // Give it some random variation so filters have a range
+      // Give these some random variation
       monthly_revenue: Math.floor(Math.random() * 1000),
       roi_inventory: Math.floor(Math.random() * 100),
       topSeller: Math.floor(Math.random() * 2) === 1,
