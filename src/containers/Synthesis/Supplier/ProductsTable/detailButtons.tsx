@@ -7,7 +7,11 @@ const DetailButtons = (props: any) => {
   return (
     <div className="detailButtons">
       <div>
-        <Button as="div" labelPosition="right" className="track_btn">
+        <Button
+          as="div"
+          labelPosition="right"
+          className={'track_btn' + (isTracking ? ' is-tracking' : '')}
+        >
           <Button icon className="track_wrap" onClick={onTrack}>
             <img src={Hotspot} alt="hotspot" />
             <span>{isTracking ? 'Tracking' : 'Track Now'}</span>

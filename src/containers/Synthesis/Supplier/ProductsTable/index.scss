@@ -219,31 +219,40 @@ $link-color: #349af8;
     text-align: right;
   }
 
-  .track_btn button {
-    border-top-left-radius: 18px !important;
-    border-bottom-left-radius: 18px !important;
-  }
-
-  .track_wrap {
-    display: flex !important;
-    align-items: center;
-  }
-
-  .track_wrap span {
-    margin-left: 10px;
-  }
-
-  .track_btn .btn_lbl {
-    border-top-right-radius: 18px !important;
-    border-bottom-right-radius: 18px !important;
-    display: flex !important;
-    flex-direction: column;
-    padding: 2px 7px !important;
-    justify-content: center !important;
-  }
-
-  .button.track_btn {
+  .track_btn {
     margin-bottom: 18px;
+
+    &.is-tracking {
+      .track_wrap {
+        background-color: #bad9ff;
+      }
+    }
+
+    .track_wrap {
+      display: flex !important;
+      align-items: center;
+
+      padding: 7px 12px;
+      background: #dfe8f3;
+
+      span {
+        margin-left: 10px;
+      }
+    }
+
+    button {
+      border-top-left-radius: 18px !important;
+      border-bottom-left-radius: 18px !important;
+    }
+
+    .btn_lbl {
+      border-top-right-radius: 18px !important;
+      border-bottom-right-radius: 18px !important;
+      display: flex !important;
+      flex-direction: column;
+      padding: 2px 7px !important;
+      justify-content: center !important;
+    }
   }
 
   .view_detail_btn {
@@ -287,11 +296,6 @@ $link-color: #349af8;
     right: 3px;
     margin-right: 0 !important;
     top: 10px;
-  }
-
-  button.ui.icon.button.track_wrap {
-    padding: 7px 12px;
-    background: #dfe8f3;
   }
 
   // Table sorting
