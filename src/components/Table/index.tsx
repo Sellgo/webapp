@@ -90,8 +90,9 @@ const GenericTable = (props: TableProps) => {
       })
     : data;
 
-  rows = sortDirection === 'ascending' ? rows.reverse() : rows;
+  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
+
   /* return rows.length === 0 ? (
     <Segment>
       <Loader
@@ -104,6 +105,7 @@ const GenericTable = (props: TableProps) => {
       </Loader>
     </Segment>
   ) :  */
+
   return (
     <div>
       {setSinglePageItemsCount && showSelectItemsCounts ? (

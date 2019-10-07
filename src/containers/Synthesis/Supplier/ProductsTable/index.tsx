@@ -204,11 +204,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const {
       isLoadingSupplierProducts,
       filteredProducts,
-      filterRanges,
       singlePageItemsCount,
       setSinglePageItemsCount,
     } = this.props;
-    //const { filteredProducts } = this.state;
 
     if (isLoadingSupplierProducts) {
       return (
