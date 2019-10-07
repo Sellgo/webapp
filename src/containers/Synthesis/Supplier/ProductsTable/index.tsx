@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { Icon, Segment, Loader, Grid, Image, Button, Dropdown } from 'semantic-ui-react';
+import { Icon, Segment, Loader, Grid, Image, Button } from 'semantic-ui-react';
 import GenericTable, { Column } from '../../../../components/Table';
 import { Link } from 'react-router-dom';
 import { Product } from '../../../../interfaces/Product';
@@ -78,7 +78,7 @@ class ProductsTable extends Component<ProductsTableProps> {
               openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
             }}
           >
-            <h2 style={{ fontSize: 17 }}>View</h2>
+            <h2 style={{ fontSize: 17 }}>{'View'}</h2>
           </Button>
         </Grid.Column>
       </Grid>

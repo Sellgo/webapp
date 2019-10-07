@@ -105,9 +105,9 @@ export default class RecoverPass extends React.Component<any, State> {
           <Grid.Row>
             <Grid.Column width={16}>
               <div className="heading">
-                <h1>Reset Password</h1>
+                <h1>{'Reset Password'}</h1>
                 <h5 className="title-description">
-                  Please enter your email address to make password reset request
+                  {'Please enter your email address to make password reset request'}
                 </h5>
               </div>
               <Form>
@@ -156,7 +156,7 @@ export default class RecoverPass extends React.Component<any, State> {
             <Grid.Column width={16}>
               <div className="heading">
                 <h5 className="title-description">
-                  Please enter your email address to make password reset request
+                  {'Please enter your email address to make password reset request'}
                 </h5>
               </div>
             </Grid.Column>

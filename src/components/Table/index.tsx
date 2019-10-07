@@ -130,7 +130,7 @@ const GenericTable = (props: TableProps) => {
           {!rows.length ? (
             <Table.Row key={134}>
               <Table.Cell>
-                <h1>Data not found</h1>
+                <h1>{'Data not found'}</h1>
               </Table.Cell>
             </Table.Row>
           ) : (

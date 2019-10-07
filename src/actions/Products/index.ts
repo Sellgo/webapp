@@ -3,7 +3,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
-import { Product, ProductDetail } from '../../interfaces/Product';
+import { Product } from '../../interfaces/Product';
 import {
   SET_SUPPLIER_PRODUCT_DETAILS,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_RANK,

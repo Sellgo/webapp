@@ -44,7 +44,7 @@ class Synthesis extends Component<SynthesisProps> {
     if (amazonMWSAuthorized) {
       openUploadSupplierModal(supplier);
     } else {
-      error('UnAuthorized Access! Please add Amazon Seller Central credentials', {
+      error('Unauthorized access! Please add Amazon Seller Central credentials', {
         onClose: () => history.push('/settings#amazon-mws'),
       });
     }
@@ -55,7 +55,7 @@ class Synthesis extends Component<SynthesisProps> {
     if (amazonMWSAuthorized) {
       openUploadSupplierModal();
     } else {
-      error('UnAuthorized Access! Please add Amazon Seller Central credentials', {
+      error('Unauthorized access! Please add Amazon Seller Central credentials', {
         onClose: () => history.push('/settings#amazon-mws'),
       });
     }
@@ -98,7 +98,7 @@ class Synthesis extends Component<SynthesisProps> {
           position="top left"
           size="tiny"
         >
-          <h4>Adding a Supplier</h4>
+          <h4>{'Adding a Supplier'}</h4>
           To add a supplier:
           <List as={'ol'}>
             <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>

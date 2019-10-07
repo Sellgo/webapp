@@ -46,7 +46,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   state = { showPieChartModalOpen: false, supplier: undefined, showDeleteConfirm: false };
 
   handleAmazonMWSAuthError = () => {
-    error('UnAuthorized Access! Please add Amazon Seller Central credentials', {
+    error('Unauthorized access! Please add Amazon Seller Central credentials', {
       onClose: () => history.push('/settings#amazon-mws'),
     });
   };

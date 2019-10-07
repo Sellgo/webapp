@@ -1,6 +1,5 @@
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
-import get from 'lodash/get';
 import {
   SET_SUPPLIER_PRODUCT_DETAILS,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_RANK,

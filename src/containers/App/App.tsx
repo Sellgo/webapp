@@ -16,7 +16,7 @@ import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback';
 import NotFound from '../../components/NotFound';
 import history from '../../history';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const auth = new Auth();

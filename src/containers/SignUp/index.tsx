@@ -43,7 +43,7 @@ export default class SignUp extends React.Component<any, State> {
         <Grid.Row>
           <Grid.Column textAlign="center" style={{ padding: 10 }} width={16}>
             <div className="heading">
-              <h1>Sign up to Sellgo for your FREE trial!</h1>
+              <h1>{'Sign up to Sellgo for your FREE trial!'}</h1>
             </div>
           </Grid.Column>
           <Grid.Column textAlign="center" width={16}>
@@ -101,7 +101,7 @@ export default class SignUp extends React.Component<any, State> {
                 <Link to="/#">Privacy policy</Link>
                 <Link to="/#">Terms of service</Link>
               </div>
-              <h5 className="title-description">@2019 Sellgo All Rights Reserved</h5>
+              <h5 className="title-description">{'@2019 Sellgo All Rights Reserved'}</h5>
             </div>
           </Grid.Column>
         </Grid.Row>
