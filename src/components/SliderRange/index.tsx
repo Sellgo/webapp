@@ -17,7 +17,7 @@ const SliderRange = (props: any) => {
   const { title, dataKey, range, filterRange, showInputs, handleCompleteChange } = props;
 
   return (
-    <Container className="rangeSlider">
+    <Container className="sliderRange">
       <div className="rangeTitle">
         <p>
           {title}

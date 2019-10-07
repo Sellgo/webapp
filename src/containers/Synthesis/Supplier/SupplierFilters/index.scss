@@ -1,27 +1,24 @@
-.synthesisSupplierFilters {
-  // Not sure what element this is
-  .ui.divider:not(.vertical):not(.horizontal) {
-    border-top: 1px solid #707070;
-  }
+@import './../../../../style/mixins.scss';
 
-  // Where it says "xxx of xxx products"
-  .products {
-    font-size: 20px;
-    width: calc(100% - 20px);
-    margin-left: 10px;
-    margin-bottom: 0;
-    border-bottom: 1px solid #707070;
-    padding: 0 0 26px 10px;
+.synthesisSupplierFilters {
+  // Negative margin to make up for (most) of extra left padding due to column
+  margin-left: -0.8rem;
+  width: calc(100% + 1rem);
+
+  .productsCount {
+    font-size: 18px;
+    margin-left: 0;
+
+    //font-size: 20px;
+    //margin-left: 16px;
   }
 
   // Dropdown that says "select a preset"
   .searchDropdown {
-    padding-top: 38px;
+    padding-top: 0.6rem;
   }
-}
 
-/* FILTER */
-.filterContent {
+  // NOT USED CURRENTLY
   // For option that has no range slider
   // Just a checkbox like "Show Price History"
   // We could make this a subcomponent TitleWithCheck that
@@ -29,102 +26,33 @@
   .customCheck {
     width: 100%;
     margin-bottom: 21px;
-
     .ui.checkbox label {
       font-size: 16px;
     }
   }
-
-  @media screen and (max-width: 1500px) {
-    // Where it says "xxx of xxx products"
-    .products {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-
-    .searchDropdown {
-      padding-top: 32px;
-    }
-
-    // Container around filter category and multiple filters
-    .filterHeadBox {
-      margin-top: 25px;
-    }
-
-    /* Category for multiple filters */
-    .filterHead {
-      margin-bottom: 25px;
-
-      > p {
-        font-size: 16px;
-      }
-
-      .icon.angle.up:before {
-        font-size: 20px;
-      }
-
-      .icon.angle.down:before {
-        font-size: 20px;
-      }
-
-      .icon.question.circle:before {
-        font-size: 12px;
-        padding-left: 5px;
-      }
-
-      .icon.chevron.up:before {
-        font-size: 18px;
-      }
-
-      .icon.chevron.up:before {
-        font-size: 18px;
-      }
-    }
-
-    .filterContent {
-      .rangeSlider p {
-        font-size: 13px;
-      }
-
-      .rangeInput .ui.input > input {
-        font-size: 13px;
-        width: 61px;
-      }
-
-      .minMaxInput p {
-        font-size: 13px;
-      }
-
-      .minMaxInput .icon.question.circle:before {
-        font-size: 12px;
-        padding-left: 5px;
-      }
-
-      .inputContainer .ui.input > input {
-        font-size: 13px;
-        width: 104px;
-      }
-
-      .wrapCheckRange span {
-        font-size: 13px;
-      }
-
-      .wrapCheckbox span {
-        font-size: 13px;
-      }
-
-      // For option that has no range slider
-      // Just a checkbox like "Show Price History"
-      // We could make this a subcomponent TitleWithCheck that
-      // gets used inside the RangeSlider component or on its own
-      .customCheck label {
-        font-size: 13px !important;
-      }
-
-      /* Migrated from old media queries. Should we use this or above? */
-      .ui.checkbox.customCheck input.hidden + label {
-        font-size: 13px;
-      }
-    }
-  }
 }
+
+// Not sure where this style was used
+// Leaving in for now in case we figure it out
+/*
+.min-max {
+  text-align: center;
+  border: 1px solid red;
+  border-radius: 6px;
+}
+
+.popup-loader {
+  color: #000 !important;
+}
+.popup-loader::after {
+  border-color: #000000 transparent transparent !important;
+}
+
+.ui.basic.table th {
+  border-left: none !important;
+}
+
+.ui.basic.table {
+  margin-top: 0px !important;
+}
+*/

@@ -16,9 +16,8 @@ import {
 } from '../../../actions/Suppliers';
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-
-// Migrated from profitSys
 import CallToAction from './CallToAction';
+import './index.scss';
 
 interface SupplierProps {
   supplierDetails: any;
@@ -64,7 +63,7 @@ export class Supplier extends React.Component<SupplierProps> {
         <Segment basic={true} className="setting">
           <Grid>
             <Grid.Row>
-              <Grid.Column floated="left" width={3}>
+              <Grid.Column className="leftColumn" floated="left">
                 {isLoadingSupplierProducts ? (
                   <Segment>
                     <Loader active={true} inline="centered" size="massive">
@@ -76,7 +75,7 @@ export class Supplier extends React.Component<SupplierProps> {
                 )}
               </Grid.Column>
 
-              <Grid.Column floated="right" width={13}>
+              <Grid.Column className="rightColumn" floated="right">
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
                 <ProductsTable supplierID={this.props.match.params.supplierID} />
               </Grid.Column>

@@ -7,7 +7,6 @@ import { supplierProductsSelector } from '../../../../selectors/Supplier';
 import FilterSection from '../../../../components/FilterSection';
 import SliderRange from '../../../../components/SliderRange';
 import { updateSupplierFilterRanges } from '../../../../actions/Suppliers';
-
 import {
   initialFilterRanges,
   findMinMaxRange,
@@ -16,18 +15,10 @@ import {
   dataKeyMapping,
   findFiltersGrouped,
 } from '../../../../constants/Suppliers';
-
 import get from 'lodash/get';
 import { defaultSelect } from '../../../../constants';
 import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
-
-// Migrated from profitSys
 import AdviceCard from '../AdviceCard';
-
-// Original CSS
-// TODO: scope and merge with new index.scss style
-import './SupplierFilters.css';
-// New css
 import './index.scss';
 
 interface SupplierFiltersProps {
@@ -144,42 +135,49 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
     return (
       <div className="synthesisSupplierFilters">
-        {/*<AdviceCard />*/}
-        <p className="products">
-          {filteredProducts.length} of {products.length} products
-        </p>
+        <div className="innerWrap">
+          {/*<AdviceCard />*/}
+          <p className="productsCount">
+            {filteredProducts.length} of {products.length} products
+          </p>
 
-        <div className="searchDropdown">
-          <Dropdown
-            placeholder="Select a Preset"
-            fluid
-            search
-            selection
-            options={[
-              defaultSelect,
-              ...dataKeys.map((dk: any) => ({
-                key: dk,
-                text: dataKeyMapping[dk].presetText,
-                value: dk,
-              })),
-            ]}
-            onChange={this.handlePresetChange}
-          />
-        </div>
-        {filterRanges &&
-          filterGroups.map((group: any) => (
-            <FilterSection title={group.text}>
-              {group.filters.map((filter: any) => (
-                <>
-                  {this.renderFilterComponent(
-                    filter,
-                    productRanges[filter.id],
-                    filterRanges[filter.id]
-                  )}
-                </>
+          <Divider />
+
+          <div className="searchDropdown">
+            <Dropdown
+              placeholder="Select a Preset"
+              fluid
+              search
+              selection
+              options={[
+                defaultSelect,
+                ...dataKeys.map((dk: any) => ({
+                  key: dk,
+                  text: dataKeyMapping[dk].presetText,
+                  value: dk,
+                })),
+              ]}
+              onChange={this.handlePresetChange}
+            />
+          </div>
+
+          <div className="filters">
+            {filterRanges &&
+              filterGroups.map((group: any) => (
+                <FilterSection title={group.text}>
+                  {group.filters.map((filter: any) => (
+                    <>
+                      {this.renderFilterComponent(
+                        filter,
+                        productRanges[filter.id],
+                        filterRanges[filter.id]
+                      )}
+                    </>
+                  ))}
+                </FilterSection>
               ))}
-            </FilterSection>
-          ))}
+          </div>
+        </div>
       </div>
     );
   }

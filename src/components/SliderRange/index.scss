@@ -1,20 +1,19 @@
-.rangeSlider {
+@import './../../style/mixins.scss';
+
+.sliderRange {
   .rangeTitle {
-    padding-left: 19px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 18px;
+
+    // Wider style
+    //padding-left: 16px;
   }
 
-  p {
-    font-size: 16px;
-  }
-
-  .icon.question.circle:before {
-    line-height: 1;
-    font-size: 15px;
-    padding-left: 14px;
-    color: #98aeca;
+  i.small.icon.question {
+    font-size: 1em !important;
+    color: #98aeca !important;
+    padding-left: 0.5rem;
   }
 
   .rangeInput {
