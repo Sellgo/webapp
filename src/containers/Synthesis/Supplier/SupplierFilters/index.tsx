@@ -76,15 +76,14 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
     const newFilterRanges = { ...productRanges };
 
-    // Update this filter range
-    newFilterRanges[dataKey] = range;
-
     if (range.min === '' || range.max === '' || range.min > range.max) {
       // Is it possible for min/max to be empty or min to be bigger than max?
       // Looks like we just update this filterRange in that case and avoid
       // updating the others so that their values don't get messed up.
-      updateFilterRanges(newFilterRanges);
+      updateFilterRanges(productRanges);
     } else {
+      // Update this filter range
+      newFilterRanges[dataKey] = range;
       // Get products that match the new set of filter ranges
       const filteredProducts = findFilterProducts(products, newFilterRanges);
       // Then update all filter ranges based on the new set of products
