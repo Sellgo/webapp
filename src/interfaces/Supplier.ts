@@ -1,0 +1,30 @@
+export interface Supplier {
+  supplier_id: number;
+  contact: string;
+  description: string;
+  email: string;
+  freight_fee: string;
+  id: any;
+  item_active_count: any;
+  item_total_count: any;
+  name: string;
+  phone: string;
+  rate: string;
+  seller_id: any;
+  status: string;
+  supplier_group_id: any;
+  timezone: string;
+  upcharge_fee: string;
+  website: string;
+  p2l_ratio: any;
+  xid: string;
+  file_name: string;
+  synthesis_file_id: number;
+  speed: number;
+  progress: number;
+  udate: Date;
+  tag: string;
+  file_url: string;
+  report_url: string;
+  file_status: string;
+}

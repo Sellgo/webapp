@@ -1,6 +1,6 @@
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
-import axios from 'axios';
+import Axios from 'axios';
 import { AppConfig } from '../../config';
 
 export default class Auth {
@@ -43,8 +43,7 @@ export default class Auth {
     formData.append('name', `${this.userProfile.name}`);
     formData.append('auth0_user_id', this.userProfile.sub);
 
-    axios
-      .post(AppConfig.BASE_URL_API + 'sellers', formData, { headers })
+    Axios.post(AppConfig.BASE_URL_API + 'sellers', formData, { headers })
       .then((response: any) => {
         const data = response.data[0] ? response.data[0] : response.data;
         if (data) {
@@ -53,7 +52,10 @@ export default class Auth {
           history.replace('/');
         }
       })
-      .catch();
+      .catch(err => {
+        alert(`Error: ${err.message}. Check with Sellgo Support Team for further details.`);
+        this.logout();
+      });
   };
 
   public handleAuthentication = () => {

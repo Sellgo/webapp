@@ -1,94 +1,79 @@
 import * as React from 'react';
-import { Dropdown, Icon, Image, Input, Menu, SemanticSIZES, Divider } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import './AdminSidebar.css';
-import {
-  getProductDetail,
-  getProductDetailChartPrice,
-  getProductDetailChartRank,
-  getProducts,
-  getProductsChartHistoryPrice,
-  getProductsChartHistoryRank,
-  getProductTrackData,
-  postProductTrackGroupId,
-  getTimeEfficiency,
-  trackProductWithPatch,
-  trackProductWithPost,
-} from '../../Action/SYNActions';
-import { connect } from 'react-redux';
-import { SupplierDetail } from '../../containers/SYN/suppliers/supplierDetail';
-import { SellField } from '../../Action/SettingActions';
-
-export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
-  size,
-  centered,
-}) => (
-  <Image
-    ui={true}
-    style={{ width: 80 }}
-    centered={centered || false}
-    src="/images/sellgo_logo.png"
-  />
-);
-
-const options = [
-  { key: 1, text: 'Choice 1', value: 1 },
-  { key: 2, text: 'Choice 2', value: 2 },
-  { key: 3, text: 'Choice 3', value: 3 },
-];
+import Logo from '../Logo';
+import './AdminHeader.css';
 
 export class AdminHeader extends React.Component<any> {
-  private readonly height = 45;
   userName = localStorage.getItem('userName');
   userPicture = localStorage.getItem('userPicture');
 
   render() {
-    const { sellerData } = this.props;
-    if (sellerData != undefined || sellerData != null) {
-      if (sellerData.firstName.length > 0) {
-        this.userName = sellerData.firstName + ' ' + sellerData.lastName;
-      }
-    }
+    const { auth } = this.props;
     return (
-      <React.Fragment>
-        <Menu
-          inverted={true}
-          borderless={true}
-          fixed="top"
-          style={{ height: this.height, backgroundColor: '#444444', paddingLeft: 80 }}
-          className="top-menu"
-        >
+      <div className="admin-header">
+        <Menu inverted={true} borderless={true} fixed="top" className="top-menu">
           <Menu.Menu>
-            <Menu.Item className="top-logo" as={Link} to="/" content={<Logo size="small" />} />
+            <Menu.Item as={Link} to="/">
+              <Logo size="small" />
+            </Menu.Item>
           </Menu.Menu>
-          <Menu.Menu position="right" fitted="horizontally" style={{ marginRight: 10 }}>
-            <Menu.Item as={Link} to="/dashboard/subscription">
-              <Icon name="rss" style={{ fontSize: 25 }} color={'red'} />
+
+          <Menu.Menu className="main-menu">
+            {/* <Menu.Item as={Link} to="/">
+              Add Supplier
+            </Menu.Item> */}
+            <Menu.Item as={Link} to="/synthesis">
+              Profit Synthesis
             </Menu.Item>
-            <Menu.Item>
-              <Icon name="search" style={{ fontSize: 25 }} color={'red'} />
+            {/* <Menu.Item as={Link} to="/product-tracker">
+              Product Tracker
             </Menu.Item>
-            <Menu.Item>
-              <Icon name="bell" style={{ fontSize: 25 }} color={'red'} />
+            <Menu.Item as={Link} to="/dashboard">
+              Dashboard
+            </Menu.Item> */}
+          </Menu.Menu>
+
+          <Menu.Menu className="right-menu" position="right" fitted="horizontally">
+            <Menu.Item as={Link} to="/settings/pricing">
+              Pricing
             </Menu.Item>
-            <div
-              style={{ width: 1, height: '100%', alignSelf: 'center', backgroundColor: '#a4a4a4' }}
-            />
+            {/* <Menu.Item as={Link} to="/settings/subscription">
+              <Icon name="rss" />
+            </Menu.Item>
+            <Menu.Item as={Link} to="/search">
+              <Icon name="search" />
+            </Menu.Item>
+            <Menu.Item as={Link} to="/notifications">
+              <Icon name="bell" />
+            </Menu.Item> */}
+            <div className="divider" />
             <Menu.Item>
-              {this.userPicture ? (
-                <Image src={this.userPicture} avatar />
-              ) : (
-                <Icon name="user circle" style={{ fontSize: 25 }} color={'red'} />
-              )}
-              <div style={{ textAlign: 'center', fontSize: 16 }}>
-                Hello
-                <span style={{ display: 'block', width: '100%' }}>{this.userName}</span>
-              </div>
+              <Dropdown
+                trigger={
+                  <>
+                    {this.userPicture ? (
+                      <Image src={this.userPicture} avatar />
+                    ) : (
+                      <Icon name="user circle" style={{ fontSize: 25 }} />
+                    )}
+                    <span className="username">{this.userName}</span>
+                  </>
+                }
+                pointing="top left"
+              >
+                <Dropdown.Menu style={{ width: '100%' }}>
+                  <Dropdown.Item as={Link} to="/settings">
+                    Settings
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={auth.logout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Menu.Item>
           </Menu.Menu>
         </Menu>
-        <div id="navbar-spacer" style={{ height: 45 }} />
-      </React.Fragment>
+        <div className="navbar-spacer" />
+      </div>
     );
   }
 }
