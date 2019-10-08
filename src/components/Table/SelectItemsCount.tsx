@@ -25,26 +25,24 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
   return (
-    <Grid>
-      <Grid.Column width={5} textAlign="center">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {`${minCount}-${maxCount} of ${totalCount} items`}
-          <Dropdown
-            text={String(singlePageItemsCount)}
-            style={{ width: '40%', alignSelf: 'center', margin: 'auto' }}
-            fluid={true}
-            selection={true}
-            options={selectItemsCountList}
-            onChange={(e, data) => {
-              const newItemsCount = Number(data.value);
-              setCurrentPage(1);
-              setSinglePageItemsCount(newItemsCount);
-            }}
-          />
-          Items per Page
-        </div>
-      </Grid.Column>
-    </Grid>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <span
+        style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}
+      >{`${minCount}-${maxCount} of ${totalCount} items`}</span>
+      <Dropdown
+        text={String(singlePageItemsCount)}
+        style={{ width: '100px' }}
+        fluid={true}
+        selection={true}
+        options={selectItemsCountList}
+        onChange={(e, data) => {
+          const newItemsCount = Number(data.value);
+          setCurrentPage(1);
+          setSinglePageItemsCount(newItemsCount);
+        }}
+      />
+      <span style={{ whiteSpace: 'nowrap', marginLeft: '1rem' }}>Items per page</span>
+    </div>
   );
 };
 

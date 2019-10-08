@@ -109,13 +109,15 @@ const GenericTable = (props: TableProps) => {
   return (
     <div>
       {setSinglePageItemsCount && showSelectItemsCounts ? (
-        <SelectItemsCount
-          totalCount={data.length}
-          singlePageItemsCount={singlePageItemsCount}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          setSinglePageItemsCount={setSinglePageItemsCount}
-        />
+        <div style={{ marginTop: '2rem' }}>
+          <SelectItemsCount
+            totalCount={data.length}
+            singlePageItemsCount={singlePageItemsCount}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+          />
+        </div>
       ) : (
         ''
       )}
