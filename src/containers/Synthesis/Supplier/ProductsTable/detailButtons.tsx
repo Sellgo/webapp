@@ -7,20 +7,8 @@ const DetailButtons = (props: any) => {
   return (
     <div className="detailButtons">
       <div>
-        <Button
-          as="div"
-          labelPosition="right"
-          className={'track_btn' + (isTracking ? ' is-tracking' : '')}
-        >
-          <Button icon className="track_wrap" onClick={onTrack}>
-            <img src={Hotspot} alt="hotspot" />
-            <span>{isTracking ? 'Tracking' : 'Track Now'}</span>
-          </Button>
-          <Label as="a" basic pointing="left" className="btn_lbl">
-            <span className="rating_name">Rating</span>
-            <span className="rating_num">{ratings}</span>
-          </Label>
-        </Button>
+        <TrackButton isTracking={isTracking} onTrack={onTrack} />
+        {/* <TrackButtonWithRating isTracking={isTracking} onTrack={onTrack} ratings={ratings} /> */}
       </div>
       <div>
         <Button primary className="view_detail_btn" onClick={onViewDetails}>
@@ -30,5 +18,43 @@ const DetailButtons = (props: any) => {
     </div>
   );
 };
+
+function TrackButton(props: any) {
+  const { isTracking, onTrack } = props;
+  return (
+    <Button
+      as="div"
+      labelPosition="right"
+      className={'track_btn' + (isTracking ? ' is-tracking' : '')}
+    >
+      <Button icon className="track_wrap" onClick={onTrack}>
+        <img src={Hotspot} alt="hotspot" />
+        <span>{isTracking ? 'Tracking' : 'Track Now'}</span>
+      </Button>
+    </Button>
+  );
+}
+
+// Use this component to show ratings within button
+function TrackButtonWithRating(props: any) {
+  const { isTracking, onTrack, ratings } = props;
+  return (
+    <Button
+      as="div"
+      labelPosition="right"
+      className={'track_btn with-rating' + (isTracking ? ' is-tracking' : '')}
+    >
+      <Button icon className="track_wrap" onClick={onTrack}>
+        <img src={Hotspot} alt="hotspot" />
+        <span>{isTracking ? 'Tracking' : 'Track Now'}</span>
+      </Button>
+
+      <Label as="a" basic pointing="left" className="btn_lbl">
+        <span className="rating_name">Rating</span>
+        <span className="rating_num">{ratings}</span>
+      </Label>
+    </Button>
+  );
+}
 
 export default DetailButtons;

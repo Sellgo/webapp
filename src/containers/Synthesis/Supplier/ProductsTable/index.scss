@@ -239,12 +239,20 @@ $link-color: #349af8;
 
       span {
         margin-left: 10px;
+        margin-right: 8px;
       }
     }
 
     button {
-      border-top-left-radius: 18px !important;
-      border-bottom-left-radius: 18px !important;
+      border-radius: 18px !important;
+    }
+
+    &.with-rating button {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      span {
+        margin-right: 0;
+      }
     }
 
     .btn_lbl {
