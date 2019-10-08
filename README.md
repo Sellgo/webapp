@@ -3,6 +3,7 @@
 Author: Ivan Gozali <<gozaliivan@gmail.com>>
 
 ## Run using Docker
+
 - run `docker-compose up`
 - webapp service is running on port 3000
 
@@ -58,6 +59,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ### `Redux docu`
+
 these article used for setup redux.
 
 https://redux.js.org/recipes/configuring-your-store#simplifying-setup-with-redux-starter-kit

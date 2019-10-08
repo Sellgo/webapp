@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Form, Grid, GridRow, Segment, Message, Select } from 'semantic-ui-react';
-import { Logo } from '../../components/AdminLayout/AdminHeader';
+import { Button, Form, Grid, GridRow, Segment, Message } from 'semantic-ui-react';
+import Logo from '../../components/Logo';
 import IntroSlider from '../../components/IntroSlider';
 import MesssageComponent from '../../components/MessageComponent';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './recoverPass.css';
-import axios from 'axios';
+import Axios from 'axios';
 import { AppConfig } from '../../config';
 
 interface State {
@@ -48,7 +48,7 @@ export default class RecoverPass extends React.Component<any, State> {
   };
 
   changePassword = () => {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     // please enter email or email field is empty
 
     if (reg.test(this.state.email) === false) {
@@ -66,8 +66,7 @@ export default class RecoverPass extends React.Component<any, State> {
         });
       }
     } else {
-      axios
-        .get(AppConfig.BASE_URL_API + `sellers/exists?email=${this.state.email}`)
+      Axios.get(AppConfig.BASE_URL_API + `sellers/exists?email=${this.state.email}`)
         .then(response => {
           if (response.data) {
             this.sendRestRequest();
@@ -82,12 +81,11 @@ export default class RecoverPass extends React.Component<any, State> {
 
   sendRestRequest = () => {
     this.setState({ isFailed: false });
-    axios
-      .post(AppConfig.CHANGE_PASS_API_URL, {
-        client_id: AppConfig.clientID,
-        email: this.state.email,
-        connection: AppConfig.connection,
-      })
+    Axios.post(AppConfig.CHANGE_PASS_API_URL, {
+      client_id: AppConfig.clientID,
+      email: this.state.email,
+      connection: AppConfig.connection,
+    })
       .then(response => this.handleResponse(response))
       .catch(() => {
         this.setState({ isFailed: true, errorMsg: 'Something Wrong' });
@@ -107,9 +105,9 @@ export default class RecoverPass extends React.Component<any, State> {
           <Grid.Row>
             <Grid.Column width={16}>
               <div className="heading">
-                <h1>Reset Password</h1>
+                <h1>{'Reset Password'}</h1>
                 <h5 className="title-description">
-                  Please enter your email address to make password reset request
+                  {'Please enter your email address to make password reset request'}
                 </h5>
               </div>
               <Form>
@@ -158,7 +156,7 @@ export default class RecoverPass extends React.Component<any, State> {
             <Grid.Column width={16}>
               <div className="heading">
                 <h5 className="title-description">
-                  Please enter your email address to make password reset request
+                  {'Please enter your email address to make password reset request'}
                 </h5>
               </div>
             </Grid.Column>

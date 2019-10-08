@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { Button, Container, Header, Image, Segment, SemanticSIZES, Step } from 'semantic-ui-react';
-import AdminLayout from '../../components/AdminLayout';
 import { Modals } from '../../components/Modals';
 import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
-import { getBasicInfoSeller, getIsMWSAuthorized, SellField } from '../../Action/SettingActions';
 import { connect } from 'react-redux';
-import Auth from '../../components/Auth/Auth';
+import PageHeader from '../../components/PageHeader';
 
 export const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({
   size,
@@ -26,18 +24,10 @@ interface State {
   currentSteps: number;
 }
 
-interface Props {
-  getBasicInfoSeller(): () => void;
-  getIsMWSAuthorized(): () => void;
+interface DashboardProps {}
 
-  match: { params: { auth: Auth } };
-  sellerData: SellField;
-}
-
-class Dashboard extends React.Component<Props, State> {
+class Dashboard extends React.Component<DashboardProps, State> {
   componentDidMount() {
-    this.props.getBasicInfoSeller();
-    this.props.getIsMWSAuthorized();
     const visited = localStorage.getItem('FirstLogin');
     if (!visited) {
       localStorage['FirstLogin'] = true;
@@ -82,15 +72,9 @@ class Dashboard extends React.Component<Props, State> {
 
   public render() {
     const { isOpen, currentSteps } = this.state;
-    const disStyle = {
-      marginTop: '15px',
-    };
     return (
-      <AdminLayout
-        auth={this.props.match.params.auth}
-        sellerData={this.props.sellerData}
-        title={'Dashboard'}
-      >
+      <>
+        <PageHeader title="Dashboard" />
         <Segment basic={true} className="setting">
           <DashBoardTabs />
           <Modals title="" size="small" open={isOpen} close={this.close} bCloseIcon={false}>
@@ -146,21 +130,14 @@ class Dashboard extends React.Component<Props, State> {
             </Container>
           </Modals>
         </Segment>
-      </AdminLayout>
+      </>
     );
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  sellerData: state.settings.profile,
-});
+const mapStateToProps = (state: any) => ({});
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    getBasicInfoSeller: () => dispatch(getBasicInfoSeller()),
-    getIsMWSAuthorized: () => dispatch(getIsMWSAuthorized()),
-  };
-};
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

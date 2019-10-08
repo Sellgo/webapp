@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
-import { Segment, Loader, Table, Pagination, Confirm } from 'semantic-ui-react';
-import { connect } from 'react-redux';
+import { Table, Pagination } from 'semantic-ui-react';
+import SelectItemsCount from './SelectItemsCount';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -16,6 +16,7 @@ export interface TableProps {
   singlePageItemsCount?: number;
   data: Array<{ [key: string]: any }>;
   columns: Column[];
+  setSinglePageItemsCount?: (itemsCount: number) => void;
 }
 
 const renderCell = (row: { [key: string]: any }, column: Column) => {
@@ -49,7 +50,7 @@ const useSort = (initialValue: string) => {
 };
 
 const GenericTable = (props: TableProps) => {
-  const { data, columns, singlePageItemsCount = 10 } = props;
+  const { data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
   const showColumns = columns.filter(e => e.show);
@@ -98,6 +99,17 @@ const GenericTable = (props: TableProps) => {
   ) :  */
   return (
     <div className="scroll-table">
+      {setSinglePageItemsCount ? (
+        <SelectItemsCount
+          totalCount={data.length}
+          singlePageItemsCount={singlePageItemsCount}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setSinglePageItemsCount={setSinglePageItemsCount}
+        />
+      ) : (
+        ''
+      )}
       <Table sortable={true} basic="very" textAlign="left">
         <Table.Header>
           <Table.Row>
@@ -118,7 +130,7 @@ const GenericTable = (props: TableProps) => {
           {!rows.length ? (
             <Table.Row key={134}>
               <Table.Cell>
-                <h1>Data not found</h1>
+                <h1>{'Data not found'}</h1>
               </Table.Cell>
             </Table.Row>
           ) : (
@@ -126,7 +138,9 @@ const GenericTable = (props: TableProps) => {
               return (
                 <Table.Row key={index}>
                   {showColumns.map((column, index) => (
-                    <Table.Cell key={column.dataKey || index}>{renderCell(row, column)}</Table.Cell>
+                    <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                      {renderCell(row, column)}
+                    </Table.Cell>
                   ))}
                 </Table.Row>
               );

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Divider, Menu } from 'semantic-ui-react';
-import { Logo } from '../AdminLayout/AdminHeader';
+import Logo from '../Logo';
 import buttonStyle from '../StyleComponent/StyleComponent';
+
 interface HeaderBarState {
   activeItem: string;
 }
