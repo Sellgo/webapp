@@ -93,8 +93,8 @@ function App(props: any) {
           <PrivateRoute exact={true} path="/dashboard" component={Dashboard} />
           <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
           <PrivateRoute exact={true} path="/synthesis/:supplierID" component={SupplierDetail} />
-          <PrivateRoute exact={true} path="/profitSys" component={ProfitSys} />
-          <PrivateRoute exact={true} path="/product-tracker" component={ProductTracker} />
+          {/*<PrivateRoute exact={true} path="/profitSys" component={ProfitSys} />*/}
+          {/*<PrivateRoute exact={true} path="/product-tracker" component={ProductTracker} />*/}
           <Route component={NotFound} />
         </Switch>
       </Router>
