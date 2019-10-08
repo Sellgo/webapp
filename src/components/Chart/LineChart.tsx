@@ -52,7 +52,7 @@ const LineChart = (props: any) => {
   const chartOptions = renderLineChartOptions(options);
   return (
     <div className="individual-line-chart">
-      <Chart chartOptions={options} />
+      <Chart chartOptions={chartOptions} />
     </div>
   );
 };
