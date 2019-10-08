@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
+import './index.scss';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -107,7 +108,7 @@ const GenericTable = (props: TableProps) => {
   ) :  */
 
   return (
-    <div>
+    <div className="genericTable scrollable">
       {setSinglePageItemsCount && showSelectItemsCounts ? (
         <div style={{ marginTop: '2rem' }}>
           <SelectItemsCount
