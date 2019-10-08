@@ -178,8 +178,8 @@ export const addTempDataToProducts = (products: any) => {
       seller: 'Top Bright',
       starRatings: 4,
       totalReviews: 500,
-      unitSoldPerDay: 192,
-      unitSoldPerMonth: 5777,
+      //unitSoldPerDay: 192,
+      //unitSoldPerMonth: 5777,
       // Give these some random variation
       monthly_revenue: Math.floor(Math.random() * 1000),
       roi_inventory: Math.floor(Math.random() * 100),
