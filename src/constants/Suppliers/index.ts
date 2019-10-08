@@ -18,17 +18,6 @@ export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
 export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT';
 
-// Two types of settings:
-// - Display features
-// - Filters
-// --- Range
-// --- Checklist
-
-// dataKeys is for:
-// - getting meta data from dataKeyMapping
-// - looking up min/max range values for a given setting (give the list of products)
-// - storing and looking up current setting value in component's local state
-// TODO: Rename to filterSettingKeys (?)
 export const dataKeys: any = [
   // Basic KPI
   'profit',
@@ -161,7 +150,7 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
-// Add hardcoded data to products that new design expects
+// Add temporary data to products during development
 export const addTempDataToProducts = (products: any) => {
   return products.map((product: any) => {
     return {
@@ -170,7 +159,6 @@ export const addTempDataToProducts = (products: any) => {
       categoryRank: 421,
       countryImg: '/static/media/flag_icon.30aeec5a.svg',
       ratings: 9.3,
-      // We have product.amazon_category_name but new design needs a breadcrumb
       sections: [
         { key: 'Toys & Games', content: 'Toys & Games', link: true },
         { key: 'Learning & Education', content: 'Learning & Education', link: true },
@@ -183,7 +171,7 @@ export const addTempDataToProducts = (products: any) => {
       // Give these some random variation
       monthly_revenue: Math.floor(Math.random() * 1000),
       roi_inventory: Math.floor(Math.random() * 100),
-      //topSeller: Math.floor(Math.random() * 2) === 1,
+      topSeller: Math.floor(Math.random() * 2) === 1,
       prime: Math.floor(Math.random() * 2) === 1,
       amazonChoice: Math.floor(Math.random() * 2) === 1,
     };

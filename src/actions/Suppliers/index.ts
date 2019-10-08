@@ -220,11 +220,9 @@ export const fetchSupplierProducts = (supplierID: any) => async (
 
   if (response.data.length) {
     dispatch(isLoadingSupplierProducts(false));
-
     let products = response.data;
-    // TEMPORARY
-    // Adding extra data to each supplier that our new front-end design expects
-    // Just a quick hack until API is updated
+
+    // Add temporary data to products during development
     products = addTempDataToProducts(products);
 
     dispatch(setSupplierProducts(products));
