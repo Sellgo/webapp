@@ -17,12 +17,14 @@ const Pricing = (props: any) => {
           #{categoryRank} in {categoryName}
         </span>
       </div>
+      {/*
       {(prime || amazonChoice) && (
         <div className="bottom_img">
           {amazonChoice && <Image src={AMAZON_IMAGE} className="amazon_img_size" />}
           {prime && <Image src={PRIME_IMAGE} />}{' '}
         </div>
       )}
+      */}
     </React.Fragment>
   );
 };

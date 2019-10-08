@@ -102,8 +102,7 @@ $link-color: #349af8;
         max-height: 120px;
         overflow: hidden;
         img {
-          min-width: 100px;
-          width: 100%;
+          width: 75px;
         }
       }
     }
@@ -150,11 +149,14 @@ $link-color: #349af8;
     font-weight: 500;
   }
 
-  .seller_name {
-    margin-bottom: 0;
+  .categories {
     font-weight: 600;
     text-align: left;
     font-size: 10px;
+  }
+
+  .seller_name {
+    margin-bottom: 0;
   }
 
   .ui.label {

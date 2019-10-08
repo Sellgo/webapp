@@ -7,6 +7,7 @@ const Topseller = (props: any) => {
   const { item, checked, onSelectItem } = props;
   return (
     <div className="top_seller_col">
+      {/*
       {item.topSeller && (
         <Label>
           <span>
@@ -15,6 +16,7 @@ const Topseller = (props: any) => {
           {TOP_SELLER}
         </Label>
       )}
+      */}
       <div className="imageWrapper">
         {/*
         <span>

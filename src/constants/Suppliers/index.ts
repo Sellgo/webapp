@@ -183,7 +183,7 @@ export const addTempDataToProducts = (products: any) => {
       // Give these some random variation
       monthly_revenue: Math.floor(Math.random() * 1000),
       roi_inventory: Math.floor(Math.random() * 100),
-      topSeller: Math.floor(Math.random() * 2) === 1,
+      //topSeller: Math.floor(Math.random() * 2) === 1,
       prime: Math.floor(Math.random() * 2) === 1,
       amazonChoice: Math.floor(Math.random() * 2) === 1,
     };

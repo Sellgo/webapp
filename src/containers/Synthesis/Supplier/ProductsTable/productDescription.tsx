@@ -11,11 +11,15 @@ const ProductDescription = (props: any) => {
       <h2>{item.title}</h2>
       <div className="wrap_prod_information">
         <div>
-          <p className="seller_name">
-            {' '}
-            by <Link to="">{item.seller}</Link>
-          </p>
-          <Breadcrumb className="cstm_breadcum" icon="right angle" sections={item.sections} />
+          <div className="categories">
+            <p className="seller_name">
+              {' '}
+              by {item.seller} in {item.amazon_category_name}
+            </p>
+
+            {/*<Breadcrumb className="cstm_breadcum" icon="right angle" sections={item.sections} />*/}
+          </div>
+
           <div className="flag_row">
             <img src={item.countryImg} alt="product_img" />
             <span>{item.asin}</span>
@@ -23,7 +27,7 @@ const ProductDescription = (props: any) => {
         </div>
 
         <div className="rgt_prod">
-          <Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />
+          {/*<Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />*/}
           <Pricing
             price={item.price}
             categoryRank={item.categoryRank}
