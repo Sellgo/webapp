@@ -13,7 +13,7 @@ import {
 } from '../../../../actions/Suppliers';
 import { findFilterProducts, addTempDataToProducts } from '../../../../constants/Suppliers';
 import GenericTable, { Column } from '../../../../components/Table';
-import TopSeller from './topSeller';
+import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 
@@ -71,10 +71,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ checkedItems: newCheckedItems });
   };
 
-  renderTopSeller = (row: Product) => {
+  renderProductImage = (row: Product) => {
     const { checkedItems } = this.state;
     return (
-      <TopSeller item={row} checked={checkedItems[row.id]} onSelectItem={this.handleItemSelect} />
+      <ProductImage
+        item={row}
+        checked={checkedItems[row.id]}
+        onSelectItem={this.handleItemSelect}
+      />
     );
   };
   renderProductInfo = (row: Product) => {
@@ -141,8 +145,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       label: '',
       sortable: false,
       show: true,
-      render: this.renderTopSeller,
-      //render: () => 'Test 1',
+      render: this.renderProductImage,
     },
 
     {
@@ -150,7 +153,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: false,
       show: true,
       render: this.renderProductInfo,
-      //render: () => 'Test 2',
     },
 
     {

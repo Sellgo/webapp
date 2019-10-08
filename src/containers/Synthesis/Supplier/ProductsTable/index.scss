@@ -77,7 +77,6 @@ $link-color: #349af8;
 
     td {
       padding: 8px;
-      padding-right: 12px;
       font-size: 14px;
       text-align: center;
       vertical-align: middle;
@@ -91,9 +90,9 @@ $link-color: #349af8;
       white-space: nowrap;
     }
 
-    // Column - Thumbnail
+    // Column - Product Image
     td:nth-child(1) {
-      vertical-align: top;
+      vertical-align: middle;
 
       // Top seller label
       .label {
@@ -105,8 +104,10 @@ $link-color: #349af8;
         // Crop image if taller than ...
         max-height: 120px;
         overflow: hidden;
+
         img {
           width: 75px;
+          margin: 0 auto;
         }
       }
     }
@@ -154,7 +155,7 @@ $link-color: #349af8;
   }
 
   .categories {
-    font-weight: 600;
+    font-weight: 500;
     text-align: left;
     font-size: 10px;
   }
@@ -226,7 +227,7 @@ $link-color: #349af8;
   }
 
   .track_btn {
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 
     &.is-tracking {
       .track_wrap {

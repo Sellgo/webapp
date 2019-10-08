@@ -13,8 +13,7 @@ const ProductDescription = (props: any) => {
         <div>
           <div className="categories">
             <p className="seller_name">
-              {' '}
-              by {item.seller} in {item.amazon_category_name}
+              by <strong>{item.seller}</strong> in <strong>{item.amazon_category_name}</strong>
             </p>
 
             {/*<Breadcrumb className="cstm_breadcum" icon="right angle" sections={item.sections} />*/}

@@ -3,10 +3,10 @@ import { Label, Checkbox, Image } from 'semantic-ui-react';
 import { TOP_SELLER } from '../../../../utils/constants';
 import CROWN_IMAGE from '../../../../assets/images/crown_icon.svg';
 
-const Topseller = (props: any) => {
+const ProductImage = (props: any) => {
   const { item, checked, onSelectItem } = props;
   return (
-    <div className="top_seller_col">
+    <div className="productImage">
       {/*
       {item.topSeller && (
         <Label>
@@ -32,4 +32,4 @@ const Topseller = (props: any) => {
   );
 };
 
-export default Topseller;
+export default ProductImage;
