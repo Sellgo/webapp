@@ -17,7 +17,7 @@ import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback';
 import NotFound from '../../components/NotFound';
 import history from '../../history';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const auth = new Auth();
@@ -89,7 +89,7 @@ function App(props: any) {
           />
 
           <PrivateRoute exact={true} path="/settings" component={Settings} />
-          <PrivateRoute exact={true} path="/settings/subscription" component={Subscription} />
+          <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute exact={true} path="/dashboard" component={Dashboard} />
           <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
           <PrivateRoute exact={true} path="/synthesis/:supplierID" component={SupplierDetail} />

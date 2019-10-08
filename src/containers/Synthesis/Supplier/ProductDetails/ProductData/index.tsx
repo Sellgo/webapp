@@ -22,7 +22,7 @@ class ProductData extends Component<ProductDataProps> {
     return (
       <Grid>
         <Grid.Column floated="left" width={13}>
-          <Grid style={{ height: 40 }}>
+          <Grid>
             <Grid.Column>
               <h3>{productDetails.title}</h3>
             </Grid.Column>
@@ -37,10 +37,10 @@ class ProductData extends Component<ProductDataProps> {
               <Grid.Row>Package Quantity</Grid.Row>
               <Grid.Row>Total Cost</Grid.Row>
               <Grid.Row>
-                <h4>Profit (in $)</h4>
+                <h4>{'Profit (in $)'}</h4>
               </Grid.Row>
               <Grid.Row>
-                <h4>Margin</h4>
+                <h4>{'Margin'}</h4>
               </Grid.Row>
             </Grid.Column>
             <Grid.Column floated="left" width={4}>
@@ -85,7 +85,7 @@ class ProductData extends Component<ProductDataProps> {
               <Grid.Row>Avg monthly revenue</Grid.Row>
               <Grid.Row>Avg monthly profit</Grid.Row>
               <Grid.Row>
-                <h4>ROI/ Return on Investment</h4>
+                <h4>{'ROI/ Return on Investment'}</h4>
               </Grid.Row>
             </Grid.Column>
             <Grid.Column floated="left" width={4}>

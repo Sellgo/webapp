@@ -1,74 +1,50 @@
 import Axios from 'axios';
-import {
-  GET_SUBSCRIPTIONS,
-  GET_SELLER_SUBSCRIPTION,
-  UPDATE_SELLER_SUBSCRIBTION,
-} from '../../../constants/Settings';
+import { SET_PRICING_SUBSCRIPTIONS, SET_SELLER_SUBSCRIPTION } from '../../../constants/Settings';
 import { AppConfig } from '../../../config';
 import { Subscription } from '../../../interfaces/Seller';
+import { success, error } from '../../../utils/notifications';
 
-export const getSubscriptions = () => (dispatch: any) => {
+export const fetchSubscriptions = () => (dispatch: any) => {
   return Axios.get(AppConfig.BASE_URL_API + 'subscriptions')
     .then(json => {
-      dispatch(getSubscriptionsDispatch(json.data));
+      dispatch(setSubscriptions(json.data));
     })
     .catch(err => {});
 };
 
-export const getSellerSubscription = () => (dispatch: any) => {
+export const fetchSellerSubscription = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription`)
     .then(json => {
-      dispatch(getSellerSubscriptionDispatch(json.data[0]));
+      dispatch(setSellerSubscription(json.data));
     })
     .catch(err => {});
 };
 
-export const updateSellerSubscription = (subscription: Subscription, token_id: any) => (
+export const updateSellerSubscription = (subscription: Subscription, tokenID: any) => (
   dispatch: any
 ) => {
   const sellerID = localStorage.getItem('userId');
   const bodyFormData = new FormData();
   bodyFormData.append('seller_id', JSON.stringify(sellerID));
   bodyFormData.append('subscription_id', subscription.id);
-  bodyFormData.append('token_id', token_id);
+  bodyFormData.append('token_id', tokenID);
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription`, bodyFormData)
     .then(json => {
-      Promise.resolve(dispatch(getSellerSubscription()))
-        .then(() =>
-          dispatch({
-            type: UPDATE_SELLER_SUBSCRIBTION,
-            data: { key: 'success', value: true },
-          })
-        )
-        .then(() =>
-          dispatch({
-            type: UPDATE_SELLER_SUBSCRIBTION,
-            data: { key: 'success', value: undefined },
-          })
-        );
+      dispatch(setSellerSubscription(json.data));
+      success('Payment Successful!');
     })
-    .catch(error => {
-      Promise.resolve(
-        dispatch({
-          type: UPDATE_SELLER_SUBSCRIBTION,
-          data: { key: 'success', value: false },
-        })
-      ).then(() =>
-        dispatch({
-          type: UPDATE_SELLER_SUBSCRIBTION,
-          data: { key: 'success', value: undefined },
-        })
-      );
+    .catch(err => {
+      error(err.response.data.message || 'Payment Unsuccesful. Please try again!');
     });
 };
 
-export const getSubscriptionsDispatch = (data: any) => ({
-  type: GET_SUBSCRIPTIONS,
-  data,
+export const setSubscriptions = (data: any) => ({
+  type: SET_PRICING_SUBSCRIPTIONS,
+  payload: data,
 });
 
-export const getSellerSubscriptionDispatch = (data: any) => ({
-  type: GET_SELLER_SUBSCRIPTION,
-  data,
+export const setSellerSubscription = (data: any) => ({
+  type: SET_SELLER_SUBSCRIPTION,
+  payload: data,
 });

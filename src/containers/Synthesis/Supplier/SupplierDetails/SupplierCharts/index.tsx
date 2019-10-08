@@ -27,7 +27,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   }
 
   renderProfit = (props: any) => {
-    const { monthly_data, sales_monthly, profit_monthly } = props;
+    const { monthly_data } = props;
     const data = [
       {
         type: 'scatter',
@@ -97,7 +97,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   renderPOFP = (props: any) => {
-    const { profit, roi, productSKUs } = props;
+    const { profit, productSKUs } = props;
     const data = [
       {
         color: '#CAE1F3',
