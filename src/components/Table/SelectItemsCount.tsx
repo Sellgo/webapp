@@ -7,17 +7,10 @@ interface SelectItemsCountProps {
   singlePageItemsCount: number;
   currentPage: number;
   setSinglePageItemsCount: (itemsCount: any) => void;
-  setCurrentPage: (pageNumber: any) => void;
 }
 
 const SelectItemsCount = (props: SelectItemsCountProps) => {
-  const {
-    totalCount,
-    singlePageItemsCount,
-    currentPage,
-    setCurrentPage,
-    setSinglePageItemsCount,
-  } = props;
+  const { totalCount, singlePageItemsCount, currentPage, setSinglePageItemsCount } = props;
   const maxCount =
     currentPage * singlePageItemsCount > totalCount
       ? totalCount
@@ -37,7 +30,6 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
         options={selectItemsCountList}
         onChange={(e, data) => {
           const newItemsCount = Number(data.value);
-          setCurrentPage(1);
           setSinglePageItemsCount(newItemsCount);
         }}
       />
