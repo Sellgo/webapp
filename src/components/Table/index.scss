@@ -3,4 +3,10 @@
     overflow-x: auto;
     padding-bottom: 100px;
   }
+
+  .ui.table {
+    thead th {
+      border-left: none;
+    }
+  }
 }
