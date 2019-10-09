@@ -92,30 +92,16 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   };
 
   renderFilterComponent = (filter: any, productRange: any, filterRange: any) => {
-    if (filter.showSlider) {
-      return (
-        <SliderRange
-          title={filter.text}
-          dataKey={filter.id}
-          showInputs={filter.showInputs}
-          range={productRange}
-          filterRange={filterRange}
-          handleCompleteChange={this.handleCompleteChange}
-        />
-      );
-    } else {
-      // This shouldn't happen as showSlider is always true
-      // TODO: Use new MinMaxInput component here to handle filter with just inputs
-      return (
-        <SliderRange
-          title={filter.text}
-          dataKey={filter.id}
-          range={productRange}
-          filterRange={filterRange}
-          handleCompleteChange={this.handleCompleteChange}
-        />
-      );
-    }
+    return (
+      <SliderRange
+        title={filter.text}
+        dataKey={filter.id}
+        showInputs={filter.showInputs}
+        range={productRange}
+        filterRange={filterRange}
+        handleCompleteChange={this.handleCompleteChange}
+      />
+    );
   };
 
   render() {
