@@ -3,6 +3,7 @@ import { Breadcrumb } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Pricing from './pricing';
 import Ratings from './ratings';
+import COUNTRY_IMAGE from '../../../../assets/images/flag_icon.svg';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
@@ -20,7 +21,7 @@ const ProductDescription = (props: any) => {
           </div>
 
           <div className="flag_row">
-            <img src={item.countryImg} alt="product_img" />
+            <img src={COUNTRY_IMAGE} alt="product_img" />
             <span>{item.asin}</span>
           </div>
         </div>
