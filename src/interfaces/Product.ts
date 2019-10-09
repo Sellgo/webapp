@@ -16,15 +16,9 @@ export interface Product {
   roi: string;
   product_cost: string;
   fees: string;
-  // Extra fields not returned by API but used by new products table design
-  // For now we hardcode this data
-  ratings: number;
-  unitSoldPerDay: number;
-  unitSoldPerMonth: number;
-  // Extra fields not returned by API but used in new filters design
-  // Hardcoding this data for now so that filters work
-  monthly_revenue: number;
-  roi_inventory: number;
+  //ratings: number;
+  //monthly_revenue: number;
+  //roi_inventory: number;
 }
 export interface ProductsTrackData {
   avg_price: string;
