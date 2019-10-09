@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Divider, Grid, Segment, Modal, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
-//import ProductsTable from './ProductsTableOrig';
 import ProductsTable from './ProductsTable';
 import get from 'lodash/get';
 import ProductDetails from './ProductDetails';
@@ -16,7 +15,7 @@ import {
 } from '../../../actions/Suppliers';
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import CallToAction from './CallToAction';
+//import CallToAction from './CallToAction';
 import './index.scss';
 
 interface SupplierProps {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Popup, Icon, Checkbox, Container } from 'semantic-ui-react';
-import InputRange from '../../../components/InputRange';
+import InputRange from '../../../../components/InputRange';
 import './index.scss';
 
 const CheckboxRangeSlider = (props: any) => {

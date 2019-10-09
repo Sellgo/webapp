@@ -7,12 +7,10 @@ import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
 import Login from '../Login';
-import ProductTracker from '../ProductTracker';
 import RecoverPass from '../RecoverPass';
 import SignUp from '../SignUp';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
-import ProfitSys from '../ProfitSys/index';
 import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback';
 import NotFound from '../../components/NotFound';
@@ -93,8 +91,6 @@ function App(props: any) {
           <PrivateRoute exact={true} path="/dashboard" component={Dashboard} />
           <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
           <PrivateRoute exact={true} path="/synthesis/:supplierID" component={SupplierDetail} />
-          {/*<PrivateRoute exact={true} path="/profitSys" component={ProfitSys} />*/}
-          {/*<PrivateRoute exact={true} path="/product-tracker" component={ProductTracker} />*/}
           <Route component={NotFound} />
         </Switch>
       </Router>
