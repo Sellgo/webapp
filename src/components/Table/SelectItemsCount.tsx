@@ -11,17 +11,20 @@ interface SelectItemsCountProps {
 
 const SelectItemsCount = (props: SelectItemsCountProps) => {
   const { totalCount, singlePageItemsCount, currentPage, setSinglePageItemsCount } = props;
+
   const maxCount =
     currentPage * singlePageItemsCount > totalCount
       ? totalCount
       : currentPage * singlePageItemsCount;
+
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <span
-        style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}
-      >{`${minCount}-${maxCount} of ${totalCount} items`}</span>
+      <span style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}>
+        {maxCount > 0 && `${minCount}-${maxCount} of `}
+        {totalCount} items
+      </span>
       <Dropdown
         text={String(singlePageItemsCount)}
         style={{ width: '100px' }}
