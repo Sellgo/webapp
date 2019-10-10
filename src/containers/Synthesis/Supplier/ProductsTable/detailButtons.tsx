@@ -3,12 +3,11 @@ import { Button, Icon, Label } from 'semantic-ui-react';
 import Hotspot from '../../../../assets/images/wifi-icon.svg';
 
 const DetailButtons = (props: any) => {
-  const { ratings, onViewDetails, onTrack, isTracking } = props;
+  const { score, onViewDetails, onTrack, isTracking } = props;
   return (
     <div className="detailButtons">
       <div>
-        <TrackButton isTracking={isTracking} onTrack={onTrack} />
-        {/* <TrackButtonWithRating isTracking={isTracking} onTrack={onTrack} ratings={ratings} /> */}
+        <TrackButtonWithRating isTracking={isTracking} onTrack={onTrack} score={score} />
       </div>
       <div>
         <Button primary className="view_detail_btn" onClick={onViewDetails}>
@@ -19,25 +18,8 @@ const DetailButtons = (props: any) => {
   );
 };
 
-function TrackButton(props: any) {
-  const { isTracking, onTrack } = props;
-  return (
-    <Button
-      as="div"
-      labelPosition="right"
-      className={'track_btn' + (isTracking ? ' is-tracking' : '')}
-    >
-      <Button icon className="track_wrap" onClick={onTrack}>
-        <img src={Hotspot} alt="hotspot" />
-        <span>{isTracking ? 'Tracking' : 'Track Now'}</span>
-      </Button>
-    </Button>
-  );
-}
-
-// Use this component to show ratings within button
 function TrackButtonWithRating(props: any) {
-  const { isTracking, onTrack, ratings } = props;
+  const { isTracking, onTrack, score } = props;
   return (
     <Button
       as="div"
@@ -51,8 +33,25 @@ function TrackButtonWithRating(props: any) {
 
       <Label as="a" basic pointing="left" className="btn_lbl">
         <span className="rating_name">Rating</span>
-        <span className="rating_num">{ratings}</span>
+        <span className="rating_num">{score}</span>
       </Label>
+    </Button>
+  );
+}
+
+// Not using but leaving in case we want to remove rating in future
+function TrackButton(props: any) {
+  const { isTracking, onTrack } = props;
+  return (
+    <Button
+      as="div"
+      labelPosition="right"
+      className={'track_btn' + (isTracking ? ' is-tracking' : '')}
+    >
+      <Button icon className="track_wrap" onClick={onTrack}>
+        <img src={Hotspot} alt="hotspot" />
+        <span>{isTracking ? 'Tracking' : 'Track Now'}</span>
+      </Button>
     </Button>
   );
 }

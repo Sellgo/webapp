@@ -110,7 +110,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     return (
       <DetailButtons
-        ratings={row.ratings}
+        score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onViewDetails={() => {
           openProductDetailModal({ ...row, ...{ supplierID: supplierID } });

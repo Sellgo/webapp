@@ -5,7 +5,7 @@ import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
 import PRIME_IMAGE from '../../../../assets/images/prime_icon.svg';
 
 const Pricing = (props: any) => {
-  const { price, categoryRank, categoryName, prime, amazonChoice } = props;
+  const { price, rank, category, prime, amazonChoice } = props;
   return (
     <React.Fragment>
       <div className="price_row">
@@ -14,7 +14,7 @@ const Pricing = (props: any) => {
       </div>
       <div className="catagory_rank">
         <span>
-          #{categoryRank} in {categoryName}
+          #{rank} in {category}
         </span>
       </div>
       {/*

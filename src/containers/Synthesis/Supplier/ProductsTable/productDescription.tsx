@@ -13,8 +13,8 @@ const ProductDescription = (props: any) => {
       <div className="wrap_prod_information">
         <div>
           <div className="categories">
-            <p className="seller_name">
-              by <strong>{item.seller}</strong> in <strong>{item.amazon_category_name}</strong>
+            <p className="brand">
+              by <strong>{item.brand}</strong> in <strong>{item.amazon_category_name}</strong>
             </p>
 
             {/*<Breadcrumb className="cstm_breadcum" icon="right angle" sections={item.sections} />*/}
@@ -30,8 +30,8 @@ const ProductDescription = (props: any) => {
           {/*<Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />*/}
           <Pricing
             price={item.price}
-            categoryRank={item.categoryRank}
-            categoryName={item.amazon_category_name}
+            rank={item.rank}
+            category={item.amazon_category_name}
             amazonChoice={item.amazonChoice}
             prime={item.prime}
           />

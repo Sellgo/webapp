@@ -155,7 +155,6 @@ export const addTempDataToProducts = (products: any) => {
   return products.map((product: any) => {
     return {
       ...product,
-      price: 23.99,
       categoryRank: 421,
       countryImg: '/static/media/flag_icon.30aeec5a.svg',
       ratings: 9.3,
@@ -163,7 +162,6 @@ export const addTempDataToProducts = (products: any) => {
         { key: 'Toys & Games', content: 'Toys & Games', link: true },
         { key: 'Learning & Education', content: 'Learning & Education', link: true },
       ],
-      seller: 'Top Bright',
       starRatings: 4,
       totalReviews: 500,
       //unitSoldPerDay: 192,
