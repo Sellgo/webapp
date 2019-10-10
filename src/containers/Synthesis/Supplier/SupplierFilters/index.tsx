@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Grid, Dropdown, Divider } from 'semantic-ui-react';
+import { Dropdown, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
@@ -17,7 +17,7 @@ import {
 } from '../../../../constants/Suppliers';
 import get from 'lodash/get';
 import { defaultSelect } from '../../../../constants';
-import AdviceCard from '../AdviceCard';
+//import AdviceCard from '../AdviceCard';
 import './index.scss';
 
 interface SupplierFiltersProps {

@@ -1,11 +1,16 @@
 import React from 'react';
-import { Image } from 'semantic-ui-react';
-
-import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
-import PRIME_IMAGE from '../../../../assets/images/prime_icon.svg';
+//import { Image } from 'semantic-ui-react';
+//import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
+//import PRIME_IMAGE from '../../../../assets/images/prime_icon.svg';
 
 const Pricing = (props: any) => {
-  const { price, rank, category, prime, amazonChoice } = props;
+  const {
+    price,
+    rank,
+    category,
+    //prime,
+    //amazonChoice
+  } = props;
   return (
     <React.Fragment>
       <div className="price_row">

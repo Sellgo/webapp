@@ -1,8 +1,8 @@
 import React from 'react';
-import { Breadcrumb } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+//import { Breadcrumb } from 'semantic-ui-react';
+//import { Link } from 'react-router-dom';
 import Pricing from './pricing';
-import Ratings from './ratings';
+//import Ratings from './ratings';
 import COUNTRY_IMAGE from '../../../../assets/images/flag_icon.svg';
 
 const ProductDescription = (props: any) => {

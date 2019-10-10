@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Divider, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
+import { Button, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.css';
 import history from '../../history';

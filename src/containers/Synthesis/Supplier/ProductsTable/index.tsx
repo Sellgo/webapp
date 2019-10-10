@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Checkbox } from 'semantic-ui-react';
+import { Segment, Loader } from 'semantic-ui-react';
 import './index.scss';
-import _ from 'lodash';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
 import { openSupplierProductDetailModal } from '../../../../actions/Modals';
@@ -11,7 +10,6 @@ import {
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
-import { findFilterProducts, addTempDataToProducts } from '../../../../constants/Suppliers';
 import GenericTable, { Column } from '../../../../components/Table';
 import ProductImage from './productImage';
 import ProductDescription from './productDescription';
@@ -82,7 +80,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
   };
   renderProductInfo = (row: Product) => {
-    const { checkedItems } = this.state;
     return <ProductDescription item={row} />;
   };
   renderProfit = (row: Product) => <p className="stat">${row.profit} /item</p>;

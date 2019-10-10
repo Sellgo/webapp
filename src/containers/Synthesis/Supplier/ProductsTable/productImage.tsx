@@ -1,10 +1,18 @@
 import React from 'react';
-import { Label, Checkbox, Image } from 'semantic-ui-react';
-import { TOP_SELLER } from '../../../../utils/constants';
-import CROWN_IMAGE from '../../../../assets/images/crown_icon.svg';
+import {
+  //Label,
+  //Checkbox,
+  Image,
+} from 'semantic-ui-react';
+//import { TOP_SELLER } from '../../../../utils/constants';
+//import CROWN_IMAGE from '../../../../assets/images/crown_icon.svg';
 
 const ProductImage = (props: any) => {
-  const { item, checked, onSelectItem } = props;
+  const {
+    item,
+    //checked,
+    //onSelectItem
+  } = props;
   return (
     <div className="productImage">
       {/*

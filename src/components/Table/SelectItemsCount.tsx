@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Grid } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 import { selectItemsCountList } from '../../constants';
 
 interface SelectItemsCountProps {

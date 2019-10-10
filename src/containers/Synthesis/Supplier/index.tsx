@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider, Grid, Segment, Modal, Loader } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import ProductsTable from './ProductsTable';

@@ -44,6 +44,16 @@ const SellerAmazonMWS = (props: any) => {
     handleMarketPlaceLocalChange(marketplaceLocal.id);
   }, [amazonMWSAuth]);
 
+  // TODO: Resolve eslint dependency warnings from above effect
+  // Below would resolve it but the result is that handleMarketPlaceLocalChange
+  // is run on every render. I think there is a bigger refactor that needs
+  // to happen first.
+  /*
+  useEffect(() => {
+    handleMarketPlaceLocalChange(marketplaceLocal.id);
+  }, [handleMarketPlaceLocalChange, marketplaceLocal.id]);
+  */
+
   const handleMarketPlaceLocalChange = (marketplaceID: any) => {
     const updatedMarketplaceLocal =
       defaultMarketplaces.filter(e => e.id === marketplaceID)[0] || defaultMarketplace;

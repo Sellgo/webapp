@@ -1,5 +1,9 @@
 import React from 'react';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import {
+  Button,
+  //Icon,
+  Label,
+} from 'semantic-ui-react';
 import Hotspot from '../../../../assets/images/wifi-icon.svg';
 
 const DetailButtons = (props: any) => {
@@ -40,6 +44,7 @@ function TrackButtonWithRating(props: any) {
 }
 
 // Not using but leaving in case we want to remove rating in future
+/*
 function TrackButton(props: any) {
   const { isTracking, onTrack } = props;
   return (
@@ -55,5 +60,6 @@ function TrackButton(props: any) {
     </Button>
   );
 }
+*/
 
 export default DetailButtons;
