@@ -226,7 +226,13 @@ $link-color: #349af8;
     text-align: right;
   }
 
+  .detailButtons {
+    display: inline-block;
+    width: 172px;
+  }
+
   .track_btn {
+    width: 100%;
     margin-bottom: 10px;
 
     &.is-tracking {
@@ -236,6 +242,7 @@ $link-color: #349af8;
     }
 
     .track_wrap {
+      width: 100%;
       display: flex !important;
       align-items: center;
 
@@ -261,6 +268,7 @@ $link-color: #349af8;
     }
 
     .btn_lbl {
+      width: 54px;
       border-top-right-radius: 18px !important;
       border-bottom-right-radius: 18px !important;
       display: flex !important;
@@ -271,12 +279,13 @@ $link-color: #349af8;
   }
 
   .view_detail_btn {
+    width: 100%;
     background-color: $link-color !important;
     border-radius: 18px !important;
     padding: 10px 32px !important;
-    text-align: center !important;
     display: inline-flex !important;
     align-items: center;
+    justify-content: center;
     i {
       margin-left: 10px !important;
       margin-right: 0 !important;
