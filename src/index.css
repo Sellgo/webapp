@@ -9,7 +9,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+body h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Montserrat', serif !important;
+}
+.ui.dimmer {
+  background-color: rgba(146, 170, 177, 0.48);
+}
 .small-light {
   font-family: 'Montserrat', serif !important;
   font-weight: 300 !important;

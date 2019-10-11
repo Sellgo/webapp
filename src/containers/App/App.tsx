@@ -2,13 +2,9 @@ import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
-import Dashboard from '../Dashboard';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
-import Login from '../Login';
-import RecoverPass from '../RecoverPass';
-import SignUp from '../SignUp';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
@@ -75,9 +71,9 @@ function App(props: any) {
             path="/"
             render={renderProps => <Home auth={auth} {...renderProps} />}
           />
-          <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
+          {/* <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
           <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
-          <Route exact={true} path="/forgot-password" component={RecoverPass} />
+          <Route exact={true} path="/forgot-password" component={RecoverPass} /> */}
           <Route
             path="/callback"
             render={renderProps => {
@@ -88,7 +84,7 @@ function App(props: any) {
 
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
-          <PrivateRoute exact={true} path="/dashboard" component={Dashboard} />
+          {/* <PrivateRoute exact={true} path="/dashboard" component={Dashboard} /> */}
           <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
           <PrivateRoute exact={true} path="/synthesis/:supplierID" component={SupplierDetail} />
           <Route component={NotFound} />

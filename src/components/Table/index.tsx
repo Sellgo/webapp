@@ -102,19 +102,6 @@ const GenericTable = (props: TableProps) => {
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
-  /* return rows.length === 0 ? (
-    <Segment>
-      <Loader
-        hidden={rows.length === 0 ? false : true}
-        active={true}
-        inline="centered"
-        size="massive"
-      >
-        Loading
-      </Loader>
-    </Segment>
-  ) :  */
-
   return (
     <div className="genericTable scrollable">
       {setSinglePageItemsCount && showSelectItemsCounts ? (
