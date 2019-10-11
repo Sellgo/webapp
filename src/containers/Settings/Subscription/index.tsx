@@ -31,15 +31,22 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
     const header = subscribedSubscription
-      ? `You have subscribed to ${subscribedSubscription.name} Plan`
+      ? `You have subscribed to "${subscribedSubscription.name}" Plan`
       : 'Choose the one that best fits you!';
 
     return (
       <>
-        <PageHeader title="Pricing Plans" />
+        <PageHeader
+          title={'Pricing Plans'}
+          breadcrumb={[
+            { content: 'Home', to: '/' },
+            { content: 'Settings', to: '/settings' },
+            { content: 'Pricing' },
+          ]}
+          //callToAction={<CallToAction />}
+        />
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Header as="h2">{header}</Header>
-          <Divider />
           <Segment basic={true} padded="very">
             {subscriptions.map((subscription: Subscription, index: number) => (
               <Card
