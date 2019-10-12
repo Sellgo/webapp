@@ -278,3 +278,15 @@ a {
   align-items: center;
   flex: 1;
 }
+.close {
+  top: -1.7rem !important;
+  right: -2rem !important;
+}
+i.icon.close:before {
+  content: '\f00d';
+  border: 4px solid #999999;
+  border-radius: 50%;
+  padding: 3px 5px;
+  font-size: 14px;
+  color: #999999;
+}
