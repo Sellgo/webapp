@@ -140,16 +140,16 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
           <div className="filters">
             {filterRanges &&
-              filterGroups.map((group: any) => (
-                <FilterSection title={group.text}>
-                  {group.filters.map((filter: any) => (
-                    <>
+              filterGroups.map((group: any, index: number) => (
+                <FilterSection title={group.text} key={index}>
+                  {group.filters.map((filter: any, index: number) => (
+                    <div key={index}>
                       {this.renderFilterComponent(
                         filter,
                         productRanges[filter.id],
                         filterRanges[filter.id]
                       )}
-                    </>
+                    </div>
                   ))}
                 </FilterSection>
               ))}

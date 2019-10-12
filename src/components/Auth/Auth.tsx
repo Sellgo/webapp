@@ -31,6 +31,7 @@ export default class Auth {
       forgotPasswordTitle: '',
     },
     allowSignUp: true,
+    avatar: null,
   });
   public login = () => {
     this.auth0Lock.show();

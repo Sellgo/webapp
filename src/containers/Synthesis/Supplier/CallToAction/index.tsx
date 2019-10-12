@@ -6,7 +6,7 @@ export default function CallToAction() {
   return (
     <div className="profitSysCallToAction">
       <Progress percent={10} size="tiny">
-        80 tracked out of 100
+        xx tracked out of xxx
       </Progress>
       <Button primary={true} className="add-new-supplier">
         Upgrade

@@ -53,7 +53,7 @@ export class Supplier extends React.Component<SupplierProps> {
           title={`Profit Synthesis of ${supplierDetails.name || 'Supplier'}`}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Profit Syn', to: '/synthesis' },
+            { content: 'Profit Synthesis', to: '/synthesis' },
             { content: supplierDetails.name || 'Supplier' },
           ]}
           //callToAction={<CallToAction />}

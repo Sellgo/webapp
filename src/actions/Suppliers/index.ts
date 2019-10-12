@@ -25,7 +25,6 @@ import {
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
-  addTempDataToProducts,
 } from '../../constants/Suppliers';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
@@ -220,10 +219,7 @@ export const fetchSupplierProducts = (supplierID: any) => async (
 
   if (response.data.length) {
     dispatch(isLoadingSupplierProducts(false));
-    let products = response.data;
-
-    // Add temporary data to products during development
-    products = addTempDataToProducts(products);
+    const products = response.data;
 
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
