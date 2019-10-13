@@ -1,0 +1,352 @@
+$link-color: #349af8;
+
+.productsTable {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 100%;
+
+  h2 {
+    font-weight: 500;
+    font-size: 15px;
+    white-space: pre-wrap;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 7px;
+    line-height: 20px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dsp_flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ui.breadcrumb {
+    font-size: 10px !important;
+    white-space: pre-wrap;
+    line-height: 17px;
+    text-align: left;
+    i {
+      color: $link-color !important;
+    }
+  }
+
+  .ui.table {
+    border-collapse: separate;
+    border-spacing: 0 20px;
+    border: none;
+    background: transparent;
+    width: 100%;
+    // Needs horizontal padding so shadow
+    // does not get cut off by .scroll-table overflow:auto
+    // This value should be same as horizontal shadow on tr
+    padding: 0 5px;
+
+    a {
+      color: $link-color !important;
+      font-weight: 600;
+    }
+
+    // Head
+    thead th {
+      // Header bottom border
+      border-bottom: 1px solid rgba(107, 109, 111, 0.5);
+      background: transparent;
+
+      text-align: center;
+      font-size: 12px;
+    }
+
+    tfoot th {
+      border-top: none;
+    }
+
+    // Body
+    tbody {
+      tr {
+        border-radius: 12px;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+        border-bottom-left-radius: 12px;
+        border-left: 1px solid #707070;
+        border-bottom: 1px solid #707070;
+      }
+    }
+
+    td {
+      padding: 8px;
+      font-size: 14px;
+      text-align: center;
+      vertical-align: middle;
+      border-left: none;
+      border-bottom: none;
+      border-top: none;
+    }
+
+    // Prevent stats from wrapping (such as "123 /month")
+    td p.stat {
+      white-space: nowrap;
+    }
+
+    // Column - Product Image
+    td:nth-child(1) {
+      vertical-align: middle;
+
+      // Top seller label
+      .label {
+        white-space: nowrap;
+        margin-bottom: 6px;
+      }
+
+      .imageWrapper {
+        // Crop image if taller than ...
+        max-height: 120px;
+        overflow: hidden;
+
+        img {
+          width: 75px;
+          margin: 0 auto;
+        }
+      }
+    }
+
+    // Product info
+    td:nth-child(2) {
+      padding-left: 0;
+    }
+
+    td:nth-child(3),
+    td:nth-child(4),
+    td:nth-child(5),
+    td:nth-child(6),
+    td:nth-child(7) {
+      vertical-align: middle;
+      padding: 0 0.5rem;
+    }
+
+    // Track/detail buttons
+    td:last-child {
+      vertical-align: middle;
+      //padding: 0 0.5rem;
+      span {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .wrap_prod_information {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .flag_row {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .flag_row span {
+    margin-left: 16px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+  }
+
+  .categories {
+    font-weight: 500;
+    text-align: left;
+    font-size: 10px;
+  }
+
+  .brand {
+    margin-bottom: 0;
+  }
+
+  .ui.label {
+    color: #f0bd39;
+    background: #f6ebcd;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding: 5px 5px 5px 32px;
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+
+  .ui.label span {
+    margin-right: 10px;
+    position: absolute;
+    left: 8px;
+  }
+
+  .ui.star.rating .active.icon {
+    color: #f0bd39 !important;
+  }
+
+  span.review_head {
+    font-size: 10px;
+    margin-left: 4px;
+  }
+
+  .price_row {
+    margin: 0px 0;
+    text-align: end;
+  }
+
+  span.price_head {
+    font-size: 14px;
+  }
+
+  span.price_rate {
+    color: #eb675e;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .catogy_toy {
+    font-size: 14px;
+    margin: 0px 0 4px;
+    text-align: right;
+  }
+
+  .bottom_img {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    img {
+      margin-left: 1rem;
+    }
+  }
+
+  .rgt_prod {
+    width: auto;
+    position: relative;
+    text-align: right;
+  }
+
+  .detailButtons {
+    display: inline-block;
+    width: 172px;
+  }
+
+  .track_btn {
+    width: 100%;
+    margin-bottom: 10px;
+
+    &.is-tracking {
+      .track_wrap {
+        background-color: #bad9ff;
+      }
+    }
+
+    .track_wrap {
+      width: 100%;
+      display: flex !important;
+      align-items: center;
+
+      padding: 7px 12px;
+      background: #dfe8f3;
+
+      span {
+        margin-left: 10px;
+        margin-right: 8px;
+      }
+    }
+
+    button {
+      border-radius: 18px !important;
+    }
+
+    &.with-rating button {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      span {
+        margin-right: 0;
+      }
+    }
+
+    .btn_lbl {
+      width: 54px;
+      border-top-right-radius: 18px !important;
+      border-bottom-right-radius: 18px !important;
+      display: flex !important;
+      flex-direction: column;
+      padding: 2px 7px !important;
+      justify-content: center !important;
+    }
+  }
+
+  .view_detail_btn {
+    width: 100%;
+    background-color: $link-color !important;
+    border-radius: 18px !important;
+    padding: 10px 32px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    i {
+      margin-left: 10px !important;
+      margin-right: 0 !important;
+    }
+  }
+
+  .rating_name {
+    font-size: 12px;
+    color: #000;
+    font-weight: 100;
+    margin-bottom: 2px;
+    margin-right: 0 !important;
+    position: initial !important;
+  }
+
+  .rating_num {
+    color: #000;
+    margin-right: 0 !important;
+    position: initial !important;
+  }
+
+  .mg_botm0 {
+    margin-bottom: 0;
+  }
+
+  .fnt12 {
+    font-size: 12px;
+  }
+
+  .download_icn {
+    position: absolute;
+    right: 3px;
+    margin-right: 0 !important;
+    top: 10px;
+  }
+
+  // Table sorting
+
+  .tbl_sort_icn {
+    width: 18px;
+    position: relative;
+    margin-left: 6px;
+  }
+
+  .tbl_sort_icn.singl_icn {
+    left: 18px !important;
+    top: -14px;
+  }
+
+  .up_arrow {
+    position: relative;
+    top: -5px;
+    font-size: 12px !important;
+    color: #98aeca;
+  }
+
+  .down_arrow {
+    position: absolute;
+    right: 0;
+    top: 4px;
+    font-size: 12px !important;
+    color: #98aeca;
+  }
+}

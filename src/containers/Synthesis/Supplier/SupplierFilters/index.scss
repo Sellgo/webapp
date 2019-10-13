@@ -1,0 +1,57 @@
+.synthesisSupplierFilters {
+  // Negative margin to make up for (most) of extra left padding due to column
+  margin-left: -0.8rem;
+  width: calc(100% + 1rem);
+
+  .productsCount {
+    font-size: 18px;
+    margin-left: 0;
+
+    // Wider style
+    //font-size: 20px;
+    //margin-left: 16px;
+  }
+
+  // Dropdown that says "select a preset"
+  .searchDropdown {
+    padding-top: 0.6rem;
+  }
+
+  // NOT USED CURRENTLY
+  // For option that has no range slider
+  // Just a checkbox like "Show Price History"
+  // We could make this a subcomponent TitleWithCheck that
+  // gets used inside the RangeSlider component or on its own
+  .customCheck {
+    width: 100%;
+    margin-bottom: 21px;
+    .ui.checkbox label {
+      font-size: 16px;
+    }
+  }
+}
+
+// Not sure where this style was used
+// Leaving in for now in case we figure it out
+/*
+.min-max {
+  text-align: center;
+  border: 1px solid red;
+  border-radius: 6px;
+}
+
+.popup-loader {
+  color: #000 !important;
+}
+.popup-loader::after {
+  border-color: #000000 transparent transparent !important;
+}
+
+.ui.basic.table th {
+  border-left: none !important;
+}
+
+.ui.basic.table {
+  margin-top: 0px !important;
+}
+*/

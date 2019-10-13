@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
-import './AdminHeader.css';
+import './AdminHeader.scss';
 
 export class AdminHeader extends React.Component<any> {
   userName = localStorage.getItem('userName');
@@ -28,8 +28,8 @@ export class AdminHeader extends React.Component<any> {
             </Menu.Item>
             {/* <Menu.Item as={Link} to="/product-tracker">
               Product Tracker
-            </Menu.Item>
-            <Menu.Item as={Link} to="/dashboard">
+            </Menu.Item> */}
+            {/* <Menu.Item as={Link} to="/dashboard">
               Dashboard
             </Menu.Item> */}
           </Menu.Menu>
@@ -38,13 +38,10 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item as={Link} to="/settings/pricing">
               Pricing
             </Menu.Item>
-            {/* <Menu.Item as={Link} to="/settings/subscription">
-              <Icon name="rss" />
-            </Menu.Item>
-            <Menu.Item as={Link} to="/search">
+            {/* <Menu.Item as={Link} to="/search">
               <Icon name="search" />
-            </Menu.Item>
-            <Menu.Item as={Link} to="/notifications">
+            </Menu.Item> */}
+            {/* <Menu.Item as={Link} to="/notifications">
               <Icon name="bell" />
             </Menu.Item> */}
             <div className="divider" />

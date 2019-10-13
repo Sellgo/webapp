@@ -51,7 +51,10 @@ class Settings extends React.Component<SettingsProps> {
     } = this.props;
     return (
       <>
-        <PageHeader title={'Settings'} />
+        <PageHeader
+          title="Settings"
+          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }]}
+        />
         <Segment basic={true} className="settings">
           <Header as="h2">Basic Information</Header>
           <Divider />

@@ -1,41 +1,22 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Form, Grid, GridRow, Segment } from 'semantic-ui-react';
-import MesssageComponent from '../../components/MessageComponent';
-import buttonStyle from '../../components/StyleComponent/StyleComponent';
+import { Form, Grid, GridRow, Segment } from 'semantic-ui-react';
 import { Logo } from '../Dashboard';
+import GenericButton from '../../components/Button';
+import { success, error } from '../../utils/notifications';
+import history from '../../history';
 
-interface State {
-  isSuccess: boolean;
-}
-
-export default class SignUp extends React.Component<any, State> {
-  state = {
-    isSuccess: false,
-  };
-  message = {
-    id: 1,
-    title: 'Account Succesfuly Created',
-    message: 'Thank you for registering',
-    description: 'You have successfully create new account with Sellgo account.',
-    description2: 'Please check your email to verify.',
-    button_text: 'Ok',
-    icon: 'check circle',
-    color: '#0E6FCF',
-  };
-
+export default class SignUp extends React.Component<any> {
   loginSignUp = () => {
     const { login } = this.props.auth;
-    login().then(() => {
-      this.setState({ isSuccess: !this.state.isSuccess });
-    });
+    login()
+      .then(() => {
+        success('Account successfully created', {
+          onClose: () => history.push('/'),
+        });
+      })
+      .catch(() => error('Signup failed. Please try again!'));
   };
-
-  handleMessage = () => {
-    this.setState({ isSuccess: !this.state.isSuccess });
-  };
-
-  response = <MesssageComponent message={this.message} handleMessage={this.handleMessage} />;
 
   signUpForm = (
     <Segment basic={true} clearing={true}>
@@ -69,10 +50,9 @@ export default class SignUp extends React.Component<any, State> {
           <Grid.Column textAlign="center" width={16}>
             <GridRow>
               <div>
-                <Button
-                  style={buttonStyle}
+                <GenericButton
+                  isClickable={true}
                   onClick={this.loginSignUp}
-                  className="primary-button"
                   content="Create your FREE account"
                 />
               </div>
@@ -95,7 +75,7 @@ export default class SignUp extends React.Component<any, State> {
             <div className="logo-img">
               <Logo centered={true} size="small" />
             </div>
-            {this.state.isSuccess ? this.response : this.signUpForm}
+            {this.signUpForm}
             <div className="copy-right">
               <div className="privacy-policy">
                 <Link to="/#">Privacy policy</Link>

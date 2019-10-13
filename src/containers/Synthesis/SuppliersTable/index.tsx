@@ -25,6 +25,7 @@ import SupplierTableMetrics from './SupplierTableMetrics';
 import { Supplier } from '../../../interfaces/Supplier';
 import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import { error } from '../../../utils/notifications';
+import './index.scss';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];
@@ -52,16 +53,24 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderName = (row: Supplier) => {
-    if (row.file_status !== 'completed') return row.name;
-    return <Link to={`/synthesis/${row.supplier_id}`}>{row.name}</Link>;
+    const name =
+      row.file_status === 'completed' ? (
+        <Link to={`/synthesis/${row.supplier_id}`}>{row.name}</Link>
+      ) : (
+        row.name
+      );
+    return <div className="supplier">{name}</div>;
   };
 
   renderFileName = (row: Supplier) => {
-    if (!row.file_status) return '';
     return (
-      <a href={row.file_url} download>
-        {row.file_name}
-      </a>
+      <div className="fileName">
+        {row.file_status && (
+          <a href={row.file_url} download>
+            {row.file_name}
+          </a>
+        )}
+      </div>
     );
   };
   renderActions = (row: Supplier) => {
@@ -328,7 +337,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     ); //.filter(e => !showColumns[e.dataKey || '']);
     return (
-      <>
+      <div className="suppliersTable">
         <Grid columns={2} style={{ alignItems: 'center' }}>
           <Grid.Column floated="left">
             <SupplierMenu
@@ -361,7 +370,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           showPieChartModalOpen={this.state.showPieChartModalOpen}
           handleClose={this.handleClose}
         />
-      </>
+      </div>
     );
   }
 }

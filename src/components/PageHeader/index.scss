@@ -1,0 +1,10 @@
+.pageHeader {
+  margin-bottom: 2rem;
+
+  .ui.header {
+    // Override default top margin so less space between
+    // breadcrumbs and header.
+    margin-top: 1.2rem;
+    display: flex;
+  }
+}

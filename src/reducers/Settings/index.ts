@@ -1,5 +1,4 @@
 import {
-  SET_PAGE_HISTORY_COUNTER,
   SET_SELLER_AMAZON_MWS_AUTH,
   SET_AMAZON_MWS_AUTHORIZED,
   UPDATE_SELLER_AMAZON_MWS_AUTH,
@@ -13,7 +12,6 @@ import get from 'lodash/get';
 const initialState = {
   profile: {},
   amazonMWSAuth: [],
-  pageHistoryCanGoForward: 0,
   profileImage: {},
 };
 
@@ -40,9 +38,6 @@ export default (state = initialState, action: any) => {
 
     case SET_SELLER_INFO:
       return setIn(state, 'profile', { ...get(state, 'profile'), ...action.payload });
-
-    case SET_PAGE_HISTORY_COUNTER:
-      return setIn(state, 'pageHistoryCanGoForward', action.payload);
 
     default:
       return state;
