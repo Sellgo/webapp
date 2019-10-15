@@ -36,7 +36,7 @@ class ProductData extends Component<ProductDataProps> {
               <Grid.Row>Fees</Grid.Row>
               <Grid.Row>Product Cost</Grid.Row>
               <Grid.Row>Package Quantity</Grid.Row>
-              <Grid.Row>Total Cost</Grid.Row>
+              <Grid.Row>Total Product Cost</Grid.Row>
               <Grid.Row>
                 <h4>{'Profit'}</h4>
               </Grid.Row>
@@ -57,6 +57,7 @@ class ProductData extends Component<ProductDataProps> {
                   : formatCurrency(productDetails.product_cost)}
               </Grid.Row>
               <Grid.Row>
+                x{' '}
                 {productDetails.package_quantity === null
                   ? 1
                   : Number(productDetails.package_quantity)}
