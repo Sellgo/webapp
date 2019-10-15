@@ -95,9 +95,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       </>
     );
   };
-  renderProfitMonthly = (row: Product) => (
-    <p className="stat">${Number(row.profit_monthly).toLocaleString()}</p>
-  );
+  renderProfitMonthly = (row: Product) => <p className="stat">${row.profit_monthly}</p>;
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
   renderDetailButtons = (row: Product) => {
     const {
