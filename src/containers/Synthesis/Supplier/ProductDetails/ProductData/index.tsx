@@ -4,6 +4,7 @@ import { Grid, Divider, Image, Icon } from 'semantic-ui-react';
 import get from 'lodash/get';
 import { fetchSupplierProductDetails } from '../../../../../actions/Products';
 import { ProductDetail } from '../../../../../interfaces/Product';
+import { formatCurrency, formatPercent, formatNumber } from '../../../../../utils/format';
 
 interface ProductDataProps {
   product: any;
@@ -37,7 +38,7 @@ class ProductData extends Component<ProductDataProps> {
               <Grid.Row>Package Quantity</Grid.Row>
               <Grid.Row>Total Cost</Grid.Row>
               <Grid.Row>
-                <h4>{'Profit (in $)'}</h4>
+                <h4>{'Profit'}</h4>
               </Grid.Row>
               <Grid.Row>
                 <h4>{'Margin'}</h4>
@@ -45,39 +46,31 @@ class ProductData extends Component<ProductDataProps> {
             </Grid.Column>
             <Grid.Column floated="left" width={4}>
               <Grid.Row>
-                {productDetails.price === null ? 0 : Number(productDetails.price).toLocaleString()}
+                {productDetails.price === null ? 0 : formatCurrency(productDetails.price)}
               </Grid.Row>
               <Grid.Row>
-                {productDetails.fees === null ? 0 : Number(productDetails.fees).toLocaleString()}
+                {productDetails.fees === null ? 0 : formatCurrency(productDetails.fees)}
               </Grid.Row>
               <Grid.Row>
                 {productDetails.product_cost === null
                   ? 0
-                  : Number(productDetails.product_cost).toLocaleString()}
+                  : formatCurrency(productDetails.product_cost)}
               </Grid.Row>
               <Grid.Row>
                 {productDetails.package_quantity === null
                   ? 1
-                  : Number(productDetails.package_quantity).toLocaleString()}
+                  : Number(productDetails.package_quantity)}
               </Grid.Row>
               <Grid.Row>
-                {productDetails.total_cost === null
-                  ? 0
-                  : Number(productDetails.total_cost).toLocaleString()}
-              </Grid.Row>
-              <Grid.Row>
-                <h4>
-                  {productDetails.profit === null
-                    ? 0
-                    : Number(productDetails.profit).toLocaleString()}
-                </h4>
+                {productDetails.total_cost === null ? 0 : formatCurrency(productDetails.total_cost)}
               </Grid.Row>
               <Grid.Row>
                 <h4>
-                  {productDetails.margin === null
-                    ? 0
-                    : Number(productDetails.margin).toLocaleString() + ' %'}
+                  {productDetails.profit === null ? 0 : formatCurrency(productDetails.profit)}
                 </h4>
+              </Grid.Row>
+              <Grid.Row>
+                <h4>{productDetails.margin === null ? 0 : formatPercent(productDetails.margin)}</h4>
               </Grid.Row>
             </Grid.Column>
             <Grid.Column floated="left" width={4}>
@@ -92,24 +85,20 @@ class ProductData extends Component<ProductDataProps> {
               <Grid.Row>
                 {productDetails.monthly_sales === null
                   ? 0
-                  : Number(productDetails.monthly_sales).toLocaleString()}
+                  : formatNumber(productDetails.monthly_sales)}
               </Grid.Row>
               <Grid.Row>
                 {productDetails.monthly_revenue === null
                   ? 0
-                  : Number(productDetails.monthly_revenue).toLocaleString()}
+                  : formatCurrency(productDetails.monthly_revenue)}
               </Grid.Row>
               <Grid.Row>
                 {productDetails.profit_monthly === null
                   ? 0
-                  : Number(productDetails.profit_monthly).toLocaleString()}
+                  : formatCurrency(productDetails.profit_monthly)}
               </Grid.Row>
               <Grid.Row>
-                <h4>
-                  {productDetails.roi === null
-                    ? 0
-                    : Number(productDetails.roi).toLocaleString() + ' %'}
-                </h4>
+                <h4>{productDetails.roi === null ? 0 : formatPercent(productDetails.roi)}</h4>
               </Grid.Row>
             </Grid.Column>
           </Grid>

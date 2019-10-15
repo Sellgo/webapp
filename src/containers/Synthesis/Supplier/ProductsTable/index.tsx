@@ -14,6 +14,7 @@ import GenericTable, { Column } from '../../../../components/Table';
 import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
+import { formatCurrency, formatNumber } from '../../../../utils/format';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -82,12 +83,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
-  renderProfit = (row: Product) => <p className="stat">${row.profit} /item</p>;
-  renderMargin = (row: Product) => <p className="stat">${row.margin}%</p>;
+  renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)} /item</p>;
+  renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
   renderUnitSold = (row: Product) => {
     return (
       <>
-        <p className="stat">{row.sales_monthly} /mo</p>
+        <p className="stat">{formatNumber(row.sales_monthly)} /mo</p>
         {/*
         <p className="stat mg_botm0">{row.unitSoldPerDay} /day</p>
         <p className="stat fnt12">{row.sales_monthly} /mo</p>
@@ -95,7 +96,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       </>
     );
   };
-  renderProfitMonthly = (row: Product) => <p className="stat">{row.profit_monthly}</p>;
+  renderProfitMonthly = (row: Product) => (
+    <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
+  );
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
   renderDetailButtons = (row: Product) => {
     const {
@@ -170,7 +173,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Unit Sold',
-      dataKey: 'unitSoldPerMonth',
+      dataKey: 'sales_monthly',
       type: 'number',
       sortable: true,
       show: true,
@@ -196,8 +199,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     {
       label: 'Other Sort',
+      dataKey: 'sellgo_score',
+      type: 'number',
       show: true,
-      sortable: false,
+      sortable: true,
       render: this.renderDetailButtons,
     },
   ];

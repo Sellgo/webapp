@@ -128,8 +128,8 @@ class Synthesis extends Component<SynthesisProps> {
     return (
       <>
         <PageHeader
-          title="Profit Synthesis"
-          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Synthesis' }]}
+          title="Profit Finder"
+          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}
           callToAction={this.renderAddNewSupplierModal()}
         />
 

@@ -33,15 +33,15 @@ export const dataKeys: any = [
 export const dataKeyMapping: any = {
   // Basic KPI
   profit: {
-    text: 'Unit Profit',
-    presetText: 'Max Profit',
+    text: 'Unit Profit ($)',
+    presetText: 'Max Profit ($)',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
   margin: {
-    text: 'Margin',
-    presetText: 'Max Margin',
+    text: 'Profit Margin (%)',
+    presetText: 'Max Profit Margin (%)',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
@@ -54,8 +54,8 @@ export const dataKeyMapping: any = {
     groupId: 'basic',
   },
   profit_monthly: {
-    text: 'Profit Per Month',
-    presetText: 'Max Profit Per Month',
+    text: 'Profit Per Month ($)',
+    presetText: 'Max Profit Per Month ($)',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',

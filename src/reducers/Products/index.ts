@@ -9,7 +9,7 @@ import {
 } from '../../constants/Products';
 
 const initialState = {
-  details: {},
+  details: undefined,
   detailRank: [],
   detailPrice: [],
   detailKPI: [],
