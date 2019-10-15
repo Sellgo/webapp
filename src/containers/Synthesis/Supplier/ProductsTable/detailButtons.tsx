@@ -37,7 +37,7 @@ function TrackButtonWithRating(props: any) {
       </Button>
 
       <Label as="a" basic pointing="left" className="btn_lbl">
-        <span className="rating_name">Rating</span>
+        <span className="rating_name">Score</span>
         <span className="rating_num">{formatRating(score)}</span>
       </Label>
     </Button>

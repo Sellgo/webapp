@@ -173,7 +173,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Unit Sold',
-      dataKey: 'unitSoldPerMonth',
+      dataKey: 'sales_monthly',
       type: 'number',
       sortable: true,
       show: true,
@@ -199,8 +199,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     {
       label: 'Other Sort',
+      dataKey: 'sellgo_score',
+      type: 'number',
       show: true,
-      sortable: false,
+      sortable: true,
       render: this.renderDetailButtons,
     },
   ];

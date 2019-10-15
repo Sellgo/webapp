@@ -4,7 +4,7 @@ export const formatCurrency = (num: any) =>
     currency: 'USD',
   });
 
-export const formatNumber = (num: any) => Number(num).toLocaleString();
+export const formatNumber = (num: any) => Math.round(num).toLocaleString();
 
 export const formatRating = (num: any) => Number(num).toFixed(1);
 
