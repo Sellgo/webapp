@@ -4,6 +4,7 @@ import React from 'react';
 import Pricing from './pricing';
 //import Ratings from './ratings';
 import COUNTRY_IMAGE from '../../../../assets/images/flag_icon.svg';
+import { formatNumber } from '../../../../utils/format';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
@@ -32,7 +33,7 @@ const ProductDescription = (props: any) => {
           {/*<Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />*/}
           <Pricing
             price={item.price}
-            rank={Number(item.rank).toLocaleString()}
+            rank={formatNumber(item.rank)}
             category={item.amazon_category_name}
             amazonChoice={item.amazonChoice}
             prime={item.prime}

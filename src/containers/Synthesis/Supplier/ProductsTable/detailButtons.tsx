@@ -5,6 +5,7 @@ import {
   Label,
 } from 'semantic-ui-react';
 import Hotspot from '../../../../assets/images/wifi-icon.svg';
+import { formatRating } from '../../../../utils/format';
 
 const DetailButtons = (props: any) => {
   const { score, onViewDetails, onTrack, isTracking } = props;
@@ -37,7 +38,7 @@ function TrackButtonWithRating(props: any) {
 
       <Label as="a" basic pointing="left" className="btn_lbl">
         <span className="rating_name">Rating</span>
-        <span className="rating_num">{score}</span>
+        <span className="rating_num">{formatRating(score)}</span>
       </Label>
     </Button>
   );
