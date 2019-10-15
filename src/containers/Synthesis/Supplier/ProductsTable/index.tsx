@@ -83,11 +83,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return <ProductDescription item={row} />;
   };
   renderProfit = (row: Product) => <p className="stat">${row.profit} /item</p>;
-  renderMargin = (row: Product) => <p className="stat">${row.margin}%</p>;
+  renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
   renderUnitSold = (row: Product) => {
     return (
       <>
-        <p className="stat">{row.sales_monthly} /mo</p>
+        <p className="stat">{Number(row.sales_monthly).toLocaleString()} /mo</p>
         {/*
         <p className="stat mg_botm0">{row.unitSoldPerDay} /day</p>
         <p className="stat fnt12">{row.sales_monthly} /mo</p>
@@ -95,7 +95,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       </>
     );
   };
-  renderProfitMonthly = (row: Product) => <p className="stat">{row.profit_monthly}</p>;
+  renderProfitMonthly = (row: Product) => (
+    <p className="stat">${Number(row.profit_monthly).toLocaleString()}</p>
+  );
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
   renderDetailButtons = (row: Product) => {
     const {

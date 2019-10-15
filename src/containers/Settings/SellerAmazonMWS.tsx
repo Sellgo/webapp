@@ -15,10 +15,10 @@ const showMeHow = (showMeHowUrl: any) => {
   }
 };
 const defaultMarketplace = {
-  id: '',
-  name: '',
-  link: '',
-  code: '',
+  id: 'ATVPDKIKX0DER',
+  name: 'US',
+  link: 'amazon.com',
+  code: 'US',
 };
 const defaultAmazonMWS = {
   id: '',
@@ -125,6 +125,7 @@ const SellerAmazonMWS = (props: any) => {
                       control={Select}
                       label="Marketplace"
                       options={marketplaceOptions}
+                      defaultValue={'ATVPDKIKX0DER'}
                       placeholder="select"
                       name="marketplace_id"
                       onChange={(e: any, field: any) => handleMarketPlaceLocalChange(field.value)}

@@ -22,7 +22,9 @@ const ProductDescription = (props: any) => {
 
           <div className="flag_row">
             <img src={COUNTRY_IMAGE} alt="product_img" />
-            <span>{item.asin}</span>
+            <a href={item.amazon_url} target="_blank">
+              <span>{item.asin}</span>
+            </a>
           </div>
         </div>
 
@@ -30,7 +32,7 @@ const ProductDescription = (props: any) => {
           {/*<Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />*/}
           <Pricing
             price={item.price}
-            rank={item.rank}
+            rank={Number(item.rank).toLocaleString()}
             category={item.amazon_category_name}
             amazonChoice={item.amazonChoice}
             prime={item.prime}

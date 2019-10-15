@@ -50,10 +50,10 @@ export class Supplier extends React.Component<SupplierProps> {
     return (
       <>
         <PageHeader
-          title={`Profit Synthesis of ${supplierDetails.name || 'Supplier'}`}
+          title={`Profit Finder of ${supplierDetails.name || 'Supplier'}`}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Profit Synthesis', to: '/synthesis' },
+            { content: 'Profit Finder', to: '/synthesis' },
             { content: supplierDetails.name || 'Supplier' },
           ]}
           //callToAction={<CallToAction />}
