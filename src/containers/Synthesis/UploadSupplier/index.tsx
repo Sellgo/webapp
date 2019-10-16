@@ -26,7 +26,8 @@ export const UploadSupplier = (props: Props) => {
     return () => {
       cleanupUploadSupplier();
     };
-  }, []);
+  }, [cleanupUploadSupplier]);
+
   return (
     <div className={styles.container}>
       <UploadSteps />

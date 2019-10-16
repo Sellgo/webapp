@@ -9,6 +9,7 @@ import {
 import SplineChart from '../../../../../components/Chart/SplineChart';
 import LineChart from '../../../../../components/Chart/LineChart';
 import { Loader, Form, Divider } from 'semantic-ui-react';
+import './index.scss';
 
 interface ProductChartsProps {
   product: any;
@@ -100,6 +101,7 @@ class ProductCharts extends Component<ProductChartsProps> {
             Number(productDetailPrice[i].price),
           ]);
         }
+
         return popupPriceContainer.length === 0 && popupRankContainer.length === 0 ? (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
             Loading
@@ -141,9 +143,9 @@ class ProductCharts extends Component<ProductChartsProps> {
     const { productDetailRank, productDetailPrice, productDetailKPI } = this.props;
     if (!productDetailKPI || !productDetailRank || !productDetailPrice) return <div></div>;
     return (
-      <React.Fragment>
+      <div className="productDetailCharts">
         <Divider />
-        <this.renderProductCharts />
+        {this.renderProductCharts()}
         <Form>
           <Form.Group inline={true}>
             <label />
@@ -161,7 +163,7 @@ class ProductCharts extends Component<ProductChartsProps> {
             />
           </Form.Group>
         </Form>
-      </React.Fragment>
+      </div>
     );
   }
 }

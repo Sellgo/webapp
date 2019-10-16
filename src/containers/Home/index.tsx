@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Button, Container, Image, Segment } from 'semantic-ui-react';
+import { Container, Image, Segment } from 'semantic-ui-react';
 import history from '../../history';
 import './Home.css';
-import buttonStyle from '../../components/StyleComponent/StyleComponent';
+import GenericButton from '../../components/Button';
 
 interface HomeState {
   heading: string;
@@ -37,7 +37,7 @@ export default class Home extends React.Component<any, HomeState> {
             <h3>{'Please Sign In'}</h3>
           </div>
           <div>
-            <Button style={buttonStyle} onClick={login} content="Sign In" />
+            <GenericButton isClickable={true} onClick={login} content={'Sign In'} />
           </div>
         </Container>
       </Segment>

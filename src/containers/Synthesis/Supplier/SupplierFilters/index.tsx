@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Grid, Dropdown, Divider } from 'semantic-ui-react';
+import { Dropdown, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
-import 'react-input-range/lib/css/index.css';
 import { supplierProductsSelector } from '../../../../selectors/Supplier';
-import './SupplierFilters.css';
+import FilterSection from '../../../../components/FilterSection';
 import SliderRange from '../../../../components/SliderRange';
 import { updateSupplierFilterRanges } from '../../../../actions/Suppliers';
 import {
@@ -14,16 +13,20 @@ import {
   findFilterProducts,
   dataKeys,
   dataKeyMapping,
+  findFiltersGrouped,
 } from '../../../../constants/Suppliers';
 import get from 'lodash/get';
 import { defaultSelect } from '../../../../constants';
-import SupplierTableMetrics from '../../SuppliersTable/SupplierTableMetrics';
+//import AdviceCard from '../AdviceCard';
+import './index.scss';
 
 interface SupplierFiltersProps {
   products: Product[];
+  filteredProducts: Product[];
   filterRanges: any;
   updateFilterRanges: (filterRanges: any) => void;
 }
+
 class SupplierFilters extends Component<SupplierFiltersProps> {
   state = {
     productRanges: initialFilterRanges,
@@ -31,8 +34,20 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
   componentDidMount() {
     const { products } = this.props;
-    const productRanges = findMinMaxRange(products);
-    this.setState({ productRanges });
+
+    if (products) {
+      // Get min and max range for each filter setting based on all products
+      const productRanges = findMinMaxRange(products);
+      this.setState({ productRanges });
+    }
+  }
+
+  componentWillReceiveProps(props: any) {
+    if (props.products && props.products !== this.props.products) {
+      // Get min and max range for each filter setting based on all products
+      const productRanges = findMinMaxRange(props.products);
+      this.setState({ productRanges });
+    }
   }
 
   handlePresetChange = (e: any, { value }: any) => {
@@ -57,35 +72,60 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   handleCompleteChange = (dataKey: any, range: any) => {
     const { products, updateFilterRanges } = this.props;
     const { productRanges } = this.state;
+
     const newFilterRanges = { ...productRanges };
-    newFilterRanges[dataKey] = range;
 
     if (range.min === '' || range.max === '' || range.min > range.max) {
-      updateFilterRanges(newFilterRanges);
+      updateFilterRanges(productRanges);
     } else {
+      // Update this filter range
+      newFilterRanges[dataKey] = range;
+      // Get products that match the new set of filter ranges
       const filteredProducts = findFilterProducts(products, newFilterRanges);
+      // Then update all filter ranges based on the new set of products
       const updatedFilterRanges: any = findMinMaxRange(filteredProducts);
+      // But keep this filter range at value we just applied
       updatedFilterRanges[dataKey] = range;
+
       updateFilterRanges(updatedFilterRanges);
     }
   };
 
+  renderFilterComponent = (filter: any, productRange: any, filterRange: any) => {
+    return (
+      <SliderRange
+        title={filter.text}
+        dataKey={filter.id}
+        showInputs={filter.showInputs}
+        range={productRange}
+        filterRange={filterRange}
+        handleCompleteChange={this.handleCompleteChange}
+      />
+    );
+  };
+
   render() {
-    const { products, filterRanges } = this.props;
+    const { products, filteredProducts, filterRanges } = this.props;
     if (products.length === 1 && products[0] === undefined) return <div></div>;
     const { productRanges } = this.state;
+    const filterGroups = findFiltersGrouped();
 
     return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column floated="left" width={6}>
-            Synthesis Preset
-          </Grid.Column>
-          <Grid.Column floated="right" width={10}>
+      <div className="synthesisSupplierFilters">
+        <div className="innerWrap">
+          {/*<AdviceCard />*/}
+          <p className="productsCount">
+            {filteredProducts.length} of {products.length} products
+          </p>
+
+          <Divider />
+
+          <div className="searchDropdown">
             <Dropdown
-              placeholder="Select a preset"
-              fluid={true}
-              selection={true}
+              placeholder="Select a Preset"
+              fluid
+              search
+              selection
               options={[
                 defaultSelect,
                 ...dataKeys.map((dk: any) => ({
@@ -96,51 +136,38 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
               ]}
               onChange={this.handlePresetChange}
             />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column width={16} style={{ marginTop: 15 }}>
-            <Card
-              raised={true}
-              style={{
-                width: '100%',
-                padding: '10px',
-              }}
-            >
-              <Card.Content>
-                {filterRanges
-                  ? dataKeys.map((dk: string) => (
-                      <React.Fragment key={dk}>
-                        <SliderRange
-                          title={dataKeyMapping[dk].text}
-                          dataKey={dk}
-                          range={productRanges[dk]}
-                          filterRange={filterRanges[dk]}
-                          handleCompleteChange={this.handleCompleteChange}
-                        />
-                        <Divider />
-                      </React.Fragment>
-                    ))
-                  : ''}
-              </Card.Content>
-            </Card>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row style={{ justifyContent: 'center', marginTop: 15 }}>
-          <SupplierTableMetrics />
-        </Grid.Row>
-      </Grid>
+          </div>
+
+          <div className="filters">
+            {filterRanges &&
+              filterGroups.map((group: any, index: number) => (
+                <FilterSection title={group.text} key={index}>
+                  {group.filters.map((filter: any, index: number) => (
+                    <div key={index}>
+                      {this.renderFilterComponent(
+                        filter,
+                        productRanges[filter.id],
+                        filterRanges[filter.id]
+                      )}
+                    </div>
+                  ))}
+                </FilterSection>
+              ))}
+          </div>
+        </div>
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
+  filteredProducts: get(state, 'supplier.filteredProducts'),
   filterRanges: get(state, 'supplier.filterRanges'),
 });
 
 const mapDispatchToProps = {
-  updateFilterRanges: (products: any) => updateSupplierFilterRanges(products),
+  updateFilterRanges: (filterRanges: any) => updateSupplierFilterRanges(filterRanges),
 };
 
 export default connect(

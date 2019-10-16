@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Divider, Menu } from 'semantic-ui-react';
+import { Divider, Menu } from 'semantic-ui-react';
 import Logo from '../Logo';
-import buttonStyle from '../StyleComponent/StyleComponent';
+import GenericButton from '../Button';
 
 interface HeaderBarState {
   activeItem: string;
@@ -45,10 +44,10 @@ export class HeaderBar extends React.Component<any, HeaderBarState> {
             />
             {/* temporary removed*/}
             {/*<Menu.Item>*/}
-            {/*<Button as={Link} style={buttonStyle} to="/login" content="Sign In" />*/}
+            {/*<GenericButton isLink={true} toLink="/login" content="Sign In" />*/}
             {/*</Menu.Item>*/}
             <Menu.Item>
-              <Button style={buttonStyle} onClick={this.props.login} content="Sign In" />
+              <GenericButton isClickable={true} onClick={this.props.login} content="Sign In" />
             </Menu.Item>
           </Menu.Menu>
         </Menu>

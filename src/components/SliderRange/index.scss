@@ -1,0 +1,47 @@
+.sliderRange {
+  .rangeTitle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+
+    // Wider style
+    //padding-left: 16px;
+  }
+
+  i.small.icon.question {
+    font-size: 1em !important;
+    color: #98aeca !important;
+    padding-left: 0.5rem;
+  }
+
+  .rangeInput {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .rangeInput .ui.input > input {
+    background: transparent;
+    border: 1px solid #dfe8f3;
+    font-size: 14px;
+    color: #98aeca;
+    padding: 4px 10px;
+    min-height: 10px;
+    font-weight: normal;
+    box-shadow: 0 1px 1px #ccc;
+    width: 59px;
+    text-align: center;
+  }
+
+  .rangeInput .ui.input > input::-webkit-input-placeholder {
+    color: #98aeca;
+  }
+
+  .rangeInput .ui.input > input:-ms-input-placeholder {
+    color: #98aeca;
+  }
+
+  .rangeInput .ui.input > input::placeholder {
+    color: #98aeca;
+  }
+}

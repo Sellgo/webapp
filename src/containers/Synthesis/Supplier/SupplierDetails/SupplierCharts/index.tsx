@@ -9,6 +9,7 @@ import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
 import { findFilterProducts } from '../../../../../constants/Suppliers';
+import './index.scss';
 
 interface SupplierChartsProps {
   supplierID: any;
@@ -213,7 +214,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       );
     }
     return (
-      <React.Fragment>
+      <div className="supplierCharts">
         <this.renderCharts />
         <br />
         <Form>
@@ -245,7 +246,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             />
           </Form.Group>
         </Form>
-      </React.Fragment>
+      </div>
     );
   }
 }

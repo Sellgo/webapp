@@ -2,8 +2,9 @@ import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
 import get from 'lodash/get';
 import {
-  SET_SUPPLIER_PRODUCTS_TRACK_DATA,
+  IS_LOADING_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PRODUCTS,
+  SET_SUPPLIER_PRODUCTS_TRACK_DATA,
   RESET_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_DETAILS,
   RESET_SUPPLIER,
@@ -11,10 +12,13 @@ import {
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
   UPDATE_SUPPLIER_FILTER_RANGES,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
+  findFilterProducts,
 } from '../../constants/Suppliers';
 
 const initialState = {
-  products: [undefined],
+  products: [],
+  filteredProducts: [],
+  filterRanges: undefined,
   details: {},
   trackData: {
     avg_price: '',
@@ -32,12 +36,14 @@ const initialState = {
     size_tier: '',
     weight: '',
   },
-  filterRanges: undefined,
   singlePageItemsCount: 10,
 };
 
 export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
+    case IS_LOADING_SUPPLIER_PRODUCTS: {
+      return setIn(state, 'isLoadingSupplierProducts', action.payload);
+    }
     case SET_SUPPLIER_PRODUCTS: {
       return setIn(state, 'products', action.payload);
     }
@@ -47,6 +53,7 @@ export default (state = initialState, action: AnyAction) => {
     case SET_SUPPLIER_DETAILS: {
       const supplier = action.payload;
       const hit = {
+        name: supplier.name,
         rate: supplier.rate,
         p2l_ratio: supplier.p2l_ratio,
       };
@@ -71,8 +78,13 @@ export default (state = initialState, action: AnyAction) => {
     case RESET_SUPPLIER: {
       return initialState;
     }
-    case UPDATE_SUPPLIER_FILTER_RANGES:
-      return setIn(state, 'filterRanges', action.payload);
+    case UPDATE_SUPPLIER_FILTER_RANGES: {
+      const filterRanges = action.payload;
+      const newState = setIn(state, 'filterRanges', filterRanges);
+      // Also update filteredProducts in state each time filterRanges changes
+      const filteredProducts = findFilterProducts(state.products, filterRanges);
+      return setIn(newState, 'filteredProducts', filteredProducts);
+    }
     case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT:
       return setIn(state, 'singlePageItemsCount', action.payload);
     default:

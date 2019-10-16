@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
+import './index.scss';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -17,6 +18,7 @@ export interface TableProps {
   data: Array<{ [key: string]: any }>;
   columns: Column[];
   setSinglePageItemsCount?: (itemsCount: number) => void;
+  showSelectItemsCounts?: boolean;
 }
 
 const renderCell = (row: { [key: string]: any }, column: Column) => {
@@ -50,8 +52,22 @@ const useSort = (initialValue: string) => {
 };
 
 const GenericTable = (props: TableProps) => {
-  const { data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
+  const {
+    data,
+    columns,
+    singlePageItemsCount = 10,
+    setSinglePageItemsCount,
+    showSelectItemsCounts = true,
+  } = props;
+
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Reset to page 1 if data or numbers of items to show per page changes
+  // otherwise user can end up on a page that doesn't exist.
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [data, singlePageItemsCount]);
+
   const totalPages = Math.ceil(data.length / singlePageItemsCount);
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');
@@ -83,30 +99,20 @@ const GenericTable = (props: TableProps) => {
       })
     : data;
 
-  rows = sortDirection === 'ascending' ? rows.reverse() : rows;
+  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-  /* return rows.length === 0 ? (
-    <Segment>
-      <Loader
-        hidden={rows.length === 0 ? false : true}
-        active={true}
-        inline="centered"
-        size="massive"
-      >
-        Loading
-      </Loader>
-    </Segment>
-  ) :  */
+
   return (
-    <div className="scroll-table">
-      {setSinglePageItemsCount ? (
-        <SelectItemsCount
-          totalCount={data.length}
-          singlePageItemsCount={singlePageItemsCount}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          setSinglePageItemsCount={setSinglePageItemsCount}
-        />
+    <div className="genericTable scrollable">
+      {setSinglePageItemsCount && showSelectItemsCounts ? (
+        <div style={{ marginTop: '2rem' }}>
+          <SelectItemsCount
+            totalCount={data.length}
+            singlePageItemsCount={singlePageItemsCount}
+            currentPage={currentPage}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+          />
+        </div>
       ) : (
         ''
       )}

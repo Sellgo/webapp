@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Divider, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
+import { Button, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.css';
 import history from '../../history';
@@ -127,10 +127,13 @@ class Synthesis extends Component<SynthesisProps> {
   render() {
     return (
       <>
-        <PageHeader title="Synthesis" callToAction={this.renderAddNewSupplierModal()} />
-        <Segment basic={true}>
-          <Divider />
+        <PageHeader
+          title="Profit Finder"
+          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}
+          callToAction={this.renderAddNewSupplierModal()}
+        />
 
+        <Segment basic={true}>
           <SuppliersTable onEdit={this.openUpdateSupplierPopup} />
           <Confirm
             content="Do you want to exit?"

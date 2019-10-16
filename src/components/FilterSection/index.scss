@@ -1,0 +1,45 @@
+.filterSection {
+  margin-top: 2.7rem;
+
+  .filterHead {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    // Wider style
+    //padding-left: 16px;
+
+    > p {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+
+    .icon.question.circle:before {
+      line-height: 1;
+      font-size: 15px;
+      padding-left: 0.5rem;
+      color: #98aeca;
+    }
+
+    .icon.chevron.up:before {
+      font-size: 23px;
+    }
+
+    .up_icon {
+      color: #000;
+      margin-right: 20px;
+      margin-top: 3px;
+    }
+
+    .icon.chevron.down:before {
+      font-size: 23px;
+    }
+  }
+
+  // Targeting the <Container> inside <SliderRange>
+  // TODO: Maybe move spacing outside of <SliderRange>
+  .filterContent .ui.container {
+    margin-bottom: 31px;
+  }
+}

@@ -1,0 +1,41 @@
+.checkboxRangeSlider {
+  .checkboxContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 13px;
+
+    > p {
+      display: flex;
+    }
+
+    .icon.question.circle:before {
+      line-height: 1;
+      font-size: 13px;
+      padding-left: 10px;
+      color: #98aeca;
+    }
+  }
+
+  .wrapCheckbox {
+    display: flex;
+    align-items: center;
+  }
+  .wrapCheckbox .ui.fitted.checkbox {
+    margin-right: 11px;
+  }
+  .wrapCheckRange {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  /* TODO: Don't target this className! Use a wrapper div. */
+  .wrapCheckRangeContainer {
+    margin: 0 8px;
+    width: 100%;
+  }
+
+  .wrapCheckRange span {
+    font-size: 14px;
+  }
+}

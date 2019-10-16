@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Form, Grid, GridRow, Segment } from 'semantic-ui-react';
+import { Form, Grid, GridRow, Segment } from 'semantic-ui-react';
 import { Logo } from '../Dashboard/index';
 import IntroSlider from '../../components/IntroSlider';
 import PasswordShowHide from '../../components/Password/PasswordShowHide';
-import buttonStyle from '../../components/StyleComponent/StyleComponent';
 import './login.css';
+import GenericButton from '../../components/Button';
 
 export default class Login extends React.Component<any, {}> {
   render() {
@@ -48,13 +48,7 @@ export default class Login extends React.Component<any, {}> {
                     </Grid.Row>
                     <GridRow>
                       <div className="textAlignCenter">
-                        <Button
-                          as={Link}
-                          style={buttonStyle}
-                          className="primary-button"
-                          onClick={login}
-                          content="Sign In"
-                        />
+                        <GenericButton isClickable={true} onClick={login} content="Sign In" />
                       </div>
                     </GridRow>
                     <GridRow>
