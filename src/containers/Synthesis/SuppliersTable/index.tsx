@@ -26,6 +26,7 @@ import { Supplier } from '../../../interfaces/Supplier';
 import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import { error } from '../../../utils/notifications';
 import './index.scss';
+import { tableKeys } from '../../../constants';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];
@@ -358,7 +359,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             </Grid>
           </Grid.Column>
         </Grid>
-        <GenericTable data={data} columns={columns} />
+        <GenericTable tableKey={tableKeys.SUPPLIERS} data={data} columns={columns} />
         <Confirm
           content="Do you want to delete supplier?"
           open={this.state.showDeleteConfirm}
