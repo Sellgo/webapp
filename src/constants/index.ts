@@ -32,3 +32,8 @@ export const selectItemsCountList = [
     value: '100',
   },
 ];
+
+export const tableKeys = {
+  SUPPLIERS: 'supplier_list',
+  PRODUCTS: 'product_list',
+};

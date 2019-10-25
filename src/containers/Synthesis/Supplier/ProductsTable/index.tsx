@@ -15,6 +15,7 @@ import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
+import { tableKeys } from '../../../../constants';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -228,11 +229,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return (
       <div className="productsTable">
         <GenericTable
+          tableKey={tableKeys.PRODUCTS}
           data={filteredProducts}
           columns={this.columns}
           singlePageItemsCount={singlePageItemsCount}
           setSinglePageItemsCount={setSinglePageItemsCount}
-          showSelectItemsCounts={true}
         />
       </div>
     );
