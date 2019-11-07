@@ -122,7 +122,10 @@ const GenericTable = (props: TableProps) => {
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
                   onClick={column.sortable ? () => setSort(column.dataKey || '') : undefined}
                 >
-                  {column.label}
+                  {column.label}{' '}
+                  {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey)
+                    ? '▲▼'
+                    : null}
                 </Table.HeaderCell>
               );
             })}
