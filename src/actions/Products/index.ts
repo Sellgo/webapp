@@ -8,6 +8,9 @@ import {
   SET_SUPPLIER_PRODUCT_DETAILS,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_RANK,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_PRICE,
+  SET_SUPPLIER_PRODUCT_DETAIL_CHART_INVENTORY,
+  SET_SUPPLIER_PRODUCT_DETAIL_CHART_RATING,
+  SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI,
   RESET_SUPPLIER_PRODUCT_DETAILS,
 } from '../../constants/Products';
@@ -46,6 +49,37 @@ export const fetchSupplierProductDetailChartPrice = (productID: string) => async
   }
 };
 
+export const fetchSupplierProductDetailChartInventory = (productID: string) => async (
+  dispatch: any
+) => {
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API + `products/${productID}/history/inventory`
+  );
+  if (response.data) {
+    dispatch(setSupplierProductDetailChartInventory(response.data));
+  }
+};
+
+export const fetchSupplierProductDetailChartRating = (productID: string) => async (
+  dispatch: any
+) => {
+  const response = await Axios.get(AppConfig.BASE_URL_API + `products/${productID}/history/rating`);
+  if (response.data) {
+    dispatch(setSupplierProductDetailChartRating(response.data));
+  }
+};
+
+export const fetchSupplierProductDetailChartReview = (productID: string) => async (
+  dispatch: any
+) => {
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API + `products/${productID}/history/review-count`
+  );
+  if (response.data) {
+    dispatch(setSupplierProductDetailChartReview(response.data));
+  }
+};
+
 export const fetchSupplierProductDetailChartKPI = (productID: string) => async (dispatch: any) => {
   const response = await Axios.get(AppConfig.BASE_URL_API + `products/${productID}/history/kpi`);
   if (response.data) {
@@ -60,6 +94,21 @@ export const setSupplierProductDetailChartRank = (data: any) => ({
 
 export const setSupplierProductDetailChartPrice = (data: any) => ({
   type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_PRICE,
+  payload: data,
+});
+
+export const setSupplierProductDetailChartInventory = (data: any) => ({
+  type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_INVENTORY,
+  payload: data,
+});
+
+export const setSupplierProductDetailChartRating = (data: any) => ({
+  type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_RATING,
+  payload: data,
+});
+
+export const setSupplierProductDetailChartReview = (data: any) => ({
+  type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW,
   payload: data,
 });
 

@@ -5,6 +5,9 @@ import {
   fetchSupplierProductDetailChartRank,
   fetchSupplierProductDetailChartPrice,
   fetchSupplierProductDetailChartKPI,
+  fetchSupplierProductDetailChartInventory,
+  fetchSupplierProductDetailChartRating,
+  fetchSupplierProductDetailChartReview,
 } from '../../../../../actions/Products';
 import SplineChart from '../../../../../components/Chart/SplineChart';
 import LineChart from '../../../../../components/Chart/LineChart';
@@ -15,9 +18,15 @@ interface ProductChartsProps {
   product: any;
   productDetailRank: any;
   productDetailPrice: any;
+  productDetailInventory: any;
+  productDetailRating: any;
+  productDetailReview: any;
   productDetailKPI: any;
   fetchProductDetailChartRank: (productID: any) => void;
   fetchProductDetailChartPrice: (productID: any) => void;
+  fetchProductDetailChartInventory: (productID: any) => void;
+  fetchProductDetailChartRating: (productID: any) => void;
+  fetchProductDetailChartReview: (productID: any) => void;
   fetchProductDetailChartKPI: (productID: any) => void;
 }
 class ProductCharts extends Component<ProductChartsProps> {
@@ -27,15 +36,27 @@ class ProductCharts extends Component<ProductChartsProps> {
       product,
       fetchProductDetailChartRank,
       fetchProductDetailChartPrice,
+      fetchProductDetailChartInventory,
+      fetchProductDetailChartRating,
+      fetchProductDetailChartReview,
       fetchProductDetailChartKPI,
     } = this.props;
     fetchProductDetailChartRank(product.product_id);
     fetchProductDetailChartPrice(product.product_id);
+    fetchProductDetailChartInventory(product.product_id);
+    fetchProductDetailChartRating(product.product_id);
+    fetchProductDetailChartReview(product.product_id);
     fetchProductDetailChartKPI(product.product_id);
   }
 
   renderProductStatistics = (props: any) => {
-    const { popupRankContainer, popupPriceContainer } = props;
+    const {
+      popupRankContainer,
+      popupPriceContainer,
+      popupInventoryContainer,
+      popupRatingContainer,
+      popupReviewContainer,
+    } = props;
     const data = [
       {
         type: 'line',
@@ -48,6 +69,24 @@ class ProductCharts extends Component<ProductChartsProps> {
         name: 'Rank',
         color: '#F3E9CA',
         data: popupRankContainer,
+      },
+      {
+        type: 'line',
+        name: 'Inventory',
+        color: '#A3E9CA',
+        data: popupInventoryContainer,
+      },
+      {
+        type: 'line',
+        name: 'Rating',
+        color: '#F3A9CA',
+        data: popupRatingContainer,
+      },
+      {
+        type: 'line',
+        name: 'Review Count',
+        color: '#0E9FE8',
+        data: popupReviewContainer,
       },
     ];
     const chartOptions = {
@@ -83,11 +122,21 @@ class ProductCharts extends Component<ProductChartsProps> {
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
 
   renderProductCharts = () => {
-    const { productDetailRank, productDetailPrice, productDetailKPI } = this.props;
+    const {
+      productDetailRank,
+      productDetailPrice,
+      productDetailInventory,
+      productDetailRating,
+      productDetailReview,
+      productDetailKPI,
+    } = this.props;
     switch (this.state.showProductChart) {
       case 'chart0':
         const popupRankContainer = [];
         const popupPriceContainer = [];
+        const popupInventoryContainer = [];
+        const popupRatingContainer = [];
+        const popupReviewContainer = [];
 
         for (let i = 0; i < productDetailRank.length; i++) {
           popupRankContainer.push([
@@ -101,8 +150,30 @@ class ProductCharts extends Component<ProductChartsProps> {
             Number(productDetailPrice[i].price),
           ]);
         }
+        for (let i = 0; i < productDetailInventory.length; i++) {
+          popupInventoryContainer.push([
+            new Date(productDetailInventory[i].cdate).getTime(),
+            Number(productDetailInventory[i].inventory),
+          ]);
+        }
+        for (let i = 0; i < productDetailRating.length; i++) {
+          popupRatingContainer.push([
+            new Date(productDetailRating[i].cdate).getTime(),
+            Number(productDetailRating[i].rating),
+          ]);
+        }
+        for (let i = 0; i < productDetailReview.length; i++) {
+          popupReviewContainer.push([
+            new Date(productDetailReview[i].cdate).getTime(),
+            Number(productDetailReview[i].review_count),
+          ]);
+        }
 
-        return popupPriceContainer.length === 0 && popupRankContainer.length === 0 ? (
+        return popupPriceContainer.length === 0 &&
+          popupRankContainer.length === 0 &&
+          popupInventoryContainer.length === 0 &&
+          popupRatingContainer.length === 0 &&
+          popupReviewContainer.length === 0 ? (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
             Loading
           </Loader>
@@ -110,6 +181,9 @@ class ProductCharts extends Component<ProductChartsProps> {
           <this.renderProductStatistics
             popupPriceContainer={popupPriceContainer}
             popupRankContainer={popupRankContainer}
+            popupInventoryContainer={popupInventoryContainer}
+            popupRatingContainer={popupRatingContainer}
+            popupReviewContainer={popupReviewContainer}
           />
         );
 
@@ -172,12 +246,21 @@ const mapStateToProps = (state: {}) => ({
   product: get(state, 'modals.supplierProductDetail.meta'),
   productDetailRank: get(state, 'product.detailRank'),
   productDetailPrice: get(state, 'product.detailPrice'),
+  productDetailInventory: get(state, 'product.detailInventory'),
+  productDetailRating: get(state, 'product.detailRating'),
+  productDetailReview: get(state, 'product.detailReview'),
   productDetailKPI: get(state, 'product.detailKPI'),
 });
 
 const mapDispatchToProps = {
   fetchProductDetailChartRank: (productID: any) => fetchSupplierProductDetailChartRank(productID),
   fetchProductDetailChartPrice: (productID: any) => fetchSupplierProductDetailChartPrice(productID),
+  fetchProductDetailChartInventory: (productID: any) =>
+    fetchSupplierProductDetailChartInventory(productID),
+  fetchProductDetailChartRating: (productID: any) =>
+    fetchSupplierProductDetailChartRating(productID),
+  fetchProductDetailChartReview: (productID: any) =>
+    fetchSupplierProductDetailChartReview(productID),
   fetchProductDetailChartKPI: (productID: any) => fetchSupplierProductDetailChartKPI(productID),
 };
 
