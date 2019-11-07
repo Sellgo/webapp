@@ -12,22 +12,22 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {};
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(
-//   reduxForm({
-//     form: 'supplier-info',
-//     onSubmit: () => {},
-//   })(FormWrapper)
-// );
-
-export default reduxForm({
-  form: 'supplier-info',
-  onSubmit: () => {},
-})(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(FormWrapper)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  reduxForm({
+    form: 'supplier-info',
+    onSubmit: () => {},
+  })(FormWrapper)
 );
+
+// export default reduxForm({
+//   form: 'supplier-info',
+//   onSubmit: () => {},
+// })(
+//   connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+//   )(FormWrapper)
+// );
