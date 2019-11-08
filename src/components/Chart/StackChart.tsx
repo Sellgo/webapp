@@ -38,7 +38,7 @@ const renderStackChartOptions = (options: StackChartOptions) => {
     },
     tooltip: {
       headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: 'ROI(%): {point.name} <br/> {series.name}: {point.y}',
+      pointFormat: 'ROI(%): {point.total} <br/> {series.name}: {point.y}',
     },
     legend: {
       align: 'right',
