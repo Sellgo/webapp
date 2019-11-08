@@ -27,6 +27,7 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
       </span>
       <Dropdown
         text={String(singlePageItemsCount)}
+        upward={false}
         style={{ width: '100px' }}
         fluid={true}
         selection={true}
