@@ -21,13 +21,3 @@ export default connect(
     onSubmit: () => {},
   })(FormWrapper)
 );
-
-// export default reduxForm({
-//   form: 'supplier-info',
-//   onSubmit: () => {},
-// })(
-//   connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-//   )(FormWrapper)
-// );

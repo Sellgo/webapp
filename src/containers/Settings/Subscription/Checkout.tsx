@@ -8,7 +8,6 @@ import { Subscription } from '../../../interfaces/Seller';
 interface CheckoutProps {
   updateSellerSubscription: (subscription: Subscription, tokenID: any) => void;
   subscription: Subscription;
-  children: React.ReactNode;
 }
 
 class Checkout extends React.Component<CheckoutProps> {
