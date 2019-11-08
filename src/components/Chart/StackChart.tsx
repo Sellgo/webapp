@@ -7,7 +7,7 @@ export interface StackChartOptions {
   productSKUs: any;
 }
 
-const renderStackChartOptions = (options: StackChartOptions) => {
+const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
   const { title, data, productSKUs } = options;
   return {
     chart: { type: 'column', zoomType: 'x' },
@@ -58,6 +58,14 @@ const renderStackChartOptions = (options: StackChartOptions) => {
           enabled: true,
         },
       },
+      series: {
+        cursor: 'pointer',
+        events: {
+          click: (e: any) => {
+            onBubbleDetails(e.point.index);
+          },
+        },
+      },
     },
     series: data.map((e: any) => {
       return { ...e, ...{ type: 'column' } };
@@ -66,8 +74,8 @@ const renderStackChartOptions = (options: StackChartOptions) => {
 };
 
 const StackChart = (props: any) => {
-  const { options } = props;
-  const chartOptions = renderStackChartOptions(options);
+  const { options, onBubbleDetails } = props;
+  const chartOptions = renderStackChartOptions(options, onBubbleDetails);
   return (
     <div className="individual-stack-chart">
       <Chart chartOptions={chartOptions} />
