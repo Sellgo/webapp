@@ -350,7 +350,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           </Grid.Column>
           <Grid.Column>
             <Grid columns={2} style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Grid.Column style={{ width: 'auto' }}>
+              <Grid.Column className="card_content" style={{ width: 'auto' }}>
                 <SupplierTableMetrics />
               </Grid.Column>
               <Grid.Column style={{ width: 'auto' }}>

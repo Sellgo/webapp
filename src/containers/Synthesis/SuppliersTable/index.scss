@@ -11,4 +11,24 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .card_content {
+    width: 'auto';
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .card_content {
+    width: auto;
+    margin-top: -40px;
+    height: 180px;
+    margin-right: 165px;
+  }
+}
+@media screen and (min-width: 710px) and (max-width: 800px) {
+  .card_content {
+    width: auto;
+    margin-top: -46px;
+    margin-left: -20px;
+    margin-bottom: 22px;
+  }
 }
