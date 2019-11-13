@@ -223,6 +223,8 @@ export const fetchSupplierProducts = (supplierID: any) => async (
 
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
+  } else {
+    dispatch(isLoadingSupplierProducts(false));
   }
 };
 
