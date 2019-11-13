@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import './index.scss';
 import { tableKeys } from '../../constants';
@@ -36,7 +36,8 @@ const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
   const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
 
-  const handleSort = (clickedColumn: string) => {
+  const handleSort = (e: any, clickedColumn: string) => {
+    e.preventDefault();
     if (sortedColumnKey !== clickedColumn) {
       setSortedColumnKey(clickedColumn);
       setSortDirection('ascending');
@@ -54,7 +55,6 @@ const useSort = (initialValue: string) => {
 
 const GenericTable = (props: TableProps) => {
   const { tableKey, data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
-
   const [currentPage, setCurrentPage] = useState(1);
 
   // Reset to page 1 if data or numbers of items to show per page changes
@@ -94,10 +94,26 @@ const GenericTable = (props: TableProps) => {
         return 0;
       })
     : data;
-
+  const [isSearching, setSearch] = useState(null);
+  rows = rows.filter(row => {
+    const ROWS = isSearching ? row.name.toLowerCase().includes(isSearching) : rows;
+    return ROWS;
+  });
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-
+  const [isShowing, setShowing] = useState(false);
+  const handleSearchFilter = (e: any) => {
+    e.stopPropagation();
+    setShowing(true);
+  };
+  const clearSearch = (e: any) => {
+    e.stopPropagation();
+    setShowing(false);
+  };
+  const handleChange = (e: any) => {
+    setSearch(e.target.value.toLowerCase());
+  };
+  const handleResultSelect = () => {};
   return (
     <div className="genericTable scrollable">
       {setSinglePageItemsCount && showSelectItemsCounts ? (
@@ -112,6 +128,19 @@ const GenericTable = (props: TableProps) => {
       ) : (
         ''
       )}
+      {isShowing && (
+        <Card>
+          <Card.Content>
+            <Icon className="close icon" onClick={clearSearch} style={{ float: 'right' }} />
+            <Input
+              icon="search"
+              value={isSearching}
+              placeholder="Search..."
+              onChange={handleChange}
+            />
+          </Card.Content>
+        </Card>
+      )}
       <Table sortable={true} basic="very" textAlign="left">
         <Table.Header>
           <Table.Row>
@@ -120,9 +149,16 @@ const GenericTable = (props: TableProps) => {
                 <Table.HeaderCell
                   key={column.dataKey || index}
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
-                  onClick={column.sortable ? () => setSort(column.dataKey || '') : undefined}
+                  onClick={
+                    column.sortable ? (e: any) => setSort(e, column.dataKey || '') : undefined
+                  }
                 >
                   {column.label}
+                  {column.label === 'Supplier' && (
+                    <span>
+                      <Icon className="filter search_filter" onClick={handleSearchFilter} />
+                    </span>
+                  )}
                 </Table.HeaderCell>
               );
             })}
