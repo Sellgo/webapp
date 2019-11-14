@@ -118,15 +118,20 @@ export const getSellerInfo = () => (dispatch: any) => {
 
 export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
-  const bodyFormData = new FormData();
-  bodyFormData.append('name', data.name);
-  bodyFormData.append('email', data.email);
-  return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}`, bodyFormData)
-    .then(json => {
-      dispatch(setSellerInfo(json.data));
-      success('Seller Information Updated!');
-    })
-    .catch(() => {});
+  var onlyChar = /^[a-zA-Z ]*$/i;
+  if (data.name.match(onlyChar)) {
+    const bodyFormData = new FormData();
+    bodyFormData.append('name', data.name);
+    bodyFormData.append('email', data.email);
+    return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}`, bodyFormData)
+      .then(json => {
+        dispatch(setSellerInfo(json.data));
+        success('Seller Information Updated!');
+      })
+      .catch(() => {});
+  } else {
+    error('Use Characters only in Full Name');
+  }
 };
 
 export const setSellerInfo = (data: any) => ({
