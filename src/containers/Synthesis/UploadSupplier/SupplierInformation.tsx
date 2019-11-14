@@ -8,6 +8,7 @@ import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus } from '../../../constants/UploadSupplier';
 import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
+import { webUrl } from './FormValidation';
 
 const required = isRequired();
 
@@ -39,6 +40,7 @@ const SupplierDetails = () => (
           placeholder="Website"
           type="url"
           maxLength="200"
+          validate={webUrl}
         />
       </Grid.Column>
       <Grid.Column>
