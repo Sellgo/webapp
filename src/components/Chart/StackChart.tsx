@@ -28,7 +28,7 @@ const renderStackChartOptions = (options: StackChartOptions) => {
         text: 'Profit($)',
       },
       stackLabels: {
-        enabled: true,
+        enabled: false,
         format: '<b>ROI %</b>',
         style: {
           fontWeight: 'bold',
@@ -38,7 +38,7 @@ const renderStackChartOptions = (options: StackChartOptions) => {
     },
     tooltip: {
       headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: 'ROI(%): {point.total} <br/> {series.name}: {point.y}',
+      pointFormat: '{series.name}: {point.y}',
     },
     legend: {
       align: 'right',
