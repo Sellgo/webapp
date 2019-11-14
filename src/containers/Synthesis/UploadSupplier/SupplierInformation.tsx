@@ -24,7 +24,13 @@ const SupplierDetails = () => (
         />
       </Grid.Column>
       <Grid.Column>
-        <Field component={InputField} name="phone" label="Phone" placeholder="Phone" type="tel" />
+        <Field
+          component={InputField}
+          name="phone"
+          label="Phone"
+          placeholder="Phone"
+          type="number"
+        />
       </Grid.Column>
       <Grid.Column>
         <Field component={InputField} name="email" label="Email" placeholder="Email" type="email" />
