@@ -30,6 +30,7 @@ const SupplierDetails = () => (
           label="Phone"
           placeholder="Phone"
           type="number"
+          className={styles.phoneField}
         />
       </Grid.Column>
       <Grid.Column>
