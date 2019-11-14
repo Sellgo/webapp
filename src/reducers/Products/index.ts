@@ -4,6 +4,9 @@ import {
   SET_SUPPLIER_PRODUCT_DETAILS,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_RANK,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_PRICE,
+  SET_SUPPLIER_PRODUCT_DETAIL_CHART_INVENTORY,
+  SET_SUPPLIER_PRODUCT_DETAIL_CHART_RATING,
+  SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI,
   RESET_SUPPLIER_PRODUCT_DETAILS,
 } from '../../constants/Products';
@@ -12,6 +15,9 @@ const initialState = {
   details: undefined,
   detailRank: [],
   detailPrice: [],
+  detailInventory: [],
+  detailRating: [],
+  detailReview: [],
   detailKPI: [],
 };
 
@@ -23,6 +29,12 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'detailRank', action.payload);
     case SET_SUPPLIER_PRODUCT_DETAIL_CHART_PRICE:
       return setIn(state, 'detailPrice', action.payload);
+    case SET_SUPPLIER_PRODUCT_DETAIL_CHART_INVENTORY:
+      return setIn(state, 'detailInventory', action.payload);
+    case SET_SUPPLIER_PRODUCT_DETAIL_CHART_RATING:
+      return setIn(state, 'detailRating', action.payload);
+    case SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW:
+      return setIn(state, 'detailReview', action.payload);
     case SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI:
       return setIn(state, 'detailKPI', action.payload);
     case RESET_SUPPLIER_PRODUCT_DETAILS:
