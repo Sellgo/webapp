@@ -150,7 +150,9 @@
 .stepper :global(.rc-steps-item-process .rc-steps-item-title) {
   color: black !important;
 }
-
+.dropdown_width {
+  width: 421px !important;
+}
 /* .stepper :global(.rc-steps-item-content) {
   width: auto !important;
 } */
