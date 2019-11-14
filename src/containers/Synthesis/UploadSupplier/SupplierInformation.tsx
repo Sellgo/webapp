@@ -8,6 +8,7 @@ import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus } from '../../../constants/UploadSupplier';
 import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
+import { onlyNumber } from './FormValidation';
 
 const required = isRequired();
 
@@ -93,6 +94,8 @@ const SupplierDetails = () => (
             labelPosition: 'right',
           }}
           type="number"
+          min="0"
+          validate={onlyNumber}
         />
       </Grid.Column>
     </Grid.Row>
