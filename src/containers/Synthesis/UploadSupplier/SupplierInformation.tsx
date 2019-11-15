@@ -44,6 +44,7 @@ const SupplierDetails = () => (
       <Grid.Column>
         <Field
           component={SelectField}
+          className={styles.dropdown_width}
           name="timezone"
           label="Timezone"
           options={[defaultSelect, ...timezones]}
