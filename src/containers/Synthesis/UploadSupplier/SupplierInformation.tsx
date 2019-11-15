@@ -8,7 +8,7 @@ import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus } from '../../../constants/UploadSupplier';
 import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
-import { webUrl } from './FormValidation';
+import { webUrl } from '../../../utils/validations/isUrl';
 
 const required = isRequired();
 
