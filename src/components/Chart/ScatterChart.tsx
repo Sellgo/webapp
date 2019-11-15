@@ -6,7 +6,7 @@ export interface ScatterChartOptions {
   data: any;
 }
 
-const renderScatterChartOptions = (options: ScatterChartOptions) => {
+const renderScatterChartOptions = (options: ScatterChartOptions, onBubbleDetails: Function) => {
   const { title, data } = options;
   return {
     chart: {
@@ -46,6 +46,14 @@ const renderScatterChartOptions = (options: ScatterChartOptions) => {
           },
         },
       },
+      series: {
+        cursor: 'pointer',
+        events: {
+          click: (e: any) => {
+            onBubbleDetails(e.point.index);
+          },
+        },
+      },
     },
     tooltip: {
       headerFormat: '<br/>',
@@ -56,8 +64,8 @@ const renderScatterChartOptions = (options: ScatterChartOptions) => {
 };
 
 const ScatterChart = (props: any) => {
-  const { options } = props;
-  const chartOptions = renderScatterChartOptions(options);
+  const { options, onBubbleDetails } = props;
+  const chartOptions = renderScatterChartOptions(options, onBubbleDetails);
   return (
     <div className="individual-scatter-chart">
       <Chart chartOptions={chartOptions} />
