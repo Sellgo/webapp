@@ -11,6 +11,7 @@ import { AppConfig } from '../../config';
 import { AmazonMWS, Seller } from '../../interfaces/Seller';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { success, error } from '../../utils/notifications';
+import isName from '../../utils/validations/isName';
 
 export const getSellerAmazonMWSAuth = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
@@ -118,8 +119,7 @@ export const getSellerInfo = () => (dispatch: any) => {
 
 export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
-  var onlyChar = /^[a-zA-Z ]*$/i;
-  if (data.name.match(onlyChar)) {
+  if (isName()(data.name) !== 'Invalid characters') {
     const bodyFormData = new FormData();
     bodyFormData.append('name', data.name);
     bodyFormData.append('email', data.email);
