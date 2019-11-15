@@ -28,7 +28,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
         text: 'Profit($)',
       },
       stackLabels: {
-        enabled: true,
+        enabled: false,
         format: '<b>ROI %</b>',
         style: {
           fontWeight: 'bold',
@@ -38,7 +38,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     },
     tooltip: {
       headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: 'ROI(%): {point.name} <br/> {series.name}: {point.y}',
+      pointFormat: '{series.name}: {point.y}',
     },
     legend: {
       align: 'right',
