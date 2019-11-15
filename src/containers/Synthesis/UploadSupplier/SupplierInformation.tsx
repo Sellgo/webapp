@@ -8,7 +8,8 @@ import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus } from '../../../constants/UploadSupplier';
 import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
-import { onlyNumber, onlyChar } from './FormValidation';
+import isName from '../../../utils/validations/isName.js';
+import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
 
 const required = isRequired();
 
@@ -22,7 +23,7 @@ const SupplierDetails = () => (
           label="Contact Person"
           placeholder="First Last"
           maxLength="100"
-          validate={onlyChar}
+          validate={isName()}
         />
       </Grid.Column>
       <Grid.Column>
