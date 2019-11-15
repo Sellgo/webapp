@@ -14,12 +14,13 @@ import { cleanupUploadSupplier } from '../../../actions/UploadSupplier';
 interface Props {
   currentStep: number;
   cleanupUploadSupplier: typeof cleanupUploadSupplier;
+  isEditModal: boolean;
 }
 
 const Steps = [SupplierInformation, SelectFile, DataMapping, DataValidation];
 
 export const UploadSupplier = (props: Props) => {
-  const { currentStep, cleanupUploadSupplier } = props;
+  const { currentStep, cleanupUploadSupplier, isEditModal } = props;
   const StepComponent = Steps[currentStep];
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export const UploadSupplier = (props: Props) => {
 
   return (
     <div className={styles.container}>
-      <UploadSteps />
+      <UploadSteps isEditModal={isEditModal} />
       <div className={styles.marginTop} />
       <div className={styles.section}>
         <FormWrapper>
@@ -51,7 +52,4 @@ const mapDispatchToProps = {
   cleanupUploadSupplier,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadSupplier);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadSupplier);

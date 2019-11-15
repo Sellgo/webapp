@@ -9,6 +9,7 @@ import styles from './UploadSupplier.module.css';
 interface Props {
   value: number;
   onChange: (newValue: number) => void;
+  isEditModal: boolean;
 }
 
 const steps = [
@@ -34,14 +35,20 @@ const steps = [
 ];
 
 export const UploadSteps = (props: Props) => {
-  const { value } = props;
+  const { value, isEditModal } = props;
   return (
     <Stepper className={styles.stepper} {...props}>
       {({ Step }) =>
         steps.map((step, index) => (
           <Step
             key={step.title}
-            title={step.title}
+            title={
+              !isEditModal
+                ? step.title
+                : step.title === 'Add New Supplier'
+                ? 'Edit Supplier'
+                : step.title
+            }
             disabled={index < value - 1 || index > value + 1}
             icon={step.icon}
             description={step.description}
@@ -62,7 +69,4 @@ const mapDispatchToProps = {
   onChange: setUploadSupplierStep,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadSteps);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadSteps);
