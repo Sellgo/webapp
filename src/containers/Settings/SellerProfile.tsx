@@ -37,15 +37,18 @@ const SellerProfile = (props: any) => {
   };
   const uploadImage = (event: any) => {
     const updatedProfileImageLocal = { ...profileImageLocal, ...{ imageUploadProgress: true } };
-    if (
-      updatedProfileImageLocal.imageType &&
-      (updatedProfileImageLocal.imageType === 'image/jpeg' ||
-        updatedProfileImageLocal.imageType === 'image/png')
-    ) {
-      setprofileImageLocal(updatedProfileImageLocal);
-      props.updateProfileImage(profileImageLocal.imageType, profileImageLocal.imageFile);
+    if (updatedProfileImageLocal.imageType) {
+      if (
+        updatedProfileImageLocal.imageType === 'image/jpeg' ||
+        updatedProfileImageLocal.imageType === 'image/png'
+      ) {
+        setprofileImageLocal(updatedProfileImageLocal);
+        props.updateProfileImage(profileImageLocal.imageType, profileImageLocal.imageFile);
+      } else {
+        error('Invalid file type!');
+      }
     } else {
-      error('No file uploaded or invalid file type!');
+      error('No file uploaded');
     }
   };
   const fileInputRef: any = React.createRef();
