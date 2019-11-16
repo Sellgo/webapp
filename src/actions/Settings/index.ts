@@ -130,7 +130,7 @@ export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
       })
       .catch(() => {});
   } else {
-    error('Use Characters only in Full Name');
+    error('Use characters only in full name');
   }
 };
 
