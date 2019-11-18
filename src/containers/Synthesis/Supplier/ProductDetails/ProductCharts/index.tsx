@@ -194,14 +194,8 @@ class ProductCharts extends Component<ProductChartsProps> {
 
         for (let i = 0; i < productDetailKPI.length; i++) {
           productTimeline.push(new Date(productDetailKPI[i].cdate).toDateString());
-          productProfit.push([
-            new Date(productDetailKPI[i].cdate).toDateString(),
-            parseFloat(productDetailKPI[i].profit),
-          ]);
-          productROI.push([
-            new Date(productDetailKPI[i].cdate).toDateString(),
-            parseFloat(productDetailKPI[i].roi),
-          ]);
+          productProfit.push(parseFloat(productDetailKPI[i].profit));
+          productROI.push(parseFloat(productDetailKPI[i].roi));
         }
         return productTimeline.length && productProfit.length && productROI.length ? (
           <this.renderROI
@@ -270,4 +264,7 @@ const mapDispatchToProps = {
   fetchProductDetailChartKPI: (productID: any) => fetchSupplierProductDetailChartKPI(productID),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductCharts);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductCharts);
