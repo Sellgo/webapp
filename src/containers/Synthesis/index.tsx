@@ -73,7 +73,6 @@ class Synthesis extends Component<SynthesisProps> {
 
   renderAddNewSupplierModal = () => {
     const { uploadSupplierModalOpen } = this.props;
-    const { isEditModal } = this.state;
     return (
       <>
         <Modal
