@@ -125,7 +125,7 @@ const GenericTable = (props: TableProps) => {
                 >
                   {column.label}{' '}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
-                    <img src={SortIcon} className="sort_arrow" />
+                    <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
                   ) : null}
                 </Table.HeaderCell>
               );
