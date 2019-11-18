@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input, Dropdown } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import './index.scss';
 import { tableKeys } from '../../constants';
@@ -21,6 +21,11 @@ export interface TableProps {
   setSinglePageItemsCount?: (itemsCount: number) => void;
   tableKey?: string;
 }
+const options = [
+  { key: 1, text: 'Active', value: 'active' },
+  { key: 2, text: ' Inactive', value: 'inactive' },
+  { key: 3, text: 'Not assigned', value: 'null' },
+];
 
 const renderCell = (row: { [key: string]: any }, column: Column) => {
   if (column.render) {
@@ -95,23 +100,55 @@ const GenericTable = (props: TableProps) => {
       })
     : data;
   const [isSearching, setSearch] = useState(null);
+  const [filterName, setFilterName] = useState('');
   rows = rows.filter(row => {
-    const ROWS = isSearching ? row.name.toLowerCase().includes(isSearching) : rows;
+    let ROWS = {};
+    if (filterName === 'Supplier') {
+      ROWS = isSearching ? row.name.toLowerCase().startsWith(isSearching) : rows;
+    }
+    if (filterName === 'Filename') {
+      if (isSearching && row.file_name !== null) {
+        ROWS = row.file_name.toLowerCase().startsWith(isSearching);
+      } else {
+        ROWS = rows;
+      }
+    }
+    if (filterName === 'Account Status') {
+      if (isSearching === 'active') {
+        ROWS = row.account_status === 'active';
+      } else if (isSearching === 'inactive') {
+        ROWS = row.account_status === 'inactive';
+      } else if (isSearching === 'null') {
+        ROWS = row.account_status === null;
+      } else {
+        ROWS = rows;
+      }
+    }
     return ROWS;
   });
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
   const [isShowing, setShowing] = useState(false);
-  const handleSearchFilter = (e: any) => {
+  const handleSearchFilter = (e: any, key: any) => {
     e.stopPropagation();
     setShowing(true);
+    setFilterName(key);
   };
   const clearSearch = (e: any) => {
     e.stopPropagation();
     setShowing(false);
+    setSearch(null);
   };
-  const handleChange = (e: any) => {
-    setSearch(e.target.value.toLowerCase());
+  const handleChange = (e: any, name: any) => {
+    if (name === 'Supplier') {
+      setSearch(e.target.value.toLowerCase());
+    }
+    if (name === 'Filename') {
+      setSearch(e.target.value);
+    }
+  };
+  const handleDropdownChange = (e: any, data: any) => {
+    setSearch(data.value);
   };
   const handleResultSelect = () => {};
   return (
@@ -130,15 +167,30 @@ const GenericTable = (props: TableProps) => {
       )}
       {isShowing && (
         <Card>
-          <Card.Content>
-            <Icon className="close icon" onClick={clearSearch} style={{ float: 'right' }} />
-            <Input
-              icon="search"
-              value={isSearching}
-              placeholder="Search..."
-              onChange={handleChange}
-            />
-          </Card.Content>
+          <Card.Header>{filterName}</Card.Header>
+          {(filterName === 'Supplier' || filterName === 'Filename') && (
+            <Card.Content>
+              <Icon className="close icon" onClick={clearSearch} style={{ float: 'right' }} />
+              <Input
+                icon="search"
+                value={isSearching}
+                placeholder="Search..."
+                onChange={(e: any) => handleChange(e, filterName)}
+              />
+            </Card.Content>
+          )}
+          {filterName === 'Account Status' && (
+            <Card.Content>
+              <Icon className="close icon" onClick={clearSearch} style={{ float: 'right' }} />
+              <Dropdown
+                clearable
+                placeholder="Select Status"
+                options={options}
+                onChange={(e: any, data: any) => handleDropdownChange(e, data)}
+                selection
+              />
+            </Card.Content>
+          )}
         </Card>
       )}
       <Table sortable={true} basic="very" textAlign="left">
@@ -154,9 +206,14 @@ const GenericTable = (props: TableProps) => {
                   }
                 >
                   {column.label}
-                  {column.label === 'Supplier' && (
+                  {(column.label === 'Supplier' ||
+                    column.label === 'Filename' ||
+                    column.label === 'Account Status') && (
                     <span>
-                      <Icon className="filter search_filter" onClick={handleSearchFilter} />
+                      <Icon
+                        className="filter search_filter"
+                        onClick={(e: any) => handleSearchFilter(e, column.label)}
+                      />
                     </span>
                   )}
                 </Table.HeaderCell>
