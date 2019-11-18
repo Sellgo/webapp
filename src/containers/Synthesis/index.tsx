@@ -57,6 +57,7 @@ class Synthesis extends Component<SynthesisProps> {
   handleAddNewSupplierModalOpen = () => {
     const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
     if (amazonMWSAuthorized) {
+      this.setState({ isEditModal: false });
       openUploadSupplierModal();
     } else {
       error('Unauthorized access! Please add Amazon Seller Central credentials', {
