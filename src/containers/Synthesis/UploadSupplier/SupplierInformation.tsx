@@ -10,6 +10,7 @@ import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
 import isName from '../../../utils/validations/isName.js';
 import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
+import { webUrl } from '../../../utils/validations/isUrl';
 
 const required = isRequired();
 
@@ -42,11 +43,13 @@ const SupplierDetails = () => (
           placeholder="Website"
           type="url"
           maxLength="200"
+          validate={webUrl}
         />
       </Grid.Column>
       <Grid.Column>
         <Field
           component={SelectField}
+          className={styles.dropdown_width}
           name="timezone"
           label="Timezone"
           options={[defaultSelect, ...timezones]}
