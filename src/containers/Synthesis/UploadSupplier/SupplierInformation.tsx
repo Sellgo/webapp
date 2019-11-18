@@ -8,6 +8,7 @@ import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus } from '../../../constants/UploadSupplier';
 import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
+import { isNumber } from '../../../utils/validations/isPhone';
 
 const required = isRequired();
 
@@ -28,8 +29,8 @@ const SupplierDetails = () => (
           component={InputField}
           name="phone"
           label="Phone"
-          placeholder="Phone"
-          type="number"
+          placeholder="+1 (123) 123-1250"
+          validate={isNumber}
           className={styles.phoneField}
         />
       </Grid.Column>
