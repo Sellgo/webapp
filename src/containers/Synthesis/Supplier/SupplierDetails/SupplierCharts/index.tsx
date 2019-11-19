@@ -178,7 +178,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             }}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+          <Loader
+            active={productSKUs.length ? true : false}
+            inline="centered"
+            className="popup-loader"
+            size="massive"
+          >
             Loading
           </Loader>
         );
@@ -187,7 +192,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         let fees = [];
         product_cost = showProducts.map(e => parseFloat(e['product_cost']));
         fees = showProducts.map(e => parseFloat(e['fees']));
-
         return productSKUs.length && profit.length && product_cost.length && fees.length ? (
           <this.renderRevenue
             productSKUs={productSKUs}
@@ -199,7 +203,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             }}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+          <Loader
+            active={productSKUs.length ? true : false}
+            inline="centered"
+            className="popup-loader"
+            size="massive"
+          >
             Loading
           </Loader>
         );
@@ -218,7 +227,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             }}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+          <Loader
+            active={productSKUs.length ? true : false}
+            inline="centered"
+            className="popup-loader"
+            size="massive"
+          >
             Loading
           </Loader>
         );
@@ -228,18 +242,9 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   render() {
-    const { products, filterRanges } = this.props;
-    if ((products.length === 1 && products[0] === undefined) || filterRanges === undefined) {
-      return (
-        <Loader
-          hidden={products.length === 1 && products[0] === undefined ? false : true}
-          active={true}
-          inline="centered"
-          size="massive"
-        >
-          Loading
-        </Loader>
-      );
+    const { products, filterRanges, supplierDetails } = this.props;
+    if ((products.length === 0 && supplierDetails === null) || filterRanges === undefined) {
+      return null;
     }
     return (
       <div className="supplierCharts">
@@ -303,7 +308,4 @@ const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierCharts);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierCharts);
