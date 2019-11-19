@@ -230,7 +230,6 @@ const GenericTable = (props: TableProps) => {
                       />
                     </span>
                   )}
-                  {column.label}{' '}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
                   ) : null}
