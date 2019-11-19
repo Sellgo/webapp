@@ -4,6 +4,7 @@ import { Table, Pagination } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import './index.scss';
 import { tableKeys } from '../../constants';
+import SortIcon from '../../assets/images/sort-solid.svg';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -122,7 +123,10 @@ const GenericTable = (props: TableProps) => {
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
                   onClick={column.sortable ? () => setSort(column.dataKey || '') : undefined}
                 >
-                  {column.label}
+                  {column.label}{' '}
+                  {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
+                    <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
+                  ) : null}
                 </Table.HeaderCell>
               );
             })}
