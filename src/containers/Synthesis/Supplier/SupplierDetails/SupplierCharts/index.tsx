@@ -4,11 +4,16 @@ import get from 'lodash/get';
 import StackChart from '../../../../../components/Chart/StackChart';
 import PieChart from '../../../../../components/Chart/PieChart';
 import ScatterChart from '../../../../../components/Chart/ScatterChart';
-import { Loader, Form } from 'semantic-ui-react';
+import { Loader, Form, Modal } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
 import { findFilterProducts } from '../../../../../constants/Suppliers';
+import {
+  openSupplierProductDetailModal,
+  closeSupplierProductDetailModal,
+} from '../../../../../actions/Modals';
+import ProductDetails from '../../ProductDetails';
 import './index.scss';
 
 interface SupplierChartsProps {
@@ -18,6 +23,9 @@ interface SupplierChartsProps {
   filterRanges: any;
   singlePageItemsCount: number;
   fetchSupplierDetails: (supplierID: any) => void;
+  openProductDetailModal: (product?: Product) => void;
+  productDetailsModalOpen: false;
+  closeProductDetailModal: () => void;
 }
 class SupplierCharts extends Component<SupplierChartsProps> {
   state = { showChart: 'chart0' };
@@ -28,7 +36,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   }
 
   renderProfit = (props: any) => {
-    const { monthly_data } = props;
+    const { monthly_data, onBubbleDetails } = props;
     const data = [
       {
         type: 'scatter',
@@ -47,7 +55,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       title: 'Profit vs Unit Sold/mo',
       data: data,
     };
-    return <ScatterChart options={chartOptions} />;
+    return <ScatterChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
   };
 
   renderHit = (props: any) => {
@@ -83,7 +91,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   renderRevenue = (props: any) => {
-    const { profit, product_cost, fees, productSKUs } = props;
+    const { profit, product_cost, fees, productSKUs, onBubbleDetails } = props;
     const data = [
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
@@ -94,11 +102,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       productSKUs: productSKUs,
       data: data,
     };
-    return <StackChart options={chartOptions} />;
+    return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
   };
 
   renderPOFP = (props: any) => {
-    const { profit, productSKUs } = props;
+    const { profit, productSKUs, onBubbleDetails } = props;
     const data = [
       {
         color: '#CAE1F3',
@@ -112,13 +120,20 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       productSKUs: productSKUs,
       data: data,
     };
-    return <StackChart options={chartOptions} />;
+    return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
   };
 
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
-    const { supplierDetails, products, filterRanges, singlePageItemsCount } = this.props;
+    const {
+      supplierDetails,
+      products,
+      filterRanges,
+      singlePageItemsCount,
+      openProductDetailModal,
+      supplierID,
+    } = this.props;
     const filteredProducts = findFilterProducts(products, filterRanges);
 
     const sortProducts = [...filteredProducts].sort(
@@ -158,6 +173,9 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             profit_monthly={profit_monthly}
             sales_monthly={sales_monthly}
             monthly_data={monthly_data}
+            onBubbleDetails={(id: number) => {
+              openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
+            }}
           />
         ) : (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
@@ -176,6 +194,9 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             product_cost={product_cost}
             fees={fees}
             profit={profit}
+            onBubbleDetails={(id: number) => {
+              openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
+            }}
           />
         ) : (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
@@ -188,7 +209,14 @@ class SupplierCharts extends Component<SupplierChartsProps> {
           return { name: parseFloat(e['roi']), y: parseFloat(e['profit']) };
         });
         return productSKUs.length && roi.length ? (
-          <this.renderPOFP productSKUs={productSKUs} roi={roi} profit={profit} />
+          <this.renderPOFP
+            productSKUs={productSKUs}
+            roi={roi}
+            profit={profit}
+            onBubbleDetails={(id: number) => {
+              openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
+            }}
+          />
         ) : (
           <Loader active={true} inline="centered" className="popup-loader" size="massive">
             Loading
@@ -246,6 +274,16 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             />
           </Form.Group>
         </Form>
+        <Modal
+          size={'large'}
+          open={this.props.productDetailsModalOpen}
+          onClose={this.props.closeProductDetailModal}
+          closeIcon={true}
+        >
+          <Modal.Content>
+            <ProductDetails />
+          </Modal.Content>
+        </Modal>
       </div>
     );
   }
@@ -256,10 +294,13 @@ const mapStateToProps = (state: {}) => ({
   products: get(state, 'supplier.products'),
   filterRanges: get(state, 'supplier.filterRanges'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
 
 const mapDispatchToProps = {
   fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),
+  openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
+  closeProductDetailModal: () => closeSupplierProductDetailModal(),
 };
 
 export default connect(

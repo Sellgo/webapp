@@ -4,6 +4,7 @@ import { Table, Pagination, Icon, Card, Input, Dropdown } from 'semantic-ui-reac
 import SelectItemsCount from './SelectItemsCount';
 import './index.scss';
 import { tableKeys } from '../../constants';
+import SortIcon from '../../assets/images/sort-solid.svg';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -229,6 +230,10 @@ const GenericTable = (props: TableProps) => {
                       />
                     </span>
                   )}
+                  {column.label}{' '}
+                  {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
+                    <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
+                  ) : null}
                 </Table.HeaderCell>
               );
             })}

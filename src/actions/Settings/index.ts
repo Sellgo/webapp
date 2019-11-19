@@ -11,6 +11,7 @@ import { AppConfig } from '../../config';
 import { AmazonMWS, Seller } from '../../interfaces/Seller';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { success, error } from '../../utils/notifications';
+import isName from '../../utils/validations/isName';
 
 export const getSellerAmazonMWSAuth = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
@@ -118,15 +119,19 @@ export const getSellerInfo = () => (dispatch: any) => {
 
 export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
-  const bodyFormData = new FormData();
-  bodyFormData.append('name', data.name);
-  bodyFormData.append('email', data.email);
-  return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}`, bodyFormData)
-    .then(json => {
-      dispatch(setSellerInfo(json.data));
-      success('Seller Information Updated!');
-    })
-    .catch(() => {});
+  if (isName()(data.name) !== 'Invalid characters') {
+    const bodyFormData = new FormData();
+    bodyFormData.append('name', data.name);
+    bodyFormData.append('email', data.email);
+    return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}`, bodyFormData)
+      .then(json => {
+        dispatch(setSellerInfo(json.data));
+        success('Seller Information Updated!');
+      })
+      .catch(() => {});
+  } else {
+    error('Use characters only in full name');
+  }
 };
 
 export const setSellerInfo = (data: any) => ({

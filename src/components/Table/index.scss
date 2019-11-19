@@ -11,7 +11,12 @@
   }
 }
 .search_filter {
-  float: right;
+  float: right
+    
+.sort_arrow {
+  max-width: 10px;
+  max-height: 13px;
+  margin-left: 7px;
 }
 .filterCard {
   width: 232px !important;
