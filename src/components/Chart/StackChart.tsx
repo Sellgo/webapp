@@ -7,7 +7,7 @@ export interface StackChartOptions {
   productSKUs: any;
 }
 
-const renderStackChartOptions = (options: StackChartOptions) => {
+const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
   const { title, data, productSKUs } = options;
   return {
     chart: { type: 'column', zoomType: 'x' },
@@ -28,7 +28,7 @@ const renderStackChartOptions = (options: StackChartOptions) => {
         text: 'Profit($)',
       },
       stackLabels: {
-        enabled: true,
+        enabled: false,
         format: '<b>ROI %</b>',
         style: {
           fontWeight: 'bold',
@@ -38,7 +38,7 @@ const renderStackChartOptions = (options: StackChartOptions) => {
     },
     tooltip: {
       headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: 'ROI(%): {point.name} <br/> {series.name}: {point.y}',
+      pointFormat: '{series.name}: {point.y}',
     },
     legend: {
       align: 'right',
@@ -58,6 +58,14 @@ const renderStackChartOptions = (options: StackChartOptions) => {
           enabled: true,
         },
       },
+      series: {
+        cursor: 'pointer',
+        events: {
+          click: (e: any) => {
+            onBubbleDetails(e.point.index);
+          },
+        },
+      },
     },
     series: data.map((e: any) => {
       return { ...e, ...{ type: 'column' } };
@@ -66,8 +74,8 @@ const renderStackChartOptions = (options: StackChartOptions) => {
 };
 
 const StackChart = (props: any) => {
-  const { options } = props;
-  const chartOptions = renderStackChartOptions(options);
+  const { options, onBubbleDetails } = props;
+  const chartOptions = renderStackChartOptions(options, onBubbleDetails);
   return (
     <div className="individual-stack-chart">
       <Chart chartOptions={chartOptions} />
