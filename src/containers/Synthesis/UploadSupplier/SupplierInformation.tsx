@@ -33,7 +33,7 @@ const SupplierDetails = () => (
           component={InputField}
           name="phone"
           label="Phone"
-          placeholder="+1 (123) 123-1250"
+          placeholder="e.g. +1 (416) 555-1212"
           validate={isNumber}
           className={styles.phoneField}
         />
