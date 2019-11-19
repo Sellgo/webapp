@@ -166,11 +166,25 @@ const GenericTable = (props: TableProps) => {
         ''
       )}
       {isShowing && (
-        <Card>
-          <Card.Header>{filterName}</Card.Header>
+        <Card
+          className={
+            filterName === 'Filename'
+              ? 'filenameCard filterCard'
+              : filterName === 'Account Status'
+              ? 'statusCard filterCard'
+              : 'filterCard'
+          }
+        >
+          <Card.Header>
+            <span className="cardHeader">{filterName}</span>
+            <Icon
+              className="close icon closeIcon"
+              onClick={clearSearch}
+              style={{ float: 'right' }}
+            />
+          </Card.Header>
           {(filterName === 'Supplier' || filterName === 'Filename') && (
             <Card.Content>
-              <Icon className="close icon" onClick={clearSearch} style={{ float: 'right' }} />
               <Input
                 icon="search"
                 value={isSearching}
@@ -181,7 +195,6 @@ const GenericTable = (props: TableProps) => {
           )}
           {filterName === 'Account Status' && (
             <Card.Content>
-              <Icon className="close icon" onClick={clearSearch} style={{ float: 'right' }} />
               <Dropdown
                 clearable
                 placeholder="Select Status"
