@@ -18,3 +18,18 @@
 .search_filter {
   float: right;
 }
+.cardHeader {
+  font-family: sans-serif;
+  font-size: 14px;
+  margin-left: 13px;
+  font-weight: bold;
+}
+i.icon.close:before {
+  border: none !important;
+}
+.filterCard {
+  width: 232px !important;
+}
+i.icon.filter:before {
+  font-size: 12px !important;
+}

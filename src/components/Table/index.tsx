@@ -97,6 +97,7 @@ const GenericTable = (props: TableProps) => {
       })
     : data;
   const [isSearching, setSearch] = useState('');
+  const [filterName, setFilterName] = useState('');
   rows = rows.filter(row => {
     const ROWS = isSearching ? row.name.toLowerCase().startsWith(isSearching.toLowerCase()) : rows;
     return ROWS;
@@ -105,13 +106,15 @@ const GenericTable = (props: TableProps) => {
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
   const [isShowing, setShowing] = useState(false);
-  const handleSearchFilter = (e: any) => {
+  const handleSearchFilter = (e: any, key: any) => {
     e.stopPropagation();
     setShowing(true);
+    setFilterName(key);
   };
   const clearSearch = (e: any) => {
     e.stopPropagation();
     setShowing(false);
+    setSearch('');
   };
   const handleChange = (e: any) => {
     setSearch(e.target.value);
@@ -131,9 +134,17 @@ const GenericTable = (props: TableProps) => {
         ''
       )}
       {isShowing && (
-        <Card>
+        <Card className="filterCard">
+          <Card.Header>
+            <span className="cardHeader">{filterName}</span>
+            <span className="cardHeader"></span>
+            <Icon
+              className="close icon closeIcon"
+              onClick={clearSearch}
+              style={{ float: 'right' }}
+            />
+          </Card.Header>
           <Card.Content>
-            <Icon className="close icon" onClick={clearSearch} style={{ float: 'right' }} />
             <Input
               icon="search"
               value={isSearching}
@@ -159,7 +170,10 @@ const GenericTable = (props: TableProps) => {
                   {column.label}
                   {column.label === 'Supplier' && (
                     <span>
-                      <Icon className="filter search_filter" onClick={handleSearchFilter} />
+                      <Icon
+                        className="filter search_filter"
+                        onClick={(e: any) => handleSearchFilter(e, column.label)}
+                      />
                     </span>
                   )}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
