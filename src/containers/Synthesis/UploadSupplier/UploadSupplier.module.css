@@ -154,3 +154,46 @@
 /* .stepper :global(.rc-steps-item-content) {
   width: auto !important;
 } */
+
+@media screen and (min-width: 310px) and (max-width: 767px) {
+  .stepper {
+    padding: 10px 0px !important;
+  }
+  .stepper :global(.rc-steps-icon) {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .stepper :global(.rc-steps-icon) i {
+    font-size: 16px !important;
+  }
+  .stepper :global(.rc-steps-item-content) {
+    width: 50px !important;
+  }
+  .stepper :global(.rc-steps-icon) {
+    background: #fff !important;
+  }
+  .stepper :global(.rc-steps-item-tail) {
+    left: -33px !important;
+    width: 100px !important;
+    top: 2px !important;
+  }
+  .stepper :global(.rc-steps-item-title) {
+    font-size: 10px !important;
+  }
+  .supply_container {
+    font-size: 14px !important;
+    margin: 5px 0px !important;
+  }
+  .bgColor .wdt100 {
+    width: 100% !important;
+  }
+  .fieldWidth {
+    width: 157px !important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .supply_container {
+    font-size: 14px !important;
+    margin: 5px 10px !important;
+  }
+}

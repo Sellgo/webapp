@@ -29,7 +29,7 @@ export const UploadSupplier = (props: Props) => {
   }, [cleanupUploadSupplier]);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${styles.supply_container}`}>
       <UploadSteps />
       <div className={styles.marginTop} />
       <div className={styles.section}>
@@ -51,7 +51,4 @@ const mapDispatchToProps = {
   cleanupUploadSupplier,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadSupplier);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadSupplier);
