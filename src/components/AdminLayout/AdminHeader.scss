@@ -44,8 +44,15 @@
     padding-left: 0px;
     padding-right: 10px;
   }
+  .username {
+    display: none !important;
+  }
+  .admin-header .main-menu {
+    margin-left: 0px !important;
+  }
   .admin-header .right-menu > .item {
     padding-left: 0;
+    padding-right: 16px;
   }
   /*==========================*/
   .pageHeader .ui.header {

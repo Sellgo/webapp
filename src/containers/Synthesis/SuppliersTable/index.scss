@@ -32,3 +32,20 @@
     margin-bottom: 22px;
   }
 }
+@media screen and (min-width: 310px) and (max-width: 767px) {
+  .wdt100 {
+    width: 100% !important;
+  }
+  .card_content {
+    margin-right: 0 !important;
+    height: auto !important;
+  }
+
+  .flexCol {
+    flex-direction: column !important;
+  }
+  .menuItem {
+    margin-bottom: 20px !important;
+    border-bottom: 0px !important;
+  }
+}
