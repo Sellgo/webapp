@@ -99,7 +99,17 @@ const GenericTable = (props: TableProps) => {
   const [isSearching, setSearch] = useState('');
   const [filterName, setFilterName] = useState('');
   rows = rows.filter(row => {
-    const ROWS = isSearching ? row.name.toLowerCase().startsWith(isSearching.toLowerCase()) : rows;
+    //const ROWS = isSearching ? row.name.toLowerCase().startsWith(isSearching.toLowerCase()) : rows;
+    let ROWS;
+    if (isSearching) {
+      if (row.name.toLowerCase().startsWith(isSearching.toLowerCase())) {
+        ROWS = row.name.toLowerCase().startsWith(isSearching.toLowerCase());
+      } else {
+        ROWS = row.name.toLowerCase().includes(isSearching.toLowerCase());
+      }
+    } else {
+      ROWS = rows;
+    }
     return ROWS;
   });
 
