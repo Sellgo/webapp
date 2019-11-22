@@ -54,6 +54,7 @@ const SupplierDetails = () => (
     <Grid.Row>
       <Grid.Column>
         <Field
+          className={styles.dropdwn_wdth}
           component={SelectField}
           name="account_status"
           label="Account Status"
@@ -69,7 +70,7 @@ const SupplierDetails = () => (
         />
       </Grid.Column>
     </Grid.Row>
-    <Grid.Row>
+    <Grid.Row className="equal width">
       <Grid.Column>
         <Field
           component={InputField}

@@ -25,7 +25,7 @@ const PreviewTable = (props: PreviewTableProps) => {
     csv.length > NUMBER_OF_ROWS_TO_DISPLAY ? csv.length - NUMBER_OF_ROWS_TO_DISPLAY : 0;
 
   return (
-    <Table celled={true}>
+    <Table celled={true} unstackable>
       <Table.Header>
         <Table.Row>
           {columnHeaders.map(columnHeader => (
@@ -66,7 +66,4 @@ const mapStateToProps = (state: object) => ({
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PreviewTable);
+export default connect(mapStateToProps, mapDispatchToProps)(PreviewTable);

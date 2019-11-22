@@ -43,12 +43,13 @@ const ColumnMappings = ({
         />
       </Header>
       <Grid>
-        <Grid.Row>
+        <Grid.Row className={`stackable ${styles.data_map_col}`}>
           {FieldsToMap.map(({ key, label }) => (
             <Grid.Column key={key} width={3}>
               <Form.Field>
                 <label className="block">{label}</label>
                 <Select
+                  className={styles.dropdwn_wdth}
                   style={{ minWidth: '10em' }}
                   onChange={(event, data) => mapColumn(data.value as number, key)}
                   value={isNil(reversedColumnMappings[key]) ? -1 : reversedColumnMappings[key]}
@@ -75,7 +76,4 @@ const mapDispatchToProps = {
   toggleFirstRowHeader,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ColumnMappings);
+export default connect(mapStateToProps, mapDispatchToProps)(ColumnMappings);
