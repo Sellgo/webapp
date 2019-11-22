@@ -47,9 +47,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Header as="h2">{header}</Header>
-          <Segment basic={true} padded="very">
+          <Segment basic={true} padded="very" className="subs_wrap">
             {subscriptions.map((subscription: Subscription, index: number) => (
               <Card
+                className="subscriber_card"
                 key={index}
                 style={{ display: 'inline-block', margin: '10px', verticalAlign: 'baseline' }}
               >
@@ -122,7 +123,4 @@ const mapDispatchToProps = {
   fetchSellerSubscription: () => fetchSellerSubscription(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SubscriptionPricing);
+export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPricing);

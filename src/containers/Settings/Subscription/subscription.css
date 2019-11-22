@@ -6,3 +6,21 @@
 .subscription .limit {
   padding: 50px 0 50px 0;
 }
+
+.subs_wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.subscriber_card {
+  min-height: 502px !important;
+  padding-bottom: 52px !important;
+}
+
+.subscriber_card button {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
