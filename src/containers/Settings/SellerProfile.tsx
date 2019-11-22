@@ -45,10 +45,10 @@ const SellerProfile = (props: any) => {
   const memberDate = moment(cdate || moment()).format('MMM DD YYYY');
 
   return (
-    <Segment basic={true} padded="very">
+    <Segment basic={true} padded="very" className="seller_info">
       <Container style={{ width: '80%' }}>
         <Grid>
-          <Grid.Row>
+          <Grid.Row className="stackable">
             <Grid.Column
               width={3}
               textAlign="center"
