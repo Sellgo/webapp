@@ -24,3 +24,10 @@
   transform: translateX(-50%);
   white-space: nowrap;
 }
+
+@media only screen and (min-width: 310px) and (max-width: 767px) {
+  .subs_wrap {
+    flex-direction: column;
+    padding: 0px !important;
+  }
+}
