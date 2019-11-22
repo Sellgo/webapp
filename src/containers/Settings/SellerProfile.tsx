@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Form, Grid, Header, Image, Segment } from 'semantic-ui-react';
 import moment from 'moment';
+import { error } from '../../utils/notifications';
 
 const SellerProfile = (props: any) => {
   const [profileImageLocal, setprofileImageLocal] = useState({
@@ -36,8 +37,19 @@ const SellerProfile = (props: any) => {
   };
   const uploadImage = (event: any) => {
     const updatedProfileImageLocal = { ...profileImageLocal, ...{ imageUploadProgress: true } };
-    setprofileImageLocal(updatedProfileImageLocal);
-    props.updateProfileImage(profileImageLocal.imageType, profileImageLocal.imageFile);
+    if (updatedProfileImageLocal.imageType) {
+      if (
+        updatedProfileImageLocal.imageType === 'image/jpeg' ||
+        updatedProfileImageLocal.imageType === 'image/png'
+      ) {
+        setprofileImageLocal(updatedProfileImageLocal);
+        props.updateProfileImage(profileImageLocal.imageType, profileImageLocal.imageFile);
+      } else {
+        error('Invalid file type!');
+      }
+    } else {
+      error('No file uploaded');
+    }
   };
   const fileInputRef: any = React.createRef();
 
