@@ -10,11 +10,11 @@ body {
 }
 
 @media only screen and (min-width: 310px) and (max-width: 767px) {
-  .seller_info {
+  .seller-info {
     padding: 0px !important;
   }
 
-  .btns_wrap button {
+  .btns-wrap button {
     margin-bottom: 10px !important;
   }
 }

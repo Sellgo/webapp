@@ -202,7 +202,7 @@ const SellerAmazonMWS = (props: any) => {
                         />
                       }
                     />
-                    <div className="btns_wrap">
+                    <div className="btns-wrap">
                       <Button
                         disabled={amazonMWSLocal.saved}
                         primary={true}
