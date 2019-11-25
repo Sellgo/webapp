@@ -99,18 +99,15 @@ const GenericTable = (props: TableProps) => {
   const [isSearching, setSearch] = useState('');
   const [filterName, setFilterName] = useState('');
   rows = rows.filter(row => {
-    //const ROWS = isSearching ? row.name.toLowerCase().startsWith(isSearching.toLowerCase()) : rows;
-    let ROWS;
     if (isSearching) {
       if (row.name.toLowerCase().startsWith(isSearching.toLowerCase())) {
-        ROWS = row.name.toLowerCase().startsWith(isSearching.toLowerCase());
+        return row.name.toLowerCase().startsWith(isSearching.toLowerCase());
       } else {
-        ROWS = row.name.toLowerCase().includes(isSearching.toLowerCase());
+        return row.name.toLowerCase().includes(isSearching.toLowerCase());
       }
     } else {
-      ROWS = rows;
+      return rows;
     }
-    return ROWS;
   });
 
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
@@ -147,7 +144,7 @@ const GenericTable = (props: TableProps) => {
         <Card className="filterCard">
           <Card.Header>
             <span className="cardHeader">{filterName}</span>
-            <span className="cardHeader"></span>
+            <span className="cardHeader" />
             <Icon
               className="close icon closeIcon"
               onClick={clearSearch}
@@ -220,7 +217,7 @@ const GenericTable = (props: TableProps) => {
             <Table.HeaderCell colSpan={showColumns.length}>
               {/* todo */}
               <Pagination
-                totalPages={totalPages}
+                totalPages={rows.length ? totalPages : ''}
                 activePage={currentPage}
                 onPageChange={(event, data) => setCurrentPage(Number(data.activePage))}
               />
