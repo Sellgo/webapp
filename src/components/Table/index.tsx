@@ -56,7 +56,6 @@ const useSort = (initialValue: string) => {
 
 const GenericTable = (props: TableProps) => {
   const { tableKey, data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
-
   const [currentPage, setCurrentPage] = useState(1);
 
   // Reset to page 1 if data or numbers of items to show per page changes
@@ -66,7 +65,6 @@ const GenericTable = (props: TableProps) => {
   }, [tableKey, data, singlePageItemsCount]);
 
   const showSelectItemsCounts = tableKey === tableKeys.PRODUCTS ? true : false;
-  const totalPages = Math.ceil(data.length / singlePageItemsCount);
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
@@ -109,7 +107,7 @@ const GenericTable = (props: TableProps) => {
       return rows;
     }
   });
-
+  const totalPages = Math.ceil(rows.length / singlePageItemsCount);
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
   const [isShowing, setShowing] = useState(false);
@@ -124,6 +122,7 @@ const GenericTable = (props: TableProps) => {
     setSearch('');
   };
   const handleChange = (e: any) => {
+    setCurrentPage(1);
     setSearch(e.target.value);
   };
   return (
