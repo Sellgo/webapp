@@ -178,7 +178,7 @@
   }
   .stepper :global(.rc-steps-item-tail) {
     left: -33px !important;
-    width: 100px !important;
+    width: calc(100% + 45px) !important;
     top: 2px !important;
   }
   .stepper :global(.rc-steps-item-title) {
@@ -212,7 +212,9 @@
     margin-bottom: 10px !important;
     display: block;
   }
-
+  i.checkCircle:before {
+    font-size: 30px !important;
+  }
   .dropdwn_wdth {
     width: 100%;
   }
