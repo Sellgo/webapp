@@ -236,4 +236,17 @@
   .fieldWidth > input {
     width: 84% !important;
   }
+.dropdown_width {
+  width: 421px !important;
+}
+/* .stepper :global(.rc-steps-item-content) {
+  width: auto !important;
+} */
+.phoneField input[type='number']::-webkit-inner-spin-button,
+.phoneField input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
 }
