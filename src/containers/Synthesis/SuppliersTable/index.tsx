@@ -339,8 +339,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     ); //.filter(e => !showColumns[e.dataKey || '']);
     return (
       <div className="suppliersTable">
-        <Grid columns={2} style={{ alignItems: 'center' }}>
-          <Grid.Column floated="left" className={'wdt100'}>
+        <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
+          <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>
             <SupplierMenu
               activeTab={showTab}
               allCount={allData.length}
@@ -348,9 +348,13 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               archivedCount={archivedData.length}
             />
           </Grid.Column>
-          <Grid.Column className={'wdt100'}>
-            <Grid columns={2} style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Grid.Column className="card_content" style={{ width: 'auto' }}>
+          <Grid.Column className={'wdt100 ipad-wdth100'}>
+            <Grid
+              columns={2}
+              style={{ alignItems: 'flex-end', justifyContent: 'center' }}
+              className="drop-align"
+            >
+              <Grid.Column className="card-content" style={{ width: 'auto' }}>
                 <SupplierTableMetrics />
               </Grid.Column>
               <Grid.Column style={{ width: 'auto' }}>

@@ -11,32 +11,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .card_content {
+  .card-content {
     width: 'auto';
   }
 }
 
-@media screen and (max-width: 700px) {
-  .card_content {
-    width: auto;
-    margin-top: -40px;
-    height: 180px;
-    margin-right: 165px;
-  }
-}
-@media screen and (min-width: 710px) and (max-width: 800px) {
-  .card_content {
-    width: auto;
-    margin-top: -46px;
-    margin-left: -20px;
-    margin-bottom: 22px;
-  }
-}
 @media screen and (min-width: 310px) and (max-width: 767px) {
   .wdt100 {
     width: 100% !important;
   }
-  .card_content {
+  .card-content {
     margin-right: 0 !important;
     height: auto !important;
   }
@@ -47,5 +31,22 @@
   .menuItem {
     margin-bottom: 20px !important;
     border-bottom: 0px !important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .ipad-wdth100 {
+    width: 100% !important;
+  }
+  .card-content {
+    margin-bottom: 0 !important;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1199px) {
+  .card-content {
+    width: 50% !important;
+  }
+  .card-content h2 {
+    font-size: 17px !important;
   }
 }
