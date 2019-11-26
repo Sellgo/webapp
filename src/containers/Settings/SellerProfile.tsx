@@ -116,7 +116,11 @@ const SellerProfile = (props: any) => {
                     onChange={(e, { value }) => handleProfileLocalChange({ email: value })}
                   />
                 </Form.Group>
-                <Form.Button primary onClick={() => props.updateSeller(profileLocal)}>
+                <Form.Button
+                  className="txt-cntr"
+                  primary
+                  onClick={() => props.updateSeller(profileLocal)}
+                >
                   Update
                 </Form.Button>
               </Form>
