@@ -57,10 +57,10 @@ const SellerProfile = (props: any) => {
   const memberDate = moment(cdate || moment()).format('MMM DD YYYY');
 
   return (
-    <Segment basic={true} padded="very">
+    <Segment basic={true} padded="very" className="seller-info">
       <Container style={{ width: '80%' }}>
         <Grid>
-          <Grid.Row>
+          <Grid.Row className="stackable">
             <Grid.Column
               width={3}
               textAlign="center"
@@ -128,7 +128,11 @@ const SellerProfile = (props: any) => {
                     onChange={(e, { value }) => handleProfileLocalChange({ email: value })}
                   />
                 </Form.Group>
-                <Form.Button primary onClick={() => props.updateSeller(profileLocal)}>
+                <Form.Button
+                  className="txt-cntr"
+                  primary={true}
+                  onClick={() => props.updateSeller(profileLocal)}
+                >
                   Update
                 </Form.Button>
               </Form>

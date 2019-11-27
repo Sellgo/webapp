@@ -30,3 +30,12 @@
   border-radius: 50px;
   background: #4285f4;
 }
+
+@media screen and (min-width: 310px) and (max-width: 767px) {
+  .settings h2 {
+    text-align: center;
+  }
+  .txt-cntr {
+    text-align: center !important;
+  }
+}
