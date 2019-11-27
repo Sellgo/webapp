@@ -8,6 +8,10 @@ import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus } from '../../../constants/UploadSupplier';
 import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
+import { isNumber } from '../../../utils/validations/isPhone';
+import isName from '../../../utils/validations/isName.js';
+import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
+import { webUrl } from '../../../utils/validations/isUrl';
 
 const required = isRequired();
 
@@ -21,10 +25,18 @@ const SupplierDetails = () => (
           label="Contact Person"
           placeholder="First Last"
           maxLength="100"
+          validate={isName()}
         />
       </Grid.Column>
       <Grid.Column>
-        <Field component={InputField} name="phone" label="Phone" placeholder="Phone" type="tel" />
+        <Field
+          component={InputField}
+          name="phone"
+          label="Phone"
+          placeholder="e.g. +1 (416) 555-1212"
+          validate={isNumber}
+          className={styles.phoneField}
+        />
       </Grid.Column>
       <Grid.Column>
         <Field component={InputField} name="email" label="Email" placeholder="Email" type="email" />
@@ -39,6 +51,7 @@ const SupplierDetails = () => (
           placeholder="Website"
           type="url"
           maxLength="200"
+          validate={webUrl}
         />
       </Grid.Column>
       <Grid.Column>
@@ -81,6 +94,8 @@ const SupplierDetails = () => (
             labelPosition: 'right',
           }}
           type="number"
+          min="0"
+          validate={onlyNumber}
         />
       </Grid.Column>
       <Grid.Column>
@@ -94,6 +109,8 @@ const SupplierDetails = () => (
             labelPosition: 'right',
           }}
           type="number"
+          min="0"
+          validate={onlyNumber}
         />
       </Grid.Column>
     </Grid.Row>

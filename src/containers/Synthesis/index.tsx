@@ -28,7 +28,10 @@ interface SynthesisProps {
 }
 
 class Synthesis extends Component<SynthesisProps> {
-  state = { exitConfirmation: false };
+  state = {
+    exitConfirmation: false,
+    isEditModal: false,
+  };
   componentDidMount() {
     const { getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
     getAmazonMWSAuthorized();
@@ -42,6 +45,7 @@ class Synthesis extends Component<SynthesisProps> {
   openUpdateSupplierPopup = (supplier: any): void => {
     const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
     if (amazonMWSAuthorized) {
+      this.setState({ isEditModal: true });
       openUploadSupplierModal(supplier);
     } else {
       error('Unauthorized access! Please add Amazon Seller Central credentials', {
@@ -53,6 +57,7 @@ class Synthesis extends Component<SynthesisProps> {
   handleAddNewSupplierModalOpen = () => {
     const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
     if (amazonMWSAuthorized) {
+      this.setState({ isEditModal: false });
       openUploadSupplierModal();
     } else {
       error('Unauthorized access! Please add Amazon Seller Central credentials', {
@@ -63,6 +68,7 @@ class Synthesis extends Component<SynthesisProps> {
 
   handleClose = () => {
     const { closeUploadSupplierModal } = this.props;
+    this.setState({ isEditModal: false });
     closeUploadSupplierModal();
   };
 
@@ -89,7 +95,7 @@ class Synthesis extends Component<SynthesisProps> {
           }
         >
           <Modal.Content>
-            <UploadSupplier />
+            <UploadSupplier {...this.state} />
           </Modal.Content>
         </Modal>
         <Popup

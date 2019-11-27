@@ -160,7 +160,7 @@ const GenericTable = (props: TableProps) => {
           </Card.Content>
         </Card>
       )}
-      <Table sortable={true} basic="very" textAlign="left">
+      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
         <Table.Header>
           <Table.Row>
             {showColumns.map((column, index) => {
@@ -183,7 +183,7 @@ const GenericTable = (props: TableProps) => {
                     </span>
                   )}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
-                    <img src={SortIcon} className="sort_arrow" />
+                    <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
                   ) : null}
                 </Table.HeaderCell>
               );

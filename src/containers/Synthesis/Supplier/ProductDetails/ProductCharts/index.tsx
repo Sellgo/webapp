@@ -193,9 +193,15 @@ class ProductCharts extends Component<ProductChartsProps> {
         const productROI = [];
 
         for (let i = 0; i < productDetailKPI.length; i++) {
-          productTimeline.push(new Date(productDetailKPI[i].cdate).toDateString());
-          productProfit.push(parseFloat(productDetailKPI[i].profit));
-          productROI.push(parseFloat(productDetailKPI[i].roi));
+          productTimeline.push(new Date(productDetailKPI[i].cdate).getTime());
+          productProfit.push([
+            new Date(productDetailKPI[i].cdate).getTime(),
+            parseFloat(productDetailKPI[i].profit),
+          ]);
+          productROI.push([
+            new Date(productDetailKPI[i].cdate).getTime(),
+            parseFloat(productDetailKPI[i].roi),
+          ]);
         }
         return productTimeline.length && productProfit.length && productROI.length ? (
           <this.renderROI
