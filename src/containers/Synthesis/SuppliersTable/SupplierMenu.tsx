@@ -68,4 +68,7 @@ const mapDispatchToProps = {
   setTab: (tab: string) => setSupplierTableTab(tab),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SupplierMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SupplierMenu);
