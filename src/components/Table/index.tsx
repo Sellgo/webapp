@@ -207,7 +207,7 @@ const GenericTable = (props: TableProps) => {
           )}
         </Card>
       )}
-      <Table sortable={true} basic="very" textAlign="left">
+      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
         <Table.Header>
           <Table.Row>
             {showColumns.map((column, index) => {

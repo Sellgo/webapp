@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Menu, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { setSupplierTableTab } from '../../../actions/Suppliers';
+import './index.scss';
 
 interface SupplierMenuProps {
   allCount: number;
@@ -20,14 +21,26 @@ class SupplierMenu extends Component<SupplierMenuProps> {
 
     return (
       <div>
-        <Menu pointing secondary style={{ width: 'max-content' }} color={'blue'}>
-          <Menu.Item name="all" active={activeTab === 'all'} onClick={this.handleItemClick}>
+        <Menu
+          pointing={true}
+          secondary={true}
+          style={{ width: 'max-content' }}
+          color={'blue'}
+          className="flexCol wdt100 menuItem"
+        >
+          <Menu.Item
+            name="all"
+            active={activeTab === 'all'}
+            onClick={this.handleItemClick}
+            className="wdt100"
+          >
             <Header as="h4">All Suppliers ({this.props.allCount})</Header>
           </Menu.Item>
           <Menu.Item
             name="shortlisted"
             active={activeTab === 'shortlisted'}
             onClick={this.handleItemClick}
+            className="wdt100"
           >
             <Header as="h4">
               Shortlisted <span style={{ color: 'green' }}>({this.props.shortlistedCount})</span>
@@ -37,6 +50,7 @@ class SupplierMenu extends Component<SupplierMenuProps> {
             name="archived"
             active={activeTab === 'archived'}
             onClick={this.handleItemClick}
+            className="wdt100"
           >
             <Header as="h4">
               Archived <span style={{ color: 'red' }}>({this.props.archivedCount})</span>
