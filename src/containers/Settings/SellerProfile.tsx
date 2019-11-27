@@ -118,7 +118,7 @@ const SellerProfile = (props: any) => {
                 </Form.Group>
                 <Form.Button
                   className="txt-cntr"
-                  primary
+                  primary={true}
                   onClick={() => props.updateSeller(profileLocal)}
                 >
                   Update
