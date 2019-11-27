@@ -26,7 +26,7 @@ class SupplierMenu extends Component<SupplierMenuProps> {
           secondary={true}
           style={{ width: 'max-content' }}
           color={'blue'}
-          className="flexCol wdt100 menuItem"
+          className="flex-col wdt100 menu-item"
         >
           <Menu.Item
             name="all"
