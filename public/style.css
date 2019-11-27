@@ -25,4 +25,11 @@ body {
   .ui.selection.dropdown.timezoneField .menu {
     width: 194px !important;
   }
+  .seller-info {
+    padding: 0px !important;
+  }
+
+  .btns-wrap button {
+    margin-bottom: 10px !important;
+  }
 }

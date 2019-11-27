@@ -20,7 +20,7 @@ class PageHeader extends React.Component<Props> {
           <title>Sellgo - {title}</title>
         </Helmet>
 
-        <div className="pageHeader">
+        <div className="page-header">
           {breadcrumb && breadcrumb.length && <BreadCrumb sections={breadcrumb} />}
 
           <Header className="page-header" as="h2">

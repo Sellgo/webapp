@@ -113,7 +113,7 @@ const GenericTable = (props: TableProps) => {
       ) : (
         ''
       )}
-      <Table sortable={true} basic="very" textAlign="left" unstackable>
+      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
         <Table.Header>
           <Table.Row>
             {showColumns.map((column, index) => {

@@ -117,7 +117,7 @@ const SellerAmazonMWS = (props: any) => {
         </span>
         <Form className="autho-form">
           <Grid>
-            <Grid.Row columns={3}>
+            <Grid.Row columns={3} className="stackable container">
               <Grid.Column width={7}>
                 <Grid.Row columns={2}>
                   <Grid.Column width={5}>
@@ -202,20 +202,22 @@ const SellerAmazonMWS = (props: any) => {
                         />
                       }
                     />
-                    <Button
-                      disabled={amazonMWSLocal.saved}
-                      primary={true}
-                      content="Add MWS Token"
-                      style={{ borderRadius: '50px' }}
-                      onClick={handleAmazonMWSAuthUpdate}
-                    />
-                    <Button
-                      disabled={!amazonMWSLocal.saved}
-                      color="red"
-                      content="Delete"
-                      style={{ borderRadius: '50px' }}
-                      onClick={() => setDeleteConfirmation(true)}
-                    />
+                    <div className="btns-wrap">
+                      <Button
+                        disabled={amazonMWSLocal.saved}
+                        primary={true}
+                        content="Add MWS Token"
+                        style={{ borderRadius: '50px' }}
+                        onClick={handleAmazonMWSAuthUpdate}
+                      />
+                      <Button
+                        disabled={!amazonMWSLocal.saved}
+                        color="red"
+                        content="Delete"
+                        style={{ borderRadius: '50px' }}
+                        onClick={() => setDeleteConfirmation(true)}
+                      />
+                    </div>
                   </Grid.Column>
                 </Grid.Row>
               </Grid.Column>
