@@ -69,4 +69,7 @@
   .admin-header .divider {
     display: none;
   }
+  .bgColor.ui.grid > .row > .column {
+    width: 100% !important;
+  }
 }
