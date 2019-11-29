@@ -133,25 +133,19 @@ const GenericTable = (props: TableProps) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {!rows.length ? (
-            <Table.Row key={134}>
-              <Table.Cell>
-                <h1>{'Data not found'}</h1>
-              </Table.Cell>
-            </Table.Row>
-          ) : (
-            rows.map((row, index) => {
-              return (
-                <Table.Row key={index}>
-                  {showColumns.map((column, index) => (
-                    <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                      {renderCell(row, column)}
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              );
-            })
-          )}
+          {rows.length
+            ? rows.map((row, index) => {
+                return (
+                  <Table.Row key={index}>
+                    {showColumns.map((column, index) => (
+                      <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                        {renderCell(row, column)}
+                      </Table.Cell>
+                    ))}
+                  </Table.Row>
+                );
+              })
+            : ''}
         </Table.Body>
         <Table.Footer>
           <Table.Row>
