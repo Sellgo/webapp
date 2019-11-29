@@ -56,8 +56,9 @@ const SupplierDetails = () => (
       </Grid.Column>
       <Grid.Column>
         <Field
+          className="timezoneField"
           component={SelectField}
-          className={styles.dropdown_width}
+          // className={`${styles.dropdown_width} timezoneField`}
           name="timezone"
           label="Timezone"
           options={[defaultSelect, ...timezones]}
@@ -67,6 +68,7 @@ const SupplierDetails = () => (
     <Grid.Row>
       <Grid.Column>
         <Field
+          className={styles.dropdwn_wdth}
           component={SelectField}
           name="account_status"
           label="Account Status"
@@ -82,13 +84,14 @@ const SupplierDetails = () => (
         />
       </Grid.Column>
     </Grid.Row>
-    <Grid.Row>
+    <Grid.Row className="equal width">
       <Grid.Column>
         <Field
           component={InputField}
           name="upcharge_fee"
           label="Upcharge Fee (%)"
           placeholder="Upcharge Fee (%)"
+          className={styles.fieldWidth}
           inputProps={{
             label: { basic: true, content: '%' },
             labelPosition: 'right',
@@ -104,6 +107,7 @@ const SupplierDetails = () => (
           name="freight_fee"
           label="Freight Free Threshold ($)"
           placeholder="Freight Free Threshold ($)"
+          className={styles.fieldWidth}
           inputProps={{
             label: { basic: true, content: '$' },
             labelPosition: 'right',
@@ -120,7 +124,7 @@ const SupplierDetails = () => (
 const SupplierInformation = () => {
   return (
     <div className={styles.ouline_box}>
-      <Form>
+      <Form className={styles.supply_container}>
         <label className={styles.supplier_information_label}>
           Supplier Information
           <span>
@@ -134,9 +138,9 @@ const SupplierInformation = () => {
           </span>
         </label>
         <br />
-        <Grid columns={2}>
+        <Grid columns={2} className="bgColor">
           <Grid.Row>
-            <Grid.Column width={4}>
+            <Grid.Column width={4} className={styles.padding0}>
               <div className={styles.form_container}>
                 <Grid.Row>
                   <Field
@@ -162,7 +166,9 @@ const SupplierInformation = () => {
                 </Grid.Row>
               </div>
             </Grid.Column>
-            <Grid.Column width={12}>{<SupplierDetails />}</Grid.Column>
+            <Grid.Column width={12} className={styles.wdt100}>
+              {<SupplierDetails />}
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </Form>
