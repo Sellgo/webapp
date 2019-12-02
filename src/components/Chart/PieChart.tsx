@@ -30,9 +30,11 @@ const renderPieChartOptions = (options: PieChartOptions) => {
     plotOptions: {
       pie: {
         allowPointSelect: true,
+        size: '75%',
         cursor: 'pointer',
         dataLabels: {
           enabled: true,
+          alignTo: 'connectors',
           format: '<b>{point.name}</b>: {point.percentage:.1f} %',
         },
       },

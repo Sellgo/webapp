@@ -41,15 +41,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       pointFormat: '{series.name}: {point.y}',
     },
     legend: {
-      align: 'right',
-      x: -30,
-      verticalAlign: 'top',
-      y: 25,
-      floating: true,
-      backgroundColor: 'white',
-      borderColor: '#CCC',
-      borderWidth: 1,
-      shadow: false,
+      align: 'left',
     },
     plotOptions: {
       column: {
