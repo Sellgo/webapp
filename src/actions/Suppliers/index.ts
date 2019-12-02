@@ -225,7 +225,7 @@ export const fetchSupplierProducts = (supplierID: any) => async (
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
   } else {
     dispatch(isLoadingSupplierProducts(false));
-    error('Data not Found');
+    error('Data not found');
   }
 };
 
