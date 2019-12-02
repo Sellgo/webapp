@@ -181,6 +181,9 @@
     width: calc(100% + 45px) !important;
     top: 2px !important;
   }
+  .stepper :global(.rc-steps-item-container[role='button']:hover) {
+    opacity: 1 !important;
+  }
   .stepper :global(.rc-steps-item-title) {
     font-size: 10px !important;
   }
@@ -201,6 +204,7 @@
 
   .btns_wrap {
     margin-top: 10px !important;
+    display: flex !important;
   }
 
   .supplier_btns {
@@ -217,6 +221,10 @@
   }
   .dropdwn_wdth {
     width: 100%;
+  }
+  .action {
+    min-width: 73px !important;
+    padding: 6px 18px !important;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1023px) {

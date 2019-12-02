@@ -16,11 +16,14 @@ body {
     margin-bottom: 15px;
   }
   .ui .closeIcon i.close {
-    top: 0 !important;
-    right: 0px !important;
+    top: -24px !important;
+    right: -20px !important;
   }
   .closeIcon i:before {
     font-size: 10px !important;
+  }
+  .closeIcon i.cloud.huge:before {
+    font-size: 28px !important;
   }
   .ui.selection.dropdown.timezoneField .menu {
     width: 194px !important;
