@@ -61,7 +61,9 @@ const GenericTable = (props: TableProps) => {
   // Reset to page 1 if data or numbers of items to show per page changes
   // otherwise user can end up on a page that doesn't exist.
   useEffect(() => {
-    if (tableKey === tableKeys.PRODUCTS) setCurrentPage(1);
+    if (tableKey === tableKeys.PRODUCTS) {
+      setCurrentPage(1);
+    }
   }, [tableKey, data, singlePageItemsCount]);
 
   const showSelectItemsCounts = tableKey === tableKeys.PRODUCTS ? true : false;
@@ -74,7 +76,6 @@ const GenericTable = (props: TableProps) => {
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
         let aColumn, bColumn;
-
         if (sortedColumn.type === 'number') {
           aColumn = Number(a[sortedColumn.dataKey || '']);
           bColumn = Number(b[sortedColumn.dataKey || '']);
@@ -85,12 +86,24 @@ const GenericTable = (props: TableProps) => {
           aColumn = a[sortedColumn.dataKey || ''] || '';
           bColumn = b[sortedColumn.dataKey || ''] || '';
         }
-
-        if (aColumn < bColumn) {
-          return -1;
-        }
-        if (aColumn > bColumn) {
-          return 1;
+        if (
+          sortedColumn.dataKey === 'name' ||
+          (sortedColumn.dataKey && sortedColumn.dataKey === 'file_name') ||
+          (sortedColumn.dataKey && sortedColumn.dataKey === 'active_status')
+        ) {
+          if (aColumn.toLowerCase() < bColumn.toLowerCase()) {
+            return -1;
+          }
+          if (aColumn.toLowerCase() > bColumn.toLowerCase()) {
+            return 1;
+          }
+        } else {
+          if (aColumn < bColumn) {
+            return -1;
+          }
+          if (aColumn > bColumn) {
+            return 1;
+          }
         }
         return 0;
       })
