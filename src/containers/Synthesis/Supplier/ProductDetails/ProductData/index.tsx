@@ -23,7 +23,7 @@ class ProductData extends Component<ProductDataProps> {
     if (!productDetails) return '';
     return (
       <Grid className="flex-col">
-        <Grid.Column floated="left" width={13} className="wdt100">
+        <Grid.Column floated="left" width={13} className="wdt100 detail-page">
           <Grid>
             <Grid.Column>
               <h3>{productDetails.title}</h3>
@@ -105,7 +105,12 @@ class ProductData extends Component<ProductDataProps> {
             </Grid.Column>
           </Grid>
         </Grid.Column>
-        <Grid.Column floated="right" width={3} style={{ paddingLeft: 30 }} className="wdt100">
+        <Grid.Column
+          floated="right"
+          width={3}
+          style={{ paddingLeft: 30 }}
+          className="wdt100 detail-img"
+        >
           <div style={{ position: 'relative' }}>
             <Image
               src={
