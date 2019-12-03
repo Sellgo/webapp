@@ -91,7 +91,7 @@ const Actions = ({
           />
         )}
       </div>
-      <div className={styles.btns_wrap}>
+      <div className={`${styles.btns_wrap} ${styles.upload}`}>
         {hasPrevStep && (
           <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
             Previous
@@ -144,7 +144,4 @@ const mapDispatchToProps = {
   setSkipCheck: setSkipColumnMappingCheck,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Actions);
+export default connect(mapStateToProps, mapDispatchToProps)(Actions);

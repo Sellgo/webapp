@@ -222,9 +222,9 @@
   .dropdwn_wdth {
     width: 100%;
   }
-  .action {
-    min-width: 73px !important;
-    padding: 6px 18px !important;
+  .upload button.action {
+    min-width: 83px !important;
+    padding: 6px 12px !important;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -243,6 +243,12 @@
 
   .fieldWidth > input {
     width: 84% !important;
+  }
+  .btns_wrap {
+    display: flex !important;
+  }
+  label.block {
+    font-size: 12px !important;
   }
 }
 .dropdown_width {

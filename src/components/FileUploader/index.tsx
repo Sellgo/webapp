@@ -30,7 +30,7 @@ function FileUploader(props: FileUploaderProps) {
         <span className={styles.description}>Drag and drop, or click to select</span>
         <br />
         <br />
-        <b>
+        <b className={styles.filename}>
           {fileName !== null ? fileName.name : ' '}
           {/*   {acceptedFiles.length > 0 &&
             acceptedFiles.map(acceptedFile => <li key={acceptedFile.name}>{acceptedFile.name}</li>)} */}

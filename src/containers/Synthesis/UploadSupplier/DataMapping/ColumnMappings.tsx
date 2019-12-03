@@ -47,7 +47,7 @@ const ColumnMappings = ({
           {FieldsToMap.map(({ key, label }) => (
             <Grid.Column key={key} width={3}>
               <Form.Field>
-                <label className="block">{label}</label>
+                <label className={styles.block}>{label}</label>
                 <Select
                   className={styles.dropdwn_wdth}
                   style={{ minWidth: '10em' }}
@@ -76,7 +76,4 @@ const mapDispatchToProps = {
   toggleFirstRowHeader,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ColumnMappings);
+export default connect(mapStateToProps, mapDispatchToProps)(ColumnMappings);
