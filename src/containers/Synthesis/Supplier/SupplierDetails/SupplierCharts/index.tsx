@@ -192,6 +192,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         let fees = [];
         product_cost = showProducts.map(e => parseFloat(e['product_cost']));
         fees = showProducts.map(e => parseFloat(e['fees']));
+
         return productSKUs.length && profit.length && product_cost.length && fees.length ? (
           <this.renderRevenue
             productSKUs={productSKUs}
@@ -308,4 +309,7 @@ const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SupplierCharts);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SupplierCharts);
