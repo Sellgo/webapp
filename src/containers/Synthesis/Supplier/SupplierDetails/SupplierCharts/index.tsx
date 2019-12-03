@@ -178,7 +178,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             }}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+          <Loader
+            active={productSKUs.length ? true : false}
+            inline="centered"
+            className="popup-loader"
+            size="massive"
+          >
             Loading
           </Loader>
         );
@@ -199,7 +204,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             }}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+          <Loader
+            active={productSKUs.length ? true : false}
+            inline="centered"
+            className="popup-loader"
+            size="massive"
+          >
             Loading
           </Loader>
         );
@@ -218,7 +228,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             }}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+          <Loader
+            active={productSKUs.length ? true : false}
+            inline="centered"
+            className="popup-loader"
+            size="massive"
+          >
             Loading
           </Loader>
         );
@@ -228,18 +243,9 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   render() {
-    const { products, filterRanges } = this.props;
-    if ((products.length === 1 && products[0] === undefined) || filterRanges === undefined) {
-      return (
-        <Loader
-          hidden={products.length === 1 && products[0] === undefined ? false : true}
-          active={true}
-          inline="centered"
-          size="massive"
-        >
-          Loading
-        </Loader>
-      );
+    const { products, filterRanges, supplierDetails } = this.props;
+    if ((products.length === 0 && supplierDetails === null) || filterRanges === undefined) {
+      return null;
     }
     return (
       <div className="supplierCharts">
