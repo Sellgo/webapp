@@ -1,46 +1,22 @@
 import * as React from 'react';
-import { Container, Image, Segment } from 'semantic-ui-react';
 import history from '../../history';
-import './Home.css';
-import GenericButton from '../../components/Button';
 
-interface HomeState {
-  heading: string;
-  amount: number;
-  cityName: string;
-}
-
-export default class Home extends React.Component<any, HomeState> {
-  state = {
-    heading: 'by become an Amazon Seller',
-    amount: 1000,
-    cityName: 'USA',
-  };
-
-  goTo(route: any) {
-    this.props.history.replace(`/${route}`);
-  }
-
+export default class Home extends React.Component<any> {
   componentDidMount() {
+    const { auth, location } = this.props;
+
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
+    } else {
+      // Show Auth0 modal automatically
+      // Options can be passed via history.replace state
+      // such as error to display when redirecting back from /callback.
+      auth.login(location.state && location.state.options ? location.state.options : {});
     }
   }
 
-  public render() {
-    const { login } = this.props.auth;
-    return (
-      <Segment basic={true}>
-        <Container style={{ height: 500, textAlign: 'center', paddingTop: '15%' }}>
-          <Image style={{ width: 150 }} centered={true} src="/images/sellgo_logo_black.png" />
-          <div style={{ marginBottom: 10, marginTop: 50 }}>
-            <h3>{'Please Sign In'}</h3>
-          </div>
-          <div>
-            <GenericButton isClickable={true} onClick={login} content={'Sign In'} />
-          </div>
-        </Container>
-      </Segment>
-    );
+  render() {
+    // No UI rendered (just Auth0 modal)
+    return null;
   }
 }

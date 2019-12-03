@@ -17,6 +17,7 @@ export default class Auth {
         scope: 'openid profile email',
       },
     },
+    closable: false,
     allowShowPassword: true,
     rememberLastLogin: false,
     autoclose: true,
@@ -33,8 +34,9 @@ export default class Auth {
     allowSignUp: true,
     avatar: null,
   });
-  public login = () => {
-    this.auth0Lock.show();
+
+  public login = (options: any) => {
+    this.auth0Lock.show(options);
   };
 
   registerSeller = () => {
@@ -64,10 +66,15 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
-        history.replace('/');
         if (err.code === 'unauthorized') {
-          this.auth0Lock.show({ flashMessage: { type: 'error', text: err.description || '' } });
+          history.replace({
+            pathname: '/',
+            state: {
+              options: { flashMessage: { type: 'error', text: err.description || '' } },
+            },
+          });
         } else {
+          history.replace('/');
           alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);
         }
       }
