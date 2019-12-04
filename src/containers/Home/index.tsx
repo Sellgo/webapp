@@ -8,9 +8,9 @@ export default class Home extends React.Component<any> {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     } else {
-      // Show Auth0 modal automatically
-      // Options can be passed via history.replace state
-      // such as error to display when redirecting back from /callback.
+      // Show Auth0 modal automatically.
+      // Options can be passed via history.
+      // Replace state such as error to display when redirecting back from /callback.
       auth.login(location.state && location.state.options ? location.state.options : {});
     }
   }
