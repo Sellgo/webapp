@@ -76,6 +76,7 @@ const Actions = ({
         )}
         {currentStep === 1 && columnMappings.length > 0 && (
           <Checkbox
+            className={styles.checked}
             style={{ marginLeft: '1em' }}
             checked={skipColumnMappingCheck}
             onChange={(ev, data) => setSkipCheck(data.checked || false)}
