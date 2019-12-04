@@ -128,10 +128,12 @@
 .stepper :global(.rc-steps-item) {
   display: flex;
 }
+
 .stepper :global(.rc-steps-item-tail) {
   margin-left: 49px !important;
   margin-top: 14px !important;
 }
+
 .stepper :global(.rc-steps-icon) {
   font-size: 25px !important;
   padding: 0 0 0 0.25rem !important;
@@ -143,6 +145,7 @@
   border: 1px solid;
   border-radius: 50%;
 }
+
 .stepper :global(.rc-steps-item-icon) {
   margin-left: 6px !important;
 }
@@ -197,21 +200,17 @@
   .fieldWidth {
     width: 100% !important;
   }
-
   .fieldWidth > input {
     width: 84% !important;
   }
-
   .btns_wrap {
     margin-top: 10px !important;
     display: flex !important;
   }
-
   .supplier_btns {
     flex-direction: column;
     align-items: flex-start;
   }
-
   .supplier_btns > div > a {
     margin-bottom: 10px !important;
     display: block;
@@ -227,12 +226,12 @@
     padding: 6px 12px !important;
   }
 }
+
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .supply_container {
     font-size: 13px !important;
     margin: 5px 10px !important;
   }
-
   .dropdwn_wdth {
     min-width: auto !important;
     width: 100%;
@@ -240,7 +239,6 @@
   .fieldWidth {
     width: 100% !important;
   }
-
   .fieldWidth > input {
     width: 84% !important;
   }
@@ -255,6 +253,7 @@
     margin-top: 0.75em !important;
   }
 }
+
 .dropdown_width {
   width: 421px !important;
 }
