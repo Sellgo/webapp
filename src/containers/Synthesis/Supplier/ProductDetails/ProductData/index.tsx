@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { fetchSupplierProductDetails } from '../../../../../actions/Products';
 import { ProductDetail } from '../../../../../interfaces/Product';
 import { formatCurrency, formatPercent, formatNumber } from '../../../../../utils/format';
+import './../ProductCharts/index.scss';
 
 interface ProductDataProps {
   product: any;
@@ -21,8 +22,8 @@ class ProductData extends Component<ProductDataProps> {
     const { productDetails } = this.props;
     if (!productDetails) return '';
     return (
-      <Grid>
-        <Grid.Column floated="left" width={13}>
+      <Grid className="flex-col">
+        <Grid.Column floated="left" width={13} className="wdt100 detail-page">
           <Grid>
             <Grid.Column>
               <h3>{productDetails.title}</h3>
@@ -31,7 +32,7 @@ class ProductData extends Component<ProductDataProps> {
           </Grid>
           <Divider />
           <Grid style={{ margin: 0 }}>
-            <Grid.Column style={{ margin: 0 }} floated="left" width={4}>
+            <Grid.Column style={{ margin: 0 }} floated="left" width={4} className="wdt50">
               <Grid.Row>Price</Grid.Row>
               <Grid.Row>Fees</Grid.Row>
               <Grid.Row>Product Cost</Grid.Row>
@@ -44,7 +45,7 @@ class ProductData extends Component<ProductDataProps> {
                 <h4>{'Margin'}</h4>
               </Grid.Row>
             </Grid.Column>
-            <Grid.Column floated="left" width={4}>
+            <Grid.Column floated="left" width={4} className="wdt50">
               <Grid.Row>
                 {productDetails.price === null ? 0 : formatCurrency(productDetails.price)}
               </Grid.Row>
@@ -74,7 +75,7 @@ class ProductData extends Component<ProductDataProps> {
                 <h4>{productDetails.margin === null ? 0 : formatPercent(productDetails.margin)}</h4>
               </Grid.Row>
             </Grid.Column>
-            <Grid.Column floated="left" width={4}>
+            <Grid.Column floated="left" width={4} className="wdt50">
               <Grid.Row>Avg monthly sales</Grid.Row>
               <Grid.Row>Avg monthly revenue</Grid.Row>
               <Grid.Row>Avg monthly profit</Grid.Row>
@@ -82,7 +83,7 @@ class ProductData extends Component<ProductDataProps> {
                 <h4>{'ROI/ Return on Investment'}</h4>
               </Grid.Row>
             </Grid.Column>
-            <Grid.Column floated="left" width={4}>
+            <Grid.Column floated="left" width={4} className="wdt50">
               <Grid.Row>
                 {productDetails.monthly_sales === null
                   ? 0
@@ -104,7 +105,12 @@ class ProductData extends Component<ProductDataProps> {
             </Grid.Column>
           </Grid>
         </Grid.Column>
-        <Grid.Column floated="right" width={3} style={{ paddingLeft: 30 }}>
+        <Grid.Column
+          floated="right"
+          width={3}
+          style={{ paddingLeft: 30 }}
+          className="wdt100 detail-img"
+        >
           <div style={{ position: 'relative' }}>
             <Image
               src={
@@ -117,6 +123,7 @@ class ProductData extends Component<ProductDataProps> {
             />
             <a
               style={{ position: 'absolute', right: 20, top: '38%' }}
+              className="img-pos"
               href={productDetails.amazon_url}
               target={'_blank'}
             >
