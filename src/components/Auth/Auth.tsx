@@ -1,6 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
 import Axios from 'axios';
+import { FullStoryAPI } from 'react-fullstory';
 import { AppConfig } from '../../config';
 
 export default class Auth {
@@ -52,6 +53,15 @@ export default class Auth {
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
+
+          // We're calling identify here because it's currently the only
+          // way to get the user id after login/signup.
+          // We can find a better place for this if auth is refactored.
+          FullStoryAPI('identify', data.id, {
+            displayName: data.name,
+            email: data.email,
+          });
+
           history.replace('/');
         }
       })
