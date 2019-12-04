@@ -58,7 +58,7 @@ export default class Auth {
           // way to get the user id after login/signup.
           // We can find a better place for this if auth is refactored.
           FullStoryAPI('identify', data.id, {
-            displayName: data.email,
+            displayName: data.name,
             email: data.email,
           });
 
