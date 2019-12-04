@@ -145,4 +145,7 @@ const mapDispatchToProps = {
   setSkipCheck: setSkipColumnMappingCheck,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Actions);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Actions);
