@@ -29,7 +29,7 @@
 }
 
 .ui.selection.dropdown .menu {
-  width: max-content !important;
+  width: 100% !important;
 }
 
 .SynDropDown {
