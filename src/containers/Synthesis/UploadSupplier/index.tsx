@@ -30,15 +30,15 @@ export const UploadSupplier = (props: Props) => {
   }, [cleanupUploadSupplier]);
 
   return (
-    <div className={`${styles.container} ${styles.supply_container}`}>
+    <div className={`${styles.container} ${styles['supply-container']}`}>
       <UploadSteps isEditModal={isEditModal} />
-      <div className={styles.marginTop} />
+      <div className={styles['margin-top']} />
       <div className={styles.section}>
         <FormWrapper>
           <StepComponent />
         </FormWrapper>
       </div>
-      <div className={styles.marginTop} />
+      <div className={styles['margin-top']} />
       <Actions />
     </div>
   );
@@ -52,7 +52,4 @@ const mapDispatchToProps = {
   cleanupUploadSupplier,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadSupplier);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadSupplier);

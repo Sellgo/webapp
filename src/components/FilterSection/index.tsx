@@ -7,12 +7,12 @@ function FilterSection(props: any) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="filterSection">
-      <div className="filterHead">
+    <div className="filter-section">
+      <div className="filter-head">
         <p>
           {title}
           <Popup
-            className="addSupplierPopup"
+            className="add-supplier-popup"
             trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
             position="top left"
             size="tiny"
@@ -21,11 +21,11 @@ function FilterSection(props: any) {
         <Icon
           name={isOpen ? 'chevron up' : 'chevron down'}
           size="small"
-          className="up_icon"
+          className="up-icon"
           onClick={() => setIsOpen(!isOpen)}
         />
       </div>
-      <div className="filterContent">{isOpen && children}</div>
+      <div className="filter-content">{isOpen && children}</div>
     </div>
   );
 }

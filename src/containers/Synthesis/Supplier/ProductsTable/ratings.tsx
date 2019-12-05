@@ -6,7 +6,7 @@ const Ratings = (props: any) => {
   return (
     <div className="rating">
       <Rating icon="star" defaultRating={starRatings} maxRating={5} />
-      <span className="review_head">{totalReviews} reviews</span>
+      <span className="review-head">{totalReviews} reviews</span>
     </div>
   );
 };

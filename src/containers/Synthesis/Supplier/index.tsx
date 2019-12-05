@@ -62,7 +62,7 @@ export class Supplier extends React.Component<SupplierProps> {
         <Segment basic={true} className="setting">
           <Grid>
             <Grid.Row>
-              <Grid.Column className="leftColumn" floated="left">
+              <Grid.Column className="left-column" floated="left">
                 {isLoadingSupplierProducts ? (
                   <Segment>
                     <Loader active={true} inline="centered" size="massive">
@@ -74,7 +74,7 @@ export class Supplier extends React.Component<SupplierProps> {
                 )}
               </Grid.Column>
 
-              <Grid.Column className="rightColumn" floated="right">
+              <Grid.Column className="right-column" floated="right">
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
                 <ProductsTable supplierID={this.props.match.params.supplierID} />
               </Grid.Column>
@@ -112,7 +112,4 @@ const mapDispatchToProps = {
   resetSupplierProducts: () => resetSupplierProducts(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Supplier);
+export default connect(mapStateToProps, mapDispatchToProps)(Supplier);

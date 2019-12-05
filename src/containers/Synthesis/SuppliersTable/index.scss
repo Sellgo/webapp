@@ -1,4 +1,4 @@
-.suppliersTable {
+.suppliers-table {
   // TODO: Consider a generic table class that can be added to any content
   // that has a set width and needs overflow hidden and ellipsis.
   .supplier {
@@ -6,7 +6,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .fileName {
+  .filename {
     width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;

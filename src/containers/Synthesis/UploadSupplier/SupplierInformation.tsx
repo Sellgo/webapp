@@ -35,7 +35,7 @@ const SupplierDetails = () => (
           label="Phone"
           placeholder="e.g. +1 (416) 555-1212"
           validate={isNumber}
-          className={styles.phoneField}
+          className={styles['phone-field']}
         />
       </Grid.Column>
       <Grid.Column>
@@ -56,7 +56,7 @@ const SupplierDetails = () => (
       </Grid.Column>
       <Grid.Column>
         <Field
-          className="timezoneField"
+          className="timezone-field"
           component={SelectField}
           name="timezone"
           label="Timezone"
@@ -67,7 +67,7 @@ const SupplierDetails = () => (
     <Grid.Row>
       <Grid.Column>
         <Field
-          className={styles.dropdwn_wdth}
+          className={styles['dropdwn-wdth']}
           component={SelectField}
           name="account_status"
           label="Account Status"
@@ -90,7 +90,7 @@ const SupplierDetails = () => (
           name="upcharge_fee"
           label="Upcharge Fee (%)"
           placeholder="Upcharge Fee (%)"
-          className={styles.fieldWidth}
+          className={styles['field-width']}
           inputProps={{
             label: { basic: true, content: '%' },
             labelPosition: 'right',
@@ -106,7 +106,7 @@ const SupplierDetails = () => (
           name="freight_fee"
           label="Freight Free Threshold ($)"
           placeholder="Freight Free Threshold ($)"
-          className={styles.fieldWidth}
+          className={styles['field-width']}
           inputProps={{
             label: { basic: true, content: '$' },
             labelPosition: 'right',
@@ -122,9 +122,9 @@ const SupplierDetails = () => (
 
 const SupplierInformation = () => {
   return (
-    <div className={styles.ouline_box}>
-      <Form className={styles.supply_container}>
-        <label className={styles.supplier_information_label}>
+    <div className={styles['ouline-box']}>
+      <Form className={styles['supply-container']}>
+        <label className={styles['supplier-information-label']}>
           Supplier Information
           <span>
             {' '}
@@ -137,10 +137,10 @@ const SupplierInformation = () => {
           </span>
         </label>
         <br />
-        <Grid columns={2} className="bgColor">
+        <Grid columns={2} className="bg-color">
           <Grid.Row>
             <Grid.Column width={4} className={styles.padding0}>
-              <div className={styles.form_container}>
+              <div className={styles['form-container']}>
                 <Grid.Row>
                   <Field
                     required={true}

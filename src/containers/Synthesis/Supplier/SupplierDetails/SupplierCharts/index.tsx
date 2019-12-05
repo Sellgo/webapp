@@ -248,7 +248,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       return null;
     }
     return (
-      <div className="supplierCharts">
+      <div className="supplier-charts">
         <this.renderCharts />
         <br />
         <Form>
@@ -308,7 +308,4 @@ const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierCharts);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierCharts);

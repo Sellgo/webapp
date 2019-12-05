@@ -65,8 +65,8 @@ const Actions = ({
   }
 
   return (
-    <div className={`${className || ''} ${styles.actions} ${styles.supplier_btns}`}>
-      <div className={styles.downloadOptions}>
+    <div className={`${className || ''} ${styles.actions} ${styles['supplier-btns']}`}>
+      <div className={styles['download-options']}>
         {currentStep === 1 && (
           <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
@@ -92,7 +92,7 @@ const Actions = ({
           />
         )}
       </div>
-      <div className={`${styles.btns_wrap} ${styles.upload}`}>
+      <div className={`${styles['btns-wrap']} ${styles.upload}`}>
         {hasPrevStep && (
           <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
             Previous
@@ -145,7 +145,4 @@ const mapDispatchToProps = {
   setSkipCheck: setSkipColumnMappingCheck,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Actions);
+export default connect(mapStateToProps, mapDispatchToProps)(Actions);

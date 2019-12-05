@@ -32,7 +32,7 @@ export default class Login extends React.Component<any, {}> {
                             placeholder="Email Address"
                             className="login-field1"
                           />
-                          <div className="hr_line" />
+                          <div className="hr-line" />
                           <PasswordShowHide />
                         </div>
                       </Form.Field>
@@ -40,19 +40,19 @@ export default class Login extends React.Component<any, {}> {
                   </Grid.Column>
                   <Grid.Column width={16}>
                     <Grid.Row width={16}>
-                      <Grid.Column className="small-regular textAlignCenter padding20">
+                      <Grid.Column className="small-regular text-align-center padding20">
                         <Link to="/forgot-password" style={{ fontSize: 'smaller', color: 'gray' }}>
                           Forgot your password?
                         </Link>
                       </Grid.Column>
                     </Grid.Row>
                     <GridRow>
-                      <div className="textAlignCenter">
+                      <div className="text-align-center">
                         <GenericButton isClickable={true} onClick={login} content="Sign In" />
                       </div>
                     </GridRow>
                     <GridRow>
-                      <div className="textAlignCenter padding20 p-t-40">
+                      <div className="text-align-center padding20 p-t-40">
                         <Link to="/sign-up" className="small-bold">
                           Create My Sellgo Account!
                         </Link>

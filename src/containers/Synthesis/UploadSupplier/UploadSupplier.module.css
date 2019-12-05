@@ -22,15 +22,15 @@
   margin-right: 0px !important;
 }
 
-.marginTop {
+.margin-top {
   margin-top: 1em !important;
 }
 
-.form_container {
+.form-container {
   position: relative;
 }
 
-.supplier_details_toggle {
+.supplier-details-toggle {
   position: absolute;
   top: 0;
   right: 0;
@@ -45,7 +45,7 @@
   justify-content: flex-end;
 }
 
-.downloadOptions {
+.download-options {
   margin-right: 50px;
 }
 
@@ -58,16 +58,16 @@
   flex: 1;
 }
 
-.previewTableContainer {
+.preview-table-container {
   height: 20em;
   overflow: auto;
 }
 
-.previewTableContainer tr {
+.preview-table-container tr {
   height: 2em;
 }
 
-.previewTableContainer td {
+.preview-table-container td {
   padding: 0.4em !important;
 }
 
@@ -77,14 +77,14 @@
   flex-direction: column;
 }
 
-.supplier_information {
+.supplier-information {
   border: 1px solid #707070;
   padding: 15px !important;
   border-radius: 10px;
   font-family: 'Montserrat';
 }
 
-.supplier_information_label {
+.supplier-information-label {
   font-weight: 700;
   font-family: inherit;
   font-size: 20px;
@@ -95,15 +95,15 @@
   min-height: 20em;
 }
 
-.checkCircle {
+.check-circle {
   color: #4285f4;
 }
 
-.checkError {
+.check-error {
   color: red;
 }
 
-.ouline_box {
+.ouline-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -154,7 +154,7 @@
   color: black !important;
 }
 
-.btns_wrap > button {
+.btns-wrap > button {
   margin-bottom: 10px !important;
 }
 
@@ -190,35 +190,35 @@
   .stepper :global(.rc-steps-item-title) {
     font-size: 10px !important;
   }
-  .supply_container {
+  .supply-container {
     font-size: 14px !important;
     margin: 5px 0px !important;
   }
-  .bgColor .wdt100 {
+  .bg-color .wdt100 {
     width: 100% !important;
   }
-  .fieldWidth {
+  .field-width {
     width: 100% !important;
   }
-  .fieldWidth > input {
+  .field-width > input {
     width: 84% !important;
   }
-  .btns_wrap {
+  .btns-wrap {
     margin-top: 10px !important;
     display: flex !important;
   }
-  .supplier_btns {
+  .supplier-btns {
     flex-direction: column;
     align-items: flex-start;
   }
-  .supplier_btns > div > a {
+  .supplier-btns > div > a {
     margin-bottom: 10px !important;
     display: block;
   }
-  i.checkCircle:before {
+  i.check-circle:before {
     font-size: 30px !important;
   }
-  .dropdwn_wdth {
+  .dropdwn-wdth {
     width: 100%;
   }
   .upload button.action {
@@ -228,21 +228,21 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-  .supply_container {
+  .supply-container {
     font-size: 13px !important;
     margin: 5px 10px !important;
   }
-  .dropdwn_wdth {
+  .dropdwn-wdth {
     min-width: auto !important;
     width: 100%;
   }
-  .fieldWidth {
+  .field-width {
     width: 100% !important;
   }
-  .fieldWidth > input {
+  .field-width > input {
     width: 84% !important;
   }
-  .btns_wrap {
+  .btns-wrap {
     display: flex !important;
   }
   label.block {
@@ -254,14 +254,14 @@
   }
 }
 
-.dropdown_width {
+.dropdown-width {
   width: 421px !important;
 }
 /* .stepper :global(.rc-steps-item-content) {
   width: auto !important;
 } */
-.phoneField input[type='number']::-webkit-inner-spin-button,
-.phoneField input[type='number']::-webkit-outer-spin-button {
+.phone-field input[type='number']::-webkit-inner-spin-button,
+.phone-field input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   -ms-appearance: none;
   -moz-appearance: none;

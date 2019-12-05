@@ -5,19 +5,19 @@ import './index.scss';
 const MinMaxInput = (props: any) => {
   const { title, minPlaceHolder, maxPlaceHolder } = props;
   return (
-    <Container className="minMaxInput">
-      <div className="minMaxInputTitle">
+    <Container className="min-max-input">
+      <div className="min-max-input-title">
         <p>
           {title}
           <Popup
-            className="addSupplierPopup"
+            className="add-supplier-popup"
             trigger={<Icon name="question circle" size="small" color="grey" />}
             position="top left"
             size="tiny"
           />
         </p>
       </div>
-      <div className="inputContainer">
+      <div className="input-container">
         <Input placeholder={minPlaceHolder}></Input>
         <Icon name="arrow right" />
         <Input placeholder={maxPlaceHolder}></Input>

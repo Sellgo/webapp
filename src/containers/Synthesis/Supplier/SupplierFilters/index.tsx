@@ -111,16 +111,16 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     const filterGroups = findFiltersGrouped();
 
     return (
-      <div className="synthesisSupplierFilters">
-        <div className="innerWrap">
+      <div className="synthesis-supplier-filters">
+        <div className="inner-wrap">
           {/*<AdviceCard />*/}
-          <p className="productsCount">
+          <p className="products-count">
             {filteredProducts.length} of {products.length} products
           </p>
 
           <Divider />
 
-          <div className="searchDropdown">
+          <div className="search-dropdown">
             <Dropdown
               placeholder="Select a Preset"
               fluid
@@ -170,7 +170,4 @@ const mapDispatchToProps = {
   updateFilterRanges: (filterRanges: any) => updateSupplierFilterRanges(filterRanges),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierFilters);

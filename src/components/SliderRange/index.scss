@@ -1,5 +1,5 @@
-.sliderRange {
-  .rangeTitle {
+.slider-range {
+  .range-title {
     display: flex;
     justify-content: space-between;
     margin-bottom: 18px;
@@ -14,13 +14,13 @@
     padding-left: 0.5rem;
   }
 
-  .rangeInput {
+  .range-input {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
     align-items: center;
   }
-  .rangeInput .ui.input > input {
+  .range-input .ui.input > input {
     background: transparent;
     border: 1px solid #dfe8f3;
     font-size: 14px;
@@ -33,15 +33,15 @@
     text-align: center;
   }
 
-  .rangeInput .ui.input > input::-webkit-input-placeholder {
+  .range-input .ui.input > input::-webkit-input-placeholder {
     color: #98aeca;
   }
 
-  .rangeInput .ui.input > input:-ms-input-placeholder {
+  .range-input .ui.input > input:-ms-input-placeholder {
     color: #98aeca;
   }
 
-  .rangeInput .ui.input > input::placeholder {
+  .range-input .ui.input > input::placeholder {
     color: #98aeca;
   }
 }

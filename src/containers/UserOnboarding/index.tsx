@@ -14,7 +14,7 @@ export const UserOnboarding = ({ closeModal }: Props) => {
   const viewContent = totalViews[currentView - 1];
   return (
     <React.Fragment>
-      <div className={styles.closeIcon}>
+      <div className={styles['close-icon']}>
         <Icon name="cancel" onClick={closeModal} style={{ cursor: 'pointer' }} />
       </div>
       <div className={styles.container}>
@@ -65,7 +65,4 @@ const mapDispatchToProps = {
   closeModal: closeUserOnboardingModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserOnboarding);
+export default connect(mapStateToProps, mapDispatchToProps)(UserOnboarding);

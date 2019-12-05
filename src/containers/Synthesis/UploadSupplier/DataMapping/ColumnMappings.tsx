@@ -33,7 +33,7 @@ const ColumnMappings = ({
 
   return (
     <>
-      <Header className={styles.marginTop} as="h3">
+      <Header className={styles['margin-top']} as="h3">
         <span>Column Mapping{'  '}</span>
         <Checkbox
           style={{ marginLeft: 20 }}
@@ -49,7 +49,7 @@ const ColumnMappings = ({
               <Form.Field>
                 <label className={styles.block}>{label}</label>
                 <Select
-                  className={styles.dropdwn_wdth}
+                  className={styles['dropdwn-wdth']}
                   style={{ minWidth: '10em' }}
                   onChange={(event, data) => mapColumn(data.value as number, key)}
                   value={isNil(reversedColumnMappings[key]) ? -1 : reversedColumnMappings[key]}
@@ -76,7 +76,4 @@ const mapDispatchToProps = {
   toggleFirstRowHeader,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ColumnMappings);
+export default connect(mapStateToProps, mapDispatchToProps)(ColumnMappings);

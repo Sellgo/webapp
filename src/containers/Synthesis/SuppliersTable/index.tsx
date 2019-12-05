@@ -65,7 +65,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderFileName = (row: Supplier) => {
     return (
-      <div className="fileName">
+      <div className="filename">
         {row.file_status && (
           <a href={row.file_url} download>
             {row.file_name}
@@ -78,7 +78,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const { amazonMWSAuthorized } = this.props;
     return (
       <Dropdown
-        className={'SynDropDownLink'}
+        className={'Syn-dropdown-link'}
         text="SYN"
         floating
         selectOnBlur={false}
@@ -338,7 +338,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     ); //.filter(e => !showColumns[e.dataKey || '']);
     return (
-      <div className="suppliersTable">
+      <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
           <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>
             <SupplierMenu
@@ -398,7 +398,4 @@ const mapDispatchToProps = {
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SuppliersTable);
+export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

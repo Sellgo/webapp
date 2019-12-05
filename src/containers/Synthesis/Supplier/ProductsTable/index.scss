@@ -1,6 +1,6 @@
 $link-color: #349af8;
 
-.productsTable {
+.products-table {
   width: 100%;
   margin: 0 auto;
   max-width: 100%;
@@ -18,7 +18,7 @@ $link-color: #349af8;
     text-overflow: ellipsis;
   }
 
-  .dsp_flex {
+  .dsp-flex {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -100,7 +100,7 @@ $link-color: #349af8;
         margin-bottom: 6px;
       }
 
-      .imageWrapper {
+      .image-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -137,18 +137,18 @@ $link-color: #349af8;
     }
   }
 
-  .wrap_prod_information {
+  .wrap-prod-information {
     display: flex;
     justify-content: space-between;
   }
 
-  .flag_row {
+  .flag-row {
     display: flex;
     align-items: center;
     margin-top: 8px;
   }
 
-  .flag_row span {
+  .flag-row span {
     margin-left: 16px;
     font-size: 14px;
     font-family: 'Montserrat', sans-serif;
@@ -186,33 +186,33 @@ $link-color: #349af8;
     color: #f0bd39 !important;
   }
 
-  span.review_head {
+  span.review-head {
     font-size: 10px;
     margin-left: 4px;
   }
 
-  .price_row {
+  .price-row {
     margin: 0px 0;
     text-align: end;
   }
 
-  span.price_head {
+  span.price-head {
     font-size: 14px;
   }
 
-  span.price_rate {
+  span.price-rate {
     color: #eb675e;
     font-size: 16px;
     font-weight: 500;
   }
 
-  .catogy_toy {
+  .catogy-toy {
     font-size: 14px;
     margin: 0px 0 4px;
     text-align: right;
   }
 
-  .bottom_img {
+  .bottom-img {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -221,28 +221,28 @@ $link-color: #349af8;
     }
   }
 
-  .rgt_prod {
+  .rgt-prod {
     width: auto;
     position: relative;
     text-align: right;
   }
 
-  .detailButtons {
+  .detail-buttons {
     display: inline-block;
     width: 172px;
   }
 
-  .track_btn {
+  .track-btn {
     width: 100%;
     margin-bottom: 10px;
 
     &.is-tracking {
-      .track_wrap {
+      .track-wrap {
         background-color: #bad9ff;
       }
     }
 
-    .track_wrap {
+    .track-wrap {
       width: 100%;
       display: flex !important;
       align-items: center;
@@ -268,7 +268,7 @@ $link-color: #349af8;
       }
     }
 
-    .btn_lbl {
+    .btn-lbl {
       width: 54px;
       border-top-right-radius: 18px !important;
       border-bottom-right-radius: 18px !important;
@@ -279,7 +279,7 @@ $link-color: #349af8;
     }
   }
 
-  .view_detail_btn {
+  .view-detail-btn {
     width: 100%;
     background-color: $link-color !important;
     border-radius: 18px !important;
@@ -293,7 +293,7 @@ $link-color: #349af8;
     }
   }
 
-  .rating_name {
+  .rating-name {
     font-size: 12px;
     color: #000;
     font-weight: 100;
@@ -302,13 +302,13 @@ $link-color: #349af8;
     position: initial !important;
   }
 
-  .rating_num {
+  .rating-num {
     color: #000;
     margin-right: 0 !important;
     position: initial !important;
   }
 
-  .mg_botm0 {
+  .mg-botm0 {
     margin-bottom: 0;
   }
 
@@ -316,7 +316,7 @@ $link-color: #349af8;
     font-size: 12px;
   }
 
-  .download_icn {
+  .download-icn {
     position: absolute;
     right: 3px;
     margin-right: 0 !important;
@@ -325,25 +325,25 @@ $link-color: #349af8;
 
   // Table sorting
 
-  .tbl_sort_icn {
+  .tbl-sort-icn {
     width: 18px;
     position: relative;
     margin-left: 6px;
   }
 
-  .tbl_sort_icn.singl_icn {
+  .tbl-sort-icn.singl-icn {
     left: 18px !important;
     top: -14px;
   }
 
-  .up_arrow {
+  .up-arrow {
     position: relative;
     top: -5px;
     font-size: 12px !important;
     color: #98aeca;
   }
 
-  .down_arrow {
+  .down-arrow {
     position: absolute;
     right: 0;
     top: 4px;

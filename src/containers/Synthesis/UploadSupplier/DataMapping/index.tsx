@@ -6,14 +6,14 @@ import styles from '../UploadSupplier.module.css';
 
 const DataMapping = () => {
   return (
-    <Grid verticalAlign="middle" className={styles.ouline_box}>
+    <Grid verticalAlign="middle" className={styles['ouline-box']}>
       <Grid.Row>
         <Grid.Column>
           <ColumnMappings />
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
-        <Grid.Column width={16} className={styles.previewTableContainer}>
+        <Grid.Column width={16} className={styles['preview-table-container']}>
           <PreviewTable />
         </Grid.Column>
         {/* <Grid.Column width={4}>

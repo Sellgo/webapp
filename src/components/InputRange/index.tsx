@@ -5,7 +5,7 @@ import './index.scss';
 
 const InputRangeCustom = (props: any) => {
   return (
-    <div className="inputRangeCustom">
+    <div className="input-range-custom">
       <InputRange {...props} />
     </div>
   );
