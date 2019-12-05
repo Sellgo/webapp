@@ -84,6 +84,7 @@ class Synthesis extends Component<SynthesisProps> {
           }}
           closeIcon={true}
           style={{ width: '90%' }}
+          className="closeIcon"
           trigger={
             <Button
               primary={true}

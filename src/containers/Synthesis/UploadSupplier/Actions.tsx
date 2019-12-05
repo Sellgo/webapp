@@ -65,7 +65,7 @@ const Actions = ({
   }
 
   return (
-    <div className={`${className || ''} ${styles.actions}`}>
+    <div className={`${className || ''} ${styles.actions} ${styles.supplier_btns}`}>
       <div className={styles.downloadOptions}>
         {currentStep === 1 && (
           <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
@@ -76,6 +76,7 @@ const Actions = ({
         )}
         {currentStep === 1 && columnMappings.length > 0 && (
           <Checkbox
+            className={styles.checked}
             style={{ marginLeft: '1em' }}
             checked={skipColumnMappingCheck}
             onChange={(ev, data) => setSkipCheck(data.checked || false)}
@@ -91,7 +92,7 @@ const Actions = ({
           />
         )}
       </div>
-      <div>
+      <div className={`${styles.btns_wrap} ${styles.upload}`}>
         {hasPrevStep && (
           <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
             Previous

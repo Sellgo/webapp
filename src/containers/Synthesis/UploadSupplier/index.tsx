@@ -30,7 +30,7 @@ export const UploadSupplier = (props: Props) => {
   }, [cleanupUploadSupplier]);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${styles.supply_container}`}>
       <UploadSteps isEditModal={isEditModal} />
       <div className={styles.marginTop} />
       <div className={styles.section}>

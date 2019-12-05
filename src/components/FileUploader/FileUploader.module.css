@@ -8,7 +8,7 @@
   border: dashed 1px #707070;
   background-color: #eeeeee;
   flex-direction: column;
-  outline:none;
+  outline: none;
   cursor: pointer;
 }
 
@@ -18,4 +18,20 @@
 
 .cloud {
   color: #888888;
+}
+
+@media screen and (min-width: 310px) and (max-width: 767px) {
+  b.filename {
+    max-width: 251px !important;
+    display: inline-block !important;
+    word-break: break-all !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  b.filename {
+    max-width: 767px !important;
+    display: inline-block !important;
+    word-break: break-all !important;
+  }
 }

@@ -25,7 +25,7 @@ const PreviewTable = (props: PreviewTableProps) => {
     csv.length > NUMBER_OF_ROWS_TO_DISPLAY ? csv.length - NUMBER_OF_ROWS_TO_DISPLAY : 0;
 
   return (
-    <Table celled={true}>
+    <Table celled={true} unstackable={true}>
       <Table.Header>
         <Table.Row>
           {columnHeaders.map(columnHeader => (
