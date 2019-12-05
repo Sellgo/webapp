@@ -118,7 +118,6 @@ class ProductData extends Component<ProductDataProps> {
                   ? productDetails.image_url
                   : 'http://localhost:3000/images/intro.png'
               }
-              size="tiny"
               style={{ display: 'inline-block' }}
             />
             <a
