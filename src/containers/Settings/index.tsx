@@ -13,7 +13,7 @@ import {
   getSellerprofileImage,
   setSellerInfo,
 } from '../../actions/Settings';
-import './settings.css';
+import './settings.scss';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
 import PageHeader from '../../components/PageHeader';
 
@@ -98,7 +98,4 @@ const mapDispatchToProps = {
     updateSellerProfileImage(imageType, imagePath),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
