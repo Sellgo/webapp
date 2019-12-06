@@ -78,7 +78,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const { amazonMWSAuthorized } = this.props;
     return (
       <Dropdown
-        className={'SynDropDownLink'}
+        className={'syn-dropdown-link'}
         text="SYN"
         floating
         selectOnBlur={false}
@@ -398,7 +398,4 @@ const mapDispatchToProps = {
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SuppliersTable);
+export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);
