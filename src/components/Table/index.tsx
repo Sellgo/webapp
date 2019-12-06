@@ -58,14 +58,6 @@ const GenericTable = (props: TableProps) => {
   const { tableKey, data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Reset to page 1 if data or numbers of items to show per page changes
-  // otherwise user can end up on a page that doesn't exist.
-  useEffect(() => {
-    if (tableKey === tableKeys.PRODUCTS) {
-      setCurrentPage(1);
-    }
-  }, [tableKey, data, singlePageItemsCount]);
-
   const showSelectItemsCounts = tableKey === tableKeys.PRODUCTS ? true : false;
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');

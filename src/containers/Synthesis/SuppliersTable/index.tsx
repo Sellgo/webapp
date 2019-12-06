@@ -363,7 +363,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             </Grid>
           </Grid.Column>
         </Grid>
-        <GenericTable tableKey={tableKeys.SUPPLIERS} data={data} columns={columns} />
+        <GenericTable
+          key={`Suppliers-${showTab}`}
+          tableKey={tableKeys.SUPPLIERS}
+          data={data}
+          columns={columns}
+        />
         <Confirm
           content="Do you want to delete supplier?"
           open={this.state.showDeleteConfirm}

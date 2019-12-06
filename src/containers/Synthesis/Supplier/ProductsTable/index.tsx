@@ -214,6 +214,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filteredProducts,
       singlePageItemsCount,
       setSinglePageItemsCount,
+      filterRanges,
     } = this.props;
 
     if (isLoadingSupplierProducts) {
@@ -229,6 +230,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return (
       <div className="productsTable">
         <GenericTable
+          /* 
+            key change forced table to remount and set page back to 1
+            if any data changes that would affect number of displayed items
+            otherwise we can end up on a page that shows no results because it's
+            past the end of the total number of items.
+            This can be done in a less hacky way once we move pagination server-side.
+          */
+          key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
           tableKey={tableKeys.PRODUCTS}
           data={filteredProducts}
           columns={this.columns}
