@@ -1,6 +1,18 @@
 .supplierCharts {
-  // Center chart radio inputs
+  // Chart radio inputs
   form.ui .inline.fields {
+    // Center horizontally
     justify-content: center;
+    // Align to top vertically
+    align-items: flex-start;
+  }
+
+  // On mobile stack radio inputs and align to left
+  @media screen and (min-width: 310px) and (max-width: 767px) {
+    form.ui .inline.fields {
+      flex-direction: column;
+      justify-content: start;
+      align-items: flex-start;
+    }
   }
 }
