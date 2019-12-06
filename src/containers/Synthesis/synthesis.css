@@ -32,18 +32,18 @@
   width: 100% !important;
 }
 
-.SynDropDown {
+.syn-dropdown {
   border: 1px solid #4285f4 !important;
   color: #4285f4 !important;
   border-radius: 5px !important;
   -width: 65% !important;
   align-self: center !important;
 }
-.SynDropDown > .text {
+.syn-dropdown > .text {
   font-size: 14px !important;
   font-weight: 900 !important;
 }
-.SynDropDown .menu {
+.syn-dropdown .menu {
   border-radius: 0px 0px 5px 5px !important;
   border: 1px 1px 1px 1px solid !important;
   border-color: #4285f4 !important;
@@ -51,8 +51,10 @@
   background-color: #ffffff !important;
   min-width: max-content !important;
 }
-
-.SynDropDownLink a {
+.ui.selection.dropdown.syn-dropdown-link .menu {
+  width: max-content !important;
+}
+.syn-dropdown-link a {
   color: black !important;
 }
 
