@@ -78,7 +78,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const { amazonMWSAuthorized } = this.props;
     return (
       <Dropdown
-        className={'Syn-dropdown-link'}
+        className={'syn-dropdown-link'}
         text="SYN"
         floating
         selectOnBlur={false}
