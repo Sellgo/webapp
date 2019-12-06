@@ -7,12 +7,17 @@
     align-items: flex-start;
   }
 
-  // On mobile stack radio inputs and align to left
+  // On mobile stack radio inputs, align left, and center container
   @media screen and (min-width: 310px) and (max-width: 767px) {
-    form.ui .inline.fields {
-      flex-direction: column;
-      justify-content: start;
-      align-items: flex-start;
+    form.ui {
+      display: flex;
+      .inline.fields {
+        flex-shrink: 1;
+        margin: 0 auto;
+        flex-direction: column;
+        justify-content: start;
+        align-items: flex-start;
+      }
     }
   }
 }
