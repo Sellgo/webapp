@@ -64,4 +64,7 @@ const mapDispatchToProps = {
   validateAndUploadCsv,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataValidation);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DataValidation);

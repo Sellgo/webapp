@@ -261,4 +261,7 @@ const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductsTable);

@@ -112,4 +112,7 @@ const mapDispatchToProps = {
   resetSupplierProducts: () => resetSupplierProducts(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Supplier);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Supplier);

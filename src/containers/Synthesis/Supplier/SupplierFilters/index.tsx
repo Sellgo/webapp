@@ -170,4 +170,7 @@ const mapDispatchToProps = {
   updateFilterRanges: (filterRanges: any) => updateSupplierFilterRanges(filterRanges),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SupplierFilters);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SupplierFilters);

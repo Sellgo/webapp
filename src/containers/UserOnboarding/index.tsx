@@ -65,4 +65,7 @@ const mapDispatchToProps = {
   closeModal: closeUserOnboardingModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserOnboarding);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserOnboarding);
