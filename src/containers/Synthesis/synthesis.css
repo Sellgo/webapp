@@ -52,6 +52,9 @@
   min-width: max-content !important;
 }
 
+.ui.selection.dropdown.syn-dropdown-link .menu {
+  width: max-content !important;
+}
 .syn-dropdown-link a {
   color: black !important;
 }

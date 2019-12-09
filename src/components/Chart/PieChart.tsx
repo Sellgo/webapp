@@ -34,10 +34,28 @@ const renderPieChartOptions = (options: PieChartOptions) => {
         cursor: 'pointer',
         dataLabels: {
           enabled: true,
-          alignTo: 'connectors',
           format: '<b>{point.name}</b>: {point.percentage:.1f} %',
         },
       },
+    },
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500,
+          },
+          chartOptions: {
+            plotOptions: {
+              pie: {
+                size: '65%',
+                dataLabels: {
+                  alignTo: 'connectors',
+                },
+              },
+            },
+          },
+        },
+      ],
     },
     series: [
       {
