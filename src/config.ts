@@ -1,7 +1,7 @@
 const DEV_URLS = {
-  BASE_URL: 'https://app.sellgo-dev.com',
+  BASE_URL: 'http://3.224.211.35',
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
-  BASE_URL_API: 'https://api.sellgo-dev.com/api/',
+  BASE_URL_API: 'http://3.224.211.35/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
 };
 
@@ -13,7 +13,7 @@ const PROD_URLS = {
 };
 
 const DEV_KEYS = {
-  STRIPE_API_KEY: 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J',
+  STRIPE_API_KEY: 'pk_test_thMkxDX66HmQoec5jcK34bAc0083aPonvE',
 };
 
 const PROD_KEYS = {

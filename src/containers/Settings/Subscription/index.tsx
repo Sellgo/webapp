@@ -1,27 +1,168 @@
 import React from 'react';
-import { Button, Divider, Header, Segment, Label, Card, CardContent } from 'semantic-ui-react';
+import {
+  Button,
+  Divider,
+  Header,
+  Segment,
+  Label,
+  Card,
+  CardContent,
+  Input,
+} from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import {
   fetchSellerSubscription,
   fetchSubscriptions,
 } from '../../../actions/Settings/Subscription';
+import { getSellerInfo } from '../../../actions/Settings';
 import './subscription.css';
 import PageHeader from '../../../components/PageHeader';
 import Checkout from './Checkout';
 import { Subscription } from '../../../interfaces/Seller';
+import Axios from 'axios';
+import { AppConfig } from '../../../config';
+import stripe from '../../../stripe';
+import { success, error } from '../../../utils/notifications';
 
 interface SubscriptionProps {
+  getSeller: () => void;
+  profile: any;
   fetchSubscriptions: () => void;
   fetchSellerSubscription: () => void;
   sellerSubscription: any;
   subscriptions: Subscription[];
+  location: any;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
+  state = {
+    couponVal: '',
+  };
+
   componentDidMount() {
-    const { fetchSubscriptions, fetchSellerSubscription } = this.props;
+    const { getSeller, fetchSubscriptions, fetchSellerSubscription, location } = this.props;
+
+    // Show success message if success url param (user has signed up for a plan)
+    if (location.search) {
+      const urlParams = queryString.parse(location.search);
+      if (urlParams.success) {
+        success(`You've signed up for a plan. Welcome!`);
+      }
+    }
+
+    getSeller();
     fetchSubscriptions();
     fetchSellerSubscription();
+  }
+
+  chooseSubscription(subscriptionId: any) {
+    const { couponVal } = this.state;
+
+    const { sellerSubscription } = this.props;
+    // If user has subscription already then change to selected plan
+    if (sellerSubscription) {
+      this.changeSubscription(subscriptionId);
+      // Otherwise we want to go to payment page
+    } else if (couponVal) {
+      this.createTrialSubscription(subscriptionId, couponVal);
+    } else {
+      this.checkout(subscriptionId);
+    }
+  }
+
+  createTrialSubscription(subscriptionId: any, couponVal: any) {
+    const { profile, fetchSellerSubscription } = this.props;
+    const bodyFormData = new FormData();
+    bodyFormData.append('subscription_id', subscriptionId);
+    bodyFormData.append('coupon', couponVal);
+
+    Axios.post(
+      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/redeem-coupon`,
+      bodyFormData
+    )
+      .then(response => {
+        //console.log('[createTrialSubscription] response', response);
+        fetchSellerSubscription();
+        success(`You are now subscribed for a trial period`);
+      })
+      .catch((err: any) => {
+        //console.log('[createTrialSubscription] err', { err });
+        error(`The coupon "${couponVal}" is not valid`);
+        this.setState({ couponVal: '' });
+      });
+  }
+
+  // Change plan that user is subscribed to
+  changeSubscription(subscriptionId: any) {
+    const { profile, fetchSellerSubscription } = this.props;
+    const bodyFormData = new FormData();
+    bodyFormData.append('subscription_id', subscriptionId);
+
+    Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/update`, bodyFormData)
+      .then(response => {
+        //console.log('[changeSubscription] response', response);
+        fetchSellerSubscription();
+        success(`You have changed your subscription`);
+      })
+      .catch((err: any) => {
+        //console.log('[changeSubscription] err', err);
+        error(`There was an error changing subscription`);
+      });
+  }
+
+  cancelSubscription() {
+    const { profile, fetchSellerSubscription } = this.props;
+
+    Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
+      .then(response => {
+        //console.log('[cancelSubscription] response', response);
+        fetchSellerSubscription();
+        success(`Your subscription has been cancelled`);
+      })
+      .catch((err: any) => {
+        //console.log('[cancelSubscription] err', { err });
+        error(`There was an error cancelling your subscription`);
+      });
+  }
+
+  checkout(subscriptionId: any) {
+    this.createCheckoutSession(subscriptionId)
+      .then((checkoutSessionId: any) => {
+        this.redirectToCheckout(checkoutSessionId);
+      })
+      .catch((err: any) => {
+        //console.log('[create-checkout-session] err', err);
+        error(`There was an error creating your checkout session`);
+      });
+  }
+
+  createCheckoutSession(subscriptionId: any) {
+    const { profile } = this.props;
+    const bodyFormData = new FormData();
+    bodyFormData.append('subscription_id', subscriptionId);
+    bodyFormData.append('email', profile.email);
+
+    return Axios.post(
+      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/create-checkout-session`,
+      bodyFormData
+    ).then(response => {
+      //console.log('[create-checkout-session] response', response);
+      return response.data;
+    });
+  }
+
+  redirectToCheckout(checkoutSessionId: any) {
+    stripe
+      .redirectToCheckout({
+        sessionId: checkoutSessionId,
+      })
+      .then((result: any) => {
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `result.error.message`.
+        error(`There was an error: ${result.error.message}`);
+      });
   }
 
   render() {
@@ -30,6 +171,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const subscribedSubscription = sellerSubscription
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
+
     const header = subscribedSubscription
       ? `You have subscribed to "${subscribedSubscription.name}" Plan`
       : 'Choose the one that best fits you!';
@@ -43,68 +185,93 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             { content: 'Settings', to: '/settings' },
             { content: 'Pricing' },
           ]}
-          //callToAction={<CallToAction />}
         />
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Header as="h2">{header}</Header>
           <Segment basic={true} padded="very">
-            {subscriptions.map((subscription: Subscription, index: number) => (
-              <Card
-                key={index}
-                style={{ display: 'inline-block', margin: '10px', verticalAlign: 'baseline' }}
-              >
-                <CardContent>
-                  <Label attached="top" size={'big'}>
-                    {subscription.name} Plan
-                  </Label>
-                  <Header size="huge" className="price">
-                    $X{/* ${subscription.price} */}
-                  </Header>
-                  <p>Per user / month</p>
-                  <Divider />
-                  <div className="limit">
-                    <Header as="h4">
-                      {subscription.synthesis_limit !== -1
-                        ? subscription.synthesis_limit
-                        : 'unlimited'}{' '}
-                      syn limit
+            {subscriptions.map((subscription: Subscription, index: number) => {
+              const isSubscribed =
+                subscribedSubscription && subscribedSubscription.id === subscription.id;
+              return (
+                <Card
+                  key={index}
+                  style={{ display: 'inline-block', margin: '10px', verticalAlign: 'baseline' }}
+                >
+                  <CardContent>
+                    <Label attached="top" size={'big'}>
+                      {subscription.name} Plan
+                    </Label>
+                    <Header size="huge" className="price">
+                      ${subscription.price}
                     </Header>
-                    <Header as="h4">
-                      {subscription.track_limit !== -1 ? subscription.track_limit : 'unlimited'}{' '}
-                      track limit
-                    </Header>
-                    {subscribedSubscription ? (
-                      subscribedSubscription.id === subscription.id ? (
+                    <p>Per user / month</p>
+                    <Divider />
+                    <div className="limit">
+                      <Header as="h4">
+                        {subscription.synthesis_limit !== -1
+                          ? subscription.synthesis_limit
+                          : 'unlimited'}{' '}
+                        syn limit
+                      </Header>
+                      <Header as="h4">
+                        {subscription.track_limit !== -1 ? subscription.track_limit : 'unlimited'}{' '}
+                        track limit
+                      </Header>
+                      {isSubscribed && (
                         <Header as="h4">
                           Valid Untill : {new Date(sellerSubscription.expiry_date).toDateString()}
                         </Header>
-                      ) : (
-                        ''
-                      )
-                    ) : (
-                      ''
+                      )}
+                    </div>
+
+                    {isSubscribed && (
+                      <>
+                        <Button
+                          basic={true}
+                          style={{
+                            borderRadius: 20,
+                            background: 'rgb(66, 133, 244) !important',
+                            fontWeight: 'bold',
+                          }}
+                          color="red"
+                          onClick={() => this.cancelSubscription()}
+                        >
+                          CANCEL
+                        </Button>
+                      </>
                     )}
-                  </div>
-                  <Checkout subscription={subscription}>
-                    <Button
-                      basic={true}
-                      style={{
-                        borderRadius: 20,
-                        background: 'rgb(66, 133, 244) !important',
-                        fontWeight: 'bold',
-                      }}
-                      color="blue"
-                    >
-                      {subscribedSubscription
-                        ? subscribedSubscription.id === subscription.id
-                          ? 'EXTEND PLAN'
-                          : 'CHANGE PLAN'
-                        : 'SUBSCRIBE'}
-                    </Button>
-                  </Checkout>
-                </CardContent>
-              </Card>
-            ))}
+
+                    {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
+                      <Button
+                        basic={true}
+                        style={{
+                          borderRadius: 20,
+                          background: 'rgb(66, 133, 244) !important',
+                          fontWeight: 'bold',
+                        }}
+                        color="blue"
+                        onClick={() => this.chooseSubscription(subscription.id)}
+                      >
+                        {subscribedSubscription ? 'CHANGE PLAN' : 'SUBSCRIBE'}
+                      </Button>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+
+            {!sellerSubscription && (
+              <div style={{ marginTop: '15px' }}>
+                Have a coupon?{' '}
+                <Input
+                  style={{ marginLeft: '10px' }}
+                  value={this.state.couponVal}
+                  onChange={e => this.setState({ couponVal: e.target.value })}
+                  placeholder="Coupon"
+                  type="text"
+                />
+              </div>
+            )}
           </Segment>
         </Segment>
       </>
@@ -113,11 +280,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 }
 
 const mapStateToProps = (state: any) => ({
+  profile: state.settings.profile,
   sellerSubscription: state.subscription.sellerSubscription,
   subscriptions: state.subscription.subscriptions,
 });
 
 const mapDispatchToProps = {
+  getSeller: () => getSellerInfo(),
   fetchSubscriptions: () => fetchSubscriptions(),
   fetchSellerSubscription: () => fetchSellerSubscription(),
 };

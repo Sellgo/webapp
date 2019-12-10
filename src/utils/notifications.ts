@@ -1,6 +1,11 @@
 import { toast, ToastContent, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-toast.configure();
+toast.configure({
+  position: 'bottom-right',
+  hideProgressBar: true,
+  bodyClassName: 'toast-body',
+});
 
 type messageInterface = (message: ToastContent, options?: ToastOptions) => void;
 

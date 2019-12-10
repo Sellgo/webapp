@@ -11,9 +11,7 @@ import Auth from '../../components/Auth/Auth';
 import Callback from '../../components/Callback';
 import NotFound from '../../components/NotFound';
 import history from '../../history';
-import { ToastContainer } from 'react-toastify';
 import FullStory from 'react-fullstory';
-import 'react-toastify/dist/ReactToastify.css';
 
 const auth = new Auth();
 
@@ -65,7 +63,6 @@ function App(props: any) {
   return (
     <div>
       <FullStory org="Q36Y3" />
-      <ToastContainer position="bottom-right" hideProgressBar={true} bodyClassName="toast-body" />
       <Router history={history}>
         <Switch>
           <Route
