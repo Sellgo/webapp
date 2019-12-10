@@ -176,6 +176,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       ? `You have subscribed to "${subscribedSubscription.name}" Plan`
       : 'Choose the one that best fits you!';
 
+    const subscriptionsSorted = subscriptions.sort((a, b) => (a.id > b.id ? 1 : -1));
+
     return (
       <>
         <PageHeader
@@ -189,7 +191,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Header as="h2">{header}</Header>
           <Segment basic={true} padded="very">
-            {subscriptions.map((subscription: Subscription, index: number) => {
+            {subscriptionsSorted.map((subscription: Subscription, index: number) => {
               const isSubscribed =
                 subscribedSubscription && subscribedSubscription.id === subscription.id;
               return (
@@ -201,21 +203,25 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     <Label attached="top" size={'big'}>
                       {subscription.name} Plan
                     </Label>
-                    <Header size="huge" className="price">
-                      ${subscription.price}
-                    </Header>
+                    {index === 2 ? (
+                      <Header size="huge" className="price">
+                        Call Us
+                      </Header>
+                    ) : (
+                      <>
+                        <Header size="huge" className="price">
+                          ${subscription.price}
+                        </Header>
+                      </>
+                    )}
                     <p>Per user / month</p>
+
                     <Divider />
                     <div className="limit">
+                      <Header as="h4">Unlimited Profit Finder</Header>
                       <Header as="h4">
-                        {subscription.synthesis_limit !== -1
-                          ? subscription.synthesis_limit
-                          : 'unlimited'}{' '}
-                        syn limit
-                      </Header>
-                      <Header as="h4">
-                        {subscription.track_limit !== -1 ? subscription.track_limit : 'unlimited'}{' '}
-                        track limit
+                        {subscription.track_limit !== -1 ? subscription.track_limit : 'Unlimited'}{' '}
+                        Product Tracker Limit
                       </Header>
                       {isSubscribed && (
                         <Header as="h4">
@@ -223,7 +229,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         </Header>
                       )}
                     </div>
-
                     {isSubscribed && (
                       <>
                         <Button
@@ -240,7 +245,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         </Button>
                       </>
                     )}
-
                     {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
                       <Button
                         basic={true}
