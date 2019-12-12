@@ -101,13 +101,14 @@ $link-color: #349af8;
       }
 
       .imageWrapper {
-        // Crop image if taller than ...
-        max-height: 120px;
-        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 75px;
+        height: 75px;
 
         img {
-          width: 75px;
-          margin: 0 auto;
+          display: block;
         }
       }
     }

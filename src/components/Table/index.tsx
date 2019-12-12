@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import './index.scss';
 import { tableKeys } from '../../constants';
@@ -37,7 +37,8 @@ const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
   const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
 
-  const handleSort = (clickedColumn: string) => {
+  const handleSort = (e: any, clickedColumn: string) => {
+    e.preventDefault();
     if (sortedColumnKey !== clickedColumn) {
       setSortedColumnKey(clickedColumn);
       setSortDirection('ascending');
@@ -55,17 +56,17 @@ const useSort = (initialValue: string) => {
 
 const GenericTable = (props: TableProps) => {
   const { tableKey, data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
-
   const [currentPage, setCurrentPage] = useState(1);
 
   // Reset to page 1 if data or numbers of items to show per page changes
   // otherwise user can end up on a page that doesn't exist.
   useEffect(() => {
-    if (tableKey === tableKeys.PRODUCTS) setCurrentPage(1);
+    if (tableKey === tableKeys.PRODUCTS) {
+      setCurrentPage(1);
+    }
   }, [tableKey, data, singlePageItemsCount]);
 
   const showSelectItemsCounts = tableKey === tableKeys.PRODUCTS ? true : false;
-  const totalPages = Math.ceil(data.length / singlePageItemsCount);
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
@@ -74,7 +75,6 @@ const GenericTable = (props: TableProps) => {
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
         let aColumn, bColumn;
-
         if (sortedColumn.type === 'number') {
           aColumn = Number(a[sortedColumn.dataKey || '']);
           bColumn = Number(b[sortedColumn.dataKey || '']);
@@ -85,20 +85,59 @@ const GenericTable = (props: TableProps) => {
           aColumn = a[sortedColumn.dataKey || ''] || '';
           bColumn = b[sortedColumn.dataKey || ''] || '';
         }
-
-        if (aColumn < bColumn) {
-          return -1;
-        }
-        if (aColumn > bColumn) {
-          return 1;
+        if (
+          sortedColumn.dataKey === 'name' ||
+          (sortedColumn.dataKey && sortedColumn.dataKey === 'file_name') ||
+          (sortedColumn.dataKey && sortedColumn.dataKey === 'active_status')
+        ) {
+          if (aColumn.toLowerCase() < bColumn.toLowerCase()) {
+            return -1;
+          }
+          if (aColumn.toLowerCase() > bColumn.toLowerCase()) {
+            return 1;
+          }
+        } else {
+          if (aColumn < bColumn) {
+            return -1;
+          }
+          if (aColumn > bColumn) {
+            return 1;
+          }
         }
         return 0;
       })
     : data;
-
+  const [isSearching, setSearch] = useState('');
+  const [filterName, setFilterName] = useState('');
+  rows = rows.filter(row => {
+    if (isSearching) {
+      if (row.name.toLowerCase().startsWith(isSearching.toLowerCase())) {
+        return row.name.toLowerCase().startsWith(isSearching.toLowerCase());
+      } else {
+        return row.name.toLowerCase().includes(isSearching.toLowerCase());
+      }
+    } else {
+      return rows;
+    }
+  });
+  const totalPages = Math.ceil(rows.length / singlePageItemsCount);
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-
+  const [isShowing, setShowing] = useState(false);
+  const handleSearchFilter = (e: any, key: any) => {
+    e.stopPropagation();
+    setShowing(true);
+    setFilterName(key);
+  };
+  const clearSearch = (e: any) => {
+    e.stopPropagation();
+    setShowing(false);
+    setSearch('');
+  };
+  const handleChange = (e: any) => {
+    setCurrentPage(1);
+    setSearch(e.target.value);
+  };
   return (
     <div className="genericTable scrollable">
       {setSinglePageItemsCount && showSelectItemsCounts ? (
@@ -113,7 +152,28 @@ const GenericTable = (props: TableProps) => {
       ) : (
         ''
       )}
-      <Table sortable={true} basic="very" textAlign="left">
+      {isShowing && (
+        <Card className="filterCard">
+          <Card.Header>
+            <span className="cardHeader">{filterName}</span>
+            <span className="cardHeader" />
+            <Icon
+              className="close icon closeIcon"
+              onClick={clearSearch}
+              style={{ float: 'right' }}
+            />
+          </Card.Header>
+          <Card.Content>
+            <Input
+              icon="search"
+              value={isSearching}
+              placeholder="Search..."
+              onChange={handleChange}
+            />
+          </Card.Content>
+        </Card>
+      )}
+      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
         <Table.Header>
           <Table.Row>
             {showColumns.map((column, index) => {
@@ -121,9 +181,20 @@ const GenericTable = (props: TableProps) => {
                 <Table.HeaderCell
                   key={column.dataKey || index}
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
-                  onClick={column.sortable ? () => setSort(column.dataKey || '') : undefined}
+                  onClick={
+                    column.sortable ? (e: any) => setSort(e, column.dataKey || '') : undefined
+                  }
                 >
-                  {column.label}{' '}
+                  {' '}
+                  {column.label}
+                  {column.label === 'Supplier' && (
+                    <span>
+                      <Icon
+                        className="filter search_filter"
+                        onClick={(e: any) => handleSearchFilter(e, column.label)}
+                      />
+                    </span>
+                  )}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
                   ) : null}
@@ -133,32 +204,26 @@ const GenericTable = (props: TableProps) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {!rows.length ? (
-            <Table.Row key={134}>
-              <Table.Cell>
-                <h1>{'Data not found'}</h1>
-              </Table.Cell>
-            </Table.Row>
-          ) : (
-            rows.map((row, index) => {
-              return (
-                <Table.Row key={index}>
-                  {showColumns.map((column, index) => (
-                    <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                      {renderCell(row, column)}
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              );
-            })
-          )}
+          {rows.length
+            ? rows.map((row, index) => {
+                return (
+                  <Table.Row key={index}>
+                    {showColumns.map((column, index) => (
+                      <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                        {renderCell(row, column)}
+                      </Table.Cell>
+                    ))}
+                  </Table.Row>
+                );
+              })
+            : ''}
         </Table.Body>
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan={showColumns.length}>
               {/* todo */}
               <Pagination
-                totalPages={totalPages}
+                totalPages={rows.length ? totalPages : ''}
                 activePage={currentPage}
                 onPageChange={(event, data) => setCurrentPage(Number(data.activePage))}
               />

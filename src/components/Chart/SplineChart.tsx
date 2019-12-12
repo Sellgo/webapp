@@ -62,13 +62,7 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
       shared: true,
     },
     legend: {
-      layout: 'vertical',
       align: 'left',
-      x: 120,
-      verticalAlign: 'top',
-      y: 100,
-      floating: true,
-      backgroundColor: 'rgba(255,255,255,0.25)',
     },
     series: data,
   };

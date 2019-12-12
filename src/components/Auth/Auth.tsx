@@ -1,6 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
 import Axios from 'axios';
+import { FullStoryAPI } from 'react-fullstory';
 import { AppConfig } from '../../config';
 
 export default class Auth {
@@ -17,6 +18,7 @@ export default class Auth {
         scope: 'openid profile email',
       },
     },
+    closable: false,
     allowShowPassword: true,
     rememberLastLogin: false,
     autoclose: true,
@@ -33,8 +35,9 @@ export default class Auth {
     allowSignUp: true,
     avatar: null,
   });
-  public login = () => {
-    this.auth0Lock.show();
+
+  public login = (options: any) => {
+    this.auth0Lock.show(options);
   };
 
   registerSeller = () => {
@@ -50,6 +53,15 @@ export default class Auth {
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
+
+          // We're calling identify here because it's currently the only
+          // way to get the user id after login/signup.
+          // We can find a better place for this if auth is refactored.
+          FullStoryAPI('identify', data.id, {
+            displayName: data.name,
+            email: data.email,
+          });
+
           history.replace('/');
         }
       })
@@ -64,10 +76,15 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
-        history.replace('/');
         if (err.code === 'unauthorized') {
-          this.auth0Lock.show({ flashMessage: { type: 'error', text: err.description || '' } });
+          history.replace({
+            pathname: '/',
+            state: {
+              options: { flashMessage: { type: 'error', text: err.description || '' } },
+            },
+          });
         } else {
+          history.replace('/');
           alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);
         }
       }
