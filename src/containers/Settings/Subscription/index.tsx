@@ -8,6 +8,7 @@ import {
   Card,
   CardContent,
   Input,
+  Confirm,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
@@ -38,6 +39,7 @@ interface SubscriptionProps {
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
   state = {
     couponVal: '',
+    promptCancelSubscription: false,
   };
 
   componentDidMount() {
@@ -167,6 +169,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
   render() {
     const { subscriptions, sellerSubscription } = this.props;
+    const { promptCancelSubscription } = this.state;
 
     const subscribedSubscription = sellerSubscription
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
@@ -188,6 +191,19 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             { content: 'Pricing' },
           ]}
         />
+
+        <Confirm
+          content="Are you sure you want to cancel your subscription"
+          open={promptCancelSubscription}
+          onCancel={() => {
+            this.setState({ promptCancelSubscription: false });
+          }}
+          onConfirm={() => {
+            this.setState({ promptCancelSubscription: false });
+            this.cancelSubscription();
+          }}
+        />
+
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Header as="h2">{header}</Header>
           <Segment basic={true} padded="very">
@@ -204,17 +220,20 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       {subscription.name} Plan
                     </Label>
                     {index === 2 ? (
-                      <Header size="huge" className="price">
-                        Call Us
-                      </Header>
+                      <>
+                        <Header size="huge" className="price">
+                          Call Us
+                        </Header>
+                        <p>Call 1-800-SELLGO</p>
+                      </>
                     ) : (
                       <>
                         <Header size="huge" className="price">
                           ${subscription.price}
                         </Header>
+                        <p>Per user / month</p>
                       </>
                     )}
-                    <p>Per user / month</p>
 
                     <Divider />
                     <div className="limit">
@@ -239,7 +258,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                             fontWeight: 'bold',
                           }}
                           color="red"
-                          onClick={() => this.cancelSubscription()}
+                          onClick={() => this.setState({ promptCancelSubscription: true })}
                         >
                           CANCEL
                         </Button>
@@ -252,6 +271,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                           borderRadius: 20,
                           background: 'rgb(66, 133, 244) !important',
                           fontWeight: 'bold',
+                          // So carts are same height
+                          // TODO: Use flexbox to do this
+                          visibility: index === 2 ? 'hidden' : 'visible',
                         }}
                         color="blue"
                         onClick={() => this.chooseSubscription(subscription.id)}
