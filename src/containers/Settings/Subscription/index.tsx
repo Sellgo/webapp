@@ -40,6 +40,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   state = {
     couponVal: '',
     promptCancelSubscription: false,
+    // Breaking these out into individual values instead of an object
+    // because couldn't get Typescript to allow an undefined object :(
+    pendingCoupon: '',
+    pendingSubscriptionId: '',
+    pendingSubscriptionName: '',
   };
 
   componentDidMount() {
@@ -58,18 +63,22 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     fetchSellerSubscription();
   }
 
-  chooseSubscription(subscriptionId: any) {
+  chooseSubscription(subscription: any) {
     const { couponVal } = this.state;
 
     const { sellerSubscription } = this.props;
     // If user has subscription already then change to selected plan
     if (sellerSubscription) {
-      this.changeSubscription(subscriptionId);
+      this.changeSubscription(subscription.id);
       // Otherwise we want to go to payment page
     } else if (couponVal) {
-      this.createTrialSubscription(subscriptionId, couponVal);
+      this.setState({
+        pendingCoupon: couponVal,
+        pendingSubscriptionId: subscription.id,
+        pendingSubscriptionName: subscription.name,
+      });
     } else {
-      this.checkout(subscriptionId);
+      this.checkout(subscription.id);
     }
   }
 
@@ -169,7 +178,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
   render() {
     const { subscriptions, sellerSubscription } = this.props;
-    const { promptCancelSubscription } = this.state;
+    const {
+      promptCancelSubscription,
+      pendingCoupon,
+      pendingSubscriptionId,
+      pendingSubscriptionName,
+    } = this.state;
 
     const subscribedSubscription = sellerSubscription
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
@@ -201,6 +215,29 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           onConfirm={() => {
             this.setState({ promptCancelSubscription: false });
             this.cancelSubscription();
+          }}
+        />
+
+        <Confirm
+          content={`Use coupon ${pendingCoupon} for "${pendingSubscriptionName}"`}
+          open={pendingCoupon ? true : false}
+          onCancel={() => {
+            this.setState({
+              couponVal: '',
+              pendingCoupon: '',
+              pendingSubscriptionId: '',
+              pendingSubscriptionName: '',
+            });
+          }}
+          onConfirm={() => {
+            this.setState({
+              couponVal: '',
+              pendingCoupon: '',
+              pendingSubscriptionId: '',
+              pendingSubscriptionName: '',
+            });
+
+            this.createTrialSubscription(pendingSubscriptionId, pendingCoupon);
           }}
         />
 
@@ -242,11 +279,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         {subscription.track_limit !== -1 ? subscription.track_limit : 'Unlimited'}{' '}
                         Product Tracker Limit
                       </Header>
-                      {isSubscribed && (
-                        <Header as="h4">
-                          Valid Untill : {new Date(sellerSubscription.expiry_date).toDateString()}
-                        </Header>
-                      )}
+                      {/* Spacer to make selected plan taller */}
+                      {isSubscribed && <div style={{ height: '50px' }} />}
                     </div>
                     {isSubscribed && (
                       <>
@@ -276,7 +310,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                           visibility: index === 2 ? 'hidden' : 'visible',
                         }}
                         color="blue"
-                        onClick={() => this.chooseSubscription(subscription.id)}
+                        onClick={() => this.chooseSubscription(subscription)}
                       >
                         {subscribedSubscription ? 'CHANGE PLAN' : 'SUBSCRIBE'}
                       </Button>
