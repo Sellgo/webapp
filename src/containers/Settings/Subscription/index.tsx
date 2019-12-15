@@ -253,7 +253,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
         <Confirm
           content={`Would you like to change your plan to "${pendingSubscriptionName}"`}
-          open={pendingSubscription ? true : false}
+          open={pendingSubscription && !pendingCoupon ? true : false}
           onCancel={() => {
             this.setState({
               pendingSubscription: false,
