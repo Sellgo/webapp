@@ -48,7 +48,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   };
 
   componentDidMount() {
-    const { getSeller, fetchSubscriptions, fetchSellerSubscription, location } = this.props;
+    const { getSeller, fetchSubscriptions, location } = this.props;
 
     // Show success message if success url param (user has signed up for a plan)
     if (location.search) {

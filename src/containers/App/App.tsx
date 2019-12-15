@@ -48,48 +48,57 @@ const PrivateRoute = connect(
   {
     fetchSellerSubscription: () => fetchSellerSubscription(),
   }
-)(({ component: Component, requireSubscription, sellerSubscription, location, ...rest }: any) => {
-  // This hook will run if sellerSubscription changes (fetch completes) or ...
-  // if React Router location changes (so we redirect if requireSubscription is true)
-  // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
-  // of auth object made available to all child components using context.
-  useEffect(() => {
-    // Fetch seller's subscription if not cached in Redux yet
-    if (sellerSubscription === undefined) {
-      rest.fetchSellerSubscription();
-      // If we now know the user's subscription status then redirect to pricing
-      // only if this route requires a subscription and the seller doesn't have one.
-    } else if (requireSubscription && sellerSubscription === false) {
-      history.push('/settings/pricing');
-    }
-  }, [sellerSubscription, location]);
+)(
+  ({
+    component: Component,
+    requireSubscription,
+    sellerSubscription,
+    fetchSellerSubscription,
+    location,
+    ...rest
+  }: any) => {
+    // This hook will run if sellerSubscription changes (fetch completes) or ...
+    // if React Router location changes (so we redirect if requireSubscription is true)
+    // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
+    // of auth object made available to all child components using context.
+    useEffect(() => {
+      // Fetch seller's subscription if not cached in Redux yet
+      if (sellerSubscription === undefined) {
+        fetchSellerSubscription();
+        // If we now know the user's subscription status then redirect to pricing
+        // only if this route requires a subscription and the seller doesn't have one.
+      } else if (requireSubscription && sellerSubscription === false) {
+        history.push('/settings/pricing');
+      }
+    }, [sellerSubscription, location]);
 
-  return (
-    <Route
-      {...rest}
-      render={(props: any) => {
-        if (isAuthenticated()) {
-          if (sellerSubscription !== undefined) {
-            // TODO: Rather than pass auth by mutating props either
-            // 1) export instance from Auth.tsx so we can import it anywhere
-            // 2) or make available via redux or context provider
-            props.match.params.auth = auth;
+    return (
+      <Route
+        {...rest}
+        render={(props: any) => {
+          if (isAuthenticated()) {
+            if (sellerSubscription !== undefined) {
+              // TODO: Rather than pass auth by mutating props either
+              // 1) export instance from Auth.tsx so we can import it anywhere
+              // 2) or make available via redux or context provider
+              props.match.params.auth = auth;
 
-            return (
-              <AdminLayout auth={auth}>
-                <Component {...props} />
-              </AdminLayout>
-            );
+              return (
+                <AdminLayout auth={auth}>
+                  <Component {...props} />
+                </AdminLayout>
+              );
+            } else {
+              return <PageLoader />;
+            }
           } else {
-            return <PageLoader />;
+            return <Redirect to="/" />;
           }
-        } else {
-          return <Redirect to="/" />;
-        }
-      }}
-    />
-  );
-});
+        }}
+      />
+    );
+  }
+);
 
 function App(props: any) {
   return (
