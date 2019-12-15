@@ -321,6 +321,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                             borderRadius: 20,
                             background: 'rgb(66, 133, 244) !important',
                             fontWeight: 'bold',
+                            width: '180px',
                           }}
                           color="red"
                           onClick={() => this.setState({ promptCancelSubscription: true })}
@@ -339,6 +340,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                           // So carts are same height
                           // TODO: Use flexbox to do this
                           visibility: index === 2 ? 'hidden' : 'visible',
+                          width: '180px',
                         }}
                         color="blue"
                         onClick={() => this.chooseSubscription(subscription)}
