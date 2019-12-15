@@ -15,6 +15,7 @@ import queryString from 'query-string';
 import {
   fetchSellerSubscription,
   fetchSubscriptions,
+  setSellerSubscription,
 } from '../../../actions/Settings/Subscription';
 import { getSellerInfo } from '../../../actions/Settings';
 import './subscription.css';
@@ -24,12 +25,14 @@ import Axios from 'axios';
 import { AppConfig } from '../../../config';
 import stripe from '../../../stripe';
 import { success, error } from '../../../utils/notifications';
+import history from '../../../history';
 
 interface SubscriptionProps {
   getSeller: () => void;
   profile: any;
   fetchSubscriptions: () => void;
   fetchSellerSubscription: () => void;
+  setSellerSubscription: (data: any) => void;
   sellerSubscription: any;
   subscriptions: Subscription[];
   location: any;
@@ -51,10 +54,14 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const { getSeller, fetchSubscriptions, location } = this.props;
 
     // Show success message if success url param (user has signed up for a plan)
+    // Then redirect to /synthesis
+    // TODO: Change stripe success redirect url to /synthesis and handle there
     if (location.search) {
       const urlParams = queryString.parse(location.search);
       if (urlParams.success) {
         success(`You've signed up for a plan. Welcome!`);
+        history.push('/synthesis');
+        return;
       }
     }
 
@@ -90,7 +97,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   createTrialSubscription(subscriptionId: any, couponVal: any) {
-    const { profile, fetchSellerSubscription } = this.props;
+    const { profile, setSellerSubscription } = this.props;
     const bodyFormData = new FormData();
     bodyFormData.append('subscription_id', subscriptionId);
     bodyFormData.append('coupon', couponVal);
@@ -100,12 +107,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       bodyFormData
     )
       .then(response => {
-        // Re-fetch subscription to update UI
-        fetchSellerSubscription();
+        // Clear subscription so re-fetched by /synthesis route after redirect
+        setSellerSubscription(undefined);
         success(`You are now subscribed for a trial period`);
+        history.push('/synthesis');
       })
       .catch((err: any) => {
-        //console.log('[createTrialSubscription] err', { err });
         error(`The coupon "${couponVal}" is not valid`);
         this.setState({ couponVal: '' });
       });
@@ -124,22 +131,19 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         success(`You have changed your subscription`);
       })
       .catch((err: any) => {
-        //console.log('[changeSubscription] err', err);
         error(`There was an error changing subscription`);
       });
   }
 
   cancelSubscription() {
-    const { profile, fetchSellerSubscription } = this.props;
+    const { profile, setSellerSubscription } = this.props;
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
       .then(response => {
-        // Re-fetch subscription to update UI
-        fetchSellerSubscription();
+        setSellerSubscription(false);
         success(`Your subscription has been cancelled`);
       })
       .catch((err: any) => {
-        //console.log('[cancelSubscription] err', { err });
         error(`There was an error cancelling your subscription`);
       });
   }
@@ -150,7 +154,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         this.redirectToCheckout(checkoutSessionId);
       })
       .catch((err: any) => {
-        //console.log('[create-checkout-session] err', err);
         error(`There was an error creating your checkout session`);
       });
   }
@@ -165,7 +168,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/create-checkout-session`,
       bodyFormData
     ).then(response => {
-      //console.log('[create-checkout-session] response', response);
       return response.data;
     });
   }
@@ -338,7 +340,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                           background: 'rgb(66, 133, 244) !important',
                           fontWeight: 'bold',
                           // So carts are same height
-                          // TODO: Use flexbox to do this
+                          // TODO: Use flexbox to do this so that we don't have to
+                          // render this to DOM and make hidden to maintain equal heights (hacky)
                           visibility: index === 2 ? 'hidden' : 'visible',
                           width: '180px',
                         }}
@@ -382,6 +385,7 @@ const mapDispatchToProps = {
   getSeller: () => getSellerInfo(),
   fetchSubscriptions: () => fetchSubscriptions(),
   fetchSellerSubscription: () => fetchSellerSubscription(),
+  setSellerSubscription: (data: any) => setSellerSubscription(data),
 };
 
 export default connect(

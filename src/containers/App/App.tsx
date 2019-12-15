@@ -57,43 +57,58 @@ const PrivateRoute = connect(
     location,
     ...rest
   }: any) => {
-    // This hook will run if sellerSubscription changes (fetch completes) or ...
-    // if React Router location changes (so we redirect if requireSubscription is true)
+    const userIsAuthenticated = isAuthenticated();
+
+    // This effect will run if there is a change in sellerSubscription,
+    // auth status, or route so that we can take the appropriate action.
     // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
     // of auth object made available to all child components using context.
     useEffect(() => {
+      // Redirect to login if user is not authenticated
+      if (!userIsAuthenticated) {
+        history.push('/');
+        return;
+      }
+
       // Fetch seller's subscription if not cached in Redux yet
+      // When subscription status comes in this effect will be recalled
+      // and take action depending on status.
       if (sellerSubscription === undefined) {
         fetchSellerSubscription();
-        // If we now know the user's subscription status then redirect to pricing
-        // only if this route requires a subscription and the seller doesn't have one.
-      } else if (requireSubscription && sellerSubscription === false) {
+        return;
+      }
+
+      // If user does not have a subscription and this route requires one
+      // then redirect to pricing page.
+      if (requireSubscription && sellerSubscription === false) {
         history.push('/settings/pricing');
       }
-    }, [sellerSubscription, location]);
+    }, [userIsAuthenticated, sellerSubscription, location]);
+
+    // Render nothing. Redirect will be handled in above effect.
+    if (!userIsAuthenticated) {
+      return null;
+    }
+
+    // Render loader. Fetching of subscription will be handled in above effect.
+    if (sellerSubscription === undefined) {
+      return <PageLoader />;
+    }
 
     return (
       <Route
         {...rest}
         render={(props: any) => {
-          if (isAuthenticated()) {
-            if (sellerSubscription !== undefined) {
-              // TODO: Rather than pass auth by mutating props either
-              // 1) export instance from Auth.tsx so we can import it anywhere
-              // 2) or make available via redux or context provider
-              props.match.params.auth = auth;
+          // TODO: Rather than pass auth by mutating props either
+          // 1) export instance from Auth.tsx so we can import it anywhere
+          // 2) or make available via redux or context provider
+          props.match.params.auth = auth;
 
-              return (
-                <AdminLayout auth={auth}>
-                  <Component {...props} />
-                </AdminLayout>
-              );
-            } else {
-              return <PageLoader />;
-            }
-          } else {
-            return <Redirect to="/" />;
-          }
+          return (
+            <AdminLayout auth={auth}>
+              <Component {...props} />
+            </AdminLayout>
+          );
         }}
       />
     );
