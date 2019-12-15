@@ -19,7 +19,6 @@ import {
 import { getSellerInfo } from '../../../actions/Settings';
 import './subscription.css';
 import PageHeader from '../../../components/PageHeader';
-import Checkout from './Checkout';
 import { Subscription } from '../../../interfaces/Seller';
 import Axios from 'axios';
 import { AppConfig } from '../../../config';
@@ -60,7 +59,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     getSeller();
     fetchSubscriptions();
-    fetchSellerSubscription();
   }
 
   chooseSubscription(subscription: any) {
@@ -93,7 +91,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       bodyFormData
     )
       .then(response => {
-        //console.log('[createTrialSubscription] response', response);
+        // Re-fetch subscription to update UI
         fetchSellerSubscription();
         success(`You are now subscribed for a trial period`);
       })
@@ -112,7 +110,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/update`, bodyFormData)
       .then(response => {
-        //console.log('[changeSubscription] response', response);
+        // Re-fetch subscription to update UI
         fetchSellerSubscription();
         success(`You have changed your subscription`);
       })
@@ -127,7 +125,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
       .then(response => {
-        //console.log('[cancelSubscription] response', response);
+        // Re-fetch subscription to update UI
         fetchSellerSubscription();
         success(`Your subscription has been cancelled`);
       })
