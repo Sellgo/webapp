@@ -41,6 +41,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     promptCancelSubscription: false,
     // Breaking these out into individual values instead of an object
     // because couldn't get Typescript to allow an undefined object :(
+    pendingSubscription: false,
     pendingCoupon: '',
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
@@ -66,11 +67,19 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     const { sellerSubscription } = this.props;
     // If user has subscription already then change to selected plan
+    // TODO: We're setting state to render the <Confirm> component
+    // but this would be much cleaner as a function call instead of
+    // a component so we can specify callback logic right here.
     if (sellerSubscription) {
-      this.changeSubscription(subscription.id);
+      this.setState({
+        pendingSubscription: true,
+        pendingSubscriptionId: subscription.id,
+        pendingSubscriptionName: subscription.name,
+      });
       // Otherwise we want to go to payment page
     } else if (couponVal) {
       this.setState({
+        pendingSubscription: true,
         pendingCoupon: couponVal,
         pendingSubscriptionId: subscription.id,
         pendingSubscriptionName: subscription.name,
@@ -178,6 +187,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const { subscriptions, sellerSubscription } = this.props;
     const {
       promptCancelSubscription,
+      pendingSubscription,
       pendingCoupon,
       pendingSubscriptionId,
       pendingSubscriptionName,
@@ -218,10 +228,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
         <Confirm
           content={`Use coupon ${pendingCoupon} for "${pendingSubscriptionName}"`}
-          open={pendingCoupon ? true : false}
+          open={pendingSubscription && pendingCoupon ? true : false}
           onCancel={() => {
             this.setState({
               couponVal: '',
+              pendingSubscription: false,
               pendingCoupon: '',
               pendingSubscriptionId: '',
               pendingSubscriptionName: '',
@@ -230,12 +241,34 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           onConfirm={() => {
             this.setState({
               couponVal: '',
+              pendingSubscription: false,
               pendingCoupon: '',
               pendingSubscriptionId: '',
               pendingSubscriptionName: '',
             });
 
             this.createTrialSubscription(pendingSubscriptionId, pendingCoupon);
+          }}
+        />
+
+        <Confirm
+          content={`Would you like to change your plan to "${pendingSubscriptionName}"`}
+          open={pendingSubscription ? true : false}
+          onCancel={() => {
+            this.setState({
+              pendingSubscription: false,
+              pendingSubscriptionId: '',
+              pendingSubscriptionName: '',
+            });
+          }}
+          onConfirm={() => {
+            this.setState({
+              pendingSubscription: false,
+              pendingSubscriptionId: '',
+              pendingSubscriptionName: '',
+            });
+
+            this.changeSubscription(pendingSubscriptionId);
           }}
         />
 
