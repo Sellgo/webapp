@@ -25,9 +25,7 @@ export const setSubscriptions = (data: any) => ({
   payload: data,
 });
 
-export const setSellerSubscription = (data: any) => {
-  return {
-    type: SET_SELLER_SUBSCRIPTION,
-    payload: data,
-  };
-};
+export const setSellerSubscription = (data: any) => ({
+  type: SET_SELLER_SUBSCRIPTION,
+  payload: data,
+});
