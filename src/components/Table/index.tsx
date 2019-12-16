@@ -184,16 +184,20 @@ const GenericTable = (props: TableProps) => {
                   onClick={
                     column.sortable ? (e: any) => setSort(e, column.dataKey || '') : undefined
                   }
+                  style={
+                    column.label === 'Supplier'
+                      ? {
+                          minWidth: '120px',
+                        }
+                      : {}
+                  }
                 >
-                  {' '}
                   {column.label}
                   {column.label === 'Supplier' && (
-                    <span>
-                      <Icon
-                        className="filter search_filter"
-                        onClick={(e: any) => handleSearchFilter(e, column.label)}
-                      />
-                    </span>
+                    <Icon
+                      className="filter search_filter"
+                      onClick={(e: any) => handleSearchFilter(e, column.label)}
+                    />
                   )}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
