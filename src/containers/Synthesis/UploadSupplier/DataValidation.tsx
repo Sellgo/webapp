@@ -7,16 +7,18 @@ import styles from './UploadSupplier.module.css';
 
 interface DataValidationProps {
   validateAndUploadCsv: any;
+  onFinished: () => void;
 }
 
 const DataValidation = (props: DataValidationProps) => {
-  const { validateAndUploadCsv } = props;
+  const { validateAndUploadCsv, onFinished } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   useAsyncEffect(async () => {
     setLoading(true);
     try {
       await validateAndUploadCsv();
+      onFinished();
     } catch (error) {
       let errors = ['Something went wrong!'];
       if (error && error.response && error.response.data && error.response.data.message) {
