@@ -13,11 +13,11 @@ const PROD_URLS = {
 };
 
 const DEV_KEYS = {
-  STRIPE_API_KEY: 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J',
+  STRIPE_API_KEY: 'pk_test_thMkxDX66HmQoec5jcK34bAc0083aPonvE',
 };
 
 const PROD_KEYS = {
-  STRIPE_API_KEY: 'pk_test_UPhri9y50WZi2u2rmejSw3Na00jvxft8y5',
+  STRIPE_API_KEY: 'pk_live_6iiX5s4PCakcnwTP3Gf81UyV00XSgjLLmU',
 };
 
 const DEV_AUTH_CONFIG = {
