@@ -17,8 +17,6 @@ interface Props {
   isEditModal: boolean;
 }
 
-const Steps = [SupplierInformation, SelectFile, DataMapping, DataValidation];
-
 export const UploadSupplier = (props: Props) => {
   const [finished, setFinished] = useState(false);
   const { currentStep, cleanupUploadSupplier, isEditModal } = props;
