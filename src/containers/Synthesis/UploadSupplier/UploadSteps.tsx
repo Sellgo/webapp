@@ -10,6 +10,7 @@ interface Props {
   value: number;
   onChange: (newValue: number) => void;
   isEditModal: boolean;
+  finished: boolean;
 }
 
 const steps = [
@@ -35,7 +36,8 @@ const steps = [
 ];
 
 export const UploadSteps = (props: Props) => {
-  const { value, isEditModal } = props;
+  const { value, isEditModal, finished } = props;
+
   return (
     <Stepper className={styles.stepper} {...props}>
       {({ Step }) =>
@@ -49,7 +51,7 @@ export const UploadSteps = (props: Props) => {
                 ? 'Edit Supplier'
                 : step.title
             }
-            disabled={index < value - 1 || index > value + 1}
+            disabled={finished || index < value - 1 || index > value + 1}
             icon={step.icon}
             description={step.description}
           />
