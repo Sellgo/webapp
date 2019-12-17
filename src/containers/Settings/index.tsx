@@ -1,6 +1,7 @@
 import React from 'react';
 import { Divider, Header, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { FullStoryAPI } from 'react-fullstory';
 import SellerProfile from './SellerProfile';
 import SellerAmazonMWS from './SellerAmazonMWS';
 import {
@@ -49,6 +50,16 @@ class Settings extends React.Component<SettingsProps> {
       updateAmazonMWSAuth,
       deleteMWSAuth,
     } = this.props;
+
+    const handleUpdateSeller = (updatedProfile: any) => {
+      FullStoryAPI('identify', updatedProfile.id, {
+        displayName: updatedProfile.name,
+        email: updatedProfile.email,
+      });
+
+      updateSeller(updatedProfile);
+    };
+
     return (
       <>
         <PageHeader
@@ -61,7 +72,7 @@ class Settings extends React.Component<SettingsProps> {
           <SellerProfile
             profile={profile}
             profileImage={profileImage}
-            updateSeller={updateSeller}
+            updateSeller={handleUpdateSeller}
             updateProfileImage={updateProfileImage}
           />
           <Header as="h2">Amazon Seller Central Credentials</Header>
