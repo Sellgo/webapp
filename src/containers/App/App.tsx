@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
@@ -8,12 +8,12 @@ import Home from '../Home';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
-import Callback from '../../components/Callback';
+import PageLoader from '../../components/PageLoader';
 import NotFound from '../../components/NotFound';
 import history from '../../history';
-import { ToastContainer } from 'react-toastify';
 import FullStory from 'react-fullstory';
-import 'react-toastify/dist/ReactToastify.css';
+import { connect } from 'react-redux';
+import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 
 const auth = new Auth();
 
@@ -37,12 +37,68 @@ const isAuthenticated = () => {
   }
 };
 
-const PrivateRoute = ({ component: Component, ...rest }: any) => {
-  return (
-    <Route
-      {...rest}
-      render={props => {
-        if (isAuthenticated()) {
+// TODO: Extract to separate file once we can import auth instance
+// in any component rather than create above.
+const PrivateRoute = connect(
+  // mapStateToProps
+  (state: any) => ({
+    sellerSubscription: state.subscription.sellerSubscription,
+  }),
+  //mapDispatchToProps
+  {
+    fetchSellerSubscription: () => fetchSellerSubscription(),
+  }
+)(
+  ({
+    component: Component,
+    requireSubscription,
+    sellerSubscription,
+    fetchSellerSubscription,
+    location,
+    ...rest
+  }: any) => {
+    const userIsAuthenticated = isAuthenticated();
+
+    // This effect will run if there is a change in sellerSubscription,
+    // auth status, or route so that we can take the appropriate action.
+    // TODO: Hoist this logic up to an AuthProvider that includes user's subscription as part
+    // of auth object made available to all child components using context.
+    useEffect(() => {
+      // Redirect to login if user is not authenticated
+      if (!userIsAuthenticated) {
+        history.push('/');
+        return;
+      }
+
+      // Fetch seller's subscription if not cached in Redux yet
+      // When subscription status comes in this effect will be recalled
+      // and take action depending on status.
+      if (sellerSubscription === undefined) {
+        fetchSellerSubscription();
+        return;
+      }
+
+      // If user does not have a subscription and this route requires one
+      // then redirect to pricing page.
+      if (requireSubscription && sellerSubscription === false) {
+        history.push('/settings/pricing');
+      }
+    }, [userIsAuthenticated, sellerSubscription, location]);
+
+    // Render nothing. Redirect will be handled in above effect.
+    if (!userIsAuthenticated) {
+      return null;
+    }
+
+    // Render loader. Fetching of subscription will be handled in above effect.
+    if (sellerSubscription === undefined) {
+      return <PageLoader />;
+    }
+
+    return (
+      <Route
+        {...rest}
+        render={(props: any) => {
           // TODO: Rather than pass auth by mutating props either
           // 1) export instance from Auth.tsx so we can import it anywhere
           // 2) or make available via redux or context provider
@@ -53,19 +109,16 @@ const PrivateRoute = ({ component: Component, ...rest }: any) => {
               <Component {...props} />
             </AdminLayout>
           );
-        } else {
-          return <Redirect to="/" />;
-        }
-      }}
-    />
-  );
-};
+        }}
+      />
+    );
+  }
+);
 
 function App(props: any) {
   return (
     <div>
       <FullStory org="Q36Y3" />
-      <ToastContainer position="bottom-right" hideProgressBar={true} bodyClassName="toast-body" />
       <Router history={history}>
         <Switch>
           <Route
@@ -73,22 +126,28 @@ function App(props: any) {
             path="/"
             render={renderProps => <Home auth={auth} {...renderProps} />}
           />
-          {/* <Route exact={true} path="/login" render={() => <Login auth={auth} />} />
-          <Route exact={true} path="/sign-up" render={() => <SignUp auth={auth} />} />
-          <Route exact={true} path="/forgot-password" component={RecoverPass} /> */}
           <Route
             path="/callback"
             render={renderProps => {
               handleAuthentication(renderProps.location);
-              return <Callback {...renderProps} />;
+              return <PageLoader />;
             }}
           />
 
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
-          {/* <PrivateRoute exact={true} path="/dashboard" component={Dashboard} /> */}
-          <PrivateRoute exact={true} path="/synthesis" component={Synthesis} />
-          <PrivateRoute exact={true} path="/synthesis/:supplierID" component={SupplierDetail} />
+          <PrivateRoute
+            exact={true}
+            path="/synthesis"
+            component={Synthesis}
+            requireSubscription={true}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/synthesis/:supplierID"
+            component={SupplierDetail}
+            requireSubscription={true}
+          />
           <Route component={NotFound} />
         </Switch>
       </Router>

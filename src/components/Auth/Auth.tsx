@@ -101,10 +101,8 @@ export default class Auth {
 
   public setSession = (authResult: any) => {
     // Set isLoggedIn flag in localStorage
-    // Set the time that the access token will expire at
-    const date = new Date();
-    date.setSeconds(date.getSeconds() + authResult.expiresIn);
-    this.expiresAt = date.getTime();
+    // Set the time in ms that idToken (the JWT token) expires
+    this.expiresAt = authResult.idTokenPayload.exp * 1000;
     this.idToken = authResult.idToken;
     this.accessToken = authResult.accessToken;
     localStorage.setItem('idToken', this.idToken);
