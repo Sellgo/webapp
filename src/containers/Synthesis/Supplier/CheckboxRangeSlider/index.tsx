@@ -6,13 +6,13 @@ import './index.scss';
 const CheckboxRangeSlider = (props: any) => {
   const { title } = props;
   return (
-    <Container className="checkboxRangeSlider">
-      <div className="checkboxContainer">
-        <span className="wrapCheckbox">
+    <Container className="checkbox-range-slider">
+      <div className="checkbox-container">
+        <span className="wrap-checkbox">
           <Checkbox />
           <span>{title}</span>
           <Popup
-            className="addSupplierPopup"
+            className="add-supplier-popup"
             trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
             position="top left"
             size="tiny"
@@ -20,9 +20,9 @@ const CheckboxRangeSlider = (props: any) => {
         </span>
       </div>
 
-      <div className="wrapCheckRange">
+      <div className="wrap-check-range">
         <span>Min</span>
-        <div className="wrapCheckRangeContainer">
+        <div className="wrap-check-range-container">
           <InputRange
             maxValue={20}
             minValue={0}

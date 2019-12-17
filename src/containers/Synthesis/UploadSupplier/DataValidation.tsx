@@ -38,10 +38,10 @@ const DataValidation = (props: DataValidationProps) => {
   }
 
   return (
-    <div className={styles.ouline_box}>
+    <div className={styles['ouline-box']}>
       {error ? (
         <React.Fragment>
-          <Icon name="exclamation circle" size="big" className={styles.checkError} />
+          <Icon name="exclamation circle" size="big" className={styles['check-error']} />
           <br />
           <p>
             <b>{error}</b>
@@ -49,7 +49,7 @@ const DataValidation = (props: DataValidationProps) => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Icon name="check circle" size="big" className={styles.checkCircle} />
+          <Icon name="check circle" size="big" className={styles['check-circle']} />
           <br />
           <p>
             <b>Supplier successfully added</b>

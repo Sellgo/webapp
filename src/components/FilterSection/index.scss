@@ -1,7 +1,7 @@
-.filterSection {
+.filter-section {
   margin-top: 2.7rem;
 
-  .filterHead {
+  .filter-head {
     display: flex;
     justify-content: space-between;
     margin-bottom: 2rem;
@@ -26,7 +26,7 @@
       font-size: 23px;
     }
 
-    .up_icon {
+    .up-icon {
       color: #000;
       margin-right: 20px;
       margin-top: 3px;
@@ -39,7 +39,7 @@
 
   // Targeting the <Container> inside <SliderRange>
   // TODO: Maybe move spacing outside of <SliderRange>
-  .filterContent .ui.container {
+  .filter-content .ui.container {
     margin-bottom: 31px;
   }
 }

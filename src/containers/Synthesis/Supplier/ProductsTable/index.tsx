@@ -91,7 +91,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       <>
         <p className="stat">{formatNumber(row.sales_monthly)} /mo</p>
         {/*
-        <p className="stat mg_botm0">{row.unitSoldPerDay} /day</p>
+        <p className="stat mg-botm0">{row.unitSoldPerDay} /day</p>
         <p className="stat fnt12">{row.sales_monthly} /mo</p>
         */}
       </>
@@ -227,7 +227,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
 
     return (
-      <div className="productsTable">
+      <div className="products-table">
         <GenericTable
           tableKey={tableKeys.PRODUCTS}
           data={filteredProducts}

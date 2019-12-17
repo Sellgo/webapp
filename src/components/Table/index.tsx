@@ -139,7 +139,7 @@ const GenericTable = (props: TableProps) => {
     setSearch(e.target.value);
   };
   return (
-    <div className="genericTable scrollable">
+    <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCounts ? (
         <div style={{ marginTop: '2rem' }}>
           <SelectItemsCount
@@ -153,12 +153,12 @@ const GenericTable = (props: TableProps) => {
         ''
       )}
       {isShowing && (
-        <Card className="filterCard">
+        <Card className="filter-card">
           <Card.Header>
-            <span className="cardHeader">{filterName}</span>
-            <span className="cardHeader" />
+            <span className="card-header">{filterName}</span>
+            <span className="card-header" />
             <Icon
-              className="close icon closeIcon"
+              className="close icon close-icon"
               onClick={clearSearch}
               style={{ float: 'right' }}
             />
@@ -197,13 +197,13 @@ const GenericTable = (props: TableProps) => {
                   {column.label === 'Supplier' && (
                     <span>
                       <Icon
-                        className="filter search_filter"
+                        className="filter search-filter"
                         onClick={(e: any) => handleSearchFilter(e, column.label)}
                       />
                     </span>
                   )}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
-                    <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
+                    <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}
                 </Table.HeaderCell>
               );

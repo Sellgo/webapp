@@ -12,9 +12,9 @@ const AdviceCard = (props: AdviceCardProps) => {
           <Card.Header>OUR ADVICE</Card.Header>
           <p>We're still gathering data for this supplier</p>
 
-          <span className="track_row">
+          <span className="track-row">
             <span> Track liked product</span>
-            <span className="wrap_radio">
+            <span className="wrap-radio">
               <Radio toggle checked={true} /> On{' '}
             </span>
           </span>

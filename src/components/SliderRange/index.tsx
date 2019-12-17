@@ -17,12 +17,12 @@ const SliderRange = (props: any) => {
   const { title, dataKey, range, filterRange, showInputs, handleCompleteChange } = props;
 
   return (
-    <Container className="sliderRange">
-      <div className="rangeTitle">
+    <Container className="slider-range">
+      <div className="range-title">
         <p>
           {title}
           <Popup
-            className="addSupplierPopup"
+            className="add-supplier-popup"
             trigger={<Icon name="question circle" size="small" color="grey" />}
             position="top left"
             size="tiny"
@@ -41,7 +41,7 @@ const SliderRange = (props: any) => {
       />
 
       {showInputs && (
-        <div className="rangeInput">
+        <div className="range-input">
           <Input
             placeholder="Min"
             id="min"

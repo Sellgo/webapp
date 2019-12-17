@@ -84,7 +84,7 @@ class Synthesis extends Component<SynthesisProps> {
           }}
           closeIcon={true}
           style={{ width: '90%' }}
-          className="closeIcon"
+          className="close-icon"
           trigger={
             <Button
               primary={true}
@@ -100,7 +100,7 @@ class Synthesis extends Component<SynthesisProps> {
           </Modal.Content>
         </Modal>
         <Popup
-          className={'addSupplierPopup'}
+          className={'add-supplier-popup'}
           trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
           position="top left"
           size="tiny"

@@ -28,9 +28,9 @@ export const UploadSupplier = (props: Props) => {
   }, [cleanupUploadSupplier]);
 
   return (
-    <div className={`${styles.container} ${styles.supply_container}`}>
+    <div className={`${styles.container} ${styles['supply-container']}`}>
       <UploadSteps isEditModal={isEditModal} finished={finished} />
-      <div className={styles.marginTop} />
+      <div className={styles['margin-top']} />
       <div className={styles.section}>
         <FormWrapper>
           {currentStep === 0 && <SupplierInformation />}
@@ -48,7 +48,7 @@ export const UploadSupplier = (props: Props) => {
           )}
         </FormWrapper>
       </div>
-      <div className={styles.marginTop} />
+      <div className={styles['margin-top']} />
       <Actions />
     </div>
   );

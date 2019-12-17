@@ -24,7 +24,7 @@ function FileUploader(props: FileUploaderProps) {
       <input {...getInputProps()} />
       <Icon name="cloud upload" size="huge" className={styles.cloud} />
       <br />
-      <p className={`${styles.description} ${styles.marginTop}`}>
+      <p className={`${styles.description} ${styles['margin-top']}`}>
         <b>Upload filled-in Supplier File(s) here</b>
         <br />
         <span className={styles.description}>Drag and drop, or click to select</span>
