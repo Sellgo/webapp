@@ -184,6 +184,13 @@ const GenericTable = (props: TableProps) => {
                   onClick={
                     column.sortable ? (e: any) => setSort(e, column.dataKey || '') : undefined
                   }
+                  style={
+                    column.label === 'Supplier'
+                      ? {
+                          minWidth: '120px',
+                        }
+                      : {}
+                  }
                 >
                   {' '}
                   {column.label}
