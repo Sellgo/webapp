@@ -32,10 +32,21 @@ const PROD_AUTH_CONFIG = {
   connection: 'Username-Password-Authentication',
 };
 
+const DEV_ANALYTICS = {
+  gaTrackingId: 'UA-154653584-1',
+  fullStoryOrgId: 'Q36Y3',
+};
+
+const PROD_ANALYTICS = {
+  gaTrackingId: 'UA-154653584-2',
+  fullStoryOrgId: 'Q36Y3',
+};
+
 const prod = {
   ...PROD_AUTH_CONFIG,
   ...PROD_URLS,
   ...PROD_KEYS,
+  ...PROD_ANALYTICS,
   callbackUrl: 'https://app.sellgo.com/callback',
 };
 
@@ -43,6 +54,7 @@ const dev = {
   ...DEV_AUTH_CONFIG,
   ...DEV_URLS,
   ...DEV_KEYS,
+  ...DEV_ANALYTICS,
   callbackUrl: 'https://app.sellgo-dev.com/callback',
 };
 
@@ -50,6 +62,7 @@ const local = {
   ...DEV_AUTH_CONFIG,
   ...DEV_URLS,
   ...DEV_KEYS,
+  ...DEV_ANALYTICS,
   callbackUrl: 'http://localhost:3000/callback',
 };
 
