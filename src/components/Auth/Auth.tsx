@@ -1,7 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
+import analytics from '../../analytics';
 import Axios from 'axios';
-import { FullStoryAPI } from 'react-fullstory';
 import { AppConfig } from '../../config';
 
 export default class Auth {
@@ -57,7 +57,7 @@ export default class Auth {
           // We're calling identify here because it's currently the only
           // way to get the user id after login/signup.
           // We can find a better place for this if auth is refactored.
-          FullStoryAPI('identify', data.id, {
+          analytics.identify(data.id.toString(), {
             displayName: data.name,
             email: data.email,
           });
