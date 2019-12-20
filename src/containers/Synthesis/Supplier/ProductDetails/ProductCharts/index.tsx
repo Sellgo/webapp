@@ -27,7 +27,7 @@ interface ProductChartsProps {
   fetchProductDetailChartInventory: (productID: any) => void;
   fetchProductDetailChartRating: (productID: any) => void;
   fetchProductDetailChartReview: (productID: any) => void;
-  fetchProductDetailChartKPI: (productID: any) => void;
+  fetchProductDetailChartKPI: (supplierID: any, productID: any) => void;
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = { showProductChart: 'chart0' };
@@ -46,7 +46,7 @@ class ProductCharts extends Component<ProductChartsProps> {
     fetchProductDetailChartInventory(product.product_id);
     fetchProductDetailChartRating(product.product_id);
     fetchProductDetailChartReview(product.product_id);
-    fetchProductDetailChartKPI(product.product_id);
+    fetchProductDetailChartKPI(product.supplierID, product.product_id);
   }
 
   renderProductStatistics = (props: any) => {
@@ -174,18 +174,18 @@ class ProductCharts extends Component<ProductChartsProps> {
           popupInventoryContainer.length === 0 &&
           popupRatingContainer.length === 0 &&
           popupReviewContainer.length === 0 ? (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
+            <Loader active={true} inline="centered" className="popup-loader" size="massive">
+              Loading
           </Loader>
-        ) : (
-          <this.renderProductStatistics
-            popupPriceContainer={popupPriceContainer}
-            popupRankContainer={popupRankContainer}
-            popupInventoryContainer={popupInventoryContainer}
-            popupRatingContainer={popupRatingContainer}
-            popupReviewContainer={popupReviewContainer}
-          />
-        );
+          ) : (
+            <this.renderProductStatistics
+              popupPriceContainer={popupPriceContainer}
+              popupRankContainer={popupRankContainer}
+              popupInventoryContainer={popupInventoryContainer}
+              popupRatingContainer={popupRatingContainer}
+              popupReviewContainer={popupReviewContainer}
+            />
+          );
 
       case 'chart1':
         const productTimeline = [];
@@ -210,10 +210,10 @@ class ProductCharts extends Component<ProductChartsProps> {
             productROI={productROI}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
+            <Loader active={true} inline="centered" className="popup-loader" size="massive">
+              Loading
           </Loader>
-        );
+          );
       default:
         return <div></div>;
     }
@@ -267,7 +267,7 @@ const mapDispatchToProps = {
     fetchSupplierProductDetailChartRating(productID),
   fetchProductDetailChartReview: (productID: any) =>
     fetchSupplierProductDetailChartReview(productID),
-  fetchProductDetailChartKPI: (productID: any) => fetchSupplierProductDetailChartKPI(productID),
+  fetchProductDetailChartKPI: (supplierID: any, productID: any) => fetchSupplierProductDetailChartKPI(supplierID, productID),
 };
 
 export default connect(
