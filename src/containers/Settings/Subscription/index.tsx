@@ -198,7 +198,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   getReferral() {
-    //@ts-ignore
+    // @ts-ignore
     return typeof window.Rewardful !== 'undefined' && window.Rewardful.referral;
   }
 
