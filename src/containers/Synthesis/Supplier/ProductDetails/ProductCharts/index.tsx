@@ -174,18 +174,18 @@ class ProductCharts extends Component<ProductChartsProps> {
           popupInventoryContainer.length === 0 &&
           popupRatingContainer.length === 0 &&
           popupReviewContainer.length === 0 ? (
-            <Loader active={true} inline="centered" className="popup-loader" size="massive">
-              Loading
+          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+            Loading
           </Loader>
-          ) : (
-            <this.renderProductStatistics
-              popupPriceContainer={popupPriceContainer}
-              popupRankContainer={popupRankContainer}
-              popupInventoryContainer={popupInventoryContainer}
-              popupRatingContainer={popupRatingContainer}
-              popupReviewContainer={popupReviewContainer}
-            />
-          );
+        ) : (
+          <this.renderProductStatistics
+            popupPriceContainer={popupPriceContainer}
+            popupRankContainer={popupRankContainer}
+            popupInventoryContainer={popupInventoryContainer}
+            popupRatingContainer={popupRatingContainer}
+            popupReviewContainer={popupReviewContainer}
+          />
+        );
 
       case 'chart1':
         const productTimeline = [];
@@ -210,10 +210,10 @@ class ProductCharts extends Component<ProductChartsProps> {
             productROI={productROI}
           />
         ) : (
-            <Loader active={true} inline="centered" className="popup-loader" size="massive">
-              Loading
+          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+            Loading
           </Loader>
-          );
+        );
       default:
         return <div></div>;
     }
@@ -267,7 +267,8 @@ const mapDispatchToProps = {
     fetchSupplierProductDetailChartRating(productID),
   fetchProductDetailChartReview: (productID: any) =>
     fetchSupplierProductDetailChartReview(productID),
-  fetchProductDetailChartKPI: (supplierID: any, productID: any) => fetchSupplierProductDetailChartKPI(supplierID, productID),
+  fetchProductDetailChartKPI: (supplierID: any, productID: any) =>
+    fetchSupplierProductDetailChartKPI(supplierID, productID),
 };
 
 export default connect(
