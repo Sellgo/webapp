@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import Settings from '../Settings';
@@ -83,7 +83,13 @@ const PrivateRoute = connect(
       if (requireSubscription && sellerSubscription === false) {
         history.push('/settings/pricing');
       }
-    }, [userIsAuthenticated, sellerSubscription, location]);
+    }, [
+      userIsAuthenticated,
+      sellerSubscription,
+      fetchSellerSubscription,
+      requireSubscription,
+      location,
+    ]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {
