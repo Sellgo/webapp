@@ -26,7 +26,7 @@ export const fetchSupplierProductDetails = (supplierID: any, productID: any) => 
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
-    `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/detail`
+      `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/detail`
   );
   if (response.data.length) {
     dispatch(setSupplierProductDetails(response.data[0]));
@@ -80,9 +80,14 @@ export const fetchSupplierProductDetailChartReview = (productID: string) => asyn
   }
 };
 
-export const fetchSupplierProductDetailChartKPI = (supplierID: any, productID: string) => async (dispatch: any) => {
+export const fetchSupplierProductDetailChartKPI = (supplierID: any, productID: string) => async (
+  dispatch: any
+) => {
   const sellerID = sellerIDSelector();
-  const response = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/history/kpi`);
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/history/kpi`
+  );
   if (response.data) {
     dispatch(setSupplierProductDetailChartKPI(response.data));
   }
