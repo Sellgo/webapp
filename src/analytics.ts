@@ -1,8 +1,8 @@
-//@ts-ignore
+// @ts-ignore
 import Analytics from 'analytics';
-//@ts-ignore
+// @ts-ignore
 import googleAnalyticsPlugin from '@analytics/google-analytics';
-//@ts-ignore
+// @ts-ignore
 import fullStoryPlugin from '@analytics/fullstory';
 import history from './history';
 import { AppConfig } from './config';
