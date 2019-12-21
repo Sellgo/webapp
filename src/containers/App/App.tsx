@@ -83,7 +83,13 @@ const PrivateRoute = connect(
       if (requireSubscription && sellerSubscription === false) {
         history.push('/settings/pricing');
       }
-    }, [userIsAuthenticated, sellerSubscription, location]);
+    }, [
+      userIsAuthenticated,
+      sellerSubscription,
+      fetchSellerSubscription,
+      requireSubscription,
+      location,
+    ]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {
