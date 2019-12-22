@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
@@ -57,14 +57,6 @@ const useSort = (initialValue: string) => {
 const GenericTable = (props: TableProps) => {
   const { tableKey, data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Reset to page 1 if data or numbers of items to show per page changes
-  // otherwise user can end up on a page that doesn't exist.
-  useEffect(() => {
-    if (tableKey === tableKeys.PRODUCTS) {
-      setCurrentPage(1);
-    }
-  }, [tableKey, data, singlePageItemsCount]);
 
   const showSelectItemsCounts = tableKey === tableKeys.PRODUCTS ? true : false;
   const showColumns = columns.filter(e => e.show);
