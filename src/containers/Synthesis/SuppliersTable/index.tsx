@@ -194,7 +194,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderPLRatio = (row: Supplier) => {
-    // if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed' || row.p2l_ratio === 0) return '';
     return (
       <div>
         <div className="product-ratio-with-pie">
