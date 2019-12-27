@@ -14,18 +14,18 @@ const Pricing = (props: any) => {
   } = props;
   return (
     <React.Fragment>
-      <div className="price_row">
-        <span className="price_head">Price: </span>
-        <span className="price_rate">{formatCurrency(price)}</span>
+      <div className="price-row">
+        <span className="price-head">Price: </span>
+        <span className="price-rate">{formatCurrency(price)}</span>
       </div>
-      <div className="catagory_rank">
+      <div className="catagory-rank">
         <span>
           #{rank} in {category}
         </span>
       </div>
       {/*
       {(prime || amazonChoice) && (
-        <div className="bottom_img">
+        <div className="bottom-img">
           {amazonChoice && <Image src={AMAZON_IMAGE} className="amazon_img_size" />}
           {prime && <Image src={PRIME_IMAGE} />}{' '}
         </div>

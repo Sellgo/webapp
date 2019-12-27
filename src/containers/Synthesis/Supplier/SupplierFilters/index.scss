@@ -1,9 +1,9 @@
-.synthesisSupplierFilters {
+.synthesis-supplier-filters {
   // Negative margin to make up for (most) of extra left padding due to column
   margin-left: -0.8rem;
   width: calc(100% + 1rem);
 
-  .productsCount {
+  .products-count {
     font-size: 18px;
     margin-left: 0;
 
@@ -13,7 +13,7 @@
   }
 
   // Dropdown that says "select a preset"
-  .searchDropdown {
+  .search-dropdown {
     padding-top: 0.6rem;
   }
 
@@ -22,7 +22,7 @@
   // Just a checkbox like "Show Price History"
   // We could make this a subcomponent TitleWithCheck that
   // gets used inside the RangeSlider component or on its own
-  .customCheck {
+  .custom-check {
     width: 100%;
     margin-bottom: 21px;
     .ui.checkbox label {

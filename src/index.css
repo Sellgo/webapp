@@ -182,13 +182,13 @@ ul.control-dots {
   cursor: pointer;
 }
 
-.hr_line {
+.hr-line {
   height: 0.5px;
   background: #a4a4a4;
   opacity: 0.3;
 }
 
-.textAlignCenter {
+.text-align-center {
   text-align: center !important;
 }
 .logo-img {
@@ -221,7 +221,7 @@ li.dot {
 ul.slider.animated {
   top: 20%;
 }
-.signup_box {
+.signup-box {
   min-height: 100vh;
   background: #999999;
 }

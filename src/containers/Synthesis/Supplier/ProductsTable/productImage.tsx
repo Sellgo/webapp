@@ -14,7 +14,7 @@ const ProductImage = (props: any) => {
     //onSelectItem
   } = props;
   return (
-    <div className="productImage">
+    <div className="product-image">
       {/*
       {item.topSeller && (
         <Label>
@@ -25,7 +25,7 @@ const ProductImage = (props: any) => {
         </Label>
       )}
       */}
-      <div className="imageWrapper">
+      <div className="image-wrapper">
         {/*
         <span>
           <Checkbox

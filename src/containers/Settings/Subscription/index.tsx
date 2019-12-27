@@ -102,6 +102,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     bodyFormData.append('subscription_id', subscriptionId);
     bodyFormData.append('coupon', couponVal);
 
+    // Include affiliate referral
+    const referral = this.getReferral();
+    if (referral) {
+      bodyFormData.append('referral', referral);
+    }
+
     Axios.post(
       AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/redeem-coupon`,
       bodyFormData
@@ -164,6 +170,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     bodyFormData.append('subscription_id', subscriptionId);
     bodyFormData.append('email', profile.email);
 
+    // Include affiliate referral
+    const referral = this.getReferral();
+    if (referral) {
+      bodyFormData.append('referral', referral);
+    }
+
     return Axios.post(
       AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/create-checkout-session`,
       bodyFormData
@@ -183,6 +195,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         // using `result.error.message`.
         error(`There was an error: ${result.error.message}`);
       });
+  }
+
+  getReferral() {
+    // @ts-ignore
+    return typeof window.Rewardful !== 'undefined' && window.Rewardful.referral;
   }
 
   render() {

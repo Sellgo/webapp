@@ -10,22 +10,22 @@ body {
 }
 
 @media screen and (max-width: 767px) and (min-width: 310px) {
-  .bgColor .ui.grid > .row > .column {
+  .bg-color .ui.grid > .row > .column {
     width: 100% !important;
     padding: 0;
     margin-bottom: 15px;
   }
-  .ui .closeIcon i.close {
+  .ui .close-icon i.close {
     top: -24px !important;
     right: -20px !important;
   }
-  .closeIcon i:before {
+  .close-icon i:before {
     font-size: 10px !important;
   }
-  .closeIcon i.cloud.huge:before {
+  .close-icon i.cloud.huge:before {
     font-size: 28px !important;
   }
-  .ui.selection.dropdown.timezoneField .menu {
+  .ui.selection.dropdown.timezone-field .menu {
     width: 194px !important;
   }
   .seller-info {

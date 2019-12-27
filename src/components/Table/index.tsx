@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
@@ -57,14 +57,6 @@ const useSort = (initialValue: string) => {
 const GenericTable = (props: TableProps) => {
   const { tableKey, data, columns, singlePageItemsCount = 10, setSinglePageItemsCount } = props;
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Reset to page 1 if data or numbers of items to show per page changes
-  // otherwise user can end up on a page that doesn't exist.
-  useEffect(() => {
-    if (tableKey === tableKeys.PRODUCTS) {
-      setCurrentPage(1);
-    }
-  }, [tableKey, data, singlePageItemsCount]);
 
   const showSelectItemsCounts = tableKey === tableKeys.PRODUCTS ? true : false;
   const showColumns = columns.filter(e => e.show);
@@ -139,7 +131,7 @@ const GenericTable = (props: TableProps) => {
     setSearch(e.target.value);
   };
   return (
-    <div className="genericTable scrollable">
+    <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCounts ? (
         <div style={{ marginTop: '2rem' }}>
           <SelectItemsCount
@@ -153,12 +145,12 @@ const GenericTable = (props: TableProps) => {
         ''
       )}
       {isShowing && (
-        <Card className="filterCard">
+        <Card className="filter-card">
           <Card.Header>
-            <span className="cardHeader">{filterName}</span>
-            <span className="cardHeader" />
+            <span className="card-header">{filterName}</span>
+            <span className="card-header" />
             <Icon
-              className="close icon closeIcon"
+              className="close icon close-icon"
               onClick={clearSearch}
               style={{ float: 'right' }}
             />
@@ -197,13 +189,13 @@ const GenericTable = (props: TableProps) => {
                   {column.label === 'Supplier' && (
                     <span>
                       <Icon
-                        className="filter search_filter"
+                        className="filter search-filter"
                         onClick={(e: any) => handleSearchFilter(e, column.label)}
                       />
                     </span>
                   )}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
-                    <img src={SortIcon} className="sort_arrow" alt="sort arrow" />
+                    <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}
                 </Table.HeaderCell>
               );

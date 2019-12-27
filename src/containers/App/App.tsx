@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import Settings from '../Settings';
@@ -11,9 +11,9 @@ import Auth from '../../components/Auth/Auth';
 import PageLoader from '../../components/PageLoader';
 import NotFound from '../../components/NotFound';
 import history from '../../history';
-import FullStory from 'react-fullstory';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
+import '../../analytics';
 
 const auth = new Auth();
 
@@ -83,7 +83,13 @@ const PrivateRoute = connect(
       if (requireSubscription && sellerSubscription === false) {
         history.push('/settings/pricing');
       }
-    }, [userIsAuthenticated, sellerSubscription, location]);
+    }, [
+      userIsAuthenticated,
+      sellerSubscription,
+      fetchSellerSubscription,
+      requireSubscription,
+      location,
+    ]);
 
     // Render nothing. Redirect will be handled in above effect.
     if (!userIsAuthenticated) {
@@ -118,7 +124,6 @@ const PrivateRoute = connect(
 function App(props: any) {
   return (
     <div>
-      <FullStory org="Q36Y3" />
       <Router history={history}>
         <Switch>
           <Route

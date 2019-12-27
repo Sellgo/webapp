@@ -16,7 +16,7 @@ class AdminLayout extends React.Component<Props> {
       <React.Fragment>
         <AdminHeader auth={auth} />
 
-        <Segment className="adminLayout" basic={true}>
+        <Segment className="admin-layout" basic={true}>
           {children}
         </Segment>
       </React.Fragment>

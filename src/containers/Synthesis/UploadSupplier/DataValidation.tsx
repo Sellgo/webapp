@@ -7,16 +7,18 @@ import styles from './UploadSupplier.module.css';
 
 interface DataValidationProps {
   validateAndUploadCsv: any;
+  onFinished: () => void;
 }
 
 const DataValidation = (props: DataValidationProps) => {
-  const { validateAndUploadCsv } = props;
+  const { validateAndUploadCsv, onFinished } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   useAsyncEffect(async () => {
     setLoading(true);
     try {
       await validateAndUploadCsv();
+      onFinished();
     } catch (error) {
       let errors = ['Something went wrong!'];
       if (error && error.response && error.response.data && error.response.data.message) {
@@ -36,10 +38,10 @@ const DataValidation = (props: DataValidationProps) => {
   }
 
   return (
-    <div className={styles.ouline_box}>
+    <div className={styles['ouline-box']}>
       {error ? (
         <React.Fragment>
-          <Icon name="exclamation circle" size="big" className={styles.checkError} />
+          <Icon name="exclamation circle" size="big" className={styles['check-error']} />
           <br />
           <p>
             <b>{error}</b>
@@ -47,7 +49,7 @@ const DataValidation = (props: DataValidationProps) => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Icon name="check circle" size="big" className={styles.checkCircle} />
+          <Icon name="check circle" size="big" className={styles['check-circle']} />
           <br />
           <p>
             <b>Supplier successfully added</b>

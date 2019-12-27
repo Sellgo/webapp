@@ -4,7 +4,7 @@ import './index.css';
 
 export default function CallToAction() {
   return (
-    <div className="profitSysCallToAction">
+    <div className="profit-sys-call-to-action">
       <Progress percent={10} size="tiny">
         xx tracked out of xxx
       </Progress>

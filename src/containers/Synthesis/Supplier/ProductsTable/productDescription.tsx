@@ -9,9 +9,9 @@ import { formatNumber } from '../../../../utils/format';
 const ProductDescription = (props: any) => {
   const { item } = props;
   return (
-    <div className="productDescription">
+    <div className="product-description">
       <h2>{item.title}</h2>
-      <div className="wrap_prod_information">
+      <div className="wrap-prod-information">
         <div>
           <div className="categories">
             <p className="brand">
@@ -21,7 +21,7 @@ const ProductDescription = (props: any) => {
             {/*<Breadcrumb className="cstm_breadcum" icon="right angle" sections={item.sections} />*/}
           </div>
 
-          <div className="flag_row">
+          <div className="flag-row">
             <img src={COUNTRY_IMAGE} alt="product_img" />
             <a href={item.amazon_url} target="_blank">
               <span>{item.asin}</span>
@@ -29,7 +29,7 @@ const ProductDescription = (props: any) => {
           </div>
         </div>
 
-        <div className="rgt_prod">
+        <div className="rgt-prod">
           {/*<Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />*/}
           <Pricing
             price={item.price}
