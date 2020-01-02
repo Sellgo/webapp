@@ -22,21 +22,23 @@ const SupplierDetails = (props: any) => {
               transition: 'width 0.4s',
             }}
           >
-            <Card.Content>
-              {/*
+            <div className="supplier-details-card">
+              <Card.Content>
+                {/*
               <SupplierData supplierID={supplierID} />
               <Divider />
               */}
-              <Feed>
-                <Feed.Event>
-                  <Feed.Content>
-                    <Feed.Summary>
-                      <SupplierCharts supplierID={supplierID} />
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
-              </Feed>
-            </Card.Content>
+                <Feed>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        <SupplierCharts supplierID={supplierID} />
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                </Feed>
+              </Card.Content>
+            </div>
           </Card>
         </Grid.Row>
       </Grid.Column>

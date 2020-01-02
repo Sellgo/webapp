@@ -18,12 +18,6 @@ function FilterSection(props: any) {
             size="tiny"
           />
         </p>
-        <Icon
-          name={isOpen ? 'chevron up' : 'chevron down'}
-          size="small"
-          className="up-icon"
-          onClick={() => setIsOpen(!isOpen)}
-        />
       </div>
       <div className="filter-content">{isOpen && children}</div>
     </div>
