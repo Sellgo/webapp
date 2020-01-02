@@ -110,6 +110,23 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
     return (
       <div className="synthesis-supplier-filters">
+        {/* <div className="search-dropdown">
+          <Dropdown
+            placeholder="Select a Preset"
+            fluid
+            search
+            selection
+            options={[
+              defaultSelect,
+              ...dataKeys.map((dk: any) => ({
+                key: dk,
+                text: dataKeyMapping[dk].presetText,
+                value: dk,
+              })),
+            ]}
+            onChange={this.handlePresetChange}
+          />
+        </div> */}
         <div className="inner-wrap">
           {/*<AdviceCard />*/}
           <p className="products-count">

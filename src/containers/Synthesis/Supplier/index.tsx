@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Loader } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Loader, Radio } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -62,7 +62,7 @@ export class Supplier extends React.Component<SupplierProps> {
         <Segment basic={true} className="setting">
           <Grid>
             <Grid.Row>
-              <Grid.Column className="left-column" floated="left">
+              <Grid.Column width={4} className="left-column" floated="left">
                 {isLoadingSupplierProducts ? (
                   <Segment>
                     <Loader active={true} inline="centered" size="massive">
@@ -70,16 +70,23 @@ export class Supplier extends React.Component<SupplierProps> {
                     </Loader>
                   </Segment>
                 ) : (
-                  <SupplierFilters />
+                  <div className="Supplier_Filters">
+                    <SupplierFilters />
+                  </div>
                 )}
               </Grid.Column>
 
-              <Grid.Column className="right-column" floated="right">
+              <Grid.Column width={9} className="right-column" floated="right">
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
-                <ProductsTable supplierID={this.props.match.params.supplierID} />
+              </Grid.Column>
+              <Grid.Column width={3} className="right-column" floated="right">
+                <div className="radio-toggle-wrap">
+                  <Radio toggle label="Shadow Tracking" />
+                </div>
               </Grid.Column>
             </Grid.Row>
           </Grid>
+          <ProductsTable supplierID={this.props.match.params.supplierID} />
 
           <Modal
             size={'large'}

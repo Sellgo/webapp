@@ -1,11 +1,11 @@
-
 .supplier-charts {
   // Chart radio inputs
   form.ui .inline.fields {
-    // Center horizontally
-    justify-content: center;
-    // Align to top vertically
     align-items: flex-start;
+  }
+
+  .chart-end-content {
+    padding: 44px 0 20px 40px;
   }
 
   // On mobile stack radio inputs, align left, and center container
