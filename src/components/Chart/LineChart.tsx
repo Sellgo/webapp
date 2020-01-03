@@ -12,6 +12,7 @@ const renderLineChartOptions = (options: LineChartOptions) => {
     chart: { zoomType: 'x' },
     title: {
       text: title,
+      margin: 50,
       align: 'left',
     },
     xAxis: {

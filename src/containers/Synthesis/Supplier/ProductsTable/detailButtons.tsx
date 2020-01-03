@@ -15,9 +15,9 @@ const DetailButtons = (props: any) => {
         <TrackButtonWithRating isTracking={isTracking} onTrack={onTrack} score={score} />
       </div>
       <div>
-        <Button primary className="view-detail-btn" onClick={onViewDetails}>
+        {/* <Button primary className="view-detail-btn" onClick={onViewDetails}>
           <span>View Details</span>
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
@@ -37,7 +37,6 @@ function TrackButtonWithRating(props: any) {
       </Button>
 
       <Label as="a" basic pointing="left" className="btn-lbl">
-        <span className="rating-name">Score</span>
         <span className="rating-num">{formatRating(score)}</span>
       </Label>
     </Button>

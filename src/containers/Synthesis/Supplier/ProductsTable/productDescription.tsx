@@ -10,15 +10,18 @@ const ProductDescription = (props: any) => {
   const { item } = props;
   return (
     <div className="product-description">
-      <h2>{item.title}</h2>
-      <div className="wrap-prod-information">
+      {/* <h2>{item.title}</h2> */}
+      <a href={item.amazon_url} target="_blank">
+        <span className="description-text">{item.title}</span>
+      </a>
+      {/* <div className="wrap-prod-information">
         <div>
           <div className="categories">
             <p className="brand">
               by <strong>{item.brand}</strong> in <strong>{item.amazon_category_name}</strong>
             </p>
 
-            {/*<Breadcrumb className="cstm_breadcum" icon="right angle" sections={item.sections} />*/}
+            <Breadcrumb className="cstm_breadcum" icon="right angle" sections={item.sections} />
           </div>
 
           <div className="flag-row">
@@ -30,7 +33,7 @@ const ProductDescription = (props: any) => {
         </div>
 
         <div className="rgt-prod">
-          {/*<Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />*/}
+          <Ratings totalReviews={item.totalReviews} starRatings={item.starRatings} />
           <Pricing
             price={item.price}
             rank={formatNumber(item.rank)}
@@ -39,7 +42,7 @@ const ProductDescription = (props: any) => {
             prime={item.prime}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
