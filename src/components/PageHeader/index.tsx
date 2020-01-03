@@ -35,8 +35,7 @@ class PageHeader extends React.Component<Props> {
             <Header.Content style={{ marginLeft: 'auto' }}>{callToAction}</Header.Content>
           </Header> */}
         </div>
-
-        <Divider />
+        {breadcrumb && breadcrumb.length <= 2 && <Divider />}
       </>
     );
   }

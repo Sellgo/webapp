@@ -20,8 +20,11 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row-reverse' }}>
-      <span style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}>
+    <div
+      className="pagination-dropdown"
+      style={{ display: 'flex', alignItems: 'center', flexDirection: 'row-reverse' }}
+    >
+      <span className="pagination-heading" style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}>
         {maxCount > 0 && `${minCount}-${maxCount} of `}
         {totalCount} items
       </span>

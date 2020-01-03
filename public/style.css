@@ -35,3 +35,8 @@ body {
     margin-bottom: 10px !important;
   }
 }
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}

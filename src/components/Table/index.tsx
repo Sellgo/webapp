@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input, Checkbox } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import './index.scss';
 import { tableKeys } from '../../constants';
@@ -13,6 +13,8 @@ export interface Column {
   sortable?: boolean;
   show?: boolean;
   type?: 'number' | 'string' | 'date';
+  icon?: any;
+  check?: boolean;
 }
 
 export interface TableProps {
@@ -194,6 +196,8 @@ const GenericTable = (props: TableProps) => {
                       />
                     </span>
                   )}
+                  {column.check && <Checkbox style={{ marginRight: 10 }} />}
+                  {column.icon && <Icon className={column.icon} style={{ color: '#707070' }} />}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}
