@@ -75,6 +75,7 @@ $link-color: #349af8;
 
     tfoot th {
       border-top: none;
+      text-align: -webkit-right;
     }
 
     // Body
@@ -314,6 +315,7 @@ $link-color: #349af8;
       width: 100%;
       display: flex !important;
       align-items: center;
+      border: 1px solid #c8ccd2;
 
       padding: 7px 12px;
       background: #dee8f3;
@@ -323,7 +325,9 @@ $link-color: #349af8;
         margin-right: 8px;
       }
     }
-
+    .ui.basic.label {
+      border: 1px solid #c8ccd2 !important;
+    }
     button {
       border-radius: 18px !important;
     }
