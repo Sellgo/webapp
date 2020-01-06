@@ -313,7 +313,11 @@ export const updateProductTrackingStatus = (
         .then(json => {
           dispatch(updateSupplierProduct(json.data));
         })
-        .catch(error => {});
+        .catch(err => {
+          if (err.response.status === 400) {
+            error(err.response.data.message);
+          }
+        });
 };
 
 export const updateSupplierProduct = (data: any) => ({
