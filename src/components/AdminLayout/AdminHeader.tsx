@@ -26,12 +26,9 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item className="menu-link" as={Link} to="/synthesis">
               Profit Finder
             </Menu.Item>
-            <Menu.Item as={Link} to="#">
+            <Menu.Item as={Link} to="/product-tracker">
               Product Tracker
             </Menu.Item>
-            {/* <Menu.Item as={Link} to="/product-tracker">
-              Product Tracker
-            </Menu.Item> */}
             {/* <Menu.Item as={Link} to="/dashboard">
               Dashboard
             </Menu.Item> */}

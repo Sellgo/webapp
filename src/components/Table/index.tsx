@@ -14,7 +14,6 @@ export interface Column {
   show?: boolean;
   type?: 'number' | 'string' | 'date';
   icon?: any;
-  check?: boolean;
 }
 
 export interface TableProps {
@@ -196,7 +195,6 @@ const GenericTable = (props: TableProps) => {
                       />
                     </span>
                   )}
-                  {column.check && <Checkbox style={{ marginRight: 10 }} />}
                   {column.icon && <Icon className={column.icon} style={{ color: '#707070' }} />}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort-arrow" alt="sort arrow" />

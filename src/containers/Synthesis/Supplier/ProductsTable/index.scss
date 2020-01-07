@@ -99,6 +99,7 @@ $link-color: #349af8;
       background: #fff;
 
       &:first-child {
+        width: 200px;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
         border-left: 1px solid rgba(34, 36, 38, 0.3);
@@ -166,30 +167,31 @@ $link-color: #349af8;
     .font-color {
       color: #98aeca !important;
     }
-    .checkbox-flag.d-flex {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    // .checkbox-flag.d-flex {
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: center;
 
-      .flag-row {
-        margin: 0;
-        display: contents;
-        img {
-          height: 18px;
-        }
-      }
+    //   .flag-row {
+    //     margin: 0;
+    //     display: contents;
+    //     img {
+    //       height: 18px;
+    //     }
+    //   }
 
-      .ui.checkbox {
-        margin-right: 10px;
-        display: inline;
-      }
-    }
+    //   .ui.checkbox {
+    //     margin-right: 10px;
+    //     display: inline;
+    //   }
+    // }
     .product-description {
       text-align: left;
       padding-left: 30px;
+      display: flex;
 
       a {
-        display: block;
+        // display: block;
         height: 24px;
         line-height: 24px;
         span {
@@ -199,7 +201,7 @@ $link-color: #349af8;
     }
     .description-text {
       display: inline-block;
-      width: 400px;
+      width: 294px;
       white-space: nowrap;
       overflow: hidden !important;
       text-overflow: ellipsis;
@@ -210,11 +212,20 @@ $link-color: #349af8;
     display: flex;
     justify-content: space-between;
   }
-
+  .flag-img {
+    margin-right: 10px;
+    width: 22px;
+    // margin-top: -3px
+  }
   .flag-row {
     display: flex;
-    align-items: center;
+    //align-items: center;
     margin-top: 8px;
+    margin: 0;
+    display: contents;
+    img {
+      height: 18px;
+    }
   }
 
   .flag-row span {
@@ -303,7 +314,6 @@ $link-color: #349af8;
 
   .track-btn {
     width: 119%;
-    margin-bottom: 10px;
 
     &.is-tracking {
       .track-wrap {

@@ -24,9 +24,8 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
       className="pagination-dropdown"
       style={{ display: 'flex', alignItems: 'center', flexDirection: 'row-reverse' }}
     >
-      <span className="pagination-heading" style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}>
-        {maxCount > 0 && `${minCount}-${maxCount} of `}
-        {totalCount} items
+      <span style={{ whiteSpace: 'nowrap', marginLeft: '1rem', marginRight: '1rem' }}>
+        Items per page
       </span>
       <Dropdown
         text={String(singlePageItemsCount)}
@@ -40,7 +39,10 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
           setSinglePageItemsCount(newItemsCount);
         }}
       />
-      <span style={{ whiteSpace: 'nowrap', marginLeft: '1rem' }}>Items per page</span>
+      <span className="pagination-heading" style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}>
+        {maxCount > 0 && `${minCount}-${maxCount} of `}
+        {totalCount} items
+      </span>
     </div>
   );
 };

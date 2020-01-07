@@ -9,6 +9,7 @@ import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
   UPDATE_SUPPLIER,
+  SUPPLIER_QUOTA,
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
@@ -101,6 +102,15 @@ export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (disp
     .catch(error => {});
 };
 
+export const supplierProgress = (supplierID: any) => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota-meter`)
+    .then(json => {
+      dispatch(supplierQuota(json.data));
+    })
+    .catch(error => {});
+};
+
 export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -163,7 +173,10 @@ export const fetchSynthesisProgressUpdates = () => async (
     await timeout(2000);
   }
 };
-
+export const supplierQuota = (supplier: Supplier) => ({
+  type: SUPPLIER_QUOTA,
+  payload: supplier,
+});
 export const updateSupplier = (supplier: Supplier) => ({
   type: UPDATE_SUPPLIER,
   payload: supplier,

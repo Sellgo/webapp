@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, Progress } from 'semantic-ui-react';
 import './index.css';
+import { Link } from 'react-router-dom';
 
 export default function CallToAction() {
   return (
@@ -8,9 +9,9 @@ export default function CallToAction() {
       <Progress percent={10} size="tiny">
         xx tracked out of xxx
       </Progress>
-      <Button primary={true} className="add-new-supplier">
-        Upgrade
-      </Button>
+      <Link to="/settings/pricing">
+        <Button primary={true}>Upgrade Now</Button>
+      </Link>
     </div>
   );
 }
