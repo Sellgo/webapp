@@ -13,7 +13,6 @@ import {
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductImage from './productImage';
 import ProductDescription from './productDescription';
-import FlagCheckbox from './flagCheckbox';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
@@ -85,9 +84,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   //     />
   //   );
   // };
-  renderCheckBox = (row: Product) => {
-    return <FlagCheckbox />;
-  };
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
@@ -108,17 +104,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
   );
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
-  renderIcon = (row: Product) => {
-    return (
-      <div>
-        <i className="fas fa-skull-crossbones mrgn-right font-color"></i>
-        <Icon className="lock mrgn-right font-color" />
-        <Icon className="list mrgn-right font-color" />
-        <Icon className="cubes font-color" />
-      </div>
-    );
-  };
-  renderAmz = (row: Product) => <Image src={AMAZON_IMAGE} className="amazon_img_size" />;
+  // renderIcon = (row: Product) => {
+  //   return (
+  //     <div>
+  //       <i className="fas fa-skull-crossbones mrgn-right font-color"></i>
+  //       <Icon className="lock mrgn-right font-color" />
+  //       <Icon className="list mrgn-right font-color" />
+  //       <Icon className="cubes font-color" />
+  //     </div>
+  //   );
+  // };
+  // renderAmz = (row: Product) => <Image src={AMAZON_IMAGE} className="amazon_img_size" />;
   renderDetailButtons = (row: Product) => {
     const {
       supplierID,
@@ -171,22 +167,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   columns: Column[] = [
-    {
-      check: true,
-      icon: 'chevron down',
-      sortable: false,
-      show: true,
-      // render: this.renderProductImage,
-      render: this.renderCheckBox,
-    },
-
+    // {
+    //   sortable: false,
+    //   show: true,
+    //   // render: this.renderProductImage,
+    // },
     {
       label: 'PRODUCT INFORMATION',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
     },
-
     {
       label: 'Profit',
       dataKey: 'profit',
@@ -229,19 +220,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderRoi,
     },
     {
-      label: 'Hazmat Non-gated Variation Multi-Pack',
-      show: true,
-      render: this.renderIcon,
-    },
-    {
-      label: 'Amz Choice',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderAmz,
-    },
-
-    {
       label: 'Tracking Rating',
       dataKey: 'sellgo_score',
       type: 'number',
@@ -250,7 +228,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
     {
-      icon: 'ellipsis horizontal',
       show: true,
       render: this.renderSyncButtons,
     },

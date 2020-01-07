@@ -13,6 +13,7 @@ import {
   resetSupplier,
   fetchSupplierProducts,
   resetSupplierProducts,
+  supplierProgress,
 } from '../../../actions/Suppliers';
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
@@ -29,13 +30,15 @@ interface SupplierProps {
   resetSupplier: () => void;
   fetchSupplierProducts: (supplierID: any) => void;
   resetSupplierProducts: typeof resetSupplierProducts;
+  supplierProgress: (supplierID: any) => void;
 }
 
 export class Supplier extends React.Component<SupplierProps> {
   componentDidMount() {
-    const { fetchSupplierDetails, fetchSupplierProducts, match } = this.props;
+    const { fetchSupplierDetails, fetchSupplierProducts, match, supplierProgress } = this.props;
     fetchSupplierDetails(match.params.supplierID);
     fetchSupplierProducts(match.params.supplierID);
+    supplierProgress(match.params.supplierID);
   }
 
   componentWillUnmount() {
@@ -81,7 +84,7 @@ export class Supplier extends React.Component<SupplierProps> {
               </Grid.Column>
               <Grid.Column width={3} className="right-column" floated="right">
                 <div className="radio-toggle-wrap">
-                  <Radio toggle label="Shadow Tracking" />
+                  {/* <Radio toggle label="Shadow Tracking" /> */}
                 </div>
               </Grid.Column>
             </Grid.Row>
@@ -109,6 +112,7 @@ const mapStateToProps = (state: any) => ({
   isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: supplierProductsSelector(state),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
+  supplierProgress: get(state, 'supplier.quota'),
 });
 
 const mapDispatchToProps = {
@@ -117,6 +121,7 @@ const mapDispatchToProps = {
   resetSupplier: () => resetSupplier(),
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
+  supplierProgress: (supplierID: any) => supplierProgress(supplierID),
 };
 
 export default connect(
