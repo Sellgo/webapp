@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input, Checkbox } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import './index.scss';
 import { tableKeys } from '../../constants';

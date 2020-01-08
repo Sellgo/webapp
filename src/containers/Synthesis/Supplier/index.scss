@@ -39,7 +39,7 @@
   .ui.feed {
     .event {
       .content {
-        padding-top: 50px;
+        padding-top: 34px;
       }
     }
   }
@@ -77,6 +77,15 @@
   .left.floated.four.wide.column.left-column {
     padding-right: 15px !important;
   }
+  .supplier-details-card {
+    .ui.feed {
+      .event {
+        .content {
+          padding-top: 63px;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -88,7 +97,7 @@
     }
     .right.floated.nine.wide.column.right-column {
       width: 100% !important;
-      padding-left: 0 !important;
+      //padding-left: 0 !important;
       .supplier-charts .chart-end-content {
         padding-left: 20px;
         text-align: center;
@@ -112,16 +121,6 @@
 @media (max-width: 350px) {
   .page-header .header-right-wrap .progress-bar {
     width: 170px;
-  }
-  .products-table {
-    .generic-table {
-      .pagination-dropdown {
-        .pagination-heading {
-          margin: 1rem;
-          margin-right: 1rem;
-        }
-      }
-    }
   }
 
   .page-header .header-right-wrap .progress-bar .ui.progress {

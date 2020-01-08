@@ -4,7 +4,7 @@ import './index.scss';
 
 function FilterSection(props: any) {
   const { title, children } = props;
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen] = useState(true);
 
   return (
     <div className="filter-section">

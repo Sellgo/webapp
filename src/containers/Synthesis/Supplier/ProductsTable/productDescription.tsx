@@ -1,16 +1,17 @@
 import React from 'react';
 //import { Breadcrumb } from 'semantic-ui-react';
 //import { Link } from 'react-router-dom';
-import Pricing from './pricing';
+// import Pricing from './pricing';
 //import Ratings from './ratings';
 import COUNTRY_IMAGE from '../../../../assets/images/flag_icon.svg';
-import { formatNumber } from '../../../../utils/format';
+// import { formatNumber } from '../../../../utils/format';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
   return (
     <div className="product-description">
       {/* <h2>{item.title}</h2> */}
+      <img src={COUNTRY_IMAGE} alt="product_img" className="flag-img" />
       <a href={item.amazon_url} target="_blank">
         <span className="description-text">{item.title}</span>
       </a>

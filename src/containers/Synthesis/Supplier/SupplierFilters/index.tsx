@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown, Divider } from 'semantic-ui-react';
+// import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
@@ -11,12 +11,12 @@ import {
   initialFilterRanges,
   findMinMaxRange,
   findFilterProducts,
-  dataKeys,
-  dataKeyMapping,
+  // dataKeys,
+  // dataKeyMapping,
   findFiltersGrouped,
 } from '../../../../constants/Suppliers';
 import get from 'lodash/get';
-import { defaultSelect } from '../../../../constants';
+// import { defaultSelect } from '../../../../constants';
 //import AdviceCard from '../AdviceCard';
 import './index.scss';
 
@@ -105,14 +105,14 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   };
 
   render() {
-    const { products, filteredProducts, filterRanges } = this.props;
+    const { products, filterRanges } = this.props;
     if (products.length === 1 && products[0] === undefined) return <div></div>;
     const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();
 
     return (
       <div className="synthesis-supplier-filters">
-        <div className="search-dropdown">
+        {/* <div className="search-dropdown">
           <Dropdown
             placeholder="Select a Preset"
             fluid
@@ -128,7 +128,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
             ]}
             onChange={this.handlePresetChange}
           />
-        </div>
+        </div> */}
         <div className="inner-wrap">
           <div className="filters">
             {filterRanges &&
