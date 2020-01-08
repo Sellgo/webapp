@@ -9,7 +9,9 @@ const CallToAction = (props: any) => {
   return (
     <div className="header-right-wrap">
       <Progress percent={trackedPercent} size="tiny" className="progress-bar">
-        {trackedPercent === undefined ? '0%' : `${trackedPercent}% tracked out of 100%`}
+        {trackedPercent === undefined
+          ? '0 tracked out of 0'
+          : `${progress.used} tracked out of ${progress.available}`}
       </Progress>
       <Link to="/settings/pricing">
         <Button primary={true}>Upgrade Now</Button>
