@@ -20,7 +20,7 @@
     "@types/validator": "^10.11.3",
     "@types/webpack-env": "^1.13.9",
     "analytics": "^0.3.0",
-    "auth0-js": "^9.10.4",
+    "auth0-js": "^9.12.1",
     "auth0-lock": "^11.17.0",
     "axios": "^0.18.0",
     "babel-eslint": "10.0.1",

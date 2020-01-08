@@ -83,6 +83,13 @@ export default class Auth {
               options: { flashMessage: { type: 'error', text: err.description || '' } },
             },
           });
+        } else if (err.code === 'login_required') {
+          history.replace('/');
+          // Temporary solution for 3rd party cookies issue
+          // Need to setup an Auth0 custom domain to fix
+          alert(
+            `Sellgo does not currently support browsers with 3rd party cookies disabled. Please enable 3rd party cookies or in Safari un-check "prevent cross-site tracking" in your browser's settings.`
+          );
         } else {
           history.replace('/');
           alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);

@@ -14,6 +14,7 @@ import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
+import Auth0 from 'auth0-js';
 
 const auth = new Auth();
 
@@ -136,6 +137,20 @@ function App(props: any) {
             render={renderProps => {
               handleAuthentication(renderProps.location);
               return <PageLoader />;
+            }}
+          />
+
+          <Route
+            path="/callback-cross-auth"
+            render={renderProps => {
+              const auth0 = new Auth0.WebAuth({
+                clientID: '75GLWPGkejOnogr8iuCkGSwmmgYJVnuW',
+                domain: 'sellgo-dev.auth0.com',
+              });
+
+              console.log('callback-cross-auth', auth0);
+              auth0.crossOriginAuthenticationCallback();
+              return null;
             }}
           />
 
