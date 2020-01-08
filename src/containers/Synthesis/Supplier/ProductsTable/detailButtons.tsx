@@ -8,7 +8,7 @@ import Hotspot from '../../../../assets/images/wifi-icon.svg';
 import { formatRating } from '../../../../utils/format';
 
 const DetailButtons = (props: any) => {
-  const { score, onViewDetails, onTrack, isTracking } = props;
+  const { score, onTrack, isTracking } = props;
   return (
     <div className="detail-buttons">
       <div>

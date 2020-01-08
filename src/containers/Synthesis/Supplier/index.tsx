@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Loader, Radio } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -31,6 +31,7 @@ interface SupplierProps {
   fetchSupplierProducts: (supplierID: any) => void;
   resetSupplierProducts: typeof resetSupplierProducts;
   supplierProgress: (supplierID: any) => void;
+  progress: any;
 }
 
 export class Supplier extends React.Component<SupplierProps> {
@@ -48,7 +49,7 @@ export class Supplier extends React.Component<SupplierProps> {
   }
 
   render() {
-    const { isLoadingSupplierProducts, supplierDetails } = this.props;
+    const { isLoadingSupplierProducts, supplierDetails, progress } = this.props;
 
     return (
       <>
@@ -112,7 +113,7 @@ const mapStateToProps = (state: any) => ({
   isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: supplierProductsSelector(state),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
-  supplierProgress: get(state, 'supplier.quota'),
+  progress: get(state, 'supplier.quota'),
 });
 
 const mapDispatchToProps = {

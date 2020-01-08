@@ -22,8 +22,8 @@ class PageHeader extends React.Component<Props> {
 
         <div className="page-header">
           {breadcrumb && breadcrumb.length && <BreadCrumb sections={breadcrumb} />}
-          <Header className="header-right-wrap" as="h2">
-            <Header.Content className="progress-bar">{callToAction}</Header.Content>
+          <Header as="h2">
+            <Header.Content>{callToAction}</Header.Content>
           </Header>
         </div>
 

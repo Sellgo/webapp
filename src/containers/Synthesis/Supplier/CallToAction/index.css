@@ -3,11 +3,6 @@
   float: right;
   justify-content: flex-end;
 }
-/* 
-.profit-sys-call-to-action .add-new-supplier {
-  padding: 12px 61px;
-  background: #349af8;
-} */
 
 .profit-sys-call-to-action .ui.tiny.progress {
   width: 250px;
@@ -15,13 +10,3 @@
   top: 12px;
   height: 6px;
 }
-
-/* .profit-sys-call-to-action .ui.progress > .label {
-  font-size: 10px;
-  font-weight: 400;
-  margin-top: -4px;
-}
-
-.profit-sys-call-to-action .ui.tiny.progress .bar {
-  height: 6px;
-} */

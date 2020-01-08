@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon, Image } from 'semantic-ui-react';
+import { Segment, Loader, Icon } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -16,7 +16,7 @@ import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
+// import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -116,12 +116,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   // };
   // renderAmz = (row: Product) => <Image src={AMAZON_IMAGE} className="amazon_img_size" />;
   renderDetailButtons = (row: Product) => {
-    const {
-      supplierID,
-      openProductDetailModal,
-      productTrackerGroup,
-      updateProductTrackingStatus,
-    } = this.props;
+    const { productTrackerGroup, updateProductTrackingStatus, supplierID } = this.props;
 
     return (
       <DetailButtons
@@ -220,17 +215,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderRoi,
     },
     {
-      label: 'Tracking Rating',
+      label: 'Tracking / Rating',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,
       sortable: true,
       render: this.renderDetailButtons,
     },
-    {
-      show: true,
-      render: this.renderSyncButtons,
-    },
+    // {
+    //   show: true,
+    //   render: this.renderSyncButtons,
+    // },
   ];
 
   render() {

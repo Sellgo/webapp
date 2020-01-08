@@ -3,15 +3,18 @@ import { Button, Progress } from 'semantic-ui-react';
 import './index.css';
 import { Link } from 'react-router-dom';
 
-export default function CallToAction() {
+const CallToAction = (props: any) => {
+  const { progress } = props;
+  const trackedPercent = progress && ((progress.used / progress.available) * 100).toFixed(1);
   return (
-    <div className="profit-sys-call-to-action">
-      <Progress percent={10} size="tiny">
-        xx tracked out of xxx
+    <div className="header-right-wrap">
+      <Progress percent={trackedPercent} size="tiny" className="progress-bar">
+        {trackedPercent === undefined ? '0%' : `${trackedPercent}% tracked out of 100%`}
       </Progress>
       <Link to="/settings/pricing">
         <Button primary={true}>Upgrade Now</Button>
       </Link>
     </div>
   );
-}
+};
+export default CallToAction;

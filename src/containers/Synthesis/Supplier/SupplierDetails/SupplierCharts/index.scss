@@ -5,7 +5,7 @@
   }
 
   .chart-end-content {
-    padding: 44px 0 20px 40px;
+    padding: 6px 0 20px 40px;
   }
 
   // On mobile stack radio inputs, align left, and center container
@@ -19,6 +19,11 @@
         justify-content: start;
         align-items: flex-start;
       }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .chart-end-content {
+      padding: 15px 0 20px 40px;
     }
   }
 }
