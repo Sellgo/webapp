@@ -308,7 +308,7 @@ export const updateProductTrackingStatus = (
           dispatch(updateSupplierProduct(json.data));
         })
         .catch(err => {
-          if (err.response.status === 400) {
+          if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
         })
@@ -317,7 +317,7 @@ export const updateProductTrackingStatus = (
           dispatch(updateSupplierProduct(json.data));
         })
         .catch(err => {
-          if (err.response.status === 400) {
+          if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
         });
