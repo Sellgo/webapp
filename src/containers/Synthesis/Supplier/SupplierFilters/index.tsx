@@ -120,6 +120,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
           <Divider />
 
+          {/*
           <div className="search-dropdown">
             <Dropdown
               placeholder="Select a Preset"
@@ -137,6 +138,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
               onChange={this.handlePresetChange}
             />
           </div>
+          */}
 
           <div className="filters">
             {filterRanges &&

@@ -350,19 +350,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               archivedCount={archivedData.length}
             />
           </Grid.Column>
-          <Grid.Column className={'wdt100 ipad-wdth100'}>
-            <Grid
-              columns={2}
-              style={{ alignItems: 'flex-end', justifyContent: 'center' }}
-              className="drop-align"
-            >
-              <Grid.Column className="card-content" style={{ width: 'auto' }}>
-                <SupplierTableMetrics />
-              </Grid.Column>
-              <Grid.Column style={{ width: 'auto' }}>
-                <SelectColumns columns={columns} />
-              </Grid.Column>
-            </Grid>
+          <Grid.Column
+            floated="right"
+            className={'wdt100 ipad-wdth100'}
+            style={{ flex: '0 0 auto', width: 'auto' }}
+          >
+            <SelectColumns columns={columns} />
           </Grid.Column>
         </Grid>
         <GenericTable
