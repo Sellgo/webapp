@@ -465,6 +465,12 @@ $link-color: #349af8;
       span {
         font-size: 12px !important;
       }
+      .ui.selection.dropdown {
+        padding: 0.78571429em 2.4em 0.78571429em 1em !important;
+      }
+      .ui.dropdown > .dropdown.icon {
+        right: 0.1em !important;
+      }
     }
   }
 }
