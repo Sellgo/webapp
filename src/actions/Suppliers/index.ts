@@ -3,6 +3,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
+import { getSellerQuota } from '../Settings';
 import { suppliersSelector } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -302,11 +303,13 @@ export const updateProductTrackingStatus = (
   return !productTrackerID
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
+          dispatch(getSellerQuota());
           dispatch(updateSupplierProduct(json.data));
         })
         .catch(error => {})
     : Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
+          dispatch(getSellerQuota());
           dispatch(updateSupplierProduct(json.data));
         })
         .catch(error => {});
