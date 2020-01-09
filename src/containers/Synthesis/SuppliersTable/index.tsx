@@ -21,7 +21,6 @@ import {
 import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';
-import SupplierTableMetrics from './SupplierTableMetrics';
 import { Supplier } from '../../../interfaces/Supplier';
 import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import { error } from '../../../utils/notifications';

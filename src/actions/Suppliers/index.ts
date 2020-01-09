@@ -137,6 +137,18 @@ export const fetchSynthesisProgressUpdates = () => async (
       supplier.file_status !== null &&
       supplier.file_status !== 'completed'
   );
+
+  const handleUpdateSupplier = (response: any, index: any) => {
+    const data = response.data;
+    const supplier = suppliers[index];
+    dispatch(
+      updateSupplier({
+        ...supplier,
+        ...data,
+      })
+    );
+  };
+
   while (suppliers.length > 0) {
     const requests = suppliers.map(supplier => {
       return Axios.get(
@@ -146,17 +158,9 @@ export const fetchSynthesisProgressUpdates = () => async (
           )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
       );
     });
+
     const responses = await Promise.all(requests);
-    responses.forEach((response, index) => {
-      const data = response.data;
-      const supplier = suppliers[index];
-      dispatch(
-        updateSupplier({
-          ...supplier,
-          ...data,
-        })
-      );
-    });
+    responses.forEach(handleUpdateSupplier);
 
     suppliers = suppliers.filter((supplier, index) => {
       if (responses[index].data.progress === 100) dispatch(fetchSupplier(supplier.supplier_id));
