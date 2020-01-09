@@ -29,7 +29,7 @@ class PageHeader extends React.Component<Props> {
           </Header>
         </div>
 
-        <Divider />
+        {/* <Divider /> */}
       </>
     );
   }

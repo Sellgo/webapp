@@ -1,0 +1,24 @@
+.product-tracker {
+  .search-product {
+    display: flex;
+    align-items: center;
+    margin-top: -72px;
+    margin-left: 13%;
+
+    .ui.input {
+      width: 373px;
+    }
+    .ui.icon.input > input {
+      border-radius: 10px;
+      border: 1px solid #b7b9bf;
+    }
+    .ui.icon.input > i.icon:not(.link) {
+      background: #3e85d0;
+    }
+
+    label {
+      margin-right: 15px;
+      font-weight: bold;
+    }
+  }
+}

@@ -24,6 +24,11 @@ export const dataKeys: any = [
   'margin',
   'sales_monthly',
   'profit_monthly',
+  'avg_profit',
+  'avg_margin',
+  'avg_unit_monthly',
+  'avg_roi',
+
   // Revenue
   //'monthly_revenue',
   //'roi_inventory',
