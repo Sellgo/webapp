@@ -1,7 +1,6 @@
 import Axios from 'axios';
 import { SET_PRICING_SUBSCRIPTIONS, SET_SELLER_SUBSCRIPTION } from '../../../constants/Settings';
 import { AppConfig } from '../../../config';
-import { error } from '../../../utils/notifications';
 
 export const fetchSubscriptions = () => (dispatch: any) => {
   return Axios.get(AppConfig.BASE_URL_API + 'subscriptions')
@@ -17,9 +16,6 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
     .then(json => {
       const subscription = json.data || false;
       dispatch(setSellerSubscription(subscription));
-      if (subscription === false) {
-        error("You don't have active subscription or your subscription has expired");
-      }
     })
     .catch(err => {});
 };
