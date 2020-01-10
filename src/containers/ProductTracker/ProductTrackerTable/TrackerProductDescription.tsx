@@ -15,7 +15,7 @@ const ProductDescription = (props: any) => {
           </a>
         </div>
         <div className="wrap-prod-information">
-          <div>
+          <div className="information">
             <img src={COUNTRY_IMAGE} alt="product_img" />
             <span>{item.asin}</span>
             <div className="table-icon">
