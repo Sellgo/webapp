@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  //Dropdown,
-  Divider,
-} from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
@@ -14,13 +11,9 @@ import {
   initialFilterRanges,
   findMinMaxRange,
   findFilterProducts,
-  //dataKeys,
-  //dataKeyMapping,
   findFiltersGrouped,
 } from '../../../../constants/Suppliers';
 import get from 'lodash/get';
-//import { defaultSelect } from '../../../../constants';
-//import AdviceCard from '../AdviceCard';
 import './index.scss';
 
 interface SupplierFiltersProps {
@@ -109,7 +102,9 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
 
   render() {
     const { products, filteredProducts, filterRanges } = this.props;
-    if (products.length === 1 && products[0] === undefined) return <div></div>;
+    if (products.length === 1 && products[0] === undefined) {
+      return <div></div>;
+    }
     const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();
 
