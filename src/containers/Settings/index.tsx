@@ -13,7 +13,7 @@ import {
   getSellerprofileImage,
   setSellerInfo,
 } from '../../actions/Settings';
-import './settings.scss';
+import './settings.css';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
 import PageHeader from '../../components/PageHeader';
 
