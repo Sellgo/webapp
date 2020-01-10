@@ -290,3 +290,9 @@ i.icon.close:before {
   font-size: 14px;
   color: #999999;
 }
+
+/* Toastify Notifications */
+.Toastify__toast-container {
+  /* Ensure it's shown above Auth0 login modal */
+  z-index: 1000001;
+}
