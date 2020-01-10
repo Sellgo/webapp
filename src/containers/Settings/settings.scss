@@ -1,0 +1,43 @@
+.settings {
+  .basic-info-update.ui.grid {
+    margin-top: 5rem !important;
+  }
+  .upload-photo button {
+    margin-right: 2rem;
+  }
+  .autho-form {
+    margin-top: 1.5rem;
+  }
+
+  .ui.header {
+    font-family: 'Montserrat', 'serif' !important;
+  }
+  .autho-sub-hear,
+  .ui.small.header {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  .ui.form .field > label {
+    font-size: 1rem;
+  }
+  .autho-form .ui.form .field > label::after {
+    content: '\f059';
+  }
+
+  .ui.primary.button {
+    font-family: Montserrat;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    background: #4285f4;
+  }
+
+  @media screen and (min-width: 310px) and (max-width: 767px) {
+    h2 {
+      text-align: center;
+    }
+    .txt-cntr {
+      text-align: center !important;
+    }
+  }
+}

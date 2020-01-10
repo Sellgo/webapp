@@ -22,25 +22,20 @@ class SupplierMenu extends Component<SupplierMenuProps> {
     return (
       <div>
         <Menu
+          stackable={true}
           pointing={true}
           secondary={true}
           style={{ width: 'max-content' }}
           color={'blue'}
           className="flex-col wdt100 menu-item"
         >
-          <Menu.Item
-            name="all"
-            active={activeTab === 'all'}
-            onClick={this.handleItemClick}
-            className="wdt100"
-          >
+          <Menu.Item name="all" active={activeTab === 'all'} onClick={this.handleItemClick}>
             <Header as="h4">All Suppliers ({this.props.allCount})</Header>
           </Menu.Item>
           <Menu.Item
             name="shortlisted"
             active={activeTab === 'shortlisted'}
             onClick={this.handleItemClick}
-            className="wdt100"
           >
             <Header as="h4">
               Shortlisted <span style={{ color: 'green' }}>({this.props.shortlistedCount})</span>
@@ -50,7 +45,6 @@ class SupplierMenu extends Component<SupplierMenuProps> {
             name="archived"
             active={activeTab === 'archived'}
             onClick={this.handleItemClick}
-            className="wdt100"
           >
             <Header as="h4">
               Archived <span style={{ color: 'red' }}>({this.props.archivedCount})</span>
