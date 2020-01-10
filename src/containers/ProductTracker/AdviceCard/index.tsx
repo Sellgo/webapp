@@ -20,7 +20,7 @@ const AdviceCard = (props: AdviceCardProps) => {
 
           <span className="track-row">
             <span>
-              <b>Period</b>
+              <b>Period:</b>
             </span>
             <span className="wrap-radio">
               <Dropdown placeholder="30 days" fluid selection options={options} />

@@ -1,89 +1,46 @@
-export const SET_SUPPLIERS = 'SET_SUPPLIERS';
-export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
-export const SET_TIME_EFFICIENCY = '/SYN/GET_TIME_EFFICIENCY';
-export const SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION = '/SYN/SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION';
-export const SELECT_SUPPLIER = 'SELECT_SUPPLIER';
-export const UPDATE_SUPPLIER = 'UPDATE_SUPPLIER';
-export const ADD_SUPPLIER = 'ADD_SUPPLIER';
-export const SET_SUPPLIERS_TABLE_COLUMNS = 'SET_SUPPLIERS_TABLE_COLUMNS';
-export const SET_SUPPLIERS_TABLE_TAB = 'SET_SUPPLIERS_TABLE_TAB';
-export const SET_SUPPLIER_DETAILS = 'SET_SUPPLIER_DETAILS';
-export const IS_LOADING_SUPPLIER_PRODUCTS = 'IS_LOADING_SUPPLIER_PRODUCTS';
-export const SET_SUPPLIER_PRODUCTS = 'SET_SUPPLIER_PRODUCTS';
-export const RESET_SUPPLIER_PRODUCTS = 'RESET_SUPPLIER_PRODUCTS';
-export const SET_SUPPLIER_PRODUCTS_TRACK_DATA = 'SET_SUPPLIER_PRODUCTS_TRACK_DATA';
-export const RESET_SUPPLIER = 'RESET_SUPPLIER';
-export const SET_SUPPLIER_PRODUCT_TRACKER_GROUP = 'SET_SUPPLIER_PRODUCT_TRACKER_GROUP';
-export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
-export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
-export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT';
-
 export const dataKeys: any = [
   // Basic KPI
-  'profit',
-  'margin',
-  'sales_monthly',
-  'profit_monthly',
-
-  // Revenue
-  //'monthly_revenue',
-  //'roi_inventory',
+  'avg_profit',
+  'avg_margin',
+  'avg_unit_monthly',
+  'avg_roi',
 ];
 
-// Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI
-  profit: {
-    text: 'Unit Profit ($)',
+  avg_profit: {
+    text: 'Avg Profit ($)',
     presetText: 'Max Profit ($)',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
-  margin: {
-    text: 'Profit Margin (%)',
+  avg_margin: {
+    text: 'Avg Margin (%)',
     presetText: 'Max Profit Margin (%)',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
-  sales_monthly: {
-    text: 'Unit Sales Per Month',
+  avg_unit_monthly: {
+    text: 'Avg Unit Sales Per Month',
     presetText: 'Max Unit Sales Per Month',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
-  profit_monthly: {
-    text: 'Profit Per Month ($)',
-    presetText: 'Max Profit Per Month ($)',
-    showSlider: true,
-    showInputs: true,
-    groupId: 'basic',
-  },
-  // Revenue
-  monthly_revenue: {
-    text: 'Avg Monthly Revenue',
-    presetText: 'Max vg Monthly Revenue',
-    showSlider: false,
-    showInputs: true,
-    groupId: 'revenue',
-  },
-  roi_inventory: {
-    text: 'ROI Inventory',
+  avg_roi: {
+    text: ' Avg ROI Inventory',
     presetText: 'Max ROI Inventory',
     showSlider: true,
     showInputs: false,
-    groupId: 'revenue',
+    groupId: 'basic',
   },
 };
 
 export const groupKeyMapping: any = {
   basic: {
     text: 'Basic KPI',
-  },
-  revenue: {
-    text: 'Revenue',
   },
 };
 

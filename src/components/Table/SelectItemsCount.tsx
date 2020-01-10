@@ -20,7 +20,7 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: 'flex', alignItems: 'center', float: 'right' }}>
       <span style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}>
         {maxCount > 0 && `${minCount}-${maxCount} of `}
         {totalCount} items

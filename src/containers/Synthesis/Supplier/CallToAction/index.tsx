@@ -9,7 +9,7 @@ export default function CallToAction() {
         80 tracked out of 100
       </Progress>
       <Button primary={true} className="add-new-supplier">
-        Upgrade
+        Upgrade Now
       </Button>
     </div>
   );

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PageHeader from '../../components/PageHeader';
 import CallToAction from '../Synthesis/Supplier/CallToAction';
 import get from 'lodash/get';
-import ProductFilters from './ProductFilter';
+import ProductFilters from './ProductFilter/index';
 import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 

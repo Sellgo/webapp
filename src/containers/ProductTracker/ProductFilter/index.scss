@@ -1,0 +1,47 @@
+.synthesis-supplier-filters {
+  // Negative margin to make up for (most) of extra left padding due to column
+  margin-left: -0.8rem;
+  width: calc(100% + 1rem);
+
+  .products-count {
+    color: 'black';
+    font-size: 18px;
+    margin-left: 0;
+    font-weight: bold;
+
+    // Wider style
+    //font-size: 20px;
+    //margin-left: 16px;
+  }
+
+  // Dropdown that says "select a preset"
+  .search-dropdown {
+    padding-top: 0.6rem;
+  }
+
+  .custom-check {
+    width: 100%;
+    margin-bottom: 21px;
+    .ui.checkbox label {
+      font-size: 16px;
+    }
+  }
+  .check-filter {
+    margin-top: 66px;
+  }
+  .filter-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    font-weight: bold;
+    font-size: 14px;
+    i.small.icon.question {
+      font-size: 1em !important;
+      color: #98aeca !important;
+      padding-left: 0.5rem;
+    }
+    label {
+      font-weight: 500;
+    }
+  }
+}
