@@ -5,7 +5,7 @@ import './index.css';
 export default function CallToAction() {
   return (
     <div className="profit-sys-call-to-action">
-      <Progress percent={10} size="tiny">
+      <Progress percent={10} size="tiny" color="blue">
         80 tracked out of 100
       </Progress>
       <Button primary={true} className="add-new-supplier">

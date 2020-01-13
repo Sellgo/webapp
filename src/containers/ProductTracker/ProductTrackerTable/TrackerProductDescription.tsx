@@ -7,7 +7,9 @@ const ProductDescription = (props: any) => {
 
   return (
     <div className="product-tracker-description">
-      <img src={item.image_url} />
+      <div className="product-image">
+        <img src={item.image_url} alt="product_image" />
+      </div>
       <div>
         <div className="description-text">
           <a href={item.amazon_url} target="_blank">

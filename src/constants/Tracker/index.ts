@@ -33,7 +33,7 @@ export const dataKeyMapping: any = {
     text: ' Avg ROI Inventory',
     presetText: 'Max ROI Inventory',
     showSlider: true,
-    showInputs: false,
+    showInputs: true,
     groupId: 'basic',
   },
 };

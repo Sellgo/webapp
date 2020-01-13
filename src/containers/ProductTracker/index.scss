@@ -12,13 +12,42 @@
       border-radius: 10px;
       border: 1px solid #b7b9bf;
     }
+    .ui.icon.input > i.icon {
+      opacity: 1 !important;
+      color: #fff;
+      border-radius: 0px 10px 10px 0px !important;
+    }
     .ui.icon.input > i.icon:not(.link) {
-      background: #3e85d0;
+      background: #349af8;
     }
 
     label {
       margin-right: 15px;
       font-weight: bold;
+    }
+  }
+  @media screen and (min-width: 310px) and (max-width: 767px) {
+    .search-product .ui.input {
+      width: 250px !important;
+    }
+    .search-product {
+      flex-direction: column;
+      margin-top: 0px !important;
+      margin-left: 0px !important;
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    .search-product {
+      margin-top: 0px !important;
+      margin-left: 0px !important;
+    }
+  }
+
+  @media screen and (min-width: 1024px) and (max-width: 1250px) {
+    .search-product {
+      margin-top: 0px !important;
+      margin-left: 0px !important;
     }
   }
 }

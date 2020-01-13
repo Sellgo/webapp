@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Search } from 'semantic-ui-react';
-import { connect } from 'react-redux';
+import { Grid, Segment, Search } from 'semantic-ui-react';
 import PageHeader from '../../components/PageHeader';
 import CallToAction from '../Synthesis/Supplier/CallToAction';
-import get from 'lodash/get';
 import ProductFilters from './ProductFilter/index';
 import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
@@ -26,7 +24,6 @@ class ProductTracker extends React.Component {
             <Grid.Row>
               <Grid.Column className="left-column" floated="left">
                 <ProductFilters />
-                )}
               </Grid.Column>
 
               <Grid.Column className="right-column" floated="right">

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider, Card, Dropdown } from 'semantic-ui-react';
+import { Card, Dropdown } from 'semantic-ui-react';
 import './index.scss';
 
 export interface AdviceCardProps {}

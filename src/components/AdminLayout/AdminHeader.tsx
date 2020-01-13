@@ -23,10 +23,19 @@ export class AdminHeader extends React.Component<any> {
             {/* <Menu.Item as={Link} to="/">
               Add Supplier
             </Menu.Item> */}
-            <Menu.Item as={Link} to="/synthesis">
-              Profit Finder
+            <Menu.Item
+              as={Link}
+              to="/synthesis"
+              className={window.location.pathname === '/synthesis' ? 'active-menu' : ''}
+            >
+              <i className="fas fa-search-dollar" style={{ fontSize: 18 }}></i>
+              <span className="header-values">Profit Finder</span>
             </Menu.Item>
-            <Menu.Item as={Link} to="/product-tracker">
+            <Menu.Item
+              as={Link}
+              to="/product-tracker"
+              className={window.location.pathname === '/product-tracker' ? 'active-menu' : ''}
+            >
               Product Tracker
             </Menu.Item>
             {/* <Menu.Item as={Link} to="/dashboard">
@@ -35,15 +44,15 @@ export class AdminHeader extends React.Component<any> {
           </Menu.Menu>
 
           <Menu.Menu className="right-menu" position="right" fitted="horizontally">
-            <Menu.Item as={Link} to="/settings/pricing">
+            {/* <Menu.Item as={Link} to="/settings/pricing">
               Pricing
-            </Menu.Item>
+            </Menu.Item> */}
             {/* <Menu.Item as={Link} to="/search">
               <Icon name="search" />
             </Menu.Item> */}
-            {/* <Menu.Item as={Link} to="/notifications">
+            <Menu.Item as={Link} to="/notifications">
               <Icon name="bell" />
-            </Menu.Item> */}
+            </Menu.Item>
             <div className="divider" />
             <Menu.Item>
               <Dropdown

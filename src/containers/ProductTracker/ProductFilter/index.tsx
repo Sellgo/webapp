@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Divider } from 'semantic-ui-react';
-import { filterRanges, products, filteredProducts } from './dummy';
-import { initialFilterRanges, findFiltersGrouped } from '../../../constants/Tracker';
+import { filterRanges, products, filteredProducts, checkFilter } from '../../../utils/dummy';
+import { findFiltersGrouped } from '../../../constants/Tracker';
 import FilterSection from '../../../components/FilterSection';
 import SliderRange from '../../../components/SliderRange';
 import AdviceCard from '../AdviceCard';
@@ -9,22 +9,19 @@ import CheckboxFilter from './CheckboxFilter';
 import './index.scss';
 
 export default class ProductFilters extends Component {
-  state = {
-    productRanges: initialFilterRanges,
-  };
   handlePresetChange = (e: any, { value }: any) => {};
 
   render() {
     if (products.length === 1 && products[0] === undefined) return <div></div>;
-    const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();
 
     return (
-      <div className="synthesis-supplier-filters">
+      <div className="product-tracker-filters">
         <div className="inner-wrap">
           <AdviceCard />
           <p className="products-count">
-            {filteredProducts.length} of {products.length} products
+            <span>{filteredProducts.length} of</span>{' '}
+            <span style={{ color: '#4B9AF7' }}>{products.length} products</span>
           </p>
 
           <Divider />
@@ -36,7 +33,7 @@ export default class ProductFilters extends Component {
                   {group.filters.map((filter: any, index: number) => (
                     <div key={index}>
                       <SliderRange
-                        title={'Avg Unit Profit'}
+                        title={filter.text}
                         dataKey={'filter.id'}
                         showInputs={filter.showInputs}
                         range={250}
@@ -48,9 +45,11 @@ export default class ProductFilters extends Component {
                   ))}
                 </FilterSection>
               ))}
-            <div className="check-filter">
-              <CheckboxFilter title={'Inventory'} />
-            </div>
+            {checkFilter.map(check => (
+              <div className="check-filter">
+                <CheckboxFilter title={check.title} check={check.checkData} />
+              </div>
+            ))}
           </div>
         </div>
       </div>

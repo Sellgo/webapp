@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, Divider } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
 import BreadCrumb from '../BreadCrumb';
 import './index.scss';

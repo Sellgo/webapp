@@ -25,3 +25,18 @@
 .profit-sys-call-to-action .ui.tiny.progress .bar {
   height: 6px;
 }
+
+@media screen and (min-width: 310px) and (max-width: 767px) {
+  .profit-sys-call-to-action {
+    float: none !important;
+    align-items: center;
+  }
+
+  .profit-sys-call-to-action .ui.tiny.progress {
+    width: 150px !important;
+  }
+  .profit-sys-call-to-action .add-new-supplier {
+    padding: 10px 15px !important;
+    font-size: 12px !important;
+  }
+}

@@ -5,11 +5,11 @@ import TrackerMenu from './TrackerMenu';
 import GenericTable, { Column } from '../../../components/Table';
 import AddProduct from './AddProduct';
 import ProductDescription from './TrackerProductDescription';
-import { filterRanges, products, filteredProducts } from './../ProductFilter/dummy';
-import { formatCurrency, formatNumber } from '../../../utils/format';
+import { filterRanges, filteredProducts } from '../../../utils/dummy';
+import { formatNumber } from '../../../utils/format';
 
 import { tableKeys } from '../../../constants';
-import { Checkbox } from 'semantic-ui-react';
+import { Checkbox, Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
 
 class ProductTrackerTable extends React.Component {
@@ -21,7 +21,16 @@ class ProductTrackerTable extends React.Component {
   };
 
   renderAvgPrice = (row: Product) => <p className="stat">{row.price}</p>;
-  renderAvgMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
+  renderAvgMargin = (row: Product) => {
+    return (
+      <div className="avg-margin">
+        <p className="stat">{row.margin}%</p>
+        <span className="caret-icon">
+          <Icon className="caret down" />
+        </span>
+      </div>
+    );
+  };
   renderAvgUnitSold = (row: Product) => {
     return (
       <>

@@ -1,4 +1,4 @@
-.synthesis-supplier-filters {
+.product-tracker-filters {
   // Negative margin to make up for (most) of extra left padding due to column
   margin-left: -0.8rem;
   width: calc(100% + 1rem);
@@ -27,7 +27,13 @@
     }
   }
   .check-filter {
-    margin-top: 66px;
+    margin-top: 48px;
+    .ui.checkbox input:checked ~ .box:after,
+    .ui.checkbox input:checked ~ label:after {
+      color: #fff !important;
+      background: #4b9af7 !important;
+      border-radius: 5px;
+    }
   }
   .filter-title {
     display: flex;
@@ -35,13 +41,18 @@
     margin-bottom: 18px;
     font-weight: bold;
     font-size: 14px;
-    i.small.icon.question {
-      font-size: 1em !important;
-      color: #98aeca !important;
-      padding-left: 0.5rem;
-    }
     label {
       font-weight: 500;
     }
+  }
+  i.small.icon.question {
+    font-size: 1em !important;
+    color: #98aeca !important;
+    padding-left: 0.5rem;
+  }
+  .ui.checkbox input.hidden + label {
+    font-size: 12px;
+    font-family: inherit;
+    color: black;
   }
 }

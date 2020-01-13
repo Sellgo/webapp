@@ -7,7 +7,8 @@ $link-color: #349af8;
     margin-top: 30px;
     display: flex;
     .ui.input {
-      width: 36%;
+      width: 67%;
+      border-right: 1px solid #ddd;
     }
     .ui.input > input {
       border: 1px solid #afa8a8 !important;
@@ -18,7 +19,7 @@ $link-color: #349af8;
       border-top-right-radius: 0px;
     }
     .ui.fluid.dropdown {
-      width: 14%;
+      width: 33%;
       border: 1px solid #afa8a8 !important;
       border-left: none !important;
       border-bottom-left-radius: 0px;
@@ -33,9 +34,26 @@ $link-color: #349af8;
       border: 1px solid #50adfd;
       color: #50adfd;
     }
+    .add-drop {
+      display: flex;
+      @media screen and (min-width: 1025px) {
+        width: 50%;
+      }
+    }
   }
   .menu-bar {
     margin-top: 48px;
+    .ui.secondary.pointing.menu .active.item {
+      border: 1px solid;
+      background-color: #fff;
+      h4 {
+        color: #349af8 !important;
+      }
+    }
+    .ui.blue.menu .active.item,
+    .ui.menu .blue.active.item {
+      border-color: #d9dce0 !important;
+    }
   }
 
   h2 {
@@ -142,6 +160,25 @@ $link-color: #349af8;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
       }
+      .ui.checkbox input:checked ~ .box:after,
+      .ui.checkbox input:checked ~ label:after {
+        color: #fff !important;
+        border-radius: 5px !important;
+        background: #000 !important;
+      }
+      .avg-margin {
+        margin-top: 40px !important;
+        .stat {
+          margin-bottom: 12px !important;
+        }
+        i {
+          float: right;
+          font-size: 2.4em !important;
+          color: #c3c4c4 !important;
+          margin-bottom: -6px;
+          padding: 0px 10px 0px 10px;
+        }
+      }
     }
 
     // Prevent stats from wrapping (such as "123 /month")
@@ -203,19 +240,31 @@ $link-color: #349af8;
     .product-tracker-description {
       text-align: left;
       display: flex;
-
-      a {
-        // display: block;
-        height: 24px;
-        line-height: 24px;
-        span {
-          line-height: 24px;
+      .product-image {
+        img {
+          height: 40px;
+          margin-top: 10px;
+          width: 72px;
         }
       }
+      .description-text {
+        a {
+          // display: block;
+          height: 24px;
+          line-height: 24px;
+          span {
+            line-height: 24px;
+          }
+        }
+      }
+
       .information {
         display: flex;
         i {
           color: #c3c4c4;
+        }
+        span {
+          margin-left: 10px;
         }
       }
       .table-icon {
@@ -228,6 +277,7 @@ $link-color: #349af8;
       white-space: nowrap;
       overflow: hidden !important;
       text-overflow: ellipsis;
+      margin-left: 12px;
     }
   }
 
@@ -444,5 +494,15 @@ $link-color: #349af8;
     top: 4px;
     font-size: 12px !important;
     color: #98aeca;
+  }
+
+  @media screen and (min-width: 310px) and (max-width: 767px) {
+    .add-product {
+      flex-direction: column;
+    }
+    .add-product .add-drop {
+      margin-bottom: 15px;
+      border-radius: 10px;
+    }
   }
 }

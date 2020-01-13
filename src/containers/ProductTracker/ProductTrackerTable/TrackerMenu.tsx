@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Menu, Header } from 'semantic-ui-react';
-import { connect } from 'react-redux';
-import { setSupplierTableTab } from '../../../actions/Suppliers';
 import './index.scss';
 
 class TrackerMenu extends Component {
@@ -19,7 +17,12 @@ class TrackerMenu extends Component {
           color={'blue'}
           className="flex-col wdt100 menu-item"
         >
-          <Menu.Item name="All Groups" onClick={this.handleItemClick} className="wdt100">
+          <Menu.Item
+            name="All Groups"
+            active={true}
+            onClick={this.handleItemClick}
+            className="wdt100"
+          >
             <Header as="h4">All Groups</Header>
           </Menu.Item>
           <Menu.Item name="Ungrouped" onClick={this.handleItemClick} className="wdt100">

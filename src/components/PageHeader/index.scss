@@ -7,4 +7,17 @@
     margin-top: 1.2rem;
     display: flex;
   }
+  .ui.breadcrumb {
+    font-weight: bold !important;
+    font-size: 1.1rem;
+  }
+
+  @media screen and (min-width: 310px) and (max-width: 767px) {
+    width: 100%;
+    float: left;
+
+    .ui.breadcrumb {
+      font-size: 0.9rem !important;
+    }
+  }
 }
