@@ -21,7 +21,6 @@ import {
 import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';
-import SupplierTableMetrics from './SupplierTableMetrics';
 import { Supplier } from '../../../interfaces/Supplier';
 import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import { error } from '../../../utils/notifications';
@@ -65,7 +64,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderFileName = (row: Supplier) => {
     return (
-      <div className="fileName">
+      <div className="filename">
         {row.file_status && (
           <a href={row.file_url} download>
             {row.file_name}
@@ -194,7 +193,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderPLRatio = (row: Supplier) => {
-    if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed' || row.p2l_ratio === 0) {
+      return '';
+    }
     return (
       <div>
         <div className="product-ratio-with-pie">
@@ -338,7 +339,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     ); //.filter(e => !showColumns[e.dataKey || '']);
     return (
-      <div className="suppliersTable">
+      <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
           <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>
             <SupplierMenu
@@ -348,22 +349,20 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               archivedCount={archivedData.length}
             />
           </Grid.Column>
-          <Grid.Column className={'wdt100 ipad-wdth100'}>
-            <Grid
-              columns={2}
-              style={{ alignItems: 'flex-end', justifyContent: 'center' }}
-              className="drop-align"
-            >
-              <Grid.Column className="card-content" style={{ width: 'auto' }}>
-                <SupplierTableMetrics />
-              </Grid.Column>
-              <Grid.Column style={{ width: 'auto' }}>
-                <SelectColumns columns={columns} />
-              </Grid.Column>
-            </Grid>
+          <Grid.Column
+            floated="right"
+            className={'wdt100 ipad-wdth100'}
+            style={{ flex: '0 0 auto', width: 'auto' }}
+          >
+            <SelectColumns columns={columns} />
           </Grid.Column>
         </Grid>
-        <GenericTable tableKey={tableKeys.SUPPLIERS} data={data} columns={columns} />
+        <GenericTable
+          key={`Suppliers-${showTab}`}
+          tableKey={tableKeys.SUPPLIERS}
+          data={data}
+          columns={columns}
+        />
         <Confirm
           content="Do you want to delete supplier?"
           open={this.state.showDeleteConfirm}

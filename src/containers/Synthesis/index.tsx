@@ -25,6 +25,7 @@ interface SynthesisProps {
   openUserOnboardingModal: () => void;
   openUploadSupplierModal: (supplier?: any) => void;
   closeUploadSupplierModal: () => void;
+  match: any;
 }
 
 class Synthesis extends Component<SynthesisProps> {
@@ -35,10 +36,10 @@ class Synthesis extends Component<SynthesisProps> {
   componentDidMount() {
     const { getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
     getAmazonMWSAuthorized();
-    const visited = localStorage.getItem('firstLogin');
-    if (!visited) {
+    const acceptedTos = localStorage.getItem('acceptedTos');
+    const firstLogin = localStorage.getItem('firstLogin');
+    if (!acceptedTos || !firstLogin) {
       openUserOnboardingModal();
-      localStorage['firstLogin'] = true;
     }
   }
 
@@ -84,7 +85,7 @@ class Synthesis extends Component<SynthesisProps> {
           }}
           closeIcon={true}
           style={{ width: '90%' }}
-          className="closeIcon"
+          className="close-icon"
           trigger={
             <Button
               primary={true}
@@ -100,7 +101,7 @@ class Synthesis extends Component<SynthesisProps> {
           </Modal.Content>
         </Modal>
         <Popup
-          className={'addSupplierPopup'}
+          className={'add-supplier-popup'}
           trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
           position="top left"
           size="tiny"
@@ -121,11 +122,11 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   UserOnboardingModal = () => {
-    const { userOnboardingModalOpen } = this.props;
+    const { userOnboardingModalOpen, match } = this.props;
     return (
       <Modal size={'small'} open={userOnboardingModalOpen}>
         <Modal.Content>
-          <UserOnboarding />
+          <UserOnboarding auth={match.params.auth} />
         </Modal.Content>
       </Modal>
     );

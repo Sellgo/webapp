@@ -5,6 +5,7 @@ import {
   SET_SELLER_PROFILE_IMAGE,
   SET_SELLER_INFO,
   DELETE_SELLER_AMAZON_MWS_AUTH,
+  SET_SELLER_QUOTA,
 } from '../../constants/Settings';
 import { setIn } from '../../utils/immutablity';
 import get from 'lodash/get';
@@ -38,6 +39,9 @@ export default (state = initialState, action: any) => {
 
     case SET_SELLER_INFO:
       return setIn(state, 'profile', { ...get(state, 'profile'), ...action.payload });
+
+    case SET_SELLER_QUOTA:
+      return setIn(state, 'sellerQuota', action.payload);
 
     default:
       return state;

@@ -248,11 +248,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       return null;
     }
     return (
-      <div className="supplierCharts">
+      <div className="supplier-charts">
         <this.renderCharts />
         <br />
         <Form>
-          <Form.Group inline={true} style={{ alignItems: 'flex-start' }}>
+          <Form.Group inline={true}>
             <Form.Radio
               label="Hit/Miss vs Profitable SKUs"
               value="chart0"

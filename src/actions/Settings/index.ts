@@ -6,6 +6,7 @@ import {
   SET_SELLER_PROFILE_IMAGE,
   SET_SELLER_INFO,
   DELETE_SELLER_AMAZON_MWS_AUTH,
+  SET_SELLER_QUOTA,
 } from '../../constants/Settings';
 import { AppConfig } from '../../config';
 import { AmazonMWS, Seller } from '../../interfaces/Seller';
@@ -136,5 +137,19 @@ export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
 
 export const setSellerInfo = (data: any) => ({
   type: SET_SELLER_INFO,
+  payload: data,
+});
+
+export const getSellerQuota = () => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota-meter`)
+    .then(json => {
+      dispatch(setSellerQuota(json.data));
+    })
+    .catch(error => {});
+};
+
+export const setSellerQuota = (data: any) => ({
+  type: SET_SELLER_QUOTA,
   payload: data,
 });

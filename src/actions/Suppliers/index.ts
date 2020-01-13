@@ -3,6 +3,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
+import { getSellerQuota } from '../Settings';
 import { suppliersSelector } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -132,8 +133,23 @@ export const fetchSynthesisProgressUpdates = () => async (
   let suppliers = suppliersSelector(getState());
   suppliers = suppliers.filter(
     supplier =>
-      supplier.file_status && supplier.file_status !== null && supplier.file_status !== 'completed'
+      supplier &&
+      supplier.file_status &&
+      supplier.file_status !== null &&
+      supplier.file_status !== 'completed'
   );
+
+  const handleUpdateSupplier = (response: any, index: any) => {
+    const data = response.data;
+    const supplier = suppliers[index];
+    dispatch(
+      updateSupplier({
+        ...supplier,
+        ...data,
+      })
+    );
+  };
+
   while (suppliers.length > 0) {
     const requests = suppliers.map(supplier => {
       return Axios.get(
@@ -143,17 +159,9 @@ export const fetchSynthesisProgressUpdates = () => async (
           )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
       );
     });
+
     const responses = await Promise.all(requests);
-    responses.forEach((response, index) => {
-      const data = response.data;
-      const supplier = suppliers[index];
-      dispatch(
-        updateSupplier({
-          ...supplier,
-          ...data,
-        })
-      );
-    });
+    responses.forEach(handleUpdateSupplier);
 
     suppliers = suppliers.filter((supplier, index) => {
       if (responses[index].data.progress === 100) dispatch(fetchSupplier(supplier.supplier_id));
@@ -302,14 +310,24 @@ export const updateProductTrackingStatus = (
   return !productTrackerID
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
+          dispatch(getSellerQuota());
           dispatch(updateSupplierProduct(json.data));
         })
-        .catch(error => {})
+        .catch(err => {
+          if (err.response && err.response.status === 400) {
+            error(err.response.data.message);
+          }
+        })
     : Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
+          dispatch(getSellerQuota());
           dispatch(updateSupplierProduct(json.data));
         })
-        .catch(error => {});
+        .catch(err => {
+          if (err.response && err.response.status === 400) {
+            error(err.response.data.message);
+          }
+        });
 };
 
 export const updateSupplierProduct = (data: any) => ({

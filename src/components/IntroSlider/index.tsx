@@ -48,7 +48,7 @@ function IntroSlider() {
     />
   ));
   return (
-    <Grid verticalAlign="middle" className="signup_box">
+    <Grid verticalAlign="middle" className="signup-box">
       <Grid.Row>
         <Grid.Column className="slider-center" width={7}>
           <Carousel showThumbs={false} showStatus={false} showArrows={false} autoPlay={true}>

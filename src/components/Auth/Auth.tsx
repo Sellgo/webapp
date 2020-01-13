@@ -1,7 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
+import analytics from '../../analytics';
 import Axios from 'axios';
-import { FullStoryAPI } from 'react-fullstory';
 import { AppConfig } from '../../config';
 
 export default class Auth {
@@ -57,7 +57,7 @@ export default class Auth {
           // We're calling identify here because it's currently the only
           // way to get the user id after login/signup.
           // We can find a better place for this if auth is refactored.
-          FullStoryAPI('identify', data.id, {
+          analytics.identify(data.id.toString(), {
             displayName: data.name,
             email: data.email,
           });
@@ -83,6 +83,13 @@ export default class Auth {
               options: { flashMessage: { type: 'error', text: err.description || '' } },
             },
           });
+        } else if (err.code === 'login_required') {
+          history.replace('/');
+          // Temporary solution for 3rd party cookies issue
+          // Need to setup an Auth0 custom domain to fix
+          alert(
+            `Sellgo does not currently support browsers with 3rd party cookies disabled. Please enable 3rd party cookies or in Safari un-check "prevent cross-site tracking" in your browser's settings.`
+          );
         } else {
           history.replace('/');
           alert(`Error: ${err.error}. Check with Sellgo Support Team for further details.`);
@@ -101,10 +108,8 @@ export default class Auth {
 
   public setSession = (authResult: any) => {
     // Set isLoggedIn flag in localStorage
-    // Set the time that the access token will expire at
-    const date = new Date();
-    date.setSeconds(date.getSeconds() + authResult.expiresIn);
-    this.expiresAt = date.getTime();
+    // Set the time in ms that idToken (the JWT token) expires
+    this.expiresAt = authResult.idTokenPayload.exp * 1000;
     this.idToken = authResult.idToken;
     this.accessToken = authResult.accessToken;
     localStorage.setItem('idToken', this.idToken);

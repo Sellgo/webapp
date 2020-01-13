@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './UploadSupplier.module.css';
 import { connect } from 'react-redux';
 import UploadSteps from './UploadSteps';
@@ -17,11 +17,9 @@ interface Props {
   isEditModal: boolean;
 }
 
-const Steps = [SupplierInformation, SelectFile, DataMapping, DataValidation];
-
 export const UploadSupplier = (props: Props) => {
+  const [finished, setFinished] = useState(false);
   const { currentStep, cleanupUploadSupplier, isEditModal } = props;
-  const StepComponent = Steps[currentStep];
 
   useEffect(() => {
     return () => {
@@ -30,15 +28,27 @@ export const UploadSupplier = (props: Props) => {
   }, [cleanupUploadSupplier]);
 
   return (
-    <div className={`${styles.container} ${styles.supply_container}`}>
-      <UploadSteps isEditModal={isEditModal} />
-      <div className={styles.marginTop} />
+    <div className={`${styles.container} ${styles['supply-container']}`}>
+      <UploadSteps isEditModal={isEditModal} finished={finished} />
+      <div className={styles['margin-top']} />
       <div className={styles.section}>
         <FormWrapper>
-          <StepComponent />
+          {currentStep === 0 && <SupplierInformation />}
+
+          {currentStep === 1 && <SelectFile />}
+
+          {currentStep === 2 && <DataMapping />}
+
+          {currentStep === 3 && (
+            <DataValidation
+              onFinished={() => {
+                setFinished(true);
+              }}
+            />
+          )}
         </FormWrapper>
       </div>
-      <div className={styles.marginTop} />
+      <div className={styles['margin-top']} />
       <Actions />
     </div>
   );

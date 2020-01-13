@@ -13,11 +13,11 @@ const PROD_URLS = {
 };
 
 const DEV_KEYS = {
-  STRIPE_API_KEY: 'pk_test_0b42zSvCRLMKaWgSCF637yub008211ZJ6J',
+  STRIPE_API_KEY: 'pk_test_thMkxDX66HmQoec5jcK34bAc0083aPonvE',
 };
 
 const PROD_KEYS = {
-  STRIPE_API_KEY: 'pk_test_UPhri9y50WZi2u2rmejSw3Na00jvxft8y5',
+  STRIPE_API_KEY: 'pk_live_6iiX5s4PCakcnwTP3Gf81UyV00XSgjLLmU',
 };
 
 const DEV_AUTH_CONFIG = {
@@ -32,10 +32,21 @@ const PROD_AUTH_CONFIG = {
   connection: 'Username-Password-Authentication',
 };
 
+const DEV_ANALYTICS = {
+  gaTrackingId: 'UA-154653584-1',
+  fullStoryOrgId: 'Q36Y3',
+};
+
+const PROD_ANALYTICS = {
+  gaTrackingId: 'UA-154653584-2',
+  fullStoryOrgId: 'Q36Y3',
+};
+
 const prod = {
   ...PROD_AUTH_CONFIG,
   ...PROD_URLS,
   ...PROD_KEYS,
+  ...PROD_ANALYTICS,
   callbackUrl: 'https://app.sellgo.com/callback',
 };
 
@@ -43,6 +54,7 @@ const dev = {
   ...DEV_AUTH_CONFIG,
   ...DEV_URLS,
   ...DEV_KEYS,
+  ...DEV_ANALYTICS,
   callbackUrl: 'https://app.sellgo-dev.com/callback',
 };
 
@@ -50,6 +62,7 @@ const local = {
   ...DEV_AUTH_CONFIG,
   ...DEV_URLS,
   ...DEV_KEYS,
+  ...DEV_ANALYTICS,
   callbackUrl: 'http://localhost:3000/callback',
 };
 

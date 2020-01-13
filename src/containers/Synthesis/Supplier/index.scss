@@ -1,10 +1,10 @@
 .setting {
   // Give left filters column a fixed width
-  .leftColumn {
+  .left-column {
     width: 200px !important;
   }
   // Make right column expand to take up available width
-  .rightColumn {
+  .right-column {
     flex: 1;
   }
 }
