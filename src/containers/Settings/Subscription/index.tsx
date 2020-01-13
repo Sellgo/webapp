@@ -5,7 +5,7 @@ import {
   fetchSellerSubscription,
   fetchSubscriptions,
 } from '../../../actions/Settings/Subscription';
-import './subscription.css';
+import './subscription.scss';
 import PageHeader from '../../../components/PageHeader';
 import Checkout from './Checkout';
 import { Subscription } from '../../../interfaces/Seller';
