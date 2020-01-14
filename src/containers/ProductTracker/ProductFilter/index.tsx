@@ -4,7 +4,7 @@ import { filterRanges, products, filteredProducts, checkFilter } from '../../../
 import { findFiltersGrouped } from '../../../constants/Tracker';
 import FilterSection from '../../../components/FilterSection';
 import SliderRange from '../../../components/SliderRange';
-import AdviceCard from '../AdviceCard';
+// import AdviceCard from '../AdviceCard';
 import CheckboxFilter from './CheckboxFilter';
 import './index.scss';
 
@@ -18,7 +18,7 @@ export default class ProductFilters extends Component {
     return (
       <div className="product-tracker-filters">
         <div className="inner-wrap">
-          <AdviceCard />
+          {/* <AdviceCard /> */}
           <p className="products-count">
             <span>{filteredProducts.length} of</span>{' '}
             <span style={{ color: '#4B9AF7' }}>{products.length} products</span>

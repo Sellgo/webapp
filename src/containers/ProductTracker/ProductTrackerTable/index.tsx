@@ -3,7 +3,7 @@ import './index.scss';
 import { Product } from '../../../interfaces/Product';
 import TrackerMenu from './TrackerMenu';
 import GenericTable, { Column } from '../../../components/Table';
-import AddProduct from './AddProduct';
+// import AddProduct from './AddProduct';
 import ProductDescription from './TrackerProductDescription';
 import { filterRanges, filteredProducts } from '../../../utils/dummy';
 import { formatNumber } from '../../../utils/format';
@@ -14,6 +14,9 @@ import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
 
 class ProductTrackerTable extends React.Component {
+  state = {
+    expandedRows: null,
+  };
   renderCheckbox = (row: Product) => {
     return <Checkbox />;
   };
@@ -23,7 +26,29 @@ class ProductTrackerTable extends React.Component {
 
   renderAvgPrice = (row: Product) => <p className="stat">{row.price}</p>;
   renderAvgMargin = (row: Product) => {
-    return <p className="stat">{row.margin}%</p>;
+    const toggleExpandRow = (id: number) => {
+      if (this.state.expandedRows === null) {
+        this.setState({
+          expandedRows: id,
+        });
+      } else if (this.state.expandedRows === id) {
+        this.setState({
+          expandedRows: null,
+        });
+      } else {
+        this.setState({
+          expandedRows: id,
+        });
+      }
+    };
+    return (
+      <div className="avg-margin">
+        <p className="stat">{row.margin}%</p>
+        <span className="caret-icon">
+          <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
+        </span>
+      </div>
+    );
   };
   renderAvgUnitSold = (row: Product) => {
     return (
@@ -37,12 +62,12 @@ class ProductTrackerTable extends React.Component {
   };
 
   columns: Column[] = [
-    {
-      check: true,
-      sortable: false,
-      show: true,
-      render: this.renderCheckbox,
-    },
+    // {
+    //   check: true,
+    //   sortable: false,
+    //   show: true,
+    //   render: this.renderCheckbox,
+    // },
 
     {
       label: 'PRODUCT INFORMATION',
@@ -143,12 +168,13 @@ class ProductTrackerTable extends React.Component {
         <div className="tracker-menu">
           <TrackerMenu />
         </div>
-        <AddProduct />
+        {/* <AddProduct /> */}
         <GenericTable
           key={`${JSON.stringify(filterRanges)}`}
           tableKey={tableKeys.PRODUCTS}
           data={filteredProducts}
           columns={this.columns}
+          expandedRows={this.state.expandedRows}
           extendedInfo={(product: any) => <ProductCharts product={product} />}
           // singlePageItemsCount={10}
           // setSinglePageItemsCount={}

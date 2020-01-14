@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Search } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 import PageHeader from '../../components/PageHeader';
 import CallToAction from '../Synthesis/Supplier/CallToAction';
 import ProductFilters from './ProductFilter/index';
@@ -28,8 +28,8 @@ class ProductTracker extends React.Component {
 
               <Grid.Column className="right-column" floated="right">
                 <div className="search-product">
-                  <label>Search Your Product:</label>
-                  <Search placeholder="Search UPC/ASIN" />
+                  {/* <label>Search Your Product:</label>
+                  <Search placeholder="Search UPC/ASIN" /> */}
                 </div>
                 <ProductTrackerTable />
               </Grid.Column>
