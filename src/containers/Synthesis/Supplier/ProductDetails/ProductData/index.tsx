@@ -141,7 +141,6 @@ class ProductData extends Component<ProductDataProps> {
 
 const mapStateToProps = (state: {}) => ({
   productDetails: get(state, 'product.details'),
-  product: get(state, 'modals.supplierProductDetail.meta'),
 });
 
 const mapDispatchToProps = {

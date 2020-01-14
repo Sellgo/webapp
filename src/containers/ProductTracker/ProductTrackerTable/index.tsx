@@ -11,6 +11,7 @@ import { formatNumber } from '../../../utils/format';
 import { tableKeys } from '../../../constants';
 import { Checkbox, Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
+import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
 
 class ProductTrackerTable extends React.Component {
   renderCheckbox = (row: Product) => {
@@ -22,14 +23,7 @@ class ProductTrackerTable extends React.Component {
 
   renderAvgPrice = (row: Product) => <p className="stat">{row.price}</p>;
   renderAvgMargin = (row: Product) => {
-    return (
-      <div className="avg-margin">
-        <p className="stat">{row.margin}%</p>
-        <span className="caret-icon">
-          <Icon className="caret down" />
-        </span>
-      </div>
-    );
+    return <p className="stat">{row.margin}%</p>;
   };
   renderAvgUnitSold = (row: Product) => {
     return (
@@ -155,6 +149,7 @@ class ProductTrackerTable extends React.Component {
           tableKey={tableKeys.PRODUCTS}
           data={filteredProducts}
           columns={this.columns}
+          extendedInfo={(product: any) => <ProductCharts product={product} />}
           // singlePageItemsCount={10}
           // setSinglePageItemsCount={}
         />

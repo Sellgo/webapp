@@ -23,6 +23,7 @@ export interface TableProps {
   columns: Column[];
   setSinglePageItemsCount?: (itemsCount: number) => void;
   tableKey?: string;
+  extendedInfo?: any;
 }
 
 const renderCell = (row: { [key: string]: any }, column: Column) => {
@@ -64,6 +65,18 @@ const GenericTable = (props: TableProps) => {
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
+
+  const [expandedRows, setExpandedRows] = useState<{
+    [key: number]: boolean;
+  }>({});
+  const toggleExpandRow = (id: number) => {
+    setExpandedRows({
+      ...expandedRows,
+      [id]: !expandedRows[id],
+    });
+  };
+
+  console.log('expandedRows', expandedRows);
 
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
@@ -132,6 +145,9 @@ const GenericTable = (props: TableProps) => {
     setCurrentPage(1);
     setSearch(e.target.value);
   };
+
+  console.log('ROWS', rows);
+
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCounts ? (
@@ -210,13 +226,27 @@ const GenericTable = (props: TableProps) => {
           {rows.length
             ? rows.map((row, index) => {
                 return (
-                  <Table.Row key={index}>
-                    {showColumns.map((column, index) => (
-                      <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                        {renderCell(row, column)}
-                      </Table.Cell>
-                    ))}
-                  </Table.Row>
+                  <>
+                    <Table.Row key={index}>
+                      {showColumns.map((column, index) => (
+                        <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                          {renderCell(row, column)}
+                        </Table.Cell>
+                      ))}
+                    </Table.Row>
+                    {props.extendedInfo && (
+                      <Table.Row key={index + '-extended'}>
+                        <Table.Cell colspan={showColumns.length}>
+                          <a className="row-expand-btn" onClick={() => toggleExpandRow(row.id)}>
+                            <span className="caret-icon">
+                              <Icon className="caret down" />
+                            </span>
+                          </a>
+                          {expandedRows[row.id] && props.extendedInfo(row)}
+                        </Table.Cell>
+                      </Table.Row>
+                    )}
+                  </>
                 );
               })
             : ''}

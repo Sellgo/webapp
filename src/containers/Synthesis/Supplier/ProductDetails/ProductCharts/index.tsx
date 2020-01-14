@@ -249,7 +249,6 @@ class ProductCharts extends Component<ProductChartsProps> {
 }
 
 const mapStateToProps = (state: {}) => ({
-  product: get(state, 'modals.supplierProductDetail.meta'),
   productDetailRank: get(state, 'product.detailRank'),
   productDetailPrice: get(state, 'product.detailPrice'),
   productDetailInventory: get(state, 'product.detailInventory'),
