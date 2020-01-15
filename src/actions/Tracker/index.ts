@@ -18,16 +18,12 @@ export const setTrackerProducts = (products: Product[]) => ({
 });
 
 export const fetchTrackerProducts = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-  console.log('!!! fetchTrackerProducts !!!');
-
   dispatch(isLoadingTrackerProducts(true));
 
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=5&page=1&period=60`
   );
-
-  console.log('fetchTrackerProducts response', response);
 
   if (response.data) {
     dispatch(isLoadingTrackerProducts(false));

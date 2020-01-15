@@ -10,7 +10,7 @@ import {
 } from '../../../actions/Suppliers';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
-import GenericTable, { Column } from '../../../components/Table';
+import { PaginatedTable, Column } from '../../../components/Table';
 import { Link } from 'react-router-dom';
 import history from '../../../history';
 import {
@@ -365,7 +365,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             </Grid>
           </Grid.Column>
         </Grid>
-        <GenericTable
+        <PaginatedTable
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
           data={data}

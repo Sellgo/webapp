@@ -10,7 +10,7 @@ import {
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
-import GenericTable, { Column } from '../../../../components/Table';
+import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
@@ -229,7 +229,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     return (
       <div className="products-table">
-        <GenericTable
+        <PaginatedTable
           /* 
             key change forced table to remount and set page back to 1
             if any data changes that would affect number of displayed items

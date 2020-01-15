@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './index.scss';
 import { ProductsPaginated, Product } from '../../../interfaces/Product';
 import TrackerMenu from './TrackerMenu';
-import GenericTable, { Column } from '../../../components/Table';
+import { PaginatedTable, Column } from '../../../components/Table';
 import AddProduct from './AddProduct';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
@@ -172,7 +172,7 @@ class ProductTrackerTable extends React.Component<ProductTrackerTableProps> {
         </div>
         <AddProduct />
         {products && (
-          <GenericTable
+          <PaginatedTable
             //key={`${JSON.stringify(filterRanges)}`}
             tableKey={tableKeys.PRODUCTS}
             data={products.results}
