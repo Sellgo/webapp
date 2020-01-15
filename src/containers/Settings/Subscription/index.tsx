@@ -311,7 +311,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <Header size="huge" className="price">
                           Call Us
                         </Header>
-                        <p>Call 1-800-SELLGO</p>
+                        <p>Coming Soon</p>
                       </>
                     ) : (
                       <>

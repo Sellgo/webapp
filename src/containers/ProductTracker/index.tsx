@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 import PageHeader from '../../components/PageHeader';
-import CallToAction from '../Synthesis/Supplier/CallToAction';
 import ProductFilters from './ProductFilter/index';
 import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
+import QuotaMeter from '../../components/QuotaMeter';
 
 class ProductTracker extends React.Component {
   render() {
@@ -17,7 +17,7 @@ class ProductTracker extends React.Component {
             { content: 'Profit Finder', to: '/synthesis' },
             { content: 'Supplier Name' },
           ]}
-          callToAction={<CallToAction />}
+          callToAction={<QuotaMeter />}
         />
         <Segment basic={true} className="setting">
           <Grid className="product-tracker">
