@@ -1,9 +1,12 @@
 import React from 'react';
+import { Segment, Loader } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import './index.scss';
-import { Product } from '../../../interfaces/Product';
+import { ProductsPaginated, Product } from '../../../interfaces/Product';
 import TrackerMenu from './TrackerMenu';
 import GenericTable, { Column } from '../../../components/Table';
 import AddProduct from './AddProduct';
+import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
 import { filterRanges, filteredProducts } from '../../../utils/dummy';
 import { formatNumber } from '../../../utils/format';
@@ -12,8 +15,20 @@ import { tableKeys } from '../../../constants';
 import { Checkbox, Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
+import { fetchTrackerProducts } from '../../../actions/Tracker';
 
-class ProductTrackerTable extends React.Component {
+interface ProductTrackerTableProps {
+  isLoadingTrackerProducts: boolean;
+  products: ProductsPaginated;
+  fetchTrackerProducts: () => void;
+}
+
+class ProductTrackerTable extends React.Component<ProductTrackerTableProps> {
+  componentDidMount() {
+    const { fetchTrackerProducts } = this.props;
+    fetchTrackerProducts();
+  }
+
   renderCheckbox = (row: Product) => {
     return <Checkbox />;
   };
@@ -138,24 +153,50 @@ class ProductTrackerTable extends React.Component {
   ];
 
   render() {
+    const { isLoadingTrackerProducts, products } = this.props;
+
+    if (isLoadingTrackerProducts || products === null) {
+      return (
+        <Segment>
+          <Loader active={true} inline="centered" size="massive">
+            Loading
+          </Loader>
+        </Segment>
+      );
+    }
+
     return (
       <div className="tracker-table">
         <div className="tracker-menu">
           <TrackerMenu />
         </div>
         <AddProduct />
-        <GenericTable
-          key={`${JSON.stringify(filterRanges)}`}
-          tableKey={tableKeys.PRODUCTS}
-          data={filteredProducts}
-          columns={this.columns}
-          extendedInfo={(product: any) => <ProductCharts product={product} />}
-          // singlePageItemsCount={10}
-          // setSinglePageItemsCount={}
-        />
+        {products && (
+          <GenericTable
+            //key={`${JSON.stringify(filterRanges)}`}
+            tableKey={tableKeys.PRODUCTS}
+            data={products.results}
+            columns={this.columns}
+            extendedInfo={(product: any) => <ProductCharts product={product} />}
+            // singlePageItemsCount={10}
+            // setSinglePageItemsCount={}
+          />
+        )}
       </div>
     );
   }
 }
 
-export default ProductTrackerTable;
+const mapStateToProps = (state: {}) => ({
+  isLoadingTrackerProducts: get(state, 'tracker.isLoadingTrackerProducts'),
+  products: get(state, 'tracker.products'),
+});
+
+const mapDispatchToProps = {
+  fetchTrackerProducts: () => fetchTrackerProducts(),
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductTrackerTable);

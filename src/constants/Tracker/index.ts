@@ -1,3 +1,6 @@
+export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
+export const SET_TRACKER_PRODUCTS = 'SET_TRACKER_PRODUCTS';
+
 export const dataKeys: any = [
   // Basic KPI
   'avg_profit',

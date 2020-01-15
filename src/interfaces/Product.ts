@@ -21,6 +21,14 @@ export interface Product {
   product_cost: string;
   fees: string;
 }
+
+export interface ProductsPaginated {
+  count: number;
+  num_pages: number;
+  per_page: number;
+  results: Product[];
+}
+
 export interface ProductsTrackData {
   avg_price: string;
   daily_rank: number;
