@@ -21,4 +21,12 @@
   .ui.tiny.progress .bar {
     height: 6px;
   }
+  @media screen and (max-width: 340px) {
+    .ui.tiny.progress {
+      width: 173px !important;
+    }
+    .add-new-supplier {
+      font-size: 12px !important;
+    }
+  }
 }
