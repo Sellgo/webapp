@@ -100,14 +100,21 @@ export const TextAreaField = ({
   width,
   inline,
   ...rest
-}: FieldProps) => (
-  <Form.Field error={!!(touched && error)} required={required} width={width} inline={inline}>
-    {label && <label>{label}</label>}
-    <TextAreaComponent required={required} {...input} {...rest} />
-    {touched && error ? (
-      <Label basic={true} color="red" pointing={true}>
-        {error}
-      </Label>
-    ) : null}
-  </Form.Field>
-);
+}: FieldProps) => {
+  return (
+    <Form.Field error={!!(touched && error)} required={required} width={width} inline={inline}>
+      {label && <label>{label}</label>}
+      <TextAreaComponent
+        required={required}
+        {...input}
+        value={input.value === 'null' ? '' : input.value}
+        {...rest}
+      />
+      {touched && error ? (
+        <Label basic={true} color="red" pointing={true}>
+          {error}
+        </Label>
+      ) : null}
+    </Form.Field>
+  );
+};

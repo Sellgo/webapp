@@ -7,6 +7,7 @@ export const DELETE_SELLER_AMAZON_MWS_AUTH = 'DELETE_SELLER_AMAZON_MWS_AUTH';
 export const SET_PRICING_SUBSCRIPTIONS = 'SET_PRICING_SUBSCRIPTIONS';
 export const SET_SELLER_SUBSCRIPTION = 'SET_SELLER_SUBSCRIPTION';
 export const SET_AMAZON_MWS_AUTHORIZED = 'SET_AMAZON_MWS_AUTHORIZED';
+export const SET_SELLER_QUOTA = 'SET_SELLER_QUOTA';
 
 export const defaultMarketplaces = [
   { name: 'US', code: 'US', link: 'amazon.com', id: 'ATVPDKIKX0DER', disabled: false },
