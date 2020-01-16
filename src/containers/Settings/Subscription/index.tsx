@@ -412,7 +412,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   color="grey"
                   onClick={() => this.validateCoupon()}
                 >
-                  {'APPLY'}
+                  {'VALIDATE'}
                 </Button>
               </div>
             )}
