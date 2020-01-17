@@ -14,8 +14,8 @@ class ProductTracker extends React.Component {
           title=""
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Profit Finder', to: '/synthesis' },
-            { content: 'Supplier Name' },
+            { content: 'Product Tracker', to: '/product-tracker' },
+            { content: 'All Groups' },
           ]}
           callToAction={<QuotaMeter />}
         />

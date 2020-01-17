@@ -1,31 +1,66 @@
 import React from 'react';
+import { Segment, Loader } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import './index.scss';
-import { Product } from '../../../interfaces/Product';
+import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
 import TrackerMenu from './TrackerMenu';
-import GenericTable, { Column } from '../../../components/Table';
+import { PaginatedTable, Column } from '../../../components/Table';
 // import AddProduct from './AddProduct';
+import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
-import { filterRanges, filteredProducts } from '../../../utils/dummy';
 import { formatNumber } from '../../../utils/format';
-
 import { tableKeys } from '../../../constants';
 import { Checkbox, Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
+import {
+  fetchSupplierProductDetailChartRating,
+  fetchSupplierProductDetailChartReview,
+} from '../../../actions/Products';
+import {
+  fetchSupplierProductTrackerDetails,
+  setTrackerSinglePageItemsCount,
+} from '../../../actions/ProductTracker';
+interface TrackerProps {
+  productTrackerResult: ProductsPaginated[];
+  productDetailRating: any;
+  filteredProducts: ProductsPaginated[];
+  productDetailReview: any;
+  isLoadingTrackerProducts: boolean;
+  filterRanges: any;
+  singlePageItemsCount: number;
+  productTracker: () => void;
+  fetchProductDetailChartRating: (productID: any) => void;
+  fetchProductDetailChartReview: (productID: any) => void;
+  setSinglePageItemsCount: (itemsCount: any) => void;
+}
+class ProductTrackerTable extends React.Component<TrackerProps> {
+  componentDidMount() {
+    const {
+      filteredProducts,
+      productTracker,
+      fetchProductDetailChartRating,
+      fetchProductDetailChartReview,
+    } = this.props;
+    productTracker();
+    // filteredProducts && filteredProducts.length >0 && filteredProducts.map((data, index) => {
+    //   fetchProductDetailChartRating(data.product_id);
+    //   fetchProductDetailChartReview(data.product_id);
+    // })
+  }
 
-class ProductTrackerTable extends React.Component {
   state = {
     expandedRows: null,
   };
-  renderCheckbox = (row: Product) => {
+  renderCheckbox = (row: ProductTrackerDetails) => {
     return <Checkbox />;
   };
-  renderProductInfo = (row: Product) => {
+  renderProductInfo = (row: ProductTrackerDetails) => {
     return <ProductDescription item={row} />;
   };
-
-  renderAvgPrice = (row: Product) => <p className="stat">{row.price}</p>;
-  renderAvgMargin = (row: Product) => {
+  renderAvgProfit = (row: ProductTrackerDetails) => <p className="stat">${row.avg_profit}</p>;
+  renderAvgPrice = (row: ProductTrackerDetails) => <p className="stat">${row.avg_price}</p>;
+  renderAvgMargin = (row: ProductTrackerDetails) => {
     const toggleExpandRow = (id: number) => {
       if (this.state.expandedRows === null) {
         this.setState({
@@ -43,21 +78,30 @@ class ProductTrackerTable extends React.Component {
     };
     return (
       <div className="avg-margin">
-        <p className="stat">{row.margin}%</p>
+        <p className="stat">{row.avg_margin}%</p>
         <span className="caret-icon">
           <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
         </span>
       </div>
     );
   };
-  renderAvgUnitSold = (row: Product) => {
+  renderAvgUnitSold = (row: ProductTrackerDetails) => {
     return (
       <>
-        <p className="stat">{formatNumber(row.sales_monthly)}</p>
+        <p className="stat">{formatNumber(row.avg_daily_sales)}</p>
       </>
     );
   };
-  renderIcons = (row: Product) => {
+  renderDailyRevenue = (row: ProductTrackerDetails) => {
+    return <p className="stat">${row.avg_daily_revenue}</p>;
+  };
+  renderAvgROI = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.avg_roi} %</p>;
+  };
+  renderAvgRank = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.avg_rank}</p>;
+  };
+  renderIcons = (row: ProductTrackerDetails) => {
     return <OtherSort />;
   };
 
@@ -81,7 +125,6 @@ class ProductTrackerTable extends React.Component {
       type: 'number',
       sortable: true,
       show: true,
-      // render: this.renderProfit,
     },
     {
       label: 'Avg Price',
@@ -95,7 +138,7 @@ class ProductTrackerTable extends React.Component {
       type: 'number',
       sortable: true,
       show: true,
-      // render: this.renderUnitSold,
+      render: this.renderAvgProfit,
     },
     {
       label: 'Avg Margin',
@@ -118,21 +161,21 @@ class ProductTrackerTable extends React.Component {
       type: 'number',
       show: true,
       sortable: true,
-      // render: this.renderDetailButtons,
+      render: this.renderDailyRevenue,
     },
     {
       label: 'Avg ROI',
       type: 'number',
       show: true,
       sortable: true,
-      // render: this.renderDetailButtons,
+      render: this.renderAvgROI,
     },
     {
       label: 'Avg Daily Rank',
       type: 'number',
       show: true,
       sortable: true,
-      // render: this.renderDetailButtons,
+      render: this.renderAvgRank,
     },
     {
       label: 'Reviews',
@@ -146,7 +189,7 @@ class ProductTrackerTable extends React.Component {
       type: 'number',
       show: true,
       sortable: true,
-      // render: this.renderDetailButtons,
+      //render: this.renderDetailButtons,
     },
     {
       label: 'Dimensions',
@@ -163,25 +206,66 @@ class ProductTrackerTable extends React.Component {
   ];
 
   render() {
+    const {
+      isLoadingTrackerProducts,
+      productTrackerResult,
+      filteredProducts,
+      filterRanges,
+      singlePageItemsCount,
+      setSinglePageItemsCount,
+    } = this.props;
+    if (isLoadingTrackerProducts || productTrackerResult === null) {
+      return (
+        <Segment>
+          <Loader active={true} inline="centered" size="massive">
+            Loading
+          </Loader>
+        </Segment>
+      );
+    }
+
     return (
       <div className="tracker-table">
         <div className="tracker-menu">
           <TrackerMenu />
         </div>
         {/* <AddProduct /> */}
-        <GenericTable
-          key={`${JSON.stringify(filterRanges)}`}
-          tableKey={tableKeys.PRODUCTS}
-          data={filteredProducts}
-          columns={this.columns}
-          expandedRows={this.state.expandedRows}
-          extendedInfo={(product: any) => <ProductCharts product={product} />}
-          // singlePageItemsCount={10}
-          // setSinglePageItemsCount={}
-        />
+        {productTrackerResult && (
+          <PaginatedTable
+            key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
+            tableKey={tableKeys.PRODUCTS}
+            data={filteredProducts}
+            columns={this.columns}
+            expandedRows={this.state.expandedRows}
+            extendedInfo={(product: any) => <ProductCharts product={product} />}
+            singlePageItemsCount={singlePageItemsCount}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+          />
+        )}
       </div>
     );
   }
 }
 
-export default ProductTrackerTable;
+const mapStateToProps = (state: any) => ({
+  isLoadingTrackerProducts: get(state, 'productTracker.isLoadingTrackerProducts'),
+  productTrackerResult: get(state, 'productTracker.trackerDetails'),
+  productDetailRating: get(state, 'product.detailRating'),
+  productDetailReview: get(state, 'product.detailReview'),
+  filteredProducts: get(state, 'productTracker.filteredProducts'),
+  filterRanges: get(state, 'productTracker.filterRanges'),
+  singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
+});
+
+const mapDispatchToProps = {
+  productTracker: () => fetchSupplierProductTrackerDetails(),
+  fetchProductDetailChartRating: (productID: any) =>
+    fetchSupplierProductDetailChartRating(productID),
+  fetchProductDetailChartReview: (productID: any) =>
+    fetchSupplierProductDetailChartReview(productID),
+  setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductTrackerTable);

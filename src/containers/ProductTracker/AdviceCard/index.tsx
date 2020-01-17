@@ -15,8 +15,8 @@ const AdviceCard = (props: AdviceCardProps) => {
     <div className="advice-card">
       <Card>
         <Card.Content>
-          <Card.Header>Our Advice</Card.Header>
-          <p>We're still gathering data for this supplier</p>
+          {/* <Card.Header>Our Advice</Card.Header>
+          <p>We're still gathering data for this supplier</p> */}
 
           <span className="track-row">
             <span>

@@ -1,8 +1,13 @@
+export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
+export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
+export const UPDATE_TRACKER_FILTER_RANGES = 'UPDATE_TRACKER_FILTER_RANGES';
+export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT';
+
 export const dataKeys: any = [
   // Basic KPI
   'avg_profit',
   'avg_margin',
-  'avg_unit_monthly',
+  'avg_daily_sales',
   'avg_roi',
 ];
 
@@ -22,7 +27,7 @@ export const dataKeyMapping: any = {
     showInputs: true,
     groupId: 'basic',
   },
-  avg_unit_monthly: {
+  avg_daily_sales: {
     text: 'Avg Unit Sales Per Month',
     presetText: 'Max Unit Sales Per Month',
     showSlider: true,

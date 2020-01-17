@@ -1,0 +1,53 @@
+import Axios from 'axios';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppConfig } from '../../config';
+import { sellerIDSelector } from '../../selectors/Seller';
+import { ProductTrackerDetails } from '../../interfaces/Product';
+import {
+  SET_PRODUCT_TRACKER_DETAILS,
+  IS_LOADING_TRACKER_PRODUCTS,
+  findMinMaxRange,
+  UPDATE_TRACKER_FILTER_RANGES,
+  SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
+} from '../../constants/Tracker';
+import { error } from '../../utils/notifications';
+
+export const isLoadingTrackerProducts = (value: boolean) => ({
+  type: IS_LOADING_TRACKER_PRODUCTS,
+  payload: value,
+});
+
+export const setSupplierProductTrackerDetails = (product: ProductTrackerDetails) => ({
+  type: SET_PRODUCT_TRACKER_DETAILS,
+  payload: product,
+});
+export const updateTrackerFilterRanges = (filterRanges: any) => ({
+  type: UPDATE_TRACKER_FILTER_RANGES,
+  payload: filterRanges,
+});
+
+export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
+  type: SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
+  payload: itemsCount,
+});
+
+export const fetchSupplierProductTrackerDetails = () => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  dispatch(isLoadingTrackerProducts(true));
+  const sellerID = sellerIDSelector();
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=15&page=1&period=90`
+  );
+  if (response.data) {
+    dispatch(isLoadingTrackerProducts(false));
+    const products = response.data;
+
+    dispatch(setSupplierProductTrackerDetails(products));
+    dispatch(updateTrackerFilterRanges(findMinMaxRange(products)));
+  } else {
+    dispatch(isLoadingTrackerProducts(false));
+    error('Data not found');
+  }
+};

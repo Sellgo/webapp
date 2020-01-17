@@ -46,7 +46,10 @@ class ProductCharts extends Component<ProductChartsProps> {
     fetchProductDetailChartInventory(product.product_id);
     fetchProductDetailChartRating(product.product_id);
     fetchProductDetailChartReview(product.product_id);
-    fetchProductDetailChartKPI(product.supplierID, product.product_id);
+    fetchProductDetailChartKPI(
+      product.supplierID ? product.supplierID : product.supplier_id,
+      product.product_id
+    );
   }
 
   renderProductStatistics = (props: any) => {
