@@ -398,6 +398,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
                   value={this.state.couponVal}
                   onChange={e => this.setState({ couponVal: e.target.value })}
+                  onKeyPress={(e: KeyboardEvent) =>
+                    e.key === 'Enter' ? this.validateCoupon() : null
+                  }
                   placeholder="Coupon"
                   type="text"
                 />
