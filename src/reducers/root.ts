@@ -8,6 +8,7 @@ import modalsReducer from './Modals';
 import suppliersReducer from './Suppliers';
 import supplierReducer from './Supplier';
 import productReducer from './Products';
+import userOnboardingReducer from './UserOnboarding';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   suppliers: suppliersReducer,
   supplier: supplierReducer,
   product: productReducer,
+  userOnboarding: userOnboardingReducer,
 });
 
 export default rootReducer;
