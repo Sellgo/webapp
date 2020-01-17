@@ -24,7 +24,7 @@ export const UserOnboarding = (props: any) => {
 
   useEffect(() => {
     fetchTOS();
-  });
+  }, []);
 
   const handleAccept = () => {
     localStorage.setItem('acceptedTos', 'true');
