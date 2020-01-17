@@ -395,7 +395,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <div style={{ marginTop: '15px' }}>
                 Have a coupon?{' '}
                 <Input
-                  style={{ marginLeft: '10px', marginRight: '10px' }}
+                  style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
                   value={this.state.couponVal}
                   onChange={e => this.setState({ couponVal: e.target.value })}
                   placeholder="Coupon"
