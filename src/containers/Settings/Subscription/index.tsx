@@ -202,6 +202,24 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     return typeof window.Rewardful !== 'undefined' && window.Rewardful.referral;
   }
 
+  validateCoupon() {
+    const { couponVal } = this.state;
+    const { profile } = this.props;
+    const bodyFormData = new FormData();
+    bodyFormData.append('coupon', couponVal);
+
+    Axios.post(
+      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/validate-coupon`,
+      bodyFormData
+    )
+      .then(response => {
+        success(`${response.data.message}`);
+      })
+      .catch((err: any) => {
+        error(`${err.response.data.message}`);
+      });
+  }
+
   render() {
     const { subscriptions, sellerSubscription } = this.props;
     const {
@@ -377,12 +395,28 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <div style={{ marginTop: '15px' }}>
                 Have a coupon?{' '}
                 <Input
-                  style={{ marginLeft: '10px' }}
+                  style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
                   value={this.state.couponVal}
                   onChange={e => this.setState({ couponVal: e.target.value })}
+                  onKeyPress={(e: KeyboardEvent) =>
+                    e.key === 'Enter' ? this.validateCoupon() : null
+                  }
                   placeholder="Coupon"
                   type="text"
                 />
+                <Button
+                  basic={true}
+                  style={{
+                    borderRadius: 20,
+                    background: 'rgb(66, 133, 244) !important',
+                    fontWeight: 'bold',
+                    width: '180px',
+                  }}
+                  color="grey"
+                  onClick={() => this.validateCoupon()}
+                >
+                  {'VALIDATE'}
+                </Button>
               </div>
             )}
           </Segment>
