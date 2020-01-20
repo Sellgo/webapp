@@ -41,6 +41,27 @@
   .wrap-radio .ui.checked.fitted.toggle.checkbox {
     margin-right: 11px;
   }
+  @media screen and (max-width: 767px) {
+    .ui.card {
+      > .content {
+        .ui.fluid.dropdown {
+          margin-left: 0px !important;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .ui.card {
+      .content {
+        .ui.selection.dropdown {
+          min-width: 0 !important;
+          margin-left: -51px !important;
+          width: 200% !important;
+        }
+      }
+    }
+  }
 
   @media screen and (max-width: 1500px) {
     .ui.card {
@@ -59,6 +80,9 @@
 
     .wrap-radio {
       width: 64px;
+      @media (max-width: 767px) {
+        width: 70%;
+      }
 
       .ui.checked.fitted.toggle.checkbox {
         margin-right: 5px;

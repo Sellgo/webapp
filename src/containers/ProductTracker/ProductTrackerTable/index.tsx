@@ -5,10 +5,9 @@ import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
 import TrackerMenu from './TrackerMenu';
 import { PaginatedTable, Column } from '../../../components/Table';
-// import AddProduct from './AddProduct';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
-import { formatNumber } from '../../../utils/format';
+import { formatNumber, formatCurrency } from '../../../utils/format';
 import { tableKeys } from '../../../constants';
 import { Checkbox, Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
@@ -51,6 +50,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
   state = {
     expandedRows: null,
+    ColumnFilterBox: false,
+  };
+  handleClick = (e: any) => {
+    const { ColumnFilterBox } = this.state;
+    this.setState({
+      ColumnFilterBox: !ColumnFilterBox,
+    });
   };
   renderCheckbox = (row: ProductTrackerDetails) => {
     return <Checkbox />;
@@ -58,7 +64,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderProductInfo = (row: ProductTrackerDetails) => {
     return <ProductDescription item={row} />;
   };
-  renderAvgProfit = (row: ProductTrackerDetails) => <p className="stat">${row.avg_profit}</p>;
+  renderAvgProfit = (row: ProductTrackerDetails) => (
+    <p className="stat">{formatCurrency(row.avg_profit)}</p>
+  );
   renderAvgPrice = (row: ProductTrackerDetails) => <p className="stat">${row.avg_price}</p>;
   renderAvgMargin = (row: ProductTrackerDetails) => {
     const toggleExpandRow = (id: number) => {
@@ -80,7 +88,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <div className="avg-margin">
         <p className="stat">{row.avg_margin}%</p>
         <span className="caret-icon">
-          <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
+          <Icon className="caret down" onClick={() => toggleExpandRow(row.product_id)} />
         </span>
       </div>
     );
@@ -101,6 +109,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderAvgRank = (row: ProductTrackerDetails) => {
     return <p className="stat">{row.avg_rank}</p>;
   };
+  renderDimensions = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.dimension}</p>;
+  };
+  renderWeight = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.weight}</p>;
+  };
   renderIcons = (row: ProductTrackerDetails) => {
     return <OtherSort />;
   };
@@ -115,7 +129,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
     {
       label: 'PRODUCT INFORMATION',
-      sortable: false,
       show: true,
       render: this.renderProductInfo,
     },
@@ -123,11 +136,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'KPI',
       type: 'number',
-      sortable: true,
       show: true,
     },
     {
       label: 'Avg Price',
+      dataKey: 'avg_price',
       type: 'number',
       sortable: true,
       show: true,
@@ -135,6 +148,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     },
     {
       label: 'Avg Profit',
+      dataKey: 'avg_profit',
       type: 'number',
       sortable: true,
       show: true,
@@ -142,6 +156,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     },
     {
       label: 'Avg Margin',
+      dataKey: 'avg_margin',
       type: 'number',
       sortable: true,
       show: true,
@@ -150,6 +165,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
     {
       label: 'Avg Daily Unit Sold',
+      dataKey: 'avg_daily_sales',
       type: 'number',
       sortable: true,
       show: true,
@@ -159,12 +175,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Daily Revenue',
       type: 'number',
+      dataKey: 'avg_daily_revenue',
       show: true,
       sortable: true,
       render: this.renderDailyRevenue,
     },
     {
       label: 'Avg ROI',
+      dataKey: 'avg_roi',
       type: 'number',
       show: true,
       sortable: true,
@@ -172,40 +190,52 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     },
     {
       label: 'Avg Daily Rank',
+      dataKey: 'avg_rank',
       type: 'number',
       show: true,
       sortable: true,
       render: this.renderAvgRank,
     },
-    {
-      label: 'Reviews',
-      type: 'number',
-      show: true,
-      sortable: true,
-      // render: this.renderDetailButtons,
-    },
-    {
-      label: 'Rating',
-      type: 'number',
-      show: true,
-      sortable: true,
-      //render: this.renderDetailButtons,
-    },
+    // {
+    //   label: 'Reviews',
+    //   type: 'number',
+    //   show: true,
+    //   sortable: true,
+    //   // render: this.renderDetailButtons,
+    // },
+    // {
+    //   label: 'Rating',
+    //   type: 'number',
+    //   show: true,
+    //   sortable: true,
+    //   //render: this.renderDetailButtons,
+    // },
     {
       label: 'Dimensions',
+      dataKey: 'dimension',
       type: 'number',
       show: true,
       sortable: true,
-      // render: this.renderDetailButtons,
+      render: this.renderDimensions,
+    },
+    {
+      label: 'Weight',
+      dataKey: 'weight',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderWeight,
     },
     {
       icon: 'ellipsis horizontal',
       show: true,
       render: this.renderIcons,
+      click: this.handleClick,
     },
   ];
 
   render() {
+    const { ColumnFilterBox } = this.state;
     const {
       isLoadingTrackerProducts,
       productTrackerResult,
@@ -230,6 +260,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           <TrackerMenu />
         </div>
         {/* <AddProduct /> */}
+        {/* {ColumnFilterBox && <ColumnFilterCard />} */}
         {productTrackerResult && (
           <PaginatedTable
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
@@ -240,6 +271,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}
+            ColumnFilterBox={ColumnFilterBox}
           />
         )}
       </div>

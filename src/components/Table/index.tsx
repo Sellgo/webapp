@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input, Checkbox } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
+import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTable/ColumnFilter';
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
@@ -15,6 +16,7 @@ export interface Column {
   check?: any;
   icon?: any;
   type?: 'number' | 'string' | 'date';
+  click?: (e: any) => void;
 }
 
 export interface PaginatedTableProps {
@@ -25,6 +27,7 @@ export interface PaginatedTableProps {
   setSinglePageItemsCount?: (itemsCount: number) => void;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
+  ColumnFilterBox?: any;
 }
 
 export interface GenericTableProps {
@@ -49,6 +52,7 @@ export interface GenericTableProps {
   rows: Array<{ [key: string]: any }>;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
+  ColumnFilterBox?: any;
 }
 
 export const GenericTable = (props: GenericTableProps) => {
@@ -73,6 +77,7 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
+    ColumnFilterBox,
   } = props;
 
   return (
@@ -119,7 +124,11 @@ export const GenericTable = (props: GenericTableProps) => {
                   key={column.dataKey || index}
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
                   onClick={
-                    column.sortable ? (e: any) => setSort(e, column.dataKey || '') : undefined
+                    column.sortable
+                      ? (e: any) => setSort(e, column.dataKey || '')
+                      : column.click
+                      ? column.click
+                      : undefined
                   }
                   style={
                     column.label === 'Supplier'
@@ -139,15 +148,16 @@ export const GenericTable = (props: GenericTableProps) => {
                       />
                     </span>
                   )}
-                  {column.check && <Checkbox value={column.check} />}
-                  {column.icon && <Icon className={column.icon} />}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}
+                  {column.check && <Checkbox value={column.check} />}
+                  {column.icon && <Icon className={column.icon} />}
                 </Table.HeaderCell>
               );
             })}
           </Table.Row>
+          {ColumnFilterBox && <ColumnFilterCard />}
         </Table.Header>
         <Table.Body>
           {rows.length
@@ -161,7 +171,7 @@ export const GenericTable = (props: GenericTableProps) => {
                         </Table.Cell>
                       ))}
                     </Table.Row>
-                    {expandedRows && expandedRows === row.id && extendedInfo && (
+                    {expandedRows && expandedRows === row.product_id && extendedInfo && (
                       <Table.Row key={index + '-extended'}>
                         <Table.Cell colspan={columns.length}>
                           {/* <a className="row-expand-btn" onClick={() => toggleExpandRow(row.id)}>
@@ -169,7 +179,7 @@ export const GenericTable = (props: GenericTableProps) => {
                               <Icon className="caret down" />
                             </span>
                           </a> */}
-                          {expandedRows === row.id && extendedInfo(row)}
+                          {expandedRows === row.product_id && extendedInfo(row)}
                         </Table.Cell>
                       </Table.Row>
                     )}
@@ -204,8 +214,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     columns,
     extendedInfo,
     expandedRows,
+    ColumnFilterBox,
   } = props;
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
@@ -313,6 +323,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       rows={rows}
       extendedInfo={extendedInfo}
       expandedRows={expandedRows}
+      ColumnFilterBox={ColumnFilterBox}
     />
   );
 };

@@ -20,12 +20,12 @@ const ProductDescription = (props: any) => {
           <div className="information">
             <img src={COUNTRY_IMAGE} alt="product_img" />
             <span>{item.asin}</span>
-            <div className="table-icon">
+            {/* <div className="table-icon">
               <i className="fas fa-skull-crossbones" />
               <Icon className="lock" />
               <Icon className="list" />
               <Icon className="cubes" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

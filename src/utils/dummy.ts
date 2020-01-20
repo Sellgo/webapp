@@ -4,7 +4,52 @@ export const filterRanges = {
   avg_unit_monthly: { min: -6104, max: 117924 },
   avg_roi: { min: 0, max: 2292 },
 };
-
+export const columnFilter = [
+  {
+    value: false,
+    key: 'Select All',
+  },
+  {
+    value: false,
+    key: 'Avg Price',
+  },
+  {
+    value: false,
+    key: 'Avg Profit',
+  },
+  {
+    value: false,
+    key: 'Avg Margin',
+  },
+  {
+    value: false,
+    key: 'Avg Daily Unit Sold',
+  },
+  {
+    value: false,
+    key: 'Avg Daily Revenue',
+  },
+  {
+    value: false,
+    key: 'Avg ROI',
+  },
+  {
+    value: false,
+    key: 'Avg Daily Rank',
+  },
+  {
+    value: false,
+    key: 'Reviews',
+  },
+  {
+    value: false,
+    key: 'Rating',
+  },
+  {
+    value: false,
+    key: 'Dimensions',
+  },
+];
 export const checkFilter = [
   {
     title: 'Inventory',
