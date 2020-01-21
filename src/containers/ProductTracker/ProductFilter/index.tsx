@@ -134,11 +134,11 @@ class ProductFilters extends Component<ProductFiltersProps> {
                   ))}
                 </FilterSection>
               ))}
-            {checkFilter.map(check => (
+            {/* {checkFilter.map(check => (
               <div className="check-filter">
                 <CheckboxFilter title={check.title} check={check.checkData} />
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

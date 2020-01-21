@@ -1,30 +1,11 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
-import FolderCard from './FolderCard';
+import { Icon, Popup, Button, List, Divider, Confirm } from 'semantic-ui-react';
 
 class OtherSort extends React.Component {
   state = {
-    check: false,
-    folder: false,
-    unTrack: false,
     confirm: false,
   };
-  handleClick = () => {
-    const { check } = this.state;
-    this.setState({
-      check: !check,
-      folder: true,
-      unTrack: false,
-    });
-  };
-  handleEllipsis = () => {
-    const { check } = this.state;
-    this.setState({
-      check: !check,
-      unTrack: true,
-      folder: false,
-    });
-  };
+
   handleConfirmMessage = () => {
     const { confirm } = this.state;
     this.setState({
@@ -34,27 +15,48 @@ class OtherSort extends React.Component {
   handleCancel = () => {
     this.setState({
       confirm: false,
-      folder: false,
-      unTrack: false,
-      check: false,
     });
   };
+
   render() {
-    const { check, folder, unTrack, confirm } = this.state;
+    const { confirm } = this.state;
     return (
       <div className="other-sort">
-        <Icon className="folder" onClick={this.handleClick} />
         {/* <Icon className="bell slash" /> */}
-        <Icon className="ellipsis vertical" onClick={this.handleEllipsis} />
-        {check && (
-          <FolderCard
-            folder={folder}
-            unTrack={unTrack}
-            confirm={confirm}
-            confirmMessage={this.handleConfirmMessage}
-            handleCancel={this.handleCancel}
-          />
-        )}
+
+        <Popup basic on="click" trigger={<Icon className="folder" />} position="bottom right">
+          <List>
+            <List.Item>UnGrouped</List.Item>
+            <List.Item>Group 1</List.Item>
+            <List.Item>Group 2</List.Item>
+            <List.Item>Group 3</List.Item>
+          </List>
+        </Popup>
+        <Popup
+          basic
+          on="click"
+          trigger={<Icon className="ellipsis vertical" />}
+          position="bottom right"
+        >
+          <span className="untrack-span">
+            <h4> View on Amazon</h4>
+          </span>
+          <Divider />
+          <Button
+            style={{ color: 'red', background: 'transparent' }}
+            onClick={this.handleConfirmMessage}
+          >
+            Untrack Product{' '}
+          </Button>
+        </Popup>
+        <Confirm
+          className="confirmation-box"
+          open={confirm}
+          header="Are you sure ?"
+          content="This will delete (n) Tracked Products"
+          onCancel={this.handleCancel}
+          // onConfirm={this.handleConfirm}
+        />
       </div>
     );
   }
