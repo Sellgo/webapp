@@ -35,12 +35,7 @@ interface TrackerProps {
 }
 class ProductTrackerTable extends React.Component<TrackerProps> {
   componentDidMount() {
-    const {
-      filteredProducts,
-      productTracker,
-      fetchProductDetailChartRating,
-      fetchProductDetailChartReview,
-    } = this.props;
+    const { productTracker } = this.props;
     productTracker();
     // filteredProducts && filteredProducts.length >0 && filteredProducts.map((data, index) => {
     //   fetchProductDetailChartRating(data.product_id);
@@ -236,7 +231,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   ];
 
   render() {
-    const { ColumnFilterBox } = this.state;
     const {
       isLoadingTrackerProducts,
       productTrackerResult,
@@ -272,7 +266,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}
-            ColumnFilterBox={ColumnFilterBox}
           />
         )}
       </div>

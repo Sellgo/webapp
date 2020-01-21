@@ -9,18 +9,22 @@ const AdviceCard = (props: AdviceCardProps) => {
     {
       key: 1,
       text: '7 days',
+      value: 7,
     },
     {
       key: 2,
       text: '14 days',
+      value: 14,
     },
     {
       key: 3,
       text: '30 days',
+      value: 30,
     },
     {
       key: 4,
       text: '60 days',
+      value: 60,
     },
   ];
   return (

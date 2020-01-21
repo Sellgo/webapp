@@ -28,7 +28,6 @@ export interface PaginatedTableProps {
   setSinglePageItemsCount?: (itemsCount: number) => void;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
-  ColumnFilterBox?: any;
 }
 
 export interface GenericTableProps {
@@ -53,7 +52,6 @@ export interface GenericTableProps {
   rows: Array<{ [key: string]: any }>;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
-  ColumnFilterBox?: any;
 }
 
 export const GenericTable = (props: GenericTableProps) => {
@@ -78,7 +76,6 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
-    ColumnFilterBox,
   } = props;
 
   return (
@@ -160,6 +157,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       position="bottom right"
                       basic={true}
                       hideOnScroll={true}
+                      positionFixed={true}
                       content={<ColumnFilterCard />}
                     ></Popup>
                   ) : (
@@ -169,7 +167,6 @@ export const GenericTable = (props: GenericTableProps) => {
               );
             })}
           </Table.Row>
-          {/* {ColumnFilterBox && <ColumnFilterCard />} */}
         </Table.Header>
         <Table.Body>
           {rows.length
@@ -226,7 +223,6 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     columns,
     extendedInfo,
     expandedRows,
-    ColumnFilterBox,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -335,7 +331,6 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       rows={rows}
       extendedInfo={extendedInfo}
       expandedRows={expandedRows}
-      ColumnFilterBox={ColumnFilterBox}
     />
   );
 };

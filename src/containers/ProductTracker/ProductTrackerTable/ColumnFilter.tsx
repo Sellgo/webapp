@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Popup, Checkbox, Icon } from 'semantic-ui-react';
+import { Checkbox } from 'semantic-ui-react';
 import { columnFilter } from '../../../utils/dummy';
 
 const ColumnFilterCard = (props: any) => {

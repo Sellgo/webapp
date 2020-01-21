@@ -7,7 +7,6 @@ class OtherSort extends React.Component {
   };
 
   handleConfirmMessage = () => {
-    const { confirm } = this.state;
     this.setState({
       confirm: true,
     });
@@ -30,6 +29,7 @@ class OtherSort extends React.Component {
           trigger={<Icon className="folder" />}
           position="bottom right"
           hideOnScroll={true}
+          positionFixed={true}
         >
           <List>
             <List.Item>UnGrouped</List.Item>
@@ -41,13 +41,13 @@ class OtherSort extends React.Component {
         <Popup
           basic
           on="click"
+          className="untrack-popup"
           trigger={<Icon className="ellipsis vertical" />}
           position="bottom right"
           hideOnScroll={true}
+          positionFixed={true}
         >
-          <span className="untrack-span">
-            <h4> View on Amazon</h4>
-          </span>
+          <span className="untrack-span">View on Amazon</span>
           <Divider />
           <Button
             style={{ color: 'red', background: 'transparent' }}

@@ -1,6 +1,5 @@
 import React from 'react';
 import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
-import { Icon } from 'semantic-ui-react';
 
 const ProductDescription = (props: any) => {
   const { item } = props;

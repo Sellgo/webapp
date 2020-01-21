@@ -4,8 +4,6 @@ import { findFiltersGrouped } from '../../../constants/Tracker';
 import FilterSection from '../../../components/FilterSection';
 import SliderRange from '../../../components/SliderRange';
 import AdviceCard from '../AdviceCard';
-import CheckboxFilter from './CheckboxFilter';
-import { checkFilter } from '../../../utils/dummy';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { ProductTrackerDetails } from '../../../interfaces/Product';
