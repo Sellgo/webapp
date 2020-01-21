@@ -156,9 +156,6 @@ $link-color: #349af8;
         // border-bottom-left-radius: 12px;
         // border-left: 1px solid #707070;
         // border-bottom: 1px solid #707070;
-        // .other-sort{
-        //     display: inline-grid !important;
-        // }
       }
     }
 
@@ -565,5 +562,27 @@ $link-color: #349af8;
   }
   button {
     padding: 0.28571429em 0em 0.58571429em !important;
+  }
+}
+.create-group-modal {
+  .header {
+    border-bottom: none !important;
+  }
+  .ui.input {
+    width: 100%;
+    .ui.input > input {
+      border: 1px solid #cecfcf;
+    }
+  }
+  .cancel-btn {
+    width: 134px;
+    background: white;
+    color: black;
+    border: 1px solid #cecfcf;
+  }
+  .create-btn {
+    width: 134px;
+    background: #4b9af8;
+    color: #fff;
   }
 }

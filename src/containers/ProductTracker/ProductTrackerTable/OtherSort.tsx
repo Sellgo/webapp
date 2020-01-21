@@ -26,7 +26,14 @@ class OtherSort extends React.Component {
         <Popup
           basic={true}
           on="click"
-          trigger={<Icon className="folder" />}
+          trigger={
+            <Icon
+              className="folder"
+              data-toggle="tooltip"
+              data-placement="middle"
+              title="Move to a Different Group"
+            />
+          }
           position="bottom right"
           hideOnScroll={true}
           positionFixed={true}

@@ -10,6 +10,7 @@ import {
   findMinMaxRange,
   UPDATE_TRACKER_FILTER_RANGES,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
+  SET_RETRIEVE_PRODUCT_TRACK_GROUP,
 } from '../../constants/Tracker';
 import { error } from '../../utils/notifications';
 
@@ -31,6 +32,10 @@ export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
   type: SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   payload: itemsCount,
 });
+export const setRetrieveProductTrackGroup = (data: any) => ({
+  type: SET_RETRIEVE_PRODUCT_TRACK_GROUP,
+  payload: data,
+});
 
 export const fetchSupplierProductTrackerDetails = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
@@ -50,4 +55,13 @@ export const fetchSupplierProductTrackerDetails = () => async (
     dispatch(isLoadingTrackerProducts(false));
     error('Data not found');
   }
+};
+
+export const retrieveProductTrackGroup = () => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`)
+    .then(json => {
+      dispatch(setRetrieveProductTrackGroup(json.data));
+    })
+    .catch(error => {});
 };
