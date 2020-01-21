@@ -8,7 +8,19 @@ const AdviceCard = (props: AdviceCardProps) => {
   const options = [
     {
       key: 1,
-      text: '10days',
+      text: '7 days',
+    },
+    {
+      key: 2,
+      text: '14 days',
+    },
+    {
+      key: 3,
+      text: '30 days',
+    },
+    {
+      key: 4,
+      text: '60 days',
     },
   ];
   return (
@@ -23,7 +35,7 @@ const AdviceCard = (props: AdviceCardProps) => {
               <b>Period:</b>
             </span>
             <span className="wrap-radio">
-              <Dropdown placeholder="30 days" fluid selection options={options} />
+              <Dropdown placeholder="Select" fluid selection options={options} />
             </span>
           </span>
         </Card.Content>

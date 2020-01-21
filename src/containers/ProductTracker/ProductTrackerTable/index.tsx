@@ -133,11 +133,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderProductInfo,
     },
 
-    {
-      label: 'KPI',
-      type: 'number',
-      show: true,
-    },
+    // {
+    //   label: 'KPI',
+    //   type: 'number',
+    //   show: true,
+    // },
     {
       label: 'Avg Price',
       dataKey: 'avg_price',
@@ -231,6 +231,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderIcons,
       click: this.handleClick,
+      popUp: true,
     },
   ];
 

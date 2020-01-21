@@ -24,7 +24,13 @@ class OtherSort extends React.Component {
       <div className="other-sort">
         {/* <Icon className="bell slash" /> */}
 
-        <Popup basic on="click" trigger={<Icon className="folder" />} position="bottom right">
+        <Popup
+          basic={true}
+          on="click"
+          trigger={<Icon className="folder" />}
+          position="bottom right"
+          hideOnScroll={true}
+        >
           <List>
             <List.Item>UnGrouped</List.Item>
             <List.Item>Group 1</List.Item>
@@ -37,6 +43,7 @@ class OtherSort extends React.Component {
           on="click"
           trigger={<Icon className="ellipsis vertical" />}
           position="bottom right"
+          hideOnScroll={true}
         >
           <span className="untrack-span">
             <h4> View on Amazon</h4>

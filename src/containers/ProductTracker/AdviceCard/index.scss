@@ -1,5 +1,5 @@
 .advice-card {
-  margin-top: -59px;
+  margin-top: -27px;
   box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1) !important;
   .track-row {
     //border-top: 1px solid #dddee0;
@@ -8,6 +8,7 @@
   .wrap-radio {
     display: flex;
     align-items: center;
+    width: 105px;
   }
 
   .ui.card {
@@ -15,6 +16,9 @@
     border-radius: 10px;
     margin-bottom: 25px;
 
+    > .content {
+      padding: 0.5em 0.5em !important;
+    }
     > .content > .header {
       font-size: 13px;
       font-family: 'Montserrat', sans-serif;
@@ -79,7 +83,6 @@
     }
 
     .wrap-radio {
-      width: 64px;
       @media (max-width: 767px) {
         width: 70%;
       }

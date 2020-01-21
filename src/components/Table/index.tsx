@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input, Checkbox } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTable/ColumnFilter';
 import './index.scss';
@@ -17,6 +17,7 @@ export interface Column {
   icon?: any;
   type?: 'number' | 'string' | 'date';
   click?: (e: any) => void;
+  popUp?: boolean;
 }
 
 export interface PaginatedTableProps {
@@ -152,12 +153,23 @@ export const GenericTable = (props: GenericTableProps) => {
                     <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}
                   {column.check && <Checkbox value={column.check} />}
-                  {column.icon && <Icon className={column.icon} />}
+                  {column.icon && column.popUp ? (
+                    <Popup
+                      on="click"
+                      trigger={<Icon className={`${column.icon}`} />}
+                      position="bottom right"
+                      basic={true}
+                      hideOnScroll={true}
+                      content={<ColumnFilterCard />}
+                    ></Popup>
+                  ) : (
+                    <Icon className={column.icon} />
+                  )}
                 </Table.HeaderCell>
               );
             })}
           </Table.Row>
-          {ColumnFilterBox && <ColumnFilterCard />}
+          {/* {ColumnFilterBox && <ColumnFilterCard />} */}
         </Table.Header>
         <Table.Body>
           {rows.length
