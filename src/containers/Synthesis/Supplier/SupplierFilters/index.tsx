@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Dropdown } from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
@@ -11,13 +11,9 @@ import {
   initialFilterRanges,
   findMinMaxRange,
   findFilterProducts,
-  // dataKeys,
-  // dataKeyMapping,
   findFiltersGrouped,
 } from '../../../../constants/Suppliers';
 import get from 'lodash/get';
-// import { defaultSelect } from '../../../../constants';
-//import AdviceCard from '../AdviceCard';
 import './index.scss';
 
 interface SupplierFiltersProps {
@@ -105,8 +101,10 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   };
 
   render() {
-    const { products, filterRanges } = this.props;
-    if (products.length === 1 && products[0] === undefined) return <div></div>;
+    const { products, filteredProducts, filterRanges } = this.props;
+    if (products.length === 1 && products[0] === undefined) {
+      return <div></div>;
+    }
     const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();
 
@@ -130,6 +128,33 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
           />
         </div> */}
         <div className="inner-wrap">
+          {/*<AdviceCard />*/}
+          <p className="products-count">
+            {filteredProducts.length} of {products.length} products
+          </p>
+
+          <Divider />
+
+          {/*
+          <div className="search-dropdown">
+            <Dropdown
+              placeholder="Select a Preset"
+              fluid
+              search
+              selection
+              options={[
+                defaultSelect,
+                ...dataKeys.map((dk: any) => ({
+                  key: dk,
+                  text: dataKeyMapping[dk].presetText,
+                  value: dk,
+                })),
+              ]}
+              onChange={this.handlePresetChange}
+            />
+          </div>
+          */}
+
           <div className="filters">
             {filterRanges &&
               filterGroups.map((group: any, index: number) => (

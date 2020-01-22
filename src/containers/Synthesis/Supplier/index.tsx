@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Grid, Segment, Modal, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
+import QuotaMeter from '../../../components/QuotaMeter';
 import ProductsTable from './ProductsTable';
 import get from 'lodash/get';
 import ProductDetails from './ProductDetails';
@@ -16,7 +17,6 @@ import {
 } from '../../../actions/Suppliers';
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import CallToAction from './CallToAction';
 import './index.scss';
 
 interface SupplierProps {
@@ -60,7 +60,7 @@ export class Supplier extends React.Component<SupplierProps> {
             { content: 'Profit Finder', to: '/synthesis' },
             { content: supplierDetails.name || 'Supplier' },
           ]}
-          callToAction={<CallToAction progress={progress} />}
+          callToAction={<QuotaMeter />}
         />
 
         <Segment basic={true} className="setting">

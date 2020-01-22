@@ -1,3 +1,5 @@
+export const SET_TOS = 'SET_TOS';
+
 export const userOnboarding = [
   {
     title: 'Tutorial - Introduction',
