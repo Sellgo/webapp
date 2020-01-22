@@ -13,6 +13,7 @@ export interface Column {
   sortable?: boolean;
   show?: boolean;
   type?: 'number' | 'string' | 'date';
+  icon?: any;
 }
 
 export interface TableProps {
@@ -167,7 +168,7 @@ const GenericTable = (props: TableProps) => {
       )}
       <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
         <Table.Header>
-          <Table.Row>
+          <Table.Row className="table-head">
             {showColumns.map((column, index) => {
               return (
                 <Table.HeaderCell
@@ -194,6 +195,7 @@ const GenericTable = (props: TableProps) => {
                       />
                     </span>
                   )}
+                  {column.icon && <Icon className={column.icon} style={{ color: '#707070' }} />}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}

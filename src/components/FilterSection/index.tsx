@@ -4,7 +4,7 @@ import './index.scss';
 
 function FilterSection(props: any) {
   const { title, children } = props;
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen] = useState(true);
 
   return (
     <div className="filter-section">
@@ -18,12 +18,6 @@ function FilterSection(props: any) {
             size="tiny"
           />
         </p>
-        <Icon
-          name={isOpen ? 'chevron up' : 'chevron down'}
-          size="small"
-          className="up-icon"
-          onClick={() => setIsOpen(!isOpen)}
-        />
       </div>
       <div className="filter-content">{isOpen && children}</div>
     </div>

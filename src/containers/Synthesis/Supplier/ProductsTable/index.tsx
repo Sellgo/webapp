@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader } from 'semantic-ui-react';
+import { Segment, Loader, Icon } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -11,11 +11,12 @@ import {
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
 import GenericTable, { Column } from '../../../../components/Table';
-import ProductImage from './productImage';
+// import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
+// import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -71,16 +72,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ checkedItems: newCheckedItems });
   };
 
-  renderProductImage = (row: Product) => {
-    const { checkedItems } = this.state;
-    return (
-      <ProductImage
-        item={row}
-        checked={checkedItems[row.id]}
-        onSelectItem={this.handleItemSelect}
-      />
-    );
-  };
+  // renderProductImage = (row: Product) => {
+  //   const { checkedItems } = this.state;
+  //   return (
+  //     <ProductImage
+  //       item={row}
+  //       checked={checkedItems[row.id]}
+  //       onSelectItem={this.handleItemSelect}
+  //     />
+  //   );
+  // };
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
@@ -101,21 +102,27 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
   );
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
+  // renderIcon = (row: Product) => {
+  //   return (
+  //     <div>
+  //       <i className="fas fa-skull-crossbones mrgn-right font-color"></i>
+  //       <Icon className="lock mrgn-right font-color" />
+  //       <Icon className="list mrgn-right font-color" />
+  //       <Icon className="cubes font-color" />
+  //     </div>
+  //   );
+  // };
+  // renderAmz = (row: Product) => <Image src={AMAZON_IMAGE} className="amazon_img_size" />;
   renderDetailButtons = (row: Product) => {
-    const {
-      supplierID,
-      openProductDetailModal,
-      productTrackerGroup,
-      updateProductTrackingStatus,
-    } = this.props;
+    const { productTrackerGroup, updateProductTrackingStatus } = this.props;
 
     return (
       <DetailButtons
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
-        onViewDetails={() => {
-          openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
-        }}
+        // onViewDetails={() => {
+        //   openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
+        // }}
         onTrack={() => {
           let productTrackerGroupID = 2;
           if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
@@ -140,22 +147,26 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     );
   };
+  renderSyncButtons = (row: Product) => {
+    return (
+      <div>
+        <Icon name="sync alternate" style={{ color: '#98aec9' }} />
+      </div>
+    );
+  };
 
   columns: Column[] = [
-    {
-      label: '',
-      sortable: false,
-      show: true,
-      render: this.renderProductImage,
-    },
-
+    // {
+    //   sortable: false,
+    //   show: true,
+    //   // render: this.renderProductImage,
+    // },
     {
       label: 'PRODUCT INFORMATION',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
     },
-
     {
       label: 'Profit',
       dataKey: 'profit',
@@ -197,15 +208,18 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       render: this.renderRoi,
     },
-
     {
-      label: 'Other Sort',
+      label: 'Tracking / Rating',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,
       sortable: true,
       render: this.renderDetailButtons,
     },
+    // {
+    //   show: true,
+    //   render: this.renderSyncButtons,
+    // },
   ];
 
   render() {

@@ -20,7 +20,7 @@ const SliderRange = (props: any) => {
     <Container className="slider-range">
       <div className="range-title">
         <p>
-          {title}
+          <b>{title}</b>
           <Popup
             className="add-supplier-popup"
             trigger={<Icon name="question circle" size="small" color="grey" />}

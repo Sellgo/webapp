@@ -23,7 +23,7 @@ export class AdminHeader extends React.Component<any> {
             {/* <Menu.Item as={Link} to="/">
               Add Supplier
             </Menu.Item> */}
-            <Menu.Item as={Link} to="/synthesis">
+            <Menu.Item className="menu-link" as={Link} to="/synthesis">
               Profit Finder
             </Menu.Item>
             {/* <Menu.Item as={Link} to="/product-tracker">
@@ -35,9 +35,9 @@ export class AdminHeader extends React.Component<any> {
           </Menu.Menu>
 
           <Menu.Menu className="right-menu" position="right" fitted="horizontally">
-            <Menu.Item as={Link} to="/settings/pricing">
-              Pricing
-            </Menu.Item>
+            {/* <Menu.Item as={Link} to="/settings/pricing">
+              <Icon className="bell" />
+            </Menu.Item> */}
             {/* <Menu.Item as={Link} to="/search">
               <Icon name="search" />
             </Menu.Item> */}

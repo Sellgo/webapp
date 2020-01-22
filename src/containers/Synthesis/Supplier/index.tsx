@@ -13,6 +13,7 @@ import {
   resetSupplier,
   fetchSupplierProducts,
   resetSupplierProducts,
+  supplierProgress,
 } from '../../../actions/Suppliers';
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
@@ -29,13 +30,16 @@ interface SupplierProps {
   resetSupplier: () => void;
   fetchSupplierProducts: (supplierID: any) => void;
   resetSupplierProducts: typeof resetSupplierProducts;
+  supplierProgress: (supplierID: any) => void;
+  progress: any;
 }
 
 export class Supplier extends React.Component<SupplierProps> {
   componentDidMount() {
-    const { fetchSupplierDetails, fetchSupplierProducts, match } = this.props;
+    const { fetchSupplierDetails, fetchSupplierProducts, match, supplierProgress } = this.props;
     fetchSupplierDetails(match.params.supplierID);
     fetchSupplierProducts(match.params.supplierID);
+    supplierProgress(match.params.supplierID);
   }
 
   componentWillUnmount() {
@@ -45,7 +49,7 @@ export class Supplier extends React.Component<SupplierProps> {
   }
 
   render() {
-    const { isLoadingSupplierProducts, supplierDetails } = this.props;
+    const { isLoadingSupplierProducts, supplierDetails, progress } = this.props;
 
     return (
       <>
@@ -62,7 +66,7 @@ export class Supplier extends React.Component<SupplierProps> {
         <Segment basic={true} className="setting">
           <Grid>
             <Grid.Row>
-              <Grid.Column className="left-column" floated="left">
+              <Grid.Column width={4} className="left-column" floated="left">
                 {isLoadingSupplierProducts ? (
                   <Segment>
                     <Loader active={true} inline="centered" size="massive">
@@ -70,16 +74,23 @@ export class Supplier extends React.Component<SupplierProps> {
                     </Loader>
                   </Segment>
                 ) : (
-                  <SupplierFilters />
+                  <div className="Supplier_Filters">
+                    <SupplierFilters />
+                  </div>
                 )}
               </Grid.Column>
 
-              <Grid.Column className="right-column" floated="right">
+              <Grid.Column width={9} className="right-column" floated="right">
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
-                <ProductsTable supplierID={this.props.match.params.supplierID} />
+              </Grid.Column>
+              <Grid.Column width={3} className="right-column" floated="right">
+                <div className="radio-toggle-wrap">
+                  {/* <Radio toggle label="Shadow Tracking" /> */}
+                </div>
               </Grid.Column>
             </Grid.Row>
           </Grid>
+          <ProductsTable supplierID={this.props.match.params.supplierID} />
 
           <Modal
             size={'large'}
@@ -102,6 +113,7 @@ const mapStateToProps = (state: any) => ({
   isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: supplierProductsSelector(state),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
+  progress: get(state, 'supplier.quota'),
 });
 
 const mapDispatchToProps = {
@@ -110,6 +122,7 @@ const mapDispatchToProps = {
   resetSupplier: () => resetSupplier(),
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
+  supplierProgress: (supplierID: any) => supplierProgress(supplierID),
 };
 
 export default connect(

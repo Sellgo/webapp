@@ -8,16 +8,16 @@ import Hotspot from '../../../../assets/images/wifi-icon.svg';
 import { formatRating } from '../../../../utils/format';
 
 const DetailButtons = (props: any) => {
-  const { score, onViewDetails, onTrack, isTracking } = props;
+  const { score, onTrack, isTracking } = props;
   return (
     <div className="detail-buttons">
       <div>
         <TrackButtonWithRating isTracking={isTracking} onTrack={onTrack} score={score} />
       </div>
       <div>
-        <Button primary className="view-detail-btn" onClick={onViewDetails}>
+        {/* <Button primary className="view-detail-btn" onClick={onViewDetails}>
           <span>View Details</span>
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
@@ -37,7 +37,6 @@ function TrackButtonWithRating(props: any) {
       </Button>
 
       <Label as="a" basic pointing="left" className="btn-lbl">
-        <span className="rating-name">Score</span>
         <span className="rating-num">{formatRating(score)}</span>
       </Label>
     </Button>
