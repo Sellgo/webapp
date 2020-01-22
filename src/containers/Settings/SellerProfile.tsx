@@ -115,6 +115,7 @@ const SellerProfile = (props: any) => {
                   <Form.Input
                     fluid
                     label="Full name"
+                    id="name"
                     placeholder="Full name"
                     value={name}
                     onChange={(e, { value }) => handleProfileLocalChange({ name: value })}
@@ -122,6 +123,7 @@ const SellerProfile = (props: any) => {
                   <Form.Input
                     fluid
                     label="Email"
+                    id="email"
                     type="email"
                     placeholder="Email"
                     value={email}

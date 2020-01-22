@@ -9,6 +9,7 @@ import suppliersReducer from './Suppliers';
 import supplierReducer from './Supplier';
 import productReducer from './Products';
 import productTrackerReducer from './ProductTracker';
+import userOnboardingReducer from './UserOnboarding';
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   supplier: supplierReducer,
   product: productReducer,
   productTracker: productTrackerReducer,
+  userOnboarding: userOnboardingReducer,
 });
 
 export default rootReducer;
