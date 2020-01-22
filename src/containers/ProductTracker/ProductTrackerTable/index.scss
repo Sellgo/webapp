@@ -41,6 +41,11 @@ $link-color: #349af8;
       }
     }
   }
+  .tracker-menu {
+    .ui.secondary.pointing.menu .item {
+      justify-content: center;
+    }
+  }
   .menu-bar {
     margin-top: 48px;
     .ui.secondary.pointing.menu .active.item {
@@ -557,10 +562,9 @@ $link-color: #349af8;
   .ui.divider {
     margin: 1.3rem 0 0.5rem;
   }
-  .untrack-span {
-    font-weight: 600;
-  }
   button {
+    font-weight: 500 !important;
+    font-family: 'Montserrat', serif !important;
     padding: 0.28571429em 0em 0.58571429em !important;
   }
 }

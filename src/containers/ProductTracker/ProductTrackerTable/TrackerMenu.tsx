@@ -38,34 +38,32 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       <div className="menu-bar">
         <Menu
           pointing={true}
+          stackable={true}
           secondary={true}
           style={{ width: 'max-content' }}
           color={'blue'}
-          className="flex-col wdt100 menu-item"
+          className="wdt100"
         >
           <Menu.Item
             name="All Groups"
             active={true}
             // onClick={this.handleItemClick}
-            className="wdt100"
           >
             <Header as="h4">All Groups</Header>
           </Menu.Item>
           <Menu.Item
             name="Ungrouped"
             //  onClick={this.handleItemClick}
-            className="wdt100"
           >
             <Header as="h4">Ungrouped</Header>
           </Menu.Item>
           <Menu.Item
             name="Group 1"
             // onClick={this.handleItemClick}
-            className="wdt100"
           >
             <Header as="h4">Group 1</Header>
           </Menu.Item>
-          <Menu.Item name="+" onClick={this.handleItemClick} className="wdt100">
+          <Menu.Item name="+" onClick={this.handleItemClick}>
             <Header as="h4">+</Header>
           </Menu.Item>
         </Menu>

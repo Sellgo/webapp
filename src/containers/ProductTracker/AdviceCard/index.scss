@@ -56,6 +56,10 @@
   }
 
   @media screen and (min-width: 768px) and (max-width: 1024px) {
+    margin-top: -2px !important;
+    .wrap-radio {
+      width: 80px !important;
+    }
     .ui.card {
       .content {
         .ui.selection.dropdown {

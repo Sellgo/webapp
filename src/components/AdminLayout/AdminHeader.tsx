@@ -61,9 +61,9 @@ export class AdminHeader extends React.Component<any> {
             {/* <Menu.Item as={Link} to="/search">
               <Icon name="search" />
             </Menu.Item> */}
-            <Menu.Item as={Link} to="/notifications">
+            {/* <Menu.Item as={Link} to="/notifications">
               <Icon name="bell" />
-            </Menu.Item>
+            </Menu.Item> */}
             <div className="divider" />
             <Menu.Item>
               <Dropdown
