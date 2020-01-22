@@ -37,24 +37,34 @@ export const setRetrieveProductTrackGroup = (data: any) => ({
   payload: data,
 });
 
-export const fetchSupplierProductTrackerDetails = () => async (
+export const fetchSupplierProductTrackerDetails = (product_track_group_id?: any) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=15&page=1&period=90`
+    // AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=15&page=1&period=90`
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/product-track-data-paginated?per_page=${5}&page=${1}&period=${20}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit&product_track_group_id?=${product_track_group_id}`
   );
   if (response.data) {
     dispatch(isLoadingTrackerProducts(false));
     const products = response.data;
-
     dispatch(setSupplierProductTrackerDetails(products));
-    dispatch(updateTrackerFilterRanges(findMinMaxRange(products)));
+    dispatch(updateTrackerFilterRanges(findMinMaxRange(products.results)));
   } else {
     dispatch(isLoadingTrackerProducts(false));
     error('Data not found');
   }
+};
+export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('name', name);
+  bodyFormData.set('marketplace_id', 'US');
+  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
+    .then(json => {})
+    .catch(error => {});
 };
 
 export const retrieveProductTrackGroup = () => (dispatch: any) => {

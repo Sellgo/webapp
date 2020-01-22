@@ -86,6 +86,7 @@ export interface ProductChartDetailsKpi {
 
 export interface ProductTrackerDetails {
   asin: string;
+  amazon_url: string;
   avg_daily_revenue: string;
   avg_daily_sales: string;
   avg_margin: string;

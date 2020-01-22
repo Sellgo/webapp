@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
 import { Menu, Header } from 'semantic-ui-react';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 import './index.scss';
-import get from 'lodash/get';
-import { connect } from 'react-redux';
-import { retrieveProductTrackGroup } from '../../../actions/ProductTracker';
 import CreateGroup from './CreateGroup';
 
-interface TrackerMenuProps {
-  retrieveTrackGroup: () => void;
+interface State {
+  name: string;
+  open: boolean;
 }
-class TrackerMenu extends Component<TrackerMenuProps> {
-  state = {
-    open: false,
-  };
-
-  componentDidMount() {
-    const { retrieveTrackGroup } = this.props;
-    retrieveTrackGroup();
+interface TrackerMenuProps {
+  group: any;
+  // handleSubmit:any;
+  handleChange: any;
+  handleMenu: any;
+  productTrackID: any;
+}
+class TrackerMenu extends Component<TrackerMenuProps, State> {
+  constructor(
+    props: any,
+    public dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    public getState: () => any
+  ) {
+    super(props);
+    this.state = {
+      name: '',
+      open: false,
+    };
   }
 
   handleItemClick = (e: any) => {
@@ -29,11 +39,9 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       open: false,
     });
   };
-  handleChange = (e: any) => {
-    console.log('====', e.target.value);
-  };
-
   render() {
+    const { group, handleChange, handleMenu, productTrackID } = this.props;
+
     return (
       <div className="menu-bar">
         <Menu
@@ -44,46 +52,30 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           color={'blue'}
           className="wdt100"
         >
-          <Menu.Item
-            name="All Groups"
-            active={true}
-            // onClick={this.handleItemClick}
-          >
-            <Header as="h4">All Groups</Header>
-          </Menu.Item>
-          <Menu.Item
-            name="Ungrouped"
-            //  onClick={this.handleItemClick}
-          >
-            <Header as="h4">Ungrouped</Header>
-          </Menu.Item>
-          <Menu.Item
-            name="Group 1"
-            // onClick={this.handleItemClick}
-          >
-            <Header as="h4">Group 1</Header>
-          </Menu.Item>
+          {group &&
+            group.map((data: any) => {
+              return (
+                <Menu.Item
+                  name={data.name}
+                  active={data.id === productTrackID ? true : false}
+                  onClick={(id: any) => handleMenu(data.id)}
+                >
+                  <Header as="h4">{data.name}</Header>
+                </Menu.Item>
+              );
+            })}
           <Menu.Item name="+" onClick={this.handleItemClick}>
             <Header as="h4">+</Header>
           </Menu.Item>
         </Menu>
         <CreateGroup
           open={this.state.open}
-          handleGroupChange={(e: any) => this.handleChange(e)}
+          handleGroupChange={(e: any) => handleChange(e)}
           handleCancel={this.handleCancel}
+          // handleSubmit={handleSubmit}
         />
       </div>
     );
   }
 }
-const mapStateToProps = (state: {}) => ({
-  trackGroup: get(state, 'productTracker.trackerGroup'),
-});
-
-const mapDispatchToProps = {
-  retrieveTrackGroup: () => retrieveProductTrackGroup(),
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TrackerMenu);
+export default TrackerMenu;

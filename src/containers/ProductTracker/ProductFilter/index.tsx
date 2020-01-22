@@ -29,17 +29,9 @@ class ProductFilters extends Component<ProductFiltersProps> {
   state = {
     productRanges: initialFilterRanges,
   };
-  componentDidMount() {
-    const { products } = this.props;
-    if (products) {
-      // Get min and max range for each filter setting based on all products
-      const productRanges = findMinMaxRange(products);
-      this.setState({ productRanges });
-    }
-  }
 
   componentWillReceiveProps(props: any) {
-    if (props.products && props.products !== this.props.products) {
+    if (props.products && props.products !== this.props.products && props.products.length > 0) {
       // Get min and max range for each filter setting based on all products
       const productRanges = findMinMaxRange(props.products);
       this.setState({ productRanges });

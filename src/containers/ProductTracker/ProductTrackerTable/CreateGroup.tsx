@@ -5,6 +5,7 @@ interface CreateGroupProps {
   open: boolean;
   handleGroupChange: Function;
   handleCancel: any;
+  // handleSubmit:any;
 }
 
 class CreateGroup extends Component<CreateGroupProps> {
@@ -24,7 +25,12 @@ class CreateGroup extends Component<CreateGroupProps> {
             <Button className="cancel-btn" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button className="create-btn">Create Group</Button>
+            <Button
+              className="create-btn"
+              // onClick={handleSubmit}
+            >
+              Create Group
+            </Button>
           </Modal.Actions>
         </Modal>
       </div>

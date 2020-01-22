@@ -3,6 +3,7 @@ export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
 export const UPDATE_TRACKER_FILTER_RANGES = 'UPDATE_TRACKER_FILTER_RANGES';
 export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT';
 export const SET_RETRIEVE_PRODUCT_TRACK_GROUP = 'SET_RETRIEVE_PRODUCT_TRACK_GROUP';
+export const UPDATE_TRACKER_PRODUCT = 'UPDATE_TRACKER_PRODUCT';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -92,7 +93,9 @@ export const findFiltersGrouped = () => {
 export const findMinMaxRange = (products: any) => {
   const updatedFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
-      const dkArray = products.map((p: any) => Number(p[dk]));
+      const dkArray = products.map((p: any) => {
+        return Number(p[dk]);
+      });
       const minDk = Math.floor(Math.min(...dkArray));
       const maxDk = Math.ceil(Math.max(...dkArray));
       const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
@@ -112,7 +115,7 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
         Number(product[dataKey]) >= Number(filterRanges[dataKey].min) &&
         Number(product[dataKey]) <= Number(filterRanges[dataKey].max)
     );
-  const updatedFilterProducts = products.filter(filterRange);
+  const updatedFilterProducts = products.results.filter(filterRange);
   return updatedFilterProducts;
 };
 

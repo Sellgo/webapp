@@ -6,6 +6,7 @@ import {
   UPDATE_TRACKER_FILTER_RANGES,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
+  UPDATE_TRACKER_PRODUCT,
   findFilterProducts,
 } from '../../constants/Tracker';
 
@@ -32,6 +33,8 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'singlePageItemsCount', action.payload);
     case SET_RETRIEVE_PRODUCT_TRACK_GROUP:
       return setIn(state, 'trackerGroup', action.payload);
+    case UPDATE_TRACKER_PRODUCT:
+      return setIn(state, 'trackerDetails', action.payload);
     default:
       return state;
   }

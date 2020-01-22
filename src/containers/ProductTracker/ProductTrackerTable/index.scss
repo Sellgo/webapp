@@ -533,6 +533,13 @@ $link-color: #349af8;
     }
   }
 }
+.untrack-popup {
+  .untrack-span {
+    a {
+      color: #000 !important;
+    }
+  }
+}
 .confirmation-box {
   width: max-content !important;
 

@@ -1,7 +1,14 @@
 import React from 'react';
 import { Icon, Popup, Button, List, Divider, Confirm } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
-class OtherSort extends React.Component {
+interface OtherSortProps {
+  row: any;
+  // handleUntrack: any;
+  group: any;
+  // handleMoveGroup:any;
+}
+class OtherSort extends React.Component<OtherSortProps> {
   state = {
     confirm: false,
   };
@@ -18,6 +25,7 @@ class OtherSort extends React.Component {
   };
 
   render() {
+    const { row, group } = this.props;
     const { confirm } = this.state;
     return (
       <div className="other-sort">
@@ -39,10 +47,15 @@ class OtherSort extends React.Component {
           positionFixed={true}
         >
           <List>
-            <List.Item>UnGrouped</List.Item>
-            <List.Item>Group 1</List.Item>
-            <List.Item>Group 2</List.Item>
-            <List.Item>Group 3</List.Item>
+            {group &&
+              group.map((data: any) => (
+                <List.Item
+                  key={data.id}
+                  // onClick={(id:any)=>handleMoveGroup(data.id)}
+                >
+                  {data.name}
+                </List.Item>
+              ))}
           </List>
         </Popup>
         <Popup
@@ -54,7 +67,11 @@ class OtherSort extends React.Component {
           hideOnScroll={true}
           positionFixed={true}
         >
-          <span className="untrack-span">View on Amazon</span>
+          <span className="untrack-span">
+            <a href={row.amazon_url} target="_blank">
+              View on Amazon
+            </a>
+          </span>
           <Divider />
           <Button
             style={{ color: 'red', background: 'transparent' }}
@@ -69,7 +86,7 @@ class OtherSort extends React.Component {
           header="Are you sure ?"
           content="This will delete (n) Tracked Products"
           onCancel={this.handleCancel}
-          // onConfirm={this.handleConfirm}
+          // onConfirm={(id:any) =>  handleUntrack(row.product_id)}
         />
       </div>
     );

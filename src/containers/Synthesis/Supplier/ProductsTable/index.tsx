@@ -30,7 +30,8 @@ interface ProductsTableProps {
     status: string,
     productID?: any,
     productTrackerID?: any,
-    productTrackerGroupID?: any
+    productTrackerGroupID?: any,
+    type?: string
   ) => void;
   openProductDetailModal: (product?: Product) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
@@ -125,14 +126,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 row.tracking_status === 'active' ? 'inactive' : 'active',
                 undefined,
                 row.product_track_id,
-                undefined
+                undefined,
+                'supplier'
               );
             } else {
               updateProductTrackingStatus(
                 'active',
                 row.product_id,
                 undefined,
-                productTrackerGroupID
+                productTrackerGroupID,
+                'supplier'
               );
             }
           }
@@ -264,8 +267,10 @@ const mapDispatchToProps = {
     status: string,
     productID?: any,
     productTrackerID?: any,
-    productTrackerGroupID?: any
-  ) => updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID),
+    productTrackerGroupID?: any,
+    name?: string
+  ) =>
+    updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, name),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
 };

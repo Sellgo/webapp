@@ -27,6 +27,7 @@ import {
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
 } from '../../constants/Suppliers';
+import { UPDATE_TRACKER_PRODUCT } from '../../constants/Tracker';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 
@@ -295,7 +296,8 @@ export const updateProductTrackingStatus = (
   status: string,
   productID?: string,
   productTrackerID?: string,
-  productTrackerGroupID?: string
+  productTrackerGroupID?: string,
+  name?: string
 ) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -321,7 +323,9 @@ export const updateProductTrackingStatus = (
     : Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(updateSupplierProduct(json.data));
+          dispatch(
+            name === 'supplier' ? updateSupplierProduct(json.data) : updateTrackerProduct(json.data)
+          );
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {
@@ -330,6 +334,10 @@ export const updateProductTrackingStatus = (
         });
 };
 
+export const updateTrackerProduct = (data: any) => ({
+  type: UPDATE_TRACKER_PRODUCT,
+  payload: data,
+});
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
   payload: data,
