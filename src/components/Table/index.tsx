@@ -230,8 +230,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   React.useEffect(() => {
-    console.log('=====currentPage==========', currentPage);
-    setPageNumber(currentPage);
+    setPageNumber && setPageNumber(currentPage);
   }, [currentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
