@@ -10,6 +10,7 @@ import {
   findMinMaxRange,
   UPDATE_TRACKER_FILTER_RANGES,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
+  SET_PRODUCT_TRACKER_PAGE_NUMBER,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
 } from '../../constants/Tracker';
 import { error } from '../../utils/notifications';
@@ -32,20 +33,27 @@ export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
   type: SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   payload: itemsCount,
 });
+export const setProductTrackerPageNumber = (pageNo: number) => ({
+  type: SET_PRODUCT_TRACKER_PAGE_NUMBER,
+  payload: pageNo,
+});
 export const setRetrieveProductTrackGroup = (data: any) => ({
   type: SET_RETRIEVE_PRODUCT_TRACK_GROUP,
   payload: data,
 });
 
-export const fetchSupplierProductTrackerDetails = (product_track_group_id?: any) => async (
-  dispatch: ThunkDispatch<{}, {}, AnyAction>
-) => {
+export const fetchSupplierProductTrackerDetails = (
+  period: any,
+  product_track_group_id: any,
+  perPage: any,
+  pageNo: any
+) => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     // AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=15&page=1&period=90`
     AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/product-track-data-paginated?per_page=${5}&page=${1}&period=${20}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit&product_track_group_id?=${product_track_group_id}`
+      `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&page=${pageNo}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit&product_track_group_id?=${product_track_group_id}`
   );
   if (response.data) {
     dispatch(isLoadingTrackerProducts(false));
@@ -63,7 +71,11 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
   bodyFormData.set('name', name);
   bodyFormData.set('marketplace_id', 'US');
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
-    .then(json => {})
+    .then(json => {
+      if (json.status === 201 && json.statusText === 'Created') {
+        dispatch(retrieveProductTrackGroup());
+      }
+    })
     .catch(error => {});
 };
 

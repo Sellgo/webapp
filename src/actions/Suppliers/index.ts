@@ -297,7 +297,8 @@ export const updateProductTrackingStatus = (
   productID?: string,
   productTrackerID?: string,
   productTrackerGroupID?: string,
-  name?: string
+  name?: string,
+  supplierID?: any
 ) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -307,7 +308,9 @@ export const updateProductTrackingStatus = (
 
   if (productTrackerID) bodyFormData.set('id', productTrackerID);
   if (productID) bodyFormData.set('product_id', productID);
-  if (productTrackerGroupID) bodyFormData.set('product_track_group_id', productTrackerGroupID);
+  if (!productTrackerID && productTrackerGroupID)
+    bodyFormData.set('product_track_group_id', productTrackerGroupID);
+  if (supplierID && productTrackerID) bodyFormData.set('supplierID', supplierID);
 
   return !productTrackerID
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
@@ -323,9 +326,7 @@ export const updateProductTrackingStatus = (
     : Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(
-            name === 'supplier' ? updateSupplierProduct(json.data) : updateTrackerProduct(json.data)
-          );
+          dispatch(updateSupplierProduct(json.data));
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {

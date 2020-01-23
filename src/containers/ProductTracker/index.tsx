@@ -1,12 +1,85 @@
 import * as React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
+import get from 'lodash/get';
 import PageHeader from '../../components/PageHeader';
 import ProductFilters from './ProductFilter/index';
 import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
+import { connect } from 'react-redux';
+import { fetchSupplierProductTrackerDetails } from '../../actions/ProductTracker';
 
-class ProductTracker extends React.Component {
+interface ProductTrackerProps {
+  productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) => void;
+  singlePageItemsCount: any;
+  productTrackerPageNo: any;
+}
+class ProductTracker extends React.Component<ProductTrackerProps> {
+  state = {
+    periodValue: 20,
+    productTrackID: 1,
+  };
+
+  componentDidMount() {
+    const { productTracker, singlePageItemsCount, productTrackerPageNo } = this.props;
+    const { periodValue, productTrackID } = this.state;
+    productTracker(periodValue, productTrackID, singlePageItemsCount, productTrackerPageNo);
+  }
+
+  shouldComponentUpdate(nextProps: any) {
+    if (
+      this.props !== nextProps &&
+      this.props.singlePageItemsCount !== nextProps.singlePageItemsCount
+    ) {
+      this.props.productTracker(
+        this.state.periodValue,
+        this.state.productTrackID,
+        nextProps.singlePageItemsCount,
+        this.props.productTrackerPageNo
+      );
+      return true;
+    }
+    if (this.props.productTrackerPageNo !== nextProps.productTrackerPageNo) {
+      this.props.productTracker(
+        this.state.periodValue,
+        this.state.productTrackID,
+        nextProps.singlePageItemsCount,
+        nextProps.productTrackerPageNo
+      );
+      return true;
+    }
+    return false;
+  }
+
+  handlePeriodDrop = (data: any) => {
+    this.setState(
+      {
+        periodValue: data.value,
+      },
+      () =>
+        this.props.productTracker(
+          this.state.periodValue,
+          this.state.productTrackID,
+          this.props.singlePageItemsCount,
+          this.props.productTrackerPageNo
+        )
+    );
+  };
+  handleMenu = (id: any) => {
+    this.setState(
+      {
+        productTrackID: id,
+      },
+      () =>
+        this.props.productTracker(
+          this.state.periodValue,
+          this.state.productTrackID,
+          this.props.singlePageItemsCount,
+          this.props.productTrackerPageNo
+        )
+    );
+  };
+
   render() {
     return (
       <>
@@ -23,7 +96,7 @@ class ProductTracker extends React.Component {
           <Grid className="product-tracker">
             <Grid.Row>
               <Grid.Column className="left-column" floated="left">
-                <ProductFilters />
+                <ProductFilters handlePeriodDrop={(data: any) => this.handlePeriodDrop(data)} />
               </Grid.Column>
 
               <Grid.Column className="right-column" floated="right">
@@ -31,7 +104,11 @@ class ProductTracker extends React.Component {
                   {/* <label>Search Your Product:</label>
                   <Search placeholder="Search UPC/ASIN" /> */}
                 </div>
-                <ProductTrackerTable />
+                <ProductTrackerTable
+                  handleMenu={(id: any) => this.handleMenu(id)}
+                  productTrackID={this.state.productTrackID}
+                  periodValue={this.state.periodValue}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -41,4 +118,19 @@ class ProductTracker extends React.Component {
   }
 }
 
-export default ProductTracker;
+const mapStateToProps = (state: any) => {
+  return {
+    singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
+    productTrackerPageNo: get(state, 'productTracker.productTrackerPageNo'),
+  };
+};
+
+const mapDispatchToProps = {
+  productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) =>
+    fetchSupplierProductTrackerDetails(periodValue, groupID, perPage, pageNo),
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductTracker);

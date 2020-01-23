@@ -5,19 +5,19 @@ interface CreateGroupProps {
   open: boolean;
   handleGroupChange: Function;
   handleCancel: any;
-  // handleSubmit:any;
+  handleSubmit: any;
 }
 
 class CreateGroup extends Component<CreateGroupProps> {
   render() {
-    const { open, handleGroupChange, handleCancel } = this.props;
+    const { open, handleGroupChange, handleCancel, handleSubmit } = this.props;
     return (
       <div className="create-group-modal">
         <Modal open={open} className="create-group-modal">
           <Modal.Header>Create New Group</Modal.Header>
           <Modal.Content>
             <div>
-              <h4>New Group Name:</h4>
+              <h4>{'New Group Name:'}</h4>
               <Input placeholder="Your Group" onChange={e => handleGroupChange(e)} />
             </div>
           </Modal.Content>
@@ -25,10 +25,7 @@ class CreateGroup extends Component<CreateGroupProps> {
             <Button className="cancel-btn" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button
-              className="create-btn"
-              // onClick={handleSubmit}
-            >
+            <Button className="create-btn" onClick={handleSubmit}>
               Create Group
             </Button>
           </Modal.Actions>

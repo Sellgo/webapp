@@ -13,17 +13,14 @@ import {
   findFilterProducts,
 } from '../../../constants/Tracker';
 import './index.scss';
-import {
-  updateTrackerFilterRanges,
-  fetchSupplierProductTrackerDetails,
-} from '../../../actions/ProductTracker';
+import { updateTrackerFilterRanges } from '../../../actions/ProductTracker';
 
 interface ProductFiltersProps {
   products: ProductTrackerDetails[];
   filteredProducts: ProductTrackerDetails[];
   filterRanges: any;
   updateFilterRanges: (filterRanges: any) => void;
-  productTracker: () => void;
+  handlePeriodDrop: any;
 }
 class ProductFilters extends Component<ProductFiltersProps> {
   state = {
@@ -101,7 +98,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
     return (
       <div className="product-tracker-filters">
         <div className="inner-wrap">
-          <AdviceCard />
+          <AdviceCard handlePeriodDrop={this.props.handlePeriodDrop} />
           <p className="products-count">
             <span>{filteredProducts.length} of</span>{' '}
             <span style={{ color: '#4B9AF7' }}>{products.length} products</span>
@@ -142,7 +139,6 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  productTracker: () => fetchSupplierProductTrackerDetails(),
   updateFilterRanges: (filterRanges: any) => updateTrackerFilterRanges(filterRanges),
 };
 

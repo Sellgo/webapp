@@ -7,14 +7,16 @@ import CreateGroup from './CreateGroup';
 
 interface State {
   name: string;
-  open: boolean;
 }
 interface TrackerMenuProps {
   group: any;
-  // handleSubmit:any;
+  handleSubmit: any;
   handleChange: any;
   handleMenu: any;
   productTrackID: any;
+  handleCreateCancel: any;
+  handleAddGroup: any;
+  open: any;
 }
 class TrackerMenu extends Component<TrackerMenuProps, State> {
   constructor(
@@ -25,23 +27,19 @@ class TrackerMenu extends Component<TrackerMenuProps, State> {
     super(props);
     this.state = {
       name: '',
-      open: false,
     };
   }
-
-  handleItemClick = (e: any) => {
-    this.setState({
-      open: true,
-    });
-  };
-  handleCancel = () => {
-    this.setState({
-      open: false,
-    });
-  };
   render() {
-    const { group, handleChange, handleMenu, productTrackID } = this.props;
-
+    const {
+      group,
+      handleChange,
+      handleMenu,
+      productTrackID,
+      handleSubmit,
+      open,
+      handleAddGroup,
+      handleCreateCancel,
+    } = this.props;
     return (
       <div className="menu-bar">
         <Menu
@@ -64,15 +62,15 @@ class TrackerMenu extends Component<TrackerMenuProps, State> {
                 </Menu.Item>
               );
             })}
-          <Menu.Item name="+" onClick={this.handleItemClick}>
+          <Menu.Item name="+" onClick={handleAddGroup}>
             <Header as="h4">+</Header>
           </Menu.Item>
         </Menu>
         <CreateGroup
-          open={this.state.open}
+          open={open}
           handleGroupChange={(e: any) => handleChange(e)}
-          handleCancel={this.handleCancel}
-          // handleSubmit={handleSubmit}
+          handleCancel={handleCreateCancel}
+          handleSubmit={handleSubmit}
         />
       </div>
     );

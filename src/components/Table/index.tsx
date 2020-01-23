@@ -26,6 +26,7 @@ export interface PaginatedTableProps {
   columns: Column[];
   singlePageItemsCount?: number;
   setSinglePageItemsCount?: (itemsCount: number) => void;
+  setPageNumber?: any;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
 }
@@ -38,6 +39,7 @@ export interface GenericTableProps {
   totalItemsCount: number;
   showSelectItemsCount: boolean;
   singlePageItemsCount?: number;
+  setPageNumber: (pageNo: any) => void;
   setSinglePageItemsCount?: (itemsCount: number) => void;
   showSearchFilter: boolean;
   onSetShowSearchFilter: (e: any, key: any) => void;
@@ -76,6 +78,7 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
+    setPageNumber,
   } = props;
 
   return (
@@ -223,8 +226,13 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     columns,
     extendedInfo,
     expandedRows,
+    setPageNumber,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
+  React.useEffect(() => {
+    console.log('=====currentPage==========', currentPage);
+    setPageNumber(currentPage);
+  }, [currentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
 
@@ -331,6 +339,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       rows={rows}
       extendedInfo={extendedInfo}
       expandedRows={expandedRows}
+      setPageNumber={setPageNumber}
     />
   );
 };

@@ -2,7 +2,9 @@ import * as React from 'react';
 import { Card, Dropdown } from 'semantic-ui-react';
 import './index.scss';
 
-export interface AdviceCardProps {}
+export interface AdviceCardProps {
+  handlePeriodDrop: any;
+}
 
 const AdviceCard = (props: AdviceCardProps) => {
   const options = [
@@ -39,7 +41,13 @@ const AdviceCard = (props: AdviceCardProps) => {
               <b>Period:</b>
             </span>
             <span className="wrap-radio">
-              <Dropdown placeholder="Select" fluid selection options={options} />
+              <Dropdown
+                placeholder="Select"
+                fluid
+                selection
+                options={options}
+                onChange={(e, data) => props.handlePeriodDrop(data)}
+              />
             </span>
           </span>
         </Card.Content>

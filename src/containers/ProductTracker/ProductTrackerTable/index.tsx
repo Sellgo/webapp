@@ -23,8 +23,8 @@ import {
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
 import {
-  fetchSupplierProductTrackerDetails,
   setTrackerSinglePageItemsCount,
+  setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
@@ -35,10 +35,14 @@ interface TrackerProps {
   filterRanges: any;
   singlePageItemsCount: number;
   trackGroup: any;
-  productTracker: (groupID?: any) => void;
+  handleMenu: any;
+  productTrackID: any;
+  periodValue: any;
+  postCreateProductTrackGroup: (name: any) => void;
   fetchProductDetailChartRating: (productID: any) => void;
   fetchProductDetailChartReview: (productID: any) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
+  setPageNumber: (pageNo: any) => void;
   retrieveTrackGroup: () => void;
   updateProductTrackingStatus: (
     status: string,
@@ -49,41 +53,64 @@ interface TrackerProps {
   ) => void;
 }
 class ProductTrackerTable extends React.Component<TrackerProps> {
-  componentDidMount() {
-    const { productTracker, retrieveTrackGroup } = this.props;
-    productTracker();
-    retrieveTrackGroup();
-  }
-
   state = {
     expandedRows: null,
     ColumnFilterBox: false,
     name: '',
-    productTrackID: null,
+    confirm: false,
+    open: false,
   };
+  componentDidMount() {
+    const { retrieveTrackGroup } = this.props;
+    retrieveTrackGroup();
+  }
 
-  // handleSubmit =() => {
-  //   const { name }= this.state;
-  //   console.log('-------------click')
-  //   postCreateProductTrackGroup(name)
-  // }
-  handleMenu = (id: any) => {
-    this.setState(
-      {
-        productTrackID: id,
-      },
-      () => this.props.productTracker(this.state.productTrackID)
-    );
+  componentWillReceiveProps(nextProps: any) {
+    const { trackGroup } = this.props;
+    if (nextProps && nextProps.trackGroup !== trackGroup) {
+      this.setState({
+        open: false,
+      });
+    }
+  }
+  handleSubmit = () => {
+    const { name } = this.state;
+    const { postCreateProductTrackGroup } = this.props;
+    postCreateProductTrackGroup(name);
   };
   handleChange = (e: any) => {
     this.setState({ name: e.target.value });
   };
 
-  // handleUntrack = (id:any) => {
-  //   const {updateProductTrackingStatus} = this.props
-  //   console.log('----------', id)
-  //   updateProductTrackingStatus('inactive', id,undefined,undefined,'tracker')
-  // }
+  handleConfirmMessage = () => {
+    this.setState({
+      confirm: true,
+    });
+  };
+  handleCancel = () => {
+    this.setState({
+      confirm: false,
+    });
+  };
+
+  handleUntrack = (id: any, trackId: any) => {
+    const { updateProductTrackingStatus, productTrackID } = this.props;
+    updateProductTrackingStatus('inactive', undefined, productTrackID, trackId, 'tracker');
+    this.setState({
+      confirm: false,
+    });
+  };
+
+  handleAddGroup = (e: any) => {
+    this.setState({
+      open: true,
+    });
+  };
+  handleCreateCancel = () => {
+    this.setState({
+      open: false,
+    });
+  };
 
   handleClick = (e: any) => {
     const { ColumnFilterBox } = this.state;
@@ -91,12 +118,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       ColumnFilterBox: !ColumnFilterBox,
     });
   };
-  // handleMoveGroup = (id :any) => {
-  //   const {updateProductTrackingStatus} = this.props
-  //   console.log('0----------', id)
-  //   updateProductTrackingStatus('active', id,undefined,68,'tracker')
-
-  // }
+  handleMoveGroup = (groupId: any) => {
+    const { updateProductTrackingStatus } = this.props;
+    updateProductTrackingStatus('active', undefined, groupId, undefined, 'tracker');
+  };
 
   renderCheckbox = (row: ProductTrackerDetails) => {
     return <Checkbox />;
@@ -161,8 +186,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <OtherSort
         row={row}
         group={trackGroup}
-        // handleUntrack={(id:any) => this.handleUntrack(id)}
-        // handleMoveGroup={(id:any) => this.handleMoveGroup(id)}
+        handleUntrack={(id: any, trackId: any) => this.handleUntrack(id, trackId)}
+        handleCancel={this.handleCancel}
+        handleConfirmMessage={this.handleConfirmMessage}
+        confirm={this.state.confirm}
+        handleMoveGroup={(id: any) => this.handleMoveGroup(id)}
       />
     );
   };
@@ -284,7 +312,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   ];
 
   render() {
-    const { trackGroup } = this.props;
     const {
       isLoadingTrackerProducts,
       productTrackerResult,
@@ -292,6 +319,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       filterRanges,
       singlePageItemsCount,
       setSinglePageItemsCount,
+      trackGroup,
+      handleMenu,
+      productTrackID,
+      setPageNumber,
     } = this.props;
     if (isLoadingTrackerProducts || productTrackerResult === null) {
       return (
@@ -307,11 +338,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <div className="tracker-table">
         <div className="tracker-menu">
           <TrackerMenu
-            // handleSubmit={this.handleSubmit}
+            handleSubmit={this.handleSubmit}
             handleChange={this.handleChange}
             group={trackGroup}
-            handleMenu={this.handleMenu}
-            productTrackID={this.state.productTrackID}
+            handleMenu={handleMenu}
+            open={this.state.open}
+            productTrackID={productTrackID}
+            handleAddGroup={this.handleAddGroup}
+            handleCreateCancel={this.handleCreateCancel}
           />
         </div>
         {/* <AddProduct /> */}
@@ -326,6 +360,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}
+            setPageNumber={setPageNumber}
           />
         )}
       </div>
@@ -347,12 +382,12 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  productTracker: (groupID?: any) => fetchSupplierProductTrackerDetails(groupID),
   fetchProductDetailChartRating: (productID: any) =>
     fetchSupplierProductDetailChartRating(productID),
   fetchProductDetailChartReview: (productID: any) =>
     fetchSupplierProductDetailChartReview(productID),
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
+  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
   postCreateProductTrackGroup: (name: string) => postCreateProductTrackGroup(name),
   retrieveTrackGroup: () => retrieveProductTrackGroup(),
   updateProductTrackingStatus: (

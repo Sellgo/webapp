@@ -1,32 +1,26 @@
 import React from 'react';
 import { Icon, Popup, Button, List, Divider, Confirm } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 
 interface OtherSortProps {
   row: any;
-  // handleUntrack: any;
+  handleUntrack: any;
   group: any;
-  // handleMoveGroup:any;
+  confirm: any;
+  handleConfirmMessage: any;
+  handleCancel: any;
+  handleMoveGroup: any;
 }
 class OtherSort extends React.Component<OtherSortProps> {
-  state = {
-    confirm: false,
-  };
-
-  handleConfirmMessage = () => {
-    this.setState({
-      confirm: true,
-    });
-  };
-  handleCancel = () => {
-    this.setState({
-      confirm: false,
-    });
-  };
-
   render() {
-    const { row, group } = this.props;
-    const { confirm } = this.state;
+    const {
+      row,
+      group,
+      handleUntrack,
+      handleCancel,
+      confirm,
+      handleConfirmMessage,
+      handleMoveGroup,
+    } = this.props;
     return (
       <div className="other-sort">
         {/* <Icon className="bell slash" /> */}
@@ -49,10 +43,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           <List>
             {group &&
               group.map((data: any) => (
-                <List.Item
-                  key={data.id}
-                  // onClick={(id:any)=>handleMoveGroup(data.id)}
-                >
+                <List.Item key={data.id} onClick={(id: any) => handleMoveGroup(data.id)}>
                   {data.name}
                 </List.Item>
               ))}
@@ -69,13 +60,13 @@ class OtherSort extends React.Component<OtherSortProps> {
         >
           <span className="untrack-span">
             <a href={row.amazon_url} target="_blank">
-              View on Amazon
+              {'View on Amazon'}
             </a>
           </span>
           <Divider />
           <Button
             style={{ color: 'red', background: 'transparent' }}
-            onClick={this.handleConfirmMessage}
+            onClick={handleConfirmMessage}
           >
             Untrack Product{' '}
           </Button>
@@ -85,8 +76,8 @@ class OtherSort extends React.Component<OtherSortProps> {
           open={confirm}
           header="Are you sure ?"
           content="This will delete (n) Tracked Products"
-          onCancel={this.handleCancel}
-          // onConfirm={(id:any) =>  handleUntrack(row.product_id)}
+          onCancel={handleCancel}
+          onConfirm={(e: any) => handleUntrack(row.id, row.product_track_group_id)}
         />
       </div>
     );
