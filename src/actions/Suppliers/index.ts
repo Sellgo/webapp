@@ -295,9 +295,7 @@ export const setSupplierProductTrackerGroup = (data: any) => ({
 
 export const fetchSupplierProductTrackerGroup = (supplierID: string) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
-  return Axios.get(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`
-  )
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`)
     .then(json => {
       dispatch(setSupplierProductTrackerGroup(json.data));
     })
@@ -375,10 +373,7 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
   bodyFormData.set('name', supplierName);
   bodyFormData.set('supplier_id', supplierID);
   bodyFormData.set('marketplace_id', 'US');
-  return Axios.post(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`,
-    bodyFormData
-  )
+  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {})
     .catch(error => {});
 };

@@ -49,7 +49,7 @@ export class Supplier extends React.Component<SupplierProps> {
   }
 
   render() {
-    const { isLoadingSupplierProducts, supplierDetails, progress } = this.props;
+    const { isLoadingSupplierProducts, supplierDetails } = this.props;
 
     return (
       <>
