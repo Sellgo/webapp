@@ -149,7 +149,6 @@ export const GenericTable = (props: GenericTableProps) => {
                       />
                     </span>
                   )}
-                  {column.icon && <Icon className={column.icon} style={{ color: '#707070' }} />}
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}
