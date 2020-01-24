@@ -78,3 +78,10 @@
     }
   }
 }
+@media screen and (max-width: 1024px) {
+  .header-right-wrap {
+    .label {
+      font-size: 10px !important;
+    }
+  }
+}
