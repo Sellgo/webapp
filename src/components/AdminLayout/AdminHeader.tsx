@@ -48,7 +48,7 @@ export class AdminHeader extends React.Component<any> {
               className={window.location.pathname === '/product-tracker' ? 'active-menu' : ''}
             >
               Product Tracker
-            </Menu.Item> */}
+            </Menu.Item>
             {/* <Menu.Item as={Link} to="/dashboard">
               Dashboard
             </Menu.Item> */}

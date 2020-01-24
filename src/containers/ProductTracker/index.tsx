@@ -92,7 +92,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
           ]}
           callToAction={<QuotaMeter />}
         />
-        <Segment basic={true} className="setting">
+        <Segment basic={true} className="tracker-setting">
           <Grid className="product-tracker">
             <Grid.Row>
               <Grid.Column className="left-column" floated="left">

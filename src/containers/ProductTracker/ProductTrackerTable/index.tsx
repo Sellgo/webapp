@@ -326,7 +326,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     } = this.props;
     if (isLoadingTrackerProducts || productTrackerResult === null) {
       return (
-        <Segment>
+        <Segment className="product-tracker-loader">
           <Loader active={true} inline="centered" size="massive">
             Loading
           </Loader>
