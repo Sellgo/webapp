@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Menu, Header } from 'semantic-ui-react';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
+import get from 'lodash/get';
+import { connect } from 'react-redux';
 import './index.scss';
 import CreateGroup from './CreateGroup';
 
@@ -17,18 +19,10 @@ interface TrackerMenuProps {
   handleCreateCancel: any;
   handleAddGroup: any;
   open: any;
+  setMenu: any;
 }
-class TrackerMenu extends Component<TrackerMenuProps, State> {
-  constructor(
-    props: any,
-    public dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    public getState: () => any
-  ) {
-    super(props);
-    this.state = {
-      name: '',
-    };
-  }
+
+class TrackerMenu extends Component<TrackerMenuProps> {
   render() {
     const {
       group,
@@ -40,6 +34,7 @@ class TrackerMenu extends Component<TrackerMenuProps, State> {
       handleAddGroup,
       handleCreateCancel,
     } = this.props;
+
     return (
       <div className="menu-bar">
         <Menu
@@ -55,7 +50,7 @@ class TrackerMenu extends Component<TrackerMenuProps, State> {
               return (
                 <Menu.Item
                   name={data.name}
-                  active={data.id === productTrackID ? true : false}
+                  active={data.id === this.props.setMenu ? true : false}
                   onClick={(id: any) => handleMenu(data.id)}
                 >
                   <Header as="h4">{data.name}</Header>
@@ -76,4 +71,10 @@ class TrackerMenu extends Component<TrackerMenuProps, State> {
     );
   }
 }
-export default TrackerMenu;
+const mapStateToProps = (state: any) => {
+  return {
+    setMenu: get(state, 'productTracker.menuItem'),
+  };
+};
+
+export default connect(mapStateToProps)(TrackerMenu);

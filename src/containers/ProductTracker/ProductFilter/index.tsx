@@ -6,7 +6,7 @@ import SliderRange from '../../../components/SliderRange';
 import AdviceCard from '../AdviceCard';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { ProductTrackerDetails } from '../../../interfaces/Product';
+import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
 import {
   initialFilterRanges,
   findMinMaxRange,
@@ -16,7 +16,7 @@ import './index.scss';
 import { updateTrackerFilterRanges } from '../../../actions/ProductTracker';
 
 interface ProductFiltersProps {
-  products: ProductTrackerDetails[];
+  products: ProductsPaginated;
   filteredProducts: ProductTrackerDetails[];
   filterRanges: any;
   updateFilterRanges: (filterRanges: any) => void;
@@ -89,7 +89,12 @@ class ProductFilters extends Component<ProductFiltersProps> {
 
   render() {
     const { products, filteredProducts, filterRanges } = this.props;
-    if (products.length === 1 && products[0] === undefined) {
+    if (
+      products &&
+      products.results &&
+      products.results.length === 1 &&
+      products.results[0] === undefined
+    ) {
       return <div></div>;
     }
     const { productRanges } = this.state;
@@ -101,7 +106,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
           <AdviceCard handlePeriodDrop={this.props.handlePeriodDrop} />
           <p className="products-count">
             <span>{filteredProducts.length} of</span>{' '}
-            <span style={{ color: '#4B9AF7' }}>{products.length} products</span>
+            <span style={{ color: '#4B9AF7' }}>{products.count} products</span>
           </p>
 
           <Divider />

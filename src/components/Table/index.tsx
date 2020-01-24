@@ -29,6 +29,7 @@ export interface PaginatedTableProps {
   setPageNumber?: any;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
+  name?: any;
 }
 
 export interface GenericTableProps {
@@ -54,6 +55,7 @@ export interface GenericTableProps {
   rows: Array<{ [key: string]: any }>;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
+  name?: any;
 }
 
 export const GenericTable = (props: GenericTableProps) => {
@@ -79,8 +81,8 @@ export const GenericTable = (props: GenericTableProps) => {
     extendedInfo,
     expandedRows,
     setPageNumber,
+    name,
   } = props;
-
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
@@ -160,7 +162,6 @@ export const GenericTable = (props: GenericTableProps) => {
                       position="bottom right"
                       basic={true}
                       hideOnScroll={true}
-                      positionFixed={true}
                       content={<ColumnFilterCard />}
                     ></Popup>
                   ) : (
@@ -227,6 +228,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     extendedInfo,
     expandedRows,
     setPageNumber,
+    name,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   React.useEffect(() => {
@@ -339,6 +341,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       extendedInfo={extendedInfo}
       expandedRows={expandedRows}
       setPageNumber={setPageNumber}
+      name={name}
     />
   );
 };

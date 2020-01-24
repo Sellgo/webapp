@@ -362,6 +362,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           tableKey={tableKeys.SUPPLIERS}
           data={data}
           columns={columns}
+          name={'supplier'}
         />
         <Confirm
           content="Do you want to delete supplier?"

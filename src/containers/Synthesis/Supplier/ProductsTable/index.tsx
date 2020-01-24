@@ -263,6 +263,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           columns={this.columns}
           singlePageItemsCount={singlePageItemsCount}
           setSinglePageItemsCount={setSinglePageItemsCount}
+          name={'products'}
         />
       </div>
     );

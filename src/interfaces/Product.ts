@@ -42,7 +42,7 @@ export interface ProductsPaginated {
   count: number;
   num_pages: number;
   per_page: number;
-  results: Product[];
+  results: ProductTrackerDetails[];
 }
 export interface ProductDetail {
   asin: string;

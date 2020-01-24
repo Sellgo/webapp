@@ -38,7 +38,6 @@ class OtherSort extends React.Component<OtherSortProps> {
           }
           position="bottom right"
           hideOnScroll={true}
-          positionFixed={true}
         >
           <List>
             {group &&
@@ -56,7 +55,6 @@ class OtherSort extends React.Component<OtherSortProps> {
           trigger={<Icon className="ellipsis vertical" />}
           position="bottom right"
           hideOnScroll={true}
-          positionFixed={true}
         >
           <span className="untrack-span">
             <a href={row.amazon_url} target="_blank">

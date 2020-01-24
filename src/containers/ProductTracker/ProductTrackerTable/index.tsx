@@ -361,6 +361,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}
             setPageNumber={setPageNumber}
+            name={'trackerTable'}
           />
         )}
       </div>

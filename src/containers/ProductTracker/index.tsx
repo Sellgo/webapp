@@ -7,12 +7,15 @@ import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
-import { fetchSupplierProductTrackerDetails } from '../../actions/ProductTracker';
+import { fetchSupplierProductTrackerDetails, setMenuItem } from '../../actions/ProductTracker';
 
 interface ProductTrackerProps {
   productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) => void;
   singlePageItemsCount: any;
   productTrackerPageNo: any;
+  setMenuItem: (item: any) => void;
+  filterRanges: any;
+  setMenu: any;
 }
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
@@ -23,6 +26,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   componentDidMount() {
     const { productTracker, singlePageItemsCount, productTrackerPageNo } = this.props;
     const { periodValue, productTrackID } = this.state;
+    this.props.setMenuItem(this.state.productTrackID);
     productTracker(periodValue, productTrackID, singlePageItemsCount, productTrackerPageNo);
   }
 
@@ -48,6 +52,18 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       );
       return true;
     }
+    // if(this.props.filterRanges !==undefined && (JSON.stringify(this.props.filterRanges) !== JSON.stringify(nextProps.filterRanges))){
+    //   this.props.productTracker(
+    //     this.state.periodValue,
+    //     this.state.productTrackID,
+    //     nextProps.singlePageItemsCount,
+    //     nextProps.productTrackerPageNo,
+    //     nextProps.filterRanges.avg_daily_sales,
+    //     nextProps.filterRanges.avg_profit,
+    //     nextProps.filterRanges.avg_margin,
+    //     nextProps.filterRanges.avg_roi
+    //   );
+    // }
     return false;
   }
 
@@ -70,13 +86,15 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       {
         productTrackID: id,
       },
-      () =>
+      () => {
+        this.props.setMenuItem(this.state.productTrackID);
         this.props.productTracker(
           this.state.periodValue,
           this.state.productTrackID,
           this.props.singlePageItemsCount,
           this.props.productTrackerPageNo
-        )
+        );
+      }
     );
   };
 
@@ -122,12 +140,15 @@ const mapStateToProps = (state: any) => {
   return {
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     productTrackerPageNo: get(state, 'productTracker.productTrackerPageNo'),
+    filterRanges: get(state, 'productTracker.filterRanges'),
+    setMenu: get(state, 'productTracker.menuItem'),
   };
 };
 
 const mapDispatchToProps = {
   productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) =>
     fetchSupplierProductTrackerDetails(periodValue, groupID, perPage, pageNo),
+  setMenuItem: (item: any) => setMenuItem(item),
 };
 
 export default connect(
