@@ -30,6 +30,8 @@ export interface PaginatedTableProps {
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
   name?: any;
+  columnFilterData?: any;
+  handleColumnChange?: any;
 }
 
 export interface GenericTableProps {
@@ -56,7 +58,19 @@ export interface GenericTableProps {
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
   name?: any;
+  columnFilterData?: any;
+  handleColumnChange?: any;
 }
+
+const getColumnLabel = (dataKey: any, columnFilterData: any) => {
+  let flag = true;
+  columnFilterData.map((value: any, index: any) => {
+    if (value.dataKey === dataKey) {
+      flag = value.value;
+    }
+  });
+  return flag;
+};
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
@@ -82,6 +96,8 @@ export const GenericTable = (props: GenericTableProps) => {
     expandedRows,
     setPageNumber,
     name,
+    columnFilterData,
+    handleColumnChange,
   } = props;
   return (
     <div className="generic-table scrollable">
@@ -122,7 +138,60 @@ export const GenericTable = (props: GenericTableProps) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => {
-              return (
+              return name === 'trackerTable' ? (
+                getColumnLabel(column.dataKey, columnFilterData) && (
+                  <Table.HeaderCell
+                    key={column.dataKey || index}
+                    sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
+                    onClick={
+                      column.sortable
+                        ? (e: any) => setSort(e, column.dataKey || '')
+                        : column.click
+                        ? column.click
+                        : undefined
+                    }
+                    style={
+                      column.label === 'Supplier'
+                        ? {
+                            minWidth: '120px',
+                          }
+                        : {}
+                    }
+                  >
+                    {' '}
+                    {column.label}
+                    {column.label === 'Supplier' && (
+                      <span>
+                        <Icon
+                          className="filter search-filter"
+                          onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
+                        />
+                      </span>
+                    )}
+                    {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
+                      <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
+                    ) : null}
+                    {column.check && <Checkbox value={column.check} />}
+                    {column.icon && column.popUp ? (
+                      <Popup
+                        on="click"
+                        trigger={<Icon className={`${column.icon}`} />}
+                        position="bottom right"
+                        basic={true}
+                        hideOnScroll={true}
+                        content={
+                          <ColumnFilterCard
+                            columnFilterData={columnFilterData}
+                            handleColumnChange={handleColumnChange}
+                          />
+                        }
+                      ></Popup>
+                    ) : (
+                      <Icon className={column.icon} />
+                    )}
+                  </Table.HeaderCell>
+                )
+              ) : (
                 <Table.HeaderCell
                   key={column.dataKey || index}
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
@@ -162,7 +231,12 @@ export const GenericTable = (props: GenericTableProps) => {
                       position="bottom right"
                       basic={true}
                       hideOnScroll={true}
-                      content={<ColumnFilterCard />}
+                      content={
+                        <ColumnFilterCard
+                          columnFilterData={columnFilterData}
+                          handleColumnChange={handleColumnChange}
+                        />
+                      }
                     ></Popup>
                   ) : (
                     <Icon className={column.icon} />
@@ -178,11 +252,19 @@ export const GenericTable = (props: GenericTableProps) => {
                 return (
                   <>
                     <Table.Row key={index}>
-                      {columns.map((column, index) => (
-                        <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                          {renderCell(row, column)}
-                        </Table.Cell>
-                      ))}
+                      {columns.map((column, index) => {
+                        return name === 'trackerTable' ? (
+                          getColumnLabel(column.dataKey, columnFilterData) && (
+                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                              {renderCell(row, column)}
+                            </Table.Cell>
+                          )
+                        ) : (
+                          <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                            {renderCell(row, column)}
+                          </Table.Cell>
+                        );
+                      })}
                     </Table.Row>
                     {expandedRows && expandedRows === row.product_id && extendedInfo && (
                       <Table.Row key={index + '-extended'}>
@@ -229,6 +311,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     expandedRows,
     setPageNumber,
     name,
+    columnFilterData,
+    handleColumnChange,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
   React.useEffect(() => {
@@ -342,6 +426,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       expandedRows={expandedRows}
       setPageNumber={setPageNumber}
       name={name}
+      columnFilterData={columnFilterData}
+      handleColumnChange={handleColumnChange}
     />
   );
 };

@@ -6,48 +6,83 @@ export const filterRanges = {
 };
 export const columnFilter = [
   {
-    value: false,
+    value: true,
     key: 'Select All',
+    visible: true,
   },
   {
-    value: false,
+    value: true,
+    key: 'Product Information',
+    // dataKey: 'PRODUCT INFORMATION',
+    visible: false,
+  },
+  {
+    value: true,
     key: 'Avg Price',
+    dataKey: 'avg_price',
+    visible: true,
   },
   {
-    value: false,
+    value: true,
     key: 'Avg Profit',
+    dataKey: 'avg_profit',
+    visible: true,
   },
   {
-    value: false,
+    value: true,
     key: 'Avg Margin',
+    dataKey: 'avg_margin',
+    visible: true,
   },
   {
-    value: false,
+    value: true,
     key: 'Avg Daily Unit Sold',
+    dataKey: 'avg_daily_sales',
+    visible: true,
   },
   {
-    value: false,
+    value: true,
     key: 'Avg Daily Revenue',
+    dataKey: 'avg_daily_revenue',
+    visible: true,
   },
   {
-    value: false,
+    value: true,
     key: 'Avg ROI',
+    dataKey: 'avg_roi',
+    visible: true,
   },
   {
-    value: false,
+    value: true,
     key: 'Avg Daily Rank',
+    dataKey: 'avg_rank',
+    visible: true,
   },
+  // {
+  //   value: false,
+  //   key: 'Reviews',
+  // },
+  // {
+  //   value: false,
+  //   key: 'Rating',
+  // },
   {
-    value: false,
-    key: 'Reviews',
-  },
-  {
-    value: false,
-    key: 'Rating',
-  },
-  {
-    value: false,
+    value: true,
     key: 'Dimensions',
+    dataKey: 'dimension',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Weight',
+    dataKey: 'weight',
+    visible: true,
+  },
+  {
+    value: true,
+    key: '',
+    // dataKey: 'ellipsis horizontal',
+    visible: false,
   },
 ];
 export const checkFilter = [

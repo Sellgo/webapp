@@ -26,6 +26,8 @@ import {
   setTrackerSinglePageItemsCount,
   setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
+import { columnFilter } from '../../../utils/dummy';
+
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
@@ -61,6 +63,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     name: '',
     confirm: false,
     open: false,
+    columnFilterData: columnFilter,
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -111,6 +114,24 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({
       ColumnFilterBox: !ColumnFilterBox,
     });
+  };
+
+  handleColumnChange = (e: any, data: any) => {
+    let checkedData = this.state.columnFilterData;
+    if (data.label === 'Select All') {
+      checkedData.map((value: any, index: any) => {
+        if (value.key !== 'Product Information' || value.key !== '') {
+          value.value = data.checked;
+        }
+      });
+    } else {
+      checkedData.map((value: any, index: any) => {
+        if (value.key === data.label) {
+          value.value = data.checked;
+        }
+      });
+    }
+    this.setState({ columnFilterData: [...checkedData] });
   };
 
   renderCheckbox = (row: ProductTrackerDetails) => {
@@ -195,6 +216,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
     {
       label: 'PRODUCT INFORMATION',
+      dataKey: 'PRODUCT INFORMATION',
       show: true,
       render: this.renderProductInfo,
     },
@@ -294,6 +316,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     },
     {
       icon: 'ellipsis horizontal',
+      dataKey: 'ellipsis horizontal',
       show: true,
       render: this.renderIcons,
       click: this.handleClick,
@@ -352,6 +375,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             setSinglePageItemsCount={setSinglePageItemsCount}
             setPageNumber={setPageNumber}
             name={'trackerTable'}
+            columnFilterData={this.state.columnFilterData}
+            handleColumnChange={this.handleColumnChange}
           />
         )}
       </div>
