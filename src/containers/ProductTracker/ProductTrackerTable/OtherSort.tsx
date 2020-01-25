@@ -41,11 +41,16 @@ class OtherSort extends React.Component<OtherSortProps> {
         >
           <List>
             {group &&
-              group.map((data: any) => (
-                <List.Item key={data.id} onClick={(id: any) => handleMoveGroup(data.id)}>
-                  {data.name}
-                </List.Item>
-              ))}
+              group.map((data: any) => {
+                return (
+                  <List.Item
+                    key={data.id}
+                    onClick={(id: any, tackID: any) => handleMoveGroup(data.id, row.id)}
+                  >
+                    {data.name}
+                  </List.Item>
+                );
+              })}
           </List>
         </Popup>
         <Popup

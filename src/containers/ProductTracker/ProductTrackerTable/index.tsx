@@ -38,6 +38,8 @@ interface TrackerProps {
   handleMenu: any;
   productTrackID: any;
   periodValue: any;
+  handleMoveGroup: any;
+  handleUntrack: any;
   postCreateProductTrackGroup: (name: any) => void;
   fetchProductDetailChartRating: (productID: any) => void;
   fetchProductDetailChartReview: (productID: any) => void;
@@ -93,14 +95,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
-  handleUntrack = (id: any, trackId: any) => {
-    const { updateProductTrackingStatus, productTrackID } = this.props;
-    updateProductTrackingStatus('inactive', undefined, productTrackID, trackId, 'tracker');
-    this.setState({
-      confirm: false,
-    });
-  };
-
   handleAddGroup = (e: any) => {
     this.setState({
       open: true,
@@ -117,10 +111,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({
       ColumnFilterBox: !ColumnFilterBox,
     });
-  };
-  handleMoveGroup = (groupId: any) => {
-    const { updateProductTrackingStatus } = this.props;
-    updateProductTrackingStatus('active', undefined, groupId, undefined, 'tracker');
   };
 
   renderCheckbox = (row: ProductTrackerDetails) => {
@@ -181,16 +171,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p className="stat">{row.weight}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
-    const { trackGroup } = this.props;
+    const { trackGroup, handleUntrack, handleMoveGroup } = this.props;
     return (
       <OtherSort
         row={row}
         group={trackGroup}
-        handleUntrack={(id: any, trackId: any) => this.handleUntrack(id, trackId)}
+        handleUntrack={handleUntrack}
         handleCancel={this.handleCancel}
         handleConfirmMessage={this.handleConfirmMessage}
         confirm={this.state.confirm}
-        handleMoveGroup={(id: any) => this.handleMoveGroup(id)}
+        handleMoveGroup={handleMoveGroup}
       />
     );
   };

@@ -8,6 +8,7 @@ import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
 import { fetchSupplierProductTrackerDetails, setMenuItem } from '../../actions/ProductTracker';
+import { updateProductTrackingStatus } from '../../actions/Suppliers';
 
 interface ProductTrackerProps {
   productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) => void;
@@ -16,6 +17,15 @@ interface ProductTrackerProps {
   setMenuItem: (item: any) => void;
   filterRanges: any;
   setMenu: any;
+  updateProductTrackingStatus: (
+    status: string,
+    productID?: any,
+    productTrackerID?: any,
+    productTrackerGroupID?: any,
+    type?: string,
+    supplierID?: any,
+    currentState?: any
+  ) => void;
 }
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
@@ -90,11 +100,52 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
         this.props.setMenuItem(this.state.productTrackID);
         this.props.productTracker(
           this.state.periodValue,
-          this.state.productTrackID,
+          id,
           this.props.singlePageItemsCount,
           this.props.productTrackerPageNo
         );
       }
+    );
+  };
+
+  handleUntrack = (id: any, trackId: any) => {
+    const { updateProductTrackingStatus } = this.props;
+    let currentState = {
+      periodValue: this.state.periodValue,
+      productTrackID: this.state.productTrackID,
+      singlePageItemsCount: this.props.singlePageItemsCount,
+      productTrackerPageNo: this.props.productTrackerPageNo,
+    };
+    updateProductTrackingStatus(
+      'inactive',
+      undefined,
+      id,
+      trackId,
+      'tracker',
+      undefined,
+      currentState
+    );
+    this.setState({
+      confirm: false,
+    });
+  };
+
+  handleMoveGroup = (groupId: any, product_track_id: any) => {
+    const { updateProductTrackingStatus } = this.props;
+    let currentState = {
+      periodValue: this.state.periodValue,
+      productTrackID: this.state.productTrackID,
+      singlePageItemsCount: this.props.singlePageItemsCount,
+      productTrackerPageNo: this.props.productTrackerPageNo,
+    };
+    updateProductTrackingStatus(
+      'active',
+      undefined,
+      product_track_id,
+      groupId,
+      'tracker',
+      undefined,
+      currentState
     );
   };
 
@@ -126,6 +177,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
                   handleMenu={(id: any) => this.handleMenu(id)}
                   productTrackID={this.state.productTrackID}
                   periodValue={this.state.periodValue}
+                  handleUntrack={(id: any, trackId: any) => this.handleUntrack(id, trackId)}
+                  handleMoveGroup={(id: any, trackId: any) => this.handleMoveGroup(id, trackId)}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -149,6 +202,24 @@ const mapDispatchToProps = {
   productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) =>
     fetchSupplierProductTrackerDetails(periodValue, groupID, perPage, pageNo),
   setMenuItem: (item: any) => setMenuItem(item),
+  updateProductTrackingStatus: (
+    status: string,
+    productID?: any,
+    productTrackerID?: any,
+    productTrackerGroupID?: any,
+    type?: string,
+    supplierID?: any,
+    currentState?: any
+  ) =>
+    updateProductTrackingStatus(
+      status,
+      productID,
+      productTrackerID,
+      productTrackerGroupID,
+      type,
+      supplierID,
+      currentState
+    ),
 };
 
 export default connect(

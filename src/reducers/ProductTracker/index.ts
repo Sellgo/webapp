@@ -9,7 +9,6 @@ import {
   SET_MENU_ITEM,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
-  UPDATE_TRACKER_PRODUCT,
   findFilterProducts,
 } from '../../constants/Tracker';
 
@@ -42,8 +41,6 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'productTrackerPageNo', action.payload);
     case SET_RETRIEVE_PRODUCT_TRACK_GROUP:
       return setIn(state, 'trackerGroup', action.payload);
-    case UPDATE_TRACKER_PRODUCT:
-      return setIn(state, 'trackerDetails', action.payload);
     default:
       return state;
   }
