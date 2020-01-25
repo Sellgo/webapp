@@ -143,9 +143,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 'active',
                 row.product_id,
                 undefined,
-                productTrackerGroupID,
+                undefined,
                 'supplier',
-                undefined
+                supplierID
               );
             }
           }

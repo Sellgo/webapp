@@ -317,11 +317,10 @@ export const updateProductTrackingStatus = (
 
   bodyFormData.set('seller_id', sellerID || '');
   bodyFormData.set('status', status);
-
   if (productTrackerID) bodyFormData.set('id', productTrackerID);
   if (productID) bodyFormData.set('product_id', productID);
   if (productTrackerGroupID) bodyFormData.set('product_track_group_id', productTrackerGroupID);
-  if (supplierID && productTrackerID) bodyFormData.set('supplierID', supplierID);
+  if (supplierID) bodyFormData.set('supplier_id', supplierID);
 
   return !productTrackerID
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
