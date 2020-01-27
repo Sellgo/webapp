@@ -43,7 +43,9 @@ $link-color: #349af8;
   }
   .tracker-menu {
     overflow-y: auto;
-    width: 58.9%;
+    @media screen and (min-width: 1025px) {
+      width: 58.9%;
+    }
 
     .ui.secondary.pointing.menu .item {
       justify-content: center;
