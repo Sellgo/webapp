@@ -36,7 +36,7 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item
               as={Link}
               to="/synthesis"
-              className={window.location.pathname === '/synthesis' ? 'active-menu' : ''}
+              className={window.location.pathname.startsWith('/synthesis') ? 'active-menu' : ''}
             >
               <i className="fas fa-search-dollar" style={{ fontSize: 18 }}></i>
               <span className="header-values">Profit Finder</span>
@@ -45,7 +45,9 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item
               as={Link}
               to="/product-tracker"
-              className={window.location.pathname === '/product-tracker' ? 'active-menu' : ''}
+              className={
+                window.location.pathname.startsWith('/product-tracker') ? 'active-menu' : ''
+              }
             >
               Product Tracker
             </Menu.Item>
