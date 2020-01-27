@@ -69,6 +69,12 @@
           border-bottom-color: #3b4557;
         }
       }
+
+      .arrow.is-right.light {
+        &::after {
+          border-bottom-color: #f0f8ff;
+        }
+      }
     }
   }
   .ui .item.menu-link:first-child {

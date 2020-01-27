@@ -40,7 +40,13 @@ export class AdminHeader extends React.Component<any> {
             >
               <i className="fas fa-search-dollar" style={{ fontSize: 18 }}></i>
               <span className="header-values">Profit Finder</span>
-              <i className="arrow is-right" />
+              <i
+                className={
+                  window.location.pathname.startsWith('/synthesis')
+                    ? 'arrow is-right light'
+                    : 'arrow is-right'
+                }
+              />
             </Menu.Item>
             <Menu.Item
               as={Link}
