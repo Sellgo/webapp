@@ -29,7 +29,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
 
     return (
       <div className="quota-meter">
-        <Progress percent={percent} size="tiny">
+        <Progress percent={percent} size="tiny" color="blue">
           {sellerQuota.used} tracked out of {sellerQuota.available}
         </Progress>
         <Button as={Link} to="/settings/pricing" primary={true} className="add-new-supplier">

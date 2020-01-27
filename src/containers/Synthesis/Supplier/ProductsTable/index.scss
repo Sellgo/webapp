@@ -1,5 +1,5 @@
-$link-color: #349af8;
-
+$link-color: #5381db;
+$new_black: #707070;
 .products-table {
   width: 100%;
   margin: 0 auto;
@@ -33,10 +33,15 @@ $link-color: #349af8;
       color: $link-color !important;
     }
   }
-
+  tbody:before {
+    content: '.';
+    line-height: 14px;
+    color: white;
+    display: block;
+  }
   .ui.table {
     border-collapse: separate;
-    border-spacing: 0 20px;
+    border-spacing: 0 5px;
     border: none;
     background: transparent;
     width: 100%;
@@ -47,7 +52,9 @@ $link-color: #349af8;
 
     a {
       color: $link-color !important;
-      font-weight: 600;
+      font-weight: 500;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 14px;
     }
 
     // Head
@@ -75,7 +82,7 @@ $link-color: #349af8;
 
     tfoot th {
       border-top: none;
-      text-align: -webkit-right;
+      text-align: center;
     }
 
     // Body
@@ -110,7 +117,12 @@ $link-color: #349af8;
         border-bottom-right-radius: 10px;
       }
     }
-
+    td p {
+      font-size: 16px;
+    }
+    tr:first-child td {
+      border-top: 1px solid #bfbfbf;
+    }
     // Prevent stats from wrapping (such as "123 /month")
     td p.stat {
       white-space: nowrap;
@@ -190,7 +202,7 @@ $link-color: #349af8;
       padding-left: 30px;
       display: flex;
       .flag-img {
-        margin-right: 10px;
+        margin-right: 40px;
         width: 22px;
         margin-top: -3px;
       }
@@ -472,5 +484,11 @@ $link-color: #349af8;
         right: 0.1em !important;
       }
     }
+  }
+}
+
+@media screen and (min-width: 1251px) and (max-width: 1600px) {
+  .products-table .ui.table td p {
+    font-size: 14px;
   }
 }

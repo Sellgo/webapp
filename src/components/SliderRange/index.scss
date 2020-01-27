@@ -3,9 +3,9 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 18px;
-    font-weight: bold;
-    font-size: 13px;
-    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: 'Work Sans', sans-serif;
 
     // Wider style
     //padding-left: 16px;
@@ -20,7 +20,7 @@
   .range-input {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 14px;
     align-items: center;
   }
   .range-input .ui.input > input {
@@ -28,7 +28,7 @@
     border: 1px solid #dfe8f3;
     font-size: 14px;
     color: #98aeca;
-    padding: 4px 10px;
+    padding: 6px 10px;
     min-height: 10px;
     font-weight: normal;
     box-shadow: 0 1px 1px #ccc;

@@ -229,6 +229,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   ];
 
   render() {
+    console.log('------windows', window.location.pathname);
     const {
       isLoadingSupplierProducts,
       filteredProducts,

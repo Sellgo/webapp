@@ -46,13 +46,18 @@
 
   .ui.checkbox {
     input.hidden + label {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 500;
       color: #000;
+      font-family: 'Work Sans', sans-serif;
     }
   }
 }
-
+.chart-end-content h4 {
+  font-weight: bold;
+  font-size: 13px;
+  font-family: 'Work Sans', sans-serif;
+}
 .radio-toggle-wrap {
   margin: 0 auto;
   text-align: center;
@@ -109,6 +114,9 @@
         padding-top: 30px;
       }
     }
+  }
+  .setting .left-column .Supplier_Filters .synthesis-supplier-filters .inner-wrap {
+    padding: 20px 20px 10px 20px;
   }
 }
 
