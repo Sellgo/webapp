@@ -50,6 +50,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
               return (
                 <Menu.Item
                   name={data.name}
+                  key={data.id}
                   active={data.id === this.props.setMenu ? true : false}
                   onClick={(id: any) => handleMenu(data.id)}
                 >
