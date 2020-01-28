@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Checkbox } from 'semantic-ui-react';
-import { columnFilter } from '../../../utils/dummy';
 
 const ColumnFilterCard = (props: any) => {
   const { handleColumnChange, columnFilterData } = props;

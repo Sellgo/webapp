@@ -30,7 +30,7 @@ interface ProductTrackerProps {
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
     periodValue: 20,
-    productTrackID: 1,
+    productTrackID: null,
   };
 
   componentDidMount() {
@@ -92,20 +92,30 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     );
   };
   handleMenu = (id: any) => {
-    this.setState(
-      {
-        productTrackID: id,
-      },
-      () => {
-        this.props.setMenuItem(this.state.productTrackID);
-        this.props.productTracker(
-          this.state.periodValue,
-          id,
-          this.props.singlePageItemsCount,
-          this.props.productTrackerPageNo
-        );
-      }
-    );
+    if (id !== null) {
+      this.setState(
+        {
+          productTrackID: id,
+        },
+        () => {
+          this.props.setMenuItem(this.state.productTrackID);
+          this.props.productTracker(
+            this.state.periodValue,
+            id,
+            this.props.singlePageItemsCount,
+            this.props.productTrackerPageNo
+          );
+        }
+      );
+    } else {
+      this.props.setMenuItem(null);
+      this.props.productTracker(
+        this.state.periodValue,
+        undefined,
+        this.props.singlePageItemsCount,
+        this.props.productTrackerPageNo
+      );
+    }
   };
 
   handleUntrack = (id: any, trackId: any) => {

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Menu, Header } from 'semantic-ui-react';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import './index.scss';
@@ -20,6 +18,7 @@ interface TrackerMenuProps {
   handleAddGroup: any;
   open: any;
   setMenu: any;
+  error: boolean;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
@@ -28,11 +27,11 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       group,
       handleChange,
       handleMenu,
-      productTrackID,
       handleSubmit,
       open,
       handleAddGroup,
       handleCreateCancel,
+      error,
     } = this.props;
 
     return (
@@ -45,6 +44,13 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           color={'blue'}
           className="wdt100"
         >
+          <Menu.Item
+            name={'All Groups'}
+            active={this.props.setMenu === null ? true : false}
+            onClick={(id: any) => handleMenu(null)}
+          >
+            <Header as="h4">{'All Groups'}</Header>
+          </Menu.Item>
           {group &&
             group.map((data: any) => {
               return (
@@ -66,6 +72,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           handleGroupChange={(e: any) => handleChange(e)}
           handleCancel={handleCreateCancel}
           handleSubmit={handleSubmit}
+          error={error}
         />
       </div>
     );

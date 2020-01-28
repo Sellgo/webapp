@@ -55,11 +55,17 @@ export const fetchSupplierProductTrackerDetails = (
 ) => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
-  const response = await Axios.get(
-    // AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=15&page=1&period=90`
-    AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&page=${pageNo}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit&product_track_group_id=${product_track_group_id}`
-  );
+  const response = product_track_group_id
+    ? await Axios.get(
+        // AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=15&page=1&period=90`
+        AppConfig.BASE_URL_API +
+          `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&page=${pageNo}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit&product_track_group_id=${product_track_group_id}`
+      )
+    : await Axios.get(
+        // AppConfig.BASE_URL_API + `sellers/${sellerID}/product-track-data?per_page=15&page=1&period=90`
+        AppConfig.BASE_URL_API +
+          `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&page=${pageNo}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit`
+      );
   if (response.data) {
     dispatch(isLoadingTrackerProducts(false));
     const products = response.data;

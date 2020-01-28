@@ -48,6 +48,8 @@ $link-color: #349af8;
   }
   .menu-bar {
     margin-top: 48px;
+    overflow-x: scroll;
+    width: 696px;
     .ui.secondary.pointing.menu .active.item {
       border: 1px solid;
       background-color: #fff;
@@ -530,6 +532,9 @@ $link-color: #349af8;
     .add-product .add-drop {
       margin-bottom: 15px;
       border-radius: 10px;
+    }
+    .menu-bar {
+      overflow-x: scroll;
     }
   }
 }

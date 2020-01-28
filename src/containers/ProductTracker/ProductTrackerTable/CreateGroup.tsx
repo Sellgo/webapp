@@ -6,11 +6,12 @@ interface CreateGroupProps {
   handleGroupChange: Function;
   handleCancel: any;
   handleSubmit: any;
+  error: boolean;
 }
 
 class CreateGroup extends Component<CreateGroupProps> {
   render() {
-    const { open, handleGroupChange, handleCancel, handleSubmit } = this.props;
+    const { open, handleGroupChange, handleCancel, handleSubmit, error } = this.props;
     return (
       <div className="create-group-modal">
         <Modal open={open} className="create-group-modal">
@@ -18,7 +19,7 @@ class CreateGroup extends Component<CreateGroupProps> {
           <Modal.Content>
             <div>
               <h4>{'New Group Name:'}</h4>
-              <Input placeholder="Your Group" onChange={e => handleGroupChange(e)} />
+              <Input placeholder="Your Group" error={error} onChange={e => handleGroupChange(e)} />
             </div>
           </Modal.Content>
           <Modal.Actions>

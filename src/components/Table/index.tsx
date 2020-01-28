@@ -94,7 +94,7 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
-    setPageNumber,
+    // setPageNumber,
     name,
     columnFilterData,
     handleColumnChange,

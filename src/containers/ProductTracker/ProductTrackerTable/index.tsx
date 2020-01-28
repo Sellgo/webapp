@@ -63,6 +63,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     name: '',
     confirm: false,
     open: false,
+    error: false,
     columnFilterData: columnFilter,
   };
   componentDidMount() {
@@ -81,7 +82,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   handleSubmit = () => {
     const { name } = this.state;
     const { postCreateProductTrackGroup } = this.props;
-    postCreateProductTrackGroup(name);
+    if (name === '') {
+      this.setState({
+        error: true,
+      });
+    } else {
+      this.setState({ error: false });
+      postCreateProductTrackGroup(name);
+    }
   };
   handleChange = (e: any) => {
     this.setState({ name: e.target.value });
@@ -101,11 +109,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   handleAddGroup = (e: any) => {
     this.setState({
       open: true,
+      name: '',
     });
   };
   handleCreateCancel = () => {
     this.setState({
       open: false,
+      error: false,
+      name: '',
     });
   };
 
@@ -359,6 +370,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             productTrackID={productTrackID}
             handleAddGroup={this.handleAddGroup}
             handleCreateCancel={this.handleCreateCancel}
+            error={this.state.error}
           />
         </div>
         {/* <AddProduct /> */}
