@@ -21,6 +21,7 @@ interface ProductFiltersProps {
   filterRanges: any;
   updateFilterRanges: (filterRanges: any) => void;
   handlePeriodDrop: any;
+  periodValue: number;
 }
 class ProductFilters extends Component<ProductFiltersProps> {
   state = {
@@ -88,7 +89,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
   };
 
   render() {
-    const { products, filteredProducts, filterRanges } = this.props;
+    const { products, filteredProducts, filterRanges, periodValue } = this.props;
     if (
       products &&
       products.results &&
@@ -103,7 +104,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
     return (
       <div className="product-tracker-filters">
         <div className="inner-wrap">
-          <AdviceCard handlePeriodDrop={this.props.handlePeriodDrop} />
+          <AdviceCard handlePeriodDrop={this.props.handlePeriodDrop} periodValue={periodValue} />
           <p className="products-count">
             <span>{filteredProducts.length} of</span>{' '}
             <span style={{ color: '#4B9AF7' }}>{products.count} products</span>

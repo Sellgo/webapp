@@ -92,7 +92,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
   };
   handleChange = (e: any) => {
-    this.setState({ name: e.target.value });
+    this.setState({ name: e.target.value, error: false });
   };
 
   handleConfirmMessage = () => {

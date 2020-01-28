@@ -175,7 +175,10 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
           <Grid className="product-tracker">
             <Grid.Row>
               <Grid.Column className="left-column" floated="left">
-                <ProductFilters handlePeriodDrop={(data: any) => this.handlePeriodDrop(data)} />
+                <ProductFilters
+                  handlePeriodDrop={(data: any) => this.handlePeriodDrop(data)}
+                  periodValue={this.state.periodValue}
+                />
               </Grid.Column>
 
               <Grid.Column className="right-column" floated="right">

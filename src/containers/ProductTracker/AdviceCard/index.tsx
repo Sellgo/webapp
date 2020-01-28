@@ -4,6 +4,7 @@ import './index.scss';
 
 export interface AdviceCardProps {
   handlePeriodDrop: any;
+  periodValue: number;
 }
 
 const AdviceCard = (props: AdviceCardProps) => {
@@ -46,6 +47,7 @@ const AdviceCard = (props: AdviceCardProps) => {
                 fluid
                 selection
                 options={options}
+                defaultValue={props.periodValue}
                 onChange={(e, data) => props.handlePeriodDrop(data)}
               />
             </span>

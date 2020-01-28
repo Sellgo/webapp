@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Modal, Button } from 'semantic-ui-react';
+import { Input, Modal, Button, Label } from 'semantic-ui-react';
 
 interface CreateGroupProps {
   open: boolean;
@@ -20,6 +20,11 @@ class CreateGroup extends Component<CreateGroupProps> {
             <div>
               <h4>{'New Group Name:'}</h4>
               <Input placeholder="Your Group" error={error} onChange={e => handleGroupChange(e)} />
+              {error && (
+                <Label pointing="above" basic={true} color="red">
+                  Please enter a value
+                </Label>
+              )}
             </div>
           </Modal.Content>
           <Modal.Actions>
