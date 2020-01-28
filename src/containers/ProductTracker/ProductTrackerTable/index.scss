@@ -100,14 +100,14 @@ $link-color: #349af8;
 
   .ui.table {
     border-collapse: separate;
-    border-spacing: 0 20px;
+    border-spacing: 0 13px;
     border: none;
     background: transparent;
     width: 100%;
     // Needs horizontal padding so shadow
     // does not get cut off by .scroll-table overflow:auto
     // This value should be same as horizontal shadow on tr
-    padding: 0 5px;
+    padding: 10px 5px 0px 5px;
 
     a {
       color: $link-color !important;
@@ -116,6 +116,11 @@ $link-color: #349af8;
 
     // Head
     thead {
+      &::after {
+        content: '';
+        display: table-row;
+        height: 12.5px;
+      }
       tr {
         th {
           border-top: 1px solid rgba(34, 36, 38, 0.3);
