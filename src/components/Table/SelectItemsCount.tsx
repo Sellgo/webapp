@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, List } from 'semantic-ui-react';
 import { selectItemsCountList } from '../../constants';
 
 interface SelectItemsCountProps {
@@ -20,30 +20,33 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
   return (
-    <div
-      className="pagination-dropdown"
-      style={{ display: 'flex', alignItems: 'center', flexDirection: 'row-reverse' }}
-    >
-      <span style={{ whiteSpace: 'nowrap', marginLeft: '1rem', marginRight: '1rem' }}>
-        Items per page
-      </span>
-      <Dropdown
-        text={String(singlePageItemsCount)}
-        upward={false}
-        style={{ width: '100px' }}
-        fluid={true}
-        selection={true}
-        options={selectItemsCountList}
-        onChange={(e, data) => {
-          const newItemsCount = Number(data.value);
-          setSinglePageItemsCount(newItemsCount);
-        }}
-      />
-      <span className="pagination-heading" style={{ whiteSpace: 'nowrap', marginRight: '2rem' }}>
-        {maxCount > 0 && `${minCount}-${maxCount} of `}
-        {totalCount} items
-      </span>
-    </div>
+    <List horizontal className="select-items-list">
+      <List.Item>
+        <List.Content>
+          {maxCount > 0 && `${minCount}-${maxCount} of `}
+          {totalCount} items
+        </List.Content>
+      </List.Item>
+      <List.Item>
+        <List.Content>
+          <Dropdown
+            text={String(singlePageItemsCount)}
+            upward={false}
+            style={{ width: '100px' }}
+            fluid={true}
+            selection={true}
+            options={selectItemsCountList}
+            onChange={(e, data) => {
+              const newItemsCount = Number(data.value);
+              setSinglePageItemsCount(newItemsCount);
+            }}
+          />
+        </List.Content>
+      </List.Item>
+      <List.Item>
+        <List.Content>Items per page</List.Content>
+      </List.Item>
+    </List>
   );
 };
 
