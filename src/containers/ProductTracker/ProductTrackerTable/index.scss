@@ -55,6 +55,9 @@ $link-color: #349af8;
     margin-top: 48px;
     .ui.secondary.pointing.menu .active.item {
       border: 1px solid;
+      @media screen and (min-width: 1025px) {
+        border-radius: 5px 5px 0px 0px;
+      }
       background-color: #fff;
       h4 {
         color: #349af8 !important;
