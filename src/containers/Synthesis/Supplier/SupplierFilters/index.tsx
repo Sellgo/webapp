@@ -129,11 +129,11 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
         </div> */}
         <div className="inner-wrap">
           {/*<AdviceCard />*/}
-          <p className="products-count">
+          {/* <p className="products-count">
             {filteredProducts.length} of {products.length} products
-          </p>
+          </p> */}
 
-          <Divider />
+          {/* <Divider /> */}
 
           {/*
           <div className="search-dropdown">

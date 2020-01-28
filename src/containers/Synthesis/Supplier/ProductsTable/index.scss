@@ -83,6 +83,25 @@ $new_black: #707070;
     tfoot th {
       border-top: none;
       text-align: center;
+      .ui.pagination.menu {
+        box-shadow: none;
+        margin-top: 60px;
+      }
+      .ui.pagination.menu a {
+        color: #000 !important;
+      }
+      .ui.pagination.menu a:nth-child(2) {
+        color: #98aeca !important;
+      }
+      .ui.pagination.menu a:nth-child(1) {
+        color: #98aeca !important;
+      }
+      .ui.pagination.menu a:nth-last-child(2) {
+        color: #98aeca !important;
+      }
+      .ui.pagination.menu a:nth-last-child(1) {
+        color: #98aeca !important;
+      }
     }
 
     // Body
@@ -97,8 +116,8 @@ $new_black: #707070;
     }
 
     td {
-      border-top: 1px solid rgba(34, 36, 38, 0.3);
-      border-bottom: 1px solid rgba(34, 36, 38, 0.3);
+      border-top: 1px solid rgba(34, 36, 38, 0.2);
+      border-bottom: 1px solid rgba(34, 36, 38, 0.2);
       padding: 8px;
       font-size: 14px;
       text-align: center;
@@ -109,10 +128,10 @@ $new_black: #707070;
         width: 200px;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
-        border-left: 1px solid rgba(34, 36, 38, 0.3);
+        border-left: 1px solid rgba(34, 36, 38, 0.2);
       }
       &:last-child {
-        border-right: 1px solid rgba(34, 36, 38, 0.3);
+        border-right: 1px solid rgba(34, 36, 38, 0.2);
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
       }
@@ -121,7 +140,7 @@ $new_black: #707070;
       font-size: 16px;
     }
     tr:first-child td {
-      border-top: 1px solid #bfbfbf;
+      border-top: 1px solid rgba(34, 36, 38, 0.2);
     }
     // Prevent stats from wrapping (such as "123 /month")
     td p.stat {

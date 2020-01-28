@@ -20,10 +20,10 @@
           }
         }
         .inner-wrap {
-          border: 1px solid #c9d3e1;
-          border-radius: 10px;
-          box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1) !important;
-          padding: 20px 45px 10px 30px;
+          border: 0.5px solid #98aeca;
+          border-radius: 11px;
+          box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.16) !important;
+          padding: 10px 15px 10px 15px;
           background: #fff;
         }
       }
@@ -39,7 +39,7 @@
   .ui.feed {
     .event {
       .content {
-        padding-top: 34px;
+        padding: 45px 35px 35px 35px;
       }
     }
   }
@@ -65,17 +65,18 @@
 }
 
 .ui.raised.card {
-  border: 1px solid #c9d3e1;
+  border: 1px solid #98aeca;
   border-radius: 10px;
-  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1) !important;
-  .supplier-details-card {
-    .ui.feed {
-      .summary {
-        border-left: 1px solid #c9d3e1;
-        border-bottom-left-radius: 10px;
-      }
-    }
-  }
+  box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.16) !important;
+  background: #fff;
+  // .supplier-details-card {
+  //   .ui.feed {
+  //     .summary {
+  //       border-left: 1px solid #c9d3e1;
+  //       border-bottom-left-radius: 10px;
+  //     }
+  //   }
+  // }
 }
 
 @media (max-width: 1024px) {
