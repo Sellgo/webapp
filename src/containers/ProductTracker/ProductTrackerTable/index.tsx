@@ -16,16 +16,14 @@ import { updateProductTrackingStatus } from '../../../actions/Suppliers';
 import {
   retrieveProductTrackGroup,
   postCreateProductTrackGroup,
+  setTrackerSinglePageItemsCount,
+  setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
 
 import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
-import {
-  setTrackerSinglePageItemsCount,
-  setProductTrackerPageNumber,
-} from '../../../actions/ProductTracker';
 import { columnFilter } from '../../../utils/dummy';
 
 interface TrackerProps {
@@ -55,6 +53,7 @@ interface TrackerProps {
     productTrackerGroupID?: any,
     type?: string
   ) => void;
+  productTrackerPageNo: number;
 }
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
@@ -65,6 +64,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     open: false,
     error: false,
     columnFilterData: columnFilter,
+    groupError: false,
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -81,12 +81,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   }
   handleSubmit = () => {
     const { name } = this.state;
-    const { postCreateProductTrackGroup } = this.props;
+    const { postCreateProductTrackGroup, trackGroup } = this.props;
+    console.log('-------this.props', this.props);
     if (name === '') {
       this.setState({
         error: true,
       });
     } else {
+      // trackGroup &&trackGroup.find((data:any)=> {
+      //   if (name === data.name) {
+      //     this.setState ({ error: true,groupError: true });
+      //   } else {
+      //     this.setState({ error: false });
+      //     postCreateProductTrackGroup(name);
+      //   }
+      // })
       this.setState({ error: false });
       postCreateProductTrackGroup(name);
     }
@@ -371,6 +380,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleAddGroup={this.handleAddGroup}
             handleCreateCancel={this.handleCreateCancel}
             error={this.state.error}
+            groupError={this.state.groupError}
           />
         </div>
         {/* <AddProduct /> */}
@@ -389,6 +399,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             name={'trackerTable'}
             columnFilterData={this.state.columnFilterData}
             handleColumnChange={this.handleColumnChange}
+            count={productTrackerResult}
+            productTrackerPageNo={this.props.productTrackerPageNo}
           />
         )}
       </div>

@@ -160,6 +160,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   render() {
+    const { productTrackerPageNo } = this.props;
     return (
       <>
         <PageHeader
@@ -192,6 +193,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
                   periodValue={this.state.periodValue}
                   handleUntrack={(id: any, trackId: any) => this.handleUntrack(id, trackId)}
                   handleMoveGroup={(id: any, trackId: any) => this.handleMoveGroup(id, trackId)}
+                  productTrackerPageNo={productTrackerPageNo}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -205,7 +207,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
 const mapStateToProps = (state: any) => {
   return {
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
-    productTrackerPageNo: get(state, 'productTracker.productTrackerPageNo'),
+    productTrackerPageNo: get(state, 'productTracker.productTrackerCurrentPageNo'),
     filterRanges: get(state, 'productTracker.filterRanges'),
     setMenu: get(state, 'productTracker.menuItem'),
   };

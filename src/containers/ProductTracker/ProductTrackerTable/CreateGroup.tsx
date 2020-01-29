@@ -7,11 +7,12 @@ interface CreateGroupProps {
   handleCancel: any;
   handleSubmit: any;
   error: boolean;
+  groupError: boolean;
 }
 
 class CreateGroup extends Component<CreateGroupProps> {
   render() {
-    const { open, handleGroupChange, handleCancel, handleSubmit, error } = this.props;
+    const { open, handleGroupChange, handleCancel, handleSubmit, error, groupError } = this.props;
     return (
       <div className="create-group-modal">
         <Modal open={open} className="create-group-modal">
@@ -23,6 +24,11 @@ class CreateGroup extends Component<CreateGroupProps> {
               {error && (
                 <Label pointing="above" basic={true} color="red">
                   Please enter a value
+                </Label>
+              )}
+              {error && groupError && (
+                <Label pointing="above" basic={true} color="red">
+                  Group Name exists
                 </Label>
               )}
             </div>

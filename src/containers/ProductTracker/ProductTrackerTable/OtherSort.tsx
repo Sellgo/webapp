@@ -78,7 +78,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           className="confirmation-box"
           open={confirm}
           header="Are you sure ?"
-          content="This will delete (n) Tracked Products"
+          content="This will delete Tracked Products"
           onCancel={handleCancel}
           onConfirm={(e: any) => handleUntrack(row.id, row.product_track_group_id)}
         />

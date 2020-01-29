@@ -15,7 +15,7 @@ const initialState = {
   trackerDetails: [],
   filteredProducts: [],
   filterRanges: undefined,
-  productTrackerPageNo: 1,
+  productTrackerCurrentPageNo: 1,
   singlePageItemsCount: 5,
 };
 
@@ -37,7 +37,7 @@ export default (state = initialState, action: AnyAction) => {
     case SET_MENU_ITEM:
       return setIn(state, 'menuItem', action.payload);
     case SET_PRODUCT_TRACKER_PAGE_NUMBER:
-      return setIn(state, 'productTrackerPageNo', action.payload);
+      return setIn(state, 'productTrackerCurrentPageNo', action.payload);
     case SET_RETRIEVE_PRODUCT_TRACK_GROUP:
       return setIn(state, 'trackerGroup', action.payload);
     default:

@@ -32,6 +32,8 @@ export interface PaginatedTableProps {
   name?: any;
   columnFilterData?: any;
   handleColumnChange?: any;
+  count?: any;
+  productTrackerPageNo?: any;
 }
 
 export interface GenericTableProps {
@@ -60,6 +62,8 @@ export interface GenericTableProps {
   name?: any;
   columnFilterData?: any;
   handleColumnChange?: any;
+  count?: number;
+  productTrackerPageNo?: any;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -94,10 +98,12 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
-    // setPageNumber,
+    setPageNumber,
     name,
     columnFilterData,
     handleColumnChange,
+    count,
+    productTrackerPageNo,
   } = props;
   return (
     <div className="generic-table scrollable">
@@ -288,8 +294,12 @@ export const GenericTable = (props: GenericTableProps) => {
             <Table.HeaderCell colSpan={columns.length}>
               <Pagination
                 totalPages={rows.length ? totalPages : ''}
-                activePage={currentPage}
-                onPageChange={(event, data) => setCurrentPage(Number(data.activePage))}
+                activePage={name === 'trackerTable' ? productTrackerPageNo : currentPage}
+                onPageChange={(event, data) => {
+                  name === 'trackerTable'
+                    ? setPageNumber(Number(data.activePage))
+                    : setCurrentPage(Number(data.activePage));
+                }}
               />
             </Table.HeaderCell>
           </Table.Row>
@@ -313,14 +323,12 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     name,
     columnFilterData,
     handleColumnChange,
+    productTrackerPageNo,
+    count,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  React.useEffect(() => {
-    setPageNumber && setPageNumber(currentPage);
-  }, [currentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
-
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
   // to local state if it doesn't need to be global (in redux).
   //const [itemsCount, setItemsCount] = useState(10);
@@ -381,7 +389,11 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       })
     : rows;
 
-  const totalPages = Math.ceil(rows.length / singlePageItemsCount);
+  // const totalPages = Math.ceil(rows.length / singlePageItemsCount);
+  const totalPages =
+    name === 'trackerTable'
+      ? Math.ceil(count.count / singlePageItemsCount)
+      : Math.ceil(rows.length / singlePageItemsCount);
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
@@ -428,6 +440,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       name={name}
       columnFilterData={columnFilterData}
       handleColumnChange={handleColumnChange}
+      count={count && count.count}
+      productTrackerPageNo={productTrackerPageNo}
     />
   );
 };

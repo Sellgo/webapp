@@ -19,6 +19,7 @@ interface TrackerMenuProps {
   open: any;
   setMenu: any;
   error: boolean;
+  groupError: boolean;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
@@ -32,6 +33,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleAddGroup,
       handleCreateCancel,
       error,
+      groupError,
     } = this.props;
 
     return (
@@ -73,6 +75,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           handleCancel={handleCreateCancel}
           handleSubmit={handleSubmit}
           error={error}
+          groupError={groupError}
         />
       </div>
     );
