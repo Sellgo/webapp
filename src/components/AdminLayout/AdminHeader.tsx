@@ -5,11 +5,11 @@ import Logo from '../Logo';
 import MobileHeader from './MobileHeader';
 import './AdminHeader.scss';
 
-interface AdminPRops {
+interface AdminProps {
   auth: any;
   children: any;
 }
-export class AdminHeader extends React.Component<AdminPRops> {
+export class AdminHeader extends React.Component<AdminProps> {
   userName = localStorage.getItem('userName');
   userPicture = localStorage.getItem('userPicture');
   state = {

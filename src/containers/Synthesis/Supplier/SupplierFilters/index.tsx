@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
@@ -101,7 +100,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   };
 
   render() {
-    const { products, filteredProducts, filterRanges } = this.props;
+    const { products, filterRanges } = this.props;
     if (products.length === 1 && products[0] === undefined) {
       return <div></div>;
     }

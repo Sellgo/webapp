@@ -11,12 +11,10 @@ import {
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
-import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-// import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -229,7 +227,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   ];
 
   render() {
-    console.log('------windows', window.location.pathname);
     const {
       isLoadingSupplierProducts,
       filteredProducts,
