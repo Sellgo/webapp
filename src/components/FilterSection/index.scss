@@ -1,15 +1,16 @@
 .filter-section {
   .filter-head {
     display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+    padding-left: 18px;
 
     // Wider style
     //padding-left: 16px;
 
     > p {
       font-weight: 600;
-      font-size: 20px;
+      font-size: 16px;
       margin-bottom: 0;
     }
 

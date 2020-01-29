@@ -78,7 +78,6 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
-    setPageNumber,
   } = props;
 
   return (

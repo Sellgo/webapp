@@ -5,7 +5,11 @@ import Logo from '../Logo';
 import MobileHeader from './MobileHeader';
 import './AdminHeader.scss';
 
-export class AdminHeader extends React.Component<any> {
+interface AdminProps {
+  auth: any;
+  children: any;
+}
+export class AdminHeader extends React.Component<AdminProps> {
   userName = localStorage.getItem('userName');
   userPicture = localStorage.getItem('userPicture');
   state = {
@@ -18,7 +22,8 @@ export class AdminHeader extends React.Component<any> {
     });
   };
   render() {
-    const { auth } = this.props;
+    const { auth, children } = this.props;
+    const { supplierID } = children.props.match.params;
     const { isVisible } = this.state;
     return (
       <div className="admin-header">
@@ -36,11 +41,23 @@ export class AdminHeader extends React.Component<any> {
             <Menu.Item
               as={Link}
               to="/synthesis"
-              className={window.location.pathname === '/synthesis' ? 'active-menu' : ''}
+              className={
+                window.location.pathname === '/synthesis' ||
+                window.location.pathname === `/synthesis/${supplierID}`
+                  ? 'active-menu'
+                  : ''
+              }
             >
               <i className="fas fa-search-dollar" style={{ fontSize: 18 }}></i>
               <span className="header-values">Profit Finder</span>
-              <i className="arrow is-right" />
+              <i
+                className={
+                  window.location.pathname === '/synthesis' ||
+                  window.location.pathname === `/synthesis/${supplierID}`
+                    ? 'arrow is-right syn'
+                    : 'arrow is-right tracker'
+                }
+              />
             </Menu.Item>
             <Menu.Item
               as={Link}
