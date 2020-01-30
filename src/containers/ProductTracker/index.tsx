@@ -129,8 +129,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     updateProductTrackingStatus(
       'inactive',
       undefined,
-      id,
       trackId,
+      id,
       'tracker',
       undefined,
       currentState

@@ -3,6 +3,7 @@ import { Icon, Popup, Button, List, Divider, Confirm } from 'semantic-ui-react';
 
 interface OtherSortProps {
   row: any;
+  activeRow: any;
   handleUntrack: any;
   group: any;
   confirm: any;
@@ -14,6 +15,7 @@ class OtherSort extends React.Component<OtherSortProps> {
   render() {
     const {
       row,
+      activeRow,
       group,
       handleUntrack,
       handleCancel,
@@ -70,7 +72,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           <Divider />
           <Button
             style={{ color: 'red', background: 'transparent' }}
-            onClick={handleConfirmMessage}
+            onClick={() => handleConfirmMessage(row)}
           >
             Untrack Product
           </Button>
@@ -81,7 +83,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           header="Are you sure?"
           content="This will remove the product from the tracker."
           onCancel={handleCancel}
-          onConfirm={(e: any) => handleUntrack(row.id, row.product_track_group_id)}
+          onConfirm={(e: any) => handleUntrack(activeRow.product_track_group_id, activeRow.id)}
         />
       </div>
     );

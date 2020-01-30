@@ -71,6 +71,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     deleteGroup: false,
     columnFilterData: columnFilter,
     groupError: false,
+    activeRow: null,
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -111,15 +112,22 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ name: e.target.value, error: false });
   };
 
-  handleConfirmMessage = () => {
+  handleConfirmMessage = (row: any) => {
     this.setState({
       confirm: true,
+      activeRow: row,
     });
   };
   handleCancel = () => {
     this.setState({
       confirm: false,
     });
+  };
+  handleUntrackSubmit = (product_track_group_id: any, id: any) => {
+    this.setState({
+      confirm: false,
+    });
+    this.props.handleUntrack(product_track_group_id, id);
   };
 
   handleAddGroup = (e: any) => {
@@ -261,12 +269,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p className="stat">{row.weight}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
-    const { trackGroup, handleUntrack, handleMoveGroup } = this.props;
+    const { trackGroup, handleMoveGroup } = this.props;
     return (
       <OtherSort
         row={row}
+        activeRow={this.state.activeRow}
         group={trackGroup}
-        handleUntrack={handleUntrack}
+        handleUntrack={this.handleUntrackSubmit}
         handleCancel={this.handleCancel}
         handleConfirmMessage={this.handleConfirmMessage}
         confirm={this.state.confirm}
