@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Dropdown } from 'semantic-ui-react';
+import { Card, Dropdown, Popup, Icon } from 'semantic-ui-react';
 import './index.scss';
 
 export interface AdviceCardProps {
@@ -40,6 +40,12 @@ const AdviceCard = (props: AdviceCardProps) => {
           <span className="track-row">
             <span>
               <b>Period:</b>
+              <Popup
+                className="add-supplier-popup"
+                trigger={<Icon name="question circle" size="small" color="grey" />}
+                position="top left"
+                size="tiny"
+              />
             </span>
             <span className="wrap-radio">
               <Dropdown
