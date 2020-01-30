@@ -70,6 +70,7 @@ export const fetchSupplierProductTrackerDetails = (
     error('Data not found');
   }
 };
+
 export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -78,6 +79,34 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {
       if (json.status === 201 && json.statusText === 'Created') {
+        dispatch(retrieveProductTrackGroup());
+      }
+    })
+    .catch(error => {});
+};
+
+export const updateProductTrackGroup = (group: any) => (dispatch: any) => {
+  const bodyFormData = new FormData();
+  bodyFormData.set('id', group.id);
+  bodyFormData.set('name', group.name);
+  const sellerID = sellerIDSelector();
+  return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
+    .then(json => {
+      if (json.status === 200) {
+        dispatch(retrieveProductTrackGroup());
+      }
+    })
+    .catch(error => {});
+};
+
+export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
+  const bodyFormData = new FormData();
+  bodyFormData.set('id', groupId);
+  bodyFormData.set('status', 'inactive');
+  const sellerID = sellerIDSelector();
+  return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
+    .then(json => {
+      if (json.status === 200) {
         dispatch(retrieveProductTrackGroup());
       }
     })

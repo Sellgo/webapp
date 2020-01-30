@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Modal, Button, Form } from 'semantic-ui-react';
+import { Modal, Button, Form } from 'semantic-ui-react';
 
 interface CreateGroupProps {
   open: boolean;

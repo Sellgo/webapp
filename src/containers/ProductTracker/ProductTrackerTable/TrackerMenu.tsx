@@ -1,38 +1,62 @@
 import React, { Component } from 'react';
-import { Menu, Header } from 'semantic-ui-react';
+import { Menu, Header, Icon, Input } from 'semantic-ui-react';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import './index.scss';
 import CreateGroup from './CreateGroup';
+import EditGroupModal from './EditGroupModal';
+import DeleteGroupModal from './DeleteGroupModal';
+import { groupKeyMapping } from '../../../constants/Suppliers';
 
 interface State {
   name: string;
 }
 interface TrackerMenuProps {
-  group: any;
-  handleSubmit: any;
-  handleChange: any;
+  groups: any;
   handleMenu: any;
   productTrackID: any;
-  handleCreateCancel: any;
   handleAddGroup: any;
+  handleAddGroupSubmit: any;
+  handleAddGroupCancel: any;
+  handleAddGroupNameChange: any;
+  handleEditGroup: any;
+  handleEditGroupSubmit: any;
+  handleEditGroupCancel: any;
+  handleDeleteGroup: any;
+  handleDeleteGroupSubmit: any;
+  handleDeleteGroupCancel: any;
   open: any;
+  editGroup: any;
+  deleteGroup: any;
   setMenu: any;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
+  state = {
+    activeGroup:
+      this.props.groups && this.props.groups.find((data: any) => data.id === this.props.setMenu),
+  };
+
   render() {
     const {
-      group,
-      handleChange,
+      groups,
       handleMenu,
       productTrackID,
-      handleSubmit,
       open,
+      editGroup,
+      deleteGroup,
       handleAddGroup,
-      handleCreateCancel,
+      handleAddGroupCancel,
+      handleAddGroupSubmit,
+      handleAddGroupNameChange,
+      handleEditGroup,
+      handleEditGroupCancel,
+      handleEditGroupSubmit,
+      handleDeleteGroup,
+      handleDeleteGroupCancel,
+      handleDeleteGroupSubmit,
     } = this.props;
 
     return (
@@ -45,16 +69,26 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           color={'blue'}
           className="wdt100"
         >
-          {group &&
-            group.map((data: any) => {
+          {groups &&
+            groups.map((data: any) => {
+              const isActiveGroup = data.id === this.props.setMenu;
               return (
                 <Menu.Item
                   name={data.name}
                   key={data.id}
-                  active={data.id === this.props.setMenu ? true : false}
-                  onClick={(id: any) => handleMenu(data.id)}
+                  active={isActiveGroup ? true : false}
+                  onClick={(id: any) => {
+                    if (!isActiveGroup) handleMenu(data.id);
+                  }}
+                  verticalalign="middle"
                 >
-                  <Header as="h4">{data.name}</Header>
+                  {data.name}
+                  {isActiveGroup && (
+                    <div style={{ padding: '5px' }}>
+                      <Icon name="pencil" link onClick={() => handleEditGroup(data.name)} />
+                      <Icon name="trash alternate" link onClick={handleDeleteGroup} />
+                    </div>
+                  )}
                 </Menu.Item>
               );
             })}
@@ -64,9 +98,21 @@ class TrackerMenu extends Component<TrackerMenuProps> {
         </Menu>
         <CreateGroup
           open={open}
-          handleGroupChange={(e: any) => handleChange(e)}
-          handleCancel={handleCreateCancel}
-          handleSubmit={handleSubmit}
+          handleGroupChange={(e: any) => handleAddGroupNameChange(e)}
+          handleCancel={handleAddGroupCancel}
+          handleSubmit={handleAddGroupSubmit}
+        />
+        <EditGroupModal
+          open={editGroup}
+          activeGroup={this.state.activeGroup}
+          handleCancel={handleEditGroupCancel}
+          handleSubmit={handleEditGroupSubmit}
+        />
+        <DeleteGroupModal
+          open={deleteGroup}
+          groupId={this.props.setMenu}
+          handleCancel={handleDeleteGroupCancel}
+          handleSubmit={handleDeleteGroupSubmit}
         />
       </div>
     );

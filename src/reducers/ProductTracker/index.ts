@@ -1,6 +1,5 @@
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
-import get from 'lodash/get';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
   IS_LOADING_TRACKER_PRODUCTS,
