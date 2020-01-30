@@ -77,7 +77,13 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           >
             <Header as="h4">{'All Groups'}</Header>
           </Menu.Item>
-          {/* TODO: add Ungrouped */}
+          <Menu.Item
+            name={'Ungrouped'}
+            active={this.props.setMenu === -1 ? true : false}
+            onClick={(id: any) => handleMenu(-1)}
+          >
+            <Header as="h4">{'Ungrouped'}</Header>
+          </Menu.Item>
           {groups &&
             groups.map((data: any) => {
               const isActiveGroup = data.id === this.props.setMenu;
