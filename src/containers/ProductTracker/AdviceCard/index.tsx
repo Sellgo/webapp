@@ -21,8 +21,8 @@ const AdviceCard = (props: AdviceCardProps) => {
     },
     {
       key: 3,
-      text: '20 days',
-      value: 20,
+      text: '30 days',
+      value: 30,
     },
     {
       key: 4,

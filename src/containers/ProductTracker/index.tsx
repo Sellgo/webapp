@@ -29,7 +29,7 @@ interface ProductTrackerProps {
 }
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
-    periodValue: 20,
+    periodValue: 30,
     productTrackID: null,
   };
 
