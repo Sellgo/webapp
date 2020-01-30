@@ -1,7 +1,7 @@
 .admin-header {
   .top-menu {
-    padding-left: 40px;
-    padding-right: 20px;
+    padding-left: 9.4%;
+    padding-right: 5.99%;
     background-color: #3b4557 !important;
     height: 64px;
   }
@@ -67,6 +67,12 @@
           width: 0;
           border-color: transparent;
           border-bottom-color: #3b4557;
+        }
+      }
+
+      .arrow.is-right.light {
+        &::after {
+          border-bottom-color: #f0f8ff;
         }
       }
     }

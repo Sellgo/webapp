@@ -108,7 +108,7 @@ export const GenericTable = (props: GenericTableProps) => {
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div style={{ marginTop: '2rem' }}>
+        <div style={{ margin: '2rem 0 4rem 0' }}>
           <SelectItemsCount
             totalCount={totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
@@ -253,41 +253,43 @@ export const GenericTable = (props: GenericTableProps) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {rows.length
-            ? rows.map((row, index) => {
-                return (
-                  <>
-                    <Table.Row key={index}>
-                      {columns.map((column, index) => {
-                        return name === 'trackerTable' ? (
-                          getColumnLabel(column.dataKey, columnFilterData) && (
-                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                              {renderCell(row, column)}
-                            </Table.Cell>
-                          )
-                        ) : (
+          {rows.length ? (
+            rows.map((row, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <Table.Row key={index}>
+                    {columns.map((column, index) => {
+                      return name === 'trackerTable' ? (
+                        getColumnLabel(column.dataKey, columnFilterData) && (
                           <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
                             {renderCell(row, column)}
                           </Table.Cell>
-                        );
-                      })}
-                    </Table.Row>
-                    {expandedRows && expandedRows === row.product_id && extendedInfo && (
-                      <Table.Row key={index + '-extended'}>
-                        <Table.Cell colspan={columns.length}>
-                          {/* <a className="row-expand-btn" onClick={() => toggleExpandRow(row.id)}>
+                        )
+                      ) : (
+                        <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                          {renderCell(row, column)}
+                        </Table.Cell>
+                      );
+                    })}
+                  </Table.Row>
+                  {expandedRows && expandedRows === row.product_id && extendedInfo && (
+                    <Table.Row key={index + '-extended'}>
+                      <Table.Cell colSpan={columns.length}>
+                        {/* <a className="row-expand-btn" onClick={() => toggleExpandRow(row.id)}>
                             <span className="caret-icon">
                               <Icon className="caret down" />
                             </span>
                           </a> */}
-                          {expandedRows === row.product_id && extendedInfo(row)}
-                        </Table.Cell>
-                      </Table.Row>
-                    )}
-                  </>
-                );
-              })
-            : ''}
+                        {expandedRows === row.product_id && extendedInfo(row)}
+                      </Table.Cell>
+                    </Table.Row>
+                  )}
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <tr></tr>
+          )}
         </Table.Body>
         <Table.Footer>
           <Table.Row>

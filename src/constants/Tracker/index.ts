@@ -17,29 +17,29 @@ export const dataKeys: any = [
 export const dataKeyMapping: any = {
   // Basic KPI
   avg_profit: {
-    text: 'Avg Profit ($)',
-    presetText: 'Max Profit ($)',
+    text: 'Avg Unit Profit $',
+    presetText: 'Max Unit Profit $',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
   avg_margin: {
-    text: 'Avg Margin (%)',
-    presetText: 'Max Profit Margin (%)',
+    text: 'Avg Margin %',
+    presetText: 'Max Profit Margin %',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
   avg_daily_sales: {
-    text: 'Avg Unit Sales Per Month',
-    presetText: 'Max Unit Sales Per Month',
+    text: 'Avg Units Per Month',
+    presetText: 'Max Units Per Month',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
   avg_roi: {
-    text: ' Avg ROI Inventory',
-    presetText: 'Max ROI Inventory',
+    text: ' Avg ROI',
+    presetText: 'Max ROI',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',

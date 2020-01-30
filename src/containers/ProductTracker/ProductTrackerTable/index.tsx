@@ -18,6 +18,8 @@ import {
   postCreateProductTrackGroup,
   setTrackerSinglePageItemsCount,
   setProductTrackerPageNumber,
+  updateProductTrackGroup,
+  deleteProductTrackGroup,
 } from '../../../actions/ProductTracker';
 
 import {
@@ -41,6 +43,8 @@ interface TrackerProps {
   handleMoveGroup: any;
   handleUntrack: any;
   postCreateProductTrackGroup: (name: any) => void;
+  updateProductTrackGroup: (updatedGroup: any) => void;
+  deleteProductTrackGroup: (deletedGroup: any) => void;
   fetchProductDetailChartRating: (productID: any) => void;
   fetchProductDetailChartReview: (productID: any) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
@@ -63,6 +67,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     confirm: false,
     open: false,
     error: false,
+    editGroup: false,
+    deleteGroup: false,
     columnFilterData: columnFilter,
     groupError: false,
   };
@@ -79,7 +85,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       });
     }
   }
-  handleSubmit = () => {
+  handleSubmit = (e: any) => {
+    e.preventDefault();
     const { name } = this.state;
     const { postCreateProductTrackGroup, trackGroup } = this.props;
     console.log('-------this.props', this.props);
@@ -121,11 +128,53 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       name: '',
     });
   };
-  handleCreateCancel = () => {
+  handleAddGroupCancel = () => {
     this.setState({
       open: false,
       error: false,
       name: '',
+    });
+  };
+  handleAddGroupSubmit = () => {
+    const { name } = this.state;
+    const { postCreateProductTrackGroup } = this.props;
+    postCreateProductTrackGroup(name);
+  };
+  handleAddGroupNameChange = (e: any) => {
+    this.setState({ name: e.target.value });
+  };
+
+  handleEditGroup = (e: any, name: string) => {
+    this.setState({
+      editGroup: true,
+    });
+  };
+  handleEditGroupCancel = (e: any) => {
+    this.setState({
+      editGroup: false,
+    });
+  };
+  handleEditGroupSubmit = (group: any) => {
+    this.props.updateProductTrackGroup(group);
+    this.setState({
+      editGroup: false,
+    });
+  };
+
+  handleDeleteGroup = (e: any) => {
+    this.setState({
+      deleteGroup: true,
+    });
+  };
+  handleDeleteGroupCancel = (e: any) => {
+    this.setState({
+      deleteGroup: false,
+    });
+  };
+  handleDeleteGroupSubmit = (group: any) => {
+    this.props.deleteProductTrackGroup(group);
+    this.setState({
+      deleteGroup: false,
     });
   };
 
@@ -371,16 +420,24 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <div className="tracker-table">
         <div className="tracker-menu">
           <TrackerMenu
-            handleSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
-            group={trackGroup}
+            groups={trackGroup}
             handleMenu={handleMenu}
             open={this.state.open}
+            deleteGroup={this.state.deleteGroup}
+            editGroup={this.state.editGroup}
             productTrackID={productTrackID}
-            handleAddGroup={this.handleAddGroup}
-            handleCreateCancel={this.handleCreateCancel}
             error={this.state.error}
             groupError={this.state.groupError}
+            handleAddGroup={this.handleAddGroup}
+            handleAddGroupSubmit={this.handleAddGroupSubmit}
+            handleAddGroupCancel={this.handleAddGroupCancel}
+            handleAddGroupNameChange={this.handleAddGroupNameChange}
+            handleDeleteGroup={this.handleDeleteGroup}
+            handleDeleteGroupCancel={this.handleDeleteGroupCancel}
+            handleDeleteGroupSubmit={this.handleDeleteGroupSubmit}
+            handleEditGroup={this.handleEditGroup}
+            handleEditGroupCancel={this.handleEditGroupCancel}
+            handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
         </div>
         {/* <AddProduct /> */}
@@ -429,6 +486,8 @@ const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
   setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
   postCreateProductTrackGroup: (name: string) => postCreateProductTrackGroup(name),
+  updateProductTrackGroup: (group: any) => updateProductTrackGroup(group),
+  deleteProductTrackGroup: (groupId: any) => deleteProductTrackGroup(groupId),
   retrieveTrackGroup: () => retrieveProductTrackGroup(),
   updateProductTrackingStatus: (
     status: string,
