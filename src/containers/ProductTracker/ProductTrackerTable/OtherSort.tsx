@@ -30,6 +30,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           on="click"
           trigger={
             <Icon
+              link
               className="folder"
               data-toggle="tooltip"
               data-placement="middle"
@@ -57,7 +58,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           basic
           on="click"
           className="untrack-popup"
-          trigger={<Icon className="ellipsis vertical" />}
+          trigger={<Icon link className="ellipsis vertical" />}
           position="bottom right"
           hideOnScroll={true}
         >
@@ -71,14 +72,14 @@ class OtherSort extends React.Component<OtherSortProps> {
             style={{ color: 'red', background: 'transparent' }}
             onClick={handleConfirmMessage}
           >
-            Untrack Product{' '}
+            Untrack Product
           </Button>
         </Popup>
         <Confirm
           className="confirmation-box"
           open={confirm}
           header="Are you sure ?"
-          content="This will delete Tracked Products"
+          content="This will remove the product from the tracker."
           onCancel={handleCancel}
           onConfirm={(e: any) => handleUntrack(row.id, row.product_track_group_id)}
         />
