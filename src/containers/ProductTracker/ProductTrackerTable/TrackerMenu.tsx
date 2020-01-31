@@ -101,7 +101,9 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                   }}
                   verticalalign="middle"
                 >
-                  {data.name}
+                  <Header as="h4" style={{ margin: '0' }}>
+                    {data.name}
+                  </Header>
                   {isActiveGroup && (
                     <div style={{ padding: '5px' }}>
                       <Icon name="pencil" link onClick={() => handleEditGroup(data.name)} />
