@@ -29,6 +29,11 @@ export interface PaginatedTableProps {
   setPageNumber?: any;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
+  name?: any;
+  columnFilterData?: any;
+  handleColumnChange?: any;
+  count?: any;
+  productTrackerPageNo?: any;
 }
 
 export interface GenericTableProps {
@@ -54,7 +59,22 @@ export interface GenericTableProps {
   rows: Array<{ [key: string]: any }>;
   extendedInfo?: (data: any) => void;
   expandedRows?: any;
+  name?: any;
+  columnFilterData?: any;
+  handleColumnChange?: any;
+  count?: number;
+  productTrackerPageNo?: any;
 }
+
+const getColumnLabel = (dataKey: any, columnFilterData: any) => {
+  let flag = true;
+  columnFilterData.map((value: any, index: any) => {
+    if (value.dataKey === dataKey) {
+      flag = value.value;
+    }
+  });
+  return flag;
+};
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
@@ -78,14 +98,21 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
+    setPageNumber,
+    name,
+    columnFilterData,
+    handleColumnChange,
+    count,
+    productTrackerPageNo,
   } = props;
-
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div style={{ marginTop: '2rem' }}>
+        <div style={{ margin: '2rem 0 4rem 0' }}>
           <SelectItemsCount
-            totalCount={totalItemsCount}
+            totalCount={
+              count && totalItemsCount && count > totalItemsCount ? count : totalItemsCount
+            }
             singlePageItemsCount={singlePageItemsCount}
             currentPage={currentPage}
             setSinglePageItemsCount={setSinglePageItemsCount}
@@ -119,7 +146,60 @@ export const GenericTable = (props: GenericTableProps) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => {
-              return (
+              return name === 'trackerTable' ? (
+                getColumnLabel(column.dataKey, columnFilterData) && (
+                  <Table.HeaderCell
+                    key={column.dataKey || index}
+                    sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
+                    onClick={
+                      column.sortable
+                        ? (e: any) => setSort(e, column.dataKey || '')
+                        : column.click
+                        ? column.click
+                        : undefined
+                    }
+                    style={
+                      column.label === 'Supplier'
+                        ? {
+                            minWidth: '120px',
+                          }
+                        : {}
+                    }
+                  >
+                    {' '}
+                    {column.label}
+                    {column.label === 'Supplier' && (
+                      <span>
+                        <Icon
+                          className="filter search-filter"
+                          onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
+                        />
+                      </span>
+                    )}
+                    {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
+                      <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
+                    ) : null}
+                    {column.check && <Checkbox value={column.check} />}
+                    {column.icon && column.popUp ? (
+                      <Popup
+                        on="click"
+                        trigger={<Icon className={`${column.icon}`} />}
+                        position="bottom right"
+                        basic={true}
+                        hideOnScroll={true}
+                        content={
+                          <ColumnFilterCard
+                            columnFilterData={columnFilterData}
+                            handleColumnChange={handleColumnChange}
+                          />
+                        }
+                      ></Popup>
+                    ) : (
+                      <Icon className={column.icon} />
+                    )}
+                  </Table.HeaderCell>
+                )
+              ) : (
                 <Table.HeaderCell
                   key={column.dataKey || index}
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
@@ -159,8 +239,12 @@ export const GenericTable = (props: GenericTableProps) => {
                       position="bottom right"
                       basic={true}
                       hideOnScroll={true}
-                      positionFixed={true}
-                      content={<ColumnFilterCard />}
+                      content={
+                        <ColumnFilterCard
+                          columnFilterData={columnFilterData}
+                          handleColumnChange={handleColumnChange}
+                        />
+                      }
                     ></Popup>
                   ) : (
                     <Icon className={column.icon} />
@@ -171,41 +255,55 @@ export const GenericTable = (props: GenericTableProps) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {rows.length
-            ? rows.map((row, index) => {
-                return (
-                  <>
-                    <Table.Row key={index}>
-                      {columns.map((column, index) => (
+          {rows.length ? (
+            rows.map((row, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <Table.Row key={index}>
+                    {columns.map((column, index) => {
+                      return name === 'trackerTable' ? (
+                        getColumnLabel(column.dataKey, columnFilterData) && (
+                          <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                            {renderCell(row, column)}
+                          </Table.Cell>
+                        )
+                      ) : (
                         <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
                           {renderCell(row, column)}
                         </Table.Cell>
-                      ))}
-                    </Table.Row>
-                    {expandedRows && expandedRows === row.product_id && extendedInfo && (
-                      <Table.Row key={index + '-extended'}>
-                        <Table.Cell colspan={columns.length}>
-                          {/* <a className="row-expand-btn" onClick={() => toggleExpandRow(row.id)}>
+                      );
+                    })}
+                  </Table.Row>
+                  {expandedRows && expandedRows === row.product_id && extendedInfo && (
+                    <Table.Row key={index + '-extended'}>
+                      <Table.Cell colSpan={columns.length}>
+                        {/* <a className="row-expand-btn" onClick={() => toggleExpandRow(row.id)}>
                             <span className="caret-icon">
                               <Icon className="caret down" />
                             </span>
                           </a> */}
-                          {expandedRows === row.product_id && extendedInfo(row)}
-                        </Table.Cell>
-                      </Table.Row>
-                    )}
-                  </>
-                );
-              })
-            : ''}
+                        {expandedRows === row.product_id && extendedInfo(row)}
+                      </Table.Cell>
+                    </Table.Row>
+                  )}
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <tr></tr>
+          )}
         </Table.Body>
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan={columns.length}>
               <Pagination
                 totalPages={rows.length ? totalPages : ''}
-                activePage={currentPage}
-                onPageChange={(event, data) => setCurrentPage(Number(data.activePage))}
+                activePage={name === 'trackerTable' ? productTrackerPageNo : currentPage}
+                onPageChange={(event, data) => {
+                  name === 'trackerTable'
+                    ? setPageNumber(Number(data.activePage))
+                    : setCurrentPage(Number(data.activePage));
+                }}
               />
             </Table.HeaderCell>
           </Table.Row>
@@ -226,14 +324,15 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     extendedInfo,
     expandedRows,
     setPageNumber,
+    name,
+    columnFilterData,
+    handleColumnChange,
+    productTrackerPageNo,
+    count,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  React.useEffect(() => {
-    setPageNumber && setPageNumber(currentPage);
-  }, [currentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
-
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
   // to local state if it doesn't need to be global (in redux).
   //const [itemsCount, setItemsCount] = useState(10);
@@ -294,7 +393,11 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       })
     : rows;
 
-  const totalPages = Math.ceil(rows.length / singlePageItemsCount);
+  // const totalPages = Math.ceil(rows.length / singlePageItemsCount);
+  const totalPages =
+    name === 'trackerTable'
+      ? Math.ceil(count.count / singlePageItemsCount)
+      : Math.ceil(rows.length / singlePageItemsCount);
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
@@ -338,6 +441,11 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       extendedInfo={extendedInfo}
       expandedRows={expandedRows}
       setPageNumber={setPageNumber}
+      name={name}
+      columnFilterData={columnFilterData}
+      handleColumnChange={handleColumnChange}
+      count={count && count.count}
+      productTrackerPageNo={productTrackerPageNo}
     />
   );
 };

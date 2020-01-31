@@ -1,7 +1,7 @@
 .admin-header {
   .top-menu {
-    padding-left: 190px;
-    padding-right: 190px;
+    padding-left: 9.4%;
+    padding-right: 5.99%;
     background-color: #3b4557 !important;
     height: 64px;
   }
@@ -69,29 +69,10 @@
           border-bottom-color: #3b4557;
         }
       }
-      .arrow.is-right.syn {
-        -moz-transform: rotate(315deg);
-        -ms-transform: rotate(315deg);
-        -webkit-transform: rotate(315deg);
-        transform: rotate(315deg);
-        position: absolute;
-        right: 9px;
-        z-index: 99;
 
+      .arrow.is-right.light {
         &::after {
-          content: '';
-          display: inline-block;
-          height: 12px;
-          left: 0;
-          position: absolute;
-          top: 0;
-          width: 12px;
-          border-style: solid;
-          border-width: 0 0 12px 12px;
-          height: 0;
-          width: 0;
-          border-color: transparent;
-          border-bottom-color: #f0f8fe;
+          border-bottom-color: #f0f8ff;
         }
       }
     }
@@ -177,7 +158,6 @@
   .admin-layout.ui.segment {
     display: flex;
     flex-direction: column;
-    padding: 20px 8px !important;
   }
   .ui.header:last-child {
     margin-bottom: inherit;
@@ -197,15 +177,9 @@
     padding-left: 20px;
     padding-right: 20px;
   }
-  .admin-layout.ui.segment {
-    padding: 20px 10px !important;
-  }
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1250px) {
-  .admin-layout.ui.segment {
-    padding: 20px 18px !important;
-  }
   .admin-header .top-menu {
     padding-left: 18px;
     padding-right: 18px;
@@ -215,9 +189,6 @@
 @media screen and (min-width: 1251px) and (max-width: 1600px) {
   .page-header {
     padding: 0 100px 0 58px !important;
-  }
-  .admin-layout.ui.segment {
-    padding: 20px 28px !important;
   }
   .segment .setting .left-column {
     padding-right: 60px !important;

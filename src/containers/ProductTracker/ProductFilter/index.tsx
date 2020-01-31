@@ -6,21 +6,23 @@ import SliderRange from '../../../components/SliderRange';
 import AdviceCard from '../AdviceCard';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { ProductTrackerDetails } from '../../../interfaces/Product';
+import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
 import {
   initialFilterRanges,
   findMinMaxRange,
+  parseMinMaxRange,
   findFilterProducts,
 } from '../../../constants/Tracker';
 import './index.scss';
 import { updateTrackerFilterRanges } from '../../../actions/ProductTracker';
 
 interface ProductFiltersProps {
-  products: ProductTrackerDetails[];
+  products: ProductsPaginated;
   filteredProducts: ProductTrackerDetails[];
   filterRanges: any;
   updateFilterRanges: (filterRanges: any) => void;
   handlePeriodDrop: any;
+  periodValue: number;
 }
 class ProductFilters extends Component<ProductFiltersProps> {
   state = {
@@ -28,9 +30,10 @@ class ProductFilters extends Component<ProductFiltersProps> {
   };
 
   componentWillReceiveProps(props: any) {
-    if (props.products && props.products !== this.props.products && props.products.length > 0) {
+    if (props.products && props.products !== this.props.products && props.products.count > 0) {
       // Get min and max range for each filter setting based on all products
-      const productRanges = findMinMaxRange(props.products);
+      // const productRanges = findMinMaxRange(props.products.results);
+      const productRanges = parseMinMaxRange(props.products.min_max);
       this.setState({ productRanges });
     }
   }
@@ -88,8 +91,13 @@ class ProductFilters extends Component<ProductFiltersProps> {
   };
 
   render() {
-    const { products, filteredProducts, filterRanges } = this.props;
-    if (products.length === 1 && products[0] === undefined) {
+    const { products, filteredProducts, filterRanges, periodValue } = this.props;
+    if (
+      products &&
+      products.results &&
+      products.results.length === 1 &&
+      products.results[0] === undefined
+    ) {
       return <div></div>;
     }
     const { productRanges } = this.state;
@@ -98,10 +106,10 @@ class ProductFilters extends Component<ProductFiltersProps> {
     return (
       <div className="product-tracker-filters">
         <div className="inner-wrap">
-          <AdviceCard handlePeriodDrop={this.props.handlePeriodDrop} />
+          <AdviceCard handlePeriodDrop={this.props.handlePeriodDrop} periodValue={periodValue} />
           <p className="products-count">
             <span>{filteredProducts.length} of</span>{' '}
-            <span style={{ color: '#4B9AF7' }}>{products.length} products</span>
+            <span style={{ color: '#4B9AF7' }}>{products.count} products</span>
           </p>
 
           <Divider />

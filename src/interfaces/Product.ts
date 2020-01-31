@@ -42,7 +42,8 @@ export interface ProductsPaginated {
   count: number;
   num_pages: number;
   per_page: number;
-  results: Product[];
+  results: ProductTrackerDetails[];
+  min_max: Object;
 }
 export interface ProductDetail {
   asin: string;

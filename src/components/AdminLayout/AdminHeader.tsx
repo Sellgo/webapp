@@ -41,28 +41,24 @@ export class AdminHeader extends React.Component<AdminProps> {
             <Menu.Item
               as={Link}
               to="/synthesis"
-              className={
-                window.location.pathname === '/synthesis' ||
-                window.location.pathname === `/synthesis/${supplierID}`
-                  ? 'active-menu'
-                  : ''
-              }
+              className={window.location.pathname.startsWith('/synthesis') ? 'active-menu' : ''}
             >
               <i className="fas fa-search-dollar" style={{ fontSize: 18 }}></i>
               <span className="header-values">Profit Finder</span>
               <i
                 className={
-                  window.location.pathname === '/synthesis' ||
-                  window.location.pathname === `/synthesis/${supplierID}`
-                    ? 'arrow is-right syn'
-                    : 'arrow is-right tracker'
+                  window.location.pathname.startsWith('/synthesis')
+                    ? 'arrow is-right light'
+                    : 'arrow is-right'
                 }
               />
             </Menu.Item>
             <Menu.Item
               as={Link}
               to="/product-tracker"
-              className={window.location.pathname === '/product-tracker' ? 'active-menu' : ''}
+              className={
+                window.location.pathname.startsWith('/product-tracker') ? 'active-menu' : ''
+              }
             >
               Product Tracker
             </Menu.Item>

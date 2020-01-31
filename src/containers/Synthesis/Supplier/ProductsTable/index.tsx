@@ -11,6 +11,7 @@ import {
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
+// import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
@@ -141,9 +142,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 'active',
                 row.product_id,
                 undefined,
-                productTrackerGroupID,
+                undefined,
                 'supplier',
-                undefined
+                supplierID
               );
             }
           }
@@ -261,6 +262,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           columns={this.columns}
           singlePageItemsCount={singlePageItemsCount}
           setSinglePageItemsCount={setSinglePageItemsCount}
+          name={'products'}
         />
       </div>
     );

@@ -28,9 +28,9 @@ import {
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
 } from '../../constants/Suppliers';
-import { UPDATE_TRACKER_PRODUCT } from '../../constants/Tracker';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
+import { fetchSupplierProductTrackerDetails } from './../ProductTracker';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -309,19 +309,18 @@ export const updateProductTrackingStatus = (
   productTrackerID?: string,
   productTrackerGroupID?: string,
   name?: string,
-  supplierID?: any
+  supplierID?: any,
+  currentState?: any
 ) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
 
   bodyFormData.set('seller_id', sellerID || '');
   bodyFormData.set('status', status);
-
   if (productTrackerID) bodyFormData.set('id', productTrackerID);
   if (productID) bodyFormData.set('product_id', productID);
-  if (!productTrackerID && productTrackerGroupID)
-    bodyFormData.set('product_track_group_id', productTrackerGroupID);
-  if (supplierID && productTrackerID) bodyFormData.set('supplierID', supplierID);
+  if (productTrackerGroupID) bodyFormData.set('product_track_group_id', productTrackerGroupID);
+  if (supplierID) bodyFormData.set('supplier_id', supplierID);
 
   return !productTrackerID
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
@@ -337,7 +336,24 @@ export const updateProductTrackingStatus = (
     : Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(updateSupplierProduct(json.data));
+          if (name === 'tracker') {
+            const {
+              periodValue,
+              productTrackID,
+              singlePageItemsCount,
+              productTrackerPageNo,
+            } = currentState;
+            dispatch(
+              fetchSupplierProductTrackerDetails(
+                periodValue,
+                productTrackID,
+                singlePageItemsCount,
+                productTrackerPageNo
+              )
+            );
+          } else {
+            dispatch(updateSupplierProduct(json.data));
+          }
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {
@@ -346,10 +362,6 @@ export const updateProductTrackingStatus = (
         });
 };
 
-export const updateTrackerProduct = (data: any) => ({
-  type: UPDATE_TRACKER_PRODUCT,
-  payload: data,
-});
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
   payload: data,

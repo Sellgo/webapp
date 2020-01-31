@@ -10,6 +10,8 @@
   }
 
   .ui.breadcrumb {
+    padding-left: 4%;
+
     @media screen and (max-width: 767px) {
       font-size: 0.8rem !important;
     }

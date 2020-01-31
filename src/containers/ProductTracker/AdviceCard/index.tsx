@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Card, Dropdown } from 'semantic-ui-react';
+import { Card, Dropdown, Popup, Icon } from 'semantic-ui-react';
 import './index.scss';
 
 export interface AdviceCardProps {
   handlePeriodDrop: any;
+  periodValue: number;
 }
 
 const AdviceCard = (props: AdviceCardProps) => {
@@ -20,8 +21,8 @@ const AdviceCard = (props: AdviceCardProps) => {
     },
     {
       key: 3,
-      text: '20 days',
-      value: 20,
+      text: '30 days',
+      value: 30,
     },
     {
       key: 4,
@@ -39,6 +40,12 @@ const AdviceCard = (props: AdviceCardProps) => {
           <span className="track-row">
             <span>
               <b>Period:</b>
+              <Popup
+                className="add-supplier-popup"
+                trigger={<Icon name="question circle" size="small" color="grey" />}
+                position="top left"
+                size="tiny"
+              />
             </span>
             <span className="wrap-radio">
               <Dropdown
@@ -46,6 +53,7 @@ const AdviceCard = (props: AdviceCardProps) => {
                 fluid
                 selection
                 options={options}
+                defaultValue={props.periodValue}
                 onChange={(e, data) => props.handlePeriodDrop(data)}
               />
             </span>

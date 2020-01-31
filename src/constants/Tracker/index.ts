@@ -4,7 +4,7 @@ export const UPDATE_TRACKER_FILTER_RANGES = 'UPDATE_TRACKER_FILTER_RANGES';
 export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT';
 export const SET_PRODUCT_TRACKER_PAGE_NUMBER = 'SET_PRODUCT_TRACKER_PAGE_NUMBER';
 export const SET_RETRIEVE_PRODUCT_TRACK_GROUP = 'SET_RETRIEVE_PRODUCT_TRACK_GROUP';
-export const UPDATE_TRACKER_PRODUCT = 'UPDATE_TRACKER_PRODUCT';
+export const SET_MENU_ITEM = 'SET_MENU_ITEM';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -17,29 +17,29 @@ export const dataKeys: any = [
 export const dataKeyMapping: any = {
   // Basic KPI
   avg_profit: {
-    text: 'Avg Profit ($)',
-    presetText: 'Max Profit ($)',
+    text: 'Avg Unit Profit $',
+    presetText: 'Max Unit Profit $',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
   avg_margin: {
-    text: 'Avg Margin (%)',
-    presetText: 'Max Profit Margin (%)',
+    text: 'Avg Margin %',
+    presetText: 'Max Profit Margin %',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
   avg_daily_sales: {
-    text: 'Avg Unit Sales Per Month',
-    presetText: 'Max Unit Sales Per Month',
+    text: 'Avg Units Per Month',
+    presetText: 'Max Units Per Month',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
   },
   avg_roi: {
-    text: ' Avg ROI Inventory',
-    presetText: 'Max ROI Inventory',
+    text: ' Avg ROI',
+    presetText: 'Max ROI',
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
@@ -97,8 +97,8 @@ export const findMinMaxRange = (products: any) => {
       const dkArray = products.map((p: any) => {
         return Number(p[dk]);
       });
-      const minDk = Math.floor(Math.min(...dkArray));
-      const maxDk = Math.ceil(Math.max(...dkArray));
+      const minDk = Math.floor((Math.min(...dkArray) * 100) / 100);
+      const maxDk = Math.ceil((Math.max(...dkArray) * 100) / 100);
       const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
       const max = maxDk === Number.NEGATIVE_INFINITY ? '' : maxDk;
       const updatedDkRange = { min, max };
@@ -107,6 +107,19 @@ export const findMinMaxRange = (products: any) => {
     return fr;
   }, {});
   return updatedFilterRanges;
+};
+
+export const parseMinMaxRange = (minMaxes: any) => {
+  let parsedMinMaxes = dataKeys.reduce(
+    (a: any, key: any) =>
+      Object.assign(a, { [key]: { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER } }),
+    {}
+  );
+  dataKeys.map((kpi: any) => {
+    parsedMinMaxes[kpi]['min'] = Math.floor(minMaxes[`min_${kpi}`] * 100) / 100;
+    parsedMinMaxes[kpi]['max'] = Math.ceil(minMaxes[`max_${kpi}`] * 100) / 100;
+  });
+  return parsedMinMaxes;
 };
 
 export const findFilterProducts = (products: any, filterRanges: any) => {

@@ -3,6 +3,7 @@ import { Icon, Popup, Button, List, Divider, Confirm } from 'semantic-ui-react';
 
 interface OtherSortProps {
   row: any;
+  activeRow: any;
   handleUntrack: any;
   group: any;
   confirm: any;
@@ -14,6 +15,7 @@ class OtherSort extends React.Component<OtherSortProps> {
   render() {
     const {
       row,
+      activeRow,
       group,
       handleUntrack,
       handleCancel,
@@ -30,6 +32,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           on="click"
           trigger={
             <Icon
+              link
               className="folder"
               data-toggle="tooltip"
               data-placement="middle"
@@ -38,25 +41,28 @@ class OtherSort extends React.Component<OtherSortProps> {
           }
           position="bottom right"
           hideOnScroll={true}
-          positionFixed={true}
         >
           <List>
             {group &&
-              group.map((data: any) => (
-                <List.Item key={data.id} onClick={(id: any) => handleMoveGroup(data.id)}>
-                  {data.name}
-                </List.Item>
-              ))}
+              group.map((data: any) => {
+                return (
+                  <List.Item
+                    key={data.id}
+                    onClick={(id: any, tackID: any) => handleMoveGroup(data.id, row.id)}
+                  >
+                    {data.name}
+                  </List.Item>
+                );
+              })}
           </List>
         </Popup>
         <Popup
           basic
           on="click"
           className="untrack-popup"
-          trigger={<Icon className="ellipsis vertical" />}
+          trigger={<Icon link className="ellipsis vertical" />}
           position="bottom right"
           hideOnScroll={true}
-          positionFixed={true}
         >
           <span className="untrack-span">
             <a href={row.amazon_url} target="_blank">
@@ -66,18 +72,18 @@ class OtherSort extends React.Component<OtherSortProps> {
           <Divider />
           <Button
             style={{ color: 'red', background: 'transparent' }}
-            onClick={handleConfirmMessage}
+            onClick={() => handleConfirmMessage(row)}
           >
-            Untrack Product{' '}
+            Untrack Product
           </Button>
         </Popup>
         <Confirm
           className="confirmation-box"
           open={confirm}
-          header="Are you sure ?"
-          content="This will delete (n) Tracked Products"
+          header="Are you sure?"
+          content="This will remove the product from the tracker."
           onCancel={handleCancel}
-          onConfirm={(e: any) => handleUntrack(row.id, row.product_track_group_id)}
+          onConfirm={(e: any) => handleUntrack(activeRow.product_track_group_id, activeRow.id)}
         />
       </div>
     );

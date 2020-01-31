@@ -48,8 +48,17 @@ $link-color: #349af8;
   }
   .menu-bar {
     margin-top: 48px;
+    @media screen and (min-width: 768px) {
+      overflow-x: auto;
+    }
+    @media screen and (min-width: 1024px) {
+      width: 60%;
+    }
     .ui.secondary.pointing.menu .active.item {
       border: 1px solid;
+      @media screen and (min-width: 1025px) {
+        border-radius: 5px 5px 0px 0px;
+      }
       background-color: #fff;
       h4 {
         color: #349af8 !important;
@@ -92,14 +101,14 @@ $link-color: #349af8;
 
   .ui.table {
     border-collapse: separate;
-    border-spacing: 0 20px;
+    border-spacing: 0 8px;
     border: none;
     background: transparent;
     width: 100%;
     // Needs horizontal padding so shadow
     // does not get cut off by .scroll-table overflow:auto
     // This value should be same as horizontal shadow on tr
-    padding: 0 5px;
+    padding: 10px 5px 0px 5px;
 
     a {
       color: $link-color !important;
@@ -108,6 +117,11 @@ $link-color: #349af8;
 
     // Head
     thead {
+      &::after {
+        content: '';
+        display: table-row;
+        height: 3px;
+      }
       tr {
         th {
           border-top: 1px solid rgba(34, 36, 38, 0.3);
@@ -530,6 +544,9 @@ $link-color: #349af8;
     .add-product .add-drop {
       margin-bottom: 15px;
       border-radius: 10px;
+    }
+    .menu-bar {
+      overflow-x: auto;
     }
   }
 }
