@@ -12,9 +12,12 @@ import {
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
+  ADD_PRODUCT_TRACK_GROUP,
+  UPDATE_PRODUCT_TRACK_GROUP,
+  REMOVE_PRODUCT_TRACK_GROUP,
   SET_MENU_ITEM,
 } from '../../constants/Tracker';
-import { error } from '../../utils/notifications';
+import { error, success } from '../../utils/notifications';
 
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
@@ -44,6 +47,19 @@ export const setProductTrackerPageNumber = (pageNo: number) => ({
 });
 export const setRetrieveProductTrackGroup = (data: any) => ({
   type: SET_RETRIEVE_PRODUCT_TRACK_GROUP,
+  payload: data,
+});
+
+export const addProductTrackGroup = (data: any) => ({
+  type: ADD_PRODUCT_TRACK_GROUP,
+  payload: data,
+});
+export const updateProductTrackGroup = (data: any) => ({
+  type: UPDATE_PRODUCT_TRACK_GROUP,
+  payload: data,
+});
+export const removeProductTrackGroup = (data: any) => ({
+  type: REMOVE_PRODUCT_TRACK_GROUP,
   payload: data,
 });
 
@@ -91,13 +107,17 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {
       if (json.status === 201 && json.statusText === 'Created') {
-        dispatch(retrieveProductTrackGroup());
+        const newGroup = json.data;
+        success(`Tracker group successfully created!`);
+        dispatch(addProductTrackGroup(newGroup));
       }
     })
-    .catch(error => {});
+    .catch(errMsg => {
+      error(`Failed to create new group`);
+    });
 };
 
-export const updateProductTrackGroup = (group: any) => (dispatch: any) => {
+export const patchProductTrackGroup = (group: any) => (dispatch: any) => {
   const bodyFormData = new FormData();
   bodyFormData.set('id', group.id);
   bodyFormData.set('name', group.name);
@@ -105,10 +125,13 @@ export const updateProductTrackGroup = (group: any) => (dispatch: any) => {
   return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {
       if (json.status === 200) {
-        dispatch(retrieveProductTrackGroup());
+        success(`Tracker group successfully updated!`);
+        dispatch(updateProductTrackGroup(group));
       }
     })
-    .catch(error => {});
+    .catch(errMsg => {
+      error(`Failed to update tracker group name`);
+    });
 };
 
 export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
@@ -119,10 +142,13 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
   return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {
       if (json.status === 200) {
-        dispatch(retrieveProductTrackGroup());
+        success(`Tracker group successfully updated!`);
+        dispatch(removeProductTrackGroup(groupId));
       }
     })
-    .catch(error => {});
+    .catch(errMsg => {
+      error(`Failed to delete tracker group`);
+    });
 };
 
 export const retrieveProductTrackGroup = () => (dispatch: any) => {
@@ -131,5 +157,5 @@ export const retrieveProductTrackGroup = () => (dispatch: any) => {
     .then(json => {
       dispatch(setRetrieveProductTrackGroup(json.data));
     })
-    .catch(error => {});
+    .catch(errMsg => {});
 };

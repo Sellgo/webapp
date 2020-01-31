@@ -18,7 +18,7 @@ import {
   postCreateProductTrackGroup,
   setTrackerSinglePageItemsCount,
   setProductTrackerPageNumber,
-  updateProductTrackGroup,
+  patchProductTrackGroup,
   deleteProductTrackGroup,
 } from '../../../actions/ProductTracker';
 
@@ -495,7 +495,7 @@ const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
   setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
   postCreateProductTrackGroup: (name: string) => postCreateProductTrackGroup(name),
-  updateProductTrackGroup: (group: any) => updateProductTrackGroup(group),
+  updateProductTrackGroup: (group: any) => patchProductTrackGroup(group),
   deleteProductTrackGroup: (groupId: any) => deleteProductTrackGroup(groupId),
   retrieveTrackGroup: () => retrieveProductTrackGroup(),
   updateProductTrackingStatus: (

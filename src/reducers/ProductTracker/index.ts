@@ -1,4 +1,5 @@
 import { setIn } from '../../utils/immutablity';
+import get from 'lodash/get';
 import { AnyAction } from 'redux';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
@@ -8,6 +9,9 @@ import {
   SET_MENU_ITEM,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
+  ADD_PRODUCT_TRACK_GROUP,
+  UPDATE_PRODUCT_TRACK_GROUP,
+  REMOVE_PRODUCT_TRACK_GROUP,
   findFilterProducts,
 } from '../../constants/Tracker';
 
@@ -40,6 +44,23 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'productTrackerCurrentPageNo', action.payload);
     case SET_RETRIEVE_PRODUCT_TRACK_GROUP:
       return setIn(state, 'trackerGroup', action.payload);
+    case ADD_PRODUCT_TRACK_GROUP:
+      const newGroup = action.payload;
+      const groupsAfterAdd = get(state, 'trackerGroup').slice();
+      groupsAfterAdd.splice(groupsAfterAdd.length, 0, newGroup);
+      return setIn(state, 'trackerGroup', groupsAfterAdd);
+    case UPDATE_PRODUCT_TRACK_GROUP:
+      const updatedGroup = action.payload;
+      const groupsAfterUpdate = get(state, 'trackerGroup').map((group: any) =>
+        group.id !== updatedGroup.id ? group : updatedGroup
+      );
+      return setIn(state, 'trackerGroup', groupsAfterUpdate);
+    case REMOVE_PRODUCT_TRACK_GROUP:
+      const deletedGroupId = action.payload;
+      const groupsAfterDelete = get(state, 'trackerGroup').filter(
+        (group: any, index: any) => group.id !== deletedGroupId
+      );
+      return setIn(state, 'trackerGroup', groupsAfterDelete);
     default:
       return state;
   }
