@@ -142,7 +142,7 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
   return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {
       if (json.status === 200) {
-        success(`Tracker group successfully updated!`);
+        success(`Tracker group successfully deleted!`);
         dispatch(removeProductTrackGroup(groupId));
       }
     })
