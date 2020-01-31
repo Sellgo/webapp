@@ -71,10 +71,10 @@ $link-color: #349af8;
   }
 
   h2 {
-    font-weight: 500;
-    font-size: 15px;
+    color: #5381db;
+    font-size: 14px;
+    font-weight: 400;
     white-space: pre-wrap;
-    font-family: 'Montserrat', sans-serif;
     margin-bottom: 7px;
     line-height: 20px;
     text-align: left;
@@ -588,7 +588,7 @@ $link-color: #349af8;
   }
   button {
     font-weight: 500 !important;
-    font-family: 'Montserrat', serif !important;
+    font-family: Work sans !important;
     padding: 0.28571429em 0em 0.58571429em !important;
   }
 }
