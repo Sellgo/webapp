@@ -40,6 +40,12 @@
     .event {
       .content {
         padding-top: 34px;
+        width: 100%;
+        .individual-pie-chart {
+          .highcharts-container {
+            display: flex;
+          }
+        }
       }
     }
   }
