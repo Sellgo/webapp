@@ -107,7 +107,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
           <AdviceCard handlePeriodDrop={this.props.handlePeriodDrop} periodValue={periodValue} />
           <p className="products-count">
             <span>{filteredProducts.length} of</span>{' '}
-            <span style={{ color: '#4B9AF7' }}>{products.count} products</span>
+            <span style={{ color: '#5381DB' }}>{products.count} products</span>
           </p>
 
           <Divider />

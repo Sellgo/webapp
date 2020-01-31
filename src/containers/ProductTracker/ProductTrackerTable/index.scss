@@ -44,6 +44,24 @@ $link-color: #349af8;
   .tracker-menu {
     .ui.secondary.pointing.menu .item {
       justify-content: center;
+      font-size: 16px !important;
+      font-weight: bold;
+      color: #2e3b4a;
+    }
+  }
+  .ui {
+    &.table {
+      td {
+        font-size: 16px !important;
+        color: #3b4557 !important;
+      }
+      thead {
+        tr {
+          th {
+            font-size: 14px !important;
+          }
+        }
+      }
     }
   }
   .menu-bar {
@@ -61,7 +79,7 @@ $link-color: #349af8;
       }
       background-color: #fff;
       h4 {
-        color: #349af8 !important;
+        color: #5381db !important;
       }
     }
     .ui.blue.menu .active.item,
@@ -212,7 +230,7 @@ $link-color: #349af8;
         i {
           float: right;
           font-size: 2.4em !important;
-          color: #c3c4c4 !important;
+          color: #98aeca !important;
           margin-bottom: -6px;
           padding: 0px 10px 0px 10px;
         }
