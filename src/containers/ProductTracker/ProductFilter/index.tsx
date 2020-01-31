@@ -10,6 +10,7 @@ import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Pr
 import {
   initialFilterRanges,
   findMinMaxRange,
+  parseMinMaxRange,
   findFilterProducts,
 } from '../../../constants/Tracker';
 import './index.scss';
@@ -29,9 +30,10 @@ class ProductFilters extends Component<ProductFiltersProps> {
   };
 
   componentWillReceiveProps(props: any) {
-    if (props.products && props.products !== this.props.products && props.products.length > 0) {
+    if (props.products && props.products !== this.props.products && props.products.count > 0) {
       // Get min and max range for each filter setting based on all products
-      const productRanges = findMinMaxRange(props.products);
+      // const productRanges = findMinMaxRange(props.products.results);
+      const productRanges = parseMinMaxRange(props.products.min_max);
       this.setState({ productRanges });
     }
   }

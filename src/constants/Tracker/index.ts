@@ -97,8 +97,8 @@ export const findMinMaxRange = (products: any) => {
       const dkArray = products.map((p: any) => {
         return Number(p[dk]);
       });
-      const minDk = Math.floor(Math.min(...dkArray));
-      const maxDk = Math.ceil(Math.max(...dkArray));
+      const minDk = Math.floor((Math.min(...dkArray) * 100) / 100);
+      const maxDk = Math.ceil((Math.max(...dkArray) * 100) / 100);
       const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
       const max = maxDk === Number.NEGATIVE_INFINITY ? '' : maxDk;
       const updatedDkRange = { min, max };
@@ -107,6 +107,19 @@ export const findMinMaxRange = (products: any) => {
     return fr;
   }, {});
   return updatedFilterRanges;
+};
+
+export const parseMinMaxRange = (minMaxes: any) => {
+  let parsedMinMaxes = dataKeys.reduce(
+    (a: any, key: any) =>
+      Object.assign(a, { [key]: { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER } }),
+    {}
+  );
+  dataKeys.map((kpi: any) => {
+    parsedMinMaxes[kpi]['min'] = Math.floor(minMaxes[`min_${kpi}`] * 100) / 100;
+    parsedMinMaxes[kpi]['max'] = Math.ceil(minMaxes[`max_${kpi}`] * 100) / 100;
+  });
+  return parsedMinMaxes;
 };
 
 export const findFilterProducts = (products: any, filterRanges: any) => {
