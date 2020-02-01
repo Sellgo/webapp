@@ -91,30 +91,33 @@ class TrackerMenu extends Component<TrackerMenuProps> {
               <Header as="h4">{'Ungrouped'}</Header>
             </Menu.Item>
             {groups &&
-              groups.map((data: any) => {
-                const isActiveGroup = data.id === this.props.setMenu;
-                return (
-                  <Menu.Item
-                    name={data.name}
-                    key={data.id}
-                    active={isActiveGroup ? true : false}
-                    onClick={(id: any) => {
-                      if (!isActiveGroup) handleMenu(data.id);
-                    }}
-                    verticalalign="middle"
-                  >
-                    <Header as="h4" style={{ margin: '0' }}>
-                      {data.name}
-                    </Header>
-                    {isActiveGroup && (
-                      <div style={{ padding: '5px' }}>
-                        <Icon name="pencil" link onClick={() => handleEditGroup(data.name)} />
-                        <Icon name="trash alternate" link onClick={handleDeleteGroup} />
-                      </div>
-                    )}
-                  </Menu.Item>
-                );
-              })}
+              groups
+                .slice()
+                .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
+                .map((data: any) => {
+                  const isActiveGroup = data.id === this.props.setMenu;
+                  return (
+                    <Menu.Item
+                      name={data.name}
+                      key={data.id}
+                      active={isActiveGroup ? true : false}
+                      onClick={(id: any) => {
+                        if (!isActiveGroup) handleMenu(data.id);
+                      }}
+                      verticalalign="middle"
+                    >
+                      <Header as="h4" style={{ margin: '0' }}>
+                        {data.name}
+                      </Header>
+                      {isActiveGroup && (
+                        <div style={{ padding: '5px' }}>
+                          <Icon name="pencil" link onClick={() => handleEditGroup(data.name)} />
+                          <Icon name="trash alternate" link onClick={handleDeleteGroup} />
+                        </div>
+                      )}
+                    </Menu.Item>
+                  );
+                })}
           </Menu>
           <Menu.Item style={{ paddingBottom: '17px' }} name="+" onClick={handleAddGroup}>
             <Icon name="plus" />
