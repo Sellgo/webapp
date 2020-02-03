@@ -23,7 +23,7 @@
 }
 
 .container :global(h4) {
-  font-family: Work sans !important;
+  font-family: 'Montserrat', serif !important;
 }
 
 .margin-top {
