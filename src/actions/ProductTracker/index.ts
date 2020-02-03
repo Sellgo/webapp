@@ -18,6 +18,7 @@ import {
   SET_MENU_ITEM,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
+import { getSellerQuota } from '../Settings';
 
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
@@ -110,6 +111,7 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
         const newGroup = json.data;
         success(`Tracker group successfully created!`);
         dispatch(addProductTrackGroup(newGroup));
+        //switch to new group
       }
     })
     .catch(errMsg => {
@@ -144,6 +146,8 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
       if (json.status === 200) {
         success(`Tracker group successfully deleted!`);
         dispatch(removeProductTrackGroup(groupId));
+        dispatch(getSellerQuota());
+        //switch to ungrouped or all groups
       }
     })
     .catch(errMsg => {
