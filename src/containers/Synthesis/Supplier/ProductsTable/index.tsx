@@ -16,7 +16,6 @@ import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-// import AMAZON_IMAGE from '../../../../assets/images/amazon_choice.svg';
 
 interface ProductsTableProps {
   supplierID: any;

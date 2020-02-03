@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 130px 0 80px;
 
   @media (max-width: 767px) {
     display: block;
@@ -16,6 +17,12 @@
     }
     .section {
       font-weight: 600;
+      color: #5381db;
+      font-size: 20px;
+    }
+    .active.section {
+      font-weight: 600;
+      color: #1b1c1d;
     }
   }
 
@@ -67,6 +74,8 @@
   @media screen and (min-width: 310px) and (max-width: 767px) {
     width: 100%;
     float: left;
+    padding: 0 16px;
+    margin-bottom: 0;
 
     .ui.breadcrumb {
       font-size: 0.9rem !important;
@@ -79,11 +88,7 @@
       font-size: 10px !important;
     }
   }
-}
-@media screen and (max-width: 1024px) {
-  .header-right-wrap {
-    .label {
-      font-size: 10px !important;
-    }
+  .page-header {
+    padding: 0 16px;
   }
 }

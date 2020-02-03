@@ -73,8 +73,14 @@ $link-color: #349af8;
   }
   .menu-bar {
     margin-top: 48px;
-    @media screen and (min-width: 768px) {
-      overflow-x: auto;
+    .menu-bar-inner {
+      &::-webkit-scrollbar {
+        height: 4px;
+      }
+      @media screen and (min-width: 768px) {
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
     }
     @media screen and (min-width: 1024px) {
       width: 60%;

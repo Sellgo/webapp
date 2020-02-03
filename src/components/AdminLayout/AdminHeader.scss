@@ -44,7 +44,7 @@
     .item {
       position: relative;
 
-      .arrow.is-right {
+      .arrow.is-right.tracker {
         -moz-transform: rotate(315deg);
         -ms-transform: rotate(315deg);
         -webkit-transform: rotate(315deg);
@@ -172,5 +172,29 @@
   }
   .mobile-menu {
     display: none !important;
+  }
+  .admin-header .top-menu {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1250px) {
+  .admin-header .top-menu {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+@media screen and (min-width: 1251px) and (max-width: 1600px) {
+  .page-header {
+    padding: 0 100px 0 58px !important;
+  }
+  .segment .setting .left-column {
+    padding-right: 60px !important;
+  }
+  .admin-header .top-menu {
+    padding-left: 98px;
+    padding-right: 98px;
   }
 }

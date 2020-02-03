@@ -62,53 +62,65 @@ class TrackerMenu extends Component<TrackerMenuProps> {
 
     return (
       <div className="menu-bar">
-        <Menu
-          pointing={true}
-          stackable={true}
-          secondary={true}
-          style={{ width: 'max-content' }}
-          color={'blue'}
-          className="wdt100"
-        >
+        <Menu pointing stackable secondary color={'blue'} className="wdt100">
           <Menu.Item
+            style={{ paddingBottom: '17px' }}
             name={'All Groups'}
             active={this.props.setMenu === null ? true : false}
-            onClick={(id: any) => handleMenu(null)}
+            onClick={(id: any) => {
+              if (this.props.setMenu !== null) handleMenu(null);
+            }}
           >
             <Header as="h4">{'All Groups'}</Header>
           </Menu.Item>
-          <Menu.Item
-            name={'Ungrouped'}
-            active={this.props.setMenu === -1 ? true : false}
-            onClick={(id: any) => handleMenu(-1)}
+          <Menu
+            pointing
+            stackable
+            secondary
+            style={{ width: 'max-content' }}
+            color={'blue'}
+            className="wdt100 menu-bar-inner"
           >
-            <Header as="h4">{'Ungrouped'}</Header>
-          </Menu.Item>
-          {groups &&
-            groups.map((data: any) => {
-              const isActiveGroup = data.id === this.props.setMenu;
-              return (
-                <Menu.Item
-                  name={data.name}
-                  key={data.id}
-                  active={isActiveGroup ? true : false}
-                  onClick={(id: any) => {
-                    if (!isActiveGroup) handleMenu(data.id);
-                  }}
-                  verticalalign="middle"
-                >
-                  {data.name}
-                  {isActiveGroup && (
-                    <div style={{ padding: '5px' }}>
-                      <Icon name="pencil" link onClick={() => handleEditGroup(data.name)} />
-                      <Icon name="trash alternate" link onClick={handleDeleteGroup} />
-                    </div>
-                  )}
-                </Menu.Item>
-              );
-            })}
-          <Menu.Item name="+" onClick={handleAddGroup}>
-            <Header as="h4">+</Header>
+            <Menu.Item
+              name={'Ungrouped'}
+              active={this.props.setMenu === -1 ? true : false}
+              onClick={(id: any) => {
+                if (this.props.setMenu !== -1) handleMenu(-1);
+              }}
+            >
+              <Header as="h4">{'Ungrouped'}</Header>
+            </Menu.Item>
+            {groups &&
+              groups
+                .slice()
+                .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
+                .map((data: any) => {
+                  const isActiveGroup = data.id === this.props.setMenu;
+                  return (
+                    <Menu.Item
+                      name={data.name}
+                      key={data.id}
+                      active={isActiveGroup ? true : false}
+                      onClick={(id: any) => {
+                        if (!isActiveGroup) handleMenu(data.id);
+                      }}
+                      verticalalign="middle"
+                    >
+                      <Header as="h4" style={{ margin: '0' }}>
+                        {data.name}
+                      </Header>
+                      {isActiveGroup && (
+                        <div style={{ padding: '5px' }}>
+                          <Icon name="pencil" link onClick={() => handleEditGroup(data.name)} />
+                          <Icon name="trash alternate" link onClick={handleDeleteGroup} />
+                        </div>
+                      )}
+                    </Menu.Item>
+                  );
+                })}
+          </Menu>
+          <Menu.Item style={{ paddingBottom: '17px' }} name="+" onClick={handleAddGroup}>
+            <Icon name="plus" />
           </Menu.Item>
         </Menu>
         <CreateGroup
@@ -131,6 +143,8 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           handleCancel={handleDeleteGroupCancel}
           handleSubmit={handleDeleteGroupSubmit}
         />
+        {/* Magic to make scrollbar disappear */}
+        <div className="cover-bar"></div>
       </div>
     );
   }

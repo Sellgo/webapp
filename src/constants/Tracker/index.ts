@@ -5,6 +5,9 @@ export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEM
 export const SET_PRODUCT_TRACKER_PAGE_NUMBER = 'SET_PRODUCT_TRACKER_PAGE_NUMBER';
 export const SET_RETRIEVE_PRODUCT_TRACK_GROUP = 'SET_RETRIEVE_PRODUCT_TRACK_GROUP';
 export const SET_MENU_ITEM = 'SET_MENU_ITEM';
+export const ADD_PRODUCT_TRACK_GROUP = 'ADD_PRODUCT_TRACK_GROUP';
+export const UPDATE_PRODUCT_TRACK_GROUP = 'UPDATE_PRODUCT_TRACK_GROUP';
+export const REMOVE_PRODUCT_TRACK_GROUP = 'REMOVE_PRODUCT_TRACK_GROUP';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -97,8 +100,8 @@ export const findMinMaxRange = (products: any) => {
       const dkArray = products.map((p: any) => {
         return Number(p[dk]);
       });
-      const minDk = Math.floor(Math.min(...dkArray));
-      const maxDk = Math.ceil(Math.max(...dkArray));
+      const minDk = Math.floor((Math.min(...dkArray) * 100) / 100);
+      const maxDk = Math.ceil((Math.max(...dkArray) * 100) / 100);
       const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
       const max = maxDk === Number.NEGATIVE_INFINITY ? '' : maxDk;
       const updatedDkRange = { min, max };
@@ -107,6 +110,19 @@ export const findMinMaxRange = (products: any) => {
     return fr;
   }, {});
   return updatedFilterRanges;
+};
+
+export const parseMinMaxRange = (minMaxes: any) => {
+  let parsedMinMaxes = dataKeys.reduce(
+    (a: any, key: any) =>
+      Object.assign(a, { [key]: { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER } }),
+    {}
+  );
+  dataKeys.map((kpi: any) => {
+    parsedMinMaxes[kpi]['min'] = Math.floor(minMaxes[`min_${kpi}`] * 100) / 100;
+    parsedMinMaxes[kpi]['max'] = Math.ceil(minMaxes[`max_${kpi}`] * 100) / 100;
+  });
+  return parsedMinMaxes;
 };
 
 export const findFilterProducts = (products: any, filterRanges: any) => {
