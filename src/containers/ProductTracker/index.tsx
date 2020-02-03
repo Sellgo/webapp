@@ -11,7 +11,7 @@ import { fetchSupplierProductTrackerDetails, setMenuItem } from '../../actions/P
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 
 interface ProductTrackerProps {
-  productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) => void;
+  fetchTrackedProductDetails: (periodValue: any, groupID: any, perPage: any, pageNo: any) => void;
   singlePageItemsCount: any;
   productTrackerPageNo: any;
   setMenuItem: (item: any) => void;
@@ -34,10 +34,19 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   componentDidMount() {
-    const { productTracker, singlePageItemsCount, productTrackerPageNo } = this.props;
+    const {
+      fetchTrackedProductDetails: fetchTrackedProductDetails,
+      singlePageItemsCount,
+      productTrackerPageNo,
+    } = this.props;
     const { periodValue, productTrackID } = this.state;
     this.props.setMenuItem(this.state.productTrackID);
-    productTracker(periodValue, productTrackID, singlePageItemsCount, productTrackerPageNo);
+    fetchTrackedProductDetails(
+      periodValue,
+      productTrackID,
+      singlePageItemsCount,
+      productTrackerPageNo
+    );
   }
 
   shouldComponentUpdate(nextProps: any) {
@@ -45,7 +54,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       this.props !== nextProps &&
       this.props.singlePageItemsCount !== nextProps.singlePageItemsCount
     ) {
-      this.props.productTracker(
+      this.props.fetchTrackedProductDetails(
         this.state.periodValue,
         this.state.productTrackID,
         nextProps.singlePageItemsCount,
@@ -54,7 +63,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       return true;
     }
     if (this.props.productTrackerPageNo !== nextProps.productTrackerPageNo) {
-      this.props.productTracker(
+      this.props.fetchTrackedProductDetails(
         this.state.periodValue,
         this.state.productTrackID,
         nextProps.singlePageItemsCount,
@@ -83,7 +92,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
         periodValue: data.value,
       },
       () => {
-        this.props.productTracker(
+        this.props.fetchTrackedProductDetails(
           this.state.periodValue,
           this.state.productTrackID,
           this.props.singlePageItemsCount,
@@ -100,7 +109,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
         },
         () => {
           this.props.setMenuItem(this.state.productTrackID);
-          this.props.productTracker(
+          this.props.fetchTrackedProductDetails(
             this.state.periodValue,
             id,
             this.props.singlePageItemsCount,
@@ -115,7 +124,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
         },
         () => {
           this.props.setMenuItem(null);
-          this.props.productTracker(
+          this.props.fetchTrackedProductDetails(
             this.state.periodValue,
             undefined,
             this.props.singlePageItemsCount,
@@ -222,7 +231,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  productTracker: (periodValue: any, groupID: any, perPage: any, pageNo: any) =>
+  fetchTrackedProductDetails: (periodValue: any, groupID: any, perPage: any, pageNo: any) =>
     fetchSupplierProductTrackerDetails(periodValue, groupID, perPage, pageNo),
   setMenuItem: (item: any) => setMenuItem(item),
   updateProductTrackingStatus: (
