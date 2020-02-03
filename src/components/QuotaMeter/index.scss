@@ -26,6 +26,7 @@
   .ui.tiny.progress .bar {
     height: 6px;
   }
+
   @media screen and (max-width: 340px) {
     .ui.tiny.progress {
       width: 173px !important;
@@ -33,5 +34,12 @@
     .add-new-supplier {
       font-size: 12px !important;
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .quota-meter {
+    width: unset;
+    margin: 10px 0;
   }
 }
