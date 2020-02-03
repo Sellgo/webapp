@@ -57,7 +57,9 @@ export class AdminHeader extends React.Component<AdminProps> {
               as={Link}
               to="/product-tracker"
               className={
-                window.location.pathname.startsWith('/product-tracker') ? 'active-menu' : ''
+                window.location.pathname.startsWith('/product-tracker')
+                  ? 'product-tracker-menu active-menu'
+                  : 'product-tracker-menu'
               }
             >
               Product Tracker
