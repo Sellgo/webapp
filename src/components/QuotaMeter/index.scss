@@ -35,8 +35,12 @@
       font-size: 12px !important;
     }
   }
+  @media screen and (max-width: 450px) {
+    .ui.tiny.progress {
+      width: 50%;
+    }
+  }
 }
-
 @media screen and (max-width: 767px) {
   .quota-meter {
     width: unset;
