@@ -2,7 +2,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', serif !important;
+  font-family: Work sans !important;
   font-weight: 400;
   font-display: optional;
   font-size: 20px;
@@ -14,18 +14,18 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: 'Montserrat', serif !important;
+  font-family: Work sans !important;
 }
 .ui.dimmer {
   background-color: rgba(146, 170, 177, 0.48);
 }
 .small-light {
-  font-family: 'Montserrat', serif !important;
+  font-family: Work sans !important;
   font-weight: 300 !important;
   font-display: optional !important;
 }
 .small-regular {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 400;
   font-display: optional;
   font-size: 20px;
@@ -36,20 +36,20 @@ h5 {
   margin-right: 3rem;
 }
 .title {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 700;
   color: white;
   font-size: 30px;
 }
 .description {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 300;
   font-size: 16px;
   color: white;
   text-align: justify;
 }
 .title-description {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 300;
   font-size: 16px;
   color: 'gray';
@@ -57,49 +57,49 @@ h5 {
   margin-bottom: 20px !important;
 }
 .small-bold {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 700;
   font-display: optional;
   font-size: 20px;
 }
 .medium-light {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 300;
   font-display: optional;
   font-size: 24px;
 }
 .medium-regular {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 400;
   font-display: optional;
   font-size: 24px;
 }
 .medium-bold {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 700;
   font-display: optional;
   font-size: 24px;
 }
 .large-light {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 300;
   font-display: optional;
   font-size: 40px;
 }
 .large-regular {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 400;
   font-display: optional;
   font-size: 40px;
 }
 .large-bold {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 700;
   font-display: optional;
   font-size: 40px;
 }
 .semi-large-bold {
-  font-family: 'Montserrat', serif;
+  font-family: Work sans;
   font-weight: 700;
   font-display: optional;
   font-size: 30px;
