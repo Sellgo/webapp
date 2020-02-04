@@ -110,9 +110,7 @@ export const GenericTable = (props: GenericTableProps) => {
       {setSinglePageItemsCount && showSelectItemsCount ? (
         <div style={{ margin: '1rem 0 5rem 0' }}>
           <SelectItemsCount
-            totalCount={
-              count && totalItemsCount && count > totalItemsCount ? count : totalItemsCount
-            }
+            totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
             currentPage={currentPage}
             setSinglePageItemsCount={setSinglePageItemsCount}
@@ -165,6 +163,7 @@ export const GenericTable = (props: GenericTableProps) => {
                           }
                         : {}
                     }
+                    className="table-header"
                   >
                     {' '}
                     {column.label}
@@ -217,6 +216,7 @@ export const GenericTable = (props: GenericTableProps) => {
                         }
                       : {}
                   }
+                  className="table-header"
                 >
                   {' '}
                   {column.label}
@@ -298,11 +298,15 @@ export const GenericTable = (props: GenericTableProps) => {
             <Table.HeaderCell colSpan={columns.length}>
               <Pagination
                 totalPages={rows.length ? totalPages : ''}
-                activePage={name === 'trackerTable' ? productTrackerPageNo : currentPage}
+                activePage={currentPage}
+                // activePage={name === 'trackerTable' ? productTrackerPageNo : currentPage}
+                // onPageChange={(event, data) => {
+                //   name === 'trackerTable'
+                //     ? setPageNumber(Number(data.activePage))
+                //     : setCurrentPage(Number(data.activePage));
+                // }}
                 onPageChange={(event, data) => {
-                  name === 'trackerTable'
-                    ? setPageNumber(Number(data.activePage))
-                    : setCurrentPage(Number(data.activePage));
+                  setCurrentPage(Number(data.activePage));
                 }}
               />
             </Table.HeaderCell>
@@ -318,7 +322,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
     tableKey,
     data,
-    singlePageItemsCount = 5,
+    singlePageItemsCount = 10,
     setSinglePageItemsCount,
     columns,
     extendedInfo,
@@ -393,11 +397,11 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       })
     : rows;
 
-  // const totalPages = Math.ceil(rows.length / singlePageItemsCount);
-  const totalPages =
-    name === 'trackerTable'
-      ? Math.ceil(count.count / singlePageItemsCount)
-      : Math.ceil(rows.length / singlePageItemsCount);
+  const totalPages = Math.ceil(rows.length / singlePageItemsCount);
+  // const totalPages =
+  //   name === 'trackerTable'
+  //     ? Math.ceil(count.count / singlePageItemsCount)
+  //     : Math.ceil(rows.length / singlePageItemsCount);
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 

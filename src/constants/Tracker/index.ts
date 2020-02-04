@@ -8,6 +8,8 @@ export const SET_MENU_ITEM = 'SET_MENU_ITEM';
 export const ADD_PRODUCT_TRACK_GROUP = 'ADD_PRODUCT_TRACK_GROUP';
 export const UPDATE_PRODUCT_TRACK_GROUP = 'UPDATE_PRODUCT_TRACK_GROUP';
 export const REMOVE_PRODUCT_TRACK_GROUP = 'REMOVE_PRODUCT_TRACK_GROUP';
+export const UPDATE_TRACKED_PRODUCT = 'UPDATE_TRACKED_PRODUCT';
+export const REMOVE_TRACKED_PRODUCT = 'REMOVE_TRACKED_PRODUCT';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -132,8 +134,20 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
         Number(product[dataKey]) >= Number(filterRanges[dataKey].min) &&
         Number(product[dataKey]) <= Number(filterRanges[dataKey].max)
     );
-  const updatedFilterProducts = products.results.filter(filterRange);
+  const updatedFilterProducts = products.filter(filterRange);
   return updatedFilterProducts;
+};
+
+export const filterProductsByGroupId = (products: any, productTrackGroupId: any) => {
+  const filteredProducts =
+    productTrackGroupId !== null
+      ? productTrackGroupId !== -1
+        ? products.filter(
+            (product: any) => productTrackGroupId === product['product_track_group_id']
+          )
+        : products.filter((product: any) => null === product['product_track_group_id'])
+      : products;
+  return filteredProducts;
 };
 
 // Add temporary data to products during development

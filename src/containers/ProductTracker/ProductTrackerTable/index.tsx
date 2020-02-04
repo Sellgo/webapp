@@ -31,7 +31,7 @@ import { columnFilter } from '../../../utils/dummy';
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
-  filteredProducts: ProductsPaginated[];
+  filteredProducts: any;
   productDetailReview: any;
   isLoadingTrackerProducts: boolean;
   filterRanges: any;
@@ -86,6 +86,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       });
     }
   }
+
   handleSubmit = (e: any) => {
     e.preventDefault();
     const { name } = this.state;

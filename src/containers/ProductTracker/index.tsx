@@ -7,11 +7,16 @@ import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
-import { fetchSupplierProductTrackerDetails, setMenuItem } from '../../actions/ProductTracker';
+import {
+  fetchSupplierProductTrackerDetails,
+  setMenuItem,
+  fetchAllSupplierProductTrackerDetails,
+} from '../../actions/ProductTracker';
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 
 interface ProductTrackerProps {
   fetchTrackedProductDetails: (periodValue: any, groupID: any, perPage: any, pageNo: any) => void;
+  fetchAllTrackedProductDetails: (periodValue: any) => void;
   singlePageItemsCount: any;
   productTrackerPageNo: any;
   setMenuItem: (item: any) => void;
@@ -22,9 +27,10 @@ interface ProductTrackerProps {
     productID?: any,
     productTrackerID?: any,
     productTrackerGroupID?: any,
-    type?: string,
+    name?: string,
     supplierID?: any,
-    currentState?: any
+    currentState?: any,
+    type?: string
   ) => void;
 }
 class ProductTracker extends React.Component<ProductTrackerProps> {
@@ -34,104 +40,27 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   componentDidMount() {
-    const {
-      fetchTrackedProductDetails: fetchTrackedProductDetails,
-      singlePageItemsCount,
-      productTrackerPageNo,
-    } = this.props;
-    const { periodValue, productTrackID } = this.state;
+    const { fetchAllTrackedProductDetails } = this.props;
+    const { periodValue } = this.state;
     this.props.setMenuItem(this.state.productTrackID);
-    fetchTrackedProductDetails(
-      periodValue,
-      productTrackID,
-      singlePageItemsCount,
-      productTrackerPageNo
-    );
-  }
-
-  shouldComponentUpdate(nextProps: any) {
-    if (
-      this.props !== nextProps &&
-      this.props.singlePageItemsCount !== nextProps.singlePageItemsCount
-    ) {
-      this.props.fetchTrackedProductDetails(
-        this.state.periodValue,
-        this.state.productTrackID,
-        nextProps.singlePageItemsCount,
-        this.props.productTrackerPageNo
-      );
-      return true;
-    }
-    if (this.props.productTrackerPageNo !== nextProps.productTrackerPageNo) {
-      this.props.fetchTrackedProductDetails(
-        this.state.periodValue,
-        this.state.productTrackID,
-        nextProps.singlePageItemsCount,
-        nextProps.productTrackerPageNo
-      );
-      return true;
-    }
-    // if(this.props.filterRanges !==undefined && (JSON.stringify(this.props.filterRanges) !== JSON.stringify(nextProps.filterRanges))){
-    //   this.props.productTracker(
-    //     this.state.periodValue,
-    //     this.state.productTrackID,
-    //     nextProps.singlePageItemsCount,
-    //     nextProps.productTrackerPageNo,
-    //     nextProps.filterRanges.avg_daily_sales,
-    //     nextProps.filterRanges.avg_profit,
-    //     nextProps.filterRanges.avg_margin,
-    //     nextProps.filterRanges.avg_roi
-    //   );
-    // }
-    return false;
+    fetchAllTrackedProductDetails(periodValue);
   }
 
   handlePeriodDrop = (data: any) => {
-    this.setState(
-      {
-        periodValue: data.value,
-      },
-      () => {
-        this.props.fetchTrackedProductDetails(
-          this.state.periodValue,
-          this.state.productTrackID,
-          this.props.singlePageItemsCount,
-          this.props.productTrackerPageNo
-        );
-      }
-    );
+    this.setState({ periodValue: data.value }, () => {
+      this.props.fetchAllTrackedProductDetails(this.state.periodValue);
+    });
   };
+
   handleMenu = (id: any) => {
     if (id !== null) {
-      this.setState(
-        {
-          productTrackID: id,
-        },
-        () => {
-          this.props.setMenuItem(this.state.productTrackID);
-          this.props.fetchTrackedProductDetails(
-            this.state.periodValue,
-            id,
-            this.props.singlePageItemsCount,
-            this.props.productTrackerPageNo
-          );
-        }
-      );
+      this.setState({ productTrackID: id }, () => {
+        this.props.setMenuItem(this.state.productTrackID);
+      });
     } else {
-      this.setState(
-        {
-          productTrackID: null,
-        },
-        () => {
-          this.props.setMenuItem(null);
-          this.props.fetchTrackedProductDetails(
-            this.state.periodValue,
-            undefined,
-            this.props.singlePageItemsCount,
-            this.props.productTrackerPageNo
-          );
-        }
-      );
+      this.setState({ productTrackID: null }, () => {
+        this.props.setMenuItem(null);
+      });
     }
   };
 
@@ -150,7 +79,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       id,
       'tracker',
       undefined,
-      currentState
+      currentState,
+      'untrack'
     );
     this.setState({
       confirm: false,
@@ -172,7 +102,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       groupId,
       'tracker',
       undefined,
-      currentState
+      currentState,
+      'move-group'
     );
   };
 
@@ -233,24 +164,28 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
   fetchTrackedProductDetails: (periodValue: any, groupID: any, perPage: any, pageNo: any) =>
     fetchSupplierProductTrackerDetails(periodValue, groupID, perPage, pageNo),
+  fetchAllTrackedProductDetails: (periodValue: any) =>
+    fetchAllSupplierProductTrackerDetails(periodValue),
   setMenuItem: (item: any) => setMenuItem(item),
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
     productTrackerID?: any,
     productTrackerGroupID?: any,
-    type?: string,
+    name?: string,
     supplierID?: any,
-    currentState?: any
+    currentState?: any,
+    type?: string
   ) =>
     updateProductTrackingStatus(
       status,
       productID,
       productTrackerID,
       productTrackerGroupID,
-      type,
+      name,
       supplierID,
-      currentState
+      currentState,
+      type
     ),
 };
 
