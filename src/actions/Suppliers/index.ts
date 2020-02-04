@@ -31,6 +31,7 @@ import {
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
+import get from 'lodash/get';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -305,23 +306,31 @@ export const fetchSupplierProductTrackerGroup = (supplierID: string) => (dispatc
 
 export const updateProductTrackingStatus = (
   status: string,
-  productID?: string,
-  productTrackerID?: string,
-  productTrackerGroupID?: string,
+  productID?: number,
+  productTrackerID?: number,
+  productTrackerGroupID?: number,
   name?: string,
-  supplierID?: any,
+  supplierID?: number,
   currentState?: any,
   type?: any
-) => (dispatch: any) => {
+) => (dispatch: any, getState: any) => {
+  const {
+    productTracker: { menuItem, trackerGroup },
+  } = getState();
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
+  const groupName =
+    productTrackerGroupID === -1
+      ? 'Ungrouped'
+      : trackerGroup.find((group: any) => group.id === productTrackerGroupID).name;
 
   bodyFormData.set('seller_id', sellerID || '');
   bodyFormData.set('status', status);
-  if (productTrackerID) bodyFormData.set('id', productTrackerID);
-  if (productID) bodyFormData.set('product_id', productID);
-  if (productTrackerGroupID) bodyFormData.set('product_track_group_id', productTrackerGroupID);
-  if (supplierID) bodyFormData.set('supplier_id', supplierID);
+  if (productTrackerID) bodyFormData.set('id', String(productTrackerID));
+  if (productID) bodyFormData.set('product_id', String(productID));
+  if (productTrackerGroupID)
+    bodyFormData.set('product_track_group_id', String(productTrackerGroupID));
+  if (supplierID) bodyFormData.set('supplier_id', String(supplierID));
 
   return !productTrackerID
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
@@ -339,12 +348,12 @@ export const updateProductTrackingStatus = (
           dispatch(getSellerQuota());
           if (name === 'tracker') {
             if (type === 'untrack') {
-              success('Product is now untracked!');
+              success(`Product is now untracked`);
               dispatch(removeTrackedProduct(json.data['id']));
             } else if (type === 'move-group') {
-              success('Successfully changed group!');
+              success(`Product is moved to ${groupName}`);
               dispatch(updateTrackedProduct(json.data));
-              dispatch(setMenuItem(json.data['product_track_group_id']));
+              dispatch(setMenuItem(menuItem));
             }
           } else {
             dispatch(updateSupplierProduct(json.data));
