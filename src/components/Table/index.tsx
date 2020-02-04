@@ -163,6 +163,7 @@ export const GenericTable = (props: GenericTableProps) => {
                           }
                         : {}
                     }
+                    className="table-header"
                   >
                     {' '}
                     {column.label}
@@ -215,6 +216,7 @@ export const GenericTable = (props: GenericTableProps) => {
                         }
                       : {}
                   }
+                  className="table-header"
                 >
                   {' '}
                   {column.label}
