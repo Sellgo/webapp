@@ -97,6 +97,9 @@ export class AdminHeader extends React.Component<AdminProps> {
                   <Dropdown.Item as={Link} to="/settings">
                     Settings
                   </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/settings/pricing">
+                    Subscription
+                  </Dropdown.Item>
                   <Dropdown.Item onClick={auth.logout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
