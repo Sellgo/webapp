@@ -482,10 +482,12 @@ $new_black: #707070;
     }
   }
 }
-@media screen and (min-width: 310px) and (max-width: 767px) {
+@media screen and (min-width: 310px) and (max-width: 768px) {
   .products-table {
     position: relative;
-
+    td p.stat {
+      font-size: 14px !important;
+    }
     .pagination-dropdown {
       position: absolute;
       top: 0;
