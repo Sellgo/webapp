@@ -30,7 +30,7 @@ import {
 } from '../../constants/Suppliers';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
-import { fetchSupplierProductTrackerDetails } from './../ProductTracker';
+import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -310,7 +310,8 @@ export const updateProductTrackingStatus = (
   productTrackerGroupID?: string,
   name?: string,
   supplierID?: any,
-  currentState?: any
+  currentState?: any,
+  type?: any
 ) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -337,20 +338,14 @@ export const updateProductTrackingStatus = (
         .then(json => {
           dispatch(getSellerQuota());
           if (name === 'tracker') {
-            const {
-              periodValue,
-              productTrackID,
-              singlePageItemsCount,
-              productTrackerPageNo,
-            } = currentState;
-            dispatch(
-              fetchSupplierProductTrackerDetails(
-                periodValue,
-                productTrackID,
-                singlePageItemsCount,
-                productTrackerPageNo
-              )
-            );
+            if (type === 'untrack') {
+              success('Product is now untracked!');
+              dispatch(removeTrackedProduct(json.data['id']));
+            } else if (type === 'move-group') {
+              success('Successfully changed group!');
+              dispatch(updateTrackedProduct(json.data));
+              dispatch(setMenuItem(json.data['product_track_group_id']));
+            }
           } else {
             dispatch(updateSupplierProduct(json.data));
           }

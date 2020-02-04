@@ -15,6 +15,8 @@ import {
   ADD_PRODUCT_TRACK_GROUP,
   UPDATE_PRODUCT_TRACK_GROUP,
   REMOVE_PRODUCT_TRACK_GROUP,
+  UPDATE_TRACKED_PRODUCT,
+  REMOVE_TRACKED_PRODUCT,
   SET_MENU_ITEM,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
@@ -29,6 +31,7 @@ export const setSupplierProductTrackerDetails = (product: ProductTrackerDetails)
   type: SET_PRODUCT_TRACKER_DETAILS,
   payload: product,
 });
+
 export const updateTrackerFilterRanges = (filterRanges: any) => ({
   type: UPDATE_TRACKER_FILTER_RANGES,
   payload: filterRanges,
@@ -38,7 +41,7 @@ export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
   type: SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   payload: itemsCount,
 });
-export const setMenuItem = (menuItem: number) => ({
+export const setMenuItem = (menuItem: any) => ({
   type: SET_MENU_ITEM,
   payload: menuItem,
 });
@@ -62,6 +65,16 @@ export const updateProductTrackGroup = (data: any) => ({
 export const removeProductTrackGroup = (data: any) => ({
   type: REMOVE_PRODUCT_TRACK_GROUP,
   payload: data,
+});
+
+export const updateTrackedProduct = (newProduct: any) => ({
+  type: UPDATE_TRACKED_PRODUCT,
+  payload: newProduct,
+});
+
+export const removeTrackedProduct = (productId: any) => ({
+  type: REMOVE_TRACKED_PRODUCT,
+  payload: productId,
 });
 
 export const fetchSupplierProductTrackerDetails = (
@@ -100,6 +113,26 @@ export const fetchSupplierProductTrackerDetails = (
   }
 };
 
+export const fetchAllSupplierProductTrackerDetails = (period: any) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  const perPage = 999; // at this point the table component is tightly coupled to pagination so can only use the paginated API with a hardcoded value above the max number of tracked products for a seller.
+  dispatch(isLoadingTrackerProducts(true));
+  const sellerID = sellerIDSelector();
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/product-track-data-paginated?per_page=${999}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit`
+  );
+  if (response.data) {
+    dispatch(isLoadingTrackerProducts(false));
+    dispatch(setSupplierProductTrackerDetails(response.data));
+    dispatch(updateTrackerFilterRanges(findMinMaxRange(response.data.results)));
+  } else {
+    dispatch(isLoadingTrackerProducts(false));
+    error('Data not found');
+  }
+};
+
 export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -111,7 +144,7 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
         const newGroup = json.data;
         success(`Tracker group successfully created!`);
         dispatch(addProductTrackGroup(newGroup));
-        //switch to new group
+        dispatch(setMenuItem(newGroup.id));
       }
     })
     .catch(errMsg => {
@@ -147,7 +180,7 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
         success(`Tracker group successfully deleted!`);
         dispatch(removeProductTrackGroup(groupId));
         dispatch(getSellerQuota());
-        //switch to ungrouped or all groups
+        dispatch(setMenuItem(null));
       }
     })
     .catch(errMsg => {
