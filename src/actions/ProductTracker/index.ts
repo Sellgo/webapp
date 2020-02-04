@@ -121,7 +121,7 @@ export const fetchAllSupplierProductTrackerDetails = (period: any) => async (
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/product-track-data-paginated?per_page=${999}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit`
+      `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit`
   );
   if (response.data) {
     dispatch(isLoadingTrackerProducts(false));

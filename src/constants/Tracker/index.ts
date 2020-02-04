@@ -120,7 +120,7 @@ export const parseMinMaxRange = (minMaxes: any) => {
       Object.assign(a, { [key]: { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER } }),
     {}
   );
-  dataKeys.map((kpi: any) => {
+  dataKeys.forEach((kpi: any) => {
     parsedMinMaxes[kpi]['min'] = Math.floor(minMaxes[`min_${kpi}`] * 100) / 100;
     parsedMinMaxes[kpi]['max'] = Math.ceil(minMaxes[`max_${kpi}`] * 100) / 100;
   });

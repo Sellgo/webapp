@@ -38,7 +38,6 @@ interface TrackerProps {
   singlePageItemsCount: number;
   trackGroups: any;
   handleMenu: any;
-  productTrackID: any;
   periodValue: any;
   handleMoveGroup: any;
   handleUntrack: any;
@@ -90,21 +89,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   handleSubmit = (e: any) => {
     e.preventDefault();
     const { name } = this.state;
-    const { postCreateProductTrackGroup, trackGroups } = this.props;
+    const { postCreateProductTrackGroup } = this.props;
     console.log('-------this.props', this.props);
     if (name === '') {
       this.setState({
         error: true,
       });
     } else {
-      // trackGroup &&trackGroup.find((data:any)=> {
-      //   if (name === data.name) {
-      //     this.setState ({ error: true,groupError: true });
-      //   } else {
-      //     this.setState({ error: false });
-      //     postCreateProductTrackGroup(name);
-      //   }
-      // })
       this.setState({ error: false });
       postCreateProductTrackGroup(name);
     }
@@ -197,17 +188,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   handleColumnChange = (e: any, data: any) => {
     let checkedData = this.state.columnFilterData;
     if (data.label === 'Select All') {
-      checkedData.map((value: any, index: any) => {
-        if (value.key !== 'Product Information' || value.key !== '') {
-          value.value = data.checked;
-        }
-      });
+      checkedData[
+        checkedData.findIndex(
+          (element: any) => element.key !== 'Product Information' || element.key !== ''
+        )
+      ].value = data.checked;
     } else {
-      checkedData.map((value: any, index: any) => {
-        if (value.key === data.label) {
-          value.value = data.checked;
-        }
-      });
+      checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
+        data.checked;
     }
     this.setState({ columnFilterData: [...checkedData] });
   };
@@ -413,7 +401,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       setSinglePageItemsCount,
       trackGroups,
       handleMenu,
-      productTrackID,
       setPageNumber,
     } = this.props;
     if (isLoadingTrackerProducts || productTrackerResult === null) {
@@ -435,7 +422,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             open={this.state.open}
             deleteGroup={this.state.deleteGroup}
             editGroup={this.state.editGroup}
-            productTrackID={productTrackID}
             error={this.state.error}
             groupError={this.state.groupError}
             handleAddGroup={this.handleAddGroup}

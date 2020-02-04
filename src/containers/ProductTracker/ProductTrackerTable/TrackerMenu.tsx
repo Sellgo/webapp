@@ -13,7 +13,6 @@ interface State {
 interface TrackerMenuProps {
   groups: any;
   handleMenu: any;
-  productTrackID: any;
   handleAddGroup: any;
   handleAddGroupSubmit: any;
   handleAddGroupCancel: any;
@@ -37,7 +36,6 @@ class TrackerMenu extends Component<TrackerMenuProps> {
     const {
       groups,
       handleMenu,
-      productTrackID,
       open,
       editGroup,
       deleteGroup,

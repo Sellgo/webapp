@@ -125,9 +125,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         //   openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
         // }}
         onTrack={() => {
-          let productTrackerGroupID = 2;
           if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
-            productTrackerGroupID = productTrackerGroup[0].id;
             if (row.tracking_status !== null) {
               updateProductTrackingStatus(
                 row.tracking_status === 'active' ? 'inactive' : 'active',

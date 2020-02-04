@@ -146,7 +146,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
                 </div>
                 <ProductTrackerTable
                   handleMenu={(id: any) => this.handleMenu(id)}
-                  productTrackID={this.state.productTrackID}
                   periodValue={this.state.periodValue}
                   handleUntrack={(id: any, trackId: any) => this.handleUntrack(id, trackId)}
                   handleMoveGroup={(id: any, trackId: any) => this.handleMoveGroup(id, trackId)}

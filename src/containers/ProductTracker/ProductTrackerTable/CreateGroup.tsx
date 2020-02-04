@@ -12,7 +12,7 @@ interface CreateGroupProps {
 
 class CreateGroup extends Component<CreateGroupProps> {
   render() {
-    const { open, handleGroupChange, handleCancel, handleSubmit, error, groupError } = this.props;
+    const { open, handleGroupChange, handleCancel, handleSubmit, error } = this.props;
     return (
       <div className="create-group-modal">
         <Modal

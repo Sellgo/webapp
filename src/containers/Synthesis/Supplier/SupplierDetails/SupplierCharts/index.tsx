@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import StackChart from '../../../../../components/Chart/StackChart';
 import PieChart from '../../../../../components/Chart/PieChart';
 import ScatterChart from '../../../../../components/Chart/ScatterChart';
-import { Loader, Form, Modal } from 'semantic-ui-react';
+import { Loader, Form, Modal, Header } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
@@ -252,7 +252,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         <this.renderCharts />
         <br />
         <div className="chart-end-content">
-          <h4>Select your favorite chart</h4>
+          <Header as="h4">Select your favorite chart</Header>
           <Form>
             <Form.Group inline={true}>
               <Form.Radio

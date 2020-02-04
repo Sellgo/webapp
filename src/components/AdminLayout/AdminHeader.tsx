@@ -22,8 +22,7 @@ export class AdminHeader extends React.Component<AdminProps> {
     });
   };
   render() {
-    const { auth, children } = this.props;
-    const { supplierID } = children.props.match.params;
+    const { auth } = this.props;
     const { isVisible } = this.state;
     return (
       <div className="admin-header">

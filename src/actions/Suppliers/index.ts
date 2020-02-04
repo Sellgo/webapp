@@ -31,7 +31,6 @@ import {
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
-import get from 'lodash/get';
 
 export interface Suppliers {
   supplierIds: number[];

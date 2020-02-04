@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './UserOnboarding.module.css';
-import { Button, Grid, Pagination, Icon, Form, TextArea } from 'semantic-ui-react';
+import { Button, Grid, Pagination, Icon, Form, TextArea, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { closeUserOnboardingModal } from '../../actions/Modals';
 import { userOnboarding as totalViews } from '../../constants/UserOnboarding';
@@ -24,7 +24,7 @@ export const UserOnboarding = (props: any) => {
 
   useEffect(() => {
     fetchTOS();
-  }, []);
+  }, [fetchTOS]);
 
   const handleAccept = () => {
     localStorage.setItem('acceptedTos', 'true');
@@ -57,7 +57,7 @@ const TOS = (props: any) => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h4>Our Terms of Service</h4>
+      <Header as="h4">Our Terms of Service</Header>
       <Form>
         <TextArea rows="20" value={text} />
       </Form>

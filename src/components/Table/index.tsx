@@ -68,11 +68,8 @@ export interface GenericTableProps {
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   let flag = true;
-  columnFilterData.map((value: any, index: any) => {
-    if (value.dataKey === dataKey) {
-      flag = value.value;
-    }
-  });
+  const foundElement = columnFilterData.find((element: any) => element.dataKey === dataKey);
+  if (foundElement) flag = foundElement.value;
   return flag;
 };
 
@@ -98,12 +95,12 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
-    setPageNumber,
+    // setPageNumber,
     name,
     columnFilterData,
     handleColumnChange,
-    count,
-    productTrackerPageNo,
+    // count,
+    // productTrackerPageNo,
   } = props;
   return (
     <div className="generic-table scrollable">
