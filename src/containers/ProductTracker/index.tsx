@@ -21,7 +21,8 @@ interface ProductTrackerProps {
   productTrackerPageNo: any;
   setMenuItem: (item: any) => void;
   filterRanges: any;
-  setMenu: any;
+  activeGroupId: any;
+  trackGroups: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -108,15 +109,23 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   render() {
-    const { productTrackerPageNo } = this.props;
+    const { productTrackerPageNo, trackGroups, activeGroupId } = this.props;
+    const currentGroupName = activeGroupId
+      ? activeGroupId !== -1
+        ? trackGroups
+          ? trackGroups.find((group: any) => group.id === activeGroupId).name
+          : ''
+        : 'Ungrouped'
+      : 'All Groups';
+
     return (
       <>
         <PageHeader
-          title=""
+          title={`Product Tracker - ${currentGroupName}`}
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: 'Product Tracker', to: '/product-tracker' },
-            { content: 'All Groups' },
+            { content: `${currentGroupName}` },
           ]}
           callToAction={<QuotaMeter />}
         />
@@ -157,7 +166,8 @@ const mapStateToProps = (state: any) => {
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     productTrackerPageNo: get(state, 'productTracker.productTrackerCurrentPageNo'),
     filterRanges: get(state, 'productTracker.filterRanges'),
-    setMenu: get(state, 'productTracker.menuItem'),
+    activeGroupId: get(state, 'productTracker.menuItem'),
+    trackGroups: get(state, 'productTracker.trackerGroup'),
   };
 };
 
