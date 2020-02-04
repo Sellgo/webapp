@@ -68,7 +68,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
       // Update this filter range
       newFilterRanges[dataKey] = range;
       // Get products that match the new set of filter ranges
-      const filteredProducts = findFilterProducts(products, newFilterRanges);
+      const filteredProducts = findFilterProducts(products.results, newFilterRanges);
       // Then update all filter ranges based on the new set of products
       const updatedFilterRanges: any = findMinMaxRange(filteredProducts);
       // But keep this filter range at value we just applied
