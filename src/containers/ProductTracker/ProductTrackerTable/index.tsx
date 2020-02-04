@@ -36,7 +36,7 @@ interface TrackerProps {
   isLoadingTrackerProducts: boolean;
   filterRanges: any;
   singlePageItemsCount: number;
-  trackGroup: any;
+  trackGroups: any;
   handleMenu: any;
   productTrackID: any;
   periodValue: any;
@@ -79,8 +79,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    const { trackGroup } = this.props;
-    if (nextProps && nextProps.trackGroup !== trackGroup) {
+    const { trackGroups } = this.props;
+    if (nextProps && nextProps.trackGroups !== trackGroups) {
       this.setState({
         open: false,
       });
@@ -90,7 +90,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   handleSubmit = (e: any) => {
     e.preventDefault();
     const { name } = this.state;
-    const { postCreateProductTrackGroup, trackGroup } = this.props;
+    const { postCreateProductTrackGroup, trackGroups } = this.props;
     console.log('-------this.props', this.props);
     if (name === '') {
       this.setState({
@@ -270,12 +270,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p className="stat">{row.weight}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
-    const { trackGroup, handleMoveGroup } = this.props;
+    const { trackGroups, handleMoveGroup } = this.props;
     return (
       <OtherSort
         row={row}
         activeRow={this.state.activeRow}
-        group={trackGroup}
+        group={trackGroups}
         handleUntrack={this.handleUntrackSubmit}
         handleCancel={this.handleCancel}
         handleConfirmMessage={this.handleConfirmMessage}
@@ -411,7 +411,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       filterRanges,
       singlePageItemsCount,
       setSinglePageItemsCount,
-      trackGroup,
+      trackGroups,
       handleMenu,
       productTrackID,
       setPageNumber,
@@ -430,7 +430,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <div className="tracker-table">
         <div className="tracker-menu">
           <TrackerMenu
-            groups={trackGroup}
+            groups={trackGroups}
             handleMenu={handleMenu}
             open={this.state.open}
             deleteGroup={this.state.deleteGroup}
@@ -484,7 +484,7 @@ const mapStateToProps = (state: any) => {
     filteredProducts: get(state, 'productTracker.filteredProducts'),
     filterRanges: get(state, 'productTracker.filterRanges'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
-    trackGroup: get(state, 'productTracker.trackerGroup'),
+    trackGroups: get(state, 'productTracker.trackerGroup'),
   };
 };
 

@@ -10,24 +10,28 @@ interface EditGroupModalProps {
 
 class EditGroupModal extends Component<EditGroupModalProps> {
   state = {
-    initialGroup: this.props.activeGroup,
-    group: this.props.activeGroup,
-    name: this.props.activeGroup && this.props.activeGroup.name,
+    name: this.props.activeGroup ? this.props.activeGroup.name : '',
   };
+
+  componentWillReceiveProps(nextProps: any) {
+    this.setState({
+      name: nextProps.activeGroup ? nextProps.activeGroup.name : '',
+    });
+  }
 
   handleNameChange = (e: any) => {
     this.setState({ name: e.target.value });
   };
 
   render() {
-    const { open, handleCancel, handleSubmit } = this.props;
+    const { open, handleCancel, handleSubmit, activeGroup } = this.props;
     return (
       <div className="edit-group-modal">
         <Modal
           as={Form}
           onSubmit={(e: any) => {
             e.preventDefault();
-            let newGroup = { ...this.state.group, name: this.state.name };
+            let newGroup = { ...activeGroup, name: this.state.name };
             handleSubmit(newGroup);
           }}
           open={open}

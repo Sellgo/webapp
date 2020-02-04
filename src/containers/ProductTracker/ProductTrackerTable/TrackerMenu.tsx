@@ -27,17 +27,12 @@ interface TrackerMenuProps {
   open: any;
   editGroup: any;
   deleteGroup: any;
-  setMenu: any;
+  activeGroupId: any;
   error: boolean;
   groupError: boolean;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
-  state = {
-    activeGroup:
-      this.props.groups && this.props.groups.find((data: any) => data.id === this.props.setMenu),
-  };
-
   render() {
     const {
       groups,
@@ -59,6 +54,10 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleDeleteGroupCancel,
       handleDeleteGroupSubmit,
     } = this.props;
+    const activeGroup =
+      this.props.groups && this.props.activeGroupId
+        ? this.props.groups.find((data: any) => data.id === this.props.activeGroupId)
+        : null;
 
     return (
       <div className="menu-bar">
@@ -66,9 +65,9 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           <Menu.Item
             style={{ paddingBottom: '17px' }}
             name={'All Groups'}
-            active={this.props.setMenu === null ? true : false}
+            active={this.props.activeGroupId === null ? true : false}
             onClick={(id: any) => {
-              if (this.props.setMenu !== null) handleMenu(null);
+              if (this.props.activeGroupId !== null) handleMenu(null);
             }}
           >
             <Header as="h4">{'All Groups'}</Header>
@@ -83,9 +82,9 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           >
             <Menu.Item
               name={'Ungrouped'}
-              active={this.props.setMenu === -1 ? true : false}
+              active={this.props.activeGroupId === -1 ? true : false}
               onClick={(id: any) => {
-                if (this.props.setMenu !== -1) handleMenu(-1);
+                if (this.props.activeGroupId !== -1) handleMenu(-1);
               }}
             >
               <Header as="h4">{'Ungrouped'}</Header>
@@ -95,7 +94,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                 .slice()
                 .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
                 .map((data: any) => {
-                  const isActiveGroup = data.id === this.props.setMenu;
+                  const isActiveGroup = data.id === this.props.activeGroupId;
                   return (
                     <Menu.Item
                       name={data.name}
@@ -111,7 +110,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                       </Header>
                       {isActiveGroup && (
                         <div style={{ padding: '5px' }}>
-                          <Icon name="pencil" link onClick={() => handleEditGroup(data.name)} />
+                          <Icon name="pencil" link onClick={() => handleEditGroup(data)} />
                           <Icon name="trash alternate" link onClick={handleDeleteGroup} />
                         </div>
                       )}
@@ -133,13 +132,13 @@ class TrackerMenu extends Component<TrackerMenuProps> {
         />
         <EditGroupModal
           open={editGroup}
-          activeGroup={this.state.activeGroup}
+          activeGroup={activeGroup}
           handleCancel={handleEditGroupCancel}
           handleSubmit={handleEditGroupSubmit}
         />
         <DeleteGroupModal
           open={deleteGroup}
-          groupId={this.props.setMenu}
+          groupId={this.props.activeGroupId}
           handleCancel={handleDeleteGroupCancel}
           handleSubmit={handleDeleteGroupSubmit}
         />
@@ -151,7 +150,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    setMenu: get(state, 'productTracker.menuItem'),
+    activeGroupId: get(state, 'productTracker.menuItem'),
   };
 };
 

@@ -76,7 +76,8 @@ export default (state = initialState, action: AnyAction) => {
       const groupsAfterDelete = get(state, 'trackerGroup').filter(
         (group: any, index: any) => group.id !== deletedGroupId
       );
-      return setIn(state, 'trackerGroup', groupsAfterDelete);
+      let newStateRemove = setIn(state, 'menuItem', null);
+      return setIn(newStateRemove, 'trackerGroup', groupsAfterDelete);
     case UPDATE_TRACKED_PRODUCT:
       const updatedProductDetails = action.payload;
       const trackerDetailsAfterUpdate = get(state, 'trackerDetails.results').map((product: any) =>
