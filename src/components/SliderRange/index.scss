@@ -5,7 +5,10 @@
     margin-bottom: 18px;
     font-weight: 600;
     font-size: 14px;
-    font-family: 'Work Sans', sans-serif;
+    font-family: sans-serif;
+    b {
+      font-weight: 600;
+    }
 
     // Wider style
     //padding-left: 16px;
@@ -34,6 +37,7 @@
     font-weight: normal;
     width: 59px;
     text-align: center;
+    box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0px 1px #d4d4d5;
   }
 
   .range-input .ui.input > input::-webkit-input-placeholder {

@@ -10,8 +10,15 @@
   }
 
   .ui.breadcrumb {
-    padding-left: 4%;
+    width: 400px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 
+    @media screen and (max-width: 450px) {
+      width: unset;
+      display: unset;
+    }
     @media screen and (max-width: 767px) {
       font-size: 0.8rem !important;
     }
