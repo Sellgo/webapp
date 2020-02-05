@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Product } from '../../../../interfaces/Product';
 import 'react-rangeslider/lib/index.css';
@@ -101,9 +100,9 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   };
 
   render() {
-    const { products, filteredProducts, filterRanges } = this.props;
+    const { products, filterRanges } = this.props;
     if (products.length === 1 && products[0] === undefined) {
-      return <div></div>;
+      return <div />;
     }
     const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();
@@ -111,33 +110,6 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     return (
       <div className="synthesis-supplier-filters">
         <div className="inner-wrap">
-          {/*<AdviceCard />*/}
-          <p className="products-count">
-            {filteredProducts.length} of {products.length} products
-          </p>
-
-          <Divider />
-
-          {/*
-          <div className="search-dropdown">
-            <Dropdown
-              placeholder="Select a Preset"
-              fluid
-              search
-              selection
-              options={[
-                defaultSelect,
-                ...dataKeys.map((dk: any) => ({
-                  key: dk,
-                  text: dataKeyMapping[dk].presetText,
-                  value: dk,
-                })),
-              ]}
-              onChange={this.handlePresetChange}
-            />
-          </div>
-          */}
-
           <div className="filters">
             {filterRanges &&
               filterGroups.map((group: any, index: number) => (

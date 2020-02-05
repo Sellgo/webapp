@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, Divider } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
 import BreadCrumb from '../BreadCrumb';
 import './index.scss';
@@ -22,14 +22,10 @@ class PageHeader extends React.Component<Props> {
 
         <div className="page-header">
           {breadcrumb && breadcrumb.length && <BreadCrumb sections={breadcrumb} />}
-
-          <Header className="page-header" as="h2">
-            <Header.Content>{title}</Header.Content>
-            <Header.Content style={{ marginLeft: 'auto' }}>{callToAction}</Header.Content>
+          <Header as="h2">
+            <Header.Content>{callToAction}</Header.Content>
           </Header>
         </div>
-
-        <Divider />
       </>
     );
   }

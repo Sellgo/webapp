@@ -17,6 +17,7 @@ export const SET_SUPPLIER_PRODUCT_TRACKER_GROUP = 'SET_SUPPLIER_PRODUCT_TRACKER_
 export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
 export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT';
+export const SUPPLIER_QUOTA = 'SUPPLIER_QUOTA';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -24,9 +25,10 @@ export const dataKeys: any = [
   'margin',
   'sales_monthly',
   'profit_monthly',
+
   // Revenue
-  //'monthly_revenue',
-  //'roi_inventory',
+  // 'monthly_revenue',
+  // 'roi_inventory',
 ];
 
 // Meta data for each dataKeys above
@@ -89,14 +91,16 @@ export const groupKeyMapping: any = {
 export const initalRange = { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
 
 export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
-  if (!fr[dk]) fr[dk] = initalRange;
+  if (!fr[dk]) {
+    fr[dk] = initalRange;
+  }
   return fr;
 }, {});
 
 // Returns an array of groups, each containing an array of filters
 // under the group.filters property.
 export const findFiltersGrouped = () => {
-  let groups: any = {};
+  const groups: any = {};
 
   // Iterate through dataKeys and sort into groups
   // along with extended data from dataKeyMapping
@@ -166,8 +170,8 @@ export const addTempDataToProducts = (products: any) => {
       ],
       starRatings: 4,
       totalReviews: 500,
-      //unitSoldPerDay: 192,
-      //unitSoldPerMonth: 5777,
+      // unitSoldPerDay: 192,
+      // unitSoldPerMonth: 5777,
       // Give these some random variation
       monthly_revenue: Math.floor(Math.random() * 1000),
       roi_inventory: Math.floor(Math.random() * 100),

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader } from 'semantic-ui-react';
+import { Segment, Loader, Icon } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -10,8 +10,7 @@ import {
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
-import GenericTable, { Column } from '../../../../components/Table';
-import ProductImage from './productImage';
+import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
@@ -30,7 +29,9 @@ interface ProductsTableProps {
     status: string,
     productID?: any,
     productTrackerID?: any,
-    productTrackerGroupID?: any
+    productTrackerGroupID?: any,
+    type?: string,
+    supplierID?: any
   ) => void;
   openProductDetailModal: (product?: Product) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
@@ -53,7 +54,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   handleSelectAll = (event: any, isChecked: any) => {
     const { filteredProducts } = this.props;
 
-    let newCheckedItems: any = {};
+    const newCheckedItems: any = {};
     filteredProducts.forEach((item: any) => {
       newCheckedItems[item.id] = isChecked;
     });
@@ -71,16 +72,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ checkedItems: newCheckedItems });
   };
 
-  renderProductImage = (row: Product) => {
-    const { checkedItems } = this.state;
-    return (
-      <ProductImage
-        item={row}
-        checked={checkedItems[row.id]}
-        onSelectItem={this.handleItemSelect}
-      />
-    );
-  };
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
@@ -90,10 +81,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return (
       <>
         <p className="stat">{formatNumber(row.sales_monthly)} /mo</p>
-        {/*
-        <p className="stat mg-botm0">{row.unitSoldPerDay} /day</p>
-        <p className="stat fnt12">{row.sales_monthly} /mo</p>
-        */}
       </>
     );
   };
@@ -101,38 +88,33 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
   );
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
+
   renderDetailButtons = (row: Product) => {
-    const {
-      supplierID,
-      openProductDetailModal,
-      productTrackerGroup,
-      updateProductTrackingStatus,
-    } = this.props;
+    const { productTrackerGroup, updateProductTrackingStatus, supplierID } = this.props;
 
     return (
       <DetailButtons
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
-        onViewDetails={() => {
-          openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
-        }}
         onTrack={() => {
-          let productTrackerGroupID = 2;
           if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
-            productTrackerGroupID = productTrackerGroup[0].id;
             if (row.tracking_status !== null) {
               updateProductTrackingStatus(
                 row.tracking_status === 'active' ? 'inactive' : 'active',
                 undefined,
                 row.product_track_id,
-                undefined
+                undefined,
+                'supplier',
+                supplierID
               );
             } else {
               updateProductTrackingStatus(
                 'active',
                 row.product_id,
                 undefined,
-                productTrackerGroupID
+                undefined,
+                'supplier',
+                supplierID
               );
             }
           }
@@ -140,22 +122,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     );
   };
+  renderSyncButtons = (row: Product) => {
+    return (
+      <div>
+        <Icon name="sync alternate" style={{ color: '#98aec9' }} />
+      </div>
+    );
+  };
 
   columns: Column[] = [
-    {
-      label: '',
-      sortable: false,
-      show: true,
-      render: this.renderProductImage,
-    },
-
     {
       label: 'PRODUCT INFORMATION',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
     },
-
     {
       label: 'Profit',
       dataKey: 'profit',
@@ -188,7 +169,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       render: this.renderProfitMonthly,
     },
-
     {
       label: 'ROI',
       dataKey: 'roi',
@@ -197,9 +177,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       render: this.renderRoi,
     },
-
     {
-      label: 'Other Sort',
+      label: 'Tracking / Rating',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,
@@ -229,7 +208,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     return (
       <div className="products-table">
-        <GenericTable
+        <PaginatedTable
           /* 
             key change forced table to remount and set page back to 1
             if any data changes that would affect number of displayed items
@@ -243,6 +222,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           columns={this.columns}
           singlePageItemsCount={singlePageItemsCount}
           setSinglePageItemsCount={setSinglePageItemsCount}
+          name={'products'}
         />
       </div>
     );
@@ -264,8 +244,18 @@ const mapDispatchToProps = {
     status: string,
     productID?: any,
     productTrackerID?: any,
-    productTrackerGroupID?: any
-  ) => updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID),
+    productTrackerGroupID?: any,
+    name?: string,
+    supplierID?: any
+  ) =>
+    updateProductTrackingStatus(
+      status,
+      productID,
+      productTrackerID,
+      productTrackerGroupID,
+      name,
+      supplierID
+    ),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
 };

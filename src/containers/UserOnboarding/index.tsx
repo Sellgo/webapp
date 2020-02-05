@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './UserOnboarding.module.css';
-import { Button, Grid, Pagination, Icon, Form, TextArea } from 'semantic-ui-react';
+import { Button, Grid, Pagination, Icon, Form, TextArea, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { closeUserOnboardingModal } from '../../actions/Modals';
 import { userOnboarding as totalViews } from '../../constants/UserOnboarding';
@@ -24,7 +24,7 @@ export const UserOnboarding = (props: any) => {
 
   useEffect(() => {
     fetchTOS();
-  }, []);
+  }, [fetchTOS]);
 
   const handleAccept = () => {
     localStorage.setItem('acceptedTos', 'true');
@@ -57,7 +57,7 @@ const TOS = (props: any) => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h4>Our Terms of Service</h4>
+      <Header as="h4">Our Terms of Service</Header>
       <Form>
         <TextArea rows="20" value={text} />
       </Form>
@@ -83,7 +83,7 @@ const Intro = ({ closeModal }: Props) => {
         <Icon name="cancel" onClick={closeModal} style={{ cursor: 'pointer' }} />
       </div>
       <div className={styles.container}>
-        <Grid divided="vertically" centered>
+        <Grid divided="vertically" centered={true}>
           <Grid.Row as="h4">{viewContent.title}</Grid.Row>
           <Grid.Row>
             {/*  <video height="480" controls={true}>
@@ -101,7 +101,7 @@ const Intro = ({ closeModal }: Props) => {
               src={viewContent.url}
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
+              allowFullScreen={true}
             />
           </Grid.Row>
           <Grid.Row>
@@ -111,8 +111,8 @@ const Intro = ({ closeModal }: Props) => {
             <Pagination
               firstItem={null}
               lastItem={null}
-              pointing
-              secondary
+              pointing={true}
+              secondary={true}
               totalPages={totalViews.length}
               activePage={currentView}
               onPageChange={(event, data) => setCurrentView(Number(data.activePage))}

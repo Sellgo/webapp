@@ -1,43 +1,78 @@
-.adviceCard {
+.advice-card {
+  margin-top: -27px;
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1) !important;
   .track-row {
-    border-top: 1px solid #707070;
-  }
+    span {
+      b {
+        font-size: 18px;
+        font-weight: 600;
+      }
 
-  .wrap-radio {
-    display: flex;
-    align-items: center;
+      .wrap-radio {
+        display: flex;
+        align-items: center;
+        width: 105px;
+      }
+    }
   }
 
   .ui.card {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px 0 #d4d4d5, 0 0 10px 1px #d4d4d5;
     margin-bottom: 25px;
 
+    > .content {
+      padding: 0.5em 0.5em !important;
+    }
     > .content > .header {
-      font-size: 20px;
+      font-size: 13px;
       font-family: 'Montserrat', sans-serif;
-      font-weight: normal;
+      font-weight: bold;
       margin-top: 6px;
     }
 
     > .content > p {
-      font-size: 14px;
+      font-size: 12px;
       padding-top: 10px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: inherit;
       margin-bottom: 14px;
     }
 
     > .content > span {
       display: flex;
       justify-content: space-between;
-      padding-top: 10px;
       align-items: center;
-      padding-bottom: 5px;
     }
   }
 
   .wrap-radio .ui.checked.fitted.toggle.checkbox {
     margin-right: 11px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .ui.card {
+      > .content {
+        .ui.fluid.dropdown {
+          margin-left: 0px !important;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    margin-top: -2px !important;
+    .wrap-radio {
+      width: 80px !important;
+    }
+    .ui.card {
+      .content {
+        .ui.selection.dropdown {
+          min-width: 0 !important;
+          padding: 10px 5px;
+        }
+      }
+    }
   }
 
   @media screen and (max-width: 1500px) {
@@ -56,7 +91,9 @@
     }
 
     .wrap-radio {
-      width: 64px;
+      @media (max-width: 767px) {
+        width: 70%;
+      }
 
       .ui.checked.fitted.toggle.checkbox {
         margin-right: 5px;

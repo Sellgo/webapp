@@ -11,6 +11,7 @@ import {
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_INVENTORY,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_RATING,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW,
+  SET_PRODUCT_DETAIL_KPI,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI,
   RESET_SUPPLIER_PRODUCT_DETAILS,
 } from '../../constants/Products';
@@ -115,6 +116,11 @@ export const setSupplierProductDetailChartRating = (data: any) => ({
 
 export const setSupplierProductDetailChartReview = (data: any) => ({
   type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW,
+  payload: data,
+});
+
+export const setProductKPI = (data: any) => ({
+  type: SET_PRODUCT_DETAIL_KPI,
   payload: data,
 });
 

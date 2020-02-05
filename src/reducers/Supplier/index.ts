@@ -13,6 +13,7 @@ import {
   UPDATE_SUPPLIER_FILTER_RANGES,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   findFilterProducts,
+  SUPPLIER_QUOTA,
 } from '../../constants/Suppliers';
 
 const initialState = {
@@ -87,6 +88,8 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT:
       return setIn(state, 'singlePageItemsCount', action.payload);
+    case SUPPLIER_QUOTA:
+      return setIn(state, 'quota', action.payload);
     default:
       return state;
   }

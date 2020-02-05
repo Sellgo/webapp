@@ -10,6 +10,7 @@ import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
   UPDATE_SUPPLIER,
+  SUPPLIER_QUOTA,
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
@@ -29,6 +30,7 @@ import {
 } from '../../constants/Suppliers';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
+import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -48,8 +50,9 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
     `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?status=active`
   );
   const suppliers = response.data.map((supplier: any) => {
-    if (supplier['file_status'] === 'completed')
+    if (supplier['file_status'] === 'completed') {
       return { ...supplier, ...{ progress: 100, speed: 0 } };
+    }
     return { ...supplier, ...{ progress: -1, speed: -1 } };
   });
   dispatch(setSuppliers(suppliers));
@@ -98,6 +101,15 @@ export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (disp
   )
     .then(json => {
       dispatch(updateSupplier(json.data));
+    })
+    .catch(error => {});
+};
+
+export const supplierProgress = (supplierID: any) => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota-meter`)
+    .then(json => {
+      dispatch(supplierQuota(json.data));
     })
     .catch(error => {});
 };
@@ -164,14 +176,19 @@ export const fetchSynthesisProgressUpdates = () => async (
     responses.forEach(handleUpdateSupplier);
 
     suppliers = suppliers.filter((supplier, index) => {
-      if (responses[index].data.progress === 100) dispatch(fetchSupplier(supplier.supplier_id));
+      if (responses[index].data.progress === 100) {
+        dispatch(fetchSupplier(supplier.supplier_id));
+      }
       return responses[index].data.progress !== 100;
     });
 
     await timeout(2000);
   }
 };
-
+export const supplierQuota = (supplier: Supplier) => ({
+  type: SUPPLIER_QUOTA,
+  payload: supplier,
+});
 export const updateSupplier = (supplier: Supplier) => ({
   type: UPDATE_SUPPLIER,
   payload: supplier,
@@ -186,8 +203,11 @@ export const fetchSupplierTableColumns = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   let suppliersTableColumns: any = localStorage.getItem('suppliersTableColumns');
-  if (!suppliersTableColumns) suppliersTableColumns = {};
-  else suppliersTableColumns = JSON.parse(suppliersTableColumns);
+  if (!suppliersTableColumns) {
+    suppliersTableColumns = {};
+  } else {
+    suppliersTableColumns = JSON.parse(suppliersTableColumns);
+  }
   dispatch(setSupplierTableColumns(suppliersTableColumns));
 };
 
@@ -282,9 +302,7 @@ export const setSupplierProductTrackerGroup = (data: any) => ({
 
 export const fetchSupplierProductTrackerGroup = (supplierID: string) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
-  return Axios.get(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`
-  )
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`)
     .then(json => {
       dispatch(setSupplierProductTrackerGroup(json.data));
     })
@@ -293,19 +311,40 @@ export const fetchSupplierProductTrackerGroup = (supplierID: string) => (dispatc
 
 export const updateProductTrackingStatus = (
   status: string,
-  productID?: string,
-  productTrackerID?: string,
-  productTrackerGroupID?: string
-) => (dispatch: any) => {
+  productID?: number,
+  productTrackerID?: number,
+  productTrackerGroupID?: number,
+  name?: string,
+  supplierID?: number,
+  currentState?: any,
+  type?: any
+) => (dispatch: any, getState: any) => {
+  const {
+    productTracker: { menuItem, trackerGroup },
+  } = getState();
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
+  const groupName =
+    name === 'tracker' && type === 'move-group'
+      ? productTrackerGroupID === -1
+        ? 'Ungrouped'
+        : trackerGroup.find((group: any) => group.id === productTrackerGroupID).name
+      : '';
 
   bodyFormData.set('seller_id', sellerID || '');
   bodyFormData.set('status', status);
-
-  if (productTrackerID) bodyFormData.set('id', productTrackerID);
-  if (productID) bodyFormData.set('product_id', productID);
-  if (productTrackerGroupID) bodyFormData.set('product_track_group_id', productTrackerGroupID);
+  if (productTrackerID) {
+    bodyFormData.set('id', String(productTrackerID));
+  }
+  if (productID) {
+    bodyFormData.set('product_id', String(productID));
+  }
+  if (productTrackerID && productTrackerGroupID) {
+    bodyFormData.set('product_track_group_id', String(productTrackerGroupID));
+  }
+  if (supplierID) {
+    bodyFormData.set('supplier_id', String(supplierID));
+  }
 
   return !productTrackerID
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
@@ -321,7 +360,18 @@ export const updateProductTrackingStatus = (
     : Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(updateSupplierProduct(json.data));
+          if (name === 'tracker') {
+            if (type === 'untrack') {
+              success(`Product is now untracked`);
+              dispatch(removeTrackedProduct(json.data['id']));
+            } else if (type === 'move-group') {
+              success(`Product is moved to ${groupName}`);
+              dispatch(updateTrackedProduct(json.data));
+              dispatch(setMenuItem(menuItem));
+            }
+          } else {
+            dispatch(updateSupplierProduct(json.data));
+          }
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {
@@ -362,10 +412,7 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
   bodyFormData.set('name', supplierName);
   bodyFormData.set('supplier_id', supplierID);
   bodyFormData.set('marketplace_id', 'US');
-  return Axios.post(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/track/group`,
-    bodyFormData
-  )
+  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {})
     .catch(error => {});
 };
@@ -391,9 +438,11 @@ export const saveSupplierNameAndDescription = (name: string, description: string
       const sellerID = sellerIDSelector();
       const bodyFormData = new FormData();
       bodyFormData.set('name', name);
-      if (description) bodyFormData.set('description', description);
+      if (description) {
+        bodyFormData.set('description', description);
+      }
       bodyFormData.set('supplier_group_id', data.id);
-      for (let param in other) {
+      for (const param in other) {
         bodyFormData.set(param, other[param]);
       }
       return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
@@ -403,7 +452,7 @@ export const saveSupplierNameAndDescription = (name: string, description: string
           resolve(json.data);
         })
         .catch(err => {
-          for (let er in err.response.data) {
+          for (const er in err.response.data) {
             error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
           }
         });
@@ -423,7 +472,7 @@ export const updateSupplierNameAndDescription = (
     bodyFormData.set('name', name);
     bodyFormData.set('description', description);
     bodyFormData.set('id', supplierID);
-    for (let param in other) {
+    for (const param in other) {
       bodyFormData.set(param, other[param]);
     }
     return Axios.patch(
@@ -436,7 +485,7 @@ export const updateSupplierNameAndDescription = (
         resolve(json.data);
       })
       .catch(err => {
-        for (let er in err.response.data) {
+        for (const er in err.response.data) {
           error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
         }
       });

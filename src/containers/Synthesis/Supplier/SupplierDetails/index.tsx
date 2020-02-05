@@ -1,13 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Feed,
-  //Divider,
-  Grid,
-  Card,
-} from 'semantic-ui-react';
+import { Feed, Grid, Card } from 'semantic-ui-react';
 import SupplierCharts from './SupplierCharts';
-//import SupplierData from './SupplierData';
 
 const SupplierDetails = (props: any) => {
   const { supplierID } = props;
@@ -22,21 +16,19 @@ const SupplierDetails = (props: any) => {
               transition: 'width 0.4s',
             }}
           >
-            <Card.Content>
-              {/*
-              <SupplierData supplierID={supplierID} />
-              <Divider />
-              */}
-              <Feed>
-                <Feed.Event>
-                  <Feed.Content>
-                    <Feed.Summary>
-                      <SupplierCharts supplierID={supplierID} />
-                    </Feed.Summary>
-                  </Feed.Content>
-                </Feed.Event>
-              </Feed>
-            </Card.Content>
+            <div className="supplier-details-card">
+              <Card.Content>
+                <Feed>
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        <SupplierCharts supplierID={supplierID} />
+                      </Feed.Summary>
+                    </Feed.Content>
+                  </Feed.Event>
+                </Feed>
+              </Card.Content>
+            </div>
           </Card>
         </Grid.Row>
       </Grid.Column>

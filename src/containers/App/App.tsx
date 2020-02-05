@@ -14,6 +14,7 @@ import history from '../../history';
 import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
+import ProductTracker from '../ProductTracker';
 
 const auth = new Auth();
 
@@ -44,7 +45,7 @@ const PrivateRoute = connect(
   (state: any) => ({
     sellerSubscription: state.subscription.sellerSubscription,
   }),
-  //mapDispatchToProps
+  // mapDispatchToProps
   {
     fetchSellerSubscription: () => fetchSellerSubscription(),
   }
@@ -151,6 +152,12 @@ function App(props: any) {
             exact={true}
             path="/synthesis/:supplierID"
             component={SupplierDetail}
+            requireSubscription={true}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/product-tracker"
+            component={ProductTracker}
             requireSubscription={true}
           />
           <Route component={NotFound} />
