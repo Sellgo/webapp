@@ -18,6 +18,7 @@ import {
   UPDATE_TRACKED_PRODUCT,
   REMOVE_TRACKED_PRODUCT,
   SET_MENU_ITEM,
+  REMOVE_PRODUCTS_IN_GROUP,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota } from '../Settings';
@@ -64,6 +65,11 @@ export const updateProductTrackGroup = (data: any) => ({
 });
 export const removeProductTrackGroup = (data: any) => ({
   type: REMOVE_PRODUCT_TRACK_GROUP,
+  payload: data,
+});
+
+export const removeProductsInGroup = (data: any) => ({
+  type: REMOVE_PRODUCTS_IN_GROUP,
   payload: data,
 });
 
@@ -145,6 +151,7 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
         dispatch(removeProductTrackGroup(groupId));
         dispatch(getSellerQuota());
         dispatch(setMenuItem(null));
+        dispatch(removeProductsInGroup(groupId));
       }
     })
     .catch(errMsg => {

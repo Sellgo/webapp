@@ -1,5 +1,6 @@
 import { setIn } from '../../utils/immutablity';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { AnyAction } from 'redux';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
@@ -17,6 +18,7 @@ import {
   findMinMaxRange,
   UPDATE_TRACKED_PRODUCT,
   REMOVE_TRACKED_PRODUCT,
+  REMOVE_PRODUCTS_IN_GROUP,
 } from '../../constants/Tracker';
 
 const initialState = {
@@ -78,6 +80,26 @@ export default (state = initialState, action: AnyAction) => {
       );
       let newStateRemove = setIn(state, 'menuItem', null);
       return setIn(newStateRemove, 'trackerGroup', groupsAfterDelete);
+    case REMOVE_PRODUCTS_IN_GROUP:
+      const groupIdForRemove = action.payload;
+
+      //update trackerDetails
+      const trackerDetailsRemoved = cloneDeep(get(state, 'trackerDetails'));
+      trackerDetailsRemoved.results = trackerDetailsRemoved.results.filter(
+        (product: any) => product.product_track_group_id !== groupIdForRemove
+      );
+      trackerDetailsRemoved.count = trackerDetailsRemoved.results.length;
+      let newStateRemoveProducts = setIn(state, 'trackerDetails', trackerDetailsRemoved);
+
+      //update filteredProducts & range
+      let filterProducts = get(newStateRemoveProducts, 'filteredProducts').filter(
+        (product: any) => product.product_track_group_id !== groupIdForRemove
+      );
+      newStateRemoveProducts = setIn(newStateRemoveProducts, 'filteredProducts', filterProducts);
+      let ranges = findMinMaxRange(filterProducts);
+      newStateRemoveProducts = setIn(newStateRemoveProducts, 'filterRanges', ranges);
+
+      return newStateRemoveProducts;
     case UPDATE_TRACKED_PRODUCT:
       const updatedProductDetails = action.payload;
       const trackerDetailsAfterUpdate = get(state, 'trackerDetails.results').map((product: any) =>
