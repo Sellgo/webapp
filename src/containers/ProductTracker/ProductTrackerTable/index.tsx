@@ -80,9 +80,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   componentWillReceiveProps(nextProps: any) {
     const { trackGroups } = this.props;
     if (nextProps && nextProps.trackGroups !== trackGroups) {
-      this.setState({
-        open: false,
-      });
+      this.setState({ open: false });
     }
   }
 
@@ -90,11 +88,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     e.preventDefault();
     const { name } = this.state;
     const { postCreateProductTrackGroup } = this.props;
-    console.log('-------this.props', this.props);
     if (name === '') {
-      this.setState({
-        error: true,
-      });
+      this.setState({ error: true });
     } else {
       this.setState({ error: false });
       postCreateProductTrackGroup(name);

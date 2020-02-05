@@ -7,15 +7,10 @@ import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
-import {
-  fetchSupplierProductTrackerDetails,
-  setMenuItem,
-  fetchAllSupplierProductTrackerDetails,
-} from '../../actions/ProductTracker';
+import { setMenuItem, fetchAllSupplierProductTrackerDetails } from '../../actions/ProductTracker';
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 
 interface ProductTrackerProps {
-  fetchTrackedProductDetails: (periodValue: any, groupID: any, perPage: any, pageNo: any) => void;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
   singlePageItemsCount: any;
   productTrackerPageNo: any;
@@ -171,8 +166,6 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  fetchTrackedProductDetails: (periodValue: any, groupID: any, perPage: any, pageNo: any) =>
-    fetchSupplierProductTrackerDetails(periodValue, groupID, perPage, pageNo),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setMenuItem: (item: any) => setMenuItem(item),

@@ -95,12 +95,9 @@ export const GenericTable = (props: GenericTableProps) => {
     rows,
     extendedInfo,
     expandedRows,
-    // setPageNumber,
     name,
     columnFilterData,
     handleColumnChange,
-    // count,
-    // productTrackerPageNo,
   } = props;
   return (
     <div className="generic-table scrollable">
@@ -274,11 +271,7 @@ export const GenericTable = (props: GenericTableProps) => {
                   {expandedRows && expandedRows === row.product_id && extendedInfo && (
                     <Table.Row key={index + '-extended'}>
                       <Table.Cell colSpan={columns.length}>
-                        {/* <a className="row-expand-btn" onClick={() => toggleExpandRow(row.id)}>
-                            <span className="caret-icon">
-                              <Icon className="caret down" />
-                            </span>
-                          </a> */}
+                        {''}
                         {expandedRows === row.product_id && extendedInfo(row)}
                       </Table.Cell>
                     </Table.Row>
@@ -296,12 +289,6 @@ export const GenericTable = (props: GenericTableProps) => {
               <Pagination
                 totalPages={rows.length ? totalPages : ''}
                 activePage={currentPage}
-                // activePage={name === 'trackerTable' ? productTrackerPageNo : currentPage}
-                // onPageChange={(event, data) => {
-                //   name === 'trackerTable'
-                //     ? setPageNumber(Number(data.activePage))
-                //     : setCurrentPage(Number(data.activePage));
-                // }}
                 onPageChange={(event, data) => {
                   setCurrentPage(Number(data.activePage));
                 }}
@@ -395,10 +382,6 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     : rows;
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
-  // const totalPages =
-  //   name === 'trackerTable'
-  //     ? Math.ceil(count.count / singlePageItemsCount)
-  //     : Math.ceil(rows.length / singlePageItemsCount);
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 

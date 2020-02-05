@@ -319,15 +319,17 @@ export const updateProductTrackingStatus = (
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   const groupName =
-    productTrackerGroupID === -1
-      ? 'Ungrouped'
-      : trackerGroup.find((group: any) => group.id === productTrackerGroupID).name;
+    name === 'tracker' && type === 'move-group'
+      ? productTrackerGroupID === -1
+        ? 'Ungrouped'
+        : trackerGroup.find((group: any) => group.id === productTrackerGroupID).name
+      : '';
 
   bodyFormData.set('seller_id', sellerID || '');
   bodyFormData.set('status', status);
   if (productTrackerID) bodyFormData.set('id', String(productTrackerID));
   if (productID) bodyFormData.set('product_id', String(productID));
-  if (productTrackerGroupID)
+  if (productTrackerID && productTrackerGroupID)
     bodyFormData.set('product_track_group_id', String(productTrackerGroupID));
   if (supplierID) bodyFormData.set('supplier_id', String(supplierID));
 
