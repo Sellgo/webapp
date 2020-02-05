@@ -54,7 +54,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   handleSelectAll = (event: any, isChecked: any) => {
     const { filteredProducts } = this.props;
 
-    let newCheckedItems: any = {};
+    const newCheckedItems: any = {};
     filteredProducts.forEach((item: any) => {
       newCheckedItems[item.id] = isChecked;
     });

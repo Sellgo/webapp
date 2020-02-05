@@ -60,14 +60,16 @@ export const groupKeyMapping: any = {
 export const initalRange = { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
 
 export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
-  if (!fr[dk]) fr[dk] = initalRange;
+  if (!fr[dk]) {
+    fr[dk] = initalRange;
+  }
   return fr;
 }, {});
 
 // Returns an array of groups, each containing an array of filters
 // under the group.filters property.
 export const findFiltersGrouped = () => {
-  let groups: any = {};
+  const groups: any = {};
 
   // Iterate through dataKeys and sort into groups
   // along with extended data from dataKeyMapping
@@ -115,7 +117,7 @@ export const findMinMaxRange = (products: any) => {
 };
 
 export const parseMinMaxRange = (minMaxes: any) => {
-  let parsedMinMaxes = dataKeys.reduce(
+  const parsedMinMaxes = dataKeys.reduce(
     (a: any, key: any) =>
       Object.assign(a, { [key]: { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER } }),
     {}

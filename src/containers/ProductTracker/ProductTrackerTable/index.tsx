@@ -181,7 +181,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   handleColumnChange = (e: any, data: any) => {
-    let checkedData = this.state.columnFilterData;
+    const checkedData = this.state.columnFilterData;
     if (data.label === 'Select All') {
       checkedData.forEach((element: any) => {
         if (element.key !== 'Product Information' || element.key !== '') {

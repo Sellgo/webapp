@@ -218,13 +218,13 @@ class ProductCharts extends Component<ProductChartsProps> {
           </Loader>
         );
       default:
-        return <div></div>;
+        return <div />;
     }
   };
 
   render() {
     const { productDetailRank, productDetailPrice, productDetailKPI } = this.props;
-    if (!productDetailKPI || !productDetailRank || !productDetailPrice) return <div></div>;
+    if (!productDetailKPI || !productDetailRank || !productDetailPrice) return <div />;
     return (
       <div className="product-detail-charts">
         <Divider />

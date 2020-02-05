@@ -27,8 +27,8 @@ export const dataKeys: any = [
   'profit_monthly',
 
   // Revenue
-  //'monthly_revenue',
-  //'roi_inventory',
+  // 'monthly_revenue',
+  // 'roi_inventory',
 ];
 
 // Meta data for each dataKeys above
@@ -98,7 +98,7 @@ export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
 // Returns an array of groups, each containing an array of filters
 // under the group.filters property.
 export const findFiltersGrouped = () => {
-  let groups: any = {};
+  const groups: any = {};
 
   // Iterate through dataKeys and sort into groups
   // along with extended data from dataKeyMapping
@@ -168,8 +168,8 @@ export const addTempDataToProducts = (products: any) => {
       ],
       starRatings: 4,
       totalReviews: 500,
-      //unitSoldPerDay: 192,
-      //unitSoldPerMonth: 5777,
+      // unitSoldPerDay: 192,
+      // unitSoldPerMonth: 5777,
       // Give these some random variation
       monthly_revenue: Math.floor(Math.random() * 1000),
       roi_inventory: Math.floor(Math.random() * 100),

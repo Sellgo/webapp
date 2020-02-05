@@ -118,8 +118,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             value: 'rerun',
             disabled: !amazonMWSAuthorized,
             onClick: () => {
-              if (amazonMWSAuthorized) this.props.reRun(row);
-              else this.handleAmazonMWSAuthError();
+              if (amazonMWSAuthorized) {
+                this.props.reRun(row);
+              } else {
+                this.handleAmazonMWSAuthError();
+              }
             },
           },
         ]}
@@ -147,8 +150,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       row.file_status !== 'completed' &&
       row.file_status !== null &&
       row.file_status !== undefined
-    )
+    ) {
       return '';
+    }
     const { favourite, unFavourite } = this.props;
     return (
       <div className="operations">
@@ -173,7 +177,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderInventory = (row: Supplier) => {
-    if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed') {
+      return '';
+    }
     return row.item_total_count;
   };
   renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
@@ -181,7 +187,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderProgress = (row: Supplier) => (row.progress !== -1 ? `${row.progress}%` : '');
 
   renderCompleted = (row: Supplier) => {
-    if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed') {
+      return '';
+    }
     return new Date(row.udate).toLocaleString();
   };
 
@@ -209,7 +217,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderSupplierRate = (row: Supplier) => {
-    if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed') {
+      return '';
+    }
     return row.rate;
   };
 
@@ -306,8 +316,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     resetSuppliers();
     fetchSuppliers();
     fetchSupplierTableColumns();
-    if (this.props.suppliers.length !== 1 && this.props.suppliers[0] !== undefined)
+    if (this.props.suppliers.length !== 1 && this.props.suppliers[0] !== undefined) {
       fetchSynthesisProgressUpdates();
+    }
   }
 
   componentWillUnmount() {

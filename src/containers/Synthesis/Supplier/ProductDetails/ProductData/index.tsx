@@ -20,7 +20,9 @@ class ProductData extends Component<ProductDataProps> {
 
   render() {
     const { productDetails } = this.props;
-    if (!productDetails) return '';
+    if (!productDetails) {
+      return '';
+    }
     return (
       <Grid className="flex-col">
         <Grid.Column floated="left" width={13} className="wdt100 detail-page">
