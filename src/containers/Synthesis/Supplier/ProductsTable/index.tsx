@@ -11,7 +11,6 @@ import {
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
-// import ProductImage from './productImage';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
@@ -55,7 +54,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   handleSelectAll = (event: any, isChecked: any) => {
     const { filteredProducts } = this.props;
 
-    let newCheckedItems: any = {};
+    const newCheckedItems: any = {};
     filteredProducts.forEach((item: any) => {
       newCheckedItems[item.id] = isChecked;
     });
@@ -73,16 +72,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ checkedItems: newCheckedItems });
   };
 
-  // renderProductImage = (row: Product) => {
-  //   const { checkedItems } = this.state;
-  //   return (
-  //     <ProductImage
-  //       item={row}
-  //       checked={checkedItems[row.id]}
-  //       onSelectItem={this.handleItemSelect}
-  //     />
-  //   );
-  // };
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
@@ -92,10 +81,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return (
       <>
         <p className="stat">{formatNumber(row.sales_monthly)} /mo</p>
-        {/*
-        <p className="stat mg-botm0">{row.unitSoldPerDay} /day</p>
-        <p className="stat fnt12">{row.sales_monthly} /mo</p>
-        */}
       </>
     );
   };
@@ -103,17 +88,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
   );
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
-  // renderIcon = (row: Product) => {
-  //   return (
-  //     <div>
-  //       <i className="fas fa-skull-crossbones mrgn-right font-color"></i>
-  //       <Icon className="lock mrgn-right font-color" />
-  //       <Icon className="list mrgn-right font-color" />
-  //       <Icon className="cubes font-color" />
-  //     </div>
-  //   );
-  // };
-  // renderAmz = (row: Product) => <Image src={AMAZON_IMAGE} className="amazon_img_size" />;
+
   renderDetailButtons = (row: Product) => {
     const { productTrackerGroup, updateProductTrackingStatus, supplierID } = this.props;
 
@@ -121,9 +96,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       <DetailButtons
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
-        // onViewDetails={() => {
-        //   openProductDetailModal({ ...row, ...{ supplierID: supplierID } });
-        // }}
         onTrack={() => {
           if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
             if (row.tracking_status !== null) {
@@ -159,11 +131,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   columns: Column[] = [
-    // {
-    //   sortable: false,
-    //   show: true,
-    //   // render: this.renderProductImage,
-    // },
     {
       label: 'PRODUCT INFORMATION',
       sortable: false,
@@ -202,7 +169,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       render: this.renderProfitMonthly,
     },
-
     {
       label: 'ROI',
       dataKey: 'roi',
@@ -219,10 +185,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       render: this.renderDetailButtons,
     },
-    // {
-    //   show: true,
-    //   render: this.renderSyncButtons,
-    // },
   ];
 
   render() {

@@ -42,21 +42,21 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'trackerDetails', action.payload);
     case UPDATE_TRACKER_FILTER_RANGES:
       const filterRanges = action.payload;
-      let newState = setIn(state, 'filterRanges', filterRanges);
+      const newState = setIn(state, 'filterRanges', filterRanges);
       // Also update filteredProducts in state each time filterRanges changes
-      let filteredProducts = findFilterProducts(state.trackerDetails.results, filterRanges);
+      const filteredProducts = findFilterProducts(state.trackerDetails.results, filterRanges);
       return setIn(newState, 'filteredProducts', filteredProducts);
     case SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT:
       return setIn(state, 'singlePageItemsCount', action.payload);
     case SET_MENU_ITEM:
       const groupId = action.payload;
-      let newStateWithMenu = setIn(state, 'menuItem', groupId);
-      let filteredProductsByGroupId = filterProductsByGroupId(
+      const newStateWithMenu = setIn(state, 'menuItem', groupId);
+      const filteredProductsByGroupId = filterProductsByGroupId(
         state.trackerDetails['results'],
         groupId
       );
-      let newFilterRanges = findMinMaxRange(filteredProductsByGroupId);
-      let newStateWithFilterRanges = setIn(newStateWithMenu, 'filterRanges', newFilterRanges);
+      const newFilterRanges = findMinMaxRange(filteredProductsByGroupId);
+      const newStateWithFilterRanges = setIn(newStateWithMenu, 'filterRanges', newFilterRanges);
       return setIn(newStateWithFilterRanges, 'filteredProducts', filteredProductsByGroupId);
     case SET_PRODUCT_TRACKER_PAGE_NUMBER:
       return setIn(state, 'productTrackerCurrentPageNo', action.payload);
@@ -78,7 +78,7 @@ export default (state = initialState, action: AnyAction) => {
       const groupsAfterDelete = get(state, 'trackerGroup').filter(
         (group: any, index: any) => group.id !== deletedGroupId
       );
-      let newStateRemove = setIn(state, 'menuItem', null);
+      const newStateRemove = setIn(state, 'menuItem', null);
       return setIn(newStateRemove, 'trackerGroup', groupsAfterDelete);
     case REMOVE_PRODUCTS_IN_GROUP:
       const groupIdForRemove = action.payload;
@@ -105,7 +105,7 @@ export default (state = initialState, action: AnyAction) => {
       const trackerDetailsAfterUpdate = get(state, 'trackerDetails.results').map((product: any) =>
         product.id !== updatedProductDetails.id ? product : { ...product, ...updatedProductDetails }
       );
-      let newStateWithTrackerDetails = setIn(
+      const newStateWithTrackerDetails = setIn(
         state,
         'trackerDetails.results',
         trackerDetailsAfterUpdate
@@ -124,7 +124,7 @@ export default (state = initialState, action: AnyAction) => {
       trackerDetailsAfterRemove.results = trackerDetailsAfterRemove.results.filter(
         (product: any) => product.id !== productId
       );
-      let newStateWithTrackerDetailsRemoved = setIn(
+      const newStateWithTrackerDetailsRemoved = setIn(
         state,
         'trackerDetails',
         trackerDetailsAfterRemove

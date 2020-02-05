@@ -31,7 +31,7 @@ class EditGroupModal extends Component<EditGroupModalProps> {
           as={Form}
           onSubmit={(e: any) => {
             e.preventDefault();
-            let newGroup = { ...activeGroup, name: this.state.name };
+            const newGroup = { ...activeGroup, name: this.state.name };
             handleSubmit(newGroup);
           }}
           open={open}
@@ -44,7 +44,7 @@ class EditGroupModal extends Component<EditGroupModalProps> {
               placeholder="Your Group"
               value={this.state.name}
               onChange={e => this.handleNameChange(e)}
-              required
+              required={true}
             />
           </Modal.Content>
           <Modal.Actions>

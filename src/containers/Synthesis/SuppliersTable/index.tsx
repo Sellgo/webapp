@@ -66,7 +66,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="filename">
         {row.file_status && (
-          <a href={row.file_url} download>
+          <a href={row.file_url} download={true}>
             {row.file_name}
           </a>
         )}
@@ -79,10 +79,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       <Dropdown
         className={'syn-dropdown-link'}
         text="SYN"
-        floating
+        floating={true}
         selectOnBlur={false}
-        fluid
-        selection
+        fluid={true}
+        selection={true}
         disabled={row.file_status !== 'completed' ? true : false}
         options={[
           {
@@ -93,7 +93,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           {
             key: '1',
             text: (
-              <a href={row.file_url} download>
+              <a href={row.file_url} download={true}>
                 <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
               </a>
             ),
@@ -105,7 +105,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               row.report_url === null ? (
                 <Dropdown.Item icon="download" text=" Download Results" />
               ) : (
-                <a href={row.report_url} download>
+                <a href={row.report_url} download={true}>
                   <Dropdown.Item icon="download" text=" Download Results" />
                 </a>
               ),
@@ -118,8 +118,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             value: 'rerun',
             disabled: !amazonMWSAuthorized,
             onClick: () => {
-              if (amazonMWSAuthorized) this.props.reRun(row);
-              else this.handleAmazonMWSAuthError();
+              if (amazonMWSAuthorized) {
+                this.props.reRun(row);
+              } else {
+                this.handleAmazonMWSAuthError();
+              }
             },
           },
         ]}
@@ -147,8 +150,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       row.file_status !== 'completed' &&
       row.file_status !== null &&
       row.file_status !== undefined
-    )
+    ) {
       return '';
+    }
     const { favourite, unFavourite } = this.props;
     return (
       <div className="operations">
@@ -173,7 +177,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderInventory = (row: Supplier) => {
-    if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed') {
+      return '';
+    }
     return row.item_total_count;
   };
   renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
@@ -181,7 +187,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderProgress = (row: Supplier) => (row.progress !== -1 ? `${row.progress}%` : '');
 
   renderCompleted = (row: Supplier) => {
-    if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed') {
+      return '';
+    }
     return new Date(row.udate).toLocaleString();
   };
 
@@ -209,7 +217,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderSupplierRate = (row: Supplier) => {
-    if (row.file_status !== 'completed') return '';
+    if (row.file_status !== 'completed') {
+      return '';
+    }
     return row.rate;
   };
 
@@ -306,8 +316,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     resetSuppliers();
     fetchSuppliers();
     fetchSupplierTableColumns();
-    if (this.props.suppliers.length !== 1 && this.props.suppliers[0] !== undefined)
+    if (this.props.suppliers.length !== 1 && this.props.suppliers[0] !== undefined) {
       fetchSynthesisProgressUpdates();
+    }
   }
 
   componentWillUnmount() {
@@ -337,7 +348,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showTab === 'all' ? allData : showTab === 'shortlisted' ? shortlistedData : archivedData;
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
-    ); //.filter(e => !showColumns[e.dataKey || '']);
+    );
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>

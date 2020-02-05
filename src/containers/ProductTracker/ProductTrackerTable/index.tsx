@@ -110,11 +110,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       confirm: false,
     });
   };
-  handleUntrackSubmit = (product_track_group_id: any, id: any) => {
+  handleUntrackSubmit = (productTrackGroupId: any, id: any) => {
     this.setState({
       confirm: false,
     });
-    this.props.handleUntrack(product_track_group_id, id);
+    this.props.handleUntrack(productTrackGroupId, id);
   };
 
   handleAddGroup = (e: any) => {
@@ -181,11 +181,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   handleColumnChange = (e: any, data: any) => {
-    let checkedData = this.state.columnFilterData;
+    const checkedData = this.state.columnFilterData;
     if (data.label === 'Select All') {
       checkedData.forEach((element: any) => {
-        if (element.key !== 'Product Information' || element.key !== '')
+        if (element.key !== 'Product Information' || element.key !== '') {
           element.value = data.checked;
+        }
       });
     } else {
       checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
@@ -268,25 +269,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   columns: Column[] = [
-    // {
-    //   check: true,
-    //   sortable: false,
-    //   show: true,
-    //   render: this.renderCheckbox,
-    // },
-
     {
       label: 'Product Information',
       dataKey: 'PRODUCT INFORMATION',
       show: true,
       render: this.renderProductInfo,
     },
-
-    // {
-    //   label: 'KPI',
-    //   type: 'number',
-    //   show: true,
-    // },
     {
       label: 'Avg Price',
       dataKey: 'avg_price',
@@ -311,7 +299,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderAvgMargin,
     },
-
     {
       label: 'Avg Daily Unit Sold',
       dataKey: 'avg_daily_sales',
@@ -320,7 +307,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderAvgUnitSold,
     },
-
     {
       label: 'Avg Daily Revenue',
       type: 'number',
@@ -345,20 +331,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       render: this.renderAvgRank,
     },
-    // {
-    //   label: 'Reviews',
-    //   type: 'number',
-    //   show: true,
-    //   sortable: true,
-    //   // render: this.renderDetailButtons,
-    // },
-    // {
-    //   label: 'Rating',
-    //   type: 'number',
-    //   show: true,
-    //   sortable: true,
-    //   //render: this.renderDetailButtons,
-    // },
     {
       label: 'Dimensions',
       dataKey: 'dimension',
@@ -430,8 +402,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
         </div>
-        {/* <AddProduct /> */}
-        {/* {ColumnFilterBox && <ColumnFilterCard />} */}
         {productTrackerResult && (
           <PaginatedTable
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}

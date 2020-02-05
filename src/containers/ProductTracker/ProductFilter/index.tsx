@@ -98,7 +98,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
       products.results.length === 1 &&
       products.results[0] === undefined
     ) {
-      return <div></div>;
+      return <div />;
     }
     const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();

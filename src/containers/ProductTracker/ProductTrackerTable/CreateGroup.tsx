@@ -30,7 +30,7 @@ class CreateGroup extends Component<CreateGroupProps> {
                 placeholder="Your Group"
                 onChange={e => handleGroupChange(e)}
                 error={error}
-                required
+                required={true}
               />
               {error && (
                 <Label pointing="above" basic={true} color="red">

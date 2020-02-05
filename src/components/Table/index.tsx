@@ -69,7 +69,9 @@ export interface GenericTableProps {
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   let flag = true;
   const foundElement = columnFilterData.find((element: any) => element.dataKey === dataKey);
-  if (foundElement) flag = foundElement.value;
+  if (foundElement) {
+    flag = foundElement.value;
+  }
   return flag;
 };
 
@@ -186,7 +188,7 @@ export const GenericTable = (props: GenericTableProps) => {
                             handleColumnChange={handleColumnChange}
                           />
                         }
-                      ></Popup>
+                      />
                     ) : (
                       <Icon className={column.icon} />
                     )}
@@ -239,7 +241,7 @@ export const GenericTable = (props: GenericTableProps) => {
                           handleColumnChange={handleColumnChange}
                         />
                       }
-                    ></Popup>
+                    />
                   ) : (
                     <Icon className={column.icon} />
                   )}
@@ -280,7 +282,7 @@ export const GenericTable = (props: GenericTableProps) => {
               );
             })
           ) : (
-            <tr></tr>
+            <tr />
           )}
         </Table.Body>
         <Table.Footer>
@@ -323,7 +325,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
   // to local state if it doesn't need to be global (in redux).
-  //const [itemsCount, setItemsCount] = useState(10);
+  // const [itemsCount, setItemsCount] = useState(10);
 
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');
@@ -332,7 +334,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
-        let aColumn, bColumn;
+        let aColumn;
+        let bColumn;
         if (sortedColumn.type === 'number') {
           aColumn = Number(a[sortedColumn.dataKey || '']);
           bColumn = Number(b[sortedColumn.dataKey || '']);

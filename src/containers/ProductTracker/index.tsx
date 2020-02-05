@@ -31,7 +31,7 @@ interface ProductTrackerProps {
 }
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
-    periodValue: 30,
+    periodValue: 14,
     productTrackID: null,
   };
 
@@ -62,7 +62,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
 
   handleUntrack = (id: any, trackId: any) => {
     const { updateProductTrackingStatus } = this.props;
-    let currentState = {
+    const currentState = {
       periodValue: this.state.periodValue,
       productTrackID: this.state.productTrackID,
       singlePageItemsCount: this.props.singlePageItemsCount,
@@ -83,9 +83,9 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     });
   };
 
-  handleMoveGroup = (groupId: any, product_track_id: any) => {
+  handleMoveGroup = (groupId: any, productTrackId: any) => {
     const { updateProductTrackingStatus } = this.props;
-    let currentState = {
+    const currentState = {
       periodValue: this.state.periodValue,
       productTrackID: this.state.productTrackID,
       singlePageItemsCount: this.props.singlePageItemsCount,
@@ -94,7 +94,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     updateProductTrackingStatus(
       'active',
       undefined,
-      product_track_id,
+      productTrackId,
       groupId,
       'tracker',
       undefined,
@@ -135,10 +135,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
               </Grid.Column>
 
               <Grid.Column className="right-column" floated="right">
-                <div className="search-product">
-                  {/* <label>Search Your Product:</label>
-                  <Search placeholder="Search UPC/ASIN" /> */}
-                </div>
+                <div className="search-product" />
                 <ProductTrackerTable
                   handleMenu={(id: any) => this.handleMenu(id)}
                   periodValue={this.state.periodValue}

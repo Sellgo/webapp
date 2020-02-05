@@ -45,7 +45,7 @@ const PrivateRoute = connect(
   (state: any) => ({
     sellerSubscription: state.subscription.sellerSubscription,
   }),
-  //mapDispatchToProps
+  // mapDispatchToProps
   {
     fetchSellerSubscription: () => fetchSellerSubscription(),
   }

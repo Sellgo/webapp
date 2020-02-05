@@ -61,7 +61,9 @@ export const groupKeyMapping: any = {
 export const initalRange = { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
 
 export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
-  if (!fr[dk]) fr[dk] = initalRange;
+  if (!fr[dk]) {
+    fr[dk] = initalRange;
+  }
   return fr;
 }, {});
 
@@ -150,7 +152,7 @@ export const columnFilter = [
 // Returns an array of groups, each containing an array of filters
 // under the group.filters property.
 export const findFiltersGrouped = () => {
-  let groups: any = {};
+  const groups: any = {};
 
   // Iterate through dataKeys and sort into groups
   // along with extended data from dataKeyMapping
@@ -198,7 +200,7 @@ export const findMinMaxRange = (products: any) => {
 };
 
 export const parseMinMaxRange = (minMaxes: any) => {
-  let parsedMinMaxes = dataKeys.reduce(
+  const parsedMinMaxes = dataKeys.reduce(
     (a: any, key: any) =>
       Object.assign(a, { [key]: { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER } }),
     {}
@@ -231,30 +233,4 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
         : products.filter((product: any) => null === product['product_track_group_id'])
       : products;
   return filteredProducts;
-};
-
-// Add temporary data to products during development
-export const addTempDataToProducts = (products: any) => {
-  return products.map((product: any) => {
-    return {
-      ...product,
-      categoryRank: 421,
-      countryImg: '/static/media/flag_icon.30aeec5a.svg',
-      ratings: 9.3,
-      sections: [
-        { key: 'Toys & Games', content: 'Toys & Games', link: true },
-        { key: 'Learning & Education', content: 'Learning & Education', link: true },
-      ],
-      starRatings: 4,
-      totalReviews: 500,
-      //unitSoldPerDay: 192,
-      //unitSoldPerMonth: 5777,
-      // Give these some random variation
-      monthly_revenue: Math.floor(Math.random() * 1000),
-      roi_inventory: Math.floor(Math.random() * 100),
-      topSeller: Math.floor(Math.random() * 2) === 1,
-      prime: Math.floor(Math.random() * 2) === 1,
-      amazonChoice: Math.floor(Math.random() * 2) === 1,
-    };
-  });
 };

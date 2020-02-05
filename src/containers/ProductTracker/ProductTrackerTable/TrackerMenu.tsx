@@ -59,21 +59,23 @@ class TrackerMenu extends Component<TrackerMenuProps> {
 
     return (
       <div className="menu-bar">
-        <Menu pointing stackable secondary color={'blue'} className="wdt100">
+        <Menu pointing={true} stackable={true} secondary={true} color={'blue'} className="wdt100">
           <Menu.Item
             style={{ paddingBottom: '17px' }}
             name={'All Groups'}
             active={this.props.activeGroupId === null ? true : false}
             onClick={(id: any) => {
-              if (this.props.activeGroupId !== null) handleMenu(null);
+              if (this.props.activeGroupId !== null) {
+                handleMenu(null);
+              }
             }}
           >
             <Header as="h4">{'All Groups'}</Header>
           </Menu.Item>
           <Menu
-            pointing
-            stackable
-            secondary
+            pointing={true}
+            stackable={true}
+            secondary={true}
             style={{ width: 'max-content' }}
             color={'blue'}
             className="wdt100 menu-bar-inner"
@@ -82,7 +84,9 @@ class TrackerMenu extends Component<TrackerMenuProps> {
               name={'Ungrouped'}
               active={this.props.activeGroupId === -1 ? true : false}
               onClick={(id: any) => {
-                if (this.props.activeGroupId !== -1) handleMenu(-1);
+                if (this.props.activeGroupId !== -1) {
+                  handleMenu(-1);
+                }
               }}
             >
               <Header as="h4">{'Ungrouped'}</Header>
@@ -99,7 +103,9 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                       key={data.id}
                       active={isActiveGroup ? true : false}
                       onClick={(id: any) => {
-                        if (!isActiveGroup) handleMenu(data.id);
+                        if (!isActiveGroup) {
+                          handleMenu(data.id);
+                        }
                       }}
                       verticalalign="middle"
                     >
@@ -108,8 +114,8 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                       </Header>
                       {isActiveGroup && (
                         <div style={{ padding: '5px' }}>
-                          <Icon name="pencil" link onClick={() => handleEditGroup(data)} />
-                          <Icon name="trash alternate" link onClick={handleDeleteGroup} />
+                          <Icon name="pencil" link={true} onClick={() => handleEditGroup(data)} />
+                          <Icon name="trash alternate" link={true} onClick={handleDeleteGroup} />
                         </div>
                       )}
                     </Menu.Item>
@@ -141,7 +147,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           handleSubmit={handleDeleteGroupSubmit}
         />
         {/* Magic to make scrollbar disappear */}
-        <div className="cover-bar"></div>
+        <div className="cover-bar" />
       </div>
     );
   }

@@ -50,8 +50,8 @@ const AdviceCard = (props: AdviceCardProps) => {
             <span className="wrap-radio">
               <Dropdown
                 placeholder="Select"
-                fluid
-                selection
+                fluid={true}
+                selection={true}
                 options={options}
                 defaultValue={props.periodValue}
                 onChange={(e, data) => props.handlePeriodDrop(data)}

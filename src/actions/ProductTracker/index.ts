@@ -42,14 +42,17 @@ export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
   type: SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   payload: itemsCount,
 });
+
 export const setMenuItem = (menuItem: any) => ({
   type: SET_MENU_ITEM,
   payload: menuItem,
 });
+
 export const setProductTrackerPageNumber = (pageNo: number) => ({
   type: SET_PRODUCT_TRACKER_PAGE_NUMBER,
   payload: pageNo,
 });
+
 export const setRetrieveProductTrackGroup = (data: any) => ({
   type: SET_RETRIEVE_PRODUCT_TRACK_GROUP,
   payload: data,
@@ -59,10 +62,12 @@ export const addProductTrackGroup = (data: any) => ({
   type: ADD_PRODUCT_TRACK_GROUP,
   payload: data,
 });
+
 export const updateProductTrackGroup = (data: any) => ({
   type: UPDATE_PRODUCT_TRACK_GROUP,
   payload: data,
 });
+
 export const removeProductTrackGroup = (data: any) => ({
   type: REMOVE_PRODUCT_TRACK_GROUP,
   payload: data,

@@ -20,7 +20,7 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
   return (
-    <List horizontal className="select-items-list">
+    <List horizontal={true} className="select-items-list">
       <List.Item>
         <List.Content>
           {maxCount > 0 && `${minCount}-${maxCount} of `}
