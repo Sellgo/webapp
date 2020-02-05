@@ -26,7 +26,7 @@ import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
-import { columnFilter } from '../../../utils/dummy';
+import { columnFilter } from '../../../constants/Tracker';
 
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];

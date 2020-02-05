@@ -65,6 +65,88 @@ export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
   return fr;
 }, {});
 
+export const columnFilter = [
+  {
+    value: true,
+    key: 'Select All',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Product Information',
+    // dataKey: 'PRODUCT INFORMATION',
+    visible: false,
+  },
+  {
+    value: true,
+    key: 'Avg Price',
+    dataKey: 'avg_price',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Avg Profit',
+    dataKey: 'avg_profit',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Avg Margin',
+    dataKey: 'avg_margin',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Avg Daily Unit Sold',
+    dataKey: 'avg_daily_sales',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Avg Daily Revenue',
+    dataKey: 'avg_daily_revenue',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Avg ROI',
+    dataKey: 'avg_roi',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Avg Daily Rank',
+    dataKey: 'avg_rank',
+    visible: true,
+  },
+  // {
+  //   value: false,
+  //   key: 'Reviews',
+  // },
+  // {
+  //   value: false,
+  //   key: 'Rating',
+  // },
+  {
+    value: true,
+    key: 'Dimensions',
+    dataKey: 'dimension',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Weight',
+    dataKey: 'weight',
+    visible: true,
+  },
+  {
+    value: true,
+    key: '',
+    // dataKey: 'ellipsis horizontal',
+    visible: false,
+  },
+];
+
 // Returns an array of groups, each containing an array of filters
 // under the group.filters property.
 export const findFiltersGrouped = () => {
