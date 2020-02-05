@@ -3,7 +3,7 @@ import { Modal, Button, Form, Label } from 'semantic-ui-react';
 
 interface CreateGroupProps {
   open: boolean;
-  handleGroupChange: Function;
+  handleGroupChange: (e: React.ChangeEvent) => void;
   handleCancel: any;
   handleSubmit: any;
   error: boolean;
