@@ -57,7 +57,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           hideOnScroll={false}
           style={{
             padding: 0,
-            height: `${clamp(4 + group.length * 40, 44, 404)}px`,
+            height: group ? `${clamp(4 + group.length * 40, 44, 404)}px` : 0,
             overflowY: 'auto',
           }}
         >
