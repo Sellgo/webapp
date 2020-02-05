@@ -11,13 +11,13 @@
 
   .ui.breadcrumb {
     width: 400px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-
+    .icon.divider {
+      margin: 0 10px;
+      color: #98aeca;
+      font-size: 16px;
+    }
     @media screen and (max-width: 450px) {
       width: unset;
-      display: unset;
     }
     @media screen and (max-width: 767px) {
       font-size: 0.8rem !important;
