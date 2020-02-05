@@ -28,6 +28,7 @@ class OtherSort extends React.Component<OtherSortProps> {
         {/* <Icon className="bell slash" /> */}
 
         <Popup
+          className="groups-popup"
           basic={true}
           on="click"
           trigger={
@@ -40,7 +41,6 @@ class OtherSort extends React.Component<OtherSortProps> {
             />
           }
           position="bottom right"
-          hideOnScroll={true}
         >
           <List>
             {group &&
