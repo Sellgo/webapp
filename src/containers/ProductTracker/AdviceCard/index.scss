@@ -2,7 +2,6 @@
   margin-top: -27px;
   box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1) !important;
   .track-row {
-    //border-top: 1px solid #dddee0;
     span {
       b {
         font-size: 18px;
@@ -43,15 +42,14 @@
     > .content > span {
       display: flex;
       justify-content: space-between;
-      //padding-top: 22px;
       align-items: center;
-      //padding-bottom: 5px;
     }
   }
 
   .wrap-radio .ui.checked.fitted.toggle.checkbox {
     margin-right: 11px;
   }
+
   @media screen and (max-width: 767px) {
     .ui.card {
       > .content {

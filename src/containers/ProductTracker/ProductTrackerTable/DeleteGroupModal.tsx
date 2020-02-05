@@ -26,7 +26,7 @@ class DeleteGroupModal extends Component<DeleteGroupModalProps> {
           <Button className="cancel-btn" type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button className="delete-btn" negative type="submit">
+          <Button className="delete-btn" negative={true} type="submit">
             Confirm
           </Button>
         </Modal.Actions>

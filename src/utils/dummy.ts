@@ -13,7 +13,6 @@ export const columnFilter = [
   {
     value: true,
     key: 'Product Information',
-    // dataKey: 'PRODUCT INFORMATION',
     visible: false,
   },
   {
@@ -58,14 +57,6 @@ export const columnFilter = [
     dataKey: 'avg_rank',
     visible: true,
   },
-  // {
-  //   value: false,
-  //   key: 'Reviews',
-  // },
-  // {
-  //   value: false,
-  //   key: 'Rating',
-  // },
   {
     value: true,
     key: 'Dimensions',
@@ -81,7 +72,6 @@ export const columnFilter = [
   {
     value: true,
     key: '',
-    // dataKey: 'ellipsis horizontal',
     visible: false,
   },
 ];

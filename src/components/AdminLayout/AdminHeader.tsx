@@ -42,7 +42,7 @@ export class AdminHeader extends React.Component<AdminProps> {
               to="/synthesis"
               className={window.location.pathname.startsWith('/synthesis') ? 'active-menu' : ''}
             >
-              <i className="fas fa-search-dollar" style={{ fontSize: 18 }}></i>
+              <i className="fas fa-search-dollar" style={{ fontSize: 18 }} />
               <span className="header-values">Profit Finder</span>
               <i
                 className={
@@ -65,28 +65,16 @@ export class AdminHeader extends React.Component<AdminProps> {
             >
               Product Tracker
             </Menu.Item>
-            {/* <Menu.Item as={Link} to="/dashboard">
-              Dashboard
-            </Menu.Item> */}
           </Menu.Menu>
 
           <Menu.Menu className="right-menu" position="right" fitted="horizontally">
-            {/* <Menu.Item as={Link} to="/settings/pricing">
-              <Icon className="bell" />
-            </Menu.Item> */}
-            {/* <Menu.Item as={Link} to="/search">
-              <Icon name="search" />
-            </Menu.Item> */}
-            {/* <Menu.Item as={Link} to="/notifications">
-              <Icon name="bell" />
-            </Menu.Item> */}
             <div className="divider" />
             <Menu.Item>
               <Dropdown
                 trigger={
                   <>
                     {this.userPicture ? (
-                      <Image src={this.userPicture} avatar />
+                      <Image src={this.userPicture} avatar={true} />
                     ) : (
                       <Icon name="user circle" style={{ fontSize: 25 }} />
                     )}

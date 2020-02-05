@@ -26,8 +26,6 @@ class PageHeader extends React.Component<Props> {
             <Header.Content>{callToAction}</Header.Content>
           </Header>
         </div>
-
-        {/* <Divider /> */}
       </>
     );
   }

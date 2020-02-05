@@ -102,58 +102,14 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
   render() {
     const { products, filterRanges } = this.props;
     if (products.length === 1 && products[0] === undefined) {
-      return <div></div>;
+      return <div />;
     }
     const { productRanges } = this.state;
     const filterGroups = findFiltersGrouped();
 
     return (
       <div className="synthesis-supplier-filters">
-        {/* <div className="search-dropdown">
-          <Dropdown
-            placeholder="Select a Preset"
-            fluid
-            search
-            selection
-            options={[
-              defaultSelect,
-              ...dataKeys.map((dk: any) => ({
-                key: dk,
-                text: dataKeyMapping[dk].presetText,
-                value: dk,
-              })),
-            ]}
-            onChange={this.handlePresetChange}
-          />
-        </div> */}
         <div className="inner-wrap">
-          {/*<AdviceCard />*/}
-          {/* <p className="products-count">
-            {filteredProducts.length} of {products.length} products
-          </p> */}
-
-          {/* <Divider /> */}
-
-          {/*
-          <div className="search-dropdown">
-            <Dropdown
-              placeholder="Select a Preset"
-              fluid
-              search
-              selection
-              options={[
-                defaultSelect,
-                ...dataKeys.map((dk: any) => ({
-                  key: dk,
-                  text: dataKeyMapping[dk].presetText,
-                  value: dk,
-                })),
-              ]}
-              onChange={this.handlePresetChange}
-            />
-          </div>
-          */}
-
           <div className="filters">
             {filterRanges &&
               filterGroups.map((group: any, index: number) => (

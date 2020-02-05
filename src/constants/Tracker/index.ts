@@ -149,29 +149,3 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
       : products;
   return filteredProducts;
 };
-
-// Add temporary data to products during development
-export const addTempDataToProducts = (products: any) => {
-  return products.map((product: any) => {
-    return {
-      ...product,
-      categoryRank: 421,
-      countryImg: '/static/media/flag_icon.30aeec5a.svg',
-      ratings: 9.3,
-      sections: [
-        { key: 'Toys & Games', content: 'Toys & Games', link: true },
-        { key: 'Learning & Education', content: 'Learning & Education', link: true },
-      ],
-      starRatings: 4,
-      totalReviews: 500,
-      //unitSoldPerDay: 192,
-      //unitSoldPerMonth: 5777,
-      // Give these some random variation
-      monthly_revenue: Math.floor(Math.random() * 1000),
-      roi_inventory: Math.floor(Math.random() * 100),
-      topSeller: Math.floor(Math.random() * 2) === 1,
-      prime: Math.floor(Math.random() * 2) === 1,
-      amazonChoice: Math.floor(Math.random() * 2) === 1,
-    };
-  });
-};

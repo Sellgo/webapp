@@ -1,13 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Feed,
-  //Divider,
-  Grid,
-  Card,
-} from 'semantic-ui-react';
+import { Feed, Grid, Card } from 'semantic-ui-react';
 import SupplierCharts from './SupplierCharts';
-//import SupplierData from './SupplierData';
 
 const SupplierDetails = (props: any) => {
   const { supplierID } = props;
@@ -24,10 +18,6 @@ const SupplierDetails = (props: any) => {
           >
             <div className="supplier-details-card">
               <Card.Content>
-                {/*
-              <SupplierData supplierID={supplierID} />
-              <Divider />
-              */}
                 <Feed>
                   <Feed.Event>
                     <Feed.Content>

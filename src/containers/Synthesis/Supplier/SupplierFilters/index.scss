@@ -1,22 +1,13 @@
 .synthesis-supplier-filters {
-  // Negative margin to make up for (most) of extra left padding due to column
-  // margin-left: -0.8rem;
-  // width: calc(100% + 1rem);
-
   .products-count {
     color: 'black';
     font-size: 18px;
     margin-left: 0;
     font-weight: bold;
-
-    // Wider style
-    //font-size: 20px;
-    //margin-left: 16px;
   }
 
   // Dropdown that says "select a preset"
   .search-dropdown {
-    // padding-top: 0.6rem;
   }
 
   // NOT USED CURRENTLY
@@ -32,28 +23,3 @@
     }
   }
 }
-
-// Not sure where this style was used
-// Leaving in for now in case we figure it out
-/*
-.min-max {
-  text-align: center;
-  border: 1px solid red;
-  border-radius: 6px;
-}
-
-.popup-loader {
-  color: #000 !important;
-}
-.popup-loader::after {
-  border-color: #000000 transparent transparent !important;
-}
-
-.ui.basic.table th {
-  border-left: none !important;
-}
-
-.ui.basic.table {
-  margin-top: 0px !important;
-}
-*/

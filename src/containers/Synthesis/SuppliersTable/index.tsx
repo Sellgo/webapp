@@ -337,7 +337,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showTab === 'all' ? allData : showTab === 'shortlisted' ? shortlistedData : archivedData;
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
-    ); //.filter(e => !showColumns[e.dataKey || '']);
+    );
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>

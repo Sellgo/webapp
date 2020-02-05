@@ -31,7 +31,7 @@ interface ProductTrackerProps {
 }
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
-    periodValue: 30,
+    periodValue: 14,
     productTrackID: null,
   };
 
@@ -83,7 +83,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     });
   };
 
-  handleMoveGroup = (groupId: any, product_track_id: any) => {
+  handleMoveGroup = (groupId: any, productTrackId: any) => {
     const { updateProductTrackingStatus } = this.props;
     let currentState = {
       periodValue: this.state.periodValue,
@@ -94,7 +94,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     updateProductTrackingStatus(
       'active',
       undefined,
-      product_track_id,
+      productTrackId,
       groupId,
       'tracker',
       undefined,

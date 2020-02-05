@@ -44,7 +44,7 @@ class EditGroupModal extends Component<EditGroupModalProps> {
               placeholder="Your Group"
               value={this.state.name}
               onChange={e => this.handleNameChange(e)}
-              required
+              required={true}
             />
           </Modal.Content>
           <Modal.Actions>

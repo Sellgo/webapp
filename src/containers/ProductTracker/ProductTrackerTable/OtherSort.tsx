@@ -36,8 +36,6 @@ class OtherSort extends React.Component<OtherSortProps> {
 
     return (
       <div className="other-sort">
-        {/* <Icon className="bell slash" /> */}
-
         <Popup
           basic={true}
           on="click"
@@ -46,7 +44,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           open={trackGroupsOpen}
           trigger={
             <Icon
-              link
+              link={true}
               className="folder"
               data-toggle="tooltip"
               data-placement="middle"
@@ -61,7 +59,7 @@ class OtherSort extends React.Component<OtherSortProps> {
             overflowY: 'auto',
           }}
         >
-          <Menu fluid vertical>
+          <Menu fluid={true} vertical={true}>
             {group &&
               group
                 .slice()
@@ -83,10 +81,10 @@ class OtherSort extends React.Component<OtherSortProps> {
         </Popup>
 
         <Popup
-          basic
+          basic={true}
           on="click"
           className="untrack-popup"
-          trigger={<Icon link className="ellipsis vertical" />}
+          trigger={<Icon link={true} className="ellipsis vertical" />}
           position="bottom right"
           hideOnScroll={true}
           style={{ padding: 0 }}
@@ -94,7 +92,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           onClose={() => this.setOtherOptionsOpen(false)}
           open={otherOptionsOpen}
         >
-          <Menu fluid vertical>
+          <Menu fluid={true} vertical={true}>
             <Menu.Item as="a" href={row.amazon_url} target="_blank">
               {`View on Amazon`}
             </Menu.Item>

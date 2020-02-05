@@ -14,8 +14,8 @@ export default class MobileHeader extends React.Component<any> {
           as={Menu}
           animation="overlay"
           icon="labeled"
-          inverted
-          vertical
+          inverted={true}
+          vertical={true}
           visible={this.state.open}
           className="sidebar-menu"
           width="thin"
@@ -29,7 +29,7 @@ export default class MobileHeader extends React.Component<any> {
               }
               onClick={() => this.setState({ open: false })}
             >
-              <i className="fas fa-search-dollar" style={{ fontSize: 18 }}></i>
+              <i className="fas fa-search-dollar" style={{ fontSize: 18 }} />
               <span className="header-values">Profit Finder</span>
             </Menu.Item>
             <Menu.Item
