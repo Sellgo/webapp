@@ -154,20 +154,21 @@ $link-color: #349af8;
       &::after {
         content: '';
         display: table-row;
-        height: 20px;
+        height: 14.5px;
       }
       tr {
         th {
           border-top: 1px solid rgba(34, 36, 38, 0.3);
           border-bottom: 1px solid rgba(34, 36, 38, 0.3);
           background: #fff;
-          text-align: center;
+          text-align: left;
           font-size: 12px;
         }
         th:first-child {
           border-top-left-radius: 10px;
           border-bottom-left-radius: 10px;
           border-left: 1px solid rgba(34, 36, 38, 0.3);
+          padding-left: 40px;
         }
         th:last-child {
           border-right: 1px solid rgba(34, 36, 38, 0.3);
@@ -256,6 +257,7 @@ $link-color: #349af8;
     // Prevent stats from wrapping (such as "123 /month")
     td p.stat {
       white-space: nowrap;
+      text-align: left;
     }
 
     // Column - Product Image
@@ -282,9 +284,6 @@ $link-color: #349af8;
     }
 
     // Product info
-    td:nth-child(2) {
-      padding-left: 0;
-    }
 
     td:nth-child(3),
     td:nth-child(4),
