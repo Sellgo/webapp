@@ -91,7 +91,9 @@ export const groupKeyMapping: any = {
 export const initalRange = { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
 
 export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
-  if (!fr[dk]) fr[dk] = initalRange;
+  if (!fr[dk]) {
+    fr[dk] = initalRange;
+  }
   return fr;
 }, {});
 
