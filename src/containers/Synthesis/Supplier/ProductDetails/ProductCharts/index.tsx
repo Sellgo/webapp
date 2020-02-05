@@ -224,7 +224,9 @@ class ProductCharts extends Component<ProductChartsProps> {
 
   render() {
     const { productDetailRank, productDetailPrice, productDetailKPI } = this.props;
-    if (!productDetailKPI || !productDetailRank || !productDetailPrice) return <div />;
+    if (!productDetailKPI || !productDetailRank || !productDetailPrice) {
+      return <div />;
+    }
     return (
       <div className="product-detail-charts">
         <Divider />

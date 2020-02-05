@@ -66,7 +66,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="filename">
         {row.file_status && (
-          <a href={row.file_url} download>
+          <a href={row.file_url} download={true}>
             {row.file_name}
           </a>
         )}
@@ -79,10 +79,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       <Dropdown
         className={'syn-dropdown-link'}
         text="SYN"
-        floating
+        floating={true}
         selectOnBlur={false}
-        fluid
-        selection
+        fluid={true}
+        selection={true}
         disabled={row.file_status !== 'completed' ? true : false}
         options={[
           {
@@ -93,7 +93,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           {
             key: '1',
             text: (
-              <a href={row.file_url} download>
+              <a href={row.file_url} download={true}>
                 <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
               </a>
             ),
@@ -105,7 +105,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               row.report_url === null ? (
                 <Dropdown.Item icon="download" text=" Download Results" />
               ) : (
-                <a href={row.report_url} download>
+                <a href={row.report_url} download={true}>
                   <Dropdown.Item icon="download" text=" Download Results" />
                 </a>
               ),

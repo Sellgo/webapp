@@ -83,7 +83,7 @@ const Intro = ({ closeModal }: Props) => {
         <Icon name="cancel" onClick={closeModal} style={{ cursor: 'pointer' }} />
       </div>
       <div className={styles.container}>
-        <Grid divided="vertically" centered>
+        <Grid divided="vertically" centered={true}>
           <Grid.Row as="h4">{viewContent.title}</Grid.Row>
           <Grid.Row>
             {/*  <video height="480" controls={true}>
@@ -101,7 +101,7 @@ const Intro = ({ closeModal }: Props) => {
               src={viewContent.url}
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
+              allowFullScreen={true}
             />
           </Grid.Row>
           <Grid.Row>
@@ -111,8 +111,8 @@ const Intro = ({ closeModal }: Props) => {
             <Pagination
               firstItem={null}
               lastItem={null}
-              pointing
-              secondary
+              pointing={true}
+              secondary={true}
               totalPages={totalViews.length}
               activePage={currentView}
               onPageChange={(event, data) => setCurrentView(Number(data.activePage))}
