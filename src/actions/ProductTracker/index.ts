@@ -115,7 +115,7 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
   bodyFormData.set('marketplace_id', 'US');
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
     .then(json => {
-      if (json.status === 201 && json.statusText === 'Created') {
+      if (json.status === 201) {
         const newGroup = json.data;
         success(`Tracker group successfully created!`);
         dispatch(addProductTrackGroup(newGroup));
