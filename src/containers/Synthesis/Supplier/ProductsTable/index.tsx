@@ -6,7 +6,6 @@ import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
 import { openSupplierProductDetailModal } from '../../../../actions/Modals';
 import {
-  fetchSupplierProductTrackerGroup,
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
 } from '../../../../actions/Suppliers';
@@ -24,7 +23,6 @@ interface ProductsTableProps {
   filterRanges: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
-  fetchProductTrackerGroup: (supplierID: any) => void;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -45,11 +43,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
     checkedItems: {},
   };
-
-  componentDidMount() {
-    const { supplierID, fetchProductTrackerGroup } = this.props;
-    fetchProductTrackerGroup(supplierID);
-  }
 
   handleSelectAll = (event: any, isChecked: any) => {
     const { filteredProducts } = this.props;
@@ -90,33 +83,30 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
 
   renderDetailButtons = (row: Product) => {
-    const { productTrackerGroup, updateProductTrackingStatus, supplierID } = this.props;
-
+    const { updateProductTrackingStatus, supplierID } = this.props;
     return (
       <DetailButtons
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {
-          if (productTrackerGroup.length > 0 && productTrackerGroup[0].id > 0) {
-            if (row.tracking_status !== null) {
-              updateProductTrackingStatus(
-                row.tracking_status === 'active' ? 'inactive' : 'active',
-                undefined,
-                row.product_track_id,
-                undefined,
-                'supplier',
-                supplierID
-              );
-            } else {
-              updateProductTrackingStatus(
-                'active',
-                row.product_id,
-                undefined,
-                undefined,
-                'supplier',
-                supplierID
-              );
-            }
+          if (row.tracking_status !== null) {
+            updateProductTrackingStatus(
+              row.tracking_status === 'active' ? 'inactive' : 'active',
+              undefined,
+              row.product_track_id,
+              undefined,
+              'supplier',
+              supplierID
+            );
+          } else {
+            updateProductTrackingStatus(
+              'active',
+              row.product_id,
+              undefined,
+              undefined,
+              'supplier',
+              supplierID
+            );
           }
         }}
       />
@@ -239,7 +229,6 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  fetchProductTrackerGroup: (supplierID: any) => fetchSupplierProductTrackerGroup(supplierID),
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
