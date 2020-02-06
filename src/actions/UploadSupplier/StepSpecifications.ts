@@ -5,18 +5,13 @@ import {
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
 } from '../../selectors/UploadSupplier/index';
-// tslint:disable:max-classes-per-file
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { UploadSteps } from '../../constants/UploadSupplier';
 import { isValid, submit, getFormValues } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplier';
 import { error } from '../../utils/notifications';
-import {
-  saveSupplierNameAndDescription,
-  postProductTrackGroupId,
-  updateSupplierNameAndDescription,
-} from '../Suppliers';
+import { saveSupplierNameAndDescription, updateSupplierNameAndDescription } from '../Suppliers';
 import { removeColumnMappings, fetchColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import findIndex from 'lodash/findIndex';
@@ -75,7 +70,6 @@ export class AddNewSupplierStep extends Step {
         const data: any = await this.dispatch(
           saveSupplierNameAndDescription(name, description, other)
         );
-        this.dispatch(postProductTrackGroupId(data.id, name));
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (let param in existingSupplier) {

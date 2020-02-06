@@ -417,46 +417,30 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
     .catch(error => {});
 };
 
-const createSupplierGroup = (supplierName: string) => {
-  return new Promise((resolve, reject) => {
-    const sellerID = sellerIDSelector();
-    const bodyFormData = new FormData();
-    bodyFormData.set('name', supplierName);
-    return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/supplier-group`, bodyFormData)
-      .then(json => {
-        resolve(json.data);
-      })
-      .catch(error => {});
-  });
-};
-
 export const saveSupplierNameAndDescription = (name: string, description: string, other: any) => (
   dispatch: any
 ) => {
   return new Promise((resolve, reject) => {
-    createSupplierGroup(name).then((data: any) => {
-      const sellerID = sellerIDSelector();
-      const bodyFormData = new FormData();
-      bodyFormData.set('name', name);
-      if (description) {
-        bodyFormData.set('description', description);
-      }
-      bodyFormData.set('supplier_group_id', data.id);
-      for (const param in other) {
-        bodyFormData.set(param, other[param]);
-      }
-      return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
-        .then(json => {
-          dispatch(addSupplier(json.data));
-          dispatch(setsaveSupplierNameAndDescription(json.data));
-          resolve(json.data);
-        })
-        .catch(err => {
-          for (const er in err.response.data) {
-            error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
-          }
-        });
-    });
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+    bodyFormData.set('name', name);
+    if (description) {
+      bodyFormData.set('description', description);
+    }
+    for (const param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+    return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
+      .then(json => {
+        dispatch(addSupplier(json.data));
+        dispatch(setsaveSupplierNameAndDescription(json.data));
+        resolve(json.data);
+      })
+      .catch(err => {
+        for (const er in err.response.data) {
+          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+        }
+      });
   });
 };
 
