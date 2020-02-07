@@ -48,9 +48,13 @@ class OtherSort extends React.Component<OtherSortProps> {
               className="folder"
               data-toggle="tooltip"
               data-placement="middle"
-              title="Move to a Different Group"
+              title={group && !group.length ? 'No Groups Available' : 'Move to a Different Group'}
+              style={{
+                cursor: group && !group.length ? 'default' : 'pointer',
+              }}
             />
           }
+          disabled={group && !group.length}
           position="bottom right"
           hideOnScroll={false}
           style={{
