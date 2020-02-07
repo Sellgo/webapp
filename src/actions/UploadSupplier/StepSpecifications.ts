@@ -167,7 +167,6 @@ export class SelectFileStep extends Step {
     const errorCheck =
       this.checkFile() || (skipColumnMappingCheck ? this.validateFields() : undefined);
     if (!errorCheck && !skipColumnMappingCheck) {
-      this.dispatch(removeColumnMappings());
       return;
     }
     return errorCheck;

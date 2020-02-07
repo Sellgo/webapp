@@ -189,6 +189,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
     dispatch(setSavedColumnMappings(columnMappings));
+    dispatch(setSaveColumnMappingSetting(true));
     dispatch(setSkipColumnMappingCheck(true));
   } else {
     dispatch(removeColumnMappings());
