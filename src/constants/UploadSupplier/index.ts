@@ -24,17 +24,17 @@ export const FieldsToMap = [
     required: true,
   },
   {
-    key: 'cost',
-    label: 'Product Cost',
-    required: true,
+    key: 'title',
+    label: 'Title',
   },
   {
     key: 'sku',
     label: 'Supplier SKU',
   },
   {
-    key: 'title',
-    label: 'Title',
+    key: 'cost',
+    label: 'Product Cost',
+    required: true,
   },
   {
     key: 'msrp',
