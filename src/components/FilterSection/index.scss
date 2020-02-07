@@ -38,3 +38,14 @@
     margin-bottom: 31px;
   }
 }
+
+@media (max-width: 1366px) and (max-height: 768px) {
+  .filter-section {
+    .filter-head {
+      margin-bottom: 0.5rem;
+    }
+    .filter-content .ui.container {
+      margin-bottom: 10px;
+    }
+  }
+}
