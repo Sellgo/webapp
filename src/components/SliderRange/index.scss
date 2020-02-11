@@ -52,3 +52,19 @@
     color: #98aeca;
   }
 }
+
+@media (max-width: 1366px) and (max-height: 768px) {
+  .slider-range {
+    .range-input .ui.input > input {
+      font-size: 13px;
+      padding: 5px 2px;
+    }
+    .range-title {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .range-input {
+      margin-top: 10px;
+    }
+  }
+}
