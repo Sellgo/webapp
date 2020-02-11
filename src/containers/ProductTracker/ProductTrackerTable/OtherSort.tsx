@@ -37,6 +37,7 @@ class OtherSort extends React.Component<OtherSortProps> {
     return (
       <div className="other-sort">
         <Popup
+          className="groups-popup"
           basic={true}
           on="click"
           onOpen={() => this.setTrackGroupsOpen(true)}

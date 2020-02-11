@@ -634,6 +634,10 @@ $link-color: #349af8;
 }
 .ui.popup {
   cursor: pointer;
+  &.groups-popup {
+    max-height: 300px;
+    overflow: auto;
+  }
 }
 .product-tracker-loader {
   margin-top: 45px !important;
