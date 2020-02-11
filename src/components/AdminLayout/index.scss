@@ -8,3 +8,34 @@
     background-color: #f8faff;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .screen-16-9 {
+  }
+}
+
+@media screen and (max-height: 900px) {
+  .screen-16-9 {
+    .ui.segment {
+      padding: 0 1rem;
+    }
+    .slider-range {
+      .range-title {
+        margin-bottom: 10px;
+      }
+    }
+    .supplier-details-card {
+      .ui.feed {
+        .event {
+          .content {
+            .highcharts-container {
+              max-height: 300px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .screen-16-10 {
+  }
+}
