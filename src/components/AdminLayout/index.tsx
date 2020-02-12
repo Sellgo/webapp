@@ -30,7 +30,7 @@ class AdminLayout extends React.Component<Props> {
     window.removeEventListener('resize', this.updatePredicate);
   }
   updatePredicate() {
-    let c = window.screen.width / window.screen.height;
+    let c = window.innerWidth / window.innerHeight;
     let newRatio =
       c > 1.6
         ? 'screen-16-9'
