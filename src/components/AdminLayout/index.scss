@@ -33,7 +33,7 @@
   }
 }
 
-@media screen and (max-width: 2560px) {
+@media screen and (min-height: 1600px) and (max-width: 2560px) {
   .screen-16-10 {
     .setting {
       .row {
@@ -41,7 +41,7 @@
           align-items: start;
           display: flex !important;
           padding: 0 5rem;
-          width: unset !important;
+          width: 0 !important;
           margin: 0 !important;
         }
       }
