@@ -41,15 +41,7 @@ class AdminLayout extends React.Component<Props> {
         : c < 1
         ? 'mobile'
         : undefined;
-    this.setState({ ratio: newRatio }, () => {
-      console.log(
-        this.state.ratio,
-        this.state.ratio == '16:9',
-        window.screen.width,
-        ' - ',
-        window.screen.height
-      );
-    });
+    this.setState({ ratio: newRatio });
   }
 
   public render() {
