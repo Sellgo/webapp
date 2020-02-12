@@ -65,8 +65,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   try {
     if (stepSpecification.finalizeStep) {
-      // add loader
-      await stepSpecification.finalizeStep();
+      await stepSpecification.finalizeStep(); // add loader
     }
 
     dispatch({

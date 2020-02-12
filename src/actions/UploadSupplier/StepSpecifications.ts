@@ -12,7 +12,12 @@ import { isValid, submit, getFormValues } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplier';
 import { error } from '../../utils/notifications';
 import { saveSupplierNameAndDescription, updateSupplierNameAndDescription } from '../Suppliers';
-import { removeColumnMappings, fetchColumnMappings } from '.';
+import {
+  removeColumnMappings,
+  fetchColumnMappings,
+  toggleFirstRowHeader,
+  setSavedColumnMappings,
+} from '.';
 import isNil from 'lodash/isNil';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -104,72 +109,112 @@ export class SelectFileStep extends Step {
     return errorMessage;
   }
 
-  validateFields() {
+  guessHasHeaders(csv: string[][]) {
+    /** Adapted from Python's csv library: https://github.com/python/cpython/blob/master/Lib/csv.py#L383
+     *  Creates a dictionary of types of data in each column. If any
+     *  column is of a single type (say, integers), *except* for the first
+     *  row, then the first row is presumed to be labels. If the type
+     *  can't be determined, it is assumed to be a string in which case
+     *  the length of the string is the determining factor: if all of the
+     *  rows except for the first are the same length, it's a header.
+     *  Finally, a 'vote' is taken at the end for each column, adding or
+     *  subtracting from the likelihood of the first row being a header.
+     */
+    const rowsToCheck = 20; // arbitrary number of rows to check
+    const header = csv.length ? csv[0] : []; // assume first row is header
+
+    const columnTypes: { [index: number]: any } = {};
+    header.map((_: any, index: number) => {
+      columnTypes[index] = null;
+    });
+
+    csv
+      .slice(1, rowsToCheck)
+      .filter((row: any) => row.every((cell: any) => cell)) // skip row if there is a falsey cell - empty, undefined, ...
+      .forEach((row: any) => {
+        for (const col in columnTypes) {
+          // check if data cell is a Number, else fallback to length of string
+          const thisType = !Number.isNaN(Number(row[col])) ? Number : row[col].length;
+
+          if (thisType !== columnTypes[col]) {
+            if (columnTypes[col] === null) {
+              //add new column type
+              columnTypes[col] = thisType;
+            } else {
+              //type is inconsistent, remove column from consideration
+              delete columnTypes[col];
+            }
+          }
+        }
+      });
+
+    // compare results against first row and "vote" on whether it's a header
+    let hasHeader = 0;
+    for (let col in columnTypes) {
+      const colType = columnTypes[col];
+      if (typeof colType == 'number') {
+        // it's a length
+        hasHeader = header[col].length !== colType ? hasHeader + 1 : hasHeader - 1;
+      } else {
+        // check type different from data rows and header row
+        hasHeader = !Number.isNaN(colType(header[col])) ? hasHeader - 1 : hasHeader + 1;
+      }
+    }
+
+    return hasHeader > 0;
+  }
+
+  guessColumnMappings(csv: string[][]) {
+    /**
+     *  This function guesses column mappings based on whether a cell in the header row contains a specific keyword.
+     *  Note: this function assumes that the first row of the csv is a header.
+     *
+     *  Potential future improvements:
+     *    1) check header row against multiple keywords for each column
+     *    2) guess from format of data rows
+     */
+    const header = csv.length ? csv[0] : []; // assume first row is header
     const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
-    const hasHeaders = isFirstRowHeaderSelector(this.getState());
+
+    const mappings: string[] = [];
+    header.forEach((headerCell: string) => {
+      const mappingKeys = Object.keys(reversedColumnMappings);
+      const keyIndex = mappingKeys.findIndex(
+        (key: string) => headerCell.toLowerCase().includes(key.toLowerCase()) //find keyword in header cell
+      );
+      mappings.push(mappingKeys[keyIndex]);
+    });
+
+    return mappings;
+  }
+
+  validateFields() {
     const csv = csvSelector(this.getState());
 
-    const labels = csv.length ? csv[0] : [];
-    /* const hasHeaders = labels.every(e => e.match(/^[a-zA-Z]+$/) !== null);
-    if (!hasHeaders) this.dispatch(toggleFirstRowHeader()); */
-    const skipCheck = Object.keys(reversedColumnMappings).every(column => {
-      const labelMapping = labels.filter(
-        (label, i) => label.toLocaleLowerCase().indexOf(column.toLocaleLowerCase()) !== -1
-      );
-      const labelIndex = labels.indexOf(labelMapping.length ? labelMapping[0] : '');
-      return labelMapping.length && reversedColumnMappings[column] === labelIndex ? true : false;
-    });
+    // Guess if csv file has headers
+    const currentHasHeaders = isFirstRowHeaderSelector(this.getState());
+    const hasHeaders = this.guessHasHeaders(csv);
+    if (hasHeaders !== currentHasHeaders) this.dispatch(toggleFirstRowHeader());
 
-    if (!skipCheck) {
-      return 'Mismatch in Column Mappings. Unable to Skip Data Mapping!';
+    // Guess column mappings
+    if (hasHeaders) {
+      const mappings = this.guessColumnMappings(csv);
+      if (mappings) {
+        this.dispatch(setSavedColumnMappings(mappings));
+      } else {
+      }
+    } else {
+      // If no headers, clear all mappings instead.
+      this.dispatch(removeColumnMappings());
     }
 
-    // ignore first row if it is header
-    const rows = hasHeaders ? csv.slice(1) : csv;
-
-    const upc: string[] = [];
-    const cost: string[] = [];
-
-    rows.forEach(row => {
-      upc.push(row[reversedColumnMappings.upc]);
-      cost.push(row[reversedColumnMappings.cost]);
-    });
-
-    let ix: number;
-
-    // validate cost
-    ix = findIndex(
-      cost,
-      value => !validator.isDecimal(value.toString()) && !validator.isInt(value.toString())
-    );
-    if (ix !== -1) {
-      return 'Cost must be a valid amount: Line ' + (hasHeaders ? ix + 2 : ix + 1);
-    }
-
-    // validate upc
-    ix = findIndex(upc, value => isEmpty(value));
-    if (ix !== -1) {
-      return "UPC can't be empty: Line " + (hasHeaders ? ix + 2 : ix + 1);
-    }
-
-    ix = findIndex(upc, value => !validator.isNumeric(value));
-    if (ix !== -1) {
-      return 'UPC must be numeric: Line ' + (hasHeaders ? ix + 2 : ix + 1);
-    }
-
-    /* if (uniq(upc).length !== upc.length) {
-      return 'upc must be unique';
-    } */
+    return undefined;
   }
 
   validate() {
     const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
-    const errorCheck =
-      this.checkFile() || (skipColumnMappingCheck ? this.validateFields() : undefined);
-    if (!errorCheck && !skipColumnMappingCheck) {
-      this.dispatch(removeColumnMappings());
-      return;
-    }
+    let errorCheck = this.checkFile();
+    if (!errorCheck) errorCheck = skipColumnMappingCheck ? undefined : this.validateFields();
     return errorCheck;
   }
 
@@ -214,6 +259,14 @@ export class DataMappingStep extends Step {
     });
 
     let ix: number;
+
+    // TODO: rather than fail on validation, just detect data quality issues -
+    // Missing UPC / product cost / title / etc,
+    // $ formats in cost
+    // alphabets in UPC / cost,
+    //
+    // Then at the DataValidationStep, produce a report showing X rows processed & Y rows skipped for supplier Z.
+    // And create a SubmitStep which is basically the current DataValidationStep
 
     // validate cost
     ix = findIndex(
