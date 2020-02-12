@@ -16,10 +16,12 @@ class AdminLayout extends React.Component<Props> {
   state: State = {
     ratio: '',
   };
+
   constructor(props: any) {
     super(props);
     this.updatePredicate = this.updatePredicate.bind(this);
   }
+
   componentDidMount() {
     this.updatePredicate();
     window.addEventListener('resize', this.updatePredicate);
@@ -29,6 +31,7 @@ class AdminLayout extends React.Component<Props> {
     this.updatePredicate();
     window.removeEventListener('resize', this.updatePredicate);
   }
+
   updatePredicate() {
     let c = window.innerWidth / window.innerHeight;
     let newRatio =
