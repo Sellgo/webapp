@@ -8,12 +8,12 @@ interface Props {
   auth: Auth;
 }
 
-interface MyState {
+interface State {
   ratio: string;
 }
 
 class AdminLayout extends React.Component<Props> {
-  state: MyState = {
+  state: State = {
     ratio: '',
   };
   constructor(props: any) {
@@ -40,7 +40,7 @@ class AdminLayout extends React.Component<Props> {
         ? 'screen-4-3'
         : c < 1
         ? 'mobile'
-        : undefined;
+        : '';
     this.setState({ ratio: newRatio });
   }
 
