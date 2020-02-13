@@ -177,7 +177,10 @@ $new_black: #707070;
       vertical-align: middle;
       text-align: left;
       span {
+        font-family: Work Sans !important;
         white-space: nowrap;
+        margin: 0 auto;
+        font-weight: 600;
       }
     }
     .mrgn-right {
@@ -316,6 +319,10 @@ $new_black: #707070;
     &.is-tracking {
       .track-wrap {
         background-color: #bad9ff;
+        span {
+          color: #349af8;
+          font-weight: 700 !important;
+        }
       }
     }
 
