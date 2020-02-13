@@ -33,6 +33,11 @@ const steps = [
     icon: <Icon name="book" />,
     description: '',
   },
+  {
+    title: 'Submit',
+    icon: <Icon name="upload" />,
+    description: '',
+  },
 ];
 
 export const UploadSteps = (props: Props) => {

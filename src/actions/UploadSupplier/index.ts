@@ -17,11 +17,17 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
+  UPDATE_DATA_QUALITY_REPORT,
 } from '../../constants/UploadSupplier';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5';
-import { currentStepSelector, columnMappingsSelector } from '../../selectors/UploadSupplier';
+import {
+  currentStepSelector,
+  columnMappingsSelector,
+  csvSelector,
+  csvFileSelector,
+} from '../../selectors/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
@@ -29,10 +35,7 @@ import { AppConfig } from '../../config';
 import Axios from 'axios';
 import reduce from 'lodash/reduce';
 import { fetchSupplier, fetchSynthesisProgressUpdates } from '../Suppliers';
-
-// we need a better way to store file
-// sadly redux store doesn't allow storage of files
-let csv: File | null;
+import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -79,7 +82,6 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 };
 
 export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null) => {
-  csv = csvFile;
   const csvJSONFile: any = {};
   if (csvFile !== null) {
     csvJSONFile['lastModified'] = csvFile.lastModified;
@@ -92,7 +94,7 @@ export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null)
   };
 };
 
-export const setCsv = (csv: string) => ({
+export const setCsv = (csv: string[][]) => ({
   type: SET_CSV,
   payload: csv,
 });
@@ -115,7 +117,7 @@ export const parseCsv = () => (
     delimiter: ',',
   };
 
-  const getParsedCsv = (err: Error | undefined, output: string) => {
+  const getParsedCsv = (err: Error | undefined, output: string[][]) => {
     if (err) {
       // tslint:disable-next-line:no-console
     } else {
@@ -150,6 +152,21 @@ export const prepareCsv = (csvFile?: File) => async (
   };
 
   reader.readAsText(csvFile);
+};
+
+export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
+  csvArray = csvArray.map((row: string[]) =>
+    //escape commas
+    row.map((cell: string) => (cell.includes(',') ? `"${cell}"` : cell))
+  );
+  const csvString = csvArray.join('\n');
+
+  let fileName = 'supplier.csv';
+  if (csvFileDetails && csvFileDetails['name']) {
+    fileName = csvFileDetails['name'];
+  }
+
+  return new File([csvString], fileName, { type: 'text/csv' });
 };
 
 export const mapColumn = (csvColumn: string | number, targetColumn: string) => ({
@@ -202,6 +219,7 @@ export const validateAndUploadCsv = () => async (
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
   const saveColumnMappingSetting = saveColumnMappingSettingSelector(getState());
+  const csv = parseArrayToCsvFile(csvSelector(getState()), csvFileSelector(getState()));
 
   const reversedColumnMappings: any = reduce(
     columnMappings,
@@ -253,4 +271,9 @@ export const finishUpload = () => ({
 
 export const toggleFirstRowHeader = () => ({
   type: TOGGLE_FIRST_ROW_HEADER,
+});
+
+export const updateDataQualityReport = (report: DataQualityReport) => ({
+  type: UPDATE_DATA_QUALITY_REPORT,
+  payload: report,
 });

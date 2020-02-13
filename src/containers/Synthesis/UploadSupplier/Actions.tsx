@@ -43,10 +43,13 @@ const Actions = ({
 }: ActionsProps) => {
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
-  const onSkipStep = () => setStep(currentStep + 2);
+  const onSkipStep = () => {
+    setStep(currentStep + 1);
+    setStep(currentStep + 2);
+  };
 
   const hasPrevStep = currentStep !== 0;
-  const hasNextStep = currentStep !== 3;
+  const hasNextStep = currentStep !== 4;
 
   if (processCompleted) {
     return (
@@ -103,28 +106,28 @@ const Actions = ({
             Dismiss
           </Button>
         )}
-        {hasNextStep &&
-          (currentStep === 1 && skipColumnMappingCheck ? (
-            <Button
-              onClick={onSkipStep}
-              className={styles.action}
-              basic={true}
-              color="black"
-              primary={true}
-            >
-              {'Finish'}
-            </Button>
-          ) : (
-            <Button
-              onClick={onNextStep}
-              className={styles.action}
-              basic={true}
-              color="black"
-              primary={true}
-            >
-              {currentStep === 0 ? 'Save & Proceed' : 'Next'}
-            </Button>
-          ))}
+        {hasNextStep && (
+          <Button
+            onClick={currentStep === 1 && skipColumnMappingCheck ? onSkipStep : onNextStep}
+            className={styles.action}
+            basic={true}
+            color="black"
+            primary={true}
+          >
+            {(() => {
+              switch (currentStep) {
+                case 0:
+                  return 'Save & Proceed';
+                case 3:
+                  return 'Submit';
+                case 1:
+                  return skipColumnMappingCheck ? 'Skip' : 'Next';
+                default:
+                  return 'Next';
+              }
+            })()}
+          </Button>
+        )}
       </div>
     </div>
   );

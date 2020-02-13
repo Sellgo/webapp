@@ -7,9 +7,10 @@ import Actions from './Actions';
 import SelectFile from './SelectFile';
 import DataMapping from './DataMapping';
 import { currentStepSelector } from '../../../selectors/UploadSupplier';
-import DataValidation from './DataValidation';
+import Submit from './Submit';
 import FormWrapper from './FormWrapper';
 import { cleanupUploadSupplier } from '../../../actions/UploadSupplier';
+import DataValidation from './DataValidation';
 
 interface Props {
   currentStep: number;
@@ -39,8 +40,10 @@ export const UploadSupplier = (props: Props) => {
 
           {currentStep === 2 && <DataMapping />}
 
-          {currentStep === 3 && (
-            <DataValidation
+          {currentStep === 3 && <DataValidation />}
+
+          {currentStep === 4 && (
+            <Submit
               onFinished={() => {
                 setFinished(true);
               }}
