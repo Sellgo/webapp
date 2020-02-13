@@ -75,6 +75,18 @@
     }
   }
 
+  @media screen and (max-width: 1600px) {
+    .ui.card {
+      .track-row {
+        .menu {
+          .item {
+            padding: 0.8rem 1rem !important;
+          }
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: 1500px) {
     .ui.card {
       > .content > .header {
