@@ -29,7 +29,6 @@ import validator from 'validator';
 import get from 'lodash/get';
 import { openUploadSupplierModal } from '../Modals';
 import { DataQualityReport } from '../../interfaces/UploadSupplier';
-import numberToLetter from '../../utils/numberToLetter';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}

@@ -57,13 +57,11 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
       </List.Item>
 
       {metricMessages.map(metricMessage => {
-        if (metricMessage.metric > 0) {
-          return (
-            <List.Item key={metricMessage.metric}>
-              Number of rows with {metricMessage.message}: {metricMessage.metric}
-            </List.Item>
-          );
-        }
+        return metricMessage.metric > 0 ? (
+          <List.Item key={metricMessage.metric}>
+            Number of rows with {metricMessage.message}: {metricMessage.metric}
+          </List.Item>
+        ) : null;
       })}
 
       <List.Item>{errorCellsMessage}</List.Item>
