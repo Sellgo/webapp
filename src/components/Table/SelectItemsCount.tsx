@@ -35,6 +35,7 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
             style={{ width: '100px' }}
             fluid={true}
             selection={true}
+            defaultValue={String(singlePageItemsCount)}
             options={selectItemsCountList}
             onChange={(e, data) => {
               const newItemsCount = Number(data.value);
