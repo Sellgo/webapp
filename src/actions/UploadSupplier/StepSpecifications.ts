@@ -135,25 +135,19 @@ export class SelectFileStep extends Step {
       columnTypes[index] = null;
     });
 
-    csv
-      .slice(1, rowsToCheck)
-      .filter((row: any) => row.every((cell: any) => cell)) // skip row if there is a falsey cell - empty, undefined, ...
-      .forEach((row: any) => {
-        for (const col in columnTypes) {
-          // check if data cell is a Number, else fallback to length of string
-          const thisType = !Number.isNaN(Number(row[col])) ? Number : row[col].length;
+    csv.slice(1, rowsToCheck).forEach((row: any) => {
+      for (const col in columnTypes) {
+        // check if data cell is a Number, else fallback to length of string
+        const thisType = !Number.isNaN(Number(row[col])) ? Number : row[col].length;
 
-          if (thisType !== columnTypes[col]) {
-            if (columnTypes[col] === null) {
-              //add new column type
-              columnTypes[col] = thisType;
-            } else {
-              //type is inconsistent, remove column from consideration
-              delete columnTypes[col];
-            }
+        if (thisType !== columnTypes[col]) {
+          if (columnTypes[col] === null) {
+            //add new column type
+            columnTypes[col] = thisType;
           }
         }
-      });
+      }
+    });
 
     // compare results against first row and "vote" on whether it's a header
     let hasHeader = 0;
@@ -304,7 +298,7 @@ export class DataMappingStep extends Step {
       },
       {
         column: columnIndexMap.cost,
-        rule: (value: any) => !validator.isCurrency(value, { digits_after_decimal: [1, 2] }),
+        rule: (value: any) => !validator.isDecimal(value) && !validator.isInt(value),
         updateMetric: () => (dataQualityReport.costInvalid += 1),
       },
       {
@@ -314,7 +308,7 @@ export class DataMappingStep extends Step {
       },
       {
         column: columnIndexMap.msrp,
-        rule: (value: any) => !validator.isCurrency(value, { digits_after_decimal: [1, 2] }),
+        rule: (value: any) => !validator.isDecimal(value) && !validator.isInt(value),
         updateMetric: () => (dataQualityReport.msrpInvalid += 1),
       },
     ];
@@ -325,16 +319,18 @@ export class DataMappingStep extends Step {
       let hasError = false;
 
       checks.forEach(check => {
-        if (check.rule(row[check.column])) {
+        if (check.column && check.rule(row[check.column])) {
           check.updateMetric();
-          dataQualityReport.errorCells.push([check.column, index]);
+          let thisCell: [number, number] = [check.column, index];
+          if (!dataQualityReport.errorCells.some(cell => cell.toString() === thisCell.toString())) {
+            dataQualityReport.errorCells.push(thisCell);
+          }
           hasError = true;
         }
       });
 
       if (hasError) totalErrorRows += 1;
     });
-    console.log(dataQualityReport);
 
     dataQualityReport.totalValidProducts = rows.length - totalErrorRows;
 
