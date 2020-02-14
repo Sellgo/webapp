@@ -20,7 +20,6 @@ import {
   setSavedColumnMappings,
   updateDataQualityReport,
   setCsv,
-  prepareCsv,
   parseCsv,
 } from '.';
 import isNil from 'lodash/isNil';
@@ -253,7 +252,7 @@ export class DataMappingStep extends Step {
       [columnIndexMap.cost, columnIndexMap.msrp].forEach(colIdx => {
         if (colIdx >= 0) {
           row[colIdx] = row[colIdx]
-            .replace(/ /g, '') //remove whitespaces
+            .replace(/ /g, '')
             .replace(/\$/g, '')
             .replace(/USD/g, '');
         }
@@ -280,54 +279,46 @@ export class DataMappingStep extends Step {
       totalValidProducts: 0,
     };
 
-    const checks = [
-      {
-        column: columnIndexMap.upc,
-        rule: (value: any) => isEmpty(value),
-        updateMetric: () => (dataQualityReport.upcMissing += 1),
-      },
-      {
-        column: columnIndexMap.upc,
-        rule: (value: any) => !validator.isNumeric(value),
-        updateMetric: () => (dataQualityReport.upcNonNumeric += 1),
-      },
-      {
-        column: columnIndexMap.cost,
-        rule: (value: any) => isEmpty(value),
-        updateMetric: () => (dataQualityReport.costMissing += 1),
-      },
-      {
-        column: columnIndexMap.cost,
-        rule: (value: any) => !validator.isDecimal(value) && !validator.isInt(value),
-        updateMetric: () => (dataQualityReport.costInvalid += 1),
-      },
-      {
-        column: columnIndexMap.msrp,
-        rule: (value: any) => isEmpty(value),
-        updateMetric: () => (dataQualityReport.msrpMissing += 1),
-      },
-      {
-        column: columnIndexMap.msrp,
-        rule: (value: any) => !validator.isDecimal(value) && !validator.isInt(value),
-        updateMetric: () => (dataQualityReport.msrpInvalid += 1),
-      },
-    ];
-
     let totalErrorRows = 0;
 
     rows.forEach((row, index) => {
       let hasError = false;
 
-      checks.forEach(check => {
-        if (check.column && check.rule(row[check.column])) {
-          check.updateMetric();
-          let thisCell: [number, number] = [check.column, index];
-          if (!dataQualityReport.errorCells.some(cell => cell.toString() === thisCell.toString())) {
-            dataQualityReport.errorCells.push(thisCell);
-          }
+      const upcValue = row[columnIndexMap.upc];
+      if (isEmpty(upcValue)) {
+        dataQualityReport.upcMissing += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
+        hasError = true;
+      } else if (!validator.isNumeric(upcValue)) {
+        dataQualityReport.upcNonNumeric += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
+        hasError = true;
+      }
+
+      const costValue = row[columnIndexMap.cost];
+      if (isEmpty(costValue)) {
+        dataQualityReport.costMissing += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
+        hasError = true;
+      } else if (!validator.isCurrency(costValue, { digits_after_decimal: [1, 2] })) {
+        dataQualityReport.costInvalid += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
+        hasError = true;
+      }
+
+      const msrpValue = row[columnIndexMap.msrp];
+      //msrp is optional, only check if it is mapped
+      if (msrpValue) {
+        if (isEmpty(msrpValue)) {
+          dataQualityReport.msrpMissing += 1;
+          dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
+          hasError = true;
+        } else if (!validator.isCurrency(msrpValue, { digits_after_decimal: [1, 2] })) {
+          dataQualityReport.msrpInvalid += 1;
+          dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
           hasError = true;
         }
-      });
+      }
 
       if (hasError) totalErrorRows += 1;
     });

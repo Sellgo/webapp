@@ -44,6 +44,12 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
     { metric: dataQualityReport.msrpMissing, message: 'missing MSRP' },
   ];
 
+  let errorCellsMessage = 'Cells detected with errors: ';
+  errorCellsMessage += String(
+    dataQualityReport.errorCells.map(cell => ' ' + numberToLetter(cell[0]) + String(cell[1] + 1))
+  );
+  if (errorCellsMessage.length > 300) errorCellsMessage = errorCellsMessage.slice(0, 297) + '...';
+
   return (
     <>
       <List.Item>
@@ -60,11 +66,7 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
         }
       })}
 
-      <List.Item>
-        {`Cells detected with errors:${dataQualityReport.errorCells.map(
-          cell => ' ' + numberToLetter(cell[0]) + String(cell[1] + 1)
-        )}`}
-      </List.Item>
+      <List.Item>{errorCellsMessage}</List.Item>
 
       <List.Item></List.Item>
       <List.Item>
