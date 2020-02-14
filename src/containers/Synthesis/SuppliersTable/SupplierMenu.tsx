@@ -44,7 +44,7 @@ class SupplierMenu extends Component<SupplierMenuProps> {
             className="wdt100"
           >
             <Header as="h4">
-              Shortlisted <span style={{ color: 'green' }}>({this.props.shortlistedCount})</span>
+              Shortlisted <span style={{ color: '#016936' }}>({this.props.shortlistedCount})</span>
             </Header>
           </Menu.Item>
           <Menu.Item
@@ -54,7 +54,7 @@ class SupplierMenu extends Component<SupplierMenuProps> {
             className="wdt100"
           >
             <Header as="h4">
-              Archived <span style={{ color: 'red' }}>({this.props.archivedCount})</span>
+              Archived <span style={{ color: '#B03060' }}>({this.props.archivedCount})</span>
             </Header>
           </Menu.Item>
           <Menu.Item
@@ -64,7 +64,7 @@ class SupplierMenu extends Component<SupplierMenuProps> {
             className="wdt100"
           >
             <Header as="h4">
-              Draft <span style={{ color: 'blue' }}>({this.props.draftCount})</span>
+              Draft <span style={{ color: '#A0A0A0' }}>({this.props.draftCount})</span>
             </Header>
           </Menu.Item>
         </Menu>
