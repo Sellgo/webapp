@@ -34,49 +34,50 @@ const DataValidation = (props: DataValidationProps) => {
   );
 };
 
-const renderIssuesReport = (dataQualityReport: DataQualityReport) => (
-  <>
-    <List.Item>
-      <List.Header>Detected Issues</List.Header>
-    </List.Item>
-    {dataQualityReport.upcNonNumeric > 0 && (
-      <List.Item>Number of rows with invalid UPC: {dataQualityReport.upcNonNumeric}</List.Item>
-    )}
-    {dataQualityReport.upcMissing > 0 && (
-      <List.Item>Number of rows with missing UPC: {dataQualityReport.upcMissing}</List.Item>
-    )}
-    {dataQualityReport.costInvalid > 0 && (
+const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
+  const metricMessages = [
+    { metric: dataQualityReport.upcNonNumeric, message: 'invalid UPC' },
+    { metric: dataQualityReport.upcMissing, message: 'missing UPC' },
+    { metric: dataQualityReport.costInvalid, message: 'invalid product cost' },
+    { metric: dataQualityReport.costMissing, message: 'missing product cost' },
+    { metric: dataQualityReport.msrpInvalid, message: 'invalid MSRP' },
+    { metric: dataQualityReport.msrpMissing, message: 'missing MSRP' },
+  ];
+
+  return (
+    <>
       <List.Item>
-        Number of rows with invalid product cost: {dataQualityReport.costInvalid}
+        <List.Header>Detected Issues</List.Header>
       </List.Item>
-    )}
-    {dataQualityReport.costMissing > 0 && (
+
+      {metricMessages.map(metricMessage => {
+        if (metricMessage.metric > 0) {
+          return (
+            <List.Item key={metricMessage.metric}>
+              Number of rows with {metricMessage.message}: {metricMessage.metric}
+            </List.Item>
+          );
+        }
+      })}
+
       <List.Item>
-        Number of rows with missing product cost: {dataQualityReport.costMissing}
+        {`Cells detected with errors:${dataQualityReport.errorCells.map(
+          cell => ' ' + numberToLetter(cell[0]) + String(cell[1] + 1)
+        )}`}
       </List.Item>
-    )}
-    {dataQualityReport.msrpInvalid > 0 && (
-      <List.Item>Number of rows with invalid MSRP: {dataQualityReport.msrpInvalid}</List.Item>
-    )}
-    {dataQualityReport.msrpMissing > 0 && (
-      <List.Item>Number of rows with missing MSRP: {dataQualityReport.msrpMissing}</List.Item>
-    )}
-    <List.Item>
-      {`Cells detected with errors:${dataQualityReport.errorCells.map(
-        cell => ' ' + numberToLetter(cell[0]) + String(cell[1] + 1)
-      )}`}
-    </List.Item>
-    <List.Item></List.Item>
-    <List.Item>
-      <List.Header>Solution</List.Header>
-    </List.Item>
-    <List.Item>- Fix data on CSV and re-upload</List.Item>
-    <List.Item>OR</List.Item>
-    <List.Item>
-      - Proceed and submit (rows with errors will not be added to Profit Finder)
-    </List.Item>
-  </>
-);
+
+      <List.Item></List.Item>
+      <List.Item>
+        <List.Header>Solution</List.Header>
+      </List.Item>
+      <List.Item>- Fix data on CSV and re-upload</List.Item>
+      <List.Item>OR</List.Item>
+      <List.Item>
+        - Proceed and submit (rows with errors will not be added to Profit Finder)
+      </List.Item>
+    </>
+  );
+};
 
 const renderNoIssuesReport = () => (
   <List.Item>

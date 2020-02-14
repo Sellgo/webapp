@@ -286,47 +286,55 @@ export class DataMappingStep extends Step {
       totalValidProducts: 0,
     };
 
+    const checks = [
+      {
+        column: columnIndexMap.upc,
+        rule: (value: any) => isEmpty(value),
+        updateMetric: () => (dataQualityReport.upcMissing += 1),
+      },
+      {
+        column: columnIndexMap.upc,
+        rule: (value: any) => !validator.isNumeric(value),
+        updateMetric: () => (dataQualityReport.upcNonNumeric += 1),
+      },
+      {
+        column: columnIndexMap.cost,
+        rule: (value: any) => isEmpty(value),
+        updateMetric: () => (dataQualityReport.costMissing += 1),
+      },
+      {
+        column: columnIndexMap.cost,
+        rule: (value: any) => !validator.isCurrency(value, { digits_after_decimal: [1, 2] }),
+        updateMetric: () => (dataQualityReport.costInvalid += 1),
+      },
+      {
+        column: columnIndexMap.msrp,
+        rule: (value: any) => isEmpty(value),
+        updateMetric: () => (dataQualityReport.msrpMissing += 1),
+      },
+      {
+        column: columnIndexMap.msrp,
+        rule: (value: any) => !validator.isCurrency(value, { digits_after_decimal: [1, 2] }),
+        updateMetric: () => (dataQualityReport.msrpInvalid += 1),
+      },
+    ];
+
     let totalErrorRows = 0;
 
-    //TODO: DRY this
     rows.forEach((row, index) => {
       let hasError = false;
 
-      const upcValue = row[columnIndexMap.upc];
-      if (isEmpty(upcValue)) {
-        dataQualityReport.upcMissing += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
-        hasError = true;
-      } else if (!validator.isNumeric(upcValue)) {
-        dataQualityReport.upcNonNumeric += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
-        hasError = true;
-      }
-
-      const costValue = row[columnIndexMap.cost];
-      if (isEmpty(costValue)) {
-        dataQualityReport.costMissing += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
-        hasError = true;
-      } else if (!validator.isCurrency(costValue, { digits_after_decimal: [1, 2] })) {
-        dataQualityReport.costInvalid += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
-        hasError = true;
-      }
-
-      const msrpValue = row[columnIndexMap.msrp];
-      if (isEmpty(msrpValue)) {
-        dataQualityReport.msrpMissing += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
-        hasError = true;
-      } else if (!validator.isCurrency(msrpValue, { digits_after_decimal: [1, 2] })) {
-        dataQualityReport.msrpInvalid += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
-        hasError = true;
-      }
+      checks.forEach(check => {
+        if (check.rule(row[check.column])) {
+          check.updateMetric();
+          dataQualityReport.errorCells.push([check.column, index]);
+          hasError = true;
+        }
+      });
 
       if (hasError) totalErrorRows += 1;
     });
+    console.log(dataQualityReport);
 
     dataQualityReport.totalValidProducts = rows.length - totalErrorRows;
 
