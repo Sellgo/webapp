@@ -51,9 +51,7 @@ const PreviewTable = (props: PreviewTableProps) => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>
-      ) : (
-        ''
-      )}
+      ) : null}
     </Table>
   );
 };
