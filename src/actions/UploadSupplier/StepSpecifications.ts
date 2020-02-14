@@ -173,11 +173,10 @@ export class SelectFileStep extends Step {
      *    2) guess from format of data rows
      */
     const header = csv.length ? csv[0] : []; // assume first row is header
-    const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
 
     const mappings: string[] = [];
     header.forEach((headerCell: string) => {
-      const mappingKeys = Object.keys(reversedColumnMappings);
+      const mappingKeys = FieldsToMap.map(item => item.key);
       const keyIndex = mappingKeys.findIndex(
         (key: string) => headerCell.toLowerCase().includes(key.toLowerCase()) // find keyword in header cell
       );
