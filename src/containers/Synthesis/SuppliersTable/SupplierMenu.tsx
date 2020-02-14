@@ -8,6 +8,7 @@ interface SupplierMenuProps {
   allCount: number;
   shortlistedCount: number;
   archivedCount: number;
+  draftCount: number;
   activeTab: string;
   setTab: (tab: string) => void;
 }
@@ -54,6 +55,16 @@ class SupplierMenu extends Component<SupplierMenuProps> {
           >
             <Header as="h4">
               Archived <span style={{ color: 'red' }}>({this.props.archivedCount})</span>
+            </Header>
+          </Menu.Item>
+          <Menu.Item
+            name="draft"
+            active={activeTab === 'draft'}
+            onClick={this.handleItemClick}
+            className="wdt100"
+          >
+            <Header as="h4">
+              Draft <span style={{ color: 'blue' }}>({this.props.draftCount})</span>
             </Header>
           </Menu.Item>
         </Menu>
