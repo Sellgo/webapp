@@ -141,7 +141,7 @@ export class SelectFileStep extends Step {
 
         if (thisType !== columnTypes[col]) {
           if (columnTypes[col] === null) {
-            //add new column type
+            // add new column type
             columnTypes[col] = thisType;
           }
         }
@@ -180,7 +180,7 @@ export class SelectFileStep extends Step {
     header.forEach((headerCell: string) => {
       const mappingKeys = Object.keys(reversedColumnMappings);
       const keyIndex = mappingKeys.findIndex(
-        (key: string) => headerCell.toLowerCase().includes(key.toLowerCase()) //find keyword in header cell
+        (key: string) => headerCell.toLowerCase().includes(key.toLowerCase()) // find keyword in header cell
       );
       mappings.push(mappingKeys[keyIndex]);
     });
@@ -199,10 +199,7 @@ export class SelectFileStep extends Step {
     // Guess column mappings
     if (hasHeaders) {
       const mappings = this.guessColumnMappings(csv);
-      if (mappings) {
-        this.dispatch(setSavedColumnMappings(mappings));
-      } else {
-      }
+      if (mappings) this.dispatch(setSavedColumnMappings(mappings));
     } else {
       // If no headers, clear all mappings instead.
       this.dispatch(removeColumnMappings());
@@ -307,7 +304,7 @@ export class DataMappingStep extends Step {
       }
 
       const msrpValue = row[columnIndexMap.msrp];
-      //msrp is optional, only check if it is mapped
+      // msrp is optional, only check if it is mapped
       if (msrpValue) {
         if (isEmpty(msrpValue)) {
           dataQualityReport.msrpMissing += 1;

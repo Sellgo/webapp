@@ -156,7 +156,7 @@ export const prepareCsv = (csvFile?: File) => async (
 
 export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
   csvArray = csvArray.map((row: string[]) =>
-    //escape commas
+    // escape commas
     row.map((cell: string) => (cell.includes(',') ? `"${cell}"` : cell))
   );
   const csvString = csvArray.join('\n');
