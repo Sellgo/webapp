@@ -23,7 +23,7 @@ const DataValidation = (props: DataValidationProps) => {
         {dataQualityReport.errorCells.length > 0
           ? renderIssuesReport(dataQualityReport)
           : renderNoIssuesReport()}
-        <List.Item></List.Item>
+        <List.Item />
         <List.Item>
           <List.Header>
             {dataQualityReport.totalValidProducts} products will be added to Profit Finder.
@@ -48,7 +48,9 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
   errorCellsMessage += String(
     dataQualityReport.errorCells.map(cell => ' ' + numberToLetter(cell[0]) + String(cell[1] + 1))
   );
-  if (errorCellsMessage.length > 300) errorCellsMessage = errorCellsMessage.slice(0, 297) + '...';
+  if (errorCellsMessage.length > 300) {
+    errorCellsMessage = errorCellsMessage.slice(0, 297) + '...';
+  }
 
   return (
     <>
@@ -66,7 +68,7 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
 
       <List.Item>{errorCellsMessage}</List.Item>
 
-      <List.Item></List.Item>
+      <List.Item />
       <List.Item>
         <List.Header>Solution</List.Header>
       </List.Item>

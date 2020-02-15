@@ -115,7 +115,7 @@ export class SelectFileStep extends Step {
   }
 
   guessHasHeaders(csv: string[][]) {
-    /** Adapted from Python's csv library: https://github.com/python/cpython/blob/master/Lib/csv.py#L383
+    /*  Adapted from Python's csv library: https://github.com/python/cpython/blob/master/Lib/csv.py#L383
      *  Creates a dictionary of types of data in each column. If any
      *  column is of a single type (say, integers), *except* for the first
      *  row, then the first row is presumed to be labels. If the type
@@ -149,7 +149,7 @@ export class SelectFileStep extends Step {
 
     // compare results against first row and "vote" on whether it's a header
     let hasHeader = 0;
-    for (let col in columnTypes) {
+    for (const col in columnTypes) {
       const colType = columnTypes[col];
       if (typeof colType === 'number') {
         // it's a length
@@ -192,12 +192,16 @@ export class SelectFileStep extends Step {
     // Guess if csv file has headers
     const currentHasHeaders = isFirstRowHeaderSelector(this.getState());
     const hasHeaders = this.guessHasHeaders(csv);
-    if (hasHeaders !== currentHasHeaders) this.dispatch(toggleFirstRowHeader());
+    if (hasHeaders !== currentHasHeaders) {
+      this.dispatch(toggleFirstRowHeader());
+    }
 
     // Guess column mappings
     if (hasHeaders) {
       const mappings = this.guessColumnMappings(csv);
-      if (mappings) this.dispatch(setSavedColumnMappings(mappings));
+      if (mappings) {
+        this.dispatch(setSavedColumnMappings(mappings));
+      }
     } else {
       // If no headers, clear all mappings instead.
       this.dispatch(removeColumnMappings());
@@ -209,7 +213,9 @@ export class SelectFileStep extends Step {
   validate() {
     const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
     let errorCheck = this.checkFile();
-    if (!errorCheck) errorCheck = skipColumnMappingCheck ? undefined : this.validateFields();
+    if (!errorCheck) {
+      errorCheck = skipColumnMappingCheck ? undefined : this.validateFields();
+    }
     return errorCheck;
   }
 
@@ -241,7 +247,7 @@ export class DataMappingStep extends Step {
     /**
      * Preprocesses data rows to clean up things like currency formats.
      */
-    let dataRows = cloneDeep(rows);
+    const dataRows = cloneDeep(rows);
 
     dataRows.map(row => {
       [columnIndexMap.cost, columnIndexMap.msrp].forEach(colIdx => {
@@ -315,7 +321,9 @@ export class DataMappingStep extends Step {
         }
       }
 
-      if (hasError) totalErrorRows += 1;
+      if (hasError) {
+        totalErrorRows += 1;
+      }
     });
 
     dataQualityReport.totalValidProducts = rows.length - totalErrorRows;
@@ -387,7 +395,9 @@ export class DataValidationStep extends Step {
     );
     const updatedRows = this.cleanDataRows(rows, errorRows);
 
-    if (hasHeaders) updatedRows.unshift(csv[0]);
+    if (hasHeaders) {
+      updatedRows.unshift(csv[0]);
+    }
     this.dispatch(setCsv(updatedRows));
 
     return undefined;
