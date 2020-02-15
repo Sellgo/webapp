@@ -7,6 +7,7 @@ import AdviceCard from '../AdviceCard';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
+import { Range } from '../../../interfaces/Generic';
 import {
   initialFilterRanges,
   findMinMaxRange,
@@ -58,7 +59,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
       updateFilterRanges(updatedFilterRanges);
     }
   };
-  renderFilterComponent = (filter: any, productRange: any, filterRange: any) => {
+  renderFilterComponent = (filter: any, productRange: any, filterRange: Range) => {
     return (
       <SliderRange
         title={filter.text}
