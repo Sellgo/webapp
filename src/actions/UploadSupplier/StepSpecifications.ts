@@ -249,7 +249,7 @@ export class DataMappingStep extends Step {
           row[colIdx] = row[colIdx]
             .replace(/ /g, '')
             .replace(/\$/g, '')
-            .replace(/USD/g, '');
+            .replace(/USD/gi, '');
         }
       });
 
