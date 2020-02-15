@@ -155,16 +155,13 @@ export const prepareCsv = (csvFile?: File) => async (
 };
 
 export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
+  const fileName = csvFileDetails && csvFileDetails['name'] ? csvFileDetails['name'] : '';
+
+  // escape commas
   csvArray = csvArray.map((row: string[]) =>
-    // escape commas
     row.map((cell: string) => (cell.includes(',') ? `"${cell}"` : cell))
   );
   const csvString = csvArray.join('\n');
-
-  let fileName = 'supplier.csv';
-  if (csvFileDetails && csvFileDetails['name']) {
-    fileName = csvFileDetails['name'];
-  }
 
   return new File([csvString], fileName, { type: 'text/csv' });
 };
