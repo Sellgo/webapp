@@ -10,22 +10,20 @@
 }
 
 @media screen and (max-height: 900px) {
-  .screen-16-9 {
-    .ui.segment {
-      padding: 0 1rem;
+  .ui.segment {
+    padding: 0 1rem;
+  }
+  .slider-range {
+    .range-title {
+      margin-bottom: 10px;
     }
-    .slider-range {
-      .range-title {
-        margin-bottom: 10px;
-      }
-    }
-    .supplier-details-card {
-      .ui.feed {
-        .event {
-          .content {
-            .highcharts-container {
-              max-height: 300px !important;
-            }
+  }
+  .supplier-details-card {
+    .ui.feed {
+      .event {
+        .content {
+          .highcharts-container {
+            max-height: 300px !important;
           }
         }
       }
@@ -34,16 +32,14 @@
 }
 
 @media screen and (min-height: 1600px) and (max-width: 2560px) {
-  .screen-16-10 {
-    .setting {
-      .row {
-        .left-column.column {
-          align-items: start;
-          display: flex !important;
-          padding: 0 5rem;
-          width: 0 !important;
-          margin: 0 !important;
-        }
+  .setting {
+    .row {
+      .left-column.column {
+        align-items: start;
+        display: flex !important;
+        padding: 0 5rem;
+        width: 0 !important;
+        margin: 0 !important;
       }
     }
   }
