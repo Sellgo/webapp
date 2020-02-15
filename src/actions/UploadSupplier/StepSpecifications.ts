@@ -4,6 +4,7 @@ import {
   csvSelector,
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
+  dataQualityReportSelector,
 } from '../../selectors/UploadSupplier/index';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -12,13 +13,22 @@ import { isValid, submit, getFormValues } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplier';
 import { error } from '../../utils/notifications';
 import { saveSupplierNameAndDescription, updateSupplierNameAndDescription } from '../Suppliers';
-import { removeColumnMappings, fetchColumnMappings } from '.';
+import {
+  removeColumnMappings,
+  fetchColumnMappings,
+  toggleFirstRowHeader,
+  setSavedColumnMappings,
+  updateDataQualityReport,
+  setCsv,
+  parseCsv,
+} from '.';
 import isNil from 'lodash/isNil';
-import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
+import cloneDeep from 'lodash/cloneDeep';
 import validator from 'validator';
 import get from 'lodash/get';
 import { openUploadSupplierModal } from '../Modals';
+import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
@@ -104,71 +114,107 @@ export class SelectFileStep extends Step {
     return errorMessage;
   }
 
+  guessHasHeaders(csv: string[][]) {
+    /*  Adapted from Python's csv library: https://github.com/python/cpython/blob/master/Lib/csv.py#L383
+     *  Creates a dictionary of types of data in each column. If any
+     *  column is of a single type (say, integers), *except* for the first
+     *  row, then the first row is presumed to be labels. If the type
+     *  can't be determined, it is assumed to be a string in which case
+     *  the length of the string is the determining factor: if all of the
+     *  rows except for the first are the same length, it's a header.
+     *  Finally, a 'vote' is taken at the end for each column, adding or
+     *  subtracting from the likelihood of the first row being a header.
+     */
+    const rowsToCheck = 20; // arbitrary number of rows to check
+    const header = csv.length ? csv[0] : []; // assume first row is header
+
+    const columnTypes: { [index: number]: any } = {};
+    header.forEach((_: any, index: number) => {
+      columnTypes[index] = null;
+    });
+
+    csv.slice(1, rowsToCheck).forEach((row: any) => {
+      for (const col in columnTypes) {
+        // check if data cell is a Number, else fallback to length of string
+        const thisType = !Number.isNaN(Number(row[col])) ? Number : row[col].length;
+
+        if (thisType !== columnTypes[col]) {
+          if (columnTypes[col] === null) {
+            // add new column type
+            columnTypes[col] = thisType;
+          }
+        }
+      }
+    });
+
+    // compare results against first row and "vote" on whether it's a header
+    let hasHeader = 0;
+    for (const col in columnTypes) {
+      const colType = columnTypes[col];
+      if (typeof colType === 'number') {
+        // it's a length
+        hasHeader = header[col].length !== colType ? hasHeader + 1 : hasHeader - 1;
+      } else {
+        // check type different from data rows and header row
+        hasHeader = !Number.isNaN(colType(header[col])) ? hasHeader - 1 : hasHeader + 1;
+      }
+    }
+
+    return hasHeader > 0;
+  }
+
+  guessColumnMappings(csv: string[][]) {
+    /**
+     *  This function guesses column mappings based on whether a cell in the header row contains a specific keyword.
+     *  Note: this function assumes that the first row of the csv is a header.
+     *
+     *  Potential future improvements:
+     *    1) check header row against multiple keywords for each column
+     *    2) guess from format of data rows
+     */
+    const header = csv.length ? csv[0] : []; // assume first row is header
+
+    const mappings: string[] = [];
+    header.forEach((headerCell: string) => {
+      const mappingKeys = FieldsToMap.map(item => item.key);
+      const keyIndex = mappingKeys.findIndex(
+        (key: string) => headerCell.toLowerCase().includes(key.toLowerCase()) // find keyword in header cell
+      );
+      mappings.push(mappingKeys[keyIndex]);
+    });
+
+    return mappings;
+  }
+
   validateFields() {
-    const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
-    const hasHeaders = isFirstRowHeaderSelector(this.getState());
     const csv = csvSelector(this.getState());
 
-    const labels = csv.length ? csv[0] : [];
-    /* const hasHeaders = labels.every(e => e.match(/^[a-zA-Z]+$/) !== null);
-    if (!hasHeaders) this.dispatch(toggleFirstRowHeader()); */
-    const skipCheck = Object.keys(reversedColumnMappings).every(column => {
-      const labelMapping = labels.filter(
-        (label, i) => label.toLocaleLowerCase().indexOf(column.toLocaleLowerCase()) !== -1
-      );
-      const labelIndex = labels.indexOf(labelMapping.length ? labelMapping[0] : '');
-      return labelMapping.length && reversedColumnMappings[column] === labelIndex ? true : false;
-    });
-
-    if (!skipCheck) {
-      return 'Mismatch in Column Mappings. Unable to Skip Data Mapping!';
+    // Guess if csv file has headers
+    const currentHasHeaders = isFirstRowHeaderSelector(this.getState());
+    const hasHeaders = this.guessHasHeaders(csv);
+    if (hasHeaders !== currentHasHeaders) {
+      this.dispatch(toggleFirstRowHeader());
     }
 
-    // ignore first row if it is header
-    const rows = hasHeaders ? csv.slice(1) : csv;
-
-    const upc: string[] = [];
-    const cost: string[] = [];
-
-    rows.forEach(row => {
-      upc.push(row[reversedColumnMappings.upc]);
-      cost.push(row[reversedColumnMappings.cost]);
-    });
-
-    let ix: number;
-
-    // validate cost
-    ix = findIndex(
-      cost,
-      value => !validator.isDecimal(value.toString()) && !validator.isInt(value.toString())
-    );
-    if (ix !== -1) {
-      return 'Cost must be a valid amount: Line ' + (hasHeaders ? ix + 2 : ix + 1);
+    // Guess column mappings
+    if (hasHeaders) {
+      const mappings = this.guessColumnMappings(csv);
+      if (mappings) {
+        this.dispatch(setSavedColumnMappings(mappings));
+      }
+    } else {
+      // If no headers, clear all mappings instead.
+      this.dispatch(removeColumnMappings());
     }
 
-    // validate upc
-    ix = findIndex(upc, value => isEmpty(value));
-    if (ix !== -1) {
-      return "UPC can't be empty: Line " + (hasHeaders ? ix + 2 : ix + 1);
-    }
-
-    ix = findIndex(upc, value => !validator.isNumeric(value));
-    if (ix !== -1) {
-      return 'UPC must be numeric: Line ' + (hasHeaders ? ix + 2 : ix + 1);
-    }
-
-    /* if (uniq(upc).length !== upc.length) {
-      return 'upc must be unique';
-    } */
+    return undefined;
   }
 
   validate() {
     const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
-    const errorCheck =
-      this.checkFile() || (skipColumnMappingCheck ? this.validateFields() : undefined);
-    if (!errorCheck && !skipColumnMappingCheck) {
-      this.dispatch(removeColumnMappings());
-      return;
+    let errorCheck = this.checkFile();
+    if (!errorCheck) {
+      errorCheck = skipColumnMappingCheck ? undefined : this.validateFields();
     }
     return errorCheck;
   }
@@ -197,58 +243,175 @@ export class DataMappingStep extends Step {
     return requiredFieldsAreMapped ? undefined : `Please map ${unmappedFieldNames.join(', ')}`;
   }
 
+  preprocessCsvFile(rows: string[][], columnIndexMap: { [key: string]: number }) {
+    /**
+     * Preprocesses data rows to clean up things like currency formats.
+     */
+    const dataRows = cloneDeep(rows);
+
+    dataRows.map(row => {
+      [columnIndexMap.cost, columnIndexMap.msrp].forEach(colIdx => {
+        if (colIdx >= 0) {
+          row[colIdx] = row[colIdx]
+            .replace(/ /g, '')
+            .replace(/\$/g, '')
+            .replace(/USD/gi, '');
+        }
+      });
+
+      return row;
+    });
+
+    return dataRows;
+  }
+
+  generateDataQualityReport(rows: string[][], columnIndexMap: { [key: string]: number }) {
+    /**
+     * Generates a report of all data quality issues in the data rows.
+     */
+    const dataQualityReport: DataQualityReport = {
+      upcMissing: 0,
+      upcNonNumeric: 0,
+      costMissing: 0,
+      costInvalid: 0,
+      msrpMissing: 0,
+      msrpInvalid: 0,
+      errorCells: [],
+      totalValidProducts: 0,
+    };
+
+    let totalErrorRows = 0;
+
+    rows.forEach((row, index) => {
+      let hasError = false;
+
+      const upcValue = row[columnIndexMap.upc];
+      if (isEmpty(upcValue)) {
+        dataQualityReport.upcMissing += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
+        hasError = true;
+      } else if (!validator.isNumeric(upcValue)) {
+        dataQualityReport.upcNonNumeric += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
+        hasError = true;
+      }
+
+      const costValue = row[columnIndexMap.cost];
+      if (isEmpty(costValue)) {
+        dataQualityReport.costMissing += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
+        hasError = true;
+      } else if (!validator.isCurrency(costValue, { digits_after_decimal: [1, 2] })) {
+        dataQualityReport.costInvalid += 1;
+        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
+        hasError = true;
+      }
+
+      const msrpValue = row[columnIndexMap.msrp];
+      // msrp is optional, only check if it is mapped
+      if (msrpValue) {
+        if (isEmpty(msrpValue)) {
+          dataQualityReport.msrpMissing += 1;
+          dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
+          hasError = true;
+        } else if (!validator.isCurrency(msrpValue, { digits_after_decimal: [1, 2] })) {
+          dataQualityReport.msrpInvalid += 1;
+          dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
+          hasError = true;
+        }
+      }
+
+      if (hasError) {
+        totalErrorRows += 1;
+      }
+    });
+
+    dataQualityReport.totalValidProducts = rows.length - totalErrorRows;
+
+    return dataQualityReport;
+  }
+
   validateFields() {
     const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
     const hasHeaders = isFirstRowHeaderSelector(this.getState());
     const csv = csvSelector(this.getState());
 
-    // ignore first row if it is header
-    const rows = hasHeaders ? csv.slice(1) : csv;
+    const rows = hasHeaders ? csv.slice(1) : csv; // ignore first row if it is header
 
-    const upc: string[] = [];
-    const cost: string[] = [];
+    // Preprocess CSV file and update state
+    const updatedRows = this.preprocessCsvFile(rows, reversedColumnMappings);
 
-    rows.forEach(row => {
-      upc.push(row[reversedColumnMappings.upc]);
-      cost.push(row[reversedColumnMappings.cost]);
-    });
+    // Calculate data quality issues
+    const dataQualityReport = this.generateDataQualityReport(updatedRows, reversedColumnMappings);
 
-    let ix: number;
-
-    // validate cost
-    ix = findIndex(
-      cost,
-      value => !validator.isDecimal(value.toString()) && !validator.isInt(value.toString())
-    );
-    if (ix !== -1) {
-      return 'Cost must be a valid amount: Line ' + (hasHeaders ? ix + 2 : ix + 1);
+    if (hasHeaders) {
+      updatedRows.unshift(csv[0]); // append header back
+      dataQualityReport.errorCells = dataQualityReport.errorCells.map(cell => [
+        cell[0],
+        cell[1] + 1,
+      ]);
     }
 
-    // validate upc
-    ix = findIndex(upc, value => isEmpty(value));
-    if (ix !== -1) {
-      return "UPC can't be empty: Line " + (hasHeaders ? ix + 2 : ix + 1);
-    }
+    this.dispatch(setCsv(updatedRows));
+    this.dispatch(updateDataQualityReport(dataQualityReport));
 
-    ix = findIndex(upc, value => !validator.isNumeric(value));
-    if (ix !== -1) {
-      return 'UPC must be numeric: Line ' + (hasHeaders ? ix + 2 : ix + 1);
-    }
-
-    /* if (uniq(upc).length !== upc.length) {
-      return 'upc must be unique';
-    } */
+    return undefined;
   }
 
   validate() {
     return this.allFieldsMapped() || this.validateFields();
   }
 
-  cleanStep() {}
+  cleanStep() {
+    this.dispatch(parseCsv());
+  }
 }
 
 export class DataValidationStep extends Step {
   step = UploadSteps.DataValidation;
+
+  cleanDataRows(rows: string[][], rowsToRemove: number[]) {
+    /**
+     * Removes data rows with issues.
+     */
+    let dataRows = cloneDeep(rows);
+
+    // drop rows
+    dataRows = dataRows.filter((_, index) => !rowsToRemove.includes(index));
+
+    return dataRows;
+  }
+
+  validateFields() {
+    const hasHeaders = isFirstRowHeaderSelector(this.getState());
+    const csv = csvSelector(this.getState());
+    const dataQualityReport = dataQualityReportSelector(this.getState());
+
+    const rows = hasHeaders ? csv.slice(1) : csv; // ignore first row if it is header
+
+    // clean data rows
+    const errorRows = Array.from(
+      dataQualityReport.errorCells.map(cell => (hasHeaders ? cell[1] - 1 : cell[1]))
+    );
+    const updatedRows = this.cleanDataRows(rows, errorRows);
+
+    if (hasHeaders) {
+      updatedRows.unshift(csv[0]);
+    }
+    this.dispatch(setCsv(updatedRows));
+
+    return undefined;
+  }
+
+  validate() {
+    return this.validateFields();
+  }
+
+  cleanStep() {}
+}
+
+export class SubmitStep extends Step {
+  step = UploadSteps.Submit;
 
   validate() {
     return undefined;
@@ -270,6 +433,9 @@ export function getStepSpecification(stepNumber: number) {
 
     case UploadSteps.DataValidation:
       return DataValidationStep;
+
+    case UploadSteps.Submit:
+      return SubmitStep;
 
     default:
       throw new Error('Step not defined');
