@@ -9,9 +9,11 @@ import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
 import { setMenuItem, fetchAllSupplierProductTrackerDetails } from '../../actions/ProductTracker';
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
+import { getSellerQuota } from '../../actions/Settings';
 
 interface ProductTrackerProps {
   fetchAllTrackedProductDetails: (periodValue: any) => void;
+  getSellerQuota: any;
   singlePageItemsCount: any;
   productTrackerPageNo: any;
   setMenuItem: (item: any) => void;
@@ -44,6 +46,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
 
   handlePeriodDrop = (data: any) => {
     this.setState({ periodValue: data.value }, () => {
+      this.props.getSellerQuota();
       this.props.fetchAllTrackedProductDetails(this.state.periodValue);
     });
   };
@@ -166,6 +169,7 @@ const mapDispatchToProps = {
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setMenuItem: (item: any) => setMenuItem(item),
+  getSellerQuota: () => getSellerQuota(),
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
