@@ -8,3 +8,41 @@
     background-color: #f8faff;
   }
 }
+
+@media screen and (max-height: 900px) {
+  .ui.segment {
+    padding: 0 1rem;
+  }
+  .slider-range {
+    .range-title {
+      margin-bottom: 10px;
+    }
+  }
+  .supplier-details-card {
+    .ui.feed {
+      .event {
+        .content {
+          .highcharts-container {
+            max-height: 300px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  .setting {
+    .ui.grid {
+      .row {
+        .left-column.column {
+          align-items: start;
+          display: flex !important;
+          padding: 0 5rem;
+          width: 0 !important;
+          margin: 0 !important;
+        }
+      }
+    }
+  }
+}
