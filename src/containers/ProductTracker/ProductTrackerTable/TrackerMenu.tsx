@@ -29,6 +29,7 @@ interface TrackerMenuProps {
   activeGroupId: any;
   error: boolean;
   groupError: boolean;
+  items: any;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
@@ -42,6 +43,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleAddGroup,
       error,
       groupError,
+      items,
       handleAddGroupCancel,
       handleAddGroupSubmit,
       handleAddGroupNameChange,
@@ -56,6 +58,11 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       this.props.groups && this.props.activeGroupId
         ? this.props.groups.find((data: any) => data.id === this.props.activeGroupId)
         : null;
+
+    const existingItems = items.results,
+      ungroupedCount = existingItems
+        ? existingItems.filter((data: any) => data.product_track_group_id === null).length
+        : 0;
 
     return (
       <div className="menu-bar">
@@ -89,7 +96,12 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                 }
               }}
             >
-              <Header as="h4">{'Ungrouped'}</Header>
+              <Header as="h4">
+                {'Ungrouped'}
+                <span className={ungroupedCount ? 'has-ungroup' : 'no-ungroup'}>
+                  {ungroupedCount}
+                </span>
+              </Header>
             </Menu.Item>
             {groups &&
               groups
