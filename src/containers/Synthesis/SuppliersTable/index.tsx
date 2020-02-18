@@ -341,12 +341,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         </Segment>
       );
     }
-    const allData = suppliers.filter(
-      supplier => supplier.status !== 'inactive' && supplier.progress !== -1
-    );
+
+    const all = suppliers.filter(supplier => supplier.status !== 'inactive');
+    const allData = all.filter(supplier => supplier.progress !== -1);
+    const draftData = all.filter(supplier => supplier.progress === -1);
     const shortlistedData = allData.filter(supplier => supplier.tag === 'like');
     const archivedData = allData.filter(supplier => supplier.tag === 'dislike');
-    const draftData = suppliers.filter(supplier => supplier.progress === -1);
 
     const data =
       showTab === 'all'
