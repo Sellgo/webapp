@@ -22,10 +22,6 @@ export class AdminHeader extends React.Component<AdminProps> {
     });
   };
 
-  scrollTop = () => {
-    window.scrollTo(0, 0);
-  };
-
   render() {
     const { auth } = this.props;
     const { isVisible } = this.state;
@@ -60,7 +56,6 @@ export class AdminHeader extends React.Component<AdminProps> {
             <Menu.Item
               as={Link}
               to="/product-tracker"
-              onClick={this.scrollTop}
               className={
                 window.location.pathname.startsWith('/product-tracker')
                   ? 'product-tracker-menu active-menu'
