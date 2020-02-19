@@ -9,8 +9,17 @@
   }
 }
 
-@media screen and (max-height: 900px) {
+@media screen and (min-height: 1600px), screen and (max-height: 900px) {
   .ui.segment {
+    &.tracker-setting {
+      margin-top: 3rem;
+    }
+    &.settings {
+      margin-top: 1rem;
+    }
+    &.subscription {
+      margin-top: 2rem;
+    }
     padding: 0 1rem;
   }
   .slider-range {
@@ -23,7 +32,8 @@
       .event {
         .content {
           .highcharts-container {
-            max-height: 300px !important;
+            max-height: 330px !important;
+            margin: 0 auto;
           }
         }
       }
