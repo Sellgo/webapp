@@ -62,6 +62,7 @@
     "react/prefer-stateless-function": "off"
   },
   "settings": {
+    "react": { "version": "detect" },
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
