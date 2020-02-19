@@ -185,6 +185,15 @@
   }
 }
 
+@media screen and (max-height: 900px) {
+  .admin-layout.ui.segment {
+    padding: 10px 4.69% 0 4.69% !important;
+  }
+  .page-header {
+    margin-bottom: 1rem !important;
+  }
+}
+
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .admin-header .main-menu {
     margin-left: 50px !important;
