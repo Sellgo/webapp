@@ -1,0 +1,80 @@
+.login-cont {
+    font-family: 'Work Sans'!important;
+    height: 100vh;
+    display: flex!important;
+    align-items: center!important;
+    background-image: -webkit-linear-gradient(to right, #344659 , #1d2234);
+    background-image: -moz-linear-gradient(to right, #344659 , #1d2234);
+    background-image: -o-linear-gradient(to right, #344659 , #1d2234);
+    background-image: -ms-linear-gradient(to right, #344659 , #1d2234);
+    background-image: linear-gradient(to right, #344659 , #1d2234);
+    label {
+        color: #fff!important;
+    }
+    .row {
+        height: 300px;
+        .column {
+            padding: 0px!important;
+            display: flex!important;
+            justify-content: center;
+            align-items: center;
+            form {
+                width: 350px;
+                display: flex;
+                flex-direction: column;
+                a {
+                    text-align: center;
+                    color: #fff;
+                }
+                a.sign-up {
+                    width: 170px;
+                    margin: auto;
+                }
+                a:hover {
+                    color: #2185d0;
+                    text-decoration: underline;
+                }
+                div.inline {
+                    display: flex;
+                    justify-content: space-between;
+                }
+                .primary {
+                    background-color: #349af8!important;
+                }
+                .field {
+                    margin-bottom: 30px;
+                }
+                .inline.fields {
+                    margin-bottom: 30px!important;
+                    .field, 
+                    a {
+                        margin-bottom: 0px;
+                    }
+                }
+                .field:last-of-type {
+                    margin-bottom: 10px;
+                }
+            }
+            .image {
+                width: 350px;
+            }
+        }
+    }
+}
+
+.ui.divided.grid:not([class*="vertically divided"])>.row>.column {
+    -webkit-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    -moz-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    -ms-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    -o-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+}
+
+
+@media only screen and (max-width: 768px) {
+    .login-cont {
+        .row {
+            height: 90%;
+        }
+    }
+}
