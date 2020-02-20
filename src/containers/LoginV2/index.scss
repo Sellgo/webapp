@@ -1,6 +1,6 @@
 .login-cont {
     font-family: 'Work Sans'!important;
-    height: 100vh;
+    min-height: 100vh;
     display: flex!important;
     align-items: center!important;
     background-image: -webkit-linear-gradient(to right, #344659 , #1d2234);
@@ -8,11 +8,17 @@
     background-image: -o-linear-gradient(to right, #344659 , #1d2234);
     background-image: -ms-linear-gradient(to right, #344659 , #1d2234);
     background-image: linear-gradient(to right, #344659 , #1d2234);
+
     label {
         color: #fff!important;
     }
+
+    .primary {
+        background-color: #349af8!important;
+    }
+
     .row {
-        height: 300px;
+        min-height: 300px;
         .column {
             padding: 0px!important;
             display: flex!important;
@@ -20,6 +26,8 @@
             align-items: center;
             form {
                 width: 350px;
+            }
+            form.login-form {
                 display: flex;
                 flex-direction: column;
                 a {
@@ -37,9 +45,6 @@
                 div.inline {
                     display: flex;
                     justify-content: space-between;
-                }
-                .primary {
-                    background-color: #349af8!important;
                 }
                 .field {
                     margin-bottom: 30px;
@@ -60,21 +65,40 @@
             }
         }
     }
+    .ui.divided.grid:not([class*="vertically divided"])>.row>.column {
+        -webkit-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        -moz-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        -ms-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        -o-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    }
+    
+    .ui.vertical.divider:after, .ui.vertical.divider:before { 
+        height: calc(100% - 0rem)!important;
+    }
+    
+    .ui.vertical.divider:after, .ui.vertical.divider:before {
+        border-left: 2px solid rgba(34,36,38,.2);
+        border-right: 2px solid rgba(255,255,255,.2);
+    }
+    
+    .ui.vertical.divider {
+        height: 25%;
+        margin: 0px!important;
+    }
 }
 
-.ui.divided.grid:not([class*="vertically divided"])>.row>.column {
-    -webkit-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    -moz-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    -ms-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    -o-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-}
 
 
 @media only screen and (max-width: 768px) {
     .login-cont {
         .row {
-            height: 90%;
+            .column {
+                padding-top: 60px!important;
+            }
+        }
+        .vertical.divider {
+            display: none;
         }
     }
 }

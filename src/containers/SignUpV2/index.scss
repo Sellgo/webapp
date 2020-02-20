@@ -1,0 +1,63 @@
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    .header {
+        text-align: center;
+        color: #fff;
+    }
+    a {
+        color: #fff;
+    }
+    a:hover {
+        color: #2185d0;
+        text-decoration: underline;
+    }
+    label.log-in {
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    form.signup-form {
+        padding-bottom: 50px;
+    }
+}
+
+// ============================================
+div.ui.popup {
+    padding: 0px;
+    .vertical.steps .title-success,
+    .vertical.steps .description-success {
+        color: #5dc560!important;
+    }
+    .vertical.steps .title-error,
+    .vertical.steps .description-error {
+        color: #eb675e!important;
+    }
+}
+.ui.left.center.popup {
+    left: 575px!important;
+}
+.ui.vertical.steps .step {
+    padding: 7px 15px!important; 
+    .content {
+        padding-left: 10px;
+        width: 180px;
+        .description {
+            // margin-top: -0.3em;
+            text-align: left;
+            line-height: initial;
+        }
+    }
+}
+.ui.steps .step>.icon {
+    font-size: x-large;
+}
+div.ui.steps {
+    border: 0px;
+    width: 260px;
+}
+
+.ui.vertical.steps .active.step:last-child:after {
+    display: none;
+}

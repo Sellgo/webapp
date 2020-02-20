@@ -10,7 +10,7 @@ export default class LoginV2 extends React.Component<any> {
   render() {
     return (
       <LoginBase>
-        <Form>
+        <Form className="login-form">
           <Form.Input
             label="Username"
             type="mail"
@@ -24,7 +24,7 @@ export default class LoginV2 extends React.Component<any> {
           <Form.Field control={Button} fluid primary>
             Log in
           </Form.Field>
-          <a className="sign-up" href="#"> Sign up for an account </a>
+          <a className="sign-up" href="/register"> Sign up for an account </a>
         </Form>
       </LoginBase>
     );

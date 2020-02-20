@@ -6,6 +6,7 @@ import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
 import LoginV2 from '../LoginV2';
+import SignUpV2 from '../SignUpV2';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
@@ -167,6 +168,7 @@ function App(props: any) {
             requireSubscription={true}
           />
           <Route exact={true} path="/login" component={LoginV2} />
+          <Route exact={true} path="/register" component={SignUpV2} />
           <Route component={NotFound} />
         </Switch>
       </Router>
