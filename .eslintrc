@@ -5,7 +5,8 @@
     "sourceType": "module", // Allows for the use of imports
     "ecmaFeatures": {
       "jsx": true // Allows for the parsing of JSX
-    }
+    },
+    "project": "./tsconfig.json"
   },
   "extends": [
     "eslint:recommended",
@@ -16,16 +17,24 @@
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "env": {
     "browser": true,
-    "jasmine": true,
-    "jest": true
+    "jest": true,
+    "es6": true
   },
   "rules": {
+    "react/self-closing-comp": "error", // <a></a> ==> <a/>
     "linebreak-style": 0,
     "no-underscore-dangle": "off",
-    "max-len": ["error", 120],
+    "max-len": [
+      "error",
+      120
+    ],
     "import/extensions": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
@@ -59,13 +68,37 @@
     "dot-notation": "warn",
     "react/forbid-prop-types": "off",
     "react/no-unescaped-entities": "off",
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "react/prop-types": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/camelcase": "off", // API responses are in camelcase, so we can't get away from this
+    "@typescript-eslint/explicit-function-return-type": [ // temporarily turned off for now
+      "off",
+      {
+        "allowExpressions": true
+      }
+    ]
   },
   "settings": {
-    "react": { "version": "detect" },
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    },
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     }
   }

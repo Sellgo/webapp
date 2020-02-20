@@ -48,10 +48,10 @@
     "eject": "react-scripts eject",
     "stylelint": "stylelint **/*.{css,scss}",
     "stylelint:fix": "npm run stylelint --fix",
-    "eslint": "eslint -c .eslintrc './src/**/*.{ts,tsx}'",
+    "eslint": "eslint -c .eslintrc './src/**/*.{ts,tsx,js}'",
     "eslint:fix": "npm run eslint --fix",
     "prettier": "prettier --write --config ./.prettierrc './src/**/*.{ts,tsx,js,css,scss,json}'",
-    "lint": "npm-run-all eslint:fix stylelint:fix prettier"
+    "lint": "npm-run-all prettier eslint:fix stylelint:fix"
   },
   "browserslist": {
     "production": [
