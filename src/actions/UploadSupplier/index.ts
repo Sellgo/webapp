@@ -28,6 +28,15 @@ import {
   SET_SKIP_COLUMN_MAPPING_CHECK,
   UPDATE_DATA_QUALITY_REPORT,
 } from '../../constants/UploadSupplier';
+<<<<<<< HEAD
+=======
+import {
+  currentStepSelector,
+  columnMappingsSelector,
+  csvSelector,
+  csvFileSelector,
+} from '../../selectors/UploadSupplier';
+>>>>>>> BUGS-72: Fix duplicate error message (#171)
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
