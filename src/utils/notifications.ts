@@ -1,4 +1,4 @@
-import { toast, ToastContent, ToastOptions, ToastContainer } from 'react-toastify';
+import { toast, ToastContent, ToastOptions, UpdateOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { render } from 'react-dom';
 
@@ -16,5 +16,4 @@ export const error: messageInterface = (message, options) => toast.error(message
 export const warn: messageInterface = (message, options) => toast.warn(message, options);
 export const update: messageInterface = (message, options) => toast.info(message, options);
 export const info: messageInterface = (message, options) => toast(message, options);
-
-export const dismiss: dismissInterface = id => toast(id);
+export const dismiss: dismissInterface = id => toast.dismiss(id);

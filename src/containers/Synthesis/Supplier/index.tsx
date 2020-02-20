@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Loader } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Loader, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -18,6 +18,8 @@ import {
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
+import { RouteComponentProps } from 'react-router';
+import { dismiss, update } from '../../../utils/notifications';
 
 interface SupplierProps {
   supplierDetails: any;
@@ -34,7 +36,7 @@ interface SupplierProps {
   progress: any;
 }
 
-export class Supplier extends React.Component<SupplierProps> {
+export class Supplier extends React.Component<RouteComponentProps & SupplierProps> {
   componentDidMount() {
     const { fetchSupplierDetails, fetchSupplierProducts, match, supplierProgress } = this.props;
     fetchSupplierDetails(match.params.supplierID);
@@ -47,6 +49,48 @@ export class Supplier extends React.Component<SupplierProps> {
     resetSupplierProducts();
     resetSupplier();
   }
+
+  componentDidUpdate(prevProps: SupplierProps) {
+    if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
+      if (!this.props.isLoadingSupplierProducts) {
+        dismiss('supplierLoading');
+      } else {
+        update(this.handleSupplierLoading, {
+          toastId: 'supplierLoading',
+          className: 'ui message warning notification',
+          autoClose: !this.props.isLoadingSupplierProducts,
+          pauseOnHover: false,
+          closeOnClick: false,
+          draggable: false,
+        });
+      }
+    }
+  }
+
+  getLoadingTime = () => {
+    const { count } = this.props.location.state;
+    const loadingTime =
+      count > 20000
+        ? Math.round(count / 1000)
+        : count < 10000 && count > 4999
+        ? Math.round(count / 750)
+        : count < 5000 && count > 2799
+        ? Math.round(count / 300)
+        : 5;
+    return loadingTime;
+  };
+
+  handleSupplierLoading = () => {
+    return (
+      <div className="notif-content">
+        <p className="header">Processing SKUs</p>
+        <p className="label">
+          <Icon className="clock" />
+          {this.getLoadingTime()}s Estimated Processing time
+        </p>
+      </div>
+    );
+  };
 
   render() {
     const { isLoadingSupplierProducts, supplierDetails } = this.props;

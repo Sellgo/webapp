@@ -14,7 +14,6 @@ import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import { dismiss, update } from '../../../../utils/notifications';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -177,18 +176,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
   ];
-
-  handleSupplierLoading = () => {
-    console.log('Details: ', this.props.products);
-    return (
-      <div>
-        <h1>Loading Data</h1>
-        <p>
-          <i>please wait a moment</i>
-        </p>
-      </div>
-    );
-  };
   render() {
     const {
       isLoadingSupplierProducts,
@@ -199,7 +186,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     } = this.props;
 
     if (isLoadingSupplierProducts) {
-      update(this.handleSupplierLoading, { toastId: 'supplierLoading' });
       return (
         <Segment>
           <Loader active={true} inline="centered" size="massive">
