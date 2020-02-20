@@ -17,12 +17,9 @@
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "env": {
+    "node": true,
     "browser": true,
     "jest": true,
     "es6": true
@@ -31,10 +28,7 @@
     "react/self-closing-comp": "error", // <a></a> ==> <a/>
     "linebreak-style": 0,
     "no-underscore-dangle": "off",
-    "max-len": [
-      "error",
-      120
-    ],
+    "max-len": ["error", 120],
     "import/extensions": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
@@ -76,10 +70,13 @@
       }
     ],
     "react/prop-types": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/camelcase": "off", // API responses are in camelcase, so we can't get away from this
-    "@typescript-eslint/explicit-function-return-type": [ // temporarily turned off for now
+    "@typescript-eslint/explicit-function-return-type": [
+      // temporarily turned off for now
       "off",
       {
         "allowExpressions": true
@@ -93,12 +90,7 @@
     },
     "import/resolver": {
       "node": {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
   }
