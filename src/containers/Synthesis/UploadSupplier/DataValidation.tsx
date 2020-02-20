@@ -36,7 +36,7 @@ const DataValidation = (props: DataValidationProps) => {
 
 const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
   const metricMessages = [
-    { key: 'upcNonNumeric' ,metric: dataQualityReport.upcNonNumeric, message: 'invalid UPC' },
+    { key: 'upcNonNumeric', metric: dataQualityReport.upcNonNumeric, message: 'invalid UPC' },
     { key: 'upcMissing', metric: dataQualityReport.upcMissing, message: 'missing UPC' },
     { key: 'costInvalid', metric: dataQualityReport.costInvalid, message: 'invalid product cost' },
     { key: 'costMissing', metric: dataQualityReport.costMissing, message: 'missing product cost' },
@@ -60,8 +60,8 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
 
       {metricMessages.map((metricMessage, idx) => {
         return metricMessage.metric > 0 ? (
-            Number of rows with {metricMessage.message}: {metricMessage.metric}
           <List.Item key={metricMessage.key}>
+            Number of rows with {metricMessage.message}: {metricMessage.metric}
           </List.Item>
         ) : null;
       })}
