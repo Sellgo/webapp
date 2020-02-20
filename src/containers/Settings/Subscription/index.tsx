@@ -45,7 +45,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     // Breaking these out into individual values instead of an object
     // because couldn't get Typescript to allow an undefined object :(
     pendingSubscription: false,
-    pendingCoupon: '',
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
   };
@@ -70,8 +69,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   chooseSubscription(subscription: any) {
-    const { couponVal } = this.state;
-
     const { sellerSubscription } = this.props;
     // If user has subscription already then change to selected plan
     // TODO: We're setting state to render the <Confirm> component
@@ -84,44 +81,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         pendingSubscriptionName: subscription.name,
       });
       // Otherwise we want to go to payment page
-    } else if (couponVal) {
-      this.setState({
-        pendingSubscription: true,
-        pendingCoupon: couponVal,
-        pendingSubscriptionId: subscription.id,
-        pendingSubscriptionName: subscription.name,
-      });
     } else {
       this.checkout(subscription.id);
     }
-  }
-
-  createTrialSubscription(subscriptionId: any, couponVal: any) {
-    const { profile, setSellerSubscription } = this.props;
-    const bodyFormData = new FormData();
-    bodyFormData.append('subscription_id', subscriptionId);
-    bodyFormData.append('coupon', couponVal);
-
-    // Include affiliate referral
-    const referral = this.getReferral();
-    if (referral) {
-      bodyFormData.append('referral', referral);
-    }
-
-    Axios.post(
-      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/redeem-coupon`,
-      bodyFormData
-    )
-      .then(response => {
-        // Clear subscription so re-fetched by /synthesis route after redirect
-        setSellerSubscription(undefined);
-        success(`You are now subscribed for a trial period`);
-        history.push('/synthesis');
-      })
-      .catch((err: any) => {
-        error(`The coupon "${couponVal}" is not valid`);
-        this.setState({ couponVal: '' });
-      });
   }
 
   // Change plan that user is subscribed to
@@ -160,7 +122,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         this.redirectToCheckout(checkoutSessionId);
       })
       .catch((err: any) => {
-        error(`There was an error creating your checkout session`);
+        error(`There was an error redirecting you to Stripe`);
       });
   }
 
@@ -202,14 +164,19 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     return typeof window.Rewardful !== 'undefined' && window.Rewardful.referral;
   }
 
-  validateCoupon() {
+  redeemCoupon() {
     const { couponVal } = this.state;
     const { profile } = this.props;
     const bodyFormData = new FormData();
-    bodyFormData.append('coupon', couponVal);
+
+    if (couponVal) bodyFormData.append('coupon', couponVal);
+    else {
+      error('Coupon field is empty.');
+      return;
+    }
 
     Axios.post(
-      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/validate-coupon`,
+      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/redeem-coupon`,
       bodyFormData
     )
       .then(response => {
@@ -225,7 +192,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const {
       promptCancelSubscription,
       pendingSubscription,
-      pendingCoupon,
       pendingSubscriptionId,
       pendingSubscriptionName,
     } = this.state;
@@ -264,33 +230,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
-          content={`Use coupon ${pendingCoupon} for "${pendingSubscriptionName}"`}
-          open={pendingSubscription && pendingCoupon ? true : false}
-          onCancel={() => {
-            this.setState({
-              couponVal: '',
-              pendingSubscription: false,
-              pendingCoupon: '',
-              pendingSubscriptionId: '',
-              pendingSubscriptionName: '',
-            });
-          }}
-          onConfirm={() => {
-            this.setState({
-              couponVal: '',
-              pendingSubscription: false,
-              pendingCoupon: '',
-              pendingSubscriptionId: '',
-              pendingSubscriptionName: '',
-            });
-
-            this.createTrialSubscription(pendingSubscriptionId, pendingCoupon);
-          }}
-        />
-
-        <Confirm
           content={`Would you like to change your plan to "${pendingSubscriptionName}"`}
-          open={pendingSubscription && !pendingCoupon ? true : false}
+          open={pendingSubscription ? true : false}
           onCancel={() => {
             this.setState({
               pendingSubscription: false,
@@ -398,9 +339,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
                   value={this.state.couponVal}
                   onChange={e => this.setState({ couponVal: e.target.value })}
-                  onKeyPress={(e: KeyboardEvent) =>
-                    e.key === 'Enter' ? this.validateCoupon() : null
-                  }
+                  onKeyPress={(e: KeyboardEvent) => {
+                    if (e.key === 'Enter') this.redeemCoupon();
+                  }}
                   placeholder="Coupon"
                   type="text"
                 />
@@ -413,9 +354,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     width: '180px',
                   }}
                   color="grey"
-                  onClick={() => this.validateCoupon()}
+                  onClick={() => this.redeemCoupon()}
                 >
-                  {'VALIDATE'}
+                  {'REDEEM'}
                 </Button>
               </div>
             )}

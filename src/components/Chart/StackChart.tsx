@@ -13,6 +13,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     chart: { type: 'column', zoomType: 'x' },
     title: {
       text: title,
+      margin: 50,
       align: 'center',
     },
     xAxis: {

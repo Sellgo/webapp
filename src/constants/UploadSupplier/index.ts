@@ -11,12 +11,16 @@ export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
 export const SET_SAVE_COLUMN_MAPPING_SETTING = 'SET_SAVE_COLUMN_MAPPING_SETTING';
 export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
 export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
+export const UPDATE_DATA_QUALITY_REPORT = 'UPDATE_DATA_QUALITY_REPORT';
+
 export enum UploadSteps {
   AddNewSupplier,
   SelectFile,
   DataMapping,
   DataValidation,
+  Submit,
 }
+
 export const FieldsToMap = [
   {
     key: 'upc',
@@ -24,17 +28,17 @@ export const FieldsToMap = [
     required: true,
   },
   {
-    key: 'cost',
-    label: 'Product Cost',
-    required: true,
+    key: 'title',
+    label: 'Title',
   },
   {
     key: 'sku',
     label: 'Supplier SKU',
   },
   {
-    key: 'title',
-    label: 'Title',
+    key: 'cost',
+    label: 'Product Cost',
+    required: true,
   },
   {
     key: 'msrp',

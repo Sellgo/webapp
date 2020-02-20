@@ -1,0 +1,12 @@
+.profit-sys-call-to-action {
+  display: flex;
+  float: right;
+  justify-content: flex-end;
+}
+
+.profit-sys-call-to-action .ui.tiny.progress {
+  width: 250px;
+  margin-right: 15px;
+  top: 12px;
+  height: 6px;
+}

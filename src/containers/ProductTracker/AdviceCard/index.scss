@@ -1,0 +1,129 @@
+.advice-card {
+  margin-top: -27px;
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1) !important;
+  .track-row {
+    span {
+      b {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .wrap-radio {
+        display: flex;
+        align-items: center;
+        width: 105px;
+      }
+    }
+  }
+
+  .ui.card {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px 0 #d4d4d5, 0 0 10px 1px #d4d4d5;
+    margin-bottom: 25px;
+
+    > .content {
+      padding: 0.5em 0.5em !important;
+    }
+    > .content > .header {
+      font-size: 13px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      margin-top: 6px;
+    }
+
+    > .content > p {
+      font-size: 12px;
+      padding-top: 10px;
+      font-family: inherit;
+      margin-bottom: 14px;
+    }
+
+    > .content > span {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .wrap-radio .ui.checked.fitted.toggle.checkbox {
+    margin-right: 11px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .ui.card {
+      > .content {
+        .ui.fluid.dropdown {
+          margin-left: 0px !important;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    margin-top: -2px !important;
+    .wrap-radio {
+      width: 80px !important;
+    }
+    .ui.card {
+      .content {
+        .ui.selection.dropdown {
+          min-width: 0 !important;
+          padding: 10px 5px;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1600px) {
+    .ui.card {
+      .track-row {
+        .menu {
+          .item {
+            padding: 0.8rem 1rem !important;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1500px) {
+    .ui.card {
+      > .content > .header {
+        font-size: 16px;
+      }
+
+      > .content > p {
+        font-size: 13px;
+      }
+    }
+
+    .track-row span {
+      font-size: 13px;
+    }
+
+    .wrap-radio {
+      @media (max-width: 767px) {
+        width: 70%;
+      }
+
+      .ui.checked.fitted.toggle.checkbox {
+        margin-right: 5px;
+        margin-top: 6px;
+      }
+
+      .ui.toggle.checkbox .box:before,
+      .ui.toggle.checkbox label:before {
+        width: 40px;
+        height: 15px;
+      }
+
+      .ui.toggle.checkbox .box:after,
+      .ui.toggle.checkbox label:after {
+        width: 13px;
+        height: 13px;
+        top: 1px;
+      }
+    }
+  }
+}

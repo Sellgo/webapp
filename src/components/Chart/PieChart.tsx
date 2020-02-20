@@ -23,6 +23,7 @@ const renderPieChartOptions = (options: PieChartOptions) => {
     },
     title: {
       text: title,
+      margin: 50,
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',

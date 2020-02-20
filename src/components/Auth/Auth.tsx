@@ -33,6 +33,7 @@ export default class Auth {
       forgotPasswordTitle: '',
     },
     allowSignUp: true,
+    initialScreen: window.location.pathname.startsWith('/signup') ? 'signUp' : 'login',
     avatar: null,
   });
 

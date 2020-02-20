@@ -20,7 +20,9 @@ class ProductData extends Component<ProductDataProps> {
 
   render() {
     const { productDetails } = this.props;
-    if (!productDetails) return '';
+    if (!productDetails) {
+      return '';
+    }
     return (
       <Grid className="flex-col">
         <Grid.Column floated="left" width={13} className="wdt100 detail-page">
@@ -141,7 +143,6 @@ class ProductData extends Component<ProductDataProps> {
 
 const mapStateToProps = (state: {}) => ({
   productDetails: get(state, 'product.details'),
-  product: get(state, 'modals.supplierProductDetail.meta'),
 });
 
 const mapDispatchToProps = {

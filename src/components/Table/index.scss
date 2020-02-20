@@ -9,7 +9,20 @@
       border-left: none;
     }
   }
+
+  .row-expand-btn {
+    i {
+      font-size: 2.4em !important;
+      color: #c3c4c4 !important;
+    }
+  }
 }
+
+.select-items-list {
+  position: absolute;
+  right: 2%;
+}
+
 .sort-arrow {
   max-width: 10px;
   max-height: 13px;

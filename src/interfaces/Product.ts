@@ -38,6 +38,13 @@ export interface ProductsTrackData {
   weight: string;
 }
 
+export interface ProductsPaginated {
+  count: number;
+  num_pages: number;
+  per_page: number;
+  results: ProductTrackerDetails[];
+  min_max: Object;
+}
 export interface ProductDetail {
   asin: string;
   fees: string;
@@ -76,4 +83,23 @@ export interface ProductChartDetailsKpi {
   profit: string;
   roi: string;
   cdate: string;
+}
+
+export interface ProductTrackerDetails {
+  asin: string;
+  amazon_url: string;
+  avg_daily_revenue: string;
+  avg_daily_sales: string;
+  avg_margin: string;
+  avg_price: string;
+  avg_profit: string;
+  avg_rank: number;
+  avg_roi: string;
+  dimension: string;
+  id: number;
+  image_url: string;
+  product_id: number;
+  supplier_id: number;
+  title: string;
+  weight: string;
 }

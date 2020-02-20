@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import StackChart from '../../../../../components/Chart/StackChart';
 import PieChart from '../../../../../components/Chart/PieChart';
 import ScatterChart from '../../../../../components/Chart/ScatterChart';
-import { Loader, Form, Modal } from 'semantic-ui-react';
+import { Loader, Form, Modal, Header } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
@@ -251,34 +251,37 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       <div className="supplier-charts">
         <this.renderCharts />
         <br />
-        <Form>
-          <Form.Group inline={true}>
-            <Form.Radio
-              label="Hit/Miss vs Profitable SKUs"
-              value="chart0"
-              checked={this.state.showChart === 'chart0'}
-              onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-            />
-            <Form.Radio
-              label="Profit vs Unit Sold"
-              value="chart1"
-              checked={this.state.showChart === 'chart1'}
-              onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-            />
-            <Form.Radio
-              label="Revenue Breakdown"
-              value="chart3"
-              checked={this.state.showChart === 'chart3'}
-              onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-            />
-            <Form.Radio
-              label="Point of First Profit (POFP)"
-              value="chart4"
-              checked={this.state.showChart === 'chart4'}
-              onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-            />
-          </Form.Group>
-        </Form>
+        <div className="chart-end-content">
+          <Header as="h4">Select your favorite chart</Header>
+          <Form>
+            <Form.Group inline={true}>
+              <Form.Radio
+                label="Hit/Miss vs Profitable SKUs"
+                value="chart0"
+                checked={this.state.showChart === 'chart0'}
+                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
+              />
+              <Form.Radio
+                label="Profit vs Unit Sold"
+                value="chart1"
+                checked={this.state.showChart === 'chart1'}
+                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
+              />
+              <Form.Radio
+                label="Revenue Breakdown"
+                value="chart3"
+                checked={this.state.showChart === 'chart3'}
+                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
+              />
+              <Form.Radio
+                label="Point of First Profit (POFP)"
+                value="chart4"
+                checked={this.state.showChart === 'chart4'}
+                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
+              />
+            </Form.Group>
+          </Form>
+        </div>
         <Modal
           size={'large'}
           open={this.props.productDetailsModalOpen}

@@ -15,6 +15,7 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
     },
     title: {
       text: title,
+      margin: 50,
     },
     xAxis: [
       {

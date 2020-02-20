@@ -1,17 +1,11 @@
 .filter-section {
-  margin-top: 2.7rem;
-
   .filter-head {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-
-    // Wider style
-    //padding-left: 16px;
+    margin-bottom: 1rem;
 
     > p {
       font-weight: 600;
-      font-size: 20px;
+      font-size: 18px;
       margin-bottom: 0;
     }
 
@@ -30,6 +24,7 @@
       color: #000;
       margin-right: 20px;
       margin-top: 3px;
+      cursor: pointer;
     }
 
     .icon.chevron.down:before {
@@ -40,6 +35,17 @@
   // Targeting the <Container> inside <SliderRange>
   // TODO: Maybe move spacing outside of <SliderRange>
   .filter-content .ui.container {
-    margin-bottom: 31px;
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-height: 900px) {
+  .filter-section {
+    .filter-head {
+      margin-bottom: 0.5rem;
+    }
+    .filter-content .ui.container {
+      margin-bottom: 10px;
+    }
   }
 }

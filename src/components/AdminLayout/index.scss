@@ -3,8 +3,56 @@
     height: 100%;
     min-height: 100vh;
     margin-top: 0;
-    padding-top: 20px;
+    padding: 20px 4.69% 0 4.69%;
     transition: width 0.8s, padding 0.8s;
     background-color: #f8faff;
+  }
+}
+
+@media screen and (min-height: 1600px), screen and (max-height: 900px) {
+  .ui.segment {
+    &.tracker-setting {
+      margin-top: 3rem;
+    }
+    &.settings {
+      margin-top: 1rem;
+    }
+    &.subscription {
+      margin-top: 2rem;
+    }
+    padding: 0 1rem;
+  }
+  .slider-range {
+    .range-title {
+      margin-bottom: 10px;
+    }
+  }
+  .supplier-details-card {
+    .ui.feed {
+      .event {
+        .content {
+          .highcharts-container {
+            max-height: 330px !important;
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  .setting {
+    .ui.grid {
+      .row {
+        .left-column.column {
+          align-items: start;
+          display: flex !important;
+          padding: 0 5rem;
+          width: 0 !important;
+          margin: 0 !important;
+        }
+      }
+    }
   }
 }
