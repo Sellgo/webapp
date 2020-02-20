@@ -1,4 +1,5 @@
 import * as React from 'react';
+// eslint-disable-next-line import/named
 import { Container, Header, Image, Segment, SemanticSIZES, Step, Modal } from 'semantic-ui-react';
 import './Dashboard.css';
 import DashBoardTabs from './Tabs/tabs';
@@ -23,13 +24,11 @@ interface State {
   currentSteps: number;
 }
 
-interface DashboardProps {}
-
-class Dashboard extends React.Component<DashboardProps, State> {
+class Dashboard extends React.Component<{}, State> {
   componentDidMount() {
     const visited = localStorage.getItem('FirstLogin');
     if (!visited) {
-      localStorage['FirstLogin'] = true;
+      localStorage.FirstLogin = true;
       this.setState({ isOpen: true });
     }
   }
@@ -136,11 +135,9 @@ class Dashboard extends React.Component<DashboardProps, State> {
   }
 }
 
-const mapStateToProps = (state: any) => ({});
-
 const mapDispatchToProps = {};
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Dashboard);

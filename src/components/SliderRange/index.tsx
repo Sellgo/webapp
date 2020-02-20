@@ -46,8 +46,8 @@ const SliderRange = (props: any) => {
             placeholder="Min"
             id="min"
             type="number"
-            value={filterRangeLocal['min']}
-            onChange={(e, { id, value }) => {
+            value={filterRangeLocal.min}
+            onChange={(_e, { _id, value }) => {
               if (value < filterRange.max && value >= range.min) {
                 handleCompleteChange(dataKey, { min: value, max: filterRange.max });
               }
@@ -60,13 +60,13 @@ const SliderRange = (props: any) => {
             }
           }}
           */
-          ></Input>
+          />
           <Input
             placeholder="Max"
             id="max"
             type="number"
-            value={filterRangeLocal['max']}
-            onChange={(e, { id, value }) => {
+            value={filterRangeLocal.max}
+            onChange={(_e, { _id, value }) => {
               if (value > filterRange.min && value <= range.max) {
                 handleCompleteChange(dataKey, { max: value, min: filterRange.min });
               }
@@ -79,7 +79,7 @@ const SliderRange = (props: any) => {
             }
           }}
           */
-          ></Input>
+          />
         </div>
       )}
     </Container>

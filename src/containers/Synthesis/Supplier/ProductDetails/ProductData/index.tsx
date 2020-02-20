@@ -126,7 +126,8 @@ class ProductData extends Component<ProductDataProps> {
               style={{ position: 'absolute', right: 20, top: '38%' }}
               className="img-pos"
               href={productDetails.amazon_url}
-              target={'_blank'}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Icon name="amazon" size={'large'} style={{ color: 'black' }} />
             </a>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Divider } from 'semantic-ui-react';
-import { findFiltersGrouped } from '../../../constants/Tracker';
 import FilterSection from '../../../components/FilterSection';
 import SliderRange from '../../../components/SliderRange';
 import AdviceCard from '../AdviceCard';
@@ -12,6 +11,7 @@ import {
   findMinMaxRange,
   parseMinMaxRange,
   findFilterProducts,
+  findFiltersGrouped,
 } from '../../../constants/Tracker';
 import './index.scss';
 import { updateTrackerFilterRanges } from '../../../actions/ProductTracker';
@@ -38,7 +38,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
     }
   }
 
-  handlePresetChange = (e: any, { value }: any) => {
+  handlePresetChange = (_e: any, { value }: any) => {
     const { products, updateFilterRanges } = this.props;
     const { productRanges } = this.state;
     if (value === '') {

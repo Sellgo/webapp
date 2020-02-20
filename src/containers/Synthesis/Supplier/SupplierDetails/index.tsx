@@ -36,11 +36,9 @@ const SupplierDetails = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: {}) => ({});
-
 const mapDispatchToProps = {};
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(SupplierDetails);

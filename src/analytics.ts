@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 // @ts-ignore
 import Analytics from 'analytics';
 // @ts-ignore

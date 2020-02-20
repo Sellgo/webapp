@@ -1,6 +1,10 @@
 import {
   isFirstRowHeaderSelector,
   saveColumnMappingSettingSelector,
+  currentStepSelector,
+  columnMappingsSelector,
+  csvSelector,
+  csvFileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
 import get from 'lodash/get';
@@ -22,12 +26,6 @@ import {
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import parse from 'csv-parse/lib/es5';
-import {
-  currentStepSelector,
-  columnMappingsSelector,
-  csvSelector,
-  csvFileSelector,
-} from '../../selectors/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
@@ -84,8 +82,8 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null) => {
   const csvJSONFile: any = {};
   if (csvFile !== null) {
-    csvJSONFile['lastModified'] = csvFile.lastModified;
-    csvJSONFile['name'] = csvFile.name;
+    csvJSONFile.lastModified = csvFile.lastModified;
+    csvJSONFile.name = csvFile.name;
   }
   return {
     type: SET_RAW_CSV,
@@ -155,7 +153,7 @@ export const prepareCsv = (csvFile?: File) => async (
 };
 
 export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
-  const fileName = csvFileDetails && csvFileDetails['name'] ? csvFileDetails['name'] : '';
+  const fileName = csvFileDetails && csvFileDetails.name ? csvFileDetails.name : '';
 
   // escape commas
   csvArray = csvArray.map((row: string[]) =>

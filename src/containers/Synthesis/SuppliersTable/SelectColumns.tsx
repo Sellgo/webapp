@@ -85,13 +85,11 @@ class SelectColumns extends Component<SelectColumnsProps> {
   }
 }
 
-const mapStateToProps = (state: {}) => ({});
-
 const mapDispatchToProps = {
   setColumn: (column: {}) => setSupplierTableColumns(column),
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(SelectColumns);

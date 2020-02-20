@@ -60,7 +60,7 @@ export default (state = initialState, action: AnyAction) => {
       };
       return setIn(state, 'details', hit);
     }
-    case UPDATE_SUPPLIER_PRODUCT:
+    case UPDATE_SUPPLIER_PRODUCT: {
       const updateProduct = action.payload;
       const products = get(state, 'products').map((product: any) => {
         const checkProduct = product;
@@ -71,6 +71,7 @@ export default (state = initialState, action: AnyAction) => {
         return checkProduct;
       });
       return setIn(state, 'products', products);
+    }
     case SET_SUPPLIER_PRODUCTS_TRACK_DATA: {
       return setIn(state, 'trackData', action.payload);
     }

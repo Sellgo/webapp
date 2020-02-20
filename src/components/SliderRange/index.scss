@@ -6,6 +6,7 @@
     font-weight: 600;
     font-size: 14px;
     font-family: Work Sans;
+
     b {
       font-weight: 600;
     }
@@ -27,6 +28,7 @@
     align-items: center;
     padding: 0 10px;
   }
+
   .range-input .ui.input > input {
     background: transparent;
     border: 1px solid #dfe8f3;
@@ -37,7 +39,7 @@
     font-weight: normal;
     width: 59px;
     text-align: center;
-    box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0px 1px #d4d4d5;
+    box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
   }
 
   .range-input .ui.input > input::-webkit-input-placeholder {
@@ -59,10 +61,12 @@
       font-size: 13px;
       padding: 5px 2px;
     }
+
     .range-title {
       font-size: 12px;
       margin-bottom: 10px;
     }
+
     .range-input {
       margin-top: 10px;
     }

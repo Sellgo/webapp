@@ -17,9 +17,22 @@
     padding-top: 0.6rem;
   }
 
+  .filter-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    font-weight: bold;
+    font-size: 14px;
+
+    label {
+      font-weight: 500;
+    }
+  }
+
   .custom-check {
     width: 100%;
     margin-bottom: 21px;
+
     .ui.checkbox label {
       font-size: 16px;
     }
@@ -27,22 +40,12 @@
 
   .check-filter {
     margin-top: 48px;
-    .ui.checkbox input:checked ~ .box:after,
-    .ui.checkbox input:checked ~ label:after {
+
+    .ui.checkbox input:checked ~ .box::after,
+    .ui.checkbox input:checked ~ label::after {
       color: #fff !important;
       background: #4b9af7 !important;
       border-radius: 5px;
-    }
-  }
-
-  .filter-title {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    font-weight: bold;
-    font-size: 14px;
-    label {
-      font-weight: 500;
     }
   }
 

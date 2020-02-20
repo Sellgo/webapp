@@ -206,8 +206,8 @@ export const parseMinMaxRange = (minMaxes: any) => {
     {}
   );
   dataKeys.forEach((kpi: any) => {
-    parsedMinMaxes[kpi]['min'] = Math.floor(minMaxes[`min_${kpi}`] * 100) / 100;
-    parsedMinMaxes[kpi]['max'] = Math.ceil(minMaxes[`max_${kpi}`] * 100) / 100;
+    parsedMinMaxes[kpi].min = Math.floor(minMaxes[`min_${kpi}`] * 100) / 100;
+    parsedMinMaxes[kpi].max = Math.ceil(minMaxes[`max_${kpi}`] * 100) / 100;
   });
   return parsedMinMaxes;
 };
@@ -227,10 +227,8 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   const filteredProducts =
     productTrackGroupId !== null
       ? productTrackGroupId !== -1
-        ? products.filter(
-            (product: any) => productTrackGroupId === product['product_track_group_id']
-          )
-        : products.filter((product: any) => null === product['product_track_group_id'])
+        ? products.filter((product: any) => productTrackGroupId === product.product_track_group_id)
+        : products.filter((product: any) => null === product.product_track_group_id)
       : products;
   return filteredProducts;
 };

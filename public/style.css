@@ -15,22 +15,28 @@ body {
     padding: 0;
     margin-bottom: 15px;
   }
+
   .ui .close-icon i.close {
     top: -24px !important;
     right: -20px !important;
   }
-  .close-icon i:before {
+
+  .close-icon i::before {
     font-size: 10px !important;
   }
-  .close-icon i.cloud.huge:before {
+
+  .close-icon i.cloud.huge::before {
     font-size: 28px !important;
   }
+
   .ui.selection.dropdown.timezone-field .menu {
     width: 194px !important;
   }
+
   .seller-info {
-    padding: 0px !important;
+    padding: 0 !important;
   }
+
   .btns-wrap button {
     margin-bottom: 10px !important;
   }

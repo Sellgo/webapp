@@ -7,9 +7,6 @@ import CreateGroup from './CreateGroup';
 import EditGroupModal from './EditGroupModal';
 import DeleteGroupModal from './DeleteGroupModal';
 
-interface State {
-  name: string;
-}
 interface TrackerMenuProps {
   groups: any;
   handleMenu: any;
@@ -64,7 +61,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
             style={{ paddingBottom: '17px' }}
             name={'All Groups'}
             active={this.props.activeGroupId === null ? true : false}
-            onClick={(id: any) => {
+            onClick={() => {
               if (this.props.activeGroupId !== null) {
                 handleMenu(null);
               }
@@ -83,7 +80,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
             <Menu.Item
               name={'Ungrouped'}
               active={this.props.activeGroupId === -1 ? true : false}
-              onClick={(id: any) => {
+              onClick={() => {
                 if (this.props.activeGroupId !== -1) {
                   handleMenu(-1);
                 }
@@ -102,7 +99,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                       name={data.name}
                       key={data.id}
                       active={isActiveGroup ? true : false}
-                      onClick={(id: any) => {
+                      onClick={() => {
                         if (!isActiveGroup) {
                           handleMenu(data.id);
                         }

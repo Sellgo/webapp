@@ -17,15 +17,18 @@
       .ui.input {
         width: 373px;
       }
+
       .ui.icon.input > input {
         border-radius: 10px;
         border: 1px solid #b7b9bf;
       }
+
       .ui.icon.input > i.icon {
         opacity: 1 !important;
         color: #fff;
-        border-radius: 0px 10px 10px 0px !important;
+        border-radius: 0 10px 10px 0 !important;
       }
+
       .ui.icon.input > i.icon:not(.link) {
         background: #349af8;
       }
@@ -40,24 +43,25 @@
       .search-product .ui.input {
         width: 250px !important;
       }
+
       .search-product {
         flex-direction: column;
-        margin-top: 0px !important;
-        margin-left: 0px !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
       }
     }
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
       .search-product {
-        margin-top: 0px !important;
-        margin-left: 0px !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
       }
     }
 
     @media screen and (min-width: 1024px) and (max-width: 1250px) {
       .search-product {
-        margin-top: 0px !important;
-        margin-left: 0px !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
       }
     }
   }

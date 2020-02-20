@@ -8,7 +8,7 @@
       display: flex;
     }
 
-    .icon.question.circle:before {
+    .icon.question.circle::before {
       line-height: 1;
       font-size: 13px;
       padding-left: 10px;
@@ -20,9 +20,11 @@
     display: flex;
     align-items: center;
   }
+
   .wrap-checkbox .ui.fitted.checkbox {
     margin-right: 11px;
   }
+
   .wrap-check-range {
     width: 100%;
     display: flex;

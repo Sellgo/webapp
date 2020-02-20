@@ -9,14 +9,14 @@
       margin-bottom: 0;
     }
 
-    .icon.question.circle:before {
+    .icon.question.circle::before {
       line-height: 1;
       font-size: 15px;
       padding-left: 0.5rem;
       color: #98aeca;
     }
 
-    .icon.chevron.up:before {
+    .icon.chevron.up::before {
       font-size: 23px;
     }
 
@@ -27,7 +27,7 @@
       cursor: pointer;
     }
 
-    .icon.chevron.down:before {
+    .icon.chevron.down::before {
       font-size: 23px;
     }
   }
@@ -44,6 +44,7 @@
     .filter-head {
       margin-bottom: 0.5rem;
     }
+
     .filter-content .ui.container {
       margin-bottom: 10px;
     }
