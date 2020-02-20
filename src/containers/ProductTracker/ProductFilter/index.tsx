@@ -7,6 +7,7 @@ import AdviceCard from '../AdviceCard';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
+import { Range } from '../../../interfaces/Generic';
 import {
   initialFilterRanges,
   findMinMaxRange,
@@ -32,30 +33,11 @@ class ProductFilters extends Component<ProductFiltersProps> {
   componentWillReceiveProps(props: any) {
     if (props.products && props.products !== this.props.products && props.products.count > 0) {
       // Get min and max range for each filter setting based on all products
-      // const productRanges = findMinMaxRange(props.products.results);
       const productRanges = parseMinMaxRange(props.products.min_max);
       this.setState({ productRanges });
     }
   }
 
-  handlePresetChange = (e: any, { value }: any) => {
-    const { products, updateFilterRanges } = this.props;
-    const { productRanges } = this.state;
-    if (value === '') {
-      updateFilterRanges(productRanges);
-    } else {
-      const newFilterRanges = { ...productRanges };
-      const presetRange = {
-        min: productRanges[value].min < 0 ? 0 : productRanges[value].min,
-        max: productRanges[value].max,
-      };
-      newFilterRanges[value] = presetRange;
-      const filteredProducts = findFilterProducts(products, newFilterRanges);
-      const updatedFilterRanges: any = findMinMaxRange(filteredProducts);
-      updatedFilterRanges[value] = presetRange;
-      updateFilterRanges(updatedFilterRanges);
-    }
-  };
   handleCompleteChange = (dataKey: any, range: any) => {
     const { products, updateFilterRanges } = this.props;
     const { productRanges } = this.state;
@@ -77,7 +59,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
       updateFilterRanges(updatedFilterRanges);
     }
   };
-  renderFilterComponent = (filter: any, productRange: any, filterRange: any) => {
+  renderFilterComponent = (filter: any, productRange: any, filterRange: Range) => {
     return (
       <SliderRange
         title={filter.text}
@@ -129,11 +111,6 @@ class ProductFilters extends Component<ProductFiltersProps> {
                   ))}
                 </FilterSection>
               ))}
-            {/* {checkFilter.map(check => (
-              <div className="check-filter">
-                <CheckboxFilter title={check.title} check={check.checkData} />
-              </div>
-            ))} */}
           </div>
         </div>
       </div>
