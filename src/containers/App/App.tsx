@@ -28,7 +28,7 @@ const handleAuthentication = (location: any) => {
 const isAuthenticated = () => {
   if (localStorage.getItem('isLoggedIn') === 'true') {
     if (auth.isAuthenticated()) {
-      Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('idToken')}`;
+      Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
       return true;
     } else {
       auth.logout();
@@ -123,7 +123,7 @@ const PrivateRoute = connect(
   }
 );
 
-function App(props: any) {
+function App() {
   return (
     <div>
       <Router history={history}>

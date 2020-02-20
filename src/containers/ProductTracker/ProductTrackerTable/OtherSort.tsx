@@ -72,7 +72,7 @@ class OtherSort extends React.Component<OtherSortProps> {
                   return (
                     <Menu.Item
                       key={data.id}
-                      onClick={(id: any) => {
+                      onClick={() => {
                         this.setTrackGroupsOpen(false);
                         handleMoveGroup(data.id, row.id);
                       }}
@@ -117,7 +117,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           header="Are you sure?"
           content="This will remove the product from the tracker."
           onCancel={handleCancel}
-          onConfirm={(e: any) => handleUntrack(activeRow.product_track_group_id, activeRow.id)}
+          onConfirm={() => handleUntrack(activeRow.product_track_group_id, activeRow.id)}
         />
       </div>
     );

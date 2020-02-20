@@ -1,16 +1,17 @@
-import { FieldsToMap } from '../../constants/UploadSupplier';
+import { FieldsToMap, UploadSteps } from '../../constants/UploadSupplier';
 import {
   reversedColumnMappingsSelector,
   csvSelector,
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
   dataQualityReportSelector,
+  csvFileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { UploadSteps } from '../../constants/UploadSupplier';
+
 import { isValid, submit, getFormValues } from 'redux-form';
-import { csvFileSelector } from '../../selectors/UploadSupplier';
+
 import { error } from '../../utils/notifications';
 import { saveSupplierNameAndDescription, updateSupplierNameAndDescription } from '../Suppliers';
 import {
@@ -72,6 +73,7 @@ export class AddNewSupplierStep extends Step {
   async finalizeStep() {
     const formValues: any = getFormValues('supplier-info')(this.getState());
 
+    // eslint-disable-next-line no-useless-catch
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
       const { name, description, ...other } = formValues;
@@ -412,7 +414,9 @@ export class DataValidationStep extends Step {
     return this.validateFields();
   }
 
-  cleanStep() {}
+  cleanStep() {
+    // do nothing
+  }
 }
 
 export class SubmitStep extends Step {
@@ -422,7 +426,9 @@ export class SubmitStep extends Step {
     return undefined;
   }
 
-  cleanStep() {}
+  cleanStep() {
+    // do nothing
+  }
 }
 
 export function getStepSpecification(stepNumber: number) {

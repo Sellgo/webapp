@@ -2,25 +2,31 @@
   // Give left filters column a fixed width
   .left-column {
     padding-right: 100px !important;
+
     .Supplier_Filters {
       max-width: 200px;
       margin: 0 auto;
+
       .synthesis-supplier-filters {
         .search-dropdown {
           margin-bottom: 20px;
+
           .dropdown {
             background: transparent;
             border-color: #bbbec1;
             border-radius: 10px;
+
             .text {
               color: #868686 !important;
             }
+
             input.search {
               background: transparent;
               left: 0 !important;
             }
           }
         }
+
         .inner-wrap {
           padding: 10px 15px 10px 15px;
         }
@@ -36,11 +42,13 @@
 
       .ui {
         width: 100%;
+
         .supplier-details-card {
           .ui.feed {
             .event {
               .content {
                 padding: 15px 25px;
+
                 .highcharts-container {
                   max-width: 733px;
                   max-height: 350px;
@@ -52,6 +60,7 @@
               }
             }
           }
+
           .ui.checkbox {
             input.hidden + label {
               font-size: 14px;
@@ -65,11 +74,13 @@
     }
   }
 }
+
 .chart-end-content h4 {
   font-weight: bold;
   font-size: 13px;
   font-family: 'Work Sans', sans-serif;
 }
+
 .radio-toggle-wrap {
   margin: 0 auto;
   text-align: center;
@@ -78,7 +89,7 @@
 .ui.raised.card {
   border: 1px solid #98aeca;
   border-radius: 10px;
-  box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.16) !important;
+  box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16) !important;
   background: #fff;
 }
 
@@ -144,9 +155,11 @@
         }
       }
     }
+
     .individual-pie-chart {
       .highcharts-container {
         height: 250px !important;
+
         svg {
           height: 100%;
         }
@@ -159,6 +172,7 @@
   .left.floated.four.wide.column.left-column {
     padding-right: 15px !important;
   }
+
   .supplier-details-card {
     .ui.feed {
       .event {
@@ -177,6 +191,7 @@
       padding-right: 15px !important;
       padding-bottom: 30px;
     }
+
     .right.floated.nine.wide.column.right-column {
       width: 100% !important;
       //padding-left: 0 !important;
@@ -185,13 +200,16 @@
         text-align: center;
       }
     }
+
     .right.floated.three.wide.column.right-column {
       width: 100% !important;
+
       .radio-toggle-wrap {
         padding-top: 30px;
       }
     }
   }
+
   .setting .left-column .Supplier_Filters .synthesis-supplier-filters .inner-wrap {
     padding: 20px 20px 10px 20px;
   }

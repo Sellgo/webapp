@@ -40,20 +40,6 @@ const SellerAmazonMWS = (props: any) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [showCredentials, setShowCredentials] = useState(defaultShowCredentials);
 
-  useEffect(() => {
-    handleMarketPlaceLocalChange(marketplaceLocal.id);
-  }, [amazonMWSAuth]);
-
-  // TODO: Resolve eslint dependency warnings from above effect
-  // Below would resolve it but the result is that handleMarketPlaceLocalChange
-  // is run on every render. I think there is a bigger refactor that needs
-  // to happen first.
-  /*
-  useEffect(() => {
-    handleMarketPlaceLocalChange(marketplaceLocal.id);
-  }, [handleMarketPlaceLocalChange, marketplaceLocal.id]);
-  */
-
   const handleMarketPlaceLocalChange = (marketplaceID: any) => {
     const updatedMarketplaceLocal =
       defaultMarketplaces.filter(e => e.id === marketplaceID)[0] || defaultMarketplace;
@@ -75,6 +61,20 @@ const SellerAmazonMWS = (props: any) => {
     setmarketplaceLocal(updatedMarketplaceLocal);
     setamazonMWSLocal(updatedAmazonMWSLocal);
   };
+
+  useEffect(() => {
+    handleMarketPlaceLocalChange(marketplaceLocal.id);
+  }, [amazonMWSAuth]);
+
+  // TODO: Resolve eslint dependency warnings from above effect
+  // Below would resolve it but the result is that handleMarketPlaceLocalChange
+  // is run on every render. I think there is a bigger refactor that needs
+  // to happen first.
+  /*
+  useEffect(() => {
+    handleMarketPlaceLocalChange(marketplaceLocal.id);
+  }, [handleMarketPlaceLocalChange, marketplaceLocal.id]);
+  */
 
   const handleAmazonMWSLocalChange = (data: any) => {
     setamazonMWSLocal({ ...amazonMWSLocal, ...data });

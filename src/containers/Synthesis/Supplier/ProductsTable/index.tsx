@@ -112,7 +112,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     );
   };
-  renderSyncButtons = (row: Product) => {
+  renderSyncButtons = () => {
     return (
       <div>
         <Icon name="sync alternate" style={{ color: '#98aec9' }} />

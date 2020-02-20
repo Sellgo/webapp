@@ -1,5 +1,6 @@
 $link-color: #5381db;
 $new_black: #707070;
+
 .products-table {
   width: 100%;
   margin: 0 auto;
@@ -29,16 +30,19 @@ $new_black: #707070;
     white-space: pre-wrap;
     line-height: 17px;
     text-align: left;
+
     i {
       color: $link-color !important;
     }
   }
-  tbody:before {
+
+  tbody::before {
     content: '.';
     line-height: 14px;
     color: white;
     display: block;
   }
+
   .ui.table {
     border-collapse: separate;
     border-spacing: 0 5px;
@@ -67,12 +71,14 @@ $new_black: #707070;
           text-align: left;
           font-size: 12px;
         }
+
         th:first-child {
           border-top-left-radius: 10px;
           border-bottom-left-radius: 10px;
           border-left: 1px solid rgba(34, 36, 38, 0.3);
           padding-left: 40px;
         }
+
         th:last-child {
           border-right: 1px solid rgba(34, 36, 38, 0.3);
           border-top-right-radius: 10px;
@@ -84,22 +90,28 @@ $new_black: #707070;
     tfoot th {
       border-top: none;
       text-align: center;
+
       .ui.pagination.menu {
         box-shadow: none;
         margin-top: 60px;
       }
+
       .ui.pagination.menu a {
         color: #000 !important;
       }
+
       .ui.pagination.menu a:nth-child(2) {
         color: #98aeca !important;
       }
+
       .ui.pagination.menu a:nth-child(1) {
         color: #98aeca !important;
       }
+
       .ui.pagination.menu a:nth-last-child(2) {
         color: #98aeca !important;
       }
+
       .ui.pagination.menu a:nth-last-child(1) {
         color: #98aeca !important;
       }
@@ -120,15 +132,18 @@ $new_black: #707070;
         border-bottom-left-radius: 10px;
         border-left: 1px solid rgba(34, 36, 38, 0.2);
       }
+
       &:last-child {
         border-right: 1px solid rgba(34, 36, 38, 0.2);
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
       }
     }
+
     td p {
       font-size: 16px;
     }
+
     tr:first-child td {
       border-top: 1px solid rgba(34, 36, 38, 0.2);
     }
@@ -177,6 +192,7 @@ $new_black: #707070;
       vertical-align: middle;
       text-align: left;
       padding: 4px 5px 2px 5px;
+
       span {
         font-family: Work Sans !important;
         white-space: nowrap;
@@ -184,29 +200,36 @@ $new_black: #707070;
         font-weight: 600;
       }
     }
+
     .mrgn-right {
       margin-right: 31px;
     }
+
     .font-color {
       color: #98aeca !important;
     }
+
     .product-description {
       text-align: left;
       padding-left: 30px;
       display: flex;
+
       .flag-img {
         margin-right: 40px;
         width: 22px;
         margin-top: -3px;
       }
+
       a {
         height: 24px;
         line-height: 24px;
+
         span {
           line-height: 24px;
         }
       }
     }
+
     .description-text {
       display: inline-block;
       width: 294px;
@@ -226,6 +249,7 @@ $new_black: #707070;
     margin-top: 8px;
     margin: 0;
     display: contents;
+
     img {
       height: 18px;
     }
@@ -274,7 +298,7 @@ $new_black: #707070;
   }
 
   .price-row {
-    margin: 0px 0;
+    margin: 0 0;
     text-align: end;
   }
 
@@ -290,7 +314,7 @@ $new_black: #707070;
 
   .catogy-toy {
     font-size: 14px;
-    margin: 0px 0 4px;
+    margin: 0 0 4px;
     text-align: right;
   }
 
@@ -298,6 +322,7 @@ $new_black: #707070;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
     img {
       margin-left: 1rem;
     }
@@ -319,6 +344,7 @@ $new_black: #707070;
     &.is-tracking {
       .track-wrap {
         background-color: #bad9ff;
+
         span {
           color: #349af8;
           font-weight: 700 !important;
@@ -331,7 +357,6 @@ $new_black: #707070;
       display: flex !important;
       align-items: center;
       border: 1px solid #c8ccd2;
-
       padding: 7px 12px;
       background: #dee8f3;
 
@@ -340,9 +365,11 @@ $new_black: #707070;
         margin-right: 8px;
       }
     }
+
     .ui.basic.label {
       border: 1px solid #c8ccd2 !important;
     }
+
     button {
       border-radius: 18px !important;
     }
@@ -350,6 +377,7 @@ $new_black: #707070;
     &.with-rating button {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
+
       span {
         margin-right: 0;
       }
@@ -374,6 +402,7 @@ $new_black: #707070;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
+
     i {
       margin-left: 10px !important;
       margin-right: 0 !important;
@@ -461,9 +490,11 @@ $new_black: #707070;
 @media screen and (min-width: 310px) and (max-width: 768px) {
   .products-table {
     position: relative;
+
     td p.stat {
       font-size: 14px !important;
     }
+
     .pagination-dropdown {
       position: absolute;
       top: 0;
@@ -474,9 +505,11 @@ $new_black: #707070;
       span {
         font-size: 12px !important;
       }
+
       .ui.selection.dropdown {
         padding: 0.78571429em 2.4em 0.78571429em 1em !important;
       }
+
       .ui.dropdown > .dropdown.icon {
         right: 0.1em !important;
       }

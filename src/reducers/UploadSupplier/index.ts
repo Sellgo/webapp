@@ -67,7 +67,7 @@ export default (
       return setIn(state, 'currentStep', action.payload);
 
     case MAP_COLUMN: {
-      let newColumnMappings = [];
+      const newColumnMappings = [];
       state.columnMappings.forEach((e, i) => {
         if (e === action.targetColumn) {
           newColumnMappings[i] = undefined;

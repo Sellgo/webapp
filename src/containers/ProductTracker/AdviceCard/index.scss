@@ -1,6 +1,7 @@
 .advice-card {
   margin-top: -27px;
-  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1) !important;
+
   .track-row {
     span {
       b {
@@ -25,6 +26,7 @@
     > .content {
       padding: 0.5em 0.5em !important;
     }
+
     > .content > .header {
       font-size: 13px;
       font-family: 'Montserrat', sans-serif;
@@ -54,7 +56,7 @@
     .ui.card {
       > .content {
         .ui.fluid.dropdown {
-          margin-left: 0px !important;
+          margin-left: 0 !important;
         }
       }
     }
@@ -62,9 +64,11 @@
 
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     margin-top: -2px !important;
+
     .wrap-radio {
       width: 80px !important;
     }
+
     .ui.card {
       .content {
         .ui.selection.dropdown {
@@ -112,14 +116,14 @@
         margin-top: 6px;
       }
 
-      .ui.toggle.checkbox .box:before,
-      .ui.toggle.checkbox label:before {
+      .ui.toggle.checkbox .box::before,
+      .ui.toggle.checkbox label::before {
         width: 40px;
         height: 15px;
       }
 
-      .ui.toggle.checkbox .box:after,
-      .ui.toggle.checkbox label:after {
+      .ui.toggle.checkbox .box::after,
+      .ui.toggle.checkbox label::after {
         width: 13px;
         height: 13px;
         top: 1px;

@@ -73,13 +73,11 @@ class SupplierMenu extends Component<SupplierMenuProps> {
   }
 }
 
-const mapStateToProps = (state: {}) => ({});
-
 const mapDispatchToProps = {
   setTab: (tab: string) => setSupplierTableTab(tab),
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(SupplierMenu);

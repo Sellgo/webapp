@@ -4,7 +4,7 @@ const deafultErrorMessages = {
   number: 'use at least 1 number',
 };
 
-export default (errors = deafultErrorMessages) => (value) => {
+export default (errors = deafultErrorMessages) => value => {
   // length check
   if (value.length < 8) return errors.length;
   // upper lower case check

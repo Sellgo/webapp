@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Divider } from 'semantic-ui-react';
-import { findFiltersGrouped } from '../../../constants/Tracker';
 import FilterSection from '../../../components/FilterSection';
 import SliderRange from '../../../components/SliderRange';
 import AdviceCard from '../AdviceCard';
@@ -13,6 +12,7 @@ import {
   findMinMaxRange,
   parseMinMaxRange,
   findFilterProducts,
+  findFiltersGrouped,
 } from '../../../constants/Tracker';
 import './index.scss';
 import { updateTrackerFilterRanges } from '../../../actions/ProductTracker';
@@ -127,7 +127,4 @@ const mapDispatchToProps = {
   updateFilterRanges: (filterRanges: any) => updateTrackerFilterRanges(filterRanges),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductFilters);

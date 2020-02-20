@@ -11,7 +11,7 @@ const ProductDescription = (props: any) => {
       </div>
       <div>
         <div className="description-text">
-          <a href={item.amazon_url} target="_blank">
+          <a href={item.amazon_url} target="_blank" rel="noopener noreferrer">
             <h2>{item.title}</h2>
           </a>
         </div>

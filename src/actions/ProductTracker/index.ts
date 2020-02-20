@@ -91,11 +91,14 @@ export const removeTrackedProduct = (productId: any) => ({
 export const fetchAllSupplierProductTrackerDetails = (period: any) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
-  const perPage = 999; // at this point the table component is tightly coupled to pagination so can only use the paginated API with a hardcoded value above the max number of tracked products for a seller.
+  // table component is tightly coupled to pagination, temporarily using paginated API with a hardcoded value
+  const perPage = 999;
+
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
+      // eslint-disable-next-line max-len
       `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit`
   );
   if (response.data) {
@@ -122,7 +125,7 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
         dispatch(setMenuItem(newGroup.id));
       }
     })
-    .catch(errMsg => {
+    .catch(() => {
       error(`Failed to create new group`);
     });
 };
@@ -139,7 +142,7 @@ export const patchProductTrackGroup = (group: any) => (dispatch: any) => {
         dispatch(updateProductTrackGroup(group));
       }
     })
-    .catch(errMsg => {
+    .catch(() => {
       error(`Failed to update tracker group name`);
     });
 };
@@ -159,7 +162,7 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
         dispatch(removeProductsInGroup(groupId));
       }
     })
-    .catch(errMsg => {
+    .catch(() => {
       error(`Failed to delete tracker group`);
     });
 };
@@ -170,5 +173,7 @@ export const retrieveProductTrackGroup = () => (dispatch: any) => {
     .then(json => {
       dispatch(setRetrieveProductTrackGroup(json.data));
     })
-    .catch(errMsg => {});
+    .catch(() => {
+      //display error
+    });
 };

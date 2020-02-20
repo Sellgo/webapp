@@ -6,10 +6,6 @@
     font-weight: bold;
   }
 
-  // Dropdown that says "select a preset"
-  .search-dropdown {
-  }
-
   // NOT USED CURRENTLY
   // For option that has no range slider
   // Just a checkbox like "Show Price History"
@@ -18,6 +14,7 @@
   .custom-check {
     width: 100%;
     margin-bottom: 21px;
+
     .ui.checkbox label {
       font-size: 16px;
     }

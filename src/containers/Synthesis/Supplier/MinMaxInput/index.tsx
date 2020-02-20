@@ -18,9 +18,9 @@ const MinMaxInput = (props: any) => {
         </p>
       </div>
       <div className="input-container">
-        <Input placeholder={minPlaceHolder}></Input>
+        <Input placeholder={minPlaceHolder} />
         <Icon name="arrow right" />
-        <Input placeholder={maxPlaceHolder}></Input>
+        <Input placeholder={maxPlaceHolder} />
       </div>
     </Container>
   );
