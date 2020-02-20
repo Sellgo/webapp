@@ -82,7 +82,7 @@ export class AddNewSupplierStep extends Step {
         );
         this.dispatch(openUploadSupplierModal(data));
       } else {
-        for (let param in existingSupplier) {
+        for (const param in existingSupplier) {
           if (existingSupplier[param] === other[param]) {
             delete other[param];
           }
@@ -151,6 +151,8 @@ export class SelectFileStep extends Step {
     let hasHeader = 0;
     for (const col in columnTypes) {
       const colType = columnTypes[col];
+      if (!colType) continue;
+
       if (typeof colType === 'number') {
         // it's a length
         hasHeader = header[col].length !== colType ? hasHeader + 1 : hasHeader - 1;

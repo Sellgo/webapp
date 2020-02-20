@@ -36,12 +36,12 @@ const DataValidation = (props: DataValidationProps) => {
 
 const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
   const metricMessages = [
-    { metric: dataQualityReport.upcNonNumeric, message: 'invalid UPC' },
-    { metric: dataQualityReport.upcMissing, message: 'missing UPC' },
-    { metric: dataQualityReport.costInvalid, message: 'invalid product cost' },
-    { metric: dataQualityReport.costMissing, message: 'missing product cost' },
-    { metric: dataQualityReport.msrpInvalid, message: 'invalid MSRP' },
-    { metric: dataQualityReport.msrpMissing, message: 'missing MSRP' },
+    { key: 'upcNonNumeric' ,metric: dataQualityReport.upcNonNumeric, message: 'invalid UPC' },
+    { key: 'upcMissing', metric: dataQualityReport.upcMissing, message: 'missing UPC' },
+    { key: 'costInvalid', metric: dataQualityReport.costInvalid, message: 'invalid product cost' },
+    { key: 'costMissing', metric: dataQualityReport.costMissing, message: 'missing product cost' },
+    { key: 'msrpInvalid', metric: dataQualityReport.msrpInvalid, message: 'invalid MSRP' },
+    { key: 'msrpMissing', metric: dataQualityReport.msrpMissing, message: 'missing MSRP' },
   ];
 
   let errorCellsMessage = 'Cells detected with errors: ';
@@ -58,10 +58,10 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
         <List.Header>Detected Issues</List.Header>
       </List.Item>
 
-      {metricMessages.map(metricMessage => {
+      {metricMessages.map((metricMessage, idx) => {
         return metricMessage.metric > 0 ? (
-          <List.Item key={metricMessage.metric}>
             Number of rows with {metricMessage.message}: {metricMessage.metric}
+          <List.Item key={metricMessage.key}>
           </List.Item>
         ) : null;
       })}

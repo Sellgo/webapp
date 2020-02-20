@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styles from './UploadSupplier.module.css';
 import { Button, Checkbox, Icon } from 'semantic-ui-react';
+import styles from './UploadSupplier.module.css';
 import {
   setUploadSupplierStep,
   setSaveColumnMappingSetting,
@@ -18,7 +18,7 @@ import { closeUploadSupplierModal } from '../../../actions/Modals';
 
 interface ActionsProps {
   currentStep: number;
-  setStep: (nextStep: number) => void;
+  setStep: (nextStep: number) => Promise<void>;
   setColumnSetting: (checked: boolean) => void;
   setSkipCheck: (checked: boolean) => void;
   saveColumnMappingSetting: boolean;
@@ -44,8 +44,11 @@ const Actions = ({
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
   const onSkipStep = () => {
-    setStep(currentStep + 1);
-    setStep(currentStep + 2);
+    setStep(currentStep + 1).then(() =>
+      setStep(currentStep + 2)).catch(() => 
+      // fail silently
+      {}
+    );
   };
 
   const hasPrevStep = currentStep !== 0;
