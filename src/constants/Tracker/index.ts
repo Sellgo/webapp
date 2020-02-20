@@ -187,8 +187,8 @@ export const findMinMaxRange = (products: any) => {
       const dkArray = products.map((p: any) => {
         return Number(p[dk]);
       });
-      const minDk = Math.floor((Math.min(...dkArray) * 100) / 100);
-      const maxDk = Math.ceil((Math.max(...dkArray) * 100) / 100);
+      const minDk = Math.floor(Math.min(...dkArray) * 100) / 100;
+      const maxDk = Math.ceil(Math.max(...dkArray) * 100) / 100;
       const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
       const max = maxDk === Number.NEGATIVE_INFINITY ? '' : maxDk;
       const updatedDkRange = { min, max };

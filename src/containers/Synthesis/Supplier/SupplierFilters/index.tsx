@@ -6,6 +6,7 @@ import { supplierProductsSelector } from '../../../../selectors/Supplier';
 import FilterSection from '../../../../components/FilterSection';
 import SliderRange from '../../../../components/SliderRange';
 import { updateSupplierFilterRanges } from '../../../../actions/Suppliers';
+import { Range } from '../../../../interfaces/Generic';
 import {
   initialFilterRanges,
   findMinMaxRange,
@@ -86,7 +87,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     }
   };
 
-  renderFilterComponent = (filter: any, productRange: any, filterRange: any) => {
+  renderFilterComponent = (filter: any, productRange: any, filterRange: Range) => {
     return (
       <SliderRange
         title={filter.text}
