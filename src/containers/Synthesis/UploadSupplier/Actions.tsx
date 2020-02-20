@@ -44,11 +44,12 @@ const Actions = ({
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
   const onSkipStep = () => {
-    setStep(currentStep + 1).then(() =>
-      setStep(currentStep + 2)).catch(() => 
-      // fail silently
-      {}
-    );
+    setStep(currentStep + 1)
+      .then(() => setStep(currentStep + 2))
+      .catch(() =>
+        // fail silently
+        {}
+      );
   };
 
   const hasPrevStep = currentStep !== 0;
