@@ -176,6 +176,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
   ];
+
   render() {
     const {
       isLoadingSupplierProducts,

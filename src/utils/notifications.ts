@@ -1,6 +1,5 @@
-import { toast, ToastContent, ToastOptions, UpdateOptions } from 'react-toastify';
+import { toast, ToastContent, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { render } from 'react-dom';
 
 toast.configure({
   position: 'bottom-right',
