@@ -202,9 +202,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <ProductDescription item={row} />;
   };
   renderAvgProfit = (row: ProductTrackerDetails) => (
-    <p className="stat">{formatCurrency(row.avg_profit)}</p>
+    <p className="stat">
+      {formatCurrency(row.avg_profit) !== `$0.00` ? formatCurrency(row.avg_profit) : 'N.A.'}
+    </p>
   );
-  renderAvgPrice = (row: ProductTrackerDetails) => <p className="stat">${row.avg_price}</p>;
+  renderAvgPrice = (row: ProductTrackerDetails) => (
+    <p className="stat">{row.avg_price !== '0.00' ? `$${row.avg_price}` : 'N.A.'}</p>
+  );
   renderAvgMargin = (row: ProductTrackerDetails) => {
     const toggleExpandRow = (id: number) => {
       if (this.state.expandedRows === null) {
@@ -223,7 +227,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     };
     return (
       <div className="avg-margin">
-        <p className="stat">{row.avg_margin}%</p>
+        <p className="stat">{row.avg_margin !== '0.00' ? `${row.avg_margin}%` : 'N.A.'}</p>
         <span className="caret-icon">
           <Icon className="caret down" onClick={() => toggleExpandRow(row.product_id)} />
         </span>
@@ -233,24 +237,30 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderAvgUnitSold = (row: ProductTrackerDetails) => {
     return (
       <>
-        <p className="stat">{formatNumber(row.avg_daily_sales)}</p>
+        <p className="stat">
+          {formatNumber(row.avg_daily_sales) !== '0' ? formatNumber(row.avg_daily_sales) : 'N.A.'}
+        </p>
       </>
     );
   };
   renderDailyRevenue = (row: ProductTrackerDetails) => {
-    return <p className="stat">${row.avg_daily_revenue}</p>;
+    return (
+      <p className="stat">
+        {row.avg_daily_revenue !== '0.00' ? `$${row.avg_daily_revenue}` : 'N.A.'}
+      </p>
+    );
   };
   renderAvgROI = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.avg_roi} %</p>;
+    return <p className="stat">{row.avg_roi !== '0.00' ? `${row.avg_roi}%` : 'N.A.'}</p>;
   };
   renderAvgRank = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.avg_rank}</p>;
+    return <p className="stat">{row.avg_rank !== 0 ? row.avg_rank : 'N.A.'}</p>;
   };
   renderDimensions = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.dimension}</p>;
+    return <p className="stat">{row.dimension !== null ? row.dimension : 'N.A.'}</p>;
   };
   renderWeight = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.weight}</p>;
+    return <p className="stat">{row.weight !== null ? row.weight : 'N.A.'}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;
