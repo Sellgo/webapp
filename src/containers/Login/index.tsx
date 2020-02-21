@@ -3,7 +3,7 @@ import { Button, Form, Checkbox } from 'semantic-ui-react';
 import LoginBase from '../../components/LoginBase';
 import './index.scss';
 
-export default class LoginV2 extends React.Component<any> {
+export default class Login extends React.Component<any> {
   render() {
     return (
       <LoginBase>
