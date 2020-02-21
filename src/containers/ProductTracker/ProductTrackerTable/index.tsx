@@ -202,9 +202,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <ProductDescription item={row} />;
   };
   renderAvgProfit = (row: ProductTrackerDetails) => (
-    <p className="stat">
-      {formatCurrency(row.avg_profit) !== `$0.00` ? formatCurrency(row.avg_profit) : 'N.A.'}
-    </p>
+    <p className="stat">{row.avg_profit !== '0.00' ? formatCurrency(row.avg_profit) : 'N.A.'}</p>
   );
   renderAvgPrice = (row: ProductTrackerDetails) => (
     <p className="stat">{row.avg_price !== '0.00' ? `$${row.avg_price}` : 'N.A.'}</p>
@@ -238,7 +236,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return (
       <>
         <p className="stat">
-          {formatNumber(row.avg_daily_sales) !== '0' ? formatNumber(row.avg_daily_sales) : 'N.A.'}
+          {row.avg_daily_sales !== '0.00' ? formatNumber(row.avg_daily_sales) : 'N.A.'}
         </p>
       </>
     );
