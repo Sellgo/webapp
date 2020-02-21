@@ -1,0 +1,80 @@
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    .header {
+        text-align: center;
+        color: #fff;
+    }
+    a {
+        color: #fff;
+    }
+    a:hover {
+        color: #2185d0;
+        text-decoration: underline;
+    }
+    label.log-in {
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    form.signup-form {
+        padding-bottom: 50px;
+    }
+}
+
+
+
+// ============================================
+// .ui.success.message .header {
+//     font-size: 14px;
+// }
+
+// .login-cont .internal.rail .segment .message p {
+// font-size: 11px;
+// }
+// .login-cont .internal.rail .segment .message {
+//     background-color: #eff2e9;
+//     padding: 8px;
+//     z-index: 90000;
+//     width: 100%;
+//     position: fixed;
+// }
+// div.ui.popup {
+//     padding: 0px;
+//     .vertical.steps .title-success,
+//     .vertical.steps .description-success {
+//         color: #5dc560!important;
+//     }
+//     .vertical.steps .title-error,
+//     .vertical.steps .description-error {
+//         color: #eb675e!important;
+//         background-color: #f3f4f5;
+//     }
+// }
+// .ui.left.center.popup {
+//     left: 575px!important;
+// }
+// .ui.vertical.steps .step {
+//     padding: 7px 15px!important; 
+//     .content {
+//         padding-left: 10px;
+//         width: 180px;
+//         .description {
+//             // margin-top: -0.3em;
+//             text-align: left;
+//             line-height: initial;
+//         }
+//     }
+// }
+// .ui.steps .step>.icon {
+//     font-size: x-large;
+// }
+// div.ui.steps {
+//     border: 0px;
+//     width: 260px;
+// }
+
+// .ui.vertical.steps .active.step:last-child:after {
+//     display: none;
+// }

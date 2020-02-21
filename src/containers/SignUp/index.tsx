@@ -1,91 +1,78 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Grid, GridRow, Segment } from 'semantic-ui-react';
-import { Logo } from '../Dashboard';
-import GenericButton from '../../components/Button';
-import { success, error } from '../../utils/notifications';
-import history from '../../history';
+import { Button, Form, Checkbox, Header } from 'semantic-ui-react';
+import '../Login/index.scss';
+import './index.scss';
+import LoginBase from '../../components/LoginBase';
+import StepsInfo from './StepsInfo/StepsInfo';
 
-export default class SignUp extends React.Component<any> {
-  loginSignUp = () => {
-    const { login } = this.props.auth;
-    login()
-      .then(() => {
-        success('Account successfully created', {
-          onClose: () => history.push('/'),
-        });
-      })
-      .catch(() => error('Signup failed. Please try again!'));
+export default class Signup extends React.Component<any> {
+  state = {
+    stepsInfo: [
+      {
+        id: 1,
+        stepShow: true,
+        stepClass: 'title-success',
+        stepTitle: 'Password Strength',
+        stepDescription: 'Strong',
+        stepIcon: 'check',
+      },
+      {
+        id: 2,
+        stepShow: true,
+        stepClass: 'title-success',
+        stepTitle: 'No Personal Information',
+        stepDescription: `Can't contain your name or email address`,
+        stepIcon: 'check',
+      },
+      {
+        id: 3,
+        stepShow: true,
+        stepClass: 'title-success',
+        stepTitle: 'Alphanumeric',
+        stepDescription: 'Contains number or symbol',
+        stepIcon: 'check',
+      },
+      {
+        id: 4,
+        stepShow: true,
+        stepClass: 'title-error',
+        stepTitle: 'Length',
+        stepDescription: 'At least 8 characters',
+        stepIcon: 'times',
+      },
+    ],
+    message: true,
   };
-
-  signUpForm = (
-    <Segment basic={true} clearing={true}>
-      <Grid>
-        <Grid.Row>
-          <Grid.Column textAlign="center" style={{ padding: 10 }} width={16}>
-            <div className="heading">
-              <h1>{'Sign up to Sellgo for your FREE trial!'}</h1>
-            </div>
-          </Grid.Column>
-          <Grid.Column textAlign="center" width={16}>
-            <Form>
-              <Form.Field>
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="login-fields sign-up-input"
-                />
-              </Form.Field>
-            </Form>
-          </Grid.Column>
-          <Grid.Column
-            className="small-regular padding20"
-            celled={true}
-            textAlign="center"
-            width={16}
-          >
-            I agree to the <Link to="/#">privacy policy</Link> and{' '}
-            <Link to="/#"> trams of service</Link>
-          </Grid.Column>
-          <Grid.Column textAlign="center" width={16}>
-            <GridRow>
-              <div>
-                <GenericButton
-                  isClickable={true}
-                  onClick={this.loginSignUp}
-                  content="Create your FREE account"
-                />
-              </div>
-            </GridRow>
-            <Grid.Row width={16}>
-              <Grid.Column className="small-regular padding20">
-                <Link to="/login">Already have an account?</Link>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-  );
   render() {
     return (
-      <Grid verticalAlign="middle" style={{ minHeight: 'calc(100vh)' }}>
-        <Grid.Row>
-          <Grid.Column className="right-pane signup-block" width={16}>
-            <div className="logo-img">
-              <Logo centered={true} size="small" />
-            </div>
-            {this.signUpForm}
-            <div className="copy-right">
-              <div className="privacy-policy">
-                <Link to="/#">Privacy policy</Link>
-                <Link to="/#">Terms of service</Link>
-              </div>
-              <h5 className="title-description">{'@2019 Sellgo All Rights Reserved'}</h5>
-            </div>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <LoginBase messageData={this.state.message}>
+        <Form className="signup-form">
+          <Header size="huge"> Register Here </Header>
+          <Form.Input type="mail" placeholder="Email" />
+          <Form.Input type="text" placeholder="First Name" />
+          <Form.Input type="text" placeholder="Last Name" />
+          <StepsInfo stepsData={this.state.stepsInfo} />
+          <Form.Field control={Checkbox} label="I agree to receive emails from Sellgo" />
+          <Form.Field
+            control={Checkbox}
+            label={
+              <label>
+                By signing up, you're agreeing to our &nbsp;
+                <a href="#">terms of service</a> and you have read our &nbsp;
+                <a href="#">data use policy</a> as well as the use of &nbsp;<a href="#">cookies</a>.
+              </label>
+            }
+          />
+          <Form.Field control={Button} fluid={true} primary={true}>
+            Register
+          </Form.Field>
+          <label className="log-in">
+            <b>
+              Already have a Sellgo account?&nbsp;<a href="#">Log In </a>
+            </b>
+          </label>
+        </Form>
+      </LoginBase>
     );
   }
 }

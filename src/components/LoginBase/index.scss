@@ -1,4 +1,13 @@
+// Font-Size
+$base-font-size: 1em;
+
 .login-cont {
+    button {
+        font-family: 'Work Sans'!important;
+    }
+    .hide-message {
+        display: none;
+    }
     .internal.rail {
         width: 100%;
         margin: 0px!important;
@@ -14,6 +23,155 @@
                     margin: 0px;
                 }
             }
+        }
+    }
+}
+
+.ui.success.message .header {
+    font-size: 14px;
+}
+
+.login-cont .internal.rail .segment .message p {
+    font-size: 11px;
+}
+.login-cont .internal.rail .segment .message {
+    background-color: #eff2e9;
+    padding: 8px;
+    z-index: 90000;
+    width: 100%;
+    position: fixed;
+}
+div.ui.popup {
+    padding: 0px;
+    .vertical.steps .title-success,
+    .vertical.steps .description-success {
+        color: #5dc560!important;
+    }
+    .vertical.steps .title-error,
+    .vertical.steps .description-error {
+        color: #eb675e!important;
+        background-color: #f3f4f5;
+    }
+}
+.ui.left.center.popup {
+    left: 575px;
+}
+.ui.vertical.steps .step {
+    padding: 7px 15px!important; 
+    .content {
+        padding-left: 10px;
+        width: 180px;
+        .description {
+            text-align: left;
+            line-height: initial;
+        }
+    }
+}
+.ui.steps .step>.icon {
+    font-size: x-large;
+}
+div.ui.steps {
+    border: 0px;
+    width: 260px;
+}
+
+.ui.vertical.steps .active.step:last-child:after,
+.ui.vertical.steps .active.step:after {
+    display: none;
+}
+
+@media only screen and (min-width: 2560px) {
+    .ui.success.message .header {
+        font-size: 20px!important;
+    }
+    .login-cont .internal.rail .segment .message p {
+        font-size: 17px!important;
+    }
+    .vertical.steps .description.title-error,
+    .vertical.steps .description.title-success {
+        font-size: 16px!important;
+    }
+    .vertical.steps .title.title-error,
+    .vertical.steps .title.title-success {
+        font-size: 17px!important;
+        font-weight: 500!important;
+    }
+    .ui.vertical.steps .step .content {
+        width: 245px;
+    }
+    div.ui.steps {
+        width: 330px;
+    }
+    .login-cont {
+        form.login-form {
+            width: 531px!important;
+            .field {
+                margin-bottom: 40px!important;
+            }
+            .inline.fields {
+                margin-bottom: 30px!important;
+                .field, 
+                a {
+                    margin-bottom: 0px!important;
+                }
+            }
+            .field:last-of-type {
+                margin-bottom: 20px!important;
+            }
+            label,
+            input,
+            button,
+            a {
+                font-size: $base-font-size*1.6!important;
+            }
+        }
+        form.signup-form {
+            width: 531px!important;
+            .field {
+                margin-bottom: 40px!important;
+            }
+            .inline.fields {
+                margin-bottom: 30px!important;
+                .field, 
+                a {
+                    margin-bottom: 0px!important;
+                }
+            }
+            .field:last-of-type {
+                margin-bottom: 20px!important;
+            }
+            label,
+            input,
+            button {
+                font-size: $base-font-size*1.6!important;
+                line-height: initial;
+            }
+            b {
+                font-weight: 600;
+            }
+        }
+        input,
+        button {
+            height: 65px;
+        }
+        .image {
+            width: auto!important;
+        }
+        .ui.vertical.divider:after, .ui.vertical.divider:before {
+            border-right: 3px solid rgba(255, 255, 255, 0.51);
+        }
+        .ui.form .field>label {
+            font-weight: 600;
+            padding-bottom: 10px;
+        }
+        .inline.fields a {
+            height: 33px;
+        }
+        .sign-up {
+            width: 270px!important;
+        }
+        .sign-up b {
+            font-weight: bold;
         }
     }
 }

@@ -5,8 +5,7 @@ import AdminLayout from '../../components/AdminLayout';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
-import LoginV2 from '../LoginV2';
-import SignUpV2 from '../SignUpV2';
+import Signup from '../Signup';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
@@ -167,8 +166,7 @@ function App(props: any) {
             component={ProductTracker}
             requireSubscription={true}
           />
-          <Route exact={true} path="/login" component={LoginV2} />
-          <Route exact={true} path="/register" component={SignUpV2} />
+          <Route exact={true} path="/register" component={Signup} />
           <Route component={NotFound} />
         </Switch>
       </Router>
