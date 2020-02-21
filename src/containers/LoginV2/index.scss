@@ -1,6 +1,10 @@
+// Font-Size
+$base-font-size: 1em;
+
+
 .login-cont {
     font-family: 'Work Sans'!important;
-    height: 100vh;
+    min-height: 100vh;
     display: flex!important;
     align-items: center!important;
     background-image: -webkit-linear-gradient(to right, #344659 , #1d2234);
@@ -10,15 +14,20 @@
     background-image: linear-gradient(to right, #344659 , #1d2234);
     label {
         color: #fff!important;
+        cursor: pointer;
+    }
+    .primary {
+        background-color: #349af8!important;
+        cursor: pointer;
     }
     .row {
-        height: 300px;
+        min-height: 300px;
         .column {
             padding: 0px!important;
             display: flex!important;
             justify-content: center;
             align-items: center;
-            form {
+            form.login-form {
                 width: 350px;
                 display: flex;
                 flex-direction: column;
@@ -37,9 +46,6 @@
                 div.inline {
                     display: flex;
                     justify-content: space-between;
-                }
-                .primary {
-                    background-color: #349af8!important;
                 }
                 .field {
                     margin-bottom: 30px;
@@ -60,21 +66,88 @@
             }
         }
     }
-}
-
-.ui.divided.grid:not([class*="vertically divided"])>.row>.column {
-    -webkit-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    -moz-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    -ms-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    -o-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
-    box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    .ui.divided.grid:not([class*="vertically divided"])>.row>.column {
+        -webkit-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        -moz-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        -ms-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        -o-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+        box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    }
+    .ui.vertical.divider:after, .ui.vertical.divider:before { 
+        height: calc(100% - 0rem)!important;
+    }
+    
+    .ui.vertical.divider:after, .ui.vertical.divider:before {
+        border-left: 2px solid rgba(34,36,38,.2);
+        border-right: 1px solid rgba(255, 255, 255, 0.51);
+    }
+    
+    .ui.vertical.divider {
+        height: 25%;
+        margin: 0px!important;
+    }
 }
 
 
 @media only screen and (max-width: 768px) {
     .login-cont {
         .row {
-            height: 90%;
+            .column {
+                padding-top: 60px!important;
+            }
+        }
+        .vertical.divider {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (min-width: 2560px) {
+    .login-cont {
+        form.login-form {
+            width: 531px!important;
+            .field {
+                margin-bottom: 40px!important;
+            }
+            .inline.fields {
+                margin-bottom: 30px!important;
+                .field, 
+                a {
+                    margin-bottom: 0px!important;
+                }
+            }
+            .field:last-of-type {
+                margin-bottom: 20px!important;
+            }
+        }
+        label,
+        input,
+        button,
+        a {
+            font-size: $base-font-size*1.6!important;
+        }
+        input,
+        button {
+            height: 65px;
+        }
+        .image {
+            width: auto!important;
+        }
+        .ui.vertical.divider:after, .ui.vertical.divider:before {
+            border-right: 3px solid rgba(255, 255, 255, 0.51);
+        }
+        .ui.form .field>label {
+            font-weight: 600;
+            padding-bottom: 10px;
+        }
+        .inline.fields a {
+            height: 33px;
+        }
+        .sign-up {
+            width: 270px!important;
+        }
+        .sign-up b {
+            font-weight: bold;
         }
     }
 }
