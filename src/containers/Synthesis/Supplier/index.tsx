@@ -47,10 +47,11 @@ export class Supplier extends React.Component<SupplierProps> {
     const { resetSupplier, resetSupplierProducts } = this.props;
     resetSupplierProducts();
     resetSupplier();
+    dismiss('supplierLoading');
   }
 
   componentDidUpdate(prevProps: SupplierProps) {
-    if (this.props.supplierDetails) {
+    if (this.props.supplierDetails && this.props.supplierDetails.item_total_count) {
       const loadTime = this.getLoadingTime(this.props.supplierDetails.item_total_count);
       if (this.props.isLoadingSupplierProducts) {
         update(() => this.handleSupplierLoading(loadTime), {
@@ -63,7 +64,7 @@ export class Supplier extends React.Component<SupplierProps> {
         });
       }
     }
-    
+
     if (!this.props.isLoadingSupplierProducts) {
       dismiss('supplierLoading');
     }
