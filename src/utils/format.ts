@@ -4,6 +4,19 @@ export const formatCurrency = (num: any) =>
     currency: 'USD',
   });
 
+export const formatDimensionDecimals = (data: string) => {
+  if (!data) return 'N.A.';
+  const dimensions = data.split(`x`);
+  const newDimensions = dimensions
+    .map(item => {
+      const trimmedItem = item.replace(`"`, '').trim();
+      item = Number(trimmedItem).toFixed(1) + `"`;
+      return item;
+    })
+    .join(` x `);
+
+  return newDimensions;
+};
 export const formatNumber = (num: any) => Math.round(num).toLocaleString();
 
 export const formatRating = (num: any) => Number(num).toFixed(1);

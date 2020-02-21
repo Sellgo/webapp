@@ -7,7 +7,7 @@ import TrackerMenu from './TrackerMenu';
 import { PaginatedTable, Column } from '../../../components/Table';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
-import { formatNumber, formatCurrency } from '../../../utils/format';
+import { formatNumber, formatCurrency, formatDimensionDecimals } from '../../../utils/format';
 import { tableKeys } from '../../../constants';
 import { Checkbox, Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
@@ -247,7 +247,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p className="stat">{row.avg_rank}</p>;
   };
   renderDimensions = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.dimension}</p>;
+    return <p className="stat">{formatDimensionDecimals(row.dimension)}</p>;
   };
   renderWeight = (row: ProductTrackerDetails) => {
     return <p className="stat">{row.weight}</p>;
