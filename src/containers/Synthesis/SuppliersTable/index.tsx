@@ -55,14 +55,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderName = (row: Supplier) => {
     const name =
       row.file_status === 'completed' ? (
-        <Link
-          to={{
-            pathname: `/synthesis/${row.supplier_id}`,
-            state: { count: row.item_total_count },
-          }}
-        >
-          {row.name}
-        </Link>
+        <Link to={{pathname: `/synthesis/${row.supplier_id}`}}>{row.name}</Link>
       ) : (
         row.name
       );

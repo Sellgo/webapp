@@ -18,7 +18,6 @@ import {
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
-import { RouteComponentProps } from 'react-router';
 import { dismiss, update } from '../../../utils/notifications';
 
 interface SupplierProps {
@@ -36,7 +35,7 @@ interface SupplierProps {
   progress: any;
 }
 
-export class Supplier extends React.Component<RouteComponentProps & SupplierProps> {
+export class Supplier extends React.Component<SupplierProps> {
   componentDidMount() {
     const { fetchSupplierDetails, fetchSupplierProducts, match, supplierProgress } = this.props;
     fetchSupplierDetails(match.params.supplierID);
@@ -51,24 +50,26 @@ export class Supplier extends React.Component<RouteComponentProps & SupplierProp
   }
 
   componentDidUpdate(prevProps: SupplierProps) {
-    if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
-      if (!this.props.isLoadingSupplierProducts) {
-        dismiss('supplierLoading');
-      } else {
-        update(this.handleSupplierLoading, {
+    if (this.props.supplierDetails) {
+      const loadTime = this.getLoadingTime(this.props.supplierDetails.item_total_count);
+      if (this.props.isLoadingSupplierProducts) {
+        update(() => this.handleSupplierLoading(loadTime), {
           toastId: 'supplierLoading',
           className: 'ui message warning notification',
-          autoClose: !this.props.isLoadingSupplierProducts,
+          autoClose: false,
           pauseOnHover: false,
           closeOnClick: false,
           draggable: false,
         });
       }
     }
+    
+    if (!this.props.isLoadingSupplierProducts) {
+      dismiss('supplierLoading');
+    }
   }
 
-  getLoadingTime = () => {
-    const { count } = this.props.location.state;
+  getLoadingTime = (count: number) => {
     const loadingTime =
       count > 20000
         ? Math.round(count / 1000)
@@ -80,13 +81,13 @@ export class Supplier extends React.Component<RouteComponentProps & SupplierProp
     return loadingTime;
   };
 
-  handleSupplierLoading = () => {
+  handleSupplierLoading = (loadTime: number) => {
     return (
       <div className="notif-content">
         <p className="header">Processing SKUs</p>
         <p className="label">
           <Icon className="clock" />
-          {this.getLoadingTime()}s Estimated Processing time
+          {loadTime}s Estimated Processing time
         </p>
       </div>
     );
