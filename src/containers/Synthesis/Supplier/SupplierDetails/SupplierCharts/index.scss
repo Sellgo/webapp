@@ -18,10 +18,18 @@
       }
     }
   }
-
   @media screen and (max-width: 1024px) {
     .chart-end-content {
       padding: 15px 0 20px 40px;
+    }
+  }
+}
+
+@media screen and (max-height: 900px) {
+  .supplier-charts {
+    // Chart radio inputs
+    form.ui .inline.fields {
+      margin: 0;
     }
   }
 }

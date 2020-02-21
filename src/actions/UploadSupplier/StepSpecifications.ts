@@ -153,6 +153,10 @@ export class SelectFileStep extends Step {
     let hasHeader = 0;
     for (const col in columnTypes) {
       const colType = columnTypes[col];
+      if (!colType) {
+        continue;
+      }
+
       if (typeof colType === 'number') {
         // it's a length
         hasHeader = header[col].length !== colType ? hasHeader + 1 : hasHeader - 1;
