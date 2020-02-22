@@ -75,12 +75,36 @@
   text-align: center;
   padding-top: 285px;
 }
-
 .ui.raised.card {
   border: 1px solid #98aeca;
   border-radius: 10px;
   box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.16) !important;
   background: #fff;
+}
+
+.Toastify {
+  .Toastify__toast-container {
+    width: 350px !important;
+  }
+}
+
+.ui.warning.message.notification {
+  margin: 0;
+  padding: 15px 20px;
+  letter-spacing: 1px;
+  p.header {
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    font-size: 24px;
+  }
+  p.label {
+    display: flex;
+    font-size: 14px;
+    i.icon {
+      font-size: 0.8rem;
+      margin: 0 3px;
+    }
+  }
 }
 
 @media screen and (max-height: 900px) {

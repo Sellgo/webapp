@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Loader } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Loader, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -18,6 +18,7 @@ import {
 import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
+import { dismiss, update } from '../../../utils/notifications';
 
 interface SupplierProps {
   supplierDetails: any;
@@ -46,7 +47,45 @@ export class Supplier extends React.Component<SupplierProps> {
     const { resetSupplier, resetSupplierProducts } = this.props;
     resetSupplierProducts();
     resetSupplier();
+    dismiss('supplierLoading');
   }
+
+  componentDidUpdate(prevProps: SupplierProps) {
+    if (this.props.supplierDetails && this.props.supplierDetails.item_total_count) {
+      const loadTime = this.getLoadingTime(this.props.supplierDetails.item_total_count);
+      if (this.props.isLoadingSupplierProducts) {
+        update(() => this.handleSupplierLoading(loadTime), {
+          toastId: 'supplierLoading',
+          className: 'ui message warning notification',
+          autoClose: false,
+          pauseOnHover: false,
+          closeOnClick: false,
+          draggable: false,
+        });
+      }
+    }
+
+    if (!this.props.isLoadingSupplierProducts) {
+      dismiss('supplierLoading');
+    }
+  }
+
+  getLoadingTime = (count: number) => {
+    const loadingTime = Math.ceil(count / 2000 / 5) * 5;
+    return loadingTime;
+  };
+
+  handleSupplierLoading = (loadTime: number) => {
+    return (
+      <div className="notif-content">
+        <p className="header">Processing SKUs</p>
+        <p className="label">
+          <Icon className="clock" />
+          {loadTime}s Estimated Processing time
+        </p>
+      </div>
+    );
+  };
 
   render() {
     const { isLoadingSupplierProducts, supplierDetails } = this.props;
