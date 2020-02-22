@@ -71,14 +71,7 @@ export class Supplier extends React.Component<SupplierProps> {
   }
 
   getLoadingTime = (count: number) => {
-    const loadingTime =
-      count > 20000
-        ? Math.round(count / 1000)
-        : count < 10000 && count > 4999
-        ? Math.round(count / 750)
-        : count < 5000 && count > 2799
-        ? Math.round(count / 300)
-        : 5;
+    const loadingTime = Math.ceil(count / 2000 / 5) * 5;
     return loadingTime;
   };
 
