@@ -52,13 +52,7 @@ export default (state = initialState, action: AnyAction) => {
       return initialState;
     }
     case SET_SUPPLIER_DETAILS: {
-      const supplier = action.payload;
-      const hit = {
-        name: supplier.name,
-        rate: supplier.rate,
-        p2l_ratio: supplier.p2l_ratio,
-      };
-      return setIn(state, 'details', hit);
+      return setIn(state, 'details', action.payload);
     }
     case UPDATE_SUPPLIER_PRODUCT:
       const updateProduct = action.payload;
