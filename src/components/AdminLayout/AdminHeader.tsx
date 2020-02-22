@@ -21,6 +21,7 @@ export class AdminHeader extends React.Component<AdminProps> {
       isVisible: !this.state.isVisible,
     });
   };
+
   render() {
     const { auth } = this.props;
     const { isVisible } = this.state;

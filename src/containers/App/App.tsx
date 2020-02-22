@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
+import ScrollToTop from '../../components/ScrollToTop';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
@@ -126,6 +127,7 @@ function App(props: any) {
   return (
     <div>
       <Router history={history}>
+      <ScrollToTop />
         <Switch>
           <Route
             exact={true}

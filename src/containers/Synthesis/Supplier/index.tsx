@@ -120,7 +120,15 @@ export class Supplier extends React.Component<SupplierProps> {
               </Grid.Column>
 
               <Grid.Column width={9} className="right-column" floated="right">
-                <SupplierDetails supplierID={this.props.match.params.supplierID} />
+                {isLoadingSupplierProducts ? (
+                  <Segment>
+                    <Loader active={true} inline="centered" size="massive">
+                      Loading
+                    </Loader>
+                  </Segment>
+                ) : (
+                  <SupplierDetails supplierID={this.props.match.params.supplierID} />
+                )}
               </Grid.Column>
               <Grid.Column width={3} className="right-column" floated="right">
                 <div className="radio-toggle-wrap">
