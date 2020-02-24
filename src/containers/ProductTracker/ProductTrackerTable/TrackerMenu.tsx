@@ -6,6 +6,7 @@ import './index.scss';
 import CreateGroup from './CreateGroup';
 import EditGroupModal from './EditGroupModal';
 import DeleteGroupModal from './DeleteGroupModal';
+import GroupBadgeCount from './GroupBadgeCount';
 
 interface State {
   name: string;
@@ -60,9 +61,10 @@ class TrackerMenu extends Component<TrackerMenuProps> {
         : null;
 
     const existingItems = items.results,
-      ungroupedCount = existingItems
-        ? existingItems.filter((data: any) => data.product_track_group_id === null).length
-        : 0;
+      ungroupedCount =
+        existingItems && existingItems.length > 0
+          ? existingItems.filter((data: any) => data.product_track_group_id === null).length
+          : 0;
 
     return (
       <div className="menu-bar">
@@ -77,7 +79,10 @@ class TrackerMenu extends Component<TrackerMenuProps> {
               }
             }}
           >
-            <Header as="h4">{'All Groups'}</Header>
+            <Header as="h4">
+              {'All Groups'}
+              <GroupBadgeCount count={existingItems.length} />
+            </Header>
           </Menu.Item>
           <Menu
             pointing={true}
@@ -98,9 +103,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
             >
               <Header as="h4">
                 {'Ungrouped'}
-                <span className={ungroupedCount ? 'has-ungroup' : 'no-ungroup'}>
-                  {ungroupedCount}
-                </span>
+                <GroupBadgeCount count={ungroupedCount} />
               </Header>
             </Menu.Item>
             {groups &&
