@@ -639,19 +639,19 @@ $link-color: #349af8;
   margin-top: 45px !important;
 }
 
-.has-ungroup,
-.no-ungroup {
+.has-group,
+.no-group {
   padding: 2px 6px;
   display: inline-block;
   margin-left: 15px;
 }
 
-.has-ungroup {
+.has-group {
   background-color: #349af8;
   color: #fff;
 }
 
-.no-ungroup {
+.no-group {
   background-color: #ccc;
   color: #000;
 }
