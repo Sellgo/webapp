@@ -109,7 +109,8 @@ export class SelectFileStep extends Step {
   checkFile() {
     const state = this.getState();
     const csvFile = csvFileSelector(state);
-    const fileSet = Boolean(csvFile);
+    const csvArray = csvSelector(state);
+    const fileSet = Boolean(csvFile) && Boolean(csvArray);
     const errorMessage = fileSet ? undefined : 'Please select a csv file';
     return errorMessage;
   }

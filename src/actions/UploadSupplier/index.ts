@@ -120,6 +120,7 @@ export const parseCsv = () => (
   const getParsedCsv = (err: Error | undefined, output: string[][]) => {
     if (err) {
       // tslint:disable-next-line:no-console
+      error('File does not appear to be a valid csv file.');
     } else {
       dispatch(setCsv(output));
     }
