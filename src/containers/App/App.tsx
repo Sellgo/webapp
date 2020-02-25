@@ -136,11 +136,6 @@ function App(props: any) {
             render={renderProps => <Home auth={auth} {...renderProps} />}
           />
           <Route
-            exact={true}
-            path="/signup"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
-          />
-          <Route
             path="/callback"
             render={renderProps => {
               handleAuthentication(renderProps.location);
