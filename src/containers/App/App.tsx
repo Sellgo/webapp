@@ -3,6 +3,7 @@ import { Route, Router, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
+import Signup from '../Signup';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
@@ -127,7 +128,7 @@ function App(props: any) {
   return (
     <div>
       <Router history={history}>
-      <ScrollToTop />
+        <ScrollToTop />
         <Switch>
           <Route
             exact={true}
@@ -167,6 +168,7 @@ function App(props: any) {
             component={ProductTracker}
             requireSubscription={true}
           />
+          <Route exact={true} path="/register" component={Signup} />
           <Route component={NotFound} />
         </Switch>
       </Router>
