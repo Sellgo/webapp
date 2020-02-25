@@ -159,7 +159,10 @@ export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any):
 
   // escape commas
   csvArray = csvArray.map((row: string[]) =>
-    row.map((cell: string) => (cell.includes(',') ? `"${cell}"` : cell))
+    row.map((cell: string) => {
+      cell = cell.replace(/"/g, '""');
+      return cell.includes(',') ? `"${cell}"` : cell;
+    })
   );
   const csvString = csvArray.join('\n');
 
