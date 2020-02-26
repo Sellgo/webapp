@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Form, Checkbox } from 'semantic-ui-react';
 import LoginBase from '../../components/LoginBase';
 import { useInput } from '../../hooks/useInput';
@@ -13,12 +13,7 @@ export default function Login(props: Props) {
   const { value: username, bind: bindUserName } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
 
-  let [checked, setChecked] = useState(Boolean(localStorage.getItem('rememberMe')));
-
-  const handleRememberClick = () => setChecked(!checked);
-
   const handleSubmit = () => {
-    localStorage.setItem('rememberMe', String(checked));
     auth.webAuth.login(
       {
         responseType: 'token',
@@ -40,12 +35,7 @@ export default function Login(props: Props) {
         <Form.Input label="Username" type="mail" placeholder="name@domain.com" {...bindUserName} />
         <Form.Input label="Password" type="password" {...bindPassword} />
         <Form.Group inline={true}>
-          <Form.Field
-            onClick={handleRememberClick}
-            checked={checked}
-            control={Checkbox}
-            label="Remember me"
-          />
+          <Form.Field control={Checkbox} label="Remember me" />
           <a href="#"> Forgot password </a>
         </Form.Group>
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
