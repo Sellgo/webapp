@@ -61,8 +61,8 @@ const AddNewSearch = () => {
   return (
     <div className={styles['ouline-box']}>
       <Form
-        className={styles['supply-container']}
-        style={{ maxWidth: '700px', width: '100%', paddingBottom: '80px' }}
+        className={`${styles['supply-container']} ${styles['form-size']}`}
+        style={{ paddingBottom: '80px' }}
       >
         <Grid columns="equal" className="bg-color">
           <Grid.Column width={7} className={`${styles.padding0} ${styles['leftAdjust']}`}>
