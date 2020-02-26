@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Grid, TextArea } from 'semantic-ui-react';
+import { Form, Grid, TextArea, Dropdown } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import { Field } from 'redux-form';
 import { InputField, SelectField } from '../../../components/ReduxFormFields';
@@ -19,14 +19,25 @@ const required = isRequired();
 const SupplierDetails = () => (
   <React.Fragment>
     <Grid.Column className={styles['rightAdjust']} width={7}>
-      <Field
+      {/* <Field
         className={styles['dropdwn-wdth']}
         component={SelectField}
         name="marketPlace"
         label="Market Place"
         placeholder="Amazon.com"
         options={[defaultSelect, ...marketPlace]}
-      />
+      /> */}
+      <div className={`field`}>
+        <label>Market Place</label>
+        <Dropdown
+          name="marketPlace"
+          placeholder="Amazon.com"
+          fluid
+          search
+          selection
+          options={marketPlace}
+        />
+      </div>
       {/* <Grid columns="equal">
         <Grid.Column className={styles['taxAlign']}>
           <Field
