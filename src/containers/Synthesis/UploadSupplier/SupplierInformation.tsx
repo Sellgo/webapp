@@ -87,7 +87,7 @@ const SupplierDetails = () => (
 const SupplierInformation = () => {
   return (
     <div className={styles['ouline-box']}>
-      <Form className={styles['supply-container']} style={{ maxWidth: '700px', width: '100%' }}>
+      <Form className={`${styles['supply-container']} ${styles['form-size']}`}>
         <Grid columns="equal" className="bg-color">
           <Grid.Column className={styles.padding0}>
             <div className={styles['form-container']}>
