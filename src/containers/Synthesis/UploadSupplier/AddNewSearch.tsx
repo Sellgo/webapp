@@ -1,17 +1,18 @@
 import React from 'react';
-import { Form, Grid, TextArea, Popup, Icon } from 'semantic-ui-react';
+import { Form, Grid, TextArea } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import { Field } from 'redux-form';
-import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
+import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { defaultSelect } from '../../../constants';
-import timezones from '../../../constants/UploadSupplier/timezones';
-import { accountStatus } from '../../../constants/UploadSupplier';
-import { terms } from '../../../constants/UploadSupplier';
+// import timezones from '../../../constants/UploadSupplier/timezones';
+// import { accountStatus } from '../../../constants/UploadSupplier';
+import { marketPlace } from '../../../constants/UploadSupplier';
+// import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
-import { isNumber } from '../../../utils/validations/isPhone';
-import isName from '../../../utils/validations/isName.js';
+// import { isNumber } from '../../../utils/validations/isPhone';
+// import isName from '../../../utils/validations/isName.js';
 import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
-import { webUrl } from '../../../utils/validations/isUrl';
+// import { webUrl } from '../../../utils/validations/isUrl';
 
 const required = isRequired();
 
@@ -24,7 +25,7 @@ const SupplierDetails = () => (
         name="marketPlace"
         label="Market Place"
         placeholder="Amazon.com"
-        options={[defaultSelect, ...accountStatus]}
+        options={[defaultSelect, ...marketPlace]}
       />
       <Grid columns="equal">
         <Grid.Column className={styles['taxAlign']}>

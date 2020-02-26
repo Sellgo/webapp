@@ -86,3 +86,16 @@ export const accountStatus = [
     text: 'Inactive',
   },
 ];
+
+export const marketPlace = [
+  {
+    value: 'amazon.com',
+    key: 'amazon.com',
+    text: 'Amazon.com',
+  },
+  {
+    value: 'linkedin.com',
+    key: 'linkedin.com',
+    text: 'Linkedin.com',
+  },
+];
