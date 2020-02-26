@@ -27,7 +27,7 @@ const SupplierDetails = () => (
         placeholder="Amazon.com"
         options={[defaultSelect, ...marketPlace]}
       />
-      <Grid columns="equal">
+      {/* <Grid columns="equal">
         <Grid.Column className={styles['taxAlign']}>
           <Field
             component={InputField}
@@ -52,7 +52,7 @@ const SupplierDetails = () => (
             validate={onlyNumber}
           />
         </Grid.Column>
-      </Grid>
+      </Grid> */}
     </Grid.Column>
   </React.Fragment>
 );
