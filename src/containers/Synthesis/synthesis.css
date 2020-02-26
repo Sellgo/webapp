@@ -71,3 +71,28 @@
   display: inline-block;
   min-width: 50px;
 }
+
+.ui.large.modal {
+  max-width: 966px;
+  min-height: 590px;
+  width: 100% !important;
+  margin: auto;
+}
+
+.ui.form .field > label {
+  color: #333333;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.ui.form .field .ui.input input,
+.ui.form .fields .field .ui.input input {
+  border: 1px solid #dededf !important;
+  border-radius: 4px !important;
+}
+
+div.rc-steps-item-title {
+  font-size: 12px;
+  color: #3b4557;
+  font-weight: 400;
+}
