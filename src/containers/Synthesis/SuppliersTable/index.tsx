@@ -341,11 +341,21 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         </Segment>
       );
     }
-    const allData = suppliers.filter(supplier => supplier.status !== 'inactive');
+
+    const all = suppliers.filter(supplier => supplier.status !== 'inactive');
+    const allData = all.filter(supplier => supplier.progress !== -1);
+    const draftData = all.filter(supplier => supplier.progress === -1);
     const shortlistedData = allData.filter(supplier => supplier.tag === 'like');
     const archivedData = allData.filter(supplier => supplier.tag === 'dislike');
+
     const data =
-      showTab === 'all' ? allData : showTab === 'shortlisted' ? shortlistedData : archivedData;
+      showTab === 'all'
+        ? allData
+        : showTab === 'shortlisted'
+        ? shortlistedData
+        : showTab === 'archived'
+        ? archivedData
+        : draftData;
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
@@ -358,6 +368,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               allCount={allData.length}
               shortlistedCount={shortlistedData.length}
               archivedCount={archivedData.length}
+              draftCount={draftData.length}
             />
           </Grid.Column>
           <Grid.Column

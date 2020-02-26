@@ -1,9 +1,14 @@
+import get from 'lodash/get';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import parse from 'csv-parse/lib/es5';
+import Axios from 'axios';
+import reduce from 'lodash/reduce';
 import {
   isFirstRowHeaderSelector,
   saveColumnMappingSettingSelector,
 } from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
-import get from 'lodash/get';
 import {
   SET_UPLOAD_SUPPLIER_STEP,
   SET_CSV,
@@ -19,9 +24,6 @@ import {
   SET_SKIP_COLUMN_MAPPING_CHECK,
   UPDATE_DATA_QUALITY_REPORT,
 } from '../../constants/UploadSupplier';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import parse from 'csv-parse/lib/es5';
 import {
   currentStepSelector,
   columnMappingsSelector,
@@ -32,8 +34,6 @@ import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
-import Axios from 'axios';
-import reduce from 'lodash/reduce';
 import { fetchSupplier, fetchSynthesisProgressUpdates } from '../Suppliers';
 import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
@@ -44,7 +44,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   const isStepWithinRange = Object.values(UploadSteps).indexOf(nextStep) !== -1;
 
   if (!isStepWithinRange) {
-    return;
+    return Promise.reject();
   }
 
   const currentStep = currentStepSelector(getState());
@@ -56,7 +56,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   if (errorMessage) {
     error(errorMessage);
-    return;
+    return Promise.reject();
   }
 
   // if step is decreased we should clean up previous step
@@ -159,7 +159,10 @@ export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any):
 
   // escape commas
   csvArray = csvArray.map((row: string[]) =>
-    row.map((cell: string) => (cell.includes(',') ? `"${cell}"` : cell))
+    row.map((cell: string) => {
+      cell = cell.replace(/"/g, '""');
+      return cell.includes(',') ? `"${cell}"` : cell;
+    })
   );
   const csvString = csvArray.join('\n');
 
