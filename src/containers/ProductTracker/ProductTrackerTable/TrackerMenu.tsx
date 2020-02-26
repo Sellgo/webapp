@@ -112,6 +112,12 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                 .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
                 .map((data: any) => {
                   const isActiveGroup = data.id === this.props.activeGroupId;
+                  const groupBadgeCount =
+                    existingItems && existingItems.length > 0
+                      ? existingItems.filter((d: any) => d.product_track_group_id === data.id)
+                          .length
+                      : 0;
+
                   return (
                     <Menu.Item
                       name={data.name}
@@ -126,6 +132,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                     >
                       <Header as="h4" style={{ margin: '0' }}>
                         {data.name}
+                        <GroupBadgeCount count={groupBadgeCount} />
                       </Header>
                       {isActiveGroup && (
                         <div style={{ padding: '5px' }}>
