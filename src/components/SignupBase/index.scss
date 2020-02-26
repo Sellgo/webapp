@@ -23,9 +23,6 @@ $base-font-size: 1em;
   button {
     font-family: 'Work Sans' !important;
   }
-  .hide-message {
-    display: none;
-  }
   .row {
     min-height: 300px;
     .column {
@@ -41,23 +38,7 @@ $base-font-size: 1em;
       }
     }
   }
-  .internal.rail {
-    width: 100%;
-    margin: 0px !important;
-    padding: 0px !important;
-    .segment {
-      padding: 0px;
-      border: 0px;
-      .message {
-        margin: 0px;
-        text-align: center;
-        p {
-          font-size: 12px;
-          margin: 0px;
-        }
-      }
-    }
-  }
+
   .ui.divided.grid:not([class*='vertically divided']) > .row > .column {
     -webkit-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
     -moz-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
@@ -90,20 +71,10 @@ $base-font-size: 1em;
   z-index: -900 !important;
 }
 
-.ui.success.message .header {
+.ui.message .header {
   font-size: 14px;
 }
 
-.signup-cont .internal.rail .segment .message p {
-  font-size: 11px;
-}
-.signup-cont .internal.rail .segment .message {
-  background-color: #eff2e9;
-  padding: 8px;
-  z-index: 90000;
-  width: 100%;
-  position: fixed;
-}
 div.ui.popup {
   padding: 0px;
   .vertical.steps .title-success,
@@ -144,12 +115,6 @@ div.ui.steps {
 }
 
 @media only screen and (min-width: 2560px) {
-  .ui.success.message .header {
-    font-size: 20px !important;
-  }
-  .signup-cont .internal.rail .segment .message p {
-    font-size: 17px !important;
-  }
   .vertical.steps .description.title-error,
   .vertical.steps .description.title-success {
     font-size: 16px !important;

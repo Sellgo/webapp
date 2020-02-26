@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Form, Checkbox, Header } from 'semantic-ui-react';
 import './index.scss';
 import SignupBase from '../../components/SignupBase';
-import StepsInfo from './StepsInfo/StepsInfo';
+import StepsInfo from '../../components/StepsInfo/StepsInfo';
 
 export default class Signup extends React.Component<any> {
   state = {
@@ -40,11 +40,27 @@ export default class Signup extends React.Component<any> {
         stepIcon: 'times',
       },
     ],
-    message: true,
+    messageInfo: {
+      messSucc: true,
+      messPassErr: false,
+      messageDetails: [
+        {
+          id: 1,
+          header: 'Account Created',
+          content: 'A link to verify your email has been sent to bluebackground@gmail.com',
+        },
+        {
+          id: 2,
+          header: 'Please re-enter your password',
+          content:
+            'The password you entered is incorrect. Please try again (make sure your caps lock is off)',
+        },
+      ],
+    },
   };
   render() {
     return (
-      <SignupBase messageData={this.state.message}>
+      <SignupBase messageInfo={this.state.messageInfo}>
         <Form className="signup-form">
           <Header size="huge"> Register Here </Header>
           <Form.Input type="mail" placeholder="Email" />
