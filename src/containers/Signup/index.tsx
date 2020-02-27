@@ -1,10 +1,25 @@
-import * as React from 'react';
+import React, { ReactNode } from 'react';
 import { Button, Form, Checkbox, Header } from 'semantic-ui-react';
 import './index.scss';
 import SignupBase from '../../components/SignupBase';
 import StepsInfo from '../../components/StepsInfo/StepsInfo';
+import { MessageTypes } from '../../interfaces/MessageDisplay';
 
-export default class Signup extends React.Component<any> {
+interface StepsInfo {
+  id: number;
+  stepShow: boolean;
+  stepClass: string;
+  stepTitle: string;
+  stepDescription: string;
+  stepIcon: string;
+}
+
+interface State {
+  stepsInfo: StepsInfo[];
+  messageInfo: MessageTypes;
+}
+
+export default function Signup(state: State) {
   state = {
     stepsInfo: [
       {
@@ -58,36 +73,34 @@ export default class Signup extends React.Component<any> {
       ],
     },
   };
-  render() {
-    return (
-      <SignupBase messageInfo={this.state.messageInfo}>
-        <Form className="signup-form">
-          <Header size="huge"> Register Here </Header>
-          <Form.Input type="mail" placeholder="Email" />
-          <Form.Input type="text" placeholder="First Name" />
-          <Form.Input type="text" placeholder="Last Name" />
-          <StepsInfo stepsData={this.state.stepsInfo} />
-          <Form.Field control={Checkbox} label="I agree to receive emails from Sellgo" />
-          <Form.Field
-            control={Checkbox}
-            label={
-              <label>
-                By signing up, you're agreeing to our &nbsp;
-                <a href="#">terms of service</a> and you have read our &nbsp;
-                <a href="#">data use policy</a> as well as the use of &nbsp;<a href="#">cookies</a>.
-              </label>
-            }
-          />
-          <Form.Field control={Button} fluid={true} primary={true}>
-            Register
-          </Form.Field>
-          <label className="log-in">
-            <b>
-              Already have a Sellgo account?&nbsp;<a href="#">Log In </a>
-            </b>
-          </label>
-        </Form>
-      </SignupBase>
-    );
-  }
+  return (
+    <SignupBase messageInfo={state.messageInfo}>
+      <Form className="signup-form">
+        <Header size="huge"> Register Here </Header>
+        <Form.Input type="mail" placeholder="Email" />
+        <Form.Input type="text" placeholder="First Name" />
+        <Form.Input type="text" placeholder="Last Name" />
+        <StepsInfo stepsData={state.stepsInfo} />
+        <Form.Field control={Checkbox} label="I agree to receive emails from Sellgo" />
+        <Form.Field
+          control={Checkbox}
+          label={
+            <label>
+              By signing up, you're agreeing to our &nbsp;
+              <a href="#">terms of service</a> and you have read our &nbsp;
+              <a href="#">data use policy</a> as well as the use of &nbsp;<a href="#">cookies</a>.
+            </label>
+          }
+        />
+        <Form.Field control={Button} fluid={true} primary={true}>
+          Register
+        </Form.Field>
+        <label className="log-in">
+          <b>
+            Already have a Sellgo account?&nbsp;<a href="#">Log In </a>
+          </b>
+        </label>
+      </Form>
+    </SignupBase>
+  );
 }

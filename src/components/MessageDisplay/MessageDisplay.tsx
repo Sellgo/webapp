@@ -1,10 +1,15 @@
 import React from 'react';
 import { Rail, Segment, Message } from 'semantic-ui-react';
+import { MessageTypes, Detail } from '../../interfaces/MessageDisplay';
 import './index.scss';
 
-const MessageDisplay = (props: any) => {
+interface Props {
+  propsMessage: MessageTypes;
+}
+
+const MessageDisplay = (props: Props) => {
   const { messSucc, messPassErr, messageDetails } = props.propsMessage;
-  const returnMessage = messageDetails.map((stat: any) => {
+  const returnMessage = messageDetails.map((stat: Detail) => {
     let messHeader: string = '';
     let messContent: string = '';
     let messSuccess: boolean = false;
