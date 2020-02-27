@@ -136,11 +136,6 @@ function App(props: any) {
             render={renderProps => <Home auth={auth} {...renderProps} />}
           />
           <Route
-            exact={true}
-            path="/signup"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
-          />
-          <Route
             path="/callback"
             render={renderProps => {
               handleAuthentication(renderProps.location);
@@ -168,7 +163,7 @@ function App(props: any) {
             component={ProductTracker}
             requireSubscription={true}
           />
-          <Route exact={true} path="/register" component={Signup} />
+          <Route exact={true} path="/signup" component={Signup} />
           <Route component={NotFound} />
         </Switch>
       </Router>
