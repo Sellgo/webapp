@@ -1,70 +1,50 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Grid, GridRow, Segment } from 'semantic-ui-react';
-import { Logo } from '../Dashboard/index';
-import IntroSlider from '../../components/IntroSlider';
-import PasswordShowHide from '../../components/Password/PasswordShowHide';
-import './login.css';
-import GenericButton from '../../components/Button';
+import React from 'react';
+import { Button, Form, Checkbox } from 'semantic-ui-react';
+import LoginBase from '../../components/LoginBase';
+import { useInput } from '../../hooks/useInput';
+import './index.scss';
+import Auth from '../../components/Auth/Auth';
 
-export default class Login extends React.Component<any, {}> {
-  render() {
-    const { login } = this.props.auth;
-    return (
-      <Grid verticalAlign="middle" style={{ minHeight: '100vh' }}>
-        <Grid.Row>
-          <Grid.Column className="left-pane" width={10}>
-            <IntroSlider />
-          </Grid.Column>
-          <Grid.Column className="right-pane" width={6}>
-            <div className="logo-img">
-              <Logo centered={true} size="small" />
-            </div>
-            <Segment basic={true} clearing={true}>
-              <Grid>
-                <Grid.Row>
-                  <Grid.Column width={16}>
-                    <Form className="p-t-40">
-                      <Form.Field>
-                        <div className="small-light login-fields">
-                          <input
-                            type="email"
-                            placeholder="Email Address"
-                            className="login-field1"
-                          />
-                          <div className="hr-line" />
-                          <PasswordShowHide />
-                        </div>
-                      </Form.Field>
-                    </Form>
-                  </Grid.Column>
-                  <Grid.Column width={16}>
-                    <Grid.Row width={16}>
-                      <Grid.Column className="small-regular text-align-center padding20">
-                        <Link to="/forgot-password" style={{ fontSize: 'smaller', color: 'gray' }}>
-                          Forgot your password?
-                        </Link>
-                      </Grid.Column>
-                    </Grid.Row>
-                    <GridRow>
-                      <div className="text-align-center">
-                        <GenericButton isClickable={true} onClick={login} content="Sign In" />
-                      </div>
-                    </GridRow>
-                    <GridRow>
-                      <div className="text-align-center padding20 p-t-40">
-                        <Link to="/sign-up" className="small-bold">
-                          Create My Sellgo Account!
-                        </Link>
-                      </div>
-                    </GridRow>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+interface Props {
+  auth: Auth;
+}
+export default function Login(props: Props) {
+  const { auth } = props;
+  const { value: username, bind: bindUserName } = useInput('');
+  const { value: password, bind: bindPassword } = useInput('');
+
+  const handleSubmit = () => {
+    auth.webAuth.login(
+      {
+        responseType: 'token',
+        realm: 'Username-Password-Authentication',
+        username: username,
+        password: password,
+      },
+      (err: any, res: any) => {
+        if (err) {
+          console.log('Error: ', err);
+        }
+      }
     );
-  }
+  };
+
+  return (
+    <LoginBase>
+      <Form className="login-form" onSubmit={handleSubmit}>
+        <Form.Input label="Username" type="mail" placeholder="name@domain.com" {...bindUserName} />
+        <Form.Input label="Password" type="password" {...bindPassword} />
+        <Form.Group inline={true}>
+          <Form.Field control={Checkbox} label="Remember me" />
+          <a href="#"> Forgot password </a>
+        </Form.Group>
+        <Form.Field control={Button} fluid={true} primary={true} value="Submit">
+          Log in
+        </Form.Field>
+        <a className="sign-up" href="#">
+          <b>Sign up for an account</b>
+        </a>
+      </Form>
+    </LoginBase>
+  );
 }
