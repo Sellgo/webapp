@@ -9,7 +9,7 @@ import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
 import { formatNumber, formatCurrency } from '../../../utils/format';
 import { tableKeys } from '../../../constants';
-import { Checkbox, Icon } from 'semantic-ui-react';
+import { Checkbox } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
 import { updateProductTrackingStatus } from '../../../actions/Suppliers';
