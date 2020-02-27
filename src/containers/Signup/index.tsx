@@ -4,18 +4,10 @@ import './index.scss';
 import SignupBase from '../../components/SignupBase';
 import StepsInfo from '../../components/StepsInfo/StepsInfo';
 import { MessageTypes } from '../../interfaces/MessageDisplay';
-
-interface StepsInfo {
-  id: number;
-  stepShow: boolean;
-  stepClass: string;
-  stepTitle: string;
-  stepDescription: string;
-  stepIcon: string;
-}
+import { Steps } from '../../interfaces/StepsInfo';
 
 interface State {
-  stepsInfo: StepsInfo[];
+  stepsInfo: Steps[];
   messageInfo: MessageTypes;
 }
 

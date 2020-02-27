@@ -1,12 +1,18 @@
 import React from 'react';
 import { Icon, Step, Popup, Form } from 'semantic-ui-react';
+import { Steps } from '../../interfaces/StepsInfo';
 
-const StepsInfo = (props: any) => {
-  const stepsDisplay = props.stepsData.map((stat: any) => {
+interface Props {
+  stepsData: Steps[];
+}
+
+const StepsInfo = (props: Props) => {
+  const { stepsData } = props;
+  const stepsDisplay = stepsData.map((stat: Steps) => {
     if (stat.stepShow) {
       return (
         <Step className={stat.stepClass} key={stat.id}>
-          <Icon name={stat.stepIcon} className={stat.stepClass} />
+          <Icon className={stat.stepClass + ' ' + stat.stepIcon} />
           <Step.Content>
             <Step.Title className={stat.stepClass}>{stat.stepTitle}</Step.Title>
             <Step.Description className={stat.stepClass}>{stat.stepDescription}</Step.Description>
