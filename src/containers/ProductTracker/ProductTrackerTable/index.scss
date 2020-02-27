@@ -638,3 +638,20 @@ $link-color: #349af8;
 .product-tracker-loader {
   margin-top: 45px !important;
 }
+
+.has-group,
+.no-group {
+  padding: 2px 6px;
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.has-group {
+  background-color: #349af8;
+  color: #fff;
+}
+
+.no-group {
+  background-color: #ccc;
+  color: #000;
+}

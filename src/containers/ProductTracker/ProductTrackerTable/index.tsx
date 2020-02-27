@@ -399,6 +399,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             editGroup={this.state.editGroup}
             error={this.state.error}
             groupError={this.state.groupError}
+            items={productTrackerResult}
             handleAddGroup={this.handleAddGroup}
             handleAddGroupSubmit={this.handleAddGroupSubmit}
             handleAddGroupCancel={this.handleAddGroupCancel}
