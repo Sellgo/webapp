@@ -1,7 +1,8 @@
 import React from 'react';
 import { Icon, Step, Popup, Form } from 'semantic-ui-react';
-
 const StepsInfo = (props: any) => {
+  const { onChange } = props;
+
   const stepsDisplay = props.stepsData.map((stat: any) => {
     if (stat.stepShow) {
       return (
@@ -18,8 +19,8 @@ const StepsInfo = (props: any) => {
 
   return (
     <Popup
-      trigger={<Form.Input type="password" placeholder="Password" />}
-      on="click"
+      trigger={<Form.Input required type="password" placeholder="Password" onChange={onChange} />}
+      on="focus"
       size="huge"
       position="left center"
       wide="very"

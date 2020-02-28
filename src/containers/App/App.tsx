@@ -6,7 +6,6 @@ import ScrollToTop from '../../components/ScrollToTop';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
-import Signup from '../Signup';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
@@ -17,6 +16,7 @@ import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
 import ProductTracker from '../ProductTracker';
+import Signup from '../Signup';
 
 const auth = new Auth();
 
@@ -163,7 +163,12 @@ function App(props: any) {
             component={ProductTracker}
             requireSubscription={true}
           />
-          <Route exact={true} path="/signup" component={Signup} />
+
+          <Route
+            exact={true}
+            path="/signup"
+            render={renderProps => <Signup auth={auth} {...renderProps} />}
+          />
           <Route component={NotFound} />
         </Switch>
       </Router>
