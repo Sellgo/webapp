@@ -1,20 +1,15 @@
 .login_head a {
-  margin-left: 0.5rem;
-}
-
-.login-email {
-}
-.login-password {
+	margin-left: 0.5rem;
 }
 
 .primary-btn {
-  font-family: Montserrat;
-  font-weight: bold;
-  font-display: optional;
-  font-size: 20px;
-  color: white;
-  border: none;
-  padding: 12px 40px;
-  border-adius: 50px;
-  background: #4285f4;
+	background: #4285f4;
+	border: none;
+	border-radius: 50px;
+	color: white;
+	font-display: optional;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 12px 40px;
 }

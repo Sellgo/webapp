@@ -1,133 +1,133 @@
 .advice-card {
-  margin-top: -27px;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1) !important;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1) !important;
+	margin-top: -27px;
 
-  .track-row {
-    span {
-      b {
-        font-size: 18px;
-        font-weight: 600;
-      }
+	.track-row {
+		span {
+			b {
+				font-size: 18px;
+				font-weight: 600;
+			}
 
-      .wrap-radio {
-        display: flex;
-        align-items: center;
-        width: 105px;
-      }
-    }
-  }
+			.wrap-radio {
+				align-items: center;
+				display: flex;
+				width: 105px;
+			}
+		}
+	}
 
-  .ui.card {
-    width: 100%;
-    border-radius: 5px;
-    box-shadow: 0 1px 4px 0 #d4d4d5, 0 0 10px 1px #d4d4d5;
-    margin-bottom: 25px;
+	.ui.card {
+		border-radius: 5px;
+		box-shadow: 0 1px 4px 0 #d4d4d5, 0 0 10px 1px #d4d4d5;
+		margin-bottom: 25px;
+		width: 100%;
 
-    > .content {
-      padding: 0.5em 0.5em !important;
-    }
+		> .content {
+			padding: 0.5em !important;
+		}
 
-    > .content > .header {
-      font-size: 13px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: bold;
-      margin-top: 6px;
-    }
+		> .content > .header {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 13px;
+			font-weight: bold;
+			margin-top: 6px;
+		}
 
-    > .content > p {
-      font-size: 12px;
-      padding-top: 10px;
-      font-family: inherit;
-      margin-bottom: 14px;
-    }
+		> .content > p {
+			font-family: inherit;
+			font-size: 12px;
+			margin-bottom: 14px;
+			padding-top: 10px;
+		}
 
-    > .content > span {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
+		> .content > span {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+		}
+	}
 
-  .wrap-radio .ui.checked.fitted.toggle.checkbox {
-    margin-right: 11px;
-  }
+	.wrap-radio .ui.checked.fitted.toggle.checkbox {
+		margin-right: 11px;
+	}
 
-  @media screen and (max-width: 767px) {
-    .ui.card {
-      > .content {
-        .ui.fluid.dropdown {
-          margin-left: 0 !important;
-        }
-      }
-    }
-  }
+	@media screen and (max-width: 767px) {
+		.ui.card {
+			> .content {
+				.ui.fluid.dropdown {
+					margin-left: 0 !important;
+				}
+			}
+		}
+	}
 
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    margin-top: -2px !important;
+	@media screen and (min-width: 768px) and (max-width: 1024px) {
+		margin-top: -2px !important;
 
-    .wrap-radio {
-      width: 80px !important;
-    }
+		.wrap-radio {
+			width: 80px !important;
+		}
 
-    .ui.card {
-      .content {
-        .ui.selection.dropdown {
-          min-width: 0 !important;
-          padding: 10px 5px;
-        }
-      }
-    }
-  }
+		.ui.card {
+			.content {
+				.ui.selection.dropdown {
+					min-width: 0 !important;
+					padding: 10px 5px;
+				}
+			}
+		}
+	}
 
-  @media screen and (max-width: 1600px) {
-    .ui.card {
-      .track-row {
-        .menu {
-          .item {
-            padding: 0.8rem 1rem !important;
-          }
-        }
-      }
-    }
-  }
+	@media screen and (max-width: 1600px) {
+		.ui.card {
+			.track-row {
+				.menu {
+					.item {
+						padding: 0.8rem 1rem !important;
+					}
+				}
+			}
+		}
+	}
 
-  @media screen and (max-width: 1500px) {
-    .ui.card {
-      > .content > .header {
-        font-size: 16px;
-      }
+	@media screen and (max-width: 1500px) {
+		.ui.card {
+			> .content > .header {
+				font-size: 16px;
+			}
 
-      > .content > p {
-        font-size: 13px;
-      }
-    }
+			> .content > p {
+				font-size: 13px;
+			}
+		}
 
-    .track-row span {
-      font-size: 13px;
-    }
+		.track-row span {
+			font-size: 13px;
+		}
 
-    .wrap-radio {
-      @media (max-width: 767px) {
-        width: 70%;
-      }
+		.wrap-radio {
+			@media (max-width: 767px) {
+				width: 70%;
+			}
 
-      .ui.checked.fitted.toggle.checkbox {
-        margin-right: 5px;
-        margin-top: 6px;
-      }
+			.ui.checked.fitted.toggle.checkbox {
+				margin-right: 5px;
+				margin-top: 6px;
+			}
 
-      .ui.toggle.checkbox .box::before,
-      .ui.toggle.checkbox label::before {
-        width: 40px;
-        height: 15px;
-      }
+			.ui.toggle.checkbox .box::before,
+			.ui.toggle.checkbox label::before {
+				height: 15px;
+				width: 40px;
+			}
 
-      .ui.toggle.checkbox .box::after,
-      .ui.toggle.checkbox label::after {
-        width: 13px;
-        height: 13px;
-        top: 1px;
-      }
-    }
-  }
+			.ui.toggle.checkbox .box::after,
+			.ui.toggle.checkbox label::after {
+				height: 13px;
+				top: 1px;
+				width: 13px;
+			}
+		}
+	}
 }

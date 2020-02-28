@@ -1,22 +1,20 @@
-.synthesis-supplier-filters {
-  .products-count {
-    color: 'black';
-    font-size: 18px;
-    margin-left: 0;
-    font-weight: bold;
-  }
+.synthesis-supplier-filters .products-count {
+	color: 'black';
+	font-size: 18px;
+	font-weight: bold;
+	margin-left: 0;
+}
 
-  // NOT USED CURRENTLY
-  // For option that has no range slider
-  // Just a checkbox like "Show Price History"
-  // We could make this a subcomponent TitleWithCheck that
-  // gets used inside the RangeSlider component or on its own
-  .custom-check {
-    width: 100%;
-    margin-bottom: 21px;
+// NOT USED CURRENTLY
+// For option that has no range slider
+// Just a checkbox like "Show Price History"
+// We could make this a subcomponent TitleWithCheck that
+// gets used inside the RangeSlider component or on its own
+.synthesis-supplier-filters .custom-check {
+	margin-bottom: 21px;
+	width: 100%;
+}
 
-    .ui.checkbox label {
-      font-size: 16px;
-    }
-  }
+.ui.checkbox label {
+	font-size: 16px;
 }

@@ -1,74 +1,74 @@
 .slider-range {
-  .range-title {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    font-weight: 600;
-    font-size: 14px;
-    font-family: Work Sans;
+	.range-title {
+		display: flex;
+		font-family: 'Work Sans', sans-serif;
+		font-size: 14px;
+		font-weight: 600;
+		justify-content: space-between;
+		margin-bottom: 18px;
 
-    b {
-      font-weight: 600;
-    }
+		b {
+			font-weight: 600;
+		}
 
-    // Wider style
-    //padding-left: 16px;
-  }
+		// Wider style
+		//padding-left: 16px;
+	}
 
-  i.small.icon.question {
-    font-size: 1em !important;
-    color: #98aeca !important;
-    padding-left: 0.5rem;
-  }
+	i.small.icon.question {
+		color: #98aeca !important;
+		font-size: 1em !important;
+		padding-left: 0.5rem;
+	}
 
-  .range-input {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
-    align-items: center;
-    padding: 0 10px;
-  }
+	.range-input {
+		align-items: center;
+		display: flex;
+		justify-content: space-between;
+		margin-top: 16px;
+		padding: 0 10px;
+	}
 
-  .range-input .ui.input > input {
-    background: transparent;
-    border: 1px solid #dfe8f3;
-    font-size: 14px;
-    color: #98aeca;
-    padding: 4px 2px;
-    min-height: 10px;
-    font-weight: normal;
-    width: 59px;
-    text-align: center;
-    box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
-  }
+	.range-input .ui.input > input {
+		background: transparent;
+		border: 1px solid #dfe8f3;
+		box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
+		color: #98aeca;
+		font-size: 14px;
+		font-weight: normal;
+		min-height: 10px;
+		padding: 4px 2px;
+		text-align: center;
+		width: 59px;
+	}
 
-  .range-input .ui.input > input::-webkit-input-placeholder {
-    color: #98aeca;
-  }
+	.range-input .ui.input > input::-webkit-input-placeholder {
+		color: #98aeca;
+	}
 
-  .range-input .ui.input > input:-ms-input-placeholder {
-    color: #98aeca;
-  }
+	.range-input .ui.input > input:-ms-input-placeholder {
+		color: #98aeca;
+	}
 
-  .range-input .ui.input > input::placeholder {
-    color: #98aeca;
-  }
+	.range-input .ui.input > input::placeholder {
+		color: #98aeca;
+	}
 }
 
 @media (max-width: 1366px) and (max-height: 768px) {
-  .slider-range {
-    .range-input .ui.input > input {
-      font-size: 13px;
-      padding: 5px 2px;
-    }
+	.slider-range {
+		.range-input .ui.input > input {
+			font-size: 13px;
+			padding: 5px 2px;
+		}
 
-    .range-title {
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
+		.range-title {
+			font-size: 12px;
+			margin-bottom: 10px;
+		}
 
-    .range-input {
-      margin-top: 10px;
-    }
-  }
+		.range-input {
+			margin-top: 10px;
+		}
+	}
 }

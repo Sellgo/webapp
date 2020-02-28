@@ -1,48 +1,48 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Work sans;
-  font-weight: 400;
-  font-display: optional;
-  font-size: 20px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+	font-family: 'Work sans', sans-serif;
+	font-weight: 400;
+	font-display: optional;
+	font-size: 20px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 @media screen and (max-width: 767px) and (min-width: 310px) {
-  .bg-color .ui.grid > .row > .column {
-    width: 100% !important;
-    padding: 0;
-    margin-bottom: 15px;
-  }
+	.bg-color .ui.grid > .row > .column {
+		width: 100% !important;
+		padding: 0;
+		margin-bottom: 15px;
+	}
 
-  .ui .close-icon i.close {
-    top: -24px !important;
-    right: -20px !important;
-  }
+	.ui .close-icon i.close {
+		top: -24px !important;
+		right: -20px !important;
+	}
 
-  .close-icon i::before {
-    font-size: 10px !important;
-  }
+	.close-icon i::before {
+		font-size: 10px !important;
+	}
 
-  .close-icon i.cloud.huge::before {
-    font-size: 28px !important;
-  }
+	.close-icon i.cloud.huge::before {
+		font-size: 28px !important;
+	}
 
-  .ui.selection.dropdown.timezone-field .menu {
-    width: 194px !important;
-  }
+	.ui.selection.dropdown.timezone-field .menu {
+		width: 194px !important;
+	}
 
-  .seller-info {
-    padding: 0 !important;
-  }
+	.seller-info {
+		padding: 0 !important;
+	}
 
-  .btns-wrap button {
-    margin-bottom: 10px !important;
-  }
+	.btns-wrap button {
+		margin-bottom: 10px !important;
+	}
 }
 
 .d-flex {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
