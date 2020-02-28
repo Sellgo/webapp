@@ -168,7 +168,6 @@ function App(props: any) {
             component={ProductTracker}
             requireSubscription={true}
           />
-          <Route exact={true} path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
       </Router>
