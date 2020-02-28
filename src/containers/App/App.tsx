@@ -6,7 +6,7 @@ import ScrollToTop from '../../components/ScrollToTop';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
-import Login from '../Login';
+import Signup from '../Signup';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
@@ -136,11 +136,6 @@ function App(props: any) {
             render={renderProps => <Home auth={auth} {...renderProps} />}
           />
           <Route
-            exact={true}
-            path="/signup"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
-          />
-          <Route
             path="/callback"
             render={renderProps => {
               handleAuthentication(renderProps.location);
@@ -168,6 +163,7 @@ function App(props: any) {
             component={ProductTracker}
             requireSubscription={true}
           />
+          <Route exact={true} path="/signup" component={Signup} />
           <Route component={NotFound} />
         </Switch>
       </Router>
