@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Step, Popup, Form } from 'semantic-ui-react';
-import { Steps } from '../../interfaces/StepsInfo';
+import { Steps } from '../../interfaces/MessageDisplay';
 
 interface Props {
   stepsData: Steps[];

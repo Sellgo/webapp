@@ -3,8 +3,7 @@ import { Button, Form, Checkbox, Header } from 'semantic-ui-react';
 import './index.scss';
 import SignupBase from '../../components/SignupBase';
 import StepsInfo from '../../components/StepsInfo/StepsInfo';
-import { MessageTypes } from '../../interfaces/MessageDisplay';
-import { Steps } from '../../interfaces/StepsInfo';
+import { MessageTypes, Steps } from '../../interfaces/MessageDisplay';
 
 interface State {
   stepsInfo: Steps[];
