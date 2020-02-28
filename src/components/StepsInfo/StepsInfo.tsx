@@ -4,10 +4,11 @@ import { Steps } from '../../interfaces/StepsInfo';
 
 interface Props {
   stepsData: Steps[];
+  onChange: any;
 }
 
 const StepsInfo = (props: Props) => {
-  const { stepsData } = props;
+  const { stepsData, onChange } = props;
   const stepsDisplay = stepsData.map((stat: Steps) => {
     if (stat.stepShow) {
       return (
@@ -24,8 +25,8 @@ const StepsInfo = (props: Props) => {
 
   return (
     <Popup
-      trigger={<Form.Input type="password" placeholder="Password" />}
-      on="click"
+      trigger={<Form.Input required type="password" placeholder="Password" onChange={onChange} />}
+      on="focus"
       size="huge"
       position="left center"
       wide="very"
