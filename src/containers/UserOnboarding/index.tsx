@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { closeUserOnboardingModal } from '../../actions/Modals';
 import { userOnboarding as totalViews } from '../../constants/UserOnboarding';
 import get from 'lodash/get';
-import { fetchTOS } from '../../actions/UserOnboarding';
+import { fetchTOS, fetchPP } from '../../actions/UserOnboarding';
 
 interface Props {
   closeModal: typeof closeUserOnboardingModal;
@@ -16,20 +16,29 @@ const buttonStyle = {
 };
 
 export const UserOnboarding = (props: any) => {
-  const { closeModal, auth, termsOfService, fetchTOS } = props;
-
+  const { closeModal, auth, termsOfService, fetchTOS, privacyPolicy, fetchPP } = props;
   const [acceptedTos, setAcceptedTos] = useState(() =>
     localStorage.getItem('acceptedTos') ? true : false
   );
 
+  const [acceptedPp, setAcceptedPp] = useState(() =>
+    localStorage.getItem('acceptedPp') ? true : false
+  );
+
   useEffect(() => {
     fetchTOS();
-  }, [fetchTOS]);
+    fetchPP();
+  }, [fetchTOS, fetchPP]);
 
   const handleAccept = () => {
     localStorage.setItem('acceptedTos', 'true');
     localStorage.setItem('firstLogin', 'true');
     setAcceptedTos(true);
+  };
+  const handleAcceptPp = () => {
+    localStorage.setItem('acceptedPp', 'true');
+    localStorage.setItem('firstLogin', 'true');
+    setAcceptedPp(true);
   };
 
   const handleDeny = () => {
@@ -45,6 +54,13 @@ export const UserOnboarding = (props: any) => {
           deny={handleDeny}
           text={termsOfService}
         />
+      ) : !acceptedPp ? (
+        <PP
+          closeModal={closeModal}
+          accept={handleAcceptPp}
+          deny={handleDeny}
+          text={privacyPolicy}
+        />
       ) : (
         <Intro closeModal={closeModal} />
       )}
@@ -58,6 +74,27 @@ const TOS = (props: any) => {
   return (
     <div style={{ textAlign: 'center' }}>
       <Header as="h4">Our Terms of Service</Header>
+      <Form>
+        <TextArea rows="20" value={text} />
+      </Form>
+      <div style={{ marginTop: '2rem' }}>
+        <Button style={buttonStyle} onClick={deny} content="Deny" />
+        <Button
+          style={{ ...buttonStyle, marginLeft: '1rem' }}
+          onClick={accept}
+          content="Accept"
+          primary={true}
+        />
+      </div>
+    </div>
+  );
+};
+
+const PP = (props: any) => {
+  const { accept, deny, text } = props;
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <Header as="h4">Our Privacy Policy</Header>
       <Form>
         <TextArea rows="20" value={text} />
       </Form>
@@ -126,11 +163,13 @@ const Intro = ({ closeModal }: Props) => {
 
 const mapStateToProps = (state: any) => ({
   termsOfService: get(state, 'userOnboarding.termsOfService'),
+  privacyPolicy: get(state, 'userOnboarding.privacyPolicy'),
 });
 
 const mapDispatchToProps = {
   closeModal: closeUserOnboardingModal,
   fetchTOS: () => fetchTOS(),
+  fetchPP: () => fetchPP(),
 };
 
 export default connect(
