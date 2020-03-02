@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Grid, TextArea, Dropdown } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import { Field } from 'redux-form';
-import { InputField, SelectField } from '../../../components/ReduxFormFields';
+import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
 import { defaultSelect } from '../../../constants';
 // import timezones from '../../../constants/UploadSupplier/timezones';
 // import { accountStatus } from '../../../constants/UploadSupplier';
@@ -19,15 +19,15 @@ const required = isRequired();
 const SupplierDetails = () => (
   <React.Fragment>
     <Grid.Column className={styles['rightAdjust']} width={7}>
-      {/* <Field
+      <Field
         className={styles['dropdwn-wdth']}
         component={SelectField}
         name="marketPlace"
         label="Market Place"
         placeholder="Amazon.com"
         options={[defaultSelect, ...marketPlace]}
-      /> */}
-      <div className={`field`}>
+      />
+      {/* <div className={`field`}>
         <label>Market Place</label>
         <Dropdown
           name="marketPlace"
@@ -37,7 +37,7 @@ const SupplierDetails = () => (
           selection
           options={marketPlace}
         />
-      </div>
+      </div> */}
       {/* <Grid columns="equal">
         <Grid.Column className={styles['taxAlign']}>
           <Field
@@ -87,7 +87,16 @@ const AddNewSearch = () => {
                 placeholder="Search Name"
                 maxLength="100"
               />
-              <div className={`field ${styles['description-box']}`}>
+              <div className={`${styles['description-box']}`}>
+                <Field
+                  component={TextAreaField}
+                  name="searchDescription"
+                  label="Search Description"
+                  placeholder="Search Description"
+                  maxLength="100"
+                />
+              </div>
+              {/* <div className={`field ${styles['description-box']}`}>
                 <label>Search Description</label>
                 <TextArea
                   name="searchDescription"
@@ -95,7 +104,7 @@ const AddNewSearch = () => {
                   placeholder="Search Description"
                   style={{ minHeight: 70 }}
                 />
-              </div>
+              </div> */}
             </div>
           </Grid.Column>
           {<SupplierDetails />}

@@ -423,6 +423,9 @@ export const saveSupplierNameAndDescription = (name: string, description: string
   return new Promise((resolve, reject) => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
+
+    // console.log(sellerID + ' aaaaa');
+
     bodyFormData.set('name', name);
     if (description) {
       bodyFormData.set('description', description);
@@ -430,6 +433,25 @@ export const saveSupplierNameAndDescription = (name: string, description: string
     for (const param in other) {
       bodyFormData.set(param, other[param]);
     }
+
+    const search = {
+      name: 'name',
+      description: 'description',
+      status: 'active',
+    };
+
+    // Axios
+    //   .get(AppConfig.BASE_URL_API + `sellers/1000000002/searches`)
+    //   .then(res => console.log(res));
+
+    // console.log('getting');
+
+    // Axios
+    //   .post(AppConfig.BASE_URL_API + `/sellers/${sellerID}/searches`, JSON.stringify(search))
+    //   .then(res => resolve(res.data))
+
+    // console.log(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`);
+
     return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
       .then(json => {
         dispatch(addSupplier(json.data));
@@ -446,7 +468,7 @@ export const saveSupplierNameAndDescription = (name: string, description: string
 
 export const updateSupplierNameAndDescription = (
   name: string,
-  description: string,
+  contact: string,
   supplierID: string,
   other: any
 ) => (dispatch: any) => {
@@ -454,7 +476,7 @@ export const updateSupplierNameAndDescription = (
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
     bodyFormData.set('name', name);
-    bodyFormData.set('description', description);
+    bodyFormData.set('contact', contact);
     bodyFormData.set('id', supplierID);
     for (const param in other) {
       bodyFormData.set(param, other[param]);
@@ -485,3 +507,36 @@ export const setsaveSupplierNameAndDescription = (data: {}) => ({
   type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   payload: data,
 });
+
+export const addNewSearch = (name: string, description: string, supplier_id: string) => (
+  dispatch: any
+) => {
+  return new Promise((resolve, reject) => {
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+
+    bodyFormData.set('name', name);
+    bodyFormData.set('description', description);
+    bodyFormData.set('status', 'active');
+    bodyFormData.set('supplier_id', supplier_id);
+
+    return Axios.post(AppConfig.BASE_URL_API + `/sellers/${sellerID}/searches`, bodyFormData).then(
+      res => resolve(res.data)
+    );
+
+    // return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
+    //   .then(json => {
+    //     dispatch(addSupplier(json.data));
+    //     dispatch(setsaveSupplierNameAndDescription(json.data));
+    //     resolve(json.data);
+    //   })
+    //   .catch(err => {
+    //     for (const er in err.response.data) {
+    //       error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+    //     }
+    //   });
+  });
+  // console.log(name);
+  // console.log(description);
+  // console.log(supplier_id);
+};

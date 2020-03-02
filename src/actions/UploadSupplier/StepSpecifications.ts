@@ -12,7 +12,11 @@ import { UploadSteps } from '../../constants/UploadSupplier';
 import { isValid, submit, getFormValues } from 'redux-form';
 import { csvFileSelector } from '../../selectors/UploadSupplier';
 import { error } from '../../utils/notifications';
-import { saveSupplierNameAndDescription, updateSupplierNameAndDescription } from '../Suppliers';
+import {
+  saveSupplierNameAndDescription,
+  updateSupplierNameAndDescription,
+  addNewSearch,
+} from '../Suppliers';
 import {
   removeColumnMappings,
   fetchColumnMappings,
@@ -52,6 +56,77 @@ export abstract class Step {
   }
 }
 
+export class AddNewSearchStep extends Step {
+  step = UploadSteps.AddNewSearch;
+
+  validate() {
+    const state = this.getState();
+    const isFormValid = isValid('supplier-info')(state);
+    let errorMessage;
+
+    if (!isFormValid) {
+      // submitting will make errors visible
+      this.dispatch(submit('supplier-info'));
+      errorMessage = 'Please fill required fields';
+    }
+
+    return errorMessage;
+  }
+
+  async finalizeStep() {
+    const formValues: any = getFormValues('supplier-info')(this.getState());
+    const { searchName, searchDescription, supplier_id } = formValues;
+
+    // console.log(formValues)
+
+    // const data: any = addNewSearch(searchName, searchDescription, supplier_id);
+
+    // try {
+    //   const result = await this.dispatch(addNewSearch(
+    //     searchName, searchDescription, supplier_id
+    //   ));
+
+    //   console.log(result);
+    //   console.log('adding');
+    // } catch (e) {
+    //   throw e;
+    // }
+
+    // console.log(formValues);
+    // console.log(formValues.supplier_id);
+    // console.log('here');
+
+    // try {
+    //   const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
+    //   const { name, description, ...other } = formValues;
+    //   if (!existingSupplier) {
+    //     // add other form values
+    //     const data: any = await this.dispatch(
+    //       saveSupplierNameAndDescription(name, description, other)
+    //     );
+    //     this.dispatch(openUploadSupplierModal(data));
+    //   } else {
+    //     for (let param in existingSupplier) {
+    //       if (existingSupplier[param] === other[param]) {
+    //         delete other[param];
+    //       }
+    //     }
+    //     await this.dispatch(
+    //       updateSupplierNameAndDescription(name, description, existingSupplier.id, other)
+    //     );
+    //     //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
+    //   }
+    //   this.dispatch(fetchColumnMappings());
+    // } catch (error) {
+    //   throw error;
+    // }
+  }
+
+  cleanStep() {
+    // this.dispatch(destroy('supplier-info'));
+  }
+}
+
 export class AddNewSupplierStep extends Step {
   step = UploadSteps.AddNewSupplier;
 
@@ -72,6 +147,8 @@ export class AddNewSupplierStep extends Step {
   async finalizeStep() {
     const formValues: any = getFormValues('supplier-info')(this.getState());
 
+    // console.log(formValues)
+
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
       const { name, description, ...other } = formValues;
@@ -80,6 +157,12 @@ export class AddNewSupplierStep extends Step {
         const data: any = await this.dispatch(
           saveSupplierNameAndDescription(name, description, other)
         );
+
+        // console.log(data);
+
+        // console.log('HERE')
+        // console.log(formValues);
+
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (let param in existingSupplier) {
@@ -422,6 +505,9 @@ export class SubmitStep extends Step {
 
 export function getStepSpecification(stepNumber: number) {
   switch (stepNumber) {
+    case UploadSteps.AddNewSearch:
+      return AddNewSearchStep;
+
     case UploadSteps.AddNewSupplier:
       return AddNewSupplierStep;
 

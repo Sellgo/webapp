@@ -14,6 +14,7 @@ export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
 export const UPDATE_DATA_QUALITY_REPORT = 'UPDATE_DATA_QUALITY_REPORT';
 
 export enum UploadSteps {
+  AddNewSearch,
   AddNewSupplier,
   SelectFile,
   DataMapping,

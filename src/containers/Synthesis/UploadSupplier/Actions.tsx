@@ -49,7 +49,7 @@ const Actions = ({
   };
 
   const hasPrevStep = currentStep !== 0;
-  const hasNextStep = currentStep !== 4;
+  const hasNextStep = currentStep !== 5;
 
   if (processCompleted) {
     return (
@@ -70,14 +70,14 @@ const Actions = ({
   return (
     <div className={`${className || ''} ${styles.actions} ${styles['supplier-btns']}`}>
       <div className={styles['download-options']}>
-        {currentStep === 1 && (
+        {currentStep === 2 && (
           <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
             </Button>
           </a>
         )}
-        {currentStep === 1 && columnMappings.length > 0 && (
+        {currentStep === 2 && columnMappings.length > 0 && (
           <Checkbox
             className={styles.checked}
             style={{ marginLeft: '1em' }}
@@ -101,7 +101,7 @@ const Actions = ({
             Previous
           </Button>
         )}
-        {currentStep === 1 && (
+        {currentStep === 2 && (
           <Button onClick={closeModal} className={styles.action} basic={true} color="red">
             Dismiss
           </Button>
@@ -117,10 +117,12 @@ const Actions = ({
             {(() => {
               switch (currentStep) {
                 case 0:
+                  return 'Next';
+                case 1:
                   return 'Save & Proceed';
                 case 3:
                   return 'Submit';
-                case 1:
+                case 2:
                   return skipColumnMappingCheck ? 'Skip' : 'Next';
                 default:
                   return 'Next';
