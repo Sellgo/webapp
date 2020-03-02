@@ -1,3 +1,9 @@
+.track-wrap {
+  img {
+    width: 18px;
+  }
+}
+
 .admin-header {
   .top-menu {
     padding-left: 9.4%;
@@ -5,6 +11,19 @@
     background-color: #3b4557 !important;
     height: 64px;
   }
+
+  .product-tracker-menu {
+    span {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 18px;
+        margin-right: 10px;
+      }
+    }
+  }
+
   .item.product-tracker-menu:before {
     position: relative;
     top: 0px;
