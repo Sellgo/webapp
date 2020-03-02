@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rail, Segment, Message } from 'semantic-ui-react';
+import { Rail, Segment } from 'semantic-ui-react';
 import './index.scss';
 
 export default function MessageDisplay(props: any) {

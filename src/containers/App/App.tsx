@@ -17,7 +17,6 @@ import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
 import ProductTracker from '../ProductTracker';
 import MessageDisplay from '../../components/MessageDisplay';
-import { Rail, Segment, Message } from 'semantic-ui-react';
 
 const auth = new Auth();
 
