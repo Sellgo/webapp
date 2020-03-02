@@ -64,7 +64,7 @@ export default function Signup(props: Props, state: State) {
         },
         {
           id: 2,
-          header: 'Please re-enter your password',
+          header: 'Wrong email or Password',
           content:
             'The password you entered is incorrect. Please try again (make sure your caps lock is off)',
         },
@@ -82,11 +82,10 @@ export default function Signup(props: Props, state: State) {
       },
       (err: any) => {
         if (err) {
-          console.log('error: ', err.description);
-          console.log('erro!: ', JSON.stringify(err));
-          return alert('Error Occured!');
+          console.log('description: ', err.description);
+          return alert(`Something's wrong. ${err.description}`);
         } else {
-          return alert('SUCCESS! Please verify email.');
+          return alert(`Account Created! A link to verify your email has been sent to ${email}`);
         }
       }
     );
@@ -100,10 +99,15 @@ export default function Signup(props: Props, state: State) {
         <Form.Input required type="text" placeholder="First Name" {...bindFirstName} />
         <Form.Input required type="text" placeholder="Last Name" {...bindLastName} />
         <StepsInfo stepsData={state.stepsInfo} {...bindPassword} />
-        <Form.Field control={Checkbox} label="I agree to receive emails from Sellgo" />
+        <Form.Field
+          control={Checkbox}
+          type="checkbox"
+          label="I agree to receive emails from Sellgo"
+        />
         <Form.Field
           required
-          control={Checkbox}
+          control="input"
+          type="checkbox"
           label={
             <label>
               By signing up, you're agreeing to our &nbsp;
@@ -111,7 +115,7 @@ export default function Signup(props: Props, state: State) {
               <a href="#">data use policy</a> as well as the use of &nbsp;<a href="#">cookies</a>.
             </label>
           }
-        />
+        ></Form.Field>
         <Form.Field control={Button} fluid={true} primary={true}>
           Register
         </Form.Field>

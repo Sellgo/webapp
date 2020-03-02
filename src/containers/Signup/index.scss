@@ -15,6 +15,17 @@
   label.log-in {
     text-align: center;
   }
+
+  input[type='checkbox'] {
+    position: relative;
+    top: 3px;
+    left: 0px;
+    width: 17px;
+    height: 17px;
+    content: '';
+    background: #fff;
+    border-radius: 0.21428571rem;
+  }
 }
 
 @media only screen and (max-width: 768px) {

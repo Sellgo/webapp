@@ -25,7 +25,15 @@ const StepsInfo = (props: Props) => {
 
   return (
     <Popup
-      trigger={<Form.Input required type="password" placeholder="Password" onChange={onChange} />}
+      trigger={
+        <Form.Input
+          required
+          type="password"
+          minLength={8}
+          placeholder="Password"
+          onChange={onChange}
+        />
+      }
       on="focus"
       size="huge"
       position="left center"
