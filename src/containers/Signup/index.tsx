@@ -3,7 +3,6 @@ import { Button, Form, Checkbox, Header } from 'semantic-ui-react';
 import './index.scss';
 import SignupBase from '../../components/SignupBase';
 import StepsInfo from '../../components/StepsInfo/StepsInfo';
-import { MessageTypes } from '../../interfaces/MessageDisplay';
 import { Steps } from '../../interfaces/StepsInfo';
 import Auth from '../../components/Auth/Auth';
 import { useInput } from '../../hooks/useInput';
@@ -14,7 +13,6 @@ interface Props {
 
 interface State {
   stepsInfo: Steps[];
-  messageInfo: MessageTypes;
 }
 
 export default function Signup(props: Props, state: State) {
@@ -53,23 +51,6 @@ export default function Signup(props: Props, state: State) {
         stepIcon: password && password.length > 7 ? 'check' : 'times',
       },
     ],
-    messageInfo: {
-      messSucc: true,
-      messPassErr: false,
-      messageDetails: [
-        {
-          id: 1,
-          header: 'Account Created',
-          content: 'A link to verify your email has been sent to bluebackground@gmail.com',
-        },
-        {
-          id: 2,
-          header: 'Wrong email or Password',
-          content:
-            'The password you entered is incorrect. Please try again (make sure your caps lock is off)',
-        },
-      ],
-    },
   };
 
   const handleSubmit = () => {
@@ -82,7 +63,7 @@ export default function Signup(props: Props, state: State) {
       },
       (err: any) => {
         if (err) {
-          console.log('description: ', err.description);
+          // Alerts is to be replaced by dynamic message
           return alert(`Something's wrong. ${err.description}`);
         } else {
           return alert(`Account Created! A link to verify your email has been sent to ${email}`);
@@ -92,7 +73,7 @@ export default function Signup(props: Props, state: State) {
   };
 
   return (
-    <SignupBase messageInfo={state.messageInfo}>
+    <SignupBase>
       <Form className="signup-form" onSubmit={handleSubmit}>
         <Header size="huge"> Register Here </Header>
         <Form.Input required type="email" placeholder="Email" {...bindEmail} />
@@ -105,7 +86,6 @@ export default function Signup(props: Props, state: State) {
           label="I agree to receive emails from Sellgo"
         />
         <Form.Field
-          required
           control="input"
           type="checkbox"
           label={
@@ -115,7 +95,8 @@ export default function Signup(props: Props, state: State) {
               <a href="#">data use policy</a> as well as the use of &nbsp;<a href="#">cookies</a>.
             </label>
           }
-        ></Form.Field>
+          required
+        />
         <Form.Field control={Button} fluid={true} primary={true}>
           Register
         </Form.Field>
