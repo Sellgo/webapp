@@ -129,8 +129,8 @@ function App(props: any) {
   return (
     <div>
       <Router history={history}>
-        <MessageDisplay />
         <ScrollToTop />
+        <MessageDisplay />
         <Switch>
           <Route
             exact={true}
