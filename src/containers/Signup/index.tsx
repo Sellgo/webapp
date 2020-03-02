@@ -121,7 +121,7 @@ export default function Signup(props: Props, state: State) {
         </Form.Field>
         <label className="log-in">
           <b>
-            Already have a Sellgo account?&nbsp;<a href="#">Log In </a>
+            Already have a Sellgo account?&nbsp;<a href="/">Log In </a>
           </b>
         </label>
       </Form>
