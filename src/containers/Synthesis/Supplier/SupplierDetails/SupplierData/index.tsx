@@ -101,7 +101,4 @@ const mapDispatchToProps = {
   fetchSupplierProductsTrackData: (supplierID: any) => fetchSupplierProductsTrackData(supplierID),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierData);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierData);

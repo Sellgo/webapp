@@ -314,7 +314,4 @@ const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierCharts);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierCharts);

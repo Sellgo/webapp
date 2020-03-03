@@ -1,54 +1,54 @@
 .quota-meter {
-	display: flex;
-	justify-content: space-between;
-	width: 446px;
+  display: flex;
+  justify-content: space-between;
+  width: 446px;
 
-	.add-new-supplier {
-		background: #349af8;
-	}
+  .add-new-supplier {
+    background: #349af8;
+  }
 
-	.ui.tiny.progress {
-		height: 6px;
-		top: 5px;
-		width: 60%;
-	}
+  .ui.tiny.progress {
+    height: 6px;
+    top: 5px;
+    width: 60%;
+  }
 
-	.ui.add-new-supplier {
-		font-family: 'work sans', sans-serif !important;
-		font-size: 14px !important;
-	}
+  .ui.add-new-supplier {
+    font-family: 'work sans', sans-serif !important;
+    font-size: 14px !important;
+  }
 
-	.ui.progress > .label {
-		font-family: 'work sans', sans-serif !important;
-		font-size: 14px;
-		font-weight: 400;
-		margin-top: -2px;
-	}
+  .ui.progress > .label {
+    font-family: 'work sans', sans-serif !important;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: -2px;
+  }
 
-	.ui.tiny.progress .bar {
-		height: 6px;
-	}
+  .ui.tiny.progress .bar {
+    height: 6px;
+  }
 
-	@media screen and (max-width: 340px) {
-		.ui.tiny.progress {
-			width: 173px !important;
-		}
+  @media screen and (max-width: 340px) {
+    .ui.tiny.progress {
+      width: 173px !important;
+    }
 
-		.add-new-supplier {
-			font-size: 12px !important;
-		}
-	}
+    .add-new-supplier {
+      font-size: 12px !important;
+    }
+  }
 
-	@media screen and (max-width: 450px) {
-		.ui.tiny.progress {
-			width: 50%;
-		}
-	}
+  @media screen and (max-width: 450px) {
+    .ui.tiny.progress {
+      width: 50%;
+    }
+  }
 }
 
 @media screen and (max-width: 767px) {
-	.quota-meter {
-		margin: 10px 0;
-		width: unset;
-	}
+  .quota-meter {
+    margin: 10px 0;
+    width: unset;
+  }
 }

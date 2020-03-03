@@ -1,52 +1,52 @@
 .filter-section {
-	.filter-head {
-		display: flex;
-		margin-bottom: 1rem;
+  .filter-head {
+    display: flex;
+    margin-bottom: 1rem;
 
-		> p {
-			font-size: 18px;
-			font-weight: 600;
-			margin-bottom: 0;
-		}
+    > p {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 0;
+    }
 
-		.icon.question.circle::before {
-			color: #98aeca;
-			font-size: 15px;
-			line-height: 1;
-			padding-left: 0.5rem;
-		}
+    .icon.question.circle::before {
+      color: #98aeca;
+      font-size: 15px;
+      line-height: 1;
+      padding-left: 0.5rem;
+    }
 
-		.icon.chevron.up::before {
-			font-size: 23px;
-		}
+    .icon.chevron.up::before {
+      font-size: 23px;
+    }
 
-		.up-icon {
-			color: #000;
-			cursor: pointer;
-			margin-right: 20px;
-			margin-top: 3px;
-		}
+    .up-icon {
+      color: #000;
+      cursor: pointer;
+      margin-right: 20px;
+      margin-top: 3px;
+    }
 
-		.icon.chevron.down::before {
-			font-size: 23px;
-		}
-	}
+    .icon.chevron.down::before {
+      font-size: 23px;
+    }
+  }
 
-	// Targeting the <Container> inside <SliderRange>
-	// TODO: Maybe move spacing outside of <SliderRange>
-	.filter-content .ui.container {
-		margin-bottom: 20px;
-	}
+  // Targeting the <Container> inside <SliderRange>
+  // TODO: Maybe move spacing outside of <SliderRange>
+  .filter-content .ui.container {
+    margin-bottom: 20px;
+  }
 }
 
 @media screen and (max-height: 900px) {
-	.filter-section {
-		.filter-head {
-			margin-bottom: 0.5rem;
-		}
+  .filter-section {
+    .filter-head {
+      margin-bottom: 0.5rem;
+    }
 
-		.filter-content .ui.container {
-			margin-bottom: 10px;
-		}
-	}
+    .filter-content .ui.container {
+      margin-bottom: 10px;
+    }
+  }
 }

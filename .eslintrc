@@ -29,6 +29,8 @@
     "es6": true
   },
   "rules": {
+    "react/self-closing-comp": "error", // <a></a> ==> <a/>
+    "eol-last": 2,
     "linebreak-style": 0,
     "no-underscore-dangle": "off",
     "max-len": [

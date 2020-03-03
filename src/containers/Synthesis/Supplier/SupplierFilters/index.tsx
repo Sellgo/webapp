@@ -38,7 +38,7 @@ class SupplierFilters extends Component<SupplierFiltersProps> {
     }
   }
 
-  componentWillReceiveProps(props: any) {
+  UNSAFE_componentWillReceiveProps(props: any) {
     if (props.products && props.products !== this.props.products) {
       // Get min and max range for each filter setting based on all products
       const productRanges = findMinMaxRange(props.products);
@@ -143,7 +143,4 @@ const mapDispatchToProps = {
   updateFilterRanges: (filterRanges: any) => updateSupplierFilterRanges(filterRanges),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierFilters);

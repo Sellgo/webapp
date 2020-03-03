@@ -133,7 +133,4 @@ const mapDispatchToProps = {
   fetchTOS: () => fetchTOS(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserOnboarding);
+export default connect(mapStateToProps, mapDispatchToProps)(UserOnboarding);

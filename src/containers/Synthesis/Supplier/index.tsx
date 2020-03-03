@@ -172,7 +172,4 @@ const mapDispatchToProps = {
   supplierProgress: (supplierID: any) => supplierProgress(supplierID),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Supplier);
+export default connect(mapStateToProps, mapDispatchToProps)(Supplier);

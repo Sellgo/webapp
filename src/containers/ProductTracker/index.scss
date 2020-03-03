@@ -1,68 +1,68 @@
 .tracker-setting {
-	.left-column {
-		width: 214px !important;
-	}
-	// Make right column expand to take up available width
-	.right-column {
-		flex: 1;
-	}
+  .left-column {
+    width: 214px !important;
+  }
+  // Make right column expand to take up available width
+  .right-column {
+    flex: 1;
+  }
 
-	.product-tracker {
-		.search-product {
-			align-items: center;
-			display: flex;
-			margin-left: 13%;
-			margin-top: -72px;
+  .product-tracker {
+    .search-product {
+      align-items: center;
+      display: flex;
+      margin-left: 13%;
+      margin-top: -72px;
 
-			.ui.input {
-				width: 373px;
-			}
+      .ui.input {
+        width: 373px;
+      }
 
-			.ui.icon.input > input {
-				border: 1px solid #b7b9bf;
-				border-radius: 10px;
-			}
+      .ui.icon.input > input {
+        border: 1px solid #b7b9bf;
+        border-radius: 10px;
+      }
 
-			.ui.icon.input > i.icon {
-				border-radius: 0 10px 10px 0 !important;
-				color: #fff;
-				opacity: 1 !important;
-			}
+      .ui.icon.input > i.icon {
+        border-radius: 0 10px 10px 0 !important;
+        color: #fff;
+        opacity: 1 !important;
+      }
 
-			.ui.icon.input > i.icon:not(.link) {
-				background: #349af8;
-			}
+      .ui.icon.input > i.icon:not(.link) {
+        background: #349af8;
+      }
 
-			label {
-				font-weight: bold;
-				margin-right: 15px;
-			}
-		}
+      label {
+        font-weight: bold;
+        margin-right: 15px;
+      }
+    }
 
-		@media screen and (min-width: 310px) and (max-width: 767px) {
-			.search-product .ui.input {
-				width: 250px !important;
-			}
+    @media screen and (min-width: 310px) and (max-width: 767px) {
+      .search-product .ui.input {
+        width: 250px !important;
+      }
 
-			.search-product {
-				flex-direction: column;
-				margin-left: 0 !important;
-				margin-top: 0 !important;
-			}
-		}
+      .search-product {
+        flex-direction: column;
+        margin-left: 0 !important;
+        margin-top: 0 !important;
+      }
+    }
 
-		@media screen and (min-width: 768px) and (max-width: 1023px) {
-			.search-product {
-				margin-left: 0 !important;
-				margin-top: 0 !important;
-			}
-		}
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      .search-product {
+        margin-left: 0 !important;
+        margin-top: 0 !important;
+      }
+    }
 
-		@media screen and (min-width: 1024px) and (max-width: 1250px) {
-			.search-product {
-				margin-left: 0 !important;
-				margin-top: 0 !important;
-			}
-		}
-	}
+    @media screen and (min-width: 1024px) and (max-width: 1250px) {
+      .search-product {
+        margin-left: 0 !important;
+        margin-top: 0 !important;
+      }
+    }
+  }
 }

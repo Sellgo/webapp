@@ -420,7 +420,4 @@ const mapDispatchToProps = {
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SuppliersTable);
+export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

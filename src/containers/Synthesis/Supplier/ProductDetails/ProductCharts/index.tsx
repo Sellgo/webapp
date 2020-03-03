@@ -276,7 +276,4 @@ const mapDispatchToProps = {
     fetchSupplierProductDetailChartKPI(supplierID, productID),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductCharts);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCharts);

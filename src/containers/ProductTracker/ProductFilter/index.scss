@@ -1,67 +1,67 @@
 .product-tracker-filters {
-	// Negative margin to make up for (most) of extra left padding due to column
-	margin-left: -0.8rem;
-	margin-top: -24px;
-	width: calc(100% + 1rem);
+  // Negative margin to make up for (most) of extra left padding due to column
+  margin-left: -0.8rem;
+  margin-top: -24px;
+  width: calc(100% + 1rem);
 
-	.products-count {
-		color: 'black';
-		font-size: 18px;
-		font-weight: 600;
-		margin-left: 0;
-		text-align: center;
-	}
+  .products-count {
+    color: 'black';
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 0;
+    text-align: center;
+  }
 
-	// Dropdown that says "select a preset"
-	.search-dropdown {
-		padding-top: 0.6rem;
-	}
+  // Dropdown that says "select a preset"
+  .search-dropdown {
+    padding-top: 0.6rem;
+  }
 
-	.filter-title {
-		display: flex;
-		font-size: 14px;
-		font-weight: bold;
-		justify-content: space-between;
-		margin-bottom: 18px;
+  .filter-title {
+    display: flex;
+    font-size: 14px;
+    font-weight: bold;
+    justify-content: space-between;
+    margin-bottom: 18px;
 
-		label {
-			font-weight: 500;
-		}
-	}
+    label {
+      font-weight: 500;
+    }
+  }
 
-	.custom-check {
-		margin-bottom: 21px;
-		width: 100%;
+  .custom-check {
+    margin-bottom: 21px;
+    width: 100%;
 
-		.ui.checkbox label {
-			font-size: 16px;
-		}
-	}
+    .ui.checkbox label {
+      font-size: 16px;
+    }
+  }
 
-	.check-filter {
-		margin-top: 48px;
+  .check-filter {
+    margin-top: 48px;
 
-		.ui.checkbox input:checked ~ .box::after,
-		.ui.checkbox input:checked ~ label::after {
-			background: #4b9af7 !important;
-			border-radius: 5px;
-			color: #fff !important;
-		}
-	}
+    .ui.checkbox input:checked ~ .box::after,
+    .ui.checkbox input:checked ~ label::after {
+      background: #4b9af7 !important;
+      border-radius: 5px;
+      color: #fff !important;
+    }
+  }
 
-	i.small.icon.question {
-		color: #98aeca !important;
-		font-size: 1em !important;
-		padding-left: 0.5rem;
-	}
+  i.small.icon.question {
+    color: #98aeca !important;
+    font-size: 1em !important;
+    padding-left: 0.5rem;
+  }
 
-	.ui.checkbox input.hidden + label {
-		color: black;
-		font-family: inherit;
-		font-size: 12px;
-	}
+  .ui.checkbox input.hidden + label {
+    color: black;
+    font-family: inherit;
+    font-size: 12px;
+  }
 
-	@media screen and (min-width: 768px) and (max-width: 1024px) {
-		margin-top: 49px !important;
-	}
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    margin-top: 49px !important;
+  }
 }

@@ -89,7 +89,4 @@ const mapDispatchToProps = {
   setColumn: (column: {}) => setSupplierTableColumns(column),
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SelectColumns);
+export default connect(null, mapDispatchToProps)(SelectColumns);

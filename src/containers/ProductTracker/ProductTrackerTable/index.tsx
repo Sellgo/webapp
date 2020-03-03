@@ -76,7 +76,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     retrieveTrackGroup();
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { trackGroups } = this.props;
     if (nextProps && nextProps.trackGroups !== trackGroups) {
       this.setState({ open: false });

@@ -1,63 +1,63 @@
 .admin-layout {
-	&.ui.segment {
-		background-color: #f8faff;
-		height: 100%;
-		margin-top: 0;
-		min-height: 100vh;
-		padding: 20px 4.69% 0;
-		transition: width 0.8s, padding 0.8s;
-	}
+  &.ui.segment {
+    background-color: #f8faff;
+    height: 100%;
+    margin-top: 0;
+    min-height: 100vh;
+    padding: 20px 4.69% 0;
+    transition: width 0.8s, padding 0.8s;
+  }
 }
 
 @media screen and (min-height: 1600px), screen and (max-height: 900px) {
-	.ui.segment {
-		padding: 0 1rem;
+  .ui.segment {
+    padding: 0 1rem;
 
-		&.tracker-setting {
-			margin-top: 3rem;
-		}
+    &.tracker-setting {
+      margin-top: 3rem;
+    }
 
-		&.settings {
-			margin-top: 1rem;
-		}
+    &.settings {
+      margin-top: 1rem;
+    }
 
-		&.subscription {
-			margin-top: 2rem;
-		}
-	}
+    &.subscription {
+      margin-top: 2rem;
+    }
+  }
 
-	.slider-range {
-		.range-title {
-			margin-bottom: 10px;
-		}
-	}
+  .slider-range {
+    .range-title {
+      margin-bottom: 10px;
+    }
+  }
 
-	.supplier-details-card {
-		.ui.feed {
-			.event {
-				.content {
-					.highcharts-container {
-						margin: 0 auto;
-						max-height: 330px !important;
-					}
-				}
-			}
-		}
-	}
+  .supplier-details-card {
+    .ui.feed {
+      .event {
+        .content {
+          .highcharts-container {
+            margin: 0 auto;
+            max-height: 330px !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media screen and (min-width: 2560px) {
-	.setting {
-		.ui.grid {
-			.row {
-				.left-column.column {
-					align-items: start;
-					display: flex !important;
-					margin: 0 !important;
-					padding: 0 5rem;
-					width: 0 !important;
-				}
-			}
-		}
-	}
+  .setting {
+    .ui.grid {
+      .row {
+        .left-column.column {
+          align-items: start;
+          display: flex !important;
+          margin: 0 !important;
+          padding: 0 5rem;
+          width: 0 !important;
+        }
+      }
+    }
+  }
 }

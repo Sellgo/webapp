@@ -45,7 +45,7 @@
     "react-scripts": "3.4.0",
     "react-stripe-checkout": "^2.6.3",
     "react-toastify": "^5.5.0",
-    "redux": "^4.0.5",
+    "redux": "^4.0.4",
     "redux-form": "^8.3.0",
     "redux-starter-kit": "^0.4.3",
     "redux-thunk": "^2.3.0",
@@ -55,7 +55,8 @@
     "validator": "^11.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start:no-lint": "react-scripts start",
+    "start": "npm run lint && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -86,7 +87,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-helmet": "^5.0.15",
     "@types/react-rangeslider": "^2.2.0",
-    "@types/react-redux": "^7.1.7",
+    "@types/react-redux": "^7.0.1",
     "@types/react-router": "^4.4.5",
     "@types/react-router-dom": "^4.3.5",
     "@types/redux-form": "^8.2.2",

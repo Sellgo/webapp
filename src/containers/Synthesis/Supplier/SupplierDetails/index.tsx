@@ -38,7 +38,4 @@ const SupplierDetails = (props: any) => {
 
 const mapDispatchToProps = {};
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SupplierDetails);
+export default connect(null, mapDispatchToProps)(SupplierDetails);

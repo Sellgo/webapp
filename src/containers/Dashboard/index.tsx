@@ -137,7 +137,4 @@ class Dashboard extends React.Component<{}, State> {
 
 const mapDispatchToProps = {};
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Dashboard);
+export default connect(null, mapDispatchToProps)(Dashboard);
