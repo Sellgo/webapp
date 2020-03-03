@@ -81,7 +81,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   }
 };
 
-export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null) => {
+export const setRawCsv = (csvString: string | ArrayBuffer | null, csvFile: File | null) => {
   const csvJSONFile: any = {};
   if (csvFile !== null) {
     csvJSONFile['lastModified'] = csvFile.lastModified;
@@ -94,7 +94,7 @@ export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null)
   };
 };
 
-export const setCsv = (csv: string[][]) => ({
+export const setCsv = (csv: string[][] | null) => ({
   type: SET_CSV,
   payload: csv,
 });
@@ -119,7 +119,9 @@ export const parseCsv = () => (
 
   const getParsedCsv = (err: Error | undefined, output: string[][]) => {
     if (err) {
-      // tslint:disable-next-line:no-console
+      error('File does not appear to be a valid csv file.');
+      dispatch(setCsv(null));
+      dispatch(setRawCsv(null, null));
     } else {
       dispatch(setCsv(output));
     }
