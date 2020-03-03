@@ -1,51 +1,56 @@
 import React from 'react';
 import { Rail, Segment, Message } from 'semantic-ui-react';
-import { MessageTypes, Detail } from '../../interfaces/MessageDisplay';
 import './index.scss';
+import { MessageDetails } from '../../interfaces/MessageDisplay';
 
+interface State {
+  hidden: boolean;
+}
 interface Props {
-  propsMessage: MessageTypes;
+  messageDetails: MessageDetails;
 }
 
-const MessageDisplay = (props: Props) => {
-  const { messSucc, messPassErr, messageDetails } = props.propsMessage;
-  const returnMessage = messageDetails.map((stat: Detail) => {
-    let messHeader: string = '';
-    let messContent: string = '';
-    let messSuccess: boolean = false;
-    let messError: boolean = false;
-    let counter: boolean = false;
-
-    if (messSucc === true && stat.id === 1) {
-      messHeader = stat.header;
-      messContent = stat.content;
-      messSuccess = messSucc;
-      counter = true;
-    } else if (messPassErr === true && stat.id === 2) {
-      messHeader = stat.header;
-      messContent = stat.content;
-      messError = messPassErr;
-      counter = true;
+class MessageDisplay extends React.Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      hidden: true,
+    };
+  }
+  componentWillReceiveProps(prevProps: any) {
+    if (prevProps.messageDetails.key != this.props.messageDetails.key) {
+      this.showMessage();
     }
+  }
+  showMessage() {
+    this.setState({
+      hidden: false,
+    });
+    setTimeout(() => {
+      this.setState({
+        hidden: true,
+      });
+    }, 4000);
+  }
 
-    if (counter) {
-      return (
-        <Message
-          key={stat.id}
-          success={messSuccess}
-          error={messError}
-          header={messHeader}
-          content={messContent}
-        />
-      );
-    }
-  });
-
-  return (
-    <Rail internal={true} position="left">
-      <Segment>{returnMessage}</Segment>
-    </Rail>
-  );
-};
+  render() {
+    const { key, header, content, isSuccess, isError } = this.props.messageDetails;
+    const { hidden } = this.state;
+    return (
+      <Rail internal={true} position="left">
+        <Segment>
+          <Message
+            key={key}
+            hidden={hidden}
+            success={isSuccess}
+            error={isError}
+            header={header}
+            content={content}
+          />
+        </Segment>
+      </Rail>
+    );
+  }
+}
 
 export default MessageDisplay;

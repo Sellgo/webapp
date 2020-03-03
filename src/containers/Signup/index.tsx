@@ -3,10 +3,12 @@ import { Button, Form, Checkbox, Header } from 'semantic-ui-react';
 import './index.scss';
 import SignupBase from '../../components/SignupBase';
 import StepsInfo from '../../components/StepsInfo/StepsInfo';
-import { MessageTypes } from '../../interfaces/MessageDisplay';
 import { Steps } from '../../interfaces/StepsInfo';
 import Auth from '../../components/Auth/Auth';
 import { useInput } from '../../hooks/useInput';
+import { v4 as uuid } from 'uuid';
+import history from '../../history';
+import { reset } from 'redux-form';
 
 interface Props {
   auth: Auth;
@@ -14,15 +16,14 @@ interface Props {
 
 interface State {
   stepsInfo: Steps[];
-  messageInfo: MessageTypes;
 }
 
 export default function Signup(props: Props, state: State) {
   const { auth } = props;
-  const { value: email, bind: bindEmail } = useInput('');
-  const { value: firstname, bind: bindFirstName } = useInput('');
-  const { value: lastname, bind: bindLastName } = useInput('');
-  const { value: password, bind: bindPassword } = useInput('');
+  const { value: email, bind: bindEmail, reset: resetEmail } = useInput('');
+  const { value: firstname, bind: bindFirstName, reset: resetFirstName } = useInput('');
+  const { value: lastname, bind: bindLastName, reset: resetLastName } = useInput('');
+  const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
   const alphanumericRegex = /(?=.*(\d|\W))/;
   const strongRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
@@ -53,25 +54,33 @@ export default function Signup(props: Props, state: State) {
         stepIcon: password && password.length > 7 ? 'check' : 'times',
       },
     ],
-    messageInfo: {
-      messSucc: true,
-      messPassErr: false,
-      messageDetails: [
-        {
-          id: 1,
-          header: 'Account Created',
-          content: 'A link to verify your email has been sent to bluebackground@gmail.com',
-        },
-        {
-          id: 2,
-          header: 'Wrong email or Password',
-          content:
-            'The password you entered is incorrect. Please try again (make sure your caps lock is off)',
-        },
-      ],
-    },
   };
+  const [messageDetails, setMessageDetails] = React.useState({
+    key: '',
+    header: '',
+    content: ``,
+    isSuccess: true,
+    isError: false,
+  });
+  function success() {
+    setMessageDetails({
+      key: uuid(),
+      header: 'Account Created',
+      content: `A link to verify your email has been sent to ${email}`,
+      isSuccess: true,
+      isError: false,
+    });
+  }
 
+  function error(err: any) {
+    setMessageDetails({
+      key: uuid(),
+      header: 'Signup Failed',
+      content: `${err.description}`,
+      isSuccess: false,
+      isError: true,
+    });
+  }
   const handleSubmit = () => {
     auth.webAuth.signup(
       {
@@ -82,17 +91,20 @@ export default function Signup(props: Props, state: State) {
       },
       (err: any) => {
         if (err) {
-          console.log('description: ', err.description);
-          return alert(`Something's wrong. ${err.description}`);
+          error(err);
         } else {
-          return alert(`Account Created! A link to verify your email has been sent to ${email}`);
+          resetFirstName();
+          resetLastName();
+          resetPassword();
+          resetEmail();
+          success();
         }
       }
     );
   };
 
   return (
-    <SignupBase messageInfo={state.messageInfo}>
+    <SignupBase messageDetails={messageDetails}>
       <Form className="signup-form" onSubmit={handleSubmit}>
         <Header size="huge"> Register Here </Header>
         <Form.Input required type="email" placeholder="Email" {...bindEmail} />

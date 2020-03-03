@@ -1,13 +1,7 @@
-import React, { ReactNode } from 'react';
-
-export interface Detail {
-  id: number;
+export interface MessageDetails {
+  key: any;
   header: string;
   content: string;
-}
-
-export interface MessageTypes {
-  messSucc: boolean;
-  messPassErr: boolean;
-  messageDetails: Detail[];
+  isSuccess: boolean;
+  isError: boolean;
 }
