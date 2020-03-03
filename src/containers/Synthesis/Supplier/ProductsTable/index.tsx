@@ -68,12 +68,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
-  renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)} /item</p>;
+  renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)}</p>;
   renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
   renderUnitSold = (row: Product) => {
     return (
       <>
-        <p className="stat">{formatNumber(row.sales_monthly)} /mo</p>
+        <p className="stat">{formatNumber(row.sales_monthly)}</p>
       </>
     );
   };
@@ -128,7 +128,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderProductInfo,
     },
     {
-      label: 'Profit',
+      label: 'Profit/Item',
       dataKey: 'profit',
       type: 'number',
       sortable: true,
@@ -144,7 +144,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderMargin,
     },
     {
-      label: 'Unit Sold',
+      label: 'Unit Sold/Mo',
       dataKey: 'sales_monthly',
       type: 'number',
       sortable: true,
