@@ -65,7 +65,4 @@ const mapDispatchToProps = {
   cleanupUploadSupplier,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadSupplier);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadSupplier);

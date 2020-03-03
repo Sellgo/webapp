@@ -380,7 +380,4 @@ const mapDispatchToProps = {
   setSellerSubscription: (data: any) => setSellerSubscription(data),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SubscriptionPricing);
+export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPricing);

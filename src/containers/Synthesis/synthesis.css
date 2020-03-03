@@ -1,11 +1,11 @@
 .add-supplier-popup {
-	max-width: 420px !important;
+  max-width: 420px !important;
 }
 
 .ui.basic.teal.button .button,
 .ui.basic.teal.button {
-	border: 1px solid !important;
-	box-shadow: none !important;
+  border: 1px solid !important;
+  box-shadow: none !important;
 }
 
 .ui.basic.blue.button,
@@ -16,63 +16,63 @@
 .ui.basic.primary.button:hover,
 .ui.basic.blue.button .button:hover,
 .ui.basic.primary.buttons .button:hover {
-	border: 1px solid #4285f4 !important;
-	box-shadow: none !important;
-	color: #4285f4 !important;
+  border: 1px solid #4285f4 !important;
+  box-shadow: none !important;
+  color: #4285f4 !important;
 }
 
 .add-new-supplier {
-	background-color: #4b9af8 !important;
-	border-radius: 50px !important;
-	font-family: 'Montserrat', sans-serif !important;
-	font-size: 15px !important;
-	font-weight: bold !important;
+  background-color: #4b9af8 !important;
+  border-radius: 50px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: bold !important;
 }
 
 .syn-dropdown .menu {
-	background-color: #ffff !important;
-	border: 1px 1px 1px 1px solid !important;
-	border-color: #4285f4 !important;
-	border-radius: 0 0 5px 5px !important;
-	box-shadow: 0 3px 4px 0 rgba(34, 36, 38, 0.3) !important;
-	min-width: max-content !important;
+  background-color: #ffff !important;
+  border: 1px 1px 1px 1px solid !important;
+  border-color: #4285f4 !important;
+  border-radius: 0 0 5px 5px !important;
+  box-shadow: 0 3px 4px 0 rgba(34, 36, 38, 0.3) !important;
+  min-width: max-content !important;
 }
 
 .ui.selection.dropdown .menu {
-	width: 100% !important;
+  width: 100% !important;
 }
 
 .syn-dropdown {
-	align-self: center !important;
-	border: 1px solid #4285f4 !important;
-	border-radius: 5px !important;
-	color: #4285f4 !important;
-	width: 65% !important;
+  align-self: center !important;
+  border: 1px solid #4285f4 !important;
+  border-radius: 5px !important;
+  color: #4285f4 !important;
+  width: 65% !important;
 }
 
 .syn-dropdown > .text {
-	font-size: 14px !important;
-	font-weight: 900 !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
 }
 
 .ui.selection.dropdown.syn-dropdown-link .menu {
-	width: max-content !important;
+  width: max-content !important;
 }
 
 .syn-dropdown-link a {
-	color: black !important;
+  color: black !important;
 }
 
 .operations {
-	align-items: center;
-	display: flex;
+  align-items: center;
+  display: flex;
 }
 
 .operations i {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .product-ratio-with-pie {
-	display: inline-block;
-	min-width: 50px;
+  display: inline-block;
+  min-width: 50px;
 }

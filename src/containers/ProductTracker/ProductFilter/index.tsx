@@ -30,7 +30,7 @@ class ProductFilters extends Component<ProductFiltersProps> {
     productRanges: initialFilterRanges,
   };
 
-  componentWillReceiveProps(props: any) {
+  UNSAFE_componentWillReceiveProps(props: any) {
     if (props.products && props.products !== this.props.products && props.products.count > 0) {
       // Get min and max range for each filter setting based on all products
       const productRanges = parseMinMaxRange(props.products.min_max);
@@ -127,7 +127,4 @@ const mapDispatchToProps = {
   updateFilterRanges: (filterRanges: any) => updateTrackerFilterRanges(filterRanges),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductFilters);

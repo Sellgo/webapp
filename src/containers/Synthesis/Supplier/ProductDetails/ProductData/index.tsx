@@ -151,7 +151,4 @@ const mapDispatchToProps = {
     fetchSupplierProductDetails(supplierID, productID),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductData);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductData);

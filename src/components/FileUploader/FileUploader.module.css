@@ -1,37 +1,37 @@
 .container {
-	align-items: center;
-	background-color: #eeee;
-	border: dashed 1px #707070;
-	border-radius: 10px;
-	cursor: pointer;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	justify-content: center;
-	outline: none;
-	width: 100%;
+  align-items: center;
+  background-color: #eeee;
+  border: dashed 1px #707070;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  outline: none;
+  width: 100%;
 }
 
 .description {
-	text-align: center;
+  text-align: center;
 }
 
 .cloud {
-	color: #8888;
+  color: #8888;
 }
 
 @media screen and (min-width: 310px) and (max-width: 767px) {
-	b.filename {
-		display: inline-block !important;
-		max-width: 251px !important;
-		word-break: break-all !important;
-	}
+  b.filename {
+    display: inline-block !important;
+    max-width: 251px !important;
+    word-break: break-all !important;
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-	b.filename {
-		display: inline-block !important;
-		max-width: 767px !important;
-		word-break: break-all !important;
-	}
+  b.filename {
+    display: inline-block !important;
+    max-width: 767px !important;
+    word-break: break-all !important;
+  }
 }

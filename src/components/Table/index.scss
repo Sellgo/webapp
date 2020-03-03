@@ -1,54 +1,54 @@
 .generic-table {
-	&.scrollable {
-		overflow-x: auto;
-		padding-bottom: 100px;
-	}
+  &.scrollable {
+    overflow-x: auto;
+    padding-bottom: 100px;
+  }
 
-	.ui.table {
-		thead th {
-			border-left: none;
-		}
-	}
+  .ui.table {
+    thead th {
+      border-left: none;
+    }
+  }
 
-	.row-expand-btn {
-		i {
-			color: #c3c4c4 !important;
-			font-size: 2.4em !important;
-		}
-	}
+  .row-expand-btn {
+    i {
+      color: #c3c4c4 !important;
+      font-size: 2.4em !important;
+    }
+  }
 }
 
 .select-items-list {
-	position: absolute;
-	right: 2%;
+  position: absolute;
+  right: 2%;
 }
 
 .sort-arrow {
-	margin-left: 7px;
-	max-height: 13px;
-	max-width: 10px;
+  margin-left: 7px;
+  max-height: 13px;
+  max-width: 10px;
 }
 
 .search-filter {
-	float: right;
-	margin: -3px 0.25rem 0 0 !important;
+  float: right;
+  margin: -3px 0.25rem 0 0 !important;
 }
 
 .card-header {
-	font-family: sans-serif;
-	font-size: 14px;
-	font-weight: bold;
-	margin-left: 13px;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 13px;
 }
 
 i.icon.close::before {
-	border: none !important;
+  border: none !important;
 }
 
 .filter-card {
-	width: 232px !important;
+  width: 232px !important;
 }
 
 i.icon.filter::before {
-	font-size: 11px !important;
+  font-size: 11px !important;
 }

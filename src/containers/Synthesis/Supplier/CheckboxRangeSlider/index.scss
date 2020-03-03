@@ -1,43 +1,43 @@
 .checkbox-range-slider {
-	.checkbox-container {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 13px;
+  .checkbox-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 13px;
 
-		> p {
-			display: flex;
-		}
+    > p {
+      display: flex;
+    }
 
-		.icon.question.circle::before {
-			color: #98aeca;
-			font-size: 13px;
-			line-height: 1;
-			padding-left: 10px;
-		}
-	}
+    .icon.question.circle::before {
+      color: #98aeca;
+      font-size: 13px;
+      line-height: 1;
+      padding-left: 10px;
+    }
+  }
 
-	.wrap-checkbox {
-		align-items: center;
-		display: flex;
-	}
+  .wrap-checkbox {
+    align-items: center;
+    display: flex;
+  }
 
-	.wrap-checkbox .ui.fitted.checkbox {
-		margin-right: 11px;
-	}
+  .wrap-checkbox .ui.fitted.checkbox {
+    margin-right: 11px;
+  }
 
-	.wrap-check-range {
-		align-items: center;
-		display: flex;
-		width: 100%;
-	}
+  .wrap-check-range {
+    align-items: center;
+    display: flex;
+    width: 100%;
+  }
 
-	/* TODO: Don't target this className! Use a wrapper div. */
-	.wrap-check-range-container {
-		margin: 0 8px;
-		width: 100%;
-	}
+  /* TODO: Don't target this className! Use a wrapper div. */
+  .wrap-check-range-container {
+    margin: 0 8px;
+    width: 100%;
+  }
 
-	.wrap-check-range span {
-		font-size: 14px;
-	}
+  .wrap-check-range span {
+    font-size: 14px;
+  }
 }

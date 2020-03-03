@@ -17,7 +17,11 @@
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "env": {
     "node": true,
     "browser": true,
@@ -26,9 +30,13 @@
   },
   "rules": {
     "react/self-closing-comp": "error", // <a></a> ==> <a/>
+    "eol-last": 2,
     "linebreak-style": 0,
     "no-underscore-dangle": "off",
-    "max-len": ["error", 120],
+    "max-len": [
+      "error",
+      120
+    ],
     "import/extensions": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
@@ -90,7 +98,12 @@
     },
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     }
   }

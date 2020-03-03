@@ -1,107 +1,107 @@
 .page-header {
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 2rem;
-	padding: 0 130px 0 80px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0 130px 0 80px;
 
-	@media (max-width: 767px) {
-		display: block;
-	}
+  @media (max-width: 767px) {
+    display: block;
+  }
 
-	.ui.breadcrumb {
-		font-size: 1.1rem;
-		font-weight: bold !important;
+  .ui.breadcrumb {
+    font-size: 1.1rem;
+    font-weight: bold !important;
 
-		.icon.divider {
-			color: #98aeca;
-			font-size: 16px;
-			margin: 0 10px;
-		}
+    .icon.divider {
+      color: #98aeca;
+      font-size: 16px;
+      margin: 0 10px;
+    }
 
-		@media screen and (max-width: 450px) {
-			width: unset;
-		}
+    @media screen and (max-width: 450px) {
+      width: unset;
+    }
 
-		@media screen and (max-width: 767px) {
-			font-size: 0.8rem !important;
-		}
+    @media screen and (max-width: 767px) {
+      font-size: 0.8rem !important;
+    }
 
-		.section {
-			color: #5381db;
-			font-size: 20px;
-			font-weight: 600;
-		}
+    .section {
+      color: #5381db;
+      font-size: 20px;
+      font-weight: 600;
+    }
 
-		.active.section {
-			color: #1b1c1d;
-			font-weight: 600;
-		}
-	}
+    .active.section {
+      color: #1b1c1d;
+      font-weight: 600;
+    }
+  }
 
-	.header-right-wrap {
-		align-items: center;
-		display: flex;
-		justify-content: space-between;
+  .header-right-wrap {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 
-		@media (max-width: 767px) {
-			margin-top: 15px;
-		}
+    @media (max-width: 767px) {
+      margin-top: 15px;
+    }
 
-		.progress-bar {
-			margin: 0 0.5em !important;
-			margin-right: 30px;
-			width: 240px;
+    .progress-bar {
+      margin: 0 0.5em !important;
+      margin-right: 30px;
+      width: 240px;
 
-			@media (max-width: 768px) {
-				margin: 0 0.5em !important;
-				margin-right: 0;
-			}
-		}
+      @media (max-width: 768px) {
+        margin: 0 0.5em !important;
+        margin-right: 0;
+      }
+    }
 
-		.button {
-			background-color: #4b9af8;
-			border-radius: 30px;
-			margin-right: 0;
-			padding-left: 1.9em;
-			padding-right: 1.9em;
-			white-space: nowrap;
+    .button {
+      background-color: #4b9af8;
+      border-radius: 30px;
+      margin-right: 0;
+      padding-left: 1.9em;
+      padding-right: 1.9em;
+      white-space: nowrap;
 
-			@media (max-width: 768px) {
-				margin-right: 1em;
-				padding-left: 1.2em;
-				padding-right: 1.2em;
-			}
-		}
-	}
+      @media (max-width: 768px) {
+        margin-right: 1em;
+        padding-left: 1.2em;
+        padding-right: 1.2em;
+      }
+    }
+  }
 
-	.ui.header {
-		display: flex;
-		// Override default top margin so less space between
-		// breadcrumbs and header.
-		margin-top: 1.2rem;
-	}
+  .ui.header {
+    display: flex;
+    // Override default top margin so less space between
+    // breadcrumbs and header.
+    margin-top: 1.2rem;
+  }
 
-	@media screen and (min-width: 310px) and (max-width: 767px) {
-		float: left;
-		margin-bottom: 0;
-		padding: 0 16px;
-		width: 100%;
+  @media screen and (min-width: 310px) and (max-width: 767px) {
+    float: left;
+    margin-bottom: 0;
+    padding: 0 16px;
+    width: 100%;
 
-		.ui.breadcrumb {
-			font-size: 0.9rem !important;
-		}
-	}
+    .ui.breadcrumb {
+      font-size: 0.9rem !important;
+    }
+  }
 }
 
 @media screen and (max-width: 1024px) {
-	.header-right-wrap {
-		.label {
-			font-size: 10px !important;
-		}
-	}
+  .header-right-wrap {
+    .label {
+      font-size: 10px !important;
+    }
+  }
 
-	.page-header {
-		padding: 0 16px;
-	}
+  .page-header {
+    padding: 0 16px;
+  }
 }

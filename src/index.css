@@ -1,13 +1,13 @@
 /* TODO: Not sure if I wanna keep this, but it kinda looks nice */
 body {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif !important;
-	font-size: 20px;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	font-weight: 400;
-	margin: 0;
-	padding: 0;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif !important;
+  font-size: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
 }
 
 body h1,
@@ -15,319 +15,319 @@ h2,
 h3,
 h4,
 h5 {
-	font-family: 'Work sans', sans-serif !important;
+  font-family: 'Work sans', sans-serif !important;
 }
 
 .ui.dimmer {
-	background-color: rgba(146, 170, 177, 0.48);
+  background-color: rgba(146, 170, 177, 0.48);
 }
 
 .small-light {
-	font-display: optional !important;
-	font-family: 'Work sans', sans-serif !important;
-	font-weight: 300 !important;
+  font-display: optional !important;
+  font-family: 'Work sans', sans-serif !important;
+  font-weight: 300 !important;
 }
 
 .small-regular {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 20px;
-	font-weight: 400;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
 }
 
 .ui.message {
-	margin-bottom: 0;
-	margin-left: 3rem;
-	margin-right: 3rem;
+  margin-bottom: 0;
+  margin-left: 3rem;
+  margin-right: 3rem;
 }
 
 .title {
-	color: white;
-	font-family: 'Work sans', sans-serif;
-	font-size: 30px;
-	font-weight: 700;
+  color: white;
+  font-family: 'Work sans', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 .description {
-	color: white;
-	font-family: 'Work sans', sans-serif;
-	font-size: 16px;
-	font-weight: 300;
-	text-align: justify;
+  color: white;
+  font-family: 'Work sans', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  text-align: justify;
 }
 
 .title-description {
-	color: 'gray';
-	font-family: 'Work sans', sans-serif;
-	font-size: 16px;
-	font-weight: 300;
-	margin-bottom: 20px !important;
-	text-align: center;
+  color: 'gray';
+  font-family: 'Work sans', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 20px !important;
+  text-align: center;
 }
 
 .small-bold {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 20px;
-	font-weight: 700;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .medium-light {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 24px;
-	font-weight: 300;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 24px;
+  font-weight: 300;
 }
 
 .medium-regular {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 24px;
-	font-weight: 400;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
 }
 
 .medium-bold {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 24px;
-	font-weight: 700;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .large-light {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 40px;
-	font-weight: 300;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 40px;
+  font-weight: 300;
 }
 
 .large-regular {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 40px;
-	font-weight: 400;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 40px;
+  font-weight: 400;
 }
 
 .large-bold {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 40px;
-	font-weight: 700;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 40px;
+  font-weight: 700;
 }
 
 .semi-large-bold {
-	font-display: optional;
-	font-family: 'Work sans', sans-serif;
-	font-size: 30px;
-	font-weight: 700;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 .primary-button {
-	background: #4285f4;
-	border: none;
-	color: white;
-	font-display: optional;
-	font-family: 'Montserrat', sans-serif;
-	font-size: 20px;
-	font-weight: bold;
-	padding: 12px 40px;
+  background: #4285f4;
+  border: none;
+  color: white;
+  font-display: optional;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 12px 40px;
 }
 
 .heading h1 {
-	color: black;
-	font-family: 'Montserrat', sans-serif;
-	font-size: 20px;
-	font-weight: bold;
-	margin: 10px;
-	text-align: center;
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  text-align: center;
 }
 
 .heading-h1 {
-	color: black;
-	font-family: 'Montserrat', sans-serif;
-	font-size: 24px;
-	font-weight: bold;
-	margin: 20px;
-	text-align: center;
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px;
+  text-align: center;
 }
 
 .login-fields {
-	background: white;
-	border-radius: 5px;
-	box-shadow: 0 0 7px 4px rgba(164, 164, 164, 0.2);
-	margin-left: 3rem;
-	margin-right: 3rem;
-	padding-bottom: 5px;
-	padding-top: 5px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 4px rgba(164, 164, 164, 0.2);
+  margin-left: 3rem;
+  margin-right: 3rem;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 .slider-center {
-	height: 100%;
-	margin: auto;
+  height: 100%;
+  margin: auto;
 }
 
 .slider-center div {
-	height: 100%;
+  height: 100%;
 }
 
 .slider-image {
-	border-radius: 5rem;
-	padding: 3rem;
+  border-radius: 5rem;
+  padding: 3rem;
 }
 
 ul.control-dots {
-	padding: 0;
+  padding: 0;
 }
 
 .sign-up-input {
-	border: none !important;
-	border-color: transparent !important;
-	font-family: 'Montserrat', sans-serif !important;
-	font-size: 18px !important;
-	font-weight: 300;
-	width: 35% !important;
+  border: none !important;
+  border-color: transparent !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 300;
+  width: 35% !important;
 }
 
 .login-field1,
 .login-field2 {
-	border: none !important;
-	border-color: transparent !important;
-	font-family: 'Montserrat', sans-serif !important;
-	font-size: 18px !important;
-	font-weight: 300;
-	width: 100% !important;
+  border: none !important;
+  border-color: transparent !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 300;
+  width: 100% !important;
 }
 
 .password {
-	align-items: center;
-	background: white;
-	cursor: pointer;
-	display: flex;
-	flex-direction: row;
+  align-items: center;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
 }
 
 .hr-line {
-	background: #a4a4a4;
-	height: 0.5px;
-	opacity: 0.3;
+  background: #a4a4a4;
+  height: 0.5px;
+  opacity: 0.3;
 }
 
 .text-align-center {
-	text-align: center !important;
+  text-align: center !important;
 }
 
 .logo-img {
-	padding: 7rem;
+  padding: 7rem;
 }
 
 .padding20 {
-	padding: 20px;
+  padding: 20px;
 }
 
 .padding40 {
-	padding: 40px;
+  padding: 40px;
 }
 
 .p-t-40 {
-	padding-top: 40px !important;
+  padding-top: 40px !important;
 }
 
 .p-t-20 {
-	padding-top: 20px !important;
+  padding-top: 20px !important;
 }
 
 .carousel .slide {
-	background: transparent;
+  background: transparent;
 }
 
 li.dot {
-	height: 15px !important;
-	width: 15px !important;
+  height: 15px !important;
+  width: 15px !important;
 }
 
 ul.slider.animated {
-	top: 20%;
+  top: 20%;
 }
 
 .signup-box {
-	background: #999;
-	min-height: 100vh;
+  background: #999;
+  min-height: 100vh;
 }
 
 .right-pane {
-	background: #f3f3f3;
-	min-height: 100vh;
-	position: relative;
+  background: #f3f3f3;
+  min-height: 100vh;
+  position: relative;
 }
 
 span.material-icons.MuiIcon-root.MuiIcon-colorDisabled.MuiIcon-fontSizeLarge {
-	margin: 5px;
+  margin: 5px;
 }
 
 a {
-	color: #0e6fcf;
+  color: #0e6fcf;
 
-	/* text-decoration:underline; */
+  /* text-decoration:underline; */
 }
 
 .signup-block a {
-	color: #0e6fcf;
-	text-decoration: underline;
+  color: #0e6fcf;
+  text-decoration: underline;
 }
 
 .copy-right {
-	bottom: 0;
-	position: absolute;
-	width: 100%;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
 }
 
 .privacy-policy {
-	left: 50%;
-	position: absolute;
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
+  left: 50%;
+  position: absolute;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .row {
-	padding-bottom: 0 !important;
-	padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
 }
 
 .ui.grid {
-	margin-bottom: 0 !important;
-	margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
 }
 
 .block {
-	display: block;
+  display: block;
 }
 
 .toast-body {
-	font-size: 16px;
+  font-size: 16px;
 }
 
 .center-child {
-	align-items: center;
-	display: flex;
-	flex: 1;
-	justify-content: center;
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
 }
 
 .close {
-	right: -2rem !important;
-	top: -1.7rem !important;
+  right: -2rem !important;
+  top: -1.7rem !important;
 }
 
 i.icon.close::before {
-	border: 4px solid #999;
-	border-radius: 50%;
-	color: #999;
-	content: '\f00d';
-	font-size: 14px;
-	padding: 3px 5px;
+  border: 4px solid #999;
+  border-radius: 50%;
+  color: #999;
+  content: '\f00d';
+  font-size: 14px;
+  padding: 3px 5px;
 }
 
 /* Toastify Notifications */
 .Toastify__toast-container {
-	/* Ensure it's shown above Auth0 login modal */
-	z-index: 1000001;
+  /* Ensure it's shown above Auth0 login modal */
+  z-index: 1000001;
 }

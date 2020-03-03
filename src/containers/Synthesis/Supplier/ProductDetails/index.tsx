@@ -24,7 +24,4 @@ const mapDispatchToProps = {
   resetProductDetails: () => resetSupplierProductDetails(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);

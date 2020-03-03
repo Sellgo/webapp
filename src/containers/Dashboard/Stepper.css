@@ -1,154 +1,154 @@
 .stepper-ui .nav-tabs {
-	position: relative;
+  position: relative;
 }
 
 .stepper-ui .nav-tabs > li {
-	position: relative;
-	width: 25%;
+  position: relative;
+  width: 25%;
 }
 
 .stepper-ui .nav-tabs > li::after {
-	background: #f1f1f1;
-	content: '';
-	display: block;
-	height: 5px;
-	left: 50%;
-	position: absolute;
-	top: 30px;
-	width: 100%;
-	z-index: 1;
+  background: #f1f1f1;
+  content: '';
+  display: block;
+  height: 5px;
+  left: 50%;
+  position: absolute;
+  top: 30px;
+  width: 100%;
+  z-index: 1;
 }
 
 .stepper-ui .nav-tabs > li.completed::after {
-	background: #34bc9b;
+  background: #34bc9b;
 }
 
 .stepper-ui .nav-tabs > li:last-child::after {
-	background: transparent;
+  background: transparent;
 }
 
 .stepper-ui .round-tab {
-	background: #fff;
-	border: 2px solid #34bc9b;
-	border-radius: 25px;
-	color: #34bc9b;
-	display: inline-block;
-	font-size: 14px;
-	height: 25px;
-	left: 0;
-	line-height: 22px;
-	position: absolute;
-	text-align: center;
-	width: 25px;
-	z-index: 2;
+  background: #fff;
+  border: 2px solid #34bc9b;
+  border-radius: 25px;
+  color: #34bc9b;
+  display: inline-block;
+  font-size: 14px;
+  height: 25px;
+  left: 0;
+  line-height: 22px;
+  position: absolute;
+  text-align: center;
+  width: 25px;
+  z-index: 2;
 }
 
 .stepper-ui .completed .round-tab {
-	background: #34bc9b;
+  background: #34bc9b;
 }
 
 .stepper-ui .active .round-tab {
-	background: #fff;
-	border: 2px solid #34bc9b;
+  background: #fff;
+  border: 2px solid #34bc9b;
 }
 
 .stepper-ui .disabled .round-tab {
-	background: #fff;
-	border-color: #f1f1f1;
-	color: #f1f1f1;
+  background: #fff;
+  border-color: #f1f1f1;
+  color: #f1f1f1;
 }
 
 .stepper-ui .active .round-tab:hover {
-	background: #fff;
-	border: 2px solid #34bc9b;
+  background: #fff;
+  border: 2px solid #34bc9b;
 }
 
 .stepper-ui .disabled .round-tab:hover {
-	border: 2px solid #a6dfd3;
-	color: #4dd3b6;
+  border: 2px solid #a6dfd3;
+  color: #4dd3b6;
 }
 
 .stepper-ui .nav-tabs > li.active:last-child .round-tab {
-	background: #34bc9b;
+  background: #34bc9b;
 }
 
 .stepper-ui .completed .round-tab::after {
-	color: #fff;
-	content: '✔';
-	display: block;
-	left: 0;
-	margin: 0 auto;
-	position: absolute;
-	right: 0;
-	top: 0;
+  color: #fff;
+  content: '✔';
+  display: block;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .stepper-ui .active .round-tab::after {
-	display: none;
+  display: none;
 }
 
 .stepper-ui .disabled .round-tab::after {
-	display: none;
+  display: none;
 }
 
 .stepper-ui .nav-tabs > li.active:last-child .round-tab::after {
-	color: #fff;
-	content: '✔';
-	display: block;
-	left: 0;
-	margin: 0 auto;
-	position: absolute;
-	right: 0;
-	top: 0;
+  color: #fff;
+  content: '✔';
+  display: block;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .stepper-ui .nav-tabs [data-toggle='tab'] {
-	border: none;
-	border-radius: 100%;
-	color: #f1f1f1;
-	height: 25px;
-	margin: 20px auto;
-	padding: 0;
-	width: 25px;
+  border: none;
+  border-radius: 100%;
+  color: #f1f1f1;
+  height: 25px;
+  margin: 20px auto;
+  padding: 0;
+  width: 25px;
 }
 
 .stepper-ui .nav-tabs [data-toggle='tab']:hover {
-	background: transparent;
-	border: none;
+  background: transparent;
+  border: none;
 }
 
 .stepper-ui .nav-tabs > .active > [data-toggle='tab'],
 .stepper-ui .nav-tabs > .active > [data-toggle='tab']:hover,
 .stepper-ui .nav-tabs > .active > [data-toggle='tab']:focus {
-	border: none;
-	color: #34bc9b;
-	cursor: default;
+  border: none;
+  color: #34bc9b;
+  cursor: default;
 }
 
 .stepper-ui .tab-pane {
-	padding-top: 50px;
-	position: relative;
+  padding-top: 50px;
+  position: relative;
 }
 
 .ui.steps .step {
-	color: #000 !important;
+  color: #000 !important;
 }
 
 .customeModal .steps.round .step:first-child::after {
-	width: 110px !important;
+  width: 110px !important;
 }
 
 .customeModal .steps.round .step {
-	margin-left: 110px !important;
+  margin-left: 110px !important;
 }
 
 .customeModal .step.completed::before {
-	position: relative !important;
-	top: 7px !important;
+  position: relative !important;
+  top: 7px !important;
 }
 
 .customeModal .step .title {
-	font-size: 12px !important;
-	position: relative !important;
-	top: 7px !important;
+  font-size: 12px !important;
+  position: relative !important;
+  top: 7px !important;
 }
