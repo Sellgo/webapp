@@ -7,8 +7,6 @@ import { Steps } from '../../interfaces/StepsInfo';
 import Auth from '../../components/Auth/Auth';
 import { useInput } from '../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
-import history from '../../history';
-import { reset } from 'redux-form';
 
 interface Props {
   auth: Auth;
@@ -117,7 +115,6 @@ export default function Signup(props: Props, state: State) {
           label="I agree to receive emails from Sellgo"
         />
         <Form.Field
-          required
           control="input"
           type="checkbox"
           label={
@@ -127,7 +124,8 @@ export default function Signup(props: Props, state: State) {
               <a href="#">data use policy</a> as well as the use of &nbsp;<a href="#">cookies</a>.
             </label>
           }
-        ></Form.Field>
+          required
+        />
         <Form.Field control={Button} fluid={true} primary={true}>
           Register
         </Form.Field>
