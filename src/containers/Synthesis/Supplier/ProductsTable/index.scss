@@ -313,8 +313,6 @@ $new_black: #707070;
     width: 172px;
   }
 
-
-
   .track-btn {
     width: 119%;
 
@@ -489,5 +487,11 @@ $new_black: #707070;
 @media screen and (min-width: 1251px) and (max-width: 1600px) {
   .products-table .ui.table td p {
     font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 1856px) {
+  .products-table {
+    margin-top: -60px;
   }
 }

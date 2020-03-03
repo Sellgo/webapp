@@ -104,7 +104,7 @@ export const GenericTable = (props: GenericTableProps) => {
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div style={{ margin: '1rem 0 5rem 0' }}>
+        <div className="select-items-grid">
           <SelectItemsCount
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
