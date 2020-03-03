@@ -6,7 +6,7 @@ import ScrollToTop from '../../components/ScrollToTop';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
-import Signup from '../SignUp';
+import Signup from '../Signup';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
