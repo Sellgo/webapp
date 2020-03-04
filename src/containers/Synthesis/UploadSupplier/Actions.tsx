@@ -46,10 +46,9 @@ const Actions = ({
   const onSkipStep = () => {
     setStep(currentStep + 1)
       .then(() => setStep(currentStep + 2))
-      .catch(() =>
+      .catch(() => {
         // fail silently
-        {}
-      );
+      });
   };
 
   const hasPrevStep = currentStep !== 0;

@@ -90,7 +90,7 @@ const SliderRange = (props: any) => {
                 e.target.blur();
               }
             }}
-          ></Input>
+          />
           <Input
             placeholder="Max"
             id="max"
@@ -113,7 +113,7 @@ const SliderRange = (props: any) => {
                 e.target.blur();
               }
             }}
-          ></Input>
+          />
         </div>
       )}
     </Container>

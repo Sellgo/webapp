@@ -127,7 +127,7 @@ function App() {
   return (
     <div>
       <Router history={history}>
-      <ScrollToTop />
+        <ScrollToTop />
         <Switch>
           <Route
             exact={true}
