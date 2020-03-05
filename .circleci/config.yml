@@ -46,6 +46,8 @@ jobs:
           name: Invalidate Cloudfront cache
           command: aws cloudfront create-invalidation --distribution-id ${WEBAPP_AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
   run-lint:
+    machine:
+      enabled: true
     steps:
       - checkout
       - run:
