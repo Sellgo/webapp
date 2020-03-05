@@ -50,7 +50,7 @@ export class Supplier extends React.Component<SupplierProps> {
     dismiss('supplierLoading');
   }
 
-  componentDidUpdate(prevProps: SupplierProps) {
+  componentDidUpdate() {
     if (this.props.supplierDetails && this.props.supplierDetails.item_total_count) {
       const loadTime = this.getLoadingTime(this.props.supplierDetails.item_total_count);
       if (this.props.isLoadingSupplierProducts) {
