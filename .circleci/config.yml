@@ -45,9 +45,23 @@ jobs:
       - run:
           name: Invalidate Cloudfront cache
           command: aws cloudfront create-invalidation --distribution-id ${WEBAPP_AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
+  run-lint:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: install-npm
+          command: npm install
+      - run:
+          name: run-lint
+          command: npm run lint
 
 workflows:
   version: 2
+  run-lint:
+    jobs:
+      - run-lint
   build-and-deploy-prod:
     jobs:
       - build-prod:
