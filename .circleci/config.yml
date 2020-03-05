@@ -32,8 +32,8 @@ jobs:
           root: build
           paths: .
   deploy:
-    machine:
-      enabled: true
+    docker:
+      - image: circleci/node
     steps:
       - attach_workspace:
           at: build
