@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Label } from 'semantic-ui-react';
-import Hotspot from '../../../../assets/images/wifi-icon.svg';
-import HotspotBlue from '../../../../assets/images/wifi-icon-blue.svg';
+import FingerprintBlue from '../../../../assets/images/fingerprint-1.svg';
+import Fingerprint from '../../../../assets/images/fingerprint.svg';
 import { formatRating } from '../../../../utils/format';
 
 const DetailButtons = (props: any) => {
@@ -25,7 +25,7 @@ function TrackButtonWithRating(props: any) {
       className={'track-btn with-rating' + (isTracking ? ' is-tracking' : '')}
     >
       <Button icon={true} className="track-wrap" onClick={onTrack}>
-        <img src={isTracking ? HotspotBlue : Hotspot} alt="hotspot" />
+        <img src={isTracking ? FingerprintBlue : Fingerprint} alt="fingerprint" />
         <span>{isTracking ? 'Tracking' : 'Track Now'}</span>
       </Button>
 
