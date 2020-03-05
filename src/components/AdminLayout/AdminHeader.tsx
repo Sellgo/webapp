@@ -39,33 +39,6 @@ export class AdminHeader extends React.Component<AdminProps> {
               <Logo size="small" />
             </Menu.Item>
           </Menu.Menu>
-          <Menu.Menu className="main-menu">
-            <Menu.Item
-              as={Link}
-              to="/synthesis"
-              className={window.location.pathname.startsWith('/synthesis') ? 'active-menu' : ''}
-            >
-              <i className="fas fa-search-dollar" style={{ fontSize: 18 }} />
-              <span className="header-values">Profit Finder</span>
-              <i
-                className={
-                  window.location.pathname.startsWith('/synthesis')
-                    ? 'arrow is-right light'
-                    : 'arrow is-right'
-                }
-              />
-            </Menu.Item>
-            <Menu.Item
-              as={Link}
-              to="/product-tracker"
-              className={
-                window.location.pathname.startsWith('/product-tracker')
-                  ? 'product-tracker-menu active-menu'
-                  : window.location.pathname.startsWith('/synthesis')
-                  ? 'product-tracker-menu'
-                  : ''
-              }
-            >
               <span>
                 <img
                   src={
@@ -75,10 +48,7 @@ export class AdminHeader extends React.Component<AdminProps> {
                   }
                   alt="fingerprint"
                 />
-                Product Tracker
               </span>
-            </Menu.Item>
-          </Menu.Menu>
 
           <Menu.Menu className="right-menu" position="right" fitted="horizontally">
             <div className="divider" />
