@@ -3,8 +3,6 @@ import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import MobileHeader from './MobileHeader';
-import FingerprintBlue from '../../assets/images/fingerprint-1.svg';
-import FingerprintWhite from '../../assets/images/fingerprint-2.svg';
 import './AdminHeader.scss';
 
 interface AdminProps {
@@ -37,46 +35,6 @@ export class AdminHeader extends React.Component<AdminProps> {
             {isVisible && <MobileHeader />}
             <Menu.Item as={Link} to="/">
               <Logo size="small" />
-            </Menu.Item>
-          </Menu.Menu>
-          <Menu.Menu className="main-menu">
-            <Menu.Item
-              as={Link}
-              to="/synthesis"
-              className={window.location.pathname.startsWith('/synthesis') ? 'active-menu' : ''}
-            >
-              <i className="fas fa-search-dollar" style={{ fontSize: 18 }} />
-              <span className="header-values">Profit Finder</span>
-              <i
-                className={
-                  window.location.pathname.startsWith('/synthesis')
-                    ? 'arrow is-right light'
-                    : 'arrow is-right'
-                }
-              />
-            </Menu.Item>
-            <Menu.Item
-              as={Link}
-              to="/product-tracker"
-              className={
-                window.location.pathname.startsWith('/product-tracker')
-                  ? 'product-tracker-menu active-menu'
-                  : window.location.pathname.startsWith('/synthesis')
-                  ? 'product-tracker-menu'
-                  : ''
-              }
-            >
-              <span>
-                <img
-                  src={
-                    window.location.pathname.startsWith('/product-tracker')
-                      ? FingerprintBlue
-                      : FingerprintWhite
-                  }
-                  alt="fingerprint"
-                />
-                Product Tracker
-              </span>
             </Menu.Item>
           </Menu.Menu>
 
