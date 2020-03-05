@@ -32,8 +32,8 @@ jobs:
           root: build
           paths: .
   deploy:
-    docker:
-      - image: circleci/node
+    machine:
+      enabled: true
     steps:
       - attach_workspace:
           at: build
@@ -46,8 +46,8 @@ jobs:
           name: Invalidate Cloudfront cache
           command: aws cloudfront create-invalidation --distribution-id ${WEBAPP_AWS_CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
   run-lint:
-    machine:
-      enabled: true
+    docker:
+      - image: circleci/node
     steps:
       - checkout
       - run:
