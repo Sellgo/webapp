@@ -3,6 +3,8 @@ import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import MobileHeader from './MobileHeader';
+import FingerprintBlue from '../../assets/images/fingerprint-1.svg';
+import FingerprintWhite from '../../assets/images/fingerprint-2.svg';
 import './AdminHeader.scss';
 
 interface AdminProps {
@@ -64,7 +66,17 @@ export class AdminHeader extends React.Component<AdminProps> {
                   : ''
               }
             >
-              Product Tracker
+              <span>
+                <img
+                  src={
+                    window.location.pathname.startsWith('/product-tracker')
+                      ? FingerprintBlue
+                      : FingerprintWhite
+                  }
+                  alt="fingerprint"
+                />
+                Product Tracker
+              </span>
             </Menu.Item>
           </Menu.Menu>
 

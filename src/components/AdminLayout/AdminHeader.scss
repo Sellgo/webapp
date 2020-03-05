@@ -1,9 +1,27 @@
+.track-wrap {
+  img {
+    width: 18px;
+  }
+}
+
 .admin-header {
   .top-menu {
     background-color: #3b4557 !important;
     height: 64px;
     padding-left: 9.4%;
     padding-right: 5.99%;
+  }
+
+  .product-tracker-menu {
+    span {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 18px;
+        margin-right: 10px;
+      }
+    }
   }
 
   .item.product-tracker-menu::before {
