@@ -72,7 +72,7 @@ workflows:
               only: master
   build-and-deploy-dev:
     jobs:
-      - run-lint:
+      - run-lint
       - build-dev:
           filters:
             branches:
