@@ -50,7 +50,7 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
     `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/suppliers-compact?status=active`
   );
   const suppliers = response.data.map((supplier: any) => {
-    if (supplier['file_status'] === 'completed') {
+    if (supplier.file_status === 'completed') {
       return { ...supplier, ...{ progress: 100, speed: 0 } };
     }
     return { ...supplier, ...{ progress: -1, speed: -1 } };
@@ -87,7 +87,9 @@ export const deleteSupplier = (supplier: any) => async (
     .then(json => {
       dispatch(updateSupplier(json.data));
     })
-    .catch(error => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (dispatch: any) => {
@@ -102,16 +104,20 @@ export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (disp
     .then(json => {
       dispatch(updateSupplier(json.data));
     })
-    .catch(error => {});
+    .catch(() => {
+      // display error
+    });
 };
 
-export const supplierProgress = (supplierID: any) => (dispatch: any) => {
+export const supplierProgress = (_supplierID: any) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota-meter`)
     .then(json => {
       dispatch(supplierQuota(json.data));
     })
-    .catch(error => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
@@ -123,12 +129,12 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
       `sellers/${sellerID}/suppliers/${supplier.supplier_id}/synthesis/rerun`,
     bodyFormData
   )
-    .then(json => {
+    .then(() => {
       dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
       dispatch(fetchSynthesisProgressUpdates());
       success('Rerun successfully initiated!');
     })
-    .catch(err => {
+    .catch(() => {
       error('Rerun failed. Try again!');
     });
 };
@@ -300,13 +306,15 @@ export const setSupplierProductTrackerGroup = (data: any) => ({
   payload: data,
 });
 
-export const fetchSupplierProductTrackerGroup = (supplierID: string) => (dispatch: any) => {
+export const fetchSupplierProductTrackerGroup = (_supplierID: string) => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`)
     .then(json => {
       dispatch(setSupplierProductTrackerGroup(json.data));
     })
-    .catch(error => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const updateProductTrackingStatus = (
@@ -363,7 +371,7 @@ export const updateProductTrackingStatus = (
           if (name === 'tracker') {
             if (type === 'untrack') {
               success(`Product is now untracked`);
-              dispatch(removeTrackedProduct(json.data['id']));
+              dispatch(removeTrackedProduct(json.data.id));
             } else if (type === 'move-group') {
               success(`Product is moved to ${groupName}`);
               dispatch(updateTrackedProduct(json.data));
@@ -401,11 +409,13 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     .then(json => {
       dispatch(setTimeEfficiency(json.data));
     })
-    .catch(error => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const postProductTrackGroupId = (supplierID: string, supplierName: string) => (
-  dispatch: any
+  _dispatch: any
 ) => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -413,14 +423,18 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
   bodyFormData.set('supplier_id', supplierID);
   bodyFormData.set('marketplace_id', 'US');
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
-    .then(json => {})
-    .catch(error => {});
+    .then(() => {
+      // do nothing
+    })
+    .catch(() => {
+      // display error
+    });
 };
 
 export const saveSupplierNameAndDescription = (name: string, description: string, other: any) => (
   dispatch: any
 ) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
     bodyFormData.set('name', name);
@@ -450,7 +464,7 @@ export const updateSupplierNameAndDescription = (
   supplierID: string,
   other: any
 ) => (dispatch: any) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
     bodyFormData.set('name', name);

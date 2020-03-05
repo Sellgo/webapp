@@ -4,10 +4,10 @@ import PieChart from '../../../components/Chart/PieChart';
 
 const PieChartModal = (props: any) => {
   const { supplier, showPieChartModalOpen, handleClose } = props;
-  if (!supplier) return <div></div>;
-  const rate = parseFloat(supplier['rate']);
-  const p2l_ratio = supplier['p2l_ratio'] - parseFloat(supplier['rate']);
-  const miss = 100 - supplier['p2l_ratio'];
+  if (!supplier) return <div />;
+  const rate = parseFloat(supplier.rate);
+  const p2l_ratio = supplier.p2l_ratio - parseFloat(supplier.rate);
+  const miss = 100 - supplier.p2l_ratio;
   const chartOptions = {
     title: 'Hit/Miss vs Profitable SKUs',
     name: 'SKUs',

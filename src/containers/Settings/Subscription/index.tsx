@@ -93,12 +93,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     bodyFormData.append('subscription_id', subscriptionId);
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/update`, bodyFormData)
-      .then(response => {
+      .then(() => {
         // Re-fetch subscription to update UI
         fetchSellerSubscription();
         success(`You have changed your subscription`);
       })
-      .catch((err: any) => {
+      .catch(() => {
         error(`There was an error changing subscription`);
       });
   }
@@ -107,11 +107,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const { profile, setSellerSubscription } = this.props;
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
-      .then(response => {
+      .then(() => {
         setSellerSubscription(false);
         success(`Your subscription has been cancelled`);
       })
-      .catch((err: any) => {
+      .catch(() => {
         error(`There was an error cancelling your subscription`);
       });
   }
@@ -121,7 +121,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       .then((checkoutSessionId: any) => {
         this.redirectToCheckout(checkoutSessionId);
       })
-      .catch((err: any) => {
+      .catch(() => {
         error(`There was an error redirecting you to Stripe`);
       });
   }
@@ -380,7 +380,4 @@ const mapDispatchToProps = {
   setSellerSubscription: (data: any) => setSellerSubscription(data),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SubscriptionPricing);
+export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPricing);

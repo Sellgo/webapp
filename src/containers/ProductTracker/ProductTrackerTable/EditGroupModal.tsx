@@ -13,7 +13,7 @@ class EditGroupModal extends Component<EditGroupModalProps> {
     name: this.props.activeGroup ? this.props.activeGroup.name : '',
   };
 
-  componentWillReceiveProps(nextProps: any) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     this.setState({
       name: nextProps.activeGroup ? nextProps.activeGroup.name : '',
     });

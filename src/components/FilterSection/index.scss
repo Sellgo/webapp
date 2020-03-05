@@ -4,30 +4,30 @@
     margin-bottom: 1rem;
 
     > p {
-      font-weight: 600;
       font-size: 18px;
+      font-weight: 600;
       margin-bottom: 0;
     }
 
-    .icon.question.circle:before {
-      line-height: 1;
-      font-size: 15px;
-      padding-left: 0.5rem;
+    .icon.question.circle::before {
       color: #98aeca;
+      font-size: 15px;
+      line-height: 1;
+      padding-left: 0.5rem;
     }
 
-    .icon.chevron.up:before {
+    .icon.chevron.up::before {
       font-size: 23px;
     }
 
     .up-icon {
       color: #000;
+      cursor: pointer;
       margin-right: 20px;
       margin-top: 3px;
-      cursor: pointer;
     }
 
-    .icon.chevron.down:before {
+    .icon.chevron.down::before {
       font-size: 23px;
     }
   }
@@ -44,6 +44,7 @@
     .filter-head {
       margin-bottom: 0.5rem;
     }
+
     .filter-content .ui.container {
       margin-bottom: 10px;
     }

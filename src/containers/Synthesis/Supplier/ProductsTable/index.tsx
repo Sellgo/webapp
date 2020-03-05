@@ -112,7 +112,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     );
   };
-  renderSyncButtons = (row: Product) => {
+  renderSyncButtons = () => {
     return (
       <div>
         <Icon name="sync alternate" style={{ color: '#98aec9' }} />
@@ -249,7 +249,4 @@ const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

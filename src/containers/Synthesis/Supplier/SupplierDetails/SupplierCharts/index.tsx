@@ -137,32 +137,32 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     const filteredProducts = findFilterProducts(products, filterRanges);
 
     const sortProducts = [...filteredProducts].sort(
-      (a, b) => parseFloat(b['profit']) - parseFloat(a['profit'])
+      (a, b) => parseFloat(b.profit) - parseFloat(a.profit)
     );
     const showProducts = sortProducts.slice(0, singlePageItemsCount);
     let productSKUs = [];
     let profit = [];
-    profit = showProducts.map(e => parseFloat(e['profit']));
-    productSKUs = showProducts.map(e => e['title']);
+    profit = showProducts.map(e => parseFloat(e.profit));
+    productSKUs = showProducts.map(e => e.title);
     switch (this.state.showChart) {
       case 'chart0':
         return supplierDetails && supplierDetails.rate ? (
           <this.renderHit supplier={supplierDetails} />
         ) : null;
 
-      case 'chart1':
+      case 'chart1': {
         let monthly_data = [];
         let profit_monthly = [];
         let sales_monthly = [];
         monthly_data = showProducts.map(e => {
           return {
-            name: e['title'],
-            x: parseFloat(e['sales_monthly']),
-            y: parseFloat(e['profit_monthly']),
+            name: e.title,
+            x: parseFloat(e.sales_monthly),
+            y: parseFloat(e.profit_monthly),
           };
         });
-        profit_monthly = showProducts.map(e => parseFloat(e['profit_monthly']));
-        sales_monthly = showProducts.map(e => parseFloat(e['sales_monthly']));
+        profit_monthly = showProducts.map(e => parseFloat(e.profit_monthly));
+        sales_monthly = showProducts.map(e => parseFloat(e.sales_monthly));
 
         return productSKUs.length &&
           profit.length &&
@@ -187,11 +187,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             Loading
           </Loader>
         );
-      case 'chart3':
+      }
+      case 'chart3': {
         let product_cost = [];
         let fees = [];
-        product_cost = showProducts.map(e => parseFloat(e['product_cost']));
-        fees = showProducts.map(e => parseFloat(e['fees']));
+        product_cost = showProducts.map(e => parseFloat(e.product_cost));
+        fees = showProducts.map(e => parseFloat(e.fees));
 
         return productSKUs.length && profit.length && product_cost.length && fees.length ? (
           <this.renderRevenue
@@ -213,10 +214,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             Loading
           </Loader>
         );
-      case 'chart4':
+      }
+      case 'chart4': {
         let roi = [];
         roi = showProducts.map(e => {
-          return { name: parseFloat(e['roi']), y: parseFloat(e['profit']) };
+          return { name: parseFloat(e.roi), y: parseFloat(e.profit) };
         });
         return productSKUs.length && roi.length ? (
           <this.renderPOFP
@@ -237,6 +239,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             Loading
           </Loader>
         );
+      }
       default:
         return null;
     }
@@ -311,7 +314,4 @@ const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierCharts);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierCharts);

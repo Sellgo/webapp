@@ -1,22 +1,24 @@
 .supplier-charts {
   // Chart radio inputs
-  form.ui .inline.fields {
+  .ui .inline.fields {
     align-items: flex-start;
   }
 
   // On mobile stack radio inputs, align left, and center container
   @media screen and (min-width: 310px) and (max-width: 767px) {
-    form.ui {
+    .ui {
       display: flex;
+
       .inline.fields {
-        flex-shrink: 1;
-        margin: 0 auto;
-        flex-direction: column;
-        justify-content: start;
         align-items: flex-start;
+        flex-direction: column;
+        flex-shrink: 1;
+        justify-content: start;
+        margin: 0 auto;
       }
     }
   }
+
   @media screen and (max-width: 1024px) {
     .chart-end-content {
       padding: 15px 0 20px 40px;
@@ -27,7 +29,7 @@
 @media screen and (max-height: 900px) {
   .supplier-charts {
     // Chart radio inputs
-    form.ui .inline.fields {
+    .ui .inline.fields {
       margin: 0;
     }
   }

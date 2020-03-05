@@ -2,27 +2,33 @@
   // Give left filters column a fixed width
   .left-column {
     padding-right: 100px !important;
+
     .Supplier_Filters {
-      max-width: 200px;
       margin: 0 auto;
+      max-width: 200px;
+
       .synthesis-supplier-filters {
         .search-dropdown {
           margin-bottom: 20px;
+
           .dropdown {
             background: transparent;
             border-color: #bbbec1;
             border-radius: 10px;
+
             .text {
               color: #868686 !important;
             }
+
             input.search {
               background: transparent;
               left: 0 !important;
             }
           }
         }
+
         .inner-wrap {
-          padding: 10px 15px 10px 15px;
+          padding: 10px 15px;
         }
       }
     }
@@ -31,19 +37,21 @@
   .right-column {
     // flex: 1;
     .wide.column {
-      max-width: 800px;
       max-height: 500px;
+      max-width: 800px;
 
       .ui {
         width: 100%;
+
         .supplier-details-card {
           .ui.feed {
             .event {
               .content {
                 padding: 15px 25px;
+
                 .highcharts-container {
-                  max-width: 733px;
                   max-height: 350px;
+                  max-width: 733px;
 
                   svg {
                     height: 100% !important;
@@ -52,12 +60,13 @@
               }
             }
           }
+
           .ui.checkbox {
             input.hidden + label {
-              font-size: 14px;
-              font-weight: 500;
               color: #000;
               font-family: 'Work Sans', sans-serif;
+              font-size: 14px;
+              font-weight: 500;
             }
           }
         }
@@ -65,21 +74,24 @@
     }
   }
 }
+
 .chart-end-content h4 {
-  font-weight: bold;
-  font-size: 13px;
   font-family: 'Work Sans', sans-serif;
+  font-size: 13px;
+  font-weight: bold;
 }
+
 .radio-toggle-wrap {
   margin: 0 auto;
-  text-align: center;
   padding-top: 285px;
+  text-align: center;
 }
+
 .ui.raised.card {
+  background: #fff;
   border: 1px solid #98aeca;
   border-radius: 10px;
-  box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.16) !important;
-  background: #fff;
+  box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16) !important;
 }
 
 .Toastify {
@@ -92,14 +104,17 @@
   margin: 0;
   padding: 15px 20px;
   letter-spacing: 1px;
+
   p.header {
     font-weight: 500;
     letter-spacing: 1.5px;
     font-size: 24px;
   }
+
   p.label {
     display: flex;
     font-size: 14px;
+
     i.icon {
       font-size: 0.8rem;
       margin: 0 3px;
@@ -124,11 +139,12 @@
       }
     }
   }
+
   .left-column {
     .Supplier_Filters {
       .synthesis-supplier-filters {
         .inner-wrap {
-          padding: 5px 15px 5px 15px;
+          padding: 5px 15px;
         }
       }
     }
@@ -144,9 +160,11 @@
         }
       }
     }
+
     .individual-pie-chart {
       .highcharts-container {
         height: 250px !important;
+
         svg {
           height: 100%;
         }
@@ -159,6 +177,7 @@
   .left.floated.four.wide.column.left-column {
     padding-right: 15px !important;
   }
+
   .supplier-details-card {
     .ui.feed {
       .event {
@@ -173,10 +192,11 @@
 @media (max-width: 768px) {
   .setting {
     .left.floated.four.wide.column.left-column {
-      width: 100% !important;
-      padding-right: 15px !important;
       padding-bottom: 30px;
+      padding-right: 15px !important;
+      width: 100% !important;
     }
+
     .right.floated.nine.wide.column.right-column {
       width: 100% !important;
       //padding-left: 0 !important;
@@ -185,15 +205,18 @@
         text-align: center;
       }
     }
+
     .right.floated.three.wide.column.right-column {
       width: 100% !important;
+
       .radio-toggle-wrap {
         padding-top: 30px;
       }
     }
   }
+
   .setting .left-column .Supplier_Filters .synthesis-supplier-filters .inner-wrap {
-    padding: 20px 20px 10px 20px;
+    padding: 20px 20px 10px;
   }
 }
 

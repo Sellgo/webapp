@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import './index.scss';

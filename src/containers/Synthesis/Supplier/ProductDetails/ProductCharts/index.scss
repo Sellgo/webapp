@@ -4,21 +4,25 @@
   }
 
   .popup-loader::after {
-    border-color: #000000 transparent transparent !important;
+    border-color: #000 transparent transparent !important;
   }
 }
+
 @media only screen and (min-width: 310px) and (max-width: 767px) {
   .flex-col {
     flex-direction: column !important;
   }
+
   .wdt100,
   .content .ui.grid .wdt100 {
     width: 100% !important;
   }
+
   .wdt50,
   .content .ui.grid .wdt50 {
     width: 50% !important;
   }
+
   .img-pos {
     right: 42% !important;
   }
@@ -28,13 +32,16 @@
   .content .ui.grid .detail-page {
     width: calc(100% - 200px) !important;
   }
+
   .wdt50,
   .content .ui.grid .wdt50 {
     width: 50% !important;
   }
+
   .content .ui.grid .detail-img {
     width: 200px !important;
   }
+
   .img-pos {
     right: 22% !important;
   }

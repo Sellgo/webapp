@@ -89,6 +89,7 @@ export default class Auth {
           // Temporary solution for 3rd party cookies issue
           // Need to setup an Auth0 custom domain to fix
           alert(
+            // eslint-disable-next-line max-len
             `Sellgo does not currently support browsers with 3rd party cookies disabled. Please enable 3rd party cookies or in Safari un-check "prevent cross-site tracking" in your browser's settings.`
           );
         } else {
@@ -116,7 +117,7 @@ export default class Auth {
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
     localStorage.setItem('isLoggedIn', 'true');
-    this.getProfile((err: any, profile: any) => {
+    this.getProfile(() => {
       this.registerSeller();
     });
   };

@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Form,
-  Input as InputComponent,
-  Radio as RadioComponent,
-  Checkbox as CheckboxComponent,
-  Select as SelectComponent,
-  TextArea as TextAreaComponent,
-  Dropdown as DropdownComponent,
-  Label,
-} from 'semantic-ui-react';
+import { Form, Input as InputComponent, Label } from 'semantic-ui-react';
 
 interface InputProps {
   checked?: boolean;

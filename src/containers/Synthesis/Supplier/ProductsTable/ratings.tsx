@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rating, Image } from 'semantic-ui-react';
+import { Rating } from 'semantic-ui-react';
 
 const Ratings = (props: any) => {
   const { starRatings, totalReviews } = props;

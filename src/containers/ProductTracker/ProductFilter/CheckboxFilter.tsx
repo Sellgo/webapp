@@ -13,7 +13,7 @@ const CheckboxFilter = (props: any) => {
         {check &&
           check.map((data: any) => {
             return (
-              <div>
+              <div key={data.key}>
                 <Checkbox label={data.key} checked={data.value} />
                 <Popup
                   className="add-supplier-popup"

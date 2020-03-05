@@ -1,11 +1,12 @@
 .slider-range {
   .range-title {
     display: flex;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     justify-content: space-between;
     margin-bottom: 18px;
-    font-weight: 600;
-    font-size: 14px;
-    font-family: Work Sans;
+
     b {
       font-weight: 600;
     }
@@ -15,29 +16,30 @@
   }
 
   i.small.icon.question {
-    font-size: 1em !important;
     color: #98aeca !important;
+    font-size: 1em !important;
     padding-left: 0.5rem;
   }
 
   .range-input {
+    align-items: center;
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
-    align-items: center;
     padding: 0 10px;
   }
+
   .range-input .ui.input > input {
     background: transparent;
     border: 1px solid #dfe8f3;
-    font-size: 14px;
+    box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
     color: #98aeca;
-    padding: 4px 2px;
-    min-height: 10px;
+    font-size: 14px;
     font-weight: normal;
-    width: 59px;
+    min-height: 10px;
+    padding: 4px 2px;
     text-align: center;
-    box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0px 1px #d4d4d5;
+    width: 59px;
   }
 
   .range-input .ui.input > input::-webkit-input-placeholder {
@@ -59,10 +61,12 @@
       font-size: 13px;
       padding: 5px 2px;
     }
+
     .range-title {
       font-size: 12px;
       margin-bottom: 10px;
     }
+
     .range-input {
       margin-top: 10px;
     }

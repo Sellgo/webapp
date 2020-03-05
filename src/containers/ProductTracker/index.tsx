@@ -192,7 +192,4 @@ const mapDispatchToProps = {
     ),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductTracker);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductTracker);

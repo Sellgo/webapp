@@ -76,7 +76,4 @@ const mapDispatchToProps = {
   onChange: setUploadSupplierStep,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadSteps);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadSteps);
