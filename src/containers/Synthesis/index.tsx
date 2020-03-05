@@ -37,8 +37,8 @@ class Synthesis extends Component<SynthesisProps> {
     const { getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
     getAmazonMWSAuthorized();
     const acceptedTos = localStorage.getItem('acceptedTos');
-    const firstLogin = localStorage.getItem('firstLogin');
-    if (!acceptedTos || !firstLogin) {
+    const acceptedPp = localStorage.getItem('acceptedPp');
+    if (!acceptedTos || !acceptedPp) {
       openUserOnboardingModal();
     }
   }

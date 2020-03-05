@@ -32,12 +32,10 @@ export const UserOnboarding = (props: any) => {
 
   const handleAccept = () => {
     localStorage.setItem('acceptedTos', 'true');
-    localStorage.setItem('firstLogin', 'true');
     setAcceptedTos(true);
   };
   const handleAcceptPp = () => {
     localStorage.setItem('acceptedPp', 'true');
-    localStorage.setItem('firstLogin', 'true');
     setAcceptedPp(true);
   };
 
