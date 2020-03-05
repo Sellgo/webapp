@@ -4,29 +4,15 @@ import styles from './UploadSupplier.module.css';
 import { Field } from 'redux-form';
 import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { defaultSelect } from '../../../constants';
-// import timezones from '../../../constants/UploadSupplier/timezones';
-// import { accountStatus } from '../../../constants/UploadSupplier';
 import { marketPlace } from '../../../constants/UploadSupplier';
-// import { terms } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
-// import { isNumber } from '../../../utils/validations/isPhone';
-// import isName from '../../../utils/validations/isName.js';
 import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
-// import { webUrl } from '../../../utils/validations/isUrl';
 
 const required = isRequired();
 
 const SupplierDetails = () => (
   <React.Fragment>
     <Grid.Column className={styles['rightAdjust']} width={7}>
-      {/* <Field
-        className={styles['dropdwn-wdth']}
-        component={SelectField}
-        name="marketPlace"
-        label="Market Place"
-        placeholder="Amazon.com"
-        options={[defaultSelect, ...marketPlace]}
-      /> */}
       <div className={`field`}>
         <label>Market Place</label>
         <Dropdown
@@ -38,32 +24,6 @@ const SupplierDetails = () => (
           options={marketPlace}
         />
       </div>
-      {/* <Grid columns="equal">
-        <Grid.Column className={styles['taxAlign']}>
-          <Field
-            component={InputField}
-            name="salesTax"
-            label="Sales Tax (%)"
-            placeholder="%"
-            className={styles['field-width']}
-            type="number"
-            min="0"
-            validate={onlyNumber}
-          />
-        </Grid.Column>
-        <Grid.Column>
-          <Field
-            component={InputField}
-            name="prepUnit"
-            label="Prep $/Unit ($)"
-            placeholder="$"
-            className={styles['field-width']}
-            type="number"
-            min="0"
-            validate={onlyNumber}
-          />
-        </Grid.Column>
-      </Grid> */}
     </Grid.Column>
   </React.Fragment>
 );
