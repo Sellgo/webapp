@@ -258,7 +258,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p className="stat">{row.dimension !== null ? row.dimension : 'N.A.'}</p>;
   };
   renderWeight = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.weight !== null ? row.weight : 'N.A.'}</p>;
+    return <p className="stat">{row.weight !== null ? `${row.weight} lbs` : 'N.A.'}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;
