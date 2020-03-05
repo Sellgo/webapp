@@ -54,11 +54,14 @@ jobs:
           name: install-npm
           command: npm install
       - run:
-          name: "run lint"
+          name: run-lint
           command: npm run lint
 
 workflows:
   version: 2
+  run-lint:
+    jobs:
+      - run-lint
   build-and-deploy-prod:
     jobs:
       - build-prod:
@@ -74,7 +77,7 @@ workflows:
               only: master
   build-and-deploy-dev:
     jobs:
-      - run-lint
+      # - run-lint
       - build-dev:
           filters:
             branches:
