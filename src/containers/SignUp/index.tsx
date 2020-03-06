@@ -126,7 +126,7 @@ export default function Signup(props: Props, state: State) {
     setMessageDetails({
       key: uuid(),
       header: 'Signup Failed',
-      content: `${err.policy}`,
+      content: `${err.description}`,
       isSuccess: false,
       isError: true,
       time: 5000,
