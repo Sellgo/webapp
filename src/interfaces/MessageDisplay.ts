@@ -1,5 +1,5 @@
 export interface MessageDetails {
-  key: any;
+  key: string;
   header: string;
   content: string;
   isSuccess: boolean;

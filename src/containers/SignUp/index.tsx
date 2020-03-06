@@ -8,7 +8,7 @@ import { useInput } from '../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
 import history from '../../history';
 import PasswordValidator from 'password-validator';
-import './index.scss';
+import '../Signup/index.scss';
 
 interface Props {
   auth: Auth;
@@ -18,14 +18,14 @@ interface State {
   stepsInfo: Steps[];
 }
 
-export default function SignUp(props: Props, state: State) {
+export default function Signup(props: Props, state: State) {
   const { auth } = props;
   const { value: email, bind: bindEmail } = useInput('');
   const { value: firstname, bind: bindFirstName } = useInput('');
   const { value: lastname, bind: bindLastName } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
 
-  const [isFocusPW, setFocusPW] = useState(false);
+  const [isFocusPW, setFocusPassword] = useState(false);
 
   const passwordPolicy = new PasswordValidator()
     .is()
@@ -51,19 +51,19 @@ export default function SignUp(props: Props, state: State) {
     .has()
     .symbols();
 
-  const LowerUpper = new PasswordValidator()
+  const lowerUpper = new PasswordValidator()
     .has()
     .uppercase()
     .has()
     .lowercase();
 
-  const Alphanumeric = new PasswordValidator()
+  const alphanumeric = new PasswordValidator()
     .has()
     .letters()
     .has()
     .digits();
 
-  const SpecialCharacters = new PasswordValidator().has().symbols();
+  const specialCharacters = new PasswordValidator().has().symbols();
 
   const Length = new PasswordValidator().is().min(8);
 
@@ -80,26 +80,26 @@ export default function SignUp(props: Props, state: State) {
       {
         id: 2,
         stepShow: true,
-        stepClass: LowerUpper.validate(password) ? 'title-success' : 'title-error',
+        stepClass: lowerUpper.validate(password) ? 'title-success' : 'title-error',
         stepTitle: 'Lowercase and Uppercase',
         stepDescription: 'Contains a capital letter and a non capital letter',
-        stepIcon: LowerUpper.validate(password) ? 'check' : 'times',
+        stepIcon: lowerUpper.validate(password) ? 'check' : 'times',
       },
       {
         id: 3,
         stepShow: true,
-        stepClass: Alphanumeric.validate(password) ? 'title-success' : 'title-error',
+        stepClass: alphanumeric.validate(password) ? 'title-success' : 'title-error',
         stepTitle: 'Alphanumeric',
         stepDescription: 'Contains a number and letter',
-        stepIcon: Alphanumeric.validate(password) ? 'check' : 'times',
+        stepIcon: alphanumeric.validate(password) ? 'check' : 'times',
       },
       {
         id: 4,
         stepShow: true,
-        stepClass: SpecialCharacters.validate(password) ? 'title-success' : 'title-error',
+        stepClass: specialCharacters.validate(password) ? 'title-success' : 'title-error',
         stepTitle: 'SpecialCharacters',
         stepDescription: 'Contains at least one special character (e.g. !@#$%^&*,.)',
-        stepIcon: SpecialCharacters.validate(password) ? 'check' : 'times',
+        stepIcon: specialCharacters.validate(password) ? 'check' : 'times',
       },
       {
         id: 5,
@@ -134,15 +134,16 @@ export default function SignUp(props: Props, state: State) {
   }
 
   function onBlur() {
-    setFocusPW(false);
+    setFocusPassword(false);
   }
 
   function onFocus() {
-    setFocusPW(true);
+    setFocusPassword(true);
   }
+
   function handleSubmit() {
     if (!passwordPolicy.validate(password)) {
-      setFocusPW(true);
+      setFocusPassword(true);
     } else {
       auth.webAuth.signup(
         {

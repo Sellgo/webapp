@@ -42,11 +42,11 @@ export default function Login(props: Props) {
       },
       err => {
         if (err) {
-          console.log('Error:  ', err);
+          console.log('Error: ', err);
           resetPassword();
           setAccess(true);
         } else {
-          console.log('Success!, ');
+          console.log('Success!');
         }
       }
     );
