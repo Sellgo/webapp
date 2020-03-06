@@ -18,17 +18,14 @@ export const saveColumnMappingSettingSelector = (state: object): boolean =>
 export const skipColumnMappingCheckSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.skipColumnMappingCheck', false);
 
-export const csvHeaderSelector = createSelector(
-  [csvSelector],
-  csv => {
-    const headerRow = csv.length > 0 ? csv[0] : [];
+export const csvHeaderSelector = createSelector([csvSelector], csv => {
+  const headerRow = csv.length > 0 ? csv[0] : [];
 
-    // convert header to alphabet
-    const alphabeticHeader = headerRow.map((data, index) => numberToLetter(index));
+  // convert header to alphabet
+  const alphabeticHeader = headerRow.map((data, index) => numberToLetter(index));
 
-    return alphabeticHeader;
-  }
-);
+  return alphabeticHeader;
+});
 
 export const csvFileSelector = (state: object): File => get(state, 'uploadSupplier.csvFile');
 

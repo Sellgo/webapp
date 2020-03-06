@@ -116,11 +116,11 @@ export default (state = initialState, action: AnyAction) => {
         'trackerDetails.results',
         trackerDetailsAfterUpdate
       );
-      const filteredProductsAfterUpdate = get(newStateWithTrackerDetails, 'filteredProducts').map(
-        (product: any) =>
-          product.id !== updatedProductDetails.id
-            ? product
-            : { ...product, ...updatedProductDetails }
+      const filteredProductsAfterUpdate = get(
+        newStateWithTrackerDetails,
+        'filteredProducts'
+      ).map((product: any) =>
+        product.id !== updatedProductDetails.id ? product : { ...product, ...updatedProductDetails }
       );
       return setIn(newStateWithTrackerDetails, 'filteredProducts', filteredProductsAfterUpdate);
     }

@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
 import ProductTracker from '../ProductTracker';
+import SignUp from '../SignUp';
 
 const auth = new Auth();
 
@@ -135,18 +136,17 @@ function App() {
             render={renderProps => <Home auth={auth} {...renderProps} />}
           />
           <Route
-            exact={true}
-            path="/signup"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
-          />
-          <Route
             path="/callback"
             render={renderProps => {
               handleAuthentication(renderProps.location);
               return <PageLoader />;
             }}
           />
-
+          <Route
+            exact={true}
+            path="/signup"
+            render={renderProps => <SignUp auth={auth} {...renderProps} />}
+          />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute

@@ -2,18 +2,14 @@ import * as React from 'react';
 import queryString from 'query-string';
 import history from '../../history';
 import { success } from '../../utils/notifications';
+import Login from '../Login';
 
 export default class Home extends React.Component<any> {
   componentDidMount() {
-    const { auth, location } = this.props;
+    const { location } = this.props;
 
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
-    } else {
-      // Show Auth0 modal automatically.
-      // Options can be passed via history.
-      // Replace state such as error to display when redirecting back from /callback.
-      auth.login(location.state && location.state.options ? location.state.options : {});
     }
 
     // Show email verification success message if "verified" param
@@ -27,7 +23,9 @@ export default class Home extends React.Component<any> {
   }
 
   render() {
-    // No UI rendered (just Auth0 modal)
-    return null;
+    const { auth, location } = this.props;
+    return localStorage.getItem('isLoggedIn') !== 'true' ? (
+      <Login auth={auth} location={location} />
+    ) : null;
   }
 }

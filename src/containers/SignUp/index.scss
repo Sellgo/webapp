@@ -1,0 +1,44 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    text-align: center;
+    color: #fff;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: #2185d0;
+    text-decoration: underline;
+  }
+
+  label.log-in {
+    text-align: center;
+  }
+
+  .field > label {
+    font-weight: unset;
+  }
+
+  input[type='checkbox'] {
+    position: relative;
+    top: 3px;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    content: '';
+    background: #fff;
+    border-radius: 0.21428571rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  form.signup-form {
+    padding-bottom: 50px;
+  }
+}
