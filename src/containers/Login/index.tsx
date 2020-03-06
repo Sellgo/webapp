@@ -53,7 +53,6 @@ export default function Login(props: Props) {
   };
 
   useEffect(() => {
-    console.log('email login: ', location);
     if (location.state) {
       if (location.state.email) {
         success();
