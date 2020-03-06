@@ -1,70 +1,105 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Grid, GridRow, Segment } from 'semantic-ui-react';
-import { Logo } from '../Dashboard/index';
-import IntroSlider from '../../components/IntroSlider';
-import PasswordShowHide from '../../components/Password/PasswordShowHide';
-import './login.css';
-import GenericButton from '../../components/Button';
+import React, { useState, useEffect } from 'react';
+import { Button, Form } from 'semantic-ui-react';
+import LoginBase from '../../components/LoginBase';
+import './index.scss';
+import Auth from '../../components/Auth/Auth';
+import { useInput } from '../../hooks/useInput';
+import { v4 as uuid } from 'uuid';
 
-export default class Login extends React.Component<any, {}> {
-  render() {
-    const { login } = this.props.auth;
-    return (
-      <Grid verticalAlign="middle" style={{ minHeight: '100vh' }}>
-        <Grid.Row>
-          <Grid.Column className="left-pane" width={10}>
-            <IntroSlider />
-          </Grid.Column>
-          <Grid.Column className="right-pane" width={6}>
-            <div className="logo-img">
-              <Logo centered={true} size="small" />
-            </div>
-            <Segment basic={true} clearing={true}>
-              <Grid>
-                <Grid.Row>
-                  <Grid.Column width={16}>
-                    <Form className="p-t-40">
-                      <Form.Field>
-                        <div className="small-light login-fields">
-                          <input
-                            type="email"
-                            placeholder="Email Address"
-                            className="login-field1"
-                          />
-                          <div className="hr-line" />
-                          <PasswordShowHide />
-                        </div>
-                      </Form.Field>
-                    </Form>
-                  </Grid.Column>
-                  <Grid.Column width={16}>
-                    <Grid.Row width={16}>
-                      <Grid.Column className="small-regular text-align-center padding20">
-                        <Link to="/forgot-password" style={{ fontSize: 'smaller', color: 'gray' }}>
-                          Forgot your password?
-                        </Link>
-                      </Grid.Column>
-                    </Grid.Row>
-                    <GridRow>
-                      <div className="text-align-center">
-                        <GenericButton isClickable={true} onClick={login} content="Sign In" />
-                      </div>
-                    </GridRow>
-                    <GridRow>
-                      <div className="text-align-center padding20 p-t-40">
-                        <Link to="/sign-up" className="small-bold">
-                          Create My Sellgo Account!
-                        </Link>
-                      </div>
-                    </GridRow>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+interface Props {
+  auth: Auth;
+  location: any;
+}
+export default function Login(props: Props) {
+  const [isAccess, setAccess] = useState(false);
+  const { auth, location } = props;
+  const { value: username, bind: bindUserName } = useInput('');
+  const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
+
+  const [messageDetails, setMessageDetails] = React.useState({
+    key: '',
+    header: '',
+    content: ``,
+    isSuccess: true,
+    isError: false,
+    time: 0,
+  });
+  const handleSubmit = () => {
+    setMessageDetails({
+      key: '',
+      header: '',
+      content: ``,
+      isSuccess: true,
+      isError: false,
+      time: 0,
+    });
+    auth.webAuth.login(
+      {
+        responseType: 'token',
+        realm: 'Username-Password-Authentication',
+        username: username,
+        password: password,
+      },
+      err => {
+        if (err) {
+          console.log('Error: ', err);
+          resetPassword();
+          setAccess(true);
+        } else {
+          console.log('Success!');
+        }
+      }
     );
+  };
+
+  useEffect(() => {
+    if (location.state) {
+      if (location.state.email) {
+        success();
+      } else if (
+        location.state.options &&
+        location.state.options.flashMessage.text === 'Please verify your email before logging in.'
+      ) {
+        verifyEmail();
+      }
+    }
+  }, []);
+
+  function success() {
+    setMessageDetails({
+      key: uuid(),
+      header: 'Account Created',
+      content: `A link to verify your email has been sent to ${location.state.email}`,
+      isSuccess: true,
+      isError: false,
+      time: 0,
+    });
   }
+
+  function verifyEmail() {
+    setMessageDetails({
+      key: uuid(),
+      header: 'Email Not Verified',
+      content: `Please verify email before loggin in`,
+      isSuccess: false,
+      isError: true,
+      time: 0,
+    });
+  }
+  return (
+    <LoginBase messageDetails={messageDetails}>
+      <Form className="login-form" onSubmit={handleSubmit}>
+        <Form.Input label="Username" type="mail" placeholder="name@domain.com" {...bindUserName} />
+        <Form.Input label="Password" type="password" {...bindPassword} />
+        <a href="#"> Forgot password </a>
+        {isAccess ? <span>Incorrect Username or Password!</span> : <span />}
+        <Form.Field control={Button} fluid={true} primary={true} value="Submit">
+          Log in
+        </Form.Field>
+        <a className="sign-up" href="/signup">
+          <b>Sign up for an account</b>
+        </a>
+      </Form>
+    </LoginBase>
+  );
 }
