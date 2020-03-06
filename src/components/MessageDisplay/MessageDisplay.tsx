@@ -23,17 +23,20 @@ class MessageDisplay extends React.Component<Props, State> {
     }
   }
   showMessage() {
-    this.setState({
-      hidden: false,
-    });
-    if (this.props.messageDetails.time !== 0) {
-      console.log('this.props.messageDetails.time: ', this.props.messageDetails.time);
-      setTimeout(() => {
-        this.setState({
-          hidden: true,
-        });
-      }, this.props.messageDetails.time);
-    }
+    this.setState(
+      {
+        hidden: false,
+      },
+      () => {
+        if (this.props.messageDetails.time !== 0) {
+          setTimeout(() => {
+            this.setState({
+              hidden: true,
+            });
+          }, this.props.messageDetails.time);
+        }
+      }
+    );
   }
 
   render() {

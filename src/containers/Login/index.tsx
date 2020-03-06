@@ -91,7 +91,7 @@ export default function Login(props: Props) {
       <Form className="login-form" onSubmit={handleSubmit}>
         <Form.Input label="Username" type="mail" placeholder="name@domain.com" {...bindUserName} />
         <Form.Input label="Password" type="password" {...bindPassword} />
-        <a href="#"> Forgot password </a>
+        <a href="/reset-password"> Forgot password </a>
         {isAccess ? <span>Incorrect Username or Password!</span> : <span />}
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
           Log in

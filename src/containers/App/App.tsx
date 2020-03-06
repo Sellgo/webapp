@@ -17,6 +17,7 @@ import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
 import ProductTracker from '../ProductTracker';
 import SignUp from '../SignUp';
+import ResetPassword from '../ResetPassword';
 
 const auth = new Auth();
 
@@ -146,6 +147,11 @@ function App() {
             exact={true}
             path="/signup"
             render={renderProps => <SignUp auth={auth} {...renderProps} />}
+          />
+          <Route
+            exact={true}
+            path="/reset-password"
+            render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
           />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
