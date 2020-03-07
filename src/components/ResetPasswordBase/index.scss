@@ -1,0 +1,25 @@
+// Font-Size
+$base-font-size: 1em;
+
+.reset-password-content {
+  .internal.rail {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    .segment {
+      padding: 0;
+      border: 0;
+
+      .message {
+        margin: 0;
+        text-align: center;
+
+        p {
+          font-size: 12px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
