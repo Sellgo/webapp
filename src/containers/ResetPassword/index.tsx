@@ -12,7 +12,7 @@ interface Props {
 
 export default function ResetPassword(props: Props) {
   const { auth } = props;
-  const [isAccess, setAccess] = useState(false);
+  const [isAccess] = useState(false);
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput('');
   const [messageDetails, setMessageDetails] = React.useState({
     key: '',
@@ -29,8 +29,7 @@ export default function ResetPassword(props: Props) {
         connection: 'Username-Password-Authentication',
         email: email,
       },
-      (err, res) => {
-        console.log('res: ', res);
+      err => {
         if (err) {
           error(err);
         } else {
@@ -62,6 +61,7 @@ export default function ResetPassword(props: Props) {
       time: 5000,
     });
   }
+
   return (
     <ResetPasswordBase messageDetails={messageDetails}>
       <Form className="reset-pw-form" onSubmit={handleSubmit}>
