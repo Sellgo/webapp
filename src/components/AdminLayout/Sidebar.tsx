@@ -1,25 +1,33 @@
-import * as React from 'react';
-import { Menu } from 'semantic-ui-react';
+import React, { Component, ReactElement } from 'react';
+import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import Auth from '../Auth/Auth';
+import './Sidebar.scss';
 
-interface Icon {
+interface IconD {
   id: number;
-  name: string;
+  icon: string;
   path: string;
 }
 
 interface State {
-  sidebarIcon?: Icon[];
-  activeItem?: string;
+  sidebarIcon?: IconD[];
+  children: ReactElement;
 }
 
-class Sidebar extends React.Component<State> {
+export default class SidebarExampleTransitions extends Component<
+  { auth: Auth },
+  { visible: boolean; activeItem: string },
+  State
+> {
   handlePath = () => {
     switch (window.location.pathname) {
       case '/synthesis':
         return 'fa-search-dollar';
       case '/product-tracker':
         return 'fa-fingerprint';
+      case '/settings':
+        return 'fa-user-cog';
       default:
         return 'fa-search-dollar';
     }
@@ -27,65 +35,107 @@ class Sidebar extends React.Component<State> {
 
   state = {
     sidebarIcon: [
-      { id: 1, name: 'fa-chart-bar', path: '' },
-      { id: 2, name: 'fa-cloud-upload-alt', path: '' },
-      { id: 3, name: 'fa-clipboard-list', path: '' },
-      { id: 4, name: 'fa-search-dollar', path: '/synthesis' },
-      { id: 5, name: 'fa-fingerprint', path: '/product-tracker' },
-      { id: 6, name: 'fa-angle-left', path: '' },
-      { id: 7, name: 'fa-sign-out-alt', path: '' },
-      { id: 8, name: 'fa-user-cog', path: '' },
+      { id: 1, label: 'Profit Finder', icon: 'fa-search-dollar', path: '/synthesis' },
+      { id: 2, label: 'Product Tracker', icon: 'fa-fingerprint', path: '/product-tracker' },
+      { id: 3, label: '', icon: 'fa-angle-right', path: '' },
+      { id: 4, label: 'Logout', icon: 'fa-sign-out-alt', path: '' },
+      { id: 5, label: 'Settings', icon: 'fa-user-cog', path: '/settings' },
     ],
     activeItem: this.handlePath(),
+    visible: true,
   };
 
-  handleItemClick = (e: React.MouseEvent, name: string) => this.setState({ activeItem: name });
+  handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
 
-  public render() {
-    const { activeItem } = this.state;
+  handleItemClick = (e: React.MouseEvent, icon: string) => this.setState({ activeItem: icon });
+
+  render() {
+    const { visible, activeItem } = this.state;
+    const { children, auth } = this.props;
+
     const sidebarMenu = (
-      <Menu className="sidebar-menu" inverted={true} icon={true} vertical={true} borderless={true}>
+      <>
         <Menu.Menu>
-          {this.state.sidebarIcon.map((icon: Icon) => {
-            if (icon.id < 6) {
+          {this.state.sidebarIcon.map(icon => {
+            if (icon.id < 3) {
               return (
                 <Menu.Item
                   key={icon.id}
                   as={Link}
                   to={icon.path}
-                  name={icon.name}
-                  active={activeItem === icon.name}
-                  onClick={e => this.handleItemClick(e, icon.name)}
+                  name={icon.icon}
+                  icon="labeled"
+                  active={activeItem === icon.icon}
+                  onClick={e => this.handleItemClick(e, icon.icon)}
                 >
-                  <i className={`fas ${icon.name}`} />
+                  <i className={`fas ${icon.icon}`} />
+                  <Label> {icon.label} </Label>
                 </Menu.Item>
               );
             }
           })}
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
-          {this.state.sidebarIcon.map((icon: Icon) => {
-            if (icon.id >= 6) {
+          {this.state.sidebarIcon.map(icon => {
+            if (icon.id === 3) {
+              return (
+                <Menu.Item
+                  key={icon.id}
+                  name={icon.icon}
+                  icon="labeled"
+                  active={activeItem === icon.icon}
+                  onClick={e => {
+                    this.handleItemClick(e, icon.icon);
+                    this.handleAnimationChange();
+                  }}
+                >
+                  <i className={`fas ${visible ? icon.icon : 'fa-angle-left'}`} />
+                </Menu.Item>
+              );
+            }
+            if (icon.id > 3) {
               return (
                 <Menu.Item
                   key={icon.id}
                   as={Link}
                   to={icon.path}
-                  name={icon.name}
-                  active={activeItem === icon.name}
-                  onClick={e => this.handleItemClick(e, icon.name)}
+                  name={icon.icon}
+                  icon="labeled"
+                  active={activeItem === icon.icon}
+                  onClick={e => {
+                    icon.id === 4 ? auth.logout() : this.handleItemClick(e, icon.icon);
+                  }}
                 >
-                  <i className={`fas ${icon.name}`} />
+                  <i className={`fas ${icon.icon}`} />
+                  <Label> {icon.label} </Label>
                 </Menu.Item>
               );
             }
           })}
         </Menu.Menu>
-      </Menu>
+      </>
     );
 
-    return <React.Fragment> {sidebarMenu} </React.Fragment>;
+    return (
+      <Grid className="sidebar-container">
+        <Sidebar.Pushable as={Segment}>
+          <Sidebar
+            as={Menu}
+            animation="uncover"
+            direction="left"
+            icon="labeled"
+            inverted
+            vertical
+            visible={visible}
+            className="sidebar-menu"
+            borderless={true}
+          >
+            {sidebarMenu}
+          </Sidebar>
+
+          <Sidebar.Pusher>{children}</Sidebar.Pusher>
+        </Sidebar.Pushable>
+      </Grid>
+    );
   }
 }
-
-export default Sidebar;
