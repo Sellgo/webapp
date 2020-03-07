@@ -19,11 +19,13 @@
   }
 }
 
-.signup-cont .internal.rail .segment .message p {
+.signup-cont .internal.rail .segment .message p,
+.reset-password-content .internal.rail .segment .message p {
   font-size: 11px;
 }
 
-.signup-cont .internal.rail .segment .message {
+.signup-cont .internal.rail .segment .message,
+.reset-password-content .internal.rail .segment .message {
   background-color: #eff2e9;
   padding: 8px;
   z-index: 90000;

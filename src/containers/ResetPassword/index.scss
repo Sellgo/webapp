@@ -1,0 +1,208 @@
+// Font-Size
+$base-font-size: 1em;
+
+.reset-password-content {
+  font-family: 'Work Sans', sans-serif !important;
+  min-height: 100vh;
+  display: flex !important;
+  align-items: center !important;
+  background-image: linear-gradient(to right, #344659, #1d2234);
+  margin: 0 !important;
+
+  label {
+    color: #fff !important;
+    cursor: pointer;
+  }
+
+  .primary {
+    background-color: #349af8 !important;
+    cursor: pointer;
+  }
+
+  .row {
+    min-height: 300px;
+
+    .column {
+      padding: 0 !important;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+
+      form.reset-pw-form {
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+          font-size: 34px;
+          color: white;
+          margin: 0;
+          line-height: 0;
+        }
+
+        a {
+          text-align: center;
+          color: #fff;
+        }
+
+        a.sign-up {
+          width: 170px;
+          margin: auto;
+        }
+
+        a:hover {
+          color: #2185d0;
+          text-decoration: underline;
+        }
+
+        div.inline {
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .field {
+          margin-bottom: 30px;
+
+          label {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: -1px;
+            line-height: 16px;
+            margin: 20px 0;
+          }
+
+          label::after {
+            display: none;
+          }
+
+          .ui.input {
+            input[type='email']::placeholder {
+              text-align: center;
+            }
+          }
+        }
+
+        .inline.fields {
+          margin-bottom: 0;
+
+          .field,
+          a {
+            margin-bottom: 0;
+          }
+
+          .field:last-of-type {
+            margin-bottom: 10px;
+          }
+        }
+
+        span {
+          font-size: 13px;
+          color: #c70000;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+      }
+
+      .image {
+        width: 350px;
+      }
+    }
+  }
+
+  .ui.divided.grid:not([class*='vertically divided']) > .row > .column {
+    -webkit-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    -moz-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    -ms-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    -o-box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+    box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.15);
+  }
+
+  .ui.vertical.divider::after,
+  .ui.vertical.divider::before {
+    border-left: 2px solid rgba(34, 36, 38, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.51);
+    top: 0 !important;
+    bottom: 0 !important;
+  }
+
+  .ui.vertical.divider {
+    height: 33%;
+    top: 34%;
+    margin: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .reset-password-content {
+    .row {
+      .column {
+        padding-top: 60px !important;
+      }
+    }
+
+    .vertical.divider {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+  .reset-password-content {
+    form.reset-pw-form {
+      width: 531px !important;
+
+      .field {
+        margin-bottom: 40px !important;
+      }
+
+      .inline.fields {
+        margin-bottom: 30px !important;
+
+        .field,
+        a {
+          margin-bottom: 0 !important;
+          font-size: $base-font-size * 1.6 !important;
+          height: 33px;
+        }
+
+        .field:last-of-type {
+          margin-bottom: 20px !important;
+        }
+      }
+    }
+
+    label,
+    input,
+    button {
+      font-size: $base-font-size * 1.6 !important;
+    }
+
+    input,
+    button {
+      height: 65px;
+    }
+
+    .image {
+      width: auto !important;
+    }
+
+    .ui.vertical.divider::after,
+    .ui.vertical.divider::before {
+      border-right: 3px solid rgba(255, 255, 255, 0.51);
+    }
+
+    .ui.form .field > label {
+      font-weight: 600;
+      padding-bottom: 10px;
+    }
+
+    .back-to-login {
+      width: 270px !important;
+    }
+
+    .back-to-login b {
+      font-weight: bold;
+    }
+  }
+}
