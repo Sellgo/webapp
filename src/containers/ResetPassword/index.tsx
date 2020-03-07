@@ -58,7 +58,7 @@ export default function ResetPassword(props: Props) {
       content: `A link to reset your email has been sent to ${email}`,
       isSuccess: true,
       isError: false,
-      time: 5000,
+      time: 0,
     });
   }
 
