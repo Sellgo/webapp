@@ -61,13 +61,15 @@ $base-font-size: 1em;
 
   .ui.vertical.divider::after,
   .ui.vertical.divider::before {
-    height: 100% !important;
     border-left: 2px solid rgba(34, 36, 38, 0.2);
     border-right: 1px solid rgba(255, 255, 255, 0.51);
+    top: 0 !important;
+    bottom: 0 !important;
   }
 
   .ui.vertical.divider {
-    height: 25%;
+    height: 40%;
+    top: 32%;
     margin: 0 !important;
   }
 }
