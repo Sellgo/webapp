@@ -6,6 +6,7 @@ import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTabl
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
+import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -40,6 +41,7 @@ export interface GenericTableProps {
   tableKey?: string;
   currentPage: number;
   totalPages: number;
+  searchProduct: (data: any) => void;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
@@ -77,6 +79,7 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
+    searchProduct,
     currentPage,
     totalPages,
     setCurrentPage,
@@ -101,10 +104,12 @@ export const GenericTable = (props: GenericTableProps) => {
     columnFilterData,
     handleColumnChange,
   } = props;
+
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className="select-items-grid">
+        <div className="table-menu-header">
+          <ProductSearch searchProduct={searchProduct} />
           <SelectItemsCount
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
@@ -405,8 +410,13 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     setSearchValue(e.target.value);
   };
 
+  const searchProduct = (value: string) => {
+    console.log('searching...:', value);
+    console.log('filteredProducts:', data);
+  };
   return (
     <GenericTable
+      searchProduct={searchProduct}
       currentPage={currentPage}
       totalPages={totalPages}
       setCurrentPage={setCurrentPage}

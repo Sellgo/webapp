@@ -7,6 +7,7 @@ const ProductSearch = (props: any) => {
   const { searchProduct, onChange } = props;
   return (
     <Input
+      className="product-search"
       action={{
         icon: 'search',
         onClick: (e: any) => {

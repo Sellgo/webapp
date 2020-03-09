@@ -14,8 +14,6 @@ import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import ProductSearch from './productSearch';
-import { useInput } from '../../../../hooks';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -178,11 +176,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
   ];
-
-  searchProduct = (value: string) => {
-    console.log('searching...:', value);
-    console.log('filteredProducts:', this.props.filteredProducts);
-  };
   render() {
     const {
       isLoadingSupplierProducts,
@@ -204,7 +197,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     return (
       <div className="products-table">
-        <ProductSearch searchProduct={this.searchProduct} />
         <PaginatedTable
           /* 
             key change forced table to remount and set page back to 1
