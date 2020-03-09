@@ -39,17 +39,6 @@ export class AdminHeader extends React.Component<AdminProps> {
               <Logo size="small" />
             </Menu.Item>
           </Menu.Menu>
-              <span>
-                <img
-                  src={
-                    window.location.pathname.startsWith('/product-tracker')
-                      ? FingerprintBlue
-                      : FingerprintWhite
-                  }
-                  alt="fingerprint"
-                />
-              </span>
-
           <Menu.Menu className="right-menu" position="right" fitted="horizontally">
             <div className="divider" />
             <Menu.Item>
