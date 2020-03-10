@@ -40,7 +40,6 @@ interface ProductsTableState {
   checkedItems: { [index: number]: {} };
   searchProducts: Product[];
   searchValue: string;
-  loadTable: boolean;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -48,13 +47,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     checkedItems: {},
     searchProducts: [],
     searchValue: '',
-    loadTable: false,
   };
 
   componentDidUpdate(prevProps: any) {
-    console.log('prev: ', prevProps);
-    console.log('new: ', this.props);
-    if (prevProps.filteredProducts != this.props.filteredProducts) {
+    if (prevProps.filterRanges !== this.props.filterRanges) {
       this.setState({
         searchValue: '',
       });
@@ -141,7 +137,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { filteredProducts } = this.props;
     const products = filteredProducts;
     this.setState({
-      loadTable: true,
       searchValue: value,
     });
     const newFilteredProducts = products.filter((product: any) => {
@@ -152,7 +147,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     });
     this.setState({
       searchProducts: newFilteredProducts,
-      loadTable: false,
     });
   };
 
@@ -220,10 +214,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       filterRanges,
     } = this.props;
-    const { searchProducts, searchValue, loadTable } = this.state;
+    const { searchProducts, searchValue } = this.state;
     return (
       <div className="products-table">
-        {isLoadingSupplierProducts || loadTable ? (
+        {isLoadingSupplierProducts ? (
           <Segment>
             <Loader active={true} inline="centered" size="massive">
               Loading
@@ -232,16 +226,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <PaginatedTable
             /* 
-              key change forced table to remount and set page back to 1
-              if any data changes that would affect number of displayed items
-              otherwise we can end up on a page that shows no results because it's
-              past the end of the total number of items.
-              This can be done in a less hacky way once we move pagination server-side.
-            */
+                key change forced table to remount and set page back to 1
+                if any data changes that would affect number of displayed items
+                otherwise we can end up on a page that shows no results because it's
+                past the end of the total number of items.
+                This can be done in a less hacky way once we move pagination server-side.
+              */
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={_.isEmpty(searchValue) ? filteredProducts : searchProducts}
             columns={this.columns}
+            searchFilterValue={searchValue}
             showProductFinderSearch={true}
             searchFilteredProduct={this.searchFilteredProduct}
             singlePageItemsCount={singlePageItemsCount}

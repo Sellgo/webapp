@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input } from 'semantic-ui-react';
 import { useInput } from '../../../../hooks/useInput';
+import _ from 'lodash';
 
 const ProductSearch = (props: any) => {
-  const { value: searchValue, bind: bindSearch } = useInput('');
-  const { searchProfitFinderProduct, onChange } = props;
+  const { searchProfitFinderProduct, searchFilterValue } = props;
+  const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput(searchFilterValue);
+
+  useEffect(() => {
+    setSearch(searchFilterValue);
+  }, [searchFilterValue]);
+
   return (
     <Input
-      className="product-search"
+      className={_.isEmpty(searchFilterValue) ? 'product-search' : 'active product-search'}
       action={{
         icon: 'search',
         onClick: (e: any) => {
           searchProfitFinderProduct(searchValue);
         },
       }}
-      value={searchValue}
       {...bindSearch}
       placeholder="Search Product Name/UPC/ASIN"
     />

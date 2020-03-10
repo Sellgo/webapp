@@ -23,6 +23,7 @@ export interface Column {
 
 export interface PaginatedTableProps {
   tableKey?: string;
+  searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
   columns: Column[];
   singlePageItemsCount?: number;
@@ -43,6 +44,7 @@ export interface GenericTableProps {
   tableKey?: string;
   currentPage: number;
   totalPages: number;
+  searchFilterValue?: string;
   showProductFinderSearch: any;
   searchProfitFinderProduct: any;
   setCurrentPage: (page: number) => void;
@@ -107,6 +109,7 @@ export const GenericTable = (props: GenericTableProps) => {
     name,
     columnFilterData,
     handleColumnChange,
+    searchFilterValue,
   } = props;
 
   return (
@@ -114,7 +117,10 @@ export const GenericTable = (props: GenericTableProps) => {
       {setSinglePageItemsCount && showSelectItemsCount ? (
         <div className="table-menu-header">
           {showProductFinderSearch ? (
-            <ProductSearch searchProfitFinderProduct={searchProfitFinderProduct} />
+            <ProductSearch
+              searchProfitFinderProduct={searchProfitFinderProduct}
+              searchFilterValue={searchFilterValue}
+            />
           ) : (
             <div />
           )}
@@ -334,6 +340,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     count,
     showProductFinderSearch,
     searchFilteredProduct,
+    searchFilterValue,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -430,11 +437,12 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       totalItemsCount={data.length}
       showSelectItemsCount={showSelectItemsCount}
       singlePageItemsCount={singlePageItemsCount}
+      searchValue={searchValue}
       setSinglePageItemsCount={setSinglePageItemsCount}
       showSearchFilter={showSearchFilter}
       onSetShowSearchFilter={handleShowSearchFilter}
       filterName={filterName}
-      searchValue={searchValue}
+      searchFilterValue={searchFilterValue}
       onSearchChange={handleSearchChange}
       onClearSearch={handleClearSearch}
       columns={showColumns}

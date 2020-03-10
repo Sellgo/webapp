@@ -26,6 +26,12 @@
         color: white;
       }
     }
+
+    .product-search.active {
+      input {
+        background: #bad9ff;
+      }
+    }
   }
 
   .ui.table {
