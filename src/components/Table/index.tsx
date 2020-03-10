@@ -120,6 +120,7 @@ export const GenericTable = (props: GenericTableProps) => {
             <ProductSearch
               searchProfitFinderProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
+              setCurrentPage={setCurrentPage}
             />
           ) : (
             <div />

@@ -134,7 +134,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   searchFilteredProduct = (value: string) => {
-    const { filteredProducts } = this.props;
+    const { filteredProducts, setSinglePageItemsCount, singlePageItemsCount } = this.props;
     const products = filteredProducts;
     this.setState({
       searchValue: value,
@@ -145,6 +145,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) != -1)
       );
     });
+    setSinglePageItemsCount(singlePageItemsCount);
     this.setState({
       searchProducts: newFilteredProducts,
     });
