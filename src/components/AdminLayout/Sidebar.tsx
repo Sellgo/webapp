@@ -8,6 +8,7 @@ interface IconD {
   id: number;
   icon: string;
   path: string;
+  label: string;
 }
 
 interface State {
@@ -15,24 +16,11 @@ interface State {
   children: ReactElement;
 }
 
-export default class SidebarExampleTransitions extends Component<
+export default class SidebarCollapsible extends Component<
   { auth: Auth },
-  { visible: boolean; activeItem: string },
+  { visible: boolean },
   State
 > {
-  handlePath = () => {
-    switch (window.location.pathname) {
-      case '/synthesis':
-        return 'fa-search-dollar';
-      case '/product-tracker':
-        return 'fa-fingerprint';
-      case '/settings':
-        return 'fa-user-cog';
-      default:
-        return 'fa-search-dollar';
-    }
-  };
-
   state = {
     sidebarIcon: [
       { id: 1, label: 'Profit Finder', icon: 'fa-search-dollar', path: '/synthesis' },
@@ -41,16 +29,13 @@ export default class SidebarExampleTransitions extends Component<
       { id: 4, label: 'Logout', icon: 'fa-sign-out-alt', path: '' },
       { id: 5, label: 'Settings', icon: 'fa-user-cog', path: '/settings' },
     ],
-    activeItem: this.handlePath(),
     visible: true,
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
 
-  handleItemClick = (e: React.MouseEvent, icon: string) => this.setState({ activeItem: icon });
-
   render() {
-    const { visible, activeItem } = this.state;
+    const { visible } = this.state;
     const { children, auth } = this.props;
 
     const sidebarMenu = (
@@ -65,8 +50,7 @@ export default class SidebarExampleTransitions extends Component<
                   to={icon.path}
                   name={icon.icon}
                   icon="labeled"
-                  active={activeItem === icon.icon}
-                  onClick={e => this.handleItemClick(e, icon.icon)}
+                  active={window.location.pathname === icon.path}
                 >
                   <i className={`fas ${icon.icon}`} />
                   <Label> {icon.label} </Label>
@@ -83,11 +67,7 @@ export default class SidebarExampleTransitions extends Component<
                   key={icon.id}
                   name={icon.icon}
                   icon="labeled"
-                  active={activeItem === icon.icon}
-                  onClick={e => {
-                    this.handleItemClick(e, icon.icon);
-                    this.handleAnimationChange();
-                  }}
+                  onClick={e => this.handleAnimationChange()}
                 >
                   <i className={`fas ${visible ? icon.icon : 'fa-angle-left'}`} />
                 </Menu.Item>
@@ -101,9 +81,11 @@ export default class SidebarExampleTransitions extends Component<
                   to={icon.path}
                   name={icon.icon}
                   icon="labeled"
-                  active={activeItem === icon.icon}
+                  active={window.location.pathname === icon.path}
                   onClick={e => {
-                    icon.id === 4 ? auth.logout() : this.handleItemClick(e, icon.icon);
+                    if (icon.id === 4) {
+                      auth.logout();
+                    }
                   }}
                 >
                   <i className={`fas ${icon.icon}`} />
@@ -133,7 +115,9 @@ export default class SidebarExampleTransitions extends Component<
             {sidebarMenu}
           </Sidebar>
 
-          <Sidebar.Pusher>{children}</Sidebar.Pusher>
+          <Sidebar.Pusher className={`container ${visible ? '' : 'pusher-scroll-x'}`}>
+            <Sidebar.Pusher>{children}</Sidebar.Pusher>
+          </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Grid>
     );
