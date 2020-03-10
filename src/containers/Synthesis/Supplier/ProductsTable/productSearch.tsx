@@ -4,16 +4,17 @@ import { useInput } from '../../../../hooks/useInput';
 
 const ProductSearch = (props: any) => {
   const { value: searchValue, bind: bindSearch } = useInput('');
-  const { searchProduct, onChange } = props;
+  const { searchProfitFinderProduct, onChange } = props;
   return (
     <Input
       className="product-search"
       action={{
         icon: 'search',
         onClick: (e: any) => {
-          searchProduct(searchValue);
+          searchProfitFinderProduct(searchValue);
         },
       }}
+      value={searchValue}
       {...bindSearch}
       placeholder="Search Product Name/UPC/ASIN"
     />

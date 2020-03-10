@@ -35,13 +35,16 @@ export interface PaginatedTableProps {
   handleColumnChange?: any;
   count?: any;
   productTrackerPageNo?: any;
+  showProductFinderSearch?: boolean;
+  searchFilteredProduct?: (data: any) => void;
 }
 
 export interface GenericTableProps {
   tableKey?: string;
   currentPage: number;
   totalPages: number;
-  searchProduct: (data: any) => void;
+  showProductFinderSearch: any;
+  searchProfitFinderProduct: any;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
@@ -79,7 +82,8 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
-    searchProduct,
+    showProductFinderSearch,
+    searchProfitFinderProduct,
     currentPage,
     totalPages,
     setCurrentPage,
@@ -109,7 +113,11 @@ export const GenericTable = (props: GenericTableProps) => {
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
         <div className="table-menu-header">
-          <ProductSearch searchProduct={searchProduct} />
+          {showProductFinderSearch ? (
+            <ProductSearch searchProfitFinderProduct={searchProfitFinderProduct} />
+          ) : (
+            <div />
+          )}
           <SelectItemsCount
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
@@ -324,6 +332,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     handleColumnChange,
     productTrackerPageNo,
     count,
+    showProductFinderSearch,
+    searchFilteredProduct,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -410,13 +420,10 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     setSearchValue(e.target.value);
   };
 
-  const searchProduct = (value: string) => {
-    console.log('searching...:', value);
-    console.log('filteredProducts:', data);
-  };
   return (
     <GenericTable
-      searchProduct={searchProduct}
+      showProductFinderSearch={showProductFinderSearch}
+      searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
       setCurrentPage={setCurrentPage}

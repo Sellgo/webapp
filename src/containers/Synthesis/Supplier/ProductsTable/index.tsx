@@ -14,6 +14,7 @@ import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
+import _ from 'lodash';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -37,12 +38,28 @@ interface ProductsTableProps {
 
 interface ProductsTableState {
   checkedItems: { [index: number]: {} };
+  searchProducts: Product[];
+  searchValue: string;
+  loadTable: boolean;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
     checkedItems: {},
+    searchProducts: [],
+    searchValue: '',
+    loadTable: false,
   };
+
+  componentDidUpdate(prevProps: any) {
+    console.log('prev: ', prevProps);
+    console.log('new: ', this.props);
+    if (prevProps.filteredProducts != this.props.filteredProducts) {
+      this.setState({
+        searchValue: '',
+      });
+    }
+  }
 
   handleSelectAll = (event: any, isChecked: any) => {
     const { filteredProducts } = this.props;
@@ -120,6 +137,25 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
   };
 
+  searchFilteredProduct = (value: string) => {
+    const { filteredProducts } = this.props;
+    const products = filteredProducts;
+    this.setState({
+      loadTable: true,
+      searchValue: value,
+    });
+    const newFilteredProducts = products.filter((product: any) => {
+      return (
+        (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
+        (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) != -1)
+      );
+    });
+    this.setState({
+      searchProducts: newFilteredProducts,
+      loadTable: false,
+    });
+  };
+
   columns: Column[] = [
     {
       label: 'PRODUCT INFORMATION',
@@ -184,35 +220,35 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       filterRanges,
     } = this.props;
-
-    if (isLoadingSupplierProducts) {
-      return (
-        <Segment>
-          <Loader active={true} inline="centered" size="massive">
-            Loading
-          </Loader>
-        </Segment>
-      );
-    }
-
+    const { searchProducts, searchValue, loadTable } = this.state;
     return (
       <div className="products-table">
-        <PaginatedTable
-          /* 
-            key change forced table to remount and set page back to 1
-            if any data changes that would affect number of displayed items
-            otherwise we can end up on a page that shows no results because it's
-            past the end of the total number of items.
-            This can be done in a less hacky way once we move pagination server-side.
-          */
-          key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
-          tableKey={tableKeys.PRODUCTS}
-          data={filteredProducts}
-          columns={this.columns}
-          singlePageItemsCount={singlePageItemsCount}
-          setSinglePageItemsCount={setSinglePageItemsCount}
-          name={'products'}
-        />
+        {isLoadingSupplierProducts || loadTable ? (
+          <Segment>
+            <Loader active={true} inline="centered" size="massive">
+              Loading
+            </Loader>
+          </Segment>
+        ) : (
+          <PaginatedTable
+            /* 
+              key change forced table to remount and set page back to 1
+              if any data changes that would affect number of displayed items
+              otherwise we can end up on a page that shows no results because it's
+              past the end of the total number of items.
+              This can be done in a less hacky way once we move pagination server-side.
+            */
+            key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
+            tableKey={tableKeys.PRODUCTS}
+            data={_.isEmpty(searchValue) ? filteredProducts : searchProducts}
+            columns={this.columns}
+            showProductFinderSearch={true}
+            searchFilteredProduct={this.searchFilteredProduct}
+            singlePageItemsCount={singlePageItemsCount}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+            name={'products'}
+          />
+        )}
       </div>
     );
   }
