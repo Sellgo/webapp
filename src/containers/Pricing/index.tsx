@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Header, Card, Grid, Image } from 'semantic-ui-react';
-// import './index.scss';
+import './index.scss';
 import Setcard from '../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../assets/images/powered_by_stripe.svg';
 
