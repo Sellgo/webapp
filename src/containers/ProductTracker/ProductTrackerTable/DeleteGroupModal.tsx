@@ -14,7 +14,7 @@ class DeleteGroupModal extends Component<DeleteGroupModalProps> {
     return (
       <Modal
         as={Form}
-        onSubmit={(e: any) => handleSubmit(groupId)}
+        onSubmit={() => handleSubmit(groupId)}
         open={open}
         className="delete-group-modal"
       >

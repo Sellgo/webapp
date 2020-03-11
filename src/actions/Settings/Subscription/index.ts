@@ -8,7 +8,9 @@ export const fetchSubscriptions = () => (dispatch: any) => {
     .then(json => {
       dispatch(setSubscriptions(json.data));
     })
-    .catch(err => {});
+    .catch(() => {
+      //display error
+    });
 };
 
 export const fetchSellerSubscription = () => (dispatch: any) => {
@@ -21,7 +23,9 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
         warn("You don't have active subscription or your subscription has expired");
       }
     })
-    .catch(err => {});
+    .catch(() => {
+      //display error
+    });
 };
 
 export const setSubscriptions = (data: any) => ({

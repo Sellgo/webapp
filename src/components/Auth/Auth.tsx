@@ -3,12 +3,19 @@ import history from '../../history';
 import analytics from '../../analytics';
 import Axios from 'axios';
 import { AppConfig } from '../../config';
+import auth0 from 'auth0-js';
 
 export default class Auth {
   accessToken: any;
   idToken: any;
   expiresAt: any;
   userProfile: any;
+
+  public webAuth = new auth0.WebAuth({
+    domain: AppConfig.domain,
+    clientID: AppConfig.clientID,
+    redirectUri: AppConfig.callbackUrl,
+  });
 
   public auth0Lock = new Auth0Lock(AppConfig.clientID, AppConfig.domain, {
     auth: {
@@ -18,28 +25,7 @@ export default class Auth {
         scope: 'openid profile email',
       },
     },
-    closable: false,
-    allowShowPassword: true,
-    rememberLastLogin: false,
-    autoclose: true,
-    theme: {
-      logo: '/images/sellgo_logo_black.png',
-      primaryColor: '#4285F4',
-    },
-    languageDictionary: {
-      emailInputPlaceholder: 'something@youremail.com',
-      title: '',
-      signUpTitle: '',
-      forgotPasswordTitle: '',
-    },
-    allowSignUp: true,
-    initialScreen: window.location.pathname.startsWith('/signup') ? 'signUp' : 'login',
-    avatar: null,
   });
-
-  public login = (options: any) => {
-    this.auth0Lock.show(options);
-  };
 
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
@@ -89,6 +75,7 @@ export default class Auth {
           // Temporary solution for 3rd party cookies issue
           // Need to setup an Auth0 custom domain to fix
           alert(
+            // eslint-disable-next-line max-len
             `Sellgo does not currently support browsers with 3rd party cookies disabled. Please enable 3rd party cookies or in Safari un-check "prevent cross-site tracking" in your browser's settings.`
           );
         } else {
@@ -116,7 +103,7 @@ export default class Auth {
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
     localStorage.setItem('isLoggedIn', 'true');
-    this.getProfile((err: any, profile: any) => {
+    this.getProfile(() => {
       this.registerSeller();
     });
   };

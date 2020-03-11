@@ -1,6 +1,4 @@
-import { t } from 'i18next';
-
-export default (errorMessage = t('common.invalidCurrency')) => (value) => {
+export default (errorMessage = 'Currency format error') => value => {
   // remove commas as they are allowed
   const convertedText = `${value}`.replace(',', '');
 

@@ -35,7 +35,7 @@ const SellerProfile = (props: any) => {
       setprofileImageLocal(updatedProfileImageLocal);
     }
   };
-  const uploadImage = (event: any) => {
+  const uploadImage = () => {
     const updatedProfileImageLocal = { ...profileImageLocal, ...{ imageUploadProgress: true } };
     if (updatedProfileImageLocal.imageType) {
       if (

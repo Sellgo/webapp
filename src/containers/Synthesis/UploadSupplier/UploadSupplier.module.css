@@ -1,3 +1,5 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+/* stylelint-disable no-descending-specificity */
 .container {
   min-height: 32em;
   display: flex;
@@ -18,8 +20,8 @@
 .container :global(.ui.grid) {
   -margin-top: -1rem !important;
   -margin-bottom: -1rem !important;
-  margin-left: 0px !important;
-  margin-right: 0px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 .margin-top {
@@ -81,7 +83,7 @@
   border: 1px solid #707070;
   padding: 15px !important;
   border-radius: 10px;
-  font-family: 'Montserrat';
+  font-family: 'Montserrat', sans-serif;
 }
 
 .supplier-information-label {
@@ -114,6 +116,7 @@
   border-radius: 10px;
   padding: 15px !important;
 }
+
 label.block {
   display: block !important;
 }
@@ -167,63 +170,77 @@ label.block {
 
 @media screen and (min-width: 310px) and (max-width: 767px) {
   .stepper {
-    padding: 10px 0px !important;
+    padding: 10px 0 !important;
   }
+
   .stepper :global(.rc-steps-icon) {
     width: 30px !important;
     height: 30px !important;
+    background: #fff !important;
   }
+
   .stepper :global(.rc-steps-icon) i {
     font-size: 16px !important;
   }
+
   .stepper :global(.rc-steps-item-content) {
     width: 50px !important;
   }
-  .stepper :global(.rc-steps-icon) {
-    background: #fff !important;
-  }
+
   .stepper :global(.rc-steps-item-tail) {
     left: -33px !important;
     width: calc(100% + 45px) !important;
     top: 2px !important;
   }
+
   .stepper :global(.rc-steps-item-container[role='button']:hover) {
     opacity: 1 !important;
   }
+
   .stepper :global(.rc-steps-item-title) {
     font-size: 10px !important;
   }
+
   .supply-container {
     font-size: 14px !important;
-    margin: 5px 0px !important;
+    margin: 5px 0 !important;
   }
+
   .bg-color .wdt100 {
     width: 100% !important;
   }
+
   .field-width {
     width: 100% !important;
   }
+
   .field-width > input {
     width: 84% !important;
   }
+
   .btns-wrap {
     margin-top: 10px !important;
     display: flex !important;
   }
+
   .supplier-btns {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .supplier-btns > div > a {
     margin-bottom: 10px !important;
     display: block;
   }
-  i.check-circle:before {
+
+  i.check-circle::before {
     font-size: 30px !important;
   }
+
   .dropdwn-wdth {
     width: 100%;
   }
+
   .upload button.action {
     min-width: 83px !important;
     padding: 6px 12px !important;
@@ -235,22 +252,28 @@ label.block {
     font-size: 13px !important;
     margin: 5px 10px !important;
   }
+
   .dropdwn-wdth {
     min-width: auto !important;
     width: 100%;
   }
+
   .field-width {
     width: 100% !important;
   }
+
   .field-width > input {
     width: 84% !important;
   }
+
   .btns-wrap {
     display: flex !important;
   }
+
   label.block {
     font-size: 12px !important;
   }
+
   .checked {
     margin-left: 0 !important;
     margin-top: 0.75em !important;
@@ -260,6 +283,7 @@ label.block {
 .dropdown-width {
   width: 421px !important;
 }
+
 /* .stepper :global(.rc-steps-item-content) {
   width: auto !important;
 } */

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Loader } from 'semantic-ui-react';
+import { Segment, Loader, Checkbox } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -9,7 +9,6 @@ import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
 import { formatNumber, formatCurrency } from '../../../utils/format';
 import { tableKeys } from '../../../constants';
-import { Checkbox, Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
 import { updateProductTrackingStatus } from '../../../actions/Suppliers';
@@ -77,7 +76,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     retrieveTrackGroup();
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { trackGroups } = this.props;
     if (nextProps && nextProps.trackGroups !== trackGroups) {
       this.setState({ open: false });
@@ -117,7 +116,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.props.handleUntrack(productTrackGroupId, id);
   };
 
-  handleAddGroup = (e: any) => {
+  handleAddGroup = () => {
     this.setState({
       open: true,
       name: '',
@@ -139,12 +138,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ name: e.target.value });
   };
 
-  handleEditGroup = (e: any, name: string) => {
+  handleEditGroup = () => {
     this.setState({
       editGroup: true,
     });
   };
-  handleEditGroupCancel = (e: any) => {
+  handleEditGroupCancel = () => {
     this.setState({
       editGroup: false,
     });
@@ -156,12 +155,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
-  handleDeleteGroup = (e: any) => {
+  handleDeleteGroup = () => {
     this.setState({
       deleteGroup: true,
     });
   };
-  handleDeleteGroupCancel = (e: any) => {
+  handleDeleteGroupCancel = () => {
     this.setState({
       deleteGroup: false,
     });
@@ -173,7 +172,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
-  handleClick = (e: any) => {
+  handleClick = () => {
     const { ColumnFilterBox } = this.state;
     this.setState({
       ColumnFilterBox: !ColumnFilterBox,
@@ -195,7 +194,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ columnFilterData: [...checkedData] });
   };
 
-  renderCheckbox = (row: ProductTrackerDetails) => {
+  renderCheckbox = () => {
     return <Checkbox />;
   };
   renderProductInfo = (row: ProductTrackerDetails) => {
@@ -208,21 +207,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     <p className="stat">{row.avg_price !== '0.00' ? `$${row.avg_price}` : 'N.A.'}</p>
   );
   renderAvgMargin = (row: ProductTrackerDetails) => {
-    const toggleExpandRow = (id: number) => {
-      if (this.state.expandedRows === null) {
-        this.setState({
-          expandedRows: id,
-        });
-      } else if (this.state.expandedRows === id) {
-        this.setState({
-          expandedRows: null,
-        });
-      } else {
-        this.setState({
-          expandedRows: id,
-        });
-      }
-    };
+    // const toggleExpandRow = (id: number) => {
+    //   if (this.state.expandedRows === null) {
+    //     this.setState({
+    //       expandedRows: id,
+    //     });
+    //   } else if (this.state.expandedRows === id) {
+    //     this.setState({
+    //       expandedRows: null,
+    //     });
+    //   } else {
+    //     this.setState({
+    //       expandedRows: id,
+    //     });
+    //   }
+    // };
     return (
       <p className="stat">{row.avg_margin !== '0.00' ? `${row.avg_margin}%` : 'N.A.'}</p>
       // <div className="avg-margin">
@@ -259,7 +258,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p className="stat">{row.dimension !== null ? row.dimension : 'N.A.'}</p>;
   };
   renderWeight = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.weight !== null ? row.weight : 'N.A.'}</p>;
+    return <p className="stat">{row.weight !== null ? `${row.weight} lbs` : 'N.A.'}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;
@@ -399,6 +398,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             editGroup={this.state.editGroup}
             error={this.state.error}
             groupError={this.state.groupError}
+            items={productTrackerResult}
             handleAddGroup={this.handleAddGroup}
             handleAddGroupSubmit={this.handleAddGroupSubmit}
             handleAddGroupCancel={this.handleAddGroupCancel}
@@ -467,7 +467,4 @@ const mapDispatchToProps = {
   ) =>
     updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, type),
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductTrackerTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

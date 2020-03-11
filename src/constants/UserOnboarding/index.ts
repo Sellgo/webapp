@@ -1,4 +1,5 @@
 export const SET_TOS = 'SET_TOS';
+export const SET_PP = 'SET_PP';
 
 export const userOnboarding = [
   {

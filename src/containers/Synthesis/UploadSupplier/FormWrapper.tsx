@@ -18,6 +18,8 @@ export default connect(
 )(
   reduxForm({
     form: 'supplier-info',
-    onSubmit: () => {},
+    onSubmit: () => {
+      //do nothing
+    },
   })(FormWrapper)
 );

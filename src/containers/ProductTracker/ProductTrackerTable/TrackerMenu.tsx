@@ -6,10 +6,8 @@ import './index.scss';
 import CreateGroup from './CreateGroup';
 import EditGroupModal from './EditGroupModal';
 import DeleteGroupModal from './DeleteGroupModal';
+import GroupBadgeCount from './GroupBadgeCount';
 
-interface State {
-  name: string;
-}
 interface TrackerMenuProps {
   groups: any;
   handleMenu: any;
@@ -29,6 +27,7 @@ interface TrackerMenuProps {
   activeGroupId: any;
   error: boolean;
   groupError: boolean;
+  items: any;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
@@ -42,6 +41,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleAddGroup,
       error,
       groupError,
+      items,
       handleAddGroupCancel,
       handleAddGroupSubmit,
       handleAddGroupNameChange,
@@ -57,6 +57,12 @@ class TrackerMenu extends Component<TrackerMenuProps> {
         ? this.props.groups.find((data: any) => data.id === this.props.activeGroupId)
         : null;
 
+    const existingItems = items.results,
+      ungroupedCount =
+        existingItems && existingItems.length > 0
+          ? existingItems.filter((data: any) => data.product_track_group_id === null).length
+          : 0;
+
     return (
       <div className="menu-bar">
         <Menu pointing={true} stackable={true} secondary={true} color={'blue'} className="wdt100">
@@ -64,13 +70,16 @@ class TrackerMenu extends Component<TrackerMenuProps> {
             style={{ paddingBottom: '17px' }}
             name={'All Groups'}
             active={this.props.activeGroupId === null ? true : false}
-            onClick={(id: any) => {
+            onClick={() => {
               if (this.props.activeGroupId !== null) {
                 handleMenu(null);
               }
             }}
           >
-            <Header as="h4">{'All Groups'}</Header>
+            <Header as="h4">
+              {'All Groups'}
+              <GroupBadgeCount count={existingItems.length} />
+            </Header>
           </Menu.Item>
           <Menu
             pointing={true}
@@ -83,13 +92,16 @@ class TrackerMenu extends Component<TrackerMenuProps> {
             <Menu.Item
               name={'Ungrouped'}
               active={this.props.activeGroupId === -1 ? true : false}
-              onClick={(id: any) => {
+              onClick={() => {
                 if (this.props.activeGroupId !== -1) {
                   handleMenu(-1);
                 }
               }}
             >
-              <Header as="h4">{'Ungrouped'}</Header>
+              <Header as="h4">
+                {'Ungrouped'}
+                <GroupBadgeCount count={ungroupedCount} />
+              </Header>
             </Menu.Item>
             {groups &&
               groups
@@ -97,12 +109,16 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                 .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
                 .map((data: any) => {
                   const isActiveGroup = data.id === this.props.activeGroupId;
+                  const groupBadgeCount = existingItems.filter(
+                    (d: any) => d.product_track_group_id === data.id
+                  ).length;
+
                   return (
                     <Menu.Item
                       name={data.name}
                       key={data.id}
                       active={isActiveGroup ? true : false}
-                      onClick={(id: any) => {
+                      onClick={() => {
                         if (!isActiveGroup) {
                           handleMenu(data.id);
                         }
@@ -111,6 +127,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                     >
                       <Header as="h4" style={{ margin: '0' }}>
                         {data.name}
+                        <GroupBadgeCount count={groupBadgeCount} />
                       </Header>
                       {isActiveGroup && (
                         <div style={{ padding: '5px' }}>

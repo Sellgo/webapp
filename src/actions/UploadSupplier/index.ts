@@ -7,6 +7,10 @@ import reduce from 'lodash/reduce';
 import {
   isFirstRowHeaderSelector,
   saveColumnMappingSettingSelector,
+  currentStepSelector,
+  columnMappingsSelector,
+  csvSelector,
+  csvFileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
 import {
@@ -24,12 +28,6 @@ import {
   SET_SKIP_COLUMN_MAPPING_CHECK,
   UPDATE_DATA_QUALITY_REPORT,
 } from '../../constants/UploadSupplier';
-import {
-  currentStepSelector,
-  columnMappingsSelector,
-  csvSelector,
-  csvFileSelector,
-} from '../../selectors/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
@@ -81,11 +79,11 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   }
 };
 
-export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null) => {
+export const setRawCsv = (csvString: string | ArrayBuffer | null, csvFile: File | null) => {
   const csvJSONFile: any = {};
   if (csvFile !== null) {
-    csvJSONFile['lastModified'] = csvFile.lastModified;
-    csvJSONFile['name'] = csvFile.name;
+    csvJSONFile.lastModified = csvFile.lastModified;
+    csvJSONFile.name = csvFile.name;
   }
   return {
     type: SET_RAW_CSV,
@@ -94,7 +92,7 @@ export const setRawCsv = (csvString: string | ArrayBuffer, csvFile: File | null)
   };
 };
 
-export const setCsv = (csv: string[][]) => ({
+export const setCsv = (csv: string[][] | null) => ({
   type: SET_CSV,
   payload: csv,
 });
@@ -119,7 +117,9 @@ export const parseCsv = () => (
 
   const getParsedCsv = (err: Error | undefined, output: string[][]) => {
     if (err) {
-      // tslint:disable-next-line:no-console
+      error('File does not appear to be a valid csv file.');
+      dispatch(setCsv(null));
+      dispatch(setRawCsv(null, null));
     } else {
       dispatch(setCsv(output));
     }
@@ -155,7 +155,7 @@ export const prepareCsv = (csvFile?: File) => async (
 };
 
 export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
-  const fileName = csvFileDetails && csvFileDetails['name'] ? csvFileDetails['name'] : '';
+  const fileName = csvFileDetails && csvFileDetails.name ? csvFileDetails.name : '';
 
   // escape commas
   csvArray = csvArray.map((row: string[]) =>

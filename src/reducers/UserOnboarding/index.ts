@@ -1,15 +1,18 @@
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
-import { SET_TOS } from '../../constants/UserOnboarding';
+import { SET_TOS, SET_PP } from '../../constants/UserOnboarding';
 
 const initialState = {
   termsOfService: '',
+  privacyPolicy: '',
 };
 
 export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_TOS:
       return setIn(state, 'termsOfService', action.payload);
+    case SET_PP:
+      return setIn(state, 'privacyPolicy', action.payload);
     default:
       return state;
   }

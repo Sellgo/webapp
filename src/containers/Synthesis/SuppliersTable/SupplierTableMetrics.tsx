@@ -65,7 +65,4 @@ const mapDispatchToProps = {
   getTimeEfficiency: () => getTimeEfficiency(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SupplierTableMetrics);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierTableMetrics);

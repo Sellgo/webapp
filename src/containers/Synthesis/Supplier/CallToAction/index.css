@@ -5,8 +5,8 @@
 }
 
 .profit-sys-call-to-action .ui.tiny.progress {
-  width: 250px;
+  height: 6px;
   margin-right: 15px;
   top: 12px;
-  height: 6px;
+  width: 250px;
 }

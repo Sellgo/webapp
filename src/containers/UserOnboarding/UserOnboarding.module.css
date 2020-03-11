@@ -1,28 +1,28 @@
 .container {
-  min-height: 32em;
   display: flex;
   flex-direction: column;
+  min-height: 32em;
 }
 
 .container,
-.container :global(.form) {
+.container .form {
   font-size: 0.9vw;
   margin: 5px 20px;
 }
 
-.container :global(.row) {
-  padding-top: 1rem !important;
+.container .row {
   padding-bottom: 1rem !important;
+  padding-top: 1rem !important;
 }
 
-.container :global(.ui.grid) {
-  -margin-top: -1rem !important;
-  -margin-bottom: -1rem !important;
-  margin-left: 0px !important;
-  margin-right: 0px !important;
+.container .ui.grid {
+  margin-bottom: -1rem !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: -1rem !important;
 }
 
-.container :global(h4) {
+.container h4 {
   font-family: 'Montserrat', serif !important;
 }
 

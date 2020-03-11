@@ -12,8 +12,8 @@
 
   .row-expand-btn {
     i {
-      font-size: 2.4em !important;
       color: #c3c4c4 !important;
+      font-size: 2.4em !important;
     }
   }
 }
@@ -23,27 +23,36 @@
   right: 2%;
 }
 
-.sort-arrow {
-  max-width: 10px;
-  max-height: 13px;
-  margin-left: 7px;
+.select-items-grid {
+  margin: 0 0 65px 0;
 }
+
+.sort-arrow {
+  margin-left: 7px;
+  max-height: 13px;
+  max-width: 10px;
+}
+
 .search-filter {
   float: right;
   margin: -3px 0.25rem 0 0 !important;
 }
+
 .card-header {
   font-family: sans-serif;
   font-size: 14px;
-  margin-left: 13px;
   font-weight: bold;
+  margin-left: 13px;
 }
-i.icon.close:before {
+
+i.icon.close::before {
   border: none !important;
 }
+
 .filter-card {
   width: 232px !important;
 }
-i.icon.filter:before {
+
+i.icon.filter::before {
   font-size: 11px !important;
 }

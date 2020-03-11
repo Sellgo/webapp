@@ -15,7 +15,4 @@ const mapDispatchToProps = {
   onDrop: (acceptedFiles: File[]) => prepareCsv(head(acceptedFiles)),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FileUploader);
+export default connect(mapStateToProps, mapDispatchToProps)(FileUploader);

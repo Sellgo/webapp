@@ -43,7 +43,7 @@ export interface ProductsPaginated {
   num_pages: number;
   per_page: number;
   results: ProductTrackerDetails[];
-  min_max: Object;
+  min_max: Record<string, any>;
 }
 export interface ProductDetail {
   asin: string;

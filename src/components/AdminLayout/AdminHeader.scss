@@ -1,59 +1,57 @@
+.track-wrap {
+  img {
+    width: 18px;
+  }
+}
+
 .admin-header {
   .top-menu {
-    padding-left: 9.4%;
-    padding-right: 5.99%;
     background-color: #3b4557 !important;
     height: 64px;
+    padding-left: 9.4%;
+    padding-right: 5.99%;
   }
-  .item.product-tracker-menu:before {
-    position: relative;
-    top: 0px;
-    left: -17px;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-left: 10px solid aliceblue !important;
-  }
-  .item.product-tracker-menu.active-menu:before {
-    position: relative;
-    top: 0px;
-    left: -17px;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-left: 10px solid #3b4557 !important;
-  }
-  .ui.menu .item {
-    font-weight: bold;
-  }
-  .mobile-menu {
-    display: none !important;
-  }
-  .sidebar-menu {
-    top: 64px !important;
-    background: #3c4658 !important;
-    .side-menu {
-      margin-top: 14px !important;
-    }
-    .header-values {
-      margin-left: 10px;
-    }
-    .active-item {
-      background: aliceblue !important;
-      color: #4b9af8 !important;
-      border-top-right-radius: 0px !important;
-      border-bottom-right-radius: 0px !important;
-      padding: 10px !important;
+
+  .menu.main-menu {
+    span {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 18px;
+        margin-right: 10px;
+      }
     }
   }
 
+  .item.product-tracker-menu::before {
+    border-bottom: 8px solid transparent;
+    border-left: 10px solid aliceblue !important;
+    border-top: 8px solid transparent;
+    left: -17px;
+    position: relative;
+    top: 0;
+  }
+
+  .item.product-tracker-menu.active-menu::before {
+    border-bottom: 8px solid transparent;
+    border-left: 10px solid #3b4557 !important;
+    border-top: 8px solid transparent;
+    left: -17px;
+    position: relative;
+    top: 0;
+  }
+
   .main-menu {
-    font-weight: bold;
-    font-family: work sans !important;
-    overflow: hidden;
-    margin-left: 103px !important;
     border: 1px solid #fff;
-    margin-top: 12px !important;
-    margin-bottom: 12px !important;
     border-radius: 10px;
+    font-family: 'Work sans', sans-serif !important;
+    font-weight: bold;
+    margin-bottom: 12px !important;
+    margin-left: 103px !important;
+    margin-top: 12px !important;
+    overflow: hidden;
+
     .header-values {
       margin-left: 10px;
     }
@@ -62,28 +60,28 @@
       position: relative;
 
       .arrow.is-right.tracker {
+        position: absolute;
+        right: 9px;
         -moz-transform: rotate(315deg);
         -ms-transform: rotate(315deg);
         -webkit-transform: rotate(315deg);
         transform: rotate(315deg);
-        position: absolute;
-        right: 9px;
         z-index: 99;
 
         &::after {
+          border-color: transparent;
+          border-bottom-color: #3b4557;
+          border-style: solid;
+          border-width: 0 0 12px 12px;
           content: '';
           display: inline-block;
           height: 12px;
+          height: 0;
           left: 0;
           position: absolute;
           top: 0;
           width: 12px;
-          border-style: solid;
-          border-width: 0 0 12px 12px;
-          height: 0;
           width: 0;
-          border-color: transparent;
-          border-bottom-color: #3b4557;
         }
       }
 
@@ -94,27 +92,57 @@
       }
     }
   }
-  .ui .item.menu-link:first-child {
-    border-radius: 10px !important;
-    background: #dfe8f3;
-    margin: 10px;
-    color: #4685f4;
-  }
-
-  .divider {
-    width: 1px;
-    height: 100%;
-    align-self: center;
-    background-color: #a4a4a4;
-  }
-
-  .navbar-spacer {
-    height: 64px;
-  }
 
   .right-menu > .item {
     padding-left: 26px;
     padding-right: 26px;
+  }
+
+  .ui.menu .item {
+    font-weight: bold;
+  }
+
+  .mobile-menu {
+    display: none !important;
+  }
+
+  .sidebar-menu {
+    background: #3c4658 !important;
+    top: 64px !important;
+
+    .side-menu {
+      margin-top: 14px !important;
+    }
+
+    .header-values {
+      margin-left: 10px;
+    }
+
+    .active-item {
+      background: aliceblue !important;
+      border-bottom-right-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+      color: #4b9af8 !important;
+      padding: 10px !important;
+    }
+  }
+
+  .ui .item.menu-link:first-child {
+    background: #dfe8f3;
+    border-radius: 10px !important;
+    color: #4685f4;
+    margin: 10px;
+  }
+
+  .divider {
+    align-self: center;
+    background-color: #a4a4a4;
+    height: 100%;
+    width: 1px;
+  }
+
+  .navbar-spacer {
+    height: 64px;
   }
 
   .right-menu > .item > i {
@@ -125,6 +153,7 @@
   .username {
     margin-left: 7px;
   }
+
   .active-menu {
     background: aliceblue !important;
     color: #4b9af8 !important;
@@ -133,47 +162,59 @@
 
 @media screen and (min-width: 310px) and (max-width: 767px) {
   .admin-header .top-menu {
-    padding-left: 0px;
+    padding-left: 0;
     padding-right: 10px;
   }
+
   .username {
     display: none !important;
   }
+
   .admin-header .mobile-menu {
     display: inherit !important;
   }
+
   .admin-header .main-menu {
-    margin-left: 0px !important;
     border: none !important;
+    margin-left: 0 !important;
+
     a {
       display: none !important;
     }
   }
+
   .admin-header .right-menu > .item {
     padding-left: 0;
     padding-right: 16px;
   }
-  /*==========================*/
+
+  /* ========================== */
   .page-header .ui.header {
     flex-direction: column;
     text-align: center;
   }
+
   .ui.header .content {
     margin-top: 10px;
   }
+
   .admin-header .divider {
     display: none;
   }
+
   .ui.grid > .row > .column {
     width: 100% !important;
   }
+
   .admin-layout.ui.segment {
     display: flex;
     flex-direction: column;
   }
+
   .ui.header:last-child {
     margin-bottom: inherit;
   }
+
   .setting .left-column {
     width: 100% !important;
   }
@@ -187,8 +228,9 @@
 
 @media screen and (max-height: 900px) {
   .admin-layout.ui.segment {
-    padding: 10px 4.69% 0 4.69% !important;
+    padding: 10px 4.69% 0 !important;
   }
+
   .page-header {
     margin-bottom: 1rem !important;
   }
@@ -198,9 +240,11 @@
   .admin-header .main-menu {
     margin-left: 50px !important;
   }
+
   .mobile-menu {
     display: none !important;
   }
+
   .admin-header .top-menu {
     padding-left: 20px;
     padding-right: 20px;
@@ -218,9 +262,11 @@
   .page-header {
     padding: 0 100px 0 58px !important;
   }
+
   .segment .setting .left-column {
     padding-right: 60px !important;
   }
+
   .admin-header .top-menu {
     padding-left: 98px;
     padding-right: 98px;

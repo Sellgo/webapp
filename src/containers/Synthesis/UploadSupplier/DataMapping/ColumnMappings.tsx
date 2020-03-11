@@ -76,7 +76,4 @@ const mapDispatchToProps = {
   toggleFirstRowHeader,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ColumnMappings);
+export default connect(mapStateToProps, mapDispatchToProps)(ColumnMappings);

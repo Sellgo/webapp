@@ -20,7 +20,9 @@ export const getSellerAmazonMWSAuth = () => (dispatch: any) => {
     .then(json => {
       if (json.data.length) dispatch(setSellerAmazonMWSAuth(json.data));
     })
-    .catch(() => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const setSellerAmazonMWSAuth = (data: any) => ({
@@ -61,11 +63,13 @@ export const deleteSellerAmazonMWSAuth = (mwsAuthID: any) => (dispatch: any) => 
   bodyFormData.append('id', mwsAuthID);
   bodyFormData.append('status', 'inactive');
   return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/mws-auth`, bodyFormData)
-    .then(json => {
+    .then(() => {
       dispatch(deleteAmazonMWSAuth(mwsAuthID));
       success('Seller Amazon MWS deleted!');
     })
-    .catch(() => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const getAmazonMWSAuthorized = () => (dispatch: any) => {
@@ -74,7 +78,9 @@ export const getAmazonMWSAuthorized = () => (dispatch: any) => {
     .then(json => {
       dispatch(setAmazonMWSAuthorized(json.data.is_mws_authorized));
     })
-    .catch(() => {});
+    .catch(() => {
+      // display error
+    });
 };
 export const setAmazonMWSAuthorized = (amazonMWSAuthorized: boolean) => ({
   type: SET_AMAZON_MWS_AUTHORIZED,
@@ -92,7 +98,9 @@ export const updateSellerProfileImage = (imageType: string, imagePath: any) => (
       dispatch(setSellerProfileImage(json.data));
       success('Seller Information Updated!');
     })
-    .catch(() => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const setSellerProfileImage = (data: any) => ({
@@ -106,7 +114,9 @@ export const getSellerprofileImage = () => (dispatch: any) => {
     .then(json => {
       dispatch(setSellerProfileImage(json.data));
     })
-    .catch(() => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const getSellerInfo = () => (dispatch: any) => {
@@ -115,7 +125,9 @@ export const getSellerInfo = () => (dispatch: any) => {
     .then(json => {
       dispatch(setSellerInfo(json.data));
     })
-    .catch(error => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
@@ -129,7 +141,9 @@ export const updateSellerInfo = (data: Seller) => (dispatch: any) => {
         dispatch(setSellerInfo(json.data));
         success('Seller Information Updated!');
       })
-      .catch(() => {});
+      .catch(() => {
+        // display error
+      });
   } else {
     error('Use characters only in full name');
   }
@@ -146,7 +160,9 @@ export const getSellerQuota = () => (dispatch: any) => {
     .then(json => {
       dispatch(setSellerQuota(json.data));
     })
-    .catch(error => {});
+    .catch(() => {
+      // display error
+    });
 };
 
 export const setSellerQuota = (data: any) => ({

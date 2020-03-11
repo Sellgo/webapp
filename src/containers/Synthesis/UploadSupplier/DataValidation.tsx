@@ -58,7 +58,7 @@ const renderIssuesReport = (dataQualityReport: DataQualityReport) => {
         <List.Header>Detected Issues</List.Header>
       </List.Item>
 
-      {metricMessages.map((metricMessage, idx) => {
+      {metricMessages.map(metricMessage => {
         return metricMessage.metric > 0 ? (
           <List.Item key={metricMessage.key}>
             Number of rows with {metricMessage.message}: {metricMessage.metric}

@@ -2,15 +2,17 @@
   // TODO: Consider a generic table class that can be added to any content
   // that has a set width and needs overflow hidden and ellipsis.
   .supplier {
+    overflow: hidden;
+    text-overflow: ellipsis;
     width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
+
   .filename {
-    width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 200px;
   }
+
   .card-content {
     width: 'auto';
   }
@@ -20,23 +22,24 @@
   .wdt100 {
     width: 100% !important;
   }
+
   .menu-item {
+    border-bottom: 0 !important;
+    margin-bottom: 20px !important;
     text-align: center !important;
   }
+
   .menu-item a h4 {
     width: 100% !important;
   }
+
   .card-content {
-    margin-right: 0 !important;
     height: auto !important;
+    margin-right: 0 !important;
   }
 
   .flex-col {
     flex-direction: column !important;
-  }
-  .menu-item {
-    margin-bottom: 20px !important;
-    border-bottom: 0px !important;
   }
 }
 
@@ -44,6 +47,7 @@
   .ipad-wdth100 {
     width: 100% !important;
   }
+
   .card-content {
     margin-bottom: 0 !important;
   }
@@ -53,6 +57,7 @@
   .card-content {
     width: 50% !important;
   }
+
   .card-content h2 {
     font-size: 17px !important;
   }

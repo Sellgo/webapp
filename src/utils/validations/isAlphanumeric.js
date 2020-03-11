@@ -1,8 +1,6 @@
-
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
-import { t } from 'i18next';
 
-export default (errorMessage = t('common.alphanumericError')) => (value) => {
+export default (errorMessage = 'Alphanumeric error') => value => {
   if (value && !isAlphanumeric(value)) return errorMessage;
 
   return undefined;

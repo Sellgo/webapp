@@ -1,196 +1,220 @@
 /* TODO: Not sure if I wanna keep this, but it kinda looks nice */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Work sans !important;
-  font-weight: 400;
   font-display: optional;
+  font-family: 'Work sans', sans-serif !important;
   font-size: 20px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
 }
+
 body h1,
 h2,
 h3,
 h4,
 h5 {
-  font-family: Work sans !important;
+  font-family: 'Work sans', sans-serif !important;
 }
+
 .ui.dimmer {
   background-color: rgba(146, 170, 177, 0.48);
 }
+
 .small-light {
-  font-family: Work sans !important;
-  font-weight: 300 !important;
   font-display: optional !important;
+  font-family: 'Work sans', sans-serif !important;
+  font-weight: 300 !important;
 }
+
 .small-regular {
-  font-family: Work sans;
-  font-weight: 400;
   font-display: optional;
+  font-family: 'Work sans', sans-serif;
   font-size: 20px;
+  font-weight: 400;
 }
+
 .ui.message {
   margin-bottom: 0;
   margin-left: 3rem;
   margin-right: 3rem;
 }
+
 .title {
-  font-family: Work sans;
-  font-weight: 700;
   color: white;
+  font-family: 'Work sans', sans-serif;
   font-size: 30px;
+  font-weight: 700;
 }
+
 .description {
-  font-family: Work sans;
-  font-weight: 300;
-  font-size: 16px;
   color: white;
+  font-family: 'Work sans', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
   text-align: justify;
 }
+
 .title-description {
-  font-family: Work sans;
-  font-weight: 300;
-  font-size: 16px;
   color: 'gray';
-  text-align: center;
+  font-family: 'Work sans', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
   margin-bottom: 20px !important;
+  text-align: center;
 }
+
 .small-bold {
-  font-family: Work sans;
-  font-weight: 700;
   font-display: optional;
+  font-family: 'Work sans', sans-serif;
   font-size: 20px;
+  font-weight: 700;
 }
+
 .medium-light {
-  font-family: Work sans;
-  font-weight: 300;
   font-display: optional;
+  font-family: 'Work sans', sans-serif;
   font-size: 24px;
+  font-weight: 300;
 }
+
 .medium-regular {
-  font-family: Work sans;
-  font-weight: 400;
   font-display: optional;
+  font-family: 'Work sans', sans-serif;
   font-size: 24px;
+  font-weight: 400;
 }
+
 .medium-bold {
-  font-family: Work sans;
-  font-weight: 700;
   font-display: optional;
+  font-family: 'Work sans', sans-serif;
   font-size: 24px;
+  font-weight: 700;
 }
+
 .large-light {
-  font-family: Work sans;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 40px;
   font-weight: 300;
-  font-display: optional;
-  font-size: 40px;
 }
+
 .large-regular {
-  font-family: Work sans;
+  font-display: optional;
+  font-family: 'Work sans', sans-serif;
+  font-size: 40px;
   font-weight: 400;
-  font-display: optional;
-  font-size: 40px;
 }
+
 .large-bold {
-  font-family: Work sans;
-  font-weight: 700;
   font-display: optional;
+  font-family: 'Work sans', sans-serif;
   font-size: 40px;
-}
-.semi-large-bold {
-  font-family: Work sans;
   font-weight: 700;
+}
+
+.semi-large-bold {
   font-display: optional;
+  font-family: 'Work sans', sans-serif;
   font-size: 30px;
+  font-weight: 700;
 }
 
 .primary-button {
-  font-family: Montserrat;
-  font-weight: bold;
-  font-display: optional;
-  font-size: 20px;
-  color: white;
-  border: none;
-  padding: 12px 40px;
-  border-adius: 50px;
   background: #4285f4;
-}
-.heading h1 {
-  font-family: 'Montserrat';
-  font-weight: bold;
-  text-align: center;
+  border: none;
+  color: white;
+  font-display: optional;
+  font-family: 'Montserrat', sans-serif;
   font-size: 20px;
-  color: black;
-  margin: 10px;
-}
-.heading-h1 {
-  font-family: 'Montserrat';
   font-weight: bold;
-  text-align: center;
-  font-size: 24px;
-  color: black;
-  margin: 20px;
+  padding: 12px 40px;
 }
+
+.heading h1 {
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  text-align: center;
+}
+
+.heading-h1 {
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px;
+  text-align: center;
+}
+
 .login-fields {
-  box-shadow: 0px 0px 7px 4px rgba(164, 164, 164, 0.2);
-  border-radius: 5px;
-  padding-top: 5px;
   background: white;
-  padding-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 4px rgba(164, 164, 164, 0.2);
   margin-left: 3rem;
   margin-right: 3rem;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 .slider-center {
-  margin: auto;
   height: 100%;
+  margin: auto;
 }
+
 .slider-center div {
   height: 100%;
 }
+
 .slider-image {
-  padding: 3rem;
   border-radius: 5rem;
+  padding: 3rem;
 }
+
 ul.control-dots {
   padding: 0;
 }
+
 .sign-up-input {
   border: none !important;
   border-color: transparent !important;
-  font-family: Montserrat !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 18px !important;
   font-weight: 300;
   width: 35% !important;
-  font-size: 18px !important;
 }
+
 .login-field1,
 .login-field2 {
   border: none !important;
   border-color: transparent !important;
-  font-family: Montserrat !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 18px !important;
   font-weight: 300;
   width: 100% !important;
-  font-size: 18px !important;
 }
 
 .password {
-  display: flex;
-  flex-direction: row;
   align-items: center;
   background: white;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
 }
 
 .hr-line {
-  height: 0.5px;
   background: #a4a4a4;
+  height: 0.5px;
   opacity: 0.3;
 }
 
 .text-align-center {
   text-align: center !important;
 }
+
 .logo-img {
   padding: 7rem;
 }
@@ -206,6 +230,7 @@ ul.control-dots {
 .p-t-40 {
   padding-top: 40px !important;
 }
+
 .p-t-20 {
   padding-top: 20px !important;
 }
@@ -213,6 +238,7 @@ ul.control-dots {
 .carousel .slide {
   background: transparent;
 }
+
 li.dot {
   height: 15px !important;
   width: 15px !important;
@@ -221,47 +247,54 @@ li.dot {
 ul.slider.animated {
   top: 20%;
 }
+
 .signup-box {
+  background: #999;
   min-height: 100vh;
-  background: #999999;
 }
+
 .right-pane {
-  min-height: 100vh;
   background: #f3f3f3;
+  min-height: 100vh;
   position: relative;
 }
+
 span.material-icons.MuiIcon-root.MuiIcon-colorDisabled.MuiIcon-fontSizeLarge {
   margin: 5px;
 }
 
 a {
   color: #0e6fcf;
-  /*text-decoration:underline;*/
+
+  /* text-decoration:underline; */
 }
+
 .signup-block a {
   color: #0e6fcf;
   text-decoration: underline;
 }
+
 .copy-right {
+  bottom: 0;
   position: absolute;
-  bottom: 0px;
   width: 100%;
 }
+
 .privacy-policy {
-  position: absolute;
   left: 50%;
+  position: absolute;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 .row {
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
 }
 
 .ui.grid {
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
 }
 
 .block {
@@ -273,22 +306,24 @@ a {
 }
 
 .center-child {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  display: flex;
   flex: 1;
+  justify-content: center;
 }
+
 .close {
-  top: -1.7rem !important;
   right: -2rem !important;
+  top: -1.7rem !important;
 }
-i.icon.close:before {
-  content: '\f00d';
-  border: 4px solid #999999;
+
+i.icon.close::before {
+  border: 4px solid #999;
   border-radius: 50%;
-  padding: 3px 5px;
+  color: #999;
+  content: '\f00d';
   font-size: 14px;
-  color: #999999;
+  padding: 3px 5px;
 }
 
 /* Toastify Notifications */

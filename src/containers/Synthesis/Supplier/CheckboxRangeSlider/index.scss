@@ -8,25 +8,27 @@
       display: flex;
     }
 
-    .icon.question.circle:before {
-      line-height: 1;
-      font-size: 13px;
-      padding-left: 10px;
+    .icon.question.circle::before {
       color: #98aeca;
+      font-size: 13px;
+      line-height: 1;
+      padding-left: 10px;
     }
   }
 
   .wrap-checkbox {
-    display: flex;
     align-items: center;
+    display: flex;
   }
+
   .wrap-checkbox .ui.fitted.checkbox {
     margin-right: 11px;
   }
+
   .wrap-check-range {
-    width: 100%;
-    display: flex;
     align-items: center;
+    display: flex;
+    width: 100%;
   }
 
   /* TODO: Don't target this className! Use a wrapper div. */

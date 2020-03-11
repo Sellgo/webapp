@@ -64,7 +64,4 @@ const mapStateToProps = (state: object) => ({
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PreviewTable);
+export default connect(mapStateToProps, mapDispatchToProps)(PreviewTable);

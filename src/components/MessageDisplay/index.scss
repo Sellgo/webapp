@@ -1,0 +1,44 @@
+.internal.rail {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  .segment {
+    padding: 0;
+    border: 0;
+
+    .message {
+      margin: 0;
+      text-align: center;
+
+      p {
+        font-size: 12px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.signup-cont .internal.rail .segment .message p,
+.reset-password-content .internal.rail .segment .message p {
+  font-size: 11px;
+}
+
+.signup-cont .internal.rail .segment .message,
+.reset-password-content .internal.rail .segment .message {
+  background-color: #eff2e9;
+  padding: 8px;
+  z-index: 90000;
+  width: 100%;
+  position: fixed;
+}
+
+@media only screen and (min-width: 2560px) {
+  .ui.message .header {
+    font-size: 20px !important;
+  }
+
+  .internal.rail .segment .message p {
+    font-size: 17px !important;
+  }
+}

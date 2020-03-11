@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 import { fetchSellerSubscription } from '../../actions/Settings/Subscription';
 import '../../analytics';
 import ProductTracker from '../ProductTracker';
+import Signup from '../Signup';
+import ResetPassword from '../ResetPassword';
 
 const auth = new Auth();
 
@@ -28,7 +30,7 @@ const handleAuthentication = (location: any) => {
 const isAuthenticated = () => {
   if (localStorage.getItem('isLoggedIn') === 'true') {
     if (auth.isAuthenticated()) {
-      Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('idToken')}`;
+      Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
       return true;
     } else {
       auth.logout();
@@ -123,20 +125,15 @@ const PrivateRoute = connect(
   }
 );
 
-function App(props: any) {
+function App() {
   return (
     <div>
       <Router history={history}>
-      <ScrollToTop />
+        <ScrollToTop />
         <Switch>
           <Route
             exact={true}
             path="/"
-            render={renderProps => <Home auth={auth} {...renderProps} />}
-          />
-          <Route
-            exact={true}
-            path="/signup"
             render={renderProps => <Home auth={auth} {...renderProps} />}
           />
           <Route
@@ -146,7 +143,16 @@ function App(props: any) {
               return <PageLoader />;
             }}
           />
-
+          <Route
+            exact={true}
+            path="/signup"
+            render={renderProps => <Signup auth={auth} {...renderProps} />}
+          />
+          <Route
+            exact={true}
+            path="/reset-password"
+            render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
+          />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute

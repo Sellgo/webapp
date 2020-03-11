@@ -134,7 +134,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailKPI,
     } = this.props;
     switch (this.state.showProductChart) {
-      case 'chart0':
+      case 'chart0': {
         const popupRankContainer = [];
         const popupPriceContainer = [];
         const popupInventoryContainer = [];
@@ -189,8 +189,8 @@ class ProductCharts extends Component<ProductChartsProps> {
             popupReviewContainer={popupReviewContainer}
           />
         );
-
-      case 'chart1':
+      }
+      case 'chart1': {
         const productTimeline = [];
         const productProfit = [];
         const productROI = [];
@@ -217,6 +217,7 @@ class ProductCharts extends Component<ProductChartsProps> {
             Loading
           </Loader>
         );
+      }
       default:
         return <div />;
     }
@@ -275,7 +276,4 @@ const mapDispatchToProps = {
     fetchSupplierProductDetailChartKPI(supplierID, productID),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductCharts);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCharts);

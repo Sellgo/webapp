@@ -1,26 +1,30 @@
 .quota-meter {
   display: flex;
-  width: 446px;
   justify-content: space-between;
+  width: 446px;
 
   .add-new-supplier {
     background: #349af8;
   }
+
   .ui.tiny.progress {
+    height: 6px;
     top: 5px;
     width: 60%;
-    height: 6px;
   }
+
   .ui.add-new-supplier {
+    font-family: 'work sans', sans-serif !important;
     font-size: 14px !important;
-    font-family: work sans !important;
   }
+
   .ui.progress > .label {
+    font-family: 'work sans', sans-serif !important;
     font-size: 14px;
-    font-family: work sans !important;
     font-weight: 400;
     margin-top: -2px;
   }
+
   .ui.tiny.progress .bar {
     height: 6px;
   }
@@ -29,6 +33,7 @@
     .ui.tiny.progress {
       width: 173px !important;
     }
+
     .add-new-supplier {
       font-size: 12px !important;
     }
@@ -43,7 +48,7 @@
 
 @media screen and (max-width: 767px) {
   .quota-meter {
-    width: unset;
     margin: 10px 0;
+    width: unset;
   }
 }

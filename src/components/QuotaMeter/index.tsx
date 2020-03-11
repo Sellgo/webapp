@@ -48,7 +48,4 @@ const mapDispatchToProps = {
   getSellerQuota: () => getSellerQuota(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(QuotaMeter);
+export default connect(mapStateToProps, mapDispatchToProps)(QuotaMeter);
