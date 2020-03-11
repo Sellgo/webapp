@@ -37,7 +37,7 @@ export interface PaginatedTableProps {
   count?: any;
   productTrackerPageNo?: any;
   showProductFinderSearch?: boolean;
-  searchFilteredProduct?: (data: any) => void;
+  searchFilteredProduct?: (searchValue: string) => void;
 }
 
 export interface GenericTableProps {
@@ -46,7 +46,7 @@ export interface GenericTableProps {
   totalPages: number;
   searchFilterValue?: string;
   showProductFinderSearch?: boolean;
-  searchProfitFinderProduct: any;
+  searchProfitFinderProduct?: (searchValue: string) => void;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
