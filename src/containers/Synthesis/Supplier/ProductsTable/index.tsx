@@ -139,10 +139,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({
       searchValue: value,
     });
-    const newFilteredProducts = products.filter((product: any) => {
+    const newFilteredProducts = products.filter((product: Product) => {
       return (
         (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
-        (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) != -1)
+        (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
+        (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) != -1)
       );
     });
     setSinglePageItemsCount(singlePageItemsCount);
