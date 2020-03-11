@@ -1,40 +1,30 @@
-.ui.small.modal.transition.visible.active {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
-.extra.content {
-  padding-top: 0 !important;
-  padding-bottom: 40px !important;
-}
-
-.ui.card {
-  transition: transform 0.2s;
-}
-
-.ui.card.active-plan {
-  -ms-transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  transform: scale(1.1);
-}
-
-.ui.card:hover {
-  -ms-transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  transform: scale(1.1);
-}
-
-.ui.card.false {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
 .pricing-container {
   background-color: #f8faff;
   height: 100vh;
   padding-bottom: 30px;
   display: flex;
   flex-direction: column !important;
+
+  .ui.small.modal.transition.visible.active {
+    position: relative !important;
+    z-index: 2 !important;
+  }
+
+  .extra.content {
+    padding-top: 0 !important;
+    padding-bottom: 40px !important;
+  }
+
+  .ui.card.active-plan {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.1);
+  }
+
+  .ui.card.false {
+    position: relative !important;
+    z-index: 1 !important;
+  }
 
   button,
   .header,
@@ -111,6 +101,7 @@
     border-radius: 8px;
     -webkit-box-shadow: 0 0 20px 0 #d4d4d5, 0 0 0 0.2px #d4d4d5;
     box-shadow: 0 0 20px 0 #d4d4d5, 0 0 0 0.2px #d4d4d5;
+    transition: transform 0.2s;
 
     strong {
       font-weight: 500;
@@ -232,6 +223,12 @@
         text-decoration: underline;
       }
     }
+  }
+
+  .ui.card:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.1);
   }
 
   .ui.card:nth-child(3) {
