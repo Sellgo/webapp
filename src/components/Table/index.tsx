@@ -45,7 +45,7 @@ export interface GenericTableProps {
   currentPage: number;
   totalPages: number;
   searchFilterValue?: string;
-  showProductFinderSearch: any;
+  showProductFinderSearch?: boolean;
   searchProfitFinderProduct: any;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
