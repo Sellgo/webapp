@@ -254,6 +254,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderAvgRank = (row: ProductTrackerDetails) => {
     return <p className="stat">{row.avg_rank !== 0 ? row.avg_rank : 'N.A.'}</p>;
   };
+  renderCustomerReviews = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.customer_reviews !== 0 ? row.customer_reviews : 'N.A.'}</p>;
+  };
+  renderRating = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.rating != '0.0' ? row.rating : 'N.A.'}</p>;
+  };
+  renderAmzChoice = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.amazon_choice != null ? row.amazon_choice : 'N.A.'}</p>;
+  };
   renderDimensions = (row: ProductTrackerDetails) => {
     return <p className="stat">{row.dimension !== null ? row.dimension : 'N.A.'}</p>;
   };
@@ -338,6 +347,30 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgRank,
+    },
+    {
+      label: 'Reviews',
+      dataKey: 'customer_reviews',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderCustomerReviews,
+    },
+    {
+      label: 'Rating',
+      dataKey: 'rating',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderRating,
+    },
+    {
+      label: 'Amz Choice',
+      dataKey: 'amazon_choice',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderAmzChoice,
     },
     {
       label: 'Dimensions',
