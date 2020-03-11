@@ -9,6 +9,7 @@
 
   .pusher.container {
     overflow-y: scroll;
+    background: #f8faff;
   }
 
   .sidebar-menu {
@@ -68,10 +69,6 @@
   .pusher {
     height: 100%;
     width: 95.5vw;
-  }
-
-  .admin-layout.ui.segment {
-    min-height: 90.2vh !important;
   }
 
   .sidebar-menu .item .ui.label {
