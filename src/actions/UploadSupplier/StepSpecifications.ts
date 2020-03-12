@@ -138,13 +138,15 @@ export class SelectFileStep extends Step {
 
     csv.slice(1, rowsToCheck).forEach((row: any) => {
       for (const col in columnTypes) {
-        // check if data cell is a Number, else fallback to length of string
-        const thisType = !Number.isNaN(Number(row[col])) ? Number : row[col].length;
+        if (row[col]) {
+          // check if data cell is a Number, else fallback to length of string
+          const thisType = !Number.isNaN(Number(row[col])) ? Number : row[col].length;
 
-        if (thisType !== columnTypes[col]) {
-          if (columnTypes[col] === null) {
-            // add new column type
-            columnTypes[col] = thisType;
+          if (thisType !== columnTypes[col]) {
+            if (columnTypes[col] === null) {
+              // add new column type
+              columnTypes[col] = thisType;
+            }
           }
         }
       }
