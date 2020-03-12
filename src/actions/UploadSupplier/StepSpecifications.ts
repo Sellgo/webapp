@@ -258,7 +258,7 @@ export class DataMappingStep extends Step {
 
     dataRows.map(row => {
       [columnIndexMap.cost, columnIndexMap.msrp].forEach(colIdx => {
-        if (colIdx >= 0) {
+        if (colIdx >= 0 && row[colIdx]) {
           row[colIdx] = row[colIdx]
             .replace(/ /g, '')
             .replace(/\$/g, '')
