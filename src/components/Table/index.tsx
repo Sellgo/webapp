@@ -7,6 +7,7 @@ import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
+import FilterSection2 from '../FilterSection2';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -138,6 +139,7 @@ export const GenericTable = (props: GenericTableProps) => {
       ) : (
         ''
       )}
+      {showFilter && <FilterSection2 />}
       {showSearchFilter && (
         <Card className="filter-card">
           <Card.Header>
