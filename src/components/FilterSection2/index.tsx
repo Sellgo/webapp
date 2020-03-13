@@ -2,6 +2,7 @@ import React from 'react';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
+import FilterContainer from '../FilterContainer';
 
 interface FilterObject {
   label: string;
@@ -52,7 +53,9 @@ function FilterSection2(props: any, state: State) {
           );
         })}
       </div>
-      <div className="filter-wrapper" />
+      <div className="filter-wrapper">
+        <FilterContainer filterData={'all-filter'} />
+      </div>
     </div>
   );
 }
