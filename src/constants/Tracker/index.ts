@@ -135,12 +135,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Amz Choice',
-    dataKey: 'amazon_choice',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Dimensions',
     dataKey: 'dimension',
     visible: true,
