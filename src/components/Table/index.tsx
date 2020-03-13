@@ -6,6 +6,7 @@ import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTabl
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
+import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -22,6 +23,7 @@ export interface Column {
 
 export interface PaginatedTableProps {
   tableKey?: string;
+  searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
   columns: Column[];
   singlePageItemsCount?: number;
@@ -34,12 +36,17 @@ export interface PaginatedTableProps {
   handleColumnChange?: any;
   count?: any;
   productTrackerPageNo?: any;
+  showProductFinderSearch?: boolean;
+  searchFilteredProduct?: (searchValue: string) => void;
 }
 
 export interface GenericTableProps {
   tableKey?: string;
   currentPage: number;
   totalPages: number;
+  searchFilterValue?: string;
+  showProductFinderSearch?: boolean;
+  searchProfitFinderProduct?: (searchValue: string) => void;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
@@ -77,6 +84,8 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
+    showProductFinderSearch,
+    searchProfitFinderProduct,
     currentPage,
     totalPages,
     setCurrentPage,
@@ -100,11 +109,22 @@ export const GenericTable = (props: GenericTableProps) => {
     name,
     columnFilterData,
     handleColumnChange,
+    searchFilterValue,
   } = props;
+
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className="select-items-grid">
+        <div className="table-menu-header">
+          {showProductFinderSearch ? (
+            <ProductSearch
+              searchProfitFinderProduct={searchProfitFinderProduct}
+              searchFilterValue={searchFilterValue}
+              setCurrentPage={setCurrentPage}
+            />
+          ) : (
+            <div />
+          )}
           <SelectItemsCount
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
@@ -319,6 +339,9 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     handleColumnChange,
     productTrackerPageNo,
     count,
+    showProductFinderSearch,
+    searchFilteredProduct,
+    searchFilterValue,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -407,17 +430,20 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   return (
     <GenericTable
+      showProductFinderSearch={showProductFinderSearch}
+      searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
       setCurrentPage={setCurrentPage}
       totalItemsCount={data.length}
       showSelectItemsCount={showSelectItemsCount}
       singlePageItemsCount={singlePageItemsCount}
+      searchValue={searchValue}
       setSinglePageItemsCount={setSinglePageItemsCount}
       showSearchFilter={showSearchFilter}
       onSetShowSearchFilter={handleShowSearchFilter}
       filterName={filterName}
-      searchValue={searchValue}
+      searchFilterValue={searchFilterValue}
       onSearchChange={handleSearchChange}
       onClearSearch={handleClearSearch}
       columns={showColumns}
