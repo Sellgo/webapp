@@ -19,7 +19,7 @@ h5 {
 }
 
 .ui.dimmer {
-  background-color: rgba(146, 170, 177, 0.48);
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .small-light {
