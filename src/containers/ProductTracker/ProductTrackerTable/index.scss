@@ -38,6 +38,14 @@ $link-color: #349af8;
   }
 }
 
+body .ui.page.modals.dimmer.transition.visible.active {
+  background: rgba(0, 0, 0, 0);
+}
+
+body div.ui.page.modals.dimmer.transition.visible.active:last-child {
+  background: rgba(0, 0, 0, 0.4);
+}
+
 .ui.small.modal.transition.visible.active.confirmation-box {
   min-height: 4rem !important;
   width: max-content !important;
