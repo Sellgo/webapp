@@ -244,6 +244,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}
             name={'products'}
+            showFilter={true}
           />
         )}
       </div>

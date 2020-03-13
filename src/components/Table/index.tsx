@@ -38,6 +38,7 @@ export interface PaginatedTableProps {
   productTrackerPageNo?: any;
   showProductFinderSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
+  showFilter?: boolean;
 }
 
 export interface GenericTableProps {
@@ -71,6 +72,7 @@ export interface GenericTableProps {
   handleColumnChange?: any;
   count?: number;
   productTrackerPageNo?: any;
+  showFilter?: boolean;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -110,6 +112,7 @@ export const GenericTable = (props: GenericTableProps) => {
     columnFilterData,
     handleColumnChange,
     searchFilterValue,
+    showFilter,
   } = props;
 
   return (
@@ -342,6 +345,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     showProductFinderSearch,
     searchFilteredProduct,
     searchFilterValue,
+    showFilter,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -459,6 +463,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       handleColumnChange={handleColumnChange}
       count={count && count.count}
       productTrackerPageNo={productTrackerPageNo}
+      showFilter={showFilter}
     />
   );
 };
