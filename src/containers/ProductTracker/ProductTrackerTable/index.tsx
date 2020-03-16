@@ -316,8 +316,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Daily Unit Sold',
       dataKey: 'avg_daily_sales',
-      sortable: true,
       type: 'string',
+      sortable: true,
       show: true,
       render: this.renderAvgUnitSold,
     },
