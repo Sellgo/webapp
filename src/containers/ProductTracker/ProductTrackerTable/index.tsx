@@ -292,7 +292,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Price',
       dataKey: 'avg_price',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
@@ -300,7 +300,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Profit',
       dataKey: 'avg_profit',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderAvgProfit,
@@ -308,7 +308,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Margin',
       dataKey: 'avg_margin',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderAvgMargin,
@@ -316,15 +316,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Daily Unit Sold',
       dataKey: 'avg_daily_sales',
-      type: 'number',
       sortable: true,
+      type: 'string',
       show: true,
       render: this.renderAvgUnitSold,
     },
     {
       label: 'Avg Daily Revenue',
-      type: 'number',
       dataKey: 'avg_daily_revenue',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderDailyRevenue,
@@ -332,7 +332,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg ROI',
       dataKey: 'avg_roi',
-      type: 'number',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderAvgROI,
@@ -348,7 +348,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Dimensions',
       dataKey: 'dimension',
-      type: 'number',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderDimensions,
@@ -356,7 +356,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Weight',
       dataKey: 'weight',
-      type: 'number',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderWeight,
