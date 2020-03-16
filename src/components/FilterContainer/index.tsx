@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { Divider } from 'semantic-ui-react';
+import { Checkbox } from 'semantic-ui-react';
 import _ from 'lodash';
 import { AllFilters } from '../../interfaces/Filters';
 
@@ -134,10 +134,12 @@ function FilterContainer(props: Props, state: State) {
   return (
     <div className="filter-container">
       <hr />
-
       <div className="filter-content">
         <span className="filter-name">Sort By</span>
         <div className="filter-list" />
+        {_.map(state.allFilter.sortBy, filter => {
+          return <Checkbox label={filter.label} />;
+        })}
       </div>
     </div>
   );
