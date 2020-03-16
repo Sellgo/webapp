@@ -353,6 +353,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
+  const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
 
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
@@ -408,6 +409,16 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     : rows;
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
+
+  if (checkSortedColumnExist[0]) {
+    const key = checkSortedColumnExist[0].dataKey;
+    rows = rows.sort((a, b) => {
+      const va = a[key || ''] === null ? '' : '' + a[key || ''],
+        vb = b[key || ''] === null ? '' : '' + b[key || ''];
+      return collator.compare(va, vb);
+    });
+  }
+
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
