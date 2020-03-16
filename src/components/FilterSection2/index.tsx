@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
@@ -21,7 +21,7 @@ function FilterSection2(props: any, state: State) {
       },
       {
         label: 'Price',
-        dataKey: 'time-filter',
+        dataKey: 'price-filter',
       },
       {
         label: 'Profit/ ROI',
@@ -33,17 +33,27 @@ function FilterSection2(props: any, state: State) {
       },
     ],
   };
+
+  const [filterType, setFilterType] = useState('');
+
   return (
     <div className="filter-section">
       <div className="filter-header">
         <Button basic icon labelPosition="left" className="all-filter">
           <span className="filter-name">All</span>
           <span className="filter-count">1</span>
-          <Icon class="slider" name="sliders horizontal" />
+          <Icon className="slider" name="sliders horizontal" />
         </Button>
         {_.map(state.filterData, (filter, key) => {
           return (
-            <Button basic icon labelPosition="left" className={filter.dataKey} key={filter.dataKey}>
+            <Button
+              basic
+              icon
+              labelPosition="left"
+              className={filter.dataKey}
+              key={filter.dataKey}
+              onClick={() => setFilterType(filter.dataKey)}
+            >
               <span className="filter-name">{filter.label}</span>
               <span className="filter-arrow-down">
                 <Icon color="black" name="caret down" />
@@ -54,7 +64,7 @@ function FilterSection2(props: any, state: State) {
         })}
       </div>
       <div className="filter-wrapper">
-        <FilterContainer filterData={'all-filter'} />
+        <FilterContainer filterType={filterType} />
       </div>
     </div>
   );
