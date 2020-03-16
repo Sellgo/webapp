@@ -370,7 +370,9 @@ export const updateProductTrackingStatus = (
           dispatch(getSellerQuota());
           if (name === 'tracker') {
             if (type === 'untrack') {
-              success(`Product is now untracked`);
+              success(
+                'Product Successfully Untracked You may add a new product through profit finder'
+              );
               dispatch(removeTrackedProduct(json.data.id));
             } else if (type === 'move-group') {
               success(`Product is moved to ${groupName}`);
