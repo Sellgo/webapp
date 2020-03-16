@@ -8,6 +8,12 @@
   }
 
   .product-tracker {
+    .generic-table {
+      .table-menu-header {
+        margin: 7px 0;
+      }
+    }
+
     .search-product {
       align-items: center;
       display: flex;
