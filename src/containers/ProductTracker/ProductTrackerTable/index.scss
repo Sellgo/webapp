@@ -398,13 +398,14 @@ $link-color: #349af8;
 
       .information {
         display: flex;
+        align-items: center;
 
         i {
           color: #c3c4c4;
         }
 
         span {
-          margin-left: 10px;
+          margin: 0 18px;
         }
       }
 

@@ -95,6 +95,8 @@ export interface ProductTrackerDetails {
   avg_price: string;
   avg_profit: string;
   avg_rank: number;
+  customer_reviews: number;
+  rating: string;
   avg_roi: string;
   dimension: string;
   id: number;
