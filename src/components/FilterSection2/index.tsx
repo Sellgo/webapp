@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
@@ -39,12 +39,18 @@ function FilterSection2(props: any, state: State) {
   return (
     <div className="filter-section">
       <div className="filter-header">
-        <Button basic icon labelPosition="left" className="all-filter">
+        <Button
+          basic
+          icon
+          labelPosition="left"
+          className="all-filter"
+          onClick={() => setFilterType('all-filter')}
+        >
           <span className="filter-name">All</span>
           <span className="filter-count">1</span>
           <Icon className="slider" name="sliders horizontal" />
         </Button>
-        {_.map(state.filterData, (filter, key) => {
+        {_.map(state.filterData, filter => {
           return (
             <Button
               basic
@@ -64,6 +70,7 @@ function FilterSection2(props: any, state: State) {
         })}
       </div>
       <div className="filter-wrapper">
+        <hr />
         <FilterContainer filterType={filterType} />
       </div>
     </div>

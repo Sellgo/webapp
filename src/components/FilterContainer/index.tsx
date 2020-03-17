@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './index.scss';
-import { Checkbox, Radio } from 'semantic-ui-react';
+import { Checkbox, Radio, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 import { FilterData } from '../../interfaces/Filters';
 
 interface Props {
   filterType: string;
 }
-
-interface State {
-  allFilter: FilterData[];
-}
-
-function FilterContainer(props: Props, state: State) {
+function FilterContainer(props: Props) {
+  const { filterType } = props;
   const filterData: FilterData[] = [
     {
       label: 'Sort By',
@@ -156,58 +152,102 @@ function FilterContainer(props: Props, state: State) {
 
   const [allFilters, setAllFilters] = React.useState(filterData);
 
+  const setRadioFilter = (filterType: string, value: string) => {
+    const data = _.map(allFilters, filter => {
+      if (filter.dataKey === filterType) {
+        filter.checkedValue = value;
+      }
+      return filter;
+    });
+    setAllFilters(data);
+  };
+
+  const toggleCheckboxFilter = (filterType: string, filterDataKey: string) => {
+    const filter = _.map(allFilters, filter => {
+      if (filter.dataKey === filterType) {
+        const filterData = _.map(filter.data, filterData => {
+          if (filterData.dataKey === filterDataKey) {
+            filterData.checked = !filterData.checked;
+          }
+        });
+      }
+      return filter;
+    });
+    setAllFilters(filter);
+  };
+
+  const applyFilter = () => {
+    console.log('filterData: ', allFilters);
+  };
+
   return (
     <div className="filter-container">
-      <hr />
-      <div className="filter-content-wrapper">
-        {_.map(allFilters, (filter, key) => {
-          const setFilter = (filterType: string, value: string) => {
-            const data = _.map(allFilters, filter => {
-              if (filter.dataKey === filterType) {
-                filter.checkedValue = value;
-              }
-              return filter;
-            });
-            setAllFilters(data);
-          };
-          return (
-            <div className="filter-content" key={key}>
-              <span className="filter-name">{filter.label}</span>
-              <div className="filter-list">
-                {_.map(filter.data, (filterData, dataKey) => {
-                  if (!filterData.childData && _.isEmpty(filterData.childData)) {
-                    if (filter.radio === true) {
-                      return (
-                        <Radio
-                          className={filterData.dataKey}
-                          label={filterData.label}
-                          value={filterData.dataKey}
-                          filter={filter.dataKey}
-                          checked={filter.checkedValue === filterData.dataKey}
-                          onClick={() => setFilter(filter.dataKey, filterData.dataKey)}
-                        />
-                      );
-                    } else {
-                      return <Checkbox label={filterData.label} key={dataKey} />;
-                    }
-                  } else {
-                    return (
-                      <div className="filter-child-content">
-                        <Checkbox label={filterData.label} />
-                        <div className="filter-child-list">
-                          {_.map(filterData.childData, (childData, childKey) => {
-                            return <Checkbox label={childData.label} key={childKey} />;
-                          })}
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {filterType === 'all-filter' && (
+        <>
+          {' '}
+          <div className="all-filter-content-wrapper">
+            {_.map(allFilters, (filter, key) => {
+              return (
+                <div className="all-filter-content" key={key}>
+                  <span className="filter-name">{filter.label}</span>
+                  <div className="filter-list">
+                    {_.map(filter.data, (filterData, dataKey) => {
+                      if (!filterData.childData && _.isEmpty(filterData.childData)) {
+                        if (filter.radio === true) {
+                          return (
+                            <Radio
+                              key={dataKey}
+                              className={filterData.dataKey}
+                              label={filterData.label}
+                              value={filterData.dataKey}
+                              filter={filter.dataKey}
+                              checked={filter.checkedValue === filterData.dataKey}
+                              onClick={() => setRadioFilter(filter.dataKey, filterData.dataKey)}
+                            />
+                          );
+                        } else {
+                          return (
+                            <Checkbox
+                              label={filterData.label}
+                              key={dataKey}
+                              onClick={() => {
+                                toggleCheckboxFilter(filter.dataKey, filterData.dataKey);
+                              }}
+                              defaultChecked={filterData.checked}
+                            />
+                          );
+                        }
+                      } else {
+                        return (
+                          <div className="filter-child-content" key={dataKey}>
+                            <Checkbox
+                              label={filterData.label}
+                              onClick={() => {
+                                toggleCheckboxFilter(filter.dataKey, filterData.dataKey);
+                              }}
+                              defaultChecked={filterData.checked}
+                            />
+                            <div className="filter-child-list">
+                              {_.map(filterData.childData, (childData, childKey) => {
+                                return <Checkbox label={childData.label} key={childKey} />;
+                              })}
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="button-wrapper">
+            <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
+              Apply
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
