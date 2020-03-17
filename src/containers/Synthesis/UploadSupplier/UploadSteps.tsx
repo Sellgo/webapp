@@ -15,7 +15,7 @@ interface Props {
 
 const steps = [
   {
-    title: 'Additional Info',
+    title: 'Add New Supplier',
     icon: <i className="fas fa-pen-square" />,
   },
   {
@@ -53,7 +53,7 @@ export const UploadSteps = (props: Props) => {
               !isEditModal
                 ? step.title
                 : step.title === 'Add New Supplier'
-                ? 'Additional Info'
+                ? 'Edit Supplier'
                 : step.title
             }
             disabled={finished || index < value - 1 || index > value + 1}
