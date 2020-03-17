@@ -110,6 +110,8 @@ div.new-supplier-cont {
 
 div.new-supplier-cont .ui.button {
   height: 37px !important;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 div.new-supplier-cont > div:nth-child(1) {
@@ -119,8 +121,5 @@ div.new-supplier-cont > div:nth-child(1) {
 
 div.new-supplier-cont > div:nth-child(2) {
   margin-top: 20px;
-  width: 500px;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-evenly;
+  padding-right: 40px;
 }
