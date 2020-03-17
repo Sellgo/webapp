@@ -1,8 +1,8 @@
 import React from 'react';
-import { Form, Grid, Popup, Icon } from 'semantic-ui-react';
+import { Form, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import { Field } from 'redux-form';
-import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
+import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { defaultSelect } from '../../../constants';
 import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus, terms } from '../../../constants/UploadSupplier';

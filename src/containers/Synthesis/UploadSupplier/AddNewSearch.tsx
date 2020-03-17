@@ -2,17 +2,15 @@ import React from 'react';
 import { Form, Grid, TextArea, Dropdown } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import { Field } from 'redux-form';
-import { InputField, SelectField } from '../../../components/ReduxFormFields';
-import { defaultSelect } from '../../../constants';
+import { InputField } from '../../../components/ReduxFormFields';
 import { marketPlace } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
-import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
 
 const required = isRequired();
 
 const SupplierDetails = () => (
   <React.Fragment>
-    <Grid.Column className={styles['rightAdjust']} width={7}>
+    <Grid.Column className={styles.rightAdjust} width={7}>
       <div className={`field`}>
         <label>Market Place</label>
         <Dropdown
@@ -36,7 +34,7 @@ const AddNewSearch = () => {
         style={{ paddingBottom: '80px' }}
       >
         <Grid columns="equal" className="bg-color">
-          <Grid.Column width={7} className={`${styles.padding0} ${styles['leftAdjust']}`}>
+          <Grid.Column width={7} className={`${styles.padding0} ${styles.leftAdjust}`}>
             <div className={styles['form-container']}>
               <Field
                 required={true}

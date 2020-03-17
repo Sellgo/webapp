@@ -11,7 +11,6 @@ import Submit from './Submit';
 import FormWrapper from './FormWrapper';
 import { cleanupUploadSupplier } from '../../../actions/UploadSupplier';
 import DataValidation from './DataValidation';
-import AddNewSearch from './AddNewSearch';
 
 interface Props {
   currentStep: number;
@@ -35,17 +34,15 @@ export const UploadSupplier = (props: Props) => {
       <div className={styles['margin-top']} />
       <div className={styles.section}>
         <FormWrapper>
-          {currentStep === 0 && <AddNewSearch />}
+          {currentStep === 0 && <SupplierInformation />}
 
-          {currentStep === 1 && <SupplierInformation />}
+          {currentStep === 1 && <SelectFile />}
 
-          {currentStep === 2 && <SelectFile />}
+          {currentStep === 2 && <DataMapping />}
 
-          {currentStep === 3 && <DataMapping />}
+          {currentStep === 3 && <DataValidation />}
 
-          {currentStep === 4 && <DataValidation />}
-
-          {currentStep === 5 && (
+          {currentStep === 4 && (
             <Submit
               onFinished={() => {
                 setFinished(true);

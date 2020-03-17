@@ -85,7 +85,7 @@
 }
 
 .ui.form .field > label {
-  color: #333333;
+  color: #333;
   font-weight: 600;
   font-size: 13px;
 }
@@ -100,4 +100,27 @@ div.rc-steps-item-title {
   font-size: 12px;
   color: #3b4557;
   font-weight: 400;
+}
+
+div.new-supplier-cont {
+  display: flex;
+  align-items: flex-end !important;
+  flex-direction: column !important;
+}
+
+div.new-supplier-cont .ui.button {
+  height: 37px !important;
+}
+
+div.new-supplier-cont > div:nth-child(1) {
+  margin-right: 0;
+  margin-top: 10px;
+}
+
+div.new-supplier-cont > div:nth-child(2) {
+  margin-top: 20px;
+  width: 500px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-evenly;
 }
