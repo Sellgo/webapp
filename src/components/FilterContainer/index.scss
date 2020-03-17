@@ -1,3 +1,32 @@
 .filter-container {
   display: flex;
+  flex-direction: column;
+
+  .filter-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .filter-content {
+      .filter-list {
+        display: flex;
+        flex-direction: column;
+
+        .ui {
+          &.checkbox {
+            margin: 5px 0;
+
+            input:checked ~ .box::after,
+            input:checked ~ label::after {
+              background-color: #349af8;
+            }
+          }
+        }
+
+        .filter-child-list {
+          margin-left: 30px;
+        }
+      }
+    }
+  }
 }

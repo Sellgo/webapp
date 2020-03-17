@@ -7,15 +7,14 @@ export interface FilterModelChild {
 export interface FilterModel {
   label: string;
   dataKey: string;
-  checked: boolean;
+  checked?: boolean;
   childData?: FilterModelChild[];
 }
 
-export interface AllFilters {
-  sortBy: FilterModel[];
-  sellers: FilterModel[];
-  sellability: FilterModel[];
-  productCategory: FilterModel[];
-  dimensions: FilterModel[];
-  weight: FilterModel[];
+export interface FilterData {
+  label: string;
+  dataKey: string;
+  checkedValue?: string;
+  radio: boolean;
+  data: FilterModel[];
 }
