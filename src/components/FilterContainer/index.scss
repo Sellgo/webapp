@@ -1,6 +1,7 @@
 .filter-container {
   display: flex;
   justify-content: space-between;
+  margin: 30px 0;
 
   .all-filter-content-wrapper {
     display: flex;
@@ -14,12 +15,21 @@
         flex-direction: column;
 
         .ui {
-          &.checkbox {
+          &.radio {
             margin: 5px 0;
 
             input:checked ~ .box::after,
             input:checked ~ label::after {
               background-color: #349af8;
+            }
+          }
+
+          &.checkbox {
+            margin: 5px 0;
+
+            input:checked ~ .box::after,
+            input:checked ~ label::after {
+              color: #349af8;
             }
           }
         }
@@ -31,11 +41,78 @@
     }
   }
 
+  .price-filter-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .price-range-container {
+      width: 300px;
+
+      h3 {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .reset {
+        cursor: pointer;
+        color: #349af8;
+      }
+
+      .price-range-content {
+        margin-top: 20px;
+
+        .min-max-content {
+          display: flex;
+          justify-content: space-between;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .price-details-content {
+      width: 65%;
+
+      .items {
+        width: 30%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .input-range {
+    width: unset !important;
+    margin: 0 27px;
+
+    .input-range__track {
+      height: 0.1rem;
+
+      .input-range__track--active {
+        border: 1px solid #349af8 !important;
+      }
+
+      span {
+        .input-range__slider {
+          background: #349af8 !important;
+          border: 1px solid #349af8 !important;
+        }
+      }
+    }
+
+    .input-range__label-container,
+    .input-range__label--min .input-range__label-container,
+    .input-range__label--max .input-range__label-container {
+      display: none;
+    }
+  }
+
   .button-wrapper {
     display: flex;
     align-items: flex-end;
     width: 10%;
     height: 100%;
+    margin: auto 0 0 0;
 
     button {
       width: 10%;
