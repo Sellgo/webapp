@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
+import LogoutConfirm from '../ConfirmMessage/LogoutConfirm';
 import MobileHeader from './MobileHeader';
 import FingerprintBlue from '../../assets/images/fingerprint-1.svg';
 import FingerprintWhite from '../../assets/images/fingerprint-2.svg';
@@ -16,6 +17,7 @@ export class AdminHeader extends React.Component<AdminProps> {
   userPicture = localStorage.getItem('userPicture');
   state = {
     isVisible: false,
+    openConfirm: false,
   };
 
   toggleMenu = () => {
@@ -23,6 +25,9 @@ export class AdminHeader extends React.Component<AdminProps> {
       isVisible: !this.state.isVisible,
     });
   };
+
+  open = () => this.setState({ openConfirm: true });
+  openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
     const { auth } = this.props;
@@ -62,12 +67,13 @@ export class AdminHeader extends React.Component<AdminProps> {
                   <Dropdown.Item as={Link} to="/settings/pricing">
                     Subscription
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={auth.logout}>Logout</Dropdown.Item>
+                  <Dropdown.Item onClick={this.open}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Menu.Item>
           </Menu.Menu>
         </Menu>
+        <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
         <div className="navbar-spacer" />
       </div>
     );

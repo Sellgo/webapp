@@ -2,6 +2,7 @@ import React, { Component, ReactElement } from 'react';
 import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Auth from '../Auth/Auth';
+import LogoutConfirm from '../ConfirmMessage/LogoutConfirm';
 import './Sidebar.scss';
 
 interface IconD {
@@ -18,7 +19,7 @@ interface State {
 
 export default class SidebarCollapsible extends Component<
   { auth: Auth },
-  { visible: boolean },
+  { visible: boolean; openConfirm: boolean },
   State
 > {
   state = {
@@ -26,13 +27,16 @@ export default class SidebarCollapsible extends Component<
       { id: 1, label: 'Profit Finder', icon: 'fa-search-dollar', path: '/synthesis' },
       { id: 2, label: 'Product Tracker', icon: 'fa-fingerprint', path: '/product-tracker' },
       { id: 3, label: '', icon: 'fa-angle-right', path: '' },
-      { id: 4, label: 'Logout', icon: 'fa-sign-out-alt', path: '' },
+      { id: 4, label: 'Logout', icon: 'fa-sign-out-alt', path: '#' },
       { id: 5, label: 'Settings', icon: 'fa-user-cog', path: '/settings' },
     ],
     visible: true,
+    openConfirm: false,
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
+  open = () => this.setState({ openConfirm: true });
+  openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
     const { visible } = this.state;
@@ -84,7 +88,7 @@ export default class SidebarCollapsible extends Component<
                   active={window.location.pathname === icon.path}
                   onClick={e => {
                     if (icon.id === 4) {
-                      auth.logout();
+                      this.open();
                     }
                   }}
                 >
@@ -114,6 +118,8 @@ export default class SidebarCollapsible extends Component<
           >
             {sidebarMenu}
           </Sidebar>
+
+          <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
           <Sidebar.Pusher className={`container ${visible ? '' : 'pusher-scroll-x'}`}>
             <Sidebar.Pusher>{children}</Sidebar.Pusher>
