@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import LogoutConfirm from '../ConfirmMessage/LogoutConfirm';
 import MobileHeader from './MobileHeader';
-import FingerprintBlue from '../../assets/images/fingerprint-1.svg';
-import FingerprintWhite from '../../assets/images/fingerprint-2.svg';
 import './AdminHeader.scss';
 
 interface AdminProps {

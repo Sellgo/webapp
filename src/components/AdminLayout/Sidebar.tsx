@@ -59,6 +59,8 @@ export default class SidebarCollapsible extends Component<
                   <Label> {icon.label} </Label>
                 </Menu.Item>
               );
+            } else {
+              return null;
             }
           })}
         </Menu.Menu>
@@ -74,8 +76,7 @@ export default class SidebarCollapsible extends Component<
                   <i className={`fas ${visible ? icon.icon : 'fa-angle-left'}`} />
                 </Menu.Item>
               );
-            }
-            if (icon.id > 3) {
+            } else if (icon.id > 3) {
               return (
                 <Menu.Item
                   key={icon.id}
@@ -93,6 +94,8 @@ export default class SidebarCollapsible extends Component<
                   <Label> {icon.label} </Label>
                 </Menu.Item>
               );
+            } else {
+              return null;
             }
           })}
         </Menu.Menu>
