@@ -10,6 +10,10 @@
     width: 80%;
 
     .all-filter-content {
+      .filter-name {
+        font-weight: 600;
+      }
+
       .filter-list {
         display: flex;
         flex-direction: column;
@@ -41,12 +45,10 @@
     }
   }
 
-  .price-filter-content-wrapper {
+  .content-wrapper {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
 
-    .price-range-container {
+    .range-container {
       width: 300px;
 
       h3 {
@@ -59,7 +61,7 @@
         color: #349af8;
       }
 
-      .price-range-content {
+      .range-content {
         margin-top: 20px;
 
         .min-max-content {
@@ -68,15 +70,15 @@
           font-weight: 500;
         }
       }
-    }
 
-    .price-details-content {
-      width: 65%;
+      .price-details-content {
+        width: 65%;
 
-      .items {
-        width: 30%;
-        display: flex;
-        justify-content: space-between;
+        .items {
+          width: 30%;
+          display: flex;
+          justify-content: space-between;
+        }
       }
     }
   }

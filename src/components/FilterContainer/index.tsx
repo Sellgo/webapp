@@ -94,13 +94,13 @@ function FilterContainer(props: Props) {
 
       {filterType === 'price-filter' && (
         <>
-          <div className="price-filter-content-wrapper">
-            <div className="price-range-container">
+          <div className="content-wrapper">
+            <div className="range-container">
               <h3>Price $</h3>
               <span className="reset" onClick={() => resetPrice()}>
                 x Reset
               </span>
-              <div className="price-range-content">
+              <div className="range-content">
                 <InputRange
                   step={0.01}
                   minValue={0}
@@ -116,23 +116,117 @@ function FilterContainer(props: Props) {
                 </div>
               </div>
             </div>
-            <div className="price-details-content">
-              <div className="price-min items">
-                <span>Products below min price</span>
-                <div className="min-count">
-                  <span>1000</span> items
+          </div>
+          <div className="button-wrapper">
+            <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
+              Apply
+            </Button>
+          </div>
+        </>
+      )}
+
+      {filterType === 'profit-roi-filter' && (
+        <>
+          <div className="content-wrapper">
+            <div className="range-container">
+              <h3>Profit $</h3>
+              <span className="reset" onClick={() => resetPrice()}>
+                x Reset
+              </span>
+              <div className="range-content">
+                <InputRange
+                  step={0.01}
+                  minValue={0}
+                  maxValue={20}
+                  value={{ min: 2, max: 10 }}
+                  onChange={value => {
+                    console.log('value: ', value);
+                  }}
+                />
+                <div className="min$-max$-content">
+                  <span>$ Min</span>
+                  <span>$ Max</span>
+                </div>
+                <div className="min%-max%-content">
+                  <span>Min %</span>
+                  <span>Max %</span>
                 </div>
               </div>
-              <div className="price-range items">
-                <span>Products in the range price</span>
-                <div className="in-range-count">
-                  <span>1000</span> items
+            </div>
+
+            <div className="range-container">
+              <h3>ROI/ Return On Investment $</h3>
+              <span className="reset" onClick={() => resetPrice()}>
+                x Reset
+              </span>
+              <div className="range-content">
+                <InputRange
+                  step={0.01}
+                  minValue={0}
+                  maxValue={20}
+                  value={{ min: 2, max: 10 }}
+                  onChange={value => {
+                    console.log('value: ', value);
+                  }}
+                />
+                <div className="min-max-content">
+                  <span>Min</span>
+                  <span>Max</span>
                 </div>
               </div>
-              <div className="price-max items">
-                <span>Products above max price</span>
-                <div className="max-count">
-                  <span>1000</span> items
+            </div>
+          </div>
+          <div className="button-wrapper">
+            <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
+              Apply
+            </Button>
+          </div>
+        </>
+      )}
+
+      {filterType === 'ranks-units-sold-filter' && (
+        <>
+          <div className="content-wrapper">
+            <div className="range-container">
+              <h3>Unit Sold</h3>
+              <span className="reset" onClick={() => resetPrice()}>
+                x Reset
+              </span>
+              <div className="range-content">
+                <InputRange
+                  step={0.01}
+                  minValue={0}
+                  maxValue={20}
+                  value={{ min: 2, max: 10 }}
+                  onChange={value => {
+                    console.log('value: ', value);
+                  }}
+                />
+                <div className="min$-max$-content">
+                  <span>Min sold</span>
+                  <span>Max sold</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="range-container">
+              <h3>Rank</h3>
+              <span className="reset" onClick={() => resetPrice()}>
+                x Reset
+              </span>
+              <div className="range-content">
+                <InputRange
+                  step={0.01}
+                  minValue={0}
+                  maxValue={20}
+                  value={{ min: 2, max: 10 }}
+                  onChange={value => {
+                    console.log('value: ', value);
+                  }}
+                />
+                <div className="min-max-content">
+                  <span>Min rank</span>
+                  <span>Max rank</span>
                 </div>
               </div>
             </div>

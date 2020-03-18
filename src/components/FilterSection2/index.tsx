@@ -18,10 +18,6 @@ function FilterSection2(props: any, state: State) {
   state = {
     filterTitle: [
       {
-        label: 'Time',
-        dataKey: 'time-filter',
-      },
-      {
         label: 'Price',
         dataKey: 'price-filter',
       },
@@ -37,26 +33,6 @@ function FilterSection2(props: any, state: State) {
   };
 
   const filterData: FilterData[] = [
-    {
-      label: 'Sort By',
-      dataKey: 'sort-by',
-      checkedValue: 'most-profitable',
-      radio: true,
-      data: [
-        {
-          label: 'Most Profitable',
-          dataKey: 'most-profitable',
-        },
-        {
-          label: 'Most Units Sold',
-          dataKey: 'most-unit-sold',
-        },
-        {
-          label: 'Highest ROI',
-          dataKey: 'highest-roi',
-        },
-      ],
-    },
     {
       label: 'Sellers',
       dataKey: 'seller',
@@ -82,23 +58,6 @@ function FilterSection2(props: any, state: State) {
         {
           label: 'FBM',
           dataKey: 'fbm',
-          checked: false,
-        },
-      ],
-    },
-    {
-      label: 'Sellability',
-      dataKey: 'sellability',
-      radio: false,
-      data: [
-        {
-          label: 'Non-Hazmat',
-          dataKey: 'non-hazmat',
-          checked: true,
-        },
-        {
-          label: 'Non-Gated',
-          dataKey: 'non-gated',
           checked: false,
         },
       ],
@@ -136,42 +95,34 @@ function FilterSection2(props: any, state: State) {
       ],
     },
     {
-      label: 'Dimensions',
-      dataKey: 'dimension',
-      checkedValue: 'small-size',
+      label: 'Product Size Tiers',
+      dataKey: 'product-size-tiers',
+      checkedValue: 'small-standard-size',
       radio: true,
       data: [
         {
-          label: 'Small Size',
-          dataKey: 'small-size',
+          label: 'All size',
+          dataKey: 'all-size',
         },
         {
-          label: 'Medium Size',
-          dataKey: 'medium-size',
+          label: 'Small stadard-size',
+          dataKey: 'small-standard-size',
         },
         {
-          label: 'Over Size',
-          dataKey: 'over-size',
-        },
-      ],
-    },
-    {
-      label: 'Weight',
-      dataKey: 'weight',
-      checkedValue: 'light-weight',
-      radio: true,
-      data: [
-        {
-          label: 'Light Weight',
-          dataKey: 'light-weight',
+          label: 'Large stadard-size',
+          dataKey: 'large-standard-size',
         },
         {
-          label: 'Medium Weight',
-          dataKey: 'medium-weight',
+          label: 'Small oversize',
+          dataKey: 'small-oversize',
         },
         {
-          label: 'Over Weight',
-          dataKey: 'over-weight',
+          label: 'Medium oversize',
+          dataKey: 'medium-oversize',
+        },
+        {
+          label: 'Over oversize',
+          dataKey: 'over-oversize',
         },
       ],
     },
@@ -230,7 +181,7 @@ function FilterSection2(props: any, state: State) {
               basic
               icon
               labelPosition="left"
-              className={filter.dataKey}
+              className={filterType == filter.dataKey ? `active ${filter.dataKey}` : filter.dataKey}
               key={filter.dataKey}
               onClick={() => setFilterType(filter.dataKey)}
             >

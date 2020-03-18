@@ -5,7 +5,6 @@
 
   .ui.basic {
     &.button {
-      border: 1px solid #98aeca;
       border-radius: 20px;
       display: flex;
       align-items: center;
@@ -69,7 +68,6 @@
       }
 
       &.active {
-        border: 1px solid #98aeca;
         background: #349af833 !important;
 
         .filter-name {
