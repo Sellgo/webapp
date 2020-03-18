@@ -322,7 +322,37 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               Risk free 14-day money back guarantee
             </Grid.Row>
             <Grid.Row>{cardsDisplay}</Grid.Row>
-            <Grid.Row>
+            {!sellerSubscription && (
+              <div className="coupon-container" style={{ marginTop: '15px' }}>
+                <Header as="h4">Have a coupon?</Header>
+                <Grid className="field-container">
+                  <Input
+                    style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
+                    value={this.state.couponVal}
+                    onChange={e => this.setState({ couponVal: e.target.value })}
+                    onKeyPress={(e: KeyboardEvent) => {
+                      if (e.key === 'Enter') this.redeemCoupon();
+                    }}
+                    placeholder="Enter Coupon Here"
+                    type="text"
+                  />
+                  <Button
+                    basic={true}
+                    style={{
+                      borderRadius: 20,
+                      background: 'rgb(66, 133, 244) !important',
+                      fontWeight: 'bold',
+                      width: '180px',
+                    }}
+                    color="grey"
+                    onClick={() => this.redeemCoupon()}
+                  >
+                    {'Redeem'}
+                  </Button>
+                </Grid>
+              </div>
+            )}
+            <Grid.Row className="setcard-container">
               <a href="#">
                 <Image src={Setcard} />
               </a>
@@ -330,36 +360,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <Image src={Stripe} />
               </a>
             </Grid.Row>
-            <Grid.Row>We offer 14-day money back guarantee.</Grid.Row>
+            <Grid.Row className="offer-footer">We offer 14-day money back guarantee.</Grid.Row>
           </Grid>
-          {!sellerSubscription && (
-            <div style={{ marginTop: '15px' }}>
-              Have a coupon?{' '}
-              <Input
-                style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
-                value={this.state.couponVal}
-                onChange={e => this.setState({ couponVal: e.target.value })}
-                onKeyPress={(e: KeyboardEvent) => {
-                  if (e.key === 'Enter') this.redeemCoupon();
-                }}
-                placeholder="Coupon"
-                type="text"
-              />
-              <Button
-                basic={true}
-                style={{
-                  borderRadius: 20,
-                  background: 'rgb(66, 133, 244) !important',
-                  fontWeight: 'bold',
-                  width: '180px',
-                }}
-                color="grey"
-                onClick={() => this.redeemCoupon()}
-              >
-                {'REDEEM'}
-              </Button>
-            </div>
-          )}
         </Segment>
       </>
     );
