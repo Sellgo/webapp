@@ -20,11 +20,6 @@ import history from '../../../history';
 import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
 
-interface Card {
-  id: number;
-  meta: string;
-}
-
 interface SubscriptionProps {
   getSeller: () => void;
   profile: any;
@@ -34,7 +29,6 @@ interface SubscriptionProps {
   sellerSubscription: any;
   subscriptions: Subscription[];
   location: any;
-  cards: Card[];
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -46,20 +40,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     pendingSubscription: false,
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
-    cards: [
-      {
-        id: 1,
-        meta: 'Unlimited Profit Finder 50 Product Tracker Limit',
-      },
-      {
-        id: 2,
-        meta: 'Unlimited Profit Finder 100 Product Tracker Limit',
-      },
-      {
-        id: 3,
-        meta: 'Unlimited Profit Finder More than 100 Product Tracker Limit',
-      },
-    ],
   };
 
   componentDidMount() {
@@ -213,81 +193,81 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
 
+    const trackTitle = 'Unlimited Profit Finder';
+
     const subscriptionsSorted = subscriptions.sort((a, b) => (a.id > b.id ? 1 : -1));
 
     const cardsDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
-      return this.state.cards.map((stat: Card) => {
-        if (Number(subscription.id) == Number(stat.id)) {
-          return (
-            <Card key={subscription.id} className={`${isSubscribed && 'active-plan'}`}>
-              <Card.Content>
-                <Card.Header>
-                  <Button
-                    className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
-                    fluid
-                  >
-                    Best Value
-                  </Button>
-                </Card.Header>
-              </Card.Content>
-              <Card.Content>
-                <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
-                  {subscription.name}
-                </Card.Header>
-                <Card.Meta>
-                  {Number(subscription.id) === 1 && Number(stat.id) === 1
-                    ? stat.meta.replace(/50/g, subscription.track_limit.toString())
-                    : Number(subscription.id) === 2 && Number(stat.id) === 2
-                    ? stat.meta.replace(/100/g, subscription.track_limit.toString())
-                    : stat.meta}
-                </Card.Meta>
-              </Card.Content>
-              <Card.Content className={`${Number(subscription.id) === 3 && 'contact-us'}`}>
-                <Card.Header>
-                  <strong>$&nbsp;</strong>
-                  {Number(subscription.id) === 3
-                    ? 'Contact Us'
-                    : Math.trunc(Number(subscription.price))
-                    ? Math.trunc(Number(subscription.price))
-                    : 0.0}
-                  <strong>&nbsp;/mo</strong>
-                </Card.Header>
-                <Card.Description>
-                  {`${Number(subscription.id) !== 3 && 'Billed Monthly'}`}
-                </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                {isSubscribed && (
-                  <Button
-                    onClick={() => {
-                      this.setState({ promptCancelSubscription: true });
-                    }}
-                    className={`basic-btn active-plan`}
-                    fluid
-                  >
-                    Cancel
-                  </Button>
-                )}
-                {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
-                  <Button
-                    onClick={() => this.chooseSubscription(subscription)}
-                    className={`basic-btn`}
-                    fluid
-                  >
-                    {subscribedSubscription ? 'Change Plan' : 'Get Started'}
-                  </Button>
-                )}
+      return (
+        <Card key={subscription.id} className={`${isSubscribed && 'active-plan'}`}>
+          <Card.Content>
+            <Card.Header>
+              <Button
+                className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
+                fluid
+              >
+                Best Value
+              </Button>
+            </Card.Header>
+          </Card.Content>
+          <Card.Content>
+            <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
+              {subscription.name}
+            </Card.Header>
+            <Card.Meta>
+              {trackTitle}
+              <br />
+              {Number(subscription.id) === 1
+                ? subscription.track_limit + ' Product Tracker Limit'
+                : Number(subscription.id) === 2
+                ? subscription.track_limit + ' Product Tracker Limit'
+                : 'More than 100 Product Tracker Limit'}
+            </Card.Meta>
+          </Card.Content>
+          <Card.Content className={`${Number(subscription.id) === 3 && 'contact-us'}`}>
+            <Card.Header>
+              <strong>$&nbsp;</strong>
+              {Number(subscription.id) === 3
+                ? 'Contact Us'
+                : Math.trunc(Number(subscription.price))
+                ? Math.trunc(Number(subscription.price))
+                : 0.0}
+              <strong>&nbsp;/mo</strong>
+            </Card.Header>
+            <Card.Description>
+              {`${Number(subscription.id) !== 3 && 'Billed Monthly'}`}
+            </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            {isSubscribed && (
+              <Button
+                onClick={() => {
+                  this.setState({ promptCancelSubscription: true });
+                }}
+                className={`basic-btn active-plan`}
+                fluid
+              >
+                Cancel
+              </Button>
+            )}
+            {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
+              <Button
+                onClick={() => this.chooseSubscription(subscription)}
+                className={`basic-btn`}
+                fluid
+              >
+                {subscribedSubscription ? 'Change Plan' : 'Get Started'}
+              </Button>
+            )}
 
-                <p className={stat.id === 3 ? 'contact-us' : ''}>
-                  Contact Customer Service
-                  <a href="#">{'support@sellgo.com'}</a>
-                </p>
-              </Card.Content>
-            </Card>
-          );
-        }
-      });
+            <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
+              Contact Customer Service
+              <a href="#">{'support@sellgo.com'}</a>
+            </p>
+          </Card.Content>
+        </Card>
+      );
     });
 
     return (
