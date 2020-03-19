@@ -16,11 +16,11 @@ interface Props {
 const steps = [
   {
     title: 'Add New Supplier',
-    icon: <Icon className="plus square" />,
+    icon: <i className="fas fa-pen-square" />,
   },
   {
     title: 'Select File',
-    icon: <Icon name="file" />,
+    icon: <i className="fas fa-file-csv" />,
     description: '',
   },
   {
@@ -30,7 +30,7 @@ const steps = [
   },
   {
     title: 'Data Validation',
-    icon: <Icon name="book" />,
+    icon: <i className="fas fa-check-square" />,
     description: '',
   },
   {
