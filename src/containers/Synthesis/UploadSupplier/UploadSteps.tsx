@@ -29,11 +29,6 @@ const steps = [
     description: '',
   },
   {
-    title: 'Data Validation',
-    icon: <Icon name="book" />,
-    description: '',
-  },
-  {
     title: 'Submit',
     icon: <Icon name="upload" />,
     description: '',
