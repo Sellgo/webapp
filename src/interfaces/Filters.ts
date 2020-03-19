@@ -1,14 +1,15 @@
-export interface FilterModelChild {
-  label: string;
-  dataKey: string;
-  checked: boolean;
-}
-
 export interface FilterModel {
   label: string;
   dataKey: string;
   checked?: boolean;
-  childData?: FilterModelChild[];
+}
+
+export interface RangeModel {
+  dataKey: string;
+  range: {
+    min: number;
+    max: number;
+  };
 }
 
 export interface FilterData {
@@ -17,4 +18,17 @@ export interface FilterData {
   checkedValue?: string;
   radio: boolean;
   data: FilterModel[];
+}
+
+export interface SupplierFilter {
+  allFilter: FilterData[];
+  price: RangeModel;
+  profitRoi: {
+    profit: RangeModel;
+    roi: RangeModel;
+  };
+  rankUnitSold: {
+    unitSold: RangeModel;
+    rank: RangeModel;
+  };
 }

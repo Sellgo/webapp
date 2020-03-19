@@ -31,6 +31,7 @@ export const dataKeys: any = [
   // 'roi_inventory',
 ];
 
+export const dataKeys2: any = ['price', 'profit', 'roi', 'sales_monthly', 'rank'];
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -131,6 +132,22 @@ export const findFiltersGrouped = () => {
 
 export const findMinMaxRange = (products: any) => {
   const updatedFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
+    if (!fr[dk]) {
+      const dkArray = products.map((p: any) => Number(p[dk]));
+      const minDk = Math.floor(Math.min(...dkArray));
+      const maxDk = Math.ceil(Math.max(...dkArray));
+      const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
+      const max = maxDk === Number.NEGATIVE_INFINITY ? '' : maxDk;
+      const updatedDkRange = { min, max };
+      fr[dk] = updatedDkRange;
+    }
+    return fr;
+  }, {});
+  return updatedFilterRanges;
+};
+
+export const findMinMaxRange2 = (products: any) => {
+  const updatedFilterRanges = dataKeys2.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => Number(p[dk]));
       const minDk = Math.floor(Math.min(...dkArray));

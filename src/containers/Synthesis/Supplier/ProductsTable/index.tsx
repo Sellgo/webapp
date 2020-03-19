@@ -15,6 +15,7 @@ import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
 import _ from 'lodash';
+import { initialFilterRanges, findMinMaxRange2 } from '../../../../constants/Suppliers';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -40,6 +41,7 @@ interface ProductsTableState {
   checkedItems: { [index: number]: {} };
   searchProducts: Product[];
   searchValue: string;
+  productRanges: any;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -47,7 +49,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     checkedItems: {},
     searchProducts: [],
     searchValue: '',
+    productRanges: initialFilterRanges,
   };
+
+  UNSAFE_componentWillReceiveProps(props: any) {
+    if (props.products && props.products !== this.props.products) {
+      // Get min and max range for each filter setting based on all products
+      const productRanges = findMinMaxRange2(props.products);
+      this.setState({ productRanges });
+    }
+  }
 
   componentDidUpdate(prevProps: any) {
     if (prevProps.filterRanges !== this.props.filterRanges) {
@@ -216,7 +227,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       filterRanges,
     } = this.props;
-    const { searchProducts, searchValue } = this.state;
+    const { searchProducts, searchValue, productRanges } = this.state;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -245,6 +256,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             setSinglePageItemsCount={setSinglePageItemsCount}
             name={'products'}
             showFilter={true}
+            productRanges={productRanges}
           />
         )}
       </div>
