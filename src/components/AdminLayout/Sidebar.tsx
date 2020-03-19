@@ -2,7 +2,7 @@ import React, { Component, ReactElement } from 'react';
 import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Auth from '../Auth/Auth';
-import LogoutConfirm from '../ConfirmMessage/LogoutConfirm';
+import LogoutConfirm from '../LogoutConfirm';
 import './Sidebar.scss';
 
 interface IconD {

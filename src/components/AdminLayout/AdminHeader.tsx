@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
-import LogoutConfirm from '../ConfirmMessage/LogoutConfirm';
+import LogoutConfirm from '../LogoutConfirm';
 import MobileHeader from './MobileHeader';
 import './AdminHeader.scss';
 
