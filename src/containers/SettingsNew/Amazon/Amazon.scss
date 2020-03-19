@@ -1,0 +1,36 @@
+.amazon-content {
+  .visible.menu.transition {
+    border-radius: 10px !important;
+    border-top-width: 1px !important;
+    border-bottom-width: 1px !important;
+  }
+
+  .visible.menu.transition::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .fields.action-container {
+    margin-top: 30px;
+  }
+
+  .marketplace-field {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      padding-left: 0.5rem;
+      display: block;
+      margin: 0 0 0.28571429rem 0;
+      color: rgba(0, 0, 0, 0.87);
+      font-size: 0.92857143em;
+      font-weight: 700;
+      text-transform: none;
+    }
+  }
+
+  .seller-field input,
+  .token-field input {
+    width: 100% !important;
+  }
+}

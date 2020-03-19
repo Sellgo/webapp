@@ -6,6 +6,7 @@ import ScrollToTop from '../../components/ScrollToTop';
 import Settings from '../Settings';
 import Subscription from '../Settings/Subscription';
 import Home from '../Home';
+import Setting from '../SettingsNew';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
 import Auth from '../../components/Auth/Auth';
@@ -173,6 +174,7 @@ function App() {
             component={ProductTracker}
             requireSubscription={true}
           />
+          <Route exact={true} path="/setting" component={Setting} />
           <Route component={NotFound} />
         </Switch>
       </Router>
