@@ -5,7 +5,10 @@ export interface FilterModel {
 }
 
 export interface RangeModel {
+  label: string;
   dataKey: string;
+  minPlaceholder: string;
+  maxPlaceholder: string;
   range: {
     min: number;
     max: number;
@@ -22,13 +25,5 @@ export interface FilterData {
 
 export interface SupplierFilter {
   allFilter: FilterData[];
-  price: RangeModel;
-  profitRoi: {
-    profit: RangeModel;
-    roi: RangeModel;
-  };
-  rankUnitSold: {
-    unitSold: RangeModel;
-    rank: RangeModel;
-  };
+  filterRanges: RangeModel[];
 }

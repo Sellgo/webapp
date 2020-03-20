@@ -136,41 +136,48 @@ function FilterSection2(props: Props, state: State) {
         ],
       },
     ],
-    price: {
-      dataKey: 'price',
-      range: productRanges.price,
-    },
-    profitRoi: {
-      profit: {
-        dataKey: 'profit',
+    filterRanges: [
+      {
+        label: 'Price $',
+        dataKey: 'price-filter',
+        minPlaceholder: 'Min',
+        maxPlaceholder: 'Max',
+        range: productRanges.price,
+      },
+      {
+        label: 'Profit $',
+        dataKey: 'profit-filter',
+        minPlaceholder: '$ Min',
+        maxPlaceholder: '$ Max',
         range: productRanges.profit,
       },
-      roi: {
-        dataKey: 'roi',
+      {
+        label: 'ROI/ Return On Investment',
+        dataKey: 'roi-filter',
+        minPlaceholder: 'Min %',
+        maxPlaceholder: 'Max %',
         range: productRanges.profit,
       },
-    },
-    rankUnitSold: {
-      unitSold: {
-        dataKey: 'unit-sold',
+      {
+        label: 'Unit Sold',
+        dataKey: 'unit-sold-filter',
+        minPlaceholder: 'Min sold',
+        maxPlaceholder: 'Max sold ',
         range: productRanges.unitSold,
       },
-      rank: {
-        dataKey: 'rank',
+      {
+        label: 'Rank',
+        dataKey: 'rank-filter',
+        minPlaceholder: 'Min rank',
+        maxPlaceholder: 'Max rank ',
         range: productRanges.rank,
       },
-    },
+    ],
   };
 
   const [filterData, setFilterData] = React.useState(filterDataState);
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
-  const [priceRange, setPriceRange] = React.useState(filterDataState.price.range);
-  const [profitRange, setProfitRange] = React.useState(filterDataState.profitRoi.profit.range);
-  const [roiRange, setRoiRange] = React.useState(filterDataState.profitRoi.roi.range);
-  const [unitSoldRange, setUnitSoldRange] = React.useState(
-    filterDataState.rankUnitSold.unitSold.range
-  );
-  const [rankRange, setRankRange] = React.useState(filterDataState.rankUnitSold.rank.range);
+  const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
 
   const setRadioFilter = (filterType: string, value: string) => {
     const data = _.map(allFilter, filter => {
@@ -197,28 +204,18 @@ function FilterSection2(props: Props, state: State) {
     setFilterData(data);
   };
 
-  const handlePrice = (range: Range) => {
-    filterData.price.range = range;
-    setPriceRange(range);
+  const handleCompleteChange = (datakey: string, range: Range) => {
+    console.log('datakey: ', datakey);
+    console.log('range: ', range);
+    const data = _.map(filterRanges, filter => {
+      if (filter.dataKey === datakey) {
+        filter.range = range;
+      }
+      return filter;
+    });
+    setFilterRanges(data);
   };
 
-  const handleProfit = (range: Range) => {
-    filterData.profitRoi.profit.range = range;
-    setProfitRange(range);
-  };
-
-  const handleRoi = (range: Range) => {
-    filterData.profitRoi.roi.range = range;
-    setRoiRange(range);
-  };
-  const handleUnitSold = (range: Range) => {
-    filterData.rankUnitSold.unitSold.range = range;
-    setUnitSoldRange(range);
-  };
-  const handleRank = (range: Range) => {
-    filterData.rankUnitSold.rank.range = range;
-    setRankRange(range);
-  };
   const resetFilter = (datakey: string) => {
     console.log('datakey: ', datakey);
     console.log('filteredProducts: ', filteredProducts);
@@ -272,11 +269,7 @@ function FilterSection2(props: Props, state: State) {
           resetFilter={resetFilter}
           filterData={filterData}
           range={productRanges}
-          handlePrice={handlePrice}
-          handleProfit={handleProfit}
-          handleRoi={handleRoi}
-          handleUnitSold={handleUnitSold}
-          handleRank={handleRank}
+          handleCompleteChange={handleCompleteChange}
         />
       </div>
     </div>
