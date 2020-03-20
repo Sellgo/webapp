@@ -31,6 +31,7 @@ import {
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
+import { UntrackSuccess } from '../../components/ToastMessages/ProductTracker';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -370,7 +371,7 @@ export const updateProductTrackingStatus = (
           dispatch(getSellerQuota());
           if (name === 'tracker') {
             if (type === 'untrack') {
-              success(`Product is now untracked`);
+              success(UntrackSuccess);
               dispatch(removeTrackedProduct(json.data.id));
             } else if (type === 'move-group') {
               success(`Product is moved to ${groupName}`);
