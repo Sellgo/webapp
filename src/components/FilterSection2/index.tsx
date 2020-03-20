@@ -169,8 +169,8 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'units-sold-filter',
         minPlaceholder: 'Min sold',
         maxPlaceholder: 'Max sold ',
-        range: productRanges.unitSold,
-        filterRange: filteredRanges.unitSold,
+        range: productRanges.sales_monthly,
+        filterRange: filteredRanges.sales_monthly,
       },
       {
         label: 'Rank',
