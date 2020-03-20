@@ -13,6 +13,10 @@ export interface RangeModel {
     min: number;
     max: number;
   };
+  filterRange: {
+    min: number;
+    max: number;
+  };
 }
 
 export interface FilterData {

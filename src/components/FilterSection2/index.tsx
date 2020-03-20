@@ -3,12 +3,13 @@ import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import FilterContainer from '../FilterContainer';
-import { FilterData, SupplierFilter } from '../../interfaces/Filters';
+import { SupplierFilter } from '../../interfaces/Filters';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../interfaces/Product';
 import { supplierProductsSelector } from '../../selectors/Supplier';
 import { Range } from '../../interfaces/Generic';
+import { findMinMaxRange2 } from '../../constants/Suppliers';
 
 interface FilterObject {
   label: string;
@@ -47,6 +48,8 @@ function FilterSection2(props: Props, state: State) {
     ],
   };
 
+  const filteredRanges = findMinMaxRange2(filteredProducts);
+  console.log('filteredProducts: ', filteredProducts);
   const filterDataState: SupplierFilter = {
     allFilter: [
       {
@@ -143,6 +146,7 @@ function FilterSection2(props: Props, state: State) {
         minPlaceholder: 'Min',
         maxPlaceholder: 'Max',
         range: productRanges.price,
+        filterRange: filteredRanges.price,
       },
       {
         label: 'Profit $',
@@ -150,34 +154,42 @@ function FilterSection2(props: Props, state: State) {
         minPlaceholder: '$ Min',
         maxPlaceholder: '$ Max',
         range: productRanges.profit,
+        filterRange: filteredRanges.profit,
       },
       {
         label: 'ROI/ Return On Investment',
         dataKey: 'roi-filter',
         minPlaceholder: 'Min %',
         maxPlaceholder: 'Max %',
-        range: productRanges.profit,
+        range: productRanges.roi,
+        filterRange: filteredRanges.roi,
       },
       {
         label: 'Unit Sold',
-        dataKey: 'unit-sold-filter',
+        dataKey: 'units-sold-filter',
         minPlaceholder: 'Min sold',
         maxPlaceholder: 'Max sold ',
         range: productRanges.unitSold,
+        filterRange: filteredRanges.unitSold,
       },
       {
         label: 'Rank',
-        dataKey: 'rank-filter',
+        dataKey: 'ranks-filter',
         minPlaceholder: 'Min rank',
         maxPlaceholder: 'Max rank ',
         range: productRanges.rank,
+        filterRange: filteredRanges.rank,
       },
     ],
   };
 
   const [filterData, setFilterData] = React.useState(filterDataState);
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
-  const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
+  const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
+
+  useEffect(() => {
+    setFilterRanges(filterData.filterRanges);
+  }, [filterData.filterRanges]);
 
   const setRadioFilter = (filterType: string, value: string) => {
     const data = _.map(allFilter, filter => {
@@ -209,7 +221,7 @@ function FilterSection2(props: Props, state: State) {
     console.log('range: ', range);
     const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
-        filter.range = range;
+        filter.filterRange = range;
       }
       return filter;
     });

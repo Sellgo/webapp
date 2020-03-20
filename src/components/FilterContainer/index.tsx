@@ -81,24 +81,24 @@ function FilterContainer(props: Props) {
 
       {filterType === 'price-filter' && (
         <>
-          <div className="range-container">
-            <h3>Price $</h3>
-            <span className="reset" onClick={() => resetFilter('sda')}>
-              x Reset
-            </span>
-            {_.map(filterData.filterRanges, filter => {
-              if (filter.dataKey == 'price-filter') {
-                return (
+          {_.map(filterData.filterRanges, filter => {
+            if (filter.dataKey == 'price-filter') {
+              return (
+                <div className="range-container" key={filter.dataKey}>
+                  <h3>{filter.label}</h3>
+                  <span className="reset" onClick={() => resetFilter(`${filter.dataKey}`)}>
+                    x Reset
+                  </span>
                   <FilterSliderInput
                     dataKey={filter.dataKey}
-                    range={range.price}
-                    filterRange={filter.range}
+                    range={filter.range}
+                    filterRange={filter.filterRange}
                     handleCompleteChange={handleCompleteChange}
                   />
-                );
-              }
-            })}
-          </div>
+                </div>
+              );
+            }
+          })}
           <div className="button-wrapper">
             <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
               Apply
@@ -109,37 +109,24 @@ function FilterContainer(props: Props) {
 
       {filterType === 'profit-roi-filter' && (
         <>
-          <div className="content-wrapper">
-            <div className="range-container">
-              <h3>Profit $</h3>
-              <span className="reset" onClick={() => resetFilter('sda')}>
-                x Reset
-              </span>
-              <div className="range-content">
-                <div className="min$-max$-content">
-                  <span>$ Min</span>
-                  <span>$ Max</span>
+          {_.map(filterData.filterRanges, filter => {
+            if (filter.dataKey == 'profit-filter' || filter.dataKey == 'roi-filter') {
+              return (
+                <div className="range-container" key={filter.dataKey}>
+                  <h3>{filter.label}</h3>
+                  <span className="reset" onClick={() => resetFilter(`${filter.dataKey}`)}>
+                    x Reset
+                  </span>
+                  <FilterSliderInput
+                    dataKey={filter.dataKey}
+                    range={filter.range}
+                    filterRange={filter.filterRange}
+                    handleCompleteChange={handleCompleteChange}
+                  />
                 </div>
-                <div className="min%-max%-content">
-                  <span>Min %</span>
-                  <span>Max %</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="range-container">
-              <h3>ROI/ Return On Investment $</h3>
-              <span className="reset" onClick={() => resetFilter('sda')}>
-                x Reset
-              </span>
-              <div className="range-content">
-                <div className="min-max-content">
-                  <span>Min</span>
-                  <span>Max</span>
-                </div>
-              </div>
-            </div>
-          </div>
+              );
+            }
+          })}
           <div className="button-wrapper">
             <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
               Apply
@@ -150,33 +137,24 @@ function FilterContainer(props: Props) {
 
       {filterType === 'ranks-units-sold-filter' && (
         <>
-          <div className="content-wrapper">
-            <div className="range-container">
-              <h3>Unit Sold</h3>
-              <span className="reset" onClick={() => resetFilter('sda')}>
-                x Reset
-              </span>
-              <div className="range-content">
-                <div className="min$-max$-content">
-                  <span>Min sold</span>
-                  <span>Max sold</span>
+          {_.map(filterData.filterRanges, filter => {
+            if (filter.dataKey == 'ranks-filter' || filter.dataKey == 'units-sold-filter') {
+              return (
+                <div className="range-container" key={filter.dataKey}>
+                  <h3>{filter.label}</h3>
+                  <span className="reset" onClick={() => resetFilter(`${filter.dataKey}`)}>
+                    x Reset
+                  </span>
+                  <FilterSliderInput
+                    dataKey={filter.dataKey}
+                    range={filter.range}
+                    filterRange={filter.filterRange}
+                    handleCompleteChange={handleCompleteChange}
+                  />
                 </div>
-              </div>
-            </div>
-
-            <div className="range-container">
-              <h3>Rank</h3>
-              <span className="reset" onClick={() => resetFilter('sda')}>
-                x Reset
-              </span>
-              <div className="range-content">
-                <div className="min-max-content">
-                  <span>Min rank</span>
-                  <span>Max rank</span>
-                </div>
-              </div>
-            </div>
-          </div>
+              );
+            }
+          })}
           <div className="button-wrapper">
             <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
               Apply

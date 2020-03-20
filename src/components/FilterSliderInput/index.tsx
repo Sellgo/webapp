@@ -44,11 +44,11 @@ const FilterSliderInput = (props: any) => {
     <div className="range-content">
       <InputRange
         step={0.01}
-        maxValue={filterRangeLocal.max === '' ? Number.MAX_SAFE_INTEGER : range.max}
-        minValue={filterRangeLocal.min === '' ? Number.MIN_SAFE_INTEGER : range.min}
+        maxValue={filterRangeLocal.max === undefined ? Number.MAX_SAFE_INTEGER : range.max}
+        minValue={filterRangeLocal.min === undefined ? Number.MIN_SAFE_INTEGER : range.min}
         value={{
-          min: filterRangeLocal.min === '' ? 0 : Number(filterRangeLocal.min),
-          max: filterRangeLocal.max === '' ? 0 : Number(filterRangeLocal.max),
+          min: filterRangeLocal.min === undefined ? 0 : Number(filterRangeLocal.min),
+          max: filterRangeLocal.max === undefined ? 0 : Number(filterRangeLocal.max),
         }}
         onChange={(value: Range) => handleLocalChange(value)}
         onChangeComplete={(value: Range) => handleCompleteChange(dataKey, value)}
@@ -60,13 +60,13 @@ const FilterSliderInput = (props: any) => {
           id="min"
           type="number"
           value={
-            filterRangeLocal.min === ''
+            filterRangeLocal.min === undefined
               ? filterRangeLocal.min
               : Math.floor(filterRangeLocal.min * 100) / 100
           }
           onChange={e => {
             handleLocalChange({
-              min: Number(e.target.value) || '',
+              min: Number(e.target.value) || undefined,
               max: filterRangeLocal.max,
             });
           }}
@@ -83,13 +83,13 @@ const FilterSliderInput = (props: any) => {
           id="max"
           type="number"
           value={
-            filterRangeLocal.max === ''
+            filterRangeLocal.max === undefined
               ? filterRangeLocal.max
               : Math.ceil(filterRangeLocal.max * 100) / 100
           }
           onChange={e => {
             handleLocalChange({
-              max: Number(e.target.value) || '',
+              max: Number(e.target.value) || undefined,
               min: filterRangeLocal.min,
             });
           }}

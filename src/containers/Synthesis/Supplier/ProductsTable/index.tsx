@@ -42,6 +42,7 @@ interface ProductsTableState {
   searchProducts: Product[];
   searchValue: string;
   productRanges: any;
+  filteredRanges: any;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -50,6 +51,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     searchProducts: [],
     searchValue: '',
     productRanges: initialFilterRanges,
+    filteredRanges: [],
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -57,14 +59,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       // Get min and max range for each filter setting based on all products
       const productRanges = findMinMaxRange2(props.products);
       this.setState({ productRanges });
-    }
-  }
-
-  componentDidUpdate(prevProps: any) {
-    if (prevProps.filterRanges !== this.props.filterRanges) {
-      this.setState({
-        searchValue: '',
-      });
     }
   }
 
@@ -227,7 +221,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       filterRanges,
     } = this.props;
-    const { searchProducts, searchValue, productRanges } = this.state;
+    const { searchProducts, searchValue, productRanges, filteredRanges } = this.state;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -239,12 +233,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <PaginatedTable
             /* 
-                key change forced table to remount and set page back to 1
-                if any data changes that would affect number of displayed items
-                otherwise we can end up on a page that shows no results because it's
-                past the end of the total number of items.
-                This can be done in a less hacky way once we move pagination server-side.
-              */
+                  key change forced table to remount and set page back to 1
+                  if any data changes that would affect number of displayed items
+                  otherwise we can end up on a page that shows no results because it's
+                  past the end of the total number of items.
+                  This can be done in a less hacky way once we move pagination server-side.
+                */
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={_.isEmpty(searchValue) ? filteredProducts : searchProducts}
