@@ -31,3 +31,29 @@ export interface SupplierFilter {
   allFilter: FilterData[];
   filterRanges: RangeModel[];
 }
+
+export interface FilterState {
+  supplierID: string;
+  allFilter: string[];
+  productSize: string;
+  price: {
+    min: number;
+    max: number;
+  };
+  profit: {
+    min: number;
+    max: number;
+  };
+  roi: {
+    min: number;
+    max: number;
+  };
+  sales_monthly: {
+    min: number;
+    max: number;
+  };
+  rank: {
+    min: number;
+    max: number;
+  };
+}

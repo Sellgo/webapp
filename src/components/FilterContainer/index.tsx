@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './index.scss';
 import { Checkbox, Radio, Button, Input } from 'semantic-ui-react';
 import _ from 'lodash';
-import { FilterData, SupplierFilter, RangeModel } from '../../interfaces/Filters';
+import { FilterData, SupplierFilter, RangeModel, FilterState } from '../../interfaces/Filters';
 import InputRange from 'react-input-range';
 import FilterSliderInput from '../FilterSliderInput';
 import { Range } from '../../interfaces/Generic';
@@ -10,12 +10,13 @@ import { Range } from '../../interfaces/Generic';
 interface Props {
   filterType: string;
   setRadioFilter: (filterType: string, value: string) => void;
-  toggleCheckboxFilter: (filterType: string, filterDataKey: string) => void;
+  toggleCheckboxFilter: (filterDataKey: string) => void;
   applyFilter: () => void;
-  resetFilter: (datakey: string) => void;
+  resetFilter: () => void;
+  resetSingleFilter: (datakey: string) => void;
   filterData: SupplierFilter;
-  range: any;
   handleCompleteChange: (dataKey: string, range: Range) => void;
+  initialFilterState: FilterState;
 }
 
 function FilterContainer(props: Props) {
@@ -26,9 +27,14 @@ function FilterContainer(props: Props) {
     toggleCheckboxFilter,
     resetFilter,
     filterData,
-    range,
     handleCompleteChange,
+    resetSingleFilter,
+    initialFilterState,
   } = props;
+
+  const setCheckbox = (filterDataKey: string) => {
+    return initialFilterState.allFilter.indexOf(filterDataKey) !== -1;
+  };
 
   return (
     <div className="filter-container">
@@ -49,7 +55,7 @@ function FilterContainer(props: Props) {
                             label={filterData.label}
                             value={filterData.dataKey}
                             filter={filter.dataKey}
-                            checked={filter.checkedValue === filterData.dataKey}
+                            checked={initialFilterState.productSize === filterData.dataKey}
                             onClick={() => setRadioFilter(filter.dataKey, filterData.dataKey)}
                           />
                         );
@@ -59,9 +65,9 @@ function FilterContainer(props: Props) {
                             label={filterData.label}
                             key={dataKey}
                             onClick={() => {
-                              toggleCheckboxFilter(filter.dataKey, filterData.dataKey);
+                              toggleCheckboxFilter(filterData.dataKey);
                             }}
-                            defaultChecked={filterData.checked}
+                            defaultChecked={setCheckbox(filterData.dataKey)}
                           />
                         );
                       }
@@ -72,6 +78,9 @@ function FilterContainer(props: Props) {
             })}
           </div>
           <div className="button-wrapper">
+            <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+              Reset
+            </Button>
             <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
               Apply
             </Button>
@@ -82,11 +91,11 @@ function FilterContainer(props: Props) {
       {filterType === 'price-filter' && (
         <>
           {_.map(filterData.filterRanges, filter => {
-            if (filter.dataKey == 'price-filter') {
+            if (filter.dataKey == 'price') {
               return (
                 <div className="range-container" key={filter.dataKey}>
                   <h3>{filter.label}</h3>
-                  <span className="reset" onClick={() => resetFilter(`${filter.dataKey}`)}>
+                  <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
                     x Reset
                   </span>
                   <FilterSliderInput
@@ -100,6 +109,9 @@ function FilterContainer(props: Props) {
             }
           })}
           <div className="button-wrapper">
+            <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+              Reset
+            </Button>
             <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
               Apply
             </Button>
@@ -110,11 +122,11 @@ function FilterContainer(props: Props) {
       {filterType === 'profit-roi-filter' && (
         <>
           {_.map(filterData.filterRanges, filter => {
-            if (filter.dataKey == 'profit-filter' || filter.dataKey == 'roi-filter') {
+            if (filter.dataKey == 'profit' || filter.dataKey == 'roi') {
               return (
                 <div className="range-container" key={filter.dataKey}>
                   <h3>{filter.label}</h3>
-                  <span className="reset" onClick={() => resetFilter(`${filter.dataKey}`)}>
+                  <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
                     x Reset
                   </span>
                   <FilterSliderInput
@@ -128,6 +140,9 @@ function FilterContainer(props: Props) {
             }
           })}
           <div className="button-wrapper">
+            <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+              Reset
+            </Button>
             <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
               Apply
             </Button>
@@ -138,11 +153,11 @@ function FilterContainer(props: Props) {
       {filterType === 'ranks-units-sold-filter' && (
         <>
           {_.map(filterData.filterRanges, filter => {
-            if (filter.dataKey == 'ranks-filter' || filter.dataKey == 'units-sold-filter') {
+            if (filter.dataKey == 'rank' || filter.dataKey == 'sales_monthly') {
               return (
                 <div className="range-container" key={filter.dataKey}>
                   <h3>{filter.label}</h3>
-                  <span className="reset" onClick={() => resetFilter(`${filter.dataKey}`)}>
+                  <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
                     x Reset
                   </span>
                   <FilterSliderInput
@@ -156,6 +171,9 @@ function FilterContainer(props: Props) {
             }
           })}
           <div className="button-wrapper">
+            <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+              Reset
+            </Button>
             <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
               Apply
             </Button>

@@ -173,6 +173,17 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
+export const findFilterProducts2 = (products: any, filterRanges: any) => {
+  const filterRange = (product: any) =>
+    dataKeys2.every(
+      (dataKey: any) =>
+        Number(product[dataKey]) >= Number(filterRanges[dataKey].min) &&
+        Number(product[dataKey]) <= Number(filterRanges[dataKey].max)
+    );
+  const updatedFilterProducts = products.filter(filterRange);
+  return updatedFilterProducts;
+};
+
 // Add temporary data to products during development
 export const addTempDataToProducts = (products: any) => {
   return products.map((product: any) => {
