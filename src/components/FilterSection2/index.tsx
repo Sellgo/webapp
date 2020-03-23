@@ -200,15 +200,8 @@ function FilterSection2(props: Props, state: State) {
       },
     ],
   };
+
   const [filterData, setFilterData] = React.useState(filterDataState);
-
-  useEffect(() => {
-    // setFilterData(filterDataState)
-    console.log('filterDataState', filterDataState);
-    console.log('filterData', filterData);
-    console.log('filterState', filterState);
-  }, [filterData.allFilter]);
-
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
 
@@ -282,10 +275,8 @@ function FilterSection2(props: Props, state: State) {
       }
       return filter;
     });
-    console.log('data: ', data);
     setFilterRanges(data);
     setFilterState(filterData);
-    console.log('filterState: ', filterState);
   };
 
   const applyFilter = () => {

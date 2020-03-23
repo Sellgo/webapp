@@ -32,10 +32,6 @@ function FilterContainer(props: Props) {
     initialFilterState,
   } = props;
 
-  useEffect(() => {
-    console.log('gg', initialFilterState);
-  }, [initialFilterState, filterData]);
-
   return (
     <div className="filter-container">
       {filterType === 'all-filter' && (
