@@ -32,9 +32,9 @@ function FilterContainer(props: Props) {
     initialFilterState,
   } = props;
 
-  const setCheckbox = (filterDataKey: string) => {
-    return initialFilterState.allFilter.indexOf(filterDataKey) !== -1;
-  };
+  useEffect(() => {
+    console.log('gg', initialFilterState);
+  }, [initialFilterState, filterData]);
 
   return (
     <div className="filter-container">
@@ -67,7 +67,9 @@ function FilterContainer(props: Props) {
                             onClick={() => {
                               toggleCheckboxFilter(filterData.dataKey);
                             }}
-                            defaultChecked={setCheckbox(filterData.dataKey)}
+                            checked={
+                              initialFilterState.allFilter.indexOf(filterData.dataKey) !== -1
+                            }
                           />
                         );
                       }

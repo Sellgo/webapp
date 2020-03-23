@@ -49,12 +49,8 @@ function FilterSection2(props: Props, state: State) {
       },
     ],
   };
-
-  const filterStorage = JSON.parse(localStorage.getItem('filterState') || '{}');
-  console.log('filterStorage', filterStorage);
-
-  const initialFilterState: FilterState = filterStorage || {
-    supplierID: supplierDetails.supplier_id,
+  const filterInitialData = {
+    supplier_id: supplierDetails.supplier_id,
     allFilter: [],
     productSize: '',
     price: filteredRanges.price,
@@ -63,6 +59,12 @@ function FilterSection2(props: Props, state: State) {
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
   };
+  const filterStorage = JSON.parse(localStorage.getItem('filterState') || '{}');
+
+  const initialFilterState: any =
+    filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
+      ? filterStorage
+      : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
@@ -76,7 +78,7 @@ function FilterSection2(props: Props, state: State) {
           {
             label: 'Amazon',
             dataKey: 'amazon',
-            checked: true,
+            checked: false,
           },
           {
             label: 'FBA',
@@ -98,7 +100,7 @@ function FilterSection2(props: Props, state: State) {
           {
             label: 'All',
             dataKey: 'all-products',
-            checked: true,
+            checked: false,
           },
           {
             label: 'Appliances',
@@ -162,7 +164,7 @@ function FilterSection2(props: Props, state: State) {
         minPlaceholder: 'Min',
         maxPlaceholder: 'Max',
         range: productRanges.price,
-        filterRange: filterState.price || filteredRanges.price,
+        filterRange: filterState.price,
       },
       {
         label: 'Profit $',
@@ -170,7 +172,7 @@ function FilterSection2(props: Props, state: State) {
         minPlaceholder: '$ Min',
         maxPlaceholder: '$ Max',
         range: productRanges.profit,
-        filterRange: filterState.profit || filteredRanges.profit,
+        filterRange: filterState.profit,
       },
       {
         label: 'ROI/ Return On Investment',
@@ -178,7 +180,7 @@ function FilterSection2(props: Props, state: State) {
         minPlaceholder: 'Min %',
         maxPlaceholder: 'Max %',
         range: productRanges.roi,
-        filterRange: filterState.roi || filteredRanges.roi,
+        filterRange: filterState.roi,
       },
       {
         label: 'Unit Sold',
@@ -186,7 +188,7 @@ function FilterSection2(props: Props, state: State) {
         minPlaceholder: 'Min sold',
         maxPlaceholder: 'Max sold ',
         range: productRanges.sales_monthly,
-        filterRange: filterState.sales_monthly || filteredRanges.sales_monthly,
+        filterRange: filterState.sales_monthly,
       },
       {
         label: 'Rank',
@@ -194,12 +196,19 @@ function FilterSection2(props: Props, state: State) {
         minPlaceholder: 'Min rank',
         maxPlaceholder: 'Max rank ',
         range: productRanges.rank,
-        filterRange: filterState.rank || filteredRanges.rank,
+        filterRange: filterState.rank,
       },
     ],
   };
-
   const [filterData, setFilterData] = React.useState(filterDataState);
+
+  useEffect(() => {
+    // setFilterData(filterDataState)
+    console.log('filterDataState', filterDataState);
+    console.log('filterData', filterData);
+    console.log('filterState', filterState);
+  }, [filterData.allFilter]);
+
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
 
@@ -219,6 +228,18 @@ function FilterSection2(props: Props, state: State) {
 
   const toggleCheckboxFilter = (filterDataKey: string) => {
     const data = filterState;
+
+    const allFilter = _.map(filterData.allFilter, filter => {
+      if (!filter.radio) {
+        _.map(filter.data, allFilterData => {
+          allFilterData.checked = data.allFilter.indexOf(filterDataKey) !== -1;
+          return allFilterData;
+        });
+      }
+      return filter;
+    });
+    setAllFilter(allFilter);
+
     if (data.allFilter.indexOf(filterDataKey) !== -1) {
       data.allFilter.splice(data.allFilter.indexOf(filterDataKey), 1);
     } else {
@@ -252,8 +273,19 @@ function FilterSection2(props: Props, state: State) {
 
   const resetSingleFilter = (datakey: string) => {
     console.log('datakey: ', datakey);
-    console.log('filteredProducts: ', filteredProducts);
-    console.log('productRanges: ', productRanges);
+    console.log('filteredRanges: ', filteredRanges[datakey]);
+    const filterData = filterState;
+    const data = _.map(filterRanges, filter => {
+      if (filter.dataKey === datakey) {
+        filter.filterRange = filter.range;
+        filterData[datakey] = filter.range;
+      }
+      return filter;
+    });
+    console.log('data: ', data);
+    setFilterRanges(data);
+    setFilterState(filterData);
+    console.log('filterState: ', filterState);
   };
 
   const applyFilter = () => {
@@ -262,7 +294,27 @@ function FilterSection2(props: Props, state: State) {
   };
 
   const resetFilter = () => {
-    console.log('reset: ', filterData);
+    const data = filterState;
+    data.supplier_id = filterState.supplier_id;
+    data.allFilter = [];
+    data.productSize = '';
+    data.price = productRanges.price;
+    data.profit = productRanges.profit;
+    data.roi = productRanges.roi;
+    data.sales_monthly = productRanges.sales_monthly;
+    data.rank = productRanges.rank;
+
+    const filterRangeKeys = Object.keys(productRanges);
+    _.each(filterRangeKeys, key => {
+      const filterRanges = _.map(filterData.filterRanges, filter => {
+        if (filter.dataKey === key) {
+          filter.filterRange = filter.range;
+        }
+        return filter;
+      });
+      setFilterRanges(filterRanges);
+    });
+    setFilterState(data);
   };
 
   return (
