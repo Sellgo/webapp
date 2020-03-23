@@ -52,7 +52,7 @@ const Actions = ({
   };
 
   const hasPrevStep = currentStep !== 0;
-  const hasNextStep = currentStep !== 4;
+  const hasNextStep = currentStep !== 3;
 
   if (processCompleted) {
     return (
@@ -119,8 +119,8 @@ const Actions = ({
             {(() => {
               switch (currentStep) {
                 case 0:
-                  return 'Next';
-                case 4:
+                  return 'Save & Proceed';
+                case 2:
                   return 'Submit';
                 case 1:
                   return skipColumnMappingCheck ? 'Skip' : 'Next';

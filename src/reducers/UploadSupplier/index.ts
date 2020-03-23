@@ -10,11 +10,9 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
-  UPDATE_DATA_QUALITY_REPORT,
 } from '../../constants/UploadSupplier';
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
-import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
 interface UploadSupplierState {
   readonly currentStep: number;
@@ -25,7 +23,6 @@ interface UploadSupplierState {
   readonly columnMappings: [];
   readonly completed: boolean;
   readonly isFirstRowHeader: boolean;
-  readonly dataQualityReport: DataQualityReport;
 }
 
 const initialState: UploadSupplierState = {
@@ -37,16 +34,6 @@ const initialState: UploadSupplierState = {
   columnMappings: [],
   rawCsv: null,
   csv: null,
-  dataQualityReport: {
-    upcMissing: 0,
-    upcNonNumeric: 0,
-    costMissing: 0,
-    costInvalid: 0,
-    msrpMissing: 0,
-    msrpInvalid: 0,
-    errorCells: [],
-    totalValidProducts: 0,
-  },
 };
 
 export default (
@@ -105,9 +92,6 @@ export default (
 
     case TOGGLE_FIRST_ROW_HEADER:
       return setIn(state, 'isFirstRowHeader', !state.isFirstRowHeader);
-
-    case UPDATE_DATA_QUALITY_REPORT:
-      return setIn(state, 'dataQualityReport', action.payload);
 
     default:
       return state;
