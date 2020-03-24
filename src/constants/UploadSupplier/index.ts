@@ -11,7 +11,6 @@ export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
 export const SET_SAVE_COLUMN_MAPPING_SETTING = 'SET_SAVE_COLUMN_MAPPING_SETTING';
 export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
 export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
-export const UPDATE_DATA_QUALITY_REPORT = 'UPDATE_DATA_QUALITY_REPORT';
 
 export enum UploadSteps {
   AddNewSupplier,
@@ -84,5 +83,18 @@ export const accountStatus = [
     value: 'inactive',
     key: 'inactive',
     text: 'Inactive',
+  },
+];
+
+export const marketPlace = [
+  {
+    value: 'amazon.com',
+    key: 'amazon.com',
+    text: 'Amazon.com',
+  },
+  {
+    value: 'linkedin.com',
+    key: 'linkedin.com',
+    text: 'Linkedin.com',
   },
 ];

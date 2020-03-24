@@ -26,14 +26,12 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
-  UPDATE_DATA_QUALITY_REPORT,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
 import { fetchSupplier, fetchSynthesisProgressUpdates } from '../Suppliers';
-import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -271,9 +269,4 @@ export const finishUpload = () => ({
 
 export const toggleFirstRowHeader = () => ({
   type: TOGGLE_FIRST_ROW_HEADER,
-});
-
-export const updateDataQualityReport = (report: DataQualityReport) => ({
-  type: UPDATE_DATA_QUALITY_REPORT,
-  payload: report,
 });

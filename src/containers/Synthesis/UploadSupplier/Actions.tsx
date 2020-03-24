@@ -52,7 +52,7 @@ const Actions = ({
   };
 
   const hasPrevStep = currentStep !== 0;
-  const hasNextStep = currentStep !== 4;
+  const hasNextStep = currentStep !== 3;
 
   if (processCompleted) {
     return (
@@ -71,15 +71,12 @@ const Actions = ({
   }
 
   return (
-    <div className={`${className || ''} ${styles.actions} ${styles['supplier-btns']}`}>
+    <div
+      className={`new-supplier-cont ${className || ''} ${styles.actions} ${
+        styles['supplier-btns']
+      }`}
+    >
       <div className={styles['download-options']}>
-        {currentStep === 1 && (
-          <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
-            <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
-              <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
-            </Button>
-          </a>
-        )}
         {currentStep === 1 && columnMappings.length > 0 && (
           <Checkbox
             className={styles.checked}
@@ -99,14 +96,16 @@ const Actions = ({
         )}
       </div>
       <div className={`${styles['btns-wrap']} ${styles.upload}`}>
+        {currentStep === 1 && (
+          <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
+            <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
+              <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
+            </Button>
+          </a>
+        )}
         {hasPrevStep && (
           <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
             Previous
-          </Button>
-        )}
-        {currentStep === 1 && (
-          <Button onClick={closeModal} className={styles.action} basic={true} color="red">
-            Dismiss
           </Button>
         )}
         {hasNextStep && (
@@ -121,7 +120,7 @@ const Actions = ({
               switch (currentStep) {
                 case 0:
                   return 'Save & Proceed';
-                case 3:
+                case 2:
                   return 'Submit';
                 case 1:
                   return skipColumnMappingCheck ? 'Skip' : 'Next';

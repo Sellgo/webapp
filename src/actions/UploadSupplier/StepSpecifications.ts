@@ -4,7 +4,6 @@ import {
   csvSelector,
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
-  dataQualityReportSelector,
   csvFileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { ThunkDispatch } from 'redux-thunk';
@@ -19,17 +18,12 @@ import {
   fetchColumnMappings,
   toggleFirstRowHeader,
   setSavedColumnMappings,
-  updateDataQualityReport,
-  setCsv,
   parseCsv,
 } from '.';
 import isNil from 'lodash/isNil';
-import isEmpty from 'lodash/isEmpty';
-import cloneDeep from 'lodash/cloneDeep';
 import validator from 'validator';
 import get from 'lodash/get';
 import { openUploadSupplierModal } from '../Modals';
-import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
 export abstract class Step {
   constructor(public dispatch: ThunkDispatch<{}, {}, AnyAction>, public getState: () => any) {}
@@ -252,164 +246,8 @@ export class DataMappingStep extends Step {
     return requiredFieldsAreMapped ? undefined : `Please map ${unmappedFieldNames.join(', ')}`;
   }
 
-  preprocessCsvFile(rows: string[][], columnIndexMap: { [key: string]: number }) {
-    /**
-     * Preprocesses data rows to clean up things like currency formats.
-     */
-    const dataRows = cloneDeep(rows);
-
-    dataRows.map(row => {
-      [columnIndexMap.cost, columnIndexMap.msrp].forEach(colIdx => {
-        if (colIdx >= 0 && row[colIdx]) {
-          row[colIdx] = row[colIdx]
-            .replace(/ /g, '')
-            .replace(/\$/g, '')
-            .replace(/USD/gi, '');
-        }
-      });
-
-      return row;
-    });
-
-    return dataRows;
-  }
-
-  generateDataQualityReport(rows: string[][], columnIndexMap: { [key: string]: number }) {
-    /**
-     * Generates a report of all data quality issues in the data rows.
-     */
-    const dataQualityReport: DataQualityReport = {
-      upcMissing: 0,
-      upcNonNumeric: 0,
-      costMissing: 0,
-      costInvalid: 0,
-      msrpMissing: 0,
-      msrpInvalid: 0,
-      errorCells: [],
-      totalValidProducts: 0,
-    };
-
-    let totalErrorRows = 0;
-
-    rows.forEach((row, index) => {
-      let hasError = false;
-
-      const upcValue = row[columnIndexMap.upc];
-      if (isEmpty(upcValue)) {
-        dataQualityReport.upcMissing += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
-        hasError = true;
-      } else if (!validator.isNumeric(upcValue)) {
-        dataQualityReport.upcNonNumeric += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.upc, index]);
-        hasError = true;
-      }
-
-      const costValue = row[columnIndexMap.cost];
-      if (isEmpty(costValue)) {
-        dataQualityReport.costMissing += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
-        hasError = true;
-      } else if (!validator.isCurrency(costValue, { digits_after_decimal: [1, 2] })) {
-        dataQualityReport.costInvalid += 1;
-        dataQualityReport.errorCells.push([columnIndexMap.cost, index]);
-        hasError = true;
-      }
-
-      const msrpValue = row[columnIndexMap.msrp];
-      // msrp is optional, only check if it is mapped
-      if (msrpValue) {
-        if (isEmpty(msrpValue)) {
-          dataQualityReport.msrpMissing += 1;
-          dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
-          hasError = true;
-        } else if (!validator.isCurrency(msrpValue, { digits_after_decimal: [1, 2] })) {
-          dataQualityReport.msrpInvalid += 1;
-          dataQualityReport.errorCells.push([columnIndexMap.msrp, index]);
-          hasError = true;
-        }
-      }
-
-      if (hasError) {
-        totalErrorRows += 1;
-      }
-    });
-
-    dataQualityReport.totalValidProducts = rows.length - totalErrorRows;
-
-    return dataQualityReport;
-  }
-
   validateFields() {
-    const reversedColumnMappings = reversedColumnMappingsSelector(this.getState());
-    const hasHeaders = isFirstRowHeaderSelector(this.getState());
-    const csv = csvSelector(this.getState());
-
-    const rows = hasHeaders ? csv.slice(1) : csv; // ignore first row if it is header
-
-    // Preprocess CSV file and update state
-    const updatedRows = this.preprocessCsvFile(rows, reversedColumnMappings);
-
-    // Calculate data quality issues
-    const dataQualityReport = this.generateDataQualityReport(updatedRows, reversedColumnMappings);
-
-    if (hasHeaders) {
-      updatedRows.unshift(csv[0]); // append header back
-      dataQualityReport.errorCells = dataQualityReport.errorCells.map(cell => [
-        cell[0],
-        cell[1] + 1,
-      ]);
-    }
-
-    this.dispatch(setCsv(updatedRows));
-    this.dispatch(updateDataQualityReport(dataQualityReport));
-
-    return undefined;
-  }
-
-  validate() {
-    return this.allFieldsMapped() || this.validateFields();
-  }
-
-  cleanStep() {
-    this.dispatch(parseCsv());
-  }
-}
-
-export class DataValidationStep extends Step {
-  step = UploadSteps.DataValidation;
-
-  cleanDataRows(rows: string[][], rowsToRemove: number[]) {
-    /**
-     * Removes data rows with issues.
-     */
-    let dataRows = cloneDeep(rows);
-
-    // drop rows
-    dataRows = dataRows.filter((_, index) => !rowsToRemove.includes(index));
-
-    return dataRows;
-  }
-
-  validateFields() {
-    const hasHeaders = isFirstRowHeaderSelector(this.getState());
-    const csv = csvSelector(this.getState());
-    const dataQualityReport = dataQualityReportSelector(this.getState());
-
-    const rows = hasHeaders ? csv.slice(1) : csv; // ignore first row if it is header
-
-    // clean data rows
-    const errorRows = Array.from(
-      dataQualityReport.errorCells.map(cell => (hasHeaders ? cell[1] - 1 : cell[1]))
-    );
-    const updatedRows = this.cleanDataRows(rows, errorRows);
-
-    if (hasHeaders) {
-      updatedRows.unshift(csv[0]);
-    }
-    this.dispatch(setCsv(updatedRows));
-
-    return undefined;
+    return this.allFieldsMapped();
   }
 
   validate() {
@@ -417,7 +255,7 @@ export class DataValidationStep extends Step {
   }
 
   cleanStep() {
-    // do nothing
+    this.dispatch(parseCsv());
   }
 }
 
@@ -443,9 +281,6 @@ export function getStepSpecification(stepNumber: number) {
 
     case UploadSteps.DataMapping:
       return DataMappingStep;
-
-    case UploadSteps.DataValidation:
-      return DataValidationStep;
 
     case UploadSteps.Submit:
       return SubmitStep;

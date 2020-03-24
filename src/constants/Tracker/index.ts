@@ -121,14 +121,18 @@ export const columnFilter = [
     dataKey: 'avg_rank',
     visible: true,
   },
-  // {
-  //   value: false,
-  //   key: 'Reviews',
-  // },
-  // {
-  //   value: false,
-  //   key: 'Rating',
-  // },
+  {
+    value: true,
+    key: 'Reviews',
+    dataKey: 'customer_reviews',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Rating',
+    dataKey: 'rating',
+    visible: true,
+  },
   {
     value: true,
     key: 'Dimensions',
