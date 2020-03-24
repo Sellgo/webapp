@@ -14,6 +14,8 @@ import {
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   findFilterProducts,
   SUPPLIER_QUOTA,
+  FILTER_SUPPLIER_PRODUCTS,
+  findFilterProducts2,
 } from '../../constants/Suppliers';
 
 const initialState = {
@@ -81,6 +83,14 @@ export default (state = initialState, action: AnyAction) => {
       const filteredProducts = findFilterProducts(state.products, filterRanges);
       return setIn(newState, 'filteredProducts', filteredProducts);
     }
+
+    case FILTER_SUPPLIER_PRODUCTS: {
+      const filterData = action.payload;
+      // Also update filteredProducts in state each time filterRanges changes
+      const filteredProducts = findFilterProducts2(state.products, filterData);
+      return setIn(state, 'filteredProducts', filteredProducts);
+    }
+
     case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT:
       return setIn(state, 'singlePageItemsCount', action.payload);
     case SUPPLIER_QUOTA:

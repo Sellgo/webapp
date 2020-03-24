@@ -10,6 +10,7 @@ import { Product } from '../../interfaces/Product';
 import { supplierProductsSelector } from '../../selectors/Supplier';
 import { Range } from '../../interfaces/Generic';
 import { findMinMaxRange2 } from '../../constants/Suppliers';
+import { filterSupplierProducts } from '../../actions/Suppliers';
 
 interface FilterObject {
   label: string;
@@ -25,12 +26,13 @@ interface Props {
   products: Product[];
   filteredProducts: Product[];
   productRanges: any;
+  filterProducts: (filterData: any) => void;
 }
 
 function FilterSection2(props: Props, state: State) {
   const [filterType, setFilterType] = useState('');
 
-  const { filteredProducts, productRanges, supplierDetails } = props;
+  const { filteredProducts, productRanges, supplierDetails, filterProducts } = props;
 
   const filteredRanges = findMinMaxRange2(filteredProducts);
   state = {
@@ -219,7 +221,7 @@ function FilterSection2(props: Props, state: State) {
     setFilterState(filterValue);
   };
 
-  const toggleCheckboxFilter = (filterDataKey: string) => {
+  const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
 
     const allFilter = _.map(filterData.allFilter, filter => {
@@ -233,12 +235,13 @@ function FilterSection2(props: Props, state: State) {
     });
     setAllFilter(allFilter);
 
-    if (data.allFilter.indexOf(filterDataKey) !== -1) {
-      data.allFilter.splice(data.allFilter.indexOf(filterDataKey), 1);
+    if (data.allFilter.indexOf(label) !== -1) {
+      data.allFilter.splice(data.allFilter.indexOf(label), 1);
     } else {
-      data.allFilter.push(filterDataKey);
+      data.allFilter.push(label);
     }
     setFilterState(data);
+    console.log('data:', data);
   };
 
   const handleCompleteChange = (datakey: string, range: Range) => {
@@ -281,6 +284,7 @@ function FilterSection2(props: Props, state: State) {
 
   const applyFilter = () => {
     console.log('filterState: ', filterState);
+    filterProducts(filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
   };
 
@@ -364,4 +368,8 @@ const mapStateToProps = (state: {}) => ({
   filteredProducts: get(state, 'supplier.filteredProducts'),
 });
 
-export default connect(mapStateToProps)(FilterSection2);
+const mapDispatchToProps = {
+  filterProducts: (filterData: any) => filterSupplierProducts(filterData),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterSection2);

@@ -10,7 +10,7 @@ import { Range } from '../../interfaces/Generic';
 interface Props {
   filterType: string;
   setRadioFilter: (filterType: string, value: string) => void;
-  toggleCheckboxFilter: (filterDataKey: string) => void;
+  toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   applyFilter: () => void;
   resetFilter: () => void;
   resetSingleFilter: (datakey: string) => void;
@@ -61,11 +61,9 @@ function FilterContainer(props: Props) {
                             label={filterData.label}
                             key={dataKey}
                             onClick={() => {
-                              toggleCheckboxFilter(filterData.dataKey);
+                              toggleCheckboxFilter(filterData.dataKey, filterData.label);
                             }}
-                            checked={
-                              initialFilterState.allFilter.indexOf(filterData.dataKey) !== -1
-                            }
+                            checked={initialFilterState.allFilter.indexOf(filterData.label) !== -1}
                           />
                         );
                       }

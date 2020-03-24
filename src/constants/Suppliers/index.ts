@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const SET_SUPPLIERS = 'SET_SUPPLIERS';
 export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
 export const SET_TIME_EFFICIENCY = '/SYN/GET_TIME_EFFICIENCY';
@@ -18,6 +20,7 @@ export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
 export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT';
 export const SUPPLIER_QUOTA = 'SUPPLIER_QUOTA';
+export const FILTER_SUPPLIER_PRODUCTS = 'FILTER_SUPPLIER_PRODUCTS';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -173,14 +176,22 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
-export const findFilterProducts2 = (products: any, filterRanges: any) => {
-  const filterRange = (product: any) =>
-    dataKeys2.every(
-      (dataKey: any) =>
-        Number(product[dataKey]) >= Number(filterRanges[dataKey].min) &&
-        Number(product[dataKey]) <= Number(filterRanges[dataKey].max)
+export const findFilterProducts2 = (products: any, filterData: any) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return (
+      filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
+      dataKeys2.every(
+        (dataKey: any) =>
+          Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+          Number(product[dataKey]) <= Number(filterData[dataKey].max)
+      )
     );
-  const updatedFilterProducts = products.filter(filterRange);
+  });
+
+  // const updatedFilterProducts = products.filter(filterRange);
+  console.log('updatedFilterProducts: ', updatedFilterProducts);
+  console.log('products: ', products);
+  console.log('filterData: ', filterData);
   return updatedFilterProducts;
 };
 
