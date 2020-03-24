@@ -177,21 +177,24 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 };
 
 export const findFilterProducts2 = (products: any, filterData: any) => {
+  console.log('filterData: ', filterData);
   const updatedFilterProducts = _.filter(products, product => {
-    return (
-      filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
-      dataKeys2.every(
-        (dataKey: any) =>
-          Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-          Number(product[dataKey]) <= Number(filterData[dataKey].max)
-      )
-    );
+    return !_.isEmpty(filterData.allFilter)
+      ? filterData.allFilter.indexOf(product.amazon_category_name) !== -1 &&
+          dataKeys2.every(
+            (dataKey: any) =>
+              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max)
+          )
+      : dataKeys2.every(
+          (dataKey: any) =>
+            Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+            Number(product[dataKey]) <= Number(filterData[dataKey].max)
+        );
   });
 
-  // const updatedFilterProducts = products.filter(filterRange);
   console.log('updatedFilterProducts: ', updatedFilterProducts);
   console.log('products: ', products);
-  console.log('filterData: ', filterData);
   return updatedFilterProducts;
 };
 

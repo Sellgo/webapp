@@ -17,6 +17,8 @@
       .filter-list {
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
+        height: 120px;
 
         .ui {
           &.radio {
@@ -31,9 +33,20 @@
           &.checkbox {
             margin: 5px 0;
 
+            input:checked ~ .box::before,
+            input:checked ~ label::before {
+              background-color: #349af8;
+              border: 1px solid #d4d4d5;
+            }
+
             input:checked ~ .box::after,
             input:checked ~ label::after {
-              color: #349af8;
+              color: #fff;
+            }
+
+            label {
+              color: #3b4557;
+              font-size: 14px;
             }
           }
         }

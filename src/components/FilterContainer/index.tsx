@@ -9,7 +9,6 @@ import { Range } from '../../interfaces/Generic';
 
 interface Props {
   filterType: string;
-  setRadioFilter: (filterType: string, value: string) => void;
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   applyFilter: () => void;
   resetFilter: () => void;
@@ -23,7 +22,6 @@ function FilterContainer(props: Props) {
   const {
     filterType,
     applyFilter,
-    setRadioFilter,
     toggleCheckboxFilter,
     resetFilter,
     filterData,
@@ -43,30 +41,16 @@ function FilterContainer(props: Props) {
                   <span className="filter-name">{filter.label}</span>
                   <div className="filter-list">
                     {_.map(filter.data, (filterData, dataKey) => {
-                      if (filter.radio === true) {
-                        return (
-                          <Radio
-                            key={dataKey}
-                            className={filterData.dataKey}
-                            label={filterData.label}
-                            value={filterData.dataKey}
-                            filter={filter.dataKey}
-                            checked={initialFilterState.productSize === filterData.dataKey}
-                            onClick={() => setRadioFilter(filter.dataKey, filterData.dataKey)}
-                          />
-                        );
-                      } else {
-                        return (
-                          <Checkbox
-                            label={filterData.label}
-                            key={dataKey}
-                            onClick={() => {
-                              toggleCheckboxFilter(filterData.dataKey, filterData.label);
-                            }}
-                            checked={initialFilterState.allFilter.indexOf(filterData.label) !== -1}
-                          />
-                        );
-                      }
+                      return (
+                        <Checkbox
+                          label={filterData.label}
+                          key={dataKey}
+                          onClick={() => {
+                            toggleCheckboxFilter(filterData.dataKey, filterData.label);
+                          }}
+                          checked={initialFilterState.allFilter.indexOf(filterData.label) !== -1}
+                        />
+                      );
                     })}
                   </div>
                 </div>

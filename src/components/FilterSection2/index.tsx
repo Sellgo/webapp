@@ -70,40 +70,18 @@ function FilterSection2(props: Props, state: State) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
+  useEffect(() => {
+    filterProducts(filterState);
+  }, [filterState]);
+
+  // filterProducts(filterState);
   const filterDataState: SupplierFilter = {
     allFilter: [
-      {
-        label: 'Sellers',
-        dataKey: 'seller',
-        radio: false,
-        data: [
-          {
-            label: 'Amazon',
-            dataKey: 'amazon',
-            checked: false,
-          },
-          {
-            label: 'FBA',
-            dataKey: 'fba',
-            checked: false,
-          },
-          {
-            label: 'FBM',
-            dataKey: 'fbm',
-            checked: false,
-          },
-        ],
-      },
       {
         label: 'Product Category',
         dataKey: 'product-category',
         radio: false,
         data: [
-          {
-            label: 'All',
-            dataKey: 'all-products',
-            checked: false,
-          },
           {
             label: 'Appliances',
             dataKey: 'appliances',
@@ -115,8 +93,18 @@ function FilterSection2(props: Props, state: State) {
             checked: false,
           },
           {
+            label: 'Automotive',
+            dataKey: 'automotive',
+            checked: false,
+          },
+          {
             label: 'Baby',
             dataKey: 'baby',
+            checked: false,
+          },
+          {
+            label: 'Beauty & Personal Care',
+            dataKey: 'beauty-persona-care',
             checked: false,
           },
           {
@@ -124,37 +112,85 @@ function FilterSection2(props: Props, state: State) {
             dataKey: 'books',
             checked: false,
           },
-        ],
-      },
-      {
-        label: 'Product Size Tiers',
-        dataKey: 'product-size-tiers',
-        checkedValue: 'small-standard-size',
-        radio: true,
-        data: [
           {
-            label: 'All size',
-            dataKey: 'all-size',
+            label: 'Cell Phones & Accessories',
+            dataKey: 'cellphones-accessories',
+            checked: false,
           },
           {
-            label: 'Small stadard-size',
-            dataKey: 'small-standard-size',
+            label: 'Clothing, Shoes & Jewelry',
+            dataKey: 'clothing-shoes-jewelry',
+            checked: false,
           },
           {
-            label: 'Large stadard-size',
-            dataKey: 'large-standard-size',
+            label: 'Computers & Accessories',
+            dataKey: 'computers-accessories',
+            checked: false,
           },
           {
-            label: 'Small oversize',
-            dataKey: 'small-oversize',
+            label: 'Grocery & Gourmet Food',
+            dataKey: 'grocery-gourmet-food',
+            checked: false,
           },
           {
-            label: 'Medium oversize',
-            dataKey: 'medium-oversize',
+            label: 'Health & Household',
+            dataKey: 'health-household',
+            checked: false,
           },
           {
-            label: 'Over oversize',
-            dataKey: 'over-oversize',
+            label: 'Home & Kitchen',
+            dataKey: 'home-kitchen',
+            checked: false,
+          },
+          {
+            label: 'Industrial & Scientific',
+            dataKey: 'industrial-scientific',
+            checked: false,
+          },
+          {
+            label: 'Kitchen & Dining',
+            dataKey: 'kithcen-dining',
+            checked: false,
+          },
+          {
+            label: 'Movies & TV',
+            dataKey: 'movies-tv',
+            checked: false,
+          },
+          {
+            label: 'Musical Instruments',
+            dataKey: 'musical=-instruments',
+            checked: false,
+          },
+          {
+            label: 'Office Products',
+            dataKey: 'office-products',
+            checked: false,
+          },
+          {
+            label: 'Patio, Lawn & Garden',
+            dataKey: 'patio-lawn-garden',
+            checked: false,
+          },
+          {
+            label: 'Pet Supplies',
+            dataKey: 'pet-supplies',
+            checked: false,
+          },
+          {
+            label: 'Sports & Outdoors',
+            dataKey: 'sports-outdoors',
+            checked: false,
+          },
+          {
+            label: 'Tools & Home Improvement',
+            dataKey: 'tools-home-improvement',
+            checked: false,
+          },
+          {
+            label: 'Toys & Games',
+            dataKey: 'toys-games',
+            checked: false,
           },
         ],
       },
@@ -207,20 +243,6 @@ function FilterSection2(props: Props, state: State) {
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
 
-  const setRadioFilter = (filterType: string, value: string) => {
-    const data = _.map(allFilter, filter => {
-      if (filter.dataKey === filterType) {
-        filter.checkedValue = value;
-      }
-      return filter;
-    });
-    const filterValue = filterState;
-    filterState.productSize = value;
-
-    setAllFilter(data);
-    setFilterState(filterValue);
-  };
-
   const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
 
@@ -241,7 +263,6 @@ function FilterSection2(props: Props, state: State) {
       data.allFilter.push(label);
     }
     setFilterState(data);
-    console.log('data:', data);
   };
 
   const handleCompleteChange = (datakey: string, range: Range) => {
@@ -252,24 +273,12 @@ function FilterSection2(props: Props, state: State) {
       return filter;
     });
     const filterData = filterState;
-    if (datakey == 'price') {
-      filterData.price = range;
-    } else if (datakey == 'profit') {
-      filterData.profit = range;
-    } else if (datakey == 'roi') {
-      filterData.roi = range;
-    } else if (datakey == 'sales_monthly') {
-      filterData.sales_monthly = range;
-    } else if (datakey == 'rank') {
-      filterData.rank = range;
-    }
+    filterData[datakey] = range;
     setFilterState(filterData);
     setFilterRanges(data);
   };
 
   const resetSingleFilter = (datakey: string) => {
-    console.log('datakey: ', datakey);
-    console.log('filteredRanges: ', filteredRanges[datakey]);
     const filterData = filterState;
     const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
@@ -350,7 +359,6 @@ function FilterSection2(props: Props, state: State) {
           filterType={filterType}
           applyFilter={applyFilter}
           resetSingleFilter={resetSingleFilter}
-          setRadioFilter={setRadioFilter}
           toggleCheckboxFilter={toggleCheckboxFilter}
           resetFilter={resetFilter}
           filterData={filterData}
