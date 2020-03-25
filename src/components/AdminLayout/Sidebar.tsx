@@ -104,7 +104,7 @@ export default class SidebarCollapsible extends Component<
 
     return (
       <Grid className="sidebar-container">
-        <Sidebar.Pushable as={Segment}>
+        <Sidebar.Pushable className="bar--pushable" as={Segment}>
           <Sidebar
             as={Menu}
             animation="uncover"
@@ -121,7 +121,7 @@ export default class SidebarCollapsible extends Component<
 
           <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
-          <Sidebar.Pusher className={`container ${visible ? '' : 'pusher-scroll-x'}`}>
+          <Sidebar.Pusher className={`container bar--pusher ${visible ? '' : 'pusher-scroll-x'}`}>
             <Sidebar.Pusher>{children}</Sidebar.Pusher>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
