@@ -107,7 +107,11 @@ function FilterContainer(props: Props) {
       {filterType === 'profit-roi-filter' && (
         <>
           {_.map(filterData.filterRanges, filter => {
-            if (filter.dataKey == 'profit' || filter.dataKey == 'roi') {
+            if (
+              filter.dataKey == 'profit' ||
+              filter.dataKey == 'roi' ||
+              filter.dataKey == 'margin'
+            ) {
               return (
                 <div className="range-container" key={filter.dataKey}>
                   <h3>{filter.label}</h3>

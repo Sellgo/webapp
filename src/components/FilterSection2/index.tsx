@@ -57,6 +57,7 @@ function FilterSection2(props: Props, state: State) {
     productSize: '',
     price: filteredRanges.price,
     profit: filteredRanges.profit,
+    margin: filteredRanges.margin,
     roi: filteredRanges.roi,
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
@@ -211,6 +212,14 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: '$ Max',
         range: productRanges.profit,
         filterRange: filterState.profit,
+      },
+      {
+        label: 'Margin %',
+        dataKey: 'margin',
+        minPlaceholder: 'Min %',
+        maxPlaceholder: 'Max %',
+        range: productRanges.margin,
+        filterRange: filterState.margin,
       },
       {
         label: 'ROI/ Return On Investment',

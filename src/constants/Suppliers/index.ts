@@ -34,7 +34,7 @@ export const dataKeys: any = [
   // 'roi_inventory',
 ];
 
-export const dataKeys2: any = ['price', 'profit', 'roi', 'sales_monthly', 'rank'];
+export const dataKeys2: any = ['price', 'profit', 'roi', 'sales_monthly', 'margin', 'rank'];
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI

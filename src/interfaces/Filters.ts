@@ -44,6 +44,10 @@ export interface FilterState {
     min: number;
     max: number;
   };
+  margin: {
+    min: number;
+    max: number;
+  };
   roi: {
     min: number;
     max: number;
