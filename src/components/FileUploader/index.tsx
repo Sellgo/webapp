@@ -5,15 +5,17 @@ import styles from './FileUploader.module.css';
 
 interface FileUploaderProps {
   onDrop: (acceptedFiles: File[]) => void;
+  onDropRejected: (rejectedFiles: File[]) => void;
   accept: string[];
   fileName: any;
 }
 function FileUploader(props: FileUploaderProps) {
-  const { accept, onDrop, fileName } = props;
+  const { accept, onDrop, onDropRejected, fileName } = props;
   const multiple = false;
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    onDropRejected,
     accept,
     multiple,
   });
