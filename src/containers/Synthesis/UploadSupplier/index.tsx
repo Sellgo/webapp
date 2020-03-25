@@ -10,7 +10,6 @@ import { currentStepSelector } from '../../../selectors/UploadSupplier';
 import Submit from './Submit';
 import FormWrapper from './FormWrapper';
 import { cleanupUploadSupplier } from '../../../actions/UploadSupplier';
-import DataValidation from './DataValidation';
 
 interface Props {
   currentStep: number;
@@ -40,9 +39,7 @@ export const UploadSupplier = (props: Props) => {
 
           {currentStep === 2 && <DataMapping />}
 
-          {currentStep === 3 && <DataValidation />}
-
-          {currentStep === 4 && (
+          {currentStep === 3 && (
             <Submit
               onFinished={() => {
                 setFinished(true);

@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import numberToLetter from '../../utils/numberToLetter';
-import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
 export const currentStepSelector = (state: object): number =>
   get(state, 'uploadSupplier.currentStep', 0);
@@ -52,6 +51,3 @@ export const processCompletedSelector = (state: object): boolean =>
 
 export const isFirstRowHeaderSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.isFirstRowHeader', false);
-
-export const dataQualityReportSelector = (state: object): DataQualityReport =>
-  get(state, 'uploadSupplier.dataQualityReport', {});

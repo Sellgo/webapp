@@ -26,14 +26,12 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
-  UPDATE_DATA_QUALITY_REPORT,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
 import { fetchSupplier, fetchSynthesisProgressUpdates } from '../Suppliers';
-import { DataQualityReport } from '../../interfaces/UploadSupplier';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -154,6 +152,15 @@ export const prepareCsv = (csvFile?: File) => async (
   reader.readAsText(csvFile);
 };
 
+export const handleRejectedFile = (rejectedFile?: File) => {
+  const fileExtension =
+    rejectedFile && rejectedFile.name.split('.').length > 1 && rejectedFile.name.split('.').pop();
+  if (!fileExtension || fileExtension.toLowerCase() !== 'csv') {
+    error('Invalid file extension detected. File should be a csv file.');
+    return;
+  }
+};
+
 export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
   const fileName = csvFileDetails && csvFileDetails.name ? csvFileDetails.name : '';
 
@@ -271,9 +278,4 @@ export const finishUpload = () => ({
 
 export const toggleFirstRowHeader = () => ({
   type: TOGGLE_FIRST_ROW_HEADER,
-});
-
-export const updateDataQualityReport = (report: DataQualityReport) => ({
-  type: UPDATE_DATA_QUALITY_REPORT,
-  payload: report,
 });
