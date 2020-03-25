@@ -50,7 +50,7 @@ const ColumnMappings = ({
                 <label className={styles.block}>{label}</label>
                 <Select
                   className={styles['dropdwn-wdth']}
-                  style={{ minWidth: '10em' }}
+                  style={{ minWidth: '80.74px' }}
                   onChange={(event, data) => mapColumn(data.value as number, key)}
                   value={isNil(reversedColumnMappings[key]) ? -1 : reversedColumnMappings[key]}
                   name={key}

@@ -56,7 +56,7 @@ const Actions = ({
 
   if (processCompleted) {
     return (
-      <div className={`${className || ''} ${styles.actions}`}>
+      <div className={`${className || ''} ${styles.actions} submit-actions`}>
         <Button
           onClick={closeModal}
           className={styles.action}
@@ -99,7 +99,7 @@ const Actions = ({
         {currentStep === 1 && (
           <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
-              <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
+              <i className="fas fa-file-download" /> Download Template
             </Button>
           </a>
         )}
