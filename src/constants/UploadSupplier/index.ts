@@ -16,7 +16,6 @@ export enum UploadSteps {
   AddNewSupplier,
   SelectFile,
   DataMapping,
-  DataValidation,
   Submit,
 }
 
