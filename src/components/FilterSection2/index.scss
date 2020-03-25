@@ -13,6 +13,7 @@
       padding: 7px 10px;
       margin: 5px;
       position: relative;
+      height: 32px;
 
       .filter-name {
         margin-left: -20px;
@@ -77,6 +78,7 @@
 
       &.active {
         background: #349af833 !important;
+        border-color: #98aeca;
 
         .filter-name {
           color: #349af8;

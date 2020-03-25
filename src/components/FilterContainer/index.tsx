@@ -19,6 +19,7 @@ interface Props {
 }
 
 function FilterContainer(props: Props) {
+  const [seeAll, setSeeAll] = React.useState(false);
   const {
     filterType,
     applyFilter,
@@ -41,6 +42,7 @@ function FilterContainer(props: Props) {
                   <span className="filter-name">{filter.label}</span>
                   <div className="filter-list">
                     {_.map(filter.data, (filterData, dataKey) => {
+                      if (!seeAll && dataKey > 3) return null;
                       return (
                         <Checkbox
                           label={filterData.label}
@@ -53,6 +55,9 @@ function FilterContainer(props: Props) {
                       );
                     })}
                   </div>
+                  <span className="toggle-see-all" onClick={() => setSeeAll(!seeAll)}>
+                    {seeAll ? 'Show less' : 'See all'}
+                  </span>
                 </div>
               );
             })}

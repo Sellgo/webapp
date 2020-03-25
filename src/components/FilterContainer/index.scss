@@ -1,7 +1,7 @@
 .filter-container {
   display: flex;
   justify-content: space-between;
-  margin: 30px 0;
+  margin: 10px 0;
 
   .all-filter-content-wrapper {
     display: flex;
@@ -12,6 +12,9 @@
     .all-filter-content {
       .filter-name {
         font-weight: 600;
+        color: #3b4557;
+        font-size: 16px;
+        margin-bottom: 15px;
       }
 
       .filter-list {
@@ -54,6 +57,12 @@
         .filter-child-list {
           margin-left: 30px;
         }
+      }
+
+      .toggle-see-all {
+        font-size: 14px;
+        color: #349af8;
+        cursor: pointer;
       }
     }
   }
