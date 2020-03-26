@@ -447,3 +447,103 @@ div.new-supplier-cont > div:nth-child(1) {
 div.new-supplier-cont > div:nth-child(2) {
   margin-top: 20px;
 }
+
+@media screen and (max-width: 768px) {
+  .new-supplier-modal {
+    min-width: 90% !important;
+    max-width: 90% !important;
+    min-height: max-content !important;
+  }
+
+  .new-supplier-modal .new-upload-outline form .ui.equal {
+    flex-direction: column;
+  }
+
+  .new-supplier-modal .upload-section,
+  .new-supplier-modal .new-supplier-cont,
+  .new-supplier-modal .content .form,
+  .new-supplier-modal .upload-section .mapping-container {
+    width: 100% !important;
+  }
+
+  .new-supplier-modal .content {
+    height: 100% !important;
+  }
+
+  .new-supplier-modal .content .form .column {
+    width: 80% !important;
+    margin: auto auto 6.9px auto;
+  }
+
+  .new-supplier-modal .ui.form .column:nth-child(1) {
+    max-width: 80% !important;
+    min-width: 80% !important;
+  }
+
+  .new-supplier-modal input,
+  .new-supplier-modal .ui.selection.dropdown {
+    min-width: 100% !important;
+  }
+
+  .new-supplier-modal .content .new-supp-container .rc-steps {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .new-supplier-modal div.new-supplier-cont > div:nth-child(2) {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .new-supplier-modal button.file-uploader .description-container {
+    line-height: normal;
+  }
+
+  .new-supplier-modal button.file-uploader .description-container b:last-child {
+    font-size: 10px;
+  }
+
+  .new-supplier-modal .upload-section .mapping-container .row.stackable.undefined .field {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .new-supplier-modal .upload-section .mapping-container .row.stackable.undefined {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+
+  .new-supplier-modal .upload-section .mapping-container .row:last-child .sixteen.wide.column {
+    overflow-x: scroll;
+  }
+
+  .new-supplier-modal .submit-container {
+    font-size: 16px;
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) > .column > h3 {
+    left: auto;
+    right: 0;
+    height: 66px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .new-supplier-modal .new-supplier-cont {
+    margin-top: 32px;
+    min-height: 100px !important;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .new-supplier-modal .content .new-supp-container .rc-steps {
+    overflow-x: scroll;
+  }
+}
