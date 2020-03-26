@@ -139,7 +139,7 @@
   }
 }
 
-#logout.active.LogoutConfirm {
+.active.LogoutConfirm {
   box-shadow: none !important;
   padding: 21px;
   height: 200px;
@@ -219,7 +219,7 @@
 }
 
 @media only screen and (min-width: 2560px) {
-  #logout.active.LogoutConfirm {
+  .active.LogoutConfirm {
     $confirmation_wide_screen: 1.5;
 
     height: max-content;
@@ -252,7 +252,7 @@
 }
 
 @media only screen and (max-width: 425px) {
-  #logout.active.LogoutConfirm {
+  .active.LogoutConfirm {
     width: 80% !important;
 
     .ui.clearing.divider {
