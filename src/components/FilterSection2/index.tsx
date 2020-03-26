@@ -35,22 +35,6 @@ function FilterSection2(props: Props, state: State) {
   const { filteredProducts, productRanges, supplierDetails, filterProducts } = props;
 
   const filteredRanges = findMinMaxRange2(filteredProducts);
-  state = {
-    filterTitle: [
-      {
-        label: 'Price',
-        dataKey: 'price-filter',
-      },
-      {
-        label: 'Profit/ ROI',
-        dataKey: 'profit-roi-filter',
-      },
-      {
-        label: 'Ranks/ Unit Sold',
-        dataKey: 'ranks-units-sold-filter',
-      },
-    ],
-  };
   const filterInitialData = {
     supplier_id: supplierDetails.supplier_id,
     allFilter: [],
@@ -195,6 +179,38 @@ function FilterSection2(props: Props, state: State) {
           },
         ],
       },
+      {
+        label: 'Product Size Tiers',
+        dataKey: 'product-size-tiers',
+        checkedValue: 'small-standard-size',
+        radio: true,
+        data: [
+          {
+            label: 'All size',
+            dataKey: 'all-size',
+          },
+          {
+            label: 'Small stadard-size',
+            dataKey: 'small-standard-size',
+          },
+          {
+            label: 'Large stadard-size',
+            dataKey: 'large-standard-size',
+          },
+          {
+            label: 'Small oversize',
+            dataKey: 'small-oversize',
+          },
+          {
+            label: 'Medium oversize',
+            dataKey: 'medium-oversize',
+          },
+          {
+            label: 'Over oversize',
+            dataKey: 'over-oversize',
+          },
+        ],
+      },
     ],
     filterRanges: [
       {
@@ -252,6 +268,19 @@ function FilterSection2(props: Props, state: State) {
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
 
+  const setRadioFilter = (filterType: string, value: string) => {
+    const data = _.map(allFilter, filter => {
+      if (filter.dataKey === filterType) {
+        filter.checkedValue = value;
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.productSize = value;
+
+    setAllFilter(data);
+    setFilterState(filterValue);
+  };
   const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
 
@@ -343,24 +372,6 @@ function FilterSection2(props: Props, state: State) {
           <span className="filter-name">All</span>
           <Icon className="slider" name="sliders horizontal" />
         </Button>
-        {_.map(state.filterTitle, filter => {
-          return (
-            <Button
-              basic
-              icon
-              labelPosition="left"
-              className={filterType == filter.dataKey ? `active ${filter.dataKey}` : filter.dataKey}
-              key={filter.dataKey}
-              onClick={() => setFilterType(filter.dataKey)}
-            >
-              <span className="filter-name">{filter.label}</span>
-              <span className="filter-arrow-down">
-                <Icon color="black" name="caret down" />
-              </span>
-              <Icon className="filter-left-icon" name="ellipsis vertical" />
-            </Button>
-          );
-        })}
       </div>
       <div className="filter-wrapper">
         <hr />
@@ -373,6 +384,7 @@ function FilterSection2(props: Props, state: State) {
           filterData={filterData}
           handleCompleteChange={handleCompleteChange}
           initialFilterState={filterState}
+          setRadioFilter={setRadioFilter}
         />
       </div>
     </div>

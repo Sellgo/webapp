@@ -5,11 +5,19 @@
 
   .all-filter-content-wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
-    width: 80%;
+    width: 30%;
 
     .all-filter-content {
+      &.product-category {
+        width: 50%;
+      }
+
+      &.product-size-tiers {
+        width: 40%;
+      }
+
       .filter-name {
         font-weight: 600;
         color: #3b4557;
@@ -21,7 +29,11 @@
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        height: 120px;
+        height: 355px;
+
+        &.see-all {
+          height: 120px !important;
+        }
 
         .ui {
           &.radio {
@@ -65,10 +77,37 @@
         cursor: pointer;
       }
     }
+
+    &.see-all {
+      width: 40%;
+
+      .all-filter-content {
+        &.product-category {
+          width: 100%;
+        }
+
+        &.product-size-tiers {
+          width: 30%;
+        }
+      }
+    }
+  }
+
+  .slider-filters {
+    display: flex;
+    width: 55%;
+    flex-direction: column;
+
+    .slider-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
   }
 
   .range-container {
     width: 250px;
+    margin-bottom: 50px;
 
     h3 {
       margin: 0;
@@ -149,13 +188,12 @@
 
   .button-wrapper {
     display: flex;
+    justify-content: flex-end;
     align-items: flex-end;
-    width: 10%;
     height: 100%;
     margin: auto 0 0 0;
 
     button {
-      width: 10%;
       height: 100%;
       display: flex;
       margin: auto 0 0 0;
