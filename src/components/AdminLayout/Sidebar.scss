@@ -21,7 +21,7 @@
     padding-right: 0;
     background-color: #3b4557 !important;
     border-radius: 0 !important;
-    width: 256px !important;
+    width: 246px !important;
     visibility: visible;
 
     .sidebar-bottom-icon {
@@ -81,8 +81,8 @@
 }
 
 .ui.left.sidebar ~ .Sidebar__pusher.pusher {
-  -webkit-transform: translate3d(256px, 0, 0);
-  transform: translate3d(256px, 0, 0);
+  -webkit-transform: translate3d(246px, 0, 0);
+  transform: translate3d(246px, 0, 0);
 }
 
 .ui.visible.left.sidebar ~ .Sidebar__pusher.pusher {
