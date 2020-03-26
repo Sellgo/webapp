@@ -2,12 +2,12 @@
   z-index: 2;
   padding-right: 0 !important;
 
-  .bar--pusher.pusher.pusher-scroll-x {
+  .Sidebar__pusher.pusher.pusher-scroll-x {
     width: 85.9vw;
     overflow-x: scroll;
   }
 
-  .bar--pusher.pusher.container {
+  .Sidebar__pusher.pusher.container {
     overflow-y: scroll;
     background: #f8faff;
   }
@@ -80,12 +80,12 @@
   }
 }
 
-.ui.left.sidebar ~ .bar--pusher.pusher {
+.ui.left.sidebar ~ .Sidebar__pusher.pusher {
   -webkit-transform: translate3d(256px, 0, 0);
   transform: translate3d(256px, 0, 0);
 }
 
-.ui.visible.left.sidebar ~ .bar--pusher.pusher {
+.ui.visible.left.sidebar ~ .Sidebar__pusher.pusher {
   -webkit-transform: translate3d(75px, 0, 0);
   transform: translate3d(75px, 0, 0);
 }
@@ -95,31 +95,31 @@
 }
 
 @media only screen and (max-width: 1440px) {
-  .sidebar-container .bar--pusher.pusher {
+  .sidebar-container .Sidebar__pusher.pusher {
     width: 96.5vw;
   }
 
-  .bar--pusher.pusher.container.pusher-scroll-x {
+  .Sidebar__pusher.pusher.container.pusher-scroll-x {
     width: 87.5vw;
   }
 }
 
 @media only screen and (max-width: 1024px) {
-  .sidebar-container .bar--pusher.pusher {
+  .sidebar-container .Sidebar__pusher.pusher {
     width: 95vw;
   }
 
-  .bar--pusher.pusher.container.pusher-scroll-x {
+  .Sidebar__pusher.pusher.container.pusher-scroll-x {
     width: 82.5vw !important;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .bar--pusher.pusher.container.pusher-scroll-x {
+  .Sidebar__pusher.pusher.container.pusher-scroll-x {
     width: 76.7vw !important;
   }
 
-  .sidebar-container .bar--pusher.pusher {
+  .sidebar-container .Sidebar__pusher.pusher {
     width: 93.6vw;
   }
 
@@ -129,17 +129,17 @@
 }
 
 @media only screen and (max-width: 425px) {
-  .sidebar-container .bar--pusher.pusher {
+  .sidebar-container .Sidebar__pusher.pusher {
     width: 101.5vw !important;
   }
 
-  .ui.visible.left.sidebar ~ .bar--pusher.pusher {
+  .ui.visible.left.sidebar ~ .Sidebar__pusher.pusher {
     -webkit-transform: translate3d(15px, 0, 0) !important;
     transform: translate3d(15px, 0, 0) !important;
   }
 }
 
-#logout.logout--confirm.active.confirmation-box {
+#logout.active.LogoutConfirm {
   box-shadow: none !important;
   padding: 21px;
   height: 200px;
@@ -219,7 +219,7 @@
 }
 
 @media only screen and (min-width: 2560px) {
-  #logout.logout--confirm.active.confirmation-box {
+  #logout.active.LogoutConfirm {
     $confirmation_wide_screen: 1.5;
 
     height: max-content;
@@ -252,7 +252,7 @@
 }
 
 @media only screen and (max-width: 425px) {
-  #logout.logout--confirm.active.confirmation-box {
+  #logout.active.LogoutConfirm {
     width: 80% !important;
 
     .ui.clearing.divider {

@@ -19,7 +19,8 @@ class LogoutConfirm extends Component<Props> {
     return (
       <>
         <Confirm
-          className="confirmation-box"
+          id="logout"
+          className="LogoutConfirm"
           open={this.props.open}
           cancelButton="No"
           confirmButton="Yes"
