@@ -165,7 +165,16 @@
 .new-supplier-modal .upload-section {
   width: 869px;
   min-height: 330px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  flex: 0;
+  margin-top: 9px !important;
+}
+
+.new-supplier-modal .new-supp-container .submit-actions {
+  margin-left: 7.5px;
+  margin-right: 7.5px;
+  margin-top: 43.5px;
 }
 
 .new-supplier-modal .upload-section .mapping-container {
@@ -282,10 +291,6 @@
   align-items: center;
 }
 
-.new-supplier-modal .submit-actions {
-  margin-right: 60px;
-}
-
 .new-supplier-modal .new-upload-form {
   position: relative;
 }
@@ -318,6 +323,7 @@
   border-radius: 100px !important;
   height: 32px !important;
   color: #349af8 !important;
+  margin-right: 0;
   font-size: 14px;
   font-weight: bold;
   padding-top: 0;
@@ -429,7 +435,7 @@ div.new-supplier-cont {
 
 div.new-supplier-cont .ui.button {
   height: 37px !important;
-  margin-right: 10px;
+  margin-right: 0;
   margin-left: 10px;
 }
 
@@ -440,5 +446,4 @@ div.new-supplier-cont > div:nth-child(1) {
 
 div.new-supplier-cont > div:nth-child(2) {
   margin-top: 20px;
-  padding-right: 40px;
 }
