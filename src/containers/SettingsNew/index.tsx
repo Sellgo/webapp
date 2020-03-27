@@ -3,7 +3,6 @@ import { Grid, Header } from 'semantic-ui-react';
 import PasswordInfo from './Password';
 import AmazonInfo from './Amazon';
 import BasicInfo from './BasicInfo';
-import PhoneInfo from './Phone';
 import EmailInfo from './Email';
 import './index.scss';
 
@@ -24,14 +23,6 @@ export default class Settings extends React.Component<State> {
         <Grid.Row className="basic-info">
           <BasicInfo />
         </Grid.Row>
-        <Grid.Row className="phone-header">
-          <Grid.Column width={16}>
-            <Header as="h3">Phone Number</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row className="phone-content" id="phone-content">
-          <PhoneInfo />
-        </Grid.Row>
         <Grid.Row className="email-header">
           <Grid.Column width={16}>
             <Header as="h3">Email</Header>
@@ -45,7 +36,7 @@ export default class Settings extends React.Component<State> {
             <Header as="h3">Change Password</Header>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row className="password-content" id="password-content">
+        <Grid.Row className="password-content">
           <PasswordInfo />
         </Grid.Row>
         <Grid.Row className="amazon-header">

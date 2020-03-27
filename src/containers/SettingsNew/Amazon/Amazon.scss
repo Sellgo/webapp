@@ -12,25 +12,74 @@
 
   .fields.action-container {
     margin-top: 30px;
+
+    .primary-btn button.ui.button {
+      height: 36px;
+      border: 1px solid #349af8;
+    }
+
+    .error-btn button.ui.button {
+      color: #eb675e;
+      background: #fff 0% 0% no-repeat padding-box;
+      border: 1px solid #eb675e;
+    }
+  }
+
+  label {
+    padding-left: 0.5rem;
+    display: block;
+    margin: 0 0 0.28571429rem 0;
+    text-transform: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 15px;
+    margin-top: 20px;
+
+    a {
+      color: #349af8;
+      font-weight: bold;
+      font-size: 16px;
+      text-decoration: underline !important;
+    }
+  }
+
+  i {
+    width: 20px;
+    height: 20px;
   }
 
   .marketplace-field {
     display: flex;
     flex-direction: column;
 
-    label {
-      padding-left: 0.5rem;
-      display: block;
-      margin: 0 0 0.28571429rem 0;
-      color: rgba(0, 0, 0, 0.87);
-      font-size: 0.92857143em;
-      font-weight: 700;
-      text-transform: none;
+    label:first-child {
+      margin-top: 0;
     }
   }
 
   .seller-field input,
   .token-field input {
-    width: 100% !important;
+    width: 719px !important;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .amazon-content {
+    .seller-field .field,
+    .token-field .field {
+      width: 70%;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .amazon-content {
+    .seller-field .field,
+    .token-field .field,
+    .seller-field input,
+    .token-field input {
+      width: 100% !important;
+    }
   }
 }

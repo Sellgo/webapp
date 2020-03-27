@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Grid, Image, Segment, Label, Header } from 'semantic-ui-react';
+import { Grid, Image, Segment, Label, Header, TextArea } from 'semantic-ui-react';
 
 export default class BasicInfo extends React.Component {
   render() {
     return (
       <>
-        <Grid.Column width={3}>
+        <Grid.Column width={4}>
           <Segment>
             <Label attached="top right">
               <i className="fas fa-pencil-alt" />
@@ -21,11 +21,11 @@ export default class BasicInfo extends React.Component {
             <Header as="h4">
               Kristy
               <Header.Subheader>Member since: {`March 8, 2020`}</Header.Subheader>
-              <Header.Subheader>description</Header.Subheader>
             </Header>
+            <TextArea placeholder="description" />
           </Grid>
         </Grid.Column>
-        <Grid.Column width={12}>
+        <Grid.Column width={11}>
           <Grid.Column>
             <Grid>
               <Header as="h4">
@@ -45,12 +45,13 @@ export default class BasicInfo extends React.Component {
                 <Header.Subheader>email@domain</Header.Subheader>
               </Header>
             </Grid>
-          </Grid.Column>
-          <Grid.Column>
             <Grid>
               <Header as="h4">
                 Payment Method &nbsp;<a href="/#">{`(Change)`}</a>
-                <Header.Subheader>Visa ending in {`xxxx`}</Header.Subheader>
+                <Header.Subheader>
+                  <i className="fab fa-cc-visa" />
+                  &nbsp; Visa ending in {`xxxx`}
+                </Header.Subheader>
                 <Header.Subheader>Billing date: {`Aug 3, 2019`}</Header.Subheader>
               </Header>
             </Grid>
@@ -60,7 +61,6 @@ export default class BasicInfo extends React.Component {
                 <Header.Subheader>{`***********`}</Header.Subheader>
               </Header>
             </Grid>
-            <Grid />
           </Grid.Column>
         </Grid.Column>
       </>

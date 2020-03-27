@@ -10,45 +10,58 @@
     font-family: $font-fam;
   }
 
+  h3.ui.header {
+    font-family: $font-fam;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+  }
+
+  .row:nth-child(1) h3.ui.header {
+    color: #3b4557;
+    margin-bottom: 10px;
+  }
+
   .row {
     padding-bottom: 20px !important;
   }
 
   input,
   .ui.selection.dropdown,
-  #email-content.email-content input,
-  #phone-content.phone-content input,
-  #password-content.password-content input {
-    min-height: 32px;
+  .email-content input,
+  .password-content input {
+    font-family: $font-fam;
+    min-height: 35px;
     padding-top: 5px;
     padding-bottom: 5px;
-    font-size: 13px;
-    border-radius: 10px !important;
-    width: 267px !important;
+    border-radius: 11px !important;
+    width: 367px !important;
     display: flex;
     align-items: center;
-    border: 1px solid #888 !important;
+    border: 0.5px solid #888;
+    background: #fff 0% 0% no-repeat padding-box;
+    box-shadow: 0 1px 2px #00000029;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 300;
+    color: #888;
   }
 
   .primary-btn button.ui.button,
   .error-btn button.ui.button {
-    height: 32px;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 13px;
-    width: 145px;
+    font-size: 16px;
+    width: 167px;
+    height: 35px;
+    border-radius: 40px;
+    text-align: center;
+    font-weight: bold;
+    color: #f8faff;
+    padding: 0;
   }
 
   .primary-btn button.ui.button {
-    color: #fff;
-    background: #349af8;
-  }
-
-  .error-btn button.ui.button {
-    color: #eb675e;
-    border: 2px solid #eb675e;
-    background: none;
+    background: #349af8 0% 0% no-repeat padding-box;
+    border: 0.5px solid #349af8;
   }
 
   .ui.form {
@@ -56,16 +69,9 @@
 
     .sub.header:first-child {
       margin-bottom: 20px;
+      font-size: 16px;
+      color: #000;
     }
-  }
-
-  .primary-btn button.ui.button:hover {
-    background: #3d94d6;
-  }
-
-  .error-btn button.ui.button:hover {
-    background: #eb675e;
-    color: #fff;
   }
 
   a {
@@ -76,6 +82,8 @@
 
   i {
     cursor: pointer;
+    width: 12px;
+    height: 15px;
   }
 
   a:hover {
@@ -95,33 +103,47 @@
   @import './Amazon/Amazon';
 }
 
-.pop-market,
-.pop-seller,
-.pop-token {
-  padding: 5px 20px !important;
-  font-size: 12px !important;
-  background: #707070 !important;
+.ui.top.left.basic.popup.transition.visible.pop-market,
+.ui.top.left.basic.popup.transition.visible.pop-seller,
+.ui.top.left.basic.popup.transition.visible.pop-token {
+  height: 36px !important;
+  background: #757575 0% 0% no-repeat padding-box !important;
+  border-radius: 4px !important;
+  font-size: 10px !important;
+  letter-spacing: 0.33px !important;
   color: #fff !important;
-  min-width: max-content !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 10px !important;
 }
 
-body div.ui.page.modals.dimmer.transition.visible.active:last-child {
-  background: rgba(0, 0, 0, 0.4);
+.ui.top.left.basic.popup.transition.visible.pop-market {
+  min-width: 220px !important;
+}
+
+.ui.top.left.basic.popup.transition.visible.pop-seller {
+  min-width: 306px !important;
+}
+
+.ui.top.left.basic.popup.transition.visible.pop-token {
+  min-width: 434px !important;
 }
 
 .ui.small.modal.transition.visible.active.auth-token-confirm {
   $font-fam: 'Work Sans', sans-serif !important;
 
-  min-height: 4rem !important;
-  width: max-content !important;
   box-shadow: none !important;
-  border-radius: 10px;
   padding: 30px 55px;
+  width: 979px;
+  height: 553px;
+  background: #fff 0% 0% no-repeat padding-box;
+  border: 1px solid #dfe8f3;
+  border-radius: 20px;
 
   a {
     color: #349af8;
-    font-weight: 500;
-    font-size: 13px;
+    font-size: 16px;
+    text-decoration: underline;
   }
 
   a:hover {
@@ -136,6 +158,8 @@ body div.ui.page.modals.dimmer.transition.visible.active:last-child {
   h3.ui.icon.header {
     padding-top: 10px;
     color: #000 !important;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .ui.placeholder.segment {
@@ -146,11 +170,11 @@ body div.ui.page.modals.dimmer.transition.visible.active:last-child {
     margin-top: 40px;
     margin-bottom: 40px;
     color: #000 !important;
-    font-size: 12px;
+    font-size: 16px;
     text-align: left;
 
     .ui.ordered.list > .item {
-      line-height: 20px;
+      line-height: 40px;
     }
   }
 
@@ -160,12 +184,15 @@ body div.ui.page.modals.dimmer.transition.visible.active:last-child {
   }
 
   button.ui.button {
-    height: 32px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 20px;
-    width: 140px;
     padding: 5px 15px !important;
+    width: 150px;
+    height: 36px;
+    background: #349af8 0% 0% no-repeat padding-box !important;
+    border: 1px solid #4285f4 !important;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #fff !important;
   }
 
   button.ui.button:first-child {
@@ -196,41 +223,51 @@ body div.ui.page.modals.dimmer.transition.visible.active:last-child {
   }
 }
 
-@media only screen and (min-width: 2560px) {
-  $confirmation_wide_screen: 1.5;
-
+@media only screen and (max-width: 768px) {
   .ui.small.modal.transition.visible.active.auth-token-confirm {
-    min-height: 4rem * $confirmation_wide_screen !important;
-    width: 730px !important;
-    border-radius: 10px * $confirmation_wide_screen;
-    padding: 20px * $confirmation_wide_screen;
+    width: 90% !important;
+    height: max-content;
+  }
 
-    button.ui.button {
-      font-size: 13px * $confirmation_wide_screen;
-      border-radius: 20px * $confirmation_wide_screen;
-      width: 140px * $confirmation_wide_screen;
-      height: 32px * $confirmation_wide_screen;
-      padding: 5px 15px * $confirmation_wide_screen;
+  .password-content#password-content {
+    .field {
+      margin-bottom: 20px;
     }
+  }
 
-    h4.ui.icon.header {
-      padding-top: 10px * $confirmation_wide_screen;
-      font-size: 1.07142857rem * $confirmation_wide_screen;
-    }
-
-    .ui.placeholder.segment {
-      min-height: 8rem * $confirmation_wide_screen;
-    }
-
-    .sub.header {
-      margin-top: 20px * $confirmation_wide_screen !important;
-      font-size: 1rem * $confirmation_wide_screen;
-    }
+  .ui.top.left.basic.popup.transition.visible.pop-market,
+  .ui.top.left.basic.popup.transition.visible.pop-seller,
+  .ui.top.left.basic.popup.transition.visible.pop-token {
+    height: max-content !important;
   }
 }
 
-@media only screen and (max-width: 425px) {
-  .ui.small.modal.transition.visible.active.confirmation-box {
-    width: 80% !important;
+@media only screen and (max-width: 425px), only screen and (max-width: 615px) {
+  .ui.grid.settings-container {
+    h3.ui.header {
+      text-align: center;
+    }
+
+    form.ui.form {
+      width: 85%;
+      margin: 0 auto 60px auto;
+
+      .field {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      button.ui.button,
+      .ui.selection.dropdown {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .ui.top.left.basic.popup.transition.visible.pop-market,
+  .ui.top.left.basic.popup.transition.visible.pop-seller,
+  .ui.top.left.basic.popup.transition.visible.pop-token {
+    min-width: 30% !important;
+    height: max-content !important;
   }
 }

@@ -1,4 +1,5 @@
-.untrack-success {
+.untrack-success,
+.email-update-success {
   font-family: 'Work Sans', sans-serif !important;
   padding: 10px 20px !important;
   color: #ececec !important;
@@ -11,15 +12,22 @@
   }
 }
 
-.email-update-success {
-  font-family: 'Work Sans', sans-serif !important;
-  padding: 10px 20px !important;
-  color: #ececec !important;
-  font-size: 16px !important;
+@media only screen and (min-width: 2560px) {
+  .Toastify .Toastify__toast-container.Toastify__toast-container--bottom-right {
+    width: 350px * 1.5 !important;
+  }
 
-  .sub.header {
-    font-size: 13px !important;
-    padding-top: 13px !important;
-    color: #ececec !important;
+  .untrack-success,
+  .email-update-success {
+    $wide_screen: 1.5;
+
+    font-family: 'Work Sans', sans-serif !important;
+    padding: 10px 20px * $wide_screen !important;
+    font-size: 16px * $wide_screen !important;
+
+    .sub.header {
+      font-size: 13px * $wide_screen !important;
+      padding-top: 13px * $wide_screen !important;
+    }
   }
 }

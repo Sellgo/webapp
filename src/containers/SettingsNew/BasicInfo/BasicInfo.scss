@@ -7,33 +7,51 @@
   }
 
   .sub.header {
-    font-size: 12.5px;
-    padding-top: 7px;
-    color: #3b4557 !important;
+    padding-top: 10px;
+    font-size: 16px;
+    color: #3b4557;
   }
 
-  .three.wide.column {
-    padding-left: 30px !important;
+  h4.ui.header {
+    font-weight: 600;
+    font-size: 16px;
+    color: #3b4557;
+  }
 
-    .sub.header:first-child {
-      color: #999 !important;
-    }
+  .four.wide.column {
+    padding-left: 15px !important;
+    padding-right: 0 !important;
+    width: max-content !important;
 
-    .sub.header:last-child {
-      padding-bottom: 40px;
+    .sub.header {
+      color: #0006;
+      font-weight: normal;
+      font-size: 13px;
     }
 
     .ui.segment {
       padding: 0;
       height: 201px;
-      border-radius: 0;
+      width: 200px;
       margin: 0 0 25px 0;
       overflow: hidden;
       position: relative;
+      background: transparent 0% 0% no-repeat padding-box !important;
+      border: 1px solid #dadadb !important;
+      box-shadow: none !important;
+      border-radius: 4px 4px 0 0;
 
       .ui.top.right.attached.label {
         z-index: 2;
-        background-color: rgba(0, 0, 0, 0.02);
+        background: none !important;
+      }
+
+      i {
+        color: #3b4557;
+      }
+
+      i:first-child {
+        margin-right: 10px;
       }
 
       img {
@@ -45,32 +63,143 @@
       }
     }
 
-    i {
-      cursor: pointer;
-    }
+    .ui.grid {
+      display: flex;
+      flex-direction: column;
 
-    i:first-child {
-      margin-right: 10px;
-    }
+      h4.ui.header {
+        font-size: 18px;
+        font-weight: bold;
+        color: #000000de;
+        margin-bottom: 5px;
+      }
 
-    i:hover {
-      color: #000;
+      textarea {
+        overflow: auto;
+        font-size: 13px;
+        color: #000c;
+        width: 260px;
+        height: 49px;
+        border: none;
+        resize: none;
+        font-family: $font-fam;
+        outline: none;
+      }
     }
   }
 
-  .twelve.wide.column {
+  .eleven.wide.column {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding-left: 40px;
 
     .column {
-      height: 130px;
       display: flex;
+      flex-wrap: wrap;
+
+      .ui.grid {
+        width: 30%;
+        margin: 0 0 60px 0 !important;
+
+        h4.ui.header {
+          a {
+            font-weight: 600;
+            font-size: 16px;
+            color: #349af8;
+          }
+        }
+      }
+
+      .ui.grid:nth-child(4) {
+        .sub.header i {
+          width: 20px;
+          height: 16px;
+          text-align: center;
+          color: #3b4557;
+        }
+      }
+
+      .ui.grid:nth-child(4) .sub.header {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1024px), only screen and (max-width: 1251px) {
+  .basic-info {
+    .four.wide.column {
+      width: 23.75% !important;
     }
 
-    .ui.grid {
-      width: 100%;
-      margin: 0;
+    .eleven.wide.column {
+      .ui.grid {
+        width: 50% !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px), only screen and (max-width: 951px) {
+  .basic-info {
+    flex-direction: column;
+
+    .four.wide.column {
+      display: flex;
+      width: 100% !important;
+      justify-content: center;
+      margin-bottom: 30px;
+
+      .ui.segment {
+        width: 180px;
+        margin-right: 40px;
+      }
+    }
+
+    .eleven.wide.column {
+      width: auto !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 425px), only screen and (max-width: 541px) {
+  .basic-info {
+    flex-direction: column;
+
+    .four.wide.column {
+      flex-direction: column;
+      padding: 0 !important;
+
+      .ui.segment {
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .ui.header {
+        margin: auto;
+        text-align: center;
+      }
+
+      textarea {
+        margin: auto;
+        text-align: center;
+      }
+    }
+
+    .eleven.wide.column {
+      .column {
+        flex-direction: column;
+
+        .ui.grid {
+          width: auto !important;
+
+          .ui.header {
+            width: 100% !important;
+            margin: 0 !important;
+          }
+        }
+      }
     }
   }
 }
