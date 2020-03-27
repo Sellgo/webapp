@@ -119,6 +119,7 @@ function FilterContainer(props: Props) {
                         range={filter.range}
                         filterRange={filter.filterRange}
                         handleCompleteChange={handleCompleteChange}
+                        labelSign={filter.sign}
                       />
                     </div>
                   ) : null;
@@ -137,6 +138,7 @@ function FilterContainer(props: Props) {
                         range={filter.range}
                         filterRange={filter.filterRange}
                         handleCompleteChange={handleCompleteChange}
+                        labelSign={filter.sign}
                       />
                     </div>
                   );

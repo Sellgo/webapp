@@ -14,7 +14,7 @@ const FilterSliderInput = (props: any) => {
     setFilterRangeLocal(value);
   };
 
-  const { dataKey, range, filterRange, handleCompleteChange } = props;
+  const { dataKey, range, filterRange, handleCompleteChange, labelSign } = props;
 
   const handleMinInputCompleteChange = (e: any) => {
     let value = e.target.value;
@@ -55,52 +55,61 @@ const FilterSliderInput = (props: any) => {
       />
 
       <div className="min-max-content">
-        <Input
-          placeholder="Min"
-          id="min"
-          type="number"
-          value={
-            filterRangeLocal.min === undefined
-              ? filterRangeLocal.min
-              : Math.floor(filterRangeLocal.min * 100) / 100
-          }
-          onChange={e => {
-            handleLocalChange({
-              min: Number(e.target.value) || undefined,
-              max: filterRangeLocal.max,
-            });
-          }}
-          onBlur={handleMinInputCompleteChange}
-          onKeyPress={(e: any) => {
-            if (e.key === 'Enter') {
-              handleMinInputCompleteChange(e);
-              e.target.blur();
+        <div className="min-wrapper">
+          {labelSign === '$' && <span className="dollar-sign">{labelSign}</span>}
+          <Input
+            placeholder="Min"
+            id="min"
+            type="number"
+            value={
+              filterRangeLocal.min === undefined
+                ? filterRangeLocal.min
+                : Math.floor(filterRangeLocal.min * 100) / 100
             }
-          }}
-        />
-        <Input
-          placeholder="Max"
-          id="max"
-          type="number"
-          value={
-            filterRangeLocal.max === undefined
-              ? filterRangeLocal.max
-              : Math.ceil(filterRangeLocal.max * 100) / 100
-          }
-          onChange={e => {
-            handleLocalChange({
-              max: Number(e.target.value) || undefined,
-              min: filterRangeLocal.min,
-            });
-          }}
-          onBlur={handleMaxInputCompleteChange}
-          onKeyPress={(e: any) => {
-            if (e.key === 'Enter') {
-              handleMaxInputCompleteChange(e);
-              e.target.blur();
+            onChange={e => {
+              handleLocalChange({
+                min: Number(e.target.value) || undefined,
+                max: filterRangeLocal.max,
+              });
+            }}
+            onBlur={handleMinInputCompleteChange}
+            onKeyPress={(e: any) => {
+              if (e.key === 'Enter') {
+                handleMinInputCompleteChange(e);
+                e.target.blur();
+              }
+            }}
+          />
+          {labelSign === '%' && <span className="percent-sign">{labelSign}</span>}
+        </div>
+
+        <div className="max-wrapper">
+          {labelSign === '$' && <span className="dollar-sign">{labelSign}</span>}
+          <Input
+            placeholder="Max"
+            id="max"
+            type="number"
+            value={
+              filterRangeLocal.max === undefined
+                ? filterRangeLocal.max
+                : Math.ceil(filterRangeLocal.max * 100) / 100
             }
-          }}
-        />
+            onChange={e => {
+              handleLocalChange({
+                max: Number(e.target.value) || undefined,
+                min: filterRangeLocal.min,
+              });
+            }}
+            onBlur={handleMaxInputCompleteChange}
+            onKeyPress={(e: any) => {
+              if (e.key === 'Enter') {
+                handleMaxInputCompleteChange(e);
+                e.target.blur();
+              }
+            }}
+          />
+          {labelSign === '%' && <span className="percent-sign">{labelSign}</span>}
+        </div>
       </div>
     </div>
   );

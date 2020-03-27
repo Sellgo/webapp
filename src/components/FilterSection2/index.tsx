@@ -220,6 +220,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max',
         range: productRanges.price,
         filterRange: filterState.price,
+        sign: '$',
       },
       {
         label: 'Profit $',
@@ -228,6 +229,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: '$ Max',
         range: productRanges.profit,
         filterRange: filterState.profit,
+        sign: '$',
       },
       {
         label: 'Margin %',
@@ -236,6 +238,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max %',
         range: productRanges.margin,
         filterRange: filterState.margin,
+        sign: '%',
       },
       {
         label: 'ROI/ Return On Investment',
@@ -244,6 +247,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max %',
         range: productRanges.roi,
         filterRange: filterState.roi,
+        sign: '%',
       },
       {
         label: 'Unit Sold',
