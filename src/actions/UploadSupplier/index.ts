@@ -152,6 +152,15 @@ export const prepareCsv = (csvFile?: File) => async (
   reader.readAsText(csvFile);
 };
 
+export const handleRejectedFile = (rejectedFile?: File) => {
+  const fileExtension =
+    rejectedFile && rejectedFile.name.split('.').length > 1 && rejectedFile.name.split('.').pop();
+  if (!fileExtension || fileExtension.toLowerCase() !== 'csv') {
+    error('Invalid file extension detected. File should be a csv file.');
+    return;
+  }
+};
+
 export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
   const fileName = csvFileDetails && csvFileDetails.name ? csvFileDetails.name : '';
 

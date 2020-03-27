@@ -38,7 +38,7 @@ const Submit = (props: SubmitProps) => {
   }
 
   return (
-    <div className={styles['ouline-box']}>
+    <div className={`submit-container`}>
       {error ? (
         <React.Fragment>
           <Icon name="exclamation circle" size="big" className={styles['check-error']} />

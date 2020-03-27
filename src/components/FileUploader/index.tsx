@@ -5,15 +5,17 @@ import styles from './FileUploader.module.css';
 
 interface FileUploaderProps {
   onDrop: (acceptedFiles: File[]) => void;
+  onDropRejected: (rejectedFiles: File[]) => void;
   accept: string[];
   fileName: any;
 }
 function FileUploader(props: FileUploaderProps) {
-  const { accept, onDrop, fileName } = props;
+  const { accept, onDrop, onDropRejected, fileName } = props;
   const multiple = false;
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    onDropRejected,
     accept,
     multiple,
   });
@@ -24,10 +26,12 @@ function FileUploader(props: FileUploaderProps) {
       <input {...getInputProps()} />
       <Icon name="cloud upload" size="huge" className={styles.cloud} />
       <br />
-      <p className={`${styles.description} ${styles['margin-top']}`}>
-        <b>Upload filled-in Supplier File(s) here</b>
+      <p className={`description-container ${styles.description} ${styles['margin-top']}`}>
+        <b className="upload-supplier-csv">Upload filled-in Supplier File(s) here</b>
         <br />
-        <span className={styles.description}>Drag and drop, or click to select</span>
+        <span className={`upload-supplier-desc ${styles.description}`}>
+          Drag and drop, or click to select
+        </span>
         <br />
         <br />
         <b className={styles.filename}>

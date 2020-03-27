@@ -86,11 +86,11 @@ const SupplierDetails = () => (
 
 const SupplierInformation = () => {
   return (
-    <div className={styles['ouline-box']}>
+    <div className={`new-upload-outline ${styles['ouline-box']}`}>
       <Form className={`${styles['supply-container']} ${styles['form-size']}`}>
         <Grid columns="equal" className="bg-color">
           <Grid.Column className={styles.padding0}>
-            <div className={styles['form-container']}>
+            <div className={`new-upload-form ${styles['form-container']}`}>
               <Field
                 required={true}
                 validate={required}
