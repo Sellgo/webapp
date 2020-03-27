@@ -41,6 +41,7 @@ export default class SidebarCollapsible extends Component<
   render() {
     const { visible } = this.state;
     const { children, auth } = this.props;
+    const initPath = window.location.pathname;
 
     const sidebarMenu = (
       <>
@@ -53,7 +54,7 @@ export default class SidebarCollapsible extends Component<
                   as={Link}
                   to={icon.path}
                   name={icon.icon}
-                  active={window.location.pathname === icon.path}
+                  active={new RegExp(icon.path).test(initPath)}
                 >
                   <i className={`fas ${icon.icon}`} />
                   <Label> {icon.label} </Label>
@@ -83,7 +84,7 @@ export default class SidebarCollapsible extends Component<
                   as={Link}
                   to={icon.path}
                   name={icon.icon}
-                  active={window.location.pathname === icon.path}
+                  active={new RegExp(icon.path).test(initPath)}
                   onClick={e => {
                     if (icon.id === 4) {
                       this.open();
