@@ -194,9 +194,6 @@ export const findFilterProducts2 = (products: any, filterData: any) => {
               Number(product[dataKey]) <= Number(filterData[dataKey].max)
           );
   });
-
-  console.log('updatedFilterProducts: ', updatedFilterProducts);
-  console.log('products: ', products);
   return updatedFilterProducts;
 };
 

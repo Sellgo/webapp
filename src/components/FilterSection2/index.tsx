@@ -363,28 +363,14 @@ function FilterSection2(props: Props, state: State) {
   };
 
   const handleCompleteChange = (datakey: string, range: Range) => {
-    const dk = ['profit', 'margin', 'roi'];
     const filterData: any = filterState;
     const data = _.map(filterRanges, filter => {
-      if (dk.indexOf(datakey) !== -1) {
-        if (filter.dataKey == datakey) {
-          filter.filterRange = range;
-          filterData[filter.dataKey] = range;
-        } else {
-          //reset value other than datakey
-          if (dk.indexOf(filter.dataKey) !== -1) {
-            filter.filterRange = filter.range;
-            filterData[filter.dataKey] = filter.range;
-          }
-        }
-      } else {
-        if (filter.dataKey == datakey) {
-          filter.filterRange = range;
-          filterData[filter.dataKey] = range;
-        }
+      if (filter.dataKey == datakey) {
+        filter.filterRange = range;
       }
       return filter;
     });
+    filterData[datakey] = range;
     setFilterState(filterData);
     setFilterRanges(data);
   };
