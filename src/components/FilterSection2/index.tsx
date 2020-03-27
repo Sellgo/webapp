@@ -68,13 +68,13 @@ function FilterSection2(props: Props, state: State) {
         radio: false,
         data: [
           {
-            label: 'Appliances',
-            dataKey: 'appliances',
+            label: 'Apps & Games',
+            dataKey: 'apps-games',
             checked: false,
           },
           {
-            label: 'Arts, Craft and Sewing',
-            dataKey: 'arts-craft-sewing',
+            label: 'Appliances',
+            dataKey: 'appliances',
             checked: false,
           },
           {
@@ -98,6 +98,16 @@ function FilterSection2(props: Props, state: State) {
             checked: false,
           },
           {
+            label: 'Camera & Photo',
+            dataKey: 'camera-photo',
+            checked: false,
+          },
+          {
+            label: 'CDs & Vynil',
+            dataKey: 'cds-vynil',
+            checked: false,
+          },
+          {
             label: 'Cell Phones & Accessories',
             dataKey: 'cellphones-accessories',
             checked: false,
@@ -108,13 +118,28 @@ function FilterSection2(props: Props, state: State) {
             checked: false,
           },
           {
+            label: 'Collectible & Fine Arts',
+            dataKey: 'collectible-fine-arts',
+            checked: false,
+          },
+          {
             label: 'Computers & Accessories',
             dataKey: 'computers-accessories',
             checked: false,
           },
           {
+            label: 'Electronics',
+            dataKey: 'electronics',
+            checked: false,
+          },
+          {
             label: 'Grocery & Gourmet Food',
             dataKey: 'grocery-gourmet-food',
+            checked: false,
+          },
+          {
+            label: 'Handmade Products',
+            dataKey: 'handmade-products',
             checked: false,
           },
           {
@@ -133,23 +158,48 @@ function FilterSection2(props: Props, state: State) {
             checked: false,
           },
           {
+            label: 'Kindle store',
+            dataKey: 'kindle-store',
+            checked: false,
+          },
+          {
             label: 'Kitchen & Dining',
             dataKey: 'kithcen-dining',
             checked: false,
           },
           {
-            label: 'Movies & TV',
-            dataKey: 'movies-tv',
+            label: 'Lock Picking & Theft Devices',
+            dataKey: 'lock-picking-theft-devices',
+            checked: false,
+          },
+          {
+            label: 'Luggage & Travel',
+            dataKey: 'luggage-travel',
+            checked: false,
+          },
+          {
+            label: 'Magazine Subscription',
+            dataKey: 'magazine-subscription',
+            checked: false,
+          },
+          {
+            label: 'Medical Devices & Accessories',
+            dataKey: 'medical-devices-accessories',
             checked: false,
           },
           {
             label: 'Musical Instruments',
-            dataKey: 'musical=-instruments',
+            dataKey: 'musical-instruments',
             checked: false,
           },
           {
             label: 'Office Products',
             dataKey: 'office-products',
+            checked: false,
+          },
+          {
+            label: 'Outdoors',
+            dataKey: 'outdoors',
             checked: false,
           },
           {
@@ -160,6 +210,11 @@ function FilterSection2(props: Props, state: State) {
           {
             label: 'Pet Supplies',
             dataKey: 'pet-supplies',
+            checked: false,
+          },
+          {
+            label: 'Software',
+            dataKey: 'software',
             checked: false,
           },
           {
