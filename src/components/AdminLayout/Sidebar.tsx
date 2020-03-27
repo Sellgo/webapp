@@ -54,7 +54,7 @@ export default class SidebarCollapsible extends Component<
                   as={Link}
                   to={icon.path}
                   name={icon.icon}
-                  active={new RegExp(icon.path).test(initPath)}
+                  active={initPath.startsWith(icon.path)}
                 >
                   <i className={`fas ${icon.icon}`} />
                   <Label> {icon.label} </Label>
@@ -84,7 +84,7 @@ export default class SidebarCollapsible extends Component<
                   as={Link}
                   to={icon.path}
                   name={icon.icon}
-                  active={new RegExp(icon.path).test(initPath)}
+                  active={initPath.startsWith(icon.path)}
                   onClick={e => {
                     if (icon.id === 4) {
                       this.open();
