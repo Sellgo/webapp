@@ -102,6 +102,7 @@ function FilterContainer(props: Props) {
                             filter.dataKey == 'margin' ||
                             filter.dataKey == 'roi') && (
                             <Radio
+                              key={filter.dataKey}
                               className={filter.dataKey}
                               label={filter.label}
                               value={filter.dataKey}

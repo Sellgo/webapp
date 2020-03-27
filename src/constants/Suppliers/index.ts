@@ -181,13 +181,13 @@ export const findFilterProducts2 = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData.allFilter)
       ? filterData.allFilter.indexOf(product.amazon_category_name) !== -1 &&
-          filterData.productSize === product.size_tier &&
+          (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
           dataKeys2.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
               Number(product[dataKey]) <= Number(filterData[dataKey].max)
           )
-      : filterData.productSize === product.size_tier &&
+      : (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
           dataKeys2.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&

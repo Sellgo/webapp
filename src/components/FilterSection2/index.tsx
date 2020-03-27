@@ -38,7 +38,7 @@ function FilterSection2(props: Props, state: State) {
   const filterInitialData = {
     supplier_id: supplierDetails.supplier_id,
     allFilter: [],
-    productSize: '',
+    productSize: 'All size',
     price: filteredRanges.price,
     profit: filteredRanges.profit,
     margin: filteredRanges.margin,
@@ -273,7 +273,6 @@ function FilterSection2(props: Props, state: State) {
   const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
 
   const setRadioFilter = (filterType: string, value: string) => {
-    console.log('value', value);
     const data = _.map(allFilter, filter => {
       if (filter.dataKey === filterType) {
         filter.checkedValue = value;
@@ -309,14 +308,28 @@ function FilterSection2(props: Props, state: State) {
   };
 
   const handleCompleteChange = (datakey: string, range: Range) => {
+    const dk = ['profit', 'margin', 'roi'];
+    const filterData: any = filterState;
     const data = _.map(filterRanges, filter => {
-      if (filter.dataKey === datakey) {
-        filter.filterRange = range;
+      if (dk.indexOf(datakey) !== -1) {
+        if (filter.dataKey == datakey) {
+          filter.filterRange = range;
+          filterData[filter.dataKey] = range;
+        } else {
+          //reset value other than datakey
+          if (dk.indexOf(filter.dataKey) !== -1) {
+            filter.filterRange = filter.range;
+            filterData[filter.dataKey] = filter.range;
+          }
+        }
+      } else {
+        if (filter.dataKey == datakey) {
+          filter.filterRange = range;
+          filterData[filter.dataKey] = range;
+        }
       }
       return filter;
     });
-    const filterData = filterState;
-    filterData[datakey] = range;
     setFilterState(filterData);
     setFilterRanges(data);
   };
@@ -335,7 +348,6 @@ function FilterSection2(props: Props, state: State) {
   };
 
   const applyFilter = () => {
-    console.log('filterState: ', filterState);
     filterProducts(filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
   };
@@ -344,7 +356,7 @@ function FilterSection2(props: Props, state: State) {
     const data = filterState;
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
-    data.productSize = '';
+    data.productSize = 'All size';
     data.price = productRanges.price;
     data.profit = productRanges.profit;
     data.roi = productRanges.roi;
@@ -364,6 +376,13 @@ function FilterSection2(props: Props, state: State) {
     setFilterState(data);
   };
 
+  const handleFilterType = (type: string) => {
+    if (filterType === type) {
+      setFilterType('');
+      return;
+    }
+    setFilterType(type);
+  };
   return (
     <div className="filter-section">
       <div className="filter-header">
@@ -372,7 +391,7 @@ function FilterSection2(props: Props, state: State) {
           icon
           labelPosition="left"
           className={filterType == 'all-filter' ? 'active all-filter' : 'all-filter'}
-          onClick={() => setFilterType('all-filter')}
+          onClick={() => handleFilterType('all-filter')}
         >
           <span className="filter-name">All</span>
           <Icon className="slider" name="sliders horizontal" />
