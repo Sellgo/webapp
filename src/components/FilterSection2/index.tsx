@@ -182,7 +182,7 @@ function FilterSection2(props: Props, state: State) {
       {
         label: 'Product Size Tiers',
         dataKey: 'product-size-tiers',
-        checkedValue: 'small-standard-size',
+        checkedValue: 'Small standard-size',
         radio: true,
         data: [
           {
@@ -190,11 +190,11 @@ function FilterSection2(props: Props, state: State) {
             dataKey: 'all-size',
           },
           {
-            label: 'Small stadard-size',
+            label: 'Small standard-size',
             dataKey: 'small-standard-size',
           },
           {
-            label: 'Large stadard-size',
+            label: 'Large standard-size',
             dataKey: 'large-standard-size',
           },
           {
@@ -269,6 +269,7 @@ function FilterSection2(props: Props, state: State) {
   const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
 
   const setRadioFilter = (filterType: string, value: string) => {
+    console.log('value', value);
     const data = _.map(allFilter, filter => {
       if (filter.dataKey === filterType) {
         filter.checkedValue = value;

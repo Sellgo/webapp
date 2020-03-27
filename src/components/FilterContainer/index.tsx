@@ -21,6 +21,7 @@ interface Props {
 
 function FilterContainer(props: Props) {
   const [seeAll, setSeeAll] = React.useState(false);
+  const [profitRadio, toggleProfitRadio] = React.useState('profit');
   const {
     filterType,
     applyFilter,
@@ -55,10 +56,8 @@ function FilterContainer(props: Props) {
                             key={dataKey}
                             className={filterData.dataKey}
                             label={filterData.label}
-                            value={filterData.dataKey}
-                            filter={filter.dataKey}
-                            checked={initialFilterState.productSize === filterData.dataKey}
-                            onClick={() => setRadioFilter(filter.dataKey, filterData.dataKey)}
+                            checked={initialFilterState.productSize === filterData.label}
+                            onClick={() => setRadioFilter(filter.dataKey, filterData.label)}
                           />
                         );
                       } else {
@@ -90,20 +89,58 @@ function FilterContainer(props: Props) {
           <div className="slider-filters">
             <div className="slider-wrapper">
               {_.map(filterData.filterRanges, filter => {
-                return (
-                  <div className="range-container">
-                    <h3>{filter.label}</h3>
-                    <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
-                      x Reset
-                    </span>
-                    <FilterSliderInput
-                      dataKey={filter.dataKey}
-                      range={filter.range}
-                      filterRange={filter.filterRange}
-                      handleCompleteChange={handleCompleteChange}
-                    />
-                  </div>
-                );
+                if (
+                  filter.dataKey == 'profit' ||
+                  filter.dataKey == 'margin' ||
+                  filter.dataKey == 'roi'
+                ) {
+                  return filter.dataKey == profitRadio ? (
+                    <div className="range-container with-radio">
+                      {_.map(filterData.filterRanges, filter => {
+                        return (
+                          (filter.dataKey == 'profit' ||
+                            filter.dataKey == 'margin' ||
+                            filter.dataKey == 'roi') && (
+                            <Radio
+                              className={filter.dataKey}
+                              label={filter.label}
+                              value={filter.dataKey}
+                              checked={profitRadio == filter.dataKey}
+                              onClick={() => toggleProfitRadio(filter.dataKey)}
+                            />
+                          )
+                        );
+                      })}
+                      <div className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
+                        x Reset
+                      </div>
+                      <FilterSliderInput
+                        dataKey={filter.dataKey}
+                        range={filter.range}
+                        filterRange={filter.filterRange}
+                        handleCompleteChange={handleCompleteChange}
+                      />
+                    </div>
+                  ) : null;
+                } else {
+                  return (
+                    <div className="range-container">
+                      <h3>{filter.label}</h3>
+                      <span
+                        className="reset"
+                        onClick={() => resetSingleFilter(`${filter.dataKey}`)}
+                      >
+                        x Reset
+                      </span>
+                      <FilterSliderInput
+                        dataKey={filter.dataKey}
+                        range={filter.range}
+                        filterRange={filter.filterRange}
+                        handleCompleteChange={handleCompleteChange}
+                      />
+                    </div>
+                  );
+                }
               })}
             </div>
             <div className="button-wrapper">

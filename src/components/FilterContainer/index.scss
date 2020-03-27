@@ -109,6 +109,18 @@
     width: 250px;
     margin-bottom: 50px;
 
+    &.with-radio {
+      width: 400px;
+
+      .ui.radio.checkbox {
+        margin: 0 10px;
+
+        label {
+          padding-left: 1em;
+        }
+      }
+    }
+
     h3 {
       margin: 0;
       font-weight: 600;
