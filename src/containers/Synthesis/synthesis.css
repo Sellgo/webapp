@@ -267,7 +267,7 @@
   border-radius: 4px;
   height: 38px;
   font-size: 14px;
-  color: #b5b5b5;
+  color: #3b4557;
   font-weight: 500;
 }
 
@@ -315,7 +315,7 @@
   font-size: 14px;
   height: 38px;
   font-weight: 500;
-  color: #b5b5b5;
+  color: #3b4557;
 }
 
 .new-supplier-modal button.ui.black.basic.primary.button {
@@ -348,7 +348,18 @@
   font-family: 'Work sans', sans-serif !important;
   font-size: 14px;
   font-weight: 500;
+  color: #3b4557;
+}
+
+.new-supplier-modal .ui.form .field .ui.input input::placeholder,
+.new-supplier-modal .ui.form .fields .field .ui.input input::placeholder {
   color: #b5b5b5;
+}
+
+.new-supplier-modal .ui.form .field .ui.input input:-webkit-autofill,
+.new-supplier-modal .ui.form .fields .field .ui.input input:-webkit-autofill {
+  -webkit-text-fill-color: #3b4557 !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 .new-supplier-modal .rc-steps-item-container:focus {
