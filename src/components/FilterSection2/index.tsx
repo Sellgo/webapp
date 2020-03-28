@@ -32,7 +32,7 @@ interface Props {
 function FilterSection2(props: Props, state: State) {
   const [filterType, setFilterType] = useState('');
 
-  const { filteredProducts, productRanges, supplierDetails, filterProducts } = props;
+  const { filteredProducts, productRanges, supplierDetails, filterProducts, products } = props;
 
   const filteredRanges = findMinMaxRange2(filteredProducts);
   const filterInitialData = {
@@ -54,12 +54,11 @@ function FilterSection2(props: Props, state: State) {
       : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
-
+  console.log('products: ', products);
   useEffect(() => {
     filterProducts(filterState);
   }, [filterState]);
 
-  // filterProducts(filterState);
   const filterDataState: SupplierFilter = {
     allFilter: [
       {

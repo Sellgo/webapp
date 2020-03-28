@@ -7,7 +7,7 @@ export interface Product {
   image_url: string;
   last_syn: string;
   margin: string;
-  price: number;
+  price: string;
   product_id: number;
   profit_monthly: string;
   sales_monthly: string;
@@ -21,6 +21,8 @@ export interface Product {
   product_cost: string;
   fees: string;
   upc: string;
+  dimension: string;
+  weight: string;
 }
 export interface ProductsTrackData {
   avg_price: string;

@@ -172,7 +172,7 @@ $new_black: #707070;
       display: flex;
 
       .flag-img {
-        margin-right: 40px;
+        margin-right: 15px;
         width: 22px;
         margin-top: -3px;
       }
@@ -221,6 +221,17 @@ $new_black: #707070;
     thead {
       tr {
         th {
+          &.sales_monthly {
+            white-space: pre;
+            text-align: center;
+            display: flex;
+            align-items: center;
+          }
+
+          i {
+            display: none;
+          }
+
           border-top: 1px solid rgba(34, 36, 38, 0.3);
           border-bottom: 1px solid rgba(34, 36, 38, 0.3);
           background: #fff;
@@ -332,7 +343,7 @@ $new_black: #707070;
 
     .description-text {
       display: inline-block;
-      width: 294px;
+      width: 226px;
       white-space: nowrap;
       overflow: hidden !important;
       text-overflow: ellipsis;

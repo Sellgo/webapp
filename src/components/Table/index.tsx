@@ -240,7 +240,7 @@ export const GenericTable = (props: GenericTableProps) => {
                         }
                       : {}
                   }
-                  className="table-header"
+                  className={`table-header ${column.dataKey}`}
                 >
                   {' '}
                   {column.label}

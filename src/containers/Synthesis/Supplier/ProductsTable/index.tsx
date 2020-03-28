@@ -86,19 +86,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
+  renderPrice = (row: Product) => <p className="stat">{row.price}</p>;
   renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)}</p>;
   renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
-  renderUnitSold = (row: Product) => {
+  renderRank = (row: Product) => <p className="stat">{row.rank}</p>;
+  renderDailyUnitSold = (row: Product) => {
     return (
       <>
         <p className="stat">{formatNumber(row.sales_monthly)}</p>
       </>
     );
   };
-  renderProfitMonthly = (row: Product) => (
+  renderDailyProfit = (row: Product) => (
     <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
   );
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
+  renderCategory = (row: Product) => <p className="stat">{row.amazon_category_name}</p>;
+  renderDimension = (row: Product) => <p className="stat">{row.dimension}</p>;
+  renderWeight = (row: Product) => <p className="stat">{row.weight} lbs</p>;
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
@@ -165,7 +170,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderProductInfo,
     },
     {
-      label: 'Profit/Item',
+      label: 'Price $',
+      dataKey: 'price',
+      type: 'string',
+      sortable: true,
+      show: true,
+      render: this.renderPrice,
+    },
+    {
+      label: 'Profit $',
       dataKey: 'profit',
       type: 'number',
       sortable: true,
@@ -173,7 +186,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderProfit,
     },
     {
-      label: 'Margin',
+      label: 'Margin %',
       dataKey: 'margin',
       type: 'number',
       sortable: true,
@@ -181,20 +194,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderMargin,
     },
     {
-      label: 'Unit Sold/Mo',
+      label: 'Rank',
+      dataKey: 'rank',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderRank,
+    },
+    {
+      label: 'Daily\nUnit Sold',
       dataKey: 'sales_monthly',
       type: 'number',
       sortable: true,
       show: true,
-      render: this.renderUnitSold,
+      render: this.renderDailyUnitSold,
     },
     {
-      label: 'Profit/Mo',
+      label: 'Daily Profit',
       dataKey: 'profit_monthly',
       type: 'number',
       sortable: true,
       show: true,
-      render: this.renderProfitMonthly,
+      render: this.renderDailyProfit,
     },
     {
       label: 'ROI',
@@ -203,6 +224,30 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderRoi,
+    },
+    {
+      label: 'Category',
+      dataKey: 'category',
+      type: 'string',
+      sortable: true,
+      show: true,
+      render: this.renderCategory,
+    },
+    {
+      label: 'Dimension',
+      dataKey: 'dimension',
+      type: 'string',
+      sortable: true,
+      show: true,
+      render: this.renderDimension,
+    },
+    {
+      label: 'Weight',
+      dataKey: 'weight',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderWeight,
     },
     {
       label: 'Tracking / Rating',
@@ -233,12 +278,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <PaginatedTable
             /* 
-                  key change forced table to remount and set page back to 1
-                  if any data changes that would affect number of displayed items
-                  otherwise we can end up on a page that shows no results because it's
-                  past the end of the total number of items.
-                  This can be done in a less hacky way once we move pagination server-side.
-                */
+                    key change forced table to remount and set page back to 1
+                    if any data changes that would affect number of displayed items
+                    otherwise we can end up on a page that shows no results because it's
+                    past the end of the total number of items.
+                    This can be done in a less hacky way once we move pagination server-side.
+                  */
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={_.isEmpty(searchValue) ? filteredProducts : searchProducts}
