@@ -20,6 +20,7 @@ interface SupplierChartsProps {
   supplierID: any;
   supplierDetails: Supplier;
   products: Product[];
+  filteredProducts: Product[];
   filterRanges: any;
   singlePageItemsCount: number;
   fetchSupplierDetails: (supplierID: any) => void;
@@ -133,8 +134,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       singlePageItemsCount,
       openProductDetailModal,
       supplierID,
+      filteredProducts,
     } = this.props;
-    const filteredProducts = findFilterProducts(products, filterRanges);
 
     const sortProducts = [...filteredProducts].sort(
       (a, b) => parseFloat(b.profit) - parseFloat(a.profit)
@@ -305,6 +306,7 @@ const mapStateToProps = (state: {}) => ({
   products: get(state, 'supplier.products'),
   filterRanges: get(state, 'supplier.filterRanges'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  filteredProducts: get(state, 'supplier.filteredProducts'),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
 
