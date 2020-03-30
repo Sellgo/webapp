@@ -16,7 +16,7 @@ const ProductSearch = (props: any) => {
       className={_.isEmpty(searchFilterValue) ? 'product-search' : 'active product-search'}
       action={{
         icon: 'search',
-        onClick: (e: any) => {
+        onClick: () => {
           setCurrentPage(1);
           searchProfitFinderProduct(searchValue);
         },

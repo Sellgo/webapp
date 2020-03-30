@@ -258,7 +258,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p className="stat">{row.customer_reviews !== 0 ? row.customer_reviews : 'N.A.'}</p>;
   };
   renderRating = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.rating != '0.0' ? row.rating : 'N.A.'}</p>;
+    return <p className="stat">{row.rating !== '0.0' ? row.rating : 'N.A.'}</p>;
   };
   renderDimensions = (row: ProductTrackerDetails) => {
     return <p className="stat">{row.dimension !== null ? row.dimension : 'N.A.'}</p>;

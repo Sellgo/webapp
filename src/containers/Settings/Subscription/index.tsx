@@ -263,7 +263,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
             <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
               Contact Customer Service
-              <a href="#">{'support@sellgo.com'}</a>
+              <a href="mailto: support@sellgo.com">{'support@sellgo.com'}</a>
             </p>
           </Card.Content>
         </Card>
@@ -353,12 +353,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </div>
             )}
             <Grid.Row className="setcard-container">
-              <a href="#">
-                <Image src={Setcard} />
-              </a>
-              <a href="#">
-                <Image src={Stripe} />
-              </a>
+              <Image src={Setcard} />
+              <Image src={Stripe} />
             </Grid.Row>
             <Grid.Row className="offer-footer">We offer 14-day money back guarantee.</Grid.Row>
           </Grid>
