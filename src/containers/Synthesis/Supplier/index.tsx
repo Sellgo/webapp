@@ -169,7 +169,7 @@ const mapDispatchToProps = {
   resetSupplier: () => resetSupplier(),
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
-  supplierProgress: (supplierID: any) => supplierProgress(supplierID),
+  supplierProgress: () => supplierProgress(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Supplier);
