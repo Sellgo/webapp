@@ -129,8 +129,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   renderCharts = () => {
     const {
       supplierDetails,
-      products,
-      filterRanges,
       singlePageItemsCount,
       openProductDetailModal,
       supplierID,
@@ -303,8 +301,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
 const mapStateToProps = (state: {}) => ({
   supplierDetails: get(state, 'supplier.details'),
-  products: get(state, 'supplier.products'),
-  filterRanges: get(state, 'supplier.filterRanges'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
