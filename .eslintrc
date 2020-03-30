@@ -17,11 +17,7 @@
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["jsx-a11y", "react", "@typescript-eslint", "prettier"],
   "env": {
     "node": true,
     "browser": true,
@@ -33,10 +29,7 @@
     "eol-last": 2,
     "linebreak-style": 0,
     "no-underscore-dangle": "off",
-    "max-len": [
-      "error",
-      120
-    ],
+    "max-len": ["error", 120],
     "import/extensions": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
@@ -64,8 +57,7 @@
         ]
       }
     ],
-    "jsx-a11y/href-no-hash": "off",
-    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/anchor-is-valid": "error",
     "react/jsx-filename-extension": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
@@ -100,12 +92,7 @@
     },
     "import/resolver": {
       "node": {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
   }
