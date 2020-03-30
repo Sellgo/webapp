@@ -19,9 +19,7 @@ import './index.scss';
 interface SupplierChartsProps {
   supplierID: any;
   supplierDetails: Supplier;
-  products: Product[];
   filteredProducts: Product[];
-  filterRanges: any;
   singlePageItemsCount: number;
   fetchSupplierDetails: (supplierID: any) => void;
   openProductDetailModal: (product?: Product) => void;
@@ -245,8 +243,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   render() {
-    const { products, filterRanges, supplierDetails } = this.props;
-    if ((products.length === 0 && supplierDetails === null) || filterRanges === undefined) {
+    const { filteredProducts, supplierDetails } = this.props;
+    if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
     return (
