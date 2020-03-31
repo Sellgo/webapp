@@ -12,11 +12,13 @@ interface Props {
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   applyFilter: () => void;
   resetFilter: () => void;
+  toggleSellectAll: () => void;
   resetSingleFilter: (datakey: string) => void;
   filterData: SupplierFilter;
   handleCompleteChange: (dataKey: string, range: Range) => void;
   initialFilterState: FilterState;
   setRadioFilter: (filterType: string, value: string) => void;
+  isSelectAll: boolean;
 }
 
 function FilterContainer(props: Props) {
@@ -31,6 +33,8 @@ function FilterContainer(props: Props) {
     resetSingleFilter,
     initialFilterState,
     setRadioFilter,
+    toggleSellectAll,
+    isSelectAll,
   } = props;
 
   return (
@@ -47,6 +51,17 @@ function FilterContainer(props: Props) {
                 <div className={`all-filter-content ${filter.dataKey}`} key={key}>
                   <span className="filter-name">{filter.label}</span>
                   <div className={!seeAll ? 'see-all filter-list' : 'filter-list'}>
+                    {filter.dataKey === 'product-category' && (
+                      <Checkbox
+                        label="Sellect-all"
+                        key="sellect-all"
+                        onClick={() => {
+                          toggleSellectAll();
+                        }}
+                        checked={isSelectAll}
+                      />
+                    )}
+
                     {_.map(filter.data, (filterData, dataKey) => {
                       if (filter.radio === true) {
                         if (!seeAll && dataKey > 3) return null;
@@ -75,6 +90,7 @@ function FilterContainer(props: Props) {
                     })}
                   </div>
                   <span
+                    key={filter.dataKey}
                     className="toggle-see-all"
                     onClick={() => setSeeAll(!seeAll)}
                     hidden={key == 1 && seeAll}
@@ -89,7 +105,7 @@ function FilterContainer(props: Props) {
             <div className="slider-wrapper">
               {_.map(filterData.filterRanges, filter => {
                 return (
-                  <div className="range-container">
+                  <div className="range-container" key={filter.dataKey}>
                     <h3>{filter.label}</h3>
                     <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
                       x Reset

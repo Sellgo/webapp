@@ -21,6 +21,7 @@ export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
 export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT';
 export const SUPPLIER_QUOTA = 'SUPPLIER_QUOTA';
 export const FILTER_SUPPLIER_PRODUCTS = 'FILTER_SUPPLIER_PRODUCTS';
+export const SEARCH_SUPPLIER_PRODUCTS = 'SEARCH_SUPPLIER_PRODUCTS';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -177,9 +178,8 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 };
 
 export const findFilterProducts2 = (products: any, filterData: any) => {
-  console.log('filterData: ', filterData);
   const updatedFilterProducts = _.filter(products, product => {
-    return !_.isEmpty(filterData.allFilter)
+    return !_.isEmpty(filterData) && !_.isEmpty(filterData.allFilter)
       ? filterData.allFilter.indexOf(product.amazon_category_name) !== -1 &&
           (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
           dataKeys2.every(
@@ -197,6 +197,16 @@ export const findFilterProducts2 = (products: any, filterData: any) => {
   return updatedFilterProducts;
 };
 
+export const searchFilteredProduct = (products: any, value: string) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return (
+      (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
+      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
+      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) != -1)
+    );
+  });
+  return updatedFilterProducts;
+};
 // Add temporary data to products during development
 export const addTempDataToProducts = (products: any) => {
   return products.map((product: any) => {

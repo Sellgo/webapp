@@ -15,14 +15,20 @@ import {
   findFilterProducts,
   SUPPLIER_QUOTA,
   FILTER_SUPPLIER_PRODUCTS,
+  SEARCH_SUPPLIER_PRODUCTS,
   findFilterProducts2,
+  searchFilteredProduct,
 } from '../../constants/Suppliers';
+import _ from 'lodash';
+import { searchSupplierProducts } from '../../actions/Suppliers';
 
 const initialState = {
   products: [],
   filteredProducts: [],
   filterRanges: undefined,
   details: {},
+  filterData: undefined,
+  filterSearch: '',
   trackData: {
     avg_price: '',
     daily_rank: 0,
@@ -83,14 +89,22 @@ export default (state = initialState, action: AnyAction) => {
       const filteredProducts = findFilterProducts(state.products, filterRanges);
       return setIn(newState, 'filteredProducts', filteredProducts);
     }
-
     case FILTER_SUPPLIER_PRODUCTS: {
-      const filterData = action.payload;
-      // Also update filteredProducts in state each time filterRanges changes
-      const filteredProducts = findFilterProducts2(state.products, filterData);
-      return setIn(state, 'filteredProducts', filteredProducts);
+      const { value, filterData } = action.payload;
+      const data = _.cloneDeep(filterData);
+      const newState = setIn(state, 'filterData', data);
+      const filteredProducts = findFilterProducts2(state.products, data);
+      const searchProducts = searchFilteredProduct(filteredProducts, value);
+      return setIn(newState, 'filteredProducts', searchProducts);
     }
-
+    case SEARCH_SUPPLIER_PRODUCTS: {
+      const { value, filterData } = action.payload;
+      const data = _.cloneDeep(filterData);
+      const newState = setIn(state, 'filterSearch', value);
+      const filteredProducts = findFilterProducts2(state.products, data);
+      const searchProducts = searchFilteredProduct(filteredProducts, value);
+      return setIn(newState, 'filteredProducts', searchProducts);
+    }
     case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT:
       return setIn(state, 'singlePageItemsCount', action.payload);
     case SUPPLIER_QUOTA:

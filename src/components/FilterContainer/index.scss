@@ -2,12 +2,12 @@
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
+  flex-direction: column;
 
   .all-filter-content-wrapper {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 30%;
 
     .all-filter-content {
       &.product-category {

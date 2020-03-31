@@ -26,13 +26,15 @@ interface Props {
   products: Product[];
   filteredProducts: Product[];
   productRanges: any;
-  filterProducts: (filterData: any) => void;
+  filterSearch: string;
+  filterProducts: (value: string, filterData: any) => void;
 }
 
 function FilterSection2(props: Props, state: State) {
   const [filterType, setFilterType] = useState('');
+  const [isSelectAll, setSelectAll] = useState(true);
 
-  const { filteredProducts, productRanges, supplierDetails, filterProducts, products } = props;
+  const { filteredProducts, productRanges, supplierDetails, filterProducts, filterSearch } = props;
 
   const filteredRanges = findMinMaxRange2(filteredProducts);
   const filterInitialData = {
@@ -47,16 +49,20 @@ function FilterSection2(props: Props, state: State) {
     rank: filteredRanges.rank,
   };
   const filterStorage = JSON.parse(localStorage.getItem('filterState') || '{}');
-
+  if (!filterStorage && filterStorage.supplier_id !== supplierDetails.supplier_id) {
+    setSelectAll(false);
+  }
   const initialFilterState: any =
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
       ? filterStorage
       : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
-  console.log('products: ', products);
   useEffect(() => {
-    filterProducts(filterState);
+    if (isSelectAll && filterState.allFilter !== undefined) {
+      selectAll();
+    }
+    filterProducts(filterSearch, filterState);
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -342,6 +348,7 @@ function FilterSection2(props: Props, state: State) {
   const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
 
+    setSelectAll(false);
     const allFilter = _.map(filterData.allFilter, filter => {
       if (!filter.radio) {
         _.map(filter.data, allFilterData => {
@@ -352,7 +359,6 @@ function FilterSection2(props: Props, state: State) {
       return filter;
     });
     setAllFilter(allFilter);
-
     if (data.allFilter.indexOf(label) !== -1) {
       data.allFilter.splice(data.allFilter.indexOf(label), 1);
     } else {
@@ -361,6 +367,31 @@ function FilterSection2(props: Props, state: State) {
     setFilterState(data);
   };
 
+  const toggleSellectAll = () => {
+    setSelectAll(!isSelectAll);
+    const data = filterState;
+    if (!isSelectAll) {
+      selectAll();
+    } else {
+      data.allFilter = [];
+      setFilterState(data);
+    }
+  };
+  const selectAll = () => {
+    const data = filterState;
+    _.map(filterData.allFilter, filter => {
+      if (!filter.radio) {
+        _.map(filter.data, allFilterData => {
+          if (data.allFilter.indexOf(allFilterData.label) == -1) {
+            data.allFilter.push(allFilterData.label);
+          }
+          return allFilterData;
+        });
+      }
+      return filter;
+    });
+    setFilterState(data);
+  };
   const handleCompleteChange = (datakey: string, range: Range) => {
     const filterData: any = filterState;
     const data = _.map(filterRanges, filter => {
@@ -388,7 +419,10 @@ function FilterSection2(props: Props, state: State) {
   };
 
   const applyFilter = () => {
-    filterProducts(filterState);
+    if (isSelectAll) {
+      selectAll();
+    }
+    filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
   };
 
@@ -403,6 +437,8 @@ function FilterSection2(props: Props, state: State) {
     data.sales_monthly = productRanges.sales_monthly;
     data.rank = productRanges.rank;
 
+    setSelectAll(true);
+    selectAll();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterData.filterRanges, filter => {
@@ -449,6 +485,8 @@ function FilterSection2(props: Props, state: State) {
           handleCompleteChange={handleCompleteChange}
           initialFilterState={filterState}
           setRadioFilter={setRadioFilter}
+          toggleSellectAll={toggleSellectAll}
+          isSelectAll={isSelectAll}
         />
       </div>
     </div>
@@ -459,10 +497,11 @@ const mapStateToProps = (state: {}) => ({
   supplierDetails: get(state, 'supplier.details'),
   products: supplierProductsSelector(state),
   filteredProducts: get(state, 'supplier.filteredProducts'),
+  filterSearch: get(state, 'supplier.filterSearch'),
 });
 
 const mapDispatchToProps = {
-  filterProducts: (filterData: any) => filterSupplierProducts(filterData),
+  filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterSection2);

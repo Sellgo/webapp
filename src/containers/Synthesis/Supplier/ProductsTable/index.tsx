@@ -8,6 +8,8 @@ import { openSupplierProductDetailModal } from '../../../../actions/Modals';
 import {
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
+  searchSupplierProducts,
+  filterSupplierProducts,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -22,6 +24,7 @@ interface ProductsTableProps {
   isLoadingSupplierProducts: boolean;
   products: Product[];
   filteredProducts: Product[];
+  filterData: any;
   filterRanges: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
@@ -35,11 +38,11 @@ interface ProductsTableProps {
   ) => void;
   openProductDetailModal: (product?: Product) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
+  searchProducts: (value: string, filterData: any) => void;
 }
 
 interface ProductsTableState {
   checkedItems: { [index: number]: {} };
-  searchProducts: Product[];
   searchValue: string;
   productRanges: any;
   filteredRanges: any;
@@ -48,7 +51,6 @@ interface ProductsTableState {
 class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
     checkedItems: {},
-    searchProducts: [],
     searchValue: '',
     productRanges: initialFilterRanges,
     filteredRanges: [],
@@ -144,22 +146,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   searchFilteredProduct = (value: string) => {
-    const { filteredProducts, setSinglePageItemsCount, singlePageItemsCount } = this.props;
-    const products = filteredProducts;
+    const {
+      searchProducts,
+      setSinglePageItemsCount,
+      singlePageItemsCount,
+      filterData,
+    } = this.props;
     this.setState({
       searchValue: value,
     });
-    const newFilteredProducts = products.filter((product: Product) => {
-      return (
-        (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
-        (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
-        (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) != -1)
-      );
-    });
+    searchProducts(value, filterData);
     setSinglePageItemsCount(singlePageItemsCount);
-    this.setState({
-      searchProducts: newFilteredProducts,
-    });
   };
 
   columns: Column[] = [
@@ -266,7 +263,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       filterRanges,
     } = this.props;
-    const { searchProducts, searchValue, productRanges, filteredRanges } = this.state;
+    const { searchValue, productRanges, filteredRanges } = this.state;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -278,15 +275,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <PaginatedTable
             /* 
-                    key change forced table to remount and set page back to 1
-                    if any data changes that would affect number of displayed items
-                    otherwise we can end up on a page that shows no results because it's
-                    past the end of the total number of items.
-                    This can be done in a less hacky way once we move pagination server-side.
-                  */
+                      key change forced table to remount and set page back to 1
+                      if any data changes that would affect number of displayed items
+                      otherwise we can end up on a page that shows no results because it's
+                      past the end of the total number of items.
+                      This can be done in a less hacky way once we move pagination server-side.
+                    */
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
-            data={_.isEmpty(searchValue) ? filteredProducts : searchProducts}
+            data={filteredProducts}
             columns={this.columns}
             searchFilterValue={searchValue}
             showProductFinderSearch={true}
@@ -310,6 +307,7 @@ const mapStateToProps = (state: {}) => ({
   filterRanges: get(state, 'supplier.filterRanges'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  filterData: get(state, 'supplier.filterData'),
 });
 
 const mapDispatchToProps = {
@@ -331,6 +329,7 @@ const mapDispatchToProps = {
     ),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
+  searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

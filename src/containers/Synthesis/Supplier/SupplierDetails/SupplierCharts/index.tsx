@@ -8,7 +8,6 @@ import { Loader, Form, Modal, Header } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
-import { findFilterProducts } from '../../../../../constants/Suppliers';
 import {
   openSupplierProductDetailModal,
   closeSupplierProductDetailModal,
