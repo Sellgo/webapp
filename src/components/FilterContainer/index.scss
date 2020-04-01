@@ -3,6 +3,47 @@
   justify-content: space-between;
   flex-direction: column;
 
+  .ui {
+    &.radio {
+      margin: 5px 0;
+
+      input:checked ~ .box::before,
+      input:checked ~ label::before {
+        background-color: unset !important;
+        border: 1px solid #d4d4d5;
+      }
+
+      input:checked ~ .box::after,
+      input:checked ~ label::after {
+        background-color: #349af8;
+      }
+    }
+
+    &.checkbox {
+      margin: 5px 0;
+
+      label {
+        color: #3b4557;
+        font-size: 14px;
+      }
+
+      &.select-all {
+        font-weight: 500;
+      }
+
+      input:checked ~ .box::before,
+      input:checked ~ label::before {
+        background-color: #349af8;
+        border: 1px solid #d4d4d5;
+      }
+
+      input:checked ~ .box::after,
+      input:checked ~ label::after {
+        color: #fff;
+      }
+    }
+  }
+
   .all-filter-content-wrapper {
     display: flex;
     justify-content: flex-start;
@@ -19,47 +60,6 @@
         &.see-all {
           height: 298px;
           margin-bottom: 5px;
-        }
-
-        .ui {
-          &.radio {
-            margin: 5px 0;
-
-            input:checked ~ .box::before,
-            input:checked ~ label::before {
-              background-color: unset !important;
-              border: 1px solid #d4d4d5;
-            }
-
-            input:checked ~ .box::after,
-            input:checked ~ label::after {
-              background-color: #349af8;
-            }
-          }
-
-          &.checkbox {
-            margin: 5px 0;
-
-            label {
-              color: #3b4557;
-              font-size: 14px;
-            }
-
-            &.select-all {
-              font-weight: 500;
-            }
-
-            input:checked ~ .box::before,
-            input:checked ~ label::before {
-              background-color: #349af8;
-              border: 1px solid #d4d4d5;
-            }
-
-            input:checked ~ .box::after,
-            input:checked ~ label::after {
-              color: #fff;
-            }
-          }
         }
 
         .filter-child-list {
@@ -130,6 +130,10 @@
     .slider-wrapper {
       display: flex;
       margin: 20px 0 30px 0;
+
+      .remove-negative {
+        margin-top: 10px;
+      }
     }
   }
 

@@ -9,7 +9,7 @@ import get from 'lodash/get';
 import { Product } from '../../interfaces/Product';
 import { supplierProductsSelector } from '../../selectors/Supplier';
 import { Range } from '../../interfaces/Generic';
-import { findMinMaxRange2 } from '../../constants/Suppliers';
+import { findMinMaxRange2, dataKeyMapping } from '../../constants/Suppliers';
 import { filterSupplierProducts } from '../../actions/Suppliers';
 
 interface FilterObject {
@@ -36,6 +36,7 @@ function FilterSection2(props: Props, state: State) {
   const filterStorage = JSON.parse(
     typeof localStorage.filterState == 'undefined' ? null : localStorage.filterState
   );
+
   const selectAllStorage = JSON.parse(
     typeof localStorage.filterSelectAll == 'undefined' ||
       !filterStorage ||
@@ -43,13 +44,15 @@ function FilterSection2(props: Props, state: State) {
       ? true
       : localStorage.filterSelectAll
   );
+
   const [filterType, setFilterType] = useState('');
   const [isSelectAll, setSelectAll] = useState(selectAllStorage);
-
+  const cloneProductRanges = _.cloneDeep(productRanges);
   const filteredRanges = findMinMaxRange2(filteredProducts);
   const filterInitialData = {
     supplier_id: supplierDetails.supplier_id,
     allFilter: [],
+    removeNegative: [],
     productSize: 'All size',
     price: filteredRanges.price,
     profit: filteredRanges.profit,
@@ -58,6 +61,7 @@ function FilterSection2(props: Props, state: State) {
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
   };
+
   const initialFilterState: any =
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
       ? filterStorage
@@ -295,9 +299,8 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'price',
         minPlaceholder: 'Min',
         maxPlaceholder: 'Max',
-        range: productRanges.price,
+        range: cloneProductRanges.price,
         filterRange: filterState.price,
-        removeNegative: false,
         sign: '$',
       },
       {
@@ -305,7 +308,10 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'profit',
         minPlaceholder: '$ Min',
         maxPlaceholder: '$ Max',
-        range: productRanges.profit,
+        range:
+          filterState.removeNegative.indexOf('profit') !== -1
+            ? { min: 0, max: cloneProductRanges.profit.max }
+            : cloneProductRanges.profit,
         filterRange: filterState.profit,
         removeNegative: false,
         sign: '$',
@@ -315,7 +321,10 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'margin',
         minPlaceholder: 'Min %',
         maxPlaceholder: 'Max %',
-        range: productRanges.margin,
+        range:
+          filterState.removeNegative.indexOf('margin') !== -1
+            ? { min: 0, max: cloneProductRanges.margin.max }
+            : cloneProductRanges.margin,
         filterRange: filterState.margin,
         removeNegative: false,
         sign: '%',
@@ -325,7 +334,10 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'roi',
         minPlaceholder: 'Min %',
         maxPlaceholder: 'Max %',
-        range: productRanges.roi,
+        range:
+          filterState.removeNegative.indexOf('roi') !== -1
+            ? { min: 0, max: cloneProductRanges.roi.max }
+            : cloneProductRanges.roi,
         filterRange: filterState.roi,
         removeNegative: false,
         sign: '%',
@@ -335,7 +347,7 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'sales_monthly',
         minPlaceholder: 'Min sold',
         maxPlaceholder: 'Max sold ',
-        range: productRanges.sales_monthly,
+        range: cloneProductRanges.sales_monthly,
         filterRange: filterState.sales_monthly,
       },
       {
@@ -343,7 +355,7 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'rank',
         minPlaceholder: 'Min rank',
         maxPlaceholder: 'Max rank ',
-        range: productRanges.rank,
+        range: cloneProductRanges.rank,
         filterRange: filterState.rank,
       },
     ],
@@ -462,14 +474,14 @@ function FilterSection2(props: Props, state: State) {
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
     data.productSize = 'All size';
-    data.price = productRanges.price;
-    data.profit = productRanges.profit;
-    data.roi = productRanges.roi;
-    data.sales_monthly = productRanges.sales_monthly;
-    data.rank = productRanges.rank;
+    data.price = cloneProductRanges.price;
+    data.profit = cloneProductRanges.profit;
+    data.roi = cloneProductRanges.roi;
+    data.sales_monthly = cloneProductRanges.sales_monthly;
+    data.rank = cloneProductRanges.rank;
 
     selectAll();
-    const filterRangeKeys = Object.keys(productRanges);
+    const filterRangeKeys = Object.keys(cloneProductRanges);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterData.filterRanges, filter => {
         if (filter.dataKey === key) {
@@ -489,6 +501,28 @@ function FilterSection2(props: Props, state: State) {
     }
     setFilterType(type);
   };
+
+  const toggleNegative = (datakey: string) => {
+    const data = filterState;
+    const filterDetails = _.map(filterRanges, filter => {
+      if (filter.dataKey === datakey) {
+        if (data.removeNegative.indexOf(datakey) !== -1) {
+          data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+          filter.range.min = cloneProductRanges[datakey].min;
+          filter.filterRange.min = cloneProductRanges[datakey].min;
+          data[datakey].min = filter.range.min;
+        } else {
+          data.removeNegative.push(datakey);
+          filter.range.min = 0;
+          data[datakey].min = 0;
+        }
+      }
+      return filter;
+    });
+    setFilterRanges(filterDetails);
+    setFilterState(data);
+  };
+
   return (
     <div className="filter-section">
       <div className="filter-header">
@@ -517,6 +551,7 @@ function FilterSection2(props: Props, state: State) {
           toggleSellectAll={toggleSellectAll}
           isSelectAll={isSelectAll}
           selectAll={selectAll}
+          toggleNegative={toggleNegative}
         />
       </div>
     </div>

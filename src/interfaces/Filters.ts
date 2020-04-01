@@ -37,6 +37,7 @@ export interface SupplierFilter {
 export interface FilterState {
   supplierID: string;
   allFilter: string[];
+  removeNegative: string[];
   productSize: string;
   price: {
     min: number;

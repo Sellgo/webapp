@@ -15,6 +15,7 @@ interface Props {
   toggleSellectAll: () => void;
   selectAll: () => void;
   resetSingleFilter: (datakey: string) => void;
+  toggleNegative: (datakey: string) => void;
   filterData: SupplierFilter;
   handleCompleteChange: (dataKey: string, range: Range) => void;
   initialFilterState: FilterState;
@@ -37,6 +38,7 @@ function FilterContainer(props: Props) {
     toggleSellectAll,
     isSelectAll,
     selectAll,
+    toggleNegative,
   } = props;
 
   return (
@@ -129,6 +131,18 @@ function FilterContainer(props: Props) {
                       handleCompleteChange={handleCompleteChange}
                       labelSign={filter.sign}
                     />
+                    {filter.removeNegative !== undefined && (
+                      <div className="remove-negative">
+                        <Checkbox
+                          label="Remove Negative Values"
+                          key={filter.dataKey}
+                          onClick={() => {
+                            toggleNegative(filter.dataKey);
+                          }}
+                          checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
+                        />
+                      </div>
+                    )}
                   </div>
                 );
               })}
