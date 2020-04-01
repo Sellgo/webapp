@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './index.scss';
-import { Checkbox, Radio, Button, Input } from 'semantic-ui-react';
+import { Checkbox, Radio, Button, Input, Divider } from 'semantic-ui-react';
 import _ from 'lodash';
 import { FilterData, SupplierFilter, RangeModel, FilterState } from '../../interfaces/Filters';
 import InputRange from 'react-input-range';
@@ -41,6 +41,7 @@ function FilterContainer(props: Props) {
     <div className="filter-container">
       {filterType === 'all-filter' && (
         <>
+          <Divider />
           <div
             className={
               !seeAll ? 'all-filter-content-wrapper' : 'see-all all-filter-content-wrapper'
@@ -49,12 +50,20 @@ function FilterContainer(props: Props) {
             {_.map(filterData.allFilter, (filter, key) => {
               return (
                 <div className={`all-filter-content ${filter.dataKey}`} key={key}>
-                  <span className="filter-name">{filter.label}</span>
-                  <div className={!seeAll ? 'see-all filter-list' : 'filter-list'}>
+                  <div className="content-header">
+                    <span className="filter-name">{filter.label}</span>
+                    {filter.dataKey === 'product-category' && (
+                      <span className="reset category-list" onClick={() => toggleSellectAll()}>
+                        x Reset
+                      </span>
+                    )}
+                  </div>
+                  <div className={seeAll ? 'see-all filter-list' : 'filter-list'}>
                     {filter.dataKey === 'product-category' && (
                       <Checkbox
-                        label="Sellect-all"
+                        label="Sellect all"
                         key="sellect-all"
+                        className="select-all"
                         onClick={() => {
                           toggleSellectAll();
                         }}
@@ -64,7 +73,6 @@ function FilterContainer(props: Props) {
 
                     {_.map(filter.data, (filterData, dataKey) => {
                       if (filter.radio === true) {
-                        if (!seeAll && dataKey > 3) return null;
                         return (
                           <Radio
                             key={dataKey}
@@ -89,24 +97,26 @@ function FilterContainer(props: Props) {
                       }
                     })}
                   </div>
-                  <span
-                    key={filter.dataKey}
-                    className="toggle-see-all"
-                    onClick={() => setSeeAll(!seeAll)}
-                    hidden={key == 1 && seeAll}
-                  >
-                    {seeAll ? 'Show less' : 'See all'}
-                  </span>
+                  {filter.dataKey === 'product-category' && (
+                    <div
+                      key={filter.dataKey}
+                      className="toggle-see-all"
+                      onClick={() => setSeeAll(!seeAll)}
+                    >
+                      {seeAll ? 'Show less' : 'See all'}
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
+          <Divider />
           <div className="slider-filters">
             <div className="slider-wrapper">
               {_.map(filterData.filterRanges, filter => {
                 return (
                   <div className="range-container" key={filter.dataKey}>
-                    <h3>{filter.label}</h3>
+                    <div className="range-label">{filter.label}</div>
                     <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
                       x Reset
                     </span>
@@ -130,6 +140,7 @@ function FilterContainer(props: Props) {
               </Button>
             </div>
           </div>
+          <Divider />
         </>
       )}
     </div>

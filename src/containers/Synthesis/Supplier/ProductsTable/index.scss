@@ -93,7 +93,7 @@ $new_black: #707070;
   }
 
   .track-btn {
-    width: 119%;
+    width: 100%;
 
     .track-wrap {
       width: 100%;
@@ -221,11 +221,17 @@ $new_black: #707070;
     thead {
       tr {
         th {
-          &.sales_monthly {
+          &.table-headers {
+            width: 95px;
+          }
+
+          &.sales-est,
+          &.monthly-revenue {
             white-space: pre;
             text-align: center;
             display: flex;
             align-items: center;
+            line-height: normal;
           }
 
           i {
@@ -250,6 +256,14 @@ $new_black: #707070;
           border-right: 1px solid rgba(34, 36, 38, 0.3);
           border-top-right-radius: 10px;
           border-bottom-right-radius: 10px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td.table-cell {
+          width: 95px;
         }
       }
     }

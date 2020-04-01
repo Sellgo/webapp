@@ -274,7 +274,7 @@ function FilterSection2(props: Props, state: State) {
     ],
     filterRanges: [
       {
-        label: 'Price $',
+        label: 'Buy Box Price $',
         dataKey: 'price',
         minPlaceholder: 'Min',
         maxPlaceholder: 'Max',
@@ -292,7 +292,7 @@ function FilterSection2(props: Props, state: State) {
         sign: '$',
       },
       {
-        label: 'Margin %',
+        label: 'Profit Margin %',
         dataKey: 'margin',
         minPlaceholder: 'Min %',
         maxPlaceholder: 'Max %',
@@ -301,7 +301,7 @@ function FilterSection2(props: Props, state: State) {
         sign: '%',
       },
       {
-        label: 'ROI/ Return On Investment',
+        label: 'ROI/ Return On Investment %',
         dataKey: 'roi',
         minPlaceholder: 'Min %',
         maxPlaceholder: 'Max %',
@@ -424,6 +424,7 @@ function FilterSection2(props: Props, state: State) {
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
+    console.log('filtered products: ', filteredProducts);
   };
 
   const resetFilter = () => {
@@ -474,7 +475,6 @@ function FilterSection2(props: Props, state: State) {
         </Button>
       </div>
       <div className="filter-wrapper">
-        <hr />
         <FilterContainer
           filterType={filterType}
           applyFilter={applyFilter}

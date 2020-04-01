@@ -292,7 +292,11 @@ export const GenericTable = (props: GenericTableProps) => {
                           </Table.Cell>
                         )
                       ) : (
-                        <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                        <Table.Cell
+                          key={column.dataKey || index}
+                          style={{ maxWidth: 400 }}
+                          className={`table-cell ${column.dataKey}`}
+                        >
                           {renderCell(row, column)}
                         </Table.Cell>
                       );

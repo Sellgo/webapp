@@ -4,6 +4,8 @@ export interface Product {
   asin: string;
   brand: string;
   id: number;
+  fee: string;
+  monthly_revenue: string;
   image_url: string;
   last_syn: string;
   margin: string;
@@ -23,6 +25,7 @@ export interface Product {
   upc: string;
   dimension: string;
   weight: string;
+  size_tier: string;
 }
 export interface ProductsTrackData {
   avg_price: string;

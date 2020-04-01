@@ -91,21 +91,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderPrice = (row: Product) => <p className="stat">{row.price}</p>;
   renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)}</p>;
   renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
+  renderFee = (row: Product) => <p className="stat">{row.fees}%</p>;
+  renderMonthlyRevenue = (row: Product) => <p className="stat">{row.monthly_revenue}%</p>;
+  renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
   renderRank = (row: Product) => <p className="stat">{row.rank}</p>;
-  renderDailyUnitSold = (row: Product) => {
+  renderSalesEst = (row: Product) => {
     return (
       <>
         <p className="stat">{formatNumber(row.sales_monthly)}</p>
       </>
     );
   };
-  renderDailyProfit = (row: Product) => (
-    <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
-  );
-  renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
   renderCategory = (row: Product) => <p className="stat">{row.amazon_category_name}</p>;
-  renderDimension = (row: Product) => <p className="stat">{row.dimension}</p>;
-  renderWeight = (row: Product) => <p className="stat">{row.weight} lbs</p>;
+  renderSizeTiers = (row: Product) => <p className="stat">{row.size_tier}</p>;
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
@@ -167,7 +165,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderProductInfo,
     },
     {
-      label: 'Price $',
+      label: 'Price',
       dataKey: 'price',
       type: 'string',
       sortable: true,
@@ -175,7 +173,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderPrice,
     },
     {
-      label: 'Profit $',
+      label: 'Profit',
       dataKey: 'profit',
       type: 'number',
       sortable: true,
@@ -183,7 +181,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderProfit,
     },
     {
-      label: 'Margin %',
+      label: 'Margin',
       dataKey: 'margin',
       type: 'number',
       sortable: true,
@@ -191,28 +189,20 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderMargin,
     },
     {
-      label: 'Rank',
-      dataKey: 'rank',
-      type: 'number',
+      label: 'Fee',
+      dataKey: 'fee',
+      type: 'string',
       sortable: true,
       show: true,
-      render: this.renderRank,
+      render: this.renderFee,
     },
     {
-      label: 'Daily\nUnit Sold',
-      dataKey: 'sales_monthly',
-      type: 'number',
+      label: 'Monthly\nRevenue',
+      dataKey: 'monthly-revenue',
+      type: 'string',
       sortable: true,
       show: true,
-      render: this.renderDailyUnitSold,
-    },
-    {
-      label: 'Daily Profit',
-      dataKey: 'profit_monthly',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderDailyProfit,
+      render: this.renderMonthlyRevenue,
     },
     {
       label: 'ROI',
@@ -223,6 +213,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderRoi,
     },
     {
+      label: 'Rank',
+      dataKey: 'rank',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderRank,
+    },
+    {
+      label: 'Sales\nEst',
+      dataKey: 'sales-est',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderSalesEst,
+    },
+    {
       label: 'Category',
       dataKey: 'category',
       type: 'string',
@@ -231,20 +237,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderCategory,
     },
     {
-      label: 'Dimension',
-      dataKey: 'dimension',
-      type: 'string',
-      sortable: true,
-      show: true,
-      render: this.renderDimension,
-    },
-    {
-      label: 'Weight',
-      dataKey: 'weight',
+      label: 'Size Tier',
+      dataKey: 'size-tier',
       type: 'string',
       show: true,
       sortable: true,
-      render: this.renderWeight,
+      render: this.renderSizeTiers,
     },
     {
       label: 'Tracking / Rating',

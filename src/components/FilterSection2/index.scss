@@ -1,6 +1,7 @@
 .filter-section {
   .filter-header {
     display: flex;
+    margin-bottom: 5px;
   }
 
   .ui.basic {
@@ -49,7 +50,7 @@
       }
 
       &.reset-filter-btn {
-        width: 70px;
+        width: 83px;
         height: 25px;
         font-weight: bold;
         border: 1px solid #98aeca;
