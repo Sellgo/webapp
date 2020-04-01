@@ -72,7 +72,7 @@ export default class SidebarCollapsible extends Component<
                 <Menu.Item
                   key={icon.id}
                   name={icon.icon}
-                  onClick={e => this.handleAnimationChange()}
+                  onClick={() => this.handleAnimationChange()}
                 >
                   <i className={`fas ${visible ? icon.icon : 'fa-angle-left'}`} />
                 </Menu.Item>
@@ -85,7 +85,7 @@ export default class SidebarCollapsible extends Component<
                   to={icon.path}
                   name={icon.icon}
                   active={initPath.startsWith(icon.path)}
-                  onClick={e => {
+                  onClick={() => {
                     if (icon.id === 4) {
                       this.open();
                     }
