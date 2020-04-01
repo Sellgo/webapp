@@ -297,6 +297,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max',
         range: productRanges.price,
         filterRange: filterState.price,
+        removeNegative: false,
         sign: '$',
       },
       {
@@ -306,6 +307,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: '$ Max',
         range: productRanges.profit,
         filterRange: filterState.profit,
+        removeNegative: false,
         sign: '$',
       },
       {
@@ -315,6 +317,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max %',
         range: productRanges.margin,
         filterRange: filterState.margin,
+        removeNegative: false,
         sign: '%',
       },
       {
@@ -324,6 +327,7 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max %',
         range: productRanges.roi,
         filterRange: filterState.roi,
+        removeNegative: false,
         sign: '%',
       },
       {

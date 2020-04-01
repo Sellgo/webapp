@@ -17,6 +17,7 @@ export interface RangeModel {
     min: number;
     max: number;
   };
+  removeNegative?: boolean;
   sign?: string;
 }
 
