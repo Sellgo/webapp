@@ -179,20 +179,17 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 
 export const findFilterProducts2 = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
-    return !_.isEmpty(filterData) && !_.isEmpty(filterData.allFilter)
-      ? filterData.allFilter.indexOf(product.amazon_category_name) !== -1 &&
+    // console.log("filter data:", !_.isEmpty(filterData.allFilter), filterData.allFilter)
+    return !_.isEmpty(filterData.allFilter)
+      ? (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
+          (_.isEmpty(product.amazon_category_name) && filterData.allFilter.indexOf('Others'))) &&
           (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
           dataKeys2.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
               Number(product[dataKey]) <= Number(filterData[dataKey].max)
           )
-      : (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
-          dataKeys2.every(
-            (dataKey: any) =>
-              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-              Number(product[dataKey]) <= Number(filterData[dataKey].max)
-          );
+      : null;
   });
   return updatedFilterProducts;
 };

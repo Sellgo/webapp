@@ -33,9 +33,18 @@ interface Props {
 function FilterSection2(props: Props, state: State) {
   const { filteredProducts, productRanges, supplierDetails, filterProducts, filterSearch } = props;
 
+  const filterStorage = JSON.parse(
+    typeof localStorage.filterState == 'undefined' ? null : localStorage.filterState
+  );
+  const selectAllStorage = JSON.parse(
+    typeof localStorage.filterSelectAll == 'undefined' ||
+      !filterStorage ||
+      filterStorage.supplier_id !== supplierDetails.supplier_id
+      ? true
+      : localStorage.filterSelectAll
+  );
   const [filterType, setFilterType] = useState('');
-  const [isSelectAll, setSelectAll] = useState(true);
-  const filterStorage = JSON.parse(localStorage.getItem('filterState') || '{}');
+  const [isSelectAll, setSelectAll] = useState(selectAllStorage);
 
   const filteredRanges = findMinMaxRange2(filteredProducts);
   const filterInitialData = {
@@ -49,11 +58,6 @@ function FilterSection2(props: Props, state: State) {
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
   };
-
-  if (!filterStorage && filterStorage.supplier_id !== supplierDetails.supplier_id) {
-    setSelectAll(false);
-  }
-
   const initialFilterState: any =
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
       ? filterStorage
@@ -62,8 +66,8 @@ function FilterSection2(props: Props, state: State) {
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
   useEffect(() => {
-    if (isSelectAll && filterState.allFilter !== undefined) {
-      selectAll();
+    if (isSelectAll || !filterStorage) {
+      selectAll(true);
     }
     filterProducts(filterSearch, filterState);
   }, [filterState]);
@@ -78,167 +82,177 @@ function FilterSection2(props: Props, state: State) {
           {
             label: 'Apps & Games',
             dataKey: 'apps-games',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Appliances',
             dataKey: 'appliances',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Automotive',
             dataKey: 'automotive',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Baby',
             dataKey: 'baby',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Beauty & Personal Care',
             dataKey: 'beauty-persona-care',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Books',
             dataKey: 'books',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Camera & Photo',
             dataKey: 'camera-photo',
-            checked: false,
+            checked: true,
           },
           {
             label: 'CDs & Vynil',
             dataKey: 'cds-vynil',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Cell Phones & Accessories',
             dataKey: 'cellphones-accessories',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Clothing, Shoes & Jewelry',
             dataKey: 'clothing-shoes-jewelry',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Collectible & Fine Arts',
             dataKey: 'collectible-fine-arts',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Computers & Accessories',
             dataKey: 'computers-accessories',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Electronics',
             dataKey: 'electronics',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Grocery & Gourmet Food',
             dataKey: 'grocery-gourmet-food',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Handmade Products',
             dataKey: 'handmade-products',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Health & Household',
             dataKey: 'health-household',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Home & Kitchen',
             dataKey: 'home-kitchen',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Industrial & Scientific',
             dataKey: 'industrial-scientific',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Kindle store',
             dataKey: 'kindle-store',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Kitchen & Dining',
             dataKey: 'kithcen-dining',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Lock Picking & Theft Devices',
             dataKey: 'lock-picking-theft-devices',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Luggage & Travel',
             dataKey: 'luggage-travel',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Magazine Subscription',
             dataKey: 'magazine-subscription',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Medical Devices & Accessories',
             dataKey: 'medical-devices-accessories',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Musical Instruments',
             dataKey: 'musical-instruments',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Office Products',
             dataKey: 'office-products',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Outdoors',
             dataKey: 'outdoors',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Patio, Lawn & Garden',
             dataKey: 'patio-lawn-garden',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Pet Supplies',
             dataKey: 'pet-supplies',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Software',
             dataKey: 'software',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Sports & Outdoors',
             dataKey: 'sports-outdoors',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Tools & Home Improvement',
             dataKey: 'tools-home-improvement',
-            checked: false,
+            checked: true,
           },
           {
             label: 'Toys & Games',
             dataKey: 'toys-games',
-            checked: false,
+            checked: true,
+          },
+          {
+            label: 'Toys & Games',
+            dataKey: 'toys-games',
+            checked: true,
+          },
+          {
+            label: 'Others',
+            dataKey: 'others',
+            checked: true,
           },
         ],
       },
@@ -377,12 +391,18 @@ function FilterSection2(props: Props, state: State) {
     if (!isSelectAll) {
       selectAll();
     } else {
+      localStorage.setItem('filterSelectAll', JSON.stringify(false));
       data.allFilter = [];
       setFilterState(data);
     }
   };
 
-  const selectAll = () => {
+  const selectAll = (firstLoad?: boolean) => {
+    if (!firstLoad) {
+      localStorage.setItem('filterSelectAll', JSON.stringify(true));
+    }
+
+    setSelectAll(true);
     const data = filterState;
     _.map(filterData.allFilter, filter => {
       if (!filter.radio) {
@@ -395,6 +415,7 @@ function FilterSection2(props: Props, state: State) {
       }
       return filter;
     });
+
     setFilterState(data);
   };
 
@@ -430,7 +451,6 @@ function FilterSection2(props: Props, state: State) {
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
-    console.log('filtered products: ', filteredProducts);
   };
 
   const resetFilter = () => {
@@ -444,7 +464,6 @@ function FilterSection2(props: Props, state: State) {
     data.sales_monthly = productRanges.sales_monthly;
     data.rank = productRanges.rank;
 
-    setSelectAll(true);
     selectAll();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
@@ -493,6 +512,7 @@ function FilterSection2(props: Props, state: State) {
           setRadioFilter={setRadioFilter}
           toggleSellectAll={toggleSellectAll}
           isSelectAll={isSelectAll}
+          selectAll={selectAll}
         />
       </div>
     </div>

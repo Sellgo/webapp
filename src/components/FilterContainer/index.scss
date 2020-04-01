@@ -1,7 +1,6 @@
 .filter-container {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
   flex-direction: column;
 
   .all-filter-content-wrapper {
@@ -25,6 +24,12 @@
         .ui {
           &.radio {
             margin: 5px 0;
+
+            input:checked ~ .box::before,
+            input:checked ~ label::before {
+              background-color: unset !important;
+              border: 1px solid #d4d4d5;
+            }
 
             input:checked ~ .box::after,
             input:checked ~ label::after {
@@ -111,6 +116,11 @@
         }
       }
     }
+  }
+
+  .middle-divider {
+    width: 90%;
+    margin: 1rem auto;
   }
 
   .slider-filters {

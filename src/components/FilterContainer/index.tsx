@@ -13,6 +13,7 @@ interface Props {
   applyFilter: () => void;
   resetFilter: () => void;
   toggleSellectAll: () => void;
+  selectAll: () => void;
   resetSingleFilter: (datakey: string) => void;
   filterData: SupplierFilter;
   handleCompleteChange: (dataKey: string, range: Range) => void;
@@ -35,6 +36,7 @@ function FilterContainer(props: Props) {
     setRadioFilter,
     toggleSellectAll,
     isSelectAll,
+    selectAll,
   } = props;
 
   return (
@@ -53,7 +55,7 @@ function FilterContainer(props: Props) {
                   <div className="content-header">
                     <span className="filter-name">{filter.label}</span>
                     {filter.dataKey === 'product-category' && (
-                      <span className="reset category-list" onClick={() => toggleSellectAll()}>
+                      <span className="reset category-list" onClick={() => selectAll()}>
                         x Reset
                       </span>
                     )}
@@ -110,7 +112,7 @@ function FilterContainer(props: Props) {
               );
             })}
           </div>
-          <Divider />
+          <Divider className="middle-divider" />
           <div className="slider-filters">
             <div className="slider-wrapper">
               {_.map(filterData.filterRanges, filter => {
