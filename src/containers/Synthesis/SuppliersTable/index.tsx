@@ -114,7 +114,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           },
           {
             key: '3',
-            text: <Dropdown.Item icon="sync alternate" text=" Rerun" />,
+            text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
             value: 'rerun',
             disabled: !amazonMWSAuthorized,
             onClick: () => {
