@@ -97,7 +97,7 @@
 
 .new-supplier-modal .content {
   border-radius: 15px !important;
-  height: 600px;
+  min-height: 600px;
 }
 
 .new-supplier-modal .rc-steps-item-tail {
