@@ -31,10 +31,11 @@ interface Props {
 }
 
 function FilterSection2(props: Props, state: State) {
+  const { filteredProducts, productRanges, supplierDetails, filterProducts, filterSearch } = props;
+
   const [filterType, setFilterType] = useState('');
   const [isSelectAll, setSelectAll] = useState(true);
-
-  const { filteredProducts, productRanges, supplierDetails, filterProducts, filterSearch } = props;
+  const filterStorage = JSON.parse(localStorage.getItem('filterState') || '{}');
 
   const filteredRanges = findMinMaxRange2(filteredProducts);
   const filterInitialData = {
@@ -48,16 +49,18 @@ function FilterSection2(props: Props, state: State) {
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
   };
-  const filterStorage = JSON.parse(localStorage.getItem('filterState') || '{}');
+
   if (!filterStorage && filterStorage.supplier_id !== supplierDetails.supplier_id) {
     setSelectAll(false);
   }
+
   const initialFilterState: any =
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
       ? filterStorage
       : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
+
   useEffect(() => {
     if (isSelectAll && filterState.allFilter !== undefined) {
       selectAll();
@@ -345,6 +348,7 @@ function FilterSection2(props: Props, state: State) {
     setAllFilter(data);
     setFilterState(filterValue);
   };
+
   const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
 
@@ -377,6 +381,7 @@ function FilterSection2(props: Props, state: State) {
       setFilterState(data);
     }
   };
+
   const selectAll = () => {
     const data = filterState;
     _.map(filterData.allFilter, filter => {
@@ -392,6 +397,7 @@ function FilterSection2(props: Props, state: State) {
     });
     setFilterState(data);
   };
+
   const handleCompleteChange = (datakey: string, range: Range) => {
     const filterData: any = filterState;
     const data = _.map(filterRanges, filter => {
