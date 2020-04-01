@@ -105,13 +105,7 @@ export class Supplier extends React.Component<SupplierProps> {
         <Segment basic={true} className="setting">
           <Grid>
             <Grid.Row className="right-column">
-              {isLoadingSupplierProducts ? (
-                <Segment>
-                  <Loader active={true} inline="centered" size="massive">
-                    Loading
-                  </Loader>
-                </Segment>
-              ) : (
+              {!isLoadingSupplierProducts && (
                 <SupplierDetails supplierID={this.props.match.params.supplierID} />
               )}
             </Grid.Row>
