@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Segment } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
+import Sidebar from './Sidebar';
 import Auth from '../Auth/Auth';
 import './index.scss';
 
@@ -15,10 +16,11 @@ class AdminLayout extends React.Component<Props> {
     return (
       <React.Fragment>
         <AdminHeader auth={auth}>{this.props.children}</AdminHeader>
-
-        <Segment className="admin-layout" basic={true}>
-          {children}
-        </Segment>
+        <Sidebar auth={auth}>
+          <Segment className="admin-layout" basic={true}>
+            {children}
+          </Segment>
+        </Sidebar>
       </React.Fragment>
     );
   }

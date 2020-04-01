@@ -24,6 +24,8 @@ const StepsInfo = (props: Props) => {
           </Step.Content>
         </Step>
       );
+    } else {
+      return null;
     }
   });
   const handleClickPassword = () => {

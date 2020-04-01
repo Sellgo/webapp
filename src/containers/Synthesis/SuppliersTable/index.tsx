@@ -77,8 +77,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const { amazonMWSAuthorized } = this.props;
     return (
       <Dropdown
-        className={'syn-dropdown-link'}
-        text="SYN"
+        className={'syn-dropdown-link syn-dropdown-label'}
+        text="Profit Finder"
         floating={true}
         selectOnBlur={false}
         fluid={true}
@@ -87,7 +87,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         options={[
           {
             key: '0',
-            text: <Dropdown.Item icon="spinner" text=" Synthesis" />,
+            text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
             value: 'SYN',
           },
           {
@@ -114,7 +114,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           },
           {
             key: '3',
-            text: <Dropdown.Item icon="sync alternate" text=" Rerun" />,
+            text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
             value: 'rerun',
             disabled: !amazonMWSAuthorized,
             onClick: () => {

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Image, SemanticSIZES } from 'semantic-ui-react';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({ size, centered }) => (
+const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({ centered }) => (
   <Image
     ui={true}
     style={{ width: 80 }}

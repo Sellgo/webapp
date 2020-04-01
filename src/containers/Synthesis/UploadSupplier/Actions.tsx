@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Checkbox, Icon } from 'semantic-ui-react';
+import { Button, Checkbox } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import {
   setUploadSupplierStep,
@@ -56,7 +56,7 @@ const Actions = ({
 
   if (processCompleted) {
     return (
-      <div className={`${className || ''} ${styles.actions}`}>
+      <div className={`${className || ''} ${styles.actions} submit-actions`}>
         <Button
           onClick={closeModal}
           className={styles.action}
@@ -71,15 +71,12 @@ const Actions = ({
   }
 
   return (
-    <div className={`${className || ''} ${styles.actions} ${styles['supplier-btns']}`}>
+    <div
+      className={`new-supplier-cont ${className || ''} ${styles.actions} ${
+        styles['supplier-btns']
+      }`}
+    >
       <div className={styles['download-options']}>
-        {currentStep === 1 && (
-          <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
-            <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
-              <Icon name="cloud upload" color={'grey'} size="small" /> Download Template
-            </Button>
-          </a>
-        )}
         {currentStep === 1 && columnMappings.length > 0 && (
           <Checkbox
             className={styles.checked}
@@ -99,14 +96,16 @@ const Actions = ({
         )}
       </div>
       <div className={`${styles['btns-wrap']} ${styles.upload}`}>
+        {currentStep === 1 && (
+          <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
+            <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
+              <i className="fas fa-file-download" /> Download Template
+            </Button>
+          </a>
+        )}
         {hasPrevStep && (
           <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
             Previous
-          </Button>
-        )}
-        {currentStep === 1 && (
-          <Button onClick={closeModal} className={styles.action} basic={true} color="red">
-            Dismiss
           </Button>
         )}
         {hasNextStep && (

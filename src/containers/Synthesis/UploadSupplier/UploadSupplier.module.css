@@ -1,7 +1,6 @@
 /* stylelint-disable selector-pseudo-class-no-unknown */
 /* stylelint-disable no-descending-specificity */
 .container {
-  min-height: 32em;
   display: flex;
   flex-direction: column;
 }
@@ -28,10 +27,6 @@
   margin-top: 1em !important;
 }
 
-.form-container {
-  position: relative;
-}
-
 .supplier-details-toggle {
   position: absolute;
   top: 0;
@@ -53,7 +48,7 @@
 
 .action {
   border-radius: 50px !important;
-  min-width: 110px;
+  min-width: 130px;
 }
 
 .flex {
@@ -105,18 +100,6 @@
   color: red;
 }
 
-.ouline-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  min-height: 20em;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 15px !important;
-}
-
 label.block {
   display: block !important;
 }
@@ -135,11 +118,6 @@ label.block {
   display: flex;
 }
 
-.stepper :global(.rc-steps-item-tail) {
-  margin-left: 49px !important;
-  margin-top: 14px !important;
-}
-
 .stepper :global(.rc-steps-icon) {
   font-size: 25px !important;
   padding: 0 0 0 0.25rem !important;
@@ -156,17 +134,32 @@ label.block {
   margin-left: 6px !important;
 }
 
-.stepper :global(.rc-steps-item-process .rc-steps-item-title) {
-  color: black !important;
+.btns-wrap {
+  margin-top: 40px;
 }
 
 .btns-wrap > button {
   margin-bottom: 10px !important;
 }
 
-/* .stepper :global(.rc-steps-item-content) {
-  width: auto !important;
-} */
+.taxAlign {
+  padding-left: 0 !important;
+}
+
+.rightAdjust {
+  margin-left: 60px;
+}
+
+.leftAdjust {
+  margin-left: -60px;
+}
+
+@media (max-width: 48em) {
+  .rightAdjust,
+  .leftAdjust {
+    margin-left: 0;
+  }
+}
 
 @media screen and (min-width: 310px) and (max-width: 767px) {
   .stepper {
@@ -199,15 +192,6 @@ label.block {
 
   .stepper :global(.rc-steps-item-title) {
     font-size: 10px !important;
-  }
-
-  .supply-container {
-    font-size: 14px !important;
-    margin: 5px 0 !important;
-  }
-
-  .bg-color .wdt100 {
-    width: 100% !important;
   }
 
   .field-width {
@@ -248,11 +232,6 @@ label.block {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-  .supply-container {
-    font-size: 13px !important;
-    margin: 5px 10px !important;
-  }
-
   .dropdwn-wdth {
     min-width: auto !important;
     width: 100%;
@@ -284,9 +263,6 @@ label.block {
   width: 421px !important;
 }
 
-/* .stepper :global(.rc-steps-item-content) {
-  width: auto !important;
-} */
 .phone-field input[type='number']::-webkit-inner-spin-button,
 .phone-field input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;

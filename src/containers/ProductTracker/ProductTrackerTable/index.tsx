@@ -254,6 +254,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderAvgRank = (row: ProductTrackerDetails) => {
     return <p className="stat">{row.avg_rank !== 0 ? row.avg_rank : 'N.A.'}</p>;
   };
+  renderCustomerReviews = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.customer_reviews !== 0 ? row.customer_reviews : 'N.A.'}</p>;
+  };
+  renderRating = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.rating !== '0.0' ? row.rating : 'N.A.'}</p>;
+  };
   renderDimensions = (row: ProductTrackerDetails) => {
     return <p className="stat">{row.dimension !== null ? row.dimension : 'N.A.'}</p>;
   };
@@ -286,7 +292,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Price',
       dataKey: 'avg_price',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
@@ -294,7 +300,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Profit',
       dataKey: 'avg_profit',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderAvgProfit,
@@ -302,7 +308,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Margin',
       dataKey: 'avg_margin',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderAvgMargin,
@@ -310,15 +316,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg Daily Unit Sold',
       dataKey: 'avg_daily_sales',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderAvgUnitSold,
     },
     {
       label: 'Avg Daily Revenue',
-      type: 'number',
       dataKey: 'avg_daily_revenue',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderDailyRevenue,
@@ -326,7 +332,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Avg ROI',
       dataKey: 'avg_roi',
-      type: 'number',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderAvgROI,
@@ -342,7 +348,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Dimensions',
       dataKey: 'dimension',
-      type: 'number',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderDimensions,
@@ -350,10 +356,26 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Weight',
       dataKey: 'weight',
-      type: 'number',
+      type: 'string',
       show: true,
       sortable: true,
       render: this.renderWeight,
+    },
+    {
+      label: 'Reviews',
+      dataKey: 'customer_reviews',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderCustomerReviews,
+    },
+    {
+      label: 'Rating',
+      dataKey: 'rating',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderRating,
     },
     {
       icon: 'ellipsis horizontal',

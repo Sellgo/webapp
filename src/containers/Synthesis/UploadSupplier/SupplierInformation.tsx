@@ -1,8 +1,8 @@
 import React from 'react';
-import { Form, Grid, Popup, Icon } from 'semantic-ui-react';
+import { Form, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import { Field } from 'redux-form';
-import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
+import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { defaultSelect } from '../../../constants';
 import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus, terms } from '../../../constants/UploadSupplier';
@@ -15,159 +15,102 @@ import { webUrl } from '../../../utils/validations/isUrl';
 const required = isRequired();
 
 const SupplierDetails = () => (
-  <Grid columns={3} className={styles.grid}>
-    <Grid.Row>
-      <Grid.Column>
-        <Field
-          component={InputField}
-          name="contact"
-          label="Contact Person"
-          placeholder="First Last"
-          maxLength="100"
-          validate={isName()}
-        />
-      </Grid.Column>
-      <Grid.Column>
-        <Field
-          component={InputField}
-          name="phone"
-          label="Phone"
-          placeholder="e.g. +1 (416) 555-1212"
-          validate={isNumber}
-          className={styles['phone-field']}
-        />
-      </Grid.Column>
-      <Grid.Column>
-        <Field component={InputField} name="email" label="Email" placeholder="Email" type="email" />
-      </Grid.Column>
-    </Grid.Row>
-    <Grid.Row>
-      <Grid.Column>
-        <Field
-          component={InputField}
-          name="website"
-          label="Website"
-          placeholder="Website"
-          type="url"
-          maxLength="200"
-          validate={webUrl}
-        />
-      </Grid.Column>
-      <Grid.Column>
-        <Field
-          className="timezone-field"
-          component={SelectField}
-          name="timezone"
-          label="Timezone"
-          options={[defaultSelect, ...timezones]}
-        />
-      </Grid.Column>
-    </Grid.Row>
-    <Grid.Row>
-      <Grid.Column>
-        <Field
-          className={styles['dropdwn-wdth']}
-          component={SelectField}
-          name="account_status"
-          label="Account Status"
-          options={[defaultSelect, ...accountStatus]}
-        />
-      </Grid.Column>
-      <Grid.Column width={8}>
-        <Field
-          component={SelectField}
-          name="terms"
-          label="Terms"
-          options={[defaultSelect, ...terms]}
-        />
-      </Grid.Column>
-    </Grid.Row>
-    <Grid.Row className="equal width">
-      <Grid.Column>
-        <Field
-          component={InputField}
-          name="upcharge_fee"
-          label="Upcharge Fee (%)"
-          placeholder="Upcharge Fee (%)"
-          className={styles['field-width']}
-          inputProps={{
-            label: { basic: true, content: '%' },
-            labelPosition: 'right',
-          }}
-          type="number"
-          min="0"
-          validate={onlyNumber}
-        />
-      </Grid.Column>
-      <Grid.Column>
-        <Field
-          component={InputField}
-          name="freight_fee"
-          label="Freight Free Threshold ($)"
-          placeholder="Freight Free Threshold ($)"
-          className={styles['field-width']}
-          inputProps={{
-            label: { basic: true, content: '$' },
-            labelPosition: 'right',
-          }}
-          type="number"
-          min="0"
-          validate={onlyNumber}
-        />
-      </Grid.Column>
-    </Grid.Row>
-  </Grid>
+  <React.Fragment>
+    <Grid.Column>
+      <Field
+        component={InputField}
+        name="website"
+        label="Website"
+        placeholder="Website"
+        type="url"
+        maxLength="200"
+        validate={webUrl}
+      />
+      <Field
+        component={InputField}
+        name="phone"
+        label="Phone"
+        placeholder="e.g. +1 (416) 555-1212"
+        validate={isNumber}
+        className={styles['phone-field']}
+      />
+      <Field
+        className={styles['dropdwn-wdth']}
+        component={SelectField}
+        name="account_status"
+        label="Account Status"
+        placeholder="Account Status"
+        options={[defaultSelect, ...accountStatus]}
+      />
+      <Field
+        component={InputField}
+        name="freight_fee"
+        label="Freight Free Threshold ($)"
+        placeholder="$"
+        className={styles['field-width']}
+        type="number"
+        min="0"
+        validate={onlyNumber}
+      />
+    </Grid.Column>
+    <Grid.Column>
+      <Field
+        className="timezone-field"
+        component={SelectField}
+        name="timezone"
+        label="Timezone"
+        placeholder="Timezone"
+        options={[defaultSelect, ...timezones]}
+      />
+      <Field component={InputField} name="email" label="Email" placeholder="Email" type="email" />
+      <Field
+        component={SelectField}
+        name="terms"
+        label="Terms"
+        placeholder="Terms"
+        options={[defaultSelect, ...terms]}
+      />
+      <Field
+        component={InputField}
+        name="upcharge_fee"
+        label="Upcharge Fee (%)"
+        placeholder="%"
+        className={styles['field-width']}
+        type="number"
+        min="0"
+        validate={onlyNumber}
+      />
+    </Grid.Column>
+  </React.Fragment>
 );
 
 const SupplierInformation = () => {
   return (
-    <div className={styles['ouline-box']}>
-      <Form className={styles['supply-container']}>
-        <label className={styles['supplier-information-label']}>
-          Supplier Information
-          <span>
-            {' '}
-            <Popup
-              trigger={<Icon name="question circle" color={'grey'} />}
-              position="top left"
-              size="tiny"
-              content="Supplier Information"
-            />
-          </span>
-        </label>
-        <br />
-        <Grid columns={2} className="bg-color">
-          <Grid.Row>
-            <Grid.Column width={4} className={styles.padding0}>
-              <div className={styles['form-container']}>
-                <Grid.Row>
-                  <Field
-                    required={true}
-                    validate={required}
-                    component={InputField}
-                    name="name"
-                    label="Supplier Name"
-                    placeholder="Supplier Name"
-                    maxLength="100"
-                  />
-                </Grid.Row>
-                <Grid.Row>
-                  <Field
-                    //required={true}
-                    //validate={required}
-                    component={TextAreaField}
-                    name="description"
-                    label="Description"
-                    placeholder="Write your latest update here"
-                    maxLength="100"
-                  />
-                </Grid.Row>
-              </div>
-            </Grid.Column>
-            <Grid.Column width={12} className={styles.wdt100}>
-              {<SupplierDetails />}
-            </Grid.Column>
-          </Grid.Row>
+    <div className={`new-upload-outline ${styles['ouline-box']}`}>
+      <Form className={`${styles['supply-container']} ${styles['form-size']}`}>
+        <Grid columns="equal" className="bg-color">
+          <Grid.Column className={styles.padding0}>
+            <div className={`new-upload-form ${styles['form-container']}`}>
+              <Field
+                required={true}
+                validate={required}
+                component={InputField}
+                name="name"
+                label="Supplier Name"
+                placeholder="Supplier Name"
+                maxLength="100"
+              />
+              <Field
+                component={InputField}
+                name="contact"
+                label="Contact Person"
+                placeholder="First Last"
+                maxLength="100"
+                validate={isName()}
+              />
+            </div>
+          </Grid.Column>
+          {<SupplierDetails />}
         </Grid>
       </Form>
     </div>

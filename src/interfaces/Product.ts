@@ -20,6 +20,7 @@ export interface Product {
   roi: string;
   product_cost: string;
   fees: string;
+  upc: string;
 }
 export interface ProductsTrackData {
   avg_price: string;
@@ -94,6 +95,8 @@ export interface ProductTrackerDetails {
   avg_price: string;
   avg_profit: string;
   avg_rank: number;
+  customer_reviews: number;
+  rating: string;
   avg_roi: string;
   dimension: string;
   id: number;

@@ -2,9 +2,8 @@ import * as React from 'react';
 import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
+import LogoutConfirm from '../LogoutConfirm';
 import MobileHeader from './MobileHeader';
-import FingerprintBlue from '../../assets/images/fingerprint-1.svg';
-import FingerprintWhite from '../../assets/images/fingerprint-2.svg';
 import './AdminHeader.scss';
 
 interface AdminProps {
@@ -16,6 +15,7 @@ export class AdminHeader extends React.Component<AdminProps> {
   userPicture = localStorage.getItem('userPicture');
   state = {
     isVisible: false,
+    openConfirm: false,
   };
 
   toggleMenu = () => {
@@ -23,6 +23,9 @@ export class AdminHeader extends React.Component<AdminProps> {
       isVisible: !this.state.isVisible,
     });
   };
+
+  open = () => this.setState({ openConfirm: true });
+  openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
     const { auth } = this.props;
@@ -39,47 +42,6 @@ export class AdminHeader extends React.Component<AdminProps> {
               <Logo size="small" />
             </Menu.Item>
           </Menu.Menu>
-          <Menu.Menu className="main-menu">
-            <Menu.Item
-              as={Link}
-              to="/synthesis"
-              className={window.location.pathname.startsWith('/synthesis') ? 'active-menu' : ''}
-            >
-              <i className="fas fa-search-dollar" style={{ fontSize: 18 }} />
-              <span className="header-values">Profit Finder</span>
-              <i
-                className={
-                  window.location.pathname.startsWith('/synthesis')
-                    ? 'arrow is-right light'
-                    : 'arrow is-right'
-                }
-              />
-            </Menu.Item>
-            <Menu.Item
-              as={Link}
-              to="/product-tracker"
-              className={
-                window.location.pathname.startsWith('/product-tracker')
-                  ? 'product-tracker-menu active-menu'
-                  : window.location.pathname.startsWith('/synthesis')
-                  ? 'product-tracker-menu'
-                  : ''
-              }
-            >
-              <span>
-                <img
-                  src={
-                    window.location.pathname.startsWith('/product-tracker')
-                      ? FingerprintBlue
-                      : FingerprintWhite
-                  }
-                  alt="fingerprint"
-                />
-                Product Tracker
-              </span>
-            </Menu.Item>
-          </Menu.Menu>
-
           <Menu.Menu className="right-menu" position="right" fitted="horizontally">
             <div className="divider" />
             <Menu.Item>
@@ -103,12 +65,13 @@ export class AdminHeader extends React.Component<AdminProps> {
                   <Dropdown.Item as={Link} to="/settings/pricing">
                     Subscription
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={auth.logout}>Logout</Dropdown.Item>
+                  <Dropdown.Item onClick={this.open}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Menu.Item>
           </Menu.Menu>
         </Menu>
+        <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
         <div className="navbar-spacer" />
       </div>
     );

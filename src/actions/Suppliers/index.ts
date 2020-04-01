@@ -31,6 +31,7 @@ import {
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
+import { UntrackSuccess } from '../../components/ToastMessages/ProductTracker';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -109,7 +110,7 @@ export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (disp
     });
 };
 
-export const supplierProgress = (_supplierID: any) => (dispatch: any) => {
+export const supplierProgress = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota-meter`)
     .then(json => {
@@ -306,7 +307,7 @@ export const setSupplierProductTrackerGroup = (data: any) => ({
   payload: data,
 });
 
-export const fetchSupplierProductTrackerGroup = (_supplierID: string) => (dispatch: any) => {
+export const fetchSupplierProductTrackerGroup = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`)
     .then(json => {
@@ -370,7 +371,7 @@ export const updateProductTrackingStatus = (
           dispatch(getSellerQuota());
           if (name === 'tracker') {
             if (type === 'untrack') {
-              success(`Product is now untracked`);
+              success(UntrackSuccess);
               dispatch(removeTrackedProduct(json.data.id));
             } else if (type === 'move-group') {
               success(`Product is moved to ${groupName}`);
@@ -414,9 +415,7 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     });
 };
 
-export const postProductTrackGroupId = (supplierID: string, supplierName: string) => (
-  _dispatch: any
-) => {
+export const postProductTrackGroupId = (supplierID: string, supplierName: string) => () => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.set('name', supplierName);

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Icon, Popup, Confirm, Menu } from 'semantic-ui-react';
+import { Icon, Popup, Confirm, Menu, Divider, Header, Segment } from 'semantic-ui-react';
 import { clamp } from 'lodash';
+import Amazon from '../../../assets/images/link.svg';
+import Untrack from '../../../assets/images/untrack.svg';
 
 interface OtherSortProps {
   row: any;
@@ -97,16 +99,19 @@ class OtherSort extends React.Component<OtherSortProps> {
           open={otherOptionsOpen}
         >
           <Menu fluid={true} vertical={true}>
-            <Menu.Item as="a" href={row.amazon_url} target="_blank">
+            <Menu.Item className="amazon-link" as="a" href={row.amazon_url} target="_blank">
+              <img src={Amazon} alt="Amazon" />
               {`View on Amazon`}
             </Menu.Item>
             <Menu.Item
+              className="untrack-link"
               style={{ color: 'red' }}
               onClick={() => {
                 this.setOtherOptionsOpen(false);
                 handleConfirmMessage(row);
               }}
             >
+              <img src={Untrack} alt="Untrack" />
               {`Untrack Product`}
             </Menu.Item>
           </Menu>
@@ -114,8 +119,17 @@ class OtherSort extends React.Component<OtherSortProps> {
         <Confirm
           className="confirmation-box"
           open={confirm}
-          header="Are you sure?"
-          content="This will remove the product from the tracker."
+          cancelButton="No"
+          confirmButton="Yes"
+          content={
+            <Segment placeholder>
+              <Header as="h4" icon>
+                This will remove the product from the tracker.
+                <Header.Subheader>Are you sure?</Header.Subheader>
+              </Header>
+              <Divider clearing />
+            </Segment>
+          }
           onCancel={handleCancel}
           onConfirm={() => handleUntrack(activeRow.product_track_group_id, activeRow.id)}
         />
