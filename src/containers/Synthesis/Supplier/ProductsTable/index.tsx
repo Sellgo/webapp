@@ -55,7 +55,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
-    console.log('props.products: ', props.products);
     if (props.products && props.products !== this.props.products) {
       // Get min and max range for each filter setting based on all products
       const productRanges = findMinMax(props.products);
