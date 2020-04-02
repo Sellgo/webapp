@@ -31,12 +31,18 @@ interface Props {
 }
 
 function FilterSection2(props: Props, state: State) {
-  const { filteredProducts, productRanges, supplierDetails, filterProducts, filterSearch } = props;
+  const {
+    filteredProducts,
+    productRanges,
+    supplierDetails,
+    filterProducts,
+    filterSearch,
+    products,
+  } = props;
 
   const filterStorage = JSON.parse(
     typeof localStorage.filterState == 'undefined' ? null : localStorage.filterState
   );
-
   const selectAllStorage = JSON.parse(
     typeof localStorage.filterSelectAll == 'undefined' ||
       !filterStorage ||
@@ -44,11 +50,12 @@ function FilterSection2(props: Props, state: State) {
       ? true
       : localStorage.filterSelectAll
   );
-
   const [filterType, setFilterType] = useState('');
   const [isSelectAll, setSelectAll] = useState(selectAllStorage);
-  const cloneProductRanges = _.cloneDeep(productRanges);
-  const filteredRanges = findMinMaxRange2(filteredProducts);
+
+  const filteredRanges = findMinMaxRange2(products);
+
+  const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData = {
     supplier_id: supplierDetails.supplier_id,
     allFilter: [],
@@ -61,7 +68,6 @@ function FilterSection2(props: Props, state: State) {
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
   };
-
   const initialFilterState: any =
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
       ? filterStorage
@@ -299,7 +305,7 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'price',
         minPlaceholder: 'Min',
         maxPlaceholder: 'Max',
-        range: cloneProductRanges.price,
+        range: rangeData.price,
         filterRange: filterState.price,
         sign: '$',
       },
@@ -310,8 +316,8 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: '$ Max',
         range:
           filterState.removeNegative.indexOf('profit') !== -1
-            ? { min: 0, max: cloneProductRanges.profit.max }
-            : cloneProductRanges.profit,
+            ? { min: 0, max: rangeData.profit.max }
+            : rangeData.profit,
         filterRange: filterState.profit,
         removeNegative: false,
         sign: '$',
@@ -323,8 +329,8 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max %',
         range:
           filterState.removeNegative.indexOf('margin') !== -1
-            ? { min: 0, max: cloneProductRanges.margin.max }
-            : cloneProductRanges.margin,
+            ? { min: 0, max: rangeData.margin.max }
+            : rangeData.margin,
         filterRange: filterState.margin,
         removeNegative: false,
         sign: '%',
@@ -336,8 +342,8 @@ function FilterSection2(props: Props, state: State) {
         maxPlaceholder: 'Max %',
         range:
           filterState.removeNegative.indexOf('roi') !== -1
-            ? { min: 0, max: cloneProductRanges.roi.max }
-            : cloneProductRanges.roi,
+            ? { min: 0, max: rangeData.roi.max }
+            : rangeData.roi,
         filterRange: filterState.roi,
         removeNegative: false,
         sign: '%',
@@ -347,7 +353,7 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'sales_monthly',
         minPlaceholder: 'Min sold',
         maxPlaceholder: 'Max sold ',
-        range: cloneProductRanges.sales_monthly,
+        range: rangeData.sales_monthly,
         filterRange: filterState.sales_monthly,
       },
       {
@@ -355,7 +361,7 @@ function FilterSection2(props: Props, state: State) {
         dataKey: 'rank',
         minPlaceholder: 'Min rank',
         maxPlaceholder: 'Max rank ',
-        range: cloneProductRanges.rank,
+        range: rangeData.rank,
         filterRange: filterState.rank,
       },
     ],
@@ -474,14 +480,14 @@ function FilterSection2(props: Props, state: State) {
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
     data.productSize = 'All size';
-    data.price = cloneProductRanges.price;
-    data.profit = cloneProductRanges.profit;
-    data.roi = cloneProductRanges.roi;
-    data.sales_monthly = cloneProductRanges.sales_monthly;
-    data.rank = cloneProductRanges.rank;
+    data.price = productRanges.price;
+    data.profit = productRanges.profit;
+    data.roi = productRanges.roi;
+    data.sales_monthly = productRanges.sales_monthly;
+    data.rank = productRanges.rank;
 
     selectAll();
-    const filterRangeKeys = Object.keys(cloneProductRanges);
+    const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterData.filterRanges, filter => {
         if (filter.dataKey === key) {
@@ -508,13 +514,14 @@ function FilterSection2(props: Props, state: State) {
       if (filter.dataKey === datakey) {
         if (data.removeNegative.indexOf(datakey) !== -1) {
           data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
-          filter.range.min = cloneProductRanges[datakey].min;
-          filter.filterRange.min = cloneProductRanges[datakey].min;
-          data[datakey].min = filter.range.min;
+          filter.range = rangeData[datakey];
+          filter.filterRange = rangeData[datakey];
+          data[datakey] = rangeData[datakey];
         } else {
           data.removeNegative.push(datakey);
-          filter.range.min = 0;
-          data[datakey].min = 0;
+          filter.range = { min: 0, max: rangeData[datakey].max };
+          filter.filterRange = { min: 0, max: rangeData[datakey].max };
+          data[filter.dataKey] = { min: 0, max: rangeData[datakey].max };
         }
       }
       return filter;
@@ -522,7 +529,6 @@ function FilterSection2(props: Props, state: State) {
     setFilterRanges(filterDetails);
     setFilterState(data);
   };
-
   return (
     <div className="filter-section">
       <div className="filter-header">
