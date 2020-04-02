@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './index.scss';
-import { Checkbox, Radio, Button, Input, Divider } from 'semantic-ui-react';
+import { Checkbox, Radio, Button, Divider } from 'semantic-ui-react';
 import _ from 'lodash';
-import { FilterData, SupplierFilter, RangeModel, FilterState } from '../../interfaces/Filters';
-import InputRange from 'react-input-range';
+import { SupplierFilter, FilterState } from '../../interfaces/Filters';
 import FilterSliderInput from '../FilterSliderInput';
 import { Range } from '../../interfaces/Generic';
 
