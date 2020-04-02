@@ -91,9 +91,4 @@ export const marketPlace = [
     key: 'amazon.com',
     text: 'Amazon.com',
   },
-  {
-    value: 'linkedin.com',
-    key: 'linkedin.com',
-    text: 'Linkedin.com',
-  },
 ];
