@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Loader, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -15,7 +15,6 @@ import {
   resetSupplierProducts,
   supplierProgress,
 } from '../../../actions/Suppliers';
-import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, update } from '../../../utils/notifications';
@@ -142,7 +141,7 @@ const mapDispatchToProps = {
   resetSupplier: () => resetSupplier(),
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
-  supplierProgress: (supplierID: any) => supplierProgress(supplierID),
+  supplierProgress: () => supplierProgress(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Supplier);
