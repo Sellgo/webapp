@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Form, Grid, Select, Segment, Icon, Confirm } from 'semantic-ui-react';
+import { Form, Grid, Segment, Icon, Confirm, List, Header, Popup } from 'semantic-ui-react';
 import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
 
@@ -39,6 +39,7 @@ const SellerAmazonMWS = (props: any) => {
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [showCredentials, setShowCredentials] = useState(defaultShowCredentials);
+  const [showConfirmToken, setConfirmToken] = useState(false);
 
   const handleMarketPlaceLocalChange = (marketplaceID: any) => {
     const updatedMarketplaceLocal =
@@ -110,121 +111,172 @@ const SellerAmazonMWS = (props: any) => {
     : '';
 
   return (
-    <Segment basic={true} id="amazon-mws">
-      <Container style={{ width: '80%' }}>
-        <span className="autho-sub-hear">
-          Please grant Amazon MWS and Amazon Seller Central access for each market.
-        </span>
-        <Form className="autho-form">
-          <Grid>
-            <Grid.Row columns={3} className="stackable container">
-              <Grid.Column width={7}>
-                <Grid.Row columns={2}>
-                  <Grid.Column width={5}>
-                    <Form.Select
-                      control={Select}
-                      label="Marketplace"
-                      options={marketplaceOptions}
-                      defaultValue={'ATVPDKIKX0DER'}
-                      placeholder="select"
-                      name="marketplace_id"
-                      onChange={(e: any, field: any) => handleMarketPlaceLocalChange(field.value)}
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={5} verticalAlign="bottom" floated={'right'}>
-                    <div
+    <>
+      <Grid.Column width={16}>
+        <Form>
+          <Header.Subheader>
+            Please grant Amazon MWS and Amazon Seller Central access for each market.
+          </Header.Subheader>
+          <Form.Group className="marketplace-field" unstackable widths={2}>
+            <label className="field-title">
+              <span>Marketplace &nbsp;</span>
+              <Popup
+                basic
+                className="pop-market"
+                trigger={<i className="far fa-question-circle" />}
+                content={
+                  <p>
+                    Marketplace: <br />
+                    Which Amazon region do you sell at
+                  </p>
+                }
+              />
+            </label>
+            <Form.Select
+              options={marketplaceOptions}
+              placeholder="Marketplace"
+              defaultValue={'ATVPDKIKX0DER'}
+              name="marketplace_id"
+              onChange={(e: any, field: any) => handleMarketPlaceLocalChange(field.value)}
+            />
+          </Form.Group>
+          <Form.Input
+            className="seller-field"
+            label={
+              <>
+                <span>Amazon Seller ID &nbsp;</span>
+                <Popup
+                  basic
+                  className="pop-seller"
+                  trigger={<i className="far fa-question-circle" />}
+                  content={
+                    <p>
+                      Amazon Seller ID: <br />
+                      This is given by Amazon in your Amazon seller central
+                    </p>
+                  }
+                />
+                <br />
+              </>
+            }
+            placeholder="This will look like A2BTUHOG3JAVRS"
+            value={amazonMWSLocal.amazon_seller_id}
+            type={amazonMWSLocal.saved === showCredentials.amazonSellerID ? 'text' : 'password'}
+            name="amazon_seller_id"
+            onChange={(e, { value }) => handleAmazonMWSLocalChange({ amazon_seller_id: value })}
+            readOnly={amazonMWSLocal.saved}
+            icon={
+              <Icon
+                link
+                name={amazonMWSLocal.saved === showCredentials.amazonSellerID ? 'eye' : 'eye slash'}
+                onClick={() =>
+                  handleShowCredentialsLocalChange({
+                    amazonSellerID: !showCredentials.amazonSellerID,
+                  })
+                }
+              />
+            }
+          />
+          <Form.Input
+            className="token-field"
+            label={
+              <>
+                <span>MWS Auth Token &nbsp;</span>
+                <Popup
+                  basic
+                  className="pop-token"
+                  trigger={<i className="far fa-question-circle" />}
+                  content={
+                    <p>
+                      MWS Auth Token: <br />
+                      This is an authorization token given by Amazon so we can pull up data for you
+                    </p>
+                  }
+                />
+                &nbsp; &nbsp;
+                <span
+                  className="auth-seller"
+                  onClick={() => setConfirmToken(() => !showConfirmToken)}
+                >
+                  Authenticate Your Seller Account
+                </span>
+                <br />
+              </>
+            }
+            placeholder="This will look like amzn.mws.9eb48bhd-3e5n-f315-d34d-8dfa825fb711"
+            value={amazonMWSLocal.token}
+            type={amazonMWSLocal.saved === showCredentials.authToken ? 'text' : 'password'}
+            name="token"
+            onChange={(e, { value }) => handleAmazonMWSLocalChange({ token: value })}
+            readOnly={amazonMWSLocal.saved}
+            icon={
+              <Icon
+                link
+                name={amazonMWSLocal.saved === showCredentials.authToken ? 'eye' : 'eye slash'}
+                onClick={() =>
+                  handleShowCredentialsLocalChange({
+                    authToken: !showCredentials.authToken,
+                  })
+                }
+              />
+            }
+          />
+          <Form.Group className="action-container">
+            <Form.Button
+              className="primary-btn"
+              content="Update"
+              disabled={amazonMWSLocal.saved}
+              onClick={handleAmazonMWSAuthUpdate}
+            />
+            <Form.Button
+              className="error-btn"
+              content="Delete"
+              disabled={!amazonMWSLocal.saved}
+              onClick={() => setDeleteConfirmation(true)}
+            />
+          </Form.Group>
+        </Form>
+      </Grid.Column>
+      <Confirm
+        className="auth-token-confirm"
+        open={showConfirmToken}
+        confirmButton="OK"
+        content={
+          <Segment placeholder>
+            <Header as="h3" icon>
+              How to authenticate your seller account
+              <Header.Subheader>
+                <List ordered>
+                  <List.Item>
+                    Click on this link:&nbsp;
+                    <span
+                      className="auth-amazon"
                       onClick={() => {
                         showMeHow(showMeHowUrl);
                       }}
-                      style={{
-                        cursor: 'pointer',
-                        float: 'right',
-                      }}
                     >
-                      <p style={{ color: '#267DD4' }}> {'Show me how?'}</p>
-                    </div>
-                  </Grid.Column>
-                  <Grid.Column width={6} />
-                  <Grid.Column width={10}>
-                    <Form.Input
-                      label="Amazon Seller ID"
-                      placeholder="A1B23CD4EFG567"
-                      value={amazonMWSLocal.amazon_seller_id}
-                      type={
-                        amazonMWSLocal.saved === showCredentials.amazonSellerID
-                          ? 'text'
-                          : 'password'
-                      }
-                      name="amazon_seller_id"
-                      onChange={(e, { value }) =>
-                        handleAmazonMWSLocalChange({ amazon_seller_id: value })
-                      }
-                      readOnly={amazonMWSLocal.saved}
-                      icon={
-                        <Icon
-                          link
-                          name={
-                            amazonMWSLocal.saved === showCredentials.amazonSellerID
-                              ? 'eye'
-                              : 'eye slash'
-                          }
-                          onClick={() =>
-                            handleShowCredentialsLocalChange({
-                              amazonSellerID: !showCredentials.amazonSellerID,
-                            })
-                          }
-                        />
-                      }
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={10}>
-                    <Form.Input
-                      label="MWS Auth Token"
-                      placeholder="amzn.mws.1a2b3c4d-5e6f........"
-                      value={amazonMWSLocal.token}
-                      type={
-                        amazonMWSLocal.saved === showCredentials.authToken ? 'text' : 'password'
-                      }
-                      name="token"
-                      onChange={(e, { value }) => handleAmazonMWSLocalChange({ token: value })}
-                      readOnly={amazonMWSLocal.saved}
-                      icon={
-                        <Icon
-                          link
-                          name={
-                            amazonMWSLocal.saved === showCredentials.authToken ? 'eye' : 'eye slash'
-                          }
-                          onClick={() =>
-                            handleShowCredentialsLocalChange({
-                              authToken: !showCredentials.authToken,
-                            })
-                          }
-                        />
-                      }
-                    />
-                    <div className="btns-wrap">
-                      <Button
-                        disabled={amazonMWSLocal.saved}
-                        primary={true}
-                        content="Add MWS Token"
-                        style={{ borderRadius: '50px' }}
-                        onClick={handleAmazonMWSAuthUpdate}
-                      />
-                      <Button
-                        disabled={!amazonMWSLocal.saved}
-                        color="red"
-                        content="Delete"
-                        style={{ borderRadius: '50px' }}
-                        onClick={() => setDeleteConfirmation(true)}
-                      />
-                    </div>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Form>
-      </Container>
+                      Authenticate on Amazon
+                    </span>
+                  </List.Item>
+                  <List.Item>Login to your Amazon Seller account.</List.Item>
+                  <List.Item>
+                    Developer's Name and Account Number will automatically be entered and click on
+                    "Next"
+                  </List.Item>
+                  <List.Item>
+                    Check mark "I understand that I take complete responsibility for the acts and
+                    omissions of..." and <br />
+                    click on "next".
+                  </List.Item>
+                  <List.Item>Copy the MWS Auth Token into Sellgo and click "Update".</List.Item>
+                </List>
+              </Header.Subheader>
+            </Header>
+          </Segment>
+        }
+        onCancel={() => setConfirmToken(() => !showConfirmToken)}
+        onConfirm={() => setConfirmToken(() => !showConfirmToken)}
+      />
       <Confirm
         content="Do you want to delete Amazon Seller Central credentials?"
         open={deleteConfirmation}
@@ -234,7 +286,7 @@ const SellerAmazonMWS = (props: any) => {
           setDeleteConfirmation(false);
         }}
       />
-    </Segment>
+    </>
   );
 };
 
