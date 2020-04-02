@@ -390,7 +390,7 @@ function FilterSection2(props: Props) {
     setFilterState(data);
   };
 
-  const toggleSellectAll = () => {
+  const toggleSelectAll = () => {
     setSelectAll(!isSelectAll);
     const data = filterState;
     if (!isSelectAll) {
@@ -537,7 +537,7 @@ function FilterSection2(props: Props) {
           handleCompleteChange={handleCompleteChange}
           initialFilterState={filterState}
           setRadioFilter={setRadioFilter}
-          toggleSellectAll={toggleSellectAll}
+          toggleSelectAll={toggleSelectAll}
           isSelectAll={isSelectAll}
           selectAll={selectAll}
           toggleNegative={toggleNegative}

@@ -11,7 +11,7 @@ interface Props {
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   applyFilter: () => void;
   resetFilter: () => void;
-  toggleSellectAll: () => void;
+  toggleSelectAll: () => void;
   selectAll: () => void;
   resetSingleFilter: (datakey: string) => void;
   toggleNegative: (datakey: string) => void;
@@ -34,7 +34,7 @@ function FilterContainer(props: Props) {
     resetSingleFilter,
     initialFilterState,
     setRadioFilter,
-    toggleSellectAll,
+    toggleSelectAll,
     isSelectAll,
     selectAll,
     toggleNegative,
@@ -64,11 +64,11 @@ function FilterContainer(props: Props) {
                   <div className={seeAll ? 'see-all filter-list' : 'filter-list'}>
                     {filter.dataKey === 'product-category' && (
                       <Checkbox
-                        label="Sellect all"
-                        key="sellect-all"
+                        label="Select all"
+                        key="select-all"
                         className="select-all"
                         onClick={() => {
-                          toggleSellectAll();
+                          toggleSelectAll();
                         }}
                         checked={isSelectAll}
                       />
