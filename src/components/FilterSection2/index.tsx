@@ -3,23 +3,14 @@ import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import FilterContainer from '../FilterContainer';
-import { SupplierFilter, FilterState } from '../../interfaces/Filters';
+import { SupplierFilter } from '../../interfaces/Filters';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../interfaces/Product';
 import { supplierProductsSelector } from '../../selectors/Supplier';
 import { Range } from '../../interfaces/Generic';
-import { findMinMaxRange2, dataKeyMapping } from '../../constants/Suppliers';
+import { findMinMax } from '../../constants/Suppliers';
 import { filterSupplierProducts } from '../../actions/Suppliers';
-
-interface FilterObject {
-  label: string;
-  dataKey: string;
-}
-
-interface State {
-  filterTitle: FilterObject[];
-}
 
 interface Props {
   supplierDetails: any;
@@ -30,21 +21,14 @@ interface Props {
   filterProducts: (value: string, filterData: any) => void;
 }
 
-function FilterSection2(props: Props, state: State) {
-  const {
-    filteredProducts,
-    productRanges,
-    supplierDetails,
-    filterProducts,
-    filterSearch,
-    products,
-  } = props;
+function FilterSection2(props: Props) {
+  const { productRanges, supplierDetails, filterProducts, filterSearch, products } = props;
 
   const filterStorage = JSON.parse(
-    typeof localStorage.filterState == 'undefined' ? null : localStorage.filterState
+    typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
   const selectAllStorage = JSON.parse(
-    typeof localStorage.filterSelectAll == 'undefined' ||
+    typeof localStorage.filterSelectAll === 'undefined' ||
       !filterStorage ||
       filterStorage.supplier_id !== supplierDetails.supplier_id
       ? true
@@ -53,7 +37,7 @@ function FilterSection2(props: Props, state: State) {
   const [filterType, setFilterType] = useState('');
   const [isSelectAll, setSelectAll] = useState(selectAllStorage);
 
-  const filteredRanges = findMinMaxRange2(products);
+  const filteredRanges = findMinMax(products);
 
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData = {
@@ -367,9 +351,8 @@ function FilterSection2(props: Props, state: State) {
     ],
   };
 
-  const [filterData, setFilterData] = React.useState(filterDataState);
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
-  const [filterRanges, setFilterRanges] = React.useState(filterData.filterRanges);
+  const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
 
   const setRadioFilter = (filterType: string, value: string) => {
     const data = _.map(allFilter, filter => {
@@ -389,7 +372,7 @@ function FilterSection2(props: Props, state: State) {
     const data = filterState;
 
     setSelectAll(false);
-    const allFilter = _.map(filterData.allFilter, filter => {
+    const allData = _.map(allFilter, filter => {
       if (!filter.radio) {
         _.map(filter.data, allFilterData => {
           allFilterData.checked = data.allFilter.indexOf(filterDataKey) !== -1;
@@ -398,7 +381,7 @@ function FilterSection2(props: Props, state: State) {
       }
       return filter;
     });
-    setAllFilter(allFilter);
+    setAllFilter(allData);
     if (data.allFilter.indexOf(label) !== -1) {
       data.allFilter.splice(data.allFilter.indexOf(label), 1);
     } else {
@@ -426,10 +409,10 @@ function FilterSection2(props: Props, state: State) {
 
     setSelectAll(true);
     const data = filterState;
-    _.map(filterData.allFilter, filter => {
+    _.map(allFilter, filter => {
       if (!filter.radio) {
         _.map(filter.data, allFilterData => {
-          if (data.allFilter.indexOf(allFilterData.label) == -1) {
+          if (data.allFilter.indexOf(allFilterData.label) === -1) {
             data.allFilter.push(allFilterData.label);
           }
           return allFilterData;
@@ -442,29 +425,29 @@ function FilterSection2(props: Props, state: State) {
   };
 
   const handleCompleteChange = (datakey: string, range: Range) => {
-    const filterData: any = filterState;
+    const filterDetails: any = filterState;
     const data = _.map(filterRanges, filter => {
-      if (filter.dataKey == datakey) {
+      if (filter.dataKey === datakey) {
         filter.filterRange = range;
       }
       return filter;
     });
-    filterData[datakey] = range;
-    setFilterState(filterData);
+    filterDetails[datakey] = range;
+    setFilterState(filterDetails);
     setFilterRanges(data);
   };
 
   const resetSingleFilter = (datakey: string) => {
-    const filterData = filterState;
+    const filterDetails = filterState;
     const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
         filter.filterRange = filter.range;
-        filterData[datakey] = filter.range;
+        filterDetails[datakey] = filter.range;
       }
       return filter;
     });
     setFilterRanges(data);
-    setFilterState(filterData);
+    setFilterState(filterDetails);
   };
 
   const applyFilter = () => {
@@ -489,7 +472,7 @@ function FilterSection2(props: Props, state: State) {
     selectAll();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
-      const filterRanges = _.map(filterData.filterRanges, filter => {
+      const filterRanges = _.map(filterDataState.filterRanges, filter => {
         if (filter.dataKey === key) {
           filter.filterRange = filter.range;
         }
@@ -536,7 +519,7 @@ function FilterSection2(props: Props, state: State) {
           basic
           icon
           labelPosition="left"
-          className={filterType == 'all-filter' ? 'active all-filter' : 'all-filter'}
+          className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
           onClick={() => handleFilterType('all-filter')}
         >
           <span className="filter-name">All</span>
@@ -550,7 +533,7 @@ function FilterSection2(props: Props, state: State) {
           resetSingleFilter={resetSingleFilter}
           toggleCheckboxFilter={toggleCheckboxFilter}
           resetFilter={resetFilter}
-          filterData={filterData}
+          filterData={filterDataState}
           handleCompleteChange={handleCompleteChange}
           initialFilterState={filterState}
           setRadioFilter={setRadioFilter}

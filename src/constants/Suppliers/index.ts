@@ -35,7 +35,7 @@ export const dataKeys: any = [
   // 'roi_inventory',
 ];
 
-export const dataKeys2: any = ['price', 'profit', 'roi', 'sales_monthly', 'margin', 'rank'];
+export const supplierDataKeys: any = ['price', 'profit', 'roi', 'sales_monthly', 'margin', 'rank'];
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -150,8 +150,8 @@ export const findMinMaxRange = (products: any) => {
   return updatedFilterRanges;
 };
 
-export const findMinMaxRange2 = (products: any) => {
-  const updatedFilterRanges = dataKeys2.reduce((fr: any, dk: string) => {
+export const findMinMax = (products: any) => {
+  const updatedFilterRanges = supplierDataKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => Number(p[dk]));
       const minDk = Math.floor(Math.min(...dkArray));
@@ -177,14 +177,13 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
-export const findFilterProducts2 = (products: any, filterData: any) => {
+export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
-    // console.log("filter data:", !_.isEmpty(filterData.allFilter), filterData.allFilter)
     return !_.isEmpty(filterData.allFilter)
       ? (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
           (_.isEmpty(product.amazon_category_name) && filterData.allFilter.indexOf('Others'))) &&
           (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
-          dataKeys2.every(
+          supplierDataKeys.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
               Number(product[dataKey]) <= Number(filterData[dataKey].max)
@@ -197,9 +196,9 @@ export const findFilterProducts2 = (products: any, filterData: any) => {
 export const searchFilteredProduct = (products: any, value: string) => {
   const updatedFilterProducts = _.filter(products, product => {
     return (
-      (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
-      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) != -1) ||
-      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) != -1)
+      (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1)
     );
   });
   return updatedFilterProducts;

@@ -16,11 +16,10 @@ import {
   SUPPLIER_QUOTA,
   FILTER_SUPPLIER_PRODUCTS,
   SEARCH_SUPPLIER_PRODUCTS,
-  findFilterProducts2,
+  findFilteredProducts,
   searchFilteredProduct,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
-import { searchSupplierProducts } from '../../actions/Suppliers';
 
 const initialState = {
   products: [],
@@ -93,7 +92,7 @@ export default (state = initialState, action: AnyAction) => {
       const { value, filterData } = action.payload;
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterData', data);
-      const filteredProducts = findFilterProducts2(state.products, data);
+      const filteredProducts = findFilteredProducts(state.products, data);
       const searchProducts = searchFilteredProduct(filteredProducts, value);
       return setIn(newState, 'filteredProducts', searchProducts);
     }
@@ -101,7 +100,7 @@ export default (state = initialState, action: AnyAction) => {
       const { value, filterData } = action.payload;
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterSearch', value);
-      const filteredProducts = findFilterProducts2(state.products, data);
+      const filteredProducts = findFilteredProducts(state.products, data);
       const searchProducts = searchFilteredProduct(filteredProducts, value);
       return setIn(newState, 'filteredProducts', searchProducts);
     }

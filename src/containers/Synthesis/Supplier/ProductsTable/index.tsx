@@ -9,15 +9,13 @@ import {
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
   searchSupplierProducts,
-  filterSupplierProducts,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import _ from 'lodash';
-import { initialFilterRanges, findMinMaxRange2 } from '../../../../constants/Suppliers';
+import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -60,7 +58,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     console.log('props.products: ', props.products);
     if (props.products && props.products !== this.props.products) {
       // Get min and max range for each filter setting based on all products
-      const productRanges = findMinMaxRange2(props.products);
+      const productRanges = findMinMax(props.products);
       this.setState({ productRanges });
     }
   }
@@ -262,7 +260,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       filterRanges,
     } = this.props;
-    const { searchValue, productRanges, filteredRanges } = this.state;
+    const { searchValue, productRanges } = this.state;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
