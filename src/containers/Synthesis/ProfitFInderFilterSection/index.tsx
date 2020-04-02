@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
-import _ from 'lodash';
-import FilterContainer from '../FilterContainer';
-import { SupplierFilter } from '../../interfaces/Filters';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { Product } from '../../interfaces/Product';
-import { supplierProductsSelector } from '../../selectors/Supplier';
-import { Range } from '../../interfaces/Generic';
-import { findMinMax } from '../../constants/Suppliers';
-import { filterSupplierProducts } from '../../actions/Suppliers';
+import { Product } from '../../../interfaces/Product';
+import { findMinMax } from '../../../constants/Suppliers';
+import { SupplierFilter } from '../../../interfaces/Filters';
+import { supplierProductsSelector } from '../../../selectors/Supplier';
+import { filterSupplierProducts } from '../../../actions/Suppliers';
+import { Range } from '../../../interfaces/Generic';
+import _ from 'lodash';
+import FilterContainer from '../../../components/FilterContainer';
 
 interface Props {
   supplierDetails: any;
@@ -95,7 +95,7 @@ function FilterSection2(props: Props) {
           },
           {
             label: 'Beauty & Personal Care',
-            dataKey: 'beauty-persona-care',
+            dataKey: 'beauty-personal-care',
             checked: true,
           },
           {
@@ -109,8 +109,8 @@ function FilterSection2(props: Props) {
             checked: true,
           },
           {
-            label: 'CDs & Vynil',
-            dataKey: 'cds-vynil',
+            label: 'CDs & Vinyl',
+            dataKey: 'cds-vinyl',
             checked: true,
           },
           {
@@ -170,7 +170,7 @@ function FilterSection2(props: Props) {
           },
           {
             label: 'Kitchen & Dining',
-            dataKey: 'kithcen-dining',
+            dataKey: 'kitchen-dining',
             checked: true,
           },
           {
@@ -231,11 +231,6 @@ function FilterSection2(props: Props) {
           {
             label: 'Tools & Home Improvement',
             dataKey: 'tools-home-improvement',
-            checked: true,
-          },
-          {
-            label: 'Toys & Games',
-            dataKey: 'toys-games',
             checked: true,
           },
           {
