@@ -7,7 +7,7 @@ import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
-import ProfitFInderFilterSection from '../../containers/Synthesis/ProfitFInderFilterSection';
+import ProfitFInderFilterSectionTMP from '../../containers/Synthesis/ProfitFInderFilterSectionTMP';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -142,7 +142,7 @@ export const GenericTable = (props: GenericTableProps) => {
       ) : (
         ''
       )}
-      {showFilter && <ProfitFInderFilterSection productRanges={productRanges} />}
+      {showFilter && <ProfitFInderFilterSectionTMP productRanges={productRanges} />}
       {showSearchFilter && (
         <Card className="filter-card">
           <Card.Header>
