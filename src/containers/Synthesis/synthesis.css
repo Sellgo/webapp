@@ -265,7 +265,7 @@
   background: #fff 0% 0% no-repeat padding-box;
   border: 1px solid #dededf;
   border-radius: 4px;
-  height: 38px;
+  min-height: 38px;
   font-size: 14px;
   color: #3b4557;
   font-weight: 500;
@@ -313,7 +313,7 @@
 
 .new-supplier-modal .ui.form .field > .selection.dropdown {
   font-size: 14px;
-  height: 38px;
+  min-height: 38px;
   font-weight: 500;
   color: #3b4557;
 }
