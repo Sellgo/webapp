@@ -116,7 +116,7 @@ export const deleteSellerProfileImage = (imageID: string) => (dispatch: any) => 
       success(`Successfully deleted`);
     })
     .catch(() => {
-      error(`There was an error deleteing your profile image`);
+      error(`There was an error deleteng your profile image`);
     });
 };
 
