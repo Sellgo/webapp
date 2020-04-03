@@ -33,7 +33,7 @@ import {
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
-import { UntrackSuccess } from '../../components/ToastMessages/ProductTracker';
+import { UntrackSuccess } from '../../components/ToastMessages';
 
 export interface Suppliers {
   supplierIds: number[];
