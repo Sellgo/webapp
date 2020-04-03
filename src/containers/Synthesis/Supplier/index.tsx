@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Loader, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -15,7 +15,6 @@ import {
   resetSupplierProducts,
   supplierProgress,
 } from '../../../actions/Suppliers';
-import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, update } from '../../../utils/notifications';
@@ -104,37 +103,10 @@ export class Supplier extends React.Component<SupplierProps> {
 
         <Segment basic={true} className="setting">
           <Grid>
-            <Grid.Row>
-              <Grid.Column width={4} className="left-column" floated="left">
-                {isLoadingSupplierProducts ? (
-                  <Segment>
-                    <Loader active={true} inline="centered" size="massive">
-                      Loading
-                    </Loader>
-                  </Segment>
-                ) : (
-                  <div className="Supplier_Filters">
-                    <SupplierFilters />
-                  </div>
-                )}
-              </Grid.Column>
-
-              <Grid.Column width={9} className="right-column" floated="right">
-                {isLoadingSupplierProducts ? (
-                  <Segment>
-                    <Loader active={true} inline="centered" size="massive">
-                      Loading
-                    </Loader>
-                  </Segment>
-                ) : (
-                  <SupplierDetails supplierID={this.props.match.params.supplierID} />
-                )}
-              </Grid.Column>
-              <Grid.Column width={3} className="right-column" floated="right">
-                <div className="radio-toggle-wrap">
-                  {/* <Radio toggle label="Shadow Tracking" /> */}
-                </div>
-              </Grid.Column>
+            <Grid.Row className="right-column">
+              {!isLoadingSupplierProducts && (
+                <SupplierDetails supplierID={this.props.match.params.supplierID} />
+              )}
             </Grid.Row>
           </Grid>
           <ProductsTable supplierID={this.props.match.params.supplierID} />

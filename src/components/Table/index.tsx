@@ -7,6 +7,7 @@ import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
+import ProfitFinderFilterSection from '../../containers/Synthesis/ProfitFinderFilterSection';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -38,6 +39,8 @@ export interface PaginatedTableProps {
   productTrackerPageNo?: any;
   showProductFinderSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
+  showFilter?: boolean;
+  productRanges?: any;
 }
 
 export interface GenericTableProps {
@@ -71,6 +74,8 @@ export interface GenericTableProps {
   handleColumnChange?: any;
   count?: number;
   productTrackerPageNo?: any;
+  showFilter?: boolean;
+  productRanges?: any;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -110,6 +115,8 @@ export const GenericTable = (props: GenericTableProps) => {
     columnFilterData,
     handleColumnChange,
     searchFilterValue,
+    showFilter,
+    productRanges,
   } = props;
 
   return (
@@ -135,6 +142,7 @@ export const GenericTable = (props: GenericTableProps) => {
       ) : (
         ''
       )}
+      {showFilter && <ProfitFinderFilterSection productRanges={productRanges} />}
       {showSearchFilter && (
         <Card className="filter-card">
           <Card.Header>
@@ -232,7 +240,7 @@ export const GenericTable = (props: GenericTableProps) => {
                         }
                       : {}
                   }
-                  className="table-header"
+                  className={`table-header ${column.dataKey}`}
                 >
                   {' '}
                   {column.label}
@@ -284,7 +292,11 @@ export const GenericTable = (props: GenericTableProps) => {
                           </Table.Cell>
                         )
                       ) : (
-                        <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                        <Table.Cell
+                          key={column.dataKey || index}
+                          style={{ maxWidth: 400 }}
+                          className={`table-cell ${column.dataKey}`}
+                        >
                           {renderCell(row, column)}
                         </Table.Cell>
                       );
@@ -342,6 +354,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     showProductFinderSearch,
     searchFilteredProduct,
     searchFilterValue,
+    showFilter,
+    productRanges,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -441,6 +455,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   return (
     <GenericTable
+      productRanges={productRanges}
       showProductFinderSearch={showProductFinderSearch}
       searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
@@ -470,6 +485,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       handleColumnChange={handleColumnChange}
       count={count && count.count}
       productTrackerPageNo={productTrackerPageNo}
+      showFilter={showFilter}
     />
   );
 };

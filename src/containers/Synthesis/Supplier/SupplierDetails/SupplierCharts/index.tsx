@@ -8,7 +8,6 @@ import { Loader, Form, Modal, Header } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
-import { findFilterProducts } from '../../../../../constants/Suppliers';
 import {
   openSupplierProductDetailModal,
   closeSupplierProductDetailModal,
@@ -19,8 +18,7 @@ import './index.scss';
 interface SupplierChartsProps {
   supplierID: any;
   supplierDetails: Supplier;
-  products: Product[];
-  filterRanges: any;
+  filteredProducts: Product[];
   singlePageItemsCount: number;
   fetchSupplierDetails: (supplierID: any) => void;
   openProductDetailModal: (product?: Product) => void;
@@ -128,13 +126,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   renderCharts = () => {
     const {
       supplierDetails,
-      products,
-      filterRanges,
       singlePageItemsCount,
       openProductDetailModal,
       supplierID,
+      filteredProducts,
     } = this.props;
-    const filteredProducts = findFilterProducts(products, filterRanges);
 
     const sortProducts = [...filteredProducts].sort(
       (a, b) => parseFloat(b.profit) - parseFloat(a.profit)
@@ -246,8 +242,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   render() {
-    const { products, filterRanges, supplierDetails } = this.props;
-    if ((products.length === 0 && supplierDetails === null) || filterRanges === undefined) {
+    const { filteredProducts, supplierDetails } = this.props;
+    if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
     return (
@@ -302,9 +298,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
 const mapStateToProps = (state: {}) => ({
   supplierDetails: get(state, 'supplier.details'),
-  products: get(state, 'supplier.products'),
-  filterRanges: get(state, 'supplier.filterRanges'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  filteredProducts: get(state, 'supplier.filteredProducts'),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
 

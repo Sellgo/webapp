@@ -27,6 +27,8 @@ import {
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
+  FILTER_SUPPLIER_PRODUCTS,
+  SEARCH_SUPPLIER_PRODUCTS,
 } from '../../constants/Suppliers';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
@@ -497,4 +499,20 @@ export const setTimeEfficiency = (data: {}) => ({
 export const setsaveSupplierNameAndDescription = (data: {}) => ({
   type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
   payload: data,
+});
+
+export const filterSupplierProducts = (value: string, filterData: any) => ({
+  type: FILTER_SUPPLIER_PRODUCTS,
+  payload: {
+    value: value,
+    filterData: filterData,
+  },
+});
+
+export const searchSupplierProducts = (value: string, filterData: any) => ({
+  type: SEARCH_SUPPLIER_PRODUCTS,
+  payload: {
+    value: value,
+    filterData: filterData,
+  },
 });
