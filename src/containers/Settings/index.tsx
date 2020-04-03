@@ -10,6 +10,7 @@ import {
   getSellerAmazonMWSAuth,
   deleteSellerAmazonMWSAuth,
   updateSellerProfileImage,
+  deleteSellerProfileImage,
   getSellerprofileImage,
   setSellerInfo,
 } from '../../actions/Settings';
@@ -28,6 +29,7 @@ interface SettingsProps {
   setSeller: (data: any) => void;
   getprofileImage: () => void;
   updateProfileImage: (imageType: string, imagePath: any) => void;
+  deleteProfileImage: (imageID: string) => void;
   profile: Seller;
   amazonMWSAuth: AmazonMWS[];
   profileImage: any;
@@ -47,6 +49,7 @@ class Settings extends React.Component<SettingsProps> {
       profileImage,
       updateSeller,
       updateProfileImage,
+      deleteProfileImage,
       amazonMWSAuth,
       updateAmazonMWSAuth,
       deleteMWSAuth,
@@ -68,6 +71,7 @@ class Settings extends React.Component<SettingsProps> {
             profileImage={profileImage}
             updateSeller={updateSeller}
             updateProfileImage={updateProfileImage}
+            deleteProfileImage={deleteProfileImage}
           />
           <Grid.Row className="change-pass-header" id="password-update">
             <Grid.Column width={16}>
@@ -113,6 +117,7 @@ const mapDispatchToProps = {
   getprofileImage: () => getSellerprofileImage(),
   updateProfileImage: (imageType: string, imagePath: any) =>
     updateSellerProfileImage(imageType, imagePath),
+  deleteProfileImage: (imageID: string) => deleteSellerProfileImage(imageID),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
