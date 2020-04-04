@@ -18,8 +18,6 @@ import './settings.scss';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
 import PageHeader from '../../components/PageHeader';
 
-import PasswordInfo from './Password';
-
 interface SettingsProps {
   updateAmazonMWSAuth: (data: AmazonMWS) => void;
   getAmazonMWSAuth: () => void;
@@ -73,14 +71,6 @@ class Settings extends React.Component<SettingsProps> {
             updateProfileImage={updateProfileImage}
             deleteProfileImage={deleteProfileImage}
           />
-          <Grid.Row className="change-pass-header" id="password-update">
-            <Grid.Column width={16}>
-              <Header as="h3">Change Password</Header>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row className="password-content">
-            <PasswordInfo />
-          </Grid.Row>
           <Grid.Row className="amazon-header">
             <Grid.Column width={16}>
               <Header as="h3">Amazon MWS Authorization</Header>

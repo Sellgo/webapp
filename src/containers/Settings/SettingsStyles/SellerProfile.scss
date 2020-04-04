@@ -165,6 +165,10 @@
         outline: none;
         background: none;
       }
+
+      textarea:last-child {
+        visibility: hidden;
+      }
     }
   }
 

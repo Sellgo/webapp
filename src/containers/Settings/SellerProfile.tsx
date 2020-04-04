@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Grid, Header, Image, Segment, TextArea, Label, Popup } from 'semantic-ui-react';
 import moment from 'moment';
-import { error, success } from '../../utils/notifications';
-
-import { EmailSuccess } from '../../components/ToastMessages';
+import { error } from '../../utils/notifications';
 
 import deleteIcon from '../../assets/images/ic_delete.png';
 
 const SellerProfile = (props: any) => {
-  const changePass = () => {
-    success(EmailSuccess);
-  };
-
   const [profileImageLocal, setprofileImageLocal] = useState({
     ...props.profileImage,
     ...{
@@ -176,30 +170,8 @@ const SellerProfile = (props: any) => {
           <Grid.Column>
             <Grid>
               <Header as="h4">
-                Account Type
-                <Header.Subheader>Account type</Header.Subheader>
-              </Header>
-            </Grid>
-            <Grid>
-              <Header as="h4">
                 Primary Email &nbsp;<a href="#email-update">{`(Change Email)`}</a>
                 <Header.Subheader>{email}</Header.Subheader>
-              </Header>
-            </Grid>
-            <Grid>
-              <Header as="h4">
-                Password &nbsp;<a href="#password-update">{`(Reset/Change password)`}</a>
-                <Header.Subheader>{`***********`}</Header.Subheader>
-              </Header>
-            </Grid>
-            <Grid>
-              <Header as="h4">
-                Payment Method &nbsp;<a href="/#">{`(Change)`}</a>
-                <Header.Subheader>
-                  <i className="fab fa-cc-visa" />
-                  &nbsp; Visa ending in {`xxxx`}
-                </Header.Subheader>
-                <Header.Subheader>Billing date: {`Aug 3, 2019`}</Header.Subheader>
               </Header>
             </Grid>
           </Grid.Column>
@@ -224,7 +196,6 @@ const SellerProfile = (props: any) => {
               <Form.Button
                 onClick={() => {
                   props.updateSeller(profileLocal);
-                  changePass();
                 }}
                 className="primary-btn"
                 content="Update"
