@@ -15,7 +15,11 @@ interface Props {
 
 const steps = [
   {
-    title: 'Add New Supplier',
+    title: 'Add New Search',
+    icon: <Icon className="plus square" />,
+  },
+  {
+    title: 'Additional Info',
     icon: <i className="fas fa-pen-square" />,
   },
   {
@@ -29,8 +33,8 @@ const steps = [
     description: '',
   },
   {
-    title: 'Submit',
-    icon: <Icon name="upload" />,
+    title: 'Data Validation',
+    icon: <Icon name="check square" />,
     description: '',
   },
 ];

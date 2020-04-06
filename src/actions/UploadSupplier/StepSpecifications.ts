@@ -47,6 +47,57 @@ export abstract class Step {
   }
 }
 
+export class AddNewSearchStep extends Step {
+  step = UploadSteps.AddNewSearch;
+
+  validate() {
+    // const state = this.getState();
+    // const isFormValid = isValid('supplier-info')(state);
+    // let errorMessage;
+
+    // if (!isFormValid) {
+    //   // submitting will make errors visible
+    //   this.dispatch(submit('supplier-info'));
+    //   errorMessage = 'Please fill required fields';
+    // }
+
+    return '';
+  }
+
+  async finalizeStep() {
+    // const formValues: any = getFormValues('supplier-info')(this.getState());
+    // // eslint-disable-next-line no-useless-catch
+    // try {
+    //   const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
+    //   const { name, description, ...other } = formValues;
+    //   if (!existingSupplier) {
+    //     // add other form values
+    //     const data: any = await this.dispatch(
+    //       saveSupplierNameAndDescription(name, description, other)
+    //     );
+    //     this.dispatch(openUploadSupplierModal(data));
+    //   } else {
+    //     for (const param in existingSupplier) {
+    //       if (existingSupplier[param] === other[param]) {
+    //         delete other[param];
+    //       }
+    //     }
+    //     await this.dispatch(
+    //       updateSupplierNameAndDescription(name, description, existingSupplier.id, other)
+    //     );
+    //     //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
+    //   }
+    //   this.dispatch(fetchColumnMappings());
+    // } catch (error) {
+    //   throw error;
+    // }
+  }
+
+  cleanStep() {
+    // this.dispatch(destroy('supplier-info'));
+  }
+}
+
 export class AddNewSupplierStep extends Step {
   step = UploadSteps.AddNewSupplier;
 
@@ -273,6 +324,9 @@ export class SubmitStep extends Step {
 
 export function getStepSpecification(stepNumber: number) {
   switch (stepNumber) {
+    case UploadSteps.AddNewSearch:
+      return AddNewSearchStep;
+
     case UploadSteps.AddNewSupplier:
       return AddNewSupplierStep;
 

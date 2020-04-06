@@ -15,15 +15,16 @@ export interface PieChartOptions {
   data: PieChartData[];
 }
 
-const renderPieChartOptions = (options: PieChartOptions) => {
-  const { title, name, data } = options;
-  return {
+const PieChart = (props: any) => {
+  const { title, name, data } = props.options;
+
+  const chartOptions = {
     chart: {
       type: 'pie',
     },
     title: {
       text: title,
-      margin: 50,
+      margin: 0,
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
@@ -31,10 +32,10 @@ const renderPieChartOptions = (options: PieChartOptions) => {
     plotOptions: {
       pie: {
         allowPointSelect: true,
-        size: '75%',
+        size: '145px',
         cursor: 'pointer',
         dataLabels: {
-          enabled: true,
+          enabled: false,
           format: '<b>{point.name}</b>: {point.percentage:.1f} %',
         },
       },
@@ -67,11 +68,6 @@ const renderPieChartOptions = (options: PieChartOptions) => {
       },
     ],
   };
-};
-
-const PieChart = (props: any) => {
-  const { options } = props;
-  const chartOptions = renderPieChartOptions(options);
   return (
     <div className="individual-pie-chart">
       <Chart chartOptions={chartOptions} />

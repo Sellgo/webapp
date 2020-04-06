@@ -95,10 +95,6 @@
   border: 1px solid #98aeca;
 }
 
-.new-supplier-modal i.close {
-  display: none;
-}
-
 .new-supplier-modal .content {
   border-radius: 15px !important;
   min-height: 600px;
@@ -123,7 +119,15 @@
 }
 
 .new-supplier-modal .content .rc-steps-item-tail {
-  width: 90%;
+  width: 88%;
+}
+
+.new-supplier-modal .content .AddNewSearch__new-search {
+  min-width: 869px;
+  min-height: 345px;
+  background: #fff 0% 0% no-repeat padding-box;
+  border: 1px solid #98aeca;
+  border-radius: 15px;
 }
 
 .new-supplier-modal .content .form {
@@ -168,7 +172,7 @@
 
 .new-supplier-modal .upload-section {
   width: 869px;
-  min-height: 330px;
+  min-height: 345px;
   margin-left: auto;
   margin-right: auto;
   flex: 0;
@@ -222,6 +226,22 @@
   padding-top: 0 !important;
 }
 
+.new-supplier-modal .ui.form .column:nth-child(2) {
+  max-width: 190px;
+}
+
+.new-supplier-modal .ui.form .column:nth-child(2) .field:last-child {
+  max-width: 168px;
+}
+
+.new-supplier-modal .ui.form .column:nth-child(3) {
+  max-width: 181px;
+}
+
+.new-supplier-modal .ui.form .column:nth-child(3) .field:last-child {
+  max-width: 113px;
+}
+
 .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1),
 .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) > .column {
   position: unset;
@@ -263,16 +283,24 @@
 
 .new-supplier-modal .upload-section .mapping-container .sixteen.wide.column {
   height: 100% !important;
+  overflow-x: scroll;
+  max-width: 775px;
+  padding: 0;
+  margin: auto;
 }
 
 .new-supplier-modal .upload-section .mapping-container .ui.selection.dropdown {
   background: #fff 0% 0% no-repeat padding-box;
   border: 1px solid #dededf;
   border-radius: 4px;
-  min-height: 38px;
+  height: 38px;
   font-size: 14px;
   color: #3b4557;
   font-weight: 500;
+}
+
+.new-supplier-modal .ui.form .column .ui.selection.dropdown {
+  min-width: 100%;
 }
 
 .new-supplier-modal .upload-section .mapping-container .three.wide.column {
@@ -317,7 +345,7 @@
 
 .new-supplier-modal .ui.form .field > .selection.dropdown {
   font-size: 14px;
-  min-height: 38px;
+  height: 38px;
   font-weight: 500;
   color: #3b4557;
 }

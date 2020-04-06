@@ -10,6 +10,7 @@ import { currentStepSelector } from '../../../selectors/UploadSupplier';
 import Submit from './Submit';
 import FormWrapper from './FormWrapper';
 import { cleanupUploadSupplier } from '../../../actions/UploadSupplier';
+import AddNewSearch from './AddNewSearch';
 
 interface Props {
   currentStep: number;
@@ -31,14 +32,17 @@ export const UploadSupplier = (props: Props) => {
     <div className={`new-supp-container ${styles.container} ${styles['supply-container']}`}>
       <UploadSteps isEditModal={isEditModal} finished={finished} />
       <div className={`upload-section ${styles.section}`}>
+        {/* <div className={`${currentStep === 0 ? 'UploadSupplier__new-search' : ''}`}> */}
         <FormWrapper>
-          {currentStep === 0 && <SupplierInformation />}
+          {currentStep === 0 && <AddNewSearch />}
 
-          {currentStep === 1 && <SelectFile />}
+          {currentStep === 1 && <SupplierInformation />}
 
-          {currentStep === 2 && <DataMapping />}
+          {currentStep === 2 && <SelectFile />}
 
-          {currentStep === 3 && (
+          {currentStep === 3 && <DataMapping />}
+
+          {currentStep === 4 && (
             <Submit
               onFinished={() => {
                 setFinished(true);
@@ -46,6 +50,7 @@ export const UploadSupplier = (props: Props) => {
             />
           )}
         </FormWrapper>
+        {/* </div> */}
       </div>
       <Actions />
     </div>

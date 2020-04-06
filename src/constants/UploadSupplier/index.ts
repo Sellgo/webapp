@@ -13,6 +13,7 @@ export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
 export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
 
 export enum UploadSteps {
+  AddNewSearch,
   AddNewSupplier,
   SelectFile,
   DataMapping,

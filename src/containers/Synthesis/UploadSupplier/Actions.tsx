@@ -52,7 +52,7 @@ const Actions = ({
   };
 
   const hasPrevStep = currentStep !== 0;
-  const hasNextStep = currentStep !== 3;
+  const hasNextStep = currentStep !== 4;
 
   if (processCompleted) {
     return (
@@ -77,7 +77,7 @@ const Actions = ({
       }`}
     >
       <div className={styles['download-options']}>
-        {currentStep === 1 && columnMappings.length > 0 && (
+        {currentStep === 2 && columnMappings.length > 0 && (
           <Checkbox
             className={styles.checked}
             style={{ marginLeft: '1em' }}
@@ -86,7 +86,7 @@ const Actions = ({
             label="Skip Data Mapping"
           />
         )}
-        {currentStep === 2 && (
+        {currentStep === 3 && (
           <Checkbox
             style={{ marginLeft: '1em' }}
             checked={saveColumnMappingSetting}
@@ -96,7 +96,7 @@ const Actions = ({
         )}
       </div>
       <div className={`${styles['btns-wrap']} ${styles.upload}`}>
-        {currentStep === 1 && (
+        {currentStep === 3 && (
           <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <i className="fas fa-file-download" /> Download Template
@@ -110,19 +110,20 @@ const Actions = ({
         )}
         {hasNextStep && (
           <Button
-            onClick={currentStep === 1 && skipColumnMappingCheck ? onSkipStep : onNextStep}
+            onClick={currentStep === 2 && skipColumnMappingCheck ? onSkipStep : onNextStep}
             className={styles.action}
             basic={true}
             color="black"
             primary={true}
           >
             {(() => {
+              console.log();
               switch (currentStep) {
                 case 0:
-                  return 'Save & Proceed';
-                case 2:
+                  return 'NEXT';
+                case 4:
                   return 'Submit';
-                case 1:
+                case 2:
                   return skipColumnMappingCheck ? 'Skip' : 'Next';
                 default:
                   return 'Next';

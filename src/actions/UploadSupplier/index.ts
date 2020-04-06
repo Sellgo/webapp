@@ -45,7 +45,8 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   const currentStep = currentStepSelector(getState());
   const stepSpecification: Step = new (getStepSpecification(currentStep))(dispatch, getState);
-
+  // console.log(currentStep);
+  // console.log(nextStep);
   // if step is increased we need to validate before moving on
   const validationRequired = currentStep < nextStep;
   const errorMessage = validationRequired ? stepSpecification.validate() : undefined;
