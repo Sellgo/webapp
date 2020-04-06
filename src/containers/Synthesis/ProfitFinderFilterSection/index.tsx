@@ -74,13 +74,13 @@ function ProfitFinderFilterSection(props: Props) {
         radio: false,
         data: [
           {
-            label: 'Apps & Games',
-            dataKey: 'apps-games',
+            label: 'Appliances',
+            dataKey: 'appliances',
             checked: true,
           },
           {
-            label: 'Appliances',
-            dataKey: 'appliances',
+            label: 'Apps & Games',
+            dataKey: 'apps-games',
             checked: true,
           },
           {
@@ -114,7 +114,7 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Cell Phones & Accessories',
+            label: 'Cellpone & Accessories',
             dataKey: 'cellphones-accessories',
             checked: true,
           },
@@ -139,8 +139,8 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Grocery & Gourmet Food',
-            dataKey: 'grocery-gourmet-food',
+            label: 'Groceries & Gourmet Food',
+            dataKey: 'groceries-gourmet-food',
             checked: true,
           },
           {
@@ -236,6 +236,11 @@ function ProfitFinderFilterSection(props: Props) {
           {
             label: 'Toys & Games',
             dataKey: 'toys-games',
+            checked: true,
+          },
+          {
+            label: 'Video Games',
+            dataKey: 'video-games',
             checked: true,
           },
           {

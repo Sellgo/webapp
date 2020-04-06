@@ -281,11 +281,11 @@
   .all-filter-content-wrapper {
     .all-filter-content {
       &.product-category {
-        width: 15% !important;
+        width: 15%;
       }
 
       &.product-size-tiers {
-        width: 13% !important;
+        width: 13%;
       }
     }
   }
@@ -316,6 +316,10 @@
 
         &:first-child {
           margin: 15px 25px 15px 0;
+        }
+
+        &:nth-child(5) {
+          margin: 15px 0 15px 0;
         }
 
         &:last-child {
