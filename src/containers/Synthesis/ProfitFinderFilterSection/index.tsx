@@ -21,7 +21,7 @@ interface Props {
   filterProducts: (value: string, filterData: any) => void;
 }
 
-function FilterSection2(props: Props) {
+function ProfitFinderFilterSection(props: Props) {
   const { productRanges, supplierDetails, filterProducts, filterSearch, products } = props;
 
   const filterStorage = JSON.parse(
@@ -553,4 +553,4 @@ const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterSection2);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
