@@ -3,6 +3,9 @@ import reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import numberToLetter from '../../utils/numberToLetter';
 
+export const synthesisFileIdSelector = (state: object): number | string =>
+  get(state, 'uploadSupplier.synthesisFileId', null);
+
 export const currentStepSelector = (state: object): number =>
   get(state, 'uploadSupplier.currentStep', 0);
 

@@ -6,6 +6,7 @@ import {
   setUploadSupplierStep,
   setSaveColumnMappingSetting,
   setSkipColumnMappingCheck,
+  runSynthesis,
 } from '../../../actions/UploadSupplier';
 import {
   currentStepSelector,
@@ -27,6 +28,7 @@ interface ActionsProps {
   className?: string;
   processCompleted: boolean;
   closeModal: typeof closeUploadSupplierModal;
+  runSynthesis: () => Promise<void>;
 }
 
 const Actions = ({
@@ -40,6 +42,7 @@ const Actions = ({
   skipColumnMappingCheck,
   setSkipCheck,
   columnMappings,
+  runSynthesis,
 }: ActionsProps) => {
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
@@ -54,17 +57,21 @@ const Actions = ({
   const hasPrevStep = currentStep !== 0;
   const hasNextStep = currentStep !== 3;
 
+  const completeProcess = () => {
+    runSynthesis().then(() => closeModal());
+  };
+
   if (processCompleted) {
     return (
       <div className={`${className || ''} ${styles.actions} submit-actions`}>
         <Button
-          onClick={closeModal}
+          onClick={completeProcess}
           className={styles.action}
           basic={true}
           color="black"
           primary={true}
         >
-          Done
+          Trigger Profit Finder
         </Button>
       </div>
     );
@@ -148,6 +155,7 @@ const mapDispatchToProps = {
   closeModal: closeUploadSupplierModal,
   setColumnSetting: setSaveColumnMappingSetting,
   setSkipCheck: setSkipColumnMappingCheck,
+  runSynthesis: runSynthesis,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions);

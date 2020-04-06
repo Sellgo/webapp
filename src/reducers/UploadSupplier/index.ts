@@ -10,6 +10,7 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
+  SET_SYNTHESIS_FILE_ID,
 } from '../../constants/UploadSupplier';
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
@@ -23,6 +24,7 @@ interface UploadSupplierState {
   readonly columnMappings: [];
   readonly completed: boolean;
   readonly isFirstRowHeader: boolean;
+  readonly synthesisFileId: string | number | null;
 }
 
 const initialState: UploadSupplierState = {
@@ -34,6 +36,7 @@ const initialState: UploadSupplierState = {
   columnMappings: [],
   rawCsv: null,
   csv: null,
+  synthesisFileId: null,
 };
 
 export default (
@@ -41,6 +44,9 @@ export default (
   action: AnyAction
 ): UploadSupplierState => {
   switch (action.type) {
+    case SET_SYNTHESIS_FILE_ID: {
+      return setIn(state, 'synthesisFileId', action.payload);
+    }
     case SET_CSV: {
       return setIn(state, 'csv', action.payload);
       // const newState = setIn(state, 'csv', action.payload);

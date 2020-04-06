@@ -11,6 +11,7 @@ import {
   columnMappingsSelector,
   csvSelector,
   csvFileSelector,
+  synthesisFileIdSelector,
 } from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
 import {
@@ -26,12 +27,30 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
+  SET_SYNTHESIS_FILE_ID,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
 import { fetchSupplier, fetchSynthesisProgressUpdates } from '../Suppliers';
+
+export const runSynthesis = () => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  getState: () => any
+) => {
+  const sellerID = sellerIDSelector();
+  const supplierID = newSupplierIdSelector(getState());
+  const synthesisFileID = synthesisFileIdSelector(getState());
+
+  const bodyFormData = new FormData();
+  bodyFormData.set('synthesis_file_id', String(synthesisFileID));
+
+  await Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/run`,
+    bodyFormData
+  );
+};
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -255,14 +274,22 @@ export const validateAndUploadCsv = () => async (
   // correct this
   if (isFirstRowHeaderSelector(getState())) bodyFormData.set('has_header', 'True');
 
-  await Axios.post(
+  const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
     bodyFormData
   );
   dispatch(finishUpload());
-  await dispatch(fetchSupplier(supplierID));
-  dispatch(fetchSynthesisProgressUpdates());
+  if (response.data) {
+    await dispatch(fetchSupplier(supplierID));
+    dispatch(fetchSynthesisProgressUpdates());
+    dispatch(setSynthesisFileId(response.data.synthesis_file_id));
+  }
 };
+
+export const setSynthesisFileId = (synthesisFileId: string | number) => ({
+  type: SET_SYNTHESIS_FILE_ID,
+  payload: synthesisFileId,
+});
 
 export const cleanupUploadSupplier = () => ({
   type: CLEANUP_UPLOAD_SUPPLIER,
