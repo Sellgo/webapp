@@ -42,9 +42,9 @@ function FilterContainer(props: Props) {
 
   return (
     <div className="filter-container">
+      <Divider />
       {filterType === 'all-filter' && (
         <>
-          <Divider />
           <div
             className={
               !seeAll ? 'all-filter-content-wrapper' : 'see-all all-filter-content-wrapper'
