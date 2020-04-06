@@ -249,9 +249,12 @@ export const validateAndUploadCsv = () => async (
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
   if (saveColumnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
-  if (reversedColumnMappings.title) bodyFormData.set('title', reversedColumnMappings.title);
-  if (reversedColumnMappings.sku) bodyFormData.set('sku', reversedColumnMappings.sku);
-  if (reversedColumnMappings.msrp) bodyFormData.set('msrp', reversedColumnMappings.msrp);
+  if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'title'))
+    bodyFormData.set('title', reversedColumnMappings.title);
+  if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'sku'))
+    bodyFormData.set('sku', reversedColumnMappings.sku);
+  if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'msrp'))
+    bodyFormData.set('msrp', reversedColumnMappings.msrp);
   // correct this
   if (isFirstRowHeaderSelector(getState())) bodyFormData.set('has_header', 'True');
 
