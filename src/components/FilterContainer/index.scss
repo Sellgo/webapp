@@ -291,7 +291,7 @@
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1920px) {
   .all-filter-content-wrapper {
     &.see-all {
       .all-filter-content {
@@ -318,6 +318,18 @@
           margin: 15px 25px 15px 0;
         }
 
+        &:last-child {
+          margin: 15px 0 15px 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .slider-filters {
+    .slider-wrapper {
+      .range-container {
         &:nth-child(5) {
           margin: 15px 0 15px 0;
         }
