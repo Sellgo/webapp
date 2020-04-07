@@ -173,7 +173,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'Profit',
       dataKey: 'profit',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderProfit,
@@ -181,14 +181,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'Margin',
       dataKey: 'margin',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderMargin,
     },
     {
-      label: 'Fee',
-      dataKey: 'fee',
+      label: 'Fees',
+      dataKey: 'fees',
       type: 'string',
       sortable: true,
       show: true,
@@ -196,8 +196,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Monthly\nRevenue',
-      dataKey: 'monthly-revenue',
-      type: 'string',
+      dataKey: 'monthly_revenue',
+      type: 'number',
       sortable: true,
       show: true,
       render: this.renderMonthlyRevenue,
@@ -205,7 +205,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'ROI',
       dataKey: 'roi',
-      type: 'number',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderRoi,
@@ -220,15 +220,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Sales\nEst',
-      dataKey: 'sales-est',
-      type: 'number',
+      dataKey: 'sales_monthly',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderSalesEst,
     },
     {
       label: 'Category',
-      dataKey: 'category',
+      dataKey: 'amazon_category_name',
       type: 'string',
       sortable: true,
       show: true,
@@ -236,7 +236,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Size Tier',
-      dataKey: 'size-tier',
+      dataKey: 'size_tier',
       type: 'string',
       show: true,
       sortable: true,
@@ -271,12 +271,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <PaginatedTable
             /* 
-                      key change forced table to remount and set page back to 1
-                      if any data changes that would affect number of displayed items
-                      otherwise we can end up on a page that shows no results because it's
-                      past the end of the total number of items.
-                      This can be done in a less hacky way once we move pagination server-side.
-                    */
+                        key change forced table to remount and set page back to 1
+                        if any data changes that would affect number of displayed items
+                        otherwise we can end up on a page that shows no results because it's
+                        past the end of the total number of items.
+                        This can be done in a less hacky way once we move pagination server-side.
+                      */
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}

@@ -1,7 +1,10 @@
 .filter-section {
+  .filter-wrapper {
+    margin: 0 5px;
+  }
+
   .filter-header {
     display: flex;
-    margin-bottom: 5px;
   }
 
   .ui.basic {

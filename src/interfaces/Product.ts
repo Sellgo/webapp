@@ -5,7 +5,7 @@ export interface Product {
   brand: string;
   id: number;
   fee: string;
-  monthly_revenue: string;
+  monthly_revenue: number;
   image_url: string;
   last_syn: string;
   margin: string;

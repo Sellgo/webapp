@@ -21,7 +21,7 @@ interface Props {
   filterProducts: (value: string, filterData: any) => void;
 }
 
-function FilterSection2(props: Props) {
+function ProfitFinderFilterSection(props: Props) {
   const { productRanges, supplierDetails, filterProducts, filterSearch, products } = props;
 
   const filterStorage = JSON.parse(
@@ -74,13 +74,18 @@ function FilterSection2(props: Props) {
         radio: false,
         data: [
           {
+            label: 'Appliances',
+            dataKey: 'appliances',
+            checked: true,
+          },
+          {
             label: 'Apps & Games',
             dataKey: 'apps-games',
             checked: true,
           },
           {
-            label: 'Appliances',
-            dataKey: 'appliances',
+            label: 'Arts, Craft & Sewing',
+            dataKey: 'arts-craft-sewing',
             checked: true,
           },
           {
@@ -140,7 +145,7 @@ function FilterSection2(props: Props) {
           },
           {
             label: 'Grocery & Gourmet Food',
-            dataKey: 'grocery-gourmet-food',
+            dataKey: 'groceries-gourmet-food',
             checked: true,
           },
           {
@@ -194,6 +199,11 @@ function FilterSection2(props: Props) {
             checked: true,
           },
           {
+            label: 'Movies & TV',
+            dataKey: 'movies-tV',
+            checked: true,
+          },
+          {
             label: 'Musical Instruments',
             dataKey: 'musical-instruments',
             checked: true,
@@ -236,6 +246,11 @@ function FilterSection2(props: Props) {
           {
             label: 'Toys & Games',
             dataKey: 'toys-games',
+            checked: true,
+          },
+          {
+            label: 'Video Games',
+            dataKey: 'video-games',
             checked: true,
           },
           {
@@ -553,4 +568,4 @@ const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterSection2);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
