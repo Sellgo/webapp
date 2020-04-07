@@ -92,7 +92,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderFee = (row: Product) => <p className="stat">{row.fees}%</p>;
   renderMonthlyRevenue = (row: Product) => <p className="stat">${row.monthly_revenue}</p>;
   renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
-  renderRank = (row: Product) => <p className="stat">#{row.rank}</p>;
+  renderRank = (row: Product) => <p className="stat">#{formatNumber(row.rank)}</p>;
   renderMonthlySalesEst = (row: Product) => {
     return (
       <>
