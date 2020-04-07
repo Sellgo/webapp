@@ -98,34 +98,6 @@
           background: unset !important;
         }
       }
-
-      &.active::after {
-        content: '';
-        border-color: #fff transparent transparent;
-        border-style: solid;
-        border-width: 6px;
-        width: 13px;
-        height: 0;
-        position: absolute;
-        bottom: -13px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-      }
-
-      &.active::before {
-        content: '';
-        border-color: #98aeca transparent transparent;
-        border-style: solid;
-        border-width: 9px;
-        width: 19px;
-        height: 0;
-        position: absolute;
-        bottom: -18px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-      }
     }
   }
 }
