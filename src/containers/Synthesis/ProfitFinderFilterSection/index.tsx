@@ -84,6 +84,11 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
+            label: 'Arts, Craft & Sewing',
+            dataKey: 'arts-craft-sewing',
+            checked: true,
+          },
+          {
             label: 'Automotive',
             dataKey: 'automotive',
             checked: true,
@@ -114,7 +119,7 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Cellpone & Accessories',
+            label: 'Cell Phones & Accessories',
             dataKey: 'cellphones-accessories',
             checked: true,
           },
@@ -139,7 +144,7 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Groceries & Gourmet Food',
+            label: 'Grocery & Gourmet Food',
             dataKey: 'groceries-gourmet-food',
             checked: true,
           },
@@ -191,6 +196,11 @@ function ProfitFinderFilterSection(props: Props) {
           {
             label: 'Medical Devices & Accessories',
             dataKey: 'medical-devices-accessories',
+            checked: true,
+          },
+          {
+            label: 'Movies & TV',
+            dataKey: 'movies-tV',
             checked: true,
           },
           {
