@@ -165,7 +165,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'Price',
       dataKey: 'price',
-      type: 'string',
+      type: 'number',
       sortable: true,
       show: true,
       render: this.renderPrice,
@@ -173,7 +173,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'Profit',
       dataKey: 'profit',
-      type: 'string',
+      type: 'number',
       sortable: true,
       show: true,
       render: this.renderProfit,
@@ -181,7 +181,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'Margin',
       dataKey: 'margin',
-      type: 'string',
+      type: 'number',
       sortable: true,
       show: true,
       render: this.renderMargin,
@@ -189,7 +189,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'Fees',
       dataKey: 'fees',
-      type: 'string',
+      type: 'number',
       sortable: true,
       show: true,
       render: this.renderFee,
@@ -205,7 +205,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'ROI',
       dataKey: 'roi',
-      type: 'string',
+      type: 'number',
       sortable: true,
       show: true,
       render: this.renderRoi,
@@ -221,7 +221,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'Monthly\nSales Est',
       dataKey: 'sales_monthly',
-      type: 'string',
+      type: 'number',
       sortable: true,
       show: true,
       render: this.renderMonthlySalesEst,
