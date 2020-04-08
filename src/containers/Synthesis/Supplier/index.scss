@@ -5,22 +5,19 @@
   .ui.grid {
     justify-content: center;
 
-    .wide.column {
-      max-height: 500px;
-      max-width: 800px;
-
+    .column {
       .ui {
         width: 100%;
 
         .supplier-details-card {
+          padding: 11px;
+
           .ui.feed {
             .event {
               .content {
-                padding: 15px 25px;
-
                 .highcharts-container {
-                  max-height: 350px;
-                  max-width: 733px;
+                  width: 100% !important;
+                  height: 275px !important;
 
                   svg {
                     height: 100% !important;

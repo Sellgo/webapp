@@ -249,7 +249,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     return (
       <div className="supplier-charts">
         <this.renderCharts />
-        <br />
         <div className="chart-end-content">
           <Header as="h4">Select your favorite chart</Header>
           <Form>
