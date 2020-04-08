@@ -282,7 +282,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             data={filteredProducts}
             columns={this.columns}
             searchFilterValue={searchValue}
-            showProductFinderSearch={true}
+            showFilterSearch={true}
             searchFilteredProduct={this.searchFilteredProduct}
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}

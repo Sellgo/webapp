@@ -38,7 +38,7 @@ export interface PaginatedTableProps {
   handleColumnChange?: any;
   count?: any;
   productTrackerPageNo?: any;
-  showProductFinderSearch?: boolean;
+  showFilterSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
   showFilter?: boolean;
   showProductFilter?: boolean;
@@ -50,8 +50,8 @@ export interface GenericTableProps {
   currentPage: number;
   totalPages: number;
   searchFilterValue?: string;
-  showProductFinderSearch?: boolean;
-  searchProfitFinderProduct?: (searchValue: string) => void;
+  showFilterSearch?: boolean;
+  searchFilteredProduct?: (searchValue: string) => void;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
@@ -92,8 +92,8 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
-    showProductFinderSearch,
-    searchProfitFinderProduct,
+    showFilterSearch,
+    searchFilteredProduct,
     currentPage,
     totalPages,
     setCurrentPage,
@@ -127,9 +127,9 @@ export const GenericTable = (props: GenericTableProps) => {
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
         <div className="table-menu-header">
-          {showProductFinderSearch ? (
+          {showFilterSearch ? (
             <ProductSearch
-              searchProfitFinderProduct={searchProfitFinderProduct}
+              searchFilteredProduct={searchFilteredProduct}
               searchFilterValue={searchFilterValue}
               setCurrentPage={setCurrentPage}
             />
@@ -356,7 +356,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     handleColumnChange,
     productTrackerPageNo,
     count,
-    showProductFinderSearch,
+    showFilterSearch,
     searchFilteredProduct,
     searchFilterValue,
     showFilter,
@@ -458,8 +458,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   return (
     <GenericTable
       productRanges={productRanges}
-      showProductFinderSearch={showProductFinderSearch}
-      searchProfitFinderProduct={searchFilteredProduct}
+      showFilterSearch={showFilterSearch}
+      searchFilteredProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
       setCurrentPage={setCurrentPage}

@@ -282,6 +282,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     );
   };
 
+  searchFilteredProduct = (value: string) => {
+    console.log('Search: ', value);
+  };
+
   columns: Column[] = [
     {
       label: 'Product Information',
@@ -450,6 +454,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             count={productTrackerResult}
             productTrackerPageNo={this.props.productTrackerPageNo}
             showProductFilter={true}
+            searchFilteredProduct={this.searchFilteredProduct}
+            showFilterSearch={true}
           />
         )}
       </div>

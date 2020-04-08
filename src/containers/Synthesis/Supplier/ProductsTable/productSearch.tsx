@@ -4,7 +4,7 @@ import { useInput } from '../../../../hooks/useInput';
 import _ from 'lodash';
 
 const ProductSearch = (props: any) => {
-  const { searchProfitFinderProduct, searchFilterValue, setCurrentPage } = props;
+  const { searchFilteredProduct, searchFilterValue, setCurrentPage } = props;
   const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput(searchFilterValue);
 
   useEffect(() => {
@@ -18,13 +18,13 @@ const ProductSearch = (props: any) => {
         icon: 'search',
         onClick: () => {
           setCurrentPage(1);
-          searchProfitFinderProduct(searchValue);
+          searchFilteredProduct(searchValue);
         },
       }}
       onKeyPress={(e: any) => {
         if (e.key === 'Enter') {
           setCurrentPage(1);
-          searchProfitFinderProduct(searchValue);
+          searchFilteredProduct(searchValue);
         }
       }}
       {...bindSearch}
