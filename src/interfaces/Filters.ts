@@ -21,6 +21,7 @@ export interface RangeModel {
   sign?: string;
 }
 
+//Supplier
 export interface FilterData {
   label: string;
   dataKey: string;
@@ -39,6 +40,44 @@ export interface FilterState {
   allFilter: string[];
   removeNegative: string[];
   productSize: string;
+  price: {
+    min: number;
+    max: number;
+  };
+  profit: {
+    min: number;
+    max: number;
+  };
+  margin: {
+    min: number;
+    max: number;
+  };
+  roi: {
+    min: number;
+    max: number;
+  };
+  sales_monthly: {
+    min: number;
+    max: number;
+  };
+  rank: {
+    min: number;
+    max: number;
+  };
+}
+
+//Product Tracker
+
+export interface ProductTrackerFilter {
+  filterRanges: RangeModel[];
+  reviews: string;
+}
+
+export interface ProductTrackerFilterState {
+  supplierID: string;
+  removeNegative: string[];
+  reviews: string[];
+  period: string;
   price: {
     min: number;
     max: number;

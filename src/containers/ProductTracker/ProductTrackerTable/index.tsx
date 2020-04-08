@@ -449,6 +449,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleColumnChange={this.handleColumnChange}
             count={productTrackerResult}
             productTrackerPageNo={this.props.productTrackerPageNo}
+            showProductFilter={true}
           />
         )}
       </div>

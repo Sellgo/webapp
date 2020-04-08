@@ -8,6 +8,7 @@ import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
 import ProfitFinderFilterSection from '../../containers/Synthesis/ProfitFinderFilterSection';
+import ProductTrackerFilterSection from '../../containers/ProductTracker/ProductTrackerFilterSection';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -40,6 +41,7 @@ export interface PaginatedTableProps {
   showProductFinderSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
   showFilter?: boolean;
+  showProductFilter?: boolean;
   productRanges?: any;
 }
 
@@ -75,6 +77,7 @@ export interface GenericTableProps {
   count?: number;
   productTrackerPageNo?: any;
   showFilter?: boolean;
+  showProductFilter?: boolean;
   productRanges?: any;
 }
 
@@ -117,6 +120,7 @@ export const GenericTable = (props: GenericTableProps) => {
     searchFilterValue,
     showFilter,
     productRanges,
+    showProductFilter,
   } = props;
 
   return (
@@ -143,6 +147,7 @@ export const GenericTable = (props: GenericTableProps) => {
         ''
       )}
       {showFilter && <ProfitFinderFilterSection productRanges={productRanges} />}
+      {showProductFilter && <ProductTrackerFilterSection />}
       {showSearchFilter && (
         <Card className="filter-card">
           <Card.Header>
@@ -356,6 +361,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     searchFilterValue,
     showFilter,
     productRanges,
+    showProductFilter,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -482,6 +488,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       count={count && count.count}
       productTrackerPageNo={productTrackerPageNo}
       showFilter={showFilter}
+      showProductFilter={showProductFilter}
     />
   );
 };
