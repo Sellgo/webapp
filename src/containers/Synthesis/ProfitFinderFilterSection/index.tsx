@@ -453,6 +453,12 @@ function ProfitFinderFilterSection(props: Props) {
       if (filter.dataKey === datakey) {
         filter.filterRange = filter.range;
         filterDetails[datakey] = filter.range;
+        if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
+          filterDetails.removeNegative.splice(filterDetails.removeNegative.indexOf(datakey), 1);
+          filter.range = rangeData[datakey];
+          filter.filterRange = rangeData[datakey];
+          filterDetails[datakey] = rangeData[datakey];
+        }
       }
       return filter;
     });
