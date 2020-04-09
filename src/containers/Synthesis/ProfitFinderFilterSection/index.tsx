@@ -475,10 +475,11 @@ function ProfitFinderFilterSection(props: Props) {
     data.productSize = 'All size';
     data.price = productRanges.price;
     data.profit = productRanges.profit;
+    data.margin = productRanges.margin;
     data.roi = productRanges.roi;
     data.sales_monthly = productRanges.sales_monthly;
     data.rank = productRanges.rank;
-
+    data.removeNegative = [];
     selectAll();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
