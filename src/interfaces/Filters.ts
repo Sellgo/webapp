@@ -68,7 +68,7 @@ export interface FilterState {
 
 //Product Tracker
 
-export interface ProductTrackerFilter {
+export interface ProductTrackerFilterInterface {
   all: {
     filterRanges: RangeModel[];
     reviews: FilterData[];

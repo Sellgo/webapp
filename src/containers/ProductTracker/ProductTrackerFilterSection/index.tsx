@@ -1,209 +1,209 @@
 import React, { useState } from 'react';
 import './index.scss';
 import { connect } from 'react-redux';
-// import { findMinMax } from '../../../constants/Suppliers';
-// import { ProductTrackerFilter } from '../../../interfaces/Filters';
+import { findMinMax } from '../../../constants/Suppliers';
 import { Product } from '../../../interfaces/Product';
-// import { Range } from '../../../interfaces/Generic';
+import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
-// import _ from 'lodash';
+import _ from 'lodash';
 import { Button, Icon } from 'semantic-ui-react';
-// import FilterContainer from '../../../components/FilterContainer';
+import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
+import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 
 interface Props {
   filteredProducts: Product[];
 }
 
-function ProductTrackerFilterSection() {
-  // function ProductTrackerFilterSection(props: Props) {
-  // const { filteredProducts } = props;
+function ProductTrackerFilterSection(props: Props) {
+  const { filteredProducts } = props;
 
   const [filterType, setFilterType] = useState('');
 
-  // const filteredRanges = findMinMax(filteredProducts);
-  // const rangeData: any = _.cloneDeep(filteredRanges);
+  const filteredRanges = findMinMax(filteredProducts);
+  const rangeData: any = _.cloneDeep(filteredRanges);
 
-  // const filterInitialData: any = {
-  //   reviews: [],
-  //   period: [],
-  //   productSize: 'Today',
-  //   price: filteredRanges.price,
-  //   profit: filteredRanges.profit,
-  //   margin: filteredRanges.margin,
-  //   roi: filteredRanges.roi,
-  //   sales_monthly: filteredRanges.sales_monthly,
-  //   rank: filteredRanges.rank,
-  // };
-  // const [filterState, setFilterState] = React.useState(filterInitialData);
+  const filterInitialData: any = {
+    reviews: [],
+    period: [],
+    removeNegative: [],
+    productSize: 'Today',
+    price: filteredRanges.price,
+    profit: filteredRanges.profit,
+    margin: filteredRanges.margin,
+    roi: filteredRanges.roi,
+    sales_monthly: filteredRanges.sales_monthly,
+    rank: filteredRanges.rank,
+  };
+  const [filterState, setFilterState] = React.useState(filterInitialData);
 
-  // const filterDataState: ProductTrackerFilter = {
-  //   all: {
-  //     filterRanges: [
-  //       {
-  //         label: 'Buy Box Price $',
-  //         dataKey: 'price',
-  //         minPlaceholder: 'Min',
-  //         maxPlaceholder: 'Max',
-  //         range: rangeData.price,
-  //         filterRange: filterInitialData.price,
-  //         sign: '$',
-  //       },
-  //       {
-  //         label: 'Profit $',
-  //         dataKey: 'profit',
-  //         minPlaceholder: '$ Min',
-  //         maxPlaceholder: '$ Max',
-  //         range: rangeData.profit,
-  //         filterRange: filterInitialData.profit,
-  //         removeNegative: false,
-  //         sign: '$',
-  //       },
-  //       {
-  //         label: 'Profit Margin %',
-  //         dataKey: 'margin',
-  //         minPlaceholder: 'Min %',
-  //         maxPlaceholder: 'Max %',
-  //         range: rangeData.margin,
-  //         filterRange: filterInitialData.margin,
-  //         removeNegative: false,
-  //         sign: '%',
-  //       },
-  //       {
-  //         label: 'ROI/ Return On Investment %',
-  //         dataKey: 'roi',
-  //         minPlaceholder: 'Min %',
-  //         maxPlaceholder: 'Max %',
-  //         range: rangeData.roi,
-  //         filterRange: filterInitialData.roi,
-  //         removeNegative: false,
-  //         sign: '%',
-  //       },
-  //       {
-  //         label: 'Unit Sold',
-  //         dataKey: 'sales_monthly',
-  //         minPlaceholder: 'Min sold',
-  //         maxPlaceholder: 'Max sold ',
-  //         range: rangeData.sales_monthly,
-  //         filterRange: filterInitialData.sales_monthly,
-  //       },
-  //       {
-  //         label: 'Rank',
-  //         dataKey: 'rank',
-  //         minPlaceholder: 'Min rank',
-  //         maxPlaceholder: 'Max rank ',
-  //         range: rangeData.rank,
-  //         filterRange: filterInitialData.rank,
-  //       },
-  //     ],
-  //     reviews: [
-  //       {
-  //         label: 'Product Category',
-  //         dataKey: 'product-category',
-  //         radio: false,
-  //         data: [
-  //           {
-  //             label: '1-star',
-  //             dataKey: '1-star',
-  //             checked: true,
-  //           },
-  //           {
-  //             label: '2-star',
-  //             dataKey: '2-star',
-  //             checked: true,
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   },
-  //   period: {
-  //     label: 'Period Reference',
-  //     dataKey: 'product-size-tiers',
-  //     checkedValue: 'Small standard-size',
-  //     radio: true,
-  //     data: [
-  //       {
-  //         label: 'Today',
-  //         dataKey: 'today',
-  //       },
-  //       {
-  //         label: 'Week',
-  //         dataKey: 'week',
-  //       },
-  //       {
-  //         label: 'Month',
-  //         dataKey: 'mnth',
-  //       },
-  //       {
-  //         label: '3 Month',
-  //         dataKey: '3-Month',
-  //       },
-  //       {
-  //         label: 'Year',
-  //         dataKey: 'year',
-  //       },
-  //       {
-  //         label: 'All (xxx days)',
-  //         dataKey: 'all',
-  //       }
-  //     ],
-  //   },
-  // };
-  // const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
+  const filterDataState: ProductTrackerFilterInterface = {
+    all: {
+      filterRanges: [
+        {
+          label: 'Buy Box Price $',
+          dataKey: 'price',
+          minPlaceholder: 'Min',
+          maxPlaceholder: 'Max',
+          range: rangeData.price,
+          filterRange: filterInitialData.price,
+          sign: '$',
+        },
+        {
+          label: 'Profit $',
+          dataKey: 'profit',
+          minPlaceholder: '$ Min',
+          maxPlaceholder: '$ Max',
+          range: rangeData.profit,
+          filterRange: filterInitialData.profit,
+          removeNegative: false,
+          sign: '$',
+        },
+        {
+          label: 'Profit Margin %',
+          dataKey: 'margin',
+          minPlaceholder: 'Min %',
+          maxPlaceholder: 'Max %',
+          range: rangeData.margin,
+          filterRange: filterInitialData.margin,
+          removeNegative: false,
+          sign: '%',
+        },
+        {
+          label: 'ROI/ Return On Investment %',
+          dataKey: 'roi',
+          minPlaceholder: 'Min %',
+          maxPlaceholder: 'Max %',
+          range: rangeData.roi,
+          filterRange: filterInitialData.roi,
+          removeNegative: false,
+          sign: '%',
+        },
+        {
+          label: 'Unit Sold',
+          dataKey: 'sales_monthly',
+          minPlaceholder: 'Min sold',
+          maxPlaceholder: 'Max sold ',
+          range: rangeData.sales_monthly,
+          filterRange: filterInitialData.sales_monthly,
+        },
+        {
+          label: 'Rank',
+          dataKey: 'rank',
+          minPlaceholder: 'Min rank',
+          maxPlaceholder: 'Max rank ',
+          range: rangeData.rank,
+          filterRange: filterInitialData.rank,
+        },
+      ],
+      reviews: [
+        {
+          label: 'Product Category',
+          dataKey: 'product-category',
+          radio: false,
+          data: [
+            {
+              label: '1-star',
+              dataKey: '1-star',
+              checked: true,
+            },
+            {
+              label: '2-star',
+              dataKey: '2-star',
+              checked: true,
+            },
+          ],
+        },
+      ],
+    },
+    period: {
+      label: 'Period Reference',
+      dataKey: 'product-size-tiers',
+      checkedValue: 'Small standard-size',
+      radio: true,
+      data: [
+        {
+          label: 'Today',
+          dataKey: 'today',
+        },
+        {
+          label: 'Week',
+          dataKey: 'week',
+        },
+        {
+          label: 'Month',
+          dataKey: 'mnth',
+        },
+        {
+          label: '3 Month',
+          dataKey: '3-Month',
+        },
+        {
+          label: 'Year',
+          dataKey: 'year',
+        },
+        {
+          label: 'All (xxx days)',
+          dataKey: 'all',
+        },
+      ],
+    },
+  };
+  const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
 
-  // const handleCompleteChange = (datakey: string, range: Range) => {
-  //   const filterDetails: any = filterState;
-  //   const data = _.map(filterRanges, filter => {
-  //     if (filter.dataKey === datakey) {
-  //       filter.filterRange = range;
-  //     }
-  //     return filter;
-  //   });
-  //   filterDetails[datakey] = range;
-  //   setFilterState(filterDetails);
-  //   setFilterRanges(data);
-  // };
+  const handleCompleteChange = (datakey: string, range: Range) => {
+    const filterDetails: any = filterState;
+    const data = _.map(filterRanges, filter => {
+      if (filter.dataKey === datakey) {
+        filter.filterRange = range;
+      }
+      return filter;
+    });
+    filterDetails[datakey] = range;
+    setFilterState(filterDetails);
+    setFilterRanges(data);
+  };
 
-  // const resetSingleFilter = (datakey: string) => {
-  //   const filterDetails = filterState;
-  //   const data = _.map(filterRanges, filter => {
-  //     if (filter.dataKey === datakey) {
-  //       filter.filterRange = filter.range;
-  //       filterDetails[datakey] = filter.range;
-  //     }
-  //     return filter;
-  //   });
-  //   setFilterRanges(data);
-  //   setFilterState(filterDetails);
-  // };
+  const resetSingleFilter = (datakey: string) => {
+    const filterDetails = filterState;
+    const data = _.map(filterRanges, filter => {
+      if (filter.dataKey === datakey) {
+        filter.filterRange = filter.range;
+        filterDetails[datakey] = filter.range;
+      }
+      return filter;
+    });
+    setFilterRanges(data);
+    setFilterState(filterDetails);
+  };
 
-  // const applyFilter = () => {
-  //   // filterProducts(filterSearch, filterState);
-  //   console.log("Apply Filter: ", filterState)
-  // };
+  const applyFilter = () => {
+    // filterProducts(filterSearch, filterState);
+    console.log('Apply Filter: ', filterState);
+  };
 
-  // const resetFilter = () => {
-  //   const data = filterState;
-  //   data.supplier_id = filterState.supplier_id;
-  //   data.allFilter = [];
-  //   data.productSize = 'All size';
-  //   data.price = rangeData.price;
-  //   data.profit = rangeData.profit;
-  //   data.roi = rangeData.roi;
-  //   data.sales_monthly = rangeData.sales_monthly;
-  //   data.rank = rangeData.rank;
+  const resetFilter = () => {
+    const data = filterState;
+    data.supplier_id = filterState.supplier_id;
+    data.allFilter = [];
+    data.productSize = 'All size';
+    data.price = rangeData.price;
+    data.profit = rangeData.profit;
+    data.roi = rangeData.roi;
+    data.sales_monthly = rangeData.sales_monthly;
+    data.rank = rangeData.rank;
 
-  //   const filterRangeKeys = Object.keys(rangeData);
-  //   _.each(filterRangeKeys, key => {
-  //     const ranges = _.map(filterRanges, filter => {
-  //       if (filter.dataKey === key) {
-  //         filter.filterRange = filter.range;
-  //       }
-  //       return filter;
-  //     });
-  //     setFilterRanges(ranges);
-  //   });
-  //   setFilterState(data);
-  // };
+    const filterRangeKeys = Object.keys(rangeData);
+    _.each(filterRangeKeys, key => {
+      const ranges = _.map(filterRanges, filter => {
+        if (filter.dataKey === key) {
+          filter.filterRange = filter.range;
+        }
+        return filter;
+      });
+      setFilterRanges(ranges);
+    });
+    setFilterState(data);
+  };
 
   const handleFilterType = (type: string) => {
     if (filterType === type) {
@@ -248,21 +248,15 @@ function ProductTrackerFilterSection() {
         </Button>
       </div>
       <>
-        {/* <FilterContainer
+        <ProductTrackerFilter
           filterType={filterType}
           applyFilter={applyFilter}
           resetSingleFilter={resetSingleFilter}
-          toggleCheckboxFilter={toggleCheckboxFilter}
           resetFilter={resetFilter}
           filterData={filterDataState}
           handleCompleteChange={handleCompleteChange}
           initialFilterState={filterState}
-          setRadioFilter={setRadioFilter}
-          toggleSelectAll={toggleSelectAll}
-          isSelectAll={isSelectAll}
-          selectAll={selectAll}
-          toggleNegative={toggleNegative}
-        /> */}
+        />
       </>
     </div>
   );
