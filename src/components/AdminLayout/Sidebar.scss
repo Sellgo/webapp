@@ -41,13 +41,13 @@
   .sidebar-menu.inverted.menu .menu .item {
     color: #fff !important;
     padding: 13px 16px;
+    margin: 10px 0;
     display: flex;
     flex-direction: row;
     align-items: center;
 
     i {
-      padding-left: 10px;
-      font-size: 21px;
+      font-size: 25px;
       min-width: 48px;
     }
 
@@ -86,8 +86,8 @@
 }
 
 .ui.visible.left.sidebar ~ .Sidebar__pusher.pusher {
-  -webkit-transform: translate3d(75px, 0, 0);
-  transform: translate3d(75px, 0, 0);
+  -webkit-transform: translate3d(64px, 0, 0);
+  transform: translate3d(64px, 0, 0);
 }
 
 .admin-layout-grid {
