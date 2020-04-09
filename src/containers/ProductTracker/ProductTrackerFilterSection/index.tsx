@@ -47,7 +47,7 @@ function ProductTrackerFilterSection(props: Props) {
           minPlaceholder: 'Min',
           maxPlaceholder: 'Max',
           range: rangeData.avg_price,
-          filterRange: filterInitialData.avg_price,
+          filterRange: filterState.avg_price,
           sign: '$',
         },
         {
@@ -56,7 +56,7 @@ function ProductTrackerFilterSection(props: Props) {
           minPlaceholder: '$ Min',
           maxPlaceholder: '$ Max',
           range: rangeData.avg_profit,
-          filterRange: filterInitialData.avg_profit,
+          filterRange: filterState.avg_profit,
           removeNegative: false,
           sign: '$',
         },
@@ -66,7 +66,7 @@ function ProductTrackerFilterSection(props: Props) {
           minPlaceholder: 'Min %',
           maxPlaceholder: 'Max %',
           range: rangeData.avg_margin,
-          filterRange: filterInitialData.avg_margin,
+          filterRange: filterState.avg_margin,
           removeNegative: false,
           sign: '%',
         },
@@ -76,7 +76,7 @@ function ProductTrackerFilterSection(props: Props) {
           minPlaceholder: 'Min %',
           maxPlaceholder: 'Max %',
           range: rangeData.avg_roi,
-          filterRange: filterInitialData.avg_roi,
+          filterRange: filterState.avg_roi,
           removeNegative: false,
           sign: '%',
         },
@@ -86,7 +86,7 @@ function ProductTrackerFilterSection(props: Props) {
           minPlaceholder: 'Min sold',
           maxPlaceholder: 'Max sold ',
           range: rangeData.avg_daily_sales,
-          filterRange: filterInitialData.avg_daily_sales,
+          filterRange: filterState.avg_daily_sales,
         },
         {
           label: 'Avg Rank',
@@ -94,7 +94,7 @@ function ProductTrackerFilterSection(props: Props) {
           minPlaceholder: 'Min rank',
           maxPlaceholder: 'Max rank ',
           range: rangeData.avg_rank,
-          filterRange: filterInitialData.avg_rank,
+          filterRange: filterState.avg_rank,
         },
         {
           label: 'Total Review Count',
@@ -102,7 +102,7 @@ function ProductTrackerFilterSection(props: Props) {
           minPlaceholder: 'Min rank',
           maxPlaceholder: 'Max rank ',
           range: rangeData.customer_reviews,
-          filterRange: filterInitialData.customer_reviews,
+          filterRange: filterState.customer_reviews,
         },
       ],
       reviews: [
@@ -194,14 +194,17 @@ function ProductTrackerFilterSection(props: Props) {
 
   const resetFilter = () => {
     const data = filterState;
-    data.supplier_id = filterState.supplier_id;
-    data.allFilter = [];
-    data.productSize = 'All size';
-    data.price = rangeData.price;
-    data.profit = rangeData.profit;
-    data.roi = rangeData.roi;
-    data.sales_monthly = rangeData.sales_monthly;
-    data.rank = rangeData.rank;
+    data.reviews = [];
+    data.period = [];
+    data.removeNegative = [];
+    data.productSize = 'Today';
+    data.avg_price = rangeData.avg_price;
+    data.avg_profit = rangeData.avg_profit;
+    data.avg_margin = rangeData.avg_margin;
+    data.avg_roi = rangeData.avg_roi;
+    data.avg_daily_sales = rangeData.avg_daily_sales;
+    data.avg_rank = rangeData.avg_rank;
+    data.customer_reviews = rangeData.customer_reviews;
 
     const filterRangeKeys = Object.keys(rangeData);
     _.each(filterRangeKeys, key => {
