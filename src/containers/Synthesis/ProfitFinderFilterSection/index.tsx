@@ -479,7 +479,7 @@ function ProfitFinderFilterSection(props: Props) {
     data.roi = productRanges.roi;
     data.sales_monthly = productRanges.sales_monthly;
     data.rank = productRanges.rank;
-
+    data.removeNegative = [];
     selectAll();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
