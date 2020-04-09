@@ -20,6 +20,17 @@ export const dataKeys: any = [
   'avg_roi',
 ];
 
+export const newFilterKeys: any = [
+  // Basic KPI
+  'avg_price',
+  'avg_profit',
+  'avg_margin',
+  'avg_daily_sales',
+  'avg_roi',
+  'avg_rank',
+  'customer_reviews',
+];
+
 export const dataKeyMapping: any = {
   // Basic KPI
   avg_profit: {
@@ -187,6 +198,24 @@ export const findFiltersGrouped = () => {
 
 export const findMinMaxRange = (products: any) => {
   const updatedFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
+    if (!fr[dk]) {
+      const dkArray = products.map((p: any) => {
+        return Number(p[dk]);
+      });
+      const minDk = Math.floor(Math.min(...dkArray) * 100) / 100;
+      const maxDk = Math.ceil(Math.max(...dkArray) * 100) / 100;
+      const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
+      const max = maxDk === Number.NEGATIVE_INFINITY ? '' : maxDk;
+      const updatedDkRange = { min, max };
+      fr[dk] = updatedDkRange;
+    }
+    return fr;
+  }, {});
+  return updatedFilterRanges;
+};
+
+export const findNewMinMaxRange = (products: any) => {
+  const updatedFilterRanges = newFilterKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => {
         return Number(p[dk]);

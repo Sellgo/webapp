@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './index.scss';
 import { connect } from 'react-redux';
-import { findMinMax } from '../../../constants/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
@@ -9,6 +8,7 @@ import _ from 'lodash';
 import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
+import { findNewMinMaxRange } from '../../../constants/Tracker';
 
 interface Props {
   filteredProducts: Product[];
@@ -19,9 +19,11 @@ function ProductTrackerFilterSection(props: Props) {
 
   const [filterType, setFilterType] = useState('');
 
-  const filteredRanges = findMinMax(filteredProducts);
+  const filteredRanges = findNewMinMaxRange(filteredProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
 
+  console.log('filteredProducts: ', filteredProducts);
+  console.log('rangeData: ', filteredRanges);
   const filterInitialData: any = {
     reviews: [],
     period: [],
@@ -35,7 +37,6 @@ function ProductTrackerFilterSection(props: Props) {
     rank: filteredRanges.rank,
   };
   const [filterState, setFilterState] = React.useState(filterInitialData);
-
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
       filterRanges: [
