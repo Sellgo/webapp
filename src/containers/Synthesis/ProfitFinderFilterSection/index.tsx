@@ -310,7 +310,10 @@ function ProfitFinderFilterSection(props: Props) {
         maxPlaceholder: '$ Max',
         range:
           filterState.removeNegative.indexOf('profit') !== -1
-            ? { min: 0, max: rangeData.profit.max }
+            ? {
+                min: rangeData.profit.min < 0 ? 0 : rangeData.profit.min,
+                max: rangeData.profit.max < 0 ? 0 : rangeData.profit.max,
+              }
             : rangeData.profit,
         filterRange: filterState.profit,
         removeNegative: false,
@@ -323,7 +326,10 @@ function ProfitFinderFilterSection(props: Props) {
         maxPlaceholder: 'Max %',
         range:
           filterState.removeNegative.indexOf('margin') !== -1
-            ? { min: 0, max: rangeData.margin.max }
+            ? {
+                min: rangeData.margin.min < 0 ? 0 : rangeData.margin.min,
+                max: rangeData.margin.max < 0 ? 0 : rangeData.margin.max,
+              }
             : rangeData.margin,
         filterRange: filterState.margin,
         removeNegative: false,
@@ -336,7 +342,10 @@ function ProfitFinderFilterSection(props: Props) {
         maxPlaceholder: 'Max %',
         range:
           filterState.removeNegative.indexOf('roi') !== -1
-            ? { min: 0, max: rangeData.roi.max }
+            ? {
+                min: rangeData.roi.min < 0 ? 0 : rangeData.roi.min,
+                max: rangeData.roi.max < 0 ? 0 : rangeData.roi.max,
+              }
             : rangeData.roi,
         filterRange: filterState.roi,
         removeNegative: false,
@@ -519,14 +528,17 @@ function ProfitFinderFilterSection(props: Props) {
           data[datakey] = rangeData[datakey];
         } else {
           data.removeNegative.push(datakey);
-          filter.range = { min: 0, max: rangeData[datakey].max > 0 ? rangeData[datakey].max : 0 };
+          filter.range = {
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+          };
           filter.filterRange = {
-            min: 0,
-            max: rangeData[datakey].max > 0 ? rangeData[datakey].max : 0,
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
           };
           data[filter.dataKey] = {
-            min: 0,
-            max: rangeData[datakey].max > 0 ? rangeData[datakey].max : 0,
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
           };
         }
       }
