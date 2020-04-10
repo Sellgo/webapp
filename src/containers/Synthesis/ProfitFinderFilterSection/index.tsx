@@ -519,9 +519,15 @@ function ProfitFinderFilterSection(props: Props) {
           data[datakey] = rangeData[datakey];
         } else {
           data.removeNegative.push(datakey);
-          filter.range = { min: 0, max: rangeData[datakey].max };
-          filter.filterRange = { min: 0, max: rangeData[datakey].max };
-          data[filter.dataKey] = { min: 0, max: rangeData[datakey].max };
+          filter.range = { min: 0, max: rangeData[datakey].max > 0 ? rangeData[datakey].max : 0 };
+          filter.filterRange = {
+            min: 0,
+            max: rangeData[datakey].max > 0 ? rangeData[datakey].max : 0,
+          };
+          data[filter.dataKey] = {
+            min: 0,
+            max: rangeData[datakey].max > 0 ? rangeData[datakey].max : 0,
+          };
         }
       }
       return filter;
