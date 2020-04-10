@@ -133,17 +133,10 @@ function FilterContainer(props: Props) {
                     {filter.removeNegative !== undefined && (
                       <div className="remove-negative">
                         <Checkbox
-                          disabled={
-                            (filter.filterRange.min < 0 && filter.filterRange.max < 0) ||
-                            filter.range.min > 0
-                          }
                           label="Remove Negative Values"
                           key={filter.dataKey}
                           onClick={() => {
-                            !(
-                              (filter.filterRange.min < 0 && filter.filterRange.max < 0) ||
-                              filter.range.min > 0
-                            ) && toggleNegative(filter.dataKey);
+                            toggleNegative(filter.dataKey);
                           }}
                           checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
                         />
