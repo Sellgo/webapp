@@ -55,9 +55,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderName = (row: Supplier) => {
     const name =
       row.file_status === 'completed' ? (
-        <Link to={`/synthesis/${row.supplier_id}`}>{row.name}</Link>
+        <Link to={`/synthesis/${row.supplier_id}`}>{row.search}</Link>
       ) : (
-        row.name
+        row.search
       );
     return <div className="supplier">{name}</div>;
   };
@@ -225,8 +225,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   columns: Column[] = [
     {
-      label: 'Supplier',
-      dataKey: 'name',
+      label: 'Search',
+      dataKey: 'search',
       sortable: true,
       show: true,
       render: this.renderName,

@@ -6,6 +6,35 @@ import numberToLetter from '../../utils/numberToLetter';
 export const currentStepSelector = (state: object): number =>
   get(state, 'uploadSupplier.currentStep', 0);
 
+export const currentResultErrFile = (state: object): [] =>
+  get(state, 'uploadSupplier.resultErrFile', []);
+
+export const currentProgressSpeed = (state: object): [] =>
+  get(state, 'uploadSupplier.setProgressSpeed', []);
+
+export const currentResultUpload = (state: object): [] =>
+  get(state, 'uploadSupplier.resultUpload', []);
+
+export const currentProgressShow = (state: object): [] =>
+  get(state, 'uploadSupplier.setProgressShow', []);
+
+export const currentProgressEta = (state: object): [] =>
+  get(state, 'uploadSupplier.setProgressEta', []);
+
+export const currentSynthesisId = (state: object): [] =>
+  get(state, 'uploadSupplier.synthesisId', []);
+
+export const currentLoadingShow = (state: object): [] =>
+  get(state, 'uploadSupplier.setLoadingShow', []);
+
+export const currentResultVal = (state: object): [] => get(state, 'uploadSupplier.resultVal', []);
+
+export const currentProgress = (state: object): [] => get(state, 'uploadSupplier.setProgress', []);
+
+export const currentSupplier = (state: object): [] => get(state, 'modals.uploadSupplier.meta', []);
+
+export const currentErr = (state: object): [] => get(state, 'uploadSupplier.resultErr', []);
+
 export const csvSelector = (state: object): string[][] => get(state, 'uploadSupplier.csv', null);
 
 export const columnMappingsSelector = (state: object): [] =>

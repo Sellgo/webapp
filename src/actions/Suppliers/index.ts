@@ -4,8 +4,9 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
 import { getSellerQuota } from '../Settings';
-import { suppliersSelector } from '../../selectors/Supplier';
+import { suppliersSelector, newSupplierIdSelector, getSynthesisId } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
+import get from 'lodash/get';
 import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
@@ -15,6 +16,7 @@ import {
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
   SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+  SET_SAVE_ADD_NEW_SEARCH,
   SET_TIME_EFFICIENCY,
   SET_SUPPLIER_DETAILS,
   IS_LOADING_SUPPLIER_PRODUCTS,
@@ -30,6 +32,7 @@ import {
   FILTER_SUPPLIER_PRODUCTS,
   SEARCH_SUPPLIER_PRODUCTS,
 } from '../../constants/Suppliers';
+import { SET_PROGRESS, SET_PROGRESS_SPEED, SET_PROGRESS_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
@@ -142,6 +145,29 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
     });
 };
 
+export const postSynthesisRun = (synthesisId: string) => async (
+  dispatch: any,
+  getState: () => any
+) => {
+  const sellerID = sellerIDSelector();
+  const existingSupplier = get(getState(), 'modals.uploadSupplier.meta', null);
+  const supplierID = newSupplierIdSelector(getState());
+
+  const bodyFormData = new FormData();
+  bodyFormData.set('synthesis_file_id', String(synthesisId));
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis/run`,
+    bodyFormData
+  )
+    .then(() => {
+      dispatch(updateSupplier({ ...existingSupplier, ...{ progress: 0, file_status: 'pending' } }));
+      dispatch(fetchSynthesisProgressUpdates());
+    })
+    .catch(() => {
+      error('Rerun failed. Try again!');
+    });
+};
+
 function timeout(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -152,6 +178,7 @@ export const fetchSynthesisProgressUpdates = () => async (
 ) => {
   const sellerID = sellerIDSelector();
   let suppliers = suppliersSelector(getState());
+  const currSynthesisId = getSynthesisId(getState());
   suppliers = suppliers.filter(
     supplier =>
       supplier &&
@@ -185,6 +212,12 @@ export const fetchSynthesisProgressUpdates = () => async (
     responses.forEach(handleUpdateSupplier);
 
     suppliers = suppliers.filter((supplier, index) => {
+      if (currSynthesisId === supplier.synthesis_file_id) {
+        dispatch(setProgress(responses[index].data.progress));
+        dispatch(setProgressSpeed(responses[index].data.speed));
+        dispatch(setProgressEta(responses[index].data.eta));
+      }
+
       if (responses[index].data.progress === 100) {
         dispatch(fetchSupplier(supplier.supplier_id));
       }
@@ -432,6 +465,29 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
     });
 };
 
+export const saveAddNewSearch = (other: any) => (dispatch: any) => {
+  return new Promise(resolve => {
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+
+    for (const param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+
+    return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
+      .then(json => {
+        dispatch(addSupplier(json.data));
+        dispatch(setsaveAddNewSearch(json.data));
+        resolve(json.data);
+      })
+      .catch(err => {
+        for (const er in err.response.data) {
+          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+        }
+      });
+  });
+};
+
 export const saveSupplierNameAndDescription = (name: string, description: string, other: any) => (
   dispatch: any
 ) => {
@@ -491,6 +547,31 @@ export const updateSupplierNameAndDescription = (
   });
 };
 
+export const updateAddNewSearch = (supplierID: string, other: any) => (dispatch: any) => {
+  return new Promise(resolve => {
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+    bodyFormData.set('id', supplierID);
+    for (const param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+    return Axios.patch(
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}`,
+      bodyFormData
+    )
+      .then(json => {
+        dispatch(updateSupplier(json.data));
+        dispatch(setsaveAddNewSearch(json.data));
+        resolve(json.data);
+      })
+      .catch(err => {
+        for (const er in err.response.data) {
+          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+        }
+      });
+  });
+};
+
 export const setTimeEfficiency = (data: {}) => ({
   type: SET_TIME_EFFICIENCY,
   payload: data,
@@ -515,4 +596,24 @@ export const searchSupplierProducts = (value: string, filterData: any) => ({
     value: value,
     filterData: filterData,
   },
+});
+
+export const setsaveAddNewSearch = (data: {}) => ({
+  type: SET_SAVE_ADD_NEW_SEARCH,
+  payload: data,
+});
+
+export const setProgress = (value: number) => ({
+  type: SET_PROGRESS,
+  payload: value,
+});
+
+export const setProgressSpeed = (value: number) => ({
+  type: SET_PROGRESS_SPEED,
+  payload: value,
+});
+
+export const setProgressEta = (value: number) => ({
+  type: SET_PROGRESS_ETA,
+  payload: value,
 });

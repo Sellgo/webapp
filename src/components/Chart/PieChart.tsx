@@ -21,6 +21,8 @@ const PieChart = (props: any) => {
   const chartOptions = {
     chart: {
       type: 'pie',
+      width: 200,
+      height: 200,
     },
     title: {
       text: title,
@@ -32,7 +34,6 @@ const PieChart = (props: any) => {
     plotOptions: {
       pie: {
         allowPointSelect: true,
-        size: '145px',
         cursor: 'pointer',
         dataLabels: {
           enabled: false,
@@ -49,7 +50,6 @@ const PieChart = (props: any) => {
           chartOptions: {
             plotOptions: {
               pie: {
-                size: '65%',
                 dataLabels: {
                   alignTo: 'connectors',
                 },

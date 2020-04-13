@@ -18,7 +18,6 @@ import '../../analytics';
 import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
-import Sample from '../Synthesis/UploadSupplier/Sample';
 
 const auth = new Auth();
 
@@ -174,7 +173,6 @@ function App() {
             component={ProductTracker}
             requireSubscription={true}
           />
-          <Route exact={true} path="/sample" component={Sample} />
           <Route component={NotFound} />
         </Switch>
       </Router>

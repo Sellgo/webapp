@@ -1,29 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Checkbox } from 'semantic-ui-react';
+import { Button, Header, Divider, Modal, Progress, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
-import {
-  setUploadSupplierStep,
-  setSaveColumnMappingSetting,
-  setSkipColumnMappingCheck,
-} from '../../../actions/UploadSupplier';
+import { setUploadSupplierStep, setProgressShow } from '../../../actions/UploadSupplier';
+import { postSynthesisRun, setProgress } from '../../../actions/Suppliers';
 import {
   currentStepSelector,
   processCompletedSelector,
-  saveColumnMappingSettingSelector,
-  skipColumnMappingCheckSelector,
-  columnMappingsSelector,
+  currentResultErrFile,
+  currentErr,
+  currentSynthesisId,
+  currentProgress,
+  currentProgressShow,
+  currentProgressSpeed,
+  currentProgressEta,
+  currentLoadingShow,
 } from '../../../selectors/UploadSupplier';
 import { closeUploadSupplierModal } from '../../../actions/Modals';
 
 interface ActionsProps {
   currentStep: number;
   setStep: (nextStep: number) => Promise<void>;
-  setColumnSetting: (checked: boolean) => void;
-  setSkipCheck: (checked: boolean) => void;
-  saveColumnMappingSetting: boolean;
-  skipColumnMappingCheck: boolean;
-  columnMappings: any;
+  currentErrFile: any;
+  currentErr: any;
+  currentSynId: any;
+  currentProg: any;
+  currentProgSpeed: any;
+  currentProgEta: any;
+  setSkipUpload: any;
+  setProgressShow: any;
+  setSkipUploadVal: any;
+  currentProgShow: any;
+  currentLoading: any;
   className?: string;
   processCompleted: boolean;
   closeModal: typeof closeUploadSupplierModal;
@@ -35,37 +43,121 @@ const Actions = ({
   className,
   processCompleted,
   closeModal,
-  setColumnSetting,
-  saveColumnMappingSetting,
-  skipColumnMappingCheck,
-  setSkipCheck,
-  columnMappings,
+  currentErrFile,
+  currentErr,
+  currentSynId,
+  currentProg,
+  currentProgSpeed,
+  currentProgEta,
+  currentProgShow,
+  setSkipUpload,
+  setProgressShow,
+  setSkipUploadVal,
+  currentLoading,
 }: ActionsProps) => {
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
-  const onSkipStep = () => {
-    setStep(currentStep + 1)
-      .then(() => setStep(currentStep + 2))
-      .catch(() => {
-        // fail silently
-      });
+
+  const handleClose = () => {
+    setExit(!disableExit);
+    setProgressShow(false);
+    setSkipUploadVal(0);
   };
 
   const hasPrevStep = currentStep !== 0;
   const hasNextStep = currentStep !== 4;
+  const [openConfirm, setConfirm] = useState(false);
+  const [openProgress, setProgress] = useState(false);
+  const [disableExit, setExit] = useState(false);
 
   if (processCompleted) {
     return (
       <div className={`${className || ''} ${styles.actions} submit-actions`}>
-        <Button
-          onClick={closeModal}
-          className={styles.action}
-          basic={true}
-          color="black"
-          primary={true}
-        >
-          Done
-        </Button>
+        {currentProgShow ? (
+          <span className="Actions__err-download exit">
+            <Button
+              onClick={currentProg >= 100 ? closeModal : handleClose}
+              size="small"
+              basic={true}
+              color="grey"
+              disabled={currentProg >= 100 ? false : true}
+              style={{ borderRadius: 20 }}
+            >
+              Exit
+            </Button>
+          </span>
+        ) : (
+          <a className="Actions__err-download" href={currentErrFile}>
+            <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
+              <i className="fas fa-file-download" /> Download Error File
+            </Button>
+          </a>
+        )}
+
+        {openProgress && (
+          <>
+            <Grid className="Actions__progress-bar">
+              <Progress
+                percent={currentProg >= 100 ? 100 : currentProg}
+                color="blue"
+                autoSuccess
+                progress
+                inverted
+                indicating
+              />
+              {currentProg < 100 ? (
+                <Grid>
+                  <span>Speed: {currentProgSpeed} SKU/min</span>
+                  <span>Uploading File</span>
+                  <span>ETA: {currentProgEta} Secs</span>
+                </Grid>
+              ) : (
+                <Grid className="Actions__completed">
+                  <span>Everything worked, your file is all ready.</span>
+                </Grid>
+              )}
+            </Grid>
+          </>
+        )}
+        {!currentProgShow && (
+          <Button
+            onClick={() => {
+              currentErr ? setConfirm(!openConfirm) : setProgress(!openProgress);
+              setProgressShow(true);
+            }}
+            className={styles.action}
+            basic={true}
+            color="black"
+            primary={true}
+          >
+            Upload
+          </Button>
+        )}
+        <Modal open={openConfirm} className="Actions__confirm-container">
+          <Modal.Content>
+            <div>
+              <Header as="h4" icon>
+                Skip Fixing File?
+                <Header.Subheader>
+                  Do you want to upload the file without fixing the errors first?
+                </Header.Subheader>
+              </Header>
+              <Divider clearing />
+            </div>
+          </Modal.Content>
+          <div className="Actions__btn">
+            <Button content="No" onClick={() => setConfirm(!openConfirm)} />
+            <Button
+              content="Yes"
+              onClick={() => {
+                setSkipUpload(currentSynId);
+                setConfirm(!openConfirm);
+                setProgress(!openProgress);
+                setProgressShow(true);
+              }}
+            />
+          </div>
+        </Modal>
       </div>
     );
   }
@@ -76,55 +168,35 @@ const Actions = ({
         styles['supplier-btns']
       }`}
     >
-      <div className={styles['download-options']}>
-        {currentStep === 2 && columnMappings.length > 0 && (
-          <Checkbox
-            className={styles.checked}
-            style={{ marginLeft: '1em' }}
-            checked={skipColumnMappingCheck}
-            onChange={(ev, data) => setSkipCheck(data.checked || false)}
-            label="Skip Data Mapping"
-          />
-        )}
-        {currentStep === 3 && (
-          <Checkbox
-            style={{ marginLeft: '1em' }}
-            checked={saveColumnMappingSetting}
-            onChange={(ev, data) => setColumnSetting(data.checked || false)}
-            label="Save Data Map Setting"
-          />
-        )}
-      </div>
       <div className={`${styles['btns-wrap']} ${styles.upload}`}>
-        {currentStep === 3 && (
-          <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
+        {currentStep === 2 && (
+          <a
+            className="Actions__template-download"
+            href="https://sellgo-public-dev.s3.amazonaws.com/template.csv"
+            download
+          >
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <i className="fas fa-file-download" /> Download Template
             </Button>
           </a>
         )}
-        {hasPrevStep && (
+        {hasPrevStep && !currentLoading && (
           <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
             Previous
           </Button>
         )}
         {hasNextStep && (
           <Button
-            onClick={currentStep === 2 && skipColumnMappingCheck ? onSkipStep : onNextStep}
-            className={styles.action}
+            onClick={onNextStep}
+            className={currentStep === 0 ? `Actions__btn ${styles.action}` : styles.action}
             basic={true}
             color="black"
             primary={true}
           >
             {(() => {
-              console.log();
               switch (currentStep) {
-                case 0:
-                  return 'NEXT';
                 case 4:
                   return 'Submit';
-                case 2:
-                  return skipColumnMappingCheck ? 'Skip' : 'Next';
                 default:
                   return 'Next';
               }
@@ -139,16 +211,22 @@ const Actions = ({
 const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   processCompleted: processCompletedSelector(state),
-  skipColumnMappingCheck: skipColumnMappingCheckSelector(state),
-  saveColumnMappingSetting: saveColumnMappingSettingSelector(state),
-  columnMappings: columnMappingsSelector(state),
+  currentErrFile: currentResultErrFile(state),
+  currentErr: currentErr(state),
+  currentSynId: currentSynthesisId(state),
+  currentProg: currentProgress(state),
+  currentProgShow: currentProgressShow(state),
+  currentProgSpeed: currentProgressSpeed(state),
+  currentProgEta: currentProgressEta(state),
+  currentLoading: currentLoadingShow(state),
 });
 
 const mapDispatchToProps = {
   setStep: setUploadSupplierStep,
   closeModal: closeUploadSupplierModal,
-  setColumnSetting: setSaveColumnMappingSetting,
-  setSkipCheck: setSkipColumnMappingCheck,
+  setSkipUpload: postSynthesisRun,
+  setSkipUploadVal: setProgress,
+  setProgressShow,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions);

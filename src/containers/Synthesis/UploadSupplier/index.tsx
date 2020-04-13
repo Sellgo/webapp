@@ -32,7 +32,6 @@ export const UploadSupplier = (props: Props) => {
     <div className={`new-supp-container ${styles.container} ${styles['supply-container']}`}>
       <UploadSteps isEditModal={isEditModal} finished={finished} />
       <div className={`upload-section ${styles.section}`}>
-        {/* <div className={`${currentStep === 0 ? 'UploadSupplier__new-search' : ''}`}> */}
         <FormWrapper>
           {currentStep === 0 && <AddNewSearch />}
 
@@ -50,7 +49,6 @@ export const UploadSupplier = (props: Props) => {
             />
           )}
         </FormWrapper>
-        {/* </div> */}
       </div>
       <Actions />
     </div>

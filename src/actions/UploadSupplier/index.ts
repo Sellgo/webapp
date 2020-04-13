@@ -26,6 +26,13 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
+  SET_SAVED_RESULT_UPLOAD,
+  SET_SAVED_SYNTHESIS_ID,
+  SET_SAVED_ERR_FILE,
+  SET_PROGRESS_SHOW,
+  SET_SAVED_VAL,
+  SET_SAVED_ERR,
+  SET_LOADING,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -188,6 +195,41 @@ export const setSavedColumnMappings = (savedColumnMappings: any) => ({
   payload: savedColumnMappings,
 });
 
+export const setSavedResultUpload = (savedResultUpload: any) => ({
+  type: SET_SAVED_RESULT_UPLOAD,
+  payload: savedResultUpload,
+});
+
+export const setSavedErrFile = (savedErrFile: any) => ({
+  type: SET_SAVED_ERR_FILE,
+  payload: savedErrFile,
+});
+
+export const setSavedSynthesisId = (savedSynthesisId: any) => ({
+  type: SET_SAVED_SYNTHESIS_ID,
+  payload: savedSynthesisId,
+});
+
+export const setSavedVal = (savedVal: any) => ({
+  type: SET_SAVED_VAL,
+  payload: savedVal,
+});
+
+export const setSavedErr = (savedErr: any) => ({
+  type: SET_SAVED_ERR,
+  payload: savedErr,
+});
+
+export const setProgressShow = (check: boolean) => ({
+  type: SET_PROGRESS_SHOW,
+  payload: check,
+});
+
+export const setLoadingShow = (check: boolean) => ({
+  type: SET_LOADING,
+  payload: check,
+});
+
 export const setSaveColumnMappingSetting = (checked: boolean) => ({
   type: SET_SAVE_COLUMN_MAPPING_SETTING,
   payload: checked,
@@ -213,7 +255,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
     dispatch(setSavedColumnMappings(columnMappings));
-    dispatch(setSkipColumnMappingCheck(true));
+    dispatch(setSkipColumnMappingCheck(false));
   } else {
     dispatch(removeColumnMappings());
   }
@@ -259,10 +301,18 @@ export const validateAndUploadCsv = () => async (
   // correct this
   if (isFirstRowHeaderSelector(getState())) bodyFormData.set('has_header', 'True');
 
-  await Axios.post(
+  const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
     bodyFormData
   );
+
+  if (response.data) {
+    dispatch(setSavedResultUpload(response.data.response_type));
+    dispatch(setSavedErrFile(response.data.error_file_url));
+    dispatch(setSavedVal(response.data.num_valid_rows));
+    dispatch(setSavedErr(response.data.num_error_rows));
+    dispatch(setSavedSynthesisId(response.data.synthesis_file_id));
+  }
   dispatch(finishUpload());
   await dispatch(fetchSupplier(supplierID));
   dispatch(fetchSynthesisProgressUpdates());

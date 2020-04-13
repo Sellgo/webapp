@@ -11,6 +11,16 @@ export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
 export const SET_SAVE_COLUMN_MAPPING_SETTING = 'SET_SAVE_COLUMN_MAPPING_SETTING';
 export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
 export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
+export const SET_SAVED_RESULT_UPLOAD = 'SET_SAVED_RESULT_UPLOAD';
+export const SET_SAVED_SYNTHESIS_ID = 'SET_SAVED_SYNTHESIS_ID';
+export const SET_PROGRESS_SPEED = 'SET_PROGRESS_SPEED';
+export const SET_SAVED_ERR_FILE = 'SET_SAVED_ERR_FILE';
+export const SET_PROGRESS_SHOW = 'SET_PROGRESS_SHOW';
+export const SET_PROGRESS_ETA = 'SET_PROGRESS_ETA';
+export const SET_SAVED_VAL = 'SET_SAVED_VAL';
+export const SET_SAVED_ERR = 'SET_SAVED_ERR';
+export const SET_PROGRESS = 'SET_PROGRESS';
+export const SET_LOADING = 'SET_LOADING';
 
 export enum UploadSteps {
   AddNewSearch,
@@ -88,8 +98,8 @@ export const accountStatus = [
 
 export const marketPlace = [
   {
-    value: 'amazon.com',
-    key: 'amazon.com',
+    value: 'ATVPDKIKX0DER',
+    key: 'ATVPDKIKX0DER',
     text: 'Amazon.com',
   },
 ];

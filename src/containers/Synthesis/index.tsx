@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Segment, Icon, Popup, Modal, List, Confirm } from 'semantic-ui-react';
+import { Button, Segment, Icon, Popup, Modal, List, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.scss';
 import history from '../../history';
@@ -16,6 +16,9 @@ import UserOnboarding from '../UserOnboarding';
 import PageHeader from '../../components/PageHeader';
 import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
 import { error } from '../../utils/notifications';
+import { currentSynthesisId, currentProgress } from '../../selectors/UploadSupplier';
+import { setProgressShow } from '../../actions/UploadSupplier';
+import { setProgress } from '../../actions/Suppliers';
 
 interface SynthesisProps {
   amazonMWSAuthorized: boolean;
@@ -25,6 +28,10 @@ interface SynthesisProps {
   openUserOnboardingModal: () => void;
   openUploadSupplierModal: (supplier?: any) => void;
   closeUploadSupplierModal: () => void;
+  setProgressShow: any;
+  currentSynId: any;
+  currentProg: any;
+  setProgress: any;
   match: any;
 }
 
@@ -68,20 +75,25 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   handleClose = () => {
-    const { closeUploadSupplierModal } = this.props;
+    const { closeUploadSupplierModal, setProgressShow, setProgress } = this.props;
     this.setState({ isEditModal: false });
+    setProgressShow(false);
+    setProgress(0);
     closeUploadSupplierModal();
   };
 
   renderAddNewSupplierModal = () => {
-    const { uploadSupplierModalOpen } = this.props;
+    const { uploadSupplierModalOpen, currentProg, currentSynId } = this.props;
+
     return (
       <>
         <Modal
           size={'large'}
           open={uploadSupplierModalOpen}
           onClose={() => {
-            this.setState({ exitConfirmation: true });
+            currentProg >= 100 || !currentSynId
+              ? this.handleClose()
+              : this.setState({ exitConfirmation: true });
           }}
           closeIcon={true}
           style={{ width: '90%' }}
@@ -133,6 +145,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
+    const { currentSynId, currentProg } = this.props;
     return (
       <>
         <PageHeader
@@ -143,17 +156,36 @@ class Synthesis extends Component<SynthesisProps> {
 
         <Segment basic={true}>
           <SuppliersTable onEdit={this.openUpdateSupplierPopup} />
-          <Confirm
-            content="Do you want to exit?"
-            open={this.state.exitConfirmation}
-            onCancel={() => {
-              this.setState({ exitConfirmation: false });
-            }}
-            onConfirm={() => {
-              this.setState({ exitConfirmation: false });
-              this.handleClose();
-            }}
-          />
+          <Modal open={this.state.exitConfirmation} className="Actions__confirm-container">
+            <Modal.Content>
+              <div>
+                <Header as="h4" icon>
+                  {!currentSynId && currentProg < 100
+                    ? 'Do you want to exit?'
+                    : 'Exit before uploading?'}
+                  {!(!currentSynId && currentProg < 100) && (
+                    <Header.Subheader>
+                      The current process will be saved into the "drafts" tab but will not be
+                      processed
+                    </Header.Subheader>
+                  )}
+                  <Header.Subheader />
+                </Header>
+                <Divider clearing />
+              </div>
+            </Modal.Content>
+            <div className="Actions__btn">
+              <Button content="No" onClick={() => this.setState({ exitConfirmation: false })} />
+              <Button
+                content="Yes"
+                onClick={() => {
+                  this.setState({ exitConfirmation: false });
+                  this.handleClose();
+                }}
+              />
+            </div>
+          </Modal>
+
           <this.UserOnboardingModal />
         </Segment>
       </>
@@ -165,6 +197,8 @@ const mapStateToProps = (state: any) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
   userOnboardingModalOpen: get(state, 'modals.userOnboarding.open', false),
+  currentProg: currentProgress(state),
+  currentSynId: currentSynthesisId(state),
 });
 
 const mapDispatchToProps = {
@@ -173,6 +207,8 @@ const mapDispatchToProps = {
     openUploadSupplierModal(supplier ? supplier : undefined),
   closeUploadSupplierModal,
   openUserOnboardingModal,
+  setProgressShow,
+  setProgress,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synthesis);

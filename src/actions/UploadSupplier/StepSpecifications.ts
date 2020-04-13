@@ -12,7 +12,12 @@ import { AnyAction } from 'redux';
 import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
-import { saveSupplierNameAndDescription, updateSupplierNameAndDescription } from '../Suppliers';
+import {
+  saveSupplierNameAndDescription,
+  updateSupplierNameAndDescription,
+  updateAddNewSearch,
+  saveAddNewSearch,
+} from '../Suppliers';
 import {
   removeColumnMappings,
   fetchColumnMappings,
@@ -51,46 +56,42 @@ export class AddNewSearchStep extends Step {
   step = UploadSteps.AddNewSearch;
 
   validate() {
-    // const state = this.getState();
-    // const isFormValid = isValid('supplier-info')(state);
-    // let errorMessage;
+    const state = this.getState();
+    const isFormValid = isValid('supplier-info')(state);
+    let errorMessage;
 
-    // if (!isFormValid) {
-    //   // submitting will make errors visible
-    //   this.dispatch(submit('supplier-info'));
-    //   errorMessage = 'Please fill required fields';
-    // }
+    if (!isFormValid) {
+      // submitting will make errors visible
+      this.dispatch(submit('supplier-info'));
+      errorMessage = 'Please fill required fields';
+    }
 
-    return '';
+    return errorMessage;
   }
 
   async finalizeStep() {
-    // const formValues: any = getFormValues('supplier-info')(this.getState());
-    // // eslint-disable-next-line no-useless-catch
-    // try {
-    //   const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-    //   const { name, description, ...other } = formValues;
-    //   if (!existingSupplier) {
-    //     // add other form values
-    //     const data: any = await this.dispatch(
-    //       saveSupplierNameAndDescription(name, description, other)
-    //     );
-    //     this.dispatch(openUploadSupplierModal(data));
-    //   } else {
-    //     for (const param in existingSupplier) {
-    //       if (existingSupplier[param] === other[param]) {
-    //         delete other[param];
-    //       }
-    //     }
-    //     await this.dispatch(
-    //       updateSupplierNameAndDescription(name, description, existingSupplier.id, other)
-    //     );
-    //     //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
-    //   }
-    //   this.dispatch(fetchColumnMappings());
-    // } catch (error) {
-    //   throw error;
-    // }
+    const formValues: any = getFormValues('supplier-info')(this.getState());
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
+      const { ...other } = formValues;
+
+      if (!existingSupplier) {
+        // add other form values
+        const data: any = await this.dispatch(saveAddNewSearch(other));
+        this.dispatch(openUploadSupplierModal(data));
+      } else {
+        for (const param in existingSupplier) {
+          if (existingSupplier[param] === other[param]) {
+            delete other[param];
+          }
+        }
+        await this.dispatch(updateAddNewSearch(existingSupplier.id, other));
+      }
+      this.dispatch(fetchColumnMappings());
+    } catch (error) {
+      throw error;
+    }
   }
 
   cleanStep() {
@@ -121,11 +122,12 @@ export class AddNewSupplierStep extends Step {
     // eslint-disable-next-line no-useless-catch
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-      const { name, description, ...other } = formValues;
+      const { nameSupplier, description, ...other } = formValues;
+
       if (!existingSupplier) {
         // add other form values
         const data: any = await this.dispatch(
-          saveSupplierNameAndDescription(name, description, other)
+          saveSupplierNameAndDescription(nameSupplier, description, other)
         );
         this.dispatch(openUploadSupplierModal(data));
       } else {
@@ -135,7 +137,7 @@ export class AddNewSupplierStep extends Step {
           }
         }
         await this.dispatch(
-          updateSupplierNameAndDescription(name, description, existingSupplier.id, other)
+          updateSupplierNameAndDescription(nameSupplier, description, existingSupplier.id, other)
         );
         //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }

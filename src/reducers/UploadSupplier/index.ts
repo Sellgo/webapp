@@ -10,6 +10,16 @@ import {
   SET_SAVED_COLUMN_MAPPINGS,
   SET_SAVE_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
+  SET_SAVED_RESULT_UPLOAD,
+  SET_SAVED_SYNTHESIS_ID,
+  SET_PROGRESS_SPEED,
+  SET_SAVED_ERR_FILE,
+  SET_PROGRESS_SHOW,
+  SET_PROGRESS_ETA,
+  SET_SAVED_VAL,
+  SET_SAVED_ERR,
+  SET_PROGRESS,
+  SET_LOADING,
 } from '../../constants/UploadSupplier';
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
@@ -21,19 +31,39 @@ interface UploadSupplierState {
   readonly rawCsv: string | null;
   readonly csv: string[][] | null;
   readonly columnMappings: [];
+  readonly setProgress: number;
+  readonly setProgressSpeed: number;
+  readonly setProgressEta: number;
+  readonly setProgressShow: boolean;
+  readonly setLoadingShow: boolean;
   readonly completed: boolean;
   readonly isFirstRowHeader: boolean;
+  readonly resultUpload: string | null;
+  readonly resultErrFile: string | null;
+  readonly resultVal: string | null;
+  readonly resultErr: string | null;
+  readonly synthesisId: string | null;
 }
 
 const initialState: UploadSupplierState = {
+  setProgressShow: false,
+  setLoadingShow: false,
   completed: false,
   isFirstRowHeader: true,
   currentStep: 0,
+  setProgressSpeed: 0,
+  setProgressEta: 0,
+  setProgress: 0,
   csvString: null,
   csvFile: null,
   columnMappings: [],
   rawCsv: null,
   csv: null,
+  resultErrFile: null,
+  resultUpload: null,
+  synthesisId: null,
+  resultVal: null,
+  resultErr: null,
 };
 
 export default (
@@ -92,6 +122,46 @@ export default (
 
     case TOGGLE_FIRST_ROW_HEADER:
       return setIn(state, 'isFirstRowHeader', !state.isFirstRowHeader);
+
+    case SET_PROGRESS_SPEED: {
+      return setIn(state, 'setProgressSpeed', action.payload);
+    }
+
+    case SET_PROGRESS_SHOW: {
+      return setIn(state, 'setProgressShow', action.payload);
+    }
+
+    case SET_PROGRESS_ETA: {
+      return setIn(state, 'setProgressEta', action.payload);
+    }
+
+    case SET_SAVED_ERR_FILE: {
+      return setIn(state, 'resultErrFile', action.payload);
+    }
+
+    case SET_SAVED_RESULT_UPLOAD: {
+      return setIn(state, 'resultUpload', action.payload);
+    }
+
+    case SET_PROGRESS: {
+      return setIn(state, 'setProgress', action.payload);
+    }
+
+    case SET_LOADING: {
+      return setIn(state, 'setLoadingShow', action.payload);
+    }
+
+    case SET_SAVED_SYNTHESIS_ID: {
+      return setIn(state, 'synthesisId', action.payload);
+    }
+
+    case SET_SAVED_VAL: {
+      return setIn(state, 'resultVal', action.payload);
+    }
+
+    case SET_SAVED_ERR: {
+      return setIn(state, 'resultErr', action.payload);
+    }
 
     default:
       return state;
