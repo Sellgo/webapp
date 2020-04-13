@@ -14,6 +14,7 @@ import {
 } from '../../../../../actions/Modals';
 import ProductDetails from '../../ProductDetails';
 import './index.scss';
+//import { rootCertificates } from 'tls';
 
 interface SupplierChartsProps {
   supplierID: any;
@@ -67,12 +68,20 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         y: rate,
         sliced: true,
         selected: true,
-        color: '#FBC4C4',
+        //RWP: swap the color begin
+        //color: '#FBC4C4',
+        color: '#CAE1F3',
+        //RWP: swap the color end
       },
       {
         name: 'Hit Non-Profitable SKUs',
         y: p2l_ratio,
-        color: '#CAE1F3',
+        //RWP: swap the color begin
+        selected: true,
+        sliced: true,
+        //color: '#CAE1F3',
+        color: '#FBC4C4',
+        //RWP: swap the color end
       },
       {
         name: 'Miss',
@@ -89,11 +98,27 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   renderRevenue = (props: any) => {
-    const { profit, product_cost, fees, productSKUs, onBubbleDetails } = props;
+    const {
+      asin,
+      upc,
+      price,
+      amazon_category_name,
+      roi,
+      profit,
+      product_cost,
+      fees,
+      productSKUs,
+      onBubbleDetails,
+    } = props;
     const data = [
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
       { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
+      { name: 'ROI(%)', data: roi },
+      { name: 'Category', data: amazon_category_name },
+      { name: 'Price($)', data: price },
+      { name: 'ASIN', data: asin },
+      { name: 'UPC', data: upc },
     ];
     const chartOptions = {
       title: 'Revenue Breakdown Comparison',
@@ -187,15 +212,39 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       case 'chart3': {
         let product_cost = [];
         let fees = [];
+        let roi = [];
+        let amazon_category_name = [];
+        let price = [];
+        let asin = [];
+        let upc = [];
+
         product_cost = showProducts.map(e => parseFloat(e.product_cost));
         fees = showProducts.map(e => parseFloat(e.fees));
+        roi = showProducts.map(e => parseFloat(e.roi));
+        amazon_category_name = showProducts.map(e => parseFloat(e.amazon_category_name));
+        price = showProducts.map(e => parseFloat(e.price));
+        asin = showProducts.map(e => parseFloat(e.asin));
+        upc = showProducts.map(e => parseFloat(e.upc));
 
-        return productSKUs.length && profit.length && product_cost.length && fees.length ? (
+        return productSKUs.length &&
+          profit.length &&
+          product_cost.length &&
+          fees.length &&
+          roi.length &&
+          amazon_category_name.length &&
+          price.length &&
+          asin.length &&
+          upc.length ? (
           <this.renderRevenue
             productSKUs={productSKUs}
             product_cost={product_cost}
             fees={fees}
             profit={profit}
+            roi={roi}
+            price={price}
+            amazon_category_name={amazon_category_name}
+            asin={asin}
+            upc={upc}
             onBubbleDetails={(id: number) => {
               openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
             }}
@@ -250,7 +299,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       <div className="supplier-charts">
         <this.renderCharts />
         <div className="chart-end-content">
-          <Header as="h4">Select your favorite chart</Header>
+          <Header as="h4"> Select your favorite chart</Header>
           <Form>
             <Form.Group inline={true}>
               <Form.Radio
@@ -271,12 +320,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
                 checked={this.state.showChart === 'chart3'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
               />
-              <Form.Radio
+              {/*  <Form.Radio
                 label="Point of First Profit (POFP)"
                 value="chart4"
                 checked={this.state.showChart === 'chart4'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-              />
+              /> */}
             </Form.Group>
           </Form>
         </div>
