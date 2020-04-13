@@ -91,7 +91,7 @@ class Synthesis extends Component<SynthesisProps> {
           size={'large'}
           open={uploadSupplierModalOpen}
           onClose={() => {
-            currentProg >= 100 || !currentSynId
+            currentProg >= 100 && !currentSynId
               ? this.handleClose()
               : this.setState({ exitConfirmation: true });
           }}

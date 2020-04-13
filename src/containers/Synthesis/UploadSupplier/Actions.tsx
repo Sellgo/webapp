@@ -64,6 +64,11 @@ const Actions = ({
     setSkipUploadVal(0);
   };
 
+  const handleNoErr = () => {
+    setProgress(!openProgress);
+    setProgressShow(true);
+  };
+
   const hasPrevStep = currentStep !== 0;
   const hasNextStep = currentStep !== 4;
   const [openConfirm, setConfirm] = useState(false);
@@ -122,8 +127,7 @@ const Actions = ({
         {!currentProgShow && (
           <Button
             onClick={() => {
-              currentErr ? setConfirm(!openConfirm) : setProgress(!openProgress);
-              setProgressShow(true);
+              currentErr ? setConfirm(!openConfirm) : handleNoErr();
             }}
             className={styles.action}
             basic={true}
