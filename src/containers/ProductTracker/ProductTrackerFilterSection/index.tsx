@@ -18,6 +18,7 @@ function ProductTrackerFilterSection(props: Props) {
   const { filteredProducts } = props;
 
   const [filterType, setFilterType] = useState('');
+  const [isAllReviews, setAllReviews] = useState(true);
 
   const filteredRanges = findNewMinMaxRange(filteredProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
@@ -105,25 +106,23 @@ function ProductTrackerFilterSection(props: Props) {
           filterRange: filterState.customer_reviews,
         },
       ],
-      reviews: [
-        {
-          label: 'Product Category',
-          dataKey: 'product-category',
-          radio: false,
-          data: [
-            {
-              label: '1-star',
-              dataKey: '1-star',
-              checked: true,
-            },
-            {
-              label: '2-star',
-              dataKey: '2-star',
-              checked: true,
-            },
-          ],
-        },
-      ],
+      reviews: {
+        label: 'Product Category',
+        dataKey: 'product-category',
+        radio: false,
+        data: [
+          {
+            label: '1-star',
+            dataKey: '1-star',
+            checked: true,
+          },
+          {
+            label: '2-star',
+            dataKey: '2-star',
+            checked: true,
+          },
+        ],
+      },
     },
     period: {
       label: 'Period Reference',
@@ -172,6 +171,47 @@ function ProductTrackerFilterSection(props: Props) {
     filterDetails[datakey] = range;
     setFilterState(filterDetails);
     setFilterRanges(data);
+  };
+
+  const toggleSelectAllReviews = () => {
+    setAllReviews(!isAllReviews);
+    const data = filterState;
+    if (!isAllReviews) {
+      selectAllReviews();
+    } else {
+      data.reviews = [];
+      setFilterState(data);
+    }
+  };
+
+  const selectAllReviews = () => {
+    setAllReviews(true);
+    const data = filterState;
+    _.map(filterDataState.all.reviews.data, reviewsData => {
+      if (data.reviews.indexOf(reviewsData.label) === -1) {
+        data.reviews.push(reviewsData.label);
+      }
+      return reviewsData;
+    });
+
+    setFilterState(data);
+  };
+
+  const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
+    const data = _.cloneDeep(filterState);
+    setAllReviews(false);
+    _.map(filterDataState.all.reviews.data, reviewsData => {
+      if (filterDataKey === reviewsData.dataKey) {
+        reviewsData.checked = data.reviews.indexOf(filterDataKey) !== -1;
+      }
+      return reviewsData;
+    });
+    if (data.reviews.indexOf(label) !== -1) {
+      data.reviews.splice(data.reviews.indexOf(label), 1);
+    } else {
+      data.reviews.push(label);
+    }
+    setFilterState(data);
   };
 
   const resetSingleFilter = (datakey: string) => {
@@ -270,6 +310,9 @@ function ProductTrackerFilterSection(props: Props) {
           filterData={filterDataState}
           handleCompleteChange={handleCompleteChange}
           initialFilterState={filterState}
+          toggleSelectAllReviews={toggleSelectAllReviews}
+          isAllReviews={isAllReviews}
+          toggleCheckboxFilter={toggleCheckboxFilter}
         />
       </>
     </div>

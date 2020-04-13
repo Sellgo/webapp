@@ -71,7 +71,7 @@ export interface FilterState {
 export interface ProductTrackerFilterInterface {
   all: {
     filterRanges: RangeModel[];
-    reviews: FilterData[];
+    reviews: FilterData;
   };
   period: FilterData;
 }

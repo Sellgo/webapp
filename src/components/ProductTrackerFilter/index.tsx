@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import { Checkbox, Button, Divider } from 'semantic-ui-react';
 import _ from 'lodash';
-import { FilterState, ProductTrackerFilterInterface } from '../../interfaces/Filters';
+import { ProductTrackerFilterInterface, ProductTrackerFilterState } from '../../interfaces/Filters';
 import FilterSliderInput from '../FilterSliderInput';
 import { Range } from '../../interfaces/Generic';
 
@@ -11,9 +11,12 @@ interface Props {
   applyFilter: () => void;
   resetFilter: () => void;
   resetSingleFilter: (datakey: string) => void;
+  toggleSelectAllReviews: () => void;
   filterData: ProductTrackerFilterInterface;
   handleCompleteChange: (dataKey: string, range: Range) => void;
-  initialFilterState: FilterState;
+  initialFilterState: ProductTrackerFilterState;
+  isAllReviews: boolean;
+  toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
 }
 
 function ProductTrackerFilter(props: Props) {
@@ -25,6 +28,9 @@ function ProductTrackerFilter(props: Props) {
     handleCompleteChange,
     resetSingleFilter,
     initialFilterState,
+    toggleSelectAllReviews,
+    isAllReviews,
+    toggleCheckboxFilter,
   } = props;
 
   return (
@@ -71,17 +77,47 @@ function ProductTrackerFilter(props: Props) {
                   </div>
                 );
               })}
+              <div className="pt-filter-content__all-filter__reviews">
+                <div className="pt-filter-content__all-filter__reviews__header">
+                  <span className="pt-filter-content__all-filter__reviews__name">
+                    {filterData.all.reviews.label}
+                  </span>
+                </div>
+                <div className="filter-list">
+                  <Checkbox
+                    label="all"
+                    key="all-reviews"
+                    className="all-reviews"
+                    onClick={() => {
+                      toggleSelectAllReviews();
+                    }}
+                    checked={isAllReviews}
+                  />
+                  {_.map(filterData.all.reviews.data, (filterData, dataKey) => {
+                    return (
+                      <Checkbox
+                        label={filterData.label}
+                        key={dataKey}
+                        onClick={() => {
+                          toggleCheckboxFilter(filterData.dataKey, filterData.label);
+                        }}
+                        checked={initialFilterState.reviews.indexOf(filterData.label) !== -1}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="pt-filter-content__button-wrapper">
+                <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+                  Reset
+                </Button>
+                <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
+                  Apply
+                </Button>
+              </div>
             </div>
-            <div className="pt-filter-content__button-wrapper">
-              <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
-                Reset
-              </Button>
-              <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
-                Apply
-              </Button>
-            </div>
+            <Divider />
           </div>
-          <Divider />
         </>
       )}
     </div>
