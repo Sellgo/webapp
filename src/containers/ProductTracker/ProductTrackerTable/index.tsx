@@ -455,7 +455,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             productTrackerPageNo={this.props.productTrackerPageNo}
             showProductFilter={true}
             searchFilteredProduct={this.searchFilteredProduct}
-            showFilterSearch={true}
           />
         )}
       </div>

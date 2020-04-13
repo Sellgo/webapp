@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 import get from 'lodash/get';
 import PageHeader from '../../components/PageHeader';
-import ProductFilters from './ProductFilter/index';
 import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
@@ -130,13 +129,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
         <Segment basic={true} className="tracker-setting">
           <Grid className="product-tracker">
             <Grid.Row>
-              <Grid.Column className="left-column" floated="left">
-                <ProductFilters
-                  handlePeriodDrop={(data: any) => this.handlePeriodDrop(data)}
-                  periodValue={this.state.periodValue}
-                />
-              </Grid.Column>
-
               <Grid.Column className="right-column" floated="right">
                 <div className="search-product" />
                 <ProductTrackerTable

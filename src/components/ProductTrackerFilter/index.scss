@@ -50,6 +50,7 @@
 
     &__wrapper {
       display: flex;
+      flex-wrap: wrap;
       margin: 20px 0 30px 0;
 
       &__remove-negative {
@@ -57,17 +58,14 @@
       }
 
       &__range-container {
-        width: 215px;
-        margin: 0 25px;
+        max-width: 240px;
+        min-width: 215px;
+        margin: 0 50px 45px 0;
 
-        .range-label {
+        &__label {
           font-size: 14px;
           font-weight: 600;
           line-height: 1;
-        }
-
-        &:first-child {
-          margin: 0 25px 0 0;
         }
 
         &:last-child {
@@ -86,12 +84,7 @@
           }
         }
 
-        h3 {
-          margin: 0;
-          font-weight: 600;
-        }
-
-        .reset {
+        &__reset {
           cursor: pointer;
           color: #349af8;
           font-size: 12px;
@@ -182,81 +175,117 @@
     }
   }
 
-  .button-wrapper {
+  &__button-wrapper {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     height: 100%;
     margin: auto 0 0 0;
 
-    button {
-      height: 100%;
-      display: flex;
-      margin: auto 0 0 0;
-      margin-bottom: 10px;
-    }
-  }
-}
+    .ui.basic {
+      &.button {
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Work Sans', sans-serif !important;
+        padding: 7px 10px;
+        margin: 5px;
+        position: relative;
+        height: 32px;
 
-@media screen and (min-width: 1920px) {
-  .all-filter-content-wrapper {
-    .all-filter-content {
-      &.product-category {
-        width: 15%;
-      }
+        .filter-name {
+          margin-left: -20px;
+          color: black;
+          font-weight: 600;
+        }
 
-      &.product-size-tiers {
-        width: 13%;
+        .filter-count {
+          background-color: #349af8;
+          color: white;
+          border-radius: 50%;
+          font-size: 14px;
+          width: 20px;
+          height: 20px;
+          margin-left: 10px;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+        }
+
+        i {
+          background: none !important;
+
+          &.sliders {
+            color: #349af8 !important;
+          }
+
+          &.filter-left-icon {
+            color: #3b4557;
+            padding-left: 5px;
+            opacity: 0.1;
+          }
+        }
+
+        &.reset-filter-btn {
+          width: 83px;
+          height: 25px;
+          font-weight: bold;
+          border: 1px solid #98aeca;
+          border-radius: 100px;
+          color: #98aeca !important;
+          padding: 4px 22px;
+          box-shadow: unset;
+        }
+
+        &.apply-filter-btn {
+          width: 83px;
+          height: 25px;
+          font-weight: bold;
+          border: 1px solid #349af8;
+          border-radius: 100px;
+          color: #349af8 !important;
+          padding: 4px 22px;
+          box-shadow: unset;
+        }
+
+        &:hover {
+          background: #349af833 !important;
+
+          .filter-name {
+            color: #349af8;
+          }
+
+          .filter-arrow-down {
+            background: unset !important;
+          }
+        }
+
+        &.active {
+          background: #349af833 !important;
+          border-color: #98aeca;
+
+          .filter-name {
+            color: #349af8;
+          }
+
+          .filter-arrow-down {
+            background: unset !important;
+          }
+        }
       }
     }
   }
 }
 
 @media screen and (max-width: 1920px) {
-  .all-filter-content-wrapper {
-    &.see-all {
-      .all-filter-content {
-        &.product-category {
-          width: 100% !important;
-        }
-
-        &.product-size-tiers {
-          width: 30% !important;
-        }
-      }
-    }
-  }
-
-  .slider-filters {
-    .slider-wrapper {
-      flex-wrap: wrap;
-
-      .range-container {
-        width: 215px;
-        margin: 15px 25px;
-
-        &:first-child {
-          margin: 15px 25px 15px 0;
-        }
-
-        &:last-child {
-          margin: 15px 0 15px 0;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1440px) {
-  .slider-filters {
-    .slider-wrapper {
-      .range-container {
-        &:nth-child(5) {
-          margin: 15px 0 15px 0;
-        }
-
-        &:last-child {
-          margin: 15px 0 15px 25px;
+  .pt-filter-content {
+    &__all-filter {
+      &__wrapper {
+        &__range-container {
+          &:last-child {
+            margin: 0;
+          }
         }
       }
     }

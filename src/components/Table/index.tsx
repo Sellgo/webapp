@@ -38,10 +38,10 @@ export interface PaginatedTableProps {
   handleColumnChange?: any;
   count?: any;
   productTrackerPageNo?: any;
-  showFilterSearch?: boolean;
+  showProductFinderSearch?: boolean;
+  showProductFilter?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
   showFilter?: boolean;
-  showProductFilter?: boolean;
   productRanges?: any;
 }
 
@@ -50,8 +50,9 @@ export interface GenericTableProps {
   currentPage: number;
   totalPages: number;
   searchFilterValue?: string;
-  showFilterSearch?: boolean;
-  searchFilteredProduct?: (searchValue: string) => void;
+  showProductFinderSearch?: boolean;
+  showProductFilter?: boolean;
+  searchProfitFinderProduct?: (searchValue: string) => void;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
@@ -77,7 +78,6 @@ export interface GenericTableProps {
   count?: number;
   productTrackerPageNo?: any;
   showFilter?: boolean;
-  showProductFilter?: boolean;
   productRanges?: any;
 }
 
@@ -92,8 +92,9 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
-    showFilterSearch,
-    searchFilteredProduct,
+    showProductFinderSearch,
+    showProductFilter,
+    searchProfitFinderProduct,
     currentPage,
     totalPages,
     setCurrentPage,
@@ -120,16 +121,15 @@ export const GenericTable = (props: GenericTableProps) => {
     searchFilterValue,
     showFilter,
     productRanges,
-    showProductFilter,
   } = props;
 
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
         <div className="table-menu-header">
-          {showFilterSearch ? (
+          {showProductFinderSearch ? (
             <ProductSearch
-              searchFilteredProduct={searchFilteredProduct}
+              searchProfitFinderProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
               setCurrentPage={setCurrentPage}
             />
@@ -356,12 +356,12 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     handleColumnChange,
     productTrackerPageNo,
     count,
-    showFilterSearch,
+    showProductFinderSearch,
+    showProductFilter,
     searchFilteredProduct,
     searchFilterValue,
     showFilter,
     productRanges,
-    showProductFilter,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -458,8 +458,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   return (
     <GenericTable
       productRanges={productRanges}
-      showFilterSearch={showFilterSearch}
-      searchFilteredProduct={searchFilteredProduct}
+      showProductFinderSearch={showProductFinderSearch}
+      searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
       setCurrentPage={setCurrentPage}

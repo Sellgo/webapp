@@ -72,7 +72,7 @@ function ProductTrackerFilter(props: Props) {
                 );
               })}
             </div>
-            <div className="button-wrapper">
+            <div className="pt-filter-content__button-wrapper">
               <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
                 Reset
               </Button>
