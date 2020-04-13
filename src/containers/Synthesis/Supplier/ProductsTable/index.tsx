@@ -86,7 +86,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
-  renderPrice = (row: Product) => <p className="stat">{row.price}</p>;
+  renderPrice = (row: Product) => <p className="stat">${row.price}</p>;
   renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)}</p>;
   renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
   renderFee = (row: Product) => <p className="stat">{row.fees}%</p>;
