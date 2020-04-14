@@ -18,6 +18,7 @@ interface Props {
   isAllReviews: boolean;
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   setPeriod: (value: string) => void;
+  toggleNegative: (datakey: string) => void;
 }
 
 function ProductTrackerFilter(props: Props) {
@@ -33,6 +34,7 @@ function ProductTrackerFilter(props: Props) {
     isAllReviews,
     toggleCheckboxFilter,
     setPeriod,
+    toggleNegative,
   } = props;
 
   return (
@@ -70,7 +72,7 @@ function ProductTrackerFilter(props: Props) {
                           label="Remove Negative Values"
                           key={filter.dataKey}
                           onClick={() => {
-                            // toggleNegative(filter.dataKey);
+                            toggleNegative(filter.dataKey);
                           }}
                           checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
                         />

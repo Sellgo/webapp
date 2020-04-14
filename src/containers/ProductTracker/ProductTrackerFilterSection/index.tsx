@@ -63,7 +63,10 @@ function ProductTrackerFilterSection(props: Props) {
           dataKey: 'avg_profit',
           minPlaceholder: '$ Min',
           maxPlaceholder: '$ Max',
-          range: rangeData.avg_profit,
+          range:
+            filterState.removeNegative.indexOf('avg_profit') !== -1
+              ? { min: 0, max: rangeData.avg_profit.max }
+              : rangeData.avg_profit,
           filterRange: filterState.avg_profit,
           removeNegative: false,
           sign: '$',
@@ -73,7 +76,10 @@ function ProductTrackerFilterSection(props: Props) {
           dataKey: 'avg_margin',
           minPlaceholder: 'Min %',
           maxPlaceholder: 'Max %',
-          range: rangeData.avg_margin,
+          range:
+            filterState.removeNegative.indexOf('avg_margin') !== -1
+              ? { min: 0, max: rangeData.avg_margin.max }
+              : rangeData.avg_margin,
           filterRange: filterState.avg_margin,
           removeNegative: false,
           sign: '%',
@@ -83,7 +89,10 @@ function ProductTrackerFilterSection(props: Props) {
           dataKey: 'avg_roi',
           minPlaceholder: 'Min %',
           maxPlaceholder: 'Max %',
-          range: rangeData.avg_roi,
+          range:
+            filterState.removeNegative.indexOf('avg_roi') !== -1
+              ? { min: 0, max: rangeData.avg_roi.max }
+              : rangeData.avg_roi,
           filterRange: filterState.avg_roi,
           removeNegative: false,
           sign: '%',
@@ -246,6 +255,28 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  const toggleNegative = (datakey: string) => {
+    const data = filterState;
+    const filterDetails = _.map(filterRanges, filter => {
+      if (filter.dataKey === datakey) {
+        if (data.removeNegative.indexOf(datakey) !== -1) {
+          data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+          filter.range = rangeData[datakey];
+          filter.filterRange = rangeData[datakey];
+          data[datakey] = rangeData[datakey];
+        } else {
+          data.removeNegative.push(datakey);
+          filter.range = { min: 0, max: rangeData[datakey].max };
+          filter.filterRange = { min: 0, max: rangeData[datakey].max };
+          data[filter.dataKey] = { min: 0, max: rangeData[datakey].max };
+        }
+      }
+      return filter;
+    });
+    setFilterRanges(filterDetails);
+    setFilterState(data);
+  };
+
   const resetSingleFilter = (datakey: string) => {
     const filterDetails = filterState;
     const data = _.map(filterRanges, filter => {
@@ -346,6 +377,7 @@ function ProductTrackerFilterSection(props: Props) {
           isAllReviews={isAllReviews}
           toggleCheckboxFilter={toggleCheckboxFilter}
           setPeriod={setPeriod}
+          toggleNegative={toggleNegative}
         />
       </>
     </div>
