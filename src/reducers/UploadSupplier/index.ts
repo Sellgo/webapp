@@ -16,8 +16,8 @@ import {
   SET_ERROR_FILE,
   SET_PROGRESS_SHOW,
   SET_ETA,
-  SET_VALIDATION,
-  SET_ERROR,
+  SET_VALID_ROWS,
+  SET_ERROR_ROWS,
   SET_PROGRESS,
   SET_LOADING,
 } from '../../constants/UploadSupplier';
@@ -155,11 +155,11 @@ export default (
       return setIn(state, 'synthesisId', action.payload);
     }
 
-    case SET_VALIDATION: {
+    case SET_VALID_ROWS: {
       return setIn(state, 'resultVal', action.payload);
     }
 
-    case SET_ERROR: {
+    case SET_ERROR_ROWS: {
       return setIn(state, 'resultError', action.payload);
     }
 

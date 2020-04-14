@@ -30,8 +30,8 @@ import {
   SET_SYNTHESIS_ID,
   SET_ERROR_FILE,
   SET_PROGRESS_SHOW,
-  SET_VALIDATION,
-  SET_ERROR,
+  SET_VALID_ROWS,
+  SET_ERROR_ROWS,
   SET_LOADING,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
@@ -210,12 +210,12 @@ export const setSavedSynthesisId = (savedSynthesisId: any) => ({
 });
 
 export const validRows = (savedVal: any) => ({
-  type: SET_VALIDATION,
+  type: SET_VALID_ROWS,
   payload: savedVal,
 });
 
 export const setSavedErr = (savedErr: any) => ({
-  type: SET_ERROR,
+  type: SET_ERROR_ROWS,
   payload: savedErr,
 });
 

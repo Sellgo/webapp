@@ -17,8 +17,8 @@ export const SET_SPEED = 'SET_SPEED';
 export const SET_ERROR_FILE = 'SET_ERROR_FILE';
 export const SET_PROGRESS_SHOW = 'SET_PROGRESS_SHOW';
 export const SET_ETA = 'SET_ETA';
-export const SET_VALIDATION = 'SET_VALIDATION';
-export const SET_ERROR = 'SET_ERROR';
+export const SET_VALID_ROWS = 'SET_VALID_ROWS';
+export const SET_ERROR_ROWS = 'SET_ERROR_ROWS';
 export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_LOADING = 'SET_LOADING';
 
