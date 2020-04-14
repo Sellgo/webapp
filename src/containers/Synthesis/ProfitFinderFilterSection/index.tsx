@@ -310,7 +310,10 @@ function ProfitFinderFilterSection(props: Props) {
         maxPlaceholder: '$ Max',
         range:
           filterState.removeNegative.indexOf('profit') !== -1
-            ? { min: 0, max: rangeData.profit.max }
+            ? {
+                min: rangeData.profit.min < 0 ? 0 : rangeData.profit.min,
+                max: rangeData.profit.max < 0 ? 0 : rangeData.profit.max,
+              }
             : rangeData.profit,
         filterRange: filterState.profit,
         removeNegative: false,
@@ -323,7 +326,10 @@ function ProfitFinderFilterSection(props: Props) {
         maxPlaceholder: 'Max %',
         range:
           filterState.removeNegative.indexOf('margin') !== -1
-            ? { min: 0, max: rangeData.margin.max }
+            ? {
+                min: rangeData.margin.min < 0 ? 0 : rangeData.margin.min,
+                max: rangeData.margin.max < 0 ? 0 : rangeData.margin.max,
+              }
             : rangeData.margin,
         filterRange: filterState.margin,
         removeNegative: false,
@@ -336,7 +342,10 @@ function ProfitFinderFilterSection(props: Props) {
         maxPlaceholder: 'Max %',
         range:
           filterState.removeNegative.indexOf('roi') !== -1
-            ? { min: 0, max: rangeData.roi.max }
+            ? {
+                min: rangeData.roi.min < 0 ? 0 : rangeData.roi.min,
+                max: rangeData.roi.max < 0 ? 0 : rangeData.roi.max,
+              }
             : rangeData.roi,
         filterRange: filterState.roi,
         removeNegative: false,
@@ -453,6 +462,12 @@ function ProfitFinderFilterSection(props: Props) {
       if (filter.dataKey === datakey) {
         filter.filterRange = filter.range;
         filterDetails[datakey] = filter.range;
+        if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
+          filterDetails.removeNegative.splice(filterDetails.removeNegative.indexOf(datakey), 1);
+          filter.range = rangeData[datakey];
+          filter.filterRange = rangeData[datakey];
+          filterDetails[datakey] = rangeData[datakey];
+        }
       }
       return filter;
     });
@@ -475,10 +490,11 @@ function ProfitFinderFilterSection(props: Props) {
     data.productSize = 'All size';
     data.price = productRanges.price;
     data.profit = productRanges.profit;
+    data.margin = productRanges.margin;
     data.roi = productRanges.roi;
     data.sales_monthly = productRanges.sales_monthly;
     data.rank = productRanges.rank;
-
+    data.removeNegative = [];
     selectAll();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
@@ -512,9 +528,18 @@ function ProfitFinderFilterSection(props: Props) {
           data[datakey] = rangeData[datakey];
         } else {
           data.removeNegative.push(datakey);
-          filter.range = { min: 0, max: rangeData[datakey].max };
-          filter.filterRange = { min: 0, max: rangeData[datakey].max };
-          data[filter.dataKey] = { min: 0, max: rangeData[datakey].max };
+          filter.range = {
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+          };
+          filter.filterRange = {
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+          };
+          data[filter.dataKey] = {
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+          };
         }
       }
       return filter;

@@ -216,6 +216,7 @@
 
           .ui.input {
             input {
+              font-family: 'Work sans', sans-serif;
               background: transparent;
               border: 1px solid #dfe8f3;
               box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
@@ -291,7 +292,7 @@
   }
 }
 
-@media screen and (max-width: 1920px) {
+@media screen and (max-width: 1600px) {
   .all-filter-content-wrapper {
     &.see-all {
       .all-filter-content {
@@ -331,7 +332,7 @@
     .slider-wrapper {
       .range-container {
         &:nth-child(5) {
-          margin: 15px 0 15px 0;
+          margin: 15px 25px 15px 0;
         }
 
         &:last-child {
