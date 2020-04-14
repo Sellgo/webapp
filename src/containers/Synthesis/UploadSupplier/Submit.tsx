@@ -6,39 +6,39 @@ import { Grid, Icon, Label, Segment, Header } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import PieChart from './../../../components/Chart/PieChart';
 import {
-  currentResultErrFile,
+  currentErrorFile,
   currentProgressShow,
   currentResultUpload,
   currentResultVal,
-  currentErr,
+  currentError,
 } from '../../../selectors/UploadSupplier';
 
 interface SubmitProps {
   validateAndUploadCsv: any;
   onFinished: () => void;
-  currentProgShow: any;
-  currentErrFile: any;
+  currentProgressShow: any;
+  currentErrorFile: any;
   setLoadingShow: any;
   currentResult: any;
   currentVal: any;
-  currentErr: any;
+  currentError: any;
 }
 
 const Submit = (props: SubmitProps) => {
   const {
     validateAndUploadCsv,
-    currentProgShow,
+    currentProgressShow,
     setLoadingShow,
-    currentErrFile,
+    currentErrorFile,
     currentResult,
     onFinished,
     currentVal,
-    currentErr,
+    currentError,
   } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const totalRows = Number(currentVal) + Number(currentErr);
-  const percentErr = Math.round((Number(currentErr) / totalRows) * 100);
+  const totalRows = Number(currentVal) + Number(currentError);
+  const percentErr = Math.round((Number(currentError) / totalRows) * 100);
   const percentVal = Math.round((Number(currentVal) / totalRows) * 100);
   const errServerUpload = currentResult === 'DATA_REPORT' ? true : false;
 
@@ -64,14 +64,9 @@ const Submit = (props: SubmitProps) => {
       <Grid className="Submit__loader-container">
         <div className="Submit__loader">
           <div className="circle-loader">
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
+            {[...Array(8)].map(i => (
+              <div key={i} />
+            ))}
           </div>
         </div>
       </Grid>
@@ -80,7 +75,7 @@ const Submit = (props: SubmitProps) => {
 
   return (
     <div className={`submit-container`}>
-      {!currentProgShow &&
+      {!currentProgressShow &&
         (!errServerUpload ? (
           <React.Fragment>
             <Icon name="exclamation circle" size="big" className={styles['check-error']} />
@@ -91,13 +86,13 @@ const Submit = (props: SubmitProps) => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Segment className={`Submit__pie-chart ${error || currentErr ? '' : 'middle'}`}>
-              {error || currentErr ? (
+            <Segment className={`Submit__pie-chart ${error || currentError ? '' : 'middle'}`}>
+              {error || currentError ? (
                 <Header>
                   We could not process some of your SKUs. If you would like to fix the issues please
                   <br />
                   click on "Download Error File" and re-upload the file in&nbsp;
-                  <a href={currentErrFile} className="Submit__select-file">
+                  <a href={currentErrorFile} className="Submit__select-file">
                     Select File
                   </a>
                 </Header>
@@ -138,11 +133,11 @@ const Submit = (props: SubmitProps) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  currentProgShow: currentProgressShow(state),
-  currentErrFile: currentResultErrFile(state),
+  currentProgressShow: currentProgressShow(state),
+  currentErrorFile: currentErrorFile(state),
   currentResult: currentResultUpload(state),
   currentVal: currentResultVal(state),
-  currentErr: currentErr(state),
+  currentError: currentError(state),
 });
 
 const mapDispatchToProps = {

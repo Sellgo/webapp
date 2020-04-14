@@ -30,7 +30,7 @@ interface SynthesisProps {
   closeUploadSupplierModal: () => void;
   setProgressShow: any;
   currentSynId: any;
-  currentProg: any;
+  currentProgress: any;
   setProgress: any;
   match: any;
 }
@@ -83,7 +83,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   renderAddNewSupplierModal = () => {
-    const { uploadSupplierModalOpen, currentProg, currentSynId } = this.props;
+    const { uploadSupplierModalOpen, currentProgress, currentSynId } = this.props;
 
     return (
       <>
@@ -91,7 +91,7 @@ class Synthesis extends Component<SynthesisProps> {
           size={'large'}
           open={uploadSupplierModalOpen}
           onClose={() => {
-            currentProg >= 100 && !currentSynId
+            currentProgress >= 100 && !currentSynId
               ? this.handleClose()
               : this.setState({ exitConfirmation: true });
           }}
@@ -145,7 +145,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
-    const { currentSynId, currentProg } = this.props;
+    const { currentSynId, currentProgress } = this.props;
     return (
       <>
         <PageHeader
@@ -160,10 +160,10 @@ class Synthesis extends Component<SynthesisProps> {
             <Modal.Content>
               <div>
                 <Header as="h4" icon>
-                  {!currentSynId && currentProg < 100
+                  {!currentSynId && currentProgress < 100
                     ? 'Do you want to exit?'
                     : 'Exit before uploading?'}
-                  {!(!currentSynId && currentProg < 100) && (
+                  {!(!currentSynId && currentProgress < 100) && (
                     <Header.Subheader>
                       The current process will be saved into the "drafts" tab but will not be
                       processed
@@ -197,7 +197,7 @@ const mapStateToProps = (state: any) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
   userOnboardingModalOpen: get(state, 'modals.userOnboarding.open', false),
-  currentProg: currentProgress(state),
+  currentProgress: currentProgress(state),
   currentSynId: currentSynthesisId(state),
 });
 

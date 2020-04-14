@@ -12,19 +12,8 @@ import { AnyAction } from 'redux';
 import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
-import {
-  saveSupplierNameAndDescription,
-  updateSupplierNameAndDescription,
-  updateAddNewSearch,
-  saveAddNewSearch,
-} from '../Suppliers';
-import {
-  removeColumnMappings,
-  fetchColumnMappings,
-  toggleFirstRowHeader,
-  setSavedColumnMappings,
-  parseCsv,
-} from '.';
+import { saveSupplierName, updateSupplierName, updateSearch, saveSearch } from '../Suppliers';
+import { fetchColumnMappings, setSavedColumnMappings, parseCsv } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
 import get from 'lodash/get';
@@ -78,7 +67,7 @@ export class AddNewSearchStep extends Step {
 
       if (!existingSupplier) {
         // add other form values
-        const data: any = await this.dispatch(saveAddNewSearch(other));
+        const data: any = await this.dispatch(saveSearch(other));
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (const param in existingSupplier) {
@@ -86,9 +75,8 @@ export class AddNewSearchStep extends Step {
             delete other[param];
           }
         }
-        await this.dispatch(updateAddNewSearch(existingSupplier.id, other));
+        await this.dispatch(updateSearch(existingSupplier.id, other));
       }
-      this.dispatch(fetchColumnMappings());
     } catch (error) {
       throw error;
     }
@@ -122,13 +110,11 @@ export class AddNewSupplierStep extends Step {
     // eslint-disable-next-line no-useless-catch
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-      const { nameSupplier, description, ...other } = formValues;
+      const { supplierName, ...other } = formValues;
 
       if (!existingSupplier) {
         // add other form values
-        const data: any = await this.dispatch(
-          saveSupplierNameAndDescription(nameSupplier, description, other)
-        );
+        const data: any = await this.dispatch(saveSupplierName(supplierName, other));
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (const param in existingSupplier) {
@@ -136,9 +122,7 @@ export class AddNewSupplierStep extends Step {
             delete other[param];
           }
         }
-        await this.dispatch(
-          updateSupplierNameAndDescription(nameSupplier, description, existingSupplier.id, other)
-        );
+        await this.dispatch(updateSupplierName(supplierName, existingSupplier.id, other));
         //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }
       this.dispatch(fetchColumnMappings());
@@ -162,61 +146,6 @@ export class SelectFileStep extends Step {
     const fileSet = Boolean(csvFile) && Boolean(csvArray);
     const errorMessage = fileSet ? undefined : 'Please select a csv file';
     return errorMessage;
-  }
-
-  guessHasHeaders(csv: string[][]) {
-    /*  Adapted from Python's csv library: https://github.com/python/cpython/blob/master/Lib/csv.py#L383
-     *  Creates a dictionary of types of data in each column. If any
-     *  column is of a single type (say, integers), *except* for the first
-     *  row, then the first row is presumed to be labels. If the type
-     *  can't be determined, it is assumed to be a string in which case
-     *  the length of the string is the determining factor: if all of the
-     *  rows except for the first are the same length, it's a header.
-     *  Finally, a 'vote' is taken at the end for each column, adding or
-     *  subtracting from the likelihood of the first row being a header.
-     */
-    const rowsToCheck = 20; // arbitrary number of rows to check
-    const header = csv.length ? csv[0] : []; // assume first row is header
-
-    const columnTypes: { [index: number]: any } = {};
-    header.forEach((_: any, index: number) => {
-      columnTypes[index] = null;
-    });
-
-    csv.slice(1, rowsToCheck).forEach((row: any) => {
-      for (const col in columnTypes) {
-        if (row[col]) {
-          // check if data cell is a Number, else fallback to length of string
-          const thisType = !Number.isNaN(Number(row[col])) ? Number : row[col].length;
-
-          if (thisType !== columnTypes[col]) {
-            if (columnTypes[col] === null) {
-              // add new column type
-              columnTypes[col] = thisType;
-            }
-          }
-        }
-      }
-    });
-
-    // compare results against first row and "vote" on whether it's a header
-    let hasHeader = 0;
-    for (const col in columnTypes) {
-      const colType = columnTypes[col];
-      if (!colType) {
-        continue;
-      }
-
-      if (typeof colType === 'number') {
-        // it's a length
-        hasHeader = header[col].length !== colType ? hasHeader + 1 : hasHeader - 1;
-      } else {
-        // check type different from data rows and header row
-        hasHeader = !Number.isNaN(colType(header[col])) ? hasHeader - 1 : hasHeader + 1;
-      }
-    }
-
-    return hasHeader > 0;
   }
 
   guessColumnMappings(csv: string[][]) {
@@ -244,23 +173,12 @@ export class SelectFileStep extends Step {
 
   validateFields() {
     const csv = csvSelector(this.getState());
-
-    // Guess if csv file has headers
-    const currentHasHeaders = isFirstRowHeaderSelector(this.getState());
-    const hasHeaders = this.guessHasHeaders(csv);
-    if (hasHeaders !== currentHasHeaders) {
-      this.dispatch(toggleFirstRowHeader());
-    }
-
-    // Guess column mappings
+    const hasHeaders = isFirstRowHeaderSelector(this.getState());
     if (hasHeaders) {
       const mappings = this.guessColumnMappings(csv);
       if (mappings) {
         this.dispatch(setSavedColumnMappings(mappings));
       }
-    } else {
-      // If no headers, clear all mappings instead.
-      this.dispatch(removeColumnMappings());
     }
 
     return undefined;

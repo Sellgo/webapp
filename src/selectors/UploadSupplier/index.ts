@@ -6,11 +6,10 @@ import numberToLetter from '../../utils/numberToLetter';
 export const currentStepSelector = (state: object): number =>
   get(state, 'uploadSupplier.currentStep', 0);
 
-export const currentResultErrFile = (state: object): [] =>
+export const currentErrorFile = (state: object): [] =>
   get(state, 'uploadSupplier.resultErrFile', []);
 
-export const currentProgressSpeed = (state: object): [] =>
-  get(state, 'uploadSupplier.setProgressSpeed', []);
+export const currentSpeed = (state: object): [] => get(state, 'uploadSupplier.setSpeed', []);
 
 export const currentResultUpload = (state: object): [] =>
   get(state, 'uploadSupplier.resultUpload', []);
@@ -18,8 +17,7 @@ export const currentResultUpload = (state: object): [] =>
 export const currentProgressShow = (state: object): [] =>
   get(state, 'uploadSupplier.setProgressShow', []);
 
-export const currentProgressEta = (state: object): [] =>
-  get(state, 'uploadSupplier.setProgressEta', []);
+export const currentEta = (state: object): [] => get(state, 'uploadSupplier.setEta', []);
 
 export const currentSynthesisId = (state: object): [] =>
   get(state, 'uploadSupplier.synthesisId', []);
@@ -33,7 +31,7 @@ export const currentProgress = (state: object): [] => get(state, 'uploadSupplier
 
 export const currentSupplier = (state: object): [] => get(state, 'modals.uploadSupplier.meta', []);
 
-export const currentErr = (state: object): [] => get(state, 'uploadSupplier.resultErr', []);
+export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultErr', []);
 
 export const csvSelector = (state: object): string[][] => get(state, 'uploadSupplier.csv', null);
 

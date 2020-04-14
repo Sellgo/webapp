@@ -7,13 +7,13 @@ import { postSynthesisRun, setProgress } from '../../../actions/Suppliers';
 import {
   currentStepSelector,
   processCompletedSelector,
-  currentResultErrFile,
-  currentErr,
+  currentErrorFile,
+  currentError,
   currentSynthesisId,
   currentProgress,
   currentProgressShow,
-  currentProgressSpeed,
-  currentProgressEta,
+  currentSpeed,
+  currentEta,
   currentLoadingShow,
 } from '../../../selectors/UploadSupplier';
 import { closeUploadSupplierModal } from '../../../actions/Modals';
@@ -21,16 +21,16 @@ import { closeUploadSupplierModal } from '../../../actions/Modals';
 interface ActionsProps {
   currentStep: number;
   setStep: (nextStep: number) => Promise<void>;
-  currentErrFile: any;
-  currentErr: any;
+  currentErrorFile: any;
+  currentError: any;
   currentSynId: any;
-  currentProg: any;
-  currentProgSpeed: any;
-  currentProgEta: any;
-  setSkipUpload: any;
+  currentProgress: any;
+  currentSpeed: any;
+  currentEta: any;
+  postSynthesisRun: any;
   setProgressShow: any;
-  setSkipUploadVal: any;
-  currentProgShow: any;
+  setProgress: any;
+  currentProgressShow: any;
   currentLoading: any;
   className?: string;
   processCompleted: boolean;
@@ -43,56 +43,56 @@ const Actions = ({
   className,
   processCompleted,
   closeModal,
-  currentErrFile,
-  currentErr,
+  currentErrorFile,
+  currentError,
   currentSynId,
-  currentProg,
-  currentProgSpeed,
-  currentProgEta,
-  currentProgShow,
-  setSkipUpload,
+  currentProgress,
+  currentSpeed,
+  currentEta,
+  currentProgressShow,
+  postSynthesisRun,
   setProgressShow,
-  setSkipUploadVal,
+  setProgress,
   currentLoading,
 }: ActionsProps) => {
+  const hasPrevStep = currentStep !== 0;
+  const hasNextStep = currentStep !== 4;
+  const [openConfirm, setConfirm] = useState(false);
+  const [openProgress, setOpenProgress] = useState(false);
+  const [disableExit, setExit] = useState(false);
+
   const onNextStep = () => setStep(currentStep + 1);
   const onPrevStep = () => setStep(currentStep - 1);
 
   const handleClose = () => {
     setExit(!disableExit);
     setProgressShow(false);
-    setSkipUploadVal(0);
+    setProgress(0);
   };
 
   const handleNoErr = () => {
-    setProgress(!openProgress);
+    setOpenProgress(!openProgress);
     setProgressShow(true);
   };
-
-  const hasPrevStep = currentStep !== 0;
-  const hasNextStep = currentStep !== 4;
-  const [openConfirm, setConfirm] = useState(false);
-  const [openProgress, setProgress] = useState(false);
-  const [disableExit, setExit] = useState(false);
 
   if (processCompleted) {
     return (
       <div className={`${className || ''} ${styles.actions} submit-actions`}>
-        {currentProgShow ? (
+        {currentProgressShow ? (
           <span className="Actions__err-download exit">
             <Button
-              onClick={currentProg >= 100 ? closeModal : handleClose}
+              onClick={currentProgress >= 100 ? closeModal : handleClose}
               size="small"
               basic={true}
               color="grey"
-              disabled={currentProg >= 100 ? false : true}
+              disabled={currentProgress >= 100 ? false : true}
               style={{ borderRadius: 20 }}
             >
               Exit
             </Button>
           </span>
         ) : (
-          <a className="Actions__err-download" href={currentErrFile}>
+          <a className="Actions__err-download" href={currentErrorFile}>
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <i className="fas fa-file-download" /> Download Error File
             </Button>
@@ -103,18 +103,18 @@ const Actions = ({
           <>
             <Grid className="Actions__progress-bar">
               <Progress
-                percent={currentProg >= 100 ? 100 : currentProg}
+                percent={currentProgress >= 100 ? 100 : currentProgress}
                 color="blue"
                 autoSuccess
                 progress
                 inverted
                 indicating
               />
-              {currentProg < 100 ? (
+              {currentProgress < 100 ? (
                 <Grid>
-                  <span>Speed: {currentProgSpeed} SKU/min</span>
+                  <span>Speed: {currentSpeed} SKU/min</span>
                   <span>Uploading File</span>
-                  <span>ETA: {currentProgEta} Secs</span>
+                  <span>ETA: {currentEta} Secs</span>
                 </Grid>
               ) : (
                 <Grid className="Actions__completed">
@@ -124,10 +124,10 @@ const Actions = ({
             </Grid>
           </>
         )}
-        {!currentProgShow && (
+        {!currentProgressShow && (
           <Button
             onClick={() => {
-              currentErr ? setConfirm(!openConfirm) : handleNoErr();
+              currentError ? setConfirm(!openConfirm) : handleNoErr();
             }}
             className={styles.action}
             basic={true}
@@ -154,9 +154,9 @@ const Actions = ({
             <Button
               content="Yes"
               onClick={() => {
-                setSkipUpload(currentSynId);
+                postSynthesisRun(currentSynId);
                 setConfirm(!openConfirm);
-                setProgress(!openProgress);
+                setOpenProgress(!openProgress);
                 setProgressShow(true);
               }}
             />
@@ -215,21 +215,21 @@ const Actions = ({
 const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   processCompleted: processCompletedSelector(state),
-  currentErrFile: currentResultErrFile(state),
-  currentErr: currentErr(state),
+  currentErrorFile: currentErrorFile(state),
+  currentError: currentError(state),
   currentSynId: currentSynthesisId(state),
-  currentProg: currentProgress(state),
-  currentProgShow: currentProgressShow(state),
-  currentProgSpeed: currentProgressSpeed(state),
-  currentProgEta: currentProgressEta(state),
+  currentProgress: currentProgress(state),
+  currentProgressShow: currentProgressShow(state),
+  currentSpeed: currentSpeed(state),
+  currentEta: currentEta(state),
   currentLoading: currentLoadingShow(state),
 });
 
 const mapDispatchToProps = {
   setStep: setUploadSupplierStep,
   closeModal: closeUploadSupplierModal,
-  setSkipUpload: postSynthesisRun,
-  setSkipUploadVal: setProgress,
+  postSynthesisRun,
+  setProgress,
   setProgressShow,
 };
 

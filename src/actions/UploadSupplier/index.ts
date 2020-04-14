@@ -23,15 +23,15 @@ import {
   UploadSteps,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_SAVED_COLUMN_MAPPINGS,
-  SET_SAVE_COLUMN_MAPPING_SETTING,
+  SET_COLUMN_MAPPINGS,
+  SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
-  SET_SAVED_RESULT_UPLOAD,
-  SET_SAVED_SYNTHESIS_ID,
-  SET_SAVED_ERR_FILE,
+  SET_RESULT_UPLOAD,
+  SET_SYNTHESIS_ID,
+  SET_ERROR_FILE,
   SET_PROGRESS_SHOW,
-  SET_SAVED_VAL,
-  SET_SAVED_ERR,
+  SET_VALIDATION,
+  SET_ERROR,
   SET_LOADING,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
@@ -52,8 +52,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   const currentStep = currentStepSelector(getState());
   const stepSpecification: Step = new (getStepSpecification(currentStep))(dispatch, getState);
-  // console.log(currentStep);
-  // console.log(nextStep);
+
   // if step is increased we need to validate before moving on
   const validationRequired = currentStep < nextStep;
   const errorMessage = validationRequired ? stepSpecification.validate() : undefined;
@@ -191,32 +190,32 @@ export const mapColumn = (csvColumn: string | number, targetColumn: string) => (
 });
 
 export const setSavedColumnMappings = (savedColumnMappings: any) => ({
-  type: SET_SAVED_COLUMN_MAPPINGS,
+  type: SET_COLUMN_MAPPINGS,
   payload: savedColumnMappings,
 });
 
 export const setSavedResultUpload = (savedResultUpload: any) => ({
-  type: SET_SAVED_RESULT_UPLOAD,
+  type: SET_RESULT_UPLOAD,
   payload: savedResultUpload,
 });
 
 export const setSavedErrFile = (savedErrFile: any) => ({
-  type: SET_SAVED_ERR_FILE,
+  type: SET_ERROR_FILE,
   payload: savedErrFile,
 });
 
 export const setSavedSynthesisId = (savedSynthesisId: any) => ({
-  type: SET_SAVED_SYNTHESIS_ID,
+  type: SET_SYNTHESIS_ID,
   payload: savedSynthesisId,
 });
 
-export const setSavedVal = (savedVal: any) => ({
-  type: SET_SAVED_VAL,
+export const validRows = (savedVal: any) => ({
+  type: SET_VALIDATION,
   payload: savedVal,
 });
 
 export const setSavedErr = (savedErr: any) => ({
-  type: SET_SAVED_ERR,
+  type: SET_ERROR,
   payload: savedErr,
 });
 
@@ -231,7 +230,7 @@ export const setLoadingShow = (check: boolean) => ({
 });
 
 export const setSaveColumnMappingSetting = (checked: boolean) => ({
-  type: SET_SAVE_COLUMN_MAPPING_SETTING,
+  type: SET_COLUMN_MAPPING_SETTING,
   payload: checked,
 });
 
@@ -255,7 +254,6 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
     dispatch(setSavedColumnMappings(columnMappings));
-    dispatch(setSkipColumnMappingCheck(false));
   } else {
     dispatch(removeColumnMappings());
   }
@@ -309,7 +307,7 @@ export const validateAndUploadCsv = () => async (
   if (response.data) {
     dispatch(setSavedResultUpload(response.data.response_type));
     dispatch(setSavedErrFile(response.data.error_file_url));
-    dispatch(setSavedVal(response.data.num_valid_rows));
+    dispatch(validRows(response.data.num_valid_rows));
     dispatch(setSavedErr(response.data.num_error_rows));
     dispatch(setSavedSynthesisId(response.data.synthesis_file_id));
   }

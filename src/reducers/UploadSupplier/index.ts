@@ -7,17 +7,17 @@ import {
   REMOVE_COLUMN_MAPPINGS,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_SAVED_COLUMN_MAPPINGS,
-  SET_SAVE_COLUMN_MAPPING_SETTING,
+  SET_COLUMN_MAPPINGS,
+  SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
-  SET_SAVED_RESULT_UPLOAD,
-  SET_SAVED_SYNTHESIS_ID,
-  SET_PROGRESS_SPEED,
-  SET_SAVED_ERR_FILE,
+  SET_RESULT_UPLOAD,
+  SET_SYNTHESIS_ID,
+  SET_SPEED,
+  SET_ERROR_FILE,
   SET_PROGRESS_SHOW,
-  SET_PROGRESS_ETA,
-  SET_SAVED_VAL,
-  SET_SAVED_ERR,
+  SET_ETA,
+  SET_VALIDATION,
+  SET_ERROR,
   SET_PROGRESS,
   SET_LOADING,
 } from '../../constants/UploadSupplier';
@@ -32,8 +32,8 @@ interface UploadSupplierState {
   readonly csv: string[][] | null;
   readonly columnMappings: [];
   readonly setProgress: number;
-  readonly setProgressSpeed: number;
-  readonly setProgressEta: number;
+  readonly setSpeed: number;
+  readonly setEta: number;
   readonly setProgressShow: boolean;
   readonly setLoadingShow: boolean;
   readonly completed: boolean;
@@ -51,8 +51,8 @@ const initialState: UploadSupplierState = {
   completed: false,
   isFirstRowHeader: true,
   currentStep: 0,
-  setProgressSpeed: 0,
-  setProgressEta: 0,
+  setSpeed: 0,
+  setEta: 0,
   setProgress: 0,
   csvString: null,
   csvFile: null,
@@ -98,7 +98,7 @@ export default (
       return setIn(state, 'columnMappings', newColumnMappings);
     }
 
-    case SET_SAVE_COLUMN_MAPPING_SETTING: {
+    case SET_COLUMN_MAPPING_SETTING: {
       return setIn(state, 'saveColumnMappingSetting', action.payload);
     }
 
@@ -106,7 +106,7 @@ export default (
       return setIn(state, 'skipColumnMappingCheck', action.payload);
     }
 
-    case SET_SAVED_COLUMN_MAPPINGS: {
+    case SET_COLUMN_MAPPINGS: {
       return setIn(state, 'columnMappings', action.payload);
     }
 
@@ -123,23 +123,23 @@ export default (
     case TOGGLE_FIRST_ROW_HEADER:
       return setIn(state, 'isFirstRowHeader', !state.isFirstRowHeader);
 
-    case SET_PROGRESS_SPEED: {
-      return setIn(state, 'setProgressSpeed', action.payload);
+    case SET_SPEED: {
+      return setIn(state, 'setSpeed', action.payload);
     }
 
     case SET_PROGRESS_SHOW: {
       return setIn(state, 'setProgressShow', action.payload);
     }
 
-    case SET_PROGRESS_ETA: {
-      return setIn(state, 'setProgressEta', action.payload);
+    case SET_ETA: {
+      return setIn(state, 'setEta', action.payload);
     }
 
-    case SET_SAVED_ERR_FILE: {
+    case SET_ERROR_FILE: {
       return setIn(state, 'resultErrFile', action.payload);
     }
 
-    case SET_SAVED_RESULT_UPLOAD: {
+    case SET_RESULT_UPLOAD: {
       return setIn(state, 'resultUpload', action.payload);
     }
 
@@ -151,15 +151,15 @@ export default (
       return setIn(state, 'setLoadingShow', action.payload);
     }
 
-    case SET_SAVED_SYNTHESIS_ID: {
+    case SET_SYNTHESIS_ID: {
       return setIn(state, 'synthesisId', action.payload);
     }
 
-    case SET_SAVED_VAL: {
+    case SET_VALIDATION: {
       return setIn(state, 'resultVal', action.payload);
     }
 
-    case SET_SAVED_ERR: {
+    case SET_ERROR: {
       return setIn(state, 'resultErr', action.payload);
     }
 
