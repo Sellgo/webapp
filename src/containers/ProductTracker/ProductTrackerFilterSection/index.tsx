@@ -9,18 +9,23 @@ import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 import { findNewMinMaxRange } from '../../../constants/Tracker';
+import { filterTrackedProducts } from '../../../actions/ProductTracker';
 
 interface Props {
   filteredProducts: Product[];
+  filterProducts: (value: string, filterData: any) => void;
+  filterSearch: string;
+  trackerDetails: any;
 }
 
 function ProductTrackerFilterSection(props: Props) {
-  const { filteredProducts } = props;
+  const { filteredProducts, filterProducts, filterSearch, trackerDetails } = props;
 
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(true);
 
-  const filteredRanges = findNewMinMaxRange(filteredProducts);
+  console.log('trackerDetails: ', trackerDetails);
+  const filteredRanges = findNewMinMaxRange(trackerDetails.results);
   const rangeData: any = _.cloneDeep(filteredRanges);
 
   console.log('filteredProducts: ', filteredProducts);
@@ -43,7 +48,7 @@ function ProductTrackerFilterSection(props: Props) {
     if (isAllReviews) {
       selectAllReviews();
     }
-    // filterProducts(filterSearch, filterState);
+    filterProducts(filterSearch, filterState);
   }, [filterState]);
 
   const filterDataState: ProductTrackerFilterInterface = {
@@ -188,7 +193,6 @@ function ProductTrackerFilterSection(props: Props) {
       ],
     },
   };
-  console.log('filterDataState: ', filterDataState);
   const [trackerFilterData, setTrackerFilterData] = React.useState(filterDataState);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
 
@@ -291,7 +295,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
-    // filterProducts(filterSearch, filterState);
+    filterProducts(filterSearch, filterState);
     console.log('Apply Filter: ', filterState);
   };
 
@@ -386,8 +390,11 @@ function ProductTrackerFilterSection(props: Props) {
 
 const mapStateToProps = (state: {}) => ({
   filteredProducts: get(state, 'productTracker.filteredProducts'),
+  filterSearch: get(state, 'productTracker.filterSearch'),
+  trackerDetails: get(state, 'productTracker.trackerDetails'),
 });
 
-const mapDispatchToProps = {};
-
+const mapDispatchToProps = {
+  filterProducts: (value: string, filterData: any) => filterTrackedProducts(value, filterData),
+};
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);

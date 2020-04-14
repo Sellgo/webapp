@@ -19,6 +19,8 @@ import {
   REMOVE_TRACKED_PRODUCT,
   SET_MENU_ITEM,
   REMOVE_PRODUCTS_IN_GROUP,
+  FILTER_TRACKED_PRODUCTS,
+  SEARCH_TRACKED_PRODUCTS,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota } from '../Settings';
@@ -166,6 +168,22 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
       error(`Failed to delete tracker group`);
     });
 };
+
+export const filterTrackedProducts = (value: string, filterData: any) => ({
+  type: FILTER_TRACKED_PRODUCTS,
+  payload: {
+    value: value,
+    filterData: filterData,
+  },
+});
+
+export const searchTrackedProducts = (value: string, filterData: any) => ({
+  type: SEARCH_TRACKED_PRODUCTS,
+  payload: {
+    value: value,
+    filterData: filterData,
+  },
+});
 
 export const retrieveProductTrackGroup = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();

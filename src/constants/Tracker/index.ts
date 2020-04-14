@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
 export const UPDATE_TRACKER_FILTER_RANGES = 'UPDATE_TRACKER_FILTER_RANGES';
@@ -11,6 +13,8 @@ export const REMOVE_PRODUCT_TRACK_GROUP = 'REMOVE_PRODUCT_TRACK_GROUP';
 export const UPDATE_TRACKED_PRODUCT = 'UPDATE_TRACKED_PRODUCT';
 export const REMOVE_TRACKED_PRODUCT = 'REMOVE_TRACKED_PRODUCT';
 export const REMOVE_PRODUCTS_IN_GROUP = 'REMOVE_PRODUCTS_IN_GROUP';
+export const FILTER_TRACKED_PRODUCTS = 'FILTER_TRACKED_PRODUCTS';
+export const SEARCH_TRACKED_PRODUCTS = 'SEARCH_TRACKED_PRODUCTS';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -264,4 +268,26 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
         : products.filter((product: any) => null === product.product_track_group_id)
       : products;
   return filteredProducts;
+};
+
+export const findFilteredProducts = (products: any, filterData: any) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return newFilterKeys.every(
+      (dataKey: any) =>
+        Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+        Number(product[dataKey]) <= Number(filterData[dataKey].max)
+    );
+  });
+  return updatedFilterProducts;
+};
+
+export const searchFilteredProduct = (products: any, value: string) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return (
+      (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+    );
+  });
+  return updatedFilterProducts;
 };

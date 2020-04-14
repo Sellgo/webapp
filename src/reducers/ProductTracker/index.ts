@@ -19,9 +19,16 @@ import {
   UPDATE_TRACKED_PRODUCT,
   REMOVE_TRACKED_PRODUCT,
   REMOVE_PRODUCTS_IN_GROUP,
+  FILTER_TRACKED_PRODUCTS,
+  SEARCH_TRACKED_PRODUCTS,
+  findFilteredProducts,
+  searchFilteredProduct,
 } from '../../constants/Tracker';
+import _ from 'lodash';
 
 const initialState = {
+  filterData: undefined,
+  filterSearch: '',
   trackerDetails: {
     count: 0,
     results: [],
@@ -145,6 +152,22 @@ export default (state = initialState, action: AnyAction) => {
         'filteredProducts',
         filteredProductsAfterRemove
       );
+    }
+    case FILTER_TRACKED_PRODUCTS: {
+      const { value, filterData } = action.payload;
+      const data = _.cloneDeep(filterData);
+      const newState = setIn(state, 'filterData', data);
+      const filteredProducts = findFilteredProducts(state.trackerDetails.results, data);
+      const searchProducts = searchFilteredProduct(filteredProducts, value);
+      return setIn(newState, 'filteredProducts', searchProducts);
+    }
+    case SEARCH_TRACKED_PRODUCTS: {
+      const { value, filterData } = action.payload;
+      const data = _.cloneDeep(filterData);
+      const newState = setIn(state, 'filterSearch', value);
+      const filteredProducts = findFilteredProducts(state.trackerDetails.results, data);
+      const searchProducts = searchFilteredProduct(filteredProducts, value);
+      return setIn(newState, 'filteredProducts', searchProducts);
     }
     default:
       return state;
