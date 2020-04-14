@@ -851,9 +851,6 @@ div.new-supplier-cont > div:nth-child(2) {
 .new-supplier-modal .Actions__err-download.exit .ui.basic.grey.button {
   min-width: 104px !important;
   max-width: 104px;
-}
-
-.new-supplier-modal .Actions__err-download.exit .ui.basic.grey.button:disabled {
   border: 1px solid #dfe8f3;
   color: #dfe8f3 !important;
 }

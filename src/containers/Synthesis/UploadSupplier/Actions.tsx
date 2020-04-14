@@ -68,6 +68,7 @@ const Actions = ({
     setExit(!disableExit);
     setShowProgress(false);
     setProgress(0);
+    closeModal();
   };
 
   const handleNoErr = () => {
@@ -81,11 +82,10 @@ const Actions = ({
         {currentShowProgress ? (
           <span className="Actions__err-download exit">
             <Button
-              onClick={currentProgress >= 100 ? closeModal : handleClose}
+              onClick={handleClose}
               size="small"
               basic={true}
               color="grey"
-              disabled={currentProgress >= 100 ? false : true}
               style={{ borderRadius: 20 }}
             >
               Exit

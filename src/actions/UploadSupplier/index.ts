@@ -6,7 +6,7 @@ import Axios from 'axios';
 import reduce from 'lodash/reduce';
 import {
   isFirstRowHeaderSelector,
-  saveColumnMappingSettingSelector,
+  columnMappingSettingSelector,
   currentStepSelector,
   columnMappingsSelector,
   csvSelector,
@@ -23,7 +23,7 @@ import {
   UploadSteps,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_COLUMN_MAPPING,
+  SET_COLUMN_MAPPINGS,
   SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
   SET_RESULT_UPLOAD,
@@ -266,7 +266,7 @@ export const validateAndUploadCsv = () => async (
   const sellerID = sellerIDSelector();
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
-  const saveColumnMappingSetting = saveColumnMappingSettingSelector(getState());
+  const columnMappingSetting = columnMappingSettingSelector(getState());
   const csv = parseArrayToCsvFile(csvSelector(getState()), csvFileSelector(getState()));
 
   const reversedColumnMappings: any = reduce(
@@ -289,7 +289,7 @@ export const validateAndUploadCsv = () => async (
   bodyFormData.set('file', csv);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
-  if (saveColumnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
+  if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'title'))
     bodyFormData.set('title', reversedColumnMappings.title);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'sku'))
