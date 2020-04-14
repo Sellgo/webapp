@@ -74,6 +74,7 @@ const Actions = ({
   const handleNoErr = () => {
     setOpenProgress(!openProgress);
     setProgressShow(true);
+    postSynthesisRun(currentSynId);
   };
 
   if (processCompleted) {
