@@ -20,10 +20,12 @@ const renderPieChartOptions = (options: PieChartOptions) => {
   return {
     chart: {
       type: 'pie',
+      width: 200,
+      height: 200,
     },
     title: {
       text: title,
-      margin: 50,
+      margin: 0,
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
@@ -31,10 +33,10 @@ const renderPieChartOptions = (options: PieChartOptions) => {
     plotOptions: {
       pie: {
         allowPointSelect: true,
-        size: '75%',
+        size: '145px',
         cursor: 'pointer',
         dataLabels: {
-          enabled: true,
+          enabled: false,
           format: '<b>{point.name}</b>: {point.percentage:.1f} %',
         },
       },
@@ -48,7 +50,6 @@ const renderPieChartOptions = (options: PieChartOptions) => {
           chartOptions: {
             plotOptions: {
               pie: {
-                size: '65%',
                 dataLabels: {
                   alignTo: 'connectors',
                 },
@@ -69,7 +70,7 @@ const renderPieChartOptions = (options: PieChartOptions) => {
   };
 };
 
-const PieChart = (props: any) => {
+const UploadStepPieChart = (props: any) => {
   const { options } = props;
   const chartOptions = renderPieChartOptions(options);
   return (
@@ -79,4 +80,4 @@ const PieChart = (props: any) => {
   );
 };
 
-export default PieChart;
+export default UploadStepPieChart;

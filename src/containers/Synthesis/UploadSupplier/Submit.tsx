@@ -4,7 +4,7 @@ import { useAsyncEffect } from '../../../hooks';
 import { validateAndUploadCsv, setLoadingShow } from '../../../actions/UploadSupplier';
 import { Grid, Icon, Label, Segment, Header } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
-import PieChart from './../../../components/Chart/PieChart';
+import UploadStepPieChart from './../../../components/Chart/UploadStepPieChart';
 import {
   currentErrorFile,
   currentProgressShow,
@@ -103,7 +103,7 @@ const Submit = (props: SubmitProps) => {
                   &nbsp;Errors <br />
                   <span>{percentErr}%</span>
                 </span>
-                <PieChart
+                <UploadStepPieChart
                   options={{
                     data: [
                       {
