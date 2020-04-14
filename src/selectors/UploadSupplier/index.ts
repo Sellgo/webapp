@@ -38,8 +38,8 @@ export const csvSelector = (state: object): string[][] => get(state, 'uploadSupp
 export const columnMappingsSelector = (state: object): [] =>
   get(state, 'uploadSupplier.columnMappings', []);
 
-export const saveColumnMappingSettingSelector = (state: object): boolean =>
-  get(state, 'uploadSupplier.saveColumnMappingSetting', false);
+export const columnMappingSettingSelector = (state: object): boolean =>
+  get(state, 'uploadSupplier.columnMappingSetting', false);
 
 export const skipColumnMappingCheckSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.skipColumnMappingCheck', false);
