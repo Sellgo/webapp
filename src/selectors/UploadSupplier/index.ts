@@ -14,24 +14,26 @@ export const currentSpeed = (state: object): [] => get(state, 'uploadSupplier.se
 export const currentResultUpload = (state: object): [] =>
   get(state, 'uploadSupplier.resultUpload', []);
 
-export const currentProgressShow = (state: object): [] =>
-  get(state, 'uploadSupplier.setProgressShow', []);
+export const currentShowProgress = (state: object): [] =>
+  get(state, 'uploadSupplier.setShowProgress', []);
 
 export const currentEta = (state: object): [] => get(state, 'uploadSupplier.setEta', []);
 
 export const currentSynthesisId = (state: object): [] =>
   get(state, 'uploadSupplier.synthesisId', []);
 
-export const currentLoadingShow = (state: object): [] =>
-  get(state, 'uploadSupplier.setLoadingShow', []);
+export const currentShowLoading = (state: object): [] =>
+  get(state, 'uploadSupplier.setShowLoading', []);
 
-export const currentResultVal = (state: object): [] => get(state, 'uploadSupplier.resultVal', []);
+export const currentResultValid = (state: object): [] =>
+  get(state, 'uploadSupplier.resultValid', []);
 
 export const currentProgress = (state: object): [] => get(state, 'uploadSupplier.setProgress', []);
 
 export const currentSupplier = (state: object): [] => get(state, 'modals.uploadSupplier.meta', []);
 
-export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultError', []);
+export const currentResultError = (state: object): [] =>
+  get(state, 'uploadSupplier.resultError', []);
 
 export const csvSelector = (state: object): string[][] => get(state, 'uploadSupplier.csv', null);
 

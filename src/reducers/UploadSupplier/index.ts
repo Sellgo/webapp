@@ -14,12 +14,12 @@ import {
   SET_SYNTHESIS_ID,
   SET_SPEED,
   SET_ERROR_FILE,
-  SET_PROGRESS_SHOW,
+  SET_SHOW_PROGRESS,
   SET_ETA,
-  SET_VALIDATION,
-  SET_ERROR,
+  SET_VALID_ROWS,
+  SET_ERROR_ROWS,
   SET_PROGRESS,
-  SET_LOADING,
+  SET_SHOW_LOADING,
 } from '../../constants/UploadSupplier';
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
@@ -34,20 +34,20 @@ interface UploadSupplierState {
   readonly setProgress: number;
   readonly setSpeed: number;
   readonly setEta: number;
-  readonly setProgressShow: boolean;
-  readonly setLoadingShow: boolean;
+  readonly setShowProgress: boolean;
+  readonly setShowLoading: boolean;
   readonly completed: boolean;
   readonly isFirstRowHeader: boolean;
   readonly resultUpload: string | null;
   readonly resultErrorFile: string | null;
-  readonly resultVal: string | null;
+  readonly resultValid: string | null;
   readonly resultError: string | null;
   readonly synthesisId: string | null;
 }
 
 const initialState: UploadSupplierState = {
-  setProgressShow: false,
-  setLoadingShow: false,
+  setShowProgress: false,
+  setShowLoading: false,
   completed: false,
   isFirstRowHeader: true,
   currentStep: 0,
@@ -62,7 +62,7 @@ const initialState: UploadSupplierState = {
   resultErrorFile: null,
   resultUpload: null,
   synthesisId: null,
-  resultVal: null,
+  resultValid: null,
   resultError: null,
 };
 
@@ -127,8 +127,8 @@ export default (
       return setIn(state, 'setSpeed', action.payload);
     }
 
-    case SET_PROGRESS_SHOW: {
-      return setIn(state, 'setProgressShow', action.payload);
+    case SET_SHOW_PROGRESS: {
+      return setIn(state, 'setShowProgress', action.payload);
     }
 
     case SET_ETA: {
@@ -147,19 +147,19 @@ export default (
       return setIn(state, 'setProgress', action.payload);
     }
 
-    case SET_LOADING: {
-      return setIn(state, 'setLoadingShow', action.payload);
+    case SET_SHOW_LOADING: {
+      return setIn(state, 'setShowLoading', action.payload);
     }
 
     case SET_SYNTHESIS_ID: {
       return setIn(state, 'synthesisId', action.payload);
     }
 
-    case SET_VALIDATION: {
-      return setIn(state, 'resultVal', action.payload);
+    case SET_VALID_ROWS: {
+      return setIn(state, 'resultValid', action.payload);
     }
 
-    case SET_ERROR: {
+    case SET_ERROR_ROWS: {
       return setIn(state, 'resultError', action.payload);
     }
 

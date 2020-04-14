@@ -1,50 +1,50 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useAsyncEffect } from '../../../hooks';
-import { validateAndUploadCsv, setLoadingShow } from '../../../actions/UploadSupplier';
+import { validateAndUploadCsv, setShowLoading } from '../../../actions/UploadSupplier';
 import { Grid, Icon, Label, Segment, Header } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import PieChart from './../../../components/Chart/PieChart';
 import {
   currentErrorFile,
-  currentProgressShow,
+  currentShowProgress,
   currentResultUpload,
-  currentResultVal,
-  currentError,
+  currentResultValid,
+  currentResultError,
 } from '../../../selectors/UploadSupplier';
 
 interface SubmitProps {
   validateAndUploadCsv: any;
   onFinished: () => void;
-  currentProgressShow: any;
+  currentShowProgress: any;
   currentErrorFile: any;
-  setLoadingShow: any;
+  setShowLoading: any;
   currentResult: any;
-  currentVal: any;
-  currentError: any;
+  currentResultValid: any;
+  currentResultError: any;
 }
 
 const Submit = (props: SubmitProps) => {
   const {
     validateAndUploadCsv,
-    currentProgressShow,
-    setLoadingShow,
+    currentShowProgress,
+    setShowLoading,
     currentErrorFile,
     currentResult,
     onFinished,
-    currentVal,
-    currentError,
+    currentResultValid,
+    currentResultError,
   } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const totalRows = Number(currentVal) + Number(currentError);
-  const percentErr = Math.round((Number(currentError) / totalRows) * 100);
-  const percentVal = Math.round((Number(currentVal) / totalRows) * 100);
+  const totalRows = Number(currentResultValid) + Number(currentResultError);
+  const percentErr = Math.round((Number(currentResultError) / totalRows) * 100);
+  const percentVal = Math.round((Number(currentResultValid) / totalRows) * 100);
   const errServerUpload = currentResult === 'DATA_REPORT' ? true : false;
 
   useAsyncEffect(async () => {
     setLoading(true);
-    setLoadingShow(true);
+    setShowLoading(true);
     try {
       await validateAndUploadCsv();
       onFinished();
@@ -56,7 +56,7 @@ const Submit = (props: SubmitProps) => {
       setError(errors.join());
     }
     setLoading(false);
-    setLoadingShow(false);
+    setShowLoading(false);
   }, []);
 
   if (loading) {
@@ -75,7 +75,7 @@ const Submit = (props: SubmitProps) => {
 
   return (
     <div className={`submit-container`}>
-      {!currentProgressShow &&
+      {!currentShowProgress &&
         (!errServerUpload ? (
           <React.Fragment>
             <Icon name="exclamation circle" size="big" className={styles['check-error']} />
@@ -86,8 +86,8 @@ const Submit = (props: SubmitProps) => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Segment className={`Submit__pie-chart ${error || currentError ? '' : 'middle'}`}>
-              {error || currentError ? (
+            <Segment className={`Submit__pie-chart ${error || currentResultError ? '' : 'middle'}`}>
+              {error || currentResultError ? (
                 <Header>
                   We could not process some of your SKUs. If you would like to fix the issues please
                   <br />
@@ -133,16 +133,16 @@ const Submit = (props: SubmitProps) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  currentProgressShow: currentProgressShow(state),
+  currentShowProgress: currentShowProgress(state),
   currentErrorFile: currentErrorFile(state),
   currentResult: currentResultUpload(state),
-  currentVal: currentResultVal(state),
-  currentError: currentError(state),
+  currentResultValid: currentResultValid(state),
+  currentResultError: currentResultError(state),
 });
 
 const mapDispatchToProps = {
   validateAndUploadCsv,
-  setLoadingShow,
+  setShowLoading,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Submit);

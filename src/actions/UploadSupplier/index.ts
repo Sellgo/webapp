@@ -29,10 +29,10 @@ import {
   SET_RESULT_UPLOAD,
   SET_SYNTHESIS_ID,
   SET_ERROR_FILE,
-  SET_PROGRESS_SHOW,
-  SET_VALIDATION,
-  SET_ERROR,
-  SET_LOADING,
+  SET_SHOW_PROGRESS,
+  SET_VALID_ROWS,
+  SET_ERROR_ROWS,
+  SET_SHOW_LOADING,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -189,47 +189,47 @@ export const mapColumn = (csvColumn: string | number, targetColumn: string) => (
   targetColumn,
 });
 
-export const setSavedColumnMappings = (savedColumnMappings: any) => ({
+export const setColumnMapping = (columnMapping: any) => ({
   type: SET_COLUMN_MAPPING,
-  payload: savedColumnMappings,
+  payload: columnMapping,
 });
 
-export const setSavedResultUpload = (savedResultUpload: any) => ({
+export const setResultUpload = (resultUpload: any) => ({
   type: SET_RESULT_UPLOAD,
-  payload: savedResultUpload,
+  payload: resultUpload,
 });
 
-export const setSavedErrFile = (savedErrFile: any) => ({
+export const setErrorFile = (errorFile: any) => ({
   type: SET_ERROR_FILE,
-  payload: savedErrFile,
+  payload: errorFile,
 });
 
-export const setSavedSynthesisId = (savedSynthesisId: any) => ({
+export const setSynthesisId = (synthesisId: any) => ({
   type: SET_SYNTHESIS_ID,
-  payload: savedSynthesisId,
+  payload: synthesisId,
 });
 
-export const validRows = (savedVal: any) => ({
-  type: SET_VALIDATION,
-  payload: savedVal,
+export const setValidRows = (validRows: any) => ({
+  type: SET_VALID_ROWS,
+  payload: validRows,
 });
 
-export const setSavedErr = (savedErr: any) => ({
-  type: SET_ERROR,
-  payload: savedErr,
+export const setErrorRows = (errorRows: any) => ({
+  type: SET_ERROR_ROWS,
+  payload: errorRows,
 });
 
-export const setProgressShow = (check: boolean) => ({
-  type: SET_PROGRESS_SHOW,
+export const setShowProgress = (check: boolean) => ({
+  type: SET_SHOW_PROGRESS,
   payload: check,
 });
 
-export const setLoadingShow = (check: boolean) => ({
-  type: SET_LOADING,
+export const setShowLoading = (check: boolean) => ({
+  type: SET_SHOW_LOADING,
   payload: check,
 });
 
-export const setSaveColumnMappingSetting = (checked: boolean) => ({
+export const setColumnMappingSetting = (checked: boolean) => ({
   type: SET_COLUMN_MAPPING_SETTING,
   payload: checked,
 });
@@ -253,7 +253,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (sku !== null) columnMappings[sku] = 'sku';
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
-    dispatch(setSavedColumnMappings(columnMappings));
+    dispatch(setColumnMapping(columnMappings));
   } else {
     dispatch(removeColumnMappings());
   }
@@ -305,11 +305,11 @@ export const validateAndUploadCsv = () => async (
   );
 
   if (response.data) {
-    dispatch(setSavedResultUpload(response.data.response_type));
-    dispatch(setSavedErrFile(response.data.error_file_url));
-    dispatch(validRows(response.data.num_valid_rows));
-    dispatch(setSavedErr(response.data.num_error_rows));
-    dispatch(setSavedSynthesisId(response.data.synthesis_file_id));
+    dispatch(setResultUpload(response.data.response_type));
+    dispatch(setErrorFile(response.data.error_file_url));
+    dispatch(setValidRows(response.data.num_valid_rows));
+    dispatch(setErrorRows(response.data.num_error_rows));
+    dispatch(setSynthesisId(response.data.synthesis_file_id));
   }
   dispatch(finishUpload());
   await dispatch(fetchSupplier(supplierID));

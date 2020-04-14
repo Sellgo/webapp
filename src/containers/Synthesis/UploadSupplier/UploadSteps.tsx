@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Stepper from '../../../components/Stepper';
 import { setUploadSupplierStep } from '../../../actions/UploadSupplier';
-import { currentStepSelector, currentProgressShow } from '../../../selectors/UploadSupplier';
+import { currentStepSelector, currentShowProgress } from '../../../selectors/UploadSupplier';
 import { Icon } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 
 interface Props {
   value: number;
   onChange: (newValue: number) => void;
-  progressShow: [];
+  showProgress: [];
   isEditModal: boolean;
   finished: boolean;
 }
@@ -41,11 +41,11 @@ const steps = [
 ];
 
 export const UploadSteps = (props: Props) => {
-  const { value, isEditModal, finished, progressShow } = props;
+  const { value, isEditModal, finished, showProgress } = props;
 
   return (
     <Stepper
-      className={progressShow ? `UploadSteps__disable ${styles.stepper}` : styles.stepper}
+      className={showProgress ? `UploadSteps__disable ${styles.stepper}` : styles.stepper}
       {...props}
     >
       {({ Step }) =>
@@ -72,7 +72,7 @@ export const UploadSteps = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     value: currentStepSelector(state),
-    progressShow: currentProgressShow(state),
+    showProgress: currentShowProgress(state),
   };
 };
 

@@ -17,7 +17,7 @@ import PageHeader from '../../components/PageHeader';
 import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
 import { error } from '../../utils/notifications';
 import { currentSynthesisId, currentProgress } from '../../selectors/UploadSupplier';
-import { setProgressShow } from '../../actions/UploadSupplier';
+import { setShowProgress } from '../../actions/UploadSupplier';
 import { setProgress } from '../../actions/Suppliers';
 
 interface SynthesisProps {
@@ -28,7 +28,7 @@ interface SynthesisProps {
   openUserOnboardingModal: () => void;
   openUploadSupplierModal: (supplier?: any) => void;
   closeUploadSupplierModal: () => void;
-  setProgressShow: any;
+  setShowProgress: any;
   currentSynId: any;
   currentProgress: any;
   setProgress: any;
@@ -75,9 +75,9 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   handleClose = () => {
-    const { closeUploadSupplierModal, setProgressShow, setProgress } = this.props;
+    const { closeUploadSupplierModal, setShowProgress, setProgress } = this.props;
     this.setState({ isEditModal: false });
-    setProgressShow(false);
+    setShowProgress(false);
     setProgress(0);
     closeUploadSupplierModal();
   };
@@ -207,7 +207,7 @@ const mapDispatchToProps = {
     openUploadSupplierModal(supplier ? supplier : undefined),
   closeUploadSupplierModal,
   openUserOnboardingModal,
-  setProgressShow,
+  setShowProgress,
   setProgress,
 };
 
