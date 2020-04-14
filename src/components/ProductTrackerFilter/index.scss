@@ -172,6 +172,24 @@
           }
         }
       }
+
+      &__reviews {
+        &__list {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+
+  &__period {
+    &__list {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
     }
   }
 

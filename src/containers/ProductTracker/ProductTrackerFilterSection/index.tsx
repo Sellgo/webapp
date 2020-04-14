@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { connect } from 'react-redux';
 import { Product } from '../../../interfaces/Product';
@@ -27,9 +27,8 @@ function ProductTrackerFilterSection(props: Props) {
   console.log('rangeData: ', filteredRanges);
   const filterInitialData: any = {
     reviews: [],
-    period: [],
     removeNegative: [],
-    productSize: 'Today',
+    period: 'Today',
     avg_price: filteredRanges.avg_price,
     avg_profit: filteredRanges.avg_profit,
     avg_margin: filteredRanges.avg_margin,
@@ -39,6 +38,14 @@ function ProductTrackerFilterSection(props: Props) {
     customer_reviews: filteredRanges.customer_reviews,
   };
   const [filterState, setFilterState] = React.useState(filterInitialData);
+
+  useEffect(() => {
+    if (isAllReviews) {
+      selectAllReviews();
+    }
+    // filterProducts(filterSearch, filterState);
+  }, [filterState]);
+
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
       filterRanges: [
@@ -107,8 +114,8 @@ function ProductTrackerFilterSection(props: Props) {
         },
       ],
       reviews: {
-        label: 'Product Category',
-        dataKey: 'product-category',
+        label: 'Reviews',
+        dataKey: 'reviews',
         radio: false,
         data: [
           {
@@ -121,13 +128,28 @@ function ProductTrackerFilterSection(props: Props) {
             dataKey: '2-star',
             checked: true,
           },
+          {
+            label: '3-star',
+            dataKey: '3-star',
+            checked: true,
+          },
+          {
+            label: '4-star',
+            dataKey: '4-star',
+            checked: true,
+          },
+          {
+            label: '5-star',
+            dataKey: '5-star',
+            checked: true,
+          },
         ],
       },
     },
     period: {
       label: 'Period Reference',
-      dataKey: 'product-size-tiers',
-      checkedValue: 'Small standard-size',
+      dataKey: 'period-reference',
+      checkedValue: 'Today',
       radio: true,
       data: [
         {
@@ -158,6 +180,7 @@ function ProductTrackerFilterSection(props: Props) {
     },
   };
   console.log('filterDataState: ', filterDataState);
+  const [trackerFilterData, setTrackerFilterData] = React.useState(filterDataState);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
 
   const handleCompleteChange = (datakey: string, range: Range) => {
@@ -214,6 +237,15 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
+  const setPeriod = (value: string) => {
+    const data = _.cloneDeep(trackerFilterData);
+    data.period.checkedValue = value;
+    const filterValue = filterState;
+    filterState.period = value;
+    setTrackerFilterData(data);
+    setFilterState(filterValue);
+  };
+
   const resetSingleFilter = (datakey: string) => {
     const filterDetails = filterState;
     const data = _.map(filterRanges, filter => {
@@ -245,7 +277,7 @@ function ProductTrackerFilterSection(props: Props) {
     data.avg_daily_sales = rangeData.avg_daily_sales;
     data.avg_rank = rangeData.avg_rank;
     data.customer_reviews = rangeData.customer_reviews;
-
+    selectAllReviews();
     const filterRangeKeys = Object.keys(rangeData);
     _.each(filterRangeKeys, key => {
       const ranges = _.map(filterRanges, filter => {
@@ -313,6 +345,7 @@ function ProductTrackerFilterSection(props: Props) {
           toggleSelectAllReviews={toggleSelectAllReviews}
           isAllReviews={isAllReviews}
           toggleCheckboxFilter={toggleCheckboxFilter}
+          setPeriod={setPeriod}
         />
       </>
     </div>

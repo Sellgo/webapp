@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { Checkbox, Button, Divider } from 'semantic-ui-react';
+import { Checkbox, Button, Divider, Radio } from 'semantic-ui-react';
 import _ from 'lodash';
 import { ProductTrackerFilterInterface, ProductTrackerFilterState } from '../../interfaces/Filters';
 import FilterSliderInput from '../FilterSliderInput';
@@ -17,6 +17,7 @@ interface Props {
   initialFilterState: ProductTrackerFilterState;
   isAllReviews: boolean;
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
+  setPeriod: (value: string) => void;
 }
 
 function ProductTrackerFilter(props: Props) {
@@ -31,6 +32,7 @@ function ProductTrackerFilter(props: Props) {
     toggleSelectAllReviews,
     isAllReviews,
     toggleCheckboxFilter,
+    setPeriod,
   } = props;
 
   return (
@@ -77,13 +79,13 @@ function ProductTrackerFilter(props: Props) {
                   </div>
                 );
               })}
-              <div className="pt-filter-content__all-filter__reviews">
-                <div className="pt-filter-content__all-filter__reviews__header">
-                  <span className="pt-filter-content__all-filter__reviews__name">
+              <div className="pt-filter-content__all-filter__wrapper__reviews">
+                <div className="pt-filter-content__all-filter__wrapper__reviews__header">
+                  <span className="pt-filter-content__all-filter__wrapper__reviews__name">
                     {filterData.all.reviews.label}
                   </span>
                 </div>
-                <div className="filter-list">
+                <div className="pt-filter-content__all-filter__wrapper__reviews__list">
                   <Checkbox
                     label="all"
                     key="all-reviews"
@@ -117,6 +119,28 @@ function ProductTrackerFilter(props: Props) {
               </div>
             </div>
             <Divider />
+          </div>
+        </>
+      )}
+      {filterType === 'period-filter' && (
+        <>
+          <div className="pt-filter-content__period">
+            <div className="pt-filter-content__period__header">
+              <span className="pt-filter-content__period__name">{filterData.period.label}</span>
+            </div>
+            <div className="pt-filter-content__period__list">
+              {_.map(filterData.period.data, filterData => {
+                return (
+                  <Radio
+                    key={filterData.dataKey}
+                    className={filterData.dataKey}
+                    label={filterData.label}
+                    checked={initialFilterState.period === filterData.label}
+                    onClick={() => setPeriod(filterData.label)}
+                  />
+                );
+              })}
+            </div>
           </div>
         </>
       )}
