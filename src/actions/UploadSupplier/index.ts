@@ -23,7 +23,7 @@ import {
   UploadSteps,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_COLUMN_MAPPINGS,
+  SET_COLUMN_MAPPING,
   SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
   SET_RESULT_UPLOAD,
@@ -190,7 +190,7 @@ export const mapColumn = (csvColumn: string | number, targetColumn: string) => (
 });
 
 export const setSavedColumnMappings = (savedColumnMappings: any) => ({
-  type: SET_COLUMN_MAPPINGS,
+  type: SET_COLUMN_MAPPING,
   payload: savedColumnMappings,
 });
 

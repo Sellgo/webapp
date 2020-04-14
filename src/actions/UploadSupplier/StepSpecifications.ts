@@ -123,7 +123,6 @@ export class AddNewSupplierStep extends Step {
           }
         }
         await this.dispatch(updateSupplierName(supplierName, existingSupplier.id, other));
-        //this.dispatch(setsaveSupplierNameAndDescription(existingSupplier));
       }
       this.dispatch(fetchColumnMappings());
     } catch (error) {

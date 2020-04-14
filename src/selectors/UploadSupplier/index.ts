@@ -7,7 +7,7 @@ export const currentStepSelector = (state: object): number =>
   get(state, 'uploadSupplier.currentStep', 0);
 
 export const currentErrorFile = (state: object): [] =>
-  get(state, 'uploadSupplier.resultErrFile', []);
+  get(state, 'uploadSupplier.resultErrorFile', []);
 
 export const currentSpeed = (state: object): [] => get(state, 'uploadSupplier.setSpeed', []);
 
@@ -31,7 +31,7 @@ export const currentProgress = (state: object): [] => get(state, 'uploadSupplier
 
 export const currentSupplier = (state: object): [] => get(state, 'modals.uploadSupplier.meta', []);
 
-export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultErr', []);
+export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultError', []);
 
 export const csvSelector = (state: object): string[][] => get(state, 'uploadSupplier.csv', null);
 

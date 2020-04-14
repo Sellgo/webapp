@@ -500,7 +500,7 @@ export const saveSupplierName = (name: string, other: any) => (dispatch: any) =>
     return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
       .then(json => {
         dispatch(addSupplier(json.data));
-        dispatch(setsaveSupplierName(json.data));
+        dispatch(setSupplierName(json.data));
         resolve(json.data);
       })
       .catch(err => {
@@ -528,7 +528,7 @@ export const updateSupplierName = (name: string, supplierID: string, other: any)
     )
       .then(json => {
         dispatch(updateSupplier(json.data));
-        dispatch(setsaveSupplierName(json.data));
+        dispatch(setSupplierName(json.data));
         resolve(json.data);
       })
       .catch(err => {
@@ -569,7 +569,7 @@ export const setTimeEfficiency = (data: {}) => ({
   payload: data,
 });
 
-export const setsaveSupplierName = (data: {}) => ({
+export const setSupplierName = (data: {}) => ({
   type: SET_SUPPLIER_NAME,
   payload: data,
 });

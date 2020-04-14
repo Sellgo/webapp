@@ -7,7 +7,7 @@ import {
   REMOVE_COLUMN_MAPPINGS,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_COLUMN_MAPPINGS,
+  SET_COLUMN_MAPPING,
   SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
   SET_RESULT_UPLOAD,
@@ -39,9 +39,9 @@ interface UploadSupplierState {
   readonly completed: boolean;
   readonly isFirstRowHeader: boolean;
   readonly resultUpload: string | null;
-  readonly resultErrFile: string | null;
+  readonly resultErrorFile: string | null;
   readonly resultVal: string | null;
-  readonly resultErr: string | null;
+  readonly resultError: string | null;
   readonly synthesisId: string | null;
 }
 
@@ -59,11 +59,11 @@ const initialState: UploadSupplierState = {
   columnMappings: [],
   rawCsv: null,
   csv: null,
-  resultErrFile: null,
+  resultErrorFile: null,
   resultUpload: null,
   synthesisId: null,
   resultVal: null,
-  resultErr: null,
+  resultError: null,
 };
 
 export default (
@@ -106,7 +106,7 @@ export default (
       return setIn(state, 'skipColumnMappingCheck', action.payload);
     }
 
-    case SET_COLUMN_MAPPINGS: {
+    case SET_COLUMN_MAPPING: {
       return setIn(state, 'columnMappings', action.payload);
     }
 
@@ -136,7 +136,7 @@ export default (
     }
 
     case SET_ERROR_FILE: {
-      return setIn(state, 'resultErrFile', action.payload);
+      return setIn(state, 'resultErrorFile', action.payload);
     }
 
     case SET_RESULT_UPLOAD: {
@@ -160,7 +160,7 @@ export default (
     }
 
     case SET_ERROR: {
-      return setIn(state, 'resultErr', action.payload);
+      return setIn(state, 'resultError', action.payload);
     }
 
     default:
