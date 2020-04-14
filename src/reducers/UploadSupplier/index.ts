@@ -7,7 +7,7 @@ import {
   REMOVE_COLUMN_MAPPINGS,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_COLUMN_MAPPING,
+  SET_COLUMN_MAPPINGS,
   SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
   SET_RESULT_UPLOAD,
@@ -99,14 +99,14 @@ export default (
     }
 
     case SET_COLUMN_MAPPING_SETTING: {
-      return setIn(state, 'saveColumnMappingSetting', action.payload);
+      return setIn(state, 'columnMappingSetting', action.payload);
     }
 
     case SET_SKIP_COLUMN_MAPPING_CHECK: {
       return setIn(state, 'skipColumnMappingCheck', action.payload);
     }
 
-    case SET_COLUMN_MAPPING: {
+    case SET_COLUMN_MAPPINGS: {
       return setIn(state, 'columnMappings', action.payload);
     }
 

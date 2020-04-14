@@ -13,7 +13,7 @@ import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
 import { saveSupplierName, updateSupplierName, updateSearch, saveSearch } from '../Suppliers';
-import { fetchColumnMappings, setSavedColumnMappings, parseCsv } from '.';
+import { fetchColumnMappings, setColumnMappings, parseCsv } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
 import get from 'lodash/get';
@@ -176,7 +176,7 @@ export class SelectFileStep extends Step {
     if (hasHeaders) {
       const mappings = this.guessColumnMappings(csv);
       if (mappings) {
-        this.dispatch(setSavedColumnMappings(mappings));
+        this.dispatch(setColumnMappings(mappings));
       }
     }
 

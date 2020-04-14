@@ -6,7 +6,7 @@ import Axios from 'axios';
 import reduce from 'lodash/reduce';
 import {
   isFirstRowHeaderSelector,
-  saveColumnMappingSettingSelector,
+  columnMappingSettingSelector,
   currentStepSelector,
   columnMappingsSelector,
   csvSelector,
@@ -23,7 +23,7 @@ import {
   UploadSteps,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_COLUMN_MAPPING,
+  SET_COLUMN_MAPPINGS,
   SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
   SET_RESULT_UPLOAD,
@@ -189,34 +189,34 @@ export const mapColumn = (csvColumn: string | number, targetColumn: string) => (
   targetColumn,
 });
 
-export const setSavedColumnMappings = (savedColumnMappings: any) => ({
-  type: SET_COLUMN_MAPPING,
-  payload: savedColumnMappings,
+export const setColumnMappings = (columnMapping: any) => ({
+  type: SET_COLUMN_MAPPINGS,
+  payload: columnMapping,
 });
 
-export const setSavedResultUpload = (savedResultUpload: any) => ({
+export const setResultUpload = (resultUpload: any) => ({
   type: SET_RESULT_UPLOAD,
-  payload: savedResultUpload,
+  payload: resultUpload,
 });
 
-export const setSavedErrFile = (savedErrFile: any) => ({
+export const setErrorFile = (errorFile: any) => ({
   type: SET_ERROR_FILE,
-  payload: savedErrFile,
+  payload: errorFile,
 });
 
-export const setSavedSynthesisId = (savedSynthesisId: any) => ({
+export const setSynthesisId = (synthesisId: any) => ({
   type: SET_SYNTHESIS_ID,
-  payload: savedSynthesisId,
+  payload: synthesisId,
 });
 
-export const validRows = (savedVal: any) => ({
+export const validRows = (valid: any) => ({
   type: SET_VALID_ROWS,
-  payload: savedVal,
+  payload: valid,
 });
 
-export const setSavedErr = (savedErr: any) => ({
+export const setError = (error: any) => ({
   type: SET_ERROR_ROWS,
-  payload: savedErr,
+  payload: error,
 });
 
 export const setProgressShow = (check: boolean) => ({
@@ -229,7 +229,7 @@ export const setLoadingShow = (check: boolean) => ({
   payload: check,
 });
 
-export const setSaveColumnMappingSetting = (checked: boolean) => ({
+export const setColumnMappingSetting = (checked: boolean) => ({
   type: SET_COLUMN_MAPPING_SETTING,
   payload: checked,
 });
@@ -253,7 +253,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (sku !== null) columnMappings[sku] = 'sku';
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
-    dispatch(setSavedColumnMappings(columnMappings));
+    dispatch(setColumnMappings(columnMappings));
   } else {
     dispatch(removeColumnMappings());
   }
@@ -266,7 +266,7 @@ export const validateAndUploadCsv = () => async (
   const sellerID = sellerIDSelector();
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
-  const saveColumnMappingSetting = saveColumnMappingSettingSelector(getState());
+  const columnMappingSetting = columnMappingSettingSelector(getState());
   const csv = parseArrayToCsvFile(csvSelector(getState()), csvFileSelector(getState()));
 
   const reversedColumnMappings: any = reduce(
@@ -289,7 +289,7 @@ export const validateAndUploadCsv = () => async (
   bodyFormData.set('file', csv);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
-  if (saveColumnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
+  if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'title'))
     bodyFormData.set('title', reversedColumnMappings.title);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'sku'))
@@ -305,11 +305,11 @@ export const validateAndUploadCsv = () => async (
   );
 
   if (response.data) {
-    dispatch(setSavedResultUpload(response.data.response_type));
-    dispatch(setSavedErrFile(response.data.error_file_url));
+    dispatch(setResultUpload(response.data.response_type));
+    dispatch(setErrorFile(response.data.error_file_url));
     dispatch(validRows(response.data.num_valid_rows));
-    dispatch(setSavedErr(response.data.num_error_rows));
-    dispatch(setSavedSynthesisId(response.data.synthesis_file_id));
+    dispatch(setError(response.data.num_error_rows));
+    dispatch(setSynthesisId(response.data.synthesis_file_id));
   }
   dispatch(finishUpload());
   await dispatch(fetchSupplier(supplierID));
