@@ -19,6 +19,7 @@ const renderPieChartOptions = (options: PieChartOptions) => {
   const { title, name, data } = options;
   return {
     chart: {
+      renderTo: 'container',
       type: 'pie',
     },
     title: {
@@ -30,8 +31,10 @@ const renderPieChartOptions = (options: PieChartOptions) => {
     },
     plotOptions: {
       pie: {
+        center: [null, null],
+        //innerSize: 100,
         allowPointSelect: true,
-        size: '75%',
+        size: '85%',
         cursor: 'pointer',
         dataLabels: {
           enabled: true,

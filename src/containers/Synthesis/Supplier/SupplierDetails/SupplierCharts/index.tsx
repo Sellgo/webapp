@@ -66,8 +66,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       {
         name: 'Profitable SKUs',
         y: rate,
-        sliced: true,
-        selected: true,
+        sliced: false,
+        selected: false,
         //RWP: swap the color begin
         //color: '#FBC4C4',
         color: '#CAE1F3',
@@ -77,8 +77,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         name: 'Hit Non-Profitable SKUs',
         y: p2l_ratio,
         //RWP: swap the color begin
-        selected: true,
-        sliced: true,
+        selected: false,
+        sliced: false,
         //color: '#CAE1F3',
         color: '#FBC4C4',
         //RWP: swap the color end
@@ -99,11 +99,9 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
   renderRevenue = (props: any) => {
     const {
-      asin,
-      upc,
-      price,
-      amazon_category_name,
+      //RP200414: adding ROI - begin
       roi,
+      //RP200414: adding ROI - end
       profit,
       product_cost,
       fees,
@@ -114,11 +112,9 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
       { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
+      //RP200414: adding ROI - begin
       { name: 'ROI(%)', data: roi },
-      { name: 'Category', data: amazon_category_name },
-      { name: 'Price($)', data: price },
-      { name: 'ASIN', data: asin },
-      { name: 'UPC', data: upc },
+      //RP200414: adding ROI - end
     ];
     const chartOptions = {
       title: 'Revenue Breakdown Comparison',
@@ -212,39 +208,31 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       case 'chart3': {
         let product_cost = [];
         let fees = [];
+        //RP200414: adding ROI - begin
         let roi = [];
-        let amazon_category_name = [];
-        let price = [];
-        let asin = [];
-        let upc = [];
+        //RP200414: adding ROI - end
 
         product_cost = showProducts.map(e => parseFloat(e.product_cost));
         fees = showProducts.map(e => parseFloat(e.fees));
+        //RP200414: adding ROI - begin
         roi = showProducts.map(e => parseFloat(e.roi));
-        amazon_category_name = showProducts.map(e => parseFloat(e.amazon_category_name));
-        price = showProducts.map(e => parseFloat(e.price));
-        asin = showProducts.map(e => parseFloat(e.asin));
-        upc = showProducts.map(e => parseFloat(e.upc));
+        //RP200414: adding ROI - end
 
         return productSKUs.length &&
           profit.length &&
           product_cost.length &&
           fees.length &&
-          roi.length &&
-          amazon_category_name.length &&
-          price.length &&
-          asin.length &&
-          upc.length ? (
+          //RP200414: adding ROI - begin
+          roi.length ? (
+          //RP200414: adding ROI - end
           <this.renderRevenue
             productSKUs={productSKUs}
             product_cost={product_cost}
             fees={fees}
             profit={profit}
+            //RP200414: adding ROI - begin
             roi={roi}
-            price={price}
-            amazon_category_name={amazon_category_name}
-            asin={asin}
-            upc={upc}
+            //RP200414: adding ROI - end
             onBubbleDetails={(id: number) => {
               openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
             }}
@@ -320,12 +308,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
                 checked={this.state.showChart === 'chart3'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
               />
-              {/*  <Form.Radio
-                label="Point of First Profit (POFP)"
-                value="chart4"
-                checked={this.state.showChart === 'chart4'}
-                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-              /> */}
             </Form.Group>
           </Form>
         </div>
