@@ -129,7 +129,7 @@ export const GenericTable = (props: GenericTableProps) => {
         <div className="table-menu-header">
           {showProductFinderSearch ? (
             <ProductSearch
-              searchProfitFinderProduct={searchProfitFinderProduct}
+              searchFilteredProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
               setCurrentPage={setCurrentPage}
             />

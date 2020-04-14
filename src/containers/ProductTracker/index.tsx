@@ -6,12 +6,20 @@ import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
-import { setMenuItem, fetchAllSupplierProductTrackerDetails } from '../../actions/ProductTracker';
+import {
+  setMenuItem,
+  fetchAllSupplierProductTrackerDetails,
+  setProductTrackerPageNumber,
+  setTrackerSinglePageItemsCount,
+  searchTrackedProducts,
+} from '../../actions/ProductTracker';
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 import { getSellerQuota } from '../../actions/Settings';
+import ProductSearch from '../Synthesis/Supplier/ProductsTable/productSearch';
 
 interface ProductTrackerProps {
   fetchAllTrackedProductDetails: (periodValue: any) => void;
+  setSinglePageItemsCount: (itemsCount: any) => void;
   getSellerQuota: any;
   singlePageItemsCount: any;
   productTrackerPageNo: any;
@@ -19,6 +27,9 @@ interface ProductTrackerProps {
   filterRanges: any;
   activeGroupId: any;
   trackGroups: any;
+  searchProducts: (value: string, filterData: any) => void;
+  setPageNumber: (itemsCount: any) => void;
+  filterData: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -30,8 +41,10 @@ interface ProductTrackerProps {
     type?: string
   ) => void;
 }
+
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
+    searchValue: '',
     periodValue: 14,
     productTrackID: null,
   };
@@ -105,8 +118,23 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     );
   };
 
+  searchTrackedProduct = (value: string) => {
+    const {
+      searchProducts,
+      setSinglePageItemsCount,
+      singlePageItemsCount,
+      filterData,
+    } = this.props;
+    this.setState({
+      searchValue: value,
+    });
+    searchProducts(value, filterData);
+    setSinglePageItemsCount(singlePageItemsCount);
+  };
+
   render() {
-    const { productTrackerPageNo, trackGroups, activeGroupId } = this.props;
+    const { productTrackerPageNo, trackGroups, activeGroupId, setPageNumber } = this.props;
+    const { searchValue } = this.state;
     const currentGroupName = activeGroupId
       ? activeGroupId !== -1
         ? trackGroups
@@ -129,8 +157,12 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
         <Segment basic={true} className="tracker-setting">
           <Grid className="product-tracker">
             <Grid.Row>
-              <Grid.Column className="right-column" floated="right">
-                <div className="search-product" />
+              <Grid.Column className="right-column">
+                <ProductSearch
+                  searchFilteredProduct={this.searchTrackedProduct}
+                  searchFilterValue={searchValue}
+                  setCurrentPage={setPageNumber}
+                />
                 <ProductTrackerTable
                   handleMenu={(id: any) => this.handleMenu(id)}
                   periodValue={this.state.periodValue}
@@ -154,10 +186,14 @@ const mapStateToProps = (state: any) => {
     filterRanges: get(state, 'productTracker.filterRanges'),
     activeGroupId: get(state, 'productTracker.menuItem'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
+    filterData: get(state, 'productTracker.filterData'),
   };
 };
 
 const mapDispatchToProps = {
+  setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
+  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
+  searchProducts: (value: string, productData: any) => searchTrackedProducts(value, productData),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setMenuItem: (item: any) => setMenuItem(item),
