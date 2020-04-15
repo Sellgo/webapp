@@ -102,9 +102,4 @@ export const marketPlace = [
     key: 'ATVPDKIKX0DER',
     text: 'Amazon.com',
   },
-  {
-    value: '2',
-    key: '0000000',
-    text: 'Sample',
-  },
 ];
