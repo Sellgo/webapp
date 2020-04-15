@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
-import { findNewMinMaxRange } from '../../../constants/Tracker';
+import { findNewMinMaxRange, filterProductsByGroupId } from '../../../constants/Tracker';
 import { filterTrackedProducts } from '../../../actions/ProductTracker';
 
 interface Props {
@@ -20,17 +20,14 @@ interface Props {
 }
 
 function ProductTrackerFilterSection(props: Props) {
-  const { filteredProducts, filterProducts, filterSearch, trackerDetails, activeGroupId } = props;
+  const { filterProducts, filterSearch, trackerDetails, activeGroupId } = props;
 
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(true);
-
-  console.log('activeGroupId: ', activeGroupId);
-  console.log('trackerDetails: ', trackerDetails);
-  const filteredRanges = findNewMinMaxRange(trackerDetails.results);
+  const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
+  const originalGroupRange = findNewMinMaxRange(groupProducts);
+  const filteredRanges = findNewMinMaxRange(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
-
-  console.log('filteredProducts: ', filteredProducts);
   const filterInitialData: any = {
     reviews: [],
     removeNegative: [],
@@ -49,8 +46,8 @@ function ProductTrackerFilterSection(props: Props) {
     if (isAllReviews) {
       selectAllReviews();
     }
-    filterProducts(filterSearch, filterState, activeGroupId);
-  }, [filterState, activeGroupId]);
+    // filterProducts(filterSearch, filterState, activeGroupId);
+  }, [filterState]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
@@ -135,27 +132,27 @@ function ProductTrackerFilterSection(props: Props) {
         data: [
           {
             label: '1-star',
-            dataKey: '1-star',
+            dataKey: '1',
             checked: true,
           },
           {
             label: '2-star',
-            dataKey: '2-star',
+            dataKey: '2',
             checked: true,
           },
           {
             label: '3-star',
-            dataKey: '3-star',
+            dataKey: '3',
             checked: true,
           },
           {
             label: '4-star',
-            dataKey: '4-star',
+            dataKey: '4',
             checked: true,
           },
           {
             label: '5-star',
-            dataKey: '5-star',
+            dataKey: '5',
             checked: true,
           },
         ],
@@ -225,8 +222,8 @@ function ProductTrackerFilterSection(props: Props) {
     setAllReviews(true);
     const data = filterState;
     _.map(filterDataState.all.reviews.data, reviewsData => {
-      if (data.reviews.indexOf(reviewsData.label) === -1) {
-        data.reviews.push(reviewsData.label);
+      if (data.reviews.indexOf(reviewsData.dataKey) === -1) {
+        data.reviews.push(reviewsData.dataKey);
       }
       return reviewsData;
     });
@@ -234,19 +231,20 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
-  const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
+  const toggleCheckboxFilter = (filterDataKey: string) => {
     const data = _.cloneDeep(filterState);
+    const reviewsData = _.cloneDeep(filterDataState.all.reviews.data);
     setAllReviews(false);
-    _.map(filterDataState.all.reviews.data, reviewsData => {
+    _.map(reviewsData, reviewsData => {
       if (filterDataKey === reviewsData.dataKey) {
         reviewsData.checked = data.reviews.indexOf(filterDataKey) !== -1;
       }
       return reviewsData;
     });
-    if (data.reviews.indexOf(label) !== -1) {
-      data.reviews.splice(data.reviews.indexOf(label), 1);
+    if (data.reviews.indexOf(filterDataKey) !== -1) {
+      data.reviews.splice(data.reviews.indexOf(filterDataKey), 1);
     } else {
-      data.reviews.push(label);
+      data.reviews.push(filterDataKey);
     }
     setFilterState(data);
   };
@@ -306,15 +304,15 @@ function ProductTrackerFilterSection(props: Props) {
     data.period = [];
     data.removeNegative = [];
     data.productSize = 'Today';
-    data.avg_price = rangeData.avg_price;
-    data.avg_profit = rangeData.avg_profit;
-    data.avg_margin = rangeData.avg_margin;
-    data.avg_roi = rangeData.avg_roi;
-    data.avg_daily_sales = rangeData.avg_daily_sales;
-    data.avg_rank = rangeData.avg_rank;
-    data.customer_reviews = rangeData.customer_reviews;
+    data.avg_price = originalGroupRange.avg_price;
+    data.avg_profit = originalGroupRange.avg_profit;
+    data.avg_margin = originalGroupRange.avg_margin;
+    data.avg_roi = originalGroupRange.avg_roi;
+    data.avg_daily_sales = originalGroupRange.avg_daily_sales;
+    data.avg_rank = originalGroupRange.avg_rank;
+    data.customer_reviews = originalGroupRange.customer_reviews;
     selectAllReviews();
-    const filterRangeKeys = Object.keys(rangeData);
+    const filterRangeKeys = Object.keys(originalGroupRange);
     _.each(filterRangeKeys, key => {
       const ranges = _.map(filterRanges, filter => {
         if (filter.dataKey === key) {

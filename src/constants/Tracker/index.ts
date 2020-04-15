@@ -271,16 +271,19 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
 };
 
 export const findFilteredProducts = (products: any, filterData: any) => {
-  console.log('findFilteredProducts', products, filterData);
   const updatedFilterProducts = _.filter(products, product => {
+    // console.log('filterData: ', filterData)
     return filterData !== undefined
-      ? newFilterKeys.every(
-          (dataKey: any) =>
-            Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-            Number(product[dataKey]) <= Number(filterData[dataKey].max)
-        )
+      ? (filterData.reviews.length === 5 ||
+          filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+          newFilterKeys.every(
+            (dataKey: any) =>
+              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max)
+          )
       : products;
   });
+  console.log('updatedFilterProducts: ', updatedFilterProducts.length);
   return updatedFilterProducts;
 };
 

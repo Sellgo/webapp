@@ -16,7 +16,7 @@ interface Props {
   handleCompleteChange: (dataKey: string, range: Range) => void;
   initialFilterState: ProductTrackerFilterState;
   isAllReviews: boolean;
-  toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
+  toggleCheckboxFilter: (filterDataKey: string) => void;
   setPeriod: (value: string) => void;
   toggleNegative: (datakey: string) => void;
 }
@@ -103,9 +103,9 @@ function ProductTrackerFilter(props: Props) {
                         label={filterData.label}
                         key={dataKey}
                         onClick={() => {
-                          toggleCheckboxFilter(filterData.dataKey, filterData.label);
+                          toggleCheckboxFilter(filterData.dataKey);
                         }}
-                        checked={initialFilterState.reviews.indexOf(filterData.label) !== -1}
+                        checked={initialFilterState.reviews.indexOf(filterData.dataKey) !== -1}
                       />
                     );
                   })}
