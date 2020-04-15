@@ -27,7 +27,7 @@ interface ProductTrackerProps {
   filterRanges: any;
   activeGroupId: any;
   trackGroups: any;
-  searchProducts: (value: string, filterData: any) => void;
+  searchProducts: (value: string, filterData: any, groupId: any) => void;
   setPageNumber: (itemsCount: any) => void;
   filterData: any;
   updateProductTrackingStatus: (
@@ -124,11 +124,12 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       setSinglePageItemsCount,
       singlePageItemsCount,
       filterData,
+      activeGroupId,
     } = this.props;
     this.setState({
       searchValue: value,
     });
-    searchProducts(value, filterData);
+    searchProducts(value, filterData, activeGroupId);
     setSinglePageItemsCount(singlePageItemsCount);
   };
 
@@ -193,7 +194,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
   setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
-  searchProducts: (value: string, productData: any) => searchTrackedProducts(value, productData),
+  searchProducts: (value: string, productData: any, groupId: any) =>
+    searchTrackedProducts(value, productData, groupId),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setMenuItem: (item: any) => setMenuItem(item),

@@ -169,19 +169,21 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
     });
 };
 
-export const filterTrackedProducts = (value: string, filterData: any) => ({
+export const filterTrackedProducts = (value: string, filterData: any, groupId: any) => ({
   type: FILTER_TRACKED_PRODUCTS,
   payload: {
     value: value,
     filterData: filterData,
+    groupId: groupId,
   },
 });
 
-export const searchTrackedProducts = (value: string, filterData: any) => ({
+export const searchTrackedProducts = (value: string, filterData: any, groupId: any) => ({
   type: SEARCH_TRACKED_PRODUCTS,
   payload: {
     value: value,
     filterData: filterData,
+    groupId: groupId,
   },
 });
 

@@ -13,23 +13,24 @@ import { filterTrackedProducts } from '../../../actions/ProductTracker';
 
 interface Props {
   filteredProducts: Product[];
-  filterProducts: (value: string, filterData: any) => void;
+  filterProducts: (value: string, filterData: any, groupId: any) => void;
   filterSearch: string;
   trackerDetails: any;
+  activeGroupId: any;
 }
 
 function ProductTrackerFilterSection(props: Props) {
-  const { filteredProducts, filterProducts, filterSearch, trackerDetails } = props;
+  const { filteredProducts, filterProducts, filterSearch, trackerDetails, activeGroupId } = props;
 
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(true);
 
+  console.log('activeGroupId: ', activeGroupId);
   console.log('trackerDetails: ', trackerDetails);
   const filteredRanges = findNewMinMaxRange(trackerDetails.results);
   const rangeData: any = _.cloneDeep(filteredRanges);
 
   console.log('filteredProducts: ', filteredProducts);
-  console.log('rangeData: ', filteredRanges);
   const filterInitialData: any = {
     reviews: [],
     removeNegative: [],
@@ -48,8 +49,8 @@ function ProductTrackerFilterSection(props: Props) {
     if (isAllReviews) {
       selectAllReviews();
     }
-    filterProducts(filterSearch, filterState);
-  }, [filterState]);
+    filterProducts(filterSearch, filterState, activeGroupId);
+  }, [filterState, activeGroupId]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
@@ -295,7 +296,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
-    filterProducts(filterSearch, filterState);
+    filterProducts(filterSearch, filterState, activeGroupId);
     console.log('Apply Filter: ', filterState);
   };
 
@@ -389,12 +390,14 @@ function ProductTrackerFilterSection(props: Props) {
 }
 
 const mapStateToProps = (state: {}) => ({
+  activeGroupId: get(state, 'productTracker.menuItem'),
   filteredProducts: get(state, 'productTracker.filteredProducts'),
   filterSearch: get(state, 'productTracker.filterSearch'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
 });
 
 const mapDispatchToProps = {
-  filterProducts: (value: string, filterData: any) => filterTrackedProducts(value, filterData),
+  filterProducts: (value: string, filterData: any, groupId: any) =>
+    filterTrackedProducts(value, filterData, groupId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);

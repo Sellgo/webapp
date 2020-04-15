@@ -154,18 +154,27 @@ export default (state = initialState, action: AnyAction) => {
       );
     }
     case FILTER_TRACKED_PRODUCTS: {
-      const { value, filterData } = action.payload;
+      const { value, filterData, groupId } = action.payload;
+      console.log('filterData: ', filterData, groupId);
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterData', data);
-      const filteredProducts = findFilteredProducts(state.trackerDetails.results, data);
+      const filteredProductsByGroupId = filterProductsByGroupId(
+        state.trackerDetails.results,
+        groupId
+      );
+      const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
       const searchProducts = searchFilteredProduct(filteredProducts, value);
       return setIn(newState, 'filteredProducts', searchProducts);
     }
     case SEARCH_TRACKED_PRODUCTS: {
-      const { value, filterData } = action.payload;
+      const { value, filterData, groupId } = action.payload;
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterSearch', value);
-      const filteredProducts = findFilteredProducts(state.trackerDetails.results, data);
+      const filteredProductsByGroupId = filterProductsByGroupId(
+        state.trackerDetails.results,
+        groupId
+      );
+      const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
       const searchProducts = searchFilteredProduct(filteredProducts, value);
       return setIn(newState, 'filteredProducts', searchProducts);
     }

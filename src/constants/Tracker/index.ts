@@ -271,12 +271,15 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
 };
 
 export const findFilteredProducts = (products: any, filterData: any) => {
+  console.log('findFilteredProducts', products, filterData);
   const updatedFilterProducts = _.filter(products, product => {
-    return newFilterKeys.every(
-      (dataKey: any) =>
-        Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-        Number(product[dataKey]) <= Number(filterData[dataKey].max)
-    );
+    return filterData !== undefined
+      ? newFilterKeys.every(
+          (dataKey: any) =>
+            Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+            Number(product[dataKey]) <= Number(filterData[dataKey].max)
+        )
+      : products;
   });
   return updatedFilterProducts;
 };
