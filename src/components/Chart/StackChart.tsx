@@ -13,10 +13,12 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     chart: {
       type: 'column',
       zoomType: 'x',
+      //RP200414: adding chart UI adjustment - begin
       animation: {
         enabled: true,
         duration: 1000,
       },
+      //RP200414: adding chart UI adjustment - end
     },
 
     title: {
@@ -34,13 +36,14 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       // gridLineWidth: 0,
       // minorGridLineWidth: 0,
       title: {
-        text: 'Sub-revenue($)',
+        text: 'Sub-Revenue($)',
       },
       stackLabels: {
+        enabled: true,
+        alignValue: 'center',
         style: {
           color: 'black',
         },
-        enabled: true,
         formatter: function(this: any): string {
           return `${
             data.find(function(d: any) {
@@ -51,15 +54,45 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       },
     },
     tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: '{series.name}: {point.y}',
+      //RP200414: adding tooltip UI adjustment - begin
+      backgroundColor: '#ffffff',
+      animation: true,
+      borderWidth: 0.1,
+      borderRadius: 3,
+      distance: 75,
+      shadow: true,
+      crosshairs: true,
+      followPointer: true,
+      followTouchMove: true,
+      //RP200414: adding tooltip UI adjustment - end
+
+      outside: true,
+      style: {
+        padding: 0,
+      },
+
+      //RP200414: adding new tooltip structure - begin
+      headerFormat: '<large>{point.x} </large><table>',
+      pointFormat:
+        '<tr><td style="">{series.name}</td>' +
+        '<td style="text-align: right"><b>{point.y} USD</b></td></tr>' +
+        '<tr><td style="">ROI:</td>' +
+        '<td style="text-align: right"><b>{data[3].data[this.point.x]} %</td></tr>',
+      footerFormat: '</table>',
+      valueDecimals: '2',
+      //shared: true,
+      useHTML: true,
+      //RP200414: adding new tooltip structure - begin
     },
+
     legend: {
       align: 'left',
     },
     plotOptions: {
       column: {
         stacking: 'normal',
+
+        //RP200414: adding stackChart UI adjustment - begin
         groupPadding: 0.05,
         pointPadding: 0.01,
         borderWidth: 0.1,
@@ -67,6 +100,8 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
         gapSize: 3,
         edgeWidth: 1,
         shadow: false,
+        //RP200414: adding stackChart UI adjustment - begin
+
         dataLabels: {
           enabled: true,
           borderRadius: 2,
@@ -75,7 +110,6 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       series: {
         cursor: 'pointer',
         stacking: 'normal',
-        //pointWidth: 20,
         events: {
           click: (e: any) => {
             onBubbleDetails(e.point.index);
@@ -84,9 +118,13 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       },
     },
     series: data
-      .filter(function(d: any) {
-        return d.name !== 'ROI(%)';
+
+      //RP200414: adding stackChart ROI render filter, need to optimize - begin
+      .filter((e: any) => {
+        return e.name !== 'ROI(%)';
       })
+      //RP200414: adding stackChart ROI render filter, need to optimize - end
+
       .map((e: any) => {
         return { ...e, ...{ type: 'column' } };
       }),

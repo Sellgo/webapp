@@ -65,14 +65,20 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       {
         name: 'Profitable SKUs',
         y: rate,
-        sliced: true,
-        selected: true,
-        color: '#FBC4C4',
+        sliced: false,
+        selected: false,
+        //RWP: swap the color begin
+        color: '#CAE1F3',
+        //RWP: swap the color end
       },
       {
         name: 'Hit Non-Profitable SKUs',
         y: p2l_ratio,
-        color: '#CAE1F3',
+        //RWP: swap the color begin
+        selected: false,
+        sliced: false,
+        color: '#FBC4C4',
+        //RWP: swap the color end
       },
       {
         name: 'Miss',
@@ -89,12 +95,24 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   renderRevenue = (props: any) => {
-    const { profit, product_cost, fees, roi, productSKUs, onBubbleDetails } = props;
+    const {
+      //RP200414: adding ROI - begin
+      roi,
+      //RP200414: adding ROI - end
+      profit,
+      product_cost,
+      fees,
+      productSKUs,
+      onBubbleDetails,
+    } = props;
     const data = [
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
       { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
-      { color: '#F3E9CA', name: 'ROI(%)', data: roi },
+
+      //RP200414: adding ROI - begin
+      { name: 'ROI(%)', data: roi },
+      //RP200414: adding ROI - end
     ];
     const chartOptions = {
       title: 'Revenue Breakdown Comparison',
@@ -186,7 +204,17 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       case 'chart3': {
         let product_cost = [];
         let fees = [];
+
+        //RP200414: adding ROI - begin
         let roi = [];
+        //RP200414: adding ROI - end
+
+        product_cost = showProducts.map(e => parseFloat(e.product_cost));
+        fees = showProducts.map(e => parseFloat(e.fees));
+        //RP200414: adding ROI - begin
+        roi = showProducts.map(e => parseFloat(e.roi));
+        //RP200414: adding ROI - end
+
         product_cost = showProducts.map(e => parseFloat(e.product_cost));
         fees = showProducts.map(e => parseFloat(e.fees));
         roi = showProducts.map(e => parseFloat(e.roi));
@@ -195,13 +223,19 @@ class SupplierCharts extends Component<SupplierChartsProps> {
           profit.length &&
           product_cost.length &&
           fees.length &&
+          //RP200414: adding ROI - begin
           roi.length ? (
+          //RP200414: adding ROI - end
+
           <this.renderRevenue
             productSKUs={productSKUs}
             product_cost={product_cost}
             fees={fees}
             profit={profit}
+            //RP200414: adding ROI - begin
             roi={roi}
+            //RP200414: adding ROI - end
+
             onBubbleDetails={(id: number) => {
               openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
             }}
@@ -277,12 +311,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
                 checked={this.state.showChart === 'chart3'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
               />
-              <Form.Radio
+              {/* <Form.Radio
                 label="Point of First Profit (POFP)"
                 value="chart4"
                 checked={this.state.showChart === 'chart4'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-              />
+              /> */}
             </Form.Group>
           </Form>
         </div>
