@@ -89,11 +89,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   renderRevenue = (props: any) => {
-    const { profit, product_cost, fees, productSKUs, onBubbleDetails } = props;
+    const { profit, product_cost, fees, roi, productSKUs, onBubbleDetails } = props;
     const data = [
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
       { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
+      { color: '#F3E9CA', name: 'ROI(%)', data: roi },
     ];
     const chartOptions = {
       title: 'Revenue Breakdown Comparison',
@@ -132,9 +133,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       filteredProducts,
     } = this.props;
 
-    const sortProducts = [...filteredProducts].sort(
-      (a, b) => parseFloat(b.profit) - parseFloat(a.profit)
-    );
+    const sortProducts = filteredProducts;
     const showProducts = sortProducts.slice(0, singlePageItemsCount);
     let productSKUs = [];
     let profit = [];
@@ -187,15 +186,22 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       case 'chart3': {
         let product_cost = [];
         let fees = [];
+        let roi = [];
         product_cost = showProducts.map(e => parseFloat(e.product_cost));
         fees = showProducts.map(e => parseFloat(e.fees));
+        roi = showProducts.map(e => parseFloat(e.roi));
 
-        return productSKUs.length && profit.length && product_cost.length && fees.length ? (
+        return productSKUs.length &&
+          profit.length &&
+          product_cost.length &&
+          fees.length &&
+          roi.length ? (
           <this.renderRevenue
             productSKUs={productSKUs}
             product_cost={product_cost}
             fees={fees}
             profit={profit}
+            roi={roi}
             onBubbleDetails={(id: number) => {
               openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
             }}

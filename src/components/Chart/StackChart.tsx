@@ -10,7 +10,15 @@ export interface StackChartOptions {
 const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
   const { title, data, productSKUs } = options;
   return {
-    chart: { type: 'column', zoomType: 'x' },
+    chart: {
+      type: 'column',
+      zoomType: 'x',
+      animation: {
+        enabled: true,
+        duration: 1000,
+      },
+    },
+
     title: {
       text: title,
       margin: 50,
@@ -26,14 +34,19 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       // gridLineWidth: 0,
       // minorGridLineWidth: 0,
       title: {
-        text: 'Profit($)',
+        text: 'Sub-revenue($)',
       },
       stackLabels: {
-        enabled: false,
-        format: '<b>ROI %</b>',
         style: {
-          fontWeight: 'bold',
-          color: 'grey',
+          color: 'black',
+        },
+        enabled: true,
+        formatter: function(this: any): string {
+          return `${
+            data.find(function(d: any) {
+              return d.name === 'ROI(%)';
+            }).data[this.x]
+          } %`;
         },
       },
     },
@@ -47,12 +60,22 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     plotOptions: {
       column: {
         stacking: 'normal',
+        groupPadding: 0.05,
+        pointPadding: 0.01,
+        borderWidth: 0.1,
+        borderRadius: 3,
+        gapSize: 3,
+        edgeWidth: 1,
+        shadow: false,
         dataLabels: {
           enabled: true,
+          borderRadius: 2,
         },
       },
       series: {
         cursor: 'pointer',
+        stacking: 'normal',
+        //pointWidth: 20,
         events: {
           click: (e: any) => {
             onBubbleDetails(e.point.index);
@@ -60,9 +83,13 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
         },
       },
     },
-    series: data.map((e: any) => {
-      return { ...e, ...{ type: 'column' } };
-    }),
+    series: data
+      .filter(function(d: any) {
+        return d.name !== 'ROI(%)';
+      })
+      .map((e: any) => {
+        return { ...e, ...{ type: 'column' } };
+      }),
   };
 };
 
