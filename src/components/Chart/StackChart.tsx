@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from './Chart';
+
 export interface StackChartOptions {
   title: string;
   data: any;

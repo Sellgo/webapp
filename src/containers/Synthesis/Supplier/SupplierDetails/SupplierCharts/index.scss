@@ -14,7 +14,7 @@
         flex-direction: column;
         flex-shrink: 1;
         justify-content: start;
-        margin: 0;
+        margin: 0 auto;
       }
     }
   }
@@ -30,7 +30,7 @@
   .supplier-charts {
     // Chart radio inputs
     .ui .inline.fields {
-      margin: 0 auto;
+      margin: 0;
     }
   }
 }
