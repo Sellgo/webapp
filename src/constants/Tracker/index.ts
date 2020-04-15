@@ -283,7 +283,6 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           )
       : products;
   });
-  console.log('updatedFilterProducts: ', updatedFilterProducts.length);
   return updatedFilterProducts;
 };
 
