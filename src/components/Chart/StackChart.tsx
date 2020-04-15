@@ -40,15 +40,15 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       stackLabels: {
         enabled: true,
         alignValue: 'center',
-        //RP200414: adding ROI stackLabel - begin
-        formatter: function(this: any): string {
-          return `<b>ROI ${data[3].data[this.x]} %</b>`;
-        },
-        //RP200414: adding ROI stackLabel - begin
-
         style: {
-          fontWeight: 'bold',
-          color: 'grey',
+          color: 'black',
+        },
+        formatter: function(this: any): string {
+          return `${
+            data.find(function(d: any) {
+              return d.name === 'ROI(%)';
+            }).data[this.x]
+          } %`;
         },
       },
     },
@@ -109,9 +109,6 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       series: {
         cursor: 'pointer',
         stacking: 'normal',
-
-        //pointWidth: 20,
-
         events: {
           click: (e: any) => {
             onBubbleDetails(e.point.index);

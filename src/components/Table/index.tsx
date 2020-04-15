@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
@@ -39,6 +39,7 @@ export interface PaginatedTableProps {
   productTrackerPageNo?: any;
   showProductFinderSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
+  updateProfitFinderProducts?: (data: any) => void;
   showFilter?: boolean;
   productRanges?: any;
 }
@@ -50,6 +51,7 @@ export interface GenericTableProps {
   searchFilterValue?: string;
   showProductFinderSearch?: boolean;
   searchProfitFinderProduct?: (searchValue: string) => void;
+  updateProfitFinderProducts?: (data: any) => void;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
@@ -353,6 +355,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     count,
     showProductFinderSearch,
     searchFilteredProduct,
+    updateProfitFinderProducts,
     searchFilterValue,
     showFilter,
     productRanges,
@@ -365,7 +368,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   // const [itemsCount, setItemsCount] = useState(10);
 
   const showColumns = columns.filter(e => e.show);
-  const { sortedColumnKey, sortDirection, setSort } = useSort('');
+  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
 
   let rows = checkSortedColumnExist.length
@@ -431,6 +434,15 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
+
+  useEffect(() => {
+    if (sortClicked) {
+      if (updateProfitFinderProducts) {
+        updateProfitFinderProducts(rows);
+      }
+      setSortClicked(false);
+    }
+  });
 
   const handleShowSearchFilter = (e: any, key: any) => {
     e.stopPropagation();
@@ -499,6 +511,7 @@ const renderCell = (row: { [key: string]: any }, column: Column) => {
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
   const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
+  const [sortClicked, setSortClicked] = useState<true | false>(false);
 
   const handleSort = (e: any, clickedColumn: string) => {
     e.preventDefault();
@@ -508,11 +521,14 @@ const useSort = (initialValue: string) => {
     } else {
       setSortDirection(sortDirection === 'ascending' ? 'descending' : 'ascending');
     }
+    setSortClicked(true);
   };
 
   return {
     sortedColumnKey,
     sortDirection,
     setSort: handleSort,
+    sortClicked,
+    setSortClicked,
   };
 };
