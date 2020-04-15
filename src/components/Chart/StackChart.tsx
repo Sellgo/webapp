@@ -35,7 +35,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       // gridLineWidth: 0,
       // minorGridLineWidth: 0,
       title: {
-        text: 'Sub-revenue($)',
+        text: 'Sub-Revenue($)',
       },
       stackLabels: {
         enabled: true,
