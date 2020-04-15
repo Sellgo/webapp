@@ -247,7 +247,7 @@
   margin-left: 20px;
   color: #a2a2a2;
   font-size: 13px;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 .new-supplier-modal .Actions__progress-bar .ui.grid.Actions__completed {
@@ -851,8 +851,6 @@ div.new-supplier-cont > div:nth-child(2) {
 .new-supplier-modal .Actions__err-download.exit .ui.basic.grey.button {
   min-width: 104px !important;
   max-width: 104px;
-  border: 1px solid #dfe8f3;
-  color: #dfe8f3 !important;
 }
 
 .new-supplier-modal .UploadSteps__disable .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon {
