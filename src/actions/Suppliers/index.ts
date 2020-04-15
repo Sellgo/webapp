@@ -450,10 +450,10 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     });
 };
 
-export const postProductTrackGroupId = (supplierID: string, supplierName: string) => () => {
+export const postProductTrackGroupId = (supplierID: string, name: string) => () => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  bodyFormData.set('name', supplierName);
+  bodyFormData.set('name', name);
   bodyFormData.set('supplier_id', supplierID);
   bodyFormData.set('marketplace_id', 'US');
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)

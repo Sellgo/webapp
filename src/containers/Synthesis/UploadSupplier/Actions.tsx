@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Button, Header, Divider, Modal, Progress, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
-import { setUploadSupplierStep, setProgressShow } from '../../../actions/UploadSupplier';
+import {
+  setUploadSupplierStep,
+  setProgressShow,
+  setConfirmationShow,
+} from '../../../actions/UploadSupplier';
 import { postSynthesisRun, setProgress } from '../../../actions/Suppliers';
 import {
   currentStepSelector,
@@ -29,6 +33,7 @@ interface ActionsProps {
   currentEta: any;
   postSynthesisRun: any;
   setProgressShow: any;
+  setConfirmationShow: any;
   setProgress: any;
   currentProgressShow: any;
   currentLoading: any;
@@ -52,6 +57,7 @@ const Actions = ({
   currentProgressShow,
   postSynthesisRun,
   setProgressShow,
+  setConfirmationShow,
   setProgress,
   currentLoading,
 }: ActionsProps) => {
@@ -62,19 +68,28 @@ const Actions = ({
   const [disableExit, setExit] = useState(false);
 
   const onNextStep = () => setStep(currentStep + 1);
-  const onPrevStep = () => setStep(currentStep - 1);
+  const onPrevStep = () => {
+    setStep(currentStep - 1);
+    setConfirmationShow(true);
+  };
 
   const handleClose = () => {
     setExit(!disableExit);
     setProgressShow(false);
+    setConfirmationShow(false);
     setProgress(0);
     closeModal();
   };
 
-  const handleNoErr = () => {
+  const handleNoError = () => {
     setOpenProgress(!openProgress);
     setProgressShow(true);
     postSynthesisRun(currentSynId);
+  };
+
+  const handleError = () => {
+    setConfirm(!openConfirm);
+    setProgressShow(true);
   };
 
   if (processCompleted) {
@@ -128,7 +143,7 @@ const Actions = ({
         {!currentProgressShow && (
           <Button
             onClick={() => {
-              currentError ? setConfirm(!openConfirm) : handleNoErr();
+              currentError ? handleError() : handleNoError();
             }}
             className={styles.action}
             basic={true}
@@ -232,6 +247,7 @@ const mapDispatchToProps = {
   postSynthesisRun,
   setProgress,
   setProgressShow,
+  setConfirmationShow,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions);

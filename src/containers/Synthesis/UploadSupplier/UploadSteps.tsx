@@ -55,8 +55,8 @@ export const UploadSteps = (props: Props) => {
             title={
               !isEditModal
                 ? step.title
-                : step.title === 'Add New Supplier'
-                ? 'Edit Supplier'
+                : step.title === 'Add New Search'
+                ? 'Edit Search'
                 : step.title
             }
             disabled={finished || index < value - 1 || index > value + 1}

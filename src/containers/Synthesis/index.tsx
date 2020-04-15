@@ -16,8 +16,14 @@ import UserOnboarding from '../UserOnboarding';
 import PageHeader from '../../components/PageHeader';
 import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
 import { error } from '../../utils/notifications';
-import { currentSynthesisId, currentProgress } from '../../selectors/UploadSupplier';
-import { setProgressShow } from '../../actions/UploadSupplier';
+import {
+  currentSynthesisId,
+  currentProgress,
+  currentStepSelector,
+  currentProgressShow,
+  currentConfirmationShow,
+} from '../../selectors/UploadSupplier';
+import { setProgressShow, setConfirmationShow } from '../../actions/UploadSupplier';
 import { setProgress } from '../../actions/Suppliers';
 
 interface SynthesisProps {
@@ -29,7 +35,11 @@ interface SynthesisProps {
   openUploadSupplierModal: (supplier?: any) => void;
   closeUploadSupplierModal: () => void;
   setProgressShow: any;
+  setConfirmationShow: any;
   currentSynId: any;
+  currentStep: any;
+  currentProgressShow: any;
+  currentConfirmationShow: boolean;
   currentProgress: any;
   setProgress: any;
   match: any;
@@ -80,10 +90,11 @@ class Synthesis extends Component<SynthesisProps> {
     setProgressShow(false);
     setProgress(0);
     closeUploadSupplierModal();
+    setConfirmationShow(false);
   };
 
   renderAddNewSupplierModal = () => {
-    const { uploadSupplierModalOpen, currentProgress, currentSynId } = this.props;
+    const { uploadSupplierModalOpen, currentStep, currentConfirmationShow } = this.props;
 
     return (
       <>
@@ -91,7 +102,7 @@ class Synthesis extends Component<SynthesisProps> {
           size={'large'}
           open={uploadSupplierModalOpen}
           onClose={() => {
-            currentProgress >= 100 && !currentSynId
+            currentStep === 0 && currentConfirmationShow === false
               ? this.handleClose()
               : this.setState({ exitConfirmation: true });
           }}
@@ -145,7 +156,8 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
-    const { currentSynId, currentProgress } = this.props;
+    const { currentProgressShow } = this.props;
+
     return (
       <>
         <PageHeader
@@ -160,10 +172,8 @@ class Synthesis extends Component<SynthesisProps> {
             <Modal.Content>
               <div>
                 <Header as="h4" icon>
-                  {!currentSynId && currentProgress < 100
-                    ? 'Do you want to exit?'
-                    : 'Exit before uploading?'}
-                  {!(!currentSynId && currentProgress < 100) && (
+                  {currentProgressShow === true ? 'Do you want to exit?' : 'Exit before uploading?'}
+                  {currentProgressShow === false && (
                     <Header.Subheader>
                       The current process will be saved into the "drafts" tab but will not be
                       processed
@@ -199,6 +209,9 @@ const mapStateToProps = (state: any) => ({
   userOnboardingModalOpen: get(state, 'modals.userOnboarding.open', false),
   currentProgress: currentProgress(state),
   currentSynId: currentSynthesisId(state),
+  currentStep: currentStepSelector(state),
+  currentProgressShow: currentProgressShow(state),
+  currentConfirmationShow: currentConfirmationShow(state),
 });
 
 const mapDispatchToProps = {
@@ -208,6 +221,7 @@ const mapDispatchToProps = {
   closeUploadSupplierModal,
   openUserOnboardingModal,
   setProgressShow,
+  setConfirmationShow,
   setProgress,
 };
 

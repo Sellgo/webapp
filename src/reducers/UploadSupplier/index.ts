@@ -15,6 +15,7 @@ import {
   SET_SPEED,
   SET_ERROR_FILE,
   SET_PROGRESS_SHOW,
+  SHOW_CONFIRMATION,
   SET_ETA,
   SET_VALID_ROWS,
   SET_ERROR_ROWS,
@@ -35,6 +36,7 @@ interface UploadSupplierState {
   readonly setSpeed: number;
   readonly setEta: number;
   readonly setProgressShow: boolean;
+  readonly confirmationShow: boolean;
   readonly setLoadingShow: boolean;
   readonly completed: boolean;
   readonly isFirstRowHeader: boolean;
@@ -47,6 +49,7 @@ interface UploadSupplierState {
 
 const initialState: UploadSupplierState = {
   setProgressShow: false,
+  confirmationShow: false,
   setLoadingShow: false,
   completed: false,
   isFirstRowHeader: true,
@@ -129,6 +132,10 @@ export default (
 
     case SET_PROGRESS_SHOW: {
       return setIn(state, 'setProgressShow', action.payload);
+    }
+
+    case SHOW_CONFIRMATION: {
+      return setIn(state, 'confirmationShow', action.payload);
     }
 
     case SET_ETA: {

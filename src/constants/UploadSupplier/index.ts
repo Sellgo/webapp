@@ -16,6 +16,7 @@ export const SET_SYNTHESIS_ID = 'SET_SYNTHESIS_ID';
 export const SET_SPEED = 'SET_SPEED';
 export const SET_ERROR_FILE = 'SET_ERROR_FILE';
 export const SET_PROGRESS_SHOW = 'SET_PROGRESS_SHOW';
+export const SHOW_CONFIRMATION = 'SHOW_CONFIRMATION';
 export const SET_ETA = 'SET_ETA';
 export const SET_VALID_ROWS = 'SET_VALID_ROWS';
 export const SET_ERROR_ROWS = 'SET_ERROR_ROWS';

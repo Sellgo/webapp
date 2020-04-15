@@ -30,6 +30,7 @@ import {
   SET_SYNTHESIS_ID,
   SET_ERROR_FILE,
   SET_PROGRESS_SHOW,
+  SHOW_CONFIRMATION,
   SET_VALID_ROWS,
   SET_ERROR_ROWS,
   SET_LOADING,
@@ -221,6 +222,11 @@ export const setError = (error: any) => ({
 
 export const setProgressShow = (check: boolean) => ({
   type: SET_PROGRESS_SHOW,
+  payload: check,
+});
+
+export const setConfirmationShow = (check: boolean) => ({
+  type: SHOW_CONFIRMATION,
   payload: check,
 });
 

@@ -25,6 +25,9 @@ export const currentSynthesisId = (state: object): [] =>
 export const currentLoadingShow = (state: object): [] =>
   get(state, 'uploadSupplier.setLoadingShow', []);
 
+export const currentConfirmationShow = (state: object): boolean =>
+  get(state, 'uploadSupplier.confirmationShow', false);
+
 export const currentResultVal = (state: object): [] => get(state, 'uploadSupplier.resultVal', []);
 
 export const currentProgress = (state: object): [] => get(state, 'uploadSupplier.setProgress', []);
