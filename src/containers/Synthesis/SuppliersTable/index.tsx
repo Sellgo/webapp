@@ -7,7 +7,10 @@ import {
   setFavouriteSupplier,
   postSynthesisRerun,
   deleteSupplier,
+  setProgress,
+  setSpeed,
 } from '../../../actions/Suppliers';
+import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
 import { PaginatedTable, Column } from '../../../components/Table';
@@ -41,6 +44,9 @@ interface SuppliersTableProps {
   showTab: string;
   showColumns: any;
   amazonMWSAuthorized: boolean;
+  currentSynthesisId: any;
+  setProgress: any;
+  setSpeed: any;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -184,7 +190,19 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
   renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
 
-  renderProgress = (row: Supplier) => (row.progress !== -1 ? `${row.progress}%` : '');
+  renderProgress = (row: Supplier) => {
+    const { setProgress, currentSynthesisId, setSpeed } = this.props;
+
+    if (row.progress !== -1) {
+      if (row.synthesis_file_id === currentSynthesisId) {
+        setProgress(row.progress);
+        setSpeed(row.speed);
+      }
+      return `${row.progress}%`;
+    } else {
+      return '';
+    }
+  };
 
   renderCompleted = (row: Supplier) => {
     if (row.file_status !== 'completed') {
@@ -407,6 +425,7 @@ const mapStateToProps = (state: {}) => ({
   showTab: suppliersTableTabSelector(state),
   showColumns: suppliersTableColumnsSelector(state),
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
+  currentSynthesisId: currentSynthesisId(state),
 });
 
 const mapDispatchToProps = {
@@ -418,6 +437,8 @@ const mapDispatchToProps = {
   unFavourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
+  setProgress,
+  setSpeed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

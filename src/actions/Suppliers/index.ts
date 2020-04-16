@@ -213,8 +213,6 @@ export const fetchSynthesisProgressUpdates = () => async (
 
     suppliers = suppliers.filter((supplier, index) => {
       if (currSynthesisId === supplier.synthesis_file_id && responses[index].data.progress > 0) {
-        dispatch(setProgress(responses[index].data.progress));
-        dispatch(setSpeed(responses[index].data.speed));
         dispatch(setEta(responses[index].data.eta));
       }
 
