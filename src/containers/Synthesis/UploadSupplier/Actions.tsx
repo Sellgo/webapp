@@ -130,7 +130,7 @@ const Actions = ({
                 <Grid>
                   <span>Speed: {currentSpeed} SKU/min</span>
                   <span>Uploading File</span>
-                  <span>ETA: {currentEta} Secs</span>
+                  <span>ETA: {Math.ceil(currentEta)} Secs</span>
                 </Grid>
               ) : (
                 <Grid className="Actions__completed">

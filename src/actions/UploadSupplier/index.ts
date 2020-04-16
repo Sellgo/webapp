@@ -39,7 +39,7 @@ import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
-import { fetchSupplier, fetchSynthesisProgressUpdates } from '../Suppliers';
+import { fetchSupplier } from '../Suppliers';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -319,7 +319,6 @@ export const validateAndUploadCsv = () => async (
   }
   dispatch(finishUpload());
   await dispatch(fetchSupplier(supplierID));
-  dispatch(fetchSynthesisProgressUpdates());
 };
 
 export const cleanupUploadSupplier = () => ({
