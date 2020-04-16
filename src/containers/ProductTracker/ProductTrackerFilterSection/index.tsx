@@ -43,6 +43,14 @@ function ProductTrackerFilterSection(props: Props) {
       ? true
       : localStorage.filterSelectAllReviews
   );
+
+  const openPeriodFilter = JSON.parse(
+    typeof localStorage.openPeriod === 'undefined' ||
+      !filterStorage ||
+      filterStorage.sellerID !== sellerID
+      ? false
+      : localStorage.openPeriod
+  );
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
@@ -64,11 +72,14 @@ function ProductTrackerFilterSection(props: Props) {
     customer_reviews: filteredRanges.customer_reviews,
   };
   const [filterState, setFilterState] = React.useState(filterInitialData);
-  console.log('groupProducts: ', groupProducts);
 
   useEffect(() => {
+    console.log('openPeriodFilter: ', openPeriodFilter);
     if (isAllReviews || !filterStorage) {
       selectAllReviews(true);
+    }
+    if (openPeriodFilter) {
+      setFilterType('period-filter');
     }
     filterProducts(filterSearch, filterState, activeGroupId);
   }, [filterState, activeGroupId]);
@@ -289,6 +300,9 @@ function ProductTrackerFilterSection(props: Props) {
     filterState.period = value;
     setTrackerFilterData(data);
     setFilterState(filterValue);
+    fetchAllTrackedProductDetails(value);
+    localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    localStorage.setItem('openPeriod', JSON.stringify(true));
   };
 
   const toggleNegative = (datakey: string) => {
@@ -327,7 +341,6 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
-    fetchAllTrackedProductDetails(filterState.period);
     filterProducts(filterSearch, filterState, activeGroupId);
     console.log('Apply Filter: ', filterState);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
@@ -364,6 +377,9 @@ function ProductTrackerFilterSection(props: Props) {
     if (filterType === type) {
       setFilterType('');
       return;
+    }
+    if (type !== 'period-filter') {
+      localStorage.setItem('openPeriod', JSON.stringify(false));
     }
     setFilterType(type);
   };

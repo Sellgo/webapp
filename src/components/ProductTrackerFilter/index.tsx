@@ -39,6 +39,7 @@ function ProductTrackerFilter(props: Props) {
 
   return (
     <div className="pt-filter-content">
+      <Divider />
       {filterType === 'all-filter' && (
         <>
           <div className="pt-filter-content__all-filter">
@@ -111,6 +112,15 @@ function ProductTrackerFilter(props: Props) {
                 </div>
               </div>
             </div>
+            <div className="pt-filter-content__button-wrapper">
+              <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+                Reset
+              </Button>
+              <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
+                Apply
+              </Button>
+            </div>
+            <Divider />
           </div>
         </>
       )}
@@ -134,19 +144,9 @@ function ProductTrackerFilter(props: Props) {
               })}
             </div>
           </div>
+          <Divider />
         </>
       )}
-      {filterType && (
-        <div className="pt-filter-content__button-wrapper">
-          <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
-            Reset
-          </Button>
-          <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
-            Apply
-          </Button>
-        </div>
-      )}
-      <Divider />
     </div>
   );
 }
