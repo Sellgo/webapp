@@ -433,12 +433,13 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   }
 
   rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  const sortedProducts = rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
   useEffect(() => {
     if (sortClicked) {
       if (updateProfitFinderProducts) {
-        updateProfitFinderProducts(rows);
+        updateProfitFinderProducts(sortedProducts);
       }
       setSortClicked(false);
     }
