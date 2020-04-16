@@ -2,6 +2,7 @@ export interface FilterModel {
   label: string;
   dataKey: string;
   checked?: boolean;
+  value?: number;
 }
 
 export interface RangeModel {
@@ -80,7 +81,7 @@ export interface ProductTrackerFilterState {
   supplierID: string;
   removeNegative: string[];
   reviews: string[];
-  period: string;
+  period: number;
   price: {
     min: number;
     max: number;

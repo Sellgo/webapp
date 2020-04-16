@@ -1,5 +1,4 @@
 import _ from 'lodash';
-
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
 export const UPDATE_TRACKER_FILTER_RANGES = 'UPDATE_TRACKER_FILTER_RANGES';
@@ -272,7 +271,6 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
 
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
-    // console.log('filterData: ', filterData)
     return filterData !== undefined
       ? (filterData.reviews.length === 5 ||
           filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&

@@ -9,7 +9,10 @@ import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 import { findNewMinMaxRange, filterProductsByGroupId } from '../../../constants/Tracker';
-import { filterTrackedProducts } from '../../../actions/ProductTracker';
+import {
+  filterTrackedProducts,
+  fetchAllSupplierProductTrackerDetails,
+} from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
 
 interface Props {
@@ -18,10 +21,17 @@ interface Props {
   filterSearch: string;
   trackerDetails: any;
   activeGroupId: any;
+  fetchAllTrackedProductDetails: (periodValue: any) => void;
 }
 
 function ProductTrackerFilterSection(props: Props) {
-  const { filterProducts, filterSearch, trackerDetails, activeGroupId } = props;
+  const {
+    filterProducts,
+    filterSearch,
+    trackerDetails,
+    activeGroupId,
+    fetchAllTrackedProductDetails,
+  } = props;
   const sellerID = sellerIDSelector();
   const filterStorage = JSON.parse(
     typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
@@ -44,7 +54,7 @@ function ProductTrackerFilterSection(props: Props) {
     sellerID: sellerID,
     reviews: filterStorage && filterStorage.sellerID === sellerID ? filterStorage.reviews : [],
     removeNegative: [],
-    period: filterStorage && filterStorage.sellerID === sellerID ? filterStorage.period : 'Today',
+    period: filterStorage && filterStorage.sellerID === sellerID ? filterStorage.period : 1,
     avg_price: filteredRanges.avg_price,
     avg_profit: filteredRanges.avg_profit,
     avg_margin: filteredRanges.avg_margin,
@@ -181,22 +191,27 @@ function ProductTrackerFilterSection(props: Props) {
         {
           label: 'Today',
           dataKey: 'today',
+          value: 1,
         },
         {
           label: 'Week',
           dataKey: 'week',
+          value: 7,
         },
         {
           label: 'Month',
-          dataKey: 'mnth',
+          dataKey: 'month',
+          value: 30,
         },
         {
           label: '3 Month',
           dataKey: '3-Month',
+          value: 90,
         },
         {
           label: 'Year',
           dataKey: 'year',
+          value: 365,
         },
         {
           label: 'All (xxx days)',
@@ -267,9 +282,9 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
-  const setPeriod = (value: string) => {
+  const setPeriod = (value: number) => {
     const data = _.cloneDeep(trackerFilterData);
-    data.period.checkedValue = value;
+    data.period.checkedValue = JSON.stringify(value);
     const filterValue = filterState;
     filterState.period = value;
     setTrackerFilterData(data);
@@ -312,6 +327,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    fetchAllTrackedProductDetails(filterState.period);
     filterProducts(filterSearch, filterState, activeGroupId);
     console.log('Apply Filter: ', filterState);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
@@ -321,9 +337,8 @@ function ProductTrackerFilterSection(props: Props) {
     const data = filterState;
     data.sellerID = sellerIDSelector();
     data.reviews = [];
-    data.period = [];
+    data.period = 1;
     data.removeNegative = [];
-    data.productSize = 'Today';
     data.avg_price = originalGroupRange.avg_price;
     data.avg_profit = originalGroupRange.avg_profit;
     data.avg_margin = originalGroupRange.avg_margin;
@@ -417,5 +432,7 @@ const mapStateToProps = (state: {}) => ({
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any, groupId: any) =>
     filterTrackedProducts(value, filterData, groupId),
+  fetchAllTrackedProductDetails: (periodValue: any) =>
+    fetchAllSupplierProductTrackerDetails(periodValue),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);

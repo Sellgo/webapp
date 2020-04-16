@@ -17,7 +17,7 @@ interface Props {
   initialFilterState: ProductTrackerFilterState;
   isAllReviews: boolean;
   toggleCheckboxFilter: (filterDataKey: string) => void;
-  setPeriod: (value: string) => void;
+  setPeriod: (value: number) => void;
   toggleNegative: (datakey: string) => void;
 }
 
@@ -39,7 +39,6 @@ function ProductTrackerFilter(props: Props) {
 
   return (
     <div className="pt-filter-content">
-      <Divider />
       {filterType === 'all-filter' && (
         <>
           <div className="pt-filter-content__all-filter">
@@ -111,16 +110,7 @@ function ProductTrackerFilter(props: Props) {
                   })}
                 </div>
               </div>
-              <div className="pt-filter-content__button-wrapper">
-                <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
-                  Reset
-                </Button>
-                <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
-                  Apply
-                </Button>
-              </div>
             </div>
-            <Divider />
           </div>
         </>
       )}
@@ -137,8 +127,8 @@ function ProductTrackerFilter(props: Props) {
                     key={filterData.dataKey}
                     className={filterData.dataKey}
                     label={filterData.label}
-                    checked={initialFilterState.period === filterData.label}
-                    onClick={() => setPeriod(filterData.label)}
+                    checked={initialFilterState.period === filterData.value}
+                    onClick={() => setPeriod(filterData.value || 1)}
                   />
                 );
               })}
@@ -146,6 +136,17 @@ function ProductTrackerFilter(props: Props) {
           </div>
         </>
       )}
+      {filterType && (
+        <div className="pt-filter-content__button-wrapper">
+          <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+            Reset
+          </Button>
+          <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
+            Apply
+          </Button>
+        </div>
+      )}
+      <Divider />
     </div>
   );
 }
