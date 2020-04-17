@@ -234,7 +234,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       : undefined
                   }
                   style={
-                    column.label === 'Supplier'
+                    column.label === 'Search'
                       ? {
                           minWidth: '120px',
                         }
@@ -244,7 +244,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 >
                   {' '}
                   {column.label}
-                  {column.label === 'Supplier' && (
+                  {column.label === 'Search' && (
                     <span>
                       <Icon
                         className="filter search-filter"
@@ -413,10 +413,10 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   rows = searchValue
     ? rows.filter(row => {
-        if (row.name.toLowerCase().startsWith(searchValue.toLowerCase())) {
-          return row.name.toLowerCase().startsWith(searchValue.toLowerCase());
+        if ((row.search || '').toLowerCase().startsWith(searchValue.toLowerCase())) {
+          return (row.search || '').toLowerCase().startsWith(searchValue.toLowerCase());
         } else {
-          return row.name.toLowerCase().includes(searchValue.toLowerCase());
+          return (row.search || '').toLowerCase().includes(searchValue.toLowerCase());
         }
       })
     : rows;
