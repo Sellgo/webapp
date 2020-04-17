@@ -154,6 +154,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderOperations = (row: Supplier) => {
     if (
       row.file_status !== 'completed' &&
+      row.file_status !== 'inactive' &&
       row.file_status !== null &&
       row.file_status !== undefined
     ) {
@@ -352,7 +353,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
     const all = suppliers.filter(supplier => supplier.status !== 'inactive');
     const allData = all.filter(supplier => supplier.progress !== -1);
-    const draftData = all.filter(supplier => supplier.progress === -1);
+    const draftData = all.filter(
+      supplier => supplier.progress === -1 || supplier.file_status === 'inactive'
+    );
     const shortlistedData = allData.filter(supplier => supplier.tag === 'like');
     const archivedData = allData.filter(supplier => supplier.tag === 'dislike');
 
