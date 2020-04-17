@@ -39,7 +39,7 @@ function ProductTrackerFilter(props: Props) {
 
   return (
     <div className="pt-filter-content">
-      <Divider />
+      {filterType === '' && <Divider />}
       {filterType === 'all-filter' && (
         <>
           <div className="pt-filter-content__all-filter">

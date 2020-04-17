@@ -5,25 +5,30 @@
 
     &__button {
       &__name {
-        margin-left: -20px;
-        color: black;
+        color: #3b4557;
         font-weight: 600;
       }
 
       &.ui.button {
+        border: 1px solid #98aeca;
         border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: 'Work Sans', sans-serif !important;
-        padding: 7px 10px;
         margin: 5px;
         position: relative;
+        padding: 0;
+        width: 106px;
         height: 32px;
 
+        &.icon {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+
         &.active {
-          background: #349af833 !important;
-          border-color: #98aeca;
+          background: #a7c6fb !important;
         }
 
         i {
@@ -31,6 +36,8 @@
 
           &.sliders {
             color: #349af8 !important;
+            margin-left: 15px !important;
+            width: 20px !important;
           }
 
           &.filter-left-icon {
@@ -41,7 +48,7 @@
         }
 
         &:hover {
-          background: #349af833 !important;
+          background: #a7c6fb !important;
 
           .filter-name {
             color: #349af8;
@@ -53,7 +60,11 @@
         }
       }
 
-      &--active &__name {
+      &:hover &__name {
+        color: #349af8;
+      }
+
+      &.active &__name {
         color: #349af8;
       }
     }

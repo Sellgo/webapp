@@ -192,7 +192,7 @@ $link-color: #349af8;
   margin: 0 auto;
   max-width: 100%;
   width: 100%;
-  margin-top: 30px;
+  margin-top: 34px;
 
   .add-product {
     display: flex;
@@ -231,15 +231,27 @@ $link-color: #349af8;
   }
 
   .tracker-menu {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     .ui.secondary.pointing.menu {
       border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 
+      &.menu-bar-inner {
+        border: none !important;
+      }
+    }
+
+    .ui.secondary.pointing.menu-bar-inner {
       .item {
         color: #2e3b4a;
         font-family: 'Work Sans', sans-serif !important;
         font-size: 16px !important;
         font-weight: 600;
         justify-content: center;
+        padding: 10px 17px;
 
         .header {
           font-family: 'Work Sans', sans-serif !important;
@@ -272,6 +284,9 @@ $link-color: #349af8;
     .ui.secondary.pointing.menu .active.item {
       background-color: #fff;
       border: 1px solid;
+      border-bottom: none !important;
+      padding-bottom: 10px !important;
+      margin-bottom: 0;
 
       @media screen and (min-width: 1025px) {
         border-radius: 5px 5px 0 0;
@@ -279,6 +294,8 @@ $link-color: #349af8;
 
       h4 {
         color: #5381db !important;
+        font-size: 16px;
+        font-weight: 600;
       }
     }
   }

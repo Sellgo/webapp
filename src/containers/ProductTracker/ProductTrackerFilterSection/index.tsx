@@ -409,18 +409,12 @@ function ProductTrackerFilterSection(props: Props) {
         </Button>
         <Button
           basic
-          icon
-          labelPosition="left"
           className={`tracker-filter-section__header__button ${
             filterType === 'period-filter' ? 'active' : ''
           }`}
           onClick={() => handleFilterType('period-filter')}
         >
           <span className="tracker-filter-section__header__button__name">Period</span>
-          <Icon
-            className="tracker-filter-section__header__button__slider"
-            name="sliders horizontal"
-          />
         </Button>
       </div>
       <>
