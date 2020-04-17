@@ -43,6 +43,7 @@ export interface PaginatedTableProps {
   searchFilteredProduct?: (searchValue: string) => void;
   showFilter?: boolean;
   productRanges?: any;
+  setPage?: (pageNumber: number) => void;
 }
 
 export interface GenericTableProps {
@@ -362,6 +363,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     searchFilterValue,
     showFilter,
     productRanges,
+    setPage,
   } = props;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -452,6 +454,9 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   const handleSearchChange = (e: any) => {
     setCurrentPage(1);
+    if (setPage) {
+      setPage(1);
+    }
     setSearchValue(e.target.value);
   };
 
@@ -462,7 +467,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
-      setCurrentPage={setCurrentPage}
+      setCurrentPage={setPage ? setPage : setCurrentPage}
       totalItemsCount={data.length}
       showSelectItemsCount={showSelectItemsCount}
       singlePageItemsCount={singlePageItemsCount}
