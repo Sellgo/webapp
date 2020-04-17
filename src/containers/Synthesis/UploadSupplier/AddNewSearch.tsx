@@ -6,6 +6,8 @@ import { InputField, SelectField, TextAreaField } from '../../../components/Redu
 import { marketPlace } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
 
+const required = isRequired();
+
 const AddNewSearch = () => {
   return (
     <div className={`AddNewSearch__new-search ${styles['ouline-box']}`}>
@@ -18,7 +20,7 @@ const AddNewSearch = () => {
             <div className={styles['form-container']}>
               <Field
                 required={true}
-                validate={isRequired()}
+                validate={required}
                 component={InputField}
                 name="search"
                 label="Search Name"
@@ -40,7 +42,7 @@ const AddNewSearch = () => {
             <div className={`AddNewSearch__second-column field`}>
               <Field
                 required={true}
-                validate={isRequired()}
+                validate={required}
                 component={SelectField}
                 name="marketplace_id"
                 label="Marketplace"
