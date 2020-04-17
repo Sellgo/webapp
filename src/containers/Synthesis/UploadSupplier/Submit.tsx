@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useAsyncEffect } from '../../../hooks';
-import { validateAndUploadCsv, setLoadingShow } from '../../../actions/UploadSupplier';
+import {
+  validateAndUploadCsv,
+  setLoadingShow,
+  setUploadSupplierStep,
+} from '../../../actions/UploadSupplier';
 import { Grid, Icon, Label, Segment, Header } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import UploadStepPieChart from './../../../components/Chart/UploadStepPieChart';
 import {
-  currentErrorFile,
   currentProgressShow,
   currentResultUpload,
   currentResultVal,
@@ -17,11 +20,11 @@ interface SubmitProps {
   validateAndUploadCsv: any;
   onFinished: () => void;
   currentProgressShow: any;
-  currentErrorFile: any;
   setLoadingShow: any;
   currentResult: any;
   currentVal: any;
   currentError: any;
+  setStep: any;
 }
 
 const Submit = (props: SubmitProps) => {
@@ -29,11 +32,11 @@ const Submit = (props: SubmitProps) => {
     validateAndUploadCsv,
     currentProgressShow,
     setLoadingShow,
-    currentErrorFile,
     currentResult,
     onFinished,
     currentVal,
     currentError,
+    setStep,
   } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -41,6 +44,9 @@ const Submit = (props: SubmitProps) => {
   const percentErr = Math.round((Number(currentError) / totalRows) * 100);
   const percentVal = Math.round((Number(currentVal) / totalRows) * 100);
   const errServerUpload = currentResult === 'DATA_REPORT' ? true : false;
+  const onPrevStep = () => {
+    setStep(2);
+  };
 
   useAsyncEffect(async () => {
     setLoading(true);
@@ -92,9 +98,9 @@ const Submit = (props: SubmitProps) => {
                   We could not process some of your SKUs. If you would like to fix the issues please
                   <br />
                   click on "Download Error File" and re-upload the file in&nbsp;
-                  <a href={currentErrorFile} className="Submit__select-file">
+                  <span onClick={onPrevStep} className="Submit__select-file">
                     Select File
-                  </a>
+                  </span>
                 </Header>
               ) : null}
               <Segment>
@@ -134,7 +140,6 @@ const Submit = (props: SubmitProps) => {
 
 const mapStateToProps = (state: any) => ({
   currentProgressShow: currentProgressShow(state),
-  currentErrorFile: currentErrorFile(state),
   currentResult: currentResultUpload(state),
   currentVal: currentResultVal(state),
   currentError: currentError(state),
@@ -143,6 +148,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   validateAndUploadCsv,
   setLoadingShow,
+  setStep: setUploadSupplierStep,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Submit);

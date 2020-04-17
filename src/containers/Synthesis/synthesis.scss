@@ -399,6 +399,7 @@
   text-decoration: underline !important;
   font-size: 16px;
   color: #349af8;
+  cursor: pointer;
 }
 
 /* CIRCLE DOT LOADER */
@@ -824,7 +825,8 @@ div.new-supplier-cont > div:nth-child(2) {
 }
 
 .new-supplier-modal .new-supplier-cont .ui.basic.grey.button,
-.new-supplier-modal .Actions__err-download .ui.basic.grey.button {
+.new-supplier-modal .Actions__err-download .ui.basic.grey.button,
+.new-supplier-modal .button.ui.grey.basic.button.Actions__previous {
   border: 1px solid #98aeca;
   border-radius: 100px !important;
   height: 32px !important;
@@ -848,9 +850,12 @@ div.new-supplier-cont > div:nth-child(2) {
   margin-left: 20px;
 }
 
+.new-supplier-modal button.ui.grey.basic.button.Actions__previous,
 .new-supplier-modal .Actions__err-download.exit .ui.basic.grey.button {
   min-width: 104px !important;
   max-width: 104px;
+  box-shadow: none !important;
+  margin-right: 0 !important;
 }
 
 .new-supplier-modal .UploadSteps__disable .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon {

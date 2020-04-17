@@ -91,8 +91,7 @@ const Actions = ({
     setConfirm(!openConfirm);
     setProgressShow(true);
   };
-
-  if (processCompleted) {
+  if (processCompleted && currentStep === 4) {
     return (
       <div className={`${className || ''} ${styles.actions} submit-actions`}>
         {currentProgressShow ? (
@@ -115,7 +114,17 @@ const Actions = ({
           </a>
         )}
 
-        {openProgress && (
+        {!currentLoading && currentStep === 4 && !currentProgressShow && (
+          <Button
+            onClick={onPrevStep}
+            className={`Actions__previous ${styles.action}`}
+            basic={true}
+            color="grey"
+          >
+            Previous
+          </Button>
+        )}
+        {openProgress && currentStep === 4 && (
           <>
             <Grid className="Actions__progress-bar">
               <Progress
@@ -166,7 +175,13 @@ const Actions = ({
             </div>
           </Modal.Content>
           <div className="Actions__btn">
-            <Button content="No" onClick={() => setConfirm(!openConfirm)} />
+            <Button
+              content="No"
+              onClick={() => {
+                setConfirm(!openConfirm);
+                setProgressShow(false);
+              }}
+            />
             <Button
               content="Yes"
               onClick={() => {

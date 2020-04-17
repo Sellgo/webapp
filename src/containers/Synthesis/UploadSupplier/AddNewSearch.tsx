@@ -39,6 +39,8 @@ const AddNewSearch = () => {
           <Grid.Column className={styles.rightAdjust} width={7}>
             <div className={`AddNewSearch__second-column field`}>
               <Field
+                required={true}
+                validate={isRequired()}
                 component={SelectField}
                 name="marketplace_id"
                 label="Marketplace"
