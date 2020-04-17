@@ -154,6 +154,7 @@
                 text-align: center;
                 width: 63px;
                 height: 25px;
+                font-family: 'Work Sans', sans-serif !important;
               }
             }
 
@@ -205,6 +206,7 @@
     align-items: flex-end;
     height: 100%;
     margin-top: -35px;
+    margin-bottom: 15px;
 
     .ui.basic {
       &.button {
