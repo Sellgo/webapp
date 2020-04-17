@@ -191,13 +191,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
 
   renderProgress = (row: Supplier) => {
-    const { setProgress, currentSynthesisId, setSpeed } = this.props;
-
-    if (row.synthesis_file_id === currentSynthesisId && row.progress !== -1 && row.speed !== -1) {
-      setProgress(row.progress);
-      setSpeed(row.speed);
-    }
-
     return row.progress !== -1 ? `${row.progress}%` : '';
   };
 

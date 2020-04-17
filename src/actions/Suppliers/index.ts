@@ -4,9 +4,13 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
 import { getSellerQuota } from '../Settings';
-import { suppliersSelector, newSupplierIdSelector, getSynthesisId } from '../../selectors/Supplier';
+import {
+  suppliersSelector,
+  newSupplierIdSelector,
+  getSynthesisId,
+  suppliersByIdSelector,
+} from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
-import get from 'lodash/get';
 import {
   SET_SUPPLIERS,
   RESET_SUPPLIERS,
@@ -150,8 +154,8 @@ export const postSynthesisRun = (synthesisId: string) => async (
   getState: () => any
 ) => {
   const sellerID = sellerIDSelector();
-  const existingSupplier = get(getState(), 'modals.uploadSupplier.meta', null);
   const supplierID = newSupplierIdSelector(getState());
+  const existingSupplier = suppliersByIdSelector(getState())[supplierID];
 
   const bodyFormData = new FormData();
   bodyFormData.set('synthesis_file_id', String(synthesisId));
@@ -160,7 +164,7 @@ export const postSynthesisRun = (synthesisId: string) => async (
     bodyFormData
   )
     .then(() => {
-      dispatch(updateSupplier({ ...existingSupplier, ...{ progress: 0, file_status: 'pending' } }));
+      dispatch(updateSupplier(existingSupplier));
       dispatch(fetchSynthesisProgressUpdates());
     })
     .catch(() => {
@@ -214,6 +218,8 @@ export const fetchSynthesisProgressUpdates = () => async (
     suppliers = suppliers.filter((supplier, index) => {
       if (currSynthesisId === supplier.synthesis_file_id && responses[index].data.eta > 0) {
         dispatch(setEta(responses[index].data.eta));
+        dispatch(setProgress(responses[index].data.progress));
+        dispatch(setSpeed(responses[index].data.speed));
       }
 
       if (responses[index].data.progress === 100) {
