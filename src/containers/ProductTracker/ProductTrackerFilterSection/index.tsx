@@ -224,10 +224,6 @@ function ProductTrackerFilterSection(props: Props) {
           dataKey: 'year',
           value: 365,
         },
-        {
-          label: 'All (xxx days)',
-          dataKey: 'all',
-        },
       ],
     },
   };
@@ -316,9 +312,18 @@ function ProductTrackerFilterSection(props: Props) {
           data[datakey] = rangeData[datakey];
         } else {
           data.removeNegative.push(datakey);
-          filter.range = { min: 0, max: rangeData[datakey].max };
-          filter.filterRange = { min: 0, max: rangeData[datakey].max };
-          data[filter.dataKey] = { min: 0, max: rangeData[datakey].max };
+          filter.range = {
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+          };
+          filter.filterRange = {
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+          };
+          data[filter.dataKey] = {
+            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+          };
         }
       }
       return filter;

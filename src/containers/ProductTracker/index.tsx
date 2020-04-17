@@ -15,7 +15,7 @@ import {
 } from '../../actions/ProductTracker';
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 import { getSellerQuota } from '../../actions/Settings';
-import ProductSearch from '../Synthesis/Supplier/ProductsTable/productSearch';
+import ProductSearch from '../../components/ProductSearch/productSearch';
 
 interface ProductTrackerProps {
   fetchAllTrackedProductDetails: (periodValue: any) => void;

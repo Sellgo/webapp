@@ -6,9 +6,9 @@ import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTabl
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
-import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
 import ProfitFinderFilterSection from '../../containers/Synthesis/ProfitFinderFilterSection';
 import ProductTrackerFilterSection from '../../containers/ProductTracker/ProductTrackerFilterSection';
+import ProductSearch from '../ProductSearch/productSearch';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;

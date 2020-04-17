@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Input } from 'semantic-ui-react';
-import { useInput } from '../../../../hooks/useInput';
 import _ from 'lodash';
+import { useInput } from '../../hooks';
+import './index.scss';
 
 const ProductSearch = (props: any) => {
   const { searchFilteredProduct, searchFilterValue, setCurrentPage } = props;
@@ -13,7 +14,7 @@ const ProductSearch = (props: any) => {
 
   return (
     <Input
-      className={_.isEmpty(searchFilterValue) ? 'product-search' : 'active product-search'}
+      className={_.isEmpty(searchFilterValue) ? 'product-search' : 'product-search--active '}
       action={{
         icon: 'search',
         onClick: () => {
