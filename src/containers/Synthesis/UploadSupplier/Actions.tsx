@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Checkbox } from 'semantic-ui-react';
+import { Button, Header, Divider, Modal, Progress, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 import {
   setUploadSupplierStep,
-  setSaveColumnMappingSetting,
-  setSkipColumnMappingCheck,
+  setProgressShow,
+  setConfirmationShow,
 } from '../../../actions/UploadSupplier';
+import { postSynthesisRun, setProgress } from '../../../actions/Suppliers';
 import {
   currentStepSelector,
   processCompletedSelector,
-  saveColumnMappingSettingSelector,
-  skipColumnMappingCheckSelector,
-  columnMappingsSelector,
+  currentErrorFile,
+  currentError,
+  currentSynthesisId,
+  currentProgress,
+  currentProgressShow,
+  currentSpeed,
+  currentEta,
+  currentLoadingShow,
 } from '../../../selectors/UploadSupplier';
 import { closeUploadSupplierModal } from '../../../actions/Modals';
 
 interface ActionsProps {
   currentStep: number;
   setStep: (nextStep: number) => Promise<void>;
-  setColumnSetting: (checked: boolean) => void;
-  setSkipCheck: (checked: boolean) => void;
-  saveColumnMappingSetting: boolean;
-  skipColumnMappingCheck: boolean;
-  columnMappings: any;
+  currentErrorFile: any;
+  currentError: any;
+  currentSynId: any;
+  currentProgress: any;
+  currentSpeed: any;
+  currentEta: any;
+  postSynthesisRun: any;
+  setProgressShow: any;
+  setConfirmationShow: any;
+  setProgress: any;
+  currentProgressShow: any;
+  currentLoading: any;
   className?: string;
   processCompleted: boolean;
   closeModal: typeof closeUploadSupplierModal;
@@ -35,37 +48,151 @@ const Actions = ({
   className,
   processCompleted,
   closeModal,
-  setColumnSetting,
-  saveColumnMappingSetting,
-  skipColumnMappingCheck,
-  setSkipCheck,
-  columnMappings,
+  currentErrorFile,
+  currentError,
+  currentSynId,
+  currentProgress,
+  currentSpeed,
+  currentEta,
+  currentProgressShow,
+  postSynthesisRun,
+  setProgressShow,
+  setConfirmationShow,
+  setProgress,
+  currentLoading,
 }: ActionsProps) => {
+  const hasPrevStep = currentStep !== 0;
+  const hasNextStep = currentStep !== 4;
+  const [openConfirm, setConfirm] = useState(false);
+  const [openProgress, setOpenProgress] = useState(false);
+  const [disableExit, setExit] = useState(false);
+
   const onNextStep = () => setStep(currentStep + 1);
-  const onPrevStep = () => setStep(currentStep - 1);
-  const onSkipStep = () => {
-    setStep(currentStep + 1)
-      .then(() => setStep(currentStep + 2))
-      .catch(() => {
-        // fail silently
-      });
+  const onPrevStep = () => {
+    setStep(currentStep - 1);
+    setConfirmationShow(true);
   };
 
-  const hasPrevStep = currentStep !== 0;
-  const hasNextStep = currentStep !== 3;
+  const handleClose = () => {
+    setExit(!disableExit);
+    setProgressShow(false);
+    setConfirmationShow(false);
+    setProgress(0);
+    closeModal();
+  };
 
-  if (processCompleted) {
+  const handleNoError = () => {
+    setOpenProgress(!openProgress);
+    setProgressShow(true);
+    postSynthesisRun(currentSynId);
+  };
+
+  const handleError = () => {
+    setConfirm(!openConfirm);
+    setProgressShow(true);
+  };
+  if (processCompleted && currentStep === 4) {
     return (
       <div className={`${className || ''} ${styles.actions} submit-actions`}>
-        <Button
-          onClick={closeModal}
-          className={styles.action}
-          basic={true}
-          color="black"
-          primary={true}
-        >
-          Done
-        </Button>
+        {currentProgressShow ? (
+          <span className="Actions__err-download exit">
+            <Button
+              onClick={handleClose}
+              size="small"
+              basic={true}
+              color="grey"
+              style={{ borderRadius: 20 }}
+            >
+              Exit
+            </Button>
+          </span>
+        ) : (
+          <a className="Actions__err-download" href={currentErrorFile}>
+            <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
+              <i className="fas fa-file-download" /> Download Error File
+            </Button>
+          </a>
+        )}
+
+        {!currentLoading && currentStep === 4 && !currentProgressShow && (
+          <Button
+            onClick={onPrevStep}
+            className={`Actions__previous ${styles.action}`}
+            basic={true}
+            color="grey"
+          >
+            Previous
+          </Button>
+        )}
+        {openProgress && currentStep === 4 && (
+          <>
+            <Grid className="Actions__progress-bar">
+              <Progress
+                percent={currentProgress >= 100 ? 100 : currentProgress}
+                color="blue"
+                autoSuccess
+                progress
+                inverted
+                indicating
+              />
+              {currentProgress < 100 ? (
+                <Grid>
+                  <span>Speed: {currentSpeed} SKU/min</span>
+                  <span>Uploading File</span>
+                  <span>ETA: {Math.ceil(currentEta)} Secs</span>
+                </Grid>
+              ) : (
+                <Grid className="Actions__completed">
+                  <span>Everything worked, your file is all ready.</span>
+                </Grid>
+              )}
+            </Grid>
+          </>
+        )}
+        {!currentProgressShow && (
+          <Button
+            onClick={() => {
+              currentError ? handleError() : handleNoError();
+            }}
+            className={styles.action}
+            basic={true}
+            color="black"
+            primary={true}
+          >
+            Upload
+          </Button>
+        )}
+        <Modal open={openConfirm} className="Actions__confirm-container">
+          <Modal.Content>
+            <div>
+              <Header as="h4" icon>
+                Skip Fixing File?
+                <Header.Subheader>
+                  Do you want to upload the file without fixing the errors first?
+                </Header.Subheader>
+              </Header>
+              <Divider clearing />
+            </div>
+          </Modal.Content>
+          <div className="Actions__btn">
+            <Button
+              content="No"
+              onClick={() => {
+                setConfirm(!openConfirm);
+                setProgressShow(false);
+              }}
+            />
+            <Button
+              content="Yes"
+              onClick={() => {
+                postSynthesisRun(currentSynId);
+                setConfirm(!openConfirm);
+                setOpenProgress(!openProgress);
+                setProgressShow(true);
+              }}
+            />
+          </div>
+        </Modal>
       </div>
     );
   }
@@ -76,54 +203,35 @@ const Actions = ({
         styles['supplier-btns']
       }`}
     >
-      <div className={styles['download-options']}>
-        {currentStep === 1 && columnMappings.length > 0 && (
-          <Checkbox
-            className={styles.checked}
-            style={{ marginLeft: '1em' }}
-            checked={skipColumnMappingCheck}
-            onChange={(ev, data) => setSkipCheck(data.checked || false)}
-            label="Skip Data Mapping"
-          />
-        )}
-        {currentStep === 2 && (
-          <Checkbox
-            style={{ marginLeft: '1em' }}
-            checked={saveColumnMappingSetting}
-            onChange={(ev, data) => setColumnSetting(data.checked || false)}
-            label="Save Data Map Setting"
-          />
-        )}
-      </div>
       <div className={`${styles['btns-wrap']} ${styles.upload}`}>
-        {currentStep === 1 && (
-          <a href="https://sellgo-public-dev.s3.amazonaws.com/template.csv" download>
+        {currentStep === 2 && (
+          <a
+            className="Actions__template-download"
+            href="https://sellgo-public-dev.s3.amazonaws.com/template.csv"
+            download
+          >
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <i className="fas fa-file-download" /> Download Template
             </Button>
           </a>
         )}
-        {hasPrevStep && (
+        {hasPrevStep && !currentLoading && (
           <Button onClick={onPrevStep} className={styles.action} basic={true} color="grey">
             Previous
           </Button>
         )}
         {hasNextStep && (
           <Button
-            onClick={currentStep === 1 && skipColumnMappingCheck ? onSkipStep : onNextStep}
-            className={styles.action}
+            onClick={onNextStep}
+            className={currentStep === 0 ? `Actions__btn ${styles.action}` : styles.action}
             basic={true}
             color="black"
             primary={true}
           >
             {(() => {
               switch (currentStep) {
-                case 0:
-                  return 'Save & Proceed';
-                case 2:
+                case 4:
                   return 'Submit';
-                case 1:
-                  return skipColumnMappingCheck ? 'Skip' : 'Next';
                 default:
                   return 'Next';
               }
@@ -138,16 +246,23 @@ const Actions = ({
 const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   processCompleted: processCompletedSelector(state),
-  skipColumnMappingCheck: skipColumnMappingCheckSelector(state),
-  saveColumnMappingSetting: saveColumnMappingSettingSelector(state),
-  columnMappings: columnMappingsSelector(state),
+  currentErrorFile: currentErrorFile(state),
+  currentError: currentError(state),
+  currentSynId: currentSynthesisId(state),
+  currentProgress: currentProgress(state),
+  currentProgressShow: currentProgressShow(state),
+  currentSpeed: currentSpeed(state),
+  currentEta: currentEta(state),
+  currentLoading: currentLoadingShow(state),
 });
 
 const mapDispatchToProps = {
   setStep: setUploadSupplierStep,
   closeModal: closeUploadSupplierModal,
-  setColumnSetting: setSaveColumnMappingSetting,
-  setSkipCheck: setSkipColumnMappingCheck,
+  postSynthesisRun,
+  setProgress,
+  setProgressShow,
+  setConfirmationShow,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions);
