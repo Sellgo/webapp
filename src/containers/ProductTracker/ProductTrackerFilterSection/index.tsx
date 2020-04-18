@@ -52,7 +52,6 @@ function ProductTrackerFilterSection(props: Props) {
       : localStorage.openPeriod
   );
   const [filterType, setFilterType] = useState('');
-  const [periodIcon, setPeriodIcon] = useState('T');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
   const originalGroupRange = findNewMinMax(groupProducts);
@@ -86,20 +85,6 @@ function ProductTrackerFilterSection(props: Props) {
       selectAllReviews(true);
     }
     filterProducts(filterSearch, filterState, activeGroupId);
-    switch (filterState.period) {
-      case 1:
-        return setPeriodIcon('T');
-      case 7:
-        return setPeriodIcon('W');
-      case 30:
-        return setPeriodIcon('M');
-      case 90:
-        return setPeriodIcon('3M');
-      case 365:
-        return setPeriodIcon('Y');
-      default:
-        return setPeriodIcon('T');
-    }
   }, [filterState, activeGroupId]);
 
   const filterDataState: ProductTrackerFilterInterface = {
@@ -427,7 +412,6 @@ function ProductTrackerFilterSection(props: Props) {
           onClick={() => handleFilterType('period-filter')}
         >
           <span className="tracker-filter-section__header__button__name">Period</span>
-          <span className="tracker-filter-section__header__button__icon">{periodIcon}</span>
           <Icon className="tracker-filter-section__header__button__caret" name="caret down" />
         </Button>
       </div>
