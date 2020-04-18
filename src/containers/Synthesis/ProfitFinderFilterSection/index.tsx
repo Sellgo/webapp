@@ -391,6 +391,7 @@ function ProfitFinderFilterSection(props: Props) {
     const data = filterState;
 
     setSelectAll(false);
+    localStorage.setItem('filterSelectAll', JSON.stringify(false));
     const allData = _.map(allFilter, filter => {
       if (!filter.radio) {
         _.map(filter.data, allFilterData => {
