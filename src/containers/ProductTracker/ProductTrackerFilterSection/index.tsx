@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
-import { findNewMinMaxRange, filterProductsByGroupId } from '../../../constants/Tracker';
+import { findNewMinMax, filterProductsByGroupId } from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
@@ -55,10 +55,9 @@ function ProductTrackerFilterSection(props: Props) {
   const [periodIcon, setPeriodIcon] = useState('T');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
-  const originalGroupRange = findNewMinMaxRange(groupProducts);
-  const filteredRanges = findNewMinMaxRange(groupProducts);
+  const originalGroupRange = findNewMinMax(groupProducts);
+  const filteredRanges = findNewMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
-
   const filterInitialData: any = {
     sellerID: sellerID,
     reviews: [],
@@ -76,17 +75,17 @@ function ProductTrackerFilterSection(props: Props) {
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
-
   useEffect(() => {
     if (openPeriodFilter) {
       setFilterType('period-filter');
+      resetFilter();
+      filterProducts(filterSearch, filterState, activeGroupId);
+      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     }
     if (isAllReviews || !filterStorage) {
       selectAllReviews(true);
     }
-
     filterProducts(filterSearch, filterState, activeGroupId);
-
     switch (filterState.period) {
       case 1:
         return setPeriodIcon('T');
@@ -246,7 +245,6 @@ function ProductTrackerFilterSection(props: Props) {
       ],
     },
   };
-  const [trackerFilterData, setTrackerFilterData] = React.useState(filterDataState);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
 
@@ -309,24 +307,12 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const setPeriod = (value: number) => {
-    const data = _.cloneDeep(trackerFilterData);
-    data.period.checkedValue = JSON.stringify(value);
+    fetchAllTrackedProductDetails(value);
     const filterValue = filterState;
-    filterValue.reviews = [];
-    filterValue.removeNegative = [];
-    filterValue.avg_price = originalGroupRange.avg_price;
-    filterValue.avg_profit = originalGroupRange.avg_profit;
-    filterValue.avg_margin = originalGroupRange.avg_margin;
-    filterValue.avg_roi = originalGroupRange.avg_roi;
-    filterValue.avg_daily_sales = originalGroupRange.avg_daily_sales;
-    filterValue.avg_rank = originalGroupRange.avg_rank;
-    filterValue.customer_reviews = originalGroupRange.customer_reviews;
     filterValue.period = value;
-    setTrackerFilterData(data);
     setFilterState(filterValue);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     localStorage.setItem('openPeriod', JSON.stringify(true));
-    fetchAllTrackedProductDetails(value);
   };
 
   const toggleNegative = (datakey: string) => {

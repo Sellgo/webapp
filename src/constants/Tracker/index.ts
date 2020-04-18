@@ -23,7 +23,7 @@ export const dataKeys: any = [
   'avg_roi',
 ];
 
-export const newFilterKeys: any = [
+export const filterKeys: any = [
   // Basic KPI
   'avg_price',
   'avg_profit',
@@ -217,8 +217,8 @@ export const findMinMaxRange = (products: any) => {
   return updatedFilterRanges;
 };
 
-export const findNewMinMaxRange = (products: any) => {
-  const updatedFilterRanges = newFilterKeys.reduce((fr: any, dk: string) => {
+export const findNewMinMax = (products: any) => {
+  const updatedFilterRanges = filterKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => {
         return Number(p[dk]);
@@ -274,7 +274,7 @@ export const findFilteredProducts = (products: any, filterData: any) => {
     return filterData !== undefined
       ? (filterData.reviews.length === 5 ||
           filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
-          newFilterKeys.every(
+          filterKeys.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
               Number(product[dataKey]) <= Number(filterData[dataKey].max)
