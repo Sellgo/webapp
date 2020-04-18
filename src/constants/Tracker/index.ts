@@ -217,7 +217,7 @@ export const findMinMaxRange = (products: any) => {
   return updatedFilterRanges;
 };
 
-export const findNewMinMax = (products: any) => {
+export const findMinMax = (products: any) => {
   const updatedFilterRanges = filterKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => {

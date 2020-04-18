@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
-import { findNewMinMax, filterProductsByGroupId } from '../../../constants/Tracker';
+import { findMinMax, filterProductsByGroupId } from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
@@ -54,8 +54,8 @@ function ProductTrackerFilterSection(props: Props) {
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
-  const originalGroupRange = findNewMinMax(groupProducts);
-  const filteredRanges = findNewMinMax(groupProducts);
+  const originalGroupRange = findMinMax(groupProducts);
+  const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
     sellerID: sellerID,
