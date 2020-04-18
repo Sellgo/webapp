@@ -20,7 +20,6 @@ import {
   searchFilteredProduct,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
-import { fetchAllSupplierProductTrackerDetails } from '../../actions/ProductTracker';
 
 const initialState = {
   products: [],
@@ -91,8 +90,6 @@ export default (state = initialState, action: AnyAction) => {
     }
     case FILTER_SUPPLIER_PRODUCTS: {
       const { value, filterData } = action.payload;
-      fetchAllSupplierProductTrackerDetails(filterData.period);
-      console.log('period.data: ', filterData);
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterData', data);
       const filteredProducts = findFilteredProducts(state.products, data);
@@ -101,8 +98,6 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SEARCH_SUPPLIER_PRODUCTS: {
       const { value, filterData } = action.payload;
-      fetchAllSupplierProductTrackerDetails(filterData.period);
-      console.log('period.data: ', filterData);
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterSearch', value);
       const filteredProducts = findFilteredProducts(state.products, data);

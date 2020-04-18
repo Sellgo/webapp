@@ -42,10 +42,13 @@ interface ProductTrackerProps {
   ) => void;
 }
 
+const filterStorage = JSON.parse(
+  typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
+);
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
     searchValue: '',
-    periodValue: 14,
+    periodValue: filterStorage !== undefined ? filterStorage.period : 1,
     productTrackID: null,
   };
 

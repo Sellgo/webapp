@@ -7,7 +7,32 @@
       &__name {
         color: #3b4557;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 14px;
+      }
+
+      &__icon {
+        background-color: #349af8;
+        color: white;
+        border-radius: 50%;
+        width: 23px;
+        height: 23px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 10px;
+        font-size: 14px;
+      }
+
+      &__caret {
+        margin-left: 3px !important;
+      }
+
+      &--all {
+        width: 106px;
+      }
+
+      &--period {
+        width: 124px;
       }
 
       &.ui.button {
@@ -19,8 +44,7 @@
         font-family: 'Work Sans', sans-serif !important;
         margin: 5px;
         position: relative;
-        padding: 0;
-        width: 106px;
+        padding: 0 0 0 15px !important;
         height: 32px;
         box-shadow: none !important;
 

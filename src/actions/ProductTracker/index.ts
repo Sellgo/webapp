@@ -95,17 +95,14 @@ export const fetchAllSupplierProductTrackerDetails = (period: any) => async (
 ) => {
   // table component is tightly coupled to pagination, temporarily using paginated API with a hardcoded value
   const perPage = 999;
-  console.log('period>>>: ', period);
-
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
-      `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit`
+      `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_price,avg_rank,customer_reviews,avg_margin,avg_daily_sales,avg_roi,avg_profit`
   );
   if (response.data) {
-    console.log('response.data: ', response.data);
     dispatch(isLoadingTrackerProducts(false));
     dispatch(setSupplierProductTrackerDetails(response.data));
     dispatch(updateTrackerFilterRanges(findMinMaxRange(response.data.results)));

@@ -155,7 +155,6 @@ export default (state = initialState, action: AnyAction) => {
     }
     case FILTER_TRACKED_PRODUCTS: {
       const { value, filterData, groupId } = action.payload;
-      console.log('filterData: ', filterData);
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterData', data);
       const filteredProductsByGroupId = filterProductsByGroupId(

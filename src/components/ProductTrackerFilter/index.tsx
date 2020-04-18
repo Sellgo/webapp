@@ -89,7 +89,7 @@ function ProductTrackerFilter(props: Props) {
                 </div>
                 <div className="pt-filter-content__all-filter__wrapper__reviews__list">
                   <Checkbox
-                    label="all"
+                    label="All"
                     key="all-reviews"
                     className="all-reviews"
                     onClick={() => {
