@@ -48,7 +48,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   const isStepWithinRange = Object.values(UploadSteps).indexOf(nextStep) !== -1;
 
   if (!isStepWithinRange) {
-    return Promise.reject();
+    return;
   }
 
   const currentStep = currentStepSelector(getState());
@@ -60,7 +60,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   if (errorMessage) {
     error(errorMessage);
-    return Promise.reject();
+    return;
   }
 
   // if step is decreased we should clean up previous step
