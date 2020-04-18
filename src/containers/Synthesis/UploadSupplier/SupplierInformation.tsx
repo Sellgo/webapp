@@ -13,7 +13,6 @@ import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
 import { webUrl } from '../../../utils/validations/isUrl';
 
 const required = isRequired();
-const validateName = isName();
 
 const SupplierInformation = () => {
   return (
@@ -37,7 +36,7 @@ const SupplierInformation = () => {
                 label="Contact Person"
                 placeholder="First Last"
                 maxLength="100"
-                validate={validateName}
+                validate={isName()}
               />
             </div>
           </Grid.Column>
