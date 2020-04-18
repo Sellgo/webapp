@@ -48,7 +48,7 @@ const filterStorage = JSON.parse(
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
     searchValue: '',
-    periodValue: filterStorage !== undefined ? filterStorage.period : 1,
+    periodValue: filterStorage ? filterStorage.period : 1,
     productTrackID: null,
   };
 

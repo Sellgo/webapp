@@ -305,6 +305,20 @@
   }
 }
 
+@media screen and (max-width: 1280px) {
+  .pt-filter-content {
+    &__button-wrapper {
+      .ui.basic {
+        &.button {
+          &.apply-filter-btn {
+            margin-right: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1920px) {
   .pt-filter-content {
     &__all-filter {
