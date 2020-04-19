@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
@@ -44,6 +44,7 @@ export interface PaginatedTableProps {
   showFilter?: boolean;
   productRanges?: any;
   setPage?: (pageNumber: number) => void;
+  ptCurrentPage?: number;
 }
 
 export interface GenericTableProps {
@@ -345,6 +346,7 @@ export const GenericTable = (props: GenericTableProps) => {
 export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
     tableKey,
+    ptCurrentPage,
     data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
@@ -365,7 +367,12 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     productRanges,
     setPage,
   } = props;
-  const [currentPage, setCurrentPage] = useState(1);
+  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [ptCurrentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -453,9 +460,10 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   };
 
   const handleSearchChange = (e: any) => {
-    setCurrentPage(1);
     if (setPage) {
       setPage(1);
+    } else {
+      setCurrentPage(1);
     }
     setSearchValue(e.target.value);
   };
