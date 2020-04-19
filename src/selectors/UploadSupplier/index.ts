@@ -6,13 +6,43 @@ import numberToLetter from '../../utils/numberToLetter';
 export const currentStepSelector = (state: object): number =>
   get(state, 'uploadSupplier.currentStep', 0);
 
+export const currentErrorFile = (state: object): [] =>
+  get(state, 'uploadSupplier.resultErrorFile', []);
+
+export const currentSpeed = (state: object): [] => get(state, 'uploadSupplier.setSpeed', []);
+
+export const currentResultUpload = (state: object): [] =>
+  get(state, 'uploadSupplier.resultUpload', []);
+
+export const currentProgressShow = (state: object): [] =>
+  get(state, 'uploadSupplier.setProgressShow', []);
+
+export const currentEta = (state: object): [] => get(state, 'uploadSupplier.setEta', []);
+
+export const currentSynthesisId = (state: object): [] =>
+  get(state, 'uploadSupplier.synthesisId', []);
+
+export const currentLoadingShow = (state: object): [] =>
+  get(state, 'uploadSupplier.setLoadingShow', []);
+
+export const currentConfirmationShow = (state: object): boolean =>
+  get(state, 'uploadSupplier.confirmationShow', false);
+
+export const currentResultVal = (state: object): [] => get(state, 'uploadSupplier.resultVal', []);
+
+export const currentProgress = (state: object): [] => get(state, 'uploadSupplier.setProgress', []);
+
+export const currentSupplier = (state: object): [] => get(state, 'modals.uploadSupplier.meta', []);
+
+export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultError', []);
+
 export const csvSelector = (state: object): string[][] => get(state, 'uploadSupplier.csv', null);
 
 export const columnMappingsSelector = (state: object): [] =>
   get(state, 'uploadSupplier.columnMappings', []);
 
-export const saveColumnMappingSettingSelector = (state: object): boolean =>
-  get(state, 'uploadSupplier.saveColumnMappingSetting', false);
+export const columnMappingSettingSelector = (state: object): boolean =>
+  get(state, 'uploadSupplier.columnMappingSetting', false);
 
 export const skipColumnMappingCheckSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.skipColumnMappingCheck', false);

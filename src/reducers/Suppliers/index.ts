@@ -8,7 +8,8 @@ import {
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
   SET_TIME_EFFICIENCY,
-  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+  SET_SUPPLIER_NAME,
+  SET_NEW_SEARCH,
 } from '../../constants/Suppliers';
 import { Suppliers } from '../../actions/Suppliers';
 import keyBy from 'lodash/keyBy';
@@ -22,6 +23,7 @@ const initialState = {
   suppliersTableTab: 'all',
   timeEfficiency: [],
   newSupplier: null,
+  newSearchName: null,
 };
 
 export default (state: Suppliers = initialState, action: AnyAction) => {
@@ -91,8 +93,12 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
     case SET_TIME_EFFICIENCY:
       return setIn(state, 'timeEfficiency', action.payload);
 
-    case SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION:
+    case SET_SUPPLIER_NAME:
       return setIn(state, 'newSupplier', action.payload.id);
+
+    case SET_NEW_SEARCH:
+      return setIn(state, 'newSearchName', action.payload.id);
+
     default:
       return state;
   }

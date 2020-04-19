@@ -8,6 +8,7 @@ export interface Supplier {
   item_active_count: any;
   item_total_count: any;
   name: string;
+  search: string;
   phone: string;
   rate: string;
   seller_id: any;
