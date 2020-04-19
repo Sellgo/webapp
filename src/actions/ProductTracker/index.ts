@@ -21,6 +21,7 @@ import {
   REMOVE_PRODUCTS_IN_GROUP,
   FILTER_TRACKED_PRODUCTS,
   SEARCH_TRACKED_PRODUCTS,
+  SET_FILTER_SEARCH,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota } from '../Settings';
@@ -184,6 +185,11 @@ export const searchTrackedProducts = (value: string, filterData: any, groupId: a
     filterData: filterData,
     groupId: groupId,
   },
+});
+
+export const setProductFilterSearch = (value: string) => ({
+  type: SET_FILTER_SEARCH,
+  payload: value,
 });
 
 export const retrieveProductTrackGroup = () => (dispatch: any) => {

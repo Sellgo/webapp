@@ -12,12 +12,14 @@ import {
   setProductTrackerPageNumber,
   setTrackerSinglePageItemsCount,
   searchTrackedProducts,
+  setProductFilterSearch,
 } from '../../actions/ProductTracker';
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 import { getSellerQuota } from '../../actions/Settings';
 import ProductSearch from '../../components/ProductSearch/productSearch';
 
 interface ProductTrackerProps {
+  setFilterSearch: (value: string) => void;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
   getSellerQuota: any;
@@ -30,6 +32,7 @@ interface ProductTrackerProps {
   searchProducts: (value: string, filterData: any, groupId: any) => void;
   setPageNumber: (itemsCount: any) => void;
   filterData: any;
+  filterSearch: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -53,8 +56,9 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   componentDidMount() {
-    const { fetchAllTrackedProductDetails } = this.props;
+    const { fetchAllTrackedProductDetails, setFilterSearch } = this.props;
     const { periodValue } = this.state;
+    setFilterSearch('');
     this.props.setMenuItem(this.state.productTrackID);
     fetchAllTrackedProductDetails(periodValue);
   }
@@ -129,9 +133,14 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       filterData,
       activeGroupId,
     } = this.props;
-    this.setState({
-      searchValue: value,
-    });
+    this.setState(
+      {
+        searchValue: value,
+      },
+      () => {
+        console.log('searchValue: ', this.state.searchValue, filterData);
+      }
+    );
     searchProducts(value, filterData, activeGroupId);
     setSinglePageItemsCount(singlePageItemsCount);
   };
@@ -191,6 +200,7 @@ const mapStateToProps = (state: any) => {
     activeGroupId: get(state, 'productTracker.menuItem'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
     filterData: get(state, 'productTracker.filterData'),
+    filterSearch: get(state, 'productTracker.filterSearch'),
   };
 };
 
@@ -203,6 +213,7 @@ const mapDispatchToProps = {
     fetchAllSupplierProductTrackerDetails(periodValue),
   setMenuItem: (item: any) => setMenuItem(item),
   getSellerQuota: () => getSellerQuota(),
+  setFilterSearch: (value: string) => setProductFilterSearch(value),
   updateProductTrackingStatus: (
     status: string,
     productID?: any,

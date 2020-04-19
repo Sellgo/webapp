@@ -21,6 +21,7 @@ import {
   REMOVE_PRODUCTS_IN_GROUP,
   FILTER_TRACKED_PRODUCTS,
   SEARCH_TRACKED_PRODUCTS,
+  SET_FILTER_SEARCH,
   findFilteredProducts,
   searchFilteredProduct,
 } from '../../constants/Tracker';
@@ -176,6 +177,9 @@ export default (state = initialState, action: AnyAction) => {
       const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
       const searchProducts = searchFilteredProduct(filteredProducts, value);
       return setIn(newState, 'filteredProducts', searchProducts);
+    }
+    case SET_FILTER_SEARCH: {
+      return setIn(state, 'filterSearch', action.payload);
     }
     default:
       return state;

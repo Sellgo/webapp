@@ -54,7 +54,6 @@ function ProductTrackerFilterSection(props: Props) {
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
-  const originalGroupRange = findMinMax(groupProducts);
   const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
@@ -69,23 +68,45 @@ function ProductTrackerFilterSection(props: Props) {
     avg_daily_sales: filteredRanges.avg_daily_sales,
     avg_rank: filteredRanges.avg_rank,
     customer_reviews: filteredRanges.customer_reviews,
+    activeGroupId: activeGroupId,
   };
   const initialFilterState: any =
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
+
   useEffect(() => {
+    /*
+     Setting Period Filter
+   */
     if (openPeriodFilter) {
       setFilterType('period-filter');
       resetFilter();
-      filterProducts(filterSearch, filterState, activeGroupId);
+      filterProducts(filterSearch, filterInitialData, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     }
-    if (isAllReviews || !filterStorage) {
+    /*
+      Reset filter when changing groups
+    */
+    if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
+      setFilterType('');
+      resetFilter();
+      const filterValue = filterState;
+      filterValue.activeGroupId = activeGroupId;
+      setFilterState(filterValue);
+      filterProducts(filterSearch, filterState, activeGroupId);
+      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    } else if (filterStorage && filterStorage.activeGroupId === null) {
+      setTimeout(() => {
+        filterProducts(filterSearch, filterState, activeGroupId);
+        localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+      }, 500);
+    }
+
+    if (isAllReviews) {
       selectAllReviews(true);
     }
-    filterProducts(filterSearch, filterState, activeGroupId);
-  }, [filterState, activeGroupId]);
+  }, [filterState, activeGroupId, filterType]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
@@ -350,19 +371,20 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const resetFilter = () => {
+    const ranges = findMinMax(groupProducts);
     const data = filterState;
     data.sellerID = sellerIDSelector();
     data.reviews = [];
     data.removeNegative = [];
-    data.avg_price = originalGroupRange.avg_price;
-    data.avg_profit = originalGroupRange.avg_profit;
-    data.avg_margin = originalGroupRange.avg_margin;
-    data.avg_roi = originalGroupRange.avg_roi;
-    data.avg_daily_sales = originalGroupRange.avg_daily_sales;
-    data.avg_rank = originalGroupRange.avg_rank;
-    data.customer_reviews = originalGroupRange.customer_reviews;
+    data.avg_price = ranges.avg_price;
+    data.avg_profit = ranges.avg_profit;
+    data.avg_margin = ranges.avg_margin;
+    data.avg_roi = ranges.avg_roi;
+    data.avg_daily_sales = ranges.avg_daily_sales;
+    data.avg_rank = ranges.avg_rank;
+    data.customer_reviews = ranges.customer_reviews;
     selectAllReviews();
-    const filterRangeKeys = Object.keys(originalGroupRange);
+    const filterRangeKeys = Object.keys(ranges);
     _.each(filterRangeKeys, key => {
       const ranges = _.map(filterRanges, filter => {
         if (filter.dataKey === key) {
