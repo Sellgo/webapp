@@ -23,6 +23,8 @@ export const SET_ERROR_ROWS = 'SET_ERROR_ROWS';
 export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_LOADING = 'SET_LOADING';
 
+export const MAX_FILE_SIZE_BYTES = 30000000; // 30MB
+
 export enum UploadSteps {
   AddNewSearch,
   AddNewSupplier,

@@ -26,6 +26,7 @@ import {
   SET_COLUMN_MAPPINGS,
   SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
+  MAX_FILE_SIZE_BYTES,
   SET_RESULT_UPLOAD,
   SET_SYNTHESIS_ID,
   SET_ERROR_FILE,
@@ -40,6 +41,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
 import { fetchSupplier } from '../Suppliers';
+import { round } from 'lodash';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -165,6 +167,14 @@ export const handleRejectedFile = (rejectedFile?: File) => {
     rejectedFile && rejectedFile.name.split('.').length > 1 && rejectedFile.name.split('.').pop();
   if (!fileExtension || fileExtension.toLowerCase() !== 'csv') {
     error('Invalid file extension detected. File should be a csv file.');
+    return;
+  }
+
+  if (rejectedFile && rejectedFile.size > MAX_FILE_SIZE_BYTES) {
+    const mb = 1000 * 1000;
+    const fileSizeInMegabytes = round(rejectedFile.size / mb, 1);
+    const maxSizeInMegabytes = MAX_FILE_SIZE_BYTES / mb;
+    error(`The file is too large (${fileSizeInMegabytes}MB). Max size: ${maxSizeInMegabytes}MB.`);
     return;
   }
 };
