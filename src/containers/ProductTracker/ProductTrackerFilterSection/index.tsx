@@ -96,7 +96,7 @@ function ProductTrackerFilterSection(props: Props) {
       setFilterState(filterValue);
       filterProducts(filterSearch, filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    } else if (filterStorage && filterStorage.activeGroupId === null) {
+    } else if (filterStorage) {
       setTimeout(() => {
         filterProducts(filterSearch, filterState, activeGroupId);
         localStorage.setItem('trackerFilter', JSON.stringify(filterState));
