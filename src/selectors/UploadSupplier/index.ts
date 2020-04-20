@@ -28,7 +28,7 @@ export const currentLoadingShow = (state: object): [] =>
 export const currentConfirmationShow = (state: object): boolean =>
   get(state, 'uploadSupplier.confirmationShow', false);
 
-export const currentResultVal = (state: object): [] => get(state, 'uploadSupplier.resultVal', []);
+export const currentValid = (state: object): [] => get(state, 'uploadSupplier.resultVal', []);
 
 export const currentProgress = (state: object): [] => get(state, 'uploadSupplier.setProgress', []);
 
