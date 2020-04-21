@@ -75,6 +75,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   handleMenu = (id: any) => {
+    const { setPageNumber } = this.props;
+    setPageNumber(1);
     if (id !== null) {
       this.setState({ productTrackID: id }, () => {
         this.props.setMenuItem(this.state.productTrackID);

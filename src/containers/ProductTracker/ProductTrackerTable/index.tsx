@@ -72,7 +72,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     columnFilterData: columnFilter,
     groupError: false,
     activeRow: null,
-    currentPage: 1,
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -85,13 +84,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ open: false });
     }
   }
-
-  setCurrentPage = (pageNumber: number) => {
-    this.setState({
-      currentPage: pageNumber,
-    });
-  };
-
   handleSubmit = (e: any) => {
     e.preventDefault();
     const { name } = this.state;
@@ -407,8 +399,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       trackGroups,
       handleMenu,
       setPageNumber,
+      productTrackerPageNo,
     } = this.props;
-    const { currentPage } = this.state;
     if (isLoadingTrackerProducts || productTrackerResult === null) {
       return (
         <Segment className="product-tracker-loader">
@@ -446,7 +438,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           <SelectItemsCount
             totalCount={filteredProducts.length}
             singlePageItemsCount={singlePageItemsCount}
-            currentPage={currentPage}
+            currentPage={productTrackerPageNo}
             setSinglePageItemsCount={setSinglePageItemsCount}
           />
         </div>
@@ -456,8 +448,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
-            setPage={this.setCurrentPage}
-            ptCurrentPage={currentPage}
+            setPage={setPageNumber}
+            ptCurrentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
