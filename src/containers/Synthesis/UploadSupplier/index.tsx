@@ -6,20 +6,22 @@ import SupplierInformation from './SupplierInformation';
 import Actions from './Actions';
 import SelectFile from './SelectFile';
 import DataMapping from './DataMapping';
-import { currentStepSelector } from '../../../selectors/UploadSupplier';
+import { currentStepSelector, currentProgressShow } from '../../../selectors/UploadSupplier';
 import Submit from './Submit';
 import FormWrapper from './FormWrapper';
 import { cleanupUploadSupplier } from '../../../actions/UploadSupplier';
+import AddNewSearch from './AddNewSearch';
 
 interface Props {
   currentStep: number;
   cleanupUploadSupplier: typeof cleanupUploadSupplier;
   isEditModal: boolean;
+  currentProgressShow: any;
 }
 
 export const UploadSupplier = (props: Props) => {
   const [finished, setFinished] = useState(false);
-  const { currentStep, cleanupUploadSupplier, isEditModal } = props;
+  const { currentStep, cleanupUploadSupplier, isEditModal, currentProgressShow } = props;
 
   useEffect(() => {
     return () => {
@@ -29,16 +31,18 @@ export const UploadSupplier = (props: Props) => {
 
   return (
     <div className={`new-supp-container ${styles.container} ${styles['supply-container']}`}>
-      <UploadSteps isEditModal={isEditModal} finished={finished} />
+      <UploadSteps isEditModal={isEditModal} finished={currentProgressShow ? finished : false} />
       <div className={`upload-section ${styles.section}`}>
         <FormWrapper>
-          {currentStep === 0 && <SupplierInformation />}
+          {currentStep === 0 && <AddNewSearch />}
 
-          {currentStep === 1 && <SelectFile />}
+          {currentStep === 1 && <SupplierInformation />}
 
-          {currentStep === 2 && <DataMapping />}
+          {currentStep === 2 && <SelectFile />}
 
-          {currentStep === 3 && (
+          {currentStep === 3 && <DataMapping />}
+
+          {currentStep === 4 && (
             <Submit
               onFinished={() => {
                 setFinished(true);
@@ -54,6 +58,7 @@ export const UploadSupplier = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
+  currentProgressShow: currentProgressShow(state),
 });
 
 const mapDispatchToProps = {

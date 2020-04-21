@@ -2,6 +2,7 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Icon } from 'semantic-ui-react';
 import styles from './FileUploader.module.css';
+import { MAX_FILE_SIZE_BYTES } from '../../constants/UploadSupplier';
 
 interface FileUploaderProps {
   onDrop: (acceptedFiles: File[]) => void;
@@ -18,6 +19,7 @@ function FileUploader(props: FileUploaderProps) {
     onDropRejected,
     accept,
     multiple,
+    maxSize: MAX_FILE_SIZE_BYTES,
   });
 
   // cloud download

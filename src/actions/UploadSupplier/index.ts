@@ -6,7 +6,7 @@ import Axios from 'axios';
 import reduce from 'lodash/reduce';
 import {
   isFirstRowHeaderSelector,
-  saveColumnMappingSettingSelector,
+  columnMappingSettingSelector,
   currentStepSelector,
   columnMappingsSelector,
   csvSelector,
@@ -23,15 +23,25 @@ import {
   UploadSteps,
   FINISH_UPLOAD,
   TOGGLE_FIRST_ROW_HEADER,
-  SET_SAVED_COLUMN_MAPPINGS,
-  SET_SAVE_COLUMN_MAPPING_SETTING,
+  SET_COLUMN_MAPPINGS,
+  SET_COLUMN_MAPPING_SETTING,
   SET_SKIP_COLUMN_MAPPING_CHECK,
+  MAX_FILE_SIZE_BYTES,
+  SET_RESULT_UPLOAD,
+  SET_SYNTHESIS_ID,
+  SET_ERROR_FILE,
+  SET_PROGRESS_SHOW,
+  SHOW_CONFIRMATION,
+  SET_VALID_ROWS,
+  SET_ERROR_ROWS,
+  SET_LOADING,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
-import { fetchSupplier, fetchSynthesisProgressUpdates } from '../Suppliers';
+import { fetchSupplier } from '../Suppliers';
+import { round } from 'lodash';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -40,7 +50,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   const isStepWithinRange = Object.values(UploadSteps).indexOf(nextStep) !== -1;
 
   if (!isStepWithinRange) {
-    return Promise.reject();
+    return;
   }
 
   const currentStep = currentStepSelector(getState());
@@ -52,7 +62,7 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 
   if (errorMessage) {
     error(errorMessage);
-    return Promise.reject();
+    return;
   }
 
   // if step is decreased we should clean up previous step
@@ -159,6 +169,14 @@ export const handleRejectedFile = (rejectedFile?: File) => {
     error('Invalid file extension detected. File should be a csv file.');
     return;
   }
+
+  if (rejectedFile && rejectedFile.size > MAX_FILE_SIZE_BYTES) {
+    const mb = 1000 * 1000;
+    const fileSizeInMegabytes = round(rejectedFile.size / mb, 1);
+    const maxSizeInMegabytes = MAX_FILE_SIZE_BYTES / mb;
+    error(`The file is too large (${fileSizeInMegabytes}MB). Max size: ${maxSizeInMegabytes}MB.`);
+    return;
+  }
 };
 
 export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
@@ -182,13 +200,53 @@ export const mapColumn = (csvColumn: string | number, targetColumn: string) => (
   targetColumn,
 });
 
-export const setSavedColumnMappings = (savedColumnMappings: any) => ({
-  type: SET_SAVED_COLUMN_MAPPINGS,
-  payload: savedColumnMappings,
+export const setColumnMappings = (columnMapping: any) => ({
+  type: SET_COLUMN_MAPPINGS,
+  payload: columnMapping,
 });
 
-export const setSaveColumnMappingSetting = (checked: boolean) => ({
-  type: SET_SAVE_COLUMN_MAPPING_SETTING,
+export const setResultUpload = (resultUpload: any) => ({
+  type: SET_RESULT_UPLOAD,
+  payload: resultUpload,
+});
+
+export const setErrorFile = (errorFile: any) => ({
+  type: SET_ERROR_FILE,
+  payload: errorFile,
+});
+
+export const setSynthesisId = (synthesisId: any) => ({
+  type: SET_SYNTHESIS_ID,
+  payload: synthesisId,
+});
+
+export const validRows = (valid: any) => ({
+  type: SET_VALID_ROWS,
+  payload: valid,
+});
+
+export const setError = (error: any) => ({
+  type: SET_ERROR_ROWS,
+  payload: error,
+});
+
+export const setProgressShow = (check: boolean) => ({
+  type: SET_PROGRESS_SHOW,
+  payload: check,
+});
+
+export const setConfirmationShow = (check: boolean) => ({
+  type: SHOW_CONFIRMATION,
+  payload: check,
+});
+
+export const setLoadingShow = (check: boolean) => ({
+  type: SET_LOADING,
+  payload: check,
+});
+
+export const setColumnMappingSetting = (checked: boolean) => ({
+  type: SET_COLUMN_MAPPING_SETTING,
   payload: checked,
 });
 
@@ -211,8 +269,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (sku !== null) columnMappings[sku] = 'sku';
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
-    dispatch(setSavedColumnMappings(columnMappings));
-    dispatch(setSkipColumnMappingCheck(true));
+    dispatch(setColumnMappings(columnMappings));
   } else {
     dispatch(removeColumnMappings());
   }
@@ -225,7 +282,7 @@ export const validateAndUploadCsv = () => async (
   const sellerID = sellerIDSelector();
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
-  const saveColumnMappingSetting = saveColumnMappingSettingSelector(getState());
+  const columnMappingSetting = columnMappingSettingSelector(getState());
   const csv = parseArrayToCsvFile(csvSelector(getState()), csvFileSelector(getState()));
 
   const reversedColumnMappings: any = reduce(
@@ -248,7 +305,7 @@ export const validateAndUploadCsv = () => async (
   bodyFormData.set('file', csv);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
-  if (saveColumnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
+  if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'title'))
     bodyFormData.set('title', reversedColumnMappings.title);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'sku'))
@@ -258,13 +315,20 @@ export const validateAndUploadCsv = () => async (
   // correct this
   if (isFirstRowHeaderSelector(getState())) bodyFormData.set('has_header', 'True');
 
-  await Axios.post(
+  const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
     bodyFormData
   );
+
+  if (response.data) {
+    dispatch(setResultUpload(response.data.response_type));
+    dispatch(setErrorFile(response.data.error_file_url));
+    dispatch(validRows(response.data.num_valid_rows));
+    dispatch(setError(response.data.num_error_rows));
+    dispatch(setSynthesisId(response.data.synthesis_file_id));
+  }
   dispatch(finishUpload());
   await dispatch(fetchSupplier(supplierID));
-  dispatch(fetchSynthesisProgressUpdates());
 };
 
 export const cleanupUploadSupplier = () => ({

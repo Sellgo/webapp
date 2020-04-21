@@ -2,20 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Stepper from '../../../components/Stepper';
 import { setUploadSupplierStep } from '../../../actions/UploadSupplier';
-import { currentStepSelector } from '../../../selectors/UploadSupplier';
+import { currentStepSelector, currentProgressShow } from '../../../selectors/UploadSupplier';
 import { Icon } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
 
 interface Props {
   value: number;
   onChange: (newValue: number) => void;
+  progressShow: [];
   isEditModal: boolean;
   finished: boolean;
 }
 
 const steps = [
   {
-    title: 'Add New Supplier',
+    title: 'Add New Search',
+    icon: <Icon className="plus square" />,
+  },
+  {
+    title: 'Additional Info',
     icon: <i className="fas fa-pen-square" />,
   },
   {
@@ -29,17 +34,20 @@ const steps = [
     description: '',
   },
   {
-    title: 'Submit',
-    icon: <Icon name="upload" />,
+    title: 'Upload',
+    icon: <Icon name="check square" />,
     description: '',
   },
 ];
 
 export const UploadSteps = (props: Props) => {
-  const { value, isEditModal, finished } = props;
+  const { value, isEditModal, finished, progressShow } = props;
 
   return (
-    <Stepper className={styles.stepper} {...props}>
+    <Stepper
+      className={progressShow ? `UploadSteps__disable ${styles.stepper}` : styles.stepper}
+      {...props}
+    >
       {({ Step }) =>
         steps.map((step, index) => (
           <Step
@@ -47,8 +55,8 @@ export const UploadSteps = (props: Props) => {
             title={
               !isEditModal
                 ? step.title
-                : step.title === 'Add New Supplier'
-                ? 'Edit Supplier'
+                : step.title === 'Add New Search'
+                ? 'Edit Search'
                 : step.title
             }
             disabled={finished || index < value - 1 || index > value + 1}
@@ -64,6 +72,7 @@ export const UploadSteps = (props: Props) => {
 const mapStateToProps = (state: any) => {
   return {
     value: currentStepSelector(state),
+    progressShow: currentProgressShow(state),
   };
 };
 

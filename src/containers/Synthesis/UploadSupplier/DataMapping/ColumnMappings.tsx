@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Grid, Select, Form, Checkbox } from 'semantic-ui-react';
+import { Grid, Select, Form } from 'semantic-ui-react';
 import styles from '../UploadSupplier.module.css';
 import { FieldsToMap } from '../../../../constants/UploadSupplier';
 import {
@@ -23,8 +23,6 @@ const ColumnMappings = ({
   availableFields,
   mapColumn,
   reversedColumnMappings,
-  isFirstRowHeader,
-  toggleFirstRowHeader,
 }: ColumnMappingsProps) => {
   const availableFieldOptions = availableFields.map((availableField, index) => ({
     text: availableField,
@@ -33,15 +31,6 @@ const ColumnMappings = ({
 
   return (
     <>
-      <Header className={styles['margin-top']} as="h3">
-        <span>Column Mapping{'  '}</span>
-        <Checkbox
-          style={{ marginLeft: 20 }}
-          checked={isFirstRowHeader}
-          onChange={toggleFirstRowHeader}
-          label="has header?"
-        />
-      </Header>
       <Grid>
         <Grid.Row className={`stackable ${styles.data_map_col}`}>
           {FieldsToMap.map(({ key, label }) => (

@@ -14,82 +14,12 @@ import { webUrl } from '../../../utils/validations/isUrl';
 
 const required = isRequired();
 
-const SupplierDetails = () => (
-  <React.Fragment>
-    <Grid.Column>
-      <Field
-        component={InputField}
-        name="website"
-        label="Website"
-        placeholder="Website"
-        type="url"
-        maxLength="200"
-        validate={webUrl}
-      />
-      <Field
-        component={InputField}
-        name="phone"
-        label="Phone"
-        placeholder="e.g. +1 (416) 555-1212"
-        validate={isNumber}
-        className={styles['phone-field']}
-      />
-      <Field
-        className={styles['dropdwn-wdth']}
-        component={SelectField}
-        name="account_status"
-        label="Account Status"
-        placeholder="Account Status"
-        options={[defaultSelect, ...accountStatus]}
-      />
-      <Field
-        component={InputField}
-        name="freight_fee"
-        label="Freight Free Threshold ($)"
-        placeholder="$"
-        className={styles['field-width']}
-        type="number"
-        min="0"
-        validate={onlyNumber}
-      />
-    </Grid.Column>
-    <Grid.Column>
-      <Field
-        className="timezone-field"
-        component={SelectField}
-        name="timezone"
-        label="Timezone"
-        placeholder="Timezone"
-        options={[defaultSelect, ...timezones]}
-      />
-      <Field component={InputField} name="email" label="Email" placeholder="Email" type="email" />
-      <Field
-        component={SelectField}
-        name="terms"
-        label="Terms"
-        placeholder="Terms"
-        options={[defaultSelect, ...terms]}
-      />
-      <Field
-        component={InputField}
-        name="upcharge_fee"
-        label="Upcharge Fee (%)"
-        placeholder="%"
-        className={styles['field-width']}
-        type="number"
-        min="0"
-        validate={onlyNumber}
-      />
-    </Grid.Column>
-  </React.Fragment>
-);
-
 const SupplierInformation = () => {
   return (
     <div className={`new-upload-outline ${styles['ouline-box']}`}>
       <Form className={`${styles['supply-container']} ${styles['form-size']}`}>
         <Grid columns="equal" className="bg-color">
-          <Grid.Column className={styles.padding0}>
+          <Grid.Column className={`SupplierInformation__first-column  ${styles.padding0}`}>
             <div className={`new-upload-form ${styles['form-container']}`}>
               <Field
                 required={true}
@@ -110,7 +40,77 @@ const SupplierInformation = () => {
               />
             </div>
           </Grid.Column>
-          {<SupplierDetails />}
+          <Grid.Column>
+            <Field
+              component={InputField}
+              name="website"
+              label="Website"
+              placeholder="Website"
+              type="url"
+              maxLength="200"
+              validate={webUrl}
+            />
+            <Field
+              component={InputField}
+              name="phone"
+              label="Phone"
+              placeholder="e.g. +1 (416) 555-1212"
+              validate={isNumber}
+              className={styles['phone-field']}
+            />
+            <Field
+              className={styles['dropdwn-wdth']}
+              component={SelectField}
+              name="account_status"
+              label="Account Status"
+              placeholder="Account Status"
+              options={[defaultSelect, ...accountStatus]}
+            />
+            <Field
+              component={InputField}
+              name="freight_fee"
+              label="Freight Free Threshold ($)"
+              placeholder="$"
+              className={styles['field-width']}
+              type="number"
+              min="0"
+              validate={onlyNumber}
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Field
+              className="timezone-field"
+              component={SelectField}
+              name="timezone"
+              label="Timezone"
+              placeholder="Timezone"
+              options={[defaultSelect, ...timezones]}
+            />
+            <Field
+              component={InputField}
+              name="email"
+              label="Email"
+              placeholder="Email"
+              type="email"
+            />
+            <Field
+              component={SelectField}
+              name="terms"
+              label="Terms"
+              placeholder="Terms"
+              options={[defaultSelect, ...terms]}
+            />
+            <Field
+              component={InputField}
+              name="upcharge_fee"
+              label="Upcharge Fee (%)"
+              placeholder="%"
+              className={styles['field-width']}
+              type="number"
+              min="0"
+              validate={onlyNumber}
+            />
+          </Grid.Column>
         </Grid>
       </Form>
     </div>

@@ -38,7 +38,9 @@ const PreviewTable = (props: PreviewTableProps) => {
         {previewRows.map((previewRow, index) => (
           <Table.Row key={index}>
             {previewRow.map((previewRowValue, index) => (
-              <Table.Cell key={index}>{previewRowValue}</Table.Cell>
+              <Table.Cell className="PreviewTable__cell" key={index}>
+                {previewRowValue}
+              </Table.Cell>
             ))}
           </Table.Row>
         ))}
