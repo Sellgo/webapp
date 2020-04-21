@@ -27,6 +27,7 @@ import {
 } from '../../../actions/Products';
 import { columnFilter } from '../../../constants/Tracker';
 import SelectItemsCount from '../../../components/Table/SelectItemsCount';
+import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
@@ -466,7 +467,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleColumnChange={this.handleColumnChange}
             count={productTrackerResult}
             productTrackerPageNo={this.props.productTrackerPageNo}
-            showProductFilter={true}
+            showFilter={true}
+            renderFilterSectionComponent={() => <ProductTrackerFilterSection />}
           />
         )}
       </div>
