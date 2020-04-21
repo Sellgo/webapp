@@ -72,7 +72,7 @@ function ProductTrackerFilterSection(props: Props) {
    */
     if (openPeriodFilter) {
       setFilterType('period-filter');
-      resetFilter();
+      resetFilter(true);
       filterProducts(filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     }
@@ -361,20 +361,45 @@ function ProductTrackerFilterSection(props: Props) {
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
   };
 
-  const resetFilter = () => {
+  const resetFilter = (fromPeriod?: boolean) => {
     const ranges = findMinMax(groupProducts);
     const data = filterState;
     data.sellerID = sellerIDSelector();
-    data.reviews = [];
-    data.removeNegative = [];
+    console.log('fromPeriod: ', fromPeriod);
+    if (!fromPeriod) {
+      data.reviews = [];
+      data.removeNegative = [];
+      selectAllReviews();
+    }
     data.avg_price = ranges.avg_price;
-    data.avg_profit = ranges.avg_profit;
-    data.avg_margin = ranges.avg_margin;
-    data.avg_roi = ranges.avg_roi;
+
+    data.avg_profit =
+      fromPeriod && data.removeNegative.indexOf('avg_profit') !== -1
+        ? {
+            min: data.avg_profit.min < 0 ? 0 : data.avg_profit.min,
+            max: data.avg_profit.max < 0 ? 0 : data.avg_profit.max,
+          }
+        : ranges.avg_profit;
+
+    data.avg_margin =
+      fromPeriod && data.removeNegative.indexOf('avg_margin') !== -1
+        ? {
+            min: data.avg_margin.min < 0 ? 0 : data.avg_margin.min,
+            max: data.avg_margin.max < 0 ? 0 : data.avg_margin.max,
+          }
+        : ranges.avg_margin;
+
+    data.avg_roi =
+      fromPeriod && data.removeNegative.indexOf('avg_roi') !== -1
+        ? {
+            min: data.avg_roi.min < 0 ? 0 : data.avg_roi.min,
+            max: data.avg_roi.max < 0 ? 0 : data.avg_roi.max,
+          }
+        : ranges.avg_roi;
+
     data.avg_daily_sales = ranges.avg_daily_sales;
     data.avg_rank = ranges.avg_rank;
     data.customer_reviews = ranges.customer_reviews;
-    selectAllReviews();
     const filterRangeKeys = Object.keys(ranges);
     _.each(filterRangeKeys, key => {
       const ranges = _.map(filterRanges, filter => {
