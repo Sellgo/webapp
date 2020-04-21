@@ -64,7 +64,7 @@ export interface GenericTableProps {
   onClearSearch: (e: any) => void;
   columns: Column[];
   sortedColumnKey: string;
-  sortDirection: 'ascending' | 'descending';
+  sortDirection: 'descending' | 'ascending';
   setSort: (e: any, clickedColumn: string) => void;
   rows: Array<{ [key: string]: any }>;
   extendedInfo?: (data: any) => void;
@@ -429,7 +429,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     });
   }
 
-  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
   const handleShowSearchFilter = (e: any, key: any) => {
@@ -498,15 +498,15 @@ const renderCell = (row: { [key: string]: any }, column: Column) => {
 
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
-  const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
+  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('descending');
 
   const handleSort = (e: any, clickedColumn: string) => {
     e.preventDefault();
     if (sortedColumnKey !== clickedColumn) {
       setSortedColumnKey(clickedColumn);
-      setSortDirection('ascending');
+      setSortDirection('descending');
     } else {
-      setSortDirection(sortDirection === 'ascending' ? 'descending' : 'ascending');
+      setSortDirection(sortDirection === 'descending' ? 'ascending' : 'descending');
     }
   };
 
