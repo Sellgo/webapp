@@ -5,6 +5,7 @@ import { ModalsAction } from '../../actions/Modals';
 interface ModalsStateInterface {
   [key: string]: {
     open: boolean;
+    meta?: any;
   };
 }
 
@@ -13,7 +14,7 @@ export default (state: ModalsStateInterface = {}, action: ModalsAction) => {
     case OPEN:
       return setIn(state, action.key, {
         open: true,
-        meta: action.meta || null,
+        meta: action.meta,
       });
 
     case CLOSE:
