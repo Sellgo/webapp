@@ -180,6 +180,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   handleColumnChange = (e: any, data: any) => {
+    e.stopPropagation();
     const checkedData = this.state.columnFilterData;
     if (data.label === 'Select All') {
       checkedData.forEach((element: any) => {
@@ -399,6 +400,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       handleMenu,
       setPageNumber,
     } = this.props;
+    const { ColumnFilterBox } = this.state;
     if (isLoadingTrackerProducts || productTrackerResult === null) {
       return (
         <Segment className="product-tracker-loader">
@@ -435,6 +437,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         </div>
         {productTrackerResult && (
           <PaginatedTable
+            columnFilterBox={ColumnFilterBox}
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
@@ -449,6 +452,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleColumnChange={this.handleColumnChange}
             count={productTrackerResult}
             productTrackerPageNo={this.props.productTrackerPageNo}
+            toggleColumnCheckbox={this.handleClick}
           />
         )}
       </div>
