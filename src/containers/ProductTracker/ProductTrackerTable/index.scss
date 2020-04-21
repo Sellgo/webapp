@@ -593,6 +593,17 @@ $link-color: #349af8;
           border-bottom-right-radius: 10px;
           border-right: 1px solid rgba(34, 36, 38, 0.3);
           border-top-right-radius: 10px;
+          padding: 0;
+          text-align: center;
+          max-height: 55px;
+
+          i.icon.ellipsis {
+            height: 100%;
+            width: 100%;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+          }
         }
       }
 
