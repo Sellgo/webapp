@@ -416,6 +416,7 @@ function ProductTrackerFilterSection(props: Props) {
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
+      localStorage.setItem('openPeriod', JSON.stringify(false));
       return;
     }
     if (type !== 'period-filter') {
