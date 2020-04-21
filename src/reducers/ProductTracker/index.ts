@@ -5,7 +5,6 @@ import { AnyAction } from 'redux';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
   IS_LOADING_TRACKER_PRODUCTS,
-  UPDATE_TRACKER_FILTER_RANGES,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_MENU_ITEM,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
@@ -13,9 +12,7 @@ import {
   ADD_PRODUCT_TRACK_GROUP,
   UPDATE_PRODUCT_TRACK_GROUP,
   REMOVE_PRODUCT_TRACK_GROUP,
-  findFilterProducts,
   filterProductsByGroupId,
-  findMinMaxRange,
   UPDATE_TRACKED_PRODUCT,
   REMOVE_TRACKED_PRODUCT,
   REMOVE_PRODUCTS_IN_GROUP,
@@ -23,6 +20,7 @@ import {
   SET_FILTER_SEARCH,
   findFilteredProducts,
   searchFilteredProduct,
+  findMinMax,
 } from '../../constants/Tracker';
 import _ from 'lodash';
 
@@ -45,14 +43,10 @@ export default (state = initialState, action: AnyAction) => {
     case IS_LOADING_TRACKER_PRODUCTS: {
       return setIn(state, 'isLoadingTrackerProducts', action.payload);
     }
-    case SET_PRODUCT_TRACKER_DETAILS:
-      return setIn(state, 'trackerDetails', action.payload);
-    case UPDATE_TRACKER_FILTER_RANGES: {
-      const filterRanges = action.payload;
-      const newState = setIn(state, 'filterRanges', filterRanges);
-      // Also update filteredProducts in state each time filterRanges changes
-      const filteredProducts = findFilterProducts(state.trackerDetails.results, filterRanges);
-      return setIn(newState, 'filteredProducts', filteredProducts);
+    case SET_PRODUCT_TRACKER_DETAILS: {
+      const data = action.payload;
+      const newState = setIn(state, 'trackerDetails', data);
+      return setIn(newState, 'filteredProducts', data.results);
     }
     case SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT:
       return setIn(state, 'singlePageItemsCount', action.payload);
@@ -63,7 +57,7 @@ export default (state = initialState, action: AnyAction) => {
         state.trackerDetails.results,
         groupId
       );
-      const newFilterRanges = findMinMaxRange(filteredProductsByGroupId);
+      const newFilterRanges = findMinMax(filteredProductsByGroupId);
       const newStateWithFilterRanges = setIn(newStateWithMenu, 'filterRanges', newFilterRanges);
       return setIn(newStateWithFilterRanges, 'filteredProducts', filteredProductsByGroupId);
     }
@@ -108,7 +102,7 @@ export default (state = initialState, action: AnyAction) => {
         (product: any) => product.product_track_group_id !== groupIdForRemove
       );
       newStateRemoveProducts = setIn(newStateRemoveProducts, 'filteredProducts', filterProducts);
-      const ranges = findMinMaxRange(filterProducts);
+      const ranges = findMinMax(filterProducts);
       newStateRemoveProducts = setIn(newStateRemoveProducts, 'filterRanges', ranges);
 
       return newStateRemoveProducts;

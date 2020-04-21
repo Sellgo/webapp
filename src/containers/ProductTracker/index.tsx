@@ -63,6 +63,10 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     fetchAllTrackedProductDetails(periodValue);
   }
 
+  componentWillUnmount() {
+    localStorage.setItem('openPeriod', JSON.stringify(false));
+  }
+
   handlePeriodDrop = (data: any) => {
     this.setState({ periodValue: data.value }, () => {
       this.props.getSellerQuota();

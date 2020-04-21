@@ -7,8 +7,6 @@ import { ProductTrackerDetails } from '../../interfaces/Product';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
   IS_LOADING_TRACKER_PRODUCTS,
-  findMinMaxRange,
-  UPDATE_TRACKER_FILTER_RANGES,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
@@ -33,11 +31,6 @@ export const isLoadingTrackerProducts = (value: boolean) => ({
 export const setSupplierProductTrackerDetails = (product: ProductTrackerDetails) => ({
   type: SET_PRODUCT_TRACKER_DETAILS,
   payload: product,
-});
-
-export const updateTrackerFilterRanges = (filterRanges: any) => ({
-  type: UPDATE_TRACKER_FILTER_RANGES,
-  payload: filterRanges,
 });
 
 export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
@@ -103,9 +96,8 @@ export const fetchAllSupplierProductTrackerDetails = (period: any) => async (
       `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_price,avg_rank,customer_reviews,avg_margin,avg_daily_sales,avg_roi,avg_profit`
   );
   if (response.data) {
-    dispatch(isLoadingTrackerProducts(false));
     dispatch(setSupplierProductTrackerDetails(response.data));
-    dispatch(updateTrackerFilterRanges(findMinMaxRange(response.data.results)));
+    dispatch(isLoadingTrackerProducts(false));
   } else {
     dispatch(isLoadingTrackerProducts(false));
     error('Data not found');

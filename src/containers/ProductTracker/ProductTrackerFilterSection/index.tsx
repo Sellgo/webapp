@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { connect } from 'react-redux';
-import { Product } from '../../../interfaces/Product';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
@@ -16,7 +15,6 @@ import {
 import { sellerIDSelector } from '../../../selectors/Seller';
 
 interface Props {
-  filteredProducts: Product[];
   filterProducts: (filterData: any, groupId: any) => void;
   trackerDetails: any;
   activeGroupId: any;
@@ -75,7 +73,7 @@ function ProductTrackerFilterSection(props: Props) {
     if (openPeriodFilter) {
       setFilterType('period-filter');
       resetFilter();
-      filterProducts(filterInitialData, activeGroupId);
+      filterProducts(filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     }
     /*
@@ -452,7 +450,6 @@ function ProductTrackerFilterSection(props: Props) {
 
 const mapStateToProps = (state: {}) => ({
   activeGroupId: get(state, 'productTracker.menuItem'),
-  filteredProducts: get(state, 'productTracker.filteredProducts'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
 });
 
