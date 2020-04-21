@@ -17,21 +17,14 @@ import { sellerIDSelector } from '../../../selectors/Seller';
 
 interface Props {
   filteredProducts: Product[];
-  filterProducts: (value: string, filterData: any, groupId: any) => void;
-  filterSearch: string;
+  filterProducts: (filterData: any, groupId: any) => void;
   trackerDetails: any;
   activeGroupId: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
 }
 
 function ProductTrackerFilterSection(props: Props) {
-  const {
-    filterProducts,
-    filterSearch,
-    trackerDetails,
-    activeGroupId,
-    fetchAllTrackedProductDetails,
-  } = props;
+  const { filterProducts, trackerDetails, activeGroupId, fetchAllTrackedProductDetails } = props;
   const sellerID = sellerIDSelector();
   const filterStorage = JSON.parse(
     typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
@@ -82,7 +75,7 @@ function ProductTrackerFilterSection(props: Props) {
     if (openPeriodFilter) {
       setFilterType('period-filter');
       resetFilter();
-      filterProducts(filterSearch, filterInitialData, activeGroupId);
+      filterProducts(filterInitialData, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     }
     /*
@@ -94,11 +87,11 @@ function ProductTrackerFilterSection(props: Props) {
       const filterValue = filterState;
       filterValue.activeGroupId = activeGroupId;
       setFilterState(filterValue);
-      filterProducts(filterSearch, filterState, activeGroupId);
+      filterProducts(filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     } else if (filterStorage) {
       setTimeout(() => {
-        filterProducts(filterSearch, filterState, activeGroupId);
+        filterProducts(filterState, activeGroupId);
         localStorage.setItem('trackerFilter', JSON.stringify(filterState));
       }, 500);
     }
@@ -366,7 +359,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
-    filterProducts(filterSearch, filterState, activeGroupId);
+    filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
   };
 
@@ -460,13 +453,11 @@ function ProductTrackerFilterSection(props: Props) {
 const mapStateToProps = (state: {}) => ({
   activeGroupId: get(state, 'productTracker.menuItem'),
   filteredProducts: get(state, 'productTracker.filteredProducts'),
-  filterSearch: get(state, 'productTracker.filterSearch'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
 });
 
 const mapDispatchToProps = {
-  filterProducts: (value: string, filterData: any, groupId: any) =>
-    filterTrackedProducts(value, filterData, groupId),
+  filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
 };

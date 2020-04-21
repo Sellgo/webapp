@@ -20,7 +20,6 @@ import {
   REMOVE_TRACKED_PRODUCT,
   REMOVE_PRODUCTS_IN_GROUP,
   FILTER_TRACKED_PRODUCTS,
-  SEARCH_TRACKED_PRODUCTS,
   SET_FILTER_SEARCH,
   findFilteredProducts,
   searchFilteredProduct,
@@ -155,7 +154,7 @@ export default (state = initialState, action: AnyAction) => {
       );
     }
     case FILTER_TRACKED_PRODUCTS: {
-      const { value, filterData, groupId } = action.payload;
+      const { filterData, groupId } = action.payload;
       const data = _.cloneDeep(filterData);
       const newState = setIn(state, 'filterData', data);
       const filteredProductsByGroupId = filterProductsByGroupId(
@@ -163,19 +162,7 @@ export default (state = initialState, action: AnyAction) => {
         groupId
       );
       const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
-      const searchProducts = searchFilteredProduct(filteredProducts, value);
-      return setIn(newState, 'filteredProducts', searchProducts);
-    }
-    case SEARCH_TRACKED_PRODUCTS: {
-      const { value, filterData, groupId } = action.payload;
-      const data = _.cloneDeep(filterData);
-      const newState = setIn(state, 'filterSearch', value);
-      const filteredProductsByGroupId = filterProductsByGroupId(
-        state.trackerDetails.results,
-        groupId
-      );
-      const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
-      const searchProducts = searchFilteredProduct(filteredProducts, value);
+      const searchProducts = searchFilteredProduct(filteredProducts, state.filterSearch);
       return setIn(newState, 'filteredProducts', searchProducts);
     }
     case SET_FILTER_SEARCH: {
