@@ -593,6 +593,10 @@ $link-color: #349af8;
           border-bottom-right-radius: 10px;
           border-right: 1px solid rgba(34, 36, 38, 0.3);
           border-top-right-radius: 10px;
+
+          i.icon.ellipsis {
+            color: #98aeca;
+          }
         }
       }
 
@@ -695,7 +699,7 @@ $link-color: #349af8;
 
     i.icon,
     i.icons {
-      color: #c3c5c5;
+      color: #98aeca;
     }
   }
 
