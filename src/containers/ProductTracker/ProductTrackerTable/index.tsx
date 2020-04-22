@@ -401,15 +401,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       setPageNumber,
       productTrackerPageNo,
     } = this.props;
-    if (isLoadingTrackerProducts || productTrackerResult === null) {
-      return (
-        <Segment className="product-tracker-loader">
-          <Loader active={true} inline="centered" size="massive">
-            Loading
-          </Loader>
-        </Segment>
-      );
-    }
 
     return (
       <div className="tracker-table">
@@ -442,7 +433,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             setSinglePageItemsCount={setSinglePageItemsCount}
           />
         </div>
-        {productTrackerResult && (
+        <ProductTrackerFilterSection />
+        {!isLoadingTrackerProducts && productTrackerResult ? (
           <PaginatedTable
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
@@ -460,8 +452,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             count={productTrackerResult}
             productTrackerPageNo={this.props.productTrackerPageNo}
             showFilter={true}
-            renderFilterSectionComponent={() => <ProductTrackerFilterSection />}
           />
+        ) : (
+          <Segment className="product-tracker-loader">
+            <Loader active={true} inline="centered" size="massive">
+              Loading
+            </Loader>
+          </Segment>
         )}
       </div>
     );

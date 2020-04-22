@@ -19,10 +19,17 @@ interface Props {
   trackerDetails: any;
   activeGroupId: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
+  isLoadingTrackerProducts: boolean;
 }
 
 function ProductTrackerFilterSection(props: Props) {
-  const { filterProducts, trackerDetails, activeGroupId, fetchAllTrackedProductDetails } = props;
+  const {
+    filterProducts,
+    trackerDetails,
+    activeGroupId,
+    fetchAllTrackedProductDetails,
+    isLoadingTrackerProducts,
+  } = props;
   const sellerID = sellerIDSelector();
   const filterStorage = JSON.parse(
     typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
@@ -81,7 +88,7 @@ function ProductTrackerFilterSection(props: Props) {
     */
     if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
       setFilterType('');
-      resetFilter();
+      resetFilter(true);
       const filterValue = filterState;
       filterValue.activeGroupId = activeGroupId;
       setFilterState(filterValue);
@@ -91,13 +98,13 @@ function ProductTrackerFilterSection(props: Props) {
       setTimeout(() => {
         filterProducts(filterState, activeGroupId);
         localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-      }, 500);
+      }, 1500);
     }
 
     if (isAllReviews) {
       selectAllReviews(true);
     }
-  }, [filterState, activeGroupId, filterType]);
+  }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
@@ -344,11 +351,25 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const resetSingleFilter = (datakey: string) => {
-    const filterDetails = filterState;
-    const data = _.map(filterRanges, filter => {
+    const ranges = findMinMax(groupProducts);
+    const filterDetails = _.cloneDeep(filterState);
+    const filterRangesData: any = _.cloneDeep(filterRanges);
+    const data = _.map(filterRangesData, filter => {
       if (filter.dataKey === datakey) {
-        filter.filterRange = filter.range;
-        filterDetails[datakey] = filter.range;
+        if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
+          filter.range = ranges[datakey];
+          filter.filterRange = {
+            min: ranges[datakey].min < 0 ? 0 : ranges[datakey].min,
+            max: ranges[datakey].max < 0 ? 0 : ranges[datakey].max,
+          };
+          filterDetails[datakey] = {
+            min: ranges[datakey].min < 0 ? 0 : ranges[datakey].min,
+            max: ranges[datakey].max < 0 ? 0 : ranges[datakey].max,
+          };
+        } else {
+          filter.filterRange = ranges[datakey];
+          filterDetails[datakey] = ranges[datakey];
+        }
       }
       return filter;
     });
@@ -365,7 +386,6 @@ function ProductTrackerFilterSection(props: Props) {
     const ranges = findMinMax(groupProducts);
     const data = filterState;
     data.sellerID = sellerIDSelector();
-    console.log('fromPeriod: ', fromPeriod);
     if (!fromPeriod) {
       data.reviews = [];
       data.removeNegative = [];
@@ -376,24 +396,24 @@ function ProductTrackerFilterSection(props: Props) {
     data.avg_profit =
       fromPeriod && data.removeNegative.indexOf('avg_profit') !== -1
         ? {
-            min: data.avg_profit.min < 0 ? 0 : data.avg_profit.min,
-            max: data.avg_profit.max < 0 ? 0 : data.avg_profit.max,
+            min: ranges.avg_profit.min < 0 ? 0 : ranges.avg_profit.min,
+            max: ranges.avg_profit.max < 0 ? 0 : ranges.avg_profit.max,
           }
         : ranges.avg_profit;
 
     data.avg_margin =
       fromPeriod && data.removeNegative.indexOf('avg_margin') !== -1
         ? {
-            min: data.avg_margin.min < 0 ? 0 : data.avg_margin.min,
-            max: data.avg_margin.max < 0 ? 0 : data.avg_margin.max,
+            min: ranges.avg_margin.min < 0 ? 0 : ranges.avg_margin.min,
+            max: ranges.avg_margin.max < 0 ? 0 : ranges.avg_margin.max,
           }
         : ranges.avg_margin;
 
     data.avg_roi =
       fromPeriod && data.removeNegative.indexOf('avg_roi') !== -1
         ? {
-            min: data.avg_roi.min < 0 ? 0 : data.avg_roi.min,
-            max: data.avg_roi.max < 0 ? 0 : data.avg_roi.max,
+            min: ranges.avg_roi.min < 0 ? 0 : ranges.avg_roi.min,
+            max: ranges.avg_roi.max < 0 ? 0 : ranges.avg_roi.max,
           }
         : ranges.avg_roi;
 
@@ -475,6 +495,7 @@ function ProductTrackerFilterSection(props: Props) {
 }
 
 const mapStateToProps = (state: {}) => ({
+  isLoadingTrackerProducts: get(state, 'productTracker.isLoadingTrackerProducts'),
   activeGroupId: get(state, 'productTracker.menuItem'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
 });

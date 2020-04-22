@@ -77,6 +77,9 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   handleMenu = (id: any) => {
     const { setPageNumber } = this.props;
     setPageNumber(1);
+
+    //close period filter
+    localStorage.setItem('openPeriod', JSON.stringify(false));
     if (id !== null) {
       this.setState({ productTrackID: id }, () => {
         this.props.setMenuItem(this.state.productTrackID);
