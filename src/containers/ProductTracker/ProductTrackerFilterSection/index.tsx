@@ -127,7 +127,10 @@ function ProductTrackerFilterSection(props: Props) {
           maxPlaceholder: '$ Max',
           range:
             filterState.removeNegative.indexOf('avg_profit') !== -1
-              ? { min: 0, max: rangeData.avg_profit.max }
+              ? {
+                  min: rangeData.avg_profit.min < 0 ? 0 : rangeData.avg_profit.min,
+                  max: rangeData.avg_profit.max < 0 ? 0 : rangeData.avg_profit.max,
+                }
               : rangeData.avg_profit,
           filterRange: filterState.avg_profit,
           removeNegative: false,
@@ -140,7 +143,10 @@ function ProductTrackerFilterSection(props: Props) {
           maxPlaceholder: 'Max %',
           range:
             filterState.removeNegative.indexOf('avg_margin') !== -1
-              ? { min: 0, max: rangeData.avg_margin.max }
+              ? {
+                  min: rangeData.avg_margin.min < 0 ? 0 : rangeData.avg_margin.min,
+                  max: rangeData.avg_margin.max < 0 ? 0 : rangeData.avg_margin.max,
+                }
               : rangeData.avg_margin,
           filterRange: filterState.avg_margin,
           removeNegative: false,
@@ -153,7 +159,10 @@ function ProductTrackerFilterSection(props: Props) {
           maxPlaceholder: 'Max %',
           range:
             filterState.removeNegative.indexOf('avg_roi') !== -1
-              ? { min: 0, max: rangeData.avg_roi.max }
+              ? {
+                  min: rangeData.avg_roi.min < 0 ? 0 : rangeData.avg_roi.min,
+                  max: rangeData.avg_roi.max < 0 ? 0 : rangeData.avg_roi.max,
+                }
               : rangeData.avg_roi,
           filterRange: filterState.avg_roi,
           removeNegative: false,
