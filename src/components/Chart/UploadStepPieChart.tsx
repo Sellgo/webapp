@@ -33,6 +33,7 @@ const renderPieChartOptions = (options: PieChartOptions) => {
     plotOptions: {
       pie: {
         allowPointSelect: true,
+        borderWidth: 0.5,
         size: '145px',
         cursor: 'pointer',
         dataLabels: {
