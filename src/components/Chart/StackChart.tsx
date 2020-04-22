@@ -12,7 +12,7 @@ export interface StackChartOptions {
 
 const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
   const { title, data, productSKUs, amazon_urls } = options;
-  console.log(amazon_urls);
+
   return {
     chart: {
       type: 'column',
@@ -158,7 +158,7 @@ const StackChart = (props: any) => {
   const chartOptions = renderStackChartOptions(options, onBubbleDetails);
   return (
     <div className="individual-stack-chart">
-      <Chart chartOptions={chartOptions} callback={(chart: any) => chart.reflow()} />
+      <Chart chartOptions={chartOptions} />
     </div>
   );
 };
