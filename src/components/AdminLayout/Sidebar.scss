@@ -94,33 +94,53 @@
   padding: 0 !important;
 }
 
-@media only screen and (max-width: 1440px) {
-  .sidebar-container .Sidebar__pusher.pusher {
+@media only screen and (max-width: 2560px) {
+  .sidebar-container .pusher {
+    width: 97.1vw;
+  }
+
+  .sidebar-container .Sidebar__pusher.pusher.pusher-scroll-x {
+    width: 90.4vw;
+  }
+}
+
+@media only screen and (max-width: 1920px) {
+  .sidebar-container .pusher {
     width: 96.5vw;
   }
 
+  .sidebar-container .Sidebar__pusher.pusher.pusher-scroll-x {
+    width: 87.6vw;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .sidebar-container .Sidebar__pusher.pusher {
+    width: 95.6vw;
+  }
+
   .Sidebar__pusher.pusher.container.pusher-scroll-x {
-    width: 87.5vw;
+    width: 83.7vw;
   }
 }
 
 @media only screen and (max-width: 1024px) {
   .sidebar-container .Sidebar__pusher.pusher {
-    width: 95vw;
+    width: 94.2vw;
   }
 
   .Sidebar__pusher.pusher.container.pusher-scroll-x {
-    width: 82.5vw !important;
+    width: 77.6vw;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .Sidebar__pusher.pusher.container.pusher-scroll-x {
-    width: 76.7vw !important;
+  .sidebar-container .Sidebar__pusher.pusher {
+    width: 92.7vw;
   }
 
-  .sidebar-container .Sidebar__pusher.pusher {
-    width: 93.6vw;
+  .Sidebar__pusher.pusher.container.pusher-scroll-x {
+    width: 70.3vw;
   }
 
   .admin-layout-grid {
