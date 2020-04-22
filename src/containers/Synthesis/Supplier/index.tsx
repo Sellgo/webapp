@@ -17,7 +17,7 @@ import {
 } from '../../../actions/Suppliers';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
-import { dismiss, update } from '../../../utils/notifications';
+import { dismiss, info } from '../../../utils/notifications';
 
 interface SupplierProps {
   supplierDetails: any;
@@ -53,7 +53,7 @@ export class Supplier extends React.Component<SupplierProps> {
     if (this.props.supplierDetails && this.props.supplierDetails.item_total_count) {
       const loadTime = this.getLoadingTime(this.props.supplierDetails.item_total_count);
       if (this.props.isLoadingSupplierProducts) {
-        update(() => this.handleSupplierLoading(loadTime), {
+        info(() => this.handleSupplierLoading(loadTime), {
           toastId: 'supplierLoading',
           className: 'ui message warning notification',
           autoClose: false,
