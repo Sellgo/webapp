@@ -38,7 +38,7 @@ const AddNewSearch = () => {
               </div>
             </div>
           </Grid.Column>
-          <Grid.Column className={styles.rightAdjust} width={7}>
+          <Grid.Column className={'AddNewSearch__second-column'} width={7}>
             <div className={`AddNewSearch__second-column field`}>
               <Field
                 required={true}
