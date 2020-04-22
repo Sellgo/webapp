@@ -98,7 +98,7 @@ function ProductTrackerFilterSection(props: Props) {
       setTimeout(() => {
         filterProducts(filterState, activeGroupId);
         localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-      }, 1500);
+      }, 500);
     }
 
     if (isAllReviews) {
