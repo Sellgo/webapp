@@ -499,6 +499,11 @@ $link-color: #349af8;
         display: flex;
         align-items: center;
 
+        img.flag-img {
+          width: 30px;
+          height: 30px;
+        }
+
         i {
           color: #c3c4c4;
         }
