@@ -11,10 +11,11 @@ Highcharts.setOptions({
 
 export interface ChartProps {
   chartOptions?: any;
+  callback?: any;
 }
 
 const Chart = (props: ChartProps) => {
-  const { chartOptions } = props;
+  const { chartOptions, callback } = props;
   if (chartOptions === undefined) {
     return (
       <Segment>
@@ -29,7 +30,7 @@ const Chart = (props: ChartProps) => {
       </Segment>
     );
   }
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  return <HighchartsReact highcharts={Highcharts} options={chartOptions} callback={callback} />;
 };
 
 export default Chart;

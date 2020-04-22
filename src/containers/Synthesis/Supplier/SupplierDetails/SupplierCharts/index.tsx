@@ -104,6 +104,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       fees,
       productSKUs,
       onBubbleDetails,
+      amazon_urls,
     } = props;
     const data = [
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
@@ -118,6 +119,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       title: 'Revenue Breakdown Comparison',
       productSKUs: productSKUs,
       data: data,
+      amazon_urls: amazon_urls,
     };
     return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
   };
@@ -204,6 +206,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       case 'chart3': {
         let product_cost = [];
         let fees = [];
+        let amazon_urls = [];
 
         //RP200414: adding ROI - begin
         let roi = [];
@@ -218,11 +221,13 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         product_cost = showProducts.map(e => parseFloat(e.product_cost));
         fees = showProducts.map(e => parseFloat(e.fees));
         roi = showProducts.map(e => parseFloat(e.roi));
+        amazon_urls = showProducts.map(e => e.amazon_url);
 
         return productSKUs.length &&
           profit.length &&
           product_cost.length &&
           fees.length &&
+          amazon_urls.length &&
           //RP200414: adding ROI - begin
           roi.length ? (
           //RP200414: adding ROI - end
@@ -235,7 +240,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             //RP200414: adding ROI - begin
             roi={roi}
             //RP200414: adding ROI - end
-
+            amazon_urls={amazon_urls}
             onBubbleDetails={(id: number) => {
               openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
             }}
