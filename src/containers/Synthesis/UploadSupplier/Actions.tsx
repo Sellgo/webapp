@@ -114,16 +114,6 @@ const Actions = ({
           </a>
         )}
 
-        {!currentLoading && currentStep === 4 && !currentProgressShow && (
-          <Button
-            onClick={onPrevStep}
-            className={`Actions__previous ${styles.action}`}
-            basic={true}
-            color="grey"
-          >
-            Previous
-          </Button>
-        )}
         {openProgress && currentStep === 4 && (
           <>
             <Grid className="Actions__progress-bar">

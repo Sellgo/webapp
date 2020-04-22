@@ -19,7 +19,7 @@ import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
 
-const auth = new Auth();
+export const auth = new Auth();
 
 const handleAuthentication = (location: any) => {
   if (/access_token|id_token|error/.test(location.hash)) {

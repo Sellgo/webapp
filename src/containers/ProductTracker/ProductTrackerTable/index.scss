@@ -487,7 +487,7 @@ $link-color: #349af8;
     }
 
     a {
-      color: $link-color !important;
+      color: #3b4557 !important;
       font-weight: 600;
     }
 
@@ -515,6 +515,11 @@ $link-color: #349af8;
       .information {
         display: flex;
         align-items: center;
+
+        img.flag-img {
+          width: 30px;
+          height: 30px;
+        }
 
         i {
           color: #c3c4c4;
@@ -579,7 +584,7 @@ $link-color: #349af8;
 
     tfoot th {
       border-top: none;
-      text-align: -webkit-right;
+      text-align: center;
     }
 
     // Head
@@ -610,6 +615,10 @@ $link-color: #349af8;
           border-bottom-right-radius: 10px;
           border-right: 1px solid rgba(34, 36, 38, 0.3);
           border-top-right-radius: 10px;
+
+          i.icon.ellipsis {
+            color: #98aeca;
+          }
         }
       }
 
@@ -712,7 +721,7 @@ $link-color: #349af8;
 
     i.icon,
     i.icons {
-      color: #c3c5c5;
+      color: #98aeca;
     }
   }
 

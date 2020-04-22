@@ -131,7 +131,7 @@
 }
 
 .new-supplier-modal .content .form {
-  margin: 0 20px;
+  margin: 0;
 }
 
 .new-supplier-modal .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon,
@@ -144,10 +144,7 @@
   border: 1px solid #98aeca;
 }
 
-.new-supplier-modal
-  .rc-steps-item-custom.rc-steps-item-process
-  .rc-steps-item-icon
-  > .rc-steps-icon {
+.new-supplier-modal .rc-steps-item-custom.rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
   color: #349af8;
   border: 2px solid #349af8;
   background: #fff 0% 0% no-repeat padding-box;
@@ -217,10 +214,14 @@
 
 .new-supplier-modal .ui.grid.Actions__progress-bar {
   position: absolute;
-  top: 53%;
+  top: 56.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
+}
+
+.new-supplier-modal .ui.grid.Actions__progress-bar .ui.active.progress .bar {
+  min-width: 3em;
 }
 
 .new-supplier-modal .Actions__progress-bar .ui.blue.active.indicating.inverted.progress {
@@ -408,7 +409,7 @@
 /* CIRCLE DOT LOADER */
 .new-supplier-modal .Submit__loader {
   position: absolute;
-  top: 50%;
+  top: 48.5%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -419,6 +420,7 @@
   background: #fff 0% 0% no-repeat padding-box;
   border: 1px solid #98aeca;
   border-radius: 15px;
+  position: relative;
 }
 
 .new-supplier-modal .circle-loader {
@@ -538,8 +540,12 @@ div.new-supplier-cont > div:nth-child(2) {
 
 .new-supplier-modal .ui.form .AddNewSearch__container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   margin-top: 50px !important;
+}
+
+.new-supplier-modal .ui.form .AddNewSearch__container .column {
+  margin: 0;
 }
 
 .new-supplier-modal .ui.form .column.SupplierInformation__first-column {
@@ -561,8 +567,9 @@ div.new-supplier-cont > div:nth-child(2) {
   font-family: 'Work sans', sans-serif !important;
 }
 
-.new-supplier-modal .ui.form .column:nth-child(2) .AddNewSearch__second-column {
-  min-width: 214px !important;
+.new-supplier-modal .ui.form .column.AddNewSearch__second-column:nth-child(2),
+.new-supplier-modal .ui.form .column.AddNewSearch__second-column:nth-child(2) .field {
+  min-width: 215px !important;
 }
 
 .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) {
@@ -590,6 +597,10 @@ div.new-supplier-cont > div:nth-child(2) {
   max-width: 113px;
 }
 
+.new-supplier-modal .ui.form .column:nth-child(2) .AddNewSearch__second-column.field .field:last-child {
+  max-width: 100%;
+}
+
 .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1),
 .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) > .column {
   position: unset;
@@ -614,15 +625,7 @@ div.new-supplier-cont > div:nth-child(2) {
   font-family: 'Work sans', sans-serif !important;
 }
 
-.new-supplier-modal
-  .upload-section
-  .mapping-container
-  > .row:nth-child(1)
-  > .column
-  > h3
-  .ui.checkbox
-  input.hidden
-  + label {
+.new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) > .column > h3 .ui.checkbox input.hidden + label {
   font-size: 14px !important;
   color: #000c !important;
   font-family: 'Work sans', sans-serif !important;
@@ -658,7 +661,6 @@ div.new-supplier-cont > div:nth-child(2) {
 
 .new-supplier-modal .upload-section .mapping-container .sixteen.wide.column {
   height: 100% !important;
-  overflow-x: scroll;
   max-width: 775px;
   padding: 0;
   margin: auto;
@@ -869,11 +871,7 @@ div.new-supplier-cont > div:nth-child(2) {
   margin-right: 0 !important;
 }
 
-.new-supplier-modal
-  .UploadSteps__disable
-  .rc-steps-item-finish
-  .rc-steps-item-icon
-  > .rc-steps-icon {
+.new-supplier-modal .UploadSteps__disable .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon {
   background: #fff 0% 0% no-repeat padding-box !important;
   border: 1px solid #dfe8f3 !important;
   color: #dfe8f3 !important;
