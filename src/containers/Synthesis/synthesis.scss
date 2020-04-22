@@ -409,7 +409,7 @@
 /* CIRCLE DOT LOADER */
 .new-supplier-modal .Submit__loader {
   position: absolute;
-  top: 50%;
+  top: 48.5%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -420,6 +420,7 @@
   background: #fff 0% 0% no-repeat padding-box;
   border: 1px solid #98aeca;
   border-radius: 15px;
+  position: relative;
 }
 
 .new-supplier-modal .circle-loader {
