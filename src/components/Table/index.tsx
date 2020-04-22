@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
@@ -6,8 +6,7 @@ import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTabl
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
-import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
-import ProfitFinderFilterSection from '../../containers/Synthesis/ProfitFinderFilterSection';
+import ProductSearch from '../ProductSearch/productSearch';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -41,6 +40,9 @@ export interface PaginatedTableProps {
   searchFilteredProduct?: (searchValue: string) => void;
   showFilter?: boolean;
   productRanges?: any;
+  setPage?: (pageNumber: number) => void;
+  ptCurrentPage?: number;
+  renderFilterSectionComponent?: () => void;
 }
 
 export interface GenericTableProps {
@@ -76,6 +78,7 @@ export interface GenericTableProps {
   productTrackerPageNo?: any;
   showFilter?: boolean;
   productRanges?: any;
+  renderFilterSectionComponent?: () => void;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -116,7 +119,7 @@ export const GenericTable = (props: GenericTableProps) => {
     handleColumnChange,
     searchFilterValue,
     showFilter,
-    productRanges,
+    renderFilterSectionComponent,
   } = props;
 
   return (
@@ -125,7 +128,7 @@ export const GenericTable = (props: GenericTableProps) => {
         <div className="table-menu-header">
           {showProductFinderSearch ? (
             <ProductSearch
-              searchProfitFinderProduct={searchProfitFinderProduct}
+              searchFilteredProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
               setCurrentPage={setCurrentPage}
             />
@@ -142,7 +145,7 @@ export const GenericTable = (props: GenericTableProps) => {
       ) : (
         ''
       )}
-      {showFilter && <ProfitFinderFilterSection productRanges={productRanges} />}
+      {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
       {showSearchFilter && (
         <Card className="filter-card">
           <Card.Header>
@@ -339,6 +342,7 @@ export const GenericTable = (props: GenericTableProps) => {
 export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
     tableKey,
+    ptCurrentPage,
     data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
@@ -356,8 +360,15 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     searchFilterValue,
     showFilter,
     productRanges,
+    setPage,
+    renderFilterSectionComponent,
   } = props;
-  const [currentPage, setCurrentPage] = useState(1);
+  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [ptCurrentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -445,7 +456,11 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   };
 
   const handleSearchChange = (e: any) => {
-    setCurrentPage(1);
+    if (setPage) {
+      setPage(1);
+    } else {
+      setCurrentPage(1);
+    }
     setSearchValue(e.target.value);
   };
 
@@ -456,7 +471,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
-      setCurrentPage={setCurrentPage}
+      setCurrentPage={setPage ? setPage : setCurrentPage}
       totalItemsCount={data.length}
       showSelectItemsCount={showSelectItemsCount}
       singlePageItemsCount={singlePageItemsCount}
@@ -482,6 +497,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       count={count && count.count}
       productTrackerPageNo={productTrackerPageNo}
       showFilter={showFilter}
+      renderFilterSectionComponent={renderFilterSectionComponent}
     />
   );
 };

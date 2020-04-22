@@ -7,8 +7,6 @@ import { ProductTrackerDetails } from '../../interfaces/Product';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
   IS_LOADING_TRACKER_PRODUCTS,
-  findMinMaxRange,
-  UPDATE_TRACKER_FILTER_RANGES,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
@@ -19,6 +17,8 @@ import {
   REMOVE_TRACKED_PRODUCT,
   SET_MENU_ITEM,
   REMOVE_PRODUCTS_IN_GROUP,
+  FILTER_TRACKED_PRODUCTS,
+  SET_FILTER_SEARCH,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota } from '../Settings';
@@ -31,11 +31,6 @@ export const isLoadingTrackerProducts = (value: boolean) => ({
 export const setSupplierProductTrackerDetails = (product: ProductTrackerDetails) => ({
   type: SET_PRODUCT_TRACKER_DETAILS,
   payload: product,
-});
-
-export const updateTrackerFilterRanges = (filterRanges: any) => ({
-  type: UPDATE_TRACKER_FILTER_RANGES,
-  payload: filterRanges,
 });
 
 export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
@@ -93,18 +88,16 @@ export const fetchAllSupplierProductTrackerDetails = (period: any) => async (
 ) => {
   // table component is tightly coupled to pagination, temporarily using paginated API with a hardcoded value
   const perPage = 999;
-
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
-      `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_margin,avg_daily_sales,avg_roi,avg_profit`
+      `sellers/${sellerID}/product-track-data-paginated?per_page=${perPage}&period=${period}&sort=${'avg_price'}&sort_direction=${'desc'}&min_max=avg_price,avg_rank,customer_reviews,avg_margin,avg_daily_sales,avg_roi,avg_profit`
   );
   if (response.data) {
-    dispatch(isLoadingTrackerProducts(false));
     dispatch(setSupplierProductTrackerDetails(response.data));
-    dispatch(updateTrackerFilterRanges(findMinMaxRange(response.data.results)));
+    dispatch(isLoadingTrackerProducts(false));
   } else {
     dispatch(isLoadingTrackerProducts(false));
     error('Data not found');
@@ -166,6 +159,19 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
       error(`Failed to delete tracker group`);
     });
 };
+
+export const filterTrackedProducts = (filterData: any, groupId: any) => ({
+  type: FILTER_TRACKED_PRODUCTS,
+  payload: {
+    filterData: filterData,
+    groupId: groupId,
+  },
+});
+
+export const setProductFilterSearch = (value: string) => ({
+  type: SET_FILTER_SEARCH,
+  payload: value,
+});
 
 export const retrieveProductTrackGroup = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();

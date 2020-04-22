@@ -26,6 +26,8 @@ import {
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
 import { columnFilter } from '../../../constants/Tracker';
+import SelectItemsCount from '../../../components/Table/SelectItemsCount';
+import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
@@ -82,7 +84,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ open: false });
     }
   }
-
   handleSubmit = (e: any) => {
     e.preventDefault();
     const { name } = this.state;
@@ -398,16 +399,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       trackGroups,
       handleMenu,
       setPageNumber,
+      productTrackerPageNo,
     } = this.props;
-    if (isLoadingTrackerProducts || productTrackerResult === null) {
-      return (
-        <Segment className="product-tracker-loader">
-          <Loader active={true} inline="centered" size="massive">
-            Loading
-          </Loader>
-        </Segment>
-      );
-    }
 
     return (
       <div className="tracker-table">
@@ -432,24 +425,40 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupCancel={this.handleEditGroupCancel}
             handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
+
+          <SelectItemsCount
+            totalCount={filteredProducts.length}
+            singlePageItemsCount={singlePageItemsCount}
+            currentPage={productTrackerPageNo}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+          />
         </div>
-        {productTrackerResult && (
+        <ProductTrackerFilterSection />
+        {!isLoadingTrackerProducts && productTrackerResult ? (
           <PaginatedTable
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
+            setPage={setPageNumber}
+            ptCurrentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
-            setSinglePageItemsCount={setSinglePageItemsCount}
             setPageNumber={setPageNumber}
             name={'trackerTable'}
             columnFilterData={this.state.columnFilterData}
             handleColumnChange={this.handleColumnChange}
             count={productTrackerResult}
             productTrackerPageNo={this.props.productTrackerPageNo}
+            showFilter={true}
           />
+        ) : (
+          <Segment className="product-tracker-loader">
+            <Loader active={true} inline="centered" size="massive">
+              Loading
+            </Loader>
+          </Segment>
         )}
       </div>
     );

@@ -1,6 +1,6 @@
+import _ from 'lodash';
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
-export const UPDATE_TRACKER_FILTER_RANGES = 'UPDATE_TRACKER_FILTER_RANGES';
 export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT';
 export const SET_PRODUCT_TRACKER_PAGE_NUMBER = 'SET_PRODUCT_TRACKER_PAGE_NUMBER';
 export const SET_RETRIEVE_PRODUCT_TRACK_GROUP = 'SET_RETRIEVE_PRODUCT_TRACK_GROUP';
@@ -11,13 +11,18 @@ export const REMOVE_PRODUCT_TRACK_GROUP = 'REMOVE_PRODUCT_TRACK_GROUP';
 export const UPDATE_TRACKED_PRODUCT = 'UPDATE_TRACKED_PRODUCT';
 export const REMOVE_TRACKED_PRODUCT = 'REMOVE_TRACKED_PRODUCT';
 export const REMOVE_PRODUCTS_IN_GROUP = 'REMOVE_PRODUCTS_IN_GROUP';
+export const FILTER_TRACKED_PRODUCTS = 'FILTER_TRACKED_PRODUCTS';
+export const SET_FILTER_SEARCH = 'SET_FILTER_SEARCH';
 
-export const dataKeys: any = [
+export const filterKeys: any = [
   // Basic KPI
+  'avg_price',
   'avg_profit',
   'avg_margin',
   'avg_daily_sales',
   'avg_roi',
+  'avg_rank',
+  'customer_reviews',
 ];
 
 export const dataKeyMapping: any = {
@@ -60,7 +65,7 @@ export const groupKeyMapping: any = {
 
 export const initalRange = { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
 
-export const initialFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
+export const initialFilterRanges = filterKeys.reduce((fr: any, dk: string) => {
   if (!fr[dk]) {
     fr[dk] = initalRange;
   }
@@ -153,40 +158,8 @@ export const columnFilter = [
   },
 ];
 
-// Returns an array of groups, each containing an array of filters
-// under the group.filters property.
-export const findFiltersGrouped = () => {
-  const groups: any = {};
-
-  // Iterate through dataKeys and sort into groups
-  // along with extended data from dataKeyMapping
-  dataKeys.forEach((dk: string) => {
-    const data = dataKeyMapping[dk];
-    const groupId: string = data.groupId;
-    if (!groups[groupId]) {
-      groups[groupId] = {
-        ...groupKeyMapping[groupId],
-        filters: [],
-      };
-    }
-
-    // Push data into group.filters with key as id
-    groups[groupId].filters.push({ id: dk, ...data });
-  });
-
-  // Convert object to array and add key as id
-  const groupsArray = Object.keys(groups).map(key => {
-    return {
-      id: key,
-      ...groups[key],
-    };
-  });
-
-  return groupsArray;
-};
-
-export const findMinMaxRange = (products: any) => {
-  const updatedFilterRanges = dataKeys.reduce((fr: any, dk: string) => {
+export const findMinMax = (products: any) => {
+  const updatedFilterRanges = filterKeys.reduce((fr: any, dk: string) => {
     if (!fr[dk]) {
       const dkArray = products.map((p: any) => {
         return Number(p[dk]);
@@ -203,22 +176,9 @@ export const findMinMaxRange = (products: any) => {
   return updatedFilterRanges;
 };
 
-export const parseMinMaxRange = (minMaxes: any) => {
-  const parsedMinMaxes = dataKeys.reduce(
-    (a: any, key: any) =>
-      Object.assign(a, { [key]: { min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER } }),
-    {}
-  );
-  dataKeys.forEach((kpi: any) => {
-    parsedMinMaxes[kpi].min = Math.floor(minMaxes[`min_${kpi}`] * 100) / 100;
-    parsedMinMaxes[kpi].max = Math.ceil(minMaxes[`max_${kpi}`] * 100) / 100;
-  });
-  return parsedMinMaxes;
-};
-
 export const findFilterProducts = (products: any, filterRanges: any) => {
   const filterRange = (product: any) =>
-    dataKeys.every(
+    filterKeys.every(
       (dataKey: any) =>
         Number(product[dataKey]) >= Number(filterRanges[dataKey].min) &&
         Number(product[dataKey]) <= Number(filterRanges[dataKey].max)
@@ -235,4 +195,30 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
         : products.filter((product: any) => null === product.product_track_group_id)
       : products;
   return filteredProducts;
+};
+
+export const findFilteredProducts = (products: any, filterData: any) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return filterData !== undefined
+      ? (filterData.reviews.length === 5 ||
+          filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+          filterKeys.every(
+            (dataKey: any) =>
+              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max)
+          )
+      : products;
+  });
+  return updatedFilterProducts;
+};
+
+export const searchFilteredProduct = (products: any, value: string) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return (
+      (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+    );
+  });
+  return updatedFilterProducts;
 };
