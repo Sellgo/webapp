@@ -330,4 +330,18 @@ i.icon.close::before {
 .Toastify__toast-container {
   /* Ensure it's shown above Auth0 login modal */
   z-index: 1000001;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.Toastify__toast {
+  min-height: 20px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.Toastify__toast-body {
+  margin-right: 20px;
 }
