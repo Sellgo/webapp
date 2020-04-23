@@ -1,14 +1,18 @@
 import React from 'react';
 import Chart from './Chart';
+import { renderToString } from 'react-dom/server';
+import { Icon } from 'semantic-ui-react';
 
 export interface StackChartOptions {
   title: string;
   data: any;
   productSKUs: any;
+  amazon_urls?: any;
 }
 
 const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
-  const { title, data, productSKUs } = options;
+  const { title, data, productSKUs, amazon_urls } = options;
+
   return {
     chart: {
       type: 'column',
@@ -29,7 +33,25 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     xAxis: {
       categories: productSKUs,
       // max:10,
-      visible: false,
+      // visible: false,
+      labels: {
+        useHTML: true,
+        formatter: function(data: any) {
+          return amazon_urls && amazon_urls[data.pos]
+            ? renderToString(
+                <a
+                  style={{ cursor: 'pointer' }}
+                  className="img-pos"
+                  href={amazon_urls[data.pos]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon name="amazon" size={'large'} style={{ color: 'black' }} />
+                </a>
+              )
+            : '';
+        },
+      },
     },
     yAxis: {
       // min: 0,
