@@ -617,11 +617,12 @@ $link-color: #349af8;
           border-top-right-radius: 10px;
           padding: 0;
           text-align: center;
-          max-height: 55px;
+          height: 54px;
 
           i.icon.ellipsis {
             height: 100%;
             width: 100%;
+            min-width: 48px;
             align-items: center;
             display: flex;
             justify-content: center;

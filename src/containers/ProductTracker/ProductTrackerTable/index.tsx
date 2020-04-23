@@ -182,6 +182,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
   handleColumnChange = (e: any, data: any) => {
     e.stopPropagation();
+    setTimeout(() => {
+      this.setState({ ColumnFilterBox: true });
+    }, 10);
     const checkedData = this.state.columnFilterData;
     if (data.label === 'Select All') {
       checkedData.forEach((element: any) => {
@@ -384,7 +387,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       dataKey: 'ellipsis horizontal',
       show: true,
       render: this.renderIcons,
-      click: this.handleClick,
       popUp: true,
     },
   ];
