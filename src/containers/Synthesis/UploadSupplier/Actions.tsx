@@ -106,13 +106,13 @@ const Actions = ({
               Exit
             </Button>
           </span>
-        ) : (
+        ) : currentError ? (
           <a className="Actions__err-download" href={currentErrorFile}>
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <i className="fas fa-file-download" /> Download Error File
             </Button>
           </a>
-        )}
+        ) : null}
 
         {openProgress && currentStep === 4 && (
           <>
