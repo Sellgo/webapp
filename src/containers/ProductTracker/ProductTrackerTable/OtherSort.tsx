@@ -3,7 +3,7 @@ import { Icon, Popup, Confirm, Menu, Divider, Header, Segment } from 'semantic-u
 import { clamp } from 'lodash';
 import Amazon from '../../../assets/images/link.svg';
 import Untrack from '../../../assets/images/untrack.svg';
-import FOLDER_PLUS from '../../../assets/images/folder-plus.svg';
+import Folder from '../../../assets/images/folder-plus.svg';
 
 interface OtherSortProps {
   row: any;
@@ -47,7 +47,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           open={trackGroupsOpen}
           trigger={
             <img
-              src={FOLDER_PLUS}
+              src={Folder}
               title={group && !group.length ? 'No Groups Available' : 'Move to a Different Group'}
               style={{
                 cursor: group && !group.length ? 'default' : 'pointer',
