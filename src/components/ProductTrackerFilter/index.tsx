@@ -88,16 +88,6 @@ function ProductTrackerFilter(props: Props) {
                   </span>
                 </div>
                 <div className="pt-filter-content__all-filter__wrapper__reviews__list">
-                  <Checkbox
-                    label="All"
-                    key="all-reviews"
-                    className="all-reviews"
-                    onClick={() => {
-                      toggleSelectAllReviews();
-                    }}
-                    checked={isAllReviews}
-                  />
-
                   <div className="ui checkbox">
                     <input
                       id="all-reviews"
