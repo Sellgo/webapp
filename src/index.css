@@ -345,3 +345,13 @@ i.icon.close::before {
 .Toastify__toast-body {
   margin-right: 20px;
 }
+
+/* Popup */
+.popup.transition.visible {
+  background: #757575 0% 0% no-repeat padding-box !important;
+  border-radius: 4px !important;
+  font-size: 10px !important;
+  letter-spacing: 0.33px !important;
+  color: #fff !important;
+  padding: 10px !important;
+}

@@ -2,6 +2,10 @@
   max-width: 420px !important;
 }
 
+.add-supplier-popup ol.ui.list li::before {
+  color: #fff !important;
+}
+
 .ui.basic.teal.button .button,
 .ui.basic.teal.button {
   border: 1px solid !important;
