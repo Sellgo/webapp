@@ -36,13 +36,13 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       // visible: false,
       labels: {
         useHTML: true,
-        formatter: function(data: any) {
-          return amazon_urls && amazon_urls[data.pos]
+        formatter: function(this: any): string {
+          return amazon_urls && amazon_urls[this.pos]
             ? renderToString(
                 <a
                   style={{ cursor: 'pointer' }}
                   className="img-pos"
-                  href={amazon_urls[data.pos]}
+                  href={amazon_urls[this.pos]}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
