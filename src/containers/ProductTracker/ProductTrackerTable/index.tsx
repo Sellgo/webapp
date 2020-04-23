@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Loader, Checkbox } from 'semantic-ui-react';
+import { Segment, Loader, Checkbox, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -207,29 +207,28 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     <p className="stat">{row.avg_price !== '0.00' ? `$${row.avg_price}` : 'N.A.'}</p>
   );
   renderAvgMargin = (row: ProductTrackerDetails) => {
-    // const toggleExpandRow = (id: number) => {
-    //   if (this.state.expandedRows === null) {
-    //     this.setState({
-    //       expandedRows: id,
-    //     });
-    //   } else if (this.state.expandedRows === id) {
-    //     this.setState({
-    //       expandedRows: null,
-    //     });
-    //   } else {
-    //     this.setState({
-    //       expandedRows: id,
-    //     });
-    //   }
-    // };
+    const toggleExpandRow = (id: number) => {
+      if (this.state.expandedRows === null) {
+        this.setState({
+          expandedRows: id,
+        });
+      } else if (this.state.expandedRows === id) {
+        this.setState({
+          expandedRows: null,
+        });
+      } else {
+        this.setState({
+          expandedRows: id,
+        });
+      }
+    };
     return (
-      <p className="stat">{row.avg_margin !== '0.00' ? `${row.avg_margin}%` : 'N.A.'}</p>
-      // <div className="avg-margin">
-      //   <p className="stat">{row.avg_margin !== '0.00' ? `${row.avg_margin}%` : 'N.A.'}</p>
-      //   <span className="caret-icon">
-      //     <Icon className="caret down" onClick={() => toggleExpandRow(row.product_id)} />
-      //   </span>
-      // </div>
+      <div className="avg-margin">
+        <p className="stat">{row.avg_margin !== '0.00' ? `${row.avg_margin}%` : 'N.A.'}</p>
+        <span className="caret-icon">
+          <Icon className="caret down" onClick={() => toggleExpandRow(row.product_id)} />
+        </span>
+      </div>
     );
   };
   renderAvgUnitSold = (row: ProductTrackerDetails) => {
