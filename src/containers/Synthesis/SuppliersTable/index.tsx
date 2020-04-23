@@ -155,6 +155,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (
       row.file_status !== 'completed' &&
       row.file_status !== 'inactive' &&
+      row.file_status !== 'failed' &&
       row.file_status !== null &&
       row.file_status !== undefined
     ) {
