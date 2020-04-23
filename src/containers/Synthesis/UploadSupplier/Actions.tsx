@@ -106,24 +106,14 @@ const Actions = ({
               Exit
             </Button>
           </span>
-        ) : (
+        ) : currentError ? (
           <a className="Actions__err-download" href={currentErrorFile}>
             <Button size="small" basic={true} color="grey" style={{ borderRadius: 20 }}>
               <i className="fas fa-file-download" /> Download Error File
             </Button>
           </a>
-        )}
+        ) : null}
 
-        {!currentLoading && currentStep === 4 && !currentProgressShow && (
-          <Button
-            onClick={onPrevStep}
-            className={`Actions__previous ${styles.action}`}
-            basic={true}
-            color="grey"
-          >
-            Previous
-          </Button>
-        )}
         {openProgress && currentStep === 4 && (
           <>
             <Grid className="Actions__progress-bar">

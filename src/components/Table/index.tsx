@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
@@ -6,8 +6,7 @@ import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTabl
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
-import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
-import ProfitFinderFilterSection from '../../containers/Synthesis/ProfitFinderFilterSection';
+import ProductSearch from '../ProductSearch/productSearch';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -43,6 +42,9 @@ export interface PaginatedTableProps {
   productRanges?: any;
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
+  setPage?: (pageNumber: number) => void;
+  ptCurrentPage?: number;
+  renderFilterSectionComponent?: () => void;
 }
 
 export interface GenericTableProps {
@@ -66,7 +68,7 @@ export interface GenericTableProps {
   onClearSearch: (e: any) => void;
   columns: Column[];
   sortedColumnKey: string;
-  sortDirection: 'ascending' | 'descending';
+  sortDirection: 'descending' | 'ascending';
   setSort: (e: any, clickedColumn: string) => void;
   rows: Array<{ [key: string]: any }>;
   extendedInfo?: (data: any) => void;
@@ -80,6 +82,7 @@ export interface GenericTableProps {
   productRanges?: any;
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
+  renderFilterSectionComponent?: () => void;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -121,8 +124,8 @@ export const GenericTable = (props: GenericTableProps) => {
     searchFilterValue,
     columnFilterBox,
     showFilter,
-    productRanges,
     toggleColumnCheckbox,
+    renderFilterSectionComponent,
   } = props;
 
   return (
@@ -131,7 +134,7 @@ export const GenericTable = (props: GenericTableProps) => {
         <div className="table-menu-header">
           {showProductFinderSearch ? (
             <ProductSearch
-              searchProfitFinderProduct={searchProfitFinderProduct}
+              searchFilteredProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
               setCurrentPage={setCurrentPage}
             />
@@ -148,7 +151,7 @@ export const GenericTable = (props: GenericTableProps) => {
       ) : (
         ''
       )}
-      {showFilter && <ProfitFinderFilterSection productRanges={productRanges} />}
+      {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
       {showSearchFilter && (
         <Card className="filter-card">
           <Card.Header>
@@ -348,6 +351,7 @@ export const GenericTable = (props: GenericTableProps) => {
 export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
     tableKey,
+    ptCurrentPage,
     data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
@@ -367,8 +371,15 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     productRanges,
     columnFilterBox,
     toggleColumnCheckbox,
+    setPage,
+    renderFilterSectionComponent,
   } = props;
-  const [currentPage, setCurrentPage] = useState(1);
+  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [ptCurrentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -440,7 +451,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     });
   }
 
-  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
   const handleShowSearchFilter = (e: any, key: any) => {
@@ -456,7 +467,11 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   };
 
   const handleSearchChange = (e: any) => {
-    setCurrentPage(1);
+    if (setPage) {
+      setPage(1);
+    } else {
+      setCurrentPage(1);
+    }
     setSearchValue(e.target.value);
   };
 
@@ -467,7 +482,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
-      setCurrentPage={setCurrentPage}
+      setCurrentPage={setPage ? setPage : setCurrentPage}
       totalItemsCount={data.length}
       showSelectItemsCount={showSelectItemsCount}
       singlePageItemsCount={singlePageItemsCount}
@@ -495,6 +510,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       showFilter={showFilter}
       columnFilterBox={columnFilterBox}
       toggleColumnCheckbox={toggleColumnCheckbox}
+      renderFilterSectionComponent={renderFilterSectionComponent}
     />
   );
 };
@@ -511,15 +527,15 @@ const renderCell = (row: { [key: string]: any }, column: Column) => {
 
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
-  const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
+  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('descending');
 
   const handleSort = (e: any, clickedColumn: string) => {
     e.preventDefault();
     if (sortedColumnKey !== clickedColumn) {
       setSortedColumnKey(clickedColumn);
-      setSortDirection('ascending');
+      setSortDirection('descending');
     } else {
-      setSortDirection(sortDirection === 'ascending' ? 'descending' : 'ascending');
+      setSortDirection(sortDirection === 'descending' ? 'ascending' : 'descending');
     }
   };
 

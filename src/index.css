@@ -330,4 +330,28 @@ i.icon.close::before {
 .Toastify__toast-container {
   /* Ensure it's shown above Auth0 login modal */
   z-index: 1000001;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.Toastify__toast {
+  min-height: 20px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.Toastify__toast-body {
+  margin-right: 20px;
+}
+
+/* Popup */
+.popup.transition.visible {
+  background: #757575 0% 0% no-repeat padding-box !important;
+  border-radius: 4px !important;
+  font-size: 10px !important;
+  letter-spacing: 0.33px !important;
+  color: #fff !important;
+  padding: 10px !important;
 }

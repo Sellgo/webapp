@@ -6,13 +6,10 @@ import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { defaultSelect } from '../../../constants';
 import timezones from '../../../constants/UploadSupplier/timezones';
 import { accountStatus, terms } from '../../../constants/UploadSupplier';
-import isRequired from '../../../utils/validations/isRequired';
 import { isNumber } from '../../../utils/validations/isPhone';
 import isName from '../../../utils/validations/isName.js';
 import { onlyNumber } from '../../../utils/validations/isOnlyNumber';
 import { webUrl } from '../../../utils/validations/isUrl';
-
-const required = isRequired();
 
 const SupplierInformation = () => {
   return (
@@ -22,8 +19,6 @@ const SupplierInformation = () => {
           <Grid.Column className={`SupplierInformation__first-column  ${styles.padding0}`}>
             <div className={`new-upload-form ${styles['form-container']}`}>
               <Field
-                required={true}
-                validate={required}
                 component={InputField}
                 name="name"
                 label="Supplier Name"
