@@ -78,7 +78,7 @@ $base-font-size: 1em;
   z-index: -900 !important;
 }
 
-.ui.popup::before {
+.login-cont .ui.popup::before {
   z-index: -900 !important;
 }
 
@@ -86,7 +86,7 @@ $base-font-size: 1em;
   font-size: 14px;
 }
 
-div.ui.popup {
+.login-cont div.ui.popup {
   padding: 0;
 
   .vertical.steps .title-success,

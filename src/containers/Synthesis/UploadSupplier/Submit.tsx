@@ -12,7 +12,7 @@ import UploadStepPieChart from './../../../components/Chart/UploadStepPieChart';
 import {
   currentProgressShow,
   currentResultUpload,
-  currentResultVal,
+  currentValid,
   currentError,
 } from '../../../selectors/UploadSupplier';
 
@@ -22,7 +22,7 @@ interface SubmitProps {
   currentProgressShow: any;
   setLoadingShow: any;
   currentResult: any;
-  currentVal: any;
+  currentValid: any;
   currentError: any;
   setStep: any;
 }
@@ -34,15 +34,15 @@ const Submit = (props: SubmitProps) => {
     setLoadingShow,
     currentResult,
     onFinished,
-    currentVal,
+    currentValid,
     currentError,
     setStep,
   } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const totalRows = Number(currentVal) + Number(currentError);
-  const percentErr = Math.round((Number(currentError) / totalRows) * 100);
-  const percentVal = Math.round((Number(currentVal) / totalRows) * 100);
+  const totalRows = Number(currentValid) + Number(currentError);
+  const percentError = Number(((Number(currentError) / totalRows) * 100).toFixed(1));
+  const percentValid = Number(((Number(currentValid) / totalRows) * 100).toFixed(1));
   const errServerUpload = currentResult === 'DATA_REPORT' ? true : false;
   const onPrevStep = () => {
     setStep(2);
@@ -107,19 +107,19 @@ const Submit = (props: SubmitProps) => {
                 <span className="Submit__file-error">
                   <Label circular empty />
                   &nbsp;Errors <br />
-                  <span>{percentErr}%</span>
+                  <span>{percentError}%</span>
                 </span>
                 <UploadStepPieChart
                   options={{
                     data: [
                       {
                         name: 'Processed',
-                        y: percentVal,
+                        y: percentValid,
                         color: '#4ad991',
                       },
                       {
                         name: 'Errors',
-                        y: percentErr,
+                        y: percentError,
                         color: '#fd8373',
                       },
                     ],
@@ -128,7 +128,7 @@ const Submit = (props: SubmitProps) => {
                 <span className="Submit__file-process">
                   <Label circular empty />
                   &nbsp;Processed SKUs <br />
-                  <span>{percentVal}%</span>
+                  <span>{percentValid}%</span>
                 </span>
               </Segment>
             </Segment>
@@ -141,7 +141,7 @@ const Submit = (props: SubmitProps) => {
 const mapStateToProps = (state: any) => ({
   currentProgressShow: currentProgressShow(state),
   currentResult: currentResultUpload(state),
-  currentVal: currentResultVal(state),
+  currentValid: currentValid(state),
   currentError: currentError(state),
 });
 

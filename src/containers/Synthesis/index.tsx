@@ -124,6 +124,7 @@ class Synthesis extends Component<SynthesisProps> {
           </Modal.Content>
         </Modal>
         <Popup
+          basic
           className={'add-supplier-popup'}
           trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
           position="top left"

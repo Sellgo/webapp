@@ -167,15 +167,8 @@
 .ui.top.left.basic.popup.transition.visible.pop-market,
 .ui.top.left.basic.popup.transition.visible.pop-seller,
 .ui.top.left.basic.popup.transition.visible.pop-token {
-  height: 36px !important;
-  background: #757575 0% 0% no-repeat padding-box !important;
-  border-radius: 4px !important;
-  font-size: 10px !important;
-  letter-spacing: 0.33px !important;
-  color: #fff !important;
-  display: flex !important;
-  align-items: center !important;
-  padding: 10px !important;
+  min-height: 36px !important;
+  padding: 3px 10px !important;
 }
 
 .ui.top.left.basic.popup.transition.visible.pop-market {

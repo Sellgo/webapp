@@ -4,6 +4,7 @@ import InputRange from '../InputRange';
 import { Range } from '../../interfaces/Generic';
 
 const FilterSliderInput = (props: any) => {
+  const { dataKey, range, filterRange, handleCompleteChange, labelSign } = props;
   const [filterRangeLocal, setFilterRangeLocal] = useState(props.filterRange);
 
   useEffect(() => {
@@ -13,8 +14,6 @@ const FilterSliderInput = (props: any) => {
   const handleLocalChange = (value: any) => {
     setFilterRangeLocal(value);
   };
-
-  const { dataKey, range, filterRange, handleCompleteChange, labelSign } = props;
 
   const handleMinInputCompleteChange = (e: any) => {
     let value = e.target.value;
@@ -43,7 +42,7 @@ const FilterSliderInput = (props: any) => {
   return (
     <div className="range-content">
       <InputRange
-        step={0.01}
+        step={dataKey === 'avg_rank' || dataKey === 'customer_reviews' ? 1 : 0.01}
         maxValue={filterRangeLocal.max === undefined ? Number.MAX_SAFE_INTEGER : range.max}
         minValue={filterRangeLocal.min === undefined ? Number.MIN_SAFE_INTEGER : range.min}
         value={{

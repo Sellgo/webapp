@@ -125,7 +125,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                       }}
                       verticalalign="middle"
                     >
-                      <Header as="h4" style={{ margin: '0' }}>
+                      <Header as="h4" style={{ margin: '0', color: '16px !important' }}>
                         {data.name}
                         <GroupBadgeCount count={groupBadgeCount} />
                       </Header>
@@ -139,7 +139,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                   );
                 })}
           </Menu>
-          <Menu.Item style={{ paddingBottom: '17px' }} name="+" onClick={handleAddGroup}>
+          <Menu.Item name="+" onClick={handleAddGroup}>
             <Icon name="plus" />
           </Menu.Item>
         </Menu>

@@ -2,17 +2,26 @@ import * as React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 import get from 'lodash/get';
 import PageHeader from '../../components/PageHeader';
-import ProductFilters from './ProductFilter/index';
 import ProductTrackerTable from './ProductTrackerTable';
 import './index.scss';
 import QuotaMeter from '../../components/QuotaMeter';
 import { connect } from 'react-redux';
-import { setMenuItem, fetchAllSupplierProductTrackerDetails } from '../../actions/ProductTracker';
+import {
+  setMenuItem,
+  fetchAllSupplierProductTrackerDetails,
+  setProductTrackerPageNumber,
+  setTrackerSinglePageItemsCount,
+  setProductFilterSearch,
+  filterTrackedProducts,
+} from '../../actions/ProductTracker';
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 import { getSellerQuota } from '../../actions/Settings';
+import ProductSearch from '../../components/ProductSearch/productSearch';
 
 interface ProductTrackerProps {
+  setFilterSearch: (value: string) => void;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
+  setSinglePageItemsCount: (itemsCount: any) => void;
   getSellerQuota: any;
   singlePageItemsCount: any;
   productTrackerPageNo: any;
@@ -20,6 +29,10 @@ interface ProductTrackerProps {
   filterRanges: any;
   activeGroupId: any;
   trackGroups: any;
+  filterProducts: (filterData: any, groupId: any) => void;
+  setPageNumber: (itemsCount: any) => void;
+  filterData: any;
+  filterSearch: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -31,17 +44,27 @@ interface ProductTrackerProps {
     type?: string
   ) => void;
 }
+
+const filterStorage = JSON.parse(
+  typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
+);
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
-    periodValue: 14,
+    searchValue: '',
+    periodValue: filterStorage ? filterStorage.period : 1,
     productTrackID: null,
   };
 
   componentDidMount() {
-    const { fetchAllTrackedProductDetails } = this.props;
+    const { fetchAllTrackedProductDetails, setFilterSearch } = this.props;
     const { periodValue } = this.state;
+    setFilterSearch('');
     this.props.setMenuItem(this.state.productTrackID);
     fetchAllTrackedProductDetails(periodValue);
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('openPeriod', JSON.stringify(false));
   }
 
   handlePeriodDrop = (data: any) => {
@@ -52,6 +75,11 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   handleMenu = (id: any) => {
+    const { setPageNumber } = this.props;
+    setPageNumber(1);
+
+    //close period filter
+    localStorage.setItem('openPeriod', JSON.stringify(false));
     if (id !== null) {
       this.setState({ productTrackID: id }, () => {
         this.props.setMenuItem(this.state.productTrackID);
@@ -106,8 +134,26 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     );
   };
 
+  searchTrackedProduct = (value: string) => {
+    const {
+      setSinglePageItemsCount,
+      singlePageItemsCount,
+      filterData,
+      activeGroupId,
+      setFilterSearch,
+      filterProducts,
+    } = this.props;
+    this.setState({
+      searchValue: value,
+    });
+    setFilterSearch(value);
+    filterProducts(filterData, activeGroupId);
+    setSinglePageItemsCount(singlePageItemsCount);
+  };
+
   render() {
-    const { productTrackerPageNo, trackGroups, activeGroupId } = this.props;
+    const { productTrackerPageNo, trackGroups, activeGroupId, setPageNumber } = this.props;
+    const { searchValue } = this.state;
     const currentGroupName = activeGroupId
       ? activeGroupId !== -1
         ? trackGroups
@@ -130,15 +176,12 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
         <Segment basic={true} className="tracker-setting">
           <Grid className="product-tracker">
             <Grid.Row>
-              <Grid.Column className="left-column" floated="left">
-                <ProductFilters
-                  handlePeriodDrop={(data: any) => this.handlePeriodDrop(data)}
-                  periodValue={this.state.periodValue}
+              <Grid.Column className="right-column">
+                <ProductSearch
+                  searchFilteredProduct={this.searchTrackedProduct}
+                  searchFilterValue={searchValue}
+                  setCurrentPage={setPageNumber}
                 />
-              </Grid.Column>
-
-              <Grid.Column className="right-column" floated="right">
-                <div className="search-product" />
                 <ProductTrackerTable
                   handleMenu={(id: any) => this.handleMenu(id)}
                   periodValue={this.state.periodValue}
@@ -162,14 +205,20 @@ const mapStateToProps = (state: any) => {
     filterRanges: get(state, 'productTracker.filterRanges'),
     activeGroupId: get(state, 'productTracker.menuItem'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
+    filterData: get(state, 'productTracker.filterData'),
+    filterSearch: get(state, 'productTracker.filterSearch'),
   };
 };
 
 const mapDispatchToProps = {
+  setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
+  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
+  filterProducts: (productData: any, groupId: any) => filterTrackedProducts(productData, groupId),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setMenuItem: (item: any) => setMenuItem(item),
   getSellerQuota: () => getSellerQuota(),
+  setFilterSearch: (value: string) => setProductFilterSearch(value),
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
