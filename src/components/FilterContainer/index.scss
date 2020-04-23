@@ -25,6 +25,8 @@
       label {
         color: #3b4557;
         font-size: 14px;
+        display: unset !important;
+        cursor: pointer;
       }
 
       &.select-all {
