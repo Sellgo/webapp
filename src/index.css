@@ -347,7 +347,10 @@ i.icon.close::before {
 }
 
 /* Popup */
-.popup.transition.visible {
+.pop-market,
+.pop-seller,
+.pop-token,
+.add-supplier-popup {
   background: #757575 0% 0% no-repeat padding-box !important;
   border-radius: 4px !important;
   font-size: 10px !important;
