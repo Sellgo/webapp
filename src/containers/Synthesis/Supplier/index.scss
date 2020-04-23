@@ -17,11 +17,15 @@
               .content {
                 .highcharts-container {
                   width: 100% !important;
-                  height: 369px !important;
+                  // height: 369px !important;
 
                   svg {
                     height: 100% !important;
                   }
+                }
+
+                .chart-end-content {
+                  padding-left: 16px;
                 }
               }
             }
