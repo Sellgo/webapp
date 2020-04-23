@@ -67,11 +67,10 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
           color: 'black',
         },
         formatter: function(this: any): string {
-          return `${
-            data.find(function(d: any) {
-              return d.name === 'ROI(%)';
-            }).data[this.x]
-          } %`;
+          const labelValue = data.find(function(d: any) {
+            return d.name === 'ROI(%)';
+          }).data[this.x];
+          return !this.isNegative ? `${labelValue} %` : '';
         },
       },
     },
