@@ -163,10 +163,13 @@
 
 @import './SettingsStyles/SellerAmazonMWS';
 @import './SettingsStyles/SellerProfile';
+@import '../../index.scss';
 
 .ui.top.left.basic.popup.transition.visible.pop-market,
 .ui.top.left.basic.popup.transition.visible.pop-seller,
 .ui.top.left.basic.popup.transition.visible.pop-token {
+  @extend %popup-common;
+
   min-height: 36px !important;
   padding: 3px 10px !important;
 }

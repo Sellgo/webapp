@@ -2,6 +2,8 @@
   "extends": ["stylelint-config-standard"],
   "plugins": ["stylelint-prettier", "stylelint-scss"],
   "rules": {
-    "scss/selector-no-redundant-nesting-selector": true
+    "scss/selector-no-redundant-nesting-selector": true,
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true
   }
 }
