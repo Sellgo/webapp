@@ -29,15 +29,7 @@ const Chart = (props: ChartProps) => {
       </Segment>
     );
   }
-  return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={chartOptions}
-      callback={(chart: any) => {
-        chart.reflow();
-      }}
-    />
-  );
+  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
 };
 
 export default Chart;
