@@ -1,4 +1,8 @@
+@import '../../index.scss';
+
 .add-supplier-popup {
+  @extend %popup-common;
+
   max-width: 420px !important;
 }
 

@@ -346,11 +346,8 @@ i.icon.close::before {
   margin-right: 20px;
 }
 
-/* Popup */
-.pop-market,
-.pop-seller,
-.pop-token,
-.add-supplier-popup {
+// /* Popup */
+%popup-common {
   background: #757575 0% 0% no-repeat padding-box !important;
   border-radius: 4px !important;
   font-size: 10px !important;
