@@ -102,12 +102,9 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
         const productTitle = this.category;
 
         return renderToString(
-          <>
-            <div style={{ width: '350px', whiteSpace: 'normal' }}>
-              <h4>{productTitle}</h4>
-            </div>
+          <div style={{ width: '500px' }}>
             <Grid columns={2} verticalAlign="middle">
-              <Grid.Column textAlign="center" style={{ padding: '5px 0 0 0' }}>
+              <Grid.Column width={6} textAlign="center" style={{ padding: '5px 0 0 0' }}>
                 <Image
                   src={
                     image_urls && image_urls[x] !== null
@@ -115,12 +112,15 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
                       : 'http://localhost:3000/images/intro.png'
                   }
                   centered
-                  style={{ display: 'inline-block', width: '100px', height: '100px' }}
+                  style={{ display: 'inline-block' }}
                 />
-                <div>ASIN: {asins[x] ? asins[x] : 'N/A'}</div>
-                <div>UPC: {upcs[x] ? upcs[x] : 'N/A'}</div>
               </Grid.Column>
               <Grid.Column style={{ padding: 0 }}>
+                <div style={{ width: '312.5px', whiteSpace: 'normal' }}>
+                  <h4>{productTitle}</h4>
+                </div>
+                <div>ASIN: {asins[x] ? asins[x] : 'N/A'}</div>
+                <div>UPC: {upcs[x] ? upcs[x] : 'N/A'}</div>
                 {data.map((series: any, index: number) => {
                   return (
                     <div key={index}>
@@ -130,7 +130,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
                 })}
               </Grid.Column>
             </Grid>
-          </>
+          </div>
         );
       },
       valueDecimals: '2',
