@@ -31,7 +31,7 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
         minorGridLineWidth: 0,
         lineWidth: 2,
         title: {
-          text: 'Total Profit($)',
+          text: data[0].name,
           align: 'high',
           style: {
             color: 'black',
@@ -44,7 +44,7 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
         minorGridLineWidth: 0,
         lineWidth: 2,
         title: {
-          text: 'ROI(%)',
+          text: data[1].name,
           align: 'high',
           style: {
             color: 'black',
