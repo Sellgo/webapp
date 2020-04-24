@@ -37,6 +37,7 @@ const StepsInfo = (props: Props) => {
   };
   return (
     <Popup
+      className="StepsInfo__container"
       open={isFocusPW}
       trigger={
         <div className="ui icon input field">
