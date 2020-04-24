@@ -4,7 +4,7 @@ import { Checkbox } from 'semantic-ui-react';
 const ColumnFilterCard = (props: any) => {
   const { handleColumnChange, columnFilterData } = props;
   return (
-    <div className="column-filter-card">
+    <div className="column-filter-card" onClick={(e: any) => e.stopPropagation()}>
       <div>
         <span>
           <b>Select Columns:</b>

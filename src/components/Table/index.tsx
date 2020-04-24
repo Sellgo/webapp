@@ -40,6 +40,8 @@ export interface PaginatedTableProps {
   searchFilteredProduct?: (searchValue: string) => void;
   showFilter?: boolean;
   productRanges?: any;
+  columnFilterBox?: boolean;
+  toggleColumnCheckbox?: () => void;
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
@@ -78,6 +80,8 @@ export interface GenericTableProps {
   productTrackerPageNo?: any;
   showFilter?: boolean;
   productRanges?: any;
+  columnFilterBox?: boolean;
+  toggleColumnCheckbox?: () => void;
   renderFilterSectionComponent?: () => void;
 }
 
@@ -118,7 +122,9 @@ export const GenericTable = (props: GenericTableProps) => {
     columnFilterData,
     handleColumnChange,
     searchFilterValue,
+    columnFilterBox,
     showFilter,
+    toggleColumnCheckbox,
     renderFilterSectionComponent,
   } = props;
 
@@ -209,6 +215,9 @@ export const GenericTable = (props: GenericTableProps) => {
                     {column.icon && column.popUp ? (
                       <Popup
                         on="click"
+                        open={columnFilterBox}
+                        onClose={toggleColumnCheckbox}
+                        onOpen={toggleColumnCheckbox}
                         trigger={<Icon className={`${column.icon}`} />}
                         position="bottom right"
                         basic={true}
@@ -360,6 +369,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     searchFilterValue,
     showFilter,
     productRanges,
+    columnFilterBox,
+    toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
   } = props;
@@ -497,6 +508,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       count={count && count.count}
       productTrackerPageNo={productTrackerPageNo}
       showFilter={showFilter}
+      columnFilterBox={columnFilterBox}
+      toggleColumnCheckbox={toggleColumnCheckbox}
       renderFilterSectionComponent={renderFilterSectionComponent}
     />
   );
