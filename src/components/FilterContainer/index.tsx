@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { Checkbox, Radio, Button, Divider } from 'semantic-ui-react';
+import { Checkbox, Button, Divider } from 'semantic-ui-react';
 import _ from 'lodash';
 import { SupplierFilter, FilterState } from '../../interfaces/Filters';
 import FilterSliderInput from '../FilterSliderInput';
@@ -63,39 +63,51 @@ function FilterContainer(props: Props) {
                   </div>
                   <div className={seeAll ? 'see-all filter-list' : 'filter-list'}>
                     {filter.dataKey === 'product-category' && (
-                      <Checkbox
-                        label="Select all"
-                        key="select-all"
-                        className="select-all"
-                        onClick={() => {
-                          toggleSelectAll();
-                        }}
-                        checked={isSelectAll}
-                      />
+                      <div className="ui checkbox select-all">
+                        <input
+                          id="select-all"
+                          checked={isSelectAll}
+                          onClick={() => {
+                            toggleSelectAll();
+                          }}
+                          type="checkbox"
+                        />
+                        <label htmlFor="select-all"> Select all</label>
+                      </div>
                     )}
 
                     {_.map(filter.data, (filterData, dataKey) => {
                       if (filter.radio === true) {
                         return (
-                          <Radio
-                            key={dataKey}
-                            className={filterData.dataKey}
-                            label={filterData.label}
-                            checked={initialFilterState.productSize === filterData.label}
-                            onClick={() => setRadioFilter(filter.dataKey, filterData.label)}
-                          />
+                          <div className={`ui radio checkbox ${filterData.dataKey}`} key={dataKey}>
+                            <input
+                              id={filterData.dataKey}
+                              checked={initialFilterState.productSize === filterData.label}
+                              onClick={() => {
+                                setRadioFilter(filter.dataKey, filterData.label);
+                              }}
+                              type="radio"
+                            />
+                            <label htmlFor={filterData.dataKey}> {filterData.label}</label>
+                          </div>
                         );
                       } else {
                         if (!seeAll && dataKey > 3) return null;
                         return (
-                          <Checkbox
-                            label={filterData.label}
-                            key={dataKey}
-                            onClick={() => {
-                              toggleCheckboxFilter(filterData.dataKey, filterData.label);
-                            }}
-                            checked={initialFilterState.allFilter.indexOf(filterData.label) !== -1}
-                          />
+                          <div className="ui checkbox">
+                            <input
+                              key={dataKey}
+                              id={filterData.dataKey}
+                              checked={
+                                initialFilterState.allFilter.indexOf(filterData.label) !== -1
+                              }
+                              onClick={() => {
+                                toggleCheckboxFilter(filterData.dataKey, filterData.label);
+                              }}
+                              type="checkbox"
+                            />
+                            <label htmlFor={filterData.dataKey}> {filterData.label}</label>
+                          </div>
                         );
                       }
                     })}

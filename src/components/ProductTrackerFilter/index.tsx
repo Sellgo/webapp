@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { Checkbox, Button, Divider, Radio } from 'semantic-ui-react';
+import { Checkbox, Button, Divider } from 'semantic-ui-react';
 import _ from 'lodash';
 import { ProductTrackerFilterInterface, ProductTrackerFilterState } from '../../interfaces/Filters';
 import FilterSliderInput from '../FilterSliderInput';
@@ -88,25 +88,30 @@ function ProductTrackerFilter(props: Props) {
                   </span>
                 </div>
                 <div className="pt-filter-content__all-filter__wrapper__reviews__list">
-                  <Checkbox
-                    label="All"
-                    key="all-reviews"
-                    className="all-reviews"
-                    onClick={() => {
-                      toggleSelectAllReviews();
-                    }}
-                    checked={isAllReviews}
-                  />
+                  <div className="ui checkbox">
+                    <input
+                      id="all-reviews"
+                      checked={isAllReviews}
+                      onClick={() => {
+                        toggleSelectAllReviews();
+                      }}
+                      type="checkbox"
+                    />
+                    <label htmlFor="all-reviews"> All </label>
+                  </div>
                   {_.map(filterData.all.reviews.data, (filterData, dataKey) => {
                     return (
-                      <Checkbox
-                        label={filterData.label}
-                        key={dataKey}
-                        onClick={() => {
-                          toggleCheckboxFilter(filterData.dataKey);
-                        }}
-                        checked={initialFilterState.reviews.indexOf(filterData.dataKey) !== -1}
-                      />
+                      <div className="ui checkbox" key={dataKey}>
+                        <input
+                          id={filterData.label}
+                          checked={initialFilterState.reviews.indexOf(filterData.dataKey) !== -1}
+                          onClick={() => {
+                            toggleCheckboxFilter(filterData.dataKey);
+                          }}
+                          type="checkbox"
+                        />
+                        <label htmlFor={filterData.label}> {filterData.label} </label>
+                      </div>
                     );
                   })}
                 </div>
@@ -133,13 +138,20 @@ function ProductTrackerFilter(props: Props) {
             <div className="pt-filter-content__period__list">
               {_.map(filterData.period.data, filterData => {
                 return (
-                  <Radio
+                  <div
+                    className={`ui radio checkbox ${filterData.dataKey}`}
                     key={filterData.dataKey}
-                    className={filterData.dataKey}
-                    label={filterData.label}
-                    checked={initialFilterState.period === filterData.value}
-                    onClick={() => setPeriod(filterData.value || 1)}
-                  />
+                  >
+                    <input
+                      id={filterData.dataKey}
+                      checked={initialFilterState.period === filterData.value}
+                      onClick={() => {
+                        setPeriod(filterData.value || 1);
+                      }}
+                      type="radio"
+                    />
+                    <label htmlFor={filterData.dataKey}> {filterData.label}</label>
+                  </div>
                 );
               })}
             </div>
