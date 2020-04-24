@@ -97,7 +97,7 @@ export default function Signup(props: Props, state: State) {
         id: 4,
         stepShow: true,
         stepClass: specialCharacters.validate(password) ? 'title-success' : 'title-error',
-        stepTitle: 'SpecialCharacters',
+        stepTitle: 'Special Characters',
         stepDescription: 'Contains at least one special character (e.g. !@#$%^&*,.)',
         stepIcon: specialCharacters.validate(password) ? 'check' : 'times',
       },
