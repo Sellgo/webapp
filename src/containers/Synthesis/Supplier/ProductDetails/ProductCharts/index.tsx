@@ -224,6 +224,32 @@ class ProductCharts extends Component<ProductChartsProps> {
     return <SplineChart options={chartOptions} />;
   };
 
+  renderRankVsInventory = (props: any) => {
+    const { productTimeline, popupRankContainer, popupInventoryContainer } = props;
+    const data = [
+      {
+        yAxis: 0,
+        type: 'line',
+        name: 'Rank',
+        color: '#FD8373',
+        data: popupRankContainer,
+      },
+      {
+        yAxis: 1,
+        type: 'column',
+        name: 'Inventory',
+        color: '#4AD991',
+        data: popupInventoryContainer,
+      },
+    ];
+    const chartOptions = {
+      title: 'Rank vs Inventory',
+      productTimeline: productTimeline,
+      data: data,
+    };
+    return <SplineChart options={chartOptions} />;
+  };
+
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
 
   renderProductCharts = () => {
@@ -426,6 +452,40 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
       //200416 RP: add Review - end
 
+      case 'chart7': {
+        const productTimeline = [];
+        const popupRankContainer = [];
+        const popupInventoryContainer = [];
+
+        for (let i = 0; i < productDetailRank.length; i++) {
+          productTimeline.push(new Date(productDetailRank[i].cdate).getTime());
+          popupRankContainer.push([
+            new Date(productDetailRank[i].cdate).getTime(),
+            Number(productDetailRank[i].rank),
+          ]);
+        }
+
+        for (let i = 0; i < productDetailInventory.length; i++) {
+          popupInventoryContainer.push([
+            new Date(productDetailInventory[i].cdate).getTime(),
+            Number(productDetailInventory[i].inventory),
+          ]);
+        }
+
+        return (productTimeline.length && popupRankContainer.length) ||
+          popupInventoryContainer.length ? (
+          <this.renderRankVsInventory
+            productTimeline={productTimeline}
+            popupRankContainer={popupRankContainer}
+            popupInventoryContainer={popupInventoryContainer}
+          />
+        ) : (
+          <Loader active={true} inline="centered" className="popup-loader" size="massive">
+            Loading
+          </Loader>
+        );
+      }
+
       default:
         return <div />;
     }
@@ -488,6 +548,12 @@ class ProductCharts extends Component<ProductChartsProps> {
               label="Review"
               value="chart6"
               checked={this.state.showProductChart === 'chart6'}
+              onChange={(e, { value }) => this.handleProductChartChange(e, value)}
+            />
+            <Form.Radio
+              label="Rank vs Inventory"
+              value="chart7"
+              checked={this.state.showProductChart === 'chart7'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
           </Form.Group>
