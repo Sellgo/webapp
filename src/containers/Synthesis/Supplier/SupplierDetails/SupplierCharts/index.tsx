@@ -95,17 +95,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   renderRevenue = (props: any) => {
-    const {
-      //RP200414: adding ROI - begin
-      roi,
-      //RP200414: adding ROI - end
-      profit,
-      product_cost,
-      fees,
-      productSKUs,
-      onBubbleDetails,
-      amazon_urls,
-    } = props;
+    const { roi, profit, product_cost, fees, productSKUs, onBubbleDetails, ...otherProps } = props;
     const data = [
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
@@ -119,7 +109,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       title: 'Revenue Breakdown Comparison',
       productSKUs: productSKUs,
       data: data,
-      amazon_urls: amazon_urls,
+      ...otherProps,
     };
     return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
   };
@@ -204,43 +194,36 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         );
       }
       case 'chart3': {
-        let product_cost = [];
-        let fees = [];
-        let amazon_urls = [];
-
-        //RP200414: adding ROI - begin
-        let roi = [];
-        //RP200414: adding ROI - end
-
-        product_cost = showProducts.map(e => parseFloat(e.product_cost));
-        fees = showProducts.map(e => parseFloat(e.fees));
-        //RP200414: adding ROI - begin
-        roi = showProducts.map(e => parseFloat(e.roi));
-        //RP200414: adding ROI - end
-
-        product_cost = showProducts.map(e => parseFloat(e.product_cost));
-        fees = showProducts.map(e => parseFloat(e.fees));
-        roi = showProducts.map(e => parseFloat(e.roi));
-        amazon_urls = showProducts.map(e => e.amazon_url);
+        const product_cost = showProducts.map(e => parseFloat(e.product_cost));
+        const fees = showProducts.map(e => parseFloat(e.fees));
+        const amazon_urls = showProducts.map(e => e.amazon_url);
+        const roi = showProducts.map(e => parseFloat(e.roi));
+        const upcs = showProducts.map(e => e.upc);
+        const asins = showProducts.map(e => e.asin);
+        const image_urls = showProducts.map(e => e.image_url);
+        const margins = showProducts.map(e => e.margin);
 
         return productSKUs.length &&
           profit.length &&
           product_cost.length &&
           fees.length &&
           amazon_urls.length &&
-          //RP200414: adding ROI - begin
-          roi.length ? (
-          //RP200414: adding ROI - end
-
+          roi.length &&
+          upcs.length &&
+          asins.length &&
+          margins.length &&
+          image_urls.length ? (
           <this.renderRevenue
             productSKUs={productSKUs}
             product_cost={product_cost}
             fees={fees}
             profit={profit}
-            //RP200414: adding ROI - begin
             roi={roi}
-            //RP200414: adding ROI - end
             amazon_urls={amazon_urls}
+            upcs={upcs}
+            asins={asins}
+            image_urls={image_urls}
+            margins={margins}
             onBubbleDetails={(id: number) => {
               openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
             }}

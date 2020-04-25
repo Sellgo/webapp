@@ -1,17 +1,21 @@
 import React from 'react';
 import Chart from './Chart';
 import { renderToString } from 'react-dom/server';
-import { Icon } from 'semantic-ui-react';
+import { Grid, Icon, Image } from 'semantic-ui-react';
 
 export interface StackChartOptions {
   title: string;
   data: any;
   productSKUs: any;
   amazon_urls?: any;
+  image_urls?: any;
+  asins?: any;
+  upcs?: any;
+  margins?: any;
 }
 
 const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
-  const { title, data, productSKUs, amazon_urls } = options;
+  const { title, data, productSKUs, amazon_urls, image_urls, asins, upcs, margins } = options;
 
   return {
     chart: {
@@ -93,13 +97,48 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       },
 
       //RP200414: adding new tooltip structure - begin
-      headerFormat: '<large>{point.x} </large><table>',
-      pointFormat:
-        '<tr><td style="">{series.name}</td>' +
-        '<td style="text-align: right"><b>{point.y} USD</b></td></tr>' +
-        '<tr><td style="">ROI:</td>' +
-        '<td style="text-align: right"><b>{data[3].data[this.point.x]} %</td></tr>',
-      footerFormat: '</table>',
+      headerFormat: null, //remove default format
+      pointFormatter: function(this: any): string {
+        const x = this.x;
+        const productTitle = this.category;
+
+        return renderToString(
+          <div style={{ width: '500px' }}>
+            <Grid columns={2} verticalAlign="middle">
+              <Grid.Column width={6} textAlign="center" style={{ padding: '5px 0 0 0' }}>
+                <Image
+                  src={
+                    image_urls && image_urls[x] !== null
+                      ? image_urls[x]
+                      : 'http://localhost:3000/images/intro.png'
+                  }
+                  centered
+                  style={{ display: 'inline-block' }}
+                />
+                <div style={{ color: 'grey', fontSize: '0.9em' }}>
+                  ASIN: {asins[x] ? asins[x] : 'N/A'}
+                </div>
+                <div style={{ color: 'grey', fontSize: '0.9em' }}>
+                  UPC: {upcs[x] ? upcs[x] : 'N/A'}
+                </div>
+              </Grid.Column>
+              <Grid.Column style={{ padding: 0 }}>
+                <div style={{ width: '312.5px', whiteSpace: 'normal' }}>
+                  <h4>{productTitle}</h4>
+                </div>
+                {data.map((series: any, index: number) => {
+                  return (
+                    <div key={index}>
+                      {series.name}: {series.data[x]}
+                    </div>
+                  );
+                })}
+                <div>Margin(%): {margins[x] ? margins[x] : 'N/A'}</div>
+              </Grid.Column>
+            </Grid>
+          </div>
+        );
+      },
       valueDecimals: '2',
       //shared: true,
       useHTML: true,
