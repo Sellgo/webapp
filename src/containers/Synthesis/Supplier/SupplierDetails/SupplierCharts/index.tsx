@@ -201,6 +201,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         const upcs = showProducts.map(e => e.upc);
         const asins = showProducts.map(e => e.asin);
         const image_urls = showProducts.map(e => e.image_url);
+        const margins = showProducts.map(e => e.margin);
 
         return productSKUs.length &&
           profit.length &&
@@ -210,6 +211,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
           roi.length &&
           upcs.length &&
           asins.length &&
+          margins.length &&
           image_urls.length ? (
           <this.renderRevenue
             productSKUs={productSKUs}
@@ -221,6 +223,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             upcs={upcs}
             asins={asins}
             image_urls={image_urls}
+            margins={margins}
             onBubbleDetails={(id: number) => {
               openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
             }}

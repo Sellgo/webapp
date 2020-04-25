@@ -11,10 +11,11 @@ export interface StackChartOptions {
   image_urls?: any;
   asins?: any;
   upcs?: any;
+  margins?: any;
 }
 
 const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
-  const { title, data, productSKUs, amazon_urls, image_urls, asins, upcs } = options;
+  const { title, data, productSKUs, amazon_urls, image_urls, asins, upcs, margins } = options;
 
   return {
     chart: {
@@ -114,13 +115,17 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
                   centered
                   style={{ display: 'inline-block' }}
                 />
+                <div style={{ color: 'grey', fontSize: '0.9em' }}>
+                  ASIN: {asins[x] ? asins[x] : 'N/A'}
+                </div>
+                <div style={{ color: 'grey', fontSize: '0.9em' }}>
+                  UPC: {upcs[x] ? upcs[x] : 'N/A'}
+                </div>
               </Grid.Column>
               <Grid.Column style={{ padding: 0 }}>
                 <div style={{ width: '312.5px', whiteSpace: 'normal' }}>
                   <h4>{productTitle}</h4>
                 </div>
-                <div>ASIN: {asins[x] ? asins[x] : 'N/A'}</div>
-                <div>UPC: {upcs[x] ? upcs[x] : 'N/A'}</div>
                 {data.map((series: any, index: number) => {
                   return (
                     <div key={index}>
@@ -128,6 +133,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
                     </div>
                   );
                 })}
+                <div>Margin(%): {margins[x] ? margins[x] : 'N/A'}</div>
               </Grid.Column>
             </Grid>
           </div>
