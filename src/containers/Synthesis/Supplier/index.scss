@@ -1,41 +1,10 @@
 .setting {
   // Give left filters column a fixed width
-  .left-column {
-    padding-right: 100px !important;
 
-    .Supplier_Filters {
-      margin: 0 auto;
-      max-width: 200px;
-
-      .synthesis-supplier-filters {
-        .search-dropdown {
-          margin-bottom: 20px;
-
-          .dropdown {
-            background: transparent;
-            border-color: #bbbec1;
-            border-radius: 10px;
-
-            .text {
-              color: #868686 !important;
-            }
-
-            input.search {
-              background: transparent;
-              left: 0 !important;
-            }
-          }
-        }
-
-        .inner-wrap {
-          padding: 10px 15px;
-        }
-      }
-    }
-  }
   // Make right column expand to take up available width
-  .right-column {
-    // flex: 1;
+  .ui.grid {
+    justify-content: center;
+
     .wide.column {
       max-height: 500px;
       max-width: 800px;

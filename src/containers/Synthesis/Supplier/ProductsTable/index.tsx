@@ -8,19 +8,22 @@ import { openSupplierProductDetailModal } from '../../../../actions/Modals';
 import {
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
+  searchSupplierProducts,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import _ from 'lodash';
+import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
+import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 
 interface ProductsTableProps {
   supplierID: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
   filteredProducts: Product[];
+  filterData: any;
   filterRanges: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
@@ -34,26 +37,29 @@ interface ProductsTableProps {
   ) => void;
   openProductDetailModal: (product?: Product) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
+  searchProducts: (value: string, filterData: any) => void;
 }
 
 interface ProductsTableState {
   checkedItems: { [index: number]: {} };
-  searchProducts: Product[];
   searchValue: string;
+  productRanges: any;
+  filteredRanges: any;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
     checkedItems: {},
-    searchProducts: [],
     searchValue: '',
+    productRanges: initialFilterRanges,
+    filteredRanges: [],
   };
 
-  componentDidUpdate(prevProps: any) {
-    if (prevProps.filterRanges !== this.props.filterRanges) {
-      this.setState({
-        searchValue: '',
-      });
+  UNSAFE_componentWillReceiveProps(props: any) {
+    if (props.products && props.products !== this.props.products) {
+      // Get min and max range for each filter setting based on all products
+      const productRanges = findMinMax(props.products);
+      this.setState({ productRanges });
     }
   }
 
@@ -81,19 +87,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
+  renderPrice = (row: Product) => <p className="stat">${row.price}</p>;
   renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)}</p>;
   renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
-  renderUnitSold = (row: Product) => {
+  renderFee = (row: Product) => <p className="stat">{row.fees}%</p>;
+  renderMonthlyRevenue = (row: Product) => (
+    <p className="stat">${formatNumber(row.monthly_revenue)}</p>
+  );
+  renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
+  renderRank = (row: Product) => <p className="stat">#{formatNumber(row.rank)}</p>;
+  renderMonthlySalesEst = (row: Product) => {
     return (
       <>
         <p className="stat">{formatNumber(row.sales_monthly)}</p>
       </>
     );
   };
-  renderProfitMonthly = (row: Product) => (
-    <p className="stat"> {formatCurrency(row.profit_monthly)}</p>
-  );
-  renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
+  renderCategory = (row: Product) => <p className="stat">{row.amazon_category_name}</p>;
+  renderSizeTiers = (row: Product) => <p className="stat">{row.size_tier}</p>;
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
@@ -134,22 +145,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   searchFilteredProduct = (value: string) => {
-    const { filteredProducts, setSinglePageItemsCount, singlePageItemsCount } = this.props;
-    const products = filteredProducts;
+    const {
+      searchProducts,
+      setSinglePageItemsCount,
+      singlePageItemsCount,
+      filterData,
+    } = this.props;
     this.setState({
       searchValue: value,
     });
-    const newFilteredProducts = products.filter((product: Product) => {
-      return (
-        (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-        (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-        (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1)
-      );
-    });
+    searchProducts(value, filterData);
     setSinglePageItemsCount(singlePageItemsCount);
-    this.setState({
-      searchProducts: newFilteredProducts,
-    });
   };
 
   columns: Column[] = [
@@ -160,7 +166,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderProductInfo,
     },
     {
-      label: 'Profit/Item',
+      label: 'Price',
+      dataKey: 'price',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderPrice,
+    },
+    {
+      label: 'Profit',
       dataKey: 'profit',
       type: 'number',
       sortable: true,
@@ -176,20 +190,20 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderMargin,
     },
     {
-      label: 'Unit Sold/Mo',
-      dataKey: 'sales_monthly',
+      label: 'Fees',
+      dataKey: 'fees',
       type: 'number',
       sortable: true,
       show: true,
-      render: this.renderUnitSold,
+      render: this.renderFee,
     },
     {
-      label: 'Profit/Mo',
-      dataKey: 'profit_monthly',
+      label: 'Monthly\nRevenue',
+      dataKey: 'monthly_revenue',
       type: 'number',
       sortable: true,
       show: true,
-      render: this.renderProfitMonthly,
+      render: this.renderMonthlyRevenue,
     },
     {
       label: 'ROI',
@@ -198,6 +212,38 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderRoi,
+    },
+    {
+      label: 'Rank',
+      dataKey: 'rank',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderRank,
+    },
+    {
+      label: 'Monthly\nSales Est',
+      dataKey: 'sales_monthly',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderMonthlySalesEst,
+    },
+    {
+      label: 'Category',
+      dataKey: 'amazon_category_name',
+      type: 'string',
+      sortable: true,
+      show: true,
+      render: this.renderCategory,
+    },
+    {
+      label: 'Size Tier',
+      dataKey: 'size_tier',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderSizeTiers,
     },
     {
       label: 'Tracking / Rating',
@@ -216,7 +262,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       filterRanges,
     } = this.props;
-    const { searchProducts, searchValue } = this.state;
+    const { searchValue, productRanges } = this.state;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -228,15 +274,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <PaginatedTable
             /* 
-                key change forced table to remount and set page back to 1
-                if any data changes that would affect number of displayed items
-                otherwise we can end up on a page that shows no results because it's
-                past the end of the total number of items.
-                This can be done in a less hacky way once we move pagination server-side.
-              */
+                          key change forced table to remount and set page back to 1
+                          if any data changes that would affect number of displayed items
+                          otherwise we can end up on a page that shows no results because it's
+                          past the end of the total number of items.
+                          This can be done in a less hacky way once we move pagination server-side.
+                        */
             key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
-            data={_.isEmpty(searchValue) ? filteredProducts : searchProducts}
+            data={filteredProducts}
             columns={this.columns}
             searchFilterValue={searchValue}
             showProductFinderSearch={true}
@@ -244,6 +290,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}
             name={'products'}
+            showFilter={true}
+            renderFilterSectionComponent={() => (
+              <ProfitFinderFilterSection productRanges={productRanges} />
+            )}
           />
         )}
       </div>
@@ -258,6 +308,7 @@ const mapStateToProps = (state: {}) => ({
   filterRanges: get(state, 'supplier.filterRanges'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  filterData: get(state, 'supplier.filterData'),
 });
 
 const mapDispatchToProps = {
@@ -279,6 +330,7 @@ const mapDispatchToProps = {
     ),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
+  searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

@@ -1,7 +1,10 @@
+import _ from 'lodash';
+
 export const SET_SUPPLIERS = 'SET_SUPPLIERS';
 export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
 export const SET_TIME_EFFICIENCY = '/SYN/GET_TIME_EFFICIENCY';
-export const SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION = '/SYN/SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION';
+export const SET_SUPPLIER_NAME = '/SYN/SET_SUPPLIER_NAME';
+export const SET_NEW_SEARCH = '/SYN/SET_NEW_SEARCH';
 export const SELECT_SUPPLIER = 'SELECT_SUPPLIER';
 export const UPDATE_SUPPLIER = 'UPDATE_SUPPLIER';
 export const ADD_SUPPLIER = 'ADD_SUPPLIER';
@@ -18,6 +21,8 @@ export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 export const UPDATE_SUPPLIER_FILTER_RANGES = 'UPDATE_SUPPLIER_FILTER_RANGES';
 export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT';
 export const SUPPLIER_QUOTA = 'SUPPLIER_QUOTA';
+export const FILTER_SUPPLIER_PRODUCTS = 'FILTER_SUPPLIER_PRODUCTS';
+export const SEARCH_SUPPLIER_PRODUCTS = 'SEARCH_SUPPLIER_PRODUCTS';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -31,6 +36,7 @@ export const dataKeys: any = [
   // 'roi_inventory',
 ];
 
+export const supplierDataKeys: any = ['price', 'profit', 'roi', 'sales_monthly', 'margin', 'rank'];
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -145,6 +151,22 @@ export const findMinMaxRange = (products: any) => {
   return updatedFilterRanges;
 };
 
+export const findMinMax = (products: any) => {
+  const updatedFilterRanges = supplierDataKeys.reduce((fr: any, dk: string) => {
+    if (!fr[dk]) {
+      const dkArray = products.map((p: any) => Number(p[dk]));
+      const minDk = Math.floor(Math.min(...dkArray));
+      const maxDk = Math.ceil(Math.max(...dkArray));
+      const min = minDk === Number.POSITIVE_INFINITY ? '' : minDk;
+      const max = maxDk === Number.NEGATIVE_INFINITY ? '' : maxDk;
+      const updatedDkRange = { min, max };
+      fr[dk] = updatedDkRange;
+    }
+    return fr;
+  }, {});
+  return updatedFilterRanges;
+};
+
 export const findFilterProducts = (products: any, filterRanges: any) => {
   const filterRange = (product: any) =>
     dataKeys.every(
@@ -156,6 +178,32 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
+export const findFilteredProducts = (products: any, filterData: any) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return !_.isEmpty(filterData.allFilter)
+      ? (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
+          (_.isEmpty(product.amazon_category_name) && filterData.allFilter.indexOf('Others'))) &&
+          (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
+          supplierDataKeys.every(
+            (dataKey: any) =>
+              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max)
+          )
+      : null;
+  });
+  return updatedFilterProducts;
+};
+
+export const searchFilteredProduct = (products: any, value: string) => {
+  const updatedFilterProducts = _.filter(products, product => {
+    return (
+      (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+    );
+  });
+  return updatedFilterProducts;
+};
 // Add temporary data to products during development
 export const addTempDataToProducts = (products: any) => {
   return products.map((product: any) => {

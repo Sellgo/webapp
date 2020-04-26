@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Header, Segment } from 'semantic-ui-react';
+import { Header, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import SellerProfile from './SellerProfile';
 import SellerAmazonMWS from './SellerAmazonMWS';
@@ -10,10 +10,11 @@ import {
   getSellerAmazonMWSAuth,
   deleteSellerAmazonMWSAuth,
   updateSellerProfileImage,
+  deleteSellerProfileImage,
   getSellerprofileImage,
   setSellerInfo,
 } from '../../actions/Settings';
-import './settings.css';
+import './settings.scss';
 import { Seller, AmazonMWS } from '../../interfaces/Seller';
 import PageHeader from '../../components/PageHeader';
 
@@ -26,6 +27,7 @@ interface SettingsProps {
   setSeller: (data: any) => void;
   getprofileImage: () => void;
   updateProfileImage: (imageType: string, imagePath: any) => void;
+  deleteProfileImage: (imageID: string) => void;
   profile: Seller;
   amazonMWSAuth: AmazonMWS[];
   profileImage: any;
@@ -45,6 +47,7 @@ class Settings extends React.Component<SettingsProps> {
       profileImage,
       updateSeller,
       updateProfileImage,
+      deleteProfileImage,
       amazonMWSAuth,
       updateAmazonMWSAuth,
       deleteMWSAuth,
@@ -55,24 +58,32 @@ class Settings extends React.Component<SettingsProps> {
           title="Settings"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }]}
         />
-        <Segment basic={true} className="settings">
-          <Header as="h2">Basic Information</Header>
-          <Divider />
+        <Grid className="settings-container">
+          <Grid.Row>
+            <Grid.Column width={16}>
+              <Header as="h3">Basic Information</Header>
+            </Grid.Column>
+          </Grid.Row>
           <SellerProfile
             profile={profile}
             profileImage={profileImage}
             updateSeller={updateSeller}
             updateProfileImage={updateProfileImage}
+            deleteProfileImage={deleteProfileImage}
           />
-          <Header as="h2">Amazon Seller Central Credentials</Header>
-          <Divider />
-          <SellerAmazonMWS
-            amazonMWSAuth={amazonMWSAuth}
-            updateAmazonMWSAuth={updateAmazonMWSAuth}
-            deleteMWSAuth={deleteMWSAuth}
-          />
-          <Divider />
-        </Segment>
+          <Grid.Row className="amazon-header">
+            <Grid.Column width={16}>
+              <Header as="h3">Amazon MWS Authorization</Header>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row className="amazon-content">
+            <SellerAmazonMWS
+              amazonMWSAuth={amazonMWSAuth}
+              updateAmazonMWSAuth={updateAmazonMWSAuth}
+              deleteMWSAuth={deleteMWSAuth}
+            />
+          </Grid.Row>
+        </Grid>
       </>
     );
   }
@@ -96,6 +107,7 @@ const mapDispatchToProps = {
   getprofileImage: () => getSellerprofileImage(),
   updateProfileImage: (imageType: string, imagePath: any) =>
     updateSellerProfileImage(imageType, imagePath),
+  deleteProfileImage: (imageID: string) => deleteSellerProfileImage(imageID),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

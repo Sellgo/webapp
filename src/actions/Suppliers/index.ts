@@ -4,7 +4,12 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
 import { getSellerQuota } from '../Settings';
-import { suppliersSelector } from '../../selectors/Supplier';
+import {
+  suppliersSelector,
+  newSupplierIdSelector,
+  getSynthesisId,
+  suppliersByIdSelector,
+} from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
   SET_SUPPLIERS,
@@ -14,7 +19,8 @@ import {
   ADD_SUPPLIER,
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
-  SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+  SET_SUPPLIER_NAME,
+  SET_NEW_SEARCH,
   SET_TIME_EFFICIENCY,
   SET_SUPPLIER_DETAILS,
   IS_LOADING_SUPPLIER_PRODUCTS,
@@ -27,11 +33,14 @@ import {
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
+  FILTER_SUPPLIER_PRODUCTS,
+  SEARCH_SUPPLIER_PRODUCTS,
 } from '../../constants/Suppliers';
+import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
-import { UntrackSuccess } from '../../components/ToastMessages/ProductTracker';
+import { UntrackSuccess } from '../../components/ToastMessages';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -140,6 +149,29 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
     });
 };
 
+export const postSynthesisRun = (synthesisId: string) => async (
+  dispatch: any,
+  getState: () => any
+) => {
+  const sellerID = sellerIDSelector();
+  const supplierID = newSupplierIdSelector(getState());
+  const existingSupplier = suppliersByIdSelector(getState())[supplierID];
+
+  const bodyFormData = new FormData();
+  bodyFormData.set('synthesis_file_id', String(synthesisId));
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis/run`,
+    bodyFormData
+  )
+    .then(() => {
+      dispatch(updateSupplier(existingSupplier));
+      dispatch(fetchSynthesisProgressUpdates());
+    })
+    .catch(() => {
+      error('Run failed. Try again!');
+    });
+};
+
 function timeout(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -150,6 +182,7 @@ export const fetchSynthesisProgressUpdates = () => async (
 ) => {
   const sellerID = sellerIDSelector();
   let suppliers = suppliersSelector(getState());
+  const currSynthesisId = getSynthesisId(getState());
   suppliers = suppliers.filter(
     supplier =>
       supplier &&
@@ -183,6 +216,12 @@ export const fetchSynthesisProgressUpdates = () => async (
     responses.forEach(handleUpdateSupplier);
 
     suppliers = suppliers.filter((supplier, index) => {
+      if (currSynthesisId === supplier.synthesis_file_id) {
+        dispatch(setEta(responses[index].data.eta));
+        dispatch(setProgress(responses[index].data.progress));
+        dispatch(setSpeed(responses[index].data.speed));
+      }
+
       if (responses[index].data.progress === 100) {
         dispatch(fetchSupplier(supplier.supplier_id));
       }
@@ -415,10 +454,10 @@ export const getTimeEfficiency = () => (dispatch: any) => {
     });
 };
 
-export const postProductTrackGroupId = (supplierID: string, supplierName: string) => () => {
+export const postProductTrackGroupId = (supplierID: string, name: string) => () => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  bodyFormData.set('name', supplierName);
+  bodyFormData.set('name', name);
   bodyFormData.set('supplier_id', supplierID);
   bodyFormData.set('marketplace_id', 'US');
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/group`, bodyFormData)
@@ -430,23 +469,19 @@ export const postProductTrackGroupId = (supplierID: string, supplierName: string
     });
 };
 
-export const saveSupplierNameAndDescription = (name: string, description: string, other: any) => (
-  dispatch: any
-) => {
+export const saveSearch = (other: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
-    bodyFormData.set('name', name);
-    if (description) {
-      bodyFormData.set('description', description);
-    }
+
     for (const param in other) {
       bodyFormData.set(param, other[param]);
     }
+
     return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
       .then(json => {
         dispatch(addSupplier(json.data));
-        dispatch(setsaveSupplierNameAndDescription(json.data));
+        dispatch(setSearch(json.data));
         resolve(json.data);
       })
       .catch(err => {
@@ -457,17 +492,36 @@ export const saveSupplierNameAndDescription = (name: string, description: string
   });
 };
 
-export const updateSupplierNameAndDescription = (
-  name: string,
-  description: string,
-  supplierID: string,
-  other: any
-) => (dispatch: any) => {
+export const saveSupplierName = (name: string, other: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
     bodyFormData.set('name', name);
-    bodyFormData.set('description', description);
+
+    for (const param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+    return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
+      .then(json => {
+        dispatch(addSupplier(json.data));
+        dispatch(setSupplierName(json.data));
+        resolve(json.data);
+      })
+      .catch(err => {
+        for (const er in err.response.data) {
+          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+        }
+      });
+  });
+};
+
+export const updateSupplierName = (name: string, supplierID: string, other: any) => (
+  dispatch: any
+) => {
+  return new Promise(resolve => {
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+    bodyFormData.set('name', name);
     bodyFormData.set('id', supplierID);
     for (const param in other) {
       bodyFormData.set(param, other[param]);
@@ -478,7 +532,32 @@ export const updateSupplierNameAndDescription = (
     )
       .then(json => {
         dispatch(updateSupplier(json.data));
-        dispatch(setsaveSupplierNameAndDescription(json.data));
+        dispatch(setSupplierName(json.data));
+        resolve(json.data);
+      })
+      .catch(err => {
+        for (const er in err.response.data) {
+          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+        }
+      });
+  });
+};
+
+export const updateSearch = (supplierID: string, other: any) => (dispatch: any) => {
+  return new Promise(resolve => {
+    const sellerID = sellerIDSelector();
+    const bodyFormData = new FormData();
+    bodyFormData.set('id', supplierID);
+    for (const param in other) {
+      bodyFormData.set(param, other[param]);
+    }
+    return Axios.patch(
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}`,
+      bodyFormData
+    )
+      .then(json => {
+        dispatch(updateSupplier(json.data));
+        dispatch(setSearch(json.data));
         resolve(json.data);
       })
       .catch(err => {
@@ -494,7 +573,43 @@ export const setTimeEfficiency = (data: {}) => ({
   payload: data,
 });
 
-export const setsaveSupplierNameAndDescription = (data: {}) => ({
-  type: SET_SAVE_SUPPLIER_NAME_AND_DESCRIPTION,
+export const setSupplierName = (data: {}) => ({
+  type: SET_SUPPLIER_NAME,
   payload: data,
+});
+
+export const filterSupplierProducts = (value: string, filterData: any) => ({
+  type: FILTER_SUPPLIER_PRODUCTS,
+  payload: {
+    value: value,
+    filterData: filterData,
+  },
+});
+
+export const searchSupplierProducts = (value: string, filterData: any) => ({
+  type: SEARCH_SUPPLIER_PRODUCTS,
+  payload: {
+    value: value,
+    filterData: filterData,
+  },
+});
+
+export const setSearch = (data: {}) => ({
+  type: SET_NEW_SEARCH,
+  payload: data,
+});
+
+export const setProgress = (value: number) => ({
+  type: SET_PROGRESS,
+  payload: value,
+});
+
+export const setSpeed = (value: number) => ({
+  type: SET_SPEED,
+  payload: value,
+});
+
+export const setEta = (value: number) => ({
+  type: SET_ETA,
+  payload: value,
 });

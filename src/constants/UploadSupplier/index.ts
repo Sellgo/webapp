@@ -8,11 +8,25 @@ export const OPEN = 'OPEN';
 export const CLOSE = 'CLOSE';
 export const FINISH_UPLOAD = 'FINISH_UPLOAD';
 export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
-export const SET_SAVE_COLUMN_MAPPING_SETTING = 'SET_SAVE_COLUMN_MAPPING_SETTING';
+export const SET_COLUMN_MAPPING_SETTING = 'SET_COLUMN_MAPPING_SETTING';
 export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
-export const SET_SAVED_COLUMN_MAPPINGS = 'SET_SAVED_COLUMN_MAPPINGS';
+export const SET_COLUMN_MAPPINGS = 'SET_COLUMN_MAPPINGS';
+export const SET_RESULT_UPLOAD = 'SET_RESULT_UPLOAD';
+export const SET_SYNTHESIS_ID = 'SET_SYNTHESIS_ID';
+export const SET_SPEED = 'SET_SPEED';
+export const SET_ERROR_FILE = 'SET_ERROR_FILE';
+export const SET_PROGRESS_SHOW = 'SET_PROGRESS_SHOW';
+export const SHOW_CONFIRMATION = 'SHOW_CONFIRMATION';
+export const SET_ETA = 'SET_ETA';
+export const SET_VALID_ROWS = 'SET_VALID_ROWS';
+export const SET_ERROR_ROWS = 'SET_ERROR_ROWS';
+export const SET_PROGRESS = 'SET_PROGRESS';
+export const SET_LOADING = 'SET_LOADING';
+
+export const MAX_FILE_SIZE_BYTES = 30000000; // 30MB
 
 export enum UploadSteps {
+  AddNewSearch,
   AddNewSupplier,
   SelectFile,
   DataMapping,
@@ -87,13 +101,8 @@ export const accountStatus = [
 
 export const marketPlace = [
   {
-    value: 'amazon.com',
-    key: 'amazon.com',
+    value: 'ATVPDKIKX0DER',
+    key: 'ATVPDKIKX0DER',
     text: 'Amazon.com',
-  },
-  {
-    value: 'linkedin.com',
-    key: 'linkedin.com',
-    text: 'Linkedin.com',
   },
 ];

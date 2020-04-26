@@ -103,6 +103,23 @@ export const updateSellerProfileImage = (imageType: string, imagePath: any) => (
     });
 };
 
+export const deleteSellerProfileImage = (imageID: string) => (dispatch: any) => {
+  const bodyFormData: any = new FormData();
+  bodyFormData.append('id', imageID);
+  const sellerID = sellerIDSelector();
+
+  return Axios.delete(AppConfig.BASE_URL_API + `sellers/${sellerID}/image`, {
+    data: { id: imageID },
+  })
+    .then(json => {
+      dispatch(setSellerProfileImage(json.data));
+      success(`Successfully deleted`);
+    })
+    .catch(() => {
+      error(`There was an error deleting your profile image`);
+    });
+};
+
 export const setSellerProfileImage = (data: any) => ({
   type: SET_SELLER_PROFILE_IMAGE,
   payload: data,

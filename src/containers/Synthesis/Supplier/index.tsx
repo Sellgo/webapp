@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Loader, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -15,10 +15,9 @@ import {
   resetSupplierProducts,
   supplierProgress,
 } from '../../../actions/Suppliers';
-import SupplierFilters from './SupplierFilters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
-import { dismiss, update } from '../../../utils/notifications';
+import { dismiss, info } from '../../../utils/notifications';
 
 interface SupplierProps {
   supplierDetails: any;
@@ -54,7 +53,7 @@ export class Supplier extends React.Component<SupplierProps> {
     if (this.props.supplierDetails && this.props.supplierDetails.item_total_count) {
       const loadTime = this.getLoadingTime(this.props.supplierDetails.item_total_count);
       if (this.props.isLoadingSupplierProducts) {
-        update(() => this.handleSupplierLoading(loadTime), {
+        info(() => this.handleSupplierLoading(loadTime), {
           toastId: 'supplierLoading',
           className: 'ui message warning notification',
           autoClose: false,
@@ -93,48 +92,21 @@ export class Supplier extends React.Component<SupplierProps> {
     return (
       <>
         <PageHeader
-          title={`Profit Finder of ${supplierDetails.name || 'Supplier'}`}
+          title={`Profit Finder of ${supplierDetails.search || 'Search'}`}
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: 'Profit Finder', to: '/synthesis' },
-            { content: supplierDetails.name || 'Supplier' },
+            { content: supplierDetails.search || 'Search' },
           ]}
           callToAction={<QuotaMeter />}
         />
 
         <Segment basic={true} className="setting">
           <Grid>
-            <Grid.Row>
-              <Grid.Column width={4} className="left-column" floated="left">
-                {isLoadingSupplierProducts ? (
-                  <Segment>
-                    <Loader active={true} inline="centered" size="massive">
-                      Loading
-                    </Loader>
-                  </Segment>
-                ) : (
-                  <div className="Supplier_Filters">
-                    <SupplierFilters />
-                  </div>
-                )}
-              </Grid.Column>
-
-              <Grid.Column width={9} className="right-column" floated="right">
-                {isLoadingSupplierProducts ? (
-                  <Segment>
-                    <Loader active={true} inline="centered" size="massive">
-                      Loading
-                    </Loader>
-                  </Segment>
-                ) : (
-                  <SupplierDetails supplierID={this.props.match.params.supplierID} />
-                )}
-              </Grid.Column>
-              <Grid.Column width={3} className="right-column" floated="right">
-                <div className="radio-toggle-wrap">
-                  {/* <Radio toggle label="Shadow Tracking" /> */}
-                </div>
-              </Grid.Column>
+            <Grid.Row className="right-column">
+              {!isLoadingSupplierProducts && (
+                <SupplierDetails supplierID={this.props.match.params.supplierID} />
+              )}
             </Grid.Row>
           </Grid>
           <ProductsTable supplierID={this.props.match.params.supplierID} />

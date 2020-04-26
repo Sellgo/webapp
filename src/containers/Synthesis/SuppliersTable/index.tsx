@@ -7,7 +7,10 @@ import {
   setFavouriteSupplier,
   postSynthesisRerun,
   deleteSupplier,
+  setProgress,
+  setSpeed,
 } from '../../../actions/Suppliers';
+import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
 import { PaginatedTable, Column } from '../../../components/Table';
@@ -41,6 +44,9 @@ interface SuppliersTableProps {
   showTab: string;
   showColumns: any;
   amazonMWSAuthorized: boolean;
+  currentSynthesisId: any;
+  setProgress: any;
+  setSpeed: any;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -55,9 +61,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderName = (row: Supplier) => {
     const name =
       row.file_status === 'completed' ? (
-        <Link to={`/synthesis/${row.supplier_id}`}>{row.name}</Link>
+        <Link to={`/synthesis/${row.supplier_id}`}>{row.search}</Link>
       ) : (
-        row.name
+        row.search
       );
     return <div className="supplier">{name}</div>;
   };
@@ -148,6 +154,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderOperations = (row: Supplier) => {
     if (
       row.file_status !== 'completed' &&
+      row.file_status !== 'inactive' &&
+      row.file_status !== 'failed' &&
       row.file_status !== null &&
       row.file_status !== undefined
     ) {
@@ -184,7 +192,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
   renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
 
-  renderProgress = (row: Supplier) => (row.progress !== -1 ? `${row.progress}%` : '');
+  renderProgress = (row: Supplier) => {
+    return row.progress !== -1 ? `${row.progress}%` : '';
+  };
 
   renderCompleted = (row: Supplier) => {
     if (row.file_status !== 'completed') {
@@ -225,8 +235,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   columns: Column[] = [
     {
-      label: 'Supplier',
-      dataKey: 'name',
+      label: 'Search',
+      dataKey: 'search',
       sortable: true,
       show: true,
       render: this.renderName,
@@ -344,7 +354,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
     const all = suppliers.filter(supplier => supplier.status !== 'inactive');
     const allData = all.filter(supplier => supplier.progress !== -1);
-    const draftData = all.filter(supplier => supplier.progress === -1);
+    const draftData = all.filter(
+      supplier => supplier.progress === -1 || supplier.file_status === 'inactive'
+    );
     const shortlistedData = allData.filter(supplier => supplier.tag === 'like');
     const archivedData = allData.filter(supplier => supplier.tag === 'dislike');
 
@@ -407,6 +419,7 @@ const mapStateToProps = (state: {}) => ({
   showTab: suppliersTableTabSelector(state),
   showColumns: suppliersTableColumnsSelector(state),
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
+  currentSynthesisId: currentSynthesisId(state),
 });
 
 const mapDispatchToProps = {
@@ -418,6 +431,8 @@ const mapDispatchToProps = {
   unFavourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
+  setProgress,
+  setSpeed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

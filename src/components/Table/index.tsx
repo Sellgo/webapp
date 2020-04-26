@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
@@ -6,7 +6,7 @@ import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTabl
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
-import ProductSearch from '../../containers/Synthesis/Supplier/ProductsTable/productSearch';
+import ProductSearch from '../ProductSearch/productSearch';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -38,6 +38,13 @@ export interface PaginatedTableProps {
   productTrackerPageNo?: any;
   showProductFinderSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
+  showFilter?: boolean;
+  productRanges?: any;
+  columnFilterBox?: boolean;
+  toggleColumnCheckbox?: () => void;
+  setPage?: (pageNumber: number) => void;
+  ptCurrentPage?: number;
+  renderFilterSectionComponent?: () => void;
 }
 
 export interface GenericTableProps {
@@ -61,7 +68,7 @@ export interface GenericTableProps {
   onClearSearch: (e: any) => void;
   columns: Column[];
   sortedColumnKey: string;
-  sortDirection: 'ascending' | 'descending';
+  sortDirection: 'descending' | 'ascending';
   setSort: (e: any, clickedColumn: string) => void;
   rows: Array<{ [key: string]: any }>;
   extendedInfo?: (data: any) => void;
@@ -71,6 +78,11 @@ export interface GenericTableProps {
   handleColumnChange?: any;
   count?: number;
   productTrackerPageNo?: any;
+  showFilter?: boolean;
+  productRanges?: any;
+  columnFilterBox?: boolean;
+  toggleColumnCheckbox?: () => void;
+  renderFilterSectionComponent?: () => void;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -110,6 +122,10 @@ export const GenericTable = (props: GenericTableProps) => {
     columnFilterData,
     handleColumnChange,
     searchFilterValue,
+    columnFilterBox,
+    showFilter,
+    toggleColumnCheckbox,
+    renderFilterSectionComponent,
   } = props;
 
   return (
@@ -118,7 +134,7 @@ export const GenericTable = (props: GenericTableProps) => {
         <div className="table-menu-header">
           {showProductFinderSearch ? (
             <ProductSearch
-              searchProfitFinderProduct={searchProfitFinderProduct}
+              searchFilteredProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
               setCurrentPage={setCurrentPage}
             />
@@ -135,6 +151,7 @@ export const GenericTable = (props: GenericTableProps) => {
       ) : (
         ''
       )}
+      {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
       {showSearchFilter && (
         <Card className="filter-card">
           <Card.Header>
@@ -198,6 +215,9 @@ export const GenericTable = (props: GenericTableProps) => {
                     {column.icon && column.popUp ? (
                       <Popup
                         on="click"
+                        open={columnFilterBox}
+                        onClose={toggleColumnCheckbox}
+                        onOpen={toggleColumnCheckbox}
                         trigger={<Icon className={`${column.icon}`} />}
                         position="bottom right"
                         basic={true}
@@ -226,17 +246,17 @@ export const GenericTable = (props: GenericTableProps) => {
                       : undefined
                   }
                   style={
-                    column.label === 'Supplier'
+                    column.label === 'Search'
                       ? {
                           minWidth: '120px',
                         }
                       : {}
                   }
-                  className="table-header"
+                  className={`table-header ${column.dataKey}`}
                 >
                   {' '}
                   {column.label}
-                  {column.label === 'Supplier' && (
+                  {column.label === 'Search' && (
                     <span>
                       <Icon
                         className="filter search-filter"
@@ -284,7 +304,11 @@ export const GenericTable = (props: GenericTableProps) => {
                           </Table.Cell>
                         )
                       ) : (
-                        <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                        <Table.Cell
+                          key={column.dataKey || index}
+                          style={{ maxWidth: 400 }}
+                          className={`table-cell ${column.dataKey}`}
+                        >
                           {renderCell(row, column)}
                         </Table.Cell>
                       );
@@ -327,6 +351,7 @@ export const GenericTable = (props: GenericTableProps) => {
 export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
     tableKey,
+    ptCurrentPage,
     data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
@@ -342,8 +367,19 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     showProductFinderSearch,
     searchFilteredProduct,
     searchFilterValue,
+    showFilter,
+    productRanges,
+    columnFilterBox,
+    toggleColumnCheckbox,
+    setPage,
+    renderFilterSectionComponent,
   } = props;
-  const [currentPage, setCurrentPage] = useState(1);
+  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [ptCurrentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -353,7 +389,6 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
-  const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
 
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
@@ -400,26 +435,23 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   rows = searchValue
     ? rows.filter(row => {
-        if (row.name.toLowerCase().startsWith(searchValue.toLowerCase())) {
-          return row.name.toLowerCase().startsWith(searchValue.toLowerCase());
+        if ((row.search || '').toLowerCase().startsWith(searchValue.toLowerCase())) {
+          return (row.search || '').toLowerCase().startsWith(searchValue.toLowerCase());
         } else {
-          return row.name.toLowerCase().includes(searchValue.toLowerCase());
+          return (row.search || '').toLowerCase().includes(searchValue.toLowerCase());
         }
       })
     : rows;
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
-
   if (checkSortedColumnExist[0]) {
-    const key = checkSortedColumnExist[0].dataKey;
+    const key: any = checkSortedColumnExist[0].dataKey;
     rows = rows.sort((a, b) => {
-      const va = a[key || ''] === null ? '' : '' + a[key || ''],
-        vb = b[key || ''] === null ? '' : '' + b[key || ''];
-      return collator.compare(va, vb);
+      return a[key] - b[key];
     });
   }
 
-  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
 
   const handleShowSearchFilter = (e: any, key: any) => {
@@ -435,17 +467,22 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   };
 
   const handleSearchChange = (e: any) => {
-    setCurrentPage(1);
+    if (setPage) {
+      setPage(1);
+    } else {
+      setCurrentPage(1);
+    }
     setSearchValue(e.target.value);
   };
 
   return (
     <GenericTable
+      productRanges={productRanges}
       showProductFinderSearch={showProductFinderSearch}
       searchProfitFinderProduct={searchFilteredProduct}
       currentPage={currentPage}
       totalPages={totalPages}
-      setCurrentPage={setCurrentPage}
+      setCurrentPage={setPage ? setPage : setCurrentPage}
       totalItemsCount={data.length}
       showSelectItemsCount={showSelectItemsCount}
       singlePageItemsCount={singlePageItemsCount}
@@ -470,6 +507,10 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       handleColumnChange={handleColumnChange}
       count={count && count.count}
       productTrackerPageNo={productTrackerPageNo}
+      showFilter={showFilter}
+      columnFilterBox={columnFilterBox}
+      toggleColumnCheckbox={toggleColumnCheckbox}
+      renderFilterSectionComponent={renderFilterSectionComponent}
     />
   );
 };
@@ -486,15 +527,15 @@ const renderCell = (row: { [key: string]: any }, column: Column) => {
 
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
-  const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending');
+  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('descending');
 
   const handleSort = (e: any, clickedColumn: string) => {
     e.preventDefault();
     if (sortedColumnKey !== clickedColumn) {
       setSortedColumnKey(clickedColumn);
-      setSortDirection('ascending');
+      setSortDirection('descending');
     } else {
-      setSortDirection(sortDirection === 'ascending' ? 'descending' : 'ascending');
+      setSortDirection(sortDirection === 'descending' ? 'ascending' : 'descending');
     }
   };
 

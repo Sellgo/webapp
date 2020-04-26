@@ -8,7 +8,6 @@ import { Loader, Form, Modal, Header } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
-import { findFilterProducts } from '../../../../../constants/Suppliers';
 import {
   openSupplierProductDetailModal,
   closeSupplierProductDetailModal,
@@ -19,8 +18,7 @@ import './index.scss';
 interface SupplierChartsProps {
   supplierID: any;
   supplierDetails: Supplier;
-  products: Product[];
-  filterRanges: any;
+  filteredProducts: Product[];
   singlePageItemsCount: number;
   fetchSupplierDetails: (supplierID: any) => void;
   openProductDetailModal: (product?: Product) => void;
@@ -126,15 +124,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
-    const {
-      supplierDetails,
-      products,
-      filterRanges,
-      singlePageItemsCount,
-      openProductDetailModal,
-      supplierID,
-    } = this.props;
-    const filteredProducts = findFilterProducts(products, filterRanges);
+    const { supplierDetails, singlePageItemsCount, filteredProducts } = this.props;
 
     const sortProducts = [...filteredProducts].sort(
       (a, b) => parseFloat(b.profit) - parseFloat(a.profit)
@@ -174,7 +164,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             sales_monthly={sales_monthly}
             monthly_data={monthly_data}
             onBubbleDetails={(id: number) => {
-              openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
+              window.open('https://www.amazon.com/dp/' + showProducts[id].asin, '_blank');
             }}
           />
         ) : (
@@ -201,7 +191,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             fees={fees}
             profit={profit}
             onBubbleDetails={(id: number) => {
-              openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
+              window.open('https://www.amazon.com/dp/' + showProducts[id].asin, '_blank');
             }}
           />
         ) : (
@@ -226,7 +216,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             roi={roi}
             profit={profit}
             onBubbleDetails={(id: number) => {
-              openProductDetailModal({ ...showProducts[id], ...{ supplierID: supplierID } });
+              window.open('https://www.amazon.com/dp/' + showProducts[id].asin, '_blank');
             }}
           />
         ) : (
@@ -246,8 +236,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   render() {
-    const { products, filterRanges, supplierDetails } = this.props;
-    if ((products.length === 0 && supplierDetails === null) || filterRanges === undefined) {
+    const { filteredProducts, supplierDetails } = this.props;
+    if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
     return (
@@ -302,9 +292,8 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
 const mapStateToProps = (state: {}) => ({
   supplierDetails: get(state, 'supplier.details'),
-  products: get(state, 'supplier.products'),
-  filterRanges: get(state, 'supplier.filterRanges'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  filteredProducts: get(state, 'supplier.filteredProducts'),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
 });
 
