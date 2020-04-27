@@ -1,0 +1,66 @@
+.AsinSearch__row {
+  $fon-family: 'Work sans', sans-serif !important;
+
+  display: flex;
+  margin-left: 40px;
+
+  .AsinSearch__menu {
+    display: flex;
+    height: 34px;
+    width: 485px;
+    background: #fff 0% 0% no-repeat padding-box;
+    box-shadow: 0 1px 2px #00000029;
+    border-radius: 11px;
+
+    .ui.input {
+      flex-grow: 1 !important;
+
+      input {
+        border-top: 0.5px solid #313a4c;
+        border-left: 0.5px solid #313a4c;
+        border-bottom: 0.5px solid #313a4c;
+        border-radius: 0;
+        border-top-left-radius: 11px;
+        border-bottom-left-radius: 11px;
+        color: #3b4557;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: $fon-family;
+      }
+    }
+
+    .ui.selection.dropdown {
+      display: flex;
+      align-items: center;
+      min-height: 34px;
+      border: 0;
+      border-top: 0.5px solid #313a4c;
+      border-right: 0.5px solid #313a4c;
+      border-bottom: 0.5px solid #313a4c;
+      border-radius: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-top-right-radius: 11px;
+      border-bottom-right-radius: 11px;
+      color: #3b4557;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: $fon-family;
+    }
+  }
+
+  button.ui.basic.button {
+    width: 140px;
+    height: 34px;
+    background: #fff 0% 0% no-repeat padding-box !important;
+    border: 1px solid #349af8;
+    border-radius: 15px;
+    padding: 0;
+    box-shadow: none;
+    color: #349af8 !important;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: $fon-family;
+    margin-left: 10px;
+  }
+}

@@ -12,6 +12,9 @@ const ProductSearch = (props: any) => {
     setSearch(searchFilterValue);
   }, [searchFilterValue]);
 
+  // console.log('searchFilterValue');
+  // console.log(searchFilterValue);
+  // console.log('searchFilterValue');
   return (
     <Input
       className={_.isEmpty(searchFilterValue) ? 'product-search' : 'product-search--active '}
@@ -22,10 +25,10 @@ const ProductSearch = (props: any) => {
           searchFilteredProduct(searchValue);
         },
       }}
-      onKeyPress={(e: any) => {
+      onKeyUp={(e: any) => {
         if (e.key === 'Enter') {
           setCurrentPage(1);
-          searchFilteredProduct(searchValue);
+          searchFilteredProduct(e.target.value);
         }
       }}
       {...bindSearch}
