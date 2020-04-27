@@ -80,6 +80,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     },
     tooltip: {
       //RP200414: adding tooltip UI adjustment - begin
+
       backgroundColor: '#ffffff',
       animation: true,
       borderWidth: 0.1,

@@ -1,12 +1,12 @@
 import React from 'react';
 import Chart from './Chart';
 
-export interface LineChartOptions {
+export interface StepLineChartOptions {
   title: string;
   data: any;
 }
 
-const renderLineChartOptions = (options: LineChartOptions) => {
+const renderStepLineChartOptions = (options: StepLineChartOptions) => {
   const { title, data } = options;
   return {
     chart: { zoomType: 'x' },
@@ -43,12 +43,18 @@ const renderLineChartOptions = (options: LineChartOptions) => {
 
     legend: {
       align: 'left',
+      /* layout: 'vertical',
+        x: 120,
+        verticalAlign: 'top',
+        y: 100,
+        floating: true, */
     },
     series: data.map((e: any) => {
       return {
         ...e,
         ...{
           type: 'line',
+          step: true,
           tooltip: {
             valueDecimals: 0,
           },
@@ -58,9 +64,9 @@ const renderLineChartOptions = (options: LineChartOptions) => {
   };
 };
 
-const LineChart = (props: any) => {
+const StepLineChart = (props: any) => {
   const { options } = props;
-  const chartOptions = renderLineChartOptions(options);
+  const chartOptions = renderStepLineChartOptions(options);
   return (
     <div className="individual-line-chart">
       <Chart chartOptions={chartOptions} />
@@ -68,4 +74,4 @@ const LineChart = (props: any) => {
   );
 };
 
-export default LineChart;
+export default StepLineChart;

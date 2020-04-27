@@ -1,12 +1,12 @@
 import React from 'react';
 import Chart from './Chart';
 
-export interface LineChartOptions {
+export interface StackChartPTROptions {
   title: string;
   data: any;
 }
 
-const renderLineChartOptions = (options: LineChartOptions) => {
+const renderStackChartPTROptions = (options: StackChartPTROptions) => {
   const { title, data } = options;
   return {
     chart: { zoomType: 'x' },
@@ -48,7 +48,8 @@ const renderLineChartOptions = (options: LineChartOptions) => {
       return {
         ...e,
         ...{
-          type: 'line',
+          type: 'column',
+          //yAxis: '1',
           tooltip: {
             valueDecimals: 0,
           },
@@ -58,14 +59,14 @@ const renderLineChartOptions = (options: LineChartOptions) => {
   };
 };
 
-const LineChart = (props: any) => {
+const StackChartPTR = (props: any) => {
   const { options } = props;
-  const chartOptions = renderLineChartOptions(options);
+  const chartOptions = renderStackChartPTROptions(options);
   return (
-    <div className="individual-line-chart">
+    <div className="individual-stack-chart">
       <Chart chartOptions={chartOptions} />
     </div>
   );
 };
 
-export default LineChart;
+export default StackChartPTR;
