@@ -17,12 +17,18 @@ const PieChartModal = (props: any) => {
         y: rate,
         sliced: true,
         selected: true,
-        color: '#FBC4C4',
+        //RWP: swap color begin
+        //color: '#FBC4C4',
+        color: '#CAE1F3',
+        //RWP: swap color end
       },
       {
         name: 'Hit Non-Profitable SKUs',
         y: p2l_ratio,
-        color: '#CAE1F3',
+        //RWP: swap color begin
+        //color: '#CAE1F3',
+        color: '#FBC4C4',
+        //RWP: swap color end
       },
       {
         name: 'Miss',

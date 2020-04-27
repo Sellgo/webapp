@@ -6,8 +6,8 @@ import SupplierCharts from './SupplierCharts';
 const SupplierDetails = (props: any) => {
   const { supplierID } = props;
   return (
-    <div>
-      <Grid.Column width={4} floated="left">
+    <>
+      <Grid.Column floated="left">
         <Grid.Row>
           <Card
             raised={true}
@@ -32,7 +32,7 @@ const SupplierDetails = (props: any) => {
           </Card>
         </Grid.Row>
       </Grid.Column>
-    </div>
+    </>
   );
 };
 

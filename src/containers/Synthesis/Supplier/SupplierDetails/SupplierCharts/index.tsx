@@ -65,14 +65,20 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       {
         name: 'Profitable SKUs',
         y: rate,
-        sliced: true,
-        selected: true,
-        color: '#FBC4C4',
+        sliced: false,
+        selected: false,
+        //RWP: swap the color begin
+        color: '#CAE1F3',
+        //RWP: swap the color end
       },
       {
         name: 'Hit Non-Profitable SKUs',
         y: p2l_ratio,
-        color: '#CAE1F3',
+        //RWP: swap the color begin
+        selected: false,
+        sliced: false,
+        color: '#FBC4C4',
+        //RWP: swap the color end
       },
       {
         name: 'Miss',
@@ -89,16 +95,21 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
 
   renderRevenue = (props: any) => {
-    const { profit, product_cost, fees, productSKUs, onBubbleDetails } = props;
+    const { roi, profit, product_cost, fees, productSKUs, onBubbleDetails, ...otherProps } = props;
     const data = [
       { color: '#CAE1F3', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
       { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
+
+      //RP200414: adding ROI - begin
+      { name: 'ROI(%)', data: roi },
+      //RP200414: adding ROI - end
     ];
     const chartOptions = {
       title: 'Revenue Breakdown Comparison',
       productSKUs: productSKUs,
       data: data,
+      ...otherProps,
     };
     return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
   };
@@ -126,9 +137,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   renderCharts = () => {
     const { supplierDetails, singlePageItemsCount, filteredProducts } = this.props;
 
-    const sortProducts = [...filteredProducts].sort(
-      (a, b) => parseFloat(b.profit) - parseFloat(a.profit)
-    );
+    const sortProducts = filteredProducts;
     const showProducts = sortProducts.slice(0, singlePageItemsCount);
     let productSKUs = [];
     let profit = [];
@@ -179,17 +188,36 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         );
       }
       case 'chart3': {
-        let product_cost = [];
-        let fees = [];
-        product_cost = showProducts.map(e => parseFloat(e.product_cost));
-        fees = showProducts.map(e => parseFloat(e.fees));
+        const product_cost = showProducts.map(e => parseFloat(e.product_cost));
+        const fees = showProducts.map(e => parseFloat(e.fees));
+        const amazon_urls = showProducts.map(e => e.amazon_url);
+        const roi = showProducts.map(e => parseFloat(e.roi));
+        const upcs = showProducts.map(e => e.upc);
+        const asins = showProducts.map(e => e.asin);
+        const image_urls = showProducts.map(e => e.image_url);
+        const margins = showProducts.map(e => e.margin);
 
-        return productSKUs.length && profit.length && product_cost.length && fees.length ? (
+        return productSKUs.length &&
+          profit.length &&
+          product_cost.length &&
+          fees.length &&
+          amazon_urls.length &&
+          roi.length &&
+          upcs.length &&
+          asins.length &&
+          margins.length &&
+          image_urls.length ? (
           <this.renderRevenue
             productSKUs={productSKUs}
             product_cost={product_cost}
             fees={fees}
             profit={profit}
+            roi={roi}
+            amazon_urls={amazon_urls}
+            upcs={upcs}
+            asins={asins}
+            image_urls={image_urls}
+            margins={margins}
             onBubbleDetails={(id: number) => {
               window.open('https://www.amazon.com/dp/' + showProducts[id].asin, '_blank');
             }}
@@ -243,7 +271,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     return (
       <div className="supplier-charts">
         <this.renderCharts />
-        <br />
         <div className="chart-end-content">
           <Header as="h4">Select your favorite chart</Header>
           <Form>
@@ -266,12 +293,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
                 checked={this.state.showChart === 'chart3'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
               />
-              <Form.Radio
+              {/* <Form.Radio
                 label="Point of First Profit (POFP)"
                 value="chart4"
                 checked={this.state.showChart === 'chart4'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-              />
+              /> */}
             </Form.Group>
           </Form>
         </div>
