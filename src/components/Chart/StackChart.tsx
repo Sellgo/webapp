@@ -89,7 +89,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
             return d.name === 'ROI(%)';
           }).data[this.x];
           return !this.isNegative && areDataLabelsVisible
-            ? `${String(labelValue).replace(/,/g, '')} %`
+            ? `${Number(String(labelValue).replace(/,/g, '')).toFixed()} %`
             : '';
         },
       },
