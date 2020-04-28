@@ -23,8 +23,10 @@
                   }
                 }
 
-                .chart-end-content {
-                  padding-left: 16px;
+                .chart-end-form {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
                 }
               }
             }
@@ -173,10 +175,6 @@
     .right.floated.nine.wide.column.right-column {
       width: 100% !important;
       //padding-left: 0 !important;
-      .supplier-charts .chart-end-content {
-        padding-left: 20px;
-        text-align: center;
-      }
     }
 
     .right.floated.three.wide.column.right-column {
