@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Chart from './Chart';
 import { renderToString } from 'react-dom/server';
 import { Grid, Icon, Image } from 'semantic-ui-react';
@@ -12,10 +12,23 @@ export interface StackChartOptions {
   asins?: any;
   upcs?: any;
   margins?: any;
+  areDataLabelsVisible?: boolean;
+  setDataLabelsVisible?: any;
 }
 
 const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
-  const { title, data, productSKUs, amazon_urls, image_urls, asins, upcs, margins } = options;
+  const {
+    title,
+    data,
+    productSKUs,
+    amazon_urls,
+    image_urls,
+    asins,
+    upcs,
+    margins,
+    areDataLabelsVisible,
+    setDataLabelsVisible,
+  } = options;
 
   return {
     chart: {
@@ -41,7 +54,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       labels: {
         useHTML: true,
         formatter: function(this: any): string {
-          return amazon_urls && amazon_urls[this.pos]
+          return areDataLabelsVisible && amazon_urls && amazon_urls[this.pos]
             ? renderToString(
                 <a
                   style={{ cursor: 'pointer' }}
@@ -66,6 +79,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       },
       stackLabels: {
         enabled: true,
+        allowOverlap: true,
         alignValue: 'center',
         style: {
           color: 'black',
@@ -74,7 +88,9 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
           const labelValue = data.find(function(d: any) {
             return d.name === 'ROI(%)';
           }).data[this.x];
-          return !this.isNegative ? `${labelValue} %` : '';
+          return !this.isNegative && areDataLabelsVisible
+            ? `${String(labelValue).replace(/,/g, '')} %`
+            : '';
         },
       },
     },
@@ -166,6 +182,14 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
         dataLabels: {
           enabled: true,
           borderRadius: 2,
+          allowOverlap: true,
+          formatter: function(this: any): string {
+            const areCurrentlyVisible = this.series.columnMetrics.width > 30;
+            if (areCurrentlyVisible !== areDataLabelsVisible) {
+              setDataLabelsVisible(areCurrentlyVisible);
+            }
+            return areCurrentlyVisible ? this.y : '';
+          },
         },
       },
       series: {
@@ -193,8 +217,12 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
 };
 
 const StackChart = (props: any) => {
+  const [areDataLabelsVisible, setDataLabelsVisible] = useState(false);
   const { options, onBubbleDetails } = props;
-  const chartOptions = renderStackChartOptions(options, onBubbleDetails);
+  const chartOptions = renderStackChartOptions(
+    { ...options, areDataLabelsVisible, setDataLabelsVisible },
+    onBubbleDetails
+  );
   return (
     <div className="individual-stack-chart">
       <Chart chartOptions={chartOptions} />
