@@ -107,7 +107,9 @@ const Submit = (props: SubmitProps) => {
                 <span className="Submit__file-error">
                   <Label circular empty />
                   &nbsp;Errors <br />
-                  <span>{percentError}%</span>
+                  <span>
+                    {currentError} ({percentError}%)
+                  </span>
                 </span>
                 <UploadStepPieChart
                   options={{
@@ -128,7 +130,9 @@ const Submit = (props: SubmitProps) => {
                 <span className="Submit__file-process">
                   <Label circular empty />
                   &nbsp;Processed SKUs <br />
-                  <span>{percentValid}%</span>
+                  <span>
+                    {currentValid} ({percentValid}%)
+                  </span>
                 </span>
               </Segment>
             </Segment>
