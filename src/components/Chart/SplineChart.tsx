@@ -27,6 +27,7 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
     yAxis: [
       {
         // Primary yAxis
+        min: 0,
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         lineWidth: 2,
@@ -40,6 +41,7 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
       },
       {
         // Secondary yAxis
+        min: 0,
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         lineWidth: 2,
