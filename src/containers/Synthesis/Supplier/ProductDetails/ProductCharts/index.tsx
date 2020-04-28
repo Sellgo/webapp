@@ -505,7 +505,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       <div className="product-detail-charts">
         <Divider />
         {this.renderProductCharts()}
-        <Form>
+        <Form className="chart-end-form">
           <Form.Group inline={true}>
             <label />
             <Form.Radio
