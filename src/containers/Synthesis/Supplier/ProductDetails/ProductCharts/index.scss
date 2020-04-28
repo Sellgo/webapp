@@ -6,6 +6,12 @@
   .popup-loader::after {
     border-color: #000 transparent transparent !important;
   }
+
+  .chart-end-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media only screen and (min-width: 310px) and (max-width: 767px) {
