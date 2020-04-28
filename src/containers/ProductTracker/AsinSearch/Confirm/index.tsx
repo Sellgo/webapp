@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { Button, Modal, Header, Divider, Grid, Select } from 'semantic-ui-react';
-import { warn } from '../../../../utils/notifications';
-import { Asin } from '../../../../components/ToastMessages';
 import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
+import { connect } from 'react-redux';
+import { isProductTracked } from '../../../../actions/ProductTracker';
 
 interface Props {
   open: boolean;
   openModal: Function;
+  verifyProduct: (value: boolean, productExist: boolean) => void;
+  searchValue: string;
 }
-
 const Confirm = (props: Props) => {
+  const { searchValue, open, openModal, verifyProduct } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [addProduct, setAddProduct] = useState(false);
   const [group, setGroup] = useState(false);
+
+  const trackProduct = () => {
+    console.log('searchValue: ', searchValue);
+  };
 
   const countryOptions = [
     { key: 'af', value: 'af', text: 'Afghanistan' },
@@ -25,28 +31,14 @@ const Confirm = (props: Props) => {
     { key: 'ao', value: 'ao', text: 'Angola' },
   ];
 
-  const handleWarning = (exist: boolean) => {
-    let header = '';
-    let subHeader = '';
-    if (exist) {
-      header = 'ASIN is already in Product Tracker';
-      subHeader = 'You have already added that ASIN into the Product Tracker';
-    } else {
-      header = "ASIN can't be found on Amazon";
-      subHeader = "The ASIN of the product can't be found in Amazon's database";
-    }
-
-    return warn(<Asin header={header} subheader={subHeader} />);
-  };
-
   if (addProduct) {
     return (
       <>
-        <Modal open={props.open && addProduct} className="Confirm__grouping-asin">
+        <Modal open={open && addProduct} className="Confirm__grouping-asin">
           <Modal.Content className="Confirm__content">
             <div>
               <Header as="h4" icon>
-                ASIN: <span>B01G0X56YU</span>
+                ASIN: <span>{searchValue.toUpperCase()}</span>
               </Header>
             </div>
             <Grid.Row columns={2}>
@@ -70,16 +62,16 @@ const Confirm = (props: Props) => {
                   <Button
                     content="Cancel"
                     onClick={() => {
-                      props.openModal(false);
+                      openModal(false);
                       setOpenConfirm(!openConfirm);
                       setAddProduct(!addProduct);
+                      verifyProduct(false, false);
                     }}
                   />
                   <Button
                     icon
                     labelPosition="left"
                     onClick={() => {
-                      handleWarning(true);
                       setGroup(!group);
                     }}
                   >
@@ -116,7 +108,7 @@ const Confirm = (props: Props) => {
               <Grid.Column>
                 <div className="Confirm__btn">
                   <Button content="Cancel" />
-                  <Button icon onClick={() => handleWarning(true)} labelPosition="left">
+                  <Button icon onClick={() => trackProduct()} labelPosition="left">
                     <img src={TrackIconWhite} />
                     Track Now
                   </Button>
@@ -131,18 +123,18 @@ const Confirm = (props: Props) => {
 
   return (
     <>
-      <Modal open={props.open && openConfirm} className="Confirm__add-product">
+      <Modal open={open && openConfirm} className="Confirm__add-product">
         <Modal.Content>
           <div>
             <Header as="h4" icon>
-              <span>B01G0X56YU</span> isn't being tracked right now.
+              <span>{searchValue.toUpperCase()}</span> isn't being tracked right now.
               <Header.Subheader>Would you like to add it to product tracker?</Header.Subheader>
             </Header>
           </div>
         </Modal.Content>
         <Divider clearing />
         <div className="Confirm__btn">
-          <Button content="Cancel" onClick={() => props.openModal(false)} />
+          <Button content="Cancel" onClick={() => openModal(false)} />
           <Button
             icon
             onClick={() => {
@@ -160,4 +152,8 @@ const Confirm = (props: Props) => {
   );
 };
 
-export default Confirm;
+const mapStateToProps = () => ({});
+const mapDispatchToProps = {
+  verifyProduct: (value: boolean, productExist: boolean) => isProductTracked(value, productExist),
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Confirm);

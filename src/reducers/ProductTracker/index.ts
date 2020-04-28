@@ -21,6 +21,8 @@ import {
   findFilteredProducts,
   searchFilteredProduct,
   findMinMax,
+  IS_PRODUCT_TRACKED,
+  VERIFYING_PRODUCT,
 } from '../../constants/Tracker';
 import _ from 'lodash';
 
@@ -31,17 +33,25 @@ const initialState = {
     count: 0,
     results: [],
   },
+  verifyingProductTracked: {},
   filteredProducts: [],
   filterRanges: undefined,
   menuItem: null,
   productTrackerCurrentPageNo: 1,
   singlePageItemsCount: 10,
+  verifyingProduct: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case IS_LOADING_TRACKER_PRODUCTS: {
       return setIn(state, 'isLoadingTrackerProducts', action.payload);
+    }
+    case VERIFYING_PRODUCT: {
+      return setIn(state, 'verifyingProduct', action.payload);
+    }
+    case IS_PRODUCT_TRACKED: {
+      return setIn(state, 'verifyingProductTracked', action.payload);
     }
     case SET_PRODUCT_TRACKER_DETAILS: {
       const data = action.payload;

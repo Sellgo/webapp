@@ -19,6 +19,8 @@ import {
   REMOVE_PRODUCTS_IN_GROUP,
   FILTER_TRACKED_PRODUCTS,
   SET_FILTER_SEARCH,
+  IS_PRODUCT_TRACKED,
+  VERIFYING_PRODUCT,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota } from '../Settings';
@@ -26,6 +28,18 @@ import { getSellerQuota } from '../Settings';
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
   payload: value,
+});
+
+export const verifyingProduct = (value: boolean) => ({
+  type: VERIFYING_PRODUCT,
+  payload: value,
+});
+export const isProductTracked = (value: boolean, productExist: boolean) => ({
+  type: IS_PRODUCT_TRACKED,
+  payload: {
+    value: value,
+    productExist: productExist,
+  },
 });
 
 export const setSupplierProductTrackerDetails = (product: ProductTrackerDetails) => ({
@@ -120,6 +134,30 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
     })
     .catch(() => {
       error(`Failed to create new group`);
+    });
+};
+
+export const checkMWSProduct = (asin: string, marketPlace: string) => (dispatch: any) => {
+  dispatch(verifyingProduct(true));
+  console.log('asin/marketPlace: ', asin, marketPlace);
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('asin', asin);
+  bodyFormData.set('marketplace_id', marketPlace);
+  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/check`, bodyFormData)
+    .then(json => {
+      console.log('json: ', json);
+      if (json.status === 200) {
+        console.log('response 200: ', json.data.is_tracked);
+        dispatch(isProductTracked(json.data.is_tracked, true));
+        dispatch(verifyingProduct(false));
+      }
+    })
+    .catch((e: any) => {
+      console.log('catch: ', JSON.stringify(e.message));
+      dispatch(isProductTracked(true, false));
+      dispatch(verifyingProduct(false));
+      // error(`Failed to create new group`);
     });
 };
 
