@@ -7,6 +7,9 @@ Highcharts.setOptions({
   lang: {
     thousandsSep: ',',
   },
+  credits: {
+    enabled: false,
+  },
 });
 
 export interface ChartProps {
