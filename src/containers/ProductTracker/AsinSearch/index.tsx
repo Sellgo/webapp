@@ -5,8 +5,6 @@ import { useInput } from '../../../hooks';
 import './index.scss';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-// import { warn } from '../../../utils/notifications';
-// import { Asin } from '../../../components/ToastMessages';
 import { checkMWSProduct } from '../../../actions/ProductTracker';
 import { Asin } from '../../../components/ToastMessages';
 import { warn, dismiss } from '../../../utils/notifications';
@@ -23,15 +21,14 @@ const AsinSearch = (props: Props) => {
   const { value: searchValue, bind: bindSearch } = useInput('');
 
   const [open, setOpen] = useState(false);
+  const [selectedMarketPlace, setSelectedMarketPlace] = useState('US');
 
   const openModal = (val: boolean) => setOpen(val);
 
   const options = [
-    { key: 1, text: 'This is a super long item', value: 1 },
-    { key: 2, text: 'Dropdown direction can help', value: 2 },
-    { key: 3, text: 'Items are kept within view', value: 3 },
+    { key: 1, text: 'United States', flag: 'us', value: 'US' },
+    { key: 2, text: 'Philippines', flag: 'ph', value: 'PH' },
   ];
-
   const handleWarning = (exist: boolean) => {
     let header = '';
     let subHeader = '';
@@ -59,19 +56,37 @@ const AsinSearch = (props: Props) => {
   }, [verifyingProduct]);
 
   const verifyProduct = () => {
-    checkProduct(searchValue, 'US');
+    checkProduct(searchValue, selectedMarketPlace);
+  };
+
+  const handleMarketSelection = (data: any) => {
+    setSelectedMarketPlace(data);
   };
 
   return (
     <Grid.Row className="AsinSearch__row">
       <Menu.Menu className="AsinSearch__menu">
         <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} />
-        <Dropdown openOnFocus selection options={options} />
+        <Dropdown
+          placeholder="Select Marketplace"
+          options={options}
+          openOnFocus
+          selection
+          value={selectedMarketPlace}
+          onChange={(e, data) => {
+            handleMarketSelection(data.value);
+          }}
+        />
       </Menu.Menu>
       <Button basic onClick={() => verifyProduct()}>
         Add Product
       </Button>
-      <Confirm open={open} openModal={openModal} searchValue={searchValue} />
+      <Confirm
+        open={open}
+        openModal={openModal}
+        searchValue={searchValue}
+        selectedMarket={selectedMarketPlace}
+      />
     </Grid.Row>
   );
 };
@@ -84,5 +99,5 @@ const mapStateToProps = (state: {}) => ({
 const mapDispatchToProps = {
   checkProduct: (asin: string, marketPlace: string) => checkMWSProduct(asin, marketPlace),
 };
-// export default AsinSearch;
+
 export default connect(mapStateToProps, mapDispatchToProps)(AsinSearch);

@@ -1,34 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Header, Divider, Grid, Select } from 'semantic-ui-react';
 import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
 import { connect } from 'react-redux';
 import { isProductTracked } from '../../../../actions/ProductTracker';
+import get from 'lodash/get';
+import _ from 'lodash';
+
+interface GroupOption {
+  key: number;
+  text: string;
+  value: number;
+}
 
 interface Props {
   open: boolean;
   openModal: Function;
   verifyProduct: (value: boolean, productExist: boolean) => void;
   searchValue: string;
+  trackGroups: any;
+  selectedMarket: any;
 }
 const Confirm = (props: Props) => {
-  const { searchValue, open, openModal, verifyProduct } = props;
+  const { searchValue, open, openModal, verifyProduct, trackGroups, selectedMarket } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [addProduct, setAddProduct] = useState(false);
-  const [group, setGroup] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(undefined);
+  const [selectedMarketPlace, setSelectedMarketPlace] = useState(selectedMarket);
+
+  useEffect(() => {
+    setSelectedMarketPlace(selectedMarket);
+  }, [selectedMarket]);
 
   const trackProduct = () => {
-    console.log('searchValue: ', searchValue);
+    console.log('trackProduct: ', searchValue, selectedGroup, selectedMarketPlace);
   };
 
-  const countryOptions = [
-    { key: 'af', value: 'af', text: 'Afghanistan' },
-    { key: 'ax', value: 'ax', text: 'Aland Islands' },
-    { key: 'al', value: 'al', text: 'Albania' },
-    { key: 'dz', value: 'dz', text: 'Algeria' },
-    { key: 'as', value: 'as', text: 'American Samoa' },
-    { key: 'ad', value: 'ad', text: 'Andorra' },
-    { key: 'ao', value: 'ao', text: 'Angola' },
+  const countryOptions = () => {
+    const value: any = [];
+    _.map(trackGroups, (group, key) => {
+      const data: GroupOption = {
+        key: 0,
+        text: '',
+        value: 0,
+      };
+      data.key = Number(key);
+      data.text = group.name;
+      data.value = group.id;
+      value.push(data);
+    });
+    return value;
+  };
+
+  const handleMarketSelection = (data: any) => {
+    setSelectedMarketPlace(data);
+  };
+
+  const handleGroupSelection = (data: any) => {
+    setSelectedGroup(data);
+  };
+
+  const marketPlaceOptions = [
+    { key: 1, text: 'United States', flag: 'us', value: 'US' },
+    { key: 2, text: 'Philippines', flag: 'ph', value: 'PH' },
   ];
 
   if (addProduct) {
@@ -44,14 +78,29 @@ const Confirm = (props: Props) => {
             <Grid.Row columns={2}>
               <Grid.Column>Select Group: </Grid.Column>
               <Grid.Column>
-                <Select placeholder="Select Group" options={countryOptions} />
+                <Select
+                  placeholder="Select Group"
+                  value={selectedGroup}
+                  options={countryOptions()}
+                  onChange={(e, data) => {
+                    handleGroupSelection(data.value);
+                  }}
+                />
+                />
               </Grid.Column>
             </Grid.Row>
             {addProduct ? (
               <Grid.Row columns={2}>
                 <Grid.Column>Marketplace: </Grid.Column>
                 <Grid.Column>
-                  <Select placeholder="Marketplace" options={countryOptions} />
+                  <Select
+                    placeholder="Marketplace"
+                    value={selectedMarketPlace}
+                    options={marketPlaceOptions}
+                    onChange={(e, data) => {
+                      handleMarketSelection(data.value);
+                    }}
+                  />
                 </Grid.Column>
               </Grid.Row>
             ) : null}
@@ -72,7 +121,7 @@ const Confirm = (props: Props) => {
                     icon
                     labelPosition="left"
                     onClick={() => {
-                      setGroup(!group);
+                      trackProduct();
                     }}
                   >
                     <img src={TrackIconWhite} />
@@ -87,39 +136,39 @@ const Confirm = (props: Props) => {
     );
   }
 
-  if (group) {
-    return (
-      <>
-        <Modal open={false} className="Confirm__group">
-          <Modal.Content className="Confirm__content">
-            <div>
-              <Header as="h4" icon>
-                ASIN: <span>B01G0X56YU</span>
-              </Header>
-            </div>
-            <Grid.Row columns={2}>
-              <Grid.Column>Select Group: </Grid.Column>
-              <Grid.Column>
-                <Select placeholder="Select Group" options={countryOptions} />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row columns={2}>
-              <Grid.Column></Grid.Column>
-              <Grid.Column>
-                <div className="Confirm__btn">
-                  <Button content="Cancel" />
-                  <Button icon onClick={() => trackProduct()} labelPosition="left">
-                    <img src={TrackIconWhite} />
-                    Track Now
-                  </Button>
-                </div>
-              </Grid.Column>
-            </Grid.Row>
-          </Modal.Content>
-        </Modal>
-      </>
-    );
-  }
+  // if (group) {
+  //   return (
+  //     <>
+  //       <Modal open={false} className="Confirm__group">
+  //         <Modal.Content className="Confirm__content">
+  //           <div>
+  //             <Header as="h4" icon>
+  //               ASIN: <span>B01G0X56YU</span>
+  //             </Header>
+  //           </div>
+  //           <Grid.Row columns={2}>
+  //             <Grid.Column>Select Group: </Grid.Column>
+  //             <Grid.Column>
+  //               <Select placeholder="Select Group" options={countryOptions()} />
+  //             </Grid.Column>
+  //           </Grid.Row>
+  //           <Grid.Row columns={2}>
+  //             <Grid.Column></Grid.Column>
+  //             <Grid.Column>
+  //               <div className="Confirm__btn">
+  //                 <Button content="Cancel" />
+  //                 <Button icon onClick={() => trackProduct()} labelPosition="left">
+  //                   <img src={TrackIconWhite} />
+  //                   Track Now
+  //                 </Button>
+  //               </div>
+  //             </Grid.Column>
+  //           </Grid.Row>
+  //         </Modal.Content>
+  //       </Modal>
+  //     </>
+  //   );
+  // }
 
   return (
     <>
@@ -152,7 +201,10 @@ const Confirm = (props: Props) => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: {}) => ({
+  trackGroups: get(state, 'productTracker.trackerGroup'),
+});
+
 const mapDispatchToProps = {
   verifyProduct: (value: boolean, productExist: boolean) => isProductTracked(value, productExist),
 };
