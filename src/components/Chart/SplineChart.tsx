@@ -11,11 +11,12 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
   const { title, product_timeline, data } = options;
   return {
     chart: {
-      zoomType: 'xy',
+      zoomType: 'x',
     },
     title: {
       text: title,
       margin: 50,
+      align: 'left',
     },
     xAxis: [
       {

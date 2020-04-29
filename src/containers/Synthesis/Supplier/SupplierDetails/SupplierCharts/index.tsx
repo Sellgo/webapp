@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import StackChart from '../../../../../components/Chart/StackChart';
 import PieChart from '../../../../../components/Chart/PieChart';
-import ScatterChart from '../../../../../components/Chart/ScatterChart';
 import { Loader, Form, Modal, Header, Grid } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
@@ -33,29 +32,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     fetchSupplierDetails(supplierID);
   }
 
-  renderProfit = (props: any) => {
-    const { monthly_data, onBubbleDetails } = props;
-    const data = [
-      {
-        type: 'scatter',
-        regression: true,
-        regressionSettings: {
-          type: 'linear',
-          color: 'red',
-        },
-        color: '#CAE1F3',
-        negativeColor: '#F3D2CA',
-        name: 'SKUs',
-        data: monthly_data,
-      },
-    ];
-    const chartOptions = {
-      title: 'Profit vs Unit Sold/mo',
-      data: data,
-    };
-    return <ScatterChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
-  };
-
   renderHit = (props: any) => {
     const { supplier } = props;
     const rate = parseFloat(supplier.rate);
@@ -67,18 +43,14 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         y: rate,
         sliced: false,
         selected: false,
-        //RWP: swap the color begin
         color: '#CAE1F3',
-        //RWP: swap the color end
       },
       {
         name: 'Hit Non-Profitable SKUs',
         y: p2l_ratio,
-        //RWP: swap the color begin
         selected: false,
         sliced: false,
         color: '#FBC4C4',
-        //RWP: swap the color end
       },
       {
         name: 'Miss',
@@ -97,37 +69,16 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   renderRevenue = (props: any) => {
     const { roi, profit, product_cost, fees, productSKUs, onBubbleDetails, ...otherProps } = props;
     const data = [
-      { color: '#CAE1F3', name: 'Profit($)', data: profit },
+      { color: '#CAE1F3', negativeColor: '#FD8373', name: 'Profit($)', data: profit },
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
       { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
-
-      //RP200414: adding ROI - begin
       { name: 'ROI(%)', data: roi },
-      //RP200414: adding ROI - end
     ];
     const chartOptions = {
       title: 'Revenue Breakdown Comparison',
       productSKUs: productSKUs,
       data: data,
       ...otherProps,
-    };
-    return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
-  };
-
-  renderPOFP = (props: any) => {
-    const { profit, productSKUs, onBubbleDetails } = props;
-    const data = [
-      {
-        color: '#CAE1F3',
-        negativeColor: '#F3D2CA',
-        name: 'Profit($)',
-        data: profit,
-      },
-    ];
-    const chartOptions = {
-      title: 'Point of First Profit (POFP)',
-      productSKUs: productSKUs,
-      data: data,
     };
     return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
   };
@@ -150,44 +101,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         ) : null;
 
       case 'chart1': {
-        let monthly_data = [];
-        let profit_monthly = [];
-        let sales_monthly = [];
-        monthly_data = showProducts.map(e => {
-          return {
-            name: e.title,
-            x: parseFloat(e.sales_monthly),
-            y: parseFloat(e.profit_monthly),
-          };
-        });
-        profit_monthly = showProducts.map(e => parseFloat(e.profit_monthly));
-        sales_monthly = showProducts.map(e => parseFloat(e.sales_monthly));
-
-        return productSKUs.length &&
-          profit.length &&
-          profit_monthly.length &&
-          sales_monthly.length ? (
-          <this.renderProfit
-            productSKUs={productSKUs}
-            profit_monthly={profit_monthly}
-            sales_monthly={sales_monthly}
-            monthly_data={monthly_data}
-            onBubbleDetails={(id: number) => {
-              window.open('https://www.amazon.com/dp/' + showProducts[id].asin, '_blank');
-            }}
-          />
-        ) : (
-          <Loader
-            active={productSKUs.length ? true : false}
-            inline="centered"
-            className="popup-loader"
-            size="massive"
-          >
-            Loading
-          </Loader>
-        );
-      }
-      case 'chart3': {
         const product_cost = showProducts.map(e => parseFloat(e.product_cost));
         const fees = showProducts.map(e => parseFloat(e.fees));
         const amazon_urls = showProducts.map(e => e.amazon_url);
@@ -233,31 +146,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
           </Loader>
         );
       }
-      case 'chart4': {
-        let roi = [];
-        roi = showProducts.map(e => {
-          return { name: parseFloat(e.roi), y: parseFloat(e.profit) };
-        });
-        return productSKUs.length && roi.length ? (
-          <this.renderPOFP
-            productSKUs={productSKUs}
-            roi={roi}
-            profit={profit}
-            onBubbleDetails={(id: number) => {
-              window.open('https://www.amazon.com/dp/' + showProducts[id].asin, '_blank');
-            }}
-          />
-        ) : (
-          <Loader
-            active={productSKUs.length ? true : false}
-            inline="centered"
-            className="popup-loader"
-            size="massive"
-          >
-            Loading
-          </Loader>
-        );
-      }
       default:
         return null;
     }
@@ -282,23 +170,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
               />
               <Form.Radio
-                label="Profit vs Unit Sold"
+                label="Revenue Breakdown"
                 value="chart1"
                 checked={this.state.showChart === 'chart1'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
               />
-              <Form.Radio
-                label="Revenue Breakdown"
-                value="chart3"
-                checked={this.state.showChart === 'chart3'}
-                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-              />
-              {/* <Form.Radio
-                label="Point of First Profit (POFP)"
-                value="chart4"
-                checked={this.state.showChart === 'chart4'}
-                onChange={(e, { value }) => this.handleSwitchChart(e, value)}
-              /> */}
             </Form.Group>
           </Form>
         </Grid>
