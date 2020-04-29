@@ -3,29 +3,28 @@ import Chart from './Chart';
 
 export interface StepLineChartOptions {
   title: string;
+  product_timeline: any;
   data: any;
 }
 
 const renderStepLineChartOptions = (options: StepLineChartOptions) => {
-  const { title, data } = options;
+  const { title, product_timeline, data } = options;
   return {
-    chart: { zoomType: 'x' },
+    chart: {
+      zoomType: 'x',
+    },
     title: {
       text: title,
       margin: 50,
       align: 'left',
     },
-    xAxis: {
-      type: 'datetime',
-      labels: {
-        style: {
-          color: '#ccc',
-        },
+    xAxis: [
+      {
+        type: 'datetime',
+        categories: product_timeline,
+        crosshair: true,
       },
-    },
-    credits: {
-      enabled: false,
-    },
+    ],
     yAxis: {
       min: 0,
       title: {
@@ -40,14 +39,8 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
     tooltip: {
       shared: true,
     },
-
     legend: {
       align: 'left',
-      /* layout: 'vertical',
-        x: 120,
-        verticalAlign: 'top',
-        y: 100,
-        floating: true, */
     },
     series: data.map((e: any) => {
       return {
@@ -68,7 +61,7 @@ const StepLineChart = (props: any) => {
   const { options } = props;
   const chartOptions = renderStepLineChartOptions(options);
   return (
-    <div className="individual-line-chart">
+    <div className="individual-stepline-chart">
       <Chart chartOptions={chartOptions} />
     </div>
   );

@@ -74,7 +74,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
           const labelValue = data.find(function(d: any) {
             return d.name === 'ROI(%)';
           }).data[this.x];
-          return !this.isNegative ? `${labelValue} %` : '';
+          return !this.isNegative ? `ROI:${labelValue} %` : '';
         },
       },
     },
@@ -85,7 +85,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       animation: true,
       borderWidth: 0.1,
       borderRadius: 3,
-      distance: 75,
+      distance: 100,
       shadow: true,
       crosshairs: true,
       followPointer: true,
@@ -168,6 +168,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
           borderRadius: 2,
         },
       },
+
       series: {
         cursor: 'pointer',
         stacking: 'normal',
