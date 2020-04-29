@@ -115,7 +115,7 @@ class Synthesis extends Component<SynthesisProps> {
               className="add-new-supplier"
               onClick={this.handleAddNewSupplierModalOpen}
             >
-              Add New Supplier
+              Add New Search
             </Button>
           }
         >
