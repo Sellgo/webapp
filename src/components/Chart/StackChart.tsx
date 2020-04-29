@@ -88,25 +88,18 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       },
     },
     tooltip: {
-      //RP200414: adding tooltip UI adjustment - begin
-
       backgroundColor: '#ffffff',
       animation: true,
       borderWidth: 0.1,
       borderRadius: 3,
       distance: 100,
-      shadow: true,
       crosshairs: true,
       followPointer: true,
       followTouchMove: true,
-      //RP200414: adding tooltip UI adjustment - end
-
       outside: true,
       style: {
         padding: 0,
       },
-
-      //RP200414: adding new tooltip structure - begin
       headerFormat: null, //remove default format
       pointFormatter: function(this: any): string {
         const x = this.x;
@@ -150,9 +143,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
         );
       },
       valueDecimals: '2',
-      //shared: true,
       useHTML: true,
-      //RP200414: adding new tooltip structure - begin
     },
 
     legend: {
@@ -161,17 +152,10 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     plotOptions: {
       column: {
         stacking: 'normal',
-
-        //RP200414: adding stackChart UI adjustment - begin
         groupPadding: 0.05,
         pointPadding: 0.01,
         borderWidth: 0.1,
         borderRadius: 3,
-        gapSize: 3,
-        edgeWidth: 1,
-        shadow: false,
-        //RP200414: adding stackChart UI adjustment - begin
-
         dataLabels: {
           enabled: true,
           borderRadius: 2,
@@ -197,13 +181,9 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       },
     },
     series: data
-
-      //RP200414: adding stackChart ROI render filter, need to optimize - begin
       .filter((e: any) => {
         return e.name !== 'ROI(%)';
       })
-      //RP200414: adding stackChart ROI render filter, need to optimize - end
-
       .map((e: any) => {
         return { ...e, ...{ type: 'column' } };
       }),

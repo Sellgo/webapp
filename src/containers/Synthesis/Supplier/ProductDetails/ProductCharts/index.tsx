@@ -112,29 +112,6 @@ class ProductCharts extends Component<ProductChartsProps> {
     return <StepLineChart options={chartOptions} />;
   };
 
-  renderROI = (props: any) => {
-    const { productTimeline, productProfit, productROI } = props;
-    const data = [
-      {
-        name: 'Total Profit($)',
-        type: 'spline',
-        yAxis: 1,
-        data: productProfit,
-      },
-      {
-        name: 'ROI(%)',
-        type: 'spline',
-        data: productROI,
-      },
-    ];
-    const chartOptions = {
-      title: 'Profit vs ROI',
-      productTimeline: productTimeline,
-      data: data,
-    };
-    return <SplineChart options={chartOptions} />;
-  };
-
   renderRankVsInventory = (props: any) => {
     const { productTimeline, popupRankContainer, popupInventoryContainer } = props;
     const data = [
@@ -155,32 +132,6 @@ class ProductCharts extends Component<ProductChartsProps> {
     ];
     const chartOptions = {
       title: 'Rank vs Inventory',
-      productTimeline: productTimeline,
-      data: data,
-    };
-    return <SplineChart options={chartOptions} />;
-  };
-
-  renderPriceVsRating = (props: any) => {
-    const { productTimeline, popupPriceContainer, popupRatingContainer } = props;
-    const data = [
-      {
-        yAxis: 0,
-        type: 'line',
-        name: 'Price',
-        color: '#FD8373',
-        data: popupPriceContainer,
-      },
-      {
-        yAxis: 1,
-        type: 'line',
-        name: 'Rating',
-        color: '#4AD991',
-        data: popupRatingContainer,
-      },
-    ];
-    const chartOptions = {
-      title: 'Price vs Rating',
       productTimeline: productTimeline,
       data: data,
     };
@@ -303,40 +254,6 @@ class ProductCharts extends Component<ProductChartsProps> {
           <this.renderNoDataMessage />
         ) : (
           <this.renderProductReview popupReviewContainer={popupReviewContainer} />
-        );
-      }
-
-      case 'chart4': {
-        const productTimeline = [];
-        const popupPriceContainer = [];
-        const popupRatingContainer = [];
-
-        for (let i = 0; i < productDetailPrice.length; i++) {
-          productTimeline.push(new Date(productDetailPrice[i].cdate).getTime());
-          popupPriceContainer.push([
-            new Date(productDetailPrice[i].cdate).getTime(),
-            Number(productDetailPrice[i].price),
-          ]);
-        }
-
-        for (let i = 0; i < productDetailRating.length; i++) {
-          popupRatingContainer.push([
-            new Date(productDetailRating[i].cdate).getTime(),
-            Number(productDetailRating[i].rating),
-          ]);
-        }
-
-        return isFetchingPrice && isFetchingRating ? (
-          <this.renderLoader />
-        ) : (productTimeline.length && popupPriceContainer.length) ||
-          popupRatingContainer.length ? (
-          <this.renderPriceVsRating
-            productTimeline={productTimeline}
-            popupPriceContainer={popupPriceContainer}
-            popupRatingContainer={popupRatingContainer}
-          />
-        ) : (
-          <this.renderNoDataMessage />
         );
       }
 
