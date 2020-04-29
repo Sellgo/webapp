@@ -4,14 +4,21 @@ import get from 'lodash/get';
 import {
   fetchSupplierProductDetailChartRank,
   fetchSupplierProductDetailChartPrice,
-  fetchSupplierProductDetailChartKPI,
   fetchSupplierProductDetailChartInventory,
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../../../actions/Products';
 import SplineChart from '../../../../../components/Chart/SplineChart';
 import StepLineChart from '../../../../../components/Chart/StepLineChart';
-import { Loader, Form, Divider } from 'semantic-ui-react';
+import { Loader, Form, Divider, Grid } from 'semantic-ui-react';
+import { DEFAULT_PERIOD_VALUE } from '../../../../../constants/Tracker';
+import {
+  isFetchingRankSelector,
+  isFetchingPriceSelector,
+  isFetchingInventorySelector,
+  isFetchingRatingSelector,
+  isFetchingReviewSelector,
+} from '../../../../../selectors/Products';
 import './index.scss';
 
 interface ProductChartsProps {
@@ -21,13 +28,16 @@ interface ProductChartsProps {
   productDetailInventory: any;
   productDetailRating: any;
   productDetailReview: any;
-  productDetailKPI: any;
-  fetchProductDetailChartRank: (productID: any) => void;
-  fetchProductDetailChartPrice: (productID: any) => void;
-  fetchProductDetailChartInventory: (productID: any) => void;
-  fetchProductDetailChartRating: (productID: any) => void;
-  fetchProductDetailChartReview: (productID: any) => void;
-  fetchProductDetailChartKPI: (supplierID: any, productID: any) => void;
+  fetchProductDetailChartRank: (productID: any, period?: number) => void;
+  fetchProductDetailChartPrice: (productID: any, period?: number) => void;
+  fetchProductDetailChartInventory: (productID: any, period?: number) => void;
+  fetchProductDetailChartRating: (productID: any, period?: number) => void;
+  fetchProductDetailChartReview: (productID: any, period?: number) => void;
+  isFetchingRank: boolean;
+  isFetchingPrice: boolean;
+  isFetchingInventory: boolean;
+  isFetchingRating: boolean;
+  isFetchingReview: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = { showProductChart: 'chart0' };
@@ -39,17 +49,15 @@ class ProductCharts extends Component<ProductChartsProps> {
       fetchProductDetailChartInventory,
       fetchProductDetailChartRating,
       fetchProductDetailChartReview,
-      fetchProductDetailChartKPI,
     } = this.props;
-    fetchProductDetailChartRank(product.product_id);
-    fetchProductDetailChartPrice(product.product_id);
-    fetchProductDetailChartInventory(product.product_id);
-    fetchProductDetailChartRating(product.product_id);
-    fetchProductDetailChartReview(product.product_id);
-    fetchProductDetailChartKPI(
-      product.supplierID ? product.supplierID : product.supplier_id,
-      product.product_id
-    );
+    const period =
+      (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
+      DEFAULT_PERIOD_VALUE;
+    fetchProductDetailChartRank(product.product_id, period);
+    fetchProductDetailChartPrice(product.product_id, period);
+    fetchProductDetailChartInventory(product.product_id, period);
+    fetchProductDetailChartRating(product.product_id, period);
+    fetchProductDetailChartReview(product.product_id, period);
   }
 
   //200416 RP: add Price - begin
@@ -179,6 +187,18 @@ class ProductCharts extends Component<ProductChartsProps> {
     return <SplineChart options={chartOptions} />;
   };
 
+  renderNoDataMessage = () => {
+    return <Grid centered>We're still processing your data! Please come back after a day. </Grid>;
+  };
+
+  renderLoader = () => {
+    return (
+      <Loader active={true} inline="centered" className="popup-loader" size="massive">
+        Loading
+      </Loader>
+    );
+  };
+
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
 
   renderProductCharts = () => {
@@ -188,6 +208,11 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailInventory,
       productDetailRating,
       productDetailReview,
+      isFetchingRank,
+      isFetchingPrice,
+      isFetchingInventory,
+      isFetchingRating,
+      isFetchingReview,
     } = this.props;
     switch (this.state.showProductChart) {
       case 'chart0': {
@@ -210,7 +235,9 @@ class ProductCharts extends Component<ProductChartsProps> {
           ]);
         }
 
-        return (productTimeline.length && popupRankContainer.length) ||
+        return isFetchingRank && isFetchingInventory ? (
+          <this.renderLoader />
+        ) : (productTimeline.length && popupRankContainer.length) ||
           popupInventoryContainer.length ? (
           <this.renderRankVsInventory
             productTimeline={productTimeline}
@@ -218,9 +245,7 @@ class ProductCharts extends Component<ProductChartsProps> {
             popupInventoryContainer={popupInventoryContainer}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
+          <this.renderNoDataMessage />
         );
       }
 
@@ -234,10 +259,10 @@ class ProductCharts extends Component<ProductChartsProps> {
           ]);
         }
 
-        return popupPriceContainer.length === 0 ? (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
+        return isFetchingPrice ? (
+          <this.renderLoader />
+        ) : popupPriceContainer.length === 0 ? (
+          <this.renderNoDataMessage />
         ) : (
           <this.renderProductPrice popupPriceContainer={popupPriceContainer} />
         );
@@ -253,10 +278,10 @@ class ProductCharts extends Component<ProductChartsProps> {
           ]);
         }
 
-        return popupRatingContainer.length === 0 ? (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
+        return isFetchingRating ? (
+          <this.renderLoader />
+        ) : popupRatingContainer.length === 0 ? (
+          <this.renderNoDataMessage />
         ) : (
           <this.renderProductRating popupRatingContainer={popupRatingContainer} />
         );
@@ -272,10 +297,10 @@ class ProductCharts extends Component<ProductChartsProps> {
           ]);
         }
 
-        return popupReviewContainer.length === 0 ? (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
+        return isFetchingReview ? (
+          <this.renderLoader />
+        ) : popupReviewContainer.length === 0 ? (
+          <this.renderNoDataMessage />
         ) : (
           <this.renderProductReview popupReviewContainer={popupReviewContainer} />
         );
@@ -301,7 +326,9 @@ class ProductCharts extends Component<ProductChartsProps> {
           ]);
         }
 
-        return (productTimeline.length && popupPriceContainer.length) ||
+        return isFetchingPrice && isFetchingRating ? (
+          <this.renderLoader />
+        ) : (productTimeline.length && popupPriceContainer.length) ||
           popupRatingContainer.length ? (
           <this.renderPriceVsRating
             productTimeline={productTimeline}
@@ -309,9 +336,7 @@ class ProductCharts extends Component<ProductChartsProps> {
             popupRatingContainer={popupRatingContainer}
           />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
+          <this.renderNoDataMessage />
         );
       }
 
@@ -325,9 +350,16 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailRank,
       productDetailInventory,
       productDetailPrice,
-      productDetailKPI,
+      productDetailRating,
+      productDetailReview,
     } = this.props;
-    if (!productDetailKPI || !productDetailRank || !productDetailPrice || !productDetailInventory) {
+    if (
+      !productDetailReview ||
+      !productDetailRating ||
+      !productDetailRank ||
+      !productDetailPrice ||
+      !productDetailInventory
+    ) {
       return <div />;
     }
     return (
@@ -374,20 +406,24 @@ const mapStateToProps = (state: {}) => ({
   productDetailInventory: get(state, 'product.detailInventory'),
   productDetailRating: get(state, 'product.detailRating'),
   productDetailReview: get(state, 'product.detailReview'),
-  productDetailKPI: get(state, 'product.detailKPI'),
+  isFetchingRank: isFetchingRankSelector(state),
+  isFetchingPrice: isFetchingPriceSelector(state),
+  isFetchingInventory: isFetchingInventorySelector(state),
+  isFetchingRating: isFetchingRatingSelector(state),
+  isFetchingReview: isFetchingReviewSelector(state),
 });
 
 const mapDispatchToProps = {
-  fetchProductDetailChartRank: (productID: any) => fetchSupplierProductDetailChartRank(productID),
-  fetchProductDetailChartPrice: (productID: any) => fetchSupplierProductDetailChartPrice(productID),
-  fetchProductDetailChartInventory: (productID: any) =>
-    fetchSupplierProductDetailChartInventory(productID),
-  fetchProductDetailChartRating: (productID: any) =>
-    fetchSupplierProductDetailChartRating(productID),
-  fetchProductDetailChartReview: (productID: any) =>
-    fetchSupplierProductDetailChartReview(productID),
-  fetchProductDetailChartKPI: (supplierID: any, productID: any) =>
-    fetchSupplierProductDetailChartKPI(supplierID, productID),
+  fetchProductDetailChartRank: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartRank(productID, period),
+  fetchProductDetailChartPrice: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartPrice(productID, period),
+  fetchProductDetailChartInventory: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartInventory(productID, period),
+  fetchProductDetailChartRating: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartRating(productID, period),
+  fetchProductDetailChartReview: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartReview(productID, period),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCharts);

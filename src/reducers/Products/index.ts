@@ -10,6 +10,12 @@ import {
   SET_PRODUCT_DETAIL_KPI,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI,
   RESET_SUPPLIER_PRODUCT_DETAILS,
+  SET_FETCHING_RANK,
+  SET_FETCHING_INVENTORY,
+  SET_FETCHING_RATING,
+  SET_FETCHING_KPI,
+  SET_FETCHING_PRICE,
+  SET_FETCHING_REVIEW,
 } from '../../constants/Products';
 
 const initialState = {
@@ -21,6 +27,12 @@ const initialState = {
   detailReview: [],
   detailKPI: [],
   trackerKPI: [],
+  isFetchingRank: false,
+  isFetchingPrice: false,
+  isFetchingInventory: false,
+  isFetchingRating: false,
+  isFetchingReview: false,
+  isFetchingKPI: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -41,6 +53,18 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'trackerKPI', action.payload);
     case SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI:
       return setIn(state, 'detailKPI', action.payload);
+    case SET_FETCHING_RANK:
+      return setIn(state, 'isFetchingRank', action.payload);
+    case SET_FETCHING_PRICE:
+      return setIn(state, 'isFetchingPrice', action.payload);
+    case SET_FETCHING_INVENTORY:
+      return setIn(state, 'isFetchingInventory', action.payload);
+    case SET_FETCHING_RATING:
+      return setIn(state, 'isFetchingRating', action.payload);
+    case SET_FETCHING_REVIEW:
+      return setIn(state, 'isFetchingReview', action.payload);
+    case SET_FETCHING_KPI:
+      return setIn(state, 'isFetchingKPI', action.payload);
     case RESET_SUPPLIER_PRODUCT_DETAILS:
       return initialState;
     default:
