@@ -137,12 +137,11 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
     });
 };
 
-export const checkMWSProduct = (asin: string, marketPlace: string) => (dispatch: any) => {
+export const checkMWSProduct = (asin: string) => (dispatch: any) => {
   dispatch(verifyingProduct(true));
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.set('asin', asin);
-  bodyFormData.set('marketplace_id', marketPlace);
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/check`, bodyFormData)
     .then(json => {
       console.log('json: ', json);

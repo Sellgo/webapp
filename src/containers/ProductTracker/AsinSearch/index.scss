@@ -2,7 +2,7 @@
   $fon-family: 'Work sans', sans-serif !important;
 
   display: flex;
-  margin-left: 40px;
+  margin-left: 96px;
 
   .AsinSearch__menu {
     display: flex;
@@ -16,12 +16,8 @@
       flex-grow: 1 !important;
 
       input {
-        border-top: 0.5px solid #313a4c;
-        border-left: 0.5px solid #313a4c;
-        border-bottom: 0.5px solid #313a4c;
-        border-radius: 0;
-        border-top-left-radius: 11px;
-        border-bottom-left-radius: 11px;
+        border: 0.5px solid #313a4c;
+        border-radius: 11px;
         color: #3b4557;
         font-size: 14px;
         font-weight: 500;

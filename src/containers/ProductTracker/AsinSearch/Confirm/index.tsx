@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, Header, Divider, Grid, Select } from 'semantic-ui-react';
 import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
@@ -20,26 +20,13 @@ interface Props {
   confirmTrackProduct: (value: string, marketplace: string, groupID: number) => void;
   searchValue: string;
   trackGroups: any;
-  selectedMarket: any;
 }
 const Confirm = (props: Props) => {
-  const {
-    searchValue,
-    open,
-    openModal,
-    verifyProduct,
-    trackGroups,
-    selectedMarket,
-    confirmTrackProduct,
-  } = props;
+  const { searchValue, open, openModal, verifyProduct, trackGroups, confirmTrackProduct } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [addProduct, setAddProduct] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(0);
-  const [selectedMarketPlace, setSelectedMarketPlace] = useState(selectedMarket);
-
-  useEffect(() => {
-    setSelectedMarketPlace(selectedMarket);
-  }, [selectedMarket]);
+  const [selectedMarketPlace, setSelectedMarketPlace] = useState('ATVPDKIKX0DER');
 
   const trackProduct = () => {
     console.log('trackProduct: ', searchValue, selectedGroup, selectedMarketPlace);
@@ -71,8 +58,9 @@ const Confirm = (props: Props) => {
   };
 
   const marketPlaceOptions = [
-    { key: 1, text: 'United States', flag: 'us', value: 'US' },
-    { key: 2, text: 'Philippines', flag: 'ph', value: 'PH' },
+    { key: 1, text: 'United States', flag: 'us', value: 'ATVPDKIKX0DER' },
+    { key: 2, text: 'Japan', flag: 'jp', value: 'A1VC38T7YXB528' },
+    { key: 3, text: 'United Kingdom', flag: 'uk', value: 'A1F83G8C2ARO7P' },
   ];
 
   if (addProduct) {
