@@ -63,7 +63,7 @@ export default class SidebarCollapsible extends Component<
                 >
                   <i className={`fas ${icon.icon}`} />
 
-                  <Transition duration={200} visible={visible} animation="scale">
+                  <Transition duration={500} visible={visible} animation="scale">
                     {<Label> {icon.label} </Label>}
                   </Transition>
                 </Menu.Item>
@@ -101,7 +101,7 @@ export default class SidebarCollapsible extends Component<
                   }}
                 >
                   <i className={`fas ${icon.icon}`} />
-                  <Transition duration={200} visible={visible} animation="scale">
+                  <Transition duration={500} visible={visible} animation="scale">
                     {<Label> {icon.label} </Label>}
                   </Transition>
                 </Menu.Item>
