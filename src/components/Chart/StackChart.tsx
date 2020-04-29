@@ -34,12 +34,10 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     chart: {
       type: 'column',
       zoomType: 'x',
-      //RP200414: adding chart UI adjustment - begin
       animation: {
         enabled: true,
         duration: 1000,
       },
-      //RP200414: adding chart UI adjustment - end
     },
 
     title: {
@@ -49,8 +47,6 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     },
     xAxis: {
       categories: productSKUs,
-      // max:10,
-      // visible: false,
       labels: {
         useHTML: true,
         formatter: function(this: any): string {
@@ -71,9 +67,6 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       },
     },
     yAxis: {
-      // min: 0,
-      // gridLineWidth: 0,
-      // minorGridLineWidth: 0,
       title: {
         text: 'Sub-Revenue($)',
       },
@@ -89,7 +82,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
             return d.name === 'ROI(%)';
           }).data[this.x];
           return !this.isNegative && areDataLabelsVisible
-            ? `${Number(String(labelValue).replace(/,/g, '')).toFixed()} %`
+            ? `ROI:${Number(String(labelValue).replace(/,/g, '')).toFixed()} %`
             : '';
         },
       },
@@ -101,7 +94,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       animation: true,
       borderWidth: 0.1,
       borderRadius: 3,
-      distance: 75,
+      distance: 100,
       shadow: true,
       crosshairs: true,
       followPointer: true,
@@ -192,6 +185,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
           },
         },
       },
+
       series: {
         cursor: 'pointer',
         stacking: 'normal',
