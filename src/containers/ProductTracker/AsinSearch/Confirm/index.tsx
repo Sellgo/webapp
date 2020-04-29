@@ -3,7 +3,7 @@ import { Button, Modal, Header, Divider, Grid, Select } from 'semantic-ui-react'
 import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
 import { connect } from 'react-redux';
-import { isProductTracked } from '../../../../actions/ProductTracker';
+import { isProductTracked, confirmTrackProduct } from '../../../../actions/ProductTracker';
 import get from 'lodash/get';
 import _ from 'lodash';
 
@@ -17,15 +17,24 @@ interface Props {
   open: boolean;
   openModal: Function;
   verifyProduct: (value: boolean, productExist: boolean) => void;
+  confirmTrackProduct: (value: string, marketplace: string, groupID: number) => void;
   searchValue: string;
   trackGroups: any;
   selectedMarket: any;
 }
 const Confirm = (props: Props) => {
-  const { searchValue, open, openModal, verifyProduct, trackGroups, selectedMarket } = props;
+  const {
+    searchValue,
+    open,
+    openModal,
+    verifyProduct,
+    trackGroups,
+    selectedMarket,
+    confirmTrackProduct,
+  } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [addProduct, setAddProduct] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(undefined);
+  const [selectedGroup, setSelectedGroup] = useState(0);
   const [selectedMarketPlace, setSelectedMarketPlace] = useState(selectedMarket);
 
   useEffect(() => {
@@ -34,6 +43,7 @@ const Confirm = (props: Props) => {
 
   const trackProduct = () => {
     console.log('trackProduct: ', searchValue, selectedGroup, selectedMarketPlace);
+    confirmTrackProduct(searchValue, selectedMarketPlace, selectedGroup);
   };
 
   const countryOptions = () => {
@@ -86,7 +96,6 @@ const Confirm = (props: Props) => {
                     handleGroupSelection(data.value);
                   }}
                 />
-                />
               </Grid.Column>
             </Grid.Row>
             {addProduct ? (
@@ -136,40 +145,6 @@ const Confirm = (props: Props) => {
     );
   }
 
-  // if (group) {
-  //   return (
-  //     <>
-  //       <Modal open={false} className="Confirm__group">
-  //         <Modal.Content className="Confirm__content">
-  //           <div>
-  //             <Header as="h4" icon>
-  //               ASIN: <span>B01G0X56YU</span>
-  //             </Header>
-  //           </div>
-  //           <Grid.Row columns={2}>
-  //             <Grid.Column>Select Group: </Grid.Column>
-  //             <Grid.Column>
-  //               <Select placeholder="Select Group" options={countryOptions()} />
-  //             </Grid.Column>
-  //           </Grid.Row>
-  //           <Grid.Row columns={2}>
-  //             <Grid.Column></Grid.Column>
-  //             <Grid.Column>
-  //               <div className="Confirm__btn">
-  //                 <Button content="Cancel" />
-  //                 <Button icon onClick={() => trackProduct()} labelPosition="left">
-  //                   <img src={TrackIconWhite} />
-  //                   Track Now
-  //                 </Button>
-  //               </div>
-  //             </Grid.Column>
-  //           </Grid.Row>
-  //         </Modal.Content>
-  //       </Modal>
-  //     </>
-  //   );
-  // }
-
   return (
     <>
       <Modal open={open && openConfirm} className="Confirm__add-product">
@@ -207,5 +182,7 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {
   verifyProduct: (value: boolean, productExist: boolean) => isProductTracked(value, productExist),
+  confirmTrackProduct: (value: string, marketplace: string, groupID: number) =>
+    confirmTrackProduct(value, marketplace, groupID),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Confirm);

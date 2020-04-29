@@ -139,7 +139,6 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
 
 export const checkMWSProduct = (asin: string, marketPlace: string) => (dispatch: any) => {
   dispatch(verifyingProduct(true));
-  console.log('asin/marketPlace: ', asin, marketPlace);
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.set('asin', asin);
@@ -157,7 +156,31 @@ export const checkMWSProduct = (asin: string, marketPlace: string) => (dispatch:
       console.log('catch: ', JSON.stringify(e.message));
       dispatch(isProductTracked(true, false));
       dispatch(verifyingProduct(false));
-      // error(`Failed to create new group`);
+    });
+};
+
+export const confirmTrackProduct = (asin: string, marketPlace: string, groupID: number) => (
+  dispatch: any
+) => {
+  console.log('confirmTrackProduct: ', asin, marketPlace, groupID.toString());
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('product_track_group_id', groupID.toString());
+  bodyFormData.set('asin', asin);
+  bodyFormData.set('marketplace', marketPlace.toString());
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/confirm`,
+    bodyFormData
+  )
+    .then(json => {
+      console.log('confirmTrackProduct json: ', json);
+      if (json.status === 200) {
+        dispatch(verifyingProduct(false));
+        console.log('response 200: ', json.data);
+      }
+    })
+    .catch((e: any) => {
+      console.log('catch: ', JSON.stringify(e.message));
     });
 };
 
