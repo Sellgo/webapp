@@ -1,17 +1,17 @@
 import React from 'react';
 import StepLineChart from '../../../../../components/Chart/StepLineChart';
 
-export default (productRatings: any) => {
+export default ({ productReviews }: any) => {
   const data = [
     {
       type: 'line',
-      name: 'Rating',
-      color: '#F3A9CA',
-      data: productRatings,
+      name: 'Review Count',
+      color: '#0E9FE8',
+      data: productReviews,
     },
   ];
   const chartOptions = {
-    title: 'Rating',
+    title: 'Review',
     data: data,
   };
   return <StepLineChart options={chartOptions} />;

@@ -1,7 +1,7 @@
 import React from 'react';
 import SplineChart from '../../../../../components/Chart/SplineChart';
 
-export default (productRanks: any, productInventories: any) => {
+export default ({ productRanks, productInventories }: any) => {
   const data = [
     {
       yAxis: 0,

@@ -2,8 +2,13 @@ import React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Segment, Loader } from 'semantic-ui-react';
+import _ from 'lodash';
 
-/* Define chart options which are generic to all Highchart charts here. */
+/* 
+Define default Highchart options here.
+Please refer to the documentation at https://api.highcharts.com/highcharts/ when developing with Highcharts.
+*/
+
 Highcharts.setOptions({
   lang: {
     thousandsSep: ',',
@@ -12,6 +17,34 @@ Highcharts.setOptions({
     enabled: false,
   },
 });
+const defaultOptions: Highcharts.Options = {
+  plotOptions: {
+    series: {
+      // general options for all series
+    },
+    line: {
+      // shared options for all line series
+    },
+  },
+  responsive: {
+    rules: [
+      {
+        condition: {
+          maxWidth: 500,
+        },
+        chartOptions: {
+          plotOptions: {
+            pie: {
+              dataLabels: {
+                alignTo: 'connectors',
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
+};
 
 export interface ChartProps {
   chartOptions?: any;
@@ -19,6 +52,7 @@ export interface ChartProps {
 
 const Chart = (props: ChartProps) => {
   const { chartOptions } = props;
+  const options = _.merge(_.cloneDeep(defaultOptions), chartOptions);
   if (chartOptions === undefined) {
     return (
       <Segment>
@@ -33,7 +67,7 @@ const Chart = (props: ChartProps) => {
       </Segment>
     );
   }
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 
 export default Chart;

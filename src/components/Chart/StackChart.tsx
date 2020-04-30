@@ -67,10 +67,7 @@ const renderStackChartOptions = (options: StackChartOptions) => {
             borderRadius: 2,
             allowOverlap: true,
           },
-        },
-        series: {
           cursor: 'pointer',
-          stacking: 'normal',
         },
       },
       series: data.map((e: any) => {

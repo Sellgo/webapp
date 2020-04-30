@@ -18,10 +18,10 @@ import {
   isFetchingReviewSelector,
 } from '../../../../../selectors/Products';
 import './index.scss';
-import renderProductPriceChart from './renderProductPriceChart';
-import renderProductRatingChart from './renderProductRatingChart';
-import renderProductReviewChart from './renderProductReviewChart';
-import renderRankVsInventoryChart from './renderRankVsInventoryChart';
+import ProductPriceChart from './ProductPriceChart';
+import ProductRatingChart from './ProductRatingChart';
+import ProductReviewChart from './ProductReviewChart';
+import RankVsInventoryChart from './RankVsInventoryChart';
 
 interface ProductChartsProps {
   product: any;
@@ -104,38 +104,49 @@ class ProductCharts extends Component<ProductChartsProps> {
       case 'chart0': {
         const formattedRanks = this.formatProductDetail('rank', productDetailRank);
         const formattedInventories = this.formatProductDetail('inventory', productDetailInventory);
-        return isFetchingRank && isFetchingInventory
-          ? this.renderLoader()
-          : formattedRanks.length || formattedInventories.length
-          ? renderRankVsInventoryChart(formattedRanks, formattedInventories)
-          : this.renderNoDataMessage();
+        return isFetchingRank && isFetchingInventory ? (
+          this.renderLoader()
+        ) : formattedRanks.length || formattedInventories.length ? (
+          <RankVsInventoryChart
+            productRanks={formattedRanks}
+            productInventories={formattedInventories}
+          />
+        ) : (
+          this.renderNoDataMessage()
+        );
       }
 
       case 'chart1': {
         const formattedPrices = this.formatProductDetail('price', productDetailPrice);
-        return isFetchingPrice
-          ? this.renderLoader()
-          : formattedPrices.length
-          ? renderProductPriceChart(formattedPrices)
-          : this.renderNoDataMessage();
+        return isFetchingPrice ? (
+          this.renderLoader()
+        ) : formattedPrices.length ? (
+          <ProductPriceChart productPrices={formattedPrices} />
+        ) : (
+          this.renderNoDataMessage()
+        );
       }
 
       case 'chart2': {
         const formattedRatings = this.formatProductDetail('rating', productDetailRating);
-        return isFetchingRating
-          ? this.renderLoader()
-          : formattedRatings.length
-          ? renderProductRatingChart(formattedRatings)
-          : this.renderNoDataMessage();
+        return isFetchingRating ? (
+          this.renderLoader()
+        ) : formattedRatings.length ? (
+          <ProductRatingChart productRatings={formattedRatings} />
+        ) : (
+          this.renderNoDataMessage()
+        );
       }
 
       case 'chart3': {
         const formattedReviews = this.formatProductDetail('review_count', productDetailReview);
-        return isFetchingReview
-          ? this.renderLoader()
-          : formattedReviews.length
-          ? renderProductReviewChart(formattedReviews)
-          : this.renderNoDataMessage();
+        return isFetchingReview ? (
+          this.renderLoader()
+        ) : formattedReviews.length ? (
+          <ProductReviewChart productReviews={formattedReviews} />
+        ) : (
+          this.renderNoDataMessage()
+        );
       }
 
       default:

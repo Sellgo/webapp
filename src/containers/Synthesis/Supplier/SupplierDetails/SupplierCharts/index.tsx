@@ -11,7 +11,7 @@ import {
 } from '../../../../../actions/Modals';
 import ProductDetails from '../../ProductDetails';
 import './index.scss';
-import renderHitChart from './renderHitChart';
+import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import renderRevenueChart from './renderRevenueChart';
 
 interface SupplierChartsProps {
@@ -41,7 +41,9 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
     switch (this.state.showChart) {
       case 'chart0':
-        return supplierDetails && supplierDetails.rate ? renderHitChart(supplierDetails) : null;
+        return supplierDetails && supplierDetails.rate ? (
+          <SupplierHitChart supplier={supplierDetails} />
+        ) : null;
 
       case 'chart1': {
         return showProducts.length
