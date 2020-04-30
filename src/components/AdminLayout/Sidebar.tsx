@@ -63,7 +63,7 @@ export default class SidebarCollapsible extends Component<
                 >
                   <i className={`fas ${icon.icon}`} />
 
-                  {visible && <Label> {icon.label} </Label>}
+                  <Label> {icon.label} </Label>
                 </Menu.Item>
               );
             } else {
@@ -99,7 +99,7 @@ export default class SidebarCollapsible extends Component<
                   }}
                 >
                   <i className={`fas ${icon.icon}`} />
-                  {visible && <Label> {icon.label} </Label>}
+                  <Label> {icon.label} </Label>
                 </Menu.Item>
               );
             } else {
