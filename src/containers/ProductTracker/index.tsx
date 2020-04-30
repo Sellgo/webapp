@@ -184,7 +184,11 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
                     searchFilterValue={searchValue}
                     setCurrentPage={setPageNumber}
                   />
-                  <AsinSearch />
+                  <AsinSearch
+                    searchFilteredProduct={this.searchTrackedProduct}
+                    searchFilterValue={searchValue}
+                    setCurrentPage={setPageNumber}
+                  />
                 </div>
                 <ProductTrackerTable
                   handleMenu={(id: any) => this.handleMenu(id)}
