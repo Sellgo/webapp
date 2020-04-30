@@ -18,7 +18,7 @@
     border-radius: 0 !important;
     visibility: visible;
 
-    &.visible {
+    .visible {
       width: 246px !important;
     }
 
@@ -38,14 +38,14 @@
 
   .sidebar-menu.inverted.menu .menu .item {
     color: #fff !important;
-    padding: 13px 14px;
+    padding: 17px 12px;
     display: flex;
     flex-direction: row;
     align-items: center;
 
     i {
       padding-left: 0;
-      font-size: 21px;
+      font-size: 25px;
       min-width: 48px;
     }
 
@@ -78,7 +78,7 @@
 }
 
 .ui.left.overlay.sidebar {
-  transform: translate3d(4%, 0, 0) !important;
+  transform: translate3d(0, 0, 0);
 }
 
 .admin-layout-grid {
