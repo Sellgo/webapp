@@ -127,9 +127,9 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
     .then(json => {
       if (json.status === 201) {
         const newGroup = json.data;
-        success(`Tracker group successfully created!`);
         dispatch(addProductTrackGroup(newGroup));
         dispatch(setMenuItem(newGroup.id));
+        success(`Tracker group successfully created!`);
       }
     })
     .catch(() => {
@@ -158,9 +158,13 @@ export const checkMWSProduct = (asin: string) => (dispatch: any) => {
     });
 };
 
-export const confirmTrackProduct = (asin: string, marketPlace: string, groupID: number) => (
-  dispatch: any
-) => {
+export const confirmTrackProduct = (
+  asin: string,
+  marketPlace: string,
+  groupID: number,
+  period: number
+) => (dispatch: any) => {
+  dispatch(isLoadingTrackerProducts(true));
   console.log('confirmTrackProduct: ', asin, marketPlace, groupID.toString());
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
@@ -174,11 +178,15 @@ export const confirmTrackProduct = (asin: string, marketPlace: string, groupID: 
     .then(json => {
       console.log('confirmTrackProduct json: ', json);
       if (json.status === 200) {
-        dispatch(verifyingProduct(false));
-        console.log('response 200: ', json.data);
+        success(`Product ${asin.toUpperCase()} Successfully Tracked`);
+        console.log('response 200: ', json.data.product_track_group_id);
+        setTimeout(() => {
+          dispatch(fetchAllSupplierProductTrackerDetails(period));
+        }, 1000);
       }
     })
     .catch((e: any) => {
+      dispatch(isLoadingTrackerProducts(false));
       console.log('catch: ', JSON.stringify(e.message));
     });
 };

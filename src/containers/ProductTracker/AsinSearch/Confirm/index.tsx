@@ -3,7 +3,11 @@ import { Button, Modal, Header, Divider, Grid, Select } from 'semantic-ui-react'
 import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
 import { connect } from 'react-redux';
-import { isProductTracked, confirmTrackProduct } from '../../../../actions/ProductTracker';
+import {
+  isProductTracked,
+  confirmTrackProduct,
+  setMenuItem,
+} from '../../../../actions/ProductTracker';
 import get from 'lodash/get';
 import _ from 'lodash';
 
@@ -17,20 +21,47 @@ interface Props {
   open: boolean;
   openModal: Function;
   verifyProduct: (value: boolean, productExist: boolean) => void;
-  confirmTrackProduct: (value: string, marketplace: string, groupID: number) => void;
+  confirmTrackProduct: (
+    value: string,
+    marketplace: string,
+    groupID: number,
+    period: number
+  ) => void;
   searchValue: string;
   trackGroups: any;
+  selectedMarketPlace: any;
+  filterData: any;
+  setMenuItem: (item: any) => void;
+  setSearch: any;
 }
 const Confirm = (props: Props) => {
-  const { searchValue, open, openModal, verifyProduct, trackGroups, confirmTrackProduct } = props;
+  const {
+    searchValue,
+    open,
+    openModal,
+    verifyProduct,
+    trackGroups,
+    confirmTrackProduct,
+    selectedMarketPlace,
+    filterData,
+    setSearch,
+  } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [addProduct, setAddProduct] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(0);
-  const [selectedMarketPlace, setSelectedMarketPlace] = useState('ATVPDKIKX0DER');
 
   const trackProduct = () => {
-    console.log('trackProduct: ', searchValue, selectedGroup, selectedMarketPlace);
-    confirmTrackProduct(searchValue, selectedMarketPlace, selectedGroup);
+    console.log(
+      'trackProduct: ',
+      searchValue,
+      selectedGroup,
+      selectedMarketPlace,
+      filterData.period
+    );
+    confirmTrackProduct(searchValue, selectedMarketPlace, selectedGroup, filterData.period);
+    openModal(false);
+    setAddProduct(!addProduct);
+    setSearch('');
   };
 
   const countryOptions = () => {
@@ -49,19 +80,9 @@ const Confirm = (props: Props) => {
     return value;
   };
 
-  const handleMarketSelection = (data: any) => {
-    setSelectedMarketPlace(data);
-  };
-
   const handleGroupSelection = (data: any) => {
     setSelectedGroup(data);
   };
-
-  const marketPlaceOptions = [
-    { key: 1, text: 'United States', flag: 'us', value: 'ATVPDKIKX0DER' },
-    { key: 2, text: 'Japan', flag: 'jp', value: 'A1VC38T7YXB528' },
-    { key: 3, text: 'United Kingdom', flag: 'uk', value: 'A1F83G8C2ARO7P' },
-  ];
 
   if (addProduct) {
     return (
@@ -86,21 +107,6 @@ const Confirm = (props: Props) => {
                 />
               </Grid.Column>
             </Grid.Row>
-            {addProduct ? (
-              <Grid.Row columns={2}>
-                <Grid.Column>Marketplace: </Grid.Column>
-                <Grid.Column>
-                  <Select
-                    placeholder="Marketplace"
-                    value={selectedMarketPlace}
-                    options={marketPlaceOptions}
-                    onChange={(e, data) => {
-                      handleMarketSelection(data.value);
-                    }}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-            ) : null}
             <Grid.Row columns={2}>
               <Grid.Column></Grid.Column>
               <Grid.Column>
@@ -166,11 +172,13 @@ const Confirm = (props: Props) => {
 
 const mapStateToProps = (state: {}) => ({
   trackGroups: get(state, 'productTracker.trackerGroup'),
+  filterData: get(state, 'productTracker.filterData'),
 });
 
 const mapDispatchToProps = {
   verifyProduct: (value: boolean, productExist: boolean) => isProductTracked(value, productExist),
-  confirmTrackProduct: (value: string, marketplace: string, groupID: number) =>
-    confirmTrackProduct(value, marketplace, groupID),
+  confirmTrackProduct: (value: string, marketplace: string, groupID: number, period: number) =>
+    confirmTrackProduct(value, marketplace, groupID, period),
+  setMenuItem: (item: any) => setMenuItem(item),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Confirm);
