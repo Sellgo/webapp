@@ -4,10 +4,11 @@ import Chart from './Chart';
 export interface LineChartOptions {
   title: string;
   data: any;
+  [x: string]: any;
 }
 
 const renderLineChartOptions = (options: LineChartOptions) => {
-  const { title, data } = options;
+  const { title, data, ...otherOptions } = options;
   return {
     chart: { zoomType: 'x' },
     title: {
@@ -55,6 +56,7 @@ const renderLineChartOptions = (options: LineChartOptions) => {
         },
       };
     }),
+    ...otherOptions,
   };
 };
 

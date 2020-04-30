@@ -4,10 +4,11 @@ import Chart from './Chart';
 export interface ScatterChartOptions {
   title: string;
   data: any;
+  [x: string]: any;
 }
 
 const renderScatterChartOptions = (options: ScatterChartOptions, onBubbleDetails: Function) => {
-  const { title, data } = options;
+  const { title, data, ...otherOptions } = options;
   return {
     chart: {
       type: 'scatter',
@@ -60,6 +61,7 @@ const renderScatterChartOptions = (options: ScatterChartOptions, onBubbleDetails
       pointFormat: '{point.name}<br/>Units sold: {point.x} u/mo<br/> Profit($): {point.y}',
     },
     series: data,
+    ...otherOptions,
   };
 };
 

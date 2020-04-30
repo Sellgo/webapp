@@ -14,6 +14,7 @@ export interface StackChartOptions {
   margins?: any;
   areDataLabelsVisible?: boolean;
   setDataLabelsVisible?: any;
+  [x: string]: any;
 }
 
 const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Function) => {
@@ -28,6 +29,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
     margins,
     areDataLabelsVisible,
     setDataLabelsVisible,
+    ...otherOptions
   } = options;
 
   return {
@@ -187,6 +189,7 @@ const renderStackChartOptions = (options: StackChartOptions, onBubbleDetails: Fu
       .map((e: any) => {
         return { ...e, ...{ type: 'column' } };
       }),
+    ...otherOptions,
   };
 };
 

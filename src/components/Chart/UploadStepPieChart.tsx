@@ -7,6 +7,7 @@ export interface PieChartData {
   sliced: boolean;
   selected: boolean;
   color: string;
+  [x: string]: any;
 }
 
 export interface PieChartOptions {
@@ -16,7 +17,7 @@ export interface PieChartOptions {
 }
 
 const renderPieChartOptions = (options: PieChartOptions) => {
-  const { title, name, data } = options;
+  const { title, name, data, ...otherOptions } = options;
   return {
     chart: {
       type: 'pie',
@@ -68,6 +69,7 @@ const renderPieChartOptions = (options: PieChartOptions) => {
         data: data,
       },
     ],
+    ...otherOptions,
   };
 };
 

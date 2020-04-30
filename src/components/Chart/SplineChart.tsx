@@ -5,10 +5,11 @@ export interface SplineChartOptions {
   title: string;
   product_timeline: any;
   data: any;
+  [x: string]: any;
 }
 
 const renderSplineChartOptions = (options: SplineChartOptions) => {
-  const { title, product_timeline, data } = options;
+  const { title, product_timeline, data, ...otherOptions } = options;
   return {
     chart: {
       zoomType: 'x',
@@ -69,6 +70,7 @@ const renderSplineChartOptions = (options: SplineChartOptions) => {
       align: 'left',
     },
     series: data,
+    ...otherOptions,
   };
 };
 

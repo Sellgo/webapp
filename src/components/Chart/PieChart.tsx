@@ -13,10 +13,11 @@ export interface PieChartOptions {
   title: string;
   name: string;
   data: PieChartData[];
+  [x: string]: any;
 }
 
 const renderPieChartOptions = (options: PieChartOptions) => {
-  const { title, name, data } = options;
+  const { title, name, data, ...otherOptions } = options;
   return {
     chart: {
       type: 'pie',
@@ -66,6 +67,7 @@ const renderPieChartOptions = (options: PieChartOptions) => {
         data: data,
       },
     ],
+    ...otherOptions,
   };
 };
 
