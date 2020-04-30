@@ -3,6 +3,7 @@ import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Segment, Loader } from 'semantic-ui-react';
 
+/* Define chart options which are generic to all Highchart charts here. */
 Highcharts.setOptions({
   lang: {
     thousandsSep: ',',

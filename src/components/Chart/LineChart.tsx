@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from './Chart';
+import _ from 'lodash';
 
 export interface LineChartOptions {
   title: string;
@@ -9,55 +10,59 @@ export interface LineChartOptions {
 
 const renderLineChartOptions = (options: LineChartOptions) => {
   const { title, data, ...otherOptions } = options;
-  return {
-    chart: { zoomType: 'x' },
-    title: {
-      text: title,
-      margin: 50,
-      align: 'left',
-    },
-    xAxis: {
-      type: 'datetime',
-      labels: {
-        style: {
-          color: '#ccc',
-        },
-      },
-    },
-    credits: {
-      enabled: false,
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: '',
-      },
-      labels: {
-        style: {
-          color: '#ccc',
-        },
-      },
-    },
-    tooltip: {
-      shared: true,
-    },
 
-    legend: {
-      align: 'left',
-    },
-    series: data.map((e: any) => {
-      return {
-        ...e,
-        ...{
-          type: 'line',
-          tooltip: {
-            valueDecimals: 0,
+  /* Define default chart options for all line charts here. */
+  return _.merge(
+    {
+      chart: { zoomType: 'x' },
+      title: {
+        text: title,
+        margin: 50,
+        align: 'left',
+      },
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          style: {
+            color: '#ccc',
           },
         },
-      };
-    }),
-    ...otherOptions,
-  };
+      },
+      credits: {
+        enabled: false,
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: '',
+        },
+        labels: {
+          style: {
+            color: '#ccc',
+          },
+        },
+      },
+      tooltip: {
+        shared: true,
+      },
+
+      legend: {
+        align: 'left',
+      },
+      series: data.map((e: any) => {
+        return {
+          ...e,
+          ...{
+            type: 'line',
+            tooltip: {
+              valueDecimals: 0,
+            },
+          },
+        };
+      }),
+    },
+    otherOptions
+  );
 };
 
 const LineChart = (props: any) => {

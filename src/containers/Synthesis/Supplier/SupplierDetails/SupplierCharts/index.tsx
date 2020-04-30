@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import StackChart from '../../../../../components/Chart/StackChart';
-import PieChart from '../../../../../components/Chart/PieChart';
 import { Loader, Form, Modal, Header, Grid } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
@@ -13,6 +11,8 @@ import {
 } from '../../../../../actions/Modals';
 import ProductDetails from '../../ProductDetails';
 import './index.scss';
+import renderHitChart from './renderHitChart';
+import renderRevenueChart from './renderRevenueChart';
 
 interface SupplierChartsProps {
   supplierID: any;
@@ -32,124 +32,39 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     fetchSupplierDetails(supplierID);
   }
 
-  renderHit = (props: any) => {
-    const { supplier } = props;
-    const rate = parseFloat(supplier.rate);
-    const p2l_ratio = supplier.p2l_ratio - parseFloat(supplier.rate);
-    const miss = 100 - supplier.p2l_ratio;
-    const data = [
-      {
-        name: 'Profitable SKUs',
-        y: rate,
-        sliced: false,
-        selected: false,
-        color: '#CAE1F3',
-      },
-      {
-        name: 'Hit Non-Profitable SKUs',
-        y: p2l_ratio,
-        selected: false,
-        sliced: false,
-        color: '#FBC4C4',
-      },
-      {
-        name: 'Miss',
-        y: miss,
-        color: '#ECEBEB',
-      },
-    ];
-    const chartOptions = {
-      title: 'Hit/Miss vs Profitable SKUs',
-      name: 'SKUs',
-      data: data,
-    };
-    return <PieChart options={chartOptions} />;
-  };
-
-  renderRevenue = (props: any) => {
-    const { roi, profit, product_cost, fees, productSKUs, onBubbleDetails, ...otherProps } = props;
-    const data = [
-      { color: '#CAE1F3', negativeColor: '#FD8373', name: 'Profit($)', data: profit },
-      { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
-      { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
-      { name: 'ROI(%)', data: roi },
-    ];
-    const chartOptions = {
-      title: 'Revenue Breakdown Comparison',
-      productSKUs: productSKUs,
-      data: data,
-      ...otherProps,
-    };
-    return <StackChart options={chartOptions} onBubbleDetails={onBubbleDetails} />;
-  };
-
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
   renderCharts = () => {
     const { supplierDetails, singlePageItemsCount, filteredProducts } = this.props;
 
-    const sortProducts = filteredProducts;
-    const showProducts = sortProducts.slice(0, singlePageItemsCount);
-    let productSKUs = [];
-    let profit = [];
-    profit = showProducts.map(e => parseFloat(e.profit));
-    productSKUs = showProducts.map(e => e.title);
+    const showProducts = filteredProducts.slice(0, singlePageItemsCount);
+
     switch (this.state.showChart) {
       case 'chart0':
-        return supplierDetails && supplierDetails.rate ? (
-          <this.renderHit supplier={supplierDetails} />
-        ) : null;
+        return supplierDetails && supplierDetails.rate ? renderHitChart(supplierDetails) : null;
 
       case 'chart1': {
-        const product_cost = showProducts.map(e => parseFloat(e.product_cost));
-        const fees = showProducts.map(e => parseFloat(e.fees));
-        const amazon_urls = showProducts.map(e => e.amazon_url);
-        const roi = showProducts.map(e => parseFloat(e.roi));
-        const upcs = showProducts.map(e => e.upc);
-        const asins = showProducts.map(e => e.asin);
-        const image_urls = showProducts.map(e => e.image_url);
-        const margins = showProducts.map(e => e.margin);
-
-        return productSKUs.length &&
-          profit.length &&
-          product_cost.length &&
-          fees.length &&
-          amazon_urls.length &&
-          roi.length &&
-          upcs.length &&
-          asins.length &&
-          margins.length &&
-          image_urls.length ? (
-          <this.renderRevenue
-            productSKUs={productSKUs}
-            product_cost={product_cost}
-            fees={fees}
-            profit={profit}
-            roi={roi}
-            amazon_urls={amazon_urls}
-            upcs={upcs}
-            asins={asins}
-            image_urls={image_urls}
-            margins={margins}
-            onBubbleDetails={(id: number) => {
-              window.open('https://www.amazon.com/dp/' + showProducts[id].asin, '_blank');
-            }}
-          />
-        ) : (
-          <Loader
-            active={productSKUs.length ? true : false}
-            inline="centered"
-            className="popup-loader"
-            size="massive"
-          >
-            Loading
-          </Loader>
-        );
+        return showProducts.length
+          ? renderRevenueChart(showProducts)
+          : this.renderLoader(showProducts);
       }
       default:
         return null;
     }
   };
+
+  renderLoader(products: Product[]) {
+    return (
+      <Loader
+        active={products.length ? true : false}
+        inline="centered"
+        className="popup-loader"
+        size="massive"
+      >
+        Loading
+      </Loader>
+    );
+  }
 
   render() {
     const { filteredProducts, supplierDetails } = this.props;

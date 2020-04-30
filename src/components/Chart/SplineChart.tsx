@@ -1,77 +1,82 @@
 import React from 'react';
 import Chart from './Chart';
+import _ from 'lodash';
 
 export interface SplineChartOptions {
   title: string;
-  product_timeline: any;
   data: any;
   [x: string]: any;
 }
 
 const renderSplineChartOptions = (options: SplineChartOptions) => {
-  const { title, product_timeline, data, ...otherOptions } = options;
-  return {
-    chart: {
-      zoomType: 'x',
-    },
-    title: {
-      text: title,
-      margin: 50,
-      align: 'left',
-    },
-    xAxis: [
-      {
-        type: 'datetime',
-        categories: product_timeline,
-        crosshair: true,
+  const { title, data, ...otherOptions } = options;
+  const firstYAxisIndex = data.findIndex((element: any) => element.yAxis === 0);
+  const secondYAxisIndex = data.findIndex((element: any) => element.yAxis === 1);
+
+  /* Define default chart options for all spline charts here. */
+  return _.merge(
+    {
+      chart: {
+        zoomType: 'x',
       },
-    ],
-    yAxis: [
-      {
-        // Primary yAxis
-        min: 0,
-        gridLineWidth: 0,
-        minorGridLineWidth: 0,
-        lineWidth: 2,
-        title: {
-          text: data[0].name,
-          align: 'high',
-          style: {
-            color: 'black',
+      title: {
+        text: title,
+        margin: 50,
+        align: 'left',
+      },
+      xAxis: [
+        {
+          type: 'datetime',
+          crosshair: true,
+        },
+      ],
+      yAxis: [
+        {
+          // Primary yAxis
+          min: 0,
+          gridLineWidth: 0,
+          minorGridLineWidth: 0,
+          lineWidth: 2,
+          title: {
+            text: data[firstYAxisIndex === -1 ? 0 : firstYAxisIndex].name,
+            align: 'high',
+            style: {
+              color: 'black',
+            },
           },
         },
-      },
-      {
-        // Secondary yAxis
-        min: 0,
-        gridLineWidth: 0,
-        minorGridLineWidth: 0,
-        lineWidth: 2,
-        title: {
-          text: data[1].name,
-          align: 'high',
-          style: {
-            color: 'black',
+        {
+          // Secondary yAxis
+          min: 0,
+          gridLineWidth: 0,
+          minorGridLineWidth: 0,
+          lineWidth: 2,
+          title: {
+            text: data[secondYAxisIndex === -1 ? 1 : secondYAxisIndex].name,
+            align: 'high',
+            style: {
+              color: 'black',
+            },
           },
-        },
-        labels: {
-          format: '{value}',
-          style: {
-            color: 'black',
+          labels: {
+            format: '{value}',
+            style: {
+              color: 'black',
+            },
           },
+          opposite: true,
         },
-        opposite: true,
+      ],
+      tooltip: {
+        shared: true,
       },
-    ],
-    tooltip: {
-      shared: true,
+      legend: {
+        align: 'left',
+      },
+      series: data,
     },
-    legend: {
-      align: 'left',
-    },
-    series: data,
-    ...otherOptions,
-  };
+    otherOptions
+  );
 };
 
 const SplineChart = (props: any) => {

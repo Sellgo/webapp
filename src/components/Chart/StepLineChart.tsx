@@ -1,62 +1,65 @@
 import React from 'react';
 import Chart from './Chart';
+import _ from 'lodash';
 
 export interface StepLineChartOptions {
   title: string;
-  product_timeline: any;
   data: any;
   [x: string]: any;
 }
 
 const renderStepLineChartOptions = (options: StepLineChartOptions) => {
-  const { title, product_timeline, data, ...otherOptions } = options;
-  return {
-    chart: {
-      zoomType: 'x',
-    },
-    title: {
-      text: title,
-      margin: 50,
-      align: 'left',
-    },
-    xAxis: [
-      {
-        type: 'datetime',
-        categories: product_timeline,
-        crosshair: true,
+  const { title, data, ...otherOptions } = options;
+
+  /* Define chart options which are generic to all Step Line charts here. */
+  return _.merge(
+    {
+      chart: {
+        zoomType: 'x',
       },
-    ],
-    yAxis: {
-      min: 0,
       title: {
-        text: '',
+        text: title,
+        margin: 50,
+        align: 'left',
       },
-      labels: {
-        style: {
-          color: '#ccc',
+      xAxis: [
+        {
+          type: 'datetime',
+          crosshair: true,
         },
-      },
-    },
-    tooltip: {
-      shared: true,
-    },
-    legend: {
-      align: 'left',
-    },
-    series: data.map((e: any) => {
-      return {
-        ...e,
-        ...{
-          type: 'line',
-          step: true,
-          tooltip: {
-            valueDecimals: 0,
+      ],
+      yAxis: {
+        min: 0,
+        title: {
+          text: '', // remove default value
+        },
+        labels: {
+          style: {
+            color: '#ccc',
           },
         },
-      };
-    }),
-    ...otherOptions,
-  };
+      },
+      tooltip: {
+        shared: true,
+      },
+      legend: {
+        align: 'left',
+      },
+      series: data.map((e: any) => {
+        return {
+          ...e,
+          ...{
+            type: 'line',
+            step: true,
+            tooltip: {
+              valueDecimals: 0,
+            },
+          },
+        };
+      }),
+    },
+    otherOptions
+  );
 };
 
 const StepLineChart = (props: any) => {

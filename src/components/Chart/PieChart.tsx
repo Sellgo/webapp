@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from './Chart';
+import _ from 'lodash';
 
 export interface PieChartData {
   name: string;
@@ -18,57 +19,61 @@ export interface PieChartOptions {
 
 const renderPieChartOptions = (options: PieChartOptions) => {
   const { title, name, data, ...otherOptions } = options;
-  return {
-    chart: {
-      type: 'pie',
-    },
-    title: {
-      text: title,
-      margin: 50,
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        size: '75%',
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+
+  /* Define default chart options for all pie charts here. */
+  return _.merge(
+    {
+      chart: {
+        type: 'pie',
+      },
+      title: {
+        text: title,
+        margin: 50,
+      },
+      tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          size: '75%',
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+          },
         },
       },
-    },
-    responsive: {
-      rules: [
-        {
-          condition: {
-            maxWidth: 500,
-          },
-          chartOptions: {
-            plotOptions: {
-              pie: {
-                size: '65%',
-                dataLabels: {
-                  alignTo: 'connectors',
+      responsive: {
+        rules: [
+          {
+            condition: {
+              maxWidth: 500,
+            },
+            chartOptions: {
+              plotOptions: {
+                pie: {
+                  size: '65%',
+                  dataLabels: {
+                    alignTo: 'connectors',
+                  },
                 },
               },
             },
           },
+        ],
+      },
+      series: [
+        {
+          type: 'pie',
+          name: name,
+          colorByPoint: true,
+          data: data,
         },
       ],
     },
-    series: [
-      {
-        type: 'pie',
-        name: name,
-        colorByPoint: true,
-        data: data,
-      },
-    ],
-    ...otherOptions,
-  };
+    otherOptions
+  );
 };
 
 const PieChart = (props: any) => {
