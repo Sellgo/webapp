@@ -139,7 +139,7 @@ class ProductCharts extends Component<ProductChartsProps> {
   };
 
   renderNoDataMessage = () => {
-    return <Grid centered>We're still processing your data! Please come back after a day. </Grid>;
+    return <Grid centered>No data yet! Please come back after a day. </Grid>;
   };
 
   renderLoader = () => {

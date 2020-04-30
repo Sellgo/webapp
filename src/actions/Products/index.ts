@@ -151,32 +151,32 @@ export const fetchSupplierProductDetailChartKPI = (
 
 export const setFetchingRank = (isFetching: boolean) => ({
   type: SET_FETCHING_RANK,
-  data: isFetching,
+  payload: isFetching,
 });
 
 export const setFetchingPrice = (isFetching: boolean) => ({
   type: SET_FETCHING_PRICE,
-  data: isFetching,
+  payload: isFetching,
 });
 
 export const setFetchingInventory = (isFetching: boolean) => ({
   type: SET_FETCHING_INVENTORY,
-  data: isFetching,
+  payload: isFetching,
 });
 
 export const setFetchingRating = (isFetching: boolean) => ({
   type: SET_FETCHING_RATING,
-  data: isFetching,
+  payload: isFetching,
 });
 
 export const setFetchingReview = (isFetching: boolean) => ({
   type: SET_FETCHING_REVIEW,
-  data: isFetching,
+  payload: isFetching,
 });
 
 export const setFetchingKpi = (isFetching: boolean) => ({
   type: SET_FETCHING_KPI,
-  data: isFetching,
+  payload: isFetching,
 });
 
 export const setSupplierProductDetailChartRank = (data: any) => ({
