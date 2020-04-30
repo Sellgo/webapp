@@ -17,8 +17,10 @@
     background-color: #3b4557 !important;
     border-radius: 0 !important;
     visibility: visible;
+    transition: width 0.5s !important;
+    width: 72px !important;
 
-    .visible {
+    &.visible {
       width: 246px !important;
     }
 
@@ -38,25 +40,34 @@
 
   .sidebar-menu.inverted.menu .menu .item {
     color: #fff !important;
-    padding: 17px 12px;
+    padding: 17px 0 17px 18px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    white-space: pre;
 
     i {
       padding-left: 0;
       font-size: 25px;
       min-width: 48px;
+
+      &.fa-angle-right {
+        text-align: right;
+      }
     }
 
     .label {
-      margin-left: 5px !important;
+      margin-left: -3px !important;
       text-align: left;
       line-height: 18px;
       font-weight: 600;
       font-size: 15px;
       color: #fff;
     }
+  }
+
+  .sidebar-menu.inverted.menu.visible .menu .item {
+    padding: 17px 18px;
   }
 
   .pushable {
@@ -79,6 +90,7 @@
 
 .ui.left.overlay.sidebar {
   transform: translate3d(0, 0, 0);
+  overflow: hidden;
 }
 
 .admin-layout-grid {
