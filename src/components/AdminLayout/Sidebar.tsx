@@ -1,5 +1,5 @@
 import React, { Component, ReactElement } from 'react';
-import { Menu, Segment, Sidebar, Grid, Label, Transition } from 'semantic-ui-react';
+import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Auth from '../Auth/Auth';
 import LogoutConfirm from '../LogoutConfirm';
@@ -63,9 +63,7 @@ export default class SidebarCollapsible extends Component<
                 >
                   <i className={`fas ${icon.icon}`} />
 
-                  <Transition duration={500} visible={visible} animation="scale">
-                    {<Label> {icon.label} </Label>}
-                  </Transition>
+                  {visible && <Label> {icon.label} </Label>}
                 </Menu.Item>
               );
             } else {
@@ -101,9 +99,7 @@ export default class SidebarCollapsible extends Component<
                   }}
                 >
                   <i className={`fas ${icon.icon}`} />
-                  <Transition duration={500} visible={visible} animation="scale">
-                    {<Label> {icon.label} </Label>}
-                  </Transition>
+                  {visible && <Label> {icon.label} </Label>}
                 </Menu.Item>
               );
             } else {
