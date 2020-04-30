@@ -20,15 +20,15 @@
   width: 479px;
 
   input {
-    background: #bad9ff;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    background: #bad9ff !important;
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
   }
 
   button {
     background-color: #349af8 !important;
-    border-top-right-radius: 10px !important;
-    border-bottom-right-radius: 10px !important;
+    border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
     color: white !important;
   }
 }
