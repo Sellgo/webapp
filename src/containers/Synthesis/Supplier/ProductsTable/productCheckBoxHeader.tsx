@@ -67,18 +67,14 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
         on="click"
         className="tracking-header-popup"
         trigger={<Icon link={true} className="ellipsis vertical" />}
-        hideOnScroll={true}
+        hideOnScroll={false}
         style={{ padding: 0 }}
         onOpen={() => setOpenTrackingPopup(true)}
         onClose={() => setOpenTrackingPopup(false)}
         open={openTrackingPopup}
       >
         <Menu fluid={true} vertical={true}>
-          <Menu.Item
-            className="bulk-track"
-            // style={{ color: 'red' }}
-            onClick={handleBulkTrackClick}
-          >
+          <Menu.Item className="bulk-track" onClick={handleBulkTrackClick}>
             <img src={Track} alt="Bulk Track" />
             {`Bulk Track`}
           </Menu.Item>
@@ -93,7 +89,6 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  // requestProductBulkTracking: (products: { product_id: number }[]) => requestProductBulkTracking(products),
   requestProductBulkTracking,
 };
 
