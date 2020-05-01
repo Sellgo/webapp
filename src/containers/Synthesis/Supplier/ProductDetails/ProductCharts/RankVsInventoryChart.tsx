@@ -1,5 +1,5 @@
 import React from 'react';
-import SplineChart from '../../../../../components/Chart/SplineChart';
+import Chart from '../../../../../components/Chart/Chart';
 
 export default ({ productRanks, productInventories }: any) => {
   const data = [
@@ -21,9 +21,74 @@ export default ({ productRanks, productInventories }: any) => {
       zIndex: 1,
     },
   ];
+
+  const firstYAxisIndex = data.findIndex((element: any) => element.yAxis === 0);
+  const secondYAxisIndex = data.findIndex((element: any) => element.yAxis === 1);
+
   const chartOptions = {
-    title: 'Rank vs Inventory',
-    data: data,
+    chart: {
+      zoomType: 'x',
+    },
+    title: {
+      text: 'Rank vs Inventory',
+      margin: 50,
+      align: 'left',
+    },
+    xAxis: [
+      {
+        type: 'datetime',
+        crosshair: true,
+      },
+    ],
+    yAxis: [
+      {
+        // Primary yAxis
+        min: 0,
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+        lineWidth: 2,
+        title: {
+          text: data[firstYAxisIndex === -1 ? 0 : firstYAxisIndex].name,
+          align: 'high',
+          style: {
+            color: 'black',
+          },
+        },
+      },
+      {
+        // Secondary yAxis
+        min: 0,
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+        lineWidth: 2,
+        title: {
+          text: data[secondYAxisIndex === -1 ? 1 : secondYAxisIndex].name,
+          align: 'high',
+          style: {
+            color: 'black',
+          },
+        },
+        labels: {
+          format: '{value}',
+          style: {
+            color: 'black',
+          },
+        },
+        opposite: true,
+      },
+    ],
+    tooltip: {
+      shared: true,
+    },
+    legend: {
+      align: 'left',
+    },
+    series: data,
   };
-  return <SplineChart options={chartOptions} />;
+
+  return (
+    <div className="individual-spline-chart">
+      <Chart chartOptions={chartOptions} />
+    </div>
+  );
 };
