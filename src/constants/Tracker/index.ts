@@ -14,7 +14,7 @@ export const REMOVE_PRODUCTS_IN_GROUP = 'REMOVE_PRODUCTS_IN_GROUP';
 export const FILTER_TRACKED_PRODUCTS = 'FILTER_TRACKED_PRODUCTS';
 export const SET_FILTER_SEARCH = 'SET_FILTER_SEARCH';
 
-export const DEFAULT_PERIOD_VALUE = 7;
+export const DEFAULT_PERIOD_VALUE = 1;
 
 export const filterKeys: any = [
   // Basic KPI
