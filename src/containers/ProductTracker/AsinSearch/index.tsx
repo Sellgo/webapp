@@ -49,19 +49,32 @@ const AsinSearch = (props: Props) => {
     return warn(<Asin header={header} subheader={subHeader} />);
   };
   useEffect(() => {
+    console.log(
+      'verifyingProductTracked: ',
+      verifyingProductTracked,
+      searchValue,
+      verifyingProduct
+    );
     if (searchValue && !verifyingProduct) {
+      console.log('1: ', verifyingProductTracked, searchValue, verifyingProduct);
       if (verifyingProductTracked.value === true && !verifyingProductTracked.productExist) {
+        console.log('2 ', verifyingProductTracked, searchValue, verifyingProduct);
         handleWarning(false);
       } else if (verifyingProductTracked.value === true && verifyingProductTracked.productExist) {
+        console.log('3 ', verifyingProductTracked, searchValue, verifyingProduct);
         handleWarning(true);
       } else {
+        console.log('4 ', verifyingProductTracked, searchValue, verifyingProduct);
         setOpen(true);
         dismiss();
       }
+    } else {
+      console.log('5 ', verifyingProductTracked, searchValue, verifyingProduct);
     }
   }, [verifyingProduct]);
 
   const verifyProduct = () => {
+    console.log('searchValue: ', searchValue);
     checkProduct(searchValue);
   };
 
@@ -81,7 +94,7 @@ const AsinSearch = (props: Props) => {
         />
       </Menu.Menu>
       <Button basic onClick={() => verifyProduct()}>
-        Add Product
+        {verifyingProduct ? `Loading` : `Add Product`}
       </Button>
       <Confirm
         open={open}

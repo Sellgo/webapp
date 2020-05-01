@@ -147,14 +147,14 @@ export const checkMWSProduct = (asin: string) => (dispatch: any) => {
       console.log('json: ', json);
       if (json.status === 200) {
         console.log('response 200: ', json.data.is_tracked);
-        dispatch(isProductTracked(json.data.is_tracked, true));
         dispatch(verifyingProduct(false));
+        dispatch(isProductTracked(json.data.is_tracked, true));
       }
     })
     .catch((e: any) => {
       console.log('catch: ', JSON.stringify(e.message));
-      dispatch(isProductTracked(true, false));
       dispatch(verifyingProduct(false));
+      dispatch(isProductTracked(true, false));
     });
 };
 
