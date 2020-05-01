@@ -12,7 +12,7 @@ import {
 import ProductDetails from '../../ProductDetails';
 import './index.scss';
 import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
-import renderRevenueChart from './renderRevenueChart';
+import RevenueChart from './RevenueChart';
 
 interface SupplierChartsProps {
   supplierID: any;
@@ -46,9 +46,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         ) : null;
 
       case 'chart1': {
-        return showProducts.length
-          ? renderRevenueChart(showProducts)
-          : this.renderLoader(showProducts);
+        return showProducts.length ? (
+          <RevenueChart products={showProducts} />
+        ) : (
+          this.renderLoader(showProducts)
+        );
       }
       default:
         return null;
