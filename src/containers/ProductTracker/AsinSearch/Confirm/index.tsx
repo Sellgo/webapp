@@ -51,15 +51,9 @@ const Confirm = (props: Props) => {
   const [selectedGroup, setSelectedGroup] = useState(0);
 
   const trackProduct = () => {
-    console.log(
-      'trackProduct: ',
-      searchValue,
-      selectedGroup,
-      selectedMarketPlace,
-      filterData.period
-    );
     confirmTrackProduct(searchValue, selectedMarketPlace, selectedGroup, filterData.period);
     openModal(false);
+    setOpenConfirm(!openConfirm);
     setAddProduct(!addProduct);
     setSearch('');
   };

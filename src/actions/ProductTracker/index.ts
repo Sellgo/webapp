@@ -165,7 +165,6 @@ export const confirmTrackProduct = (
   period: number
 ) => (dispatch: any) => {
   dispatch(isLoadingTrackerProducts(true));
-  console.log('confirmTrackProduct: ', asin, marketPlace, groupID.toString());
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.set('product_track_group_id', groupID.toString());
@@ -176,18 +175,19 @@ export const confirmTrackProduct = (
     bodyFormData
   )
     .then(json => {
-      console.log('confirmTrackProduct json: ', json);
+      console.log('json: ', json);
       if (json.status === 200) {
         success(`Product ${asin.toUpperCase()} Successfully Tracked`);
-        console.log('response 200: ', json.data.product_track_group_id);
         setTimeout(() => {
           dispatch(fetchAllSupplierProductTrackerDetails(period));
+          dispatch(setMenuItem(null));
         }, 1000);
       }
     })
     .catch((e: any) => {
-      dispatch(isLoadingTrackerProducts(false));
       console.log('catch: ', JSON.stringify(e.message));
+      error('Unable to Add Product');
+      dispatch(isLoadingTrackerProducts(false));
     });
 };
 
