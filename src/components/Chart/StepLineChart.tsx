@@ -10,6 +10,12 @@ export interface StepLineChartOptions {
 
 const renderStepLineChartOptions = (options: StepLineChartOptions) => {
   const { title, data, ...otherOptions } = options;
+  const allDataPoints = data
+    .map((series: any) => series.data)
+    .flat()
+    .map((item: any) => item[1]);
+  const yMin = Math.min(...allDataPoints);
+  const yMax = Math.max(...allDataPoints);
 
   /* Define chart options which are generic to all Step Line charts here. */
   return _.merge(
@@ -29,7 +35,8 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
         },
       ],
       yAxis: {
-        min: 0,
+        min: yMin || 0,
+        max: yMax || null,
         title: {
           text: '', // remove default value
         },
