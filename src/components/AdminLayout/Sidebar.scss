@@ -2,11 +2,6 @@
   z-index: 2;
   padding-right: 0 !important;
 
-  .Sidebar__pusher.pusher.pusher-scroll-x {
-    width: 85.9vw;
-    overflow-x: scroll;
-  }
-
   .Sidebar__pusher.pusher.container {
     overflow-y: scroll;
     background: #f8faff;
@@ -21,8 +16,13 @@
     padding-right: 0;
     background-color: #3b4557 !important;
     border-radius: 0 !important;
-    width: 246px !important;
     visibility: visible;
+    transition: width 0.5s !important;
+    width: 72px !important;
+
+    &.visible {
+      width: 246px !important;
+    }
 
     .sidebar-bottom-icon {
       flex-direction: column-reverse;
@@ -40,25 +40,34 @@
 
   .sidebar-menu.inverted.menu .menu .item {
     color: #fff !important;
-    padding: 13px 14px;
+    padding: 17px 0 17px 18px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    white-space: pre;
 
     i {
       padding-left: 0;
-      font-size: 21px;
+      font-size: 25px;
       min-width: 48px;
+
+      &.fa-angle-right {
+        text-align: right;
+      }
     }
 
     .label {
-      margin-left: 5px !important;
+      margin-left: -3px !important;
       text-align: left;
       line-height: 18px;
       font-weight: 600;
       font-size: 15px;
       color: #fff;
     }
+  }
+
+  .sidebar-menu.inverted.menu.visible .menu .item {
+    padding: 17px 18px;
   }
 
   .pushable {
@@ -70,7 +79,7 @@
 
   .pusher {
     height: 100%;
-    width: 95.5vw;
+    overflow-y: scroll;
   }
 
   .sidebar-menu .item .ui.label {
@@ -80,83 +89,13 @@
   }
 }
 
-.ui.left.sidebar ~ .Sidebar__pusher.pusher {
-  -webkit-transform: translate3d(246px, 0, 0);
-  transform: translate3d(246px, 0, 0);
-}
-
-.ui.visible.left.sidebar ~ .Sidebar__pusher.pusher {
-  -webkit-transform: translate3d(64px, 0, 0);
-  transform: translate3d(64px, 0, 0);
+.ui.left.overlay.sidebar {
+  transform: translate3d(0, 0, 0);
+  overflow: hidden;
 }
 
 .admin-layout-grid {
   padding: 0 !important;
-}
-
-@media only screen and (max-width: 2560px) {
-  .sidebar-container .pusher {
-    width: 97.5vw;
-  }
-
-  .sidebar-container .Sidebar__pusher.pusher.pusher-scroll-x {
-    width: 90.4vw;
-  }
-}
-
-@media only screen and (max-width: 1920px) {
-  .sidebar-container .pusher {
-    width: 97vw;
-  }
-
-  .sidebar-container .Sidebar__pusher.pusher.pusher-scroll-x {
-    width: 87.6vw;
-  }
-}
-
-@media only screen and (max-width: 1440px) {
-  .sidebar-container .Sidebar__pusher.pusher {
-    width: 96.4vw;
-  }
-
-  .Sidebar__pusher.pusher.container.pusher-scroll-x {
-    width: 83.7vw;
-  }
-}
-
-@media only screen and (max-width: 1024px) {
-  .sidebar-container .Sidebar__pusher.pusher {
-    width: 95.3vw;
-  }
-
-  .Sidebar__pusher.pusher.container.pusher-scroll-x {
-    width: 77.6vw;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .sidebar-container .Sidebar__pusher.pusher {
-    width: 94vw;
-  }
-
-  .Sidebar__pusher.pusher.container.pusher-scroll-x {
-    width: 70.3vw;
-  }
-
-  .admin-layout-grid {
-    margin: auto;
-  }
-}
-
-@media only screen and (max-width: 425px) {
-  .sidebar-container .Sidebar__pusher.pusher {
-    width: 101.5vw !important;
-  }
-
-  .ui.visible.left.sidebar ~ .Sidebar__pusher.pusher {
-    -webkit-transform: translate3d(15px, 0, 0) !important;
-    transform: translate3d(15px, 0, 0) !important;
-  }
 }
 
 .active.LogoutConfirm {
