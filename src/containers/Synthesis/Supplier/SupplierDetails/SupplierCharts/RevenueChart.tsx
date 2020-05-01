@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Product } from '../../../../../interfaces/Product';
-import StackChart from '../../../../../components/Chart/StackChart';
 import { renderToString } from 'react-dom/server';
 import { Icon, Grid, Image } from 'semantic-ui-react';
+import Chart from '../../../../../components/Chart/Chart';
 
 interface RevenueChartProps {
   products: Product[];
@@ -124,9 +124,18 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
     };
 
     const chartOptions = {
-      title: 'Revenue Breakdown Comparison',
-      data: data,
+      title: {
+        text: 'Revenue Breakdown Comparison',
+        margin: 50,
+        align: 'center',
+      },
       chart: {
+        type: 'column',
+        zoomType: 'x',
+        animation: {
+          enabled: true,
+          duration: 1000,
+        },
         events: {
           render: this.handleChartRender.bind(this),
         },
@@ -144,18 +153,49 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
         },
         stackLabels: {
           formatter: stackLabelFormatter,
+          enabled: true,
+          allowOverlap: true,
+          alignValue: 'center',
+          style: {
+            color: 'black',
+          },
         },
       },
       tooltip: {
         useHTML: true,
         headerFormat: null, //remove default format
         pointFormatter: tooltipPointFormatter,
+        backgroundColor: '#ffffff',
+        animation: true,
+        borderWidth: 0.1,
+        borderRadius: 3,
+        distance: 100,
+        crosshairs: true,
+        followPointer: true,
+        followTouchMove: true,
+        outside: true,
+        style: {
+          padding: 0,
+        },
+        valueDecimals: '2',
+      },
+      legend: {
+        align: 'left',
       },
       plotOptions: {
         column: {
+          stacking: 'normal',
+          groupPadding: 0.05,
+          pointPadding: 0.01,
+          borderWidth: 0.1,
+          borderRadius: 3,
           dataLabels: {
             formatter: dataLabelsFormatter,
+            enabled: true,
+            borderRadius: 2,
+            allowOverlap: true,
           },
+          cursor: 'pointer',
         },
         series: {
           events: {
@@ -165,9 +205,12 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
           },
         },
       },
+      series: data.map((e: any) => {
+        return { ...e, ...{ type: 'column' } };
+      }),
     };
 
-    return <StackChart options={chartOptions} />;
+    return <Chart chartOptions={chartOptions} />;
   }
 }
 
