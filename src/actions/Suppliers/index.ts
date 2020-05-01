@@ -442,7 +442,7 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
     products
   )
     .then(json => {
-      console.log('api call succeeded! json.data', json.data);
+      success('Request succeeded');
       dispatch(getSellerQuota());
       dispatch(updateSupplierProducts(json.data));
     })
