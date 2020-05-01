@@ -11,7 +11,7 @@ interface ProductCheckBoxHeaderProps {
 }
 
 const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
-  const { currentPage, currentPageRows, updateCheckedRows } = props;
+  const { currentPage, currentPageRows, checkedRows, updateCheckedRows } = props;
   const [checked, setChecked] = useState(false);
   const [openTrackingPopup, setOpenTrackingPopup] = useState(false);
 
@@ -19,6 +19,15 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     setChecked(false);
     updateCheckedRows({});
   }, [currentPage]);
+
+  useEffect(() => {
+    for (const k in checkedRows) {
+      if (checkedRows[k] && !openTrackingPopup) {
+        setOpenTrackingPopup(true);
+        break;
+      }
+    }
+  }, [checkedRows]);
 
   const handleCheckBoxClick = () => {
     const newChecked = !checked;
