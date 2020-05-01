@@ -6,6 +6,7 @@ export default ({ productRanks, productInventories }: any) => {
     {
       yAxis: 0,
       type: 'line',
+      step: true,
       name: 'Rank',
       color: '#FD8373',
       data: productRanks,
