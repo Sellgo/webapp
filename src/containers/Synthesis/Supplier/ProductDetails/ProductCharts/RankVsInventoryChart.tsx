@@ -81,7 +81,7 @@ export default ({ productRanks, productInventories }: any) => {
       shared: true,
     },
     legend: {
-      align: 'left',
+      align: 'center',
     },
     series: data,
   };
