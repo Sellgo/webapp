@@ -2,16 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Checkbox, Icon, Menu, Popup } from 'semantic-ui-react';
 import Track from '../../../../assets/images/fingerprint.svg';
 import { CheckedRowDictionary } from './index';
+import { requestProductBulkTracking } from '../../../../actions/Suppliers';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 interface ProductCheckBoxHeaderProps {
   currentPage: number;
   currentPageRows: Array<{ [key: string]: any }>;
   checkedRows: CheckedRowDictionary;
   updateCheckedRows: (checkedRows: CheckedRowDictionary) => void;
+  requestProductBulkTracking: (products: { product_id: number }[]) => void;
 }
 
 const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
-  const { currentPage, currentPageRows, checkedRows, updateCheckedRows } = props;
+  const {
+    currentPage,
+    currentPageRows,
+    checkedRows,
+    updateCheckedRows,
+    requestProductBulkTracking,
+  } = props;
   const [checked, setChecked] = useState(false);
   const [openTrackingPopup, setOpenTrackingPopup] = useState(false);
 
@@ -41,6 +51,14 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     updateCheckedRows(newCheckedData);
   };
 
+  const handleBulkTrackClick = () => {
+    const products: any[] = [];
+    currentPageRows.forEach(r => {
+      if (checkedRows[r.id]) products.push({ product_id: r.product_id });
+    });
+    requestProductBulkTracking(products);
+  };
+
   return (
     <>
       <Checkbox checked={checked} onChange={handleCheckBoxClick} />
@@ -59,10 +77,7 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
           <Menu.Item
             className="bulk-track"
             // style={{ color: 'red' }}
-            onClick={() => {
-              // this.setOtherOptionsOpen(false);
-              // handleConfirmMessage(row);
-            }}
+            onClick={handleBulkTrackClick}
           >
             <img src={Track} alt="Bulk Track" />
             {`Bulk Track`}
@@ -73,4 +88,13 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
   );
 };
 
-export default ProductCheckBoxHeader;
+const mapStateToProps = (state: {}) => ({
+  supplierDetails: get(state, 'supplier.details'),
+});
+
+const mapDispatchToProps = {
+  // requestProductBulkTracking: (products: { product_id: number }[]) => requestProductBulkTracking(products),
+  requestProductBulkTracking,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCheckBoxHeader);

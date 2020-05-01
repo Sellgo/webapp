@@ -18,6 +18,7 @@ import {
   SEARCH_SUPPLIER_PRODUCTS,
   findFilteredProducts,
   searchFilteredProduct,
+  UPDATE_SUPPLIER_PRODUCTS,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 
@@ -69,6 +70,20 @@ export default (state = initialState, action: AnyAction) => {
           checkProduct.tracking_status = updateProduct.status;
           checkProduct.product_track_id = updateProduct.id;
         }
+        return checkProduct;
+      });
+      return setIn(state, 'products', products);
+    }
+    case UPDATE_SUPPLIER_PRODUCTS: {
+      const updateProducts = action.payload;
+      const products = get(state, 'products').map((product: any) => {
+        const checkProduct = product;
+        updateProducts.forEach((updateProduct: any) => {
+          if (checkProduct.product_id === updateProduct.product_id) {
+            checkProduct.tracking_status = updateProduct.status;
+            checkProduct.product_track_id = updateProduct.id;
+          }
+        });
         return checkProduct;
       });
       return setIn(state, 'products', products);

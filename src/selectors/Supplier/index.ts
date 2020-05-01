@@ -17,6 +17,7 @@ export const suppliersTableTabSelector = (state: {}): string =>
   get(state, 'suppliers.suppliersTableTab');
 export const suppliersTableColumnsSelector = (state: {}) =>
   get(state, 'suppliers.suppliersTableColumns');
+export const supplierDetailsSelector = (state: {}) => get(state, 'supplier.details');
 export const supplierSelector = (state: {}) => get(state, 'suppliers.supplier');
 export const newSupplierIdSelector = (state: {}) => get(state, 'suppliers.newSupplier');
 export const getSynthesisId = (state: {}) => get(state, 'uploadSupplier.synthesisId');

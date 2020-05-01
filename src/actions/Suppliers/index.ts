@@ -9,6 +9,7 @@ import {
   newSupplierIdSelector,
   getSynthesisId,
   suppliersByIdSelector,
+  supplierDetailsSelector,
 } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -35,6 +36,7 @@ import {
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   FILTER_SUPPLIER_PRODUCTS,
   SEARCH_SUPPLIER_PRODUCTS,
+  UPDATE_SUPPLIER_PRODUCTS,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -428,8 +430,36 @@ export const updateProductTrackingStatus = (
         });
 };
 
+export const requestProductBulkTracking = (products: { product_id: number }[]) => (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerID = sellerIDSelector();
+  const supplierDetails = supplierDetailsSelector(getState());
+  Axios.post(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplierDetails.supplier_id}/track/products`,
+    products
+  )
+    .then(json => {
+      console.log('api call succeeded! json.data', json.data);
+      dispatch(getSellerQuota());
+      dispatch(updateSupplierProducts(json.data));
+    })
+    .catch(err => {
+      if (err.response && err.response.status === 400) {
+        error(err.response.data.message);
+      }
+    });
+};
+
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
+  payload: data,
+});
+
+export const updateSupplierProducts = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCTS,
   payload: data,
 });
 
