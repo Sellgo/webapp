@@ -180,7 +180,7 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
         valueDecimals: '2',
       },
       legend: {
-        align: 'left',
+        align: 'center',
       },
       plotOptions: {
         column: {
