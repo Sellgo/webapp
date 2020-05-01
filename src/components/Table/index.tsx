@@ -41,7 +41,7 @@ export interface PaginatedTableProps {
   showProductFinderSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
   showFilter?: boolean;
-  checkedRows?: { [index: number]: boolean };
+  checkedRows?: CheckedRowDictionary;
   updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
   productRanges?: any;
   columnFilterBox?: boolean;
@@ -83,7 +83,7 @@ export interface GenericTableProps {
   count?: number;
   productTrackerPageNo?: any;
   showFilter?: boolean;
-  checkedRows?: { [index: number]: boolean };
+  checkedRows?: CheckedRowDictionary;
   updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
   productRanges?: any;
   columnFilterBox?: boolean;

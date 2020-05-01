@@ -6,7 +6,7 @@ import { CheckedRowDictionary } from './index';
 interface ProductCheckBoxHeaderProps {
   currentPage: number;
   currentPageRows: Array<{ [key: string]: any }>;
-  checkedRows: { [index: number]: boolean };
+  checkedRows: CheckedRowDictionary;
   updateCheckedRows: (checkedRows: CheckedRowDictionary) => void;
 }
 
