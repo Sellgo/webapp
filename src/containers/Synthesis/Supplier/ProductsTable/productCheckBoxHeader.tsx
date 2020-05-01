@@ -57,6 +57,9 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
       if (checkedRows[r.id]) products.push({ product_id: r.product_id });
     });
     requestProductBulkTracking(products);
+    updateCheckedRows({});
+    setChecked(false);
+    setOpenTrackingPopup(false);
   };
 
   return (
