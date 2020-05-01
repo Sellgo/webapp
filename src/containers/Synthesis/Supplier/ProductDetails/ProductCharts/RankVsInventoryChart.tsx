@@ -9,6 +9,7 @@ export default ({ productRanks, productInventories }: any) => {
       name: 'Rank',
       color: '#FD8373',
       data: productRanks,
+      zIndex: 2,
     },
     {
       yAxis: 1,
@@ -16,6 +17,7 @@ export default ({ productRanks, productInventories }: any) => {
       name: 'Inventory',
       color: '#4AD991',
       data: productInventories,
+      zIndex: 1,
     },
   ];
   const chartOptions = {
