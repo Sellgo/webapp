@@ -30,14 +30,15 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     updateCheckedRows({});
   }, [currentPage]);
 
-  useEffect(() => {
-    for (const k in checkedRows) {
-      if (checkedRows[k] && !openTrackingPopup) {
-        setOpenTrackingPopup(true);
-        break;
-      }
-    }
-  }, [checkedRows]);
+  // NOTE: this useEffect may result better UX, remove if not used later.
+  // useEffect(() => {
+  //   for (const k in checkedRows) {
+  //     if (checkedRows[k] && !openTrackingPopup) {
+  //       setOpenTrackingPopup(true);
+  //       break;
+  //     }
+  //   }
+  // }, [checkedRows]);
 
   const handleCheckBoxClick = () => {
     const newChecked = !checked;
@@ -56,6 +57,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     currentPageRows.forEach(r => {
       if (checkedRows[r.id]) products.push({ product_id: r.product_id });
     });
+    if (products.length === 0) return;
+
     requestProductBulkTracking(products);
     updateCheckedRows({});
     setChecked(false);
