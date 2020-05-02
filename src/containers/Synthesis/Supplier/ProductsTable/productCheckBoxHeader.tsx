@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox, Icon, Menu, Popup } from 'semantic-ui-react';
-import Track from '../../../../assets/images/fingerprint.svg';
+import Track from '../../../../assets/images/fingerprint-3.svg';
 import { CheckedRowDictionary } from './index';
 import { requestProductBulkTracking } from '../../../../actions/Suppliers';
 import { connect } from 'react-redux';
@@ -63,27 +63,36 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
   };
 
   return (
-    <>
-      <Checkbox checked={checked} onChange={handleCheckBoxClick} />
+    <div className="header-action-container">
+      <div className="header-checkbox-container">
+        <Checkbox className="product-checkbox" checked={checked} onChange={handleCheckBoxClick} />
+      </div>
       <Popup
         basic={true}
         on="click"
         className="tracking-header-popup"
-        trigger={<Icon link={true} className="ellipsis vertical" />}
+        position="bottom left"
+        trigger={<Icon link={true} className="ellipsis vertical checkbox-select" />}
         hideOnScroll={false}
-        style={{ padding: 0 }}
         onOpen={() => setOpenTrackingPopup(true)}
         onClose={() => setOpenTrackingPopup(false)}
         open={openTrackingPopup}
+        style={{
+          padding: 0,
+        }}
       >
-        <Menu fluid={true} vertical={true}>
+        <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="bulk-track" onClick={handleBulkTrackClick}>
-            <img src={Track} alt="Bulk Track" />
-            {`Bulk Track`}
+            <img
+              src={Track}
+              alt="Bulk Track"
+              className="bulk-track-button"
+              style={{ width: '15px' }}
+            />
           </Menu.Item>
         </Menu>
       </Popup>
-    </>
+    </div>
   );
 };
 

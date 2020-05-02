@@ -9,9 +9,7 @@ const ProductCheckBox = (props: any) => {
     onClick(e, newChecked, item.id);
   };
 
-  return (
-    <Checkbox className={'product-checkbox'} checked={checked} onChange={handleCheckBoxClick} />
-  );
+  return <Checkbox className="product-checkbox" checked={checked} onChange={handleCheckBoxClick} />;
 };
 
 export default ProductCheckBox;
