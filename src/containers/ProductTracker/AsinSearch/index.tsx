@@ -19,7 +19,7 @@ const AsinSearch = (props: Props) => {
   const { checkProduct, verifyingProductTracked, verifyingProduct } = props;
 
   const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput('');
-  const [searchDdetails, setSearchDetails] = useState('');
+  const [searchDetails, setSearchDetails] = useState('');
 
   const [selectedMarketPlace, setSelectedMarketPlace] = useState({
     key: 1,
@@ -67,7 +67,7 @@ const AsinSearch = (props: Props) => {
   }, [verifyingProduct]);
 
   const verifyProduct = () => {
-    const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))/');
+    const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))');
     const m = searchValue.match(regex);
     if (m) {
       setSearchDetails(m[1]);
@@ -112,7 +112,7 @@ const AsinSearch = (props: Props) => {
       <Confirm
         open={open}
         openModal={setOpen}
-        searchValue={searchDdetails}
+        searchValue={searchDetails}
         selectedMarketPlace={selectedMarketPlace}
         setSearch={setSearch}
       />
