@@ -195,6 +195,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     } else {
       checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
         data.checked;
+      checkedData[
+        checkedData.findIndex((element: any) => element.key === 'Select All')
+      ].value = false;
     }
     this.setState({ columnFilterData: [...checkedData] });
   };

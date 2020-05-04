@@ -17,6 +17,7 @@ import {
 import { updateProductTrackingStatus } from '../../actions/Suppliers';
 import { getSellerQuota } from '../../actions/Settings';
 import ProductSearch from '../../components/ProductSearch/productSearch';
+import AsinSearch from './AsinSearch';
 import { DEFAULT_PERIOD_VALUE } from '../../constants/Tracker';
 
 interface ProductTrackerProps {
@@ -178,11 +179,14 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
           <Grid className="product-tracker">
             <Grid.Row>
               <Grid.Column className="right-column">
-                <ProductSearch
-                  searchFilteredProduct={this.searchTrackedProduct}
-                  searchFilterValue={searchValue}
-                  setCurrentPage={setPageNumber}
-                />
+                <div className="ProductTracker__search">
+                  <ProductSearch
+                    searchFilteredProduct={this.searchTrackedProduct}
+                    searchFilterValue={searchValue}
+                    setCurrentPage={setPageNumber}
+                  />
+                  <AsinSearch />
+                </div>
                 <ProductTrackerTable
                   handleMenu={(id: any) => this.handleMenu(id)}
                   periodValue={this.state.periodValue}
