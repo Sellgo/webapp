@@ -51,6 +51,7 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'verifyingProduct', action.payload);
     }
     case IS_PRODUCT_TRACKED: {
+      console.log('IS_PRODUCT_TRACKED: ', action.payload);
       return setIn(state, 'verifyingProductTracked', action.payload);
     }
     case SET_PRODUCT_TRACKER_DETAILS: {

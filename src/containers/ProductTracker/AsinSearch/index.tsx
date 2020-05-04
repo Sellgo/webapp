@@ -23,8 +23,6 @@ const AsinSearch = (props: Props) => {
 
   const marketPlaceOptions = [
     { key: 1, text: 'United States', flag: 'us', value: 'ATVPDKIKX0DER' },
-    { key: 2, text: 'Japan', flag: 'jp', value: 'A1VC38T7YXB528' },
-    { key: 3, text: 'United Kingdom', flag: 'uk', value: 'A1F83G8C2ARO7P' },
   ];
 
   const [open, setOpen] = useState(false);
@@ -47,6 +45,7 @@ const AsinSearch = (props: Props) => {
     return warn(<Asin header={header} subheader={subHeader} />);
   };
   useEffect(() => {
+    console.log('verifyingProductTracked: ', verifyingProductTracked);
     if (searchValue && !verifyingProduct) {
       if (verifyingProductTracked.value === true && !verifyingProductTracked.productExist) {
         handleWarning(false);

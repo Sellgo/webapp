@@ -144,14 +144,15 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
   bodyFormData.set('asin', asin);
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/check`, bodyFormData)
     .then(json => {
+      console.log('json.status: ', json.data);
       if (json.status === 200) {
-        dispatch(verifyingProduct(false));
         dispatch(isProductTracked(json.data.is_tracked, true));
+        dispatch(verifyingProduct(false));
       }
     })
     .catch(() => {
-      dispatch(verifyingProduct(false));
       dispatch(isProductTracked(true, false));
+      dispatch(verifyingProduct(false));
     });
 };
 

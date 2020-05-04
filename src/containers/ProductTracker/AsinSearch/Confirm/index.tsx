@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Header, Divider, Grid, Select } from 'semantic-ui-react';
+import { Button, Modal, Header, Grid, Select } from 'semantic-ui-react';
 import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
 import { connect } from 'react-redux';
@@ -47,14 +47,12 @@ const Confirm = (props: Props) => {
     setSearch,
   } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
-  const [addProduct, setAddProduct] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(0);
 
   const trackProduct = () => {
     confirmTrackProduct(searchValue, selectedMarketPlace, selectedGroup, filterData.period);
     openModal(false);
     setOpenConfirm(!openConfirm);
-    setAddProduct(!addProduct);
     setSearch('');
   };
 
@@ -78,87 +76,54 @@ const Confirm = (props: Props) => {
     setSelectedGroup(data);
   };
 
-  if (addProduct) {
-    return (
-      <>
-        <Modal open={open && addProduct} className="Confirm__grouping-asin">
-          <Modal.Content className="Confirm__content">
-            <div>
-              <Header as="h4" icon>
-                ASIN: <span>{searchValue.toUpperCase()}</span>
-              </Header>
-            </div>
-            <Grid.Row columns={2}>
-              <Grid.Column>Select Group: </Grid.Column>
-              <Grid.Column>
-                <Select
-                  placeholder="Select Group"
-                  value={selectedGroup}
-                  options={countryOptions()}
-                  onChange={(e, data) => {
-                    handleGroupSelection(data.value);
-                  }}
-                />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row columns={2}>
-              <Grid.Column></Grid.Column>
-              <Grid.Column>
-                <div className="Confirm__btn">
-                  <Button
-                    content="Cancel"
-                    onClick={() => {
-                      openModal(false);
-                      setOpenConfirm(!openConfirm);
-                      setAddProduct(!addProduct);
-                      verifyProduct(false, false);
-                    }}
-                  />
-                  <Button
-                    icon
-                    labelPosition="left"
-                    onClick={() => {
-                      trackProduct();
-                    }}
-                  >
-                    <img src={TrackIconWhite} />
-                    Track Now
-                  </Button>
-                </div>
-              </Grid.Column>
-            </Grid.Row>
-          </Modal.Content>
-        </Modal>
-      </>
-    );
-  }
-
   return (
     <>
-      <Modal open={open && openConfirm} className="Confirm__add-product">
-        <Modal.Content>
+      <Modal open={open} className="Confirm__grouping-asin">
+        <Modal.Content className="Confirm__content">
           <div>
             <Header as="h4" icon>
-              <span>{searchValue.toUpperCase()}</span> isn't being tracked right now.
-              <Header.Subheader>Would you like to add it to product tracker?</Header.Subheader>
+              ASIN: <span>{searchValue.toUpperCase()}</span>
             </Header>
           </div>
+          <Grid.Row columns={2}>
+            <Grid.Column>Select Group: </Grid.Column>
+            <Grid.Column>
+              <Select
+                placeholder="Select Group"
+                value={selectedGroup}
+                options={countryOptions()}
+                onChange={(e, data) => {
+                  handleGroupSelection(data.value);
+                }}
+              />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={2}>
+            <Grid.Column></Grid.Column>
+            <Grid.Column>
+              <div className="Confirm__btn">
+                <Button
+                  content="Cancel"
+                  onClick={() => {
+                    openModal(false);
+                    setOpenConfirm(!openConfirm);
+                    verifyProduct(false, false);
+                  }}
+                />
+                <Button
+                  icon
+                  labelPosition="left"
+                  onClick={() => {
+                    trackProduct();
+                  }}
+                >
+                  <img src={TrackIconWhite} />
+                  Track Now
+                </Button>
+              </div>
+            </Grid.Column>
+          </Grid.Row>
         </Modal.Content>
-        <Divider clearing />
-        <div className="Confirm__btn">
-          <Button content="Cancel" onClick={() => openModal(false)} />
-          <Button
-            icon
-            onClick={() => {
-              setOpenConfirm(!openConfirm);
-              setAddProduct(!addProduct);
-            }}
-            labelPosition="left"
-          >
-            <img src={TrackIconWhite} />
-            Track Now
-          </Button>
-        </div>
       </Modal>
     </>
   );
