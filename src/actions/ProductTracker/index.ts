@@ -181,7 +181,7 @@ export const confirmTrackProduct = (
       }
     })
     .catch(() => {
-      error('The ASIN was not found on Amazon');
+      error('Unable to Add Product');
       dispatch(isLoadingTrackerProducts(false));
     });
 };

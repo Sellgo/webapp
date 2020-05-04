@@ -19,6 +19,8 @@ const AsinSearch = (props: Props) => {
   const { checkProduct, verifyingProductTracked, verifyingProduct } = props;
 
   const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput('');
+  const [searchDdetails, setSearchDetails] = useState('');
+
   const [selectedMarketPlace, setSelectedMarketPlace] = useState({
     key: 1,
     text: `United States `,
@@ -65,7 +67,14 @@ const AsinSearch = (props: Props) => {
   }, [verifyingProduct]);
 
   const verifyProduct = () => {
-    checkProduct(searchValue);
+    const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))/');
+    const m = searchValue.match(regex);
+    if (m) {
+      setSearchDetails(m[1]);
+      checkProduct(m[1]);
+    } else {
+      checkProduct(searchValue);
+    }
   };
 
   const trigger = (
@@ -77,7 +86,7 @@ const AsinSearch = (props: Props) => {
   return (
     <Grid.Row className="AsinSearch__row">
       <Menu.Menu className="AsinSearch__menu">
-        <Input placeholder="Insert ASIN " value={searchValue} {...bindSearch} />
+        <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} />
         <Dropdown className="selection" openOnFocus trigger={trigger}>
           <Dropdown.Menu>
             {marketPlaceOptions.map((option, key) => {
@@ -102,7 +111,7 @@ const AsinSearch = (props: Props) => {
       <Confirm
         open={open}
         openModal={setOpen}
-        searchValue={searchValue}
+        searchValue={searchDdetails}
         selectedMarketPlace={selectedMarketPlace}
         setSearch={setSearch}
       />
