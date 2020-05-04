@@ -22,10 +22,10 @@ const ProductSearch = (props: any) => {
           searchFilteredProduct(searchValue);
         },
       }}
-      onKeyPress={(e: any) => {
+      onKeyUp={(e: any) => {
         if (e.key === 'Enter') {
           setCurrentPage(1);
-          searchFilteredProduct(searchValue);
+          searchFilteredProduct(e.target.value);
         }
       }}
       {...bindSearch}
