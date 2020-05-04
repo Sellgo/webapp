@@ -22,6 +22,12 @@ export default ({ productRanks, productInventories }: any) => {
     },
   ];
 
+  const rankDataPoints = data.map((series: any) => series.data)[0].map((item: any) => item[1]);
+  const inventoryDataPoints = data.map((series: any) => series.data)[1].map((item: any) => item[1]);
+  const rankYMin = Math.min(...rankDataPoints);
+  const rankYMax = Math.max(...rankDataPoints);
+  const inventoryYMin = Math.min(...inventoryDataPoints);
+  const inventoryYMax = Math.max(...inventoryDataPoints, 0);
   const firstYAxisIndex = data.findIndex((element: any) => element.yAxis === 0);
   const secondYAxisIndex = data.findIndex((element: any) => element.yAxis === 1);
 
@@ -43,7 +49,9 @@ export default ({ productRanks, productInventories }: any) => {
     yAxis: [
       {
         // Primary yAxis
-        min: 0,
+        // min: 0,
+        min: rankYMin !== Infinity && rankYMin > 0 ? rankYMin : 0,
+        max: rankYMax !== -Infinity ? rankYMax : null,
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         lineWidth: 2,
@@ -57,7 +65,10 @@ export default ({ productRanks, productInventories }: any) => {
       },
       {
         // Secondary yAxis
-        min: 0,
+        // min: 0,
+        min: inventoryYMin !== Infinity && inventoryYMin > 0 ? inventoryYMin : 0,
+        max: inventoryYMax !== -Infinity ? inventoryYMax : null,
+        allowDecimals: false,
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         lineWidth: 2,
