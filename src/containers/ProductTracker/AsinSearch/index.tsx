@@ -19,10 +19,15 @@ const AsinSearch = (props: Props) => {
   const { checkProduct, verifyingProductTracked, verifyingProduct } = props;
 
   const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput('');
-  const [selectedMarketPlace, setSelectedMarketPlace] = useState('ATVPDKIKX0DER');
+  const [selectedMarketPlace, setSelectedMarketPlace] = useState({
+    key: 1,
+    text: `United States `,
+    flag: 'us',
+    value: 'ATVPDKIKX0DER',
+  });
 
   const marketPlaceOptions = [
-    { key: 1, text: 'United States', flag: 'us', value: 'ATVPDKIKX0DER' },
+    { key: 1, text: `United States `, flag: 'us', value: 'ATVPDKIKX0DER' },
   ];
 
   const [open, setOpen] = useState(false);
@@ -64,20 +69,33 @@ const AsinSearch = (props: Props) => {
     checkProduct(searchValue);
   };
 
+  const trigger = (
+    <span className="AsinSearch__menu__label">
+      {selectedMarketPlace.text} <i className={selectedMarketPlace.flag + ' flag'} />
+    </span>
+  );
+
   return (
     <Grid.Row className="AsinSearch__row">
       <Menu.Menu className="AsinSearch__menu">
         <Input placeholder="Insert ASIN " value={searchValue} {...bindSearch} />
-        <Dropdown
-          placeholder="Select Marketplace"
-          options={marketPlaceOptions}
-          openOnFocus
-          selection
-          value={selectedMarketPlace}
-          onChange={(e, data) => {
-            handleMarketSelection(data.value);
-          }}
-        />
+        <Dropdown className="selection" openOnFocus trigger={trigger}>
+          <Dropdown.Menu>
+            {marketPlaceOptions.map((option, key) => {
+              return (
+                <Dropdown.Item
+                  key={key}
+                  text={option.text}
+                  flag={option.flag}
+                  value={option.value}
+                  onClick={() => {
+                    handleMarketSelection(option);
+                  }}
+                ></Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
       </Menu.Menu>
       <Button basic onClick={() => verifyProduct()}>
         Add Product
