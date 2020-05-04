@@ -18,6 +18,7 @@ import { updateProductTrackingStatus } from '../../actions/Suppliers';
 import { getSellerQuota } from '../../actions/Settings';
 import ProductSearch from '../../components/ProductSearch/productSearch';
 import AsinSearch from './AsinSearch';
+import { DEFAULT_PERIOD_VALUE } from '../../constants/Tracker';
 
 interface ProductTrackerProps {
   setFilterSearch: (value: string) => void;
@@ -52,7 +53,7 @@ const filterStorage = JSON.parse(
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
     searchValue: '',
-    periodValue: filterStorage ? filterStorage.period : 1,
+    periodValue: filterStorage ? filterStorage.period : DEFAULT_PERIOD_VALUE,
     productTrackID: null,
   };
 

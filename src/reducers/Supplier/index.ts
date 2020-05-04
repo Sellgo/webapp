@@ -9,6 +9,7 @@ import {
   SET_SUPPLIER_DETAILS,
   RESET_SUPPLIER,
   UPDATE_SUPPLIER_PRODUCT,
+  UPDATE_PROFIT_FINDER_PRODUCTS,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
   UPDATE_SUPPLIER_FILTER_RANGES,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
@@ -72,6 +73,10 @@ export default (state = initialState, action: AnyAction) => {
         return checkProduct;
       });
       return setIn(state, 'products', products);
+    }
+    case UPDATE_PROFIT_FINDER_PRODUCTS: {
+      const { filteredProducts } = action.payload;
+      return setIn(state, 'filteredProducts', filteredProducts);
     }
     case SET_SUPPLIER_PRODUCTS_TRACK_DATA: {
       return setIn(state, 'trackData', action.payload);
