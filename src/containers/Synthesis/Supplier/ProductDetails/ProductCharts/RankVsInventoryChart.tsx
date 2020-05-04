@@ -28,7 +28,6 @@ export default ({ productRanks, productInventories }: any) => {
   const rankYMax = Math.max(...rankDataPoints);
   const inventoryYMin = Math.min(...inventoryDataPoints);
   const inventoryYMax = Math.max(...inventoryDataPoints, 0);
-  console.log(rankYMin, rankYMax, inventoryYMin, inventoryYMax);
   const firstYAxisIndex = data.findIndex((element: any) => element.yAxis === 0);
   const secondYAxisIndex = data.findIndex((element: any) => element.yAxis === 1);
 
