@@ -447,7 +447,8 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
       dispatch(updateSupplierProducts(json.data));
     })
     .catch(err => {
-      if (err.response && err.response.status === 400) {
+      console.log('err.response', err.response);
+      if (err.response && (err.response.status !== 200 || err.response.status !== 201)) {
         error(err.response.data.message);
       }
     });
