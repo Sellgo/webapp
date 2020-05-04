@@ -84,11 +84,9 @@ export const fetchSupplierProductDetailChartReview = (productID: string) => asyn
 export const fetchSupplierProductDetailChartKPI = (supplierID: any, productID: string) => async (
   dispatch: any
 ) => {
-  const sellerID = sellerIDSelector();
-  const response = await Axios.get(
-    AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/history/kpi`
-  );
+  const bodyFormData = new FormData();
+  bodyFormData.set('supplier_id', supplierID);
+  const response = await Axios.get(AppConfig.BASE_URL_API + `products/${productID}/history/kpi`);
   if (response.data) {
     dispatch(setSupplierProductDetailChartKPI(response.data));
   }
