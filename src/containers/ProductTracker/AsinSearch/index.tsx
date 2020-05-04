@@ -50,7 +50,6 @@ const AsinSearch = (props: Props) => {
     return warn(<Asin header={header} subheader={subHeader} />);
   };
   useEffect(() => {
-    console.log('verifyingProductTracked: ', verifyingProductTracked);
     if (searchValue && !verifyingProduct) {
       if (verifyingProductTracked.value === true && !verifyingProductTracked.productExist) {
         handleWarning(false);
