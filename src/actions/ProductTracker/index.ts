@@ -137,22 +137,19 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
     });
 };
 
-export const checkMWSProduct = (asin: string) => (dispatch: any) => {
+export const checkTrackProduct = (asin: string) => (dispatch: any) => {
   dispatch(verifyingProduct(true));
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.set('asin', asin);
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/check`, bodyFormData)
     .then(json => {
-      console.log('json: ', json);
       if (json.status === 200) {
-        console.log('response 200: ', json.data.is_tracked);
         dispatch(verifyingProduct(false));
         dispatch(isProductTracked(json.data.is_tracked, true));
       }
     })
-    .catch((e: any) => {
-      console.log('catch: ', JSON.stringify(e.message));
+    .catch(() => {
       dispatch(verifyingProduct(false));
       dispatch(isProductTracked(true, false));
     });
@@ -175,7 +172,6 @@ export const confirmTrackProduct = (
     bodyFormData
   )
     .then(json => {
-      console.log('json: ', json);
       if (json.status === 200) {
         success(`Product ${asin.toUpperCase()} Successfully Tracked`);
         setTimeout(() => {
@@ -184,8 +180,7 @@ export const confirmTrackProduct = (
         }, 1000);
       }
     })
-    .catch((e: any) => {
-      console.log('catch: ', JSON.stringify(e.message));
+    .catch(() => {
       error('Unable to Add Product');
       dispatch(isLoadingTrackerProducts(false));
     });

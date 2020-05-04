@@ -5,7 +5,7 @@ import { useInput } from '../../../hooks';
 import './index.scss';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { checkMWSProduct } from '../../../actions/ProductTracker';
+import { checkTrackProduct } from '../../../actions/ProductTracker';
 import { Asin } from '../../../components/ToastMessages';
 import { warn, dismiss } from '../../../utils/notifications';
 
@@ -100,7 +100,7 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  checkProduct: (asin: string) => checkMWSProduct(asin),
+  checkProduct: (asin: string) => checkTrackProduct(asin),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AsinSearch);

@@ -12,9 +12,6 @@ const ProductSearch = (props: any) => {
     setSearch(searchFilterValue);
   }, [searchFilterValue]);
 
-  // console.log('searchFilterValue');
-  // console.log(searchFilterValue);
-  // console.log('searchFilterValue');
   return (
     <Input
       className={_.isEmpty(searchFilterValue) ? 'product-search' : 'product-search--active '}
