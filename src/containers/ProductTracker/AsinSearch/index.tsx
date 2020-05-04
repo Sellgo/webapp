@@ -73,6 +73,7 @@ const AsinSearch = (props: Props) => {
       setSearchDetails(m[1]);
       checkProduct(m[1]);
     } else {
+      setSearchDetails(searchValue);
       checkProduct(searchValue);
     }
   };
