@@ -71,6 +71,7 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
         <Checkbox className="product-checkbox" checked={checked} onChange={handleCheckBoxClick} />
       </div>
       <Popup
+        pinned
         basic={true}
         on="click"
         className="tracking-header-popup"

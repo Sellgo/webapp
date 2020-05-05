@@ -168,6 +168,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: '',
       sortable: false,
+      dataKey: 'checkboxes',
       show: true,
       check: true,
       render: this.renderCheckBox,

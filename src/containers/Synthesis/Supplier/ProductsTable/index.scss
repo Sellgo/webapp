@@ -167,12 +167,13 @@ $new_black: #707070;
     }
 
     .product-checkbox {
-      border: 1px solid #d4d4d5;
+      border-color: #dededf !important;
       border-radius: 4px;
       opacity: 1;
 
       input:checked ~ .box::before,
       input:checked ~ label::before {
+        border-color: #dededf;
         background-color: #313a4c;
       }
 
@@ -241,6 +242,15 @@ $new_black: #707070;
             width: 95px;
           }
 
+          &.undefined {
+            padding-left: 37px;
+          }
+
+          &.checkboxes {
+            padding-left: 16px;
+            padding-right: 0;
+          }
+
           &.sales-est,
           &.monthly-revenue {
             white-space: pre;
@@ -253,10 +263,13 @@ $new_black: #707070;
           .header-action-container {
             display: flex;
             flex-direction: row;
+            justify-content: center;
           }
 
           .header-checkbox-container {
-            display: inline;
+            display: flex;
+            align-items: center;
+            margin-right: 5px;
           }
 
           i {
@@ -264,9 +277,10 @@ $new_black: #707070;
           }
 
           .checkbox-select {
-            display: inline;
-            padding-left: 7px;
+            display: inline-block;
             color: #a2a2a2;
+            height: 100%;
+            font-size: 14px;
           }
 
           .tracking-header-popup {
@@ -294,7 +308,6 @@ $new_black: #707070;
           border-top-left-radius: 10px;
           border-bottom-left-radius: 10px;
           border-left: 1px solid rgba(34, 36, 38, 0.3);
-          padding-left: 16px;
         }
 
         th:last-child {
@@ -309,6 +322,18 @@ $new_black: #707070;
       tr {
         td.table-cell {
           width: 95px;
+
+          &.undefined {
+            padding-left: 0;
+          }
+
+          &.checkboxes {
+            .product-checkbox {
+              position: relative;
+              left: -4px;
+              top: 3px;
+            }
+          }
         }
       }
     }
