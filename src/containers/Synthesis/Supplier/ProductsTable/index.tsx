@@ -9,6 +9,7 @@ import {
   updateProductTrackingStatus,
   setSupplierSinglePageItemsCount,
   searchSupplierProducts,
+  updateProfitFinderProducts,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -38,6 +39,7 @@ interface ProductsTableProps {
   openProductDetailModal: (product?: Product) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
   searchProducts: (value: string, filterData: any) => void;
+  updateProfitFinderProducts: (data: any) => void;
 }
 
 interface ProductsTableState {
@@ -261,6 +263,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       singlePageItemsCount,
       setSinglePageItemsCount,
       filterRanges,
+      updateProfitFinderProducts,
     } = this.props;
     const { searchValue, productRanges } = this.state;
     return (
@@ -287,6 +290,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             searchFilterValue={searchValue}
             showProductFinderSearch={true}
             searchFilteredProduct={this.searchFilteredProduct}
+            updateProfitFinderProducts={updateProfitFinderProducts}
             singlePageItemsCount={singlePageItemsCount}
             setSinglePageItemsCount={setSinglePageItemsCount}
             name={'products'}
@@ -331,6 +335,7 @@ const mapDispatchToProps = {
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
+  updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
