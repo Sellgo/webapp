@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Product } from '../../../../../interfaces/Product';
 import { renderToString } from 'react-dom/server';
-import { Icon, Grid, Image } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import Chart from '../../../../../components/Chart/Chart';
 
 interface RevenueChartProps {
@@ -43,7 +43,6 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
     const amazon_urls = products.map(e => e.amazon_url);
     const upcs = products.map(e => e.upc);
     const asins = products.map(e => e.asin);
-    const image_urls = products.map(e => e.image_url);
     const margins = products.map(e => e.margin);
 
     const data = [
@@ -84,43 +83,20 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
     const tooltipPointFormatter = function(this: Highcharts.Point): string {
       const x = this.x;
       const productTitle = this.category;
-      return renderToString(
-        <div style={{ width: '500px' }}>
-          <Grid columns={2} verticalAlign="middle">
-            <Grid.Column width={6} textAlign="center" style={{ padding: '5px 0 0 0' }}>
-              <Image
-                src={
-                  image_urls && image_urls[x] !== null
-                    ? image_urls[x]
-                    : 'http://localhost:3000/images/intro.png'
-                }
-                centered
-                style={{ display: 'inline-block' }}
-              />
-              <div style={{ color: 'grey', fontSize: '0.9em' }}>
-                ASIN: {asins[x] ? asins[x] : 'N/A'}
-              </div>
-              <div style={{ color: 'grey', fontSize: '0.9em' }}>
-                UPC: {upcs[x] ? upcs[x] : 'N/A'}
-              </div>
-            </Grid.Column>
-            <Grid.Column style={{ padding: 0 }}>
-              <div style={{ width: '312.5px', whiteSpace: 'normal' }}>
-                <h4>{productTitle}</h4>
-              </div>
-              {data.map((series: any, index: number) => {
-                return (
-                  <div key={index}>
-                    {series.name}: {series.data[x]}
-                  </div>
-                );
-              })}
-              <div>ROI(%): {roi[x] ? roi[x] : 'N/A'}</div>
-              <div>Margin(%): {margins[x] ? margins[x] : 'N/A'}</div>
-            </Grid.Column>
-          </Grid>
-        </div>
-      );
+      const newEmptyLine = '<span style="opacity:0">_</span><br/><br/>';
+      let tooltipContent =
+        `<span style="font-family:'Work sans'"/>` +
+        `<span style="font-weight:bold;font-size:1.3em;white-space:normal">${productTitle}</span><br/>` +
+        `<span style="color:grey;font-size:0.9em">ASIN: ${asins[x] ? asins[x] : 'N/A'}, ` +
+        `UPC: ${upcs[x] ? upcs[x] : 'N/A'}</span><br/>`;
+      tooltipContent += newEmptyLine;
+      tooltipContent += data
+        .map((series: any) => `${series.name}: ${series.data[x]}<br/>` + newEmptyLine)
+        .join('');
+      tooltipContent += `ROI(%): ${roi[x] ? roi[x] : 'N/A'}<br/>` + newEmptyLine;
+      tooltipContent += `Margin(%): ${margins[x] ? margins[x] : 'N/A'}`;
+      tooltipContent += `<span/>`;
+      return tooltipContent;
     };
 
     const chartOptions = {
@@ -162,7 +138,6 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
         },
       },
       tooltip: {
-        useHTML: true,
         headerFormat: null, //remove default format
         pointFormatter: tooltipPointFormatter,
         backgroundColor: '#ffffff',
