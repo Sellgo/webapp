@@ -50,7 +50,8 @@ const Confirm = (props: Props) => {
   const [selectedGroup, setSelectedGroup] = useState(0);
 
   const trackProduct = () => {
-    confirmTrackProduct(searchValue, selectedMarketPlace.value, selectedGroup, filterData.period);
+    const period = _.isEmpty(filterData) ? 7 : filterData.period;
+    confirmTrackProduct(searchValue, selectedMarketPlace.value, selectedGroup, period);
     openModal(false);
     setOpenConfirm(!openConfirm);
     setSearch('');
