@@ -10,6 +10,7 @@ import {
 } from '../../../../actions/ProductTracker';
 import get from 'lodash/get';
 import _ from 'lodash';
+import { DEFAULT_PERIOD } from '../../../../constants/Tracker';
 
 interface GroupOption {
   key: number;
@@ -50,7 +51,7 @@ const Confirm = (props: Props) => {
   const [selectedGroup, setSelectedGroup] = useState(0);
 
   const trackProduct = () => {
-    const period = _.isEmpty(filterData) ? 1 : filterData.period;
+    const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
     confirmTrackProduct(searchValue, selectedMarketPlace.value, selectedGroup, period);
     openModal(false);
     setOpenConfirm(!openConfirm);
