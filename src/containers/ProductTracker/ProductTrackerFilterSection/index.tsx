@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
-import { findMinMax, filterProductsByGroupId } from '../../../constants/Tracker';
+import { findMinMax, filterProductsByGroupId, DEFAULT_PERIOD } from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
@@ -58,7 +58,7 @@ function ProductTrackerFilterSection(props: Props) {
     sellerID: sellerID,
     reviews: [],
     removeNegative: [],
-    period: 1,
+    period: DEFAULT_PERIOD,
     avg_price: filteredRanges.avg_price,
     avg_profit: filteredRanges.avg_profit,
     avg_margin: filteredRanges.avg_margin,
