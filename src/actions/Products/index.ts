@@ -132,15 +132,18 @@ export const fetchSupplierProductDetailChartKPI = (
   period?: number
 ) => async (dispatch: any) => {
   let queryString = '?';
+
   if (period) {
     queryString += 'period=' + period;
   }
-  const sellerID = sellerIDSelector();
+
+  if (supplierID) {
+    queryString += 'supplier_id' + supplierID;
+  }
 
   dispatch(setFetchingKpi(true));
-  const response = await Axios.get(
-    AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/history/kpi${queryString}`
+  const response = await Axios.post(
+    AppConfig.BASE_URL_API + `products/${productID}/history/kpi${queryString}`
   );
   dispatch(setFetchingKpi(false));
 
