@@ -34,6 +34,7 @@ export const verifyingProduct = (value: boolean) => ({
   type: VERIFYING_PRODUCT,
   payload: value,
 });
+
 export const isProductTracked = (value: boolean, productExist: boolean) => ({
   type: IS_PRODUCT_TRACKED,
   payload: {
