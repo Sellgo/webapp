@@ -65,6 +65,10 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     setOpenTrackingPopup(false);
   };
 
+  const handleRefreshClick = () => {
+    console.log('Refresh Click');
+  };
+
   return (
     <div className="header-action-container">
       <div className="header-checkbox-container">
@@ -86,13 +90,15 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
         }}
       >
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
-          <Menu.Item className="bulk-track" onClick={handleBulkTrackClick}>
+          <Menu.Item className="checkbox-menu-item">
             <img
               src={Track}
               alt="Bulk Track"
               className="bulk-track-button"
               style={{ width: '15px' }}
+              onClick={handleBulkTrackClick}
             />
+            <Icon name="sync alternate" onClick={handleRefreshClick} />
           </Menu.Item>
         </Menu>
       </Popup>
