@@ -8,6 +8,10 @@ body {
   font-weight: 400;
   margin: 0;
   padding: 0;
+
+  #root {
+    overflow: hidden;
+  }
 }
 
 body h1,

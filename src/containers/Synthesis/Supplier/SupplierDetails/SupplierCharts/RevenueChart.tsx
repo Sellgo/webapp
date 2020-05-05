@@ -1,49 +1,25 @@
 import React, { Component } from 'react';
 import { Product } from '../../../../../interfaces/Product';
 import { renderToString } from 'react-dom/server';
-import { Icon, Grid, Image } from 'semantic-ui-react';
+import { Grid, Image } from 'semantic-ui-react';
 import Chart from '../../../../../components/Chart/Chart';
 
 interface RevenueChartProps {
   products: Product[];
 }
 
-interface RevenueChartState {
-  isLabelsVisible: boolean;
-}
-
-export const labelVisibilityColumnWidthValue = 30;
-
-class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
-  constructor(props: RevenueChartProps) {
-    super(props);
-    this.state = {
-      isLabelsVisible: false,
-    };
-  }
-
-  handleChartRender = (e: any) => {
-    const { isLabelsVisible } = this.state;
-    const areCurrentlyVisible =
-      e.target.series[0].columnMetrics.width > labelVisibilityColumnWidthValue;
-    if (areCurrentlyVisible !== isLabelsVisible) {
-      this.setState({ isLabelsVisible: areCurrentlyVisible });
-    }
-  };
-
+class RevenueChart extends Component<RevenueChartProps> {
   render() {
     const { products } = this.props;
-    const { isLabelsVisible } = this.state;
 
     const productSKUs = products.map(e => e.title);
     const profit = products.map(e => parseFloat(e.profit));
     const product_cost = products.map(e => parseFloat(e.product_cost));
+    const image_urls = products.map(e => e.image_url);
     const fees = products.map(e => parseFloat(e.fees));
     const roi = products.map(e => parseFloat(e.roi));
-    const amazon_urls = products.map(e => e.amazon_url);
     const upcs = products.map(e => e.upc);
     const asins = products.map(e => e.asin);
-    const image_urls = products.map(e => e.image_url);
     const margins = products.map(e => e.margin);
 
     const data = [
@@ -51,35 +27,6 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
       { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
       { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
     ];
-
-    const xAxisLabelsFormatter = function(
-      this: Highcharts.AxisLabelsFormatterContextObject
-    ): string {
-      return isLabelsVisible && amazon_urls && amazon_urls[this.pos]
-        ? renderToString(
-            <a
-              style={{ cursor: 'pointer' }}
-              className="img-pos"
-              href={amazon_urls[this.pos]}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon name="amazon" size={'large'} style={{ color: 'black' }} />
-            </a>
-          )
-        : '';
-    };
-
-    const stackLabelFormatter = function(this: Highcharts.StackItemObject): string {
-      const labelValue = roi[this.x];
-      return !this.isNegative && isLabelsVisible
-        ? `ROI:${Number(String(labelValue).replace(/,/g, '')).toFixed()} %`
-        : '';
-    };
-
-    const dataLabelsFormatter = function(this: Highcharts.PointLabelObject): string {
-      return isLabelsVisible ? String(this.y) : '';
-    };
 
     const tooltipPointFormatter = function(this: Highcharts.Point): string {
       const x = this.x;
@@ -134,31 +81,15 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
         zoomType: 'x',
         animation: {
           enabled: true,
-          duration: 1000,
-        },
-        events: {
-          render: this.handleChartRender.bind(this),
         },
       },
       xAxis: {
         categories: productSKUs,
-        labels: {
-          useHTML: true,
-          formatter: xAxisLabelsFormatter,
-        },
+        labels: false,
       },
       yAxis: {
         title: {
           text: 'Sub-Revenue($)',
-        },
-        stackLabels: {
-          formatter: stackLabelFormatter,
-          enabled: true,
-          allowOverlap: true,
-          alignValue: 'center',
-          style: {
-            color: 'black',
-          },
         },
       },
       tooltip: {
@@ -166,7 +97,6 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
         headerFormat: null, //remove default format
         pointFormatter: tooltipPointFormatter,
         backgroundColor: '#ffffff',
-        animation: true,
         borderWidth: 0.1,
         borderRadius: 3,
         distance: 100,
@@ -177,7 +107,6 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
         style: {
           padding: 0,
         },
-        valueDecimals: '2',
       },
       legend: {
         align: 'center',
@@ -187,14 +116,9 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
           stacking: 'normal',
           groupPadding: 0.05,
           pointPadding: 0.01,
+          cropThreshold: 5,
           borderWidth: 0.1,
           borderRadius: 3,
-          dataLabels: {
-            formatter: dataLabelsFormatter,
-            enabled: true,
-            borderRadius: 2,
-            allowOverlap: true,
-          },
           cursor: 'pointer',
         },
         series: {
