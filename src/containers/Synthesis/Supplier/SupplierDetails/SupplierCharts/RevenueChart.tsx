@@ -86,7 +86,7 @@ class RevenueChart extends Component<RevenueChartProps, RevenueChartState> {
       const newEmptyLine = '<span style="opacity:0">_</span><br/><br/>';
       let tooltipContent =
         `<span style="font-family:'Work sans'"/>` +
-        `<span style="font-weight:bold;font-size:1.3em;white-space:normal">${productTitle}</span><br/>` +
+        `<span style="color:black;font-weight:bold;font-size:1.1em;white-space:normal">${productTitle}</span><br/>` +
         `<span style="color:grey;font-size:0.9em">ASIN: ${asins[x] ? asins[x] : 'N/A'}, ` +
         `UPC: ${upcs[x] ? upcs[x] : 'N/A'}</span><br/>`;
       tooltipContent += newEmptyLine;
