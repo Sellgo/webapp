@@ -49,7 +49,6 @@ export default ({ productRanks, productInventories }: any) => {
     yAxis: [
       {
         // Primary yAxis
-        // min: 0,
         min: rankYMin !== Infinity && rankYMin > 0 ? rankYMin : 0,
         max: rankYMax !== -Infinity ? rankYMax : null,
         gridLineWidth: 0,
@@ -65,7 +64,6 @@ export default ({ productRanks, productInventories }: any) => {
       },
       {
         // Secondary yAxis
-        // min: 0,
         min: inventoryYMin !== Infinity && inventoryYMin > 0 ? inventoryYMin : 0,
         max: inventoryYMax !== -Infinity ? inventoryYMax : null,
         allowDecimals: false,

@@ -9,7 +9,7 @@ import {
   fetchSupplierProductDetailChartReview,
 } from '../../../../../actions/Products';
 import { Loader, Form, Divider, Grid } from 'semantic-ui-react';
-import { DEFAULT_PERIOD_VALUE } from '../../../../../constants/Tracker';
+import { DEFAULT_PERIOD } from '../../../../../constants/Tracker';
 import {
   isFetchingRankSelector,
   isFetchingPriceSelector,
@@ -54,7 +54,7 @@ class ProductCharts extends Component<ProductChartsProps> {
     } = this.props;
     const period =
       (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
-      DEFAULT_PERIOD_VALUE;
+      DEFAULT_PERIOD;
     fetchProductDetailChartRank(product.product_id, period);
     fetchProductDetailChartPrice(product.product_id, period);
     fetchProductDetailChartInventory(product.product_id, period);

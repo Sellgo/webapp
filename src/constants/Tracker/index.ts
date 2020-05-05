@@ -16,7 +16,17 @@ export const SET_FILTER_SEARCH = 'SET_FILTER_SEARCH';
 export const IS_PRODUCT_TRACKED = 'IS_PRODUCT_TRACKED';
 export const VERIFYING_PRODUCT = 'VERIFYING_PRODUCT';
 
-export const DEFAULT_PERIOD_VALUE = 1;
+/*
+  IMPORTANT: USE ONLY THE GIVEN VALUE BELOW IF CHANGING DEFAULT PERIOD 
+
+  Today: “1”
+  From last week: “7”
+  From last month: “30”
+  From last 3 months: “90”
+  From last year: “365”
+
+*/
+export const DEFAULT_PERIOD = 1;
 
 export const filterKeys: any = [
   // Basic KPI
