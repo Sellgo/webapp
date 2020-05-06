@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox, Icon, Menu, Popup } from 'semantic-ui-react';
-import Track from '../../../../assets/images/fingerprint-3.svg';
 import { CheckedRowDictionary } from './index';
 import { requestProductBulkTracking } from '../../../../actions/Suppliers';
 import { connect } from 'react-redux';
@@ -91,13 +90,7 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
       >
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="checkbox-menu-item">
-            <img
-              src={Track}
-              alt="Bulk Track"
-              className="bulk-track-button"
-              style={{ width: '15px' }}
-              onClick={handleBulkTrackClick}
-            />
+            <i className="fa fa-fingerprint" onClick={handleBulkTrackClick} />
             <Icon name="sync alternate" onClick={handleRefreshClick} />
           </Menu.Item>
         </Menu>
