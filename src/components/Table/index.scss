@@ -15,21 +15,36 @@
       width: 480px;
 
       input {
+        border: 0.5px solid #a2a2a2 !important;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
       }
 
       button {
+        border-left: none !important;
+        border-right: 0.5px solid #a2a2a2 !important;
+        border-top: 0.5px solid #a2a2a2 !important;
+        border-bottom: 0.5px solid #a2a2a2 !important;
         background-color: #349af8;
-        border-top-right-radius: 10px !important;
-        border-bottom-right-radius: 10px !important;
+        border-top-right-radius: 15px !important;
+        border-bottom-right-radius: 15px !important;
         color: white;
       }
     }
 
-    .product-search.active {
+    .product-search--active {
+      height: 100%;
+      width: 480px;
+
       input {
-        background: #bad9ff;
+        border: 0.5px solid #a2a2a2 !important;
+      }
+
+      button {
+        border-left: none !important;
+        border-right: 0.5px solid #a2a2a2 !important;
+        border-top: 0.5px solid #a2a2a2 !important;
+        border-bottom: 0.5px solid #a2a2a2 !important;
       }
     }
   }

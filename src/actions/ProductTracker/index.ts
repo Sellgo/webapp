@@ -19,6 +19,8 @@ import {
   REMOVE_PRODUCTS_IN_GROUP,
   FILTER_TRACKED_PRODUCTS,
   SET_FILTER_SEARCH,
+  IS_PRODUCT_TRACKED,
+  VERIFYING_PRODUCT,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota } from '../Settings';
@@ -26,6 +28,19 @@ import { getSellerQuota } from '../Settings';
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
   payload: value,
+});
+
+export const verifyingProduct = (value: boolean) => ({
+  type: VERIFYING_PRODUCT,
+  payload: value,
+});
+
+export const isProductTracked = (value: boolean, productExist: boolean) => ({
+  type: IS_PRODUCT_TRACKED,
+  payload: {
+    value: value,
+    productExist: productExist,
+  },
 });
 
 export const setSupplierProductTrackerDetails = (product: ProductTrackerDetails) => ({
@@ -113,13 +128,62 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
     .then(json => {
       if (json.status === 201) {
         const newGroup = json.data;
-        success(`Tracker group successfully created!`);
         dispatch(addProductTrackGroup(newGroup));
         dispatch(setMenuItem(newGroup.id));
+        success(`Tracker group successfully created!`);
       }
     })
     .catch(() => {
       error(`Failed to create new group`);
+    });
+};
+
+export const checkTrackProduct = (asin: string) => (dispatch: any) => {
+  dispatch(verifyingProduct(true));
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('asin', asin);
+  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/check`, bodyFormData)
+    .then(json => {
+      if (json.status === 200) {
+        dispatch(isProductTracked(json.data.is_tracked, true));
+        dispatch(verifyingProduct(false));
+      }
+    })
+    .catch(() => {
+      dispatch(isProductTracked(true, false));
+      dispatch(verifyingProduct(false));
+    });
+};
+
+export const confirmTrackProduct = (
+  asin: string,
+  marketPlace: string,
+  groupID: number,
+  period: number
+) => (dispatch: any) => {
+  dispatch(isLoadingTrackerProducts(true));
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('product_track_group_id', groupID.toString());
+  bodyFormData.set('asin', asin);
+  bodyFormData.set('marketplace', marketPlace.toString());
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/confirm`,
+    bodyFormData
+  )
+    .then(json => {
+      if (json.status === 200) {
+        success(`Product ${asin.toUpperCase()} Successfully Tracked`);
+        setTimeout(() => {
+          dispatch(fetchAllSupplierProductTrackerDetails(period));
+          dispatch(setMenuItem(null));
+        }, 1000);
+      }
+    })
+    .catch(() => {
+      error('Unable to Add Product');
+      dispatch(isLoadingTrackerProducts(false));
     });
 };
 

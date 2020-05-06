@@ -8,6 +8,10 @@
   }
 
   .product-tracker {
+    .ProductTracker__search {
+      display: flex;
+    }
+
     .generic-table {
       .table-menu-header {
         margin: 7px 0;

@@ -40,6 +40,7 @@ export interface PaginatedTableProps {
   productTrackerPageNo?: any;
   showProductFinderSearch?: boolean;
   searchFilteredProduct?: (searchValue: string) => void;
+  updateProfitFinderProducts?: (data: any) => void;
   showFilter?: boolean;
   checkedRows?: CheckedRowDictionary;
   updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
@@ -58,6 +59,7 @@ export interface GenericTableProps {
   searchFilterValue?: string;
   showProductFinderSearch?: boolean;
   searchProfitFinderProduct?: (searchValue: string) => void;
+  updateProfitFinderProducts?: (data: any) => void;
   setCurrentPage: (page: number) => void;
   totalItemsCount: number;
   showSelectItemsCount: boolean;
@@ -381,6 +383,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     count,
     showProductFinderSearch,
     searchFilteredProduct,
+    updateProfitFinderProducts,
     searchFilterValue,
     showFilter,
     checkedRows,
@@ -404,7 +407,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   // const [itemsCount, setItemsCount] = useState(10);
 
   const showColumns = columns.filter(e => e.show);
-  const { sortedColumnKey, sortDirection, setSort } = useSort('');
+  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
 
   let rows = checkSortedColumnExist.length
@@ -474,9 +477,19 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   // }
   // console.log('------------------------');
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
+  const sortedProducts = rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
   // console.log('Table - rows changed', rows);
   // if (setCurrentPageData) setCurrentPageData(rows);
+
+  useEffect(() => {
+    if (sortClicked) {
+      if (updateProfitFinderProducts) {
+        updateProfitFinderProducts(sortedProducts);
+      }
+      setSortClicked(false);
+    }
+  });
 
   const handleShowSearchFilter = (e: any, key: any) => {
     e.stopPropagation();
@@ -554,6 +567,7 @@ const renderCell = (row: { [key: string]: any }, column: Column) => {
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
   const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('descending');
+  const [sortClicked, setSortClicked] = useState<true | false>(false);
 
   const handleSort = (e: any, clickedColumn: string) => {
     e.preventDefault();
@@ -563,11 +577,14 @@ const useSort = (initialValue: string) => {
     } else {
       setSortDirection(sortDirection === 'descending' ? 'ascending' : 'descending');
     }
+    setSortClicked(true);
   };
 
   return {
     sortedColumnKey,
     sortDirection,
     setSort: handleSort,
+    sortClicked,
+    setSortClicked,
   };
 };

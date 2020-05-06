@@ -8,13 +8,13 @@ import {
 } from '../../../actions/UploadSupplier';
 import { Grid, Icon, Label, Segment, Header } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.css';
-import UploadStepPieChart from './../../../components/Chart/UploadStepPieChart';
 import {
   currentProgressShow,
   currentResultUpload,
   currentValid,
   currentError,
 } from '../../../selectors/UploadSupplier';
+import RowValidationChart from './RowValidationChart';
 
 interface SubmitProps {
   validateAndUploadCsv: any;
@@ -111,22 +111,7 @@ const Submit = (props: SubmitProps) => {
                     {currentError} ({percentError}%)
                   </span>
                 </span>
-                <UploadStepPieChart
-                  options={{
-                    data: [
-                      {
-                        name: 'Processed',
-                        y: percentValid,
-                        color: '#4ad991',
-                      },
-                      {
-                        name: 'Errors',
-                        y: percentError,
-                        color: '#fd8373',
-                      },
-                    ],
-                  }}
-                />
+                <RowValidationChart percentValid={percentValid} percentError={percentError} />
                 <span className="Submit__file-process">
                   <Label circular empty />
                   &nbsp;Processed SKUs <br />
