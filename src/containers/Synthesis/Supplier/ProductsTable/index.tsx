@@ -25,7 +25,6 @@ interface ProductsTableProps {
   products: Product[];
   filteredProducts: Product[];
   filterData: any;
-  filterRanges: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
   updateProductTrackingStatus: (
@@ -262,7 +261,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filteredProducts,
       singlePageItemsCount,
       setSinglePageItemsCount,
-      filterRanges,
       updateProfitFinderProducts,
     } = this.props;
     const { searchValue, productRanges } = this.state;
@@ -276,14 +274,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           </Segment>
         ) : (
           <PaginatedTable
-            /* 
-                          key change forced table to remount and set page back to 1
-                          if any data changes that would affect number of displayed items
-                          otherwise we can end up on a page that shows no results because it's
-                          past the end of the total number of items.
-                          This can be done in a less hacky way once we move pagination server-side.
-                        */
-            key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
@@ -309,7 +299,6 @@ const mapStateToProps = (state: {}) => ({
   isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: get(state, 'supplier.products'),
   filteredProducts: get(state, 'supplier.filteredProducts'),
-  filterRanges: get(state, 'supplier.filterRanges'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),

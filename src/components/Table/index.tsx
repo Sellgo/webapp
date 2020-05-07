@@ -144,6 +144,7 @@ export const GenericTable = (props: GenericTableProps) => {
             <div />
           )}
           <SelectItemsCount
+            setCurrentPage={setCurrentPage}
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
             currentPage={currentPage}

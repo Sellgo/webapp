@@ -35,7 +35,6 @@ interface TrackerProps {
   filteredProducts: any;
   productDetailReview: any;
   isLoadingTrackerProducts: boolean;
-  filterRanges: any;
   singlePageItemsCount: number;
   trackGroups: any;
   handleMenu: any;
@@ -48,7 +47,7 @@ interface TrackerProps {
   fetchProductDetailChartRating: (productID: any) => void;
   fetchProductDetailChartReview: (productID: any) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
-  setPageNumber: (pageNo: any) => void;
+  setPageNumber: (pageNo: number) => void;
   retrieveTrackGroup: () => void;
   updateProductTrackingStatus: (
     status: string,
@@ -398,7 +397,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       isLoadingTrackerProducts,
       productTrackerResult,
       filteredProducts,
-      filterRanges,
       singlePageItemsCount,
       setSinglePageItemsCount,
       trackGroups,
@@ -433,6 +431,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           />
 
           <SelectItemsCount
+            setCurrentPage={setPageNumber}
             totalCount={filteredProducts.length}
             singlePageItemsCount={singlePageItemsCount}
             currentPage={productTrackerPageNo}
@@ -443,7 +442,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <PaginatedTable
             columnFilterBox={ColumnFilterBox}
-            key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
@@ -480,7 +478,6 @@ const mapStateToProps = (state: any) => {
     productDetailRating: get(state, 'product.detailRating'),
     productDetailReview: get(state, 'product.detailReview'),
     filteredProducts: get(state, 'productTracker.filteredProducts'),
-    filterRanges: get(state, 'productTracker.filterRanges'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
   };
