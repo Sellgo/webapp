@@ -54,7 +54,7 @@ function ProfitFinderFilterSection(props: Props) {
     categories: [
       'Appliances',
       'Apps & Games',
-      'Arts, Craft & Sewing',
+      'Arts, Crafts & Sewing',
       'Automotive',
       'Baby',
       'Beauty & Personal Care',
@@ -127,8 +127,8 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Arts, Craft & Sewing',
-            dataKey: 'arts-craft-sewing',
+            label: 'Arts, Crafts & Sewing',
+            dataKey: 'arts-crafts-sewing',
             checked: true,
           },
           {
