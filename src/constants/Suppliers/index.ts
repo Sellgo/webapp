@@ -181,7 +181,7 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
-    return !_.isEmpty(filterData.allFilter)
+    return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
       ? filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
           (((_.isEmpty(product.amazon_category_name) &&
             filterData.allFilter.indexOf('Others') !== -1) ||

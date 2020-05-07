@@ -52,9 +52,11 @@ function ProfitFinderFilterSection(props: Props) {
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
     categories: [
+      'Amazon Launchpad',
       'Appliances',
       'Apps & Games',
       'Arts, Crafts & Sewing',
+      'Audio & Video Connectors & Adapters',
       'Automotive',
       'Baby',
       'Beauty & Personal Care',
@@ -65,6 +67,7 @@ function ProfitFinderFilterSection(props: Props) {
       'Clothing, Shoes & Jewelry',
       'Collectible & Fine Arts',
       'Computers & Accessories',
+      'Earbud & In-Ear Headphones',
       'Electronics',
       'Grocery & Gourmet Food',
       'Handmade Products',
@@ -94,6 +97,10 @@ function ProfitFinderFilterSection(props: Props) {
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
       ? filterStorage
       : filterInitialData;
+
+  if (initialFilterState.categories !== filterInitialData.categories) {
+    initialFilterState.categories = filterInitialData.categories;
+  }
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
