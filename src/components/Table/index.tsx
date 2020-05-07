@@ -316,11 +316,11 @@ export const GenericTable = (props: GenericTableProps) => {
                       );
                     })}
                   </Table.Row>
-                  {expandedRows && expandedRows === row.product_id && extendedInfo && (
+                  {expandedRows && expandedRows === row.id && extendedInfo && (
                     <Table.Row key={index + '-extended'}>
                       <Table.Cell colSpan={columns.length}>
                         {''}
-                        {expandedRows === row.product_id && extendedInfo(row)}
+                        {expandedRows === row.id && extendedInfo(row)}
                       </Table.Cell>
                     </Table.Row>
                   )}

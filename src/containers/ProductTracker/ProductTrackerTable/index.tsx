@@ -234,7 +234,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <div className="avg-margin">
         <p className="stat">{row.avg_margin !== '0.00' ? `${row.avg_margin}%` : 'N.A.'}</p>
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
-          <Icon className="caret down" onClick={() => toggleExpandRow(row.product_id)} />
+          <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
         </span>
       </div>
     );
