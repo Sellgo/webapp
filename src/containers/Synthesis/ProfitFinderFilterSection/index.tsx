@@ -74,6 +74,11 @@ function ProfitFinderFilterSection(props: Props) {
         radio: false,
         data: [
           {
+            label: 'Amazon Launchpad',
+            dataKey: 'amazon-launchpad',
+            checked: true,
+          },
+          {
             label: 'Appliances',
             dataKey: 'appliances',
             checked: true,
@@ -86,6 +91,11 @@ function ProfitFinderFilterSection(props: Props) {
           {
             label: 'Arts, Craft & Sewing',
             dataKey: 'arts-craft-sewing',
+            checked: true,
+          },
+          {
+            label: 'Audio & Video Connectors & Adapters',
+            dataKey: 'aduio-video-connectors-adapters',
             checked: true,
           },
           {
@@ -136,6 +146,11 @@ function ProfitFinderFilterSection(props: Props) {
           {
             label: 'Computers & Accessories',
             dataKey: 'computers-accessories',
+            checked: true,
+          },
+          {
+            label: 'Earbud & In-Ear Headphones',
+            dataKey: 'earbud-headphones',
             checked: true,
           },
           {
