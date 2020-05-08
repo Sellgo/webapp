@@ -35,6 +35,7 @@ import {
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   FILTER_SUPPLIER_PRODUCTS,
   SEARCH_SUPPLIER_PRODUCTS,
+  UPDATE_PROFIT_FINDER_PRODUCTS,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -431,6 +432,13 @@ export const updateProductTrackingStatus = (
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
   payload: data,
+});
+
+export const updateProfitFinderProducts = (data: any) => ({
+  type: UPDATE_PROFIT_FINDER_PRODUCTS,
+  payload: {
+    filteredProducts: data,
+  },
 });
 
 export const updateSupplierFilterRanges = (filterRanges: any) => ({

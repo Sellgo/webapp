@@ -4,15 +4,24 @@ import get from 'lodash/get';
 import {
   fetchSupplierProductDetailChartRank,
   fetchSupplierProductDetailChartPrice,
-  fetchSupplierProductDetailChartKPI,
   fetchSupplierProductDetailChartInventory,
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../../../actions/Products';
-import SplineChart from '../../../../../components/Chart/SplineChart';
-import LineChart from '../../../../../components/Chart/LineChart';
-import { Loader, Form, Divider } from 'semantic-ui-react';
+import { Loader, Form, Divider, Grid } from 'semantic-ui-react';
+import { DEFAULT_PERIOD } from '../../../../../constants/Tracker';
+import {
+  isFetchingRankSelector,
+  isFetchingPriceSelector,
+  isFetchingInventorySelector,
+  isFetchingRatingSelector,
+  isFetchingReviewSelector,
+} from '../../../../../selectors/Products';
 import './index.scss';
+import ProductPriceChart from './ProductPriceChart';
+import ProductRatingChart from './ProductRatingChart';
+import ProductReviewChart from './ProductReviewChart';
+import RankVsInventoryChart from './RankVsInventoryChart';
 
 interface ProductChartsProps {
   product: any;
@@ -21,13 +30,16 @@ interface ProductChartsProps {
   productDetailInventory: any;
   productDetailRating: any;
   productDetailReview: any;
-  productDetailKPI: any;
-  fetchProductDetailChartRank: (productID: any) => void;
-  fetchProductDetailChartPrice: (productID: any) => void;
-  fetchProductDetailChartInventory: (productID: any) => void;
-  fetchProductDetailChartRating: (productID: any) => void;
-  fetchProductDetailChartReview: (productID: any) => void;
-  fetchProductDetailChartKPI: (supplierID: any, productID: any) => void;
+  fetchProductDetailChartRank: (productID: any, period?: number) => void;
+  fetchProductDetailChartPrice: (productID: any, period?: number) => void;
+  fetchProductDetailChartInventory: (productID: any, period?: number) => void;
+  fetchProductDetailChartRating: (productID: any, period?: number) => void;
+  fetchProductDetailChartReview: (productID: any, period?: number) => void;
+  isFetchingRank: boolean;
+  isFetchingPrice: boolean;
+  isFetchingInventory: boolean;
+  isFetchingRating: boolean;
+  isFetchingReview: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = { showProductChart: 'chart0' };
@@ -39,90 +51,40 @@ class ProductCharts extends Component<ProductChartsProps> {
       fetchProductDetailChartInventory,
       fetchProductDetailChartRating,
       fetchProductDetailChartReview,
-      fetchProductDetailChartKPI,
     } = this.props;
-    fetchProductDetailChartRank(product.product_id);
-    fetchProductDetailChartPrice(product.product_id);
-    fetchProductDetailChartInventory(product.product_id);
-    fetchProductDetailChartRating(product.product_id);
-    fetchProductDetailChartReview(product.product_id);
-    fetchProductDetailChartKPI(
-      product.supplierID ? product.supplierID : product.supplier_id,
-      product.product_id
-    );
+    const period =
+      (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
+      DEFAULT_PERIOD;
+    fetchProductDetailChartRank(product.product_id, period);
+    fetchProductDetailChartPrice(product.product_id, period);
+    fetchProductDetailChartInventory(product.product_id, period);
+    fetchProductDetailChartRating(product.product_id, period);
+    fetchProductDetailChartReview(product.product_id, period);
   }
 
-  renderProductStatistics = (props: any) => {
-    const {
-      popupRankContainer,
-      popupPriceContainer,
-      popupInventoryContainer,
-      popupRatingContainer,
-      popupReviewContainer,
-    } = props;
-    const data = [
-      {
-        type: 'line',
-        name: 'Price($)',
-        color: '#CAE1F3',
-        data: popupPriceContainer,
-      },
-      {
-        type: 'line',
-        name: 'Rank',
-        color: '#F3E9CA',
-        data: popupRankContainer,
-      },
-      {
-        type: 'line',
-        name: 'Inventory',
-        color: '#A3E9CA',
-        data: popupInventoryContainer,
-      },
-      {
-        type: 'line',
-        name: 'Rating',
-        color: '#F3A9CA',
-        data: popupRatingContainer,
-      },
-      {
-        type: 'line',
-        name: 'Review Count',
-        color: '#0E9FE8',
-        data: popupReviewContainer,
-      },
-    ];
-    const chartOptions = {
-      title: 'Product Statistics',
-      data: data,
-    };
-    return <LineChart options={chartOptions} />;
+  renderNoDataMessage = () => {
+    return <Grid centered>No data yet! Please come back after a day. </Grid>;
   };
 
-  renderROI = (props: any) => {
-    const { productTimeline, productProfit, productROI } = props;
-    const data = [
-      {
-        name: 'Total Profit($)',
-        type: 'spline',
-        yAxis: 1,
-        data: productProfit,
-      },
-      {
-        name: 'ROI(%)',
-        type: 'spline',
-        data: productROI,
-      },
-    ];
-    const chartOptions = {
-      title: 'Profit vs ROI',
-      productTimeline: productTimeline,
-      data: data,
-    };
-    return <SplineChart options={chartOptions} />;
+  renderLoader = () => {
+    return (
+      <Loader active={true} inline="centered" className="popup-loader" size="massive">
+        Loading
+      </Loader>
+    );
   };
 
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
+
+  formatProductDetail(type: string, data: any) {
+    const formattedData: any[] = [];
+
+    for (let i = 0; i < data.length; i++) {
+      formattedData.push([new Date(data[i].cdate).getTime(), Number(data[i][type])]);
+    }
+
+    return formattedData;
+  }
 
   renderProductCharts = () => {
     const {
@@ -131,120 +93,113 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailInventory,
       productDetailRating,
       productDetailReview,
-      productDetailKPI,
+      isFetchingRank,
+      isFetchingPrice,
+      isFetchingInventory,
+      isFetchingRating,
+      isFetchingReview,
     } = this.props;
+
     switch (this.state.showProductChart) {
       case 'chart0': {
-        const popupRankContainer = [];
-        const popupPriceContainer = [];
-        const popupInventoryContainer = [];
-        const popupRatingContainer = [];
-        const popupReviewContainer = [];
-
-        for (let i = 0; i < productDetailRank.length; i++) {
-          popupRankContainer.push([
-            new Date(productDetailRank[i].cdate).getTime(),
-            Number(productDetailRank[i].rank),
-          ]);
-        }
-        for (let i = 0; i < productDetailPrice.length; i++) {
-          popupPriceContainer.push([
-            new Date(productDetailPrice[i].cdate).getTime(),
-            Number(productDetailPrice[i].price),
-          ]);
-        }
-        for (let i = 0; i < productDetailInventory.length; i++) {
-          popupInventoryContainer.push([
-            new Date(productDetailInventory[i].cdate).getTime(),
-            Number(productDetailInventory[i].inventory),
-          ]);
-        }
-        for (let i = 0; i < productDetailRating.length; i++) {
-          popupRatingContainer.push([
-            new Date(productDetailRating[i].cdate).getTime(),
-            Number(productDetailRating[i].rating),
-          ]);
-        }
-        for (let i = 0; i < productDetailReview.length; i++) {
-          popupReviewContainer.push([
-            new Date(productDetailReview[i].cdate).getTime(),
-            Number(productDetailReview[i].review_count),
-          ]);
-        }
-
-        return popupPriceContainer.length === 0 &&
-          popupRankContainer.length === 0 &&
-          popupInventoryContainer.length === 0 &&
-          popupRatingContainer.length === 0 &&
-          popupReviewContainer.length === 0 ? (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
-        ) : (
-          <this.renderProductStatistics
-            popupPriceContainer={popupPriceContainer}
-            popupRankContainer={popupRankContainer}
-            popupInventoryContainer={popupInventoryContainer}
-            popupRatingContainer={popupRatingContainer}
-            popupReviewContainer={popupReviewContainer}
+        const formattedRanks = this.formatProductDetail('rank', productDetailRank);
+        const formattedInventories = this.formatProductDetail('inventory', productDetailInventory);
+        return isFetchingRank && isFetchingInventory ? (
+          this.renderLoader()
+        ) : formattedRanks.length || formattedInventories.length ? (
+          <RankVsInventoryChart
+            productRanks={formattedRanks}
+            productInventories={formattedInventories}
           />
+        ) : (
+          this.renderNoDataMessage()
         );
       }
+
       case 'chart1': {
-        const productTimeline = [];
-        const productProfit = [];
-        const productROI = [];
-
-        for (let i = 0; i < productDetailKPI.length; i++) {
-          productTimeline.push(new Date(productDetailKPI[i].cdate).getTime());
-          productProfit.push([
-            new Date(productDetailKPI[i].cdate).getTime(),
-            parseFloat(productDetailKPI[i].profit),
-          ]);
-          productROI.push([
-            new Date(productDetailKPI[i].cdate).getTime(),
-            parseFloat(productDetailKPI[i].roi),
-          ]);
-        }
-        return productTimeline.length && productProfit.length && productROI.length ? (
-          <this.renderROI
-            productTimeline={productTimeline}
-            productProfit={productProfit}
-            productROI={productROI}
-          />
+        const formattedPrices = this.formatProductDetail('price', productDetailPrice);
+        return isFetchingPrice ? (
+          this.renderLoader()
+        ) : formattedPrices.length ? (
+          <ProductPriceChart productPrices={formattedPrices} />
         ) : (
-          <Loader active={true} inline="centered" className="popup-loader" size="massive">
-            Loading
-          </Loader>
+          this.renderNoDataMessage()
         );
       }
+
+      case 'chart2': {
+        const formattedRatings = this.formatProductDetail('rating', productDetailRating);
+        return isFetchingRating ? (
+          this.renderLoader()
+        ) : formattedRatings.length ? (
+          <ProductRatingChart productRatings={formattedRatings} />
+        ) : (
+          this.renderNoDataMessage()
+        );
+      }
+
+      case 'chart3': {
+        const formattedReviews = this.formatProductDetail('review_count', productDetailReview);
+        return isFetchingReview ? (
+          this.renderLoader()
+        ) : formattedReviews.length ? (
+          <ProductReviewChart productReviews={formattedReviews} />
+        ) : (
+          this.renderNoDataMessage()
+        );
+      }
+
       default:
         return <div />;
     }
   };
 
   render() {
-    const { productDetailRank, productDetailPrice, productDetailKPI } = this.props;
-    if (!productDetailKPI || !productDetailRank || !productDetailPrice) {
+    const {
+      productDetailRank,
+      productDetailInventory,
+      productDetailPrice,
+      productDetailRating,
+      productDetailReview,
+    } = this.props;
+    if (
+      !productDetailReview ||
+      !productDetailRating ||
+      !productDetailRank ||
+      !productDetailPrice ||
+      !productDetailInventory
+    ) {
       return <div />;
     }
     return (
       <div className="product-detail-charts">
         <Divider />
         {this.renderProductCharts()}
-        <Form>
+        <Form className="chart-end-form">
           <Form.Group inline={true}>
             <label />
             <Form.Radio
-              label="Statistics"
+              label="Rank vs Inventory"
               value="chart0"
               checked={this.state.showProductChart === 'chart0'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
             <Form.Radio
-              label="Profit vs ROI"
+              label="Price"
               value="chart1"
               checked={this.state.showProductChart === 'chart1'}
+              onChange={(e, { value }) => this.handleProductChartChange(e, value)}
+            />
+            <Form.Radio
+              label="Rating"
+              value="chart2"
+              checked={this.state.showProductChart === 'chart2'}
+              onChange={(e, { value }) => this.handleProductChartChange(e, value)}
+            />
+            <Form.Radio
+              label="Review"
+              value="chart3"
+              checked={this.state.showProductChart === 'chart3'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
           </Form.Group>
@@ -260,20 +215,24 @@ const mapStateToProps = (state: {}) => ({
   productDetailInventory: get(state, 'product.detailInventory'),
   productDetailRating: get(state, 'product.detailRating'),
   productDetailReview: get(state, 'product.detailReview'),
-  productDetailKPI: get(state, 'product.detailKPI'),
+  isFetchingRank: isFetchingRankSelector(state),
+  isFetchingPrice: isFetchingPriceSelector(state),
+  isFetchingInventory: isFetchingInventorySelector(state),
+  isFetchingRating: isFetchingRatingSelector(state),
+  isFetchingReview: isFetchingReviewSelector(state),
 });
 
 const mapDispatchToProps = {
-  fetchProductDetailChartRank: (productID: any) => fetchSupplierProductDetailChartRank(productID),
-  fetchProductDetailChartPrice: (productID: any) => fetchSupplierProductDetailChartPrice(productID),
-  fetchProductDetailChartInventory: (productID: any) =>
-    fetchSupplierProductDetailChartInventory(productID),
-  fetchProductDetailChartRating: (productID: any) =>
-    fetchSupplierProductDetailChartRating(productID),
-  fetchProductDetailChartReview: (productID: any) =>
-    fetchSupplierProductDetailChartReview(productID),
-  fetchProductDetailChartKPI: (supplierID: any, productID: any) =>
-    fetchSupplierProductDetailChartKPI(supplierID, productID),
+  fetchProductDetailChartRank: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartRank(productID, period),
+  fetchProductDetailChartPrice: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartPrice(productID, period),
+  fetchProductDetailChartInventory: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartInventory(productID, period),
+  fetchProductDetailChartRating: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartRating(productID, period),
+  fetchProductDetailChartReview: (productID: any, period?: number) =>
+    fetchSupplierProductDetailChartReview(productID, period),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCharts);

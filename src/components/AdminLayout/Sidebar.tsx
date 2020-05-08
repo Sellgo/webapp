@@ -30,12 +30,14 @@ export default class SidebarCollapsible extends Component<
       { id: 4, label: 'Logout', icon: 'fa-sign-out-alt', path: '#' },
       { id: 5, label: 'Settings', icon: 'fa-user-cog', path: '/settings' },
     ],
-    visible: true,
+    visible: false,
     openConfirm: false,
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
-  open = () => this.setState({ openConfirm: true });
+  open = () => {
+    this.setState({ openConfirm: true });
+  };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
@@ -50,6 +52,9 @@ export default class SidebarCollapsible extends Component<
             if (icon.id < 3) {
               return (
                 <Menu.Item
+                  onClick={() => {
+                    visible && this.handleAnimationChange();
+                  }}
                   key={icon.id}
                   as={Link}
                   to={icon.path}
@@ -57,6 +62,7 @@ export default class SidebarCollapsible extends Component<
                   active={initPath.startsWith(icon.path)}
                 >
                   <i className={`fas ${icon.icon}`} />
+
                   <Label> {icon.label} </Label>
                 </Menu.Item>
               );
@@ -72,9 +78,11 @@ export default class SidebarCollapsible extends Component<
                 <Menu.Item
                   key={icon.id}
                   name={icon.icon}
-                  onClick={() => this.handleAnimationChange()}
+                  onClick={() => {
+                    this.handleAnimationChange();
+                  }}
                 >
-                  <i className={`fas ${visible ? icon.icon : 'fa-angle-left'}`} />
+                  <i className={`fas ${!visible ? icon.icon : 'fa-angle-left'}`} />
                 </Menu.Item>
               );
             } else if (icon.id > 3) {
@@ -86,9 +94,8 @@ export default class SidebarCollapsible extends Component<
                   name={icon.icon}
                   active={initPath.startsWith(icon.path)}
                   onClick={() => {
-                    if (icon.id === 4) {
-                      this.open();
-                    }
+                    icon.id === 4 && this.open();
+                    icon.id === 5 && visible && this.handleAnimationChange();
                   }}
                 >
                   <i className={`fas ${icon.icon}`} />
@@ -108,7 +115,7 @@ export default class SidebarCollapsible extends Component<
         <Sidebar.Pushable className="Sidebar__pushable" as={Segment}>
           <Sidebar
             as={Menu}
-            animation="uncover"
+            animation="overlay"
             direction="left"
             icon="labeled"
             inverted
@@ -123,6 +130,10 @@ export default class SidebarCollapsible extends Component<
           <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
           <Sidebar.Pusher
+            dimmed={visible}
+            onClick={() => {
+              visible && this.handleAnimationChange();
+            }}
             className={`container Sidebar__pusher ${visible ? '' : 'pusher-scroll-x'}`}
           >
             <Sidebar.Pusher>{children}</Sidebar.Pusher>

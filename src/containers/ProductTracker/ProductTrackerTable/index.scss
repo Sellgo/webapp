@@ -521,12 +521,31 @@ $link-color: #349af8;
           height: 30px;
         }
 
-        i {
-          color: #c3c4c4;
+        .asin-upc-wrapper {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+
+          .asin-content {
+            color: #3b4557;
+            font-weight: 500;
+            font-size: 14px;
+            margin: 0 18px;
+            line-height: 1;
+            margin-bottom: 2px;
+          }
+
+          .upc-content {
+            color: #3b4557;
+            font-weight: 300;
+            font-size: 12px;
+            margin: 0 18px;
+            line-height: 1;
+          }
         }
 
-        span {
-          margin: 0 18px;
+        i {
+          color: #c3c4c4;
         }
       }
 

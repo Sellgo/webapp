@@ -23,6 +23,7 @@ export const SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT = 'SET_SUPPLIER_SINGLE_PAGE_IT
 export const SUPPLIER_QUOTA = 'SUPPLIER_QUOTA';
 export const FILTER_SUPPLIER_PRODUCTS = 'FILTER_SUPPLIER_PRODUCTS';
 export const SEARCH_SUPPLIER_PRODUCTS = 'SEARCH_SUPPLIER_PRODUCTS';
+export const UPDATE_PROFIT_FINDER_PRODUCTS = 'UPDATE_PROFIT_FINDER_PRODUCTS';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -180,15 +181,19 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
-    return !_.isEmpty(filterData.allFilter)
-      ? (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
-          (_.isEmpty(product.amazon_category_name) && filterData.allFilter.indexOf('Others'))) &&
-          (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
-          supplierDataKeys.every(
-            (dataKey: any) =>
-              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-              Number(product[dataKey]) <= Number(filterData[dataKey].max)
-          )
+    return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
+      ? filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
+          (((_.isEmpty(product.amazon_category_name) &&
+            filterData.allFilter.indexOf('Others') !== -1) ||
+            (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
+              filterData.allFilter.indexOf('Others') !== -1)) &&
+            (filterData.productSize === 'All size' ||
+              filterData.productSize === product.size_tier) &&
+            supplierDataKeys.every(
+              (dataKey: any) =>
+                Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+                Number(product[dataKey]) <= Number(filterData[dataKey].max)
+            ))
       : null;
   });
   return updatedFilterProducts;

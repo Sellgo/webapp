@@ -19,3 +19,14 @@ export const EmailSuccess = (
     </Header>
   </>
 );
+
+export const Asin = (props: any) => {
+  return (
+    <>
+      <Header className="email-update-success" as="h3">
+        {props.header}
+        <Header.Subheader>{props.subheader}</Header.Subheader>
+      </Header>
+    </>
+  );
+};
