@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox, Icon, Menu, Popup } from 'semantic-ui-react';
 import { CheckedRowDictionary } from './index';
-import { requestProductBulkTracking } from '../../../../actions/Suppliers';
+import {
+  requestProductBulkTracking,
+  requestProductBulkUnTracking,
+} from '../../../../actions/Suppliers';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
@@ -11,6 +14,7 @@ interface ProductCheckBoxHeaderProps {
   checkedRows: CheckedRowDictionary;
   updateCheckedRows: (checkedRows: CheckedRowDictionary) => void;
   requestProductBulkTracking: (products: { product_id: number }[]) => void;
+  requestProductBulkUnTracking: (products: { product_id: number }[]) => void;
 }
 
 const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
@@ -20,6 +24,7 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     checkedRows,
     updateCheckedRows,
     requestProductBulkTracking,
+    requestProductBulkUnTracking,
   } = props;
   const [checked, setChecked] = useState(false);
   const [openTrackingPopup, setOpenTrackingPopup] = useState(false);
@@ -65,7 +70,16 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
   };
 
   const handleBulkUntrackClick = () => {
-    console.log('Untrack Click');
+    const products: any[] = [];
+    currentPageRows.forEach(r => {
+      if (checkedRows[r.id]) products.push({ product_id: r.product_id });
+    });
+    if (products.length === 0) return;
+
+    requestProductBulkUnTracking(products);
+    updateCheckedRows({});
+    setChecked(false);
+    setOpenTrackingPopup(false);
   };
 
   return (
@@ -105,6 +119,7 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {
   requestProductBulkTracking,
+  requestProductBulkUnTracking,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCheckBoxHeader);
