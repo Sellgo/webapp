@@ -18,6 +18,7 @@ import { formatCurrency, formatNumber } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
 import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
+import ProductCheckBox from './productCheckBox';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -42,8 +43,12 @@ interface ProductsTableProps {
   updateProfitFinderProducts: (data: any) => void;
 }
 
+export interface CheckedRowDictionary {
+  [index: number]: boolean;
+}
+
 interface ProductsTableState {
-  checkedItems: { [index: number]: {} };
+  checkedRows: CheckedRowDictionary;
   searchValue: string;
   productRanges: any;
   filteredRanges: any;
@@ -51,7 +56,7 @@ interface ProductsTableState {
 
 class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
-    checkedItems: {},
+    checkedRows: {},
     searchValue: '',
     productRanges: initialFilterRanges,
     filteredRanges: [],
@@ -65,27 +70,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
   }
 
-  handleSelectAll = (event: any, isChecked: any) => {
-    const { filteredProducts } = this.props;
-
-    const newCheckedItems: any = {};
-    filteredProducts.forEach((item: any) => {
-      newCheckedItems[item.id] = isChecked;
-    });
-
-    this.setState({ checkedItems: newCheckedItems });
+  updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
+    this.setState({ checkedRows });
   };
 
   handleItemSelect = (e: any, isChecked: any, itemId: any) => {
-    const { checkedItems } = this.state;
-    const newCheckedItems = {
-      ...checkedItems,
+    const { checkedRows } = this.state;
+    const newCheckedRows = {
+      ...checkedRows,
       [itemId]: isChecked,
     };
 
-    this.setState({ checkedItems: newCheckedItems });
+    this.setState({ checkedRows: newCheckedRows });
   };
 
+  renderCheckBox = (row: Product) => {
+    const { checkedRows } = this.state;
+    let checked = false;
+    if (checkedRows[row.id] !== undefined) {
+      checked = checkedRows[row.id];
+    }
+    return <ProductCheckBox item={row} checked={checked} onClick={this.handleItemSelect} />;
+  };
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
@@ -161,6 +167,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   columns: Column[] = [
+    {
+      label: '',
+      sortable: false,
+      dataKey: 'checkboxes',
+      show: true,
+      check: true,
+      render: this.renderCheckBox,
+    },
     {
       label: 'PRODUCT INFORMATION',
       sortable: false,
@@ -265,7 +279,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterRanges,
       updateProfitFinderProducts,
     } = this.props;
-    const { searchValue, productRanges } = this.state;
+    const { searchValue, productRanges, checkedRows } = this.state;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -295,6 +309,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             setSinglePageItemsCount={setSinglePageItemsCount}
             name={'products'}
             showFilter={true}
+            checkedRows={checkedRows}
+            updateCheckedRows={this.updateCheckedRows}
             renderFilterSectionComponent={() => (
               <ProfitFinderFilterSection productRanges={productRanges} />
             )}
