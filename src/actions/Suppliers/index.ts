@@ -42,6 +42,7 @@ import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 import { UntrackSuccess } from '../../components/ToastMessages';
+import history from '../../history';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -145,8 +146,13 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
       dispatch(fetchSynthesisProgressUpdates());
       success('Rerun successfully initiated!');
     })
-    .catch(() => {
-      error('Rerun failed. Try again!');
+    .catch(err => {
+      if (err.response.status === 401) {
+        error('Unauthorized access! Please add Amazon Seller Central credentials');
+        history.push('/settings#amazon-mws');
+      } else {
+        error('Rerun failed. Try again!');
+      }
     });
 };
 
@@ -168,8 +174,13 @@ export const postSynthesisRun = (synthesisId: string) => async (
       dispatch(updateSupplier(existingSupplier));
       dispatch(fetchSynthesisProgressUpdates());
     })
-    .catch(() => {
-      error('Run failed. Try again!');
+    .catch(err => {
+      if (err.response.status === 401) {
+        error('Unauthorized access! Please add Amazon Seller Central credentials');
+        history.push('/settings#amazon-mws');
+      } else {
+        error('Run failed. Try again!');
+      }
     });
 };
 

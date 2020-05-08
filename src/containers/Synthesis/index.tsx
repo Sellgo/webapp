@@ -66,9 +66,8 @@ class Synthesis extends Component<SynthesisProps> {
       this.setState({ isEditModal: true });
       openUploadSupplierModal(supplier);
     } else {
-      error('Unauthorized access! Please add Amazon Seller Central credentials', {
-        onClose: () => history.push('/settings#amazon-mws'),
-      });
+      error('Unauthorized access! Please add Amazon Seller Central credentials');
+      history.push('/settings#amazon-mws');
     }
   };
 
@@ -78,9 +77,8 @@ class Synthesis extends Component<SynthesisProps> {
       this.setState({ isEditModal: false });
       openUploadSupplierModal();
     } else {
-      error('Unauthorized access! Please add Amazon Seller Central credentials', {
-        onClose: () => history.push('/settings#amazon-mws'),
-      });
+      error('Unauthorized access! Please add Amazon Seller Central credentials');
+      history.push('/settings#amazon-mws');
     }
   };
 
