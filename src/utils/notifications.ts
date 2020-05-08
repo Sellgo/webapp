@@ -10,22 +10,18 @@ toast.configure({
 
 type messageInterface = (message: ToastContent, options?: ToastOptions) => ToastId | void;
 type dismissInterface = (id?: string | number | undefined) => void;
-type showOrUpdateToastInterface = (
-  toastFunction: (content: ToastContent, options?: ToastOptions) => ToastId,
-  message: ToastContent,
-  options?: ToastOptions
-) => ToastId | void;
+type showOrUpdateToastInterface = (message: ToastContent, options?: ToastOptions) => ToastId | void;
 
 export const success: messageInterface = (message, options) =>
-  showOrUpdateToast(toast.success, message, options);
+  showOrUpdateToast(message, { ...options, type: 'success' });
 export const error: messageInterface = (message, options) =>
-  showOrUpdateToast(toast.error, message, options);
+  showOrUpdateToast(message, { ...options, type: 'error' });
 export const warn: messageInterface = (message, options) =>
-  showOrUpdateToast(toast.warn, message, options);
+  showOrUpdateToast(message, { ...options, type: 'warning' });
 export const info: messageInterface = (message, options) =>
-  showOrUpdateToast(toast.info, message, options);
+  showOrUpdateToast(message, { ...options, type: 'info' });
 export const toastCustom: messageInterface = (message, options) =>
-  showOrUpdateToast(toast, message, options);
+  showOrUpdateToast(message, options);
 
 export const dismiss: dismissInterface = id => toast.dismiss(id);
 
@@ -38,7 +34,7 @@ let updateTransition = Flip;
 /* 
   To configure default toast behavior to only show 1 notification at a time.
  */
-const showOrUpdateToast: showOrUpdateToastInterface = (toastFunction, message, options) => {
+const showOrUpdateToast: showOrUpdateToastInterface = (message, options) => {
   const id = (options && options.toastId) || 'global-toast-id';
   if (toast.isActive(id)) {
     const updateOptions = { ...options, render: message, transition: updateTransition };
@@ -48,6 +44,6 @@ const showOrUpdateToast: showOrUpdateToastInterface = (toastFunction, message, o
 
     toast.update(id, updateOptions);
   } else {
-    toastFunction(message, { ...options, toastId: id });
+    toast(message, { ...options, toastId: id });
   }
 };
