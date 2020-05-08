@@ -26,9 +26,9 @@ import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';
 import { Supplier } from '../../../interfaces/Supplier';
 import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
-import { error } from '../../../utils/notifications';
 import './index.scss';
 import { tableKeys } from '../../../constants';
+import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 
 interface SuppliersTableProps {
   suppliers: Supplier[];
@@ -51,11 +51,6 @@ interface SuppliersTableProps {
 
 class SuppliersTable extends Component<SuppliersTableProps> {
   state = { showPieChartModalOpen: false, supplier: undefined, showDeleteConfirm: false };
-
-  handleAmazonMWSAuthError = () => {
-    error('Unauthorized access! Please add Amazon Seller Central credentials');
-    history.push('/settings#amazon-mws');
-  };
 
   renderName = (row: Supplier) => {
     const name =
@@ -126,7 +121,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               if (amazonMWSAuthorized) {
                 this.props.reRun(row);
               } else {
-                this.handleAmazonMWSAuthError();
+                handleUnauthorizedMwsAuth();
               }
             },
           },

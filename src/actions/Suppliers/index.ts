@@ -3,7 +3,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
-import { getSellerQuota } from '../Settings';
+import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
 import {
   suppliersSelector,
   newSupplierIdSelector,
@@ -42,7 +42,6 @@ import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 import { UntrackSuccess } from '../../components/ToastMessages';
-import history from '../../history';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -148,8 +147,7 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
     })
     .catch(err => {
       if (err.response.status === 401) {
-        error('Unauthorized access! Please add Amazon Seller Central credentials');
-        history.push('/settings#amazon-mws');
+        handleUnauthorizedMwsAuth(dispatch);
       } else {
         error('Rerun failed. Try again!');
       }
@@ -176,8 +174,7 @@ export const postSynthesisRun = (synthesisId: string) => async (
     })
     .catch(err => {
       if (err.response.status === 401) {
-        error('Unauthorized access! Please add Amazon Seller Central credentials');
-        history.push('/settings#amazon-mws');
+        handleUnauthorizedMwsAuth(dispatch);
       } else {
         error('Run failed. Try again!');
       }

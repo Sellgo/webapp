@@ -23,8 +23,7 @@ import {
   VERIFYING_PRODUCT,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
-import { getSellerQuota } from '../Settings';
-import history from '../../history';
+import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
 
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
@@ -153,8 +152,7 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
     })
     .catch(err => {
       if (err.response.status === 401) {
-        error('Unauthorized access! Please add Amazon Seller Central credentials');
-        history.push('/settings#amazon-mws');
+        handleUnauthorizedMwsAuth(dispatch);
       } else {
         dispatch(isProductTracked(true, false));
         dispatch(verifyingProduct(false));
@@ -189,8 +187,7 @@ export const confirmTrackProduct = (
     })
     .catch(err => {
       if (err.response.status === 401) {
-        error('Unauthorized access! Please add Amazon Seller Central credentials');
-        history.push('/settings#amazon-mws');
+        handleUnauthorizedMwsAuth(dispatch);
       } else {
         error('Unable to Add Product');
         dispatch(isLoadingTrackerProducts(false));

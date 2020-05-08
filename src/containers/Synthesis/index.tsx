@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Button, Segment, Icon, Popup, Modal, List, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.scss';
-import history from '../../history';
-import { getAmazonMWSAuthorized } from '../../actions/Settings';
+import { getAmazonMWSAuthorized, handleUnauthorizedMwsAuth } from '../../actions/Settings';
 import UploadSupplier from './UploadSupplier';
 import {
   openUploadSupplierModal,
@@ -15,7 +14,6 @@ import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../UserOnboarding';
 import PageHeader from '../../components/PageHeader';
 import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
-import { error } from '../../utils/notifications';
 import {
   currentSynthesisId,
   currentProgress,
@@ -66,8 +64,7 @@ class Synthesis extends Component<SynthesisProps> {
       this.setState({ isEditModal: true });
       openUploadSupplierModal(supplier);
     } else {
-      error('Unauthorized access! Please add Amazon Seller Central credentials');
-      history.push('/settings#amazon-mws');
+      handleUnauthorizedMwsAuth();
     }
   };
 
@@ -77,8 +74,7 @@ class Synthesis extends Component<SynthesisProps> {
       this.setState({ isEditModal: false });
       openUploadSupplierModal();
     } else {
-      error('Unauthorized access! Please add Amazon Seller Central credentials');
-      history.push('/settings#amazon-mws');
+      handleUnauthorizedMwsAuth();
     }
   };
 
