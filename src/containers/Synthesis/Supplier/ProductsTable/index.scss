@@ -568,11 +568,29 @@ $new_black: #707070;
     .checkbox-menu-item {
       cursor: auto;
 
-      .fa-fingerprint,
-      .sync.alternate {
+      .fa-fingerprint.track {
         cursor: pointer;
         color: #98aeca;
         font-size: 15px !important;
+        margin-right: 10px;
+      }
+
+      .fa-fingerprint.untrack {
+        cursor: pointer;
+        color: #eb675e;
+        font-size: 15px !important;
+        margin: 0 5px;
+
+        &::after {
+          position: absolute;
+          content: '\\';
+          color: #eb675e;
+          font-weight: 700;
+          font-size: 26px;
+          top: 6px;
+          left: 48px;
+          transform: rotate(-30deg);
+        }
       }
     }
   }

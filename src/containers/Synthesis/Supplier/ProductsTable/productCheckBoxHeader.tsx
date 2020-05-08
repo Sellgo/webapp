@@ -64,8 +64,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     setOpenTrackingPopup(false);
   };
 
-  const handleRefreshClick = () => {
-    console.log('Refresh Click');
+  const handleBulkUntrackClick = () => {
+    console.log('Untrack Click');
   };
 
   return (
@@ -90,8 +90,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
       >
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="checkbox-menu-item">
-            <i className="fa fa-fingerprint" onClick={handleBulkTrackClick} />
-            <Icon name="sync alternate" onClick={handleRefreshClick} />
+            <i className="fa fa-fingerprint track" onClick={handleBulkTrackClick} />
+            <i className="fa fa-fingerprint untrack" onClick={handleBulkUntrackClick} />
           </Menu.Item>
         </Menu>
       </Popup>
