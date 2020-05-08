@@ -1,4 +1,5 @@
 .untrack-success,
+.asin-message-warning,
 .email-update-success {
   font-family: 'Work Sans', sans-serif !important;
   padding: 10px 20px !important;
@@ -18,6 +19,7 @@
   }
 
   .untrack-success,
+  .asin-message-warning,
   .email-update-success {
     $wide_screen: 1.5;
 
