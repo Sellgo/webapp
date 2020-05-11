@@ -67,14 +67,15 @@ const AsinSearch = (props: Props) => {
   }, [verifyingProduct]);
 
   const verifyProduct = () => {
+    const search = searchValue.trim();
     const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))');
-    const m = searchValue.match(regex);
+    const m = search.match(regex);
     if (m) {
       setSearchDetails(m[1]);
       checkProduct(m[1]);
     } else {
-      setSearchDetails(searchValue);
-      checkProduct(searchValue);
+      setSearchDetails(search);
+      checkProduct(search);
     }
   };
 
