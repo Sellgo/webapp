@@ -71,7 +71,7 @@ function ProductTrackerFilter(props: Props) {
                         <Checkbox
                           label="Remove Negative Values"
                           key={filter.dataKey}
-                          onClick={() => {
+                          onChange={() => {
                             toggleNegative(filter.dataKey);
                           }}
                           checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
@@ -92,7 +92,7 @@ function ProductTrackerFilter(props: Props) {
                     <input
                       id="all-reviews"
                       checked={isAllReviews}
-                      onClick={() => {
+                      onChange={() => {
                         toggleSelectAllReviews();
                       }}
                       type="checkbox"
@@ -105,7 +105,7 @@ function ProductTrackerFilter(props: Props) {
                         <input
                           id={filterData.label}
                           checked={initialFilterState.reviews.indexOf(filterData.dataKey) !== -1}
-                          onClick={() => {
+                          onChange={() => {
                             toggleCheckboxFilter(filterData.dataKey);
                           }}
                           type="checkbox"
@@ -145,7 +145,7 @@ function ProductTrackerFilter(props: Props) {
                     <input
                       id={filterData.dataKey}
                       checked={initialFilterState.period === filterData.value}
-                      onClick={() => {
+                      onChange={() => {
                         setPeriod(filterData.value || 1);
                       }}
                       type="radio"

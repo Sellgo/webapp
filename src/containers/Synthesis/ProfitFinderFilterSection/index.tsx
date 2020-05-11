@@ -451,9 +451,20 @@ function ProfitFinderFilterSection(props: Props) {
     const data = filterState;
 
     setSelectAll(false);
+
+    if (data.allFilter.indexOf(label) !== -1) {
+      data.allFilter.splice(data.allFilter.indexOf(label), 1);
+    } else {
+      data.allFilter.push(label);
+    }
+    setFilterState(data);
+
     localStorage.setItem('filterSelectAll', JSON.stringify(false));
     const allData = _.map(allFilter, filter => {
       if (!filter.radio) {
+        if (data.allFilter.length === filter.data.length) {
+          selectAll();
+        }
         _.map(filter.data, allFilterData => {
           allFilterData.checked = data.allFilter.indexOf(filterDataKey) !== -1;
           return allFilterData;
@@ -462,12 +473,6 @@ function ProfitFinderFilterSection(props: Props) {
       return filter;
     });
     setAllFilter(allData);
-    if (data.allFilter.indexOf(label) !== -1) {
-      data.allFilter.splice(data.allFilter.indexOf(label), 1);
-    } else {
-      data.allFilter.push(label);
-    }
-    setFilterState(data);
   };
 
   const toggleSelectAll = () => {
