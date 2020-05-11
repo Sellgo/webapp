@@ -51,11 +51,56 @@ function ProfitFinderFilterSection(props: Props) {
     roi: filteredRanges.roi,
     sales_monthly: filteredRanges.sales_monthly,
     rank: filteredRanges.rank,
+    categories: [
+      'Amazon Launchpad',
+      'Appliances',
+      'Apps & Games',
+      'Arts, Crafts & Sewing',
+      'Audio & Video Connectors & Adapters',
+      'Automotive',
+      'Baby',
+      'Beauty & Personal Care',
+      'Books',
+      'Camera & Photo',
+      'CDs & Vinyl',
+      'Cell Phones & Accessories',
+      'Clothing, Shoes & Jewelry',
+      'Collectible & Fine Arts',
+      'Computers & Accessories',
+      'Earbud & In-Ear Headphones',
+      'Electronics',
+      'Grocery & Gourmet Food',
+      'Handmade Products',
+      'Health & Household',
+      'Home & Kitchen',
+      'Industrial & Scientific',
+      'Kindle store',
+      'Kitchen & Dining',
+      'Lock Picking & Theft Devices',
+      'Luggage & Travel',
+      'Magazine Subscription',
+      'Medical Devices & Accessories',
+      'Movies & TV',
+      'Musical Instruments',
+      'Office Products',
+      'Outdoors',
+      'Patio, Lawn & Garden',
+      'Pet Supplies',
+      'Software',
+      'Sports & Outdoors',
+      'Tools & Home Improvement',
+      'Toys & Games',
+      'Video Games',
+    ],
   };
   const initialFilterState: any =
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
       ? filterStorage
       : filterInitialData;
+
+  if (initialFilterState.categories !== filterInitialData.categories) {
+    initialFilterState.categories = filterInitialData.categories;
+  }
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
@@ -74,6 +119,11 @@ function ProfitFinderFilterSection(props: Props) {
         radio: false,
         data: [
           {
+            label: 'Amazon Launchpad',
+            dataKey: 'amazon-launchpad',
+            checked: true,
+          },
+          {
             label: 'Appliances',
             dataKey: 'appliances',
             checked: true,
@@ -84,8 +134,13 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Arts, Craft & Sewing',
-            dataKey: 'arts-craft-sewing',
+            label: 'Arts, Crafts & Sewing',
+            dataKey: 'arts-crafts-sewing',
+            checked: true,
+          },
+          {
+            label: 'Audio & Video Connectors & Adapters',
+            dataKey: 'aduio-video-connectors-adapters',
             checked: true,
           },
           {
@@ -136,6 +191,11 @@ function ProfitFinderFilterSection(props: Props) {
           {
             label: 'Computers & Accessories',
             dataKey: 'computers-accessories',
+            checked: true,
+          },
+          {
+            label: 'Earbud & In-Ear Headphones',
+            dataKey: 'earbud-headphones',
             checked: true,
           },
           {
@@ -391,9 +451,20 @@ function ProfitFinderFilterSection(props: Props) {
     const data = filterState;
 
     setSelectAll(false);
+
+    if (data.allFilter.indexOf(label) !== -1) {
+      data.allFilter.splice(data.allFilter.indexOf(label), 1);
+    } else {
+      data.allFilter.push(label);
+    }
+    setFilterState(data);
+
     localStorage.setItem('filterSelectAll', JSON.stringify(false));
     const allData = _.map(allFilter, filter => {
       if (!filter.radio) {
+        if (data.allFilter.length === filter.data.length) {
+          selectAll();
+        }
         _.map(filter.data, allFilterData => {
           allFilterData.checked = data.allFilter.indexOf(filterDataKey) !== -1;
           return allFilterData;
@@ -402,12 +473,6 @@ function ProfitFinderFilterSection(props: Props) {
       return filter;
     });
     setAllFilter(allData);
-    if (data.allFilter.indexOf(label) !== -1) {
-      data.allFilter.splice(data.allFilter.indexOf(label), 1);
-    } else {
-      data.allFilter.push(label);
-    }
-    setFilterState(data);
   };
 
   const toggleSelectAll = () => {

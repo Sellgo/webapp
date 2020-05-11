@@ -67,7 +67,7 @@ function FilterContainer(props: Props) {
                         <input
                           id="select-all"
                           checked={isSelectAll}
-                          onClick={() => {
+                          onChange={() => {
                             toggleSelectAll();
                           }}
                           type="checkbox"
@@ -83,7 +83,7 @@ function FilterContainer(props: Props) {
                             <input
                               id={filterData.dataKey}
                               checked={initialFilterState.productSize === filterData.label}
-                              onClick={() => {
+                              onChange={() => {
                                 setRadioFilter(filter.dataKey, filterData.label);
                               }}
                               type="radio"
@@ -94,14 +94,13 @@ function FilterContainer(props: Props) {
                       } else {
                         if (!seeAll && dataKey > 3) return null;
                         return (
-                          <div className="ui checkbox">
+                          <div className="ui checkbox" key={dataKey}>
                             <input
-                              key={dataKey}
                               id={filterData.dataKey}
                               checked={
                                 initialFilterState.allFilter.indexOf(filterData.label) !== -1
                               }
-                              onClick={() => {
+                              onChange={() => {
                                 toggleCheckboxFilter(filterData.dataKey, filterData.label);
                               }}
                               type="checkbox"
@@ -147,7 +146,7 @@ function FilterContainer(props: Props) {
                         <Checkbox
                           label="Remove Negative Values"
                           key={filter.dataKey}
-                          onClick={() => {
+                          onChange={() => {
                             toggleNegative(filter.dataKey);
                           }}
                           checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
