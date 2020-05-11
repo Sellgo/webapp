@@ -28,6 +28,7 @@ import {
 import { columnFilter } from '../../../constants/Tracker';
 import SelectItemsCount from '../../../components/Table/SelectItemsCount';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
+import _ from 'lodash';
 
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
@@ -194,9 +195,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     } else {
       checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
         data.checked;
+      const ckArray: boolean[] = [];
+      _.each(checkedData, (ckData: any) => {
+        if (
+          ckData.key !== 'Product Information' &&
+          ckData.key !== '' &&
+          ckData.key !== 'Select All'
+        ) {
+          ckArray.push(ckData.value);
+        }
+      });
       checkedData[
         checkedData.findIndex((element: any) => element.key === 'Select All')
-      ].value = false;
+      ].value = ckArray.every((val: boolean) => {
+        return val;
+      });
     }
     this.setState({ columnFilterData: [...checkedData] });
   };
