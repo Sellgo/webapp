@@ -56,27 +56,17 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     updateCheckedRows(newCheckedData);
   };
 
-  const handleBulkTrackClick = () => {
+  const handleBulkClick = (type: string) => {
     const products: any[] = [];
     currentPageRows.forEach(r => {
       if (checkedRows[r.id]) products.push({ product_id: r.product_id });
     });
     if (products.length === 0) return;
-
-    requestProductBulkTracking(products);
-    updateCheckedRows({});
-    setChecked(false);
-    setOpenTrackingPopup(false);
-  };
-
-  const handleBulkUntrackClick = () => {
-    const products: any[] = [];
-    currentPageRows.forEach(r => {
-      if (checkedRows[r.id]) products.push({ product_id: r.product_id });
-    });
-    if (products.length === 0) return;
-
-    requestProductBulkUnTracking(products);
+    if (type === 'track') {
+      requestProductBulkTracking(products);
+    } else if (type === 'untrack') {
+      requestProductBulkUnTracking(products);
+    }
     updateCheckedRows({});
     setChecked(false);
     setOpenTrackingPopup(false);
@@ -104,8 +94,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
       >
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="checkbox-menu-item">
-            <i className="fa fa-fingerprint track" onClick={handleBulkTrackClick} />
-            <i className="fa fa-fingerprint untrack" onClick={handleBulkUntrackClick} />
+            <i className="fa fa-fingerprint track" onClick={() => handleBulkClick('track')} />
+            <i className="fa fa-fingerprint untrack" onClick={() => handleBulkClick('untrack')} />
           </Menu.Item>
         </Menu>
       </Popup>
