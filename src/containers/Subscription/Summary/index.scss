@@ -1,0 +1,40 @@
+.summary-container {
+  $font-fam: 'Work Sans', sans-serif !important;
+
+  &.container {
+    box-shadow: 0 3px 20px #00000029;
+    border: 1px solid #98aeca;
+    border-radius: 8px;
+    margin: 0 !important;
+    width: 994;
+    height: 186;
+    padding: 10px;
+    font-family: $font-fam;
+
+    &.text {
+      max-width: unset !important;
+    }
+
+    h3 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: #3b4557;
+      margin-bottom: 20px !important;
+    }
+  }
+
+  &__content {
+    &__plan-title {
+      font-weight: 600;
+      font-size: 20px;
+      color: #2e3b4a;
+      margin-right: 15px;
+    }
+
+    &__plan-value {
+      font-size: 20px;
+      color: #349af8;
+    }
+  }
+}

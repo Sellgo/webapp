@@ -1,0 +1,22 @@
+.subscription-page {
+  display: flex !important;
+  justify-content: center !important;
+  min-height: 100vh;
+
+  &__logo-container {
+    &__content {
+      padding: 65px 78px !important;
+      border-bottom: solid 1px #98aeca;
+
+      .image {
+        height: 101px;
+        width: 320px;
+      }
+    }
+  }
+
+  &__summary {
+    background: #f8faff;
+    padding: 45px 35px !important;
+  }
+}
