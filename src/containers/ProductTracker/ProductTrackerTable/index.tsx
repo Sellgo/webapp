@@ -196,7 +196,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     } else {
       checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
         data.checked;
-      const ckArray: any = [];
+      const ckArray: boolean[] = [];
       _.each(checkedData, (ckData: any) => {
         if (
           ckData.key !== 'Product Information' &&
@@ -208,8 +208,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       });
       checkedData[
         checkedData.findIndex((element: any) => element.key === 'Select All')
-      ].value = ckArray.every((val: any) => {
-        return val === true;
+      ].value = ckArray.every((val: boolean) => {
+        return val;
       });
     }
     this.setState({ columnFilterData: [...checkedData] });
