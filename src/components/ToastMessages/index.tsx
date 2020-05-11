@@ -20,10 +20,10 @@ export const EmailSuccess = (
   </>
 );
 
-export const Asin = (props: any) => {
+export const AsinSearchWarning = (props: any) => {
   return (
     <>
-      <Header className="email-update-success" as="h3">
+      <Header className="asin-message-warning" as="h3">
         {props.header}
         <Header.Subheader>{props.subheader}</Header.Subheader>
       </Header>
