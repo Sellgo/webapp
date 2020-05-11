@@ -14,7 +14,7 @@ import {
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
-import { formatCurrency, formatNumber } from '../../../../utils/format';
+import { formatCurrency, formatNumber, showNAIfZero } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
 import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
@@ -106,7 +106,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderMonthlySalesEst = (row: Product) => {
     return (
       <>
-        <p className="stat">{formatNumber(row.sales_monthly)}</p>
+        <p className="stat">{showNAIfZero(formatNumber(row.sales_monthly))}</p>
       </>
     );
   };
