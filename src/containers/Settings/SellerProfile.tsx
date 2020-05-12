@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Grid, Header, Image, Segment, TextArea, Label, Popup } from 'semantic-ui-react';
+import { Grid, Header, Image, Segment, TextArea, Label, Popup } from 'semantic-ui-react';
 import moment from 'moment';
 import { error } from '../../utils/notifications';
 
@@ -170,38 +170,11 @@ const SellerProfile = (props: any) => {
           <Grid.Column>
             <Grid>
               <Header as="h4">
-                Primary Email &nbsp;<a href="#email-update">{`(Change Email)`}</a>
+                Email
                 <Header.Subheader>{email}</Header.Subheader>
               </Header>
             </Grid>
           </Grid.Column>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row className="email-header" id="email-update">
-        <Grid.Column width={16}>
-          <Header as="h3">Email</Header>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row className="email-content" id="email-content">
-        <Grid.Column width={16}>
-          <Form>
-            <Form.Group>
-              <Form.Input
-                placeholder="Email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e, { value }) => handleProfileLocalChange({ email: value })}
-              />
-              <Form.Button
-                onClick={() => {
-                  props.updateSeller(profileLocal);
-                }}
-                className="primary-btn"
-                content="Update"
-              />
-            </Form.Group>
-          </Form>
         </Grid.Column>
       </Grid.Row>
     </>
