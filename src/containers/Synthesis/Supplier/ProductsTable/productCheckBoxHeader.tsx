@@ -66,6 +66,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
       requestProductBulkTracking(products);
     } else if (type === 'untrack') {
       requestProductBulkUnTracking(products);
+    } else {
+      // logging error here
     }
     updateCheckedRows({});
     setChecked(false);
