@@ -33,7 +33,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
       <Grid className="subscription-page" columns={2}>
         <Grid.Row>
           <Grid.Column width={5} className="subscription-page__logo-container">
-            <div className="subscription-page__container__image">
+            <div className="subscription-page__logo-container__image">
               <Image src="/images/sellgo_grey_logo.svg" wrapped={true} />
             </div>
           </Grid.Column>

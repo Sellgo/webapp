@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { Container, Header, Form, Button } from 'semantic-ui-react';
+import { Container, Header, Form, Button, Icon, Divider } from 'semantic-ui-react';
 import Auth from '../../../components/Auth/Auth';
 import { useInput } from '../../../hooks/useInput';
 
@@ -35,6 +35,22 @@ export default function Login(props: Props) {
   };
   return (
     <Container text className="login-container">
+      <div className="login-container__steps-content">
+        <div className="login-container__steps-content__register active">
+          <span className="login-container__steps-content__register__title">1. Register</span>
+          <span className="login-container__steps-content__register__icon">
+            <Icon name="pen square" />
+          </span>
+        </div>
+
+        <Divider section />
+        <div className="login-container__steps-content__payment">
+          <span className="login-container__steps-content__payment__title">2. Payment</span>
+          <span className="login-container__steps-content__payment__icon">
+            <Icon name="credit card" />
+          </span>
+        </div>
+      </div>
       <Header as="h3">Login</Header>
       <Form className="login-container__form" onSubmit={handleSubmit}>
         <Form.Input
@@ -55,6 +71,7 @@ export default function Login(props: Props) {
         >
           Log in
         </Form.Field>
+        <Divider section />
         <p className="login-container__form__sign-up">
           Need an account?
           <span
