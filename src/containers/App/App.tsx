@@ -17,7 +17,8 @@ import '../../analytics';
 import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
-import Subscription from '../Subscription';
+import SubscriptionPage from '../Subscription';
+import Subscription from '../Settings/Subscription';
 
 export const auth = new Auth();
 
@@ -156,7 +157,7 @@ function App() {
           <Route
             exact={true}
             path="/subscription"
-            render={renderProps => <Subscription auth={auth} {...renderProps} />}
+            render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
           />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />

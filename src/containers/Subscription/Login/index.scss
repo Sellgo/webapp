@@ -3,6 +3,7 @@
   $font-black: #3b4557;
   $font-blue: #349af8;
   $font-grey: #98aeca;
+  $font-red: #eb675e;
 
   &__steps-content {
     display: flex;
@@ -113,11 +114,18 @@
         }
       }
 
+      &__error {
+        color: $font-red;
+        font-size: 20px;
+        text-align: center;
+        min-height: 30px;
+      }
+
       &__login {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 60px 0 35px;
+        margin: 20px 0 35px;
 
         button {
           background-color: $font-blue;
@@ -139,6 +147,8 @@
           text-decoration: underline;
           cursor: pointer;
           color: $font-blue;
+          font-weight: 500;
+          margin: 0 5px;
         }
       }
 

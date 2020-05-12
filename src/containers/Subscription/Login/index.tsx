@@ -61,7 +61,10 @@ export default function Login(props: Props) {
           {...bindUserName}
         />
         <Form.Input size="huge" label="Password" type="password" {...bindPassword} />
-        {isError ? <span>Incorrect Username or Password!</span> : <span />}
+
+        <div className="login-container__form__error">
+          {isError ? <span>Incorrect Username or Password!</span> : <span />}
+        </div>
         <Form.Field
           size="huge"
           className="login-container__form__login"
