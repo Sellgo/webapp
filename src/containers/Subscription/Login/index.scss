@@ -1,0 +1,80 @@
+.login-container {
+  $font-fam: 'Work Sans', sans-serif !important;
+  $font-black: #3b4557;
+  $font-blue: #349af8;
+
+  &.container {
+    box-shadow: 0 3px 20px #00000029;
+    border: 1px solid #98aeca;
+    border-radius: 8px;
+    margin: 0 !important;
+    width: 1157px !important;
+    height: 652px !important;
+    padding: 33px 26px 29px 26px !important;
+    font-family: $font-fam;
+
+    &.text {
+      max-width: unset !important;
+    }
+
+    h3 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: $font-black;
+      margin-bottom: 20px !important;
+    }
+
+    .login-container__form {
+      &.ui.form {
+        .field {
+          label {
+            color: $font-black;
+            font-size: 19px;
+            font-weight: 600;
+          }
+
+          .input {
+            font-size: 21px !important;
+
+            input {
+              background: #fff 0% 0% no-repeat padding-box !important;
+              border: 1px solid #98aeca !important;
+              border-radius: 4px !important;
+              box-shadow: 0 0 0 100px #fff inset !important;
+              font-family: $font-fam !important;
+            }
+          }
+        }
+      }
+
+      &__login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 60px 0;
+
+        button {
+          background-color: $font-blue;
+          font-size: 18px !important;
+          font-weight: bold;
+          width: 267px;
+          height: 56px;
+        }
+      }
+
+      &__sign-up {
+        color: $font-black;
+        font-size: 20px !important;
+        font-weight: 600;
+        text-align: center;
+
+        span {
+          text-decoration: underline;
+          cursor: pointer;
+          color: $font-blue;
+        }
+      }
+    }
+  }
+}

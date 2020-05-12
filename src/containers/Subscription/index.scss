@@ -4,7 +4,7 @@
   min-height: 100vh;
 
   &__logo-container {
-    &__content {
+    &__image {
       padding: 65px 78px !important;
       border-bottom: solid 1px #98aeca;
 
@@ -15,7 +15,7 @@
     }
   }
 
-  &__summary {
+  &__content {
     background: #f8faff;
     padding: 45px 35px !important;
   }

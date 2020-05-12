@@ -1,15 +1,18 @@
 .summary-container {
   $font-fam: 'Work Sans', sans-serif !important;
 
+  margin-bottom: 40px;
+
   &.container {
     box-shadow: 0 3px 20px #00000029;
     border: 1px solid #98aeca;
     border-radius: 8px;
     margin: 0 !important;
-    width: 994;
-    height: 186;
-    padding: 10px;
+    width: 1157px !important;
+    height: 220px !important;
+    padding: 20px 13px 24px 13px !important;
     font-family: $font-fam;
+    margin-bottom: 40px !important;
 
     &.text {
       max-width: unset !important;
@@ -25,6 +28,11 @@
   }
 
   &__content {
+    p {
+      margin-bottom: 5px !important;
+      line-height: 1;
+    }
+
     &__plan-title {
       font-weight: 600;
       font-size: 20px;
@@ -35,6 +43,26 @@
     &__plan-value {
       font-size: 20px;
       color: #349af8;
+    }
+
+    &__moneyback-guarantee {
+      font-size: 20px;
+      color: #98aeca;
+    }
+
+    &__benefits-content {
+      line-height: 1;
+      font-size: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      columns: 2 auto;
+      margin-top: 15px;
+
+      &__items {
+        width: 50%;
+        color: #3b4557;
+        margin-bottom: 5px;
+      }
     }
   }
 }
