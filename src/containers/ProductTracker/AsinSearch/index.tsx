@@ -6,7 +6,7 @@ import './index.scss';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { checkTrackProduct } from '../../../actions/ProductTracker';
-import { Asin } from '../../../components/ToastMessages';
+import { AsinSearchWarning } from '../../../components/ToastMessages';
 import { warn, dismiss } from '../../../utils/notifications';
 
 interface Props {
@@ -49,7 +49,7 @@ const AsinSearch = (props: Props) => {
       subHeader = "The ASIN of the product can't be found in Amazon's database";
     }
 
-    return warn(<Asin header={header} subheader={subHeader} />);
+    return warn(<AsinSearchWarning header={header} subheader={subHeader} />);
   };
   useEffect(() => {
     if (searchValue && !verifyingProduct) {
@@ -67,14 +67,15 @@ const AsinSearch = (props: Props) => {
   }, [verifyingProduct]);
 
   const verifyProduct = () => {
+    const search = searchValue.trim();
     const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))');
-    const m = searchValue.match(regex);
+    const m = search.match(regex);
     if (m) {
       setSearchDetails(m[1]);
       checkProduct(m[1]);
     } else {
-      setSearchDetails(searchValue);
-      checkProduct(searchValue);
+      setSearchDetails(search);
+      checkProduct(search);
     }
   };
 

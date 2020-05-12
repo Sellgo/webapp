@@ -14,10 +14,11 @@ import {
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
-import { formatCurrency, formatNumber } from '../../../../utils/format';
+import { formatCurrency, formatNumber, showNAIfZero } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
 import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
+import ProductCheckBox from './productCheckBox';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -25,7 +26,6 @@ interface ProductsTableProps {
   products: Product[];
   filteredProducts: Product[];
   filterData: any;
-  filterRanges: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
   updateProductTrackingStatus: (
@@ -42,8 +42,12 @@ interface ProductsTableProps {
   updateProfitFinderProducts: (data: any) => void;
 }
 
+export interface CheckedRowDictionary {
+  [index: number]: boolean;
+}
+
 interface ProductsTableState {
-  checkedItems: { [index: number]: {} };
+  checkedRows: CheckedRowDictionary;
   searchValue: string;
   productRanges: any;
   filteredRanges: any;
@@ -51,7 +55,7 @@ interface ProductsTableState {
 
 class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
-    checkedItems: {},
+    checkedRows: {},
     searchValue: '',
     productRanges: initialFilterRanges,
     filteredRanges: [],
@@ -65,27 +69,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
   }
 
-  handleSelectAll = (event: any, isChecked: any) => {
-    const { filteredProducts } = this.props;
-
-    const newCheckedItems: any = {};
-    filteredProducts.forEach((item: any) => {
-      newCheckedItems[item.id] = isChecked;
-    });
-
-    this.setState({ checkedItems: newCheckedItems });
+  updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
+    this.setState({ checkedRows });
   };
 
   handleItemSelect = (e: any, isChecked: any, itemId: any) => {
-    const { checkedItems } = this.state;
-    const newCheckedItems = {
-      ...checkedItems,
+    const { checkedRows } = this.state;
+    const newCheckedRows = {
+      ...checkedRows,
       [itemId]: isChecked,
     };
 
-    this.setState({ checkedItems: newCheckedItems });
+    this.setState({ checkedRows: newCheckedRows });
   };
 
+  renderCheckBox = (row: Product) => {
+    const { checkedRows } = this.state;
+    let checked = false;
+    if (checkedRows[row.id] !== undefined) {
+      checked = checkedRows[row.id];
+    }
+    return <ProductCheckBox item={row} checked={checked} onClick={this.handleItemSelect} />;
+  };
   renderProductInfo = (row: Product) => {
     return <ProductDescription item={row} />;
   };
@@ -101,7 +106,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderMonthlySalesEst = (row: Product) => {
     return (
       <>
-        <p className="stat">{formatNumber(row.sales_monthly)}</p>
+        <p className="stat">{showNAIfZero(formatNumber(row.sales_monthly))}</p>
       </>
     );
   };
@@ -161,6 +166,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   columns: Column[] = [
+    {
+      label: '',
+      sortable: false,
+      dataKey: 'checkboxes',
+      show: true,
+      check: true,
+      render: this.renderCheckBox,
+    },
     {
       label: 'PRODUCT INFORMATION',
       sortable: false,
@@ -262,10 +275,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filteredProducts,
       singlePageItemsCount,
       setSinglePageItemsCount,
-      filterRanges,
       updateProfitFinderProducts,
     } = this.props;
-    const { searchValue, productRanges } = this.state;
+    const { searchValue, productRanges, checkedRows } = this.state;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -276,14 +288,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           </Segment>
         ) : (
           <PaginatedTable
-            /* 
-                          key change forced table to remount and set page back to 1
-                          if any data changes that would affect number of displayed items
-                          otherwise we can end up on a page that shows no results because it's
-                          past the end of the total number of items.
-                          This can be done in a less hacky way once we move pagination server-side.
-                        */
-            key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
@@ -295,6 +299,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             setSinglePageItemsCount={setSinglePageItemsCount}
             name={'products'}
             showFilter={true}
+            checkedRows={checkedRows}
+            updateCheckedRows={this.updateCheckedRows}
             renderFilterSectionComponent={() => (
               <ProfitFinderFilterSection productRanges={productRanges} />
             )}
@@ -309,7 +315,6 @@ const mapStateToProps = (state: {}) => ({
   isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: get(state, 'supplier.products'),
   filteredProducts: get(state, 'supplier.filteredProducts'),
-  filterRanges: get(state, 'supplier.filterRanges'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
