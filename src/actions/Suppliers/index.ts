@@ -410,7 +410,9 @@ export const updateProductTrackingStatus = (
           dispatch(updateSupplierProduct(json.data));
         })
         .catch(err => {
-          if (err.response && err.response.status === 400) {
+          if (err.response && err.response.status === 401) {
+            handleUnauthorizedMwsAuth(dispatch);
+          } else if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
         })
