@@ -149,3 +149,11 @@
     }
   }
 }
+
+@media screen and (max-width: 1680px) {
+  .login-container {
+    &.container {
+      width: 100% !important;
+    }
+  }
+}

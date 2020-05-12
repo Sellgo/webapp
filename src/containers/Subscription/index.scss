@@ -4,6 +4,8 @@
   min-height: 100vh;
 
   &__logo-container {
+    max-width: 585px;
+
     &__image {
       padding: 67px 0 52px;
       margin: 0 78px;
@@ -20,5 +22,40 @@
   &__content {
     background: #f8faff;
     padding: 45px 35px !important;
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  .ui.grid {
+    .wide.column.subscription-page {
+      &__logo-container {
+        max-width: 400px;
+        width: 25% !important;
+      }
+
+      &__content {
+        width: 75% !important;
+      }
+    }
+  }
+
+  .subscription-page {
+    &__logo-container {
+      &__image {
+        margin: 0 50px !important;
+        padding: 50px 0 30px !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .subscription-page {
+    &__logo-container {
+      &__image {
+        margin: 0 40px !important;
+        padding: 50px 0 10px !important;
+      }
+    }
   }
 }
