@@ -455,6 +455,30 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
     });
 };
 
+export const requestProductBulkUnTracking = (products: { product_id: number }[]) => (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerID = sellerIDSelector();
+  const supplierDetails = supplierDetailsSelector(getState());
+  Axios.post(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplierDetails.supplier_id}/untrack/products`,
+    products
+  )
+    .then(json => {
+      success('Request succeeded');
+      dispatch(getSellerQuota());
+      dispatch(updateSupplierProducts(json.data));
+    })
+    .catch(err => {
+      console.log('err.response', err.response);
+      if (err.response && err.response.status !== 200) {
+        error(err.response.data.message);
+      }
+    });
+};
+
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
   payload: data,
