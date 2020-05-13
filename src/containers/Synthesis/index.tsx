@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Button, Segment, Icon, Popup, Modal, List, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.scss';
-import history from '../../history';
-import { getAmazonMWSAuthorized } from '../../actions/Settings';
+import { getAmazonMWSAuthorized, handleUnauthorizedMwsAuth } from '../../actions/Settings';
 import UploadSupplier from './UploadSupplier';
 import {
   openUploadSupplierModal,
@@ -15,7 +14,6 @@ import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../UserOnboarding';
 import PageHeader from '../../components/PageHeader';
 import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
-import { error } from '../../utils/notifications';
 import {
   currentSynthesisId,
   currentProgress,
@@ -43,6 +41,7 @@ interface SynthesisProps {
   currentProgress: any;
   setProgress: any;
   match: any;
+  handleUnauthorizedMwsAuth: any;
 }
 
 class Synthesis extends Component<SynthesisProps> {
@@ -61,26 +60,22 @@ class Synthesis extends Component<SynthesisProps> {
   }
 
   openUpdateSupplierPopup = (supplier: any): void => {
-    const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
+    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
     if (amazonMWSAuthorized) {
       this.setState({ isEditModal: true });
       openUploadSupplierModal(supplier);
     } else {
-      error('Unauthorized access! Please add Amazon Seller Central credentials', {
-        onClose: () => history.push('/settings#amazon-mws'),
-      });
+      handleUnauthorizedMwsAuth();
     }
   };
 
   handleAddNewSupplierModalOpen = () => {
-    const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
+    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
     if (amazonMWSAuthorized) {
       this.setState({ isEditModal: false });
       openUploadSupplierModal();
     } else {
-      error('Unauthorized access! Please add Amazon Seller Central credentials', {
-        onClose: () => history.push('/settings#amazon-mws'),
-      });
+      handleUnauthorizedMwsAuth();
     }
   };
 
@@ -224,6 +219,7 @@ const mapDispatchToProps = {
   setProgressShow,
   setConfirmationShow,
   setProgress,
+  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synthesis);

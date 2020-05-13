@@ -13,6 +13,7 @@ import { AmazonMWS, Seller } from '../../interfaces/Seller';
 import { sellerIDSelector } from '../../selectors/Seller';
 import { success, error } from '../../utils/notifications';
 import isName from '../../utils/validations/isName';
+import history from '../../history';
 
 export const getSellerAmazonMWSAuth = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
@@ -52,7 +53,7 @@ export const updateAmazonMWSAuth = (data: any) => ({
   payload: data,
 });
 
-export const deleteAmazonMWSAuth = (data: any) => ({
+export const deleteAmazonMWSAuth = (data?: any) => ({
   type: DELETE_SELLER_AMAZON_MWS_AUTH,
   payload: data,
 });
@@ -186,3 +187,9 @@ export const setSellerQuota = (data: any) => ({
   type: SET_SELLER_QUOTA,
   payload: data,
 });
+
+export const handleUnauthorizedMwsAuth = () => (dispatch: any) => {
+  dispatch(deleteAmazonMWSAuth());
+  error('Unauthorized access! Please add Amazon Seller Central credentials');
+  history.push('/settings#amazon-mws');
+};

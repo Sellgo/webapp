@@ -15,16 +15,20 @@ import {
   currentError,
 } from '../../../selectors/UploadSupplier';
 import RowValidationChart from './RowValidationChart';
+import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
+import { closeUploadSupplierModal } from '../../../actions/Modals';
 
 interface SubmitProps {
   validateAndUploadCsv: any;
   onFinished: () => void;
   currentProgressShow: any;
+  handleUnauthorizedMwsAuth: any;
   setLoadingShow: any;
   currentResult: any;
   currentValid: any;
   currentError: any;
   setStep: any;
+  closeUploadSupplierModal: typeof closeUploadSupplierModal;
 }
 
 const Submit = (props: SubmitProps) => {
@@ -32,11 +36,13 @@ const Submit = (props: SubmitProps) => {
     validateAndUploadCsv,
     currentProgressShow,
     setLoadingShow,
+    handleUnauthorizedMwsAuth,
     currentResult,
     onFinished,
     currentValid,
     currentError,
     setStep,
+    closeUploadSupplierModal,
   } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -55,11 +61,15 @@ const Submit = (props: SubmitProps) => {
       await validateAndUploadCsv();
       onFinished();
     } catch (error) {
-      let errors = ['Something went wrong!'];
+      let errorMessage = 'Something went wrong!';
       if (error && error.response && error.response.data && error.response.data.message) {
-        errors = error.response.data.message;
+        errorMessage = error.response.data.message;
       }
-      setError(errors.join());
+      setError(errorMessage);
+      if (error.response.status === 401) {
+        closeUploadSupplierModal();
+        handleUnauthorizedMwsAuth();
+      }
     }
     setLoading(false);
     setLoadingShow(false);
@@ -135,9 +145,11 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
+  closeUploadSupplierModal,
   validateAndUploadCsv,
   setLoadingShow,
   setStep: setUploadSupplierStep,
+  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Submit);

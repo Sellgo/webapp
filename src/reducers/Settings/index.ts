@@ -14,6 +14,8 @@ const initialState = {
   profile: {},
   amazonMWSAuth: [],
   profileImage: {},
+  amazonMWSAuthorized: null,
+  sellerQuota: null,
 };
 
 export default (state = initialState, action: any) => {
@@ -22,11 +24,15 @@ export default (state = initialState, action: any) => {
       return setIn(state, 'amazonMWSAuth', action.payload);
 
     case DELETE_SELLER_AMAZON_MWS_AUTH:
-      return setIn(
-        state,
-        'amazonMWSAuth',
-        get(state, 'amazonMWSAuth').filter((mws: any) => mws.id !== action.payload)
-      );
+      if (action.payload) {
+        return setIn(
+          state,
+          'amazonMWSAuth',
+          get(state, 'amazonMWSAuth').filter((mws: any) => mws.id !== action.payload)
+        );
+      } else {
+        return setIn(state, 'amazonMWSAuth', initialState.amazonMWSAuth);
+      }
 
     case UPDATE_SELLER_AMAZON_MWS_AUTH:
       return setIn(state, 'amazonMWSAuth', [...get(state, 'amazonMWSAuth'), action.payload]);
