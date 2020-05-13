@@ -55,11 +55,11 @@ const Submit = (props: SubmitProps) => {
       await validateAndUploadCsv();
       onFinished();
     } catch (error) {
-      let errors = ['Something went wrong!'];
+      let errorMessage = 'Something went wrong!';
       if (error && error.response && error.response.data && error.response.data.message) {
-        errors = error.response.data.message;
+        errorMessage = error.response.data.message;
       }
-      setError(errors.join());
+      setError(errorMessage);
     }
     setLoading(false);
     setLoadingShow(false);
