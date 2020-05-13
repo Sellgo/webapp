@@ -36,7 +36,8 @@ export const currentSupplier = (state: object): [] => get(state, 'modals.uploadS
 
 export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultError', []);
 
-export const csvSelector = (state: object): string[][] => get(state, 'uploadSupplier.csv', null);
+export const fileStringArraySelector = (state: object): string[][] =>
+  get(state, 'uploadSupplier.fileStringArray', null);
 
 export const columnMappingsSelector = (state: object): [] =>
   get(state, 'uploadSupplier.columnMappings', []);
@@ -47,7 +48,7 @@ export const columnMappingSettingSelector = (state: object): boolean =>
 export const skipColumnMappingCheckSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.skipColumnMappingCheck', false);
 
-export const csvHeaderSelector = createSelector([csvSelector], csv => {
+export const csvHeaderSelector = createSelector([fileStringArraySelector], csv => {
   const headerRow = csv.length > 0 ? csv[0] : [];
 
   // convert header to alphabet
@@ -56,7 +57,7 @@ export const csvHeaderSelector = createSelector([csvSelector], csv => {
   return alphabeticHeader;
 });
 
-export const csvFileSelector = (state: object): File => get(state, 'uploadSupplier.csvFile');
+export const fileSelector = (state: object): File => get(state, 'uploadSupplier.file');
 
 export const reversedColumnMappingsSelector = createSelector(
   [columnMappingsSelector],

@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {
-  csvSelector,
+  fileStringArraySelector,
   columnMappingsSelector,
   csvHeaderSelector,
 } from '../../../../selectors/UploadSupplier';
@@ -60,7 +60,7 @@ const PreviewTable = (props: PreviewTableProps) => {
 
 const mapStateToProps = (state: object) => ({
   columnHeaders: csvHeaderSelector(state),
-  csv: csvSelector(state),
+  csv: fileStringArraySelector(state),
   columnMappings: columnMappingsSelector(state),
 });
 

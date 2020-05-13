@@ -1,10 +1,10 @@
 import { FieldsToMap, UploadSteps } from '../../constants/UploadSupplier';
 import {
   reversedColumnMappingsSelector,
-  csvSelector,
+  fileStringArraySelector,
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
-  csvFileSelector,
+  fileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -140,9 +140,9 @@ export class SelectFileStep extends Step {
 
   checkFile() {
     const state = this.getState();
-    const csvFile = csvFileSelector(state);
-    const csvArray = csvSelector(state);
-    const fileSet = Boolean(csvFile) && Boolean(csvArray);
+    const file = fileSelector(state);
+    const csvArray = fileStringArraySelector(state);
+    const fileSet = Boolean(file) && Boolean(csvArray);
     const errorMessage = fileSet ? undefined : 'Please select a csv file';
     return errorMessage;
   }
@@ -171,7 +171,7 @@ export class SelectFileStep extends Step {
   }
 
   validateFields() {
-    const csv = csvSelector(this.getState());
+    const csv = fileStringArraySelector(this.getState());
     const hasHeaders = isFirstRowHeaderSelector(this.getState());
     if (hasHeaders) {
       const mappings = this.guessColumnMappings(csv);

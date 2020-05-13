@@ -29,10 +29,14 @@ function FileUploader(props: FileUploaderProps) {
       <Icon name="cloud upload" size="huge" className={styles.cloud} />
       <br />
       <p className={`description-container ${styles.description} ${styles['margin-top']}`}>
-        <b className="upload-supplier-csv">Upload filled-in Supplier File(s) here</b>
+        <b className="upload-supplier-title">Upload filled-in Supplier File(s) here</b>
         <br />
         <span className={`upload-supplier-desc ${styles.description}`}>
           Drag and drop, or click to select
+        </span>
+        <br />
+        <span className={`upload-supplier-desc ${styles.description}`}>
+          Accepted File Types: {accept.join(', ')}
         </span>
         <br />
         <br />

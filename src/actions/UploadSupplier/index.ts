@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import parse from 'csv-parse/lib/es5';
+import csvParse from 'csv-parse/lib/es5';
 import Axios from 'axios';
 import reduce from 'lodash/reduce';
 import {
@@ -9,14 +9,14 @@ import {
   columnMappingSettingSelector,
   currentStepSelector,
   columnMappingsSelector,
-  csvSelector,
-  csvFileSelector,
+  fileStringArraySelector,
+  fileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
 import {
   SET_UPLOAD_SUPPLIER_STEP,
-  SET_CSV,
-  SET_RAW_CSV,
+  SET_FILE_STRING_ARRAY,
+  SET_RAW_FILE,
   MAP_COLUMN,
   CLEANUP_UPLOAD_SUPPLIER,
   REMOVE_COLUMN_MAPPINGS,
@@ -42,6 +42,8 @@ import { newSupplierIdSelector } from '../../selectors/Supplier';
 import { AppConfig } from '../../config';
 import { fetchSupplier } from '../Suppliers';
 import { round } from 'lodash';
+import { acceptedFileFormats } from '../../containers/Synthesis/UploadSupplier/SelectFile';
+import { getFileExtension, convertExtensionToMime } from '../../utils/file';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -87,31 +89,31 @@ export const setUploadSupplierStep = (nextStep: number) => async (
   }
 };
 
-export const setRawCsv = (csvString: string | ArrayBuffer | null, csvFile: File | null) => {
-  const csvJSONFile: any = {};
-  if (csvFile !== null) {
-    csvJSONFile.lastModified = csvFile.lastModified;
-    csvJSONFile.name = csvFile.name;
+export const setRawFile = (fileString: string | ArrayBuffer | null, file: File | null) => {
+  const newFile: any = {};
+  if (file !== null) {
+    newFile.lastModified = file.lastModified;
+    newFile.name = file.name;
   }
   return {
-    type: SET_RAW_CSV,
-    csvString,
-    csvJSONFile,
+    type: SET_RAW_FILE,
+    fileString,
+    newFile,
   };
 };
 
-export const setCsv = (csv: string[][] | null) => ({
-  type: SET_CSV,
-  payload: csv,
+export const setFileStringArray = (fileStringArray: string[][] | null) => ({
+  type: SET_FILE_STRING_ARRAY,
+  payload: fileStringArray,
 });
 
 export const parseCsv = () => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
-  const rawString = get(getState(), 'uploadSupplier.rawCsv');
+  const rawFileString = get(getState(), 'uploadSupplier.rawFile');
 
-  if (!rawString) {
+  if (!rawFileString) {
     return;
   }
 
@@ -126,47 +128,44 @@ export const parseCsv = () => (
   const getParsedCsv = (err: Error | undefined, output: string[][]) => {
     if (err) {
       error('File does not appear to be a valid csv file.');
-      dispatch(setCsv(null));
-      dispatch(setRawCsv(null, null));
+      dispatch(setFileStringArray(null));
+      dispatch(setRawFile(null, null));
     } else {
-      dispatch(setCsv(output));
+      dispatch(setFileStringArray(output));
     }
   };
 
   // to ensure loader is visible delay execution by placing parse in async queue
   Promise.resolve().then(() => {
-    parse(rawString, parseOption, getParsedCsv);
+    csvParse(rawFileString, parseOption, getParsedCsv);
   });
 };
 
-export const prepareCsv = (csvFile?: File) => async (
-  dispatch: ThunkDispatch<{}, {}, AnyAction>
-) => {
-  if (!csvFile) {
+export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+  if (!file) {
     return;
   }
 
   const reader = new FileReader();
 
   reader.onloadend = () => {
-    const csvString = reader.result;
+    const fileString = reader.result;
 
-    if (!csvString || reader.error) {
+    if (!fileString || reader.error) {
       error('Error occurred while uploading csv.');
     } else {
-      dispatch(setRawCsv(csvString, csvFile));
+      dispatch(setRawFile(fileString, file));
       dispatch(parseCsv());
     }
   };
 
-  reader.readAsText(csvFile);
+  reader.readAsText(file);
 };
 
 export const handleRejectedFile = (rejectedFile?: File) => {
-  const fileExtension =
-    rejectedFile && rejectedFile.name.split('.').length > 1 && rejectedFile.name.split('.').pop();
-  if (!fileExtension || fileExtension.toLowerCase() !== 'csv') {
-    error('Invalid file extension detected. File should be a csv file.');
+  const fileExtension = rejectedFile && getFileExtension(rejectedFile);
+  if (!fileExtension || !acceptedFileFormats.includes(`.${fileExtension.toLowerCase()}`)) {
+    error('Invalid file extension detected.');
     return;
   }
 
@@ -179,19 +178,21 @@ export const handleRejectedFile = (rejectedFile?: File) => {
   }
 };
 
-export const parseArrayToCsvFile = (csvArray: string[][], csvFileDetails?: any): File => {
-  const fileName = csvFileDetails && csvFileDetails.name ? csvFileDetails.name : '';
+export const parseArrayToFile = (fileStringArray: string[][], fileDetails?: File): File => {
+  const fileName = fileDetails && fileDetails.name ? fileDetails.name : '';
+  const fileExtension = fileDetails ? getFileExtension(fileDetails) : '';
+  const mimeType = convertExtensionToMime(fileExtension);
 
   // escape commas
-  csvArray = csvArray.map((row: string[]) =>
+  fileStringArray = fileStringArray.map((row: string[]) =>
     row.map((cell: string) => {
       cell = cell.replace(/"/g, '""');
       return cell.includes(',') ? `"${cell}"` : cell;
     })
   );
-  const csvString = csvArray.join('\n');
+  const fileString = fileStringArray.join('\n');
 
-  return new File([csvString], fileName, { type: 'text/csv' });
+  return new File([fileString], fileName, { type: mimeType });
 };
 
 export const mapColumn = (csvColumn: string | number, targetColumn: string) => ({
@@ -283,7 +284,7 @@ export const validateAndUploadCsv = () => async (
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
   const columnMappingSetting = columnMappingSettingSelector(getState());
-  const csv = parseArrayToCsvFile(csvSelector(getState()), csvFileSelector(getState()));
+  const file = parseArrayToFile(fileStringArraySelector(getState()), fileSelector(getState()));
 
   const reversedColumnMappings: any = reduce(
     columnMappings,
@@ -296,13 +297,13 @@ export const validateAndUploadCsv = () => async (
     {}
   );
 
-  if (!csv) {
-    throw new Error('please upload a csv file');
+  if (!file) {
+    throw new Error('please upload a valid file');
   }
 
   const bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
-  bodyFormData.set('file', csv);
+  bodyFormData.set('file', file);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
   if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
