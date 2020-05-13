@@ -15,11 +15,13 @@ import {
   currentError,
 } from '../../../selectors/UploadSupplier';
 import RowValidationChart from './RowValidationChart';
+import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 
 interface SubmitProps {
   validateAndUploadCsv: any;
   onFinished: () => void;
   currentProgressShow: any;
+  handleUnauthorizedMwsAuth: any;
   setLoadingShow: any;
   currentResult: any;
   currentValid: any;
@@ -32,6 +34,7 @@ const Submit = (props: SubmitProps) => {
     validateAndUploadCsv,
     currentProgressShow,
     setLoadingShow,
+    handleUnauthorizedMwsAuth,
     currentResult,
     onFinished,
     currentValid,
@@ -60,6 +63,7 @@ const Submit = (props: SubmitProps) => {
         errorMessage = error.response.data.message;
       }
       setError(errorMessage);
+      handleUnauthorizedMwsAuth();
     }
     setLoading(false);
     setLoadingShow(false);
@@ -138,6 +142,7 @@ const mapDispatchToProps = {
   validateAndUploadCsv,
   setLoadingShow,
   setStep: setUploadSupplierStep,
+  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Submit);

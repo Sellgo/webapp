@@ -41,6 +41,7 @@ interface SynthesisProps {
   currentProgress: any;
   setProgress: any;
   match: any;
+  handleUnauthorizedMwsAuth: any;
 }
 
 class Synthesis extends Component<SynthesisProps> {
@@ -59,7 +60,7 @@ class Synthesis extends Component<SynthesisProps> {
   }
 
   openUpdateSupplierPopup = (supplier: any): void => {
-    const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
+    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
     if (amazonMWSAuthorized) {
       this.setState({ isEditModal: true });
       openUploadSupplierModal(supplier);
@@ -69,7 +70,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   handleAddNewSupplierModalOpen = () => {
-    const { amazonMWSAuthorized, openUploadSupplierModal } = this.props;
+    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
     if (amazonMWSAuthorized) {
       this.setState({ isEditModal: false });
       openUploadSupplierModal();
@@ -218,6 +219,7 @@ const mapDispatchToProps = {
   setProgressShow,
   setConfirmationShow,
   setProgress,
+  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synthesis);

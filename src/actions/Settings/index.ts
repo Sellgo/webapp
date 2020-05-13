@@ -188,12 +188,8 @@ export const setSellerQuota = (data: any) => ({
   payload: data,
 });
 
-export const handleUnauthorizedMwsAuth = (dispatch?: any) => {
-  if (dispatch) {
-    dispatch(deleteAmazonMWSAuth());
-  } else {
-    deleteAmazonMWSAuth();
-  }
+export const handleUnauthorizedMwsAuth = () => (dispatch: any) => {
+  dispatch(deleteAmazonMWSAuth());
   error('Unauthorized access! Please add Amazon Seller Central credentials');
   history.push('/settings#amazon-mws');
 };

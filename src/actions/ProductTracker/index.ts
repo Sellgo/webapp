@@ -152,7 +152,7 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
     })
     .catch(err => {
       if (err.response.status === 401) {
-        handleUnauthorizedMwsAuth(dispatch);
+        dispatch(handleUnauthorizedMwsAuth());
       } else {
         dispatch(isProductTracked(true, false));
         dispatch(verifyingProduct(false));
@@ -187,7 +187,7 @@ export const confirmTrackProduct = (
     })
     .catch(err => {
       if (err.response.status === 401) {
-        handleUnauthorizedMwsAuth(dispatch);
+        dispatch(handleUnauthorizedMwsAuth());
       } else {
         error('Unable to Add Product');
         dispatch(isLoadingTrackerProducts(false));

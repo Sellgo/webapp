@@ -47,6 +47,7 @@ interface SuppliersTableProps {
   currentSynthesisId: any;
   setProgress: any;
   setSpeed: any;
+  handleUnauthorizedMwsAuth: any;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -74,7 +75,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     );
   };
   renderActions = (row: Supplier) => {
-    const { amazonMWSAuthorized } = this.props;
+    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth } = this.props;
     return (
       <Dropdown
         className={'syn-dropdown-link syn-dropdown-label'}
@@ -427,6 +428,7 @@ const mapDispatchToProps = {
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
   setProgress,
   setSpeed,
+  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

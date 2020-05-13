@@ -147,7 +147,7 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
     })
     .catch(err => {
       if (err.response.status === 401) {
-        handleUnauthorizedMwsAuth(dispatch);
+        dispatch(handleUnauthorizedMwsAuth());
       } else {
         error('Rerun failed. Try again!');
       }
@@ -174,7 +174,7 @@ export const postSynthesisRun = (synthesisId: string) => async (
     })
     .catch(err => {
       if (err.response.status === 401) {
-        handleUnauthorizedMwsAuth(dispatch);
+        dispatch(handleUnauthorizedMwsAuth());
       } else {
         error('Run failed. Try again!');
       }
@@ -411,7 +411,7 @@ export const updateProductTrackingStatus = (
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
-            handleUnauthorizedMwsAuth(dispatch);
+            dispatch(handleUnauthorizedMwsAuth());
           } else if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
@@ -434,7 +434,7 @@ export const updateProductTrackingStatus = (
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
-            handleUnauthorizedMwsAuth(dispatch);
+            dispatch(handleUnauthorizedMwsAuth());
           } else if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
