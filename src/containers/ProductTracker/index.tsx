@@ -19,6 +19,7 @@ import { getSellerQuota } from '../../actions/Settings';
 import ProductSearch from '../../components/ProductSearch/productSearch';
 import AsinSearch from './AsinSearch';
 import { DEFAULT_PERIOD } from '../../constants/Tracker';
+import FreeTrialPeriod from '../../components/FreeTrialMessageDisplay';
 
 interface ProductTrackerProps {
   setFilterSearch: (value: string) => void;
@@ -166,6 +167,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
 
     return (
       <>
+        <FreeTrialPeriod />
         <PageHeader
           title={`Product Tracker - ${currentGroupName}`}
           breadcrumb={[

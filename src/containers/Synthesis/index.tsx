@@ -23,6 +23,7 @@ import {
 } from '../../selectors/UploadSupplier';
 import { setProgressShow, setConfirmationShow } from '../../actions/UploadSupplier';
 import { setProgress } from '../../actions/Suppliers';
+import FreeTrialPeriod from '../../components/FreeTrialMessageDisplay';
 
 interface SynthesisProps {
   amazonMWSAuthorized: boolean;
@@ -156,6 +157,7 @@ class Synthesis extends Component<SynthesisProps> {
 
     return (
       <>
+        <FreeTrialPeriod />
         <PageHeader
           title="Profit Finder"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}

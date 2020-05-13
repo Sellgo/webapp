@@ -1,0 +1,21 @@
+.free-trial-period {
+  .ui.segment .message {
+    background: #feda83;
+    height: 30px;
+    box-shadow: none !important;
+    padding: 0 115px;
+    text-align: left;
+
+    .content p {
+      color: #3b4557;
+      font-size: 20px;
+      font-weight: 600;
+
+      span {
+        color: #349af8 !important;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+}

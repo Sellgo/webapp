@@ -104,7 +104,7 @@
   .ui.selection.dropdown:-webkit-autofill,
   .password-content input:-webkit-autofill {
     -webkit-text-fill-color: #3b4557 !important;
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    box-shadow: 0 0 0 30px white inset !important;
   }
 
   .primary-btn button.ui.button,
