@@ -3,7 +3,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
-import { getSellerQuota } from '../Settings';
+import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
 import {
   suppliersSelector,
   newSupplierIdSelector,
@@ -147,8 +147,12 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
       dispatch(fetchSynthesisProgressUpdates());
       success('Rerun successfully initiated!');
     })
-    .catch(() => {
-      error('Rerun failed. Try again!');
+    .catch(err => {
+      if (err.response.status === 401) {
+        dispatch(handleUnauthorizedMwsAuth());
+      } else {
+        error('Rerun failed. Try again!');
+      }
     });
 };
 
@@ -170,8 +174,12 @@ export const postSynthesisRun = (synthesisId: string) => async (
       dispatch(updateSupplier(existingSupplier));
       dispatch(fetchSynthesisProgressUpdates());
     })
-    .catch(() => {
-      error('Run failed. Try again!');
+    .catch(err => {
+      if (err.response.status === 401) {
+        dispatch(handleUnauthorizedMwsAuth());
+      } else {
+        error('Run failed. Try again!');
+      }
     });
 };
 
@@ -404,7 +412,9 @@ export const updateProductTrackingStatus = (
           dispatch(updateSupplierProduct(json.data));
         })
         .catch(err => {
-          if (err.response && err.response.status === 400) {
+          if (err.response && err.response.status === 401) {
+            dispatch(handleUnauthorizedMwsAuth());
+          } else if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
         })
@@ -425,7 +435,9 @@ export const updateProductTrackingStatus = (
           }
         })
         .catch(err => {
-          if (err.response && err.response.status === 400) {
+          if (err.response && err.response.status === 401) {
+            dispatch(handleUnauthorizedMwsAuth());
+          } else if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
         });
