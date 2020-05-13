@@ -19,6 +19,7 @@ import history from '../../../history';
 
 import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
+import { Link } from 'react-router-dom';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -200,7 +201,15 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const cardsDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
       return (
-        <Card key={subscription.id} className={`${isSubscribed && 'active-plan'}`}>
+        <Card
+          key={subscription.id}
+          className={`${isSubscribed && 'active-plan'} ${!isSubscribed &&
+            (Number(subscription.id) === 1
+              ? 'basic-value-content'
+              : Number(subscription.id) === 2
+              ? 'best-value-content'
+              : 'contact-us-content')}`}
+        >
           <Card.Content>
             <Card.Header>
               <Button
@@ -259,6 +268,14 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               >
                 {subscribedSubscription ? 'Change Plan' : 'Get Started'}
               </Button>
+            )}
+
+            {!subscribedSubscription && (
+              <Link to="/settings/#amazon-mws" className="free-trial-btn">
+                <Button className="basic-btn" fluid>
+                  Free Trial
+                </Button>
+              </Link>
             )}
 
             <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
@@ -327,7 +344,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <Header as="h4">Have a coupon?</Header>
                 <Grid className="field-container">
                   <Input
-                    style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
+                    style={{
+                      marginLeft: '10px',
+                      marginRight: '10px',
+                      marginBottom: '15px',
+                    }}
                     value={this.state.couponVal}
                     onChange={e => this.setState({ couponVal: e.target.value })}
                     onKeyPress={(e: KeyboardEvent) => {

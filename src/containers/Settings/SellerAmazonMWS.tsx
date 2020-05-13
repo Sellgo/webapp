@@ -201,12 +201,35 @@ const SellerAmazonMWS = (props: any) => {
                   }
                 />
                 &nbsp; &nbsp;
-                <span
-                  className="auth-seller"
-                  onClick={() => setConfirmToken(() => !showConfirmToken)}
-                >
-                  Authenticate Your Seller Account
-                </span>
+                <Popup
+                  basic
+                  trigger={
+                    <span
+                      className="auth-seller"
+                      onClick={() => {
+                        setConfirmToken(() => !showConfirmToken);
+                        if (window.location.hash === '#amazon-mws') {
+                          window.location.hash = '';
+                        }
+                      }}
+                    >
+                      Authenticate Your Seller Account
+                    </span>
+                  }
+                  className="free-trial-popup"
+                  open={window.location.hash === '#amazon-mws'}
+                  content={
+                    <>
+                      <p className="title">Start Your Free Trial</p>
+                      <p className="content">
+                        To finish setting up your account and start your free trial. Please enter
+                        your Amazon MWS Authorization. Click on “Authenticate Your Seller Account”
+                        for instructions.
+                      </p>
+                    </>
+                  }
+                  position="bottom right"
+                />
                 <br />
               </>
             }

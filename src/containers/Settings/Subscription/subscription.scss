@@ -171,7 +171,7 @@
   }
 
   .ui.card {
-    max-height: 368px;
+    max-height: 380px;
     min-height: 368px;
     max-width: 340px;
     min-width: 340px;
@@ -206,6 +206,7 @@
 
     .content:first-child {
       padding: 0;
+      min-height: 40px;
 
       .header {
         margin-top: 0;
@@ -290,7 +291,7 @@
       .fluid.button.basic-btn {
         border-radius: 40px;
         width: 210px;
-        height: 46px;
+        height: 45px;
         margin: auto;
         background: 0;
         border: 2px solid #349af8;
@@ -300,6 +301,14 @@
         outline: none !important;
         line-height: normal !important;
         padding: 0;
+      }
+
+      .free-trial-btn {
+        text-decoration: none !important;
+
+        .fluid.button.basic-btn {
+          margin-top: 10px;
+        }
       }
 
       .fluid.button.basic-btn.active-plan {
@@ -339,6 +348,54 @@
       a:hover {
         color: #349af8 !important;
         text-decoration: underline;
+      }
+    }
+
+    &.best-value-content {
+      max-height: 440px !important;
+
+      .content {
+        .description {
+          margin-bottom: 25px !important;
+        }
+      }
+
+      .extra.content {
+        .fluid.button.basic-btn {
+          font-weight: 500 !important;
+        }
+      }
+    }
+
+    &.basic-value-content {
+      .content {
+        .description {
+          margin-bottom: 25px !important;
+        }
+      }
+
+      .extra.content {
+        padding-bottom: 20px !important;
+
+        .fluid.button.basic-btn {
+          font-weight: 500 !important;
+        }
+      }
+    }
+
+    &.contact-us-content {
+      .content {
+        .header {
+          font-size: 35px !important;
+        }
+
+        .description {
+          margin-bottom: 25px !important;
+        }
+      }
+
+      .extra.content {
+        padding-bottom: 60px !important;
       }
     }
   }

@@ -186,6 +186,27 @@
   min-width: 434px !important;
 }
 
+.ui.popup.transition.visible.free-trial-popup {
+  min-width: 560px !important;
+  left: 800px !important;
+  bottom: 120px;
+  color: #fff;
+  background: #757575;
+  border: 1px solid #98aeca;
+  border-radius: 11px;
+  padding: 24px 26px;
+
+  .title {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 25px;
+  }
+
+  .content {
+    font-size: 18px;
+  }
+}
+
 .ui.small.modal.transition.visible.active.auth-token-confirm {
   $font-fam: 'Work Sans', sans-serif !important;
 
