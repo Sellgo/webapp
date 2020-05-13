@@ -16,6 +16,7 @@ import {
 } from '../../../selectors/UploadSupplier';
 import RowValidationChart from './RowValidationChart';
 import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
+import { closeUploadSupplierModal } from '../../../actions/Modals';
 
 interface SubmitProps {
   validateAndUploadCsv: any;
@@ -27,6 +28,7 @@ interface SubmitProps {
   currentValid: any;
   currentError: any;
   setStep: any;
+  closeUploadSupplierModal: typeof closeUploadSupplierModal;
 }
 
 const Submit = (props: SubmitProps) => {
@@ -40,6 +42,7 @@ const Submit = (props: SubmitProps) => {
     currentValid,
     currentError,
     setStep,
+    closeUploadSupplierModal,
   } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -63,7 +66,10 @@ const Submit = (props: SubmitProps) => {
         errorMessage = error.response.data.message;
       }
       setError(errorMessage);
-      handleUnauthorizedMwsAuth();
+      if (error.response.status === 401) {
+        closeUploadSupplierModal();
+        handleUnauthorizedMwsAuth();
+      }
     }
     setLoading(false);
     setLoadingShow(false);
@@ -139,6 +145,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
+  closeUploadSupplierModal,
   validateAndUploadCsv,
   setLoadingShow,
   setStep: setUploadSupplierStep,
