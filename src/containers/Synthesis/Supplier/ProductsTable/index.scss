@@ -173,7 +173,7 @@ $new_black: #707070;
 
       label::before {
         border-radius: 4px !important;
-        border: 0.5px solid #dededf;
+        border: 1px solid #d4d4d5;
       }
 
       input:checked ~ .box::before,
@@ -561,9 +561,10 @@ $new_black: #707070;
   margin: -10px 5px !important;
 
   .header-checkbox-menu {
-    border: 0.5px solid rgba(34, 36, 38, 0.3) !important;
     border-radius: 11px !important;
     opacity: 1 !important;
+    box-shadow: 0 3px 20px #00000029 !important;
+    border: 1px solid #98aeca;
 
     .checkbox-menu-item {
       cursor: auto;
