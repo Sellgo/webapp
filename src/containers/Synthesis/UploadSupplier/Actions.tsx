@@ -127,7 +127,7 @@ const Actions = ({
               />
               {currentProgress < 100 ? (
                 <Grid>
-                  <span>Speed: {currentSpeed} SKU/min</span>
+                  <span>Speed: {currentSpeed} UPC/min</span>
                   <span>Uploading File</span>
                   <span>ETA: {Math.ceil(currentEta)} Secs</span>
                 </Grid>
