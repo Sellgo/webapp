@@ -13,7 +13,7 @@ import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
 import { saveSupplierName, updateSupplierName, updateSearch, saveSearch } from '../Suppliers';
-import { fetchColumnMappings, setColumnMappings, parseCsv } from '.';
+import { fetchColumnMappings, setColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
 import get from 'lodash/get';
@@ -141,22 +141,22 @@ export class SelectFileStep extends Step {
   checkFile() {
     const state = this.getState();
     const file = fileSelector(state);
-    const csvArray = fileStringArraySelector(state);
-    const fileSet = Boolean(file) && Boolean(csvArray);
-    const errorMessage = fileSet ? undefined : 'Please select a csv file';
+    const fileStringArray = fileStringArraySelector(state);
+    const fileSet = Boolean(file) && Boolean(fileStringArray);
+    const errorMessage = fileSet ? undefined : 'Please select a valid file';
     return errorMessage;
   }
 
-  guessColumnMappings(csv: string[][]) {
+  guessColumnMappings(fileStringArray: string[][]) {
     /**
      *  This function guesses column mappings based on whether a cell in the header row contains a specific keyword.
-     *  Note: this function assumes that the first row of the csv is a header.
+     *  Note: this function assumes that the first row of the fileStringArray is a header.
      *
      *  Potential future improvements:
      *    1) check header row against multiple keywords for each column
      *    2) guess from format of data rows
      */
-    const header = csv.length ? csv[0] : []; // assume first row is header
+    const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
 
     const mappings: string[] = [];
     header.forEach((headerCell: string) => {
@@ -171,10 +171,10 @@ export class SelectFileStep extends Step {
   }
 
   validateFields() {
-    const csv = fileStringArraySelector(this.getState());
+    const fileStringArray = fileStringArraySelector(this.getState());
     const hasHeaders = isFirstRowHeaderSelector(this.getState());
     if (hasHeaders) {
-      const mappings = this.guessColumnMappings(csv);
+      const mappings = this.guessColumnMappings(fileStringArray);
       if (mappings) {
         this.dispatch(setColumnMappings(mappings));
       }
@@ -193,10 +193,6 @@ export class SelectFileStep extends Step {
   }
 
   cleanStep() {
-    // remove file
-    // this.dispatch(setRawCsv('', null));
-    // remove mappings
-    // this.dispatch(removeColumnMappings());
     this.dispatch(fetchColumnMappings());
   }
 }
@@ -225,7 +221,8 @@ export class DataMappingStep extends Step {
   }
 
   cleanStep() {
-    this.dispatch(parseCsv());
+    //TODO: abstract this
+    // this.dispatch(parseCsv());
   }
 }
 

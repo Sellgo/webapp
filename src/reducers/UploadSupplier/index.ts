@@ -76,8 +76,6 @@ export default (
   switch (action.type) {
     case SET_FILE_STRING_ARRAY: {
       return setIn(state, 'fileStringArray', action.payload);
-      // const newState = setIn(state, 'csv', action.payload);
-      // return setIn(newState, 'currentStep', 2);
     }
     case SET_RAW_FILE: {
       const newState = setIn(state, 'rawFile', action.fileString);
@@ -95,8 +93,8 @@ export default (
           newColumnMappings[i] = e;
         }
       });
-      if (action.csvColumn !== -1) {
-        newColumnMappings[action.csvColumn] = action.targetColumn;
+      if (action.fileColumn !== -1) {
+        newColumnMappings[action.fileColumn] = action.targetColumn;
       }
       return setIn(state, 'columnMappings', newColumnMappings);
     }

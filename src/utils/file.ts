@@ -1,8 +1,12 @@
+import _ from 'lodash';
+
 export const extensionMimeMapping: any = {
   '.csv': 'text/csv',
   '.xls': 'application/vnd.ms-excel',
   '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 };
+
+export const mimeExtensionMapping = _.invert(extensionMimeMapping);
 
 export const convertExtensionToMime = (extension: string) => {
   return extensionMimeMapping[extension];

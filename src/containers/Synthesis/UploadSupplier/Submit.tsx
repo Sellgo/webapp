@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useAsyncEffect } from '../../../hooks';
 import {
-  validateAndUploadCsv,
+  validateAndUploadFile,
   setLoadingShow,
   setUploadSupplierStep,
 } from '../../../actions/UploadSupplier';
@@ -19,7 +19,7 @@ import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import { closeUploadSupplierModal } from '../../../actions/Modals';
 
 interface SubmitProps {
-  validateAndUploadCsv: any;
+  validateAndUploadFile: any;
   onFinished: () => void;
   currentProgressShow: any;
   handleUnauthorizedMwsAuth: any;
@@ -33,7 +33,7 @@ interface SubmitProps {
 
 const Submit = (props: SubmitProps) => {
   const {
-    validateAndUploadCsv,
+    validateAndUploadFile,
     currentProgressShow,
     setLoadingShow,
     handleUnauthorizedMwsAuth,
@@ -58,7 +58,7 @@ const Submit = (props: SubmitProps) => {
     setLoading(true);
     setLoadingShow(true);
     try {
-      await validateAndUploadCsv();
+      await validateAndUploadFile();
       onFinished();
     } catch (error) {
       let errorMessage = 'Something went wrong!';
@@ -146,7 +146,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   closeUploadSupplierModal,
-  validateAndUploadCsv,
+  validateAndUploadFile,
   setLoadingShow,
   setStep: setUploadSupplierStep,
   handleUnauthorizedMwsAuth,

@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import csvParse from 'csv-parse/lib/es5';
@@ -11,6 +10,7 @@ import {
   columnMappingsSelector,
   fileStringArraySelector,
   fileSelector,
+  rawFileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
 import {
@@ -43,7 +43,7 @@ import { AppConfig } from '../../config';
 import { fetchSupplier } from '../Suppliers';
 import { round } from 'lodash';
 import { acceptedFileFormats } from '../../containers/Synthesis/UploadSupplier/SelectFile';
-import { getFileExtension, convertExtensionToMime } from '../../utils/file';
+import { getFileExtension, convertExtensionToMime, mimeExtensionMapping } from '../../utils/file';
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -107,12 +107,12 @@ export const setFileStringArray = (fileStringArray: string[][] | null) => ({
   payload: fileStringArray,
 });
 
+/** parser for csv */
 export const parseCsv = () => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
-  const rawFileString = get(getState(), 'uploadSupplier.rawFile');
-
+  const rawFileString = rawFileSelector(getState());
   if (!rawFileString) {
     return;
   }
@@ -141,28 +141,60 @@ export const parseCsv = () => (
   });
 };
 
+/** parser for excel */
+export const parseExcel = () => (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  getState: () => any
+): void => {
+  const rawFileString = rawFileSelector(getState());
+  if (!rawFileString) {
+    return;
+  }
+
+  //TODO: implement parseExcel - https://github.com/SheetJS/sheetjs/blob/master/demos/react/sheetjs.jsx
+};
+
+/** read and parse given File */
 export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   if (!file) {
     return;
   }
 
   const reader = new FileReader();
+  let parseFile: any = null;
+  let readerReadAsFunction: any = null;
+
+  // detect file type and update the appropriate read/parse functions
+  if (file.type in mimeExtensionMapping) {
+    const fileExtension = mimeExtensionMapping[file.type];
+    if (['.xls', '.xlsx'].includes(fileExtension)) {
+      parseFile = parseExcel;
+      readerReadAsFunction = reader.readAsBinaryString
+        ? reader.readAsBinaryString
+        : reader.readAsArrayBuffer;
+    } else if (fileExtension === '.csv') {
+      parseFile = parseCsv;
+      readerReadAsFunction = reader.readAsText;
+    } else {
+      return;
+    }
+  }
 
   reader.onloadend = () => {
     const fileString = reader.result;
 
     if (!fileString || reader.error) {
-      error('Error occurred while uploading csv.');
+      error('Error occurred while uploading file.');
     } else {
       dispatch(setRawFile(fileString, file));
-      dispatch(parseCsv());
+      dispatch(parseFile());
     }
   };
 
-  reader.readAsText(file);
+  readerReadAsFunction.apply(reader, [file]);
 };
 
-export const handleRejectedFile = (rejectedFile?: File) => {
+export const handleRejectedFile = (rejectedFile?: File) => async () => {
   const fileExtension = rejectedFile && getFileExtension(rejectedFile);
   if (!fileExtension || !acceptedFileFormats.includes(`.${fileExtension.toLowerCase()}`)) {
     error('Invalid file extension detected.');
@@ -195,9 +227,9 @@ export const parseArrayToFile = (fileStringArray: string[][], fileDetails?: File
   return new File([fileString], fileName, { type: mimeType });
 };
 
-export const mapColumn = (csvColumn: string | number, targetColumn: string) => ({
+export const mapColumn = (fileColumn: string | number, targetColumn: string) => ({
   type: MAP_COLUMN,
-  csvColumn,
+  fileColumn,
   targetColumn,
 });
 
@@ -276,7 +308,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
   }
 };
 
-export const validateAndUploadCsv = () => async (
+export const validateAndUploadFile = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ) => {
