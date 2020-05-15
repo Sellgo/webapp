@@ -45,10 +45,10 @@ class RevenueChart extends Component<RevenueChartProps> {
                 style={{ display: 'inline-block' }}
               />
               <div style={{ color: 'grey', fontSize: '0.9em' }}>
-                ASIN: {asins[x] ? asins[x] : 'N/A'}
+                ASIN: {asins[x] ? asins[x] : 'N.A.'}
               </div>
               <div style={{ color: 'grey', fontSize: '0.9em' }}>
-                UPC: {upcs[x] ? upcs[x] : 'N/A'}
+                UPC: {upcs[x] ? upcs[x] : 'N.A.'}
               </div>
             </Grid.Column>
             <Grid.Column style={{ padding: 0 }}>
@@ -62,8 +62,8 @@ class RevenueChart extends Component<RevenueChartProps> {
                   </div>
                 );
               })}
-              <div>ROI(%): {roi[x] ? roi[x] : 'N/A'}</div>
-              <div>Margin(%): {margins[x] ? margins[x] : 'N/A'}</div>
+              <div>ROI(%): {roi[x] ? roi[x] : 'N.A.'}</div>
+              <div>Margin(%): {margins[x] ? margins[x] : 'N.A.'}</div>
             </Grid.Column>
           </Grid>
         </div>
