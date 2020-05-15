@@ -122,7 +122,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
   renderMonthlySalesEst = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(Number(row.sales_monthly), formatNumber(row.sales_monthly))}
+      {showNAIfZeroOrNull(formatNumber(row.sales_monthly), formatNumber(row.sales_monthly))}
     </p>
   );
   renderCategory = (row: Product) => (
