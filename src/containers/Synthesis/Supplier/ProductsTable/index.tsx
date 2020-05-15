@@ -98,32 +98,32 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
   renderPrice = (row: Product) => (
-    <p className="stat">{row.price ? formatCurrency(row.price) : 'N/A'}</p>
+    <p className="stat">{row.price ? formatCurrency(row.price) : 'N.A.'}</p>
   );
   renderProfit = (row: Product) => (
-    <p className="stat">{row.profit ? formatCurrency(row.profit) : 'N/A'}</p>
+    <p className="stat">{row.profit ? formatCurrency(row.profit) : 'N.A.'}</p>
   );
   renderMargin = (row: Product) => (
-    <p className="stat">{row.margin ? formatPercent(row.margin) : 'N/A'}</p>
+    <p className="stat">{row.margin ? formatPercent(row.margin) : 'N.A.'}</p>
   );
   renderFee = (row: Product) => (
-    <p className="stat">{row.fees ? formatCurrency(row.fees) : 'N/A'}</p>
+    <p className="stat">{row.fees ? formatCurrency(row.fees) : 'N.A.'}</p>
   );
   renderMonthlyRevenue = (row: Product) => (
-    <p className="stat">{row.monthly_revenue ? '$' + formatNumber(row.monthly_revenue) : 'N/A'}</p>
+    <p className="stat">{row.monthly_revenue ? '$' + formatNumber(row.monthly_revenue) : 'N.A.'}</p>
   );
-  renderRoi = (row: Product) => <p className="stat">{row.roi ? formatPercent(row.roi) : 'N/A'}</p>;
+  renderRoi = (row: Product) => <p className="stat">{row.roi ? formatPercent(row.roi) : 'N.A.'}</p>;
   renderRank = (row: Product) => (
-    <p className="stat">{row.rank ? '#' + formatNumber(row.rank) : 'N/A'}</p>
+    <p className="stat">{row.rank ? '#' + formatNumber(row.rank) : 'N.A.'}</p>
   );
   renderMonthlySalesEst = (row: Product) => (
     <p className="stat">{showNAIfZero(formatNumber(row.sales_monthly))}</p>
   );
   renderCategory = (row: Product) => (
-    <p className="stat">{row.amazon_category_name ? row.amazon_category_name : 'N/A'}</p>
+    <p className="stat">{row.amazon_category_name ? row.amazon_category_name : 'N.A.'}</p>
   );
   renderSizeTiers = (row: Product) => (
-    <p className="stat">{row.size_tier ? row.size_tier : 'N/A'}</p>
+    <p className="stat">{row.size_tier ? row.size_tier : 'N.A.'}</p>
   );
 
   renderDetailButtons = (row: Product) => {
