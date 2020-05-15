@@ -83,7 +83,7 @@ export default class SidebarCollapsible extends Component<
                     this.handleAnimationChange();
                   }}
                 >
-                  <i className={` ${!visible ? icon.icon : 'fa-angle-left'}`} />
+                  <i className={` ${!visible ? icon.icon : 'fas fa-angle-left'}`} />
                 </Menu.Item>
               );
             } else if (icon.id > 3) {
