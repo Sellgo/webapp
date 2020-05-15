@@ -2,6 +2,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import csvParse from 'csv-parse/lib/es5';
 import Axios from 'axios';
+import XLSX from 'xlsx';
 import reduce from 'lodash/reduce';
 import {
   isFirstRowHeaderSelector,
@@ -151,10 +152,20 @@ export const parseExcel = (readOptions: any) => (
     return;
   }
 
-  console.log(readOptions);
-  console.log(dispatch);
-
-  //TODO: implement parseExcel - https://github.com/SheetJS/sheetjs/blob/master/demos/react/sheetjs.jsx
+  Promise.resolve().then(() => {
+    try {
+      const wb = XLSX.read(rawFileString, readOptions);
+      /* Get first worksheet */
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      /* Convert array of arrays */
+      const data: string[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      console.log(data);
+      dispatch(setFileStringArray(data));
+    } catch {
+      error('File does not appear to be a valid Excel file.');
+    }
+  });
 };
 
 /** read and parse given File */
@@ -212,7 +223,7 @@ export const handleRejectedFile = (rejectedFile?: File) => async () => {
   }
 };
 
-export const parseArrayToFile = (fileStringArray: string[][], fileDetails?: File): File => {
+export const parseCsvArrayToFile = (fileStringArray: string[][], fileDetails?: File): File => {
   const fileName = fileDetails && fileDetails.name ? fileDetails.name : '';
   const fileExtension = fileDetails ? getFileExtension(fileDetails) : '';
   const mimeType = convertExtensionToMime(fileExtension);
@@ -318,7 +329,14 @@ export const validateAndUploadFile = () => async (
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
   const columnMappingSetting = columnMappingSettingSelector(getState());
-  const file = parseArrayToFile(fileStringArraySelector(getState()), fileSelector(getState()));
+  const file = fileSelector(getState());
+  let uploadFile = null;
+  if (mimeExtensionMapping[file.type] === '.csv') {
+    uploadFile = parseCsvArrayToFile(fileStringArraySelector(getState()), fileSelector(getState()));
+  } else {
+    uploadFile = file;
+  }
+  console.log(uploadFile);
 
   const reversedColumnMappings: any = reduce(
     columnMappings,
@@ -337,7 +355,7 @@ export const validateAndUploadFile = () => async (
 
   const bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
-  bodyFormData.set('file', file);
+  bodyFormData.set('file', uploadFile);
   bodyFormData.set('cost', reversedColumnMappings.cost);
   bodyFormData.set('upc', reversedColumnMappings.upc);
   if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
@@ -352,7 +370,12 @@ export const validateAndUploadFile = () => async (
 
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
-    bodyFormData
+    bodyFormData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
   );
 
   if (response.data) {

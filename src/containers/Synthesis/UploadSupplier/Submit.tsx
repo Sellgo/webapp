@@ -64,12 +64,12 @@ const Submit = (props: SubmitProps) => {
       let errorMessage = 'Something went wrong!';
       if (error && error.response && error.response.data && error.response.data.message) {
         errorMessage = error.response.data.message;
+        if (error.response.status === 401) {
+          closeUploadSupplierModal();
+          handleUnauthorizedMwsAuth();
+        }
       }
       setError(errorMessage);
-      if (error.response.status === 401) {
-        closeUploadSupplierModal();
-        handleUnauthorizedMwsAuth();
-      }
     }
     setLoading(false);
     setLoadingShow(false);
