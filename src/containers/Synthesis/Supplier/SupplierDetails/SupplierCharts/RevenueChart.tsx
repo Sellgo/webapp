@@ -3,6 +3,7 @@ import { Product } from '../../../../../interfaces/Product';
 import { renderToString } from 'react-dom/server';
 import { Grid, Image } from 'semantic-ui-react';
 import Chart from '../../../../../components/Chart/Chart';
+import { showNAIfZeroOrNull } from '../../../../../utils/format';
 
 interface RevenueChartProps {
   products: Product[];
@@ -45,10 +46,10 @@ class RevenueChart extends Component<RevenueChartProps> {
                 style={{ display: 'inline-block' }}
               />
               <div style={{ color: 'grey', fontSize: '0.9em' }}>
-                ASIN: {asins[x] ? asins[x] : 'N.A.'}
+                ASIN: {showNAIfZeroOrNull(asins[x], asins[x])}
               </div>
               <div style={{ color: 'grey', fontSize: '0.9em' }}>
-                UPC: {upcs[x] ? upcs[x] : 'N.A.'}
+                UPC: {showNAIfZeroOrNull(upcs[x], upcs[x])}
               </div>
             </Grid.Column>
             <Grid.Column style={{ padding: 0 }}>
@@ -62,8 +63,8 @@ class RevenueChart extends Component<RevenueChartProps> {
                   </div>
                 );
               })}
-              <div>ROI(%): {roi[x] ? roi[x] : 'N.A.'}</div>
-              <div>Margin(%): {margins[x] ? margins[x] : 'N.A.'}</div>
+              <div>ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}</div>
+              <div>Margin(%): {showNAIfZeroOrNull(margins[x], margins[x])}</div>
             </Grid.Column>
           </Grid>
         </div>
