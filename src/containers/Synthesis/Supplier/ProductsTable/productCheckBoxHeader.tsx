@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox, Icon, Menu, Popup } from 'semantic-ui-react';
 import { CheckedRowDictionary } from './index';
+import Thumb from '../../../../assets/images/fingerprint-4.svg';
+import SlashThumb from '../../../../assets/images/fingerprint-5.svg';
 import {
   requestProductBulkTracking,
   requestProductBulkUnTracking,
@@ -96,8 +98,16 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
       >
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="checkbox-menu-item">
-            <i className="fa fa-fingerprint track" onClick={() => handleBulkClick('track')} />
-            <i className="fa fa-fingerprint untrack" onClick={() => handleBulkClick('untrack')} />
+            <img
+              className="fingerprint-track"
+              src={Thumb}
+              onClick={() => handleBulkClick('track')}
+            />
+            <img
+              className="fingerprint-untrack"
+              src={SlashThumb}
+              onClick={() => handleBulkClick('untrack')}
+            />
           </Menu.Item>
         </Menu>
       </Popup>
