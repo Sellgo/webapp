@@ -10,5 +10,5 @@ export const formatRating = (num: any) => Number(num).toFixed(1);
 
 export const formatPercent = (num: any) => Number(num).toFixed(2) + '%';
 
-export const showNAIfZeroOrNull = (num: any, formated: any) =>
-  num === '0' ? 'N.A.' : num ? formated : 'N.A.';
+export const showNAIfZeroOrNull = (expression: any, value: any) =>
+  expression === '0' ? 'N.A.' : expression ? value : 'N.A.';
