@@ -142,7 +142,7 @@ export const parseCsv = () => (
 };
 
 /** parser for excel */
-export const parseExcel = () => (
+export const parseExcel = (readOptions: any) => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
@@ -150,6 +150,9 @@ export const parseExcel = () => (
   if (!rawFileString) {
     return;
   }
+
+  console.log(readOptions);
+  console.log(dispatch);
 
   //TODO: implement parseExcel - https://github.com/SheetJS/sheetjs/blob/master/demos/react/sheetjs.jsx
 };
@@ -163,18 +166,17 @@ export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {
   const reader = new FileReader();
   let parseFile: any = null;
   let readerReadAsFunction: any = null;
+  const rABS = !!reader.readAsBinaryString;
 
   // detect file type and update the appropriate read/parse functions
   if (file.type in mimeExtensionMapping) {
     const fileExtension = mimeExtensionMapping[file.type];
     if (['.xls', '.xlsx'].includes(fileExtension)) {
-      parseFile = parseExcel;
-      readerReadAsFunction = reader.readAsBinaryString
-        ? reader.readAsBinaryString
-        : reader.readAsArrayBuffer;
+      readerReadAsFunction = rABS ? reader.readAsBinaryString : reader.readAsArrayBuffer;
+      parseFile = () => parseExcel({ type: rABS ? 'binary' : 'array' });
     } else if (fileExtension === '.csv') {
-      parseFile = parseCsv;
       readerReadAsFunction = reader.readAsText;
+      parseFile = () => parseCsv();
     } else {
       return;
     }
