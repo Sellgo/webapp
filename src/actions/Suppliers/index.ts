@@ -299,7 +299,7 @@ export const fetchSupplierProducts = (supplierID: any) => async (
 
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data-compact`
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data`
   );
 
   if (response.data.length) {
