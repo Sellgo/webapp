@@ -4,7 +4,7 @@ import {
   fileStringArraySelector,
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
-  fileSelector,
+  fileDetailsSelector,
 } from '../../selectors/UploadSupplier/index';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -140,9 +140,9 @@ export class SelectFileStep extends Step {
 
   checkFile() {
     const state = this.getState();
-    const file = fileSelector(state);
+    const fileDetails = fileDetailsSelector(state);
     const fileStringArray = fileStringArraySelector(state);
-    const fileSet = Boolean(file) && Boolean(fileStringArray);
+    const fileSet = Boolean(fileDetails) && Boolean(fileStringArray);
     const errorMessage = fileSet ? undefined : 'Please select a valid file';
     return errorMessage;
   }

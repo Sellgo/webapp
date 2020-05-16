@@ -10,7 +10,7 @@ import {
   currentStepSelector,
   columnMappingsSelector,
   fileStringArraySelector,
-  fileSelector,
+  fileDetailsSelector,
   rawFileSelector,
 } from '../../selectors/UploadSupplier/index';
 import { error } from '../../utils/notifications';
@@ -45,6 +45,9 @@ import { fetchSupplier } from '../Suppliers';
 import { round } from 'lodash';
 import { acceptedFileFormats } from '../../containers/Synthesis/UploadSupplier/SelectFile';
 import { getFileExtension, convertExtensionToMime, mimeExtensionMapping } from '../../utils/file';
+
+// store File in memory as it is non-serializable
+let supplierFile: File = new File([], '');
 
 export const setUploadSupplierStep = (nextStep: number) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -91,15 +94,15 @@ export const setUploadSupplierStep = (nextStep: number) => async (
 };
 
 export const setRawFile = (fileString: string | ArrayBuffer | null, file: File | null) => {
-  const newFile: any = {};
+  const newFileDetails: any = {};
   if (file !== null) {
-    newFile.lastModified = file.lastModified;
-    newFile.name = file.name;
+    newFileDetails.lastModified = file.lastModified;
+    newFileDetails.name = file.name;
   }
   return {
     type: SET_RAW_FILE,
     fileString,
-    newFile,
+    newFileDetails,
   };
 };
 
@@ -160,7 +163,6 @@ export const parseExcel = (readOptions: any) => (
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
       const data: string[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      console.log(data);
       dispatch(setFileStringArray(data));
     } catch {
       error('File does not appear to be a valid Excel file.');
@@ -204,6 +206,7 @@ export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {
     }
   };
 
+  supplierFile = file;
   readerReadAsFunction.apply(reader, [file]);
 };
 
@@ -329,14 +332,17 @@ export const validateAndUploadFile = () => async (
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
   const columnMappingSetting = columnMappingSettingSelector(getState());
-  const file = fileSelector(getState());
-  let uploadFile = null;
+  const file = fileDetailsSelector(getState());
+  let uploadFile;
   if (mimeExtensionMapping[file.type] === '.csv') {
-    uploadFile = parseCsvArrayToFile(fileStringArraySelector(getState()), fileSelector(getState()));
+    uploadFile = parseCsvArrayToFile(
+      fileStringArraySelector(getState()),
+      fileDetailsSelector(getState())
+    );
   } else {
-    uploadFile = file;
+    // get original file in memory
+    uploadFile = supplierFile;
   }
-  console.log(uploadFile);
 
   const reversedColumnMappings: any = reduce(
     columnMappings,

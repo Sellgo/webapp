@@ -28,7 +28,9 @@ import { AnyAction } from 'redux';
 interface UploadSupplierState {
   readonly currentStep: number;
   readonly fileString: string | null;
-  readonly file: File | null;
+  /** Gotcha: you actually can't store a complete File object in redux because it's non-serializable,
+   * but you can store the details like name, lastModified, ... */
+  readonly fileDetails: File | null;
   readonly rawFile: string | null;
   readonly fileStringArray: string[][] | null;
   readonly columnMappings: [];
@@ -58,7 +60,7 @@ const initialState: UploadSupplierState = {
   setEta: 0,
   setProgress: 0,
   fileString: null,
-  file: null,
+  fileDetails: null,
   columnMappings: [],
   rawFile: null,
   fileStringArray: null,
@@ -79,7 +81,7 @@ export default (
     }
     case SET_RAW_FILE: {
       const newState = setIn(state, 'rawFile', action.fileString);
-      return setIn(newState, 'file', action.newFile ? action.newFile : null);
+      return setIn(newState, 'fileDetails', action.newFileDetails ? action.newFileDetails : null);
     }
     case SET_UPLOAD_SUPPLIER_STEP:
       return setIn(state, 'currentStep', action.payload);

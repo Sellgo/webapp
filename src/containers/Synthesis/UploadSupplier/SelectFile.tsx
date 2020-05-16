@@ -2,13 +2,13 @@ import head from 'lodash/head';
 import FileUploader from '../../../components/FileUploader';
 import { connect } from 'react-redux';
 import { prepareFile, handleRejectedFile } from '../../../actions/UploadSupplier';
-import { fileSelector } from '../../../selectors/UploadSupplier';
+import { fileDetailsSelector } from '../../../selectors/UploadSupplier';
 
 export const acceptedFileFormats = ['.csv', '.xls', '.xlsx'];
 
 const mapStateToProps = (state: {}) => ({
   accept: acceptedFileFormats,
-  fileName: fileSelector(state),
+  fileDetails: fileDetailsSelector(state),
 });
 
 const mapDispatchToProps = {

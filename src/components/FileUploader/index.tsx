@@ -8,10 +8,10 @@ interface FileUploaderProps {
   onDrop: (acceptedFiles: File[]) => void;
   onDropRejected: (rejectedFiles: File[]) => void;
   accept: string[];
-  fileName: any;
+  fileDetails: any;
 }
 function FileUploader(props: FileUploaderProps) {
-  const { accept, onDrop, onDropRejected, fileName } = props;
+  const { accept, onDrop, onDropRejected, fileDetails } = props;
   const multiple = false;
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -41,7 +41,7 @@ function FileUploader(props: FileUploaderProps) {
         <br />
         <br />
         <b className={styles.filename}>
-          {fileName !== null ? fileName.name : ' '}
+          {fileDetails !== null ? fileDetails.name : ' '}
           {/*   {acceptedFiles.length > 0 &&
             acceptedFiles.map(acceptedFile => <li key={acceptedFile.name}>{acceptedFile.name}</li>)} */}
         </b>

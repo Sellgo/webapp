@@ -57,7 +57,8 @@ export const fileHeaderSelector = createSelector([fileStringArraySelector], file
   return alphabeticHeader;
 });
 
-export const fileSelector = (state: object): File => get(state, 'uploadSupplier.file');
+export const fileDetailsSelector = (state: object): File =>
+  get(state, 'uploadSupplier.fileDetails');
 
 export const rawFileSelector = (state: object): string => get(state, 'uploadSupplier.rawFile');
 
