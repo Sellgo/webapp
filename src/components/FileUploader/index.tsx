@@ -40,11 +40,7 @@ function FileUploader(props: FileUploaderProps) {
         </span>
         <br />
         <br />
-        <b className={styles.filename}>
-          {fileDetails !== null ? fileDetails.name : ' '}
-          {/*   {acceptedFiles.length > 0 &&
-            acceptedFiles.map(acceptedFile => <li key={acceptedFile.name}>{acceptedFile.name}</li>)} */}
-        </b>
+        <b className={styles.filename}>{fileDetails !== null ? fileDetails.name : ' '}</b>
       </p>
     </button>
   );

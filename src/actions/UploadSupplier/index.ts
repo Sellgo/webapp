@@ -376,12 +376,7 @@ export const validateAndUploadFile = () => async (
 
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
-    bodyFormData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }
+    bodyFormData
   );
 
   if (response.data) {

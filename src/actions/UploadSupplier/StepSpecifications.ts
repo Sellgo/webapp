@@ -221,8 +221,7 @@ export class DataMappingStep extends Step {
   }
 
   cleanStep() {
-    //TODO: abstract this
-    // this.dispatch(parseCsv());
+    // do nothing
   }
 }
 
