@@ -256,7 +256,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderRank,
     },
     {
-      label: 'Monthly\nSales Est',
+      label: 'Sales \nEst',
       dataKey: 'sales_monthly',
       type: 'number',
       sortable: true,

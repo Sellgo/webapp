@@ -92,3 +92,18 @@ i.icon.close::before {
 i.icon.filter::before {
   font-size: 11px !important;
 }
+
+.table-header {
+  height: 40px;
+}
+
+.table-cell-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.th-label {
+  white-space: pre;
+  line-height:1.5;
+}

@@ -249,6 +249,8 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell
                   key={column.dataKey || index}
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
+                  width={1}
+
                   onClick={
                     column.sortable
                       ? (e: any) => setSort(e, column.dataKey || '')
@@ -266,8 +268,9 @@ export const GenericTable = (props: GenericTableProps) => {
                   className={`table-header ${column.dataKey}`}
                 >
                   {' '}
-                  {column.label}
-                  {column.label === 'Search' && (
+              <div className="table-cell-container">
+                  <span className="th-label">{column.label}</span>
+              {column.label === 'Search' && (
                     <span>
                       <Icon
                         className="filter search-filter"
@@ -303,6 +306,7 @@ export const GenericTable = (props: GenericTableProps) => {
                   ) : (
                     <Icon className={column.icon} />
                   )}
+</div>
                 </Table.HeaderCell>
               );
             })}
@@ -325,7 +329,7 @@ export const GenericTable = (props: GenericTableProps) => {
                         <Table.Cell
                           key={column.dataKey || index}
                           style={{ maxWidth: 400 }}
-                          className={`table-cell ${column.dataKey}`}
+                          className={`table-cell ${column.dataKey} table-data`}
                         >
                           {renderCell(row, column)}
                         </Table.Cell>
