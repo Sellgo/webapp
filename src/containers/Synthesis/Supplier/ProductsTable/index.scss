@@ -568,30 +568,20 @@ $new_black: #707070;
 
     .checkbox-menu-item {
       cursor: auto;
+      width: 63px;
+      height: 40px;
+      display: flex !important;
+      padding: 0;
+      justify-content: space-evenly;
 
-      .fa-fingerprint.track {
+      .fingerprint-track {
         cursor: pointer;
-        color: #98aeca;
-        font-size: 15px !important;
-        margin-right: 10px;
+        width: 15px !important;
       }
 
-      .fa-fingerprint.untrack {
+      .fingerprint-untrack {
         cursor: pointer;
-        color: #eb675e;
-        font-size: 15px !important;
-        margin: 0 5px;
-
-        &::after {
-          position: absolute;
-          content: '\\';
-          color: #eb675e;
-          font-weight: 700;
-          font-size: 26px;
-          top: 6px;
-          left: 48px;
-          transform: rotate(-30deg);
-        }
+        width: 15px !important;
       }
     }
   }
