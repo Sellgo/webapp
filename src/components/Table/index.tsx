@@ -249,7 +249,6 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell
                   key={column.dataKey || index}
                   sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
-                  width={1}
 
                   onClick={
                     column.sortable
