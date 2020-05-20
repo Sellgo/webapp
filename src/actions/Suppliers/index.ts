@@ -455,9 +455,9 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
     products
   )
     .then(json => {
-      success('Request succeeded');
+      success(json.data.message);
       dispatch(getSellerQuota());
-      dispatch(updateSupplierProducts(json.data));
+      dispatch(updateSupplierProducts(json.data.data));
     })
     .catch(err => {
       console.log('err.response', err.response);
