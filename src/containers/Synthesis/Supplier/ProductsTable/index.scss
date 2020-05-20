@@ -173,7 +173,7 @@ $new_black: #707070;
 
       label::before {
         border-radius: 4px !important;
-        border: 0.5px solid #dededf;
+        border: 1px solid #d4d4d5;
       }
 
       input:checked ~ .box::before,
@@ -561,36 +561,27 @@ $new_black: #707070;
   margin: -10px 5px !important;
 
   .header-checkbox-menu {
-    border: 0.5px solid rgba(34, 36, 38, 0.3) !important;
     border-radius: 11px !important;
     opacity: 1 !important;
+    box-shadow: 0 3px 20px #00000029 !important;
+    border: 1px solid #98aeca;
 
     .checkbox-menu-item {
       cursor: auto;
+      width: 63px;
+      height: 40px;
+      display: flex !important;
+      padding: 0;
+      justify-content: space-evenly;
 
-      .fa-fingerprint.track {
+      .fingerprint-track {
         cursor: pointer;
-        color: #98aeca;
-        font-size: 15px !important;
-        margin-right: 10px;
+        width: 15px !important;
       }
 
-      .fa-fingerprint.untrack {
+      .fingerprint-untrack {
         cursor: pointer;
-        color: #eb675e;
-        font-size: 15px !important;
-        margin: 0 5px;
-
-        &::after {
-          position: absolute;
-          content: '\\';
-          color: #eb675e;
-          font-weight: 700;
-          font-size: 26px;
-          top: 6px;
-          left: 48px;
-          transform: rotate(-30deg);
-        }
+        width: 15px !important;
       }
     }
   }

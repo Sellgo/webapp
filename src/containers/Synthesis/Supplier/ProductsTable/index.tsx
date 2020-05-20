@@ -14,7 +14,12 @@ import {
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
-import { formatCurrency, formatNumber, showNAIfZero } from '../../../../utils/format';
+import {
+  formatCurrency,
+  formatNumber,
+  formatPercent,
+  showNAIfZeroOrNull,
+} from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
 import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
@@ -91,27 +96,41 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
     return <ProductCheckBox item={row} checked={checked} onClick={this.handleItemSelect} />;
   };
-  renderProductInfo = (row: Product) => {
-    return <ProductDescription item={row} />;
-  };
-  renderPrice = (row: Product) => <p className="stat">${row.price}</p>;
-  renderProfit = (row: Product) => <p className="stat">{formatCurrency(row.profit)}</p>;
-  renderMargin = (row: Product) => <p className="stat">{row.margin}%</p>;
-  renderFee = (row: Product) => <p className="stat">${row.fees}</p>;
-  renderMonthlyRevenue = (row: Product) => (
-    <p className="stat">${formatNumber(row.monthly_revenue)}</p>
+  renderProductInfo = (row: Product) => <ProductDescription item={row} />;
+  renderPrice = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.price, formatCurrency(row.price))}</p>
   );
-  renderRoi = (row: Product) => <p className="stat">{row.roi}%</p>;
-  renderRank = (row: Product) => <p className="stat">#{formatNumber(row.rank)}</p>;
-  renderMonthlySalesEst = (row: Product) => {
-    return (
-      <>
-        <p className="stat">{showNAIfZero(formatNumber(row.sales_monthly))}</p>
-      </>
-    );
-  };
-  renderCategory = (row: Product) => <p className="stat">{row.amazon_category_name}</p>;
-  renderSizeTiers = (row: Product) => <p className="stat">{row.size_tier}</p>;
+  renderProfit = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+  );
+  renderMargin = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+  );
+  renderFee = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
+  );
+  renderMonthlyRevenue = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(row.monthly_revenue, '$' + formatNumber(row.monthly_revenue))}
+    </p>
+  );
+  renderRoi = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+  );
+  renderRank = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
+  );
+  renderMonthlySalesEst = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(formatNumber(row.sales_monthly), formatNumber(row.sales_monthly))}
+    </p>
+  );
+  renderCategory = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.amazon_category_name, row.amazon_category_name)}</p>
+  );
+  renderSizeTiers = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
+  );
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
