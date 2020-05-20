@@ -18,7 +18,7 @@ import {
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
-import FreeTrialPeriod from '../../../components/FreeTrialMessageDisplay';
+import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 
 interface SupplierProps {
   supplierDetails: any;
@@ -92,7 +92,7 @@ export class Supplier extends React.Component<SupplierProps> {
 
     return (
       <>
-        <FreeTrialPeriod />
+        <SubscriptionMessage />
         <PageHeader
           title={`Profit Finder of ${supplierDetails.search || 'Search'}`}
           breadcrumb={[

@@ -2,9 +2,10 @@ import React from 'react';
 import { Rail, Segment, Message } from 'semantic-ui-react';
 import './index.scss';
 
-class FreeTrialPeriod extends React.Component<any> {
-  constructor(props: any) {
+class SubscriptionMessage extends React.Component<any> {
+  constructor(props: any, type?: string) {
     super(props);
+    this.state = { type };
   }
 
   content() {
@@ -28,4 +29,4 @@ class FreeTrialPeriod extends React.Component<any> {
   }
 }
 
-export default FreeTrialPeriod;
+export default SubscriptionMessage;
