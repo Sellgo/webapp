@@ -35,6 +35,7 @@ interface ProductsTableProps {
   filterData: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
+  supplierDetails: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -174,9 +175,20 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderExportButtons = () => {
+    const { supplierDetails } = this.props;
     return (
       <div className="export-buttons">
-        <Image src={microsoftExcelIcon} wrapped={true} width={22} />
+        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
+        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
+        <Image
+          as="a"
+          href={supplierDetails.file_url}
+          download={true}
+          src={microsoftExcelIcon}
+          wrapped={true}
+          width={22}
+          alt="Export Excel"
+        />
       </div>
     );
   };
@@ -352,6 +364,7 @@ const mapStateToProps = (state: {}) => ({
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
+  supplierDetails: get(state, 'supplier.details'),
 });
 
 const mapDispatchToProps = {
