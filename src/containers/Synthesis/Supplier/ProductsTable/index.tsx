@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon } from 'semantic-ui-react';
+import { Segment, Loader, Icon, Image } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -24,6 +24,8 @@ import { tableKeys } from '../../../../constants';
 import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
+
+import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -162,10 +164,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     );
   };
+
   renderSyncButtons = () => {
     return (
       <div>
         <Icon name="sync alternate" style={{ color: '#98aec9' }} />
+      </div>
+    );
+  };
+
+  renderExportButtons = () => {
+    return (
+      <div className="export-buttons">
+        <Image src={microsoftExcelIcon} wrapped={true} width={22} />
       </div>
     );
   };
@@ -288,6 +299,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
   ];
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -306,24 +318,27 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             </Loader>
           </Segment>
         ) : (
-          <PaginatedTable
-            tableKey={tableKeys.PRODUCTS}
-            data={filteredProducts}
-            columns={this.columns}
-            searchFilterValue={searchValue}
-            showProductFinderSearch={true}
-            searchFilteredProduct={this.searchFilteredProduct}
-            updateProfitFinderProducts={updateProfitFinderProducts}
-            singlePageItemsCount={singlePageItemsCount}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-            name={'products'}
-            showFilter={true}
-            checkedRows={checkedRows}
-            updateCheckedRows={this.updateCheckedRows}
-            renderFilterSectionComponent={() => (
-              <ProfitFinderFilterSection productRanges={productRanges} />
-            )}
-          />
+          <>
+            {this.renderExportButtons()}
+            <PaginatedTable
+              tableKey={tableKeys.PRODUCTS}
+              data={filteredProducts}
+              columns={this.columns}
+              searchFilterValue={searchValue}
+              showProductFinderSearch={true}
+              searchFilteredProduct={this.searchFilteredProduct}
+              updateProfitFinderProducts={updateProfitFinderProducts}
+              singlePageItemsCount={singlePageItemsCount}
+              setSinglePageItemsCount={setSinglePageItemsCount}
+              name={'products'}
+              showFilter={true}
+              checkedRows={checkedRows}
+              updateCheckedRows={this.updateCheckedRows}
+              renderFilterSectionComponent={() => (
+                <ProfitFinderFilterSection productRanges={productRanges} />
+              )}
+            />
+          </>
         )}
       </div>
     );
