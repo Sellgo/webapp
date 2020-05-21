@@ -142,9 +142,11 @@ export default function Signup(props: Props, state: State) {
   }
 
   function handleSubmit() {
+    const accountType = window.location.hash === '#trial' ? 'trial' : 'free';
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else {
+      localStorage.setItem('accountType', accountType);
       auth.webAuth.signup(
         {
           connection: 'Username-Password-Authentication',
