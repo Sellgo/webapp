@@ -169,7 +169,7 @@ export const confirmTrackProduct = (
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  bodyFormData.set('product_track_group_id', groupID.toString());
+  bodyFormData.set('id', groupID.toString());
   bodyFormData.set('asin', asin);
   bodyFormData.set('marketplace', marketPlace.toString());
   return Axios.post(

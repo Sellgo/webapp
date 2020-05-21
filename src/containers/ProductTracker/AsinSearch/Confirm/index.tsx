@@ -49,20 +49,14 @@ const Confirm = (props: Props) => {
   } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [selectedGroup, setSelectedGroup] = useState(0);
-  const [groupRequired, setGroupRequired] = useState(false);
-  const required = groupRequired ? 'visible' : 'hidden';
 
   const trackProduct = () => {
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
 
-    if (selectedGroup) {
-      confirmTrackProduct(searchValue, selectedMarketPlace.value, selectedGroup, period);
-      openModal(false);
-      setOpenConfirm(!openConfirm);
-      setSearch('');
-    } else {
-      setGroupRequired(true);
-    }
+    confirmTrackProduct(searchValue, selectedMarketPlace.value, selectedGroup, period);
+    openModal(false);
+    setOpenConfirm(!openConfirm);
+    setSearch('');
   };
 
   const countryOptions = () => {
@@ -110,9 +104,6 @@ const Confirm = (props: Props) => {
           <Grid.Row columns={2}>
             <Grid.Column></Grid.Column>
             <Grid.Column>
-              <Header as="h6" style={{ visibility: required }} color="red">
-                Select group is required
-              </Header>
               <div className="Confirm__btn">
                 <Button
                   content="Cancel"
@@ -120,7 +111,6 @@ const Confirm = (props: Props) => {
                     openModal(false);
                     setOpenConfirm(!openConfirm);
                     verifyProduct(false, false);
-                    setGroupRequired(false);
                   }}
                 />
                 <Button

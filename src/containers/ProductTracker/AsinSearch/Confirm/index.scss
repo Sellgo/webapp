@@ -111,14 +111,6 @@ $asin-font: 'Work sans', sans-serif !important;
       display: flex;
       margin: 20px 0;
 
-      &:nth-child(2) {
-        margin: 20px 0 5px 0;
-      }
-
-      &:last-child {
-        margin: 0 0 20px 0;
-      }
-
       .column {
         &:first-child {
           width: 30%;
