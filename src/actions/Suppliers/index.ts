@@ -588,7 +588,7 @@ export const saveSupplierName = (other: any) => (dispatch: any) => {
   });
 };
 
-export const updateSupplierName = (supplierID: string, other: any) => (dispatch: any) => {
+export const updateSupplierDetails = (supplierID: string, other: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
