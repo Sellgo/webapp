@@ -13,6 +13,17 @@
     font-family: $font-fam;
   }
 
+  i.fab.fa-youtube {
+    font-size: 50px;
+    position: absolute;
+    top: 39%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
   .Slider__container {
     .Slider__title {
       padding: 0 20px 0 20px;
@@ -72,6 +83,11 @@
 
           &:hover {
             box-shadow: 0 0 10px #98aeca;
+
+            i.fab.fa-youtube {
+              color: red;
+              opacity: 1;
+            }
           }
 
           .Slider__detail {
@@ -106,22 +122,6 @@
           outline: none;
         }
       }
-    }
-  }
-
-  i.fab.fa-youtube {
-    font-size: 50px;
-    position: absolute;
-    top: 39%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: red;
-    opacity: 0.5;
-    cursor: pointer;
-
-    &:hover {
-      color: red;
-      opacity: 1;
     }
   }
 }
@@ -217,7 +217,7 @@
           height: 255px;
         }
 
-        i.fab.fa-youtube {
+        .fab.fa-youtube {
           position: absolute;
           font-size: 50px;
           top: 132px;
@@ -227,15 +227,15 @@
           color: #98aeca;
           color: red;
           cursor: pointer;
-
-          &:hover {
-            color: red;
-            opacity: 1;
-          }
         }
 
         &:hover {
           box-shadow: 0 0 10px #98aeca;
+
+          .fab.fa-youtube {
+            color: red;
+            opacity: 1;
+          }
         }
 
         .VideoItem__title {

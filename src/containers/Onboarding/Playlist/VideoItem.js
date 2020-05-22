@@ -5,9 +5,9 @@ const VideoItem = ({ video, onVideoSelect }) => {
   const thumbnailSrc = `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`;
 
   return (
-    <Card>
+    <Card onClick={() => onVideoSelect(video)}>
       <Image src={thumbnailSrc} wrapped ui={false} />
-      <i onClick={() => onVideoSelect(video)} className="fab fa-youtube" />
+      <i className="fab fa-youtube" />
       <Card.Content>
         <Card.Header className="VideoItem__title">{video.title}</Card.Header>
         <Card.Description className="VideoItem__description">{video.description}</Card.Description>

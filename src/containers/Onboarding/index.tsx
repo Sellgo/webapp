@@ -64,16 +64,16 @@ function Slider({
       >
         {data.map((video: Videos) => {
           return (
-            <div key={video.id}>
+            <div
+              key={video.id}
+              onClick={() => {
+                selectPlaylist(onboardingVideos[index].path);
+                onVideoSelect(video);
+                selectArea(area);
+              }}
+            >
               <img alt={video.title} src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`} />
-              <i
-                onClick={() => {
-                  selectPlaylist(onboardingVideos[index].path);
-                  onVideoSelect(video);
-                  selectArea(area);
-                }}
-                className="fab fa-youtube"
-              />
+              <i className="fab fa-youtube" />
               <Header className="Slider__detail" as="h1">
                 {video.title}
                 <Header.Subheader>{video.description}</Header.Subheader>
