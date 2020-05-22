@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './index.scss';
 import moment from 'moment';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 interface SubscriptionMessageProps {
   sellerSubscription: any;
@@ -23,15 +24,18 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
         <p>
           {' '}
           {`Your free trial runs out in  ${expireDate} days. Do you like our product? `}
-          <span>Click here to pick a plan</span>{' '}
+          <Link to="/settings/pricing" className="free-trial-btn">
+            <span>Click here to pick a plan</span>
+          </Link>
         </p>
       );
     } else {
       return (
         <p>
-          {' '}
-          Your free account can only view demo files. To unlock features .
-          <span>Click here to pick a plan</span>
+          {' Your free account can only view demo files. To unlock features . '}
+          <Link to="/settings/pricing" className="free-trial-btn">
+            <span>Click here to pick a plan</span>
+          </Link>
         </p>
       );
     }

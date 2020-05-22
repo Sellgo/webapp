@@ -66,11 +66,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderFileName = (row: Supplier) => {
     return (
       <div className="filename">
-        {row.file_status && (
-          <a href={row.file_url} download={true}>
-            {row.file_name}
-          </a>
-        )}
+        {row.file_status &&
+          (localStorage.getItem('accountType') !== 'free' ? (
+            <a href={row.file_url} download={true}>
+              {row.file_name}
+            </a>
+          ) : (
+            row.file_name
+          ))}
       </div>
     );
   };
@@ -85,48 +88,58 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         fluid={true}
         selection={true}
         disabled={row.file_status !== 'completed' ? true : false}
-        options={[
-          {
-            key: '0',
-            text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
-            value: 'SYN',
-          },
-          {
-            key: '1',
-            text: (
-              <a href={row.file_url} download={true}>
-                <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
-              </a>
-            ),
-            value: 'dwn_sp_file',
-          },
-          {
-            key: '2',
-            text:
-              row.report_url === null ? (
-                <Dropdown.Item icon="download" text=" Download Results" />
-              ) : (
-                <a href={row.report_url} download={true}>
-                  <Dropdown.Item icon="download" text=" Download Results" />
-                </a>
-              ),
-            value: 'dwn_res',
-            disabled: row.report_url === null ? true : false,
-          },
-          {
-            key: '3',
-            text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
-            value: 'rerun',
-            disabled: !amazonMWSAuthorized,
-            onClick: () => {
-              if (amazonMWSAuthorized) {
-                this.props.reRun(row);
-              } else {
-                handleUnauthorizedMwsAuth();
-              }
-            },
-          },
-        ]}
+        options={
+          localStorage.getItem('accountType') !== 'free'
+            ? [
+                {
+                  key: '0',
+                  text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
+                  value: 'SYN',
+                },
+                {
+                  key: '1',
+                  text: (
+                    <a href={row.file_url} download={true}>
+                      <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
+                    </a>
+                  ),
+                  value: 'dwn_sp_file',
+                },
+                {
+                  key: '2',
+                  text:
+                    row.report_url === null ? (
+                      <Dropdown.Item icon="download" text=" Download Results" />
+                    ) : (
+                      <a href={row.report_url} download={true}>
+                        <Dropdown.Item icon="download" text=" Download Results" />
+                      </a>
+                    ),
+                  value: 'dwn_res',
+                  disabled: row.report_url === null ? true : false,
+                },
+                {
+                  key: '3',
+                  text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
+                  value: 'rerun',
+                  disabled: !amazonMWSAuthorized,
+                  onClick: () => {
+                    if (amazonMWSAuthorized) {
+                      this.props.reRun(row);
+                    } else {
+                      handleUnauthorizedMwsAuth();
+                    }
+                  },
+                },
+              ]
+            : [
+                {
+                  key: '0',
+                  text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
+                  value: 'SYN',
+                },
+              ]
+        }
         onChange={(e, data) => {
           if (data.value === 'SYN') {
             history.push(`/synthesis/${row.supplier_id}`);
@@ -169,12 +182,17 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
           style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
-        <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
-        <Icon
-          name="trash alternate"
-          style={{ color: 'black' }}
-          onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
-        />
+
+        {localStorage.getItem('accountType') !== 'free' && (
+          <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
+        )}
+        {localStorage.getItem('accountType') !== 'free' && (
+          <Icon
+            name="trash alternate"
+            style={{ color: 'black' }}
+            onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
+          />
+        )}
       </div>
     );
   };

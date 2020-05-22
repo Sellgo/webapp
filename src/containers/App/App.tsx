@@ -88,7 +88,7 @@ const PrivateRoute = connect(
         if (localStorage.getItem('accountType') === 'trial') {
           history.push('/settings/#amazon-mws');
         } else {
-          history.push('/settings/pricing');
+          // history.push('/settings/pricing');
         }
       }
     }, [

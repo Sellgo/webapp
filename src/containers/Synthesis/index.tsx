@@ -161,7 +161,9 @@ class Synthesis extends Component<SynthesisProps> {
         <PageHeader
           title="Profit Finder"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}
-          callToAction={this.renderAddNewSupplierModal()}
+          callToAction={
+            localStorage.getItem('accountType') !== 'free' && this.renderAddNewSupplierModal()
+          }
         />
 
         <Segment basic={true}>
