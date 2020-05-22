@@ -7,7 +7,7 @@ import TrackerMenu from './TrackerMenu';
 import { PaginatedTable, Column } from '../../../components/Table';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
-import { formatNumber, formatCurrency } from '../../../utils/format';
+import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils/format';
 import { tableKeys } from '../../../constants';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
@@ -28,6 +28,7 @@ import {
 import { columnFilter } from '../../../constants/Tracker';
 import SelectItemsCount from '../../../components/Table/SelectItemsCount';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
+import _ from 'lodash';
 
 interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
@@ -35,7 +36,6 @@ interface TrackerProps {
   filteredProducts: any;
   productDetailReview: any;
   isLoadingTrackerProducts: boolean;
-  filterRanges: any;
   singlePageItemsCount: number;
   trackGroups: any;
   handleMenu: any;
@@ -48,7 +48,7 @@ interface TrackerProps {
   fetchProductDetailChartRating: (productID: any) => void;
   fetchProductDetailChartReview: (productID: any) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
-  setPageNumber: (pageNo: any) => void;
+  setPageNumber: (pageNo: number) => void;
   retrieveTrackGroup: () => void;
   updateProductTrackingStatus: (
     status: string,
@@ -195,9 +195,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     } else {
       checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
         data.checked;
+      const ckArray: boolean[] = [];
+      _.each(checkedData, (ckData: any) => {
+        if (
+          ckData.key !== 'Product Information' &&
+          ckData.key !== '' &&
+          ckData.key !== 'Select All'
+        ) {
+          ckArray.push(ckData.value);
+        }
+      });
       checkedData[
         checkedData.findIndex((element: any) => element.key === 'Select All')
-      ].value = false;
+      ].value = ckArray.every((val: boolean) => {
+        return val;
+      });
     }
     this.setState({ columnFilterData: [...checkedData] });
   };
@@ -209,10 +221,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <ProductDescription item={row} />;
   };
   renderAvgProfit = (row: ProductTrackerDetails) => (
-    <p className="stat">{row.avg_profit !== '0.00' ? formatCurrency(row.avg_profit) : 'N.A.'}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.avg_profit !== '0.00', formatCurrency(row.avg_profit))}
+    </p>
   );
   renderAvgPrice = (row: ProductTrackerDetails) => (
-    <p className="stat">{row.avg_price !== '0.00' ? `$${row.avg_price}` : 'N.A.'}</p>
+    <p className="stat">{showNAIfZeroOrNull(row.avg_price !== '0.00', `$${row.avg_price}`)}</p>
   );
   renderAvgMargin = (row: ProductTrackerDetails) => {
     const toggleExpandRow = (id: number) => {
@@ -232,7 +246,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     };
     return (
       <div className="avg-margin">
-        <p className="stat">{row.avg_margin !== '0.00' ? `${row.avg_margin}%` : 'N.A.'}</p>
+        <p className="stat">
+          {showNAIfZeroOrNull(row.avg_margin !== '0.00', `${row.avg_margin}%`)}
+        </p>
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
           <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
         </span>
@@ -243,7 +259,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return (
       <>
         <p className="stat">
-          {row.avg_daily_sales !== '0.00' ? formatNumber(row.avg_daily_sales) : 'N.A.'}
+          {showNAIfZeroOrNull(row.avg_daily_sales !== '0.00', formatNumber(row.avg_daily_sales))}
         </p>
       </>
     );
@@ -251,27 +267,29 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderDailyRevenue = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {row.avg_daily_revenue !== '0.00' ? `$${row.avg_daily_revenue}` : 'N.A.'}
+        {showNAIfZeroOrNull(row.avg_daily_revenue !== '0.00', `$${row.avg_daily_revenue}`)}
       </p>
     );
   };
   renderAvgROI = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.avg_roi !== '0.00' ? `${row.avg_roi}%` : 'N.A.'}</p>;
+    return <p className="stat">{showNAIfZeroOrNull(row.avg_roi !== '0.00', `${row.avg_roi}%`)}</p>;
   };
   renderAvgRank = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.avg_rank !== 0 ? row.avg_rank : 'N.A.'}</p>;
+    return <p className="stat">{showNAIfZeroOrNull(row.avg_rank !== 0, row.avg_rank)}</p>;
   };
   renderCustomerReviews = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.customer_reviews !== 0 ? row.customer_reviews : 'N.A.'}</p>;
+    return (
+      <p className="stat">{showNAIfZeroOrNull(row.customer_reviews !== 0, row.customer_reviews)}</p>
+    );
   };
   renderRating = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.rating !== '0.0' ? row.rating : 'N.A.'}</p>;
+    return <p className="stat">{showNAIfZeroOrNull(row.rating !== '0.0', row.rating)}</p>;
   };
   renderDimensions = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.dimension !== null ? row.dimension : 'N.A.'}</p>;
+    return <p className="stat">{showNAIfZeroOrNull(row.dimension !== null, row.dimension)}</p>;
   };
   renderWeight = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.weight !== null ? `${row.weight} lbs` : 'N.A.'}</p>;
+    return <p className="stat">{showNAIfZeroOrNull(row.weight !== null, `${row.weight} lbs`)}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;
@@ -398,7 +416,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       isLoadingTrackerProducts,
       productTrackerResult,
       filteredProducts,
-      filterRanges,
       singlePageItemsCount,
       setSinglePageItemsCount,
       trackGroups,
@@ -433,6 +450,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           />
 
           <SelectItemsCount
+            setCurrentPage={setPageNumber}
             totalCount={filteredProducts.length}
             singlePageItemsCount={singlePageItemsCount}
             currentPage={productTrackerPageNo}
@@ -443,7 +461,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <PaginatedTable
             columnFilterBox={ColumnFilterBox}
-            key={`${JSON.stringify(filterRanges)}-${singlePageItemsCount}`}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
@@ -480,7 +497,6 @@ const mapStateToProps = (state: any) => {
     productDetailRating: get(state, 'product.detailRating'),
     productDetailReview: get(state, 'product.detailReview'),
     filteredProducts: get(state, 'productTracker.filteredProducts'),
-    filterRanges: get(state, 'productTracker.filterRanges'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
   };

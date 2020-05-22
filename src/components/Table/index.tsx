@@ -7,6 +7,8 @@ import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ProductSearch from '../ProductSearch/productSearch';
+import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsTable/productCheckBoxHeader';
+import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -40,6 +42,8 @@ export interface PaginatedTableProps {
   searchFilteredProduct?: (searchValue: string) => void;
   updateProfitFinderProducts?: (data: any) => void;
   showFilter?: boolean;
+  checkedRows?: CheckedRowDictionary;
+  updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
   productRanges?: any;
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
@@ -81,6 +85,8 @@ export interface GenericTableProps {
   count?: number;
   productTrackerPageNo?: any;
   showFilter?: boolean;
+  checkedRows?: CheckedRowDictionary;
+  updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
   productRanges?: any;
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
@@ -126,6 +132,8 @@ export const GenericTable = (props: GenericTableProps) => {
     searchFilterValue,
     columnFilterBox,
     showFilter,
+    checkedRows,
+    updateCheckedRows,
     toggleColumnCheckbox,
     renderFilterSectionComponent,
   } = props;
@@ -144,6 +152,7 @@ export const GenericTable = (props: GenericTableProps) => {
             <div />
           )}
           <SelectItemsCount
+            setCurrentPage={setCurrentPage}
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
             currentPage={currentPage}
@@ -269,7 +278,14 @@ export const GenericTable = (props: GenericTableProps) => {
                   {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                     <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
                   ) : null}
-                  {column.check && <Checkbox value={column.check} />}
+                  {column.check && checkedRows && updateCheckedRows && (
+                    <ProductCheckBoxHeader
+                      currentPage={currentPage}
+                      currentPageRows={rows}
+                      checkedRows={checkedRows}
+                      updateCheckedRows={updateCheckedRows}
+                    />
+                  )}
                   {column.icon && column.popUp ? (
                     <Popup
                       on="click"
@@ -371,6 +387,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     updateProfitFinderProducts,
     searchFilterValue,
     showFilter,
+    checkedRows,
+    updateCheckedRows,
     productRanges,
     columnFilterBox,
     toggleColumnCheckbox,
@@ -521,6 +539,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       count={count && count.count}
       productTrackerPageNo={productTrackerPageNo}
       showFilter={showFilter}
+      checkedRows={checkedRows}
+      updateCheckedRows={updateCheckedRows}
       columnFilterBox={columnFilterBox}
       toggleColumnCheckbox={toggleColumnCheckbox}
       renderFilterSectionComponent={renderFilterSectionComponent}

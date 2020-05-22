@@ -317,6 +317,9 @@ function ProductTrackerFilterSection(props: Props) {
       data.reviews.splice(data.reviews.indexOf(filterDataKey), 1);
     } else {
       data.reviews.push(filterDataKey);
+      if (data.reviews.length === filterReviews.length) {
+        selectAllReviews();
+      }
     }
     setFilterState(data);
   };

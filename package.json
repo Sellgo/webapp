@@ -37,7 +37,7 @@
     "redux-starter-kit": "^0.4.3",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "semantic-ui-react": "^0.86.0",
+    "semantic-ui-react": "^0.87.3",
     "typescript": "3.4.5",
     "validator": "^11.1.0"
   },

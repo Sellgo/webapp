@@ -67,6 +67,13 @@ const SellerAmazonMWS = (props: any) => {
     handleMarketPlaceLocalChange(marketplaceLocal.id);
   }, [amazonMWSAuth]);
 
+  useEffect(() => {
+    // retrigger the scroll to hash after component is mounted
+    const hash = window.location.hash;
+    window.location.hash = '';
+    window.location.hash = hash;
+  }, []);
+
   // TODO: Resolve eslint dependency warnings from above effect
   // Below would resolve it but the result is that handleMarketPlaceLocalChange
   // is run on every render. I think there is a bigger refactor that needs
@@ -112,7 +119,7 @@ const SellerAmazonMWS = (props: any) => {
 
   return (
     <>
-      <Grid.Column width={16}>
+      <Grid.Column width={16} id="amazon-mws">
         <Form>
           <Header.Subheader>
             Please grant Amazon MWS and Amazon Seller Central access for each market.

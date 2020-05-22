@@ -166,9 +166,31 @@ $new_black: #707070;
       font-size: 14px;
     }
 
+    .product-checkbox {
+      border-color: #dededf !important;
+      border-radius: 4px;
+      opacity: 1;
+
+      label::before {
+        border-radius: 4px !important;
+        border: 1px solid #d4d4d5;
+      }
+
+      input:checked ~ .box::before,
+      input:checked ~ label::before {
+        border-color: #dededf;
+        background-color: #313a4c;
+      }
+
+      input:checked ~ .box::after,
+      input:checked ~ label::after {
+        color: #fff;
+      }
+    }
+
     .product-description {
       text-align: left;
-      padding-left: 30px;
+      //padding-left: 30px;
       display: flex;
 
       .flag-img {
@@ -225,6 +247,15 @@ $new_black: #707070;
             width: 95px;
           }
 
+          &.undefined {
+            padding-left: 37px;
+          }
+
+          &.checkboxes {
+            padding-left: 16px;
+            padding-right: 0;
+          }
+
           &.sales-est,
           &.monthly-revenue {
             white-space: pre;
@@ -234,8 +265,27 @@ $new_black: #707070;
             line-height: normal;
           }
 
+          .header-action-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+          }
+
+          .header-checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-right: 5px;
+          }
+
           i {
             display: none;
+          }
+
+          .checkbox-select {
+            display: inline-block;
+            color: #a2a2a2;
+            height: 100%;
+            font-size: 14px;
           }
 
           border-top: 1px solid rgba(34, 36, 38, 0.3);
@@ -249,7 +299,6 @@ $new_black: #707070;
           border-top-left-radius: 10px;
           border-bottom-left-radius: 10px;
           border-left: 1px solid rgba(34, 36, 38, 0.3);
-          padding-left: 40px;
         }
 
         th:last-child {
@@ -264,6 +313,18 @@ $new_black: #707070;
       tr {
         td.table-cell {
           width: 95px;
+
+          &.undefined {
+            padding-left: 0;
+          }
+
+          &.checkboxes {
+            .product-checkbox {
+              position: relative;
+              left: -4px;
+              top: 3px;
+            }
+          }
         }
       }
     }
@@ -490,6 +551,38 @@ $new_black: #707070;
   @media (max-width: 1024px) {
     .track-btn {
       width: 100%;
+    }
+  }
+}
+
+.tracking-header-popup {
+  border-radius: 11px !important;
+  border: none !important;
+  margin: -10px 5px !important;
+
+  .header-checkbox-menu {
+    border-radius: 11px !important;
+    opacity: 1 !important;
+    box-shadow: 0 3px 20px #00000029 !important;
+    border: 1px solid #98aeca;
+
+    .checkbox-menu-item {
+      cursor: auto;
+      width: 63px;
+      height: 40px;
+      display: flex !important;
+      padding: 0;
+      justify-content: space-evenly;
+
+      .fingerprint-track {
+        cursor: pointer;
+        width: 15px !important;
+      }
+
+      .fingerprint-untrack {
+        cursor: pointer;
+        width: 15px !important;
+      }
     }
   }
 }

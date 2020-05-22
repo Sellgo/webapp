@@ -3,12 +3,13 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
-import { getSellerQuota } from '../Settings';
+import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
 import {
   suppliersSelector,
   newSupplierIdSelector,
   getSynthesisId,
   suppliersByIdSelector,
+  supplierDetailsSelector,
 } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -35,6 +36,7 @@ import {
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   FILTER_SUPPLIER_PRODUCTS,
   SEARCH_SUPPLIER_PRODUCTS,
+  UPDATE_SUPPLIER_PRODUCTS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
@@ -145,8 +147,12 @@ export const postSynthesisRerun = (supplier: Supplier) => (dispatch: any) => {
       dispatch(fetchSynthesisProgressUpdates());
       success('Rerun successfully initiated!');
     })
-    .catch(() => {
-      error('Rerun failed. Try again!');
+    .catch(err => {
+      if (err.response.status === 401) {
+        dispatch(handleUnauthorizedMwsAuth());
+      } else {
+        error('Rerun failed. Try again!');
+      }
     });
 };
 
@@ -168,8 +174,12 @@ export const postSynthesisRun = (synthesisId: string) => async (
       dispatch(updateSupplier(existingSupplier));
       dispatch(fetchSynthesisProgressUpdates());
     })
-    .catch(() => {
-      error('Run failed. Try again!');
+    .catch(err => {
+      if (err.response.status === 401) {
+        dispatch(handleUnauthorizedMwsAuth());
+      } else {
+        error('Run failed. Try again!');
+      }
     });
 };
 
@@ -289,7 +299,7 @@ export const fetchSupplierProducts = (supplierID: any) => async (
 
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data-compact`
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data`
   );
 
   if (response.data.length) {
@@ -402,7 +412,9 @@ export const updateProductTrackingStatus = (
           dispatch(updateSupplierProduct(json.data));
         })
         .catch(err => {
-          if (err.response && err.response.status === 400) {
+          if (err.response && err.response.status === 401) {
+            dispatch(handleUnauthorizedMwsAuth());
+          } else if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
         })
@@ -423,14 +435,73 @@ export const updateProductTrackingStatus = (
           }
         })
         .catch(err => {
-          if (err.response && err.response.status === 400) {
+          if (err.response && err.response.status === 401) {
+            dispatch(handleUnauthorizedMwsAuth());
+          } else if (err.response && err.response.status === 400) {
             error(err.response.data.message);
           }
         });
 };
 
+export const requestProductBulkTracking = (products: { product_id: number }[]) => (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerID = sellerIDSelector();
+  const supplierDetails = supplierDetailsSelector(getState());
+  Axios.post(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplierDetails.supplier_id}/track/products`,
+    products
+  )
+    .then(json => {
+      success('Request succeeded');
+      dispatch(getSellerQuota());
+      dispatch(updateSupplierProducts(json.data));
+    })
+    .catch(err => {
+      console.log('err.response', err.response);
+      if (err.response && err.response.status === 401) {
+        dispatch(handleUnauthorizedMwsAuth());
+      } else if (err.response && (err.response.status !== 200 || err.response.status !== 201)) {
+        error(err.response.data.message);
+      }
+    });
+};
+
+export const requestProductBulkUnTracking = (products: { product_id: number }[]) => (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerID = sellerIDSelector();
+  const supplierDetails = supplierDetailsSelector(getState());
+  Axios.post(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${supplierDetails.supplier_id}/untrack/products`,
+    products
+  )
+    .then(json => {
+      success('Request succeeded');
+      dispatch(getSellerQuota());
+      dispatch(updateSupplierProducts(json.data));
+    })
+    .catch(err => {
+      console.log('err.response', err.response);
+      if (err.response && err.response.status === 401) {
+        dispatch(handleUnauthorizedMwsAuth());
+      } else if (err.response && err.response.status !== 200) {
+        error(err.response.data.message);
+      }
+    });
+};
+
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
+  payload: data,
+});
+
+export const updateSupplierProducts = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCTS,
   payload: data,
 });
 
