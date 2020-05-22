@@ -274,7 +274,7 @@ $new_black: #707070;
           .header-checkbox-container {
             display: flex;
             align-items: center;
-            margin-right: 5px;
+            margin-left: 13px;
           }
 
           i {
@@ -321,7 +321,7 @@ $new_black: #707070;
           &.checkboxes {
             .product-checkbox {
               position: relative;
-              left: -4px;
+              left: -10;
               top: 3px;
             }
           }
@@ -404,8 +404,9 @@ $new_black: #707070;
     }
     // Prevent stats from wrapping (such as "123 /month")
     td p.stat {
-      white-space: nowrap;
+      white-space: pre-line;
       text-align: left;
+      line-height: 1;
     }
 
     .mrgn-right {

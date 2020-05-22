@@ -24,6 +24,8 @@ import { tableKeys } from '../../../../constants';
 import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
+import { columnFilter } from '../../../../constants/Products';
+import _ from 'lodash';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -56,6 +58,8 @@ interface ProductsTableState {
   searchValue: string;
   productRanges: any;
   filteredRanges: any;
+  columnFilterData: any;
+  ColumnFilterBox:boolean;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -64,6 +68,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     searchValue: '',
     productRanges: initialFilterRanges,
     filteredRanges: [],
+    columnFilterData: columnFilter,
+    ColumnFilterBox: false,
+
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -169,7 +176,38 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       </div>
     );
   };
-
+  handleColumnChange = (e: any, data: any) => {
+    e.stopPropagation();
+    setTimeout(() => {
+      this.setState({ ColumnFilterBox: true });
+    }, 10);
+    const checkedData = this.state.columnFilterData;
+    if (data.label === 'Select All') {
+      checkedData.forEach((element: any) => {
+        if (element.key !== 'Product Information' || element.key !== '') {
+          element.value = data.checked;
+        }
+      });
+    } else {
+      checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
+        data.checked;
+      const ckArray: boolean[] = [];
+      _.each(checkedData, (ckData: any) => {
+        if (
+          ckData.key !== '' &&
+          ckData.key !== 'Select All'
+        ) {
+          ckArray.push(ckData.value);
+        }
+      });
+      checkedData[
+        checkedData.findIndex((element: any) => element.key === 'Select All')
+        ].value = ckArray.every((val: boolean) => {
+        return val;
+      });
+    }
+    this.setState({ columnFilterData: [...checkedData] });
+  };
   searchFilteredProduct = (value: string) => {
     const {
       searchProducts,
@@ -195,6 +233,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'PRODUCT INFORMATION',
+      dataKey: 'PRODUCT INFORMATION',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
@@ -256,7 +295,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderRank,
     },
     {
-      label: 'Sales \nEst',
+      label: 'Monthly \nSales Est',
       dataKey: 'sales_monthly',
       type: 'number',
       sortable: true,
@@ -287,7 +326,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       render: this.renderDetailButtons,
     },
+    {
+      icon: 'ellipsis horizontal ellipsis-ic',
+      dataKey: 'ellipsis horizontal',
+      show: true,
+      render: this.renderSyncButtons,
+      popUp: true,
+    },
   ];
+  handleClick = () => {
+    const { ColumnFilterBox } = this.state;
+    this.setState({
+      ColumnFilterBox: !ColumnFilterBox,
+    });
+  };
+
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -296,7 +350,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       updateProfitFinderProducts,
     } = this.props;
-    const { searchValue, productRanges, checkedRows } = this.state;
+    const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
+
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -318,8 +373,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             setSinglePageItemsCount={setSinglePageItemsCount}
             name={'products'}
             showFilter={true}
+            columnFilterBox={ColumnFilterBox}
             checkedRows={checkedRows}
             updateCheckedRows={this.updateCheckedRows}
+            handleColumnChange={this.handleColumnChange}
+            toggleColumnCheckbox={this.handleClick}
+            columnFilterData={this.state.columnFilterData}
             renderFilterSectionComponent={() => (
               <ProfitFinderFilterSection productRanges={productRanges} />
             )}

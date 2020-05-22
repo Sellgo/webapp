@@ -94,16 +94,25 @@ i.icon.filter::before {
 }
 
 .table-header {
-  height: 40px;
+  height: 46px;
 }
 
 .table-cell-container {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: space-between;
 }
 
 .th-label {
   white-space: pre;
   line-height: 1.5;
+}
+
+.ui.sortable.table thead th.sorted::after {
+  display: none;
+}
+
+.sort-icon {
+  display: table !important;
+  font-size: 15px;
 }
