@@ -50,6 +50,7 @@ export interface PaginatedTableProps {
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
+  tableLock?: boolean;
 }
 
 export interface GenericTableProps {
@@ -91,6 +92,7 @@ export interface GenericTableProps {
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
   renderFilterSectionComponent?: () => void;
+  tableLock?: boolean;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -136,6 +138,7 @@ export const GenericTable = (props: GenericTableProps) => {
     updateCheckedRows,
     toggleColumnCheckbox,
     renderFilterSectionComponent,
+    tableLock,
   } = props;
 
   return (
@@ -308,7 +311,9 @@ export const GenericTable = (props: GenericTableProps) => {
             })}
           </Table.Row>
         </Table.Header>
+
         <Table.Body>
+          {tableLock && <Table.Row className="table-lock"></Table.Row>}
           {rows.length ? (
             rows.map((row, index) => {
               return (
@@ -394,6 +399,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
+    tableLock,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -551,6 +557,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       columnFilterBox={columnFilterBox}
       toggleColumnCheckbox={toggleColumnCheckbox}
       renderFilterSectionComponent={renderFilterSectionComponent}
+      tableLock={tableLock}
     />
   );
 };

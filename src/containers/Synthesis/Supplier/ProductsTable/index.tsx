@@ -297,6 +297,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       updateProfitFinderProducts,
     } = this.props;
     const { searchValue, productRanges, checkedRows } = this.state;
+    const tableLock = localStorage.getItem('accountType') === 'trial';
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -323,6 +324,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             renderFilterSectionComponent={() => (
               <ProfitFinderFilterSection productRanges={productRanges} />
             )}
+            tableLock={tableLock}
           />
         )}
       </div>

@@ -310,6 +310,15 @@ $new_black: #707070;
     }
 
     tbody {
+      .table-lock {
+        height: 100%;
+        position: absolute;
+        background: blue;
+        width: 98%;
+        z-index: 9;
+        top: calc(100% - 39%);
+      }
+
       tr {
         td.table-cell {
           width: 95px;
