@@ -461,7 +461,9 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
     })
     .catch(err => {
       console.log('err.response', err.response);
-      if (err.response && (err.response.status !== 200 || err.response.status !== 201)) {
+      if (err.response && err.response.status === 401) {
+        handleUnauthorizedMwsAuth();
+      } else if (err.response && (err.response.status !== 200 || err.response.status !== 201)) {
         error(err.response.data.message);
       }
     });
@@ -485,7 +487,9 @@ export const requestProductBulkUnTracking = (products: { product_id: number }[])
     })
     .catch(err => {
       console.log('err.response', err.response);
-      if (err.response && err.response.status !== 200) {
+      if (err.response && err.response.status === 401) {
+        handleUnauthorizedMwsAuth();
+      } else if (err.response && err.response.status !== 200) {
         error(err.response.data.message);
       }
     });
