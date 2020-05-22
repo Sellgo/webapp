@@ -110,11 +110,10 @@ export class AddNewSupplierStep extends Step {
     // eslint-disable-next-line no-useless-catch
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-      const { name, ...other } = formValues;
-
+      const { ...other } = formValues;
       if (!existingSupplier) {
         // add other form values
-        const data: any = await this.dispatch(saveSupplierName(name, other));
+        const data: any = await this.dispatch(saveSupplierName(other));
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (const param in existingSupplier) {
@@ -122,7 +121,7 @@ export class AddNewSupplierStep extends Step {
             delete other[param];
           }
         }
-        await this.dispatch(updateSupplierName(name, existingSupplier.id, other));
+        await this.dispatch(updateSupplierName(existingSupplier.id, other));
       }
       this.dispatch(fetchColumnMappings());
     } catch (error) {
