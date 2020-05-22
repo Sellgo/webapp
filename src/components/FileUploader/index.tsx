@@ -8,10 +8,10 @@ interface FileUploaderProps {
   onDrop: (acceptedFiles: File[]) => void;
   onDropRejected: (rejectedFiles: File[]) => void;
   accept: string[];
-  fileName: any;
+  fileDetails: any;
 }
 function FileUploader(props: FileUploaderProps) {
-  const { accept, onDrop, onDropRejected, fileName } = props;
+  const { accept, onDrop, onDropRejected, fileDetails } = props;
   const multiple = false;
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -29,18 +29,18 @@ function FileUploader(props: FileUploaderProps) {
       <Icon name="cloud upload" size="huge" className={styles.cloud} />
       <br />
       <p className={`description-container ${styles.description} ${styles['margin-top']}`}>
-        <b className="upload-supplier-csv">Upload filled-in Supplier File(s) here</b>
+        <b className="upload-supplier-title">Upload filled-in Supplier File(s) here</b>
         <br />
         <span className={`upload-supplier-desc ${styles.description}`}>
           Drag and drop, or click to select
         </span>
         <br />
+        <span className={`upload-supplier-desc ${styles.description}`}>
+          Accepted File Types: {accept.join(', ')}
+        </span>
         <br />
-        <b className={styles.filename}>
-          {fileName !== null ? fileName.name : ' '}
-          {/*   {acceptedFiles.length > 0 &&
-            acceptedFiles.map(acceptedFile => <li key={acceptedFile.name}>{acceptedFile.name}</li>)} */}
-        </b>
+        <br />
+        <b className={styles.filename}>{fileDetails !== null ? fileDetails.name : ' '}</b>
       </p>
     </button>
   );
