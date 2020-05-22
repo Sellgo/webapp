@@ -1,3 +1,3 @@
 import get from 'lodash/get';
 
-export const fetchNotifyId = (state: {}) => get(state, 'userOnboarding.notifyId');
+export const notifyIdSelector = (state: {}) => get(state, 'userOnboarding.notifyId');

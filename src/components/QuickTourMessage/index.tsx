@@ -5,24 +5,24 @@ import { Button, Grid, Header, Popup, Image } from 'semantic-ui-react';
 import Logo from '../../assets/images/sellgo_logo.svg';
 import { notifications } from './Notifications';
 import { setNotifyId } from '../../actions/UserOnboarding';
-import { fetchNotifyId } from '../../selectors/UserOnboarding';
+import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import './index.scss';
 
 interface Props {
   child: any;
   data: any;
-  fetchNotifyId: number;
+  currentNotifyId: number;
   setNotifyId: Function;
   modalTermsOpen: boolean;
 }
 
-function QuickTour({ child, data, fetchNotifyId, setNotifyId, modalTermsOpen }: Props) {
+function QuickTour({ child, data, currentNotifyId, setNotifyId, modalTermsOpen }: Props) {
   const handleNext = () => {
     const count = notifications.length;
-    if (fetchNotifyId >= count) {
+    if (currentNotifyId >= count) {
       setNotifyId(0);
     } else {
-      setNotifyId(fetchNotifyId + 1);
+      setNotifyId(currentNotifyId + 1);
     }
   };
 
@@ -58,12 +58,12 @@ function QuickTour({ child, data, fetchNotifyId, setNotifyId, modalTermsOpen }: 
     />
   );
 
-  return data.notifyId === fetchNotifyId && !modalTermsOpen ? returnChild : child;
+  return data.notifyId === currentNotifyId && !modalTermsOpen ? returnChild : child;
 }
 
 const mapStateToProps = (state: any) => ({
   modalTermsOpen: get(state, 'modals.userOnboarding.open', false),
-  fetchNotifyId: fetchNotifyId(state),
+  currentNotifyId: notifyIdSelector(state),
 });
 
 const mapDispatchToProps = {

@@ -9,7 +9,7 @@ import './AdminHeader.scss';
 interface AdminProps {
   auth: any;
   children: any;
-  fetchNotifyId: number;
+  currentNotifyId: number;
 }
 
 export class AdminHeader extends React.Component<AdminProps> {
@@ -30,11 +30,11 @@ export class AdminHeader extends React.Component<AdminProps> {
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
-    const { auth, fetchNotifyId } = this.props;
+    const { auth, currentNotifyId } = this.props;
     const { isVisible } = this.state;
     return (
       <div className="admin-header">
-        <Grid className={`${fetchNotifyId > 0 && 'custom-dimmer'}`} />
+        <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
         <Menu inverted={true} borderless={true} fixed="top" className="top-menu">
           <Menu.Menu>
             <Menu.Item className="mobile-menu">

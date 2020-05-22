@@ -2,7 +2,7 @@ import React, { Component, ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { fetchNotifyId } from '../../selectors/UserOnboarding';
+import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Auth from '../Auth/Auth';
 import LogoutConfirm from '../LogoutConfirm';
 import Tour from '../QuickTourMessage';
@@ -21,7 +21,7 @@ interface State {
 }
 
 class SidebarCollapsible extends Component<
-  { auth: Auth; fetchNotifyId: number },
+  { auth: Auth; currentNotifyId: number },
   { visible: boolean; openConfirm: boolean },
   State
 > {
@@ -57,7 +57,7 @@ class SidebarCollapsible extends Component<
 
   render() {
     const { visible } = this.state;
-    const { children, auth, fetchNotifyId } = this.props;
+    const { children, auth, currentNotifyId } = this.props;
     const initPath = window.location.pathname;
 
     const sidebarMenu = (
@@ -80,7 +80,7 @@ class SidebarCollapsible extends Component<
                       active={initPath.startsWith(icon.path)}
                     >
                       <i
-                        className={`fas ${icon.icon} ${fetchNotifyId === icon.notifyId &&
+                        className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                           'forward'}`}
                       />
 
@@ -112,7 +112,7 @@ class SidebarCollapsible extends Component<
                       <i
                         className={`fas ${
                           !visible ? icon.icon : 'fa-angle-left'
-                        } ${fetchNotifyId === icon.notifyId && 'forward'}`}
+                        } ${currentNotifyId === icon.notifyId && 'forward'}`}
                       />
                     </Menu.Item>
                   }
@@ -136,7 +136,7 @@ class SidebarCollapsible extends Component<
                       }}
                     >
                       <i
-                        className={`fas ${icon.icon} ${fetchNotifyId === icon.notifyId &&
+                        className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                           'forward'}`}
                       />
                       <Label> {icon.label} </Label>
@@ -166,14 +166,14 @@ class SidebarCollapsible extends Component<
             className="sidebar-menu"
             borderless={true}
           >
-            <Grid className={`${fetchNotifyId > 0 && 'Sidebar__pushable custom-dimmer'}`} />
+            <Grid className={`${currentNotifyId > 0 && 'Sidebar__pushable custom-dimmer'}`} />
             {sidebarMenu}
           </Sidebar>
 
           <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
           <Sidebar.Pusher
-            dimmed={fetchNotifyId > 0 ? true : visible}
+            dimmed={currentNotifyId > 0 ? true : visible}
             onClick={() => {
               visible && this.handleAnimationChange();
             }}
@@ -188,7 +188,7 @@ class SidebarCollapsible extends Component<
 }
 
 const mapStateToProps = (state: any) => ({
-  fetchNotifyId: fetchNotifyId(state),
+  currentNotifyId: notifyIdSelector(state),
 });
 
 export default connect(mapStateToProps)(SidebarCollapsible);

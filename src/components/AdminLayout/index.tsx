@@ -2,23 +2,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
 import { AdminHeader } from './AdminHeader';
-import { fetchNotifyId } from '../../selectors/UserOnboarding';
+import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Sidebar from './Sidebar';
 import Auth from '../Auth/Auth';
 import './index.scss';
 
 interface Props {
   auth: Auth;
-  fetchNotifyId: number;
+  currentNotifyId: number;
 }
 
 class AdminLayout extends React.Component<Props> {
   public render() {
-    const { children, auth, fetchNotifyId } = this.props;
+    const { children, auth, currentNotifyId } = this.props;
 
     return (
       <React.Fragment>
-        <AdminHeader fetchNotifyId={fetchNotifyId} auth={auth}>
+        <AdminHeader currentNotifyId={currentNotifyId} auth={auth}>
           {this.props.children}
         </AdminHeader>
         <Sidebar auth={auth}>
@@ -32,7 +32,7 @@ class AdminLayout extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: any) => ({
-  fetchNotifyId: fetchNotifyId(state),
+  currentNotifyId: notifyIdSelector(state),
 });
 
 export default connect(mapStateToProps)(AdminLayout);
