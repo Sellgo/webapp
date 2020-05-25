@@ -18,6 +18,7 @@ import '../../analytics';
 import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
+import Onboarding from '../Onboarding';
 
 export const auth = new Auth();
 
@@ -171,6 +172,12 @@ function App() {
             exact={true}
             path="/product-tracker"
             component={ProductTracker}
+            requireSubscription={true}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/onboarding"
+            component={Onboarding}
             requireSubscription={true}
           />
           <Route component={NotFound} />
