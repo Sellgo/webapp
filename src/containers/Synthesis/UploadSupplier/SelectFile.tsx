@@ -1,18 +1,18 @@
 import head from 'lodash/head';
 import FileUploader from '../../../components/FileUploader';
 import { connect } from 'react-redux';
-import { prepareCsv, handleRejectedFile } from '../../../actions/UploadSupplier';
-import { csvFileSelector } from '../../../selectors/UploadSupplier';
+import { prepareFile, handleRejectedFile } from '../../../actions/UploadSupplier';
+import { fileDetailsSelector } from '../../../selectors/UploadSupplier';
 
-const acceptedFileFormats = ['.csv'];
+export const acceptedFileFormats = ['.csv', '.xls', '.xlsx'];
 
 const mapStateToProps = (state: {}) => ({
   accept: acceptedFileFormats,
-  fileName: csvFileSelector(state),
+  fileDetails: fileDetailsSelector(state),
 });
 
 const mapDispatchToProps = {
-  onDrop: (acceptedFiles: File[]) => prepareCsv(head(acceptedFiles)),
+  onDrop: (acceptedFiles: File[]) => prepareFile(head(acceptedFiles)),
   onDropRejected: (rejectedFiles: File[]) => handleRejectedFile(head(rejectedFiles)),
 };
 

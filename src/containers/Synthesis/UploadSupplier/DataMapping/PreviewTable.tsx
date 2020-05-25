@@ -2,27 +2,29 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {
-  csvSelector,
+  fileStringArraySelector,
   columnMappingsSelector,
-  csvHeaderSelector,
+  fileHeaderSelector,
 } from '../../../../selectors/UploadSupplier';
 
 const NUMBER_OF_ROWS_TO_DISPLAY = 6;
 interface PreviewTableProps {
-  csv: string[][];
+  fileStringArray: string[][];
   columnHeaders: string[];
   columnMappings: any;
 }
 
 const PreviewTable = (props: PreviewTableProps) => {
-  const { csv, columnHeaders } = props;
-  if (csv.length === 0) {
+  const { fileStringArray, columnHeaders } = props;
+  if (fileStringArray.length === 0) {
     return <div>Empty Table</div>;
   }
 
-  const previewRows = csv.slice(0, NUMBER_OF_ROWS_TO_DISPLAY);
+  const previewRows = fileStringArray.slice(0, NUMBER_OF_ROWS_TO_DISPLAY);
   const remainingRowsLength =
-    csv.length > NUMBER_OF_ROWS_TO_DISPLAY ? csv.length - NUMBER_OF_ROWS_TO_DISPLAY : 0;
+    fileStringArray.length > NUMBER_OF_ROWS_TO_DISPLAY
+      ? fileStringArray.length - NUMBER_OF_ROWS_TO_DISPLAY
+      : 0;
 
   return (
     <Table celled={true} unstackable={true}>
@@ -59,8 +61,8 @@ const PreviewTable = (props: PreviewTableProps) => {
 };
 
 const mapStateToProps = (state: object) => ({
-  columnHeaders: csvHeaderSelector(state),
-  csv: csvSelector(state),
+  columnHeaders: fileHeaderSelector(state),
+  fileStringArray: fileStringArraySelector(state),
   columnMappings: columnMappingsSelector(state),
 });
 
