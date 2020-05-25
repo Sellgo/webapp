@@ -59,7 +59,7 @@ interface ProductsTableState {
   productRanges: any;
   filteredRanges: any;
   columnFilterData: any;
-  ColumnFilterBox:boolean;
+  ColumnFilterBox: boolean;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -70,7 +70,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     filteredRanges: [],
     columnFilterData: columnFilter,
     ColumnFilterBox: false,
-
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -193,16 +192,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         data.checked;
       const ckArray: boolean[] = [];
       _.each(checkedData, (ckData: any) => {
-        if (
-          ckData.key !== '' &&
-          ckData.key !== 'Select All'
-        ) {
+        if (ckData.key !== '' && ckData.key !== 'Select All') {
           ckArray.push(ckData.value);
         }
       });
       checkedData[
         checkedData.findIndex((element: any) => element.key === 'Select All')
-        ].value = ckArray.every((val: boolean) => {
+      ].value = ckArray.every((val: boolean) => {
         return val;
       });
     }
@@ -340,7 +336,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       ColumnFilterBox: !ColumnFilterBox,
     });
   };
-
 
   render() {
     const {

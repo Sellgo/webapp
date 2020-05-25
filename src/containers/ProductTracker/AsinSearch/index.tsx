@@ -101,7 +101,7 @@ const AsinSearch = (props: Props) => {
                   onClick={() => {
                     handleMarketSelection(option);
                   }}
-                ></Dropdown.Item>
+                />
               );
             })}
           </Dropdown.Menu>

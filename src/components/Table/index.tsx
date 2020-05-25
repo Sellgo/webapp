@@ -8,9 +8,6 @@ import ProductColumnFilterCard from '../../containers/Synthesis/Supplier/Product
 import './index.scss';
 import { tableKeys } from '../../constants';
 import SortIcon from '../../assets/images/sort-solid.svg';
-import SortIconUp from '../../assets/images/sorting-icon-up.svg';
-import SortIconDown from '../../assets/images/sorting-icon-down.svg';
-
 
 import ProductSearch from '../ProductSearch/productSearch';
 import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsTable/productCheckBoxHeader';
@@ -101,24 +98,26 @@ export interface GenericTableProps {
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   let flag = true;
-  const foundElement = !!columnFilterData ? columnFilterData.find((element: any) => element.dataKey === dataKey) : false;
+  const foundElement = columnFilterData
+    ? columnFilterData.find((element: any) => element.dataKey === dataKey)
+    : false;
   if (foundElement) {
     flag = foundElement.value;
   }
   return flag;
 };
 
-const getColumnWidth = (column: any ) => {
-    if(column.icon && column.popUp || column.check){
-      return '46px';
-    }else if(column.label ==='Category') {
-      return '190px';
-    }else if(column.label ==='Size Tier'){
-      return '190px';
-    } else {
-      return '95px';
-    }
-}
+const getColumnWidth = (column: any) => {
+  if ((column.icon && column.popUp) || column.check) {
+    return '46px';
+  } else if (column.label === 'Category') {
+    return '190px';
+  } else if (column.label === 'Size Tier') {
+    return '190px';
+  } else {
+    return '95px';
+  }
+};
 
 export const GenericTable = (props: GenericTableProps) => {
   const {
@@ -206,137 +205,151 @@ export const GenericTable = (props: GenericTableProps) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => {
-              return name === 'trackerTable' ? (
-                getColumnLabel(column.dataKey, columnFilterData) && (
-                  <Table.HeaderCell
-                    key={column.dataKey || index}
-                    sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
-                    onClick={
-                      column.sortable
-                        ? (e: any) => setSort(e, column.dataKey || '')
-                        : column.click
-                        ? column.click
-                        : undefined
-                    }
-                    style={
-                      column.label === 'Supplier'
-                        ? {
-                            minWidth: '120px',
-                          }
-                        : {}
-                    }
-                    className="table-header"
-                  >
-                    {' '}
-                    {column.label}
-                    {column.label === 'Supplier' && (
-                      <span>
-                        <Icon
-                          className="filter search-filter"
-                          onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
-                        />
-                      </span>
-                    )}
-                    {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
-                      <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
-                    ) : null}
-                    {column.check && <Checkbox value={column.check} />}
-                    {column.icon && column.popUp ? (
-                      <Popup
-                        on="click"
-                        open={columnFilterBox}
-                        onClose={toggleColumnCheckbox}
-                        onOpen={toggleColumnCheckbox}
-                        trigger={<Icon className={`${column.icon}`} />}
-                        position="bottom right"
-                        basic={true}
-                        hideOnScroll={true}
-                        content={
-                          <ColumnFilterCard
-                            columnFilterData={columnFilterData}
-                            handleColumnChange={handleColumnChange}
+              return name === 'trackerTable'
+                ? getColumnLabel(column.dataKey, columnFilterData) && (
+                    <Table.HeaderCell
+                      key={column.dataKey || index}
+                      sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
+                      onClick={
+                        column.sortable
+                          ? (e: any) => setSort(e, column.dataKey || '')
+                          : column.click
+                          ? column.click
+                          : undefined
+                      }
+                      style={
+                        column.label === 'Supplier'
+                          ? {
+                              minWidth: '120px',
+                            }
+                          : {}
+                      }
+                      className="table-header"
+                    >
+                      {' '}
+                      {column.label}
+                      {column.label === 'Supplier' && (
+                        <span>
+                          <Icon
+                            className="filter search-filter"
+                            onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
                           />
-                        }
-                      />
-                    ) : (
-                      <Icon className={column.icon} />
-                    )}
-                  </Table.HeaderCell>
-                )
-              ) : (
-                getColumnLabel(column.dataKey, columnFilterData) && (
-
-                  <Table.HeaderCell
-                  key={column.dataKey || index}
-                  sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
-
-                  onClick={
-                    column.sortable
-                      ? (e: any) => setSort(e, column.dataKey || '')
-                      : column.click
-                      ? column.click
-                      : undefined
-                  }
-                  style={
-                    column.label === 'Search'
-                      ? {
-                          minWidth: '120px',
-                        }
-                      : {minWidth: getColumnWidth(column),
-                        height:46,
-                        padding:4,
-                        paddingLeft: column.label === 'PRODUCT INFORMATION' ? '37px': 'auto'
-                      }
-                  }
-                  className={`table-header ${column.dataKey}`}
-                >
-                  {' '}
-                  <div className="table-cell-container" style={column.icon && column.popUp ||column.check ?{justifyContent:'center'}:{} }>
-                  <span className="th-label">{column.label}</span>
-              {column.label === 'Search' && (
-                    <span>
-                      <Icon
-                        className="filter search-filter"
-                        onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
-                      />
-                    </span>
-                  )}
-                  {column.sortable && (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
-                    <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
-                  ) :  column.sortable && sortedColumnKey === column.dataKey
-                  ? sortDirection ==='ascending' ? <span><Icon name='caret down' className="sort-icon"/></span>
-                  : <span><Icon name='caret up' className="sort-icon"/></span>: null
-                  }
-                  {column.check && checkedRows && updateCheckedRows && (
-                    <ProductCheckBoxHeader
-                      currentPage={currentPage}
-                      currentPageRows={rows}
-                      checkedRows={checkedRows}
-                      updateCheckedRows={updateCheckedRows}
-                    />
-                  )}
-                  {column.icon && column.popUp ? (
-                    <Popup
-                      on="click"
-                      trigger={<Icon className={`${column.icon}`} />}
-                      position="bottom right"
-                      basic={true}
-                      hideOnScroll={true}
-                      onClose={toggleColumnCheckbox}
-                      onOpen={toggleColumnCheckbox}
-                      content={
-                        <ProductColumnFilterCard
-                          columnFilterData={columnFilterData}
-                          handleColumnChange={handleColumnChange}
+                        </span>
+                      )}
+                      {column.sortable &&
+                      (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
+                        <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
+                      ) : null}
+                      {column.check && <Checkbox value={column.check} />}
+                      {column.icon && column.popUp ? (
+                        <Popup
+                          on="click"
+                          open={columnFilterBox}
+                          onClose={toggleColumnCheckbox}
+                          onOpen={toggleColumnCheckbox}
+                          trigger={<Icon className={`${column.icon}`} />}
+                          position="bottom right"
+                          basic={true}
+                          hideOnScroll={true}
+                          content={
+                            <ColumnFilterCard
+                              columnFilterData={columnFilterData}
+                              handleColumnChange={handleColumnChange}
+                            />
+                          }
                         />
+                      ) : (
+                        <Icon className={column.icon} />
+                      )}
+                    </Table.HeaderCell>
+                  )
+                : getColumnLabel(column.dataKey, columnFilterData) && (
+                    <Table.HeaderCell
+                      key={column.dataKey || index}
+                      sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
+                      onClick={
+                        column.sortable
+                          ? (e: any) => setSort(e, column.dataKey || '')
+                          : column.click
+                          ? column.click
+                          : undefined
                       }
-                    />
-                  ) : (
-                     <Icon className={column.icon} />
-                  )}
-                  </div>
-                </Table.HeaderCell>
-              ));
+                      style={
+                        column.label === 'Search'
+                          ? {
+                              minWidth: '120px',
+                            }
+                          : {
+                              minWidth: getColumnWidth(column),
+                              height: 46,
+                              padding: 4,
+                              paddingLeft: column.label === 'PRODUCT INFORMATION' ? '37px' : 'auto',
+                            }
+                      }
+                      className={`table-header ${column.dataKey}`}
+                    >
+                      {' '}
+                      <div
+                        className="table-cell-container"
+                        style={
+                          (column.icon && column.popUp) || column.check
+                            ? { justifyContent: 'center' }
+                            : {}
+                        }
+                      >
+                        <span className="th-label">{column.label}</span>
+                        {column.label === 'Search' && (
+                          <span>
+                            <Icon
+                              className="filter search-filter"
+                              onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
+                            />
+                          </span>
+                        )}
+                        {column.sortable &&
+                        (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
+                          <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
+                        ) : column.sortable && sortedColumnKey === column.dataKey ? (
+                          sortDirection === 'ascending' ? (
+                            <span>
+                              <Icon name="caret down" className="sort-icon" />
+                            </span>
+                          ) : (
+                            <span>
+                              <Icon name="caret up" className="sort-icon" />
+                            </span>
+                          )
+                        ) : null}
+                        {column.check && checkedRows && updateCheckedRows && (
+                          <ProductCheckBoxHeader
+                            currentPage={currentPage}
+                            currentPageRows={rows}
+                            checkedRows={checkedRows}
+                            updateCheckedRows={updateCheckedRows}
+                          />
+                        )}
+                        {column.icon && column.popUp ? (
+                          <Popup
+                            on="click"
+                            trigger={<Icon className={`${column.icon}`} />}
+                            position="bottom right"
+                            basic={true}
+                            hideOnScroll={true}
+                            onClose={toggleColumnCheckbox}
+                            onOpen={toggleColumnCheckbox}
+                            content={
+                              <ProductColumnFilterCard
+                                columnFilterData={columnFilterData}
+                                handleColumnChange={handleColumnChange}
+                              />
+                            }
+                          />
+                        ) : (
+                          <Icon className={column.icon} />
+                        )}
+                      </div>
+                    </Table.HeaderCell>
+                  );
             })}
           </Table.Row>
         </Table.Header>
@@ -347,29 +360,35 @@ export const GenericTable = (props: GenericTableProps) => {
                 <React.Fragment key={index}>
                   <Table.Row key={index}>
                     {columns.map((column, index) => {
-                      return name === 'trackerTable' ? (
-                        getColumnLabel(column.dataKey, columnFilterData) && (
-                          <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                            {renderCell(row, column)}
-                          </Table.Cell>
-                        )
-                      ) : (
-                        getColumnLabel(column.dataKey, columnFilterData) && (
-
-                          <Table.Cell
-                          key={column.dataKey || index}
-                          style={{ maxWidth: 400,textAlign: column.icon && column.popUp ? 'center':'auto', width:'95px',height:46,padding:4}}
-                          className={`table-cell ${column.dataKey}`}
-                        >
-
-                            {renderCell(row, column)}
-                        </Table.Cell>
-                      ));
+                      return name === 'trackerTable'
+                        ? getColumnLabel(column.dataKey, columnFilterData) && (
+                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                              {renderCell(row, column)}
+                            </Table.Cell>
+                          )
+                        : getColumnLabel(column.dataKey, columnFilterData) && (
+                            <Table.Cell
+                              key={column.dataKey || index}
+                              style={{
+                                maxWidth: 400,
+                                textAlign: column.icon && column.popUp ? 'center' : 'auto',
+                                width: '95px',
+                                height: 46,
+                                padding: 4,
+                              }}
+                              className={`table-cell ${column.dataKey}`}
+                            >
+                              {renderCell(row, column)}
+                            </Table.Cell>
+                          );
                     })}
                   </Table.Row>
                   {expandedRows && expandedRows === row.id && extendedInfo && (
                     <Table.Row key={index + '-extended'}>
-                      <Table.Cell colSpan={columns.length} style={{minWidth: '95px',width:'95px',height:46,padding:4}}>
+                      <Table.Cell
+                        colSpan={columns.length}
+                        style={{ minWidth: '95px', width: '95px', height: 46, padding: 4 }}
+                      >
                         {''}
                         {expandedRows === row.id && extendedInfo(row)}
                       </Table.Cell>

@@ -103,7 +103,6 @@ export const columnFilter = [
   {
     value: true,
     key: '',
-    // dataKey: 'ellipsis horizontal',
     visible: false,
   },
 ];

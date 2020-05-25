@@ -101,7 +101,7 @@ const Confirm = (props: Props) => {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={2}>
-            <Grid.Column></Grid.Column>
+            <Grid.Column />
             <Grid.Column>
               <div className="Confirm__btn">
                 <Button
