@@ -571,12 +571,10 @@ export const saveSearch = (other: any) => (dispatch: any) => {
   });
 };
 
-export const saveSupplierName = (name: string, other: any) => (dispatch: any) => {
+export const saveSupplierName = (other: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
-    bodyFormData.set('name', name);
-
     for (const param in other) {
       bodyFormData.set(param, other[param]);
     }
@@ -594,13 +592,10 @@ export const saveSupplierName = (name: string, other: any) => (dispatch: any) =>
   });
 };
 
-export const updateSupplierName = (name: string, supplierID: string, other: any) => (
-  dispatch: any
-) => {
+export const updateSupplierDetails = (supplierID: string, other: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
-    bodyFormData.set('name', name);
     bodyFormData.set('id', supplierID);
     for (const param in other) {
       bodyFormData.set(param, other[param]);
