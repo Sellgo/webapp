@@ -373,8 +373,8 @@ export const GenericTable = (props: GenericTableProps) => {
                                 maxWidth: 400,
                                 textAlign: column.icon && column.popUp ? 'center' : 'auto',
                                 width: '95px',
-                                height: 46,
-                                padding: 4,
+                                height: '46px',
+                                padding: '4px',
                               }}
                               className={`table-cell ${column.dataKey}`}
                             >
@@ -387,7 +387,7 @@ export const GenericTable = (props: GenericTableProps) => {
                     <Table.Row key={index + '-extended'}>
                       <Table.Cell
                         colSpan={columns.length}
-                        style={{ minWidth: '95px', width: '95px', height: 46, padding: 4 }}
+                        style={{ minWidth: '95px', width: '95px', height: '46px', padding: '4px' }}
                       >
                         {''}
                         {expandedRows === row.id && extendedInfo(row)}
