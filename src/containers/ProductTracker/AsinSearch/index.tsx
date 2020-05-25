@@ -57,7 +57,7 @@ const AsinSearch = (props: Props) => {
         handleWarning(false);
       } else if (verifyingProductTracked.value === true && verifyingProductTracked.productExist) {
         handleWarning(true);
-      } else {
+      } else if (verifyingProductTracked.value === false && verifyingProductTracked.productExist) {
         setOpen(true);
         dismiss();
       }
