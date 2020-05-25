@@ -168,14 +168,12 @@ export const confirmTrackProduct = (
 ) => (dispatch: any) => {
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
-  const bodyFormData = new FormData();
-  bodyFormData.set('id', groupID.toString());
-  bodyFormData.set('asin', asin);
-  bodyFormData.set('marketplace', marketPlace.toString());
-  return Axios.post(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/confirm`,
-    bodyFormData
-  )
+
+  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/confirm`, {
+    product_track_group_id: groupID ? groupID : null,
+    asin: asin,
+    marketplace: marketPlace.toString(),
+  })
     .then(json => {
       if (json.status === 200) {
         success(`Product ${asin.toUpperCase()} Successfully Tracked`);
