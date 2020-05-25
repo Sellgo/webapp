@@ -12,7 +12,7 @@ import { AnyAction } from 'redux';
 import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
-import { saveSupplierName, updateSupplierDetails, updateSearch, saveSearch } from '../Suppliers';
+import { saveSupplierDetails, updateSupplierDetails, updateSearch, saveSearch } from '../Suppliers';
 import { fetchColumnMappings, setColumnMappings, parseCsv } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
@@ -113,7 +113,7 @@ export class AddNewSupplierStep extends Step {
       const { ...other } = formValues;
       if (!existingSupplier) {
         // add other form values
-        const data: any = await this.dispatch(saveSupplierName(other));
+        const data: any = await this.dispatch(saveSupplierDetails(other));
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (const param in existingSupplier) {

@@ -567,12 +567,12 @@ export const saveSearch = (other: any) => (dispatch: any) => {
   });
 };
 
-export const saveSupplierName = (other: any) => (dispatch: any) => {
+export const saveSupplierDetails = (details: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
-    for (const param in other) {
-      bodyFormData.set(param, other[param]);
+    for (const param in details) {
+      bodyFormData.set(param, details[param]);
     }
     return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
       .then(json => {
@@ -588,13 +588,13 @@ export const saveSupplierName = (other: any) => (dispatch: any) => {
   });
 };
 
-export const updateSupplierDetails = (supplierID: string, other: any) => (dispatch: any) => {
+export const updateSupplierDetails = (supplierID: string, details: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
     const bodyFormData = new FormData();
     bodyFormData.set('id', supplierID);
-    for (const param in other) {
-      bodyFormData.set(param, other[param]);
+    for (const param in details) {
+      bodyFormData.set(param, details[param]);
     }
     return Axios.patch(
       AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}`,
