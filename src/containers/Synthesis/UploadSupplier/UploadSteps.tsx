@@ -25,7 +25,7 @@ const steps = [
   },
   {
     title: 'Select File',
-    icon: <i className="fas fa-file-csv" />,
+    icon: <i className="fas fa-file" />,
     description: '',
   },
   {

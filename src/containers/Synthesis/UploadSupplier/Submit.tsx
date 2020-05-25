@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useAsyncEffect } from '../../../hooks';
 import {
-  validateAndUploadCsv,
+  validateAndUploadFile,
   setLoadingShow,
   setUploadSupplierStep,
 } from '../../../actions/UploadSupplier';
@@ -17,9 +17,10 @@ import {
 import RowValidationChart from './RowValidationChart';
 import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import { closeUploadSupplierModal } from '../../../actions/Modals';
+import { SET_RESULT_UPLOAD } from '../../../constants/UploadSupplier';
 
 interface SubmitProps {
-  validateAndUploadCsv: any;
+  validateAndUploadFile: any;
   onFinished: () => void;
   currentProgressShow: any;
   handleUnauthorizedMwsAuth: any;
@@ -29,11 +30,12 @@ interface SubmitProps {
   currentError: any;
   setStep: any;
   closeUploadSupplierModal: typeof closeUploadSupplierModal;
+  clearUploadResult: () => void;
 }
 
 const Submit = (props: SubmitProps) => {
   const {
-    validateAndUploadCsv,
+    validateAndUploadFile,
     currentProgressShow,
     setLoadingShow,
     handleUnauthorizedMwsAuth,
@@ -43,6 +45,7 @@ const Submit = (props: SubmitProps) => {
     currentError,
     setStep,
     closeUploadSupplierModal,
+    clearUploadResult,
   } = props;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -55,21 +58,22 @@ const Submit = (props: SubmitProps) => {
   };
 
   useAsyncEffect(async () => {
+    clearUploadResult(); //clear previous upload result
     setLoading(true);
     setLoadingShow(true);
     try {
-      await validateAndUploadCsv();
+      await validateAndUploadFile();
       onFinished();
     } catch (error) {
       let errorMessage = 'Something went wrong!';
       if (error && error.response && error.response.data && error.response.data.message) {
-        errorMessage = error.response.data.message;
+        if (error.response.status === 401) {
+          closeUploadSupplierModal();
+          handleUnauthorizedMwsAuth();
+        }
       }
+      errorMessage = error.response.data.message;
       setError(errorMessage);
-      if (error.response.status === 401) {
-        closeUploadSupplierModal();
-        handleUnauthorizedMwsAuth();
-      }
     }
     setLoading(false);
     setLoadingShow(false);
@@ -145,8 +149,9 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
+  clearUploadResult: () => ({ type: SET_RESULT_UPLOAD, payload: null }),
   closeUploadSupplierModal,
-  validateAndUploadCsv,
+  validateAndUploadFile,
   setLoadingShow,
   setStep: setUploadSupplierStep,
   handleUnauthorizedMwsAuth,

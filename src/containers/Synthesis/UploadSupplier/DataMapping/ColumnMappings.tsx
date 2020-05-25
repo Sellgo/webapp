@@ -4,7 +4,7 @@ import styles from '../UploadSupplier.module.css';
 import { FieldsToMap } from '../../../../constants/UploadSupplier';
 import {
   reversedColumnMappingsSelector,
-  csvHeaderSelector,
+  fileHeaderSelector,
   isFirstRowHeaderSelector,
 } from '../../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
@@ -55,7 +55,7 @@ const ColumnMappings = ({
 };
 
 const mapStateToProps = (state: {}) => ({
-  availableFields: csvHeaderSelector(state),
+  availableFields: fileHeaderSelector(state),
   reversedColumnMappings: reversedColumnMappingsSelector(state),
   isFirstRowHeader: isFirstRowHeaderSelector(state),
 });
