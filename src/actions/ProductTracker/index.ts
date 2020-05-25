@@ -163,13 +163,15 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
 export const confirmTrackProduct = (
   asin: string,
   marketPlace: string,
-  groupID: number,
-  period: number
+  period: number,
+  groupID?: number
 ) => (dispatch: any) => {
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  bodyFormData.set('product_track_group_id', groupID.toString());
+  if (groupID) {
+    bodyFormData.set('product_track_group_id', groupID.toString());
+  }
   bodyFormData.set('asin', asin);
   bodyFormData.set('marketplace', marketPlace.toString());
   return Axios.post(
