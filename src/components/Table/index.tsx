@@ -472,16 +472,9 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     });
   }
 
-  // console.log('rows changed', rows);
-  // if (!rows.length) {
-  //   console.log('currentPage', currentPage, 'singlePageItemsCount',singlePageItemsCount);
-  // }
-  // console.log('------------------------');
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-  // console.log('Table - rows changed', rows);
-  // if (setCurrentPageData) setCurrentPageData(rows);
 
   useEffect(() => {
     if (sortClicked) {
