@@ -12,7 +12,7 @@ import { AnyAction } from 'redux';
 import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
-import { saveSupplierName, updateSupplierName, updateSearch, saveSearch } from '../Suppliers';
+import { saveSupplierDetails, updateSupplierDetails, updateSearch, saveSearch } from '../Suppliers';
 import { fetchColumnMappings, setColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
@@ -110,11 +110,11 @@ export class AddNewSupplierStep extends Step {
     // eslint-disable-next-line no-useless-catch
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-      const { name, ...other } = formValues;
+      const { ...other } = formValues;
 
       if (!existingSupplier) {
         // add other form values
-        const data: any = await this.dispatch(saveSupplierName(name, other));
+        const data: any = await this.dispatch(saveSupplierDetails(other));
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (const param in existingSupplier) {
@@ -122,7 +122,7 @@ export class AddNewSupplierStep extends Step {
             delete other[param];
           }
         }
-        await this.dispatch(updateSupplierName(name, existingSupplier.id, other));
+        await this.dispatch(updateSupplierDetails(existingSupplier.id, other));
       }
       this.dispatch(fetchColumnMappings());
     } catch (error) {
