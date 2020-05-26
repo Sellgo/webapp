@@ -107,15 +107,17 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   return flag;
 };
 
-const getColumnWidth = (column: any) => {
+const getColumnClass = (column: any) => {
   if ((column.icon && column.popUp) || column.check) {
-    return '46px';
-  } else if (column.label === 'Category') {
-    return '190px';
-  } else if (column.label === 'Size Tier') {
-    return '190px';
-  } else {
-    return '95px';
+    return 'small-column';
+  } else if (['Category','Size Tier'].includes(column.label)) {
+    return 'large-column';
+  } else if (['Search'].includes(column.label)) {
+    return 'medium-column';
+  } else if (['PRODUCT INFORMATION'].includes(column.label)) {
+    return 'primary-column';
+  }{
+    return 'default-column';
   }
 };
 
@@ -154,7 +156,7 @@ export const GenericTable = (props: GenericTableProps) => {
     toggleColumnCheckbox,
     renderFilterSectionComponent,
   } = props;
-
+const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
@@ -274,19 +276,7 @@ export const GenericTable = (props: GenericTableProps) => {
                           ? column.click
                           : undefined
                       }
-                      style={
-                        column.label === 'Search'
-                          ? {
-                              minWidth: '120px',
-                            }
-                          : {
-                              minWidth: getColumnWidth(column),
-                              height: 46,
-                              padding: 4,
-                              paddingLeft: column.label === 'PRODUCT INFORMATION' ? '37px' : 'auto',
-                            }
-                      }
-                      className={`table-header ${column.dataKey}`}
+                      className={`table-header ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'auto-column'}`}
                     >
                       {' '}
                       <div
@@ -369,14 +359,8 @@ export const GenericTable = (props: GenericTableProps) => {
                         : getColumnLabel(column.dataKey, columnFilterData) && (
                             <Table.Cell
                               key={column.dataKey || index}
-                              style={{
-                                maxWidth: 400,
-                                textAlign: column.icon && column.popUp ? 'center' : 'auto',
-                                width: '95px',
-                                height: '46px',
-                                padding: '4px',
-                              }}
-                              className={`table-cell ${column.dataKey}`}
+                              style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto'}}
+                              className={`table-cell ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'auto-column'}`}
                             >
                               {renderCell(row, column)}
                             </Table.Cell>
@@ -387,7 +371,7 @@ export const GenericTable = (props: GenericTableProps) => {
                     <Table.Row key={index + '-extended'}>
                       <Table.Cell
                         colSpan={columns.length}
-                        style={{ minWidth: '95px', width: '95px', height: '46px', padding: '4px' }}
+                        className="default-column"
                       >
                         {''}
                         {expandedRows === row.id && extendedInfo(row)}
