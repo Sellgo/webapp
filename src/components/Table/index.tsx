@@ -146,7 +146,7 @@ export const GenericTable = (props: GenericTableProps) => {
     extendedInfo,
     expandedRows,
     name,
-    columnFilterData,
+    columnFilterData =[],
     handleColumnChange,
     searchFilterValue,
     columnFilterBox,
@@ -276,7 +276,7 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                           ? column.click
                           : undefined
                       }
-                      className={`table-header ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'auto-column'}`}
+                      className={`table-header ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'default-column'}`}
                     >
                       {' '}
                       <div
@@ -360,7 +360,7 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                             <Table.Cell
                               key={column.dataKey || index}
                               style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto'}}
-                              className={`table-cell ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'auto-column'}`}
+                              className={`table-cell ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'default-column'}`}
                             >
                               {renderCell(row, column)}
                             </Table.Cell>
