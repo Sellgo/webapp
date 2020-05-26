@@ -72,6 +72,9 @@ const SellerAmazonMWS = (props: any) => {
     const hash = window.location.hash;
     window.location.hash = '';
     window.location.hash = hash;
+
+    //empty account type for redirecting page here on first load
+    localStorage.setItem('accountType', '');
   }, []);
 
   // TODO: Resolve eslint dependency warnings from above effect

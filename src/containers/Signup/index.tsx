@@ -142,6 +142,7 @@ export default function Signup(props: Props, state: State) {
   }
 
   function handleSubmit() {
+    const accountType = window.location.search === '?type=trial' ? 'trial' : 'free';
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else {
@@ -160,6 +161,7 @@ export default function Signup(props: Props, state: State) {
               pathname: '/',
               state: { email },
             });
+            localStorage.setItem('accountType', accountType);
           }
         }
       );

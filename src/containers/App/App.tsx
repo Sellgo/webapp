@@ -85,11 +85,11 @@ const PrivateRoute = connect(
 
       // If user does not have a subscription and this route requires one
       // then redirect to pricing page.
-      if (requireSubscription && sellerSubscription === false) {
+      if (requireSubscription && localStorage.getItem('accountType') === 'trial') {
         if (localStorage.getItem('accountType') === 'trial') {
           history.push('/settings/#amazon-mws');
         } else {
-          // history.push('/settings/pricing');
+          history.push('/synthesis');
         }
       }
     }, [
