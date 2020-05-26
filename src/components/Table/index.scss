@@ -95,6 +95,7 @@ i.icon.filter::before {
 
 .table-header {
   height: 46px;
+  min-width: 95px;
 }
 
 .table-cell-container {
@@ -159,7 +160,7 @@ i.icon.filter::before {
 
 .primary-column {
   @extend .default-column-props;
-
-  padding-left: 37px;
+  .th-label {
+    padding-left: 37px;
+  }
 }
-

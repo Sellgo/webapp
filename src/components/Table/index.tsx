@@ -276,7 +276,7 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                           ? column.click
                           : undefined
                       }
-                      className={`table-header ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'default-column'}`}
+                      className={`table-header ${column.dataKey} ${getColumnClass(column) }`}
                     >
                       {' '}
                       <div
@@ -352,7 +352,7 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                     {columns.map((column, index) => {
                       return name === 'trackerTable'
                         ? getColumnLabel(column.dataKey, columnFilterData) && (
-                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }} >
                               {renderCell(row, column)}
                             </Table.Cell>
                           )
@@ -360,7 +360,7 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                             <Table.Cell
                               key={column.dataKey || index}
                               style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto'}}
-                              className={`table-cell ${column.dataKey} ${KPI === 12 ? getColumnClass(column) : 'default-column'}`}
+                              className={`table-cell ${column.dataKey} ${getColumnClass(column) }`}
                             >
                               {renderCell(row, column)}
                             </Table.Cell>
