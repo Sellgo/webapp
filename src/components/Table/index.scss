@@ -160,6 +160,7 @@ i.icon.filter::before {
 
 .primary-column {
   @extend .default-column-props;
+
   .th-label {
     padding-left: 37px;
   }

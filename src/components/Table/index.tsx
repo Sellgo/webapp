@@ -110,13 +110,14 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
 const getColumnClass = (column: any) => {
   if ((column.icon && column.popUp) || column.check) {
     return 'small-column';
-  } else if (['Category','Size Tier'].includes(column.label)) {
+  } else if (['Category', 'Size Tier'].includes(column.label)) {
     return 'large-column';
   } else if (['Search'].includes(column.label)) {
     return 'medium-column';
   } else if (['PRODUCT INFORMATION'].includes(column.label)) {
     return 'primary-column';
-  }{
+  }
+  {
     return 'default-column';
   }
 };
@@ -146,7 +147,7 @@ export const GenericTable = (props: GenericTableProps) => {
     extendedInfo,
     expandedRows,
     name,
-    columnFilterData =[],
+    columnFilterData = [],
     handleColumnChange,
     searchFilterValue,
     columnFilterBox,
@@ -156,7 +157,6 @@ export const GenericTable = (props: GenericTableProps) => {
     toggleColumnCheckbox,
     renderFilterSectionComponent,
   } = props;
-const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
@@ -276,7 +276,7 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                           ? column.click
                           : undefined
                       }
-                      className={`table-header ${column.dataKey} ${getColumnClass(column) }`}
+                      className={`table-header ${column.dataKey} ${getColumnClass(column)}`}
                     >
                       {' '}
                       <div
@@ -352,15 +352,15 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                     {columns.map((column, index) => {
                       return name === 'trackerTable'
                         ? getColumnLabel(column.dataKey, columnFilterData) && (
-                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }} >
+                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
                               {renderCell(row, column)}
                             </Table.Cell>
                           )
                         : getColumnLabel(column.dataKey, columnFilterData) && (
                             <Table.Cell
                               key={column.dataKey || index}
-                              style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto'}}
-                              className={`table-cell ${column.dataKey} ${getColumnClass(column) }`}
+                              style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto' }}
+                              className={`table-cell ${column.dataKey} ${getColumnClass(column)}`}
                             >
                               {renderCell(row, column)}
                             </Table.Cell>
