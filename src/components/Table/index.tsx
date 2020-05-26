@@ -371,7 +371,7 @@ const KPI = columnFilterData.filter((c: any)=> c.value && !!c.key).length -1;
                     <Table.Row key={index + '-extended'}>
                       <Table.Cell
                         colSpan={columns.length}
-                        className="default-column"
+                        style={{ minWidth: '95px', width: '95px', height: '46px', padding: '4px' }}
                       >
                         {''}
                         {expandedRows === row.id && extendedInfo(row)}
