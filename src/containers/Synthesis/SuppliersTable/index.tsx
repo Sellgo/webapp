@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import get from 'lodash/get';
 import {
   resetSuppliers,
   fetchSuppliers,
@@ -9,6 +10,7 @@ import {
   deleteSupplier,
   setProgress,
   setSpeed,
+  setActiveColumn,
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
@@ -41,6 +43,7 @@ interface SuppliersTableProps {
   unFavourite: (supplierID: number, tag: string) => void;
   reRun: (supplier: Supplier) => void;
   deleteSupplier: (supplierID: any) => void;
+  setActiveColumn: (value?: string) => void;
   showTab: string;
   showColumns: any;
   amazonMWSAuthorized: boolean;
@@ -48,6 +51,7 @@ interface SuppliersTableProps {
   setProgress: any;
   setSpeed: any;
   handleUnauthorizedMwsAuth: any;
+  currentActiveColumn: string;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -330,7 +334,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns } = this.props;
+    const { suppliers, showTab, showColumns, setActiveColumn, currentActiveColumn } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -387,6 +391,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           </Grid.Column>
         </Grid>
         <PaginatedTable
+          currentActiveColumn={currentActiveColumn}
+          setActiveColumn={setActiveColumn}
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
           data={data}
@@ -415,6 +421,7 @@ const mapStateToProps = (state: {}) => ({
   showColumns: suppliersTableColumnsSelector(state),
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
+  currentActiveColumn: get(state, 'supplier.activeColumn'),
 });
 
 const mapDispatchToProps = {
@@ -426,6 +433,7 @@ const mapDispatchToProps = {
   unFavourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
+  setActiveColumn: (value?: string) => setActiveColumn(value),
   setProgress,
   setSpeed,
   handleUnauthorizedMwsAuth,

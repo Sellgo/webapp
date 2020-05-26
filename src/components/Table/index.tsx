@@ -24,10 +24,12 @@ export interface Column {
 }
 
 export interface PaginatedTableProps {
+  currentActiveColumn: string;
   tableKey?: string;
   searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
   columns: Column[];
+  setActiveColumn: (value?: string) => void;
   singlePageItemsCount?: number;
   setSinglePageItemsCount?: (itemsCount: number) => void;
   setPageNumber?: any;
@@ -72,6 +74,7 @@ export interface GenericTableProps {
   searchValue: string;
   onSearchChange: (e: any) => void;
   onClearSearch: (e: any) => void;
+  setActiveColumn: (value?: string) => void;
   columns: Column[];
   sortedColumnKey: string;
   sortDirection: 'descending' | 'ascending';
@@ -136,6 +139,7 @@ export const GenericTable = (props: GenericTableProps) => {
     updateCheckedRows,
     toggleColumnCheckbox,
     renderFilterSectionComponent,
+    setActiveColumn,
   } = props;
 
   return (
@@ -195,7 +199,10 @@ export const GenericTable = (props: GenericTableProps) => {
                     sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
                     onClick={
                       column.sortable
-                        ? (e: any) => setSort(e, column.dataKey || '')
+                        ? (e: any) => {
+                            setSort(e, column.dataKey || '');
+                            setActiveColumn(column.dataKey);
+                          }
                         : column.click
                         ? column.click
                         : undefined
@@ -368,6 +375,7 @@ export const GenericTable = (props: GenericTableProps) => {
 // Handles pagination, filtering, and sorting client-side
 export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
+    setActiveColumn,
     tableKey,
     ptCurrentPage,
     data,
@@ -394,6 +402,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
+    currentActiveColumn,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -408,7 +417,9 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   // const [itemsCount, setItemsCount] = useState(10);
 
   const showColumns = columns.filter(e => e.show);
-  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
+  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort(
+    currentActiveColumn
+  );
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
 
   let rows = checkSortedColumnExist.length
@@ -508,6 +519,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   return (
     <GenericTable
+      setActiveColumn={setActiveColumn}
       productRanges={productRanges}
       showProductFinderSearch={showProductFinderSearch}
       searchProfitFinderProduct={searchFilteredProduct}

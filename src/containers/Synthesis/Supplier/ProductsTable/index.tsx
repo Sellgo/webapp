@@ -10,6 +10,7 @@ import {
   setSupplierSinglePageItemsCount,
   searchSupplierProducts,
   updateProfitFinderProducts,
+  setActiveColumn,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -26,6 +27,7 @@ import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
 
 interface ProductsTableProps {
+  currentActiveColumn: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
@@ -45,6 +47,7 @@ interface ProductsTableProps {
   setSinglePageItemsCount: (itemsCount: any) => void;
   searchProducts: (value: string, filterData: any) => void;
   updateProfitFinderProducts: (data: any) => void;
+  setActiveColumn: (value?: string) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -295,6 +298,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       singlePageItemsCount,
       setSinglePageItemsCount,
       updateProfitFinderProducts,
+      setActiveColumn,
+      currentActiveColumn,
     } = this.props;
     const { searchValue, productRanges, checkedRows } = this.state;
     return (
@@ -307,6 +312,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           </Segment>
         ) : (
           <PaginatedTable
+            currentActiveColumn={currentActiveColumn}
+            setActiveColumn={setActiveColumn}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
@@ -337,6 +344,7 @@ const mapStateToProps = (state: {}) => ({
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
+  currentActiveColumn: get(state, 'supplier.activeColumn'),
 });
 
 const mapDispatchToProps = {
@@ -360,6 +368,7 @@ const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
+  setActiveColumn: (value?: string) => setActiveColumn(value),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

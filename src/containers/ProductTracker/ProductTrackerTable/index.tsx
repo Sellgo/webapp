@@ -11,7 +11,7 @@ import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils
 import { tableKeys } from '../../../constants';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
-import { updateProductTrackingStatus } from '../../../actions/Suppliers';
+import { updateProductTrackingStatus, setActiveColumn } from '../../../actions/Suppliers';
 import {
   retrieveProductTrackGroup,
   postCreateProductTrackGroup,
@@ -42,6 +42,7 @@ interface TrackerProps {
   periodValue: any;
   handleMoveGroup: any;
   handleUntrack: any;
+  currentActiveColumn: string;
   postCreateProductTrackGroup: (name: any) => void;
   updateProductTrackGroup: (updatedGroup: any) => void;
   deleteProductTrackGroup: (deletedGroup: any) => void;
@@ -50,6 +51,7 @@ interface TrackerProps {
   setSinglePageItemsCount: (itemsCount: any) => void;
   setPageNumber: (pageNo: number) => void;
   retrieveTrackGroup: () => void;
+  setActiveColumn: (value?: string) => void;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -422,6 +424,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       handleMenu,
       setPageNumber,
       productTrackerPageNo,
+      setActiveColumn,
+      currentActiveColumn,
     } = this.props;
     const { ColumnFilterBox } = this.state;
 
@@ -460,11 +464,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <PaginatedTable
+            currentActiveColumn={currentActiveColumn}
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
             columns={this.columns}
             setPage={setPageNumber}
+            setActiveColumn={setActiveColumn}
             ptCurrentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
             extendedInfo={(product: any) => <ProductCharts product={product} />}
@@ -499,6 +505,7 @@ const mapStateToProps = (state: any) => {
     filteredProducts: get(state, 'productTracker.filteredProducts'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
+    currentActiveColumn: get(state, 'supplier.activeColumn'),
   };
 };
 
@@ -513,6 +520,7 @@ const mapDispatchToProps = {
   updateProductTrackGroup: (group: any) => patchProductTrackGroup(group),
   deleteProductTrackGroup: (groupId: any) => deleteProductTrackGroup(groupId),
   retrieveTrackGroup: () => retrieveProductTrackGroup(),
+  setActiveColumn,
   updateProductTrackingStatus: (
     status: string,
     productID?: any,

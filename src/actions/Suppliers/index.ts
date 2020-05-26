@@ -38,6 +38,7 @@ import {
   SEARCH_SUPPLIER_PRODUCTS,
   UPDATE_SUPPLIER_PRODUCTS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
+  SET_ACTIVE_COLUMN,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -685,5 +686,10 @@ export const setSpeed = (value: number) => ({
 
 export const setEta = (value: number) => ({
   type: SET_ETA,
+  payload: value,
+});
+
+export const setActiveColumn = (value?: string) => ({
+  type: SET_ACTIVE_COLUMN,
   payload: value,
 });
