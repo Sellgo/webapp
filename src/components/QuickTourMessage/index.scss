@@ -4,9 +4,28 @@
   background: #fff 0% 0% no-repeat padding-box;
   border-radius: 3px;
   left: 52px !important;
+  // transform: translate3d(-0px, auto, auto) !important;
+  &::before {
+    left: -6px !important;
+    right: auto !important;
+    -webkit-box-shadow: 0 0 1px -1px #bababc !important;
+    box-shadow: 0 0 1px -1px #bababc !important;
+  }
 
   &.expand-icon {
-    left: 19px !important;
+    // left: 19px !important;
+
+    &::before {
+      top: 68%;
+    }
+  }
+
+  &.pf-icon {
+    // left: 19px !important;
+
+    &::before {
+      top: 34%;
+    }
   }
 
   .ui.header {
