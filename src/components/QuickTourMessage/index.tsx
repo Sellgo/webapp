@@ -29,9 +29,7 @@ function QuickTour({ child, data, currentNotifyId, setNotifyId, modalTermsOpen }
   const returnChild = (
     <Popup
       open
-      // pinned={true}
       position="right center"
-      // positionFixed={true}
       className={`QuickTour__container 
         ${data.notifyId === 5 ? 'expand-icon' : data.notifyId === 1 ? 'pf-icon' : ''}`}
       trigger={child}
