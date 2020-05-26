@@ -22,6 +22,7 @@ import { DEFAULT_PERIOD } from '../../constants/Tracker';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
 
 interface ProductTrackerProps {
+  sellerSubscription: any;
   setFilterSearch: (value: string) => void;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
@@ -155,7 +156,14 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   render() {
-    const { productTrackerPageNo, trackGroups, activeGroupId, setPageNumber } = this.props;
+    const {
+      productTrackerPageNo,
+      trackGroups,
+      activeGroupId,
+      setPageNumber,
+      sellerSubscription,
+    } = this.props;
+    const freeAccount = sellerSubscription.subscription_id === 5;
     const { searchValue } = this.state;
     const currentGroupName = activeGroupId
       ? activeGroupId !== -1
@@ -181,7 +189,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
           <Grid className="product-tracker">
             <Grid.Row>
               <Grid.Column className="right-column">
-                <div className="ProductTracker__search">
+                <div className={`ProductTracker__search ${freeAccount && 'disabled'}`}>
                   <ProductSearch
                     searchFilteredProduct={this.searchTrackedProduct}
                     searchFilterValue={searchValue}
@@ -214,6 +222,7 @@ const mapStateToProps = (state: any) => {
     trackGroups: get(state, 'productTracker.trackerGroup'),
     filterData: get(state, 'productTracker.filterData'),
     filterSearch: get(state, 'productTracker.filterSearch'),
+    sellerSubscription: get(state, 'subscription.sellerSubscription'),
   };
 };
 
