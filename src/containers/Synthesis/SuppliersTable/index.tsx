@@ -29,8 +29,10 @@ import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import './index.scss';
 import { tableKeys } from '../../../constants';
 import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
+import get from 'lodash/get';
 
 interface SuppliersTableProps {
+  sellerSubscription: any;
   suppliers: Supplier[];
   onEdit: any;
   fetchSuppliers: () => void;
@@ -64,10 +66,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderFileName = (row: Supplier) => {
+    const { sellerSubscription } = this.props;
     return (
       <div className="filename">
         {row.file_status &&
-          (localStorage.getItem('accountType') !== 'free' ? (
+          (sellerSubscription !== 5 ? (
             <a href={row.file_url} download={true}>
               {row.file_name}
             </a>
@@ -78,7 +81,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     );
   };
   renderActions = (row: Supplier) => {
-    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth } = this.props;
+    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth, sellerSubscription } = this.props;
     return (
       <Dropdown
         className={'syn-dropdown-link syn-dropdown-label'}
@@ -89,7 +92,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         selection={true}
         disabled={row.file_status !== 'completed' ? true : false}
         options={
-          localStorage.getItem('accountType') !== 'free'
+          sellerSubscription.subscription_id !== 5
             ? [
                 {
                   key: '0',
@@ -169,7 +172,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     ) {
       return '';
     }
-    const { favourite, unFavourite } = this.props;
+    const { favourite, unFavourite, sellerSubscription } = this.props;
     return (
       <div className="operations">
         <Icon
@@ -183,10 +186,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
 
-        {localStorage.getItem('accountType') !== 'free' && (
+        {sellerSubscription !== 5 && (
           <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
         )}
-        {localStorage.getItem('accountType') !== 'free' && (
+        {sellerSubscription !== 5 && (
           <Icon
             name="trash alternate"
             style={{ color: 'black' }}
@@ -433,6 +436,7 @@ const mapStateToProps = (state: {}) => ({
   showColumns: suppliersTableColumnsSelector(state),
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {

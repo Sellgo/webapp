@@ -3,7 +3,6 @@ import { SET_PRICING_SUBSCRIPTIONS, SET_SELLER_SUBSCRIPTION } from '../../../con
 import { AppConfig } from '../../../config';
 import { warn } from '../../../utils/notifications';
 import { auth } from '../../../containers/App/App';
-import _ from 'lodash';
 
 export const fetchSubscriptions = () => (dispatch: any) => {
   return Axios.get(AppConfig.BASE_URL_API + 'subscriptions')
@@ -17,15 +16,8 @@ export const fetchSubscriptions = () => (dispatch: any) => {
 
 export const fetchSellerSubscription = () => (dispatch: any) => {
   const sellerID = localStorage.getItem('userId');
-
-  const type =
-    localStorage.getItem('accountType') !== undefined &&
-    !_.isEmpty(localStorage.getItem('accountType'))
-      ? `?type=${localStorage.getItem('accountType')}`
-      : '';
-  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription${type}`)
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription`)
     .then(json => {
-      console.log('subscription: ', json.data);
       const subscription = json.data || false;
       dispatch(setSellerSubscription(subscription));
       if (subscription === false) {

@@ -43,6 +43,7 @@ interface SynthesisProps {
   setProgress: any;
   match: any;
   handleUnauthorizedMwsAuth: any;
+  sellerSubscription: any;
 }
 
 class Synthesis extends Component<SynthesisProps> {
@@ -153,7 +154,8 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
-    const { currentProgressShow } = this.props;
+    const { currentProgressShow, sellerSubscription } = this.props;
+    const hideSearch = sellerSubscription.subscription_id === 5;
 
     return (
       <>
@@ -161,9 +163,7 @@ class Synthesis extends Component<SynthesisProps> {
         <PageHeader
           title="Profit Finder"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}
-          callToAction={
-            localStorage.getItem('accountType') !== 'free' && this.renderAddNewSupplierModal()
-          }
+          callToAction={!hideSearch && this.renderAddNewSupplierModal()}
         />
 
         <Segment basic={true}>
@@ -212,6 +212,7 @@ const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   currentProgressShow: currentProgressShow(state),
   currentConfirmationShow: currentConfirmationShow(state),
+  sellerSubscription: get(state, 'subscription.sellerSubscription', false),
 });
 
 const mapDispatchToProps = {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input, Checkbox, Popup, Button } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTable/ColumnFilter';
 import './index.scss';
@@ -9,6 +9,7 @@ import SortIcon from '../../assets/images/sort-solid.svg';
 import ProductSearch from '../ProductSearch/productSearch';
 import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsTable/productCheckBoxHeader';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
+import { Link } from 'react-router-dom';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -154,13 +155,15 @@ export const GenericTable = (props: GenericTableProps) => {
           ) : (
             <div />
           )}
-          <SelectItemsCount
-            setCurrentPage={setCurrentPage}
-            totalCount={totalItemsCount && totalItemsCount}
-            singlePageItemsCount={singlePageItemsCount}
-            currentPage={currentPage}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-          />
+          {!tableLock && (
+            <SelectItemsCount
+              setCurrentPage={setCurrentPage}
+              totalCount={totalItemsCount && totalItemsCount}
+              singlePageItemsCount={singlePageItemsCount}
+              currentPage={currentPage}
+              setSinglePageItemsCount={setSinglePageItemsCount}
+            />
+          )}
         </div>
       ) : (
         ''
@@ -313,7 +316,6 @@ export const GenericTable = (props: GenericTableProps) => {
         </Table.Header>
 
         <Table.Body>
-          {tableLock && <Table.Row className="table-lock"></Table.Row>}
           {rows.length ? (
             rows.map((row, index) => {
               return (
@@ -352,17 +354,29 @@ export const GenericTable = (props: GenericTableProps) => {
             <tr />
           )}
         </Table.Body>
-        <Table.Footer>
+        <Table.Footer className={tableLock ? 'lock-footer' : ''}>
           <Table.Row>
-            <Table.HeaderCell colSpan={columns.length}>
-              <Pagination
-                totalPages={rows.length ? totalPages : ''}
-                activePage={currentPage}
-                onPageChange={(event, data) => {
-                  setCurrentPage(Number(data.activePage));
-                }}
-              />
-            </Table.HeaderCell>
+            {tableLock ? (
+              <div className="table-lock">
+                <div className="table-lock__content">
+                  <p>Want to see more?</p>
+                  <Icon name="lock" size="big" />
+                  <Link to="/settings/pricing">
+                    <Button primary={true}>Subscribe to Unlock</Button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <Table.HeaderCell colSpan={columns.length}>
+                <Pagination
+                  totalPages={rows.length ? totalPages : ''}
+                  activePage={currentPage}
+                  onPageChange={(event, data) => {
+                    setCurrentPage(Number(data.activePage));
+                  }}
+                />
+              </Table.HeaderCell>
+            )}
           </Table.Row>
         </Table.Footer>
       </Table>
@@ -481,7 +495,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-
+  rows = tableLock ? rows.slice(0, 3) : rows;
   useEffect(() => {
     if (sortClicked) {
       if (updateProfitFinderProducts) {

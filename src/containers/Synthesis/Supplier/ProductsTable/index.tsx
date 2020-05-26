@@ -26,6 +26,7 @@ import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
 
 interface ProductsTableProps {
+  sellerSubscription: any;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
@@ -295,9 +296,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       singlePageItemsCount,
       setSinglePageItemsCount,
       updateProfitFinderProducts,
+      sellerSubscription,
     } = this.props;
     const { searchValue, productRanges, checkedRows } = this.state;
-    const tableLock = localStorage.getItem('accountType') === 'trial';
+    const tableLock =
+      sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5;
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -312,7 +315,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             data={filteredProducts}
             columns={this.columns}
             searchFilterValue={searchValue}
-            showProductFinderSearch={true}
+            showProductFinderSearch={sellerSubscription.subscription_id !== 5}
             searchFilteredProduct={this.searchFilteredProduct}
             updateProfitFinderProducts={updateProfitFinderProducts}
             singlePageItemsCount={singlePageItemsCount}
@@ -339,6 +342,7 @@ const mapStateToProps = (state: {}) => ({
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {

@@ -3,7 +3,6 @@ import { Rail, Segment, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import moment from 'moment';
-import _ from 'lodash';
 import { Link } from 'react-router-dom';
 
 interface SubscriptionMessageProps {
@@ -17,7 +16,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
 
   content() {
     const { sellerSubscription } = this.props;
-    if (!_.isEmpty(sellerSubscription.expiry_date)) {
+    if (sellerSubscription.subscription_id === 4) {
       const todayDate = moment();
       const expireDate = moment(sellerSubscription.expiry_date).diff(todayDate, 'days');
       return (
@@ -29,7 +28,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
           </Link>
         </p>
       );
-    } else {
+    } else if (sellerSubscription.subscription_id === 5) {
       return (
         <p>
           {' Your free account can only view demo files. To unlock features . '}
@@ -41,12 +40,15 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
     }
   }
   render() {
+    const { sellerSubscription } = this.props;
     return (
-      <Rail className="free-trial-period" internal={true} position="left">
-        <Segment>
-          <Message success content={this.content()} />
-        </Segment>
-      </Rail>
+      (sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5) && (
+        <Rail className="free-trial-period" internal={true} position="left">
+          <Segment>
+            <Message success content={this.content()} />
+          </Segment>
+        </Rail>
+      )
     );
   }
 }
