@@ -24,11 +24,12 @@ export default class SidebarCollapsible extends Component<
 > {
   state = {
     sidebarIcon: [
-      { id: 1, label: 'Profit Finder', icon: 'fa-search-dollar', path: '/synthesis' },
-      { id: 2, label: 'Product Tracker', icon: 'fa-fingerprint', path: '/product-tracker' },
-      { id: 3, label: '', icon: 'fa-angle-right', path: '' },
-      { id: 4, label: 'Logout', icon: 'fa-sign-out-alt', path: '#' },
-      { id: 5, label: 'Settings', icon: 'fa-user-cog', path: '/settings' },
+      { id: 1, label: 'Profit Finder', icon: 'fas fa-search-dollar', path: '/synthesis' },
+      { id: 2, label: 'Product Tracker', icon: 'fas fa-fingerprint', path: '/product-tracker' },
+      { id: 3, label: '', icon: 'fas fa-angle-right', path: '' },
+      { id: 4, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#' },
+      { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings' },
+      { id: 6, label: 'Onboarding', icon: 'far fa-question-circle', path: '/onboarding' },
     ],
     visible: false,
     openConfirm: false,
@@ -61,7 +62,7 @@ export default class SidebarCollapsible extends Component<
                   name={icon.icon}
                   active={initPath.startsWith(icon.path)}
                 >
-                  <i className={`fas ${icon.icon}`} />
+                  <i className={` ${icon.icon}`} />
 
                   <Label> {icon.label} </Label>
                 </Menu.Item>
@@ -82,7 +83,7 @@ export default class SidebarCollapsible extends Component<
                     this.handleAnimationChange();
                   }}
                 >
-                  <i className={`fas ${!visible ? icon.icon : 'fa-angle-left'}`} />
+                  <i className={` ${!visible ? icon.icon : 'fas fa-angle-left'}`} />
                 </Menu.Item>
               );
             } else if (icon.id > 3) {
@@ -98,7 +99,7 @@ export default class SidebarCollapsible extends Component<
                     icon.id === 5 && visible && this.handleAnimationChange();
                   }}
                 >
-                  <i className={`fas ${icon.icon}`} />
+                  <i className={`${icon.icon}`} />
                   <Label> {icon.label} </Label>
                 </Menu.Item>
               );
