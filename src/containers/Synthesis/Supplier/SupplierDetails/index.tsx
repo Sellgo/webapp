@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Feed, Grid, Card } from 'semantic-ui-react';
 import SupplierCharts from './SupplierCharts';
 
-const SupplierDetails = (props: any) => {
-  const { supplierID } = props;
+const SupplierDetails = () => {
   return (
     <>
       <Grid.Column floated="left">
@@ -22,7 +20,7 @@ const SupplierDetails = (props: any) => {
                   <Feed.Event>
                     <Feed.Content>
                       <Feed.Summary>
-                        <SupplierCharts supplierID={supplierID} />
+                        <SupplierCharts />
                       </Feed.Summary>
                     </Feed.Content>
                   </Feed.Event>
@@ -36,6 +34,4 @@ const SupplierDetails = (props: any) => {
   );
 };
 
-const mapDispatchToProps = {};
-
-export default connect(null, mapDispatchToProps)(SupplierDetails);
+export default SupplierDetails;
