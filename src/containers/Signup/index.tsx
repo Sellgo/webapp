@@ -7,8 +7,10 @@ import Auth from '../../components/Auth/Auth';
 import { useInput } from '../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
 import history from '../../history';
+import Axios from 'axios';
 import PasswordValidator from 'password-validator';
 import '../Signup/index.scss';
+import { AppConfig } from '../../config';
 
 interface Props {
   auth: Auth;
@@ -156,6 +158,12 @@ export default function Signup(props: Props, state: State) {
           if (err) {
             error(err);
           } else {
+            Axios.post(`${AppConfig.BASE_URL_API}newsletter/subscribe`, {
+              email,
+              firstname,
+              lastname,
+            }).catch(err => console.log(err));
+
             history.push({
               pathname: '/',
               state: { email },
@@ -180,6 +188,9 @@ export default function Signup(props: Props, state: State) {
           stepsData={state.stepsInfo}
           {...bindPassword}
         />
+        <span className="consent">
+          By signing up, you are agreeing to receive emails from Sellgo
+        </span>
         <Form.Field control={Button} fluid={true} primary={true}>
           Register
         </Form.Field>
