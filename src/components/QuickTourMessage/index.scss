@@ -1,11 +1,9 @@
 .ui.popup.QuickTour__container {
+  min-width: 357px;
   min-height: 134px;
   background: #fff 0% 0% no-repeat padding-box;
   border-radius: 3px;
   left: 52px !important;
-  border: 0;
-  min-width: 380px;
-  padding: 0;
 
   &::before {
     left: -6px !important;
@@ -16,7 +14,7 @@
 
   &.expand-icon {
     &::before {
-      top: 67%;
+      top: 68%;
     }
   }
 
@@ -24,14 +22,6 @@
     &::before {
       top: 34%;
     }
-  }
-
-  .QuickTour__content {
-    padding: 14px !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: inherit;
   }
 
   .ui.header {
@@ -46,20 +36,16 @@
       font-weight: normal;
       font-family: 'Work sans', sans-serif !important;
       line-height: inherit;
-      margin-top: 4px;
     }
   }
 
   .QuickTour__footer {
-    margin: 0;
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
 
     .column {
       &:first-child {
-        display: flex;
-        align-items: center;
-
         img {
           width: 26px;
           height: 34px;
