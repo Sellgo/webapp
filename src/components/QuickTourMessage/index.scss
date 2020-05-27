@@ -1,12 +1,14 @@
 .ui.popup.QuickTour__container {
-  min-width: 357px;
   min-height: 134px;
   background: #fff 0% 0% no-repeat padding-box;
   border-radius: 3px;
   left: 52px !important;
+  border: 0;
+  padding: 10px 14px;
+  min-width: 380px;
 
   &::before {
-    left: -6px !important;
+    left: -5px !important;
     right: auto !important;
     -webkit-box-shadow: 0 0 1px -1px #bababc !important;
     box-shadow: 0 0 1px -1px #bababc !important;
@@ -14,7 +16,7 @@
 
   &.expand-icon {
     &::before {
-      top: 68%;
+      top: 67%;
     }
   }
 
