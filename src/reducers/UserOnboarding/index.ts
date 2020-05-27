@@ -5,7 +5,7 @@ import { SET_TOS, SET_PP, SET_NOTIFY_ID } from '../../constants/UserOnboarding';
 const initialState = {
   termsOfService: '',
   privacyPolicy: '',
-  notifyId: 1,
+  notifyId: 0,
 };
 
 export default (state = initialState, action: AnyAction) => {
