@@ -31,10 +31,10 @@ function QuickTour({ child, data, currentNotifyId, setNotifyId, modalTermsOpen }
       open
       position="right center"
       className={`QuickTour__container 
-        ${data.notifyId === 5 ? 'expand-icon' : data.notifyId === 1 ? 'pf-icon' : ''}`}
+        ${data.notifyId === 6 ? 'expand-icon' : data.notifyId === 1 ? 'pf-icon' : ''}`}
       trigger={child}
       content={
-        <Grid.Row>
+        <Grid.Row className="QuickTour__content">
           <Grid.Column>
             <Header as="h2">
               {notifications[data.notifyId - 1].title}
