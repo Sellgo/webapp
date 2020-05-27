@@ -4,8 +4,8 @@
   border-radius: 3px;
   left: 52px !important;
   border: 0;
-  padding: 10px 14px;
   min-width: 380px;
+  padding: 0;
 
   &::before {
     left: -5px !important;
@@ -26,6 +26,14 @@
     }
   }
 
+  .QuickTour__content {
+    padding: 14px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: inherit;
+  }
+
   .ui.header {
     color: #2185d0;
     font-weight: bold;
@@ -38,16 +46,20 @@
       font-weight: normal;
       font-family: 'Work sans', sans-serif !important;
       line-height: inherit;
+      margin-top: 4px;
     }
   }
 
   .QuickTour__footer {
-    margin-top: 15px;
+    margin-top: 0;
     display: flex;
     justify-content: space-between;
 
     .column {
       &:first-child {
+        display: flex;
+        align-items: center;
+
         img {
           width: 26px;
           height: 34px;
