@@ -3,12 +3,13 @@ import styles from './UserOnboarding.module.css';
 import { Button, Grid, Pagination, Icon, Form, TextArea, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { closeUserOnboardingModal } from '../../actions/Modals';
+import { setNotifyId, fetchTOS, fetchPP } from '../../actions/UserOnboarding';
 import { userOnboarding as totalViews } from '../../constants/UserOnboarding';
 import get from 'lodash/get';
-import { fetchTOS, fetchPP } from '../../actions/UserOnboarding';
 
 interface Props {
   closeModal: typeof closeUserOnboardingModal;
+  setNotifyId: Function;
 }
 
 const buttonStyle = {
@@ -16,7 +17,7 @@ const buttonStyle = {
 };
 
 export const UserOnboarding = (props: any) => {
-  const { closeModal, auth, termsOfService, fetchTOS, privacyPolicy, fetchPP } = props;
+  const { closeModal, auth, termsOfService, fetchTOS, privacyPolicy, fetchPP, setNotifyId } = props;
   const [acceptedTos, setAcceptedTos] = useState(() =>
     localStorage.getItem('acceptedTos') ? true : false
   );
@@ -60,7 +61,7 @@ export const UserOnboarding = (props: any) => {
           text={privacyPolicy}
         />
       ) : (
-        <Intro closeModal={closeModal} />
+        <Intro closeModal={closeModal} setNotifyId={setNotifyId} />
       )}
     </div>
   );
@@ -109,13 +110,20 @@ const PP = (props: any) => {
   );
 };
 
-const Intro = ({ closeModal }: Props) => {
+const Intro = ({ closeModal, setNotifyId }: Props) => {
   const [currentView, setCurrentView] = useState(1);
   const viewContent = totalViews[currentView - 1];
   return (
     <React.Fragment>
       <div className={styles['close-icon']}>
-        <Icon name="cancel" onClick={closeModal} style={{ cursor: 'pointer' }} />
+        <Icon
+          name="cancel"
+          onClick={() => {
+            closeModal();
+            setNotifyId(1);
+          }}
+          style={{ cursor: 'pointer' }}
+        />
       </div>
       <div className={styles.container}>
         <Grid divided="vertically" centered={true}>
@@ -168,6 +176,7 @@ const mapDispatchToProps = {
   closeModal: closeUserOnboardingModal,
   fetchTOS: () => fetchTOS(),
   fetchPP: () => fetchPP(),
+  setNotifyId,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserOnboarding);
