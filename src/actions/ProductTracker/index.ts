@@ -154,8 +154,8 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
       if (err.response.status === 401) {
         dispatch(handleUnauthorizedMwsAuth());
       } else {
-        dispatch(isProductTracked(true, false));
         dispatch(verifyingProduct(false));
+        error(err.response.data.message);
       }
     });
 };
