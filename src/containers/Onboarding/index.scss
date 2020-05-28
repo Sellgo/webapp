@@ -435,7 +435,12 @@
 }
 
 @media screen and (max-width: 500px) {
-  .onboarding-page .Slider__container div:first-child.carousel.carousel-slider .slider-wrapper.axis-horizontal .slider .slide {
+  .onboarding-page
+    .Slider__container
+    div:first-child.carousel.carousel-slider
+    .slider-wrapper.axis-horizontal
+    .slider
+    .slide {
     min-width: 100% !important;
     margin: 0;
   }
