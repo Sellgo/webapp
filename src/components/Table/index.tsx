@@ -288,14 +288,7 @@ export const GenericTable = (props: GenericTableProps) => {
                         }
                       >
                         <span className="th-label">{column.label}</span>
-                        {column.label === 'Search' && (
-                          <span>
-                            <Icon
-                              className="filter search-filter"
-                              onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
-                            />
-                          </span>
-                        )}
+
                         {column.sortable &&
                         (!sortedColumnKey || sortedColumnKey !== column.dataKey) ? (
                           <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
@@ -310,6 +303,14 @@ export const GenericTable = (props: GenericTableProps) => {
                             </span>
                           )
                         ) : null}
+                        {column.label === 'Search' && (
+                          <span className="search-ic">
+                            <Icon
+                              className="filter search-filter"
+                              onClick={(e: any) => onSetShowSearchFilter(e, column.label)}
+                            />
+                          </span>
+                        )}
                         {column.check && checkedRows && updateCheckedRows && (
                           <ProductCheckBoxHeader
                             currentPage={currentPage}
@@ -335,7 +336,7 @@ export const GenericTable = (props: GenericTableProps) => {
                             }
                           />
                         ) : (
-                          <Icon className={column.icon} />
+                          <Icon className={column.icon} style={{display: column.label === 'Search'? 'none' : 'inline-block'}}/>
                         )}
                       </div>
                     </Table.HeaderCell>
