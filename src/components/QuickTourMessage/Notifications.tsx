@@ -23,6 +23,15 @@ export const notifications = [
   },
   {
     id: 3,
+    title: 'Tutorial Videos',
+    description:
+      'This is the quick navigation icon to ' +
+      'open the tutorial videos page. You can ' +
+      'learn more about our platform and how ' +
+      'to use it there.',
+  },
+  {
+    id: 4,
     title: 'Settings',
     description:
       'The user icon here is used to get ' +
@@ -30,7 +39,7 @@ export const notifications = [
       'can setup your MWS auth token there. ',
   },
   {
-    id: 4,
+    id: 5,
     title: 'Log Out',
     description:
       'This icon indicates user log out. ' +
@@ -39,7 +48,7 @@ export const notifications = [
       'Click on next when you are ready.',
   },
   {
-    id: 5,
+    id: 6,
     title: 'Expand',
     description:
       'This icon is used to expand the left ' +
