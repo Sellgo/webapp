@@ -1,8 +1,11 @@
 import React, { Component, ReactElement } from 'react';
+import { connect } from 'react-redux';
 import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Auth from '../Auth/Auth';
 import LogoutConfirm from '../LogoutConfirm';
+import Tour from '../QuickTourMessage';
 import './Sidebar.scss';
 
 interface IconD {
@@ -17,19 +20,37 @@ interface State {
   children: ReactElement;
 }
 
-export default class SidebarCollapsible extends Component<
-  { auth: Auth },
+class SidebarCollapsible extends Component<
+  { auth: Auth; currentNotifyId: number },
   { visible: boolean; openConfirm: boolean },
   State
 > {
   state = {
     sidebarIcon: [
-      { id: 1, label: 'Profit Finder', icon: 'fas fa-search-dollar', path: '/synthesis' },
-      { id: 2, label: 'Product Tracker', icon: 'fas fa-fingerprint', path: '/product-tracker' },
-      { id: 3, label: '', icon: 'fas fa-angle-right', path: '' },
-      { id: 4, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#' },
-      { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings' },
-      { id: 6, label: 'Onboarding', icon: 'far fa-question-circle', path: '/onboarding' },
+      {
+        id: 1,
+        label: 'Profit Finder',
+        icon: 'fas fa-search-dollar',
+        path: '/synthesis',
+        notifyId: 1,
+      },
+      {
+        id: 2,
+        label: 'Product Tracker',
+        icon: 'fas fa-fingerprint',
+        path: '/product-tracker',
+        notifyId: 2,
+      },
+      { id: 3, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
+      { id: 4, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
+      { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
+      {
+        id: 6,
+        label: 'Onboarding',
+        icon: 'far fa-question-circle',
+        path: '/onboarding',
+        notifyId: 3,
+      },
     ],
     visible: false,
     openConfirm: false,
@@ -43,7 +64,7 @@ export default class SidebarCollapsible extends Component<
 
   render() {
     const { visible } = this.state;
-    const { children, auth } = this.props;
+    const { children, auth, currentNotifyId } = this.props;
     const initPath = window.location.pathname;
 
     const sidebarMenu = (
@@ -52,20 +73,28 @@ export default class SidebarCollapsible extends Component<
           {this.state.sidebarIcon.map(icon => {
             if (icon.id < 3) {
               return (
-                <Menu.Item
-                  onClick={() => {
-                    visible && this.handleAnimationChange();
-                  }}
+                <Tour
+                  data={icon}
                   key={icon.id}
-                  as={Link}
-                  to={icon.path}
-                  name={icon.icon}
-                  active={initPath.startsWith(icon.path)}
-                >
-                  <i className={` ${icon.icon}`} />
+                  child={
+                    <Menu.Item
+                      onClick={() => {
+                        visible && this.handleAnimationChange();
+                      }}
+                      as={Link}
+                      to={icon.path}
+                      name={icon.icon}
+                      active={initPath.startsWith(icon.path)}
+                    >
+                      <i
+                        className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
+                          'forward'}`}
+                      />
 
-                  <Label> {icon.label} </Label>
-                </Menu.Item>
+                      <Label> {icon.label} </Label>
+                    </Menu.Item>
+                  }
+                />
               );
             } else {
               return null;
@@ -76,32 +105,51 @@ export default class SidebarCollapsible extends Component<
           {this.state.sidebarIcon.map(icon => {
             if (icon.id === 3) {
               return (
-                <Menu.Item
+                <Tour
+                  data={icon}
                   key={icon.id}
-                  name={icon.icon}
-                  onClick={() => {
-                    this.handleAnimationChange();
-                  }}
-                >
-                  <i className={` ${!visible ? icon.icon : 'fas fa-angle-left'}`} />
-                </Menu.Item>
+                  child={
+                    <Menu.Item
+                      key={icon.id}
+                      name={icon.icon}
+                      onClick={() => {
+                        this.handleAnimationChange();
+                      }}
+                    >
+                      <i
+                        className={`fas ${
+                          !visible ? icon.icon : 'fa-angle-left'
+                        } ${currentNotifyId === icon.notifyId && 'forward'}`}
+                      />
+                    </Menu.Item>
+                  }
+                />
               );
             } else if (icon.id > 3) {
               return (
-                <Menu.Item
+                <Tour
+                  data={icon}
                   key={icon.id}
-                  as={Link}
-                  to={icon.path}
-                  name={icon.icon}
-                  active={initPath.startsWith(icon.path)}
-                  onClick={() => {
-                    icon.id === 4 && this.open();
-                    icon.id === 5 && visible && this.handleAnimationChange();
-                  }}
-                >
-                  <i className={`${icon.icon}`} />
-                  <Label> {icon.label} </Label>
-                </Menu.Item>
+                  child={
+                    <Menu.Item
+                      key={icon.id}
+                      as={Link}
+                      to={icon.path}
+                      name={icon.icon}
+                      active={initPath.startsWith(icon.path)}
+                      onClick={() => {
+                        icon.id === 4 && this.open();
+                        icon.id === 5 && visible && this.handleAnimationChange();
+                      }}
+                    >
+                      <i
+                        className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
+                          'forward'}`}
+                      />
+                      <Label> {icon.label} </Label>
+                    </Menu.Item>
+                  }
+                />
               );
             } else {
               return null;
@@ -125,13 +173,14 @@ export default class SidebarCollapsible extends Component<
             className="sidebar-menu"
             borderless={true}
           >
+            <Grid className={`${currentNotifyId > 0 && 'Sidebar__pushable custom-dimmer'}`} />
             {sidebarMenu}
           </Sidebar>
 
           <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
           <Sidebar.Pusher
-            dimmed={visible}
+            dimmed={currentNotifyId > 0 ? true : visible}
             onClick={() => {
               visible && this.handleAnimationChange();
             }}
@@ -144,3 +193,9 @@ export default class SidebarCollapsible extends Component<
     );
   }
 }
+
+const mapStateToProps = (state: any) => ({
+  currentNotifyId: notifyIdSelector(state),
+});
+
+export default connect(mapStateToProps)(SidebarCollapsible);

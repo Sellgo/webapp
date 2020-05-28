@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon } from 'semantic-ui-react';
+import { Segment, Loader, Icon, Image } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -24,6 +24,10 @@ import { tableKeys } from '../../../../constants';
 import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
+import { columnFilter } from '../../../../constants/Products';
+import _ from 'lodash';
+
+import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
 
 interface ProductsTableProps {
   sellerSubscription: any;
@@ -34,6 +38,7 @@ interface ProductsTableProps {
   filterData: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
+  supplierDetails: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -57,6 +62,8 @@ interface ProductsTableState {
   searchValue: string;
   productRanges: any;
   filteredRanges: any;
+  columnFilterData: any;
+  ColumnFilterBox: boolean;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -65,6 +72,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     searchValue: '',
     productRanges: initialFilterRanges,
     filteredRanges: [],
+    columnFilterData: columnFilter,
+    ColumnFilterBox: false,
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -163,6 +172,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     );
   };
+
   renderSyncButtons = () => {
     return (
       <div>
@@ -171,6 +181,54 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
   };
 
+  renderExportButtons = () => {
+    const { supplierDetails } = this.props;
+    return (
+      <div className="export-buttons">
+        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
+        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
+        <Image
+          as="a"
+          href={supplierDetails.report_url}
+          download={true}
+          src={microsoftExcelIcon}
+          wrapped={true}
+          width={22}
+          alt="Export Excel"
+        />
+      </div>
+    );
+  };
+
+  handleColumnChange = (e: any, data: any) => {
+    e.stopPropagation();
+    setTimeout(() => {
+      this.setState({ ColumnFilterBox: true });
+    }, 10);
+    const checkedData = this.state.columnFilterData;
+    if (data.label === 'Select All') {
+      checkedData.forEach((element: any) => {
+        if (element.key !== 'Product Information' || element.key !== '') {
+          element.value = data.checked;
+        }
+      });
+    } else {
+      checkedData[checkedData.findIndex((element: any) => element.key === data.label)].value =
+        data.checked;
+      const ckArray: boolean[] = [];
+      _.each(checkedData, (ckData: any) => {
+        if (ckData.key !== '' && ckData.key !== 'Select All') {
+          ckArray.push(ckData.value);
+        }
+      });
+      checkedData[
+        checkedData.findIndex((element: any) => element.key === 'Select All')
+      ].value = ckArray.every((val: boolean) => {
+        return val;
+      });
+    }
+    this.setState({ columnFilterData: [...checkedData] });
+  };
   searchFilteredProduct = (value: string) => {
     const {
       searchProducts,
@@ -196,6 +254,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'PRODUCT INFORMATION',
+      dataKey: 'PRODUCT INFORMATION',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
@@ -257,7 +316,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderRank,
     },
     {
-      label: 'Monthly\nSales Est',
+      label: 'Monthly \nSales Est',
       dataKey: 'sales_monthly',
       type: 'number',
       sortable: true,
@@ -288,7 +347,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       render: this.renderDetailButtons,
     },
+    {
+      icon: 'ellipsis horizontal ellipsis-ic',
+      dataKey: 'ellipsis horizontal',
+      show: true,
+      render: this.renderSyncButtons,
+      popUp: true,
+    },
   ];
+  handleClick = () => {
+    const { ColumnFilterBox } = this.state;
+    this.setState({
+      ColumnFilterBox: !ColumnFilterBox,
+    });
+  };
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -298,9 +371,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       updateProfitFinderProducts,
       sellerSubscription,
     } = this.props;
-    const { searchValue, productRanges, checkedRows } = this.state;
+    const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
     const tableLock =
       sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5;
+
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -310,25 +384,32 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             </Loader>
           </Segment>
         ) : (
-          <PaginatedTable
-            tableKey={tableKeys.PRODUCTS}
-            data={filteredProducts}
-            columns={this.columns}
-            searchFilterValue={searchValue}
-            showProductFinderSearch={true}
-            searchFilteredProduct={this.searchFilteredProduct}
-            updateProfitFinderProducts={updateProfitFinderProducts}
-            singlePageItemsCount={singlePageItemsCount}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-            name={'products'}
-            showFilter={true}
-            checkedRows={checkedRows}
-            updateCheckedRows={this.updateCheckedRows}
-            renderFilterSectionComponent={() => (
-              <ProfitFinderFilterSection productRanges={productRanges} />
-            )}
-            tableLock={tableLock}
-          />
+          <>
+            {this.renderExportButtons()}
+            <PaginatedTable
+              tableKey={tableKeys.PRODUCTS}
+              data={filteredProducts}
+              columns={this.columns}
+              searchFilterValue={searchValue}
+              showProductFinderSearch={true}
+              searchFilteredProduct={this.searchFilteredProduct}
+              updateProfitFinderProducts={updateProfitFinderProducts}
+              singlePageItemsCount={singlePageItemsCount}
+              setSinglePageItemsCount={setSinglePageItemsCount}
+              name={'products'}
+              showFilter={true}
+              columnFilterBox={ColumnFilterBox}
+              checkedRows={checkedRows}
+              updateCheckedRows={this.updateCheckedRows}
+              handleColumnChange={this.handleColumnChange}
+              toggleColumnCheckbox={this.handleClick}
+              columnFilterData={this.state.columnFilterData}
+              renderFilterSectionComponent={() => (
+                <ProfitFinderFilterSection productRanges={productRanges} />
+              )}
+              tableLock={tableLock}
+            />
+          </>
         )}
       </div>
     );
@@ -343,6 +424,7 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  supplierDetails: get(state, 'supplier.details'),
 });
 
 const mapDispatchToProps = {

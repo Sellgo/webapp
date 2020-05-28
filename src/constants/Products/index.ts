@@ -15,3 +15,94 @@ export const SET_FETCHING_INVENTORY = 'SET_FETCHING_INVENTORY';
 export const SET_FETCHING_RATING = 'SET_FETCHING_RATING';
 export const SET_FETCHING_REVIEW = 'SET_FETCHING_REVIEW';
 export const SET_FETCHING_KPI = 'SET_FETCHING_KPI';
+
+export const columnFilter = [
+  {
+    value: true,
+    key: 'Select All',
+    visible: true,
+  },
+  {
+    value: true,
+    key: '',
+    dataKey: 'checkboxes',
+    visible: false,
+  },
+  {
+    value: true,
+    key: 'PRODUCT INFORMATION',
+    dataKey: 'PRODUCT INFORMATION',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Price',
+    dataKey: 'price',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Profit',
+    dataKey: 'profit',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Margin',
+    dataKey: 'margin',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Fees',
+    dataKey: 'fees',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Monthly Revenue',
+    dataKey: 'monthly_revenue',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'ROI',
+    dataKey: 'roi',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Rank',
+    dataKey: 'rank',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Sales EsT',
+    dataKey: 'sales_monthly',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Category',
+    dataKey: 'amazon_category_name',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Size Tier',
+    dataKey: 'size_tier',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Tracking / Rating',
+    dataKey: 'sellgo_score',
+    visible: true,
+  },
+  {
+    value: true,
+    key: '',
+    visible: false,
+  },
+];

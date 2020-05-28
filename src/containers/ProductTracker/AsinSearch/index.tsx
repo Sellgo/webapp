@@ -11,7 +11,7 @@ import { warn, dismiss } from '../../../utils/notifications';
 
 interface Props {
   checkProduct: (asin: string) => void;
-  verifyingProductTracked: any;
+  verifyingProductTracked: { value: boolean; productExist: boolean };
   verifyingProduct: boolean;
 }
 
@@ -53,11 +53,11 @@ const AsinSearch = (props: Props) => {
   };
   useEffect(() => {
     if (searchValue && !verifyingProduct) {
-      if (verifyingProductTracked.value === true && !verifyingProductTracked.productExist) {
+      if (verifyingProductTracked.value && !verifyingProductTracked.productExist) {
         handleWarning(false);
-      } else if (verifyingProductTracked.value === true && verifyingProductTracked.productExist) {
+      } else if (verifyingProductTracked.value && verifyingProductTracked.productExist) {
         handleWarning(true);
-      } else {
+      } else if (!verifyingProductTracked.value && verifyingProductTracked.productExist) {
         setOpen(true);
         dismiss();
       }
@@ -101,7 +101,7 @@ const AsinSearch = (props: Props) => {
                   onClick={() => {
                     handleMarketSelection(option);
                   }}
-                ></Dropdown.Item>
+                />
               );
             })}
           </Dropdown.Menu>

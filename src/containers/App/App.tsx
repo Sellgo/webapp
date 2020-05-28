@@ -133,7 +133,7 @@ const PrivateRoute = connect(
 
 function App() {
   return (
-    <div>
+    <div className="App__container">
       <Router history={history}>
         <ScrollToTop />
         <Switch>

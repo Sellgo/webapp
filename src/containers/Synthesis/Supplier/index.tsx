@@ -106,9 +106,7 @@ export class Supplier extends React.Component<SupplierProps> {
         <Segment basic={true} className="setting">
           <Grid>
             <Grid.Row className="right-column">
-              {!isLoadingSupplierProducts && (
-                <SupplierDetails supplierID={this.props.match.params.supplierID} />
-              )}
+              {!isLoadingSupplierProducts && <SupplierDetails />}
             </Grid.Row>
           </Grid>
           <ProductsTable supplierID={this.props.match.params.supplierID} />
