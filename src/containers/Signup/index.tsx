@@ -157,11 +157,11 @@ export default function Signup(props: Props, state: State) {
           if (err) {
             error(err);
           } else {
+            localStorage.setItem('accountType', accountType);
             history.push({
               pathname: '/',
               state: { email },
             });
-            localStorage.setItem('accountType', accountType);
           }
         }
       );

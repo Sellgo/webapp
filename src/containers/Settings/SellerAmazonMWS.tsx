@@ -204,35 +204,35 @@ const SellerAmazonMWS = (props: any) => {
                   }
                 />
                 &nbsp; &nbsp;
-                <Popup
-                  basic
-                  trigger={
-                    <span
-                      className="auth-seller"
-                      onClick={() => {
-                        setConfirmToken(() => !showConfirmToken);
-                        if (window.location.hash === '#amazon-mws') {
-                          window.location.hash = '';
-                        }
-                      }}
-                    >
-                      Authenticate Your Seller Account
-                    </span>
-                  }
-                  className="free-trial-popup"
-                  open={window.location.hash === '#amazon-mws'}
-                  content={
-                    <>
+                <span
+                  className="auth-seller"
+                  onClick={() => {
+                    setConfirmToken(() => !showConfirmToken);
+                    if (window.location.hash === '#amazon-mws') {
+                      window.location.hash = '';
+                    }
+                  }}
+                >
+                  <Popup
+                    open={window.location.hash === '#amazon-mws'}
+                    position="bottom left"
+                    basic={true}
+                    trigger={`Authenticate Your Seller Account`}
+                    className="free-trial-popup"
+                    hideOnScroll={false}
+                    pinned
+                  >
+                    <div>
+                      <Icon name="arrow left" />
                       <p className="title">Start Your Free Trial</p>
                       <p className="content">
                         To finish setting up your account and start your free trial. Please enter
                         your Amazon MWS Authorization. Click on “Authenticate Your Seller Account”
                         for instructions.
                       </p>
-                    </>
-                  }
-                  position="bottom right"
-                />
+                    </div>
+                  </Popup>
+                </span>
                 <br />
               </>
             }

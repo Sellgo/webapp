@@ -21,7 +21,6 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
       const expireDate = moment(sellerSubscription.expiry_date).diff(todayDate, 'days');
       return (
         <p>
-          {' '}
           {`Your free trial runs out in  ${expireDate} days. Do you like our product? `}
           <Link to="/settings/pricing" className="free-trial-btn">
             <span>Click here to pick a plan</span>
@@ -29,14 +28,27 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
         </p>
       );
     } else if (sellerSubscription.subscription_id === 5) {
-      return (
-        <p>
-          {' Your free account can only view demo files. To unlock features . '}
-          <Link to="/settings/pricing" className="free-trial-btn">
-            <span>Click here to pick a plan</span>
-          </Link>
-        </p>
-      );
+      if (sellerSubscription.expiry_date !== null) {
+        const todayDate = moment();
+        const expireDate = moment(sellerSubscription.expiry_date).diff(todayDate, 'days');
+        return (
+          <p>
+            {`Your free trial runs out in  ${expireDate} days. It seems there was a problem with your MWS token `}
+            <Link to="/settings" className="free-trial-btn">
+              <span>Click here to re-enter your MWS Token</span>
+            </Link>
+          </p>
+        );
+      } else {
+        return (
+          <p>
+            {' Your free account can only view demo files. To unlock features . '}
+            <Link to="/settings/pricing" className="free-trial-btn">
+              <span>Click here to pick a plan</span>
+            </Link>
+          </p>
+        );
+      }
     }
   }
   render() {

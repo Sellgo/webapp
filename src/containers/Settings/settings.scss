@@ -188,13 +188,21 @@
 
 .ui.popup.transition.visible.free-trial-popup {
   min-width: 560px !important;
-  top: 200px !important;
-  left: 600px !important;
+  top: -28px !important;
+  left: 310px !important;
   color: #fff;
   background: #757575;
   border: 1px solid #98aeca;
   border-radius: 11px;
   padding: 24px 26px;
+
+  .icon {
+    position: absolute;
+    left: -43px;
+    color: #757575;
+    font-size: 30px;
+    top: 12px;
+  }
 
   .title {
     font-size: 30px;
