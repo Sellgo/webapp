@@ -188,7 +188,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
         <Image
           as="a"
-          href={supplierDetails.file_url}
+          href={supplierDetails.report_url}
           download={true}
           src={microsoftExcelIcon}
           wrapped={true}
