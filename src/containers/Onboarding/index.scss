@@ -1,0 +1,463 @@
+.onboarding-page {
+  $font-fam: 'Work sans', sans-serif !important;
+
+  .Onboarding__tutorial {
+    font-size: 50px !important;
+    font-weight: 300;
+    color: #313a4c;
+    font-family: $font-fam;
+    margin-bottom: 30px;
+  }
+
+  .header {
+    font-family: $font-fam;
+  }
+
+  i.fab.fa-youtube {
+    font-size: 50px;
+    position: absolute;
+    top: 39%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .Slider__container {
+    .Slider__title {
+      padding: 0 20px 0 20px;
+      font-family: $font-fam;
+      font-weight: bold;
+      font-size: 30px;
+      color: #3b4557;
+      margin-bottom: 0;
+    }
+
+    .control-prev::before,
+    .control-next::before {
+      background: #98aeca 0% 0% no-repeat padding-box;
+      border: 0 !important;
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .control-prev::before {
+      content: url('../../assets/images/angle-left.svg') !important;
+    }
+
+    .control-next::before {
+      content: url('../../assets/images/angle-right.svg') !important;
+    }
+
+    .carousel .control-arrow {
+      opacity: 1;
+      height: 84%;
+    }
+
+    div:first-child.carousel.carousel-slider {
+      margin-bottom: 20px;
+      padding: 0 20px 80px 20px;
+
+      .slider-wrapper.axis-horizontal .slider {
+        .slide {
+          min-width: 450px !important;
+          max-width: 450px !important;
+          height: 366px;
+          margin: 20px;
+          background: #fff 0% 0% no-repeat padding-box;
+          border: 1px solid #98aeca;
+          border-radius: 11px;
+          overflow: hidden;
+
+          &:first-child {
+            margin-left: 0;
+          }
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+          &:hover {
+            box-shadow: 0 0 10px #98aeca;
+
+            i.fab.fa-youtube {
+              color: red;
+              opacity: 1;
+            }
+          }
+
+          .Slider__detail {
+            color: #3b4557;
+            font-size: 20px;
+            text-align: left;
+            padding: 20px;
+            padding-top: 10px;
+            margin: 0;
+
+            .sub.header {
+              font-size: 15px;
+              color: #3b4557;
+              margin-top: 8px;
+              overflow: auto;
+              height: 57px;
+            }
+          }
+        }
+      }
+
+      ul.control-dots {
+        .dot {
+          background: #98aeca 0% 0% no-repeat padding-box;
+          opacity: 1;
+        }
+
+        .dot.selected,
+        .dot:hover {
+          background: #349af8 0% 0% no-repeat padding-box;
+          opacity: 1;
+          outline: none;
+        }
+      }
+    }
+  }
+}
+
+.Onboarding__container {
+  $font-fam: 'Work sans', sans-serif !important;
+
+  .Onboarding__player.container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .Onboarding__playlist.related {
+    padding: 0 !important;
+    font-family: $font-fam;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    color: #3b4557 !important;
+  }
+
+  .Onboarding__playlist.back {
+    font-size: 35px;
+    color: #98aeca;
+    font-family: $font-fam;
+    font-weight: normal;
+    margin-bottom: 30px;
+    cursor: pointer;
+
+    i {
+      margin: 0 !important;
+    }
+  }
+
+  .column.row {
+    padding: 0 0 0 40px;
+
+    .Onboarding__player {
+      .ui.grid:first-child {
+        margin: 0;
+      }
+
+      .header {
+        color: #3b4557;
+        font-size: 30px;
+        font-weight: normal;
+        padding-top: 20px;
+        font-family: $font-fam;
+
+        &.sub.header {
+          color: #3b4557;
+          font-size: 20px !important;
+          padding-top: 10px !important;
+          font-family: $font-fam;
+          width: 750px;
+        }
+      }
+    }
+
+    .Onboarding__playlist.title {
+      font-size: 50px;
+      color: #3b4557;
+      font-family: $font-fam;
+      padding-left: 14px;
+      margin-bottom: 15px;
+    }
+
+    .VideoDetail__frame {
+      width: 1174px;
+      height: 666px;
+      border: 1px solid #98aeca;
+      padding: 0;
+    }
+
+    .VideoList__container {
+      display: flex;
+      flex-direction: column;
+      height: 1000px;
+      flex-wrap: nowrap;
+      overflow: auto;
+      margin: 0;
+      margin-bottom: 40px !important;
+      padding-right: 20px;
+
+      .ui.card {
+        width: 450px;
+        min-height: 366px;
+        background: #fff 0% 0% no-repeat padding-box;
+        border: 1px solid #98aeca;
+        border-radius: 11px;
+
+        img {
+          height: 255px;
+        }
+
+        .fab.fa-youtube {
+          position: absolute;
+          font-size: 50px;
+          top: 132px;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          opacity: 0.5;
+          color: #98aeca;
+          color: red;
+          cursor: pointer;
+        }
+
+        &:hover {
+          box-shadow: 0 0 10px #98aeca;
+
+          .fab.fa-youtube {
+            color: red;
+            opacity: 1;
+          }
+        }
+
+        .VideoItem__title {
+          font-weight: normal !important;
+          font-size: 20px !important;
+          color: #3b4557 !important;
+          padding-top: 0;
+        }
+
+        .VideoItem__description {
+          font-size: 15px;
+          font-weight: normal;
+          color: #3b4557;
+          letter-spacing: 0;
+          margin-top: 0 !important;
+          height: 28px !important;
+          overflow: auto;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 2560px) {
+  .Onboarding__player .header.sub.header {
+    width: 1100px;
+  }
+}
+
+@media screen and (max-width: 1800px) {
+  .onboarding-page {
+    $size: 1.5;
+
+    .Onboarding__tutorial {
+      font-size: 50px / $size !important;
+      margin-bottom: 30px / $size;
+    }
+
+    .Slider__container {
+      .Slider__title {
+        font-size: 30px / $size;
+      }
+
+      .control-prev::before,
+      .control-next::before {
+        height: 50px / $size;
+        width: 50px / $size;
+        padding: 4px;
+      }
+
+      .carousel .control-arrow {
+        height: 77%;
+      }
+
+      div:first-child.carousel.carousel-slider {
+        margin-bottom: 20px / $size;
+
+        .slider-wrapper.axis-horizontal .slider {
+          .slide {
+            min-width: 450px / $size !important;
+            max-width: 450px / $size !important;
+            height: 366px / $size;
+            margin: 20px / $size;
+            border-radius: 11px / $size;
+
+            .Slider__detail {
+              font-size: 20px / $size;
+              padding: 20px / $size;
+              padding-top: 10px / $size;
+
+              .sub.header {
+                font-size: 15px / $size;
+                margin-top: 8px / $size;
+                height: 57px / $size;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    i.fab.fa-youtube {
+      font-size: 50px / $size;
+    }
+  }
+
+  .Onboarding__container {
+    $size: 1.5;
+
+    .Onboarding__playlist.related {
+      font-size: 20px / $size !important;
+    }
+
+    .Onboarding__playlist.back {
+      font-size: 35px / $size;
+      margin-bottom: 30px / $size;
+    }
+
+    .column.row {
+      padding-left: 40px / $size;
+
+      .Onboarding__player {
+        .header {
+          font-size: 30px / $size;
+          padding-top: 20px / $size;
+
+          &.sub.header {
+            font-size: 20px / $size !important;
+            padding-top: 10px / $size !important;
+          }
+        }
+      }
+
+      .Onboarding__playlist.title {
+        font-size: 50px / $size;
+        padding-left: 14px / $size;
+        margin-bottom: 15px / $size;
+      }
+
+      .VideoDetail__frame {
+        width: 1174px / $size;
+        height: 666px / $size;
+      }
+
+      .VideoList__container {
+        height: 1000px / $size;
+
+        .ui.card {
+          width: 450px / $size;
+          min-height: 366px / $size;
+          border-radius: 11px / $size;
+
+          img {
+            height: 255px / $size;
+          }
+
+          i.fab.fa-youtube {
+            font-size: 50px / $size;
+            top: 132px / $size;
+          }
+
+          .VideoItem__title {
+            font-size: 20px / $size !important;
+          }
+
+          .VideoItem__description {
+            font-size: 15px / $size;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .Onboarding__player .header.sub.header {
+    width: 770px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .Onboarding__container .Onboarding__player.container {
+    flex-direction: column;
+
+    .column {
+      &:first-child {
+        width: 90%;
+        margin: auto;
+        padding: 2%;
+        margin-bottom: 40px;
+        box-shadow: 0 0 10px #98aeca;
+
+        .VideoDetail__frame {
+          width: 100% !important;
+          height: 444px;
+        }
+      }
+    }
+
+    .VideoList__container {
+      flex-direction: row;
+      align-items: baseline;
+      height: auto;
+
+      .ui.card {
+        min-width: 300px;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 7.33333px;
+      }
+    }
+  }
+
+  .Onboarding__container .column.row .Onboarding__player .header.sub.header {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .onboarding-page
+    .Slider__container
+    div:first-child.carousel.carousel-slider
+    .slider-wrapper.axis-horizontal
+    .slider
+    .slide {
+    min-width: 100% !important;
+    margin: 0;
+  }
+
+  .Onboarding__container .Onboarding__player.container .column:first-child {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .onboarding-page i.fab.fa-youtube {
+    top: 29%;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .onboarding-page i.fab.fa-youtube {
+    top: 24%;
+  }
+}

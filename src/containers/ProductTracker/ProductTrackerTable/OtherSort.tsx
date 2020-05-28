@@ -19,6 +19,7 @@ class OtherSort extends React.Component<OtherSortProps> {
   state = {
     trackGroupsOpen: false,
     otherOptionsOpen: false,
+    rowId: 0,
   };
 
   setTrackGroupsOpen = (open: boolean) => this.setState({ trackGroupsOpen: open });
@@ -107,6 +108,7 @@ class OtherSort extends React.Component<OtherSortProps> {
               onClick={() => {
                 this.setOtherOptionsOpen(false);
                 handleConfirmMessage(row);
+                this.setState({ rowId: row.id });
               }}
             >
               <img src={Untrack} alt="Untrack" />
@@ -116,7 +118,7 @@ class OtherSort extends React.Component<OtherSortProps> {
         </Popup>
         <Confirm
           className="confirmation-box"
-          open={confirm}
+          open={confirm && this.state.rowId === row.id}
           cancelButton="No"
           confirmButton="Yes"
           content={

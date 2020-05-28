@@ -5,7 +5,11 @@
 }
 
 .admin-header {
+  height: 64px;
+  position: relative;
+
   .top-menu {
+    position: absolute !important;
     background-color: #3b4557 !important;
     height: 64px;
     padding-left: 59px;
@@ -139,10 +143,6 @@
     background-color: #a4a4a4;
     height: 100%;
     width: 1px;
-  }
-
-  .navbar-spacer {
-    height: 64px;
   }
 
   .right-menu > .item > i {
