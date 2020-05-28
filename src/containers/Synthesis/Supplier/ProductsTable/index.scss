@@ -214,11 +214,6 @@ $new_black: #707070;
     }
 
     tfoot {
-      &.lock-footer {
-        display: flex;
-        height: 350px;
-      }
-
       th {
         border-top: none;
         text-align: center;
@@ -246,39 +241,6 @@ $new_black: #707070;
 
         .ui.pagination.menu a:nth-last-child(1) {
           color: #98aeca !important;
-        }
-      }
-
-      .table-lock {
-        height: 453px;
-        position: absolute;
-        background: #98aecaf2;
-        width: 98%;
-        z-index: 9;
-        border-radius: 11px;
-
-        &__content {
-          color: #313a4c;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          height: 100%;
-
-          p {
-            font-size: 35px;
-          }
-
-          .icon {
-            font-size: 60px;
-          }
-
-          .primary.button {
-            background: #349af8;
-            border-radius: 40px;
-            margin-top: 35px;
-            font-family: 'Work Sans', sans-serif !important;
-          }
         }
       }
     }

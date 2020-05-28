@@ -315,7 +315,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             data={filteredProducts}
             columns={this.columns}
             searchFilterValue={searchValue}
-            showProductFinderSearch={sellerSubscription.subscription_id !== 5}
+            showProductFinderSearch={true}
             searchFilteredProduct={this.searchFilteredProduct}
             updateProfitFinderProducts={updateProfitFinderProducts}
             singlePageItemsCount={singlePageItemsCount}

@@ -205,6 +205,7 @@ const SellerAmazonMWS = (props: any) => {
                 />
                 &nbsp; &nbsp;
                 <Popup
+                  pinned
                   open={window.location.hash === '#amazon-mws'}
                   position="bottom left"
                   basic={true}
@@ -223,7 +224,6 @@ const SellerAmazonMWS = (props: any) => {
                   }
                   className="free-trial-popup"
                   hideOnScroll={false}
-                  pinned
                 >
                   <div>
                     <Icon name="arrow left" />

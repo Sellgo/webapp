@@ -70,7 +70,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="filename">
         {row.file_status &&
-          (sellerSubscription !== 5 ? (
+          (sellerSubscription.subscription_id !== 5 ? (
             <a href={row.file_url} download={true}>
               {row.file_name}
             </a>
@@ -351,7 +351,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns } = this.props;
+    const { suppliers, showTab, showColumns, sellerSubscription } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -387,6 +387,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
+    const tableLock =
+      sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5;
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -413,6 +415,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={data}
           columns={columns}
           name={'supplier'}
+          tableLock={tableLock}
         />
         <Confirm
           content="Do you want to delete supplier?"

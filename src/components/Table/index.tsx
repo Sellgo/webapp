@@ -145,7 +145,7 @@ export const GenericTable = (props: GenericTableProps) => {
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className="table-menu-header">
+        <div className={`table-menu-header ${tableLock && 'disabled'}`}>
           {showProductFinderSearch ? (
             <ProductSearch
               searchFilteredProduct={searchProfitFinderProduct}
@@ -155,15 +155,14 @@ export const GenericTable = (props: GenericTableProps) => {
           ) : (
             <div />
           )}
-          {!tableLock && (
-            <SelectItemsCount
-              setCurrentPage={setCurrentPage}
-              totalCount={totalItemsCount && totalItemsCount}
-              singlePageItemsCount={singlePageItemsCount}
-              currentPage={currentPage}
-              setSinglePageItemsCount={setSinglePageItemsCount}
-            />
-          )}
+
+          <SelectItemsCount
+            setCurrentPage={setCurrentPage}
+            totalCount={totalItemsCount && totalItemsCount}
+            singlePageItemsCount={singlePageItemsCount}
+            currentPage={currentPage}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+          />
         </div>
       ) : (
         ''
@@ -315,45 +314,47 @@ export const GenericTable = (props: GenericTableProps) => {
           </Table.Row>
         </Table.Header>
 
-        <Table.Body>
-          {rows.length ? (
-            rows.map((row, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <Table.Row key={index}>
-                    {columns.map((column, index) => {
-                      return name === 'trackerTable' ? (
-                        getColumnLabel(column.dataKey, columnFilterData) && (
-                          <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+        {!tableLock && (
+          <Table.Body>
+            {rows.length ? (
+              rows.map((row, index) => {
+                return (
+                  <React.Fragment key={index}>
+                    <Table.Row key={index}>
+                      {columns.map((column, index) => {
+                        return name === 'trackerTable' ? (
+                          getColumnLabel(column.dataKey, columnFilterData) && (
+                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                              {renderCell(row, column)}
+                            </Table.Cell>
+                          )
+                        ) : (
+                          <Table.Cell
+                            key={column.dataKey || index}
+                            style={{ maxWidth: 400 }}
+                            className={`table-cell ${column.dataKey}`}
+                          >
                             {renderCell(row, column)}
                           </Table.Cell>
-                        )
-                      ) : (
-                        <Table.Cell
-                          key={column.dataKey || index}
-                          style={{ maxWidth: 400 }}
-                          className={`table-cell ${column.dataKey}`}
-                        >
-                          {renderCell(row, column)}
-                        </Table.Cell>
-                      );
-                    })}
-                  </Table.Row>
-                  {expandedRows && expandedRows === row.id && extendedInfo && (
-                    <Table.Row key={index + '-extended'}>
-                      <Table.Cell colSpan={columns.length}>
-                        {''}
-                        {expandedRows === row.id && extendedInfo(row)}
-                      </Table.Cell>
+                        );
+                      })}
                     </Table.Row>
-                  )}
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <tr />
-          )}
-        </Table.Body>
+                    {expandedRows && expandedRows === row.id && extendedInfo && (
+                      <Table.Row key={index + '-extended'}>
+                        <Table.Cell colSpan={columns.length}>
+                          {''}
+                          {expandedRows === row.id && extendedInfo(row)}
+                        </Table.Cell>
+                      </Table.Row>
+                    )}
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              <tr />
+            )}
+          </Table.Body>
+        )}
         <Table.Footer className={tableLock ? 'lock-footer' : ''}>
           <Table.Row>
             {tableLock ? (
@@ -496,6 +497,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const sortedProducts = rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
   rows = tableLock ? rows.slice(0, 3) : rows;
+
   useEffect(() => {
     if (sortClicked) {
       if (updateProfitFinderProducts) {
