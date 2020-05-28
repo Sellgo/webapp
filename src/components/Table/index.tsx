@@ -394,7 +394,7 @@ export const GenericTable = (props: GenericTableProps) => {
             <tr />
           )}
         </Table.Body>
-        )}
+
         <Table.Footer className={tableLock ? 'lock-footer' : ''}>
           <Table.Row>
             {tableLock ? (
