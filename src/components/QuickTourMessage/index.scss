@@ -1,12 +1,14 @@
 .ui.popup.QuickTour__container {
-  min-width: 357px;
   min-height: 134px;
   background: #fff 0% 0% no-repeat padding-box;
   border-radius: 3px;
   left: 52px !important;
+  border: 0;
+  min-width: 380px;
+  padding: 0;
 
   &::before {
-    left: -6px !important;
+    left: -5px !important;
     right: auto !important;
     -webkit-box-shadow: 0 0 1px -1px #bababc !important;
     box-shadow: 0 0 1px -1px #bababc !important;
@@ -14,7 +16,7 @@
 
   &.expand-icon {
     &::before {
-      top: 68%;
+      top: 67%;
     }
   }
 
@@ -22,6 +24,14 @@
     &::before {
       top: 34%;
     }
+  }
+
+  .QuickTour__content {
+    padding: 14px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: inherit;
   }
 
   .ui.header {
@@ -36,16 +46,20 @@
       font-weight: normal;
       font-family: 'Work sans', sans-serif !important;
       line-height: inherit;
+      margin-top: 4px;
     }
   }
 
   .QuickTour__footer {
-    margin-top: 15px;
+    margin-top: 0;
     display: flex;
     justify-content: space-between;
 
     .column {
       &:first-child {
+        display: flex;
+        align-items: center;
+
         img {
           width: 26px;
           height: 34px;
