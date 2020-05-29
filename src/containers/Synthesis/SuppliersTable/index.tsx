@@ -345,7 +345,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns } = this.props;
+    const { suppliers, showTab, showColumns, sellerSubscription } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -381,6 +381,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
+    const tableLock =
+      sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5;
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -404,7 +406,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         <PaginatedTable
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
-          data={data}
+          data={tableLock ? [] : data}
           columns={columns}
           name={'supplier'}
         />
