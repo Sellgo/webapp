@@ -5,7 +5,7 @@ import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTabl
 import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsTable/productCheckBoxHeader';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import './index.scss';
-import  {Column,getColumnLabel,getColumnClass} from './index';
+import { Column, getColumnLabel, getColumnClass } from './index';
 
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
@@ -26,7 +26,6 @@ interface Shared {
   columnFilterBox?: boolean;
   handleColumnChange?: any;
   sortedColumnKey: string;
-
 }
 export interface TableHeaderProps extends Shared {
   columns: Column[];
@@ -51,7 +50,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     updateCheckedRows,
     currentPage,
     rows,
-    columnFilterBox
+    columnFilterBox,
   } = props;
   const { dataKey, sortable, label, click, check, popUp, icon } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : {};
@@ -110,7 +109,8 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       {' '}
       <div
         className="table-cell-container"
-        style={(icon && popUp) || check ? { justifyContent: 'center' } : {}}>
+        style={(icon && popUp) || check ? { justifyContent: 'center' } : {}}
+      >
         <span className="th-label">{label}</span>
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
           <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
@@ -170,19 +170,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   );
 };
 const TableHeader = (props: TableHeaderProps) => {
-  const {columns,...rest } = props;
+  const { columns, ...rest } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
   return (
     <Table.Header>
       <Table.Row>
         {filteredColumns.map((column, index) => {
-          return (
-            <TableHeaderCell
-              column={column}
-              key={column.dataKey || index}
-              {...rest}
-            />
-          );
+          return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
         })}
       </Table.Row>
     </Table.Header>

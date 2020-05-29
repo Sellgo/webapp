@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input, Checkbox, Popup } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
-import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTable/ColumnFilter';
-import ProductColumnFilterCard from '../../containers/Synthesis/Supplier/ProductsTable/ColumnFilter';
 
 import './index.scss';
 import { tableKeys } from '../../constants';
-import SortIcon from '../../assets/images/sort-solid.svg';
 
 import ProductSearch from '../ProductSearch/productSearch';
-import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsTable/productCheckBoxHeader';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import TableHeader from './TableHeader';
 export interface Column {
