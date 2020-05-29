@@ -91,55 +91,69 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   renderAddNewSupplierModal = () => {
-    const { uploadSupplierModalOpen, currentStep, currentConfirmationShow } = this.props;
+    const {
+      uploadSupplierModalOpen,
+      currentStep,
+      currentConfirmationShow,
+      sellerSubscription,
+    } = this.props;
+    const disableAddSearch = sellerSubscription.subscription_id === 5;
 
-    return (
-      <>
-        <Modal
-          size={'large'}
-          open={uploadSupplierModalOpen}
-          onClose={() => {
-            currentStep === 0 && currentConfirmationShow === false
-              ? this.handleClose()
-              : this.setState({ exitConfirmation: true });
-          }}
-          closeIcon={true}
-          style={{ width: '90%' }}
-          className="new-supplier-modal"
-          trigger={
-            <Button
-              primary={true}
-              className="add-new-supplier"
-              onClick={this.handleAddNewSupplierModalOpen}
-            >
-              Add New Search
-            </Button>
-          }
-        >
-          <Modal.Content>
-            <UploadSupplier {...this.state} />
-          </Modal.Content>
-        </Modal>
-        <Popup
-          basic
-          className={'add-supplier-popup'}
-          trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
-          position="top left"
-          size="tiny"
-        >
-          <h4>{'Adding a Supplier'}</h4>
-          To add a supplier:
-          <List as={'ol'}>
-            <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
-            <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
-            <List.Item as="li">
-              On the New Supplier screen, enter the details of the suppler.
-            </List.Item>
-            <List.Item as="li">Save the details of the new supplier.</List.Item>
-          </List>
-        </Popup>
-      </>
-    );
+    if (disableAddSearch) {
+      return (
+        <Button basic className="add-new-supplier disabled">
+          Add New Search
+        </Button>
+      );
+    } else {
+      return (
+        <>
+          <Modal
+            size={'large'}
+            open={uploadSupplierModalOpen}
+            onClose={() => {
+              currentStep === 0 && currentConfirmationShow === false
+                ? this.handleClose()
+                : this.setState({ exitConfirmation: true });
+            }}
+            closeIcon={true}
+            style={{ width: '90%' }}
+            className="new-supplier-modal"
+            trigger={
+              <Button
+                primary={true}
+                className="add-new-supplier"
+                onClick={this.handleAddNewSupplierModalOpen}
+              >
+                Add New Search
+              </Button>
+            }
+          >
+            <Modal.Content>
+              <UploadSupplier {...this.state} />
+            </Modal.Content>
+          </Modal>
+          <Popup
+            basic
+            className={'add-supplier-popup'}
+            trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
+            position="top left"
+            size="tiny"
+          >
+            <h4>{'Adding a Supplier'}</h4>
+            To add a supplier:
+            <List as={'ol'}>
+              <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
+              <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
+              <List.Item as="li">
+                On the New Supplier screen, enter the details of the suppler.
+              </List.Item>
+              <List.Item as="li">Save the details of the new supplier.</List.Item>
+            </List>
+          </Popup>
+        </>
+      );
+    }
   };
 
   UserOnboardingModal = () => {
@@ -154,8 +168,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
-    const { currentProgressShow, sellerSubscription } = this.props;
-    const hideSearch = sellerSubscription.subscription_id === 5;
+    const { currentProgressShow } = this.props;
 
     return (
       <>
@@ -163,7 +176,7 @@ class Synthesis extends Component<SynthesisProps> {
         <PageHeader
           title="Profit Finder"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}
-          callToAction={!hideSearch && this.renderAddNewSupplierModal()}
+          callToAction={this.renderAddNewSupplierModal()}
         />
 
         <Segment basic={true}>

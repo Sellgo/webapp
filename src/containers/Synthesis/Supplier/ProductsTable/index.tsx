@@ -143,9 +143,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderDetailButtons = (row: Product) => {
-    const { updateProductTrackingStatus, supplierID } = this.props;
+    const { updateProductTrackingStatus, supplierID, sellerSubscription } = this.props;
     return (
       <DetailButtons
+        disableTrack={sellerSubscription.subscription_id === 5}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {

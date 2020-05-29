@@ -91,58 +91,50 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         fluid={true}
         selection={true}
         disabled={row.file_status !== 'completed' ? true : false}
-        options={
-          sellerSubscription.subscription_id !== 5
-            ? [
-                {
-                  key: '0',
-                  text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
-                  value: 'SYN',
-                },
-                {
-                  key: '1',
-                  text: (
-                    <a href={row.file_url} download={true}>
-                      <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
-                    </a>
-                  ),
-                  value: 'dwn_sp_file',
-                },
-                {
-                  key: '2',
-                  text:
-                    row.report_url === null ? (
-                      <Dropdown.Item icon="download" text=" Download Results" />
-                    ) : (
-                      <a href={row.report_url} download={true}>
-                        <Dropdown.Item icon="download" text=" Download Results" />
-                      </a>
-                    ),
-                  value: 'dwn_res',
-                  disabled: row.report_url === null ? true : false,
-                },
-                {
-                  key: '3',
-                  text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
-                  value: 'rerun',
-                  disabled: !amazonMWSAuthorized,
-                  onClick: () => {
-                    if (amazonMWSAuthorized) {
-                      this.props.reRun(row);
-                    } else {
-                      handleUnauthorizedMwsAuth();
-                    }
-                  },
-                },
-              ]
-            : [
-                {
-                  key: '0',
-                  text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
-                  value: 'SYN',
-                },
-              ]
-        }
+        options={[
+          {
+            key: '0',
+            text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
+            value: 'SYN',
+          },
+          {
+            key: '1',
+            text: (
+              <a href={row.file_url} download={true}>
+                <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
+              </a>
+            ),
+            value: 'dwn_sp_file',
+            disabled: sellerSubscription.subscription_id === 5,
+          },
+          {
+            key: '2',
+            text:
+              row.report_url === null ? (
+                <Dropdown.Item icon="download" text=" Download Results" />
+              ) : (
+                <a href={row.report_url} download={true}>
+                  <Dropdown.Item icon="download" text=" Download Results" />
+                </a>
+              ),
+            value: 'dwn_res',
+            disabled:
+              row.report_url === null ? true : false || sellerSubscription.subscription_id === 5,
+          },
+          {
+            key: '3',
+            text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
+            value: 'rerun',
+            disabled: !amazonMWSAuthorized,
+            onClick: () => {
+              if (amazonMWSAuthorized) {
+                this.props.reRun(row);
+              } else {
+                handleUnauthorizedMwsAuth();
+              }
+            },
+          },
+        ]}
         onChange={(e, data) => {
           if (data.value === 'SYN') {
             history.push(`/synthesis/${row.supplier_id}`);
@@ -185,17 +177,19 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
           style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
-
-        {sellerSubscription !== 5 && (
-          <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
-        )}
-        {sellerSubscription !== 5 && (
-          <Icon
-            name="trash alternate"
-            style={{ color: 'black' }}
-            onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
-          />
-        )}
+        <Icon
+          disabled={sellerSubscription !== 5}
+          name="pencil"
+          style={{ color: 'black' }}
+          onClick={() => this.props.onEdit(row)}
+        />
+        <Icon
+          disabled={sellerSubscription !== 5}
+          className={sellerSubscription !== 5 ? `disabled` : ''}
+          name="trash alternate"
+          style={{ color: 'black' }}
+          onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
+        />
       </div>
     );
   };
@@ -351,7 +345,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns, sellerSubscription } = this.props;
+    const { suppliers, showTab, showColumns } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -387,8 +381,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
-    const tableLock =
-      sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5;
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -415,7 +407,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={data}
           columns={columns}
           name={'supplier'}
-          tableLock={tableLock}
         />
         <Confirm
           content="Do you want to delete supplier?"

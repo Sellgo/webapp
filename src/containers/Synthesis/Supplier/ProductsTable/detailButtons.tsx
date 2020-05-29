@@ -5,11 +5,16 @@ import Fingerprint from '../../../../assets/images/fingerprint.svg';
 import { formatRating } from '../../../../utils/format';
 
 const DetailButtons = (props: any) => {
-  const { score, onTrack, isTracking } = props;
+  const { score, onTrack, isTracking, disableTrack } = props;
   return (
     <div className="detail-buttons">
       <div>
-        <TrackButtonWithRating isTracking={isTracking} onTrack={onTrack} score={score} />
+        <TrackButtonWithRating
+          isTracking={isTracking}
+          onTrack={onTrack}
+          score={score}
+          disableTrack={disableTrack}
+        />
       </div>
       <div />
     </div>
@@ -17,9 +22,11 @@ const DetailButtons = (props: any) => {
 };
 
 function TrackButtonWithRating(props: any) {
-  const { isTracking, onTrack, score } = props;
+  const { isTracking, onTrack, score, disableTrack } = props;
+  console.log('disableTrack', disableTrack);
   return (
     <Button
+      disabled={disableTrack}
       as="div"
       labelPosition="right"
       className={'track-btn with-rating' + (isTracking ? ' is-tracking' : '')}

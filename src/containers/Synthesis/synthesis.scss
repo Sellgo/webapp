@@ -32,9 +32,17 @@
 .add-new-supplier {
   background-color: #4b9af8 !important;
   border-radius: 50px !important;
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Work sans', sans-serif !important;
   font-size: 15px !important;
   font-weight: bold !important;
+
+
+  &.ui.disabled {
+    color: #dfe8f3;
+    border: 1px solid #dfe8f3 !important;
+    border-radius: 100px;
+    pointer-events: none;
+  }
 }
 
 .syn-dropdown .menu {
