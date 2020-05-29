@@ -12,7 +12,7 @@ import SortIcon from '../../assets/images/sort-solid.svg';
 import ProductSearch from '../ProductSearch/productSearch';
 import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsTable/productCheckBoxHeader';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
-
+import TableHeader from './TableHeader';
 export interface Column {
   render?: (row: any) => string | JSX.Element;
   dataKey?: string;
@@ -96,7 +96,7 @@ export interface GenericTableProps {
   renderFilterSectionComponent?: () => void;
 }
 
-const getColumnLabel = (dataKey: any, columnFilterData: any) => {
+export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   let flag = true;
   const foundElement = columnFilterData
     ? columnFilterData.find((element: any) => element.dataKey === dataKey)
@@ -107,7 +107,7 @@ const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   return flag;
 };
 
-const getColumnClass = (column: any) => {
+export const getColumnClass = (column: any) => {
   if ((column.icon && column.popUp) || column.check) {
     return 'small-column';
   } else if (['Category', 'Size Tier'].includes(column.label)) {
@@ -204,6 +204,27 @@ export const GenericTable = (props: GenericTableProps) => {
         </Card>
       )}
       <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
+        <TableHeader
+          columns={columns}
+          sortedColumnKey={sortedColumnKey}
+          setSort={setSort}
+          onSetShowSearchFilter={onSetShowSearchFilter}
+          onSearchChange={onSearchChange}
+          onClearSearch={onClearSearch}
+          rows={rows}
+          currentPage={currentPage}
+          sortDirection={sortDirection}
+          type={name}
+          columnFilterData={columnFilterData}
+          toggleColumnCheckbox={toggleColumnCheckbox}
+          searchFilteredProduct={searchProfitFinderProduct}
+          renderFilterSectionComponent={renderFilterSectionComponent}
+          columnFilterBox={columnFilterBox}
+          checkedRows={checkedRows}
+          updateCheckedRows={updateCheckedRows}
+          handleColumnChange={handleColumnChange}
+
+        />
         <Table.Header>
           <Table.Row>
             {columns.map((column, index) => {
@@ -336,7 +357,10 @@ export const GenericTable = (props: GenericTableProps) => {
                             }
                           />
                         ) : (
-                          <Icon className={column.icon} style={{display: column.label === 'Search'? 'none' : 'inline-block'}}/>
+                          <Icon
+                            className={column.icon}
+                            style={{ display: column.label === 'Search' ? 'none' : 'inline-block' }}
+                          />
                         )}
                       </div>
                     </Table.HeaderCell>
