@@ -303,11 +303,10 @@ export const fetchSupplierProducts = (supplierID: any) => async (
   );
 
   if (response.data.length) {
-    dispatch(isLoadingSupplierProducts(false));
     const products = response.data;
-
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
+    dispatch(isLoadingSupplierProducts(false));
   } else {
     dispatch(isLoadingSupplierProducts(false));
     error('Data not found');
