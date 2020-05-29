@@ -1,37 +1,13 @@
 import * as React from 'react';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Carousel } from 'react-responsive-carousel';
-import { Header, Grid } from 'semantic-ui-react';
-import { onboardingVideos } from '../../constants/UserOnboarding';
 import { VideoDetails, VideoList } from './Playlist';
+import { Props, Videos } from './Interfaces';
+import { onboardingVideos } from '../../constants/UserOnboarding';
+import { Header, Grid } from 'semantic-ui-react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './index.scss';
 
-interface Videos {
-  description: string;
-  title: string;
-  url: string;
-  id: string;
-}
-
-interface Props {
-  selectPlaylist: Function;
-  onVideoSelect: Function;
-  selectArea: Function;
-  screenWidth: number;
-  data: Videos[];
-  index: number;
-  area: string;
-}
-
-function Slider({
-  area,
-  data,
-  selectPlaylist,
-  index,
-  onVideoSelect,
-  selectArea,
-  screenWidth,
-}: Props) {
+function Slider({ onVideoSelect, screenWidth, selectArea, data, area }: Props) {
   const mode = data.length <= 1 ? false : screenWidth <= 500 ? false : true;
 
   const slidePercentage =
@@ -56,18 +32,17 @@ function Slider({
       </Header>
       <Carousel
         centerSlidePercentage={slidePercentage}
+        showIndicators={showIndicator}
+        showArrows={showArrow}
+        showStatus={false}
         showThumbs={false}
         centerMode={mode}
-        showStatus={false}
-        showArrows={showArrow}
-        showIndicators={showIndicator}
       >
-        {data.map((video: Videos) => {
+        {data.map(video => {
           return (
             <div
               key={video.id}
               onClick={() => {
-                selectPlaylist(onboardingVideos[index].path);
                 onVideoSelect(video);
                 selectArea(area);
               }}
@@ -90,10 +65,10 @@ function Slider({
 
 class Onboarding extends React.Component {
   state = {
-    screenWidth: 0,
-    area: '',
-    videos: [],
     selectedVideo: [],
+    screenWidth: 0,
+    videos: [],
+    area: '',
   };
 
   componentDidMount() {
@@ -109,41 +84,52 @@ class Onboarding extends React.Component {
     this.setState({ screenWidth: window.innerWidth });
   };
 
-  onVideoSelect = (video: any) => {
-    this.setState({ selectedVideo: video });
+  onVideoSelect = (video: Videos) => {
+    let excludeVideo = 0;
+    const videoList = onboardingVideos
+      .map(value => {
+        const concatVideos: Videos[] = [];
+        return concatVideos.concat(value.path);
+      })
+      .reduce((current, initial) => [...current, ...initial], []);
+
+    videoList.forEach((value: Videos, index: number) => {
+      if (value.id === video.id) {
+        excludeVideo = index;
+      }
+    });
+    videoList.splice(0, excludeVideo + 1);
+
+    this.setState({ videos: videoList, selectedVideo: video });
   };
 
-  selectPlaylist = (video: any) => {
-    this.setState({ videos: video });
-  };
-
-  selectArea = (area: any) => {
+  selectArea = (area: string) => {
     this.setState({ area: area });
   };
 
   removeInitial = () => {
-    this.setState({ videos: [] });
+    this.setState({ selectedVideo: [] });
   };
 
   render() {
     const { selectedVideo, videos, area, screenWidth } = this.state;
+    const hasUpNext = `${!Object.keys(videos).length ? 'Onboarding__playlist upnext' : ''}`;
+
     const listOfVideos = onboardingVideos.map((list, index) => {
       return (
         <Grid.Row className="Slider__container" key={index}>
           <Slider
-            selectPlaylist={this.selectPlaylist}
             onVideoSelect={this.onVideoSelect}
-            selectArea={this.selectArea}
             screenWidth={screenWidth}
+            selectArea={this.selectArea}
             data={list.path}
-            index={index}
             area={list.area}
           />
         </Grid.Row>
       );
     });
 
-    if (this.state.videos.length) {
+    if (Object.keys(selectedVideo).length) {
       return (
         <Grid className="Onboarding__container">
           <Header
@@ -163,11 +149,11 @@ class Onboarding extends React.Component {
               <Grid.Column className="Onboarding__player">
                 <VideoDetails video={selectedVideo} />
               </Grid.Column>
-              <Grid.Column>
+              <Grid.Column className={hasUpNext}>
                 <Header className="Onboarding__playlist related" as="h1">
                   Up next:
                 </Header>
-                <VideoList videos={videos} onVideoSelect={this.onVideoSelect} />
+                <VideoList onVideoSelect={this.onVideoSelect} videos={videos} />
               </Grid.Column>
             </Grid.Row>
           </Grid.Row>
@@ -175,7 +161,7 @@ class Onboarding extends React.Component {
       );
     } else {
       return (
-        <Grid className="onboarding-page">
+        <Grid className="Onboarding__page">
           <Header className="Onboarding__tutorial" as="h1">
             Tutorial Videos
           </Header>

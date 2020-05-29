@@ -6,13 +6,13 @@ const VideoDetail = ({ video }) => {
     <React.Fragment>
       <Grid>
         <iframe
-          allow="autoplay"
-          className="VideoDetail__frame"
-          allowFullScreen="allowfullscreen"
+          webkitallowfullscreen="webkitallowfullscreen"
           mozallowfullscreen="mozallowfullscreen"
           msallowfullscreen="msallowfullscreen"
           oallowfullscreen="oallowfullscreen"
-          webkitallowfullscreen="webkitallowfullscreen"
+          allowFullScreen="allowfullscreen"
+          className="VideoDetail__frame"
+          allow="autoplay"
           src={video.url}
         />
       </Grid>
