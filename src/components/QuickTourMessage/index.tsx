@@ -17,6 +17,8 @@ interface Props {
 }
 
 function QuickTour({ child, data, currentNotifyId, setNotifyId, modalTermsOpen }: Props) {
+  const filterButton = `${notifications.length === currentNotifyId ? 'Finish' : 'Next'}`;
+
   const handleNext = () => {
     const count = notifications.length;
     if (currentNotifyId >= count) {
@@ -47,9 +49,10 @@ function QuickTour({ child, data, currentNotifyId, setNotifyId, modalTermsOpen }
                 <Image src={Logo} size="mini" spaced />
               </Grid.Column>
               <Grid.Column>
-                <Button onClick={handleNext} content="Next" />
+                <Button onClick={handleNext} content={filterButton} />
                 <p>
-                  Seen this before? <Button onClick={() => setNotifyId(0)} content="Skip Tour" />
+                  Seen this before?
+                  <Button onClick={() => setNotifyId(0)} content="Skip Tour" />
                 </p>
               </Grid.Column>
             </Grid.Row>
