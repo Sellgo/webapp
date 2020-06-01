@@ -1,23 +1,29 @@
 .free-trial-period {
   height: 0 !important;
 
-  .ui.segment .message {
-    background: #feda83;
-    height: 30px;
-    box-shadow: none !important;
-    padding: 0 115px;
-    text-align: left;
+  .ui.segment {
+    position: fixed;
+    z-index: 99999;
+    width: 100%;
 
-    .content p {
-      color: #3b4557;
-      font-size: 20px;
-      font-weight: 600;
+    .message {
+      background: #feda83;
+      height: 30px;
+      box-shadow: none !important;
+      padding: 0 115px;
       text-align: left;
 
-      span {
-        color: #349af8 !important;
-        text-decoration: underline;
-        cursor: pointer;
+      .content p {
+        color: #3b4557;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: left;
+
+        span {
+          color: #349af8 !important;
+          text-decoration: underline;
+          cursor: pointer;
+        }
       }
     }
   }
