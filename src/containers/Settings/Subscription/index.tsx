@@ -20,6 +20,7 @@ import history from '../../../history';
 import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
 import { Link } from 'react-router-dom';
+import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -289,6 +290,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     return (
       <>
+        <SubscriptionMessage />
         <PageHeader
           title={'Pricing Plans'}
           breadcrumb={[
@@ -339,7 +341,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               Risk free 14-day money back guarantee
             </Grid.Row>
             <Grid.Row>{cardsDisplay}</Grid.Row>
-            {!sellerSubscription && (
+            {(sellerSubscription.subscription_id === 4 ||
+              sellerSubscription.subscription_id === 5) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
                 <Grid className="field-container">
