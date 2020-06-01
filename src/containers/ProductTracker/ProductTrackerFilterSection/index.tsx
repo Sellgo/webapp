@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Label } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 import { findMinMax, filterProductsByGroupId, DEFAULT_PERIOD } from '../../../constants/Tracker';
@@ -459,6 +459,29 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterType(type);
   };
 
+  const isFilterUse = () => {
+    const ranges = findMinMax(groupProducts);
+    if (JSON.stringify(ranges.customer_reviews) !== JSON.stringify(filterState.customer_reviews))
+      return true;
+    if (JSON.stringify(ranges.avg_daily_sales) !== JSON.stringify(filterState.avg_daily_sales))
+      return true;
+    if (JSON.stringify(ranges.avg_profit) !== JSON.stringify(filterState.avg_profit)) return true;
+    if (JSON.stringify(ranges.avg_margin) !== JSON.stringify(filterState.avg_margin)) return true;
+    if (JSON.stringify(ranges.avg_price) !== JSON.stringify(filterState.avg_price)) return true;
+    if (JSON.stringify(ranges.avg_rank) !== JSON.stringify(filterState.avg_rank)) return true;
+    if (JSON.stringify(ranges.avg_roi) !== JSON.stringify(filterState.avg_roi)) return true;
+    if (!isAllReviews) return true;
+    return false;
+  };
+
+  const periodBadge = () => {
+    if (filterState.period === 1) return 'T';
+    if (filterState.period === 7) return 'W';
+    if (filterState.period === 30) return 'M';
+    if (filterState.period === 90) return '3M';
+    if (filterState.period === 365) return 'Y';
+  };
+
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
@@ -471,11 +494,12 @@ function ProductTrackerFilterSection(props: Props) {
           }`}
           onClick={() => handleFilterType('all-filter')}
         >
-          <span className="tracker-filter-section__header__button__name">All</span>
           <Icon
             className="tracker-filter-section__header__button__slider"
             name="sliders horizontal"
           />
+          <span className="tracker-filter-section__header__button__name">All</span>
+          <Icon name="filter" className={` ${isFilterUse() ? 'blue' : 'grey'} `} />
         </Button>
         <Button
           basic
@@ -485,6 +509,7 @@ function ProductTrackerFilterSection(props: Props) {
           onClick={() => handleFilterType('period-filter')}
         >
           <span className="tracker-filter-section__header__button__name">Period</span>
+          <Label circular>{periodBadge()}</Label>
           <Icon className="tracker-filter-section__header__button__caret" name="caret down" />
         </Button>
       </div>

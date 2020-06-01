@@ -27,14 +27,15 @@
         border-radius: 20px;
         display: flex;
         align-items: center;
-        justify-content: center;
         font-family: 'Work Sans', sans-serif !important;
         margin: 5px;
         position: relative;
-        padding: 0 0 0 15px !important;
         height: 32px;
         box-shadow: none !important;
         margin-top: 0;
+        padding: 0 !important;
+        justify-content: space-evenly;
+        line-height: normal;
 
         &.icon {
           padding-left: 0 !important;
@@ -47,11 +48,16 @@
 
         i {
           background: none !important;
+          margin: 0;
+          position: relative !important;
 
           &.sliders {
             color: #349af8 !important;
-            margin-left: 15px !important;
             width: 20px !important;
+          }
+
+          &.filter {
+            width: 13px !important;
           }
 
           &.filter-left-icon {
@@ -82,5 +88,34 @@
         color: #349af8;
       }
     }
+  }
+
+  .ui.button:nth-child(1) {
+    padding: 0 !important;
+  }
+
+  .ui.button:nth-child(2) span {
+    margin-left: 14px;
+    margin-right: 3px;
+  }
+
+  .circular.label {
+    font-family: 'Work Sans', sans-serif !important;
+    font-size: 11px;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    background-color: #349af8;
+    color: #fff;
+  }
+
+  .caret.icon {
+    width: max-content;
+    margin: 0 !important;
+    height: max-content !important;
   }
 }
