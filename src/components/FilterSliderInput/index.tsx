@@ -14,6 +14,7 @@ const FilterSliderInput = (props: any) => {
   const handleLocalChange = (value: any) => {
     setFilterRangeLocal(value);
   };
+
   const handleMinInputCompleteChange = (e: any) => {
     let value = e.target.value;
     if (value >= Number(filterRange.max)) {
