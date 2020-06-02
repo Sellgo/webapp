@@ -1,67 +1,9 @@
 import * as React from 'react';
-import { VideoDetails, VideoList } from './Playlist';
-import { Props, Videos } from './Interfaces';
+import { VideoDetails, VideoList, VideoSlider } from './Playlist';
 import { onboardingVideos } from '../../constants/UserOnboarding';
 import { Header, Grid } from 'semantic-ui-react';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Videos } from './Interfaces';
 import './index.scss';
-
-function Slider({ onVideoSelect, screenWidth, selectArea, data, area }: Props) {
-  const mode = data.length <= 1 ? false : screenWidth <= 500 ? false : true;
-
-  const slidePercentage =
-    screenWidth >= 1920
-      ? 30
-      : screenWidth >= 1440
-      ? 25
-      : screenWidth >= 1024
-      ? 40
-      : screenWidth >= 768
-      ? 60
-      : 80;
-
-  const showArrow = data.length > 2 ? true : screenWidth <= 768 ? true : false;
-
-  const showIndicator = data.length === 1 ? false : true;
-
-  const container = (
-    <Grid.Column>
-      <Header className="Slider__title" as="h1">
-        <Header.Content>{area}</Header.Content>
-      </Header>
-      <Carousel
-        centerSlidePercentage={slidePercentage}
-        showIndicators={showIndicator}
-        showArrows={showArrow}
-        showStatus={false}
-        showThumbs={false}
-        centerMode={mode}
-      >
-        {data.map(video => {
-          return (
-            <div
-              key={video.id}
-              onClick={() => {
-                onVideoSelect(video);
-                selectArea(area);
-              }}
-            >
-              <img alt={video.title} src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`} />
-              <i className="fab fa-youtube" />
-              <Header className="Slider__detail" as="h1">
-                {video.title}
-                <Header.Subheader>{video.description}</Header.Subheader>
-              </Header>
-            </div>
-          );
-        })}
-      </Carousel>
-    </Grid.Column>
-  );
-
-  return container;
-}
 
 class Onboarding extends React.Component {
   state = {
@@ -88,15 +30,19 @@ class Onboarding extends React.Component {
     let excludeVideo = 0;
     const videoList = onboardingVideos
       .map(value => {
+        const mutatedPath = value.path.map(properties => {
+          const addProperties = { area: value.area };
+          const newProperties = Object.assign(properties, addProperties);
+          return newProperties;
+        });
+
         const concatVideos: Videos[] = [];
-        return concatVideos.concat(value.path);
+        return concatVideos.concat(mutatedPath);
       })
       .reduce((current, initial) => [...current, ...initial], []);
 
     videoList.forEach((value: Videos, index: number) => {
-      if (value.id === video.id) {
-        excludeVideo = index;
-      }
+      if (value.id === video.id) excludeVideo = index;
     });
     videoList.splice(0, excludeVideo + 1);
 
@@ -113,12 +59,11 @@ class Onboarding extends React.Component {
 
   render() {
     const { selectedVideo, videos, area, screenWidth } = this.state;
-    const hasUpNext = `${!Object.keys(videos).length ? 'Onboarding__playlist upnext' : ''}`;
-
+    console.log([selectedVideo]);
     const listOfVideos = onboardingVideos.map((list, index) => {
       return (
         <Grid.Row className="Slider__container" key={index}>
-          <Slider
+          <VideoSlider
             onVideoSelect={this.onVideoSelect}
             screenWidth={screenWidth}
             selectArea={this.selectArea}
@@ -149,11 +94,15 @@ class Onboarding extends React.Component {
               <Grid.Column className="Onboarding__player">
                 <VideoDetails video={selectedVideo} />
               </Grid.Column>
-              <Grid.Column className={hasUpNext}>
+              <Grid.Column className="Onboarding__playlist upnext">
                 <Header className="Onboarding__playlist related" as="h1">
                   Up next:
                 </Header>
-                <VideoList onVideoSelect={this.onVideoSelect} videos={videos} />
+                <VideoList
+                  onVideoSelect={this.onVideoSelect}
+                  selectArea={this.selectArea}
+                  videos={videos}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid.Row>

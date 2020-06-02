@@ -1,11 +1,16 @@
 import React from 'react';
 import { Card, Image } from 'semantic-ui-react';
 
-const VideoItem = ({ video, onVideoSelect }) => {
+const VideoItem = ({ video, onVideoSelect, selectArea }) => {
   const thumbnailSrc = `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`;
 
   return (
-    <Card onClick={() => onVideoSelect(video)}>
+    <Card
+      onClick={() => {
+        onVideoSelect(video);
+        selectArea(video.area);
+      }}
+    >
       <Image src={thumbnailSrc} wrapped ui={false} />
       <i className="fab fa-youtube" />
       <Card.Content>

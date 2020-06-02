@@ -3,6 +3,7 @@ export interface Videos {
   title: string;
   url: string;
   id: string;
+  area?: string;
 }
 
 export interface List {
