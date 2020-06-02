@@ -291,6 +291,34 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderWeight = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.weight !== null, `${row.weight} lbs`)}</p>;
   };
+  renderDailyInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.daily_inventory !== 0, `${row.daily_inventory}`)}
+      </p>
+    );
+  };
+  renderMonthlyInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.monthly_inventory !== 0, `${row.monthly_inventory}`)}
+      </p>
+    );
+  };
+  renderDailyAmazonInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.daily_amazon_inventory !== 0, `${row.daily_amazon_inventory}`)}
+      </p>
+    );
+  };
+  renderAvgAmazonInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.avg_amazon_inventory !== 0, `${row.avg_amazon_inventory}`)}
+      </p>
+    );
+  };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;
     return (
@@ -401,6 +429,38 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
+    },
+    {
+      label: 'Daily Inventory',
+      dataKey: 'daily_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderDailyInventory,
+    },
+    {
+      label: 'Monthly Inventory',
+      dataKey: 'monthly_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderMonthlyInventory,
+    },
+    {
+      label: 'Amazon Inventory',
+      dataKey: 'daily_amazon_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderDailyAmazonInventory,
+    },
+    {
+      label: 'Avg Amazon Inventory',
+      dataKey: 'avg_amazon_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderAvgAmazonInventory,
     },
     {
       icon: 'ellipsis horizontal',
