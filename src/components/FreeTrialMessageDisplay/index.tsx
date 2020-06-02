@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 interface SubscriptionMessageProps {
   sellerSubscription: any;
+  subscriptionType: string;
 }
 
 class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
@@ -15,8 +16,8 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
   }
 
   content() {
-    const { sellerSubscription } = this.props;
-    if (sellerSubscription.subscription_id === 4) {
+    const { sellerSubscription, subscriptionType } = this.props;
+    if (subscriptionType === 'trial') {
       const todayDate = moment();
       const expireDate = moment(sellerSubscription.expiry_date).diff(todayDate, 'days');
       return (
@@ -27,7 +28,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
           </Link>
         </p>
       );
-    } else if (sellerSubscription.subscription_id === 5) {
+    } else if (subscriptionType === 'free') {
       if (sellerSubscription.expiry_date !== null) {
         const todayDate = moment();
         const expireDate = moment(sellerSubscription.expiry_date).diff(todayDate, 'days');
@@ -52,9 +53,9 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
     }
   }
   render() {
-    const { sellerSubscription } = this.props;
+    const { subscriptionType } = this.props;
     return (
-      (sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5) && (
+      subscriptionType !== 'paid' && (
         <Rail className="free-trial-period" internal={true} position="left">
           <Segment>
             <Message success content={this.content()} />
@@ -67,6 +68,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
 
 const mapStateToProps = (state: any) => ({
   sellerSubscription: state.subscription.sellerSubscription,
+  subscriptionType: state.subscription.subscriptionType,
 });
 
 export default connect(mapStateToProps)(SubscriptionMessage);

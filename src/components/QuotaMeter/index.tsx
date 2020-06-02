@@ -9,7 +9,7 @@ import './index.scss';
 interface QuotaMeterProps {
   sellerQuota: any;
   getSellerQuota: any;
-  sellerSubscription: any;
+  subscriptionType: string;
 }
 
 class QuotaMeter extends React.Component<QuotaMeterProps> {
@@ -19,7 +19,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
   }
 
   render() {
-    const { sellerQuota, sellerSubscription } = this.props;
+    const { sellerQuota, subscriptionType } = this.props;
 
     // Don't render until data is fetched
     if (!sellerQuota) {
@@ -27,12 +27,11 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
     }
 
     const percent = (sellerQuota.used / sellerQuota.available) * 100;
-    const freeAccount = sellerSubscription.subscription_id === 5;
 
     return (
       <div className="quota-meter">
         <Progress percent={percent} size="tiny" color="blue">
-          {freeAccount
+          {subscriptionType === 'free'
             ? `0 tracked out of 0`
             : `${sellerQuota.used} tracked out of ${sellerQuota.available}`}
         </Progress>
@@ -46,7 +45,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
 
 const mapStateToProps = (state: any) => ({
   sellerQuota: get(state, 'settings.sellerQuota'),
-  sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
 });
 
 const mapDispatchToProps = {

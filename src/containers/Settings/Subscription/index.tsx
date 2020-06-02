@@ -31,6 +31,7 @@ interface SubscriptionProps {
   sellerSubscription: any;
   subscriptions: Subscription[];
   location: any;
+  subscriptionType: string;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -183,7 +184,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   render() {
-    const { subscriptions, sellerSubscription } = this.props;
+    const { subscriptions, sellerSubscription, subscriptionType } = this.props;
     const {
       promptCancelSubscription,
       pendingSubscription,
@@ -329,10 +330,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionName: '',
             });
 
-            if (
-              sellerSubscription.subscription_id === 4 ||
-              sellerSubscription.subscription_id === 5
-            ) {
+            if (subscriptionType !== 'paid') {
               this.createCheckoutSession(pendingSubscriptionId);
             } else {
               this.changeSubscription(pendingSubscriptionId);
@@ -348,8 +346,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               Risk free 14-day money back guarantee
             </Grid.Row>
             <Grid.Row>{cardsDisplay}</Grid.Row>
-            {(sellerSubscription.subscription_id === 4 ||
-              sellerSubscription.subscription_id === 5) && (
+            {subscriptionType !== 'paid' && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
                 <Grid className="field-container">
@@ -398,6 +395,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 const mapStateToProps = (state: any) => ({
   profile: state.settings.profile,
   sellerSubscription: state.subscription.sellerSubscription,
+  subscriptionType: state.subscription.subscriptionType,
   subscriptions: state.subscription.subscriptions,
 });
 

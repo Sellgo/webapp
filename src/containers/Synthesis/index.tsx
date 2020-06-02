@@ -43,7 +43,7 @@ interface SynthesisProps {
   setProgress: any;
   match: any;
   handleUnauthorizedMwsAuth: any;
-  sellerSubscription: any;
+  subscriptionType: string;
 }
 
 class Synthesis extends Component<SynthesisProps> {
@@ -95,11 +95,10 @@ class Synthesis extends Component<SynthesisProps> {
       uploadSupplierModalOpen,
       currentStep,
       currentConfirmationShow,
-      sellerSubscription,
+      subscriptionType,
     } = this.props;
-    const disableAddSearch = sellerSubscription.subscription_id === 5;
 
-    if (disableAddSearch) {
+    if (subscriptionType !== 'paid') {
       return (
         <Button basic className="add-new-supplier disabled">
           Add New Search
@@ -225,7 +224,7 @@ const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   currentProgressShow: currentProgressShow(state),
   currentConfirmationShow: currentConfirmationShow(state),
-  sellerSubscription: get(state, 'subscription.sellerSubscription', false),
+  subscriptionType: get(state, 'subscription.subscriptionType', false),
 });
 
 const mapDispatchToProps = {

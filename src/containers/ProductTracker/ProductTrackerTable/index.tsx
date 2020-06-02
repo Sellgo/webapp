@@ -31,7 +31,7 @@ import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
 
 interface TrackerProps {
-  sellerSubscription: any;
+  subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
   filteredProducts: any;
@@ -423,10 +423,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       handleMenu,
       setPageNumber,
       productTrackerPageNo,
-      sellerSubscription,
+      subscriptionType,
     } = this.props;
     const { ColumnFilterBox } = this.state;
-    const tableLock = sellerSubscription.subscription_id === 5;
+    const tableLock = subscriptionType === 'free';
 
     return (
       <div className="tracker-table">
@@ -452,20 +452,22 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
 
-          <SelectItemsCount
-            setCurrentPage={setPageNumber}
-            totalCount={filteredProducts.length}
-            singlePageItemsCount={singlePageItemsCount}
-            currentPage={productTrackerPageNo}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-          />
+          {!tableLock && (
+            <SelectItemsCount
+              setCurrentPage={setPageNumber}
+              totalCount={filteredProducts.length}
+              singlePageItemsCount={singlePageItemsCount}
+              currentPage={productTrackerPageNo}
+              setSinglePageItemsCount={setSinglePageItemsCount}
+            />
+          )}
         </div>
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <PaginatedTable
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
-            data={tableLock ? [] : filteredProducts}
+            data={filteredProducts}
             columns={this.columns}
             setPage={setPageNumber}
             ptCurrentPage={productTrackerPageNo}
@@ -503,7 +505,7 @@ const mapStateToProps = (state: any) => {
     filteredProducts: get(state, 'productTracker.filteredProducts'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
-    sellerSubscription: get(state, 'subscription.sellerSubscription'),
+    subscriptionType: get(state, 'subscription.subscriptionType'),
   };
 };
 

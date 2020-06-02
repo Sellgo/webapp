@@ -30,7 +30,7 @@ import _ from 'lodash';
 import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
 
 interface ProductsTableProps {
-  sellerSubscription: any;
+  subscriptionType: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
@@ -143,10 +143,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderDetailButtons = (row: Product) => {
-    const { updateProductTrackingStatus, supplierID, sellerSubscription } = this.props;
+    const { updateProductTrackingStatus, supplierID, subscriptionType } = this.props;
     return (
       <DetailButtons
-        disableTrack={sellerSubscription.subscription_id === 5}
+        disableTrack={subscriptionType === 'free'}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {
@@ -370,11 +370,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       singlePageItemsCount,
       setSinglePageItemsCount,
       updateProfitFinderProducts,
-      sellerSubscription,
+      subscriptionType,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
-    const tableLock =
-      sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5;
+    const tableLock = subscriptionType !== 'paid';
 
     return (
       <div className="products-table">
@@ -424,7 +423,7 @@ const mapStateToProps = (state: {}) => ({
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
-  sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
   supplierDetails: get(state, 'supplier.details'),
 });
 

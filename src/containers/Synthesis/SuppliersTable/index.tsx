@@ -32,7 +32,7 @@ import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import get from 'lodash/get';
 
 interface SuppliersTableProps {
-  sellerSubscription: any;
+  subscriptionType: string;
   suppliers: Supplier[];
   onEdit: any;
   fetchSuppliers: () => void;
@@ -66,11 +66,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderFileName = (row: Supplier) => {
-    const { sellerSubscription } = this.props;
+    const { subscriptionType } = this.props;
     return (
       <div className="filename">
         {row.file_status &&
-          (sellerSubscription.subscription_id !== 5 ? (
+          (subscriptionType !== 'free' ? (
             <a href={row.file_url} download={true}>
               {row.file_name}
             </a>
@@ -81,7 +81,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     );
   };
   renderActions = (row: Supplier) => {
-    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth, sellerSubscription } = this.props;
+    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth, subscriptionType } = this.props;
     return (
       <Dropdown
         className={'syn-dropdown-link syn-dropdown-label'}
@@ -105,7 +105,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               </a>
             ),
             value: 'dwn_sp_file',
-            disabled: sellerSubscription.subscription_id === 5,
+            disabled: subscriptionType === 'free',
           },
           {
             key: '2',
@@ -118,8 +118,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
                 </a>
               ),
             value: 'dwn_res',
-            disabled:
-              row.report_url === null ? true : false || sellerSubscription.subscription_id === 5,
+            disabled: row.report_url === null ? true : false || subscriptionType === 'free',
           },
           {
             key: '3',
@@ -164,30 +163,52 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     ) {
       return '';
     }
-    const { favourite, unFavourite, sellerSubscription } = this.props;
+    const { favourite, unFavourite, subscriptionType } = this.props;
     return (
       <div className="operations">
         <Icon
+          disabled={subscriptionType !== 'paid'}
           name="thumbs up"
           onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
-          style={row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }}
+          style={
+            (row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }) +
+              subscriptionType !==
+            'paid'
+              ? { cursor: 'default' }
+              : { cursor: 'pointer' }
+          }
         />
         <Icon
+          disabled={subscriptionType !== 'paid'}
           name="thumbs down"
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
-          style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
+          style={
+            row.tag === 'dislike'
+              ? { color: 'red' }
+              : { color: 'lightgrey' } + subscriptionType !== 'paid'
+              ? { cursor: 'default' }
+              : { cursor: 'pointer' }
+          }
         />
         <Icon
-          disabled={sellerSubscription !== 5}
+          disabled={subscriptionType !== 'paid'}
           name="pencil"
-          style={{ color: 'black' }}
+          style={
+            { color: 'black' } + subscriptionType !== 'paid'
+              ? { cursor: 'default' }
+              : { cursor: 'pointer' }
+          }
           onClick={() => this.props.onEdit(row)}
         />
         <Icon
-          disabled={sellerSubscription !== 5}
-          className={sellerSubscription !== 5 ? `disabled` : ''}
+          disabled={subscriptionType !== 'paid'}
+          className={subscriptionType !== 'paid' ? `disabled` : ''}
           name="trash alternate"
-          style={{ color: 'black' }}
+          style={
+            { color: 'black' } + subscriptionType !== 'paid'
+              ? { cursor: 'default' }
+              : { cursor: 'pointer' }
+          }
           onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
         />
       </div>
@@ -345,7 +366,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns, sellerSubscription } = this.props;
+    const { suppliers, showTab, showColumns } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -381,8 +402,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
-    const tableLock =
-      sellerSubscription.subscription_id === 4 || sellerSubscription.subscription_id === 5;
+
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -406,7 +426,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         <PaginatedTable
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
-          data={tableLock ? [] : data}
+          data={data}
           columns={columns}
           name={'supplier'}
         />
@@ -432,7 +452,7 @@ const mapStateToProps = (state: {}) => ({
   showColumns: suppliersTableColumnsSelector(state),
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
-  sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
 });
 
 const mapDispatchToProps = {
