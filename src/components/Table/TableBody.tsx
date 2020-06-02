@@ -19,10 +19,12 @@ interface TableColumnCellProps {
 
 const TableCell = (props: TableColumnCellProps) => {
   const { type, column, row } = props;
+
   const className =
     type !== 'trackerTable'
       ? `table-cell ${column && column.dataKey} ${getColumnClass(column)}`
       : '';
+
   const cellProps: any = {
      className,
     key:   column.dataKey || Date.now(),
