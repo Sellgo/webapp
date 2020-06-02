@@ -27,6 +27,7 @@ interface Shared {
   handleColumnChange?: any;
   sortedColumnKey: string;
 }
+
 export interface TableHeaderProps extends Shared {
   columns: Column[];
 }
@@ -60,6 +61,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     style: { style },
     className: type === 'trackerTable' ? 'table-header' : `${dataKey} ${getColumnClass(column)}`,
   };
+
   if (sortedColumnKey === dataKey) {
     otherProps = { ...otherProps, sorted: sortDirection };
   }
