@@ -51,47 +51,6 @@ export interface PaginatedTableProps {
   renderFilterSectionComponent?: () => void;
 }
 
-export interface GenericTableProps {
-  tableKey?: string;
-  currentPage: number;
-  totalPages: number;
-  searchFilterValue?: string;
-  showProductFinderSearch?: boolean;
-  searchProfitFinderProduct?: (searchValue: string) => void;
-  updateProfitFinderProducts?: (data: any) => void;
-  setCurrentPage: (page: number) => void;
-  totalItemsCount: number;
-  showSelectItemsCount: boolean;
-  singlePageItemsCount?: number;
-  setPageNumber: (pageNo: any) => void;
-  setSinglePageItemsCount?: (itemsCount: number) => void;
-  showSearchFilter: boolean;
-  onSetShowSearchFilter: (e: any, key: any) => void;
-  filterName: string;
-  searchValue: string;
-  onSearchChange: (e: any) => void;
-  onClearSearch: (e: any) => void;
-  columns: Column[];
-  sortedColumnKey: string;
-  sortDirection: 'descending' | 'ascending';
-  setSort: (e: any, clickedColumn: string) => void;
-  rows: Array<{ [key: string]: any }>;
-  extendedInfo?: (data: any) => void;
-  expandedRows?: any;
-  name?: any;
-  columnFilterData?: any;
-  handleColumnChange?: any;
-  count?: number;
-  productTrackerPageNo?: any;
-  showFilter?: boolean;
-  checkedRows?: CheckedRowDictionary;
-  updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
-  productRanges?: any;
-  columnFilterBox?: boolean;
-  toggleColumnCheckbox?: () => void;
-  renderFilterSectionComponent?: () => void;
-}
-
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   let flag = true;
   const foundElement = columnFilterData
@@ -118,168 +77,6 @@ export const getColumnClass = (column: any) => {
   }
 };
 
-export const GenericTable = (props: GenericTableProps) => {
-  const {
-    showProductFinderSearch,
-    searchProfitFinderProduct,
-    currentPage,
-    totalPages,
-    setCurrentPage,
-    totalItemsCount,
-    showSelectItemsCount,
-    singlePageItemsCount = 10,
-    setSinglePageItemsCount,
-    showSearchFilter,
-    onSetShowSearchFilter,
-    filterName,
-    searchValue,
-    onSearchChange,
-    onClearSearch,
-    columns,
-    sortedColumnKey,
-    sortDirection,
-    setSort,
-    rows,
-    extendedInfo,
-    expandedRows,
-    name,
-    columnFilterData = [],
-    handleColumnChange,
-    searchFilterValue,
-    columnFilterBox,
-    showFilter,
-    checkedRows,
-    updateCheckedRows,
-    toggleColumnCheckbox,
-    renderFilterSectionComponent,
-  } = props;
-  return (
-    <div className="generic-table scrollable">
-      {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className="table-menu-header">
-          {showProductFinderSearch ? (
-            <ProductSearch
-              searchFilteredProduct={searchProfitFinderProduct}
-              searchFilterValue={searchFilterValue}
-              setCurrentPage={setCurrentPage}
-            />
-          ) : (
-            <div />
-          )}
-          <SelectItemsCount
-            setCurrentPage={setCurrentPage}
-            totalCount={totalItemsCount && totalItemsCount}
-            singlePageItemsCount={singlePageItemsCount}
-            currentPage={currentPage}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-          />
-        </div>
-      ) : (
-        ''
-      )}
-      {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
-      {showSearchFilter && (
-        <Card className="filter-card">
-          <Card.Header>
-            <span className="card-header">{filterName}</span>
-            <span className="card-header" />
-            <Icon
-              className="close icon close-icon"
-              onClick={onClearSearch}
-              style={{ float: 'right' }}
-            />
-          </Card.Header>
-          <Card.Content>
-            <Input
-              icon="search"
-              value={searchValue}
-              placeholder="Search..."
-              onChange={onSearchChange}
-            />
-          </Card.Content>
-        </Card>
-      )}
-      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
-        <TableHeader
-          columns={columns}
-          sortedColumnKey={sortedColumnKey}
-          setSort={setSort}
-          onSetShowSearchFilter={onSetShowSearchFilter}
-          onSearchChange={onSearchChange}
-          onClearSearch={onClearSearch}
-          rows={rows}
-          currentPage={currentPage}
-          sortDirection={sortDirection}
-          type={name}
-          columnFilterData={columnFilterData}
-          toggleColumnCheckbox={toggleColumnCheckbox}
-          searchFilteredProduct={searchProfitFinderProduct}
-          renderFilterSectionComponent={renderFilterSectionComponent}
-          columnFilterBox={columnFilterBox}
-          checkedRows={checkedRows}
-          updateCheckedRows={updateCheckedRows}
-          handleColumnChange={handleColumnChange}
-        />
-        <Table.Body>
-          {rows.length ? (
-            rows.map((row, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <Table.Row key={index}>
-                    {columns.map((column, index) => {
-                      return name === 'trackerTable'
-                        ? getColumnLabel(column.dataKey, columnFilterData) && (
-                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                              {renderCell(row, column)}
-                            </Table.Cell>
-                          )
-                        : getColumnLabel(column.dataKey, columnFilterData) && (
-                            <Table.Cell
-                              key={column.dataKey || index}
-                              style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto' }}
-                              className={`table-cell ${column.dataKey} ${getColumnClass(column)}`}
-                            >
-                              {renderCell(row, column)}
-                            </Table.Cell>
-                          );
-                    })}
-                  </Table.Row>
-                  {expandedRows && expandedRows === row.id && extendedInfo && (
-                    <Table.Row key={index + '-extended'}>
-                      <Table.Cell
-                        colSpan={columns.length}
-                        style={{ minWidth: '95px', width: '95px', height: '46px', padding: '4px' }}
-                      >
-                        {''}
-                        {expandedRows === row.id && extendedInfo(row)}
-                      </Table.Cell>
-                    </Table.Row>
-                  )}
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <tr />
-          )}
-        </Table.Body>
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan={columns.length}>
-              <Pagination
-                totalPages={rows.length ? totalPages : ''}
-                activePage={currentPage}
-                onPageChange={(event, data) => {
-                  setCurrentPage(Number(data.activePage));
-                }}
-              />
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-      </Table>
-    </div>
-  );
-};
-
 // Handles pagination, filtering, and sorting client-side
 export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
@@ -291,20 +88,16 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     columns,
     extendedInfo,
     expandedRows,
-    setPageNumber,
     name,
     columnFilterData,
     handleColumnChange,
-    productTrackerPageNo,
-    count,
     showProductFinderSearch,
-    searchFilteredProduct,
+    searchFilteredProduct: searchProfitFinderProduct,
     updateProfitFinderProducts,
     searchFilterValue,
     showFilter,
     checkedRows,
     updateCheckedRows,
-    productRanges,
     columnFilterBox,
     toggleColumnCheckbox,
     setPage,
@@ -325,7 +118,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
-
+  const filteredColumns = !!columnFilterData ? columnFilterData : columns.map((c: any) => ({...c,value: c.show}));
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
@@ -400,19 +193,19 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     }
   });
 
-  const handleShowSearchFilter = (e: any, key: any) => {
+  const onSetShowSearchFilter = (e: any, key: any) => {
     e.stopPropagation();
     setShowSearchFilter(true);
     setFilterName(key);
   };
 
-  const handleClearSearch = (e: any) => {
+  const onClearSearch = (e: any) => {
     e.stopPropagation();
     setShowSearchFilter(false);
     setSearchValue('');
   };
 
-  const handleSearchChange = (e: any) => {
+  const onSearchChange = (e: any) => {
     if (setPage) {
       setPage(1);
     } else {
@@ -420,46 +213,131 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     }
     setSearchValue(e.target.value);
   };
-
+  const totalItemsCount = data.length;
   return (
-    <GenericTable
-      productRanges={productRanges}
-      showProductFinderSearch={showProductFinderSearch}
-      searchProfitFinderProduct={searchFilteredProduct}
-      currentPage={currentPage}
-      totalPages={totalPages}
-      setCurrentPage={setPage ? setPage : setCurrentPage}
-      totalItemsCount={data.length}
-      showSelectItemsCount={showSelectItemsCount}
-      singlePageItemsCount={singlePageItemsCount}
-      searchValue={searchValue}
-      setSinglePageItemsCount={setSinglePageItemsCount}
-      showSearchFilter={showSearchFilter}
-      onSetShowSearchFilter={handleShowSearchFilter}
-      filterName={filterName}
-      searchFilterValue={searchFilterValue}
-      onSearchChange={handleSearchChange}
-      onClearSearch={handleClearSearch}
-      columns={showColumns}
-      sortedColumnKey={sortedColumnKey}
-      sortDirection={sortDirection}
-      setSort={setSort}
-      rows={rows}
-      extendedInfo={extendedInfo}
-      expandedRows={expandedRows}
-      setPageNumber={setPageNumber}
-      name={name}
-      columnFilterData={columnFilterData}
-      handleColumnChange={handleColumnChange}
-      count={count && count.count}
-      productTrackerPageNo={productTrackerPageNo}
-      showFilter={showFilter}
-      checkedRows={checkedRows}
-      updateCheckedRows={updateCheckedRows}
-      columnFilterBox={columnFilterBox}
-      toggleColumnCheckbox={toggleColumnCheckbox}
-      renderFilterSectionComponent={renderFilterSectionComponent}
-    />
+    <div className="generic-table scrollable">
+      {setSinglePageItemsCount && showSelectItemsCount ? (
+        <div className="table-menu-header">
+          {showProductFinderSearch ? (
+            <ProductSearch
+              searchFilteredProduct={searchProfitFinderProduct}
+              searchFilterValue={searchFilterValue}
+              setCurrentPage={setCurrentPage}
+            />
+          ) : (
+            <div />
+          )}
+          <SelectItemsCount
+            setCurrentPage={setCurrentPage}
+            totalCount={totalItemsCount && totalItemsCount}
+            singlePageItemsCount={singlePageItemsCount}
+            currentPage={currentPage}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+          />
+        </div>
+      ) : (
+        ''
+      )}
+      {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
+      {showSearchFilter && (
+        <Card className="filter-card">
+          <Card.Header>
+            <span className="card-header">{filterName}</span>
+            <span className="card-header" />
+            <Icon
+              className="close icon close-icon"
+              onClick={onClearSearch}
+              style={{ float: 'right' }}
+            />
+          </Card.Header>
+          <Card.Content>
+            <Input
+              icon="search"
+              value={searchValue}
+              placeholder="Search..."
+              onChange={onSearchChange}
+            />
+          </Card.Content>
+        </Card>
+      )}
+      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
+        <TableHeader
+          columns={columns}
+          sortedColumnKey={sortedColumnKey}
+          setSort={setSort}
+          onSetShowSearchFilter={onSetShowSearchFilter}
+          onSearchChange={onSearchChange}
+          onClearSearch={onClearSearch}
+          rows={rows}
+          currentPage={currentPage}
+          sortDirection={sortDirection}
+          type={name}
+          columnFilterData={filteredColumns}
+          toggleColumnCheckbox={toggleColumnCheckbox}
+          searchFilteredProduct={searchProfitFinderProduct}
+          renderFilterSectionComponent={renderFilterSectionComponent}
+          columnFilterBox={columnFilterBox}
+          checkedRows={checkedRows}
+          updateCheckedRows={updateCheckedRows}
+          handleColumnChange={handleColumnChange}
+        />
+        <Table.Body>
+          {rows.length ? (
+            rows.map((row, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <Table.Row key={index}>
+                    {columns.map((column, index) => {
+                      return name === 'trackerTable'
+                        ? getColumnLabel(column.dataKey, columnFilterData) && (
+                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
+                              {renderCell(row, column)}
+                            </Table.Cell>
+                          )
+                        : getColumnLabel(column.dataKey, filteredColumns) && (
+                            <Table.Cell
+                              key={column.dataKey || index}
+                              style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto' }}
+                              className={`table-cell ${column.dataKey} ${getColumnClass(column)}`}
+                            >
+                              {renderCell(row, column)}
+                            </Table.Cell>
+                          );
+                    })}
+                  </Table.Row>
+                  {expandedRows && expandedRows === row.id && extendedInfo && (
+                    <Table.Row key={index + '-extended'}>
+                      <Table.Cell
+                        colSpan={columns.length}
+                        style={{ minWidth: '95px', width: '95px', height: '46px', padding: '4px' }}
+                      >
+                        {''}
+                        {expandedRows === row.id && extendedInfo(row)}
+                      </Table.Cell>
+                    </Table.Row>
+                  )}
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <tr />
+          )}
+        </Table.Body>
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell colSpan={columns.length}>
+              <Pagination
+                totalPages={rows.length ? totalPages : ''}
+                activePage={currentPage}
+                onPageChange={(event, data) => {
+                  setCurrentPage(Number(data.activePage));
+                }}
+              />
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
+      </Table>
+    </div>
   );
 };
 
