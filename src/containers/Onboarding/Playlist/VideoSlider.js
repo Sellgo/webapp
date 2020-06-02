@@ -3,7 +3,7 @@ import { Header, Grid } from 'semantic-ui-react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-function Slider({ onVideoSelect, screenWidth, selectArea, data, area }) {
+function Slider({ onVideoSelect, screenWidth, selectCategory, data, category }) {
   const mode = data.length <= 1 ? false : screenWidth <= 500 ? false : true;
 
   const slidePercentage =
@@ -24,7 +24,7 @@ function Slider({ onVideoSelect, screenWidth, selectArea, data, area }) {
   const container = (
     <Grid.Column>
       <Header className="Slider__title" as="h1">
-        <Header.Content>{area}</Header.Content>
+        <Header.Content>{category}</Header.Content>
       </Header>
       <Carousel
         centerSlidePercentage={slidePercentage}
@@ -40,7 +40,7 @@ function Slider({ onVideoSelect, screenWidth, selectArea, data, area }) {
               key={video.id}
               onClick={() => {
                 onVideoSelect(video);
-                selectArea(area);
+                selectCategory(category);
               }}
             >
               <img alt={video.title} src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`} />
