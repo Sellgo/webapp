@@ -329,7 +329,14 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionName: '',
             });
 
-            this.changeSubscription(pendingSubscriptionId);
+            if (
+              sellerSubscription.subscription_id === 4 ||
+              sellerSubscription.subscription_id === 5
+            ) {
+              this.createCheckoutSession(pendingSubscriptionId);
+            } else {
+              this.changeSubscription(pendingSubscriptionId);
+            }
           }}
         />
 

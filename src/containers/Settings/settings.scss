@@ -331,6 +331,14 @@
   }
 }
 
+@media only screen and (max-width: 1280px) {
+  .ui.popup.transition.visible.free-trial-popup {
+    min-width: 430px !important;
+    top: -4px !important;
+    left: 320px !important;
+  }
+}
+
 @media only screen and (max-width: 425px), only screen and (max-width: 615px) {
   .ui.grid.settings-container {
     h3.ui.header {
