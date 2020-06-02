@@ -59,7 +59,7 @@ class Onboarding extends React.Component {
 
   render() {
     const { selectedVideo, videos, area, screenWidth } = this.state;
-    console.log([selectedVideo]);
+
     const listOfVideos = onboardingVideos.map((list, index) => {
       return (
         <Grid.Row className="Slider__container" key={index}>
