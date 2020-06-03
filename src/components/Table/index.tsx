@@ -21,7 +21,7 @@ export interface Column {
   show?: boolean;
   check?: any;
   icon?: any;
-  type?: 'number' | 'string' | 'date';
+  type?: 'number' | 'string' | 'date' | 'boolean';
   click?: (e: any) => void;
   popUp?: boolean;
 }
@@ -336,7 +336,10 @@ export const GenericTable = (props: GenericTableProps) => {
                             }
                           />
                         ) : (
-                          <Icon className={column.icon} style={{display: column.label === 'Search'? 'none' : 'inline-block'}}/>
+                          <Icon
+                            className={column.icon}
+                            style={{ display: column.label === 'Search' ? 'none' : 'inline-block' }}
+                          />
                         )}
                       </div>
                     </Table.HeaderCell>

@@ -114,4 +114,5 @@ export interface ProductTrackerDetails {
   monthly_inventory: number;
   daily_amazon_inventory: number;
   avg_amazon_inventory: number;
+  is_amazon_selling: boolean;
 }
