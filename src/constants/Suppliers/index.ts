@@ -25,6 +25,7 @@ export const SUPPLIER_QUOTA = 'SUPPLIER_QUOTA';
 export const FILTER_SUPPLIER_PRODUCTS = 'FILTER_SUPPLIER_PRODUCTS';
 export const SEARCH_SUPPLIER_PRODUCTS = 'SEARCH_SUPPLIER_PRODUCTS';
 export const UPDATE_PROFIT_FINDER_PRODUCTS = 'UPDATE_PROFIT_FINDER_PRODUCTS';
+export const SET_SUPPLIER_PAGE_NUMBER = 'SET_SUPPLIER_PAGE_NUMBER';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -183,18 +184,22 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
-      ? filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
-          (((_.isEmpty(product.amazon_category_name) &&
+      ? // show if product's category matched one of filter's categories
+        (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
+          //show if product's category is empty & other's filter is active
+          (_.isEmpty(product.amazon_category_name) &&
             filterData.allFilter.indexOf('Others') !== -1) ||
-            (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
-              filterData.allFilter.indexOf('Others') !== -1)) &&
-            (filterData.productSize === 'All size' ||
-              filterData.productSize === product.size_tier) &&
-            supplierDataKeys.every(
-              (dataKey: any) =>
-                Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-                Number(product[dataKey]) <= Number(filterData[dataKey].max)
-            ))
+          //show if product's category doesn't exist in filter's categories if other's filter is active
+          (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
+            filterData.allFilter.indexOf('Others') !== -1)) &&
+          //show product if all size tier is active or product's size is equal
+          (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
+          //Product's Min and Max must be valid from filter's min & max
+          supplierDataKeys.every(
+            (dataKey: any) =>
+              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max)
+          )
       : null;
   });
   return updatedFilterProducts;
