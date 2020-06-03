@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { prepareFile, handleRejectedFile } from '../../../actions/UploadSupplier';
 import { fileDetailsSelector } from '../../../selectors/UploadSupplier';
 
-export const acceptedFileFormats = ['.csv', '.xls', '.xlsx'];
+export const acceptedFileFormats = ['.csv', '.xlsx'];
 
 const mapStateToProps = (state: {}) => ({
   accept: acceptedFileFormats,
