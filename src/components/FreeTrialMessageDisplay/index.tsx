@@ -17,9 +17,10 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
 
   content() {
     const { sellerSubscription, subscriptionType } = this.props;
+    const today = new Date();
+    const exp = new Date(sellerSubscription.expiry_date);
     if (subscriptionType === 'trial') {
-      const todayDate = moment();
-      const expireDate = moment(sellerSubscription.expiry_date).diff(todayDate, 'days');
+      const expireDate = moment(exp).diff(today, 'days');
       return (
         <p>
           {`Your free trial runs out in  ${expireDate} days. Do you like our product? `}
@@ -29,9 +30,8 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
         </p>
       );
     } else if (subscriptionType === 'free') {
-      if (sellerSubscription.expiry_date !== null) {
-        const todayDate = moment();
-        const expireDate = moment(sellerSubscription.expiry_date).diff(todayDate, 'days');
+      if (sellerSubscription.expiry_date !== null && sellerSubscription.expiry_date >= 0) {
+        const expireDate = moment(exp).diff(today, 'days');
         return (
           <p>
             {`Your free trial runs out in  ${expireDate} days. It seems there was a problem with your MWS token `}

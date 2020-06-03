@@ -41,8 +41,8 @@ export const fetchSellerSubscriptionTrial = (subscription: any) => (dispatch: an
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/trial`)
     .then(json => {
       const prevSubscriptionData = json.data[0] || false;
-      const todayDate = moment();
-      const expireDate = moment(prevSubscriptionData.expiry_date).diff(todayDate, 'days');
+      const todayDate = new Date();
+      const expireDate = moment(new Date(prevSubscriptionData.expiry_date)).diff(todayDate, 'days');
       if (prevSubscriptionData && prevSubscriptionData.expiry_date !== null && expireDate >= 0) {
         data.expiry_date = prevSubscriptionData.expiry_date;
         dispatch(setSellerSubscription(data));
