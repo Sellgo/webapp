@@ -55,6 +55,7 @@ export interface PaginatedTableProps {
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
   tableLock?: boolean;
+  featuresLock?: boolean;
 }
 
 export interface GenericTableProps {
@@ -97,6 +98,7 @@ export interface GenericTableProps {
   toggleColumnCheckbox?: () => void;
   renderFilterSectionComponent?: () => void;
   tableLock?: boolean;
+  featuresLock?: boolean;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -160,11 +162,12 @@ export const GenericTable = (props: GenericTableProps) => {
     toggleColumnCheckbox,
     renderFilterSectionComponent,
     tableLock,
+    featuresLock,
   } = props;
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className={`table-menu-header ${tableLock && 'disabled'}`}>
+        <div className={`table-menu-header ${featuresLock && 'disabled'}`}>
           {showProductFinderSearch ? (
             <ProductSearch
               searchFilteredProduct={searchProfitFinderProduct}
@@ -455,6 +458,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     setPage,
     renderFilterSectionComponent,
     tableLock,
+    featuresLock,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -607,6 +611,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       toggleColumnCheckbox={toggleColumnCheckbox}
       renderFilterSectionComponent={renderFilterSectionComponent}
       tableLock={tableLock}
+      featuresLock={featuresLock}
     />
   );
 };

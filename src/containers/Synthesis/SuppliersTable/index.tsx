@@ -99,18 +99,21 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           },
           {
             key: '1',
-            text: (
-              <a href={row.file_url} download={true}>
+            text:
+              subscriptionType === 'free' ? (
                 <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
-              </a>
-            ),
+              ) : (
+                <a href={row.file_url} download={true}>
+                  <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
+                </a>
+              ),
             value: 'dwn_sp_file',
             disabled: subscriptionType === 'free',
           },
           {
             key: '2',
             text:
-              row.report_url === null ? (
+              row.report_url === null || subscriptionType === 'free' ? (
                 <Dropdown.Item icon="download" text=" Download Results" />
               ) : (
                 <a href={row.report_url} download={true}>
@@ -124,8 +127,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             key: '3',
             text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
             value: 'rerun',
-            disabled: !amazonMWSAuthorized,
-            onClick: () => {
+            disabled: !amazonMWSAuthorized || subscriptionType === 'free',
+            onClick: e => {
+              if (subscriptionType === 'free') {
+                e.stopPropagation();
+                return;
+              }
               if (amazonMWSAuthorized) {
                 this.props.reRun(row);
               } else {
@@ -167,45 +174,45 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="operations">
         <Icon
-          disabled={subscriptionType !== 'paid'}
+          disabled={subscriptionType === 'free'}
           name="thumbs up"
           onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
           style={
             (row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }) +
-              subscriptionType !==
-            'paid'
+              subscriptionType ===
+            'free'
               ? { cursor: 'default' }
               : { cursor: 'pointer' }
           }
         />
         <Icon
-          disabled={subscriptionType !== 'paid'}
+          disabled={subscriptionType === 'free'}
           name="thumbs down"
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
           style={
             row.tag === 'dislike'
               ? { color: 'red' }
-              : { color: 'lightgrey' } + subscriptionType !== 'paid'
+              : { color: 'lightgrey' } + subscriptionType === 'free'
               ? { cursor: 'default' }
               : { cursor: 'pointer' }
           }
         />
         <Icon
-          disabled={subscriptionType !== 'paid'}
+          disabled={subscriptionType === 'free'}
           name="pencil"
           style={
-            { color: 'black' } + subscriptionType !== 'paid'
+            { color: 'black' } + subscriptionType === 'free'
               ? { cursor: 'default' }
               : { cursor: 'pointer' }
           }
           onClick={() => this.props.onEdit(row)}
         />
         <Icon
-          disabled={subscriptionType !== 'paid'}
-          className={subscriptionType !== 'paid' ? `disabled` : ''}
+          disabled={subscriptionType === 'free'}
+          className={subscriptionType === 'free' ? `disabled` : ''}
           name="trash alternate"
           style={
-            { color: 'black' } + subscriptionType !== 'paid'
+            { color: 'black' } + subscriptionType === 'free'
               ? { cursor: 'default' }
               : { cursor: 'pointer' }
           }

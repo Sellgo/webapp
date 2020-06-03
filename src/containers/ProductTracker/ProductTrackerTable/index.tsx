@@ -467,7 +467,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           <PaginatedTable
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
-            data={filteredProducts}
+            data={tableLock ? [] : filteredProducts}
             columns={this.columns}
             setPage={setPageNumber}
             ptCurrentPage={productTrackerPageNo}

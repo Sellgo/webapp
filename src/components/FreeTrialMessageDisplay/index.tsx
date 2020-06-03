@@ -56,7 +56,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
     const { subscriptionType } = this.props;
     return (
       subscriptionType !== 'paid' && (
-        <Rail className="free-trial-period" internal={true} position="left">
+        <Rail className="free-trial-period" internal={true} position="left" key={subscriptionType}>
           <Segment>
             <Message success content={this.content()} />
           </Segment>

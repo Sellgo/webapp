@@ -97,8 +97,7 @@ class Synthesis extends Component<SynthesisProps> {
       currentConfirmationShow,
       subscriptionType,
     } = this.props;
-
-    if (subscriptionType !== 'paid') {
+    if (subscriptionType === 'free') {
       return (
         <Button basic className="add-new-supplier disabled">
           Add New Search

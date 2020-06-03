@@ -40,11 +40,11 @@ export const fetchSellerSubscriptionTrial = (subscription: any) => (dispatch: an
   const sellerID = localStorage.getItem('userId');
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/trial`)
     .then(json => {
-      const prevData = json.data[0] || false;
+      const prevSubscriptionData = json.data[0] || false;
       const todayDate = moment();
-      const expireDate = moment(prevData.expiry_date).diff(todayDate, 'days');
-      if (prevData && prevData.expiry_date !== null && expireDate >= 0) {
-        data.expiry_date = prevData.expiry_date;
+      const expireDate = moment(prevSubscriptionData.expiry_date).diff(todayDate, 'days');
+      if (prevSubscriptionData && prevSubscriptionData.expiry_date !== null && expireDate >= 0) {
+        data.expiry_date = prevSubscriptionData.expiry_date;
         dispatch(setSellerSubscription(data));
       }
     })
