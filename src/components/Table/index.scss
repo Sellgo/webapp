@@ -115,7 +115,8 @@ i.icon.filter::before {
 
 .sort-icon {
   display: table !important;
-  font-size: 15px;
+  font-size: 15px !important;
+  margin: 0 0 -2px 25px !important;
 }
 
 .default-column-props {
