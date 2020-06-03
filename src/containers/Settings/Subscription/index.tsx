@@ -65,20 +65,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   chooseSubscription(subscription: any) {
-    const { sellerSubscription } = this.props;
-    // If user has subscription already then change to selected plan
-    // TODO: We're setting state to render the <Confirm> component
-    // but this would be much cleaner as a function call instead of
-    // a component so we can specify callback logic right here.
-    if (sellerSubscription) {
+    const { subscriptionType } = this.props;
+
+    if (subscriptionType !== 'paid') {
+      this.checkout(subscription.id);
+    } else {
       this.setState({
         pendingSubscription: true,
         pendingSubscriptionId: subscription.id,
         pendingSubscriptionName: subscription.name,
       });
-      // Otherwise we want to go to payment page
-    } else {
-      this.checkout(subscription.id);
     }
   }
 
@@ -100,11 +96,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   cancelSubscription() {
-    const { profile, setSellerSubscription } = this.props;
+    const { profile, setSellerSubscription, fetchSellerSubscription } = this.props;
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
       .then(() => {
         setSellerSubscription(false);
+        fetchSellerSubscription();
         success(`Your subscription has been cancelled`);
       })
       .catch(() => {
@@ -330,11 +327,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscriptionName: '',
             });
 
-            if (subscriptionType !== 'paid') {
-              this.createCheckoutSession(pendingSubscriptionId);
-            } else {
-              this.changeSubscription(pendingSubscriptionId);
-            }
+            this.changeSubscription(pendingSubscriptionId);
           }}
         />
 
