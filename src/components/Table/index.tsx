@@ -53,6 +53,7 @@ export interface PaginatedTableProps {
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
+  pagination?: boolean;
 }
 
 export interface GenericTableProps {
@@ -94,6 +95,7 @@ export interface GenericTableProps {
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
   renderFilterSectionComponent?: () => void;
+  pagination?: boolean;
 }
 
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -156,6 +158,7 @@ export const GenericTable = (props: GenericTableProps) => {
     updateCheckedRows,
     toggleColumnCheckbox,
     renderFilterSectionComponent,
+    pagination = true,
   } = props;
   return (
     <div className="generic-table scrollable">
@@ -336,7 +339,10 @@ export const GenericTable = (props: GenericTableProps) => {
                             }
                           />
                         ) : (
-                          <Icon className={column.icon} style={{display: column.label === 'Search'? 'none' : 'inline-block'}}/>
+                          <Icon
+                            className={column.icon}
+                            style={{ display: column.label === 'Search' ? 'none' : 'inline-block' }}
+                          />
                         )}
                       </div>
                     </Table.HeaderCell>
@@ -386,19 +392,21 @@ export const GenericTable = (props: GenericTableProps) => {
             <tr />
           )}
         </Table.Body>
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan={columns.length}>
-              <Pagination
-                totalPages={rows.length ? totalPages : ''}
-                activePage={currentPage}
-                onPageChange={(event, data) => {
-                  setCurrentPage(Number(data.activePage));
-                }}
-              />
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
+        {pagination && (
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan={columns.length}>
+                <Pagination
+                  totalPages={rows.length ? totalPages : ''}
+                  activePage={currentPage}
+                  onPageChange={(event, data) => {
+                    setCurrentPage(Number(data.activePage));
+                  }}
+                />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        )}
       </Table>
     </div>
   );
@@ -433,6 +441,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
+    pagination = true,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -583,6 +592,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       columnFilterBox={columnFilterBox}
       toggleColumnCheckbox={toggleColumnCheckbox}
       renderFilterSectionComponent={renderFilterSectionComponent}
+      pagination={pagination}
     />
   );
 };
