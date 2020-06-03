@@ -10,7 +10,7 @@ class Onboarding extends React.Component {
     selectedVideo: [],
     screenWidth: 0,
     videos: [],
-    area: '',
+    category: '',
   };
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class Onboarding extends React.Component {
     const videoList = onboardingVideos
       .map(value => {
         const mutatedPath = value.path.map(properties => {
-          const addProperties = { area: value.area };
+          const addProperties = { category: value.category };
           const newProperties = Object.assign(properties, addProperties);
           return newProperties;
         });
@@ -49,8 +49,8 @@ class Onboarding extends React.Component {
     this.setState({ videos: videoList, selectedVideo: video });
   };
 
-  selectArea = (area: string) => {
-    this.setState({ area: area });
+  selectCategory = (category: string) => {
+    this.setState({ category: category });
   };
 
   removeInitial = () => {
@@ -58,7 +58,7 @@ class Onboarding extends React.Component {
   };
 
   render() {
-    const { selectedVideo, videos, area, screenWidth } = this.state;
+    const { selectedVideo, videos, category, screenWidth } = this.state;
 
     const listOfVideos = onboardingVideos.map((list, index) => {
       return (
@@ -66,9 +66,9 @@ class Onboarding extends React.Component {
           <VideoSlider
             onVideoSelect={this.onVideoSelect}
             screenWidth={screenWidth}
-            selectArea={this.selectArea}
+            selectCategory={this.selectCategory}
             data={list.path}
-            area={list.area}
+            category={list.category}
           />
         </Grid.Row>
       );
@@ -87,7 +87,7 @@ class Onboarding extends React.Component {
           <Grid.Row columns={2}>
             <Grid.Row>
               <Header className="Onboarding__playlist title" as="h1">
-                {area}
+                {category}
               </Header>
             </Grid.Row>
             <Grid.Row className="Onboarding__player container">
@@ -100,7 +100,7 @@ class Onboarding extends React.Component {
                 </Header>
                 <VideoList
                   onVideoSelect={this.onVideoSelect}
-                  selectArea={this.selectArea}
+                  selectCategory={this.selectCategory}
                   videos={videos}
                 />
               </Grid.Column>
