@@ -19,6 +19,9 @@ Highcharts.setOptions({
   },
 });
 const defaultOptions: Highcharts.Options = {
+  chart: {
+    height: 252,
+  },
   plotOptions: {
     series: {
       // general options for all series
