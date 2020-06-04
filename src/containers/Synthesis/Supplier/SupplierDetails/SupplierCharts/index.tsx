@@ -12,6 +12,7 @@ import ProductDetails from '../../ProductDetails';
 import './index.scss';
 import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import RevenueChart from './RevenueChart';
+import { useWindowSize } from '../../../../../hooks/useWindowSize';
 import { setSupplierPageNumber } from '../../../../../actions/Suppliers';
 import { supplierPageNumberSelector } from '../../../../../selectors/Supplier';
 
@@ -25,6 +26,22 @@ interface SupplierChartsProps {
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
 }
+
+function ChartContainerHeightProvider({ children }: any) {
+  const windowSize = useWindowSize();
+
+  const chartContainerHeight =
+    windowSize.width && windowSize.width >= 2560
+      ? 500
+      : windowSize.width && windowSize.width >= 1920
+      ? 367
+      : windowSize.width && windowSize.width >= 1368
+      ? 252
+      : 367;
+
+  return children(chartContainerHeight);
+}
+
 class SupplierCharts extends Component<SupplierChartsProps> {
   state = { showChart: 'chart0' };
 
@@ -87,35 +104,46 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
+
     return (
       <div className="supplier-charts">
-        <Grid className="supplier-charts__chart-grid">
-          <Grid.Column width={1} verticalAlign="middle" textAlign="center">
-            <Icon
-              className="chart-grid__left-arrow"
-              name="angle left"
-              size="big"
-              onClick={this.handleLeftArrowClick}
-            />
-          </Grid.Column>
-          <Grid.Column width={14}>
-            {/* IMPORTANT: these styles are required to display chart properly when window resizes */}
-            <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-              <div style={{ position: 'absolute', width: '100%' }}>
-                <this.renderCharts />
-              </div>
-            </div>
-          </Grid.Column>
-          <Grid.Column width={1} verticalAlign="middle" textAlign="center">
-            <Icon
-              className="chart-grid__right-arrow"
-              name="angle right"
-              size="big"
-              onClick={this.handleRightArrowClick}
-            />
-          </Grid.Column>
-        </Grid>
-        <Grid centered className="chart-end-content">
+        <ChartContainerHeightProvider>
+          {(chartContainerHeight: number) => (
+            <Grid className="supplier-charts__chart-grid">
+              <Grid.Column width={1} verticalAlign="middle" textAlign="center">
+                <Icon
+                  className="chart-grid__left-arrow"
+                  name="angle left"
+                  size="big"
+                  onClick={this.handleLeftArrowClick}
+                />
+              </Grid.Column>
+              <Grid.Column width={14}>
+                {/* IMPORTANT: these styles are required to display chart properly when window resizes */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: `${chartContainerHeight}px`,
+                  }}
+                >
+                  <div style={{ position: 'absolute', width: '100%' }}>
+                    <this.renderCharts />
+                  </div>
+                </div>
+              </Grid.Column>
+              <Grid.Column width={1} verticalAlign="middle" textAlign="center">
+                <Icon
+                  className="chart-grid__right-arrow"
+                  name="angle right"
+                  size="big"
+                  onClick={this.handleRightArrowClick}
+                />
+              </Grid.Column>
+            </Grid>
+          )}
+        </ChartContainerHeightProvider>
+        <div className="chart-end-content">
           <Header as="h4">Select your favorite chart</Header>
           <Form className="chart-end-form">
             <Form.Group>
@@ -133,7 +161,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
               />
             </Form.Group>
           </Form>
-        </Grid>
+        </div>
         <Modal
           size={'large'}
           open={this.props.productDetailsModalOpen}
