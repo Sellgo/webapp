@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
+// @ts-ignore
+import ScrollSync from 'react-scroll-sync/src/ScrollSync';
+
 import SelectItemsCount from './SelectItemsCount';
 
 import './index.scss';
@@ -51,6 +54,7 @@ export interface PaginatedTableProps {
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
+  middleScroll?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -104,6 +108,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
+    middleScroll,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -120,7 +125,9 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
-  const filteredColumns = !!columnFilterData ? columnFilterData : columns.map((c: any) => ({...c,value: c.show}));
+  const filteredColumns = columnFilterData
+    ? columnFilterData
+    : columns.map((c: any) => ({ ...c, value: c.show }));
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
@@ -262,6 +269,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           </Card.Content>
         </Card>
       )}
+      {middleScroll && <ScrollSync />}
       <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
         <TableHeader
           columns={columns}
