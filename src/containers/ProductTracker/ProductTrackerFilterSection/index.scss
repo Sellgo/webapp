@@ -36,6 +36,8 @@
         padding: 0 !important;
         justify-content: space-evenly;
         line-height: normal;
+        background: white !important;
+        color: #3b4557;
 
         &.icon {
           padding-left: 0 !important;
@@ -43,7 +45,7 @@
         }
 
         &.active {
-          background: #a7c6fb !important;
+          background: white !important;
         }
 
         i {
@@ -68,8 +70,6 @@
         }
 
         &:hover {
-          background: #a7c6fb !important;
-
           .filter-name {
             color: #349af8;
           }
@@ -79,19 +79,12 @@
           }
         }
       }
-
-      &:hover &__name {
-        color: #349af8;
-      }
-
-      &.active &__name {
-        color: #349af8;
-      }
     }
   }
 
   .ui.button:nth-child(1) {
     padding: 0 !important;
+    width: 107px;
   }
 
   .ui.button:nth-child(2) span {

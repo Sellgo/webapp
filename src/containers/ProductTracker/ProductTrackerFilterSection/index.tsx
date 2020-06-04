@@ -72,6 +72,7 @@ function ProductTrackerFilterSection(props: Props) {
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
+  const [hasFilter, setHasFilter] = React.useState(false);
 
   useEffect(() => {
     /*
@@ -392,6 +393,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    setHasFilter(isFilterUse());
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
   };
@@ -499,7 +501,7 @@ function ProductTrackerFilterSection(props: Props) {
             name="sliders horizontal"
           />
           <span className="tracker-filter-section__header__button__name">All</span>
-          <Icon name="filter" className={` ${isFilterUse() ? 'blue' : 'grey'} `} />
+          <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
         <Button
           basic
