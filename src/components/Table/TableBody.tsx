@@ -9,6 +9,8 @@ interface TableBodyProps {
   expandedRows: any;
   extendedInfo: any;
   columns: Column[];
+  middleScroll?: boolean;
+  ref?: any;
 }
 
 interface TableColumnCellProps {
@@ -34,7 +36,126 @@ const TableCell = (props: TableColumnCellProps) => {
 };
 
 export const TableBody = (props: TableBodyProps) => {
-  const { expandedRows, extendedInfo, rows, columns, columnFilterData, type } = props;
+  const {
+    expandedRows,
+    extendedInfo,
+    rows,
+    columns,
+    columnFilterData,
+    type,
+    middleScroll,
+    ref,
+  } = props;
+  if (middleScroll) {
+    const lowerBound = columns.slice(0, 2);
+    const middleBound = columns.slice(2, columns.length - 2);
+    const upperBound = columns.slice(columns.length - 2, columns.length);
+    return (
+      <Table.Body>
+        <tr>
+          <td>
+            {rows.length &&
+              rows.map((row: any, index) => (
+                <Table.Row key={`${Date.now() + index}--tb-row`}>
+                  {lowerBound.map(
+                    (column, colIndex) =>
+                      getColumnLabel(column.dataKey, columnFilterData) && (
+                        <TableCell
+                          type={type}
+                          column={column}
+                          row={row}
+                          key={`${Date.now() + colIndex}--tb-cell`}
+                        />
+                      )
+                  )}
+                </Table.Row>
+              ))}
+          </td>
+          <td style={{ maxWidth: '670px', overflow: 'hidden' }} ref={ref} className="middle-body">
+            {rows.length &&
+              rows.map((row: any, index) => (
+                <Table.Row key={`${Date.now() + index}--tb-row`}>
+                  {middleBound.map(
+                    (column, colIndex) =>
+                      getColumnLabel(column.dataKey, columnFilterData) && (
+                        <TableCell
+                          type={type}
+                          column={column}
+                          row={row}
+                          key={`${Date.now() + colIndex}--tb-cell`}
+                        />
+                      )
+                  )}
+                </Table.Row>
+              ))}
+          </td>
+          <td>
+            {rows.length &&
+              rows.map((row: any, index) => (
+                <Table.Row key={`${Date.now() + index}--tb-row`}>
+                  {upperBound.map(
+                    (column, colIndex) =>
+                      getColumnLabel(column.dataKey, columnFilterData) && (
+                        <TableCell
+                          type={type}
+                          column={column}
+                          row={row}
+                          key={`${Date.now() + colIndex}--tb-cell`}
+                        />
+                      )
+                  )}
+                </Table.Row>
+              ))}
+          </td>
+        </tr>
+        {/*{rows.length ? (*/}
+        {/*  rows.map((row: any, index) => (*/}
+        {/*    <React.Fragment key={`${index}-tb-fragment`}>*/}
+        {/*      <Table.Row key={`${Date.now() + index}--tb-row`}>*/}
+        {/*        {lowerBound.map(*/}
+        {/*          (column, colIndex) =>*/}
+        {/*            getColumnLabel(column.dataKey, columnFilterData) && (*/}
+        {/*              <TableCell*/}
+        {/*                type={type}*/}
+        {/*                column={column}*/}
+        {/*                row={row}*/}
+        {/*                key={`${Date.now() + colIndex}--tb-cell`}*/}
+        {/*              />*/}
+        {/*            )*/}
+        {/*        )}*/}
+        {/*      <Table.Cell style={{maxWidth:'670px',overflow:'auto'}}>*/}
+        {/*        {middleBound.map(*/}
+        {/*          (column, colIndex) =>*/}
+        {/*            getColumnLabel(column.dataKey, columnFilterData) && (*/}
+        {/*              <TableCell*/}
+        {/*                type={type}*/}
+        {/*                column={column}*/}
+        {/*                row={row}*/}
+        {/*                key={`${Date.now() + colIndex}--tb-cell`}*/}
+        {/*              />*/}
+        {/*            )*/}
+        {/*        )}*/}
+        {/*      </Table.Cell>*/}
+        {/*        {upperBound.map(*/}
+        {/*          (column, colIndex) =>*/}
+        {/*            getColumnLabel(column.dataKey, columnFilterData) && (*/}
+        {/*              <TableCell*/}
+        {/*                type={type}*/}
+        {/*                column={column}*/}
+        {/*                row={row}*/}
+        {/*                key={`${Date.now() + colIndex}--tb-cell`}*/}
+        {/*              />*/}
+        {/*            )*/}
+        {/*        )}*/}
+        {/*      </Table.Row>*/}
+        {/*    </React.Fragment>*/}
+        {/*  ))*/}
+        {/*) : (*/}
+        {/*  <tr />*/}
+        {/*)}*/}
+      </Table.Body>
+    );
+  }
   return (
     <Table.Body>
       {rows.length ? (

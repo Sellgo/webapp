@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
-// @ts-ignore
-import ScrollSync from 'react-scroll-sync/src/ScrollSync';
-
 import SelectItemsCount from './SelectItemsCount';
 
 import './index.scss';
@@ -108,7 +105,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
-    middleScroll,
+    middleScroll = true,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -269,7 +266,6 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           </Card.Content>
         </Card>
       )}
-      {middleScroll && <ScrollSync />}
       <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
         <TableHeader
           columns={columns}
@@ -290,6 +286,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           checkedRows={checkedRows}
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
+          middleScroll
         />
         <TableBody
           extendedInfo={extendedInfo}
@@ -298,6 +295,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           type={name}
           rows={rows}
           expandedRows={expandedRows}
+          middleScroll={middleScroll}
         />
         <Table.Footer>
           <Table.Row>

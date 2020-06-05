@@ -171,3 +171,26 @@ i.icon.filter::before {
   margin-top: -10px;
   padding-left: 18px;
 }
+
+.middle-scroll-cell {
+  border: none !important;
+  height: 2px !important;
+  border-spacing: 0 !important;
+  padding: 0 !important;
+}
+
+.remove-right-border-header {
+  border-right: none !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.remove-left-border-header {
+  border-left: none !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.middle-scroll-header-right-cell {
+  @extend .remove-right-border-header;
+}
