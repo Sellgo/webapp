@@ -91,12 +91,14 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       <div className="supplier-charts">
         <Grid className="supplier-charts__chart-grid">
           <div className="chart-grid__left-column">
-            <Icon
-              className="chart-grid__left-arrow"
-              name="angle left"
-              size="big"
-              onClick={this.handleLeftArrowClick}
-            />
+            {this.state.showChart === 'chart1' && (
+              <Icon
+                className="chart-grid__left-arrow"
+                name="angle left"
+                size="big"
+                onClick={this.handleLeftArrowClick}
+              />
+            )}
           </div>
           <div className="chart-grid__middle-column">
             {/* IMPORTANT: these inner divs & styles are required to handle chart resizing on window resize */}
@@ -108,12 +110,14 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             </div>
           </div>
           <div className="chart-grid__right-column">
-            <Icon
-              className="chart-grid__right-arrow"
-              name="angle right"
-              size="big"
-              onClick={this.handleRightArrowClick}
-            />
+            {this.state.showChart === 'chart1' && (
+              <Icon
+                className="chart-grid__right-arrow"
+                name="angle right"
+                size="big"
+                onClick={this.handleRightArrowClick}
+              />
+            )}
           </div>
         </Grid>
         <Grid centered className="chart-end-content">
