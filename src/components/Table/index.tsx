@@ -55,47 +55,6 @@ export interface PaginatedTableProps {
   renderFilterSectionComponent?: () => void;
 }
 
-export interface GenericTableProps {
-  tableKey?: string;
-  currentPage: number;
-  totalPages: number;
-  searchFilterValue?: string;
-  showProductFinderSearch?: boolean;
-  searchProfitFinderProduct?: (searchValue: string) => void;
-  updateProfitFinderProducts?: (data: any) => void;
-  setCurrentPage: (page: number) => void;
-  totalItemsCount: number;
-  showSelectItemsCount: boolean;
-  singlePageItemsCount?: number;
-  setPageNumber: (pageNo: any) => void;
-  setSinglePageItemsCount?: (itemsCount: number) => void;
-  showSearchFilter: boolean;
-  onSetShowSearchFilter: (e: any, key: any) => void;
-  filterName: string;
-  searchValue: string;
-  onSearchChange: (e: any) => void;
-  onClearSearch: (e: any) => void;
-  columns: Column[];
-  sortedColumnKey: string;
-  sortDirection: 'descending' | 'ascending';
-  setSort: (e: any, clickedColumn: string) => void;
-  rows: Array<{ [key: string]: any }>;
-  extendedInfo?: (data: any) => void;
-  expandedRows?: any;
-  name?: any;
-  columnFilterData?: any;
-  handleColumnChange?: any;
-  count?: number;
-  productTrackerPageNo?: any;
-  showFilter?: boolean;
-  checkedRows?: CheckedRowDictionary;
-  updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
-  productRanges?: any;
-  columnFilterBox?: boolean;
-  toggleColumnCheckbox?: () => void;
-  renderFilterSectionComponent?: () => void;
-}
-
 const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   let flag = true;
   const foundElement = columnFilterData
@@ -122,41 +81,143 @@ const getColumnClass = (column: any) => {
   }
 };
 
-export const GenericTable = (props: GenericTableProps) => {
+// Handles pagination, filtering, and sorting client-side
+export const PaginatedTable = (props: PaginatedTableProps) => {
   const {
-    showProductFinderSearch,
-    searchProfitFinderProduct,
-    currentPage,
-    totalPages,
-    setCurrentPage,
-    totalItemsCount,
-    showSelectItemsCount,
+    tableKey,
+    ptCurrentPage,
+    data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
-    showSearchFilter,
-    onSetShowSearchFilter,
-    filterName,
-    searchValue,
-    onSearchChange,
-    onClearSearch,
     columns,
-    sortedColumnKey,
-    sortDirection,
-    setSort,
-    rows,
     extendedInfo,
     expandedRows,
     name,
-    columnFilterData = [],
+    columnFilterData,
     handleColumnChange,
+    showProductFinderSearch,
+    searchFilteredProduct: searchProfitFinderProduct,
+    updateProfitFinderProducts,
     searchFilterValue,
-    columnFilterBox,
     showFilter,
     checkedRows,
     updateCheckedRows,
+    columnFilterBox,
     toggleColumnCheckbox,
+    setPage,
     renderFilterSectionComponent,
   } = props;
+  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [ptCurrentPage]);
+
+  const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
+  // TODO: Move singlePageItemsCount and setSinglePageItemsCount
+  // to local state if it doesn't need to be global (in redux).
+  // const [itemsCount, setItemsCount] = useState(10);
+
+  const showColumns = columns.filter(e => e.show);
+  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
+  const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
+  const filteredColumns = !!columnFilterData ? columnFilterData : columns.map((c: any) => ({...c,value: c.show}));
+  let rows = checkSortedColumnExist.length
+    ? [...data].sort((a, b) => {
+        const sortedColumn = checkSortedColumnExist[0];
+        let aColumn;
+        let bColumn;
+        if (sortedColumn.type === 'number') {
+          aColumn = Number(a[sortedColumn.dataKey || '']);
+          bColumn = Number(b[sortedColumn.dataKey || '']);
+        } else if (sortedColumn.type === 'date') {
+          aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
+          bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
+        } else {
+          aColumn = a[sortedColumn.dataKey || ''] || '';
+          bColumn = b[sortedColumn.dataKey || ''] || '';
+        }
+        if (
+          sortedColumn.dataKey === 'name' ||
+          (sortedColumn.dataKey && sortedColumn.dataKey === 'file_name') ||
+          (sortedColumn.dataKey && sortedColumn.dataKey === 'active_status')
+        ) {
+          if (aColumn.toLowerCase() < bColumn.toLowerCase()) {
+            return -1;
+          }
+          if (aColumn.toLowerCase() > bColumn.toLowerCase()) {
+            return 1;
+          }
+        } else {
+          if (aColumn < bColumn) {
+            return -1;
+          }
+          if (aColumn > bColumn) {
+            return 1;
+          }
+        }
+        return 0;
+      })
+    : data;
+
+  const [filterName, setFilterName] = useState('');
+
+  const [searchValue, setSearchValue] = useState('');
+  const [showSearchFilter, setShowSearchFilter] = useState(false);
+
+  rows = searchValue
+    ? rows.filter(row => {
+        if ((row.search || '').toLowerCase().startsWith(searchValue.toLowerCase())) {
+          return (row.search || '').toLowerCase().startsWith(searchValue.toLowerCase());
+        } else {
+          return (row.search || '').toLowerCase().includes(searchValue.toLowerCase());
+        }
+      })
+    : rows;
+
+  const totalPages = Math.ceil(rows.length / singlePageItemsCount);
+  if (checkSortedColumnExist[0]) {
+    const key: any = checkSortedColumnExist[0].dataKey;
+    rows = rows.sort((a, b) => {
+      return a[key] - b[key];
+    });
+  }
+
+  rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
+  const sortedProducts = rows;
+  rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
+
+  useEffect(() => {
+    if (sortClicked) {
+      if (updateProfitFinderProducts) {
+        updateProfitFinderProducts(sortedProducts);
+      }
+      setSortClicked(false);
+    }
+  });
+
+  const onSetShowSearchFilter = (e: any, key: any) => {
+    e.stopPropagation();
+    setShowSearchFilter(true);
+    setFilterName(key);
+  };
+
+  const onClearSearch = (e: any) => {
+    e.stopPropagation();
+    setShowSearchFilter(false);
+    setSearchValue('');
+  };
+
+  const onSearchChange = (e: any) => {
+    if (setPage) {
+      setPage(1);
+    } else {
+      setCurrentPage(1);
+    }
+    setSearchValue(e.target.value);
+  };
+  const totalItemsCount = data.length;
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
@@ -265,7 +326,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       )}
                     </Table.HeaderCell>
                   )
-                : getColumnLabel(column.dataKey, columnFilterData) && (
+                : getColumnLabel(column.dataKey, filteredColumns) && (
                     <Table.HeaderCell
                       key={column.dataKey || index}
                       sorted={sortedColumnKey === column.dataKey ? sortDirection : undefined}
@@ -330,7 +391,7 @@ export const GenericTable = (props: GenericTableProps) => {
                             onOpen={toggleColumnCheckbox}
                             content={
                               <ProductColumnFilterCard
-                                columnFilterData={columnFilterData}
+                                columnFilterData={filteredColumns}
                                 handleColumnChange={handleColumnChange}
                               />
                             }
@@ -357,7 +418,7 @@ export const GenericTable = (props: GenericTableProps) => {
                               {renderCell(row, column)}
                             </Table.Cell>
                           )
-                        : getColumnLabel(column.dataKey, columnFilterData) && (
+                        : getColumnLabel(column.dataKey, filteredColumns) && (
                             <Table.Cell
                               key={column.dataKey || index}
                               style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto' }}
@@ -401,189 +462,6 @@ export const GenericTable = (props: GenericTableProps) => {
         </Table.Footer>
       </Table>
     </div>
-  );
-};
-
-// Handles pagination, filtering, and sorting client-side
-export const PaginatedTable = (props: PaginatedTableProps) => {
-  const {
-    tableKey,
-    ptCurrentPage,
-    data,
-    singlePageItemsCount = 10,
-    setSinglePageItemsCount,
-    columns,
-    extendedInfo,
-    expandedRows,
-    setPageNumber,
-    name,
-    columnFilterData,
-    handleColumnChange,
-    productTrackerPageNo,
-    count,
-    showProductFinderSearch,
-    searchFilteredProduct,
-    updateProfitFinderProducts,
-    searchFilterValue,
-    showFilter,
-    checkedRows,
-    updateCheckedRows,
-    productRanges,
-    columnFilterBox,
-    toggleColumnCheckbox,
-    setPage,
-    renderFilterSectionComponent,
-  } = props;
-  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
-
-  useEffect(() => {
-    setCurrentPage(initialPage);
-  }, [ptCurrentPage]);
-
-  const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
-  // TODO: Move singlePageItemsCount and setSinglePageItemsCount
-  // to local state if it doesn't need to be global (in redux).
-  // const [itemsCount, setItemsCount] = useState(10);
-
-  const showColumns = columns.filter(e => e.show);
-  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
-  const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
-
-  let rows = checkSortedColumnExist.length
-    ? [...data].sort((a, b) => {
-        const sortedColumn = checkSortedColumnExist[0];
-        let aColumn;
-        let bColumn;
-        if (sortedColumn.type === 'number') {
-          aColumn = Number(a[sortedColumn.dataKey || '']);
-          bColumn = Number(b[sortedColumn.dataKey || '']);
-        } else if (sortedColumn.type === 'date') {
-          aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
-          bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
-        } else {
-          aColumn = a[sortedColumn.dataKey || ''] || '';
-          bColumn = b[sortedColumn.dataKey || ''] || '';
-        }
-        if (
-          sortedColumn.dataKey === 'name' ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'file_name') ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'active_status')
-        ) {
-          if (aColumn.toLowerCase() < bColumn.toLowerCase()) {
-            return -1;
-          }
-          if (aColumn.toLowerCase() > bColumn.toLowerCase()) {
-            return 1;
-          }
-        } else {
-          if (aColumn < bColumn) {
-            return -1;
-          }
-          if (aColumn > bColumn) {
-            return 1;
-          }
-        }
-        return 0;
-      })
-    : data;
-
-  const [filterName, setFilterName] = useState('');
-
-  const [searchValue, setSearchValue] = useState('');
-  const [showSearchFilter, setShowSearchFilter] = useState(false);
-
-  rows = searchValue
-    ? rows.filter(row => {
-        if ((row.search || '').toLowerCase().startsWith(searchValue.toLowerCase())) {
-          return (row.search || '').toLowerCase().startsWith(searchValue.toLowerCase());
-        } else {
-          return (row.search || '').toLowerCase().includes(searchValue.toLowerCase());
-        }
-      })
-    : rows;
-
-  const totalPages = Math.ceil(rows.length / singlePageItemsCount);
-  if (checkSortedColumnExist[0]) {
-    const key: any = checkSortedColumnExist[0].dataKey;
-    rows = rows.sort((a, b) => {
-      return a[key] - b[key];
-    });
-  }
-
-  rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
-  const sortedProducts = rows;
-  rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-
-  useEffect(() => {
-    if (sortClicked) {
-      if (updateProfitFinderProducts) {
-        updateProfitFinderProducts(sortedProducts);
-      }
-      setSortClicked(false);
-    }
-  });
-
-  const handleShowSearchFilter = (e: any, key: any) => {
-    e.stopPropagation();
-    setShowSearchFilter(true);
-    setFilterName(key);
-  };
-
-  const handleClearSearch = (e: any) => {
-    e.stopPropagation();
-    setShowSearchFilter(false);
-    setSearchValue('');
-  };
-
-  const handleSearchChange = (e: any) => {
-    if (setPage) {
-      setPage(1);
-    } else {
-      setCurrentPage(1);
-    }
-    setSearchValue(e.target.value);
-  };
-
-  return (
-    <GenericTable
-      productRanges={productRanges}
-      showProductFinderSearch={showProductFinderSearch}
-      searchProfitFinderProduct={searchFilteredProduct}
-      currentPage={currentPage}
-      totalPages={totalPages}
-      setCurrentPage={setPage ? setPage : setCurrentPage}
-      totalItemsCount={data.length}
-      showSelectItemsCount={showSelectItemsCount}
-      singlePageItemsCount={singlePageItemsCount}
-      searchValue={searchValue}
-      setSinglePageItemsCount={setSinglePageItemsCount}
-      showSearchFilter={showSearchFilter}
-      onSetShowSearchFilter={handleShowSearchFilter}
-      filterName={filterName}
-      searchFilterValue={searchFilterValue}
-      onSearchChange={handleSearchChange}
-      onClearSearch={handleClearSearch}
-      columns={showColumns}
-      sortedColumnKey={sortedColumnKey}
-      sortDirection={sortDirection}
-      setSort={setSort}
-      rows={rows}
-      extendedInfo={extendedInfo}
-      expandedRows={expandedRows}
-      setPageNumber={setPageNumber}
-      name={name}
-      columnFilterData={columnFilterData}
-      handleColumnChange={handleColumnChange}
-      count={count && count.count}
-      productTrackerPageNo={productTrackerPageNo}
-      showFilter={showFilter}
-      checkedRows={checkedRows}
-      updateCheckedRows={updateCheckedRows}
-      columnFilterBox={columnFilterBox}
-      toggleColumnCheckbox={toggleColumnCheckbox}
-      renderFilterSectionComponent={renderFilterSectionComponent}
-    />
   );
 };
 
