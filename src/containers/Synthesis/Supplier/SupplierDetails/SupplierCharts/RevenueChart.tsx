@@ -72,11 +72,7 @@ class RevenueChart extends Component<RevenueChartProps> {
     };
 
     const chartOptions = {
-      title: {
-        text: 'Revenue Breakdown Comparison',
-        margin: 50,
-        align: 'center',
-      },
+      title: null,
       chart: {
         type: 'column',
         zoomType: 'x',
