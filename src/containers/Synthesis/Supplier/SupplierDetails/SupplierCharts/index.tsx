@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { Loader, Form, Modal, Header, Grid, Icon } from 'semantic-ui-react';
+import { Loader, Form, Modal, Grid, Icon } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import {
@@ -144,7 +144,6 @@ class SupplierCharts extends Component<SupplierChartsProps> {
           )}
         </ChartContainerHeightProvider>
         <div className="chart-end-content">
-          <Header as="h4">Select your favorite chart</Header>
           <Form className="chart-end-form">
             <Form.Group>
               <Form.Radio

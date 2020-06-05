@@ -20,7 +20,7 @@ Highcharts.setOptions({
 });
 const defaultOptions: Highcharts.Options = {
   chart: {
-    height: 252,
+    height: 285,
   },
   plotOptions: {
     series: {
@@ -62,11 +62,11 @@ const Chart = (props: ChartProps) => {
     if (chartComponent && chartComponent.current && chartComponent.current.chart) {
       const chartHeight =
         windowSize.width && windowSize.width >= 2560
-          ? 500
+          ? 533
           : windowSize.width && windowSize.width >= 1920
-          ? 367
+          ? 400
           : windowSize.width && windowSize.width >= 1368
-          ? 252
+          ? 285
           : null;
       chartComponent.current.chart.setSize(undefined, chartHeight);
     }
