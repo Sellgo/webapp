@@ -38,6 +38,7 @@ import {
   SEARCH_SUPPLIER_PRODUCTS,
   UPDATE_SUPPLIER_PRODUCTS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
+  SET_SUPPLIER_PAGE_NUMBER,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -519,6 +520,11 @@ export const updateSupplierFilterRanges = (filterRanges: any) => ({
 export const setSupplierSinglePageItemsCount = (itemsCount: number) => ({
   type: SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   payload: itemsCount,
+});
+
+export const setSupplierPageNumber = (pageNumber: number) => ({
+  type: SET_SUPPLIER_PAGE_NUMBER,
+  payload: pageNumber,
 });
 
 export const getTimeEfficiency = () => (dispatch: any) => {

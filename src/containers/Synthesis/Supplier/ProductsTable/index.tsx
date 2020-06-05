@@ -10,6 +10,7 @@ import {
   setSupplierSinglePageItemsCount,
   searchSupplierProducts,
   updateProfitFinderProducts,
+  setSupplierPageNumber,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -28,6 +29,7 @@ import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
 
 import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
+import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
 
 interface ProductsTableProps {
   supplierID: any;
@@ -37,6 +39,7 @@ interface ProductsTableProps {
   filterData: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
+  pageNumber: number;
   supplierDetails: any;
   updateProductTrackingStatus: (
     status: string,
@@ -48,6 +51,7 @@ interface ProductsTableProps {
   ) => void;
   openProductDetailModal: (product?: Product) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
+  setPageNumber: (pageNumber: number) => void;
   searchProducts: (value: string, filterData: any) => void;
   updateProfitFinderProducts: (data: any) => void;
 }
@@ -368,6 +372,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       singlePageItemsCount,
       setSinglePageItemsCount,
       updateProfitFinderProducts,
+      pageNumber,
+      setPageNumber,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
 
@@ -392,6 +398,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
               setSinglePageItemsCount={setSinglePageItemsCount}
+              ptCurrentPage={pageNumber}
+              setPage={setPageNumber}
               name={'products'}
               showFilter={true}
               columnFilterBox={ColumnFilterBox}
@@ -419,6 +427,7 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
   supplierDetails: get(state, 'supplier.details'),
+  pageNumber: supplierPageNumberSelector(state),
 });
 
 const mapDispatchToProps = {
@@ -440,6 +449,7 @@ const mapDispatchToProps = {
     ),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
 };
