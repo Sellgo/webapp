@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { Loader, Form, Modal, Header, Grid, Icon } from 'semantic-ui-react';
+import { Loader, Form, Modal, Grid, Icon } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import {
@@ -12,6 +12,7 @@ import ProductDetails from '../../ProductDetails';
 import './index.scss';
 import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import RevenueChart from './RevenueChart';
+import { useWindowSize } from '../../../../../hooks/useWindowSize';
 import { setSupplierPageNumber } from '../../../../../actions/Suppliers';
 import { supplierPageNumberSelector } from '../../../../../selectors/Supplier';
 
@@ -25,6 +26,22 @@ interface SupplierChartsProps {
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
 }
+
+function ChartContainerHeightProvider({ children }: any) {
+  const windowSize = useWindowSize();
+
+  const chartContainerHeight =
+    windowSize.width && windowSize.width >= 2560
+      ? 500
+      : windowSize.width && windowSize.width >= 1920
+      ? 367
+      : windowSize.width && windowSize.width >= 1368
+      ? 252
+      : 367;
+
+  return children(chartContainerHeight);
+}
+
 class SupplierCharts extends Component<SupplierChartsProps> {
   state = { showChart: 'chart0' };
 
@@ -87,37 +104,46 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
+
     return (
       <div className="supplier-charts">
-        <Grid className="supplier-charts__chart-grid">
-          <div className="chart-grid__left-column">
-            <Icon
-              className="chart-grid__left-arrow"
-              name="angle left"
-              size="big"
-              onClick={this.handleLeftArrowClick}
-            />
-          </div>
-          <div className="chart-grid__middle-column">
-            {/* IMPORTANT: these inner divs & styles are required to handle chart resizing on window resize */}
-
-            <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-              <div style={{ position: 'absolute', width: '100%' }}>
-                <this.renderCharts />
+        <ChartContainerHeightProvider>
+          {(chartContainerHeight: number) => (
+            <Grid className="supplier-charts__chart-grid">
+              <div className="chart-grid__left-column">
+                <Icon
+                  className="chart-grid__left-arrow"
+                  name="angle left"
+                  size="big"
+                  onClick={this.handleLeftArrowClick}
+                />
               </div>
-            </div>
-          </div>
-          <div className="chart-grid__right-column">
-            <Icon
-              className="chart-grid__right-arrow"
-              name="angle right"
-              size="big"
-              onClick={this.handleRightArrowClick}
-            />
-          </div>
-        </Grid>
-        <Grid centered className="chart-end-content">
-          <Header as="h4">Select your favorite chart</Header>
+              <div className="chart-grid__middle-column">
+                {/* IMPORTANT: these inner divs & styles are required to handle chart resizing on window resize */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: `${chartContainerHeight}px`,
+                  }}
+                >
+                  <div style={{ position: 'absolute', width: '100%' }}>
+                    <this.renderCharts />
+                  </div>
+                </div>
+              </div>
+              <div className="chart-grid__right-column">
+                <Icon
+                  className="chart-grid__right-arrow"
+                  name="angle right"
+                  size="big"
+                  onClick={this.handleRightArrowClick}
+                />
+              </div>
+            </Grid>
+          )}
+        </ChartContainerHeightProvider>
+        <div className="chart-end-content">
           <Form className="chart-end-form">
             <Form.Group>
               <Form.Radio
@@ -134,7 +160,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
               />
             </Form.Group>
           </Form>
-        </Grid>
+        </div>
         <Modal
           size={'large'}
           open={this.props.productDetailsModalOpen}

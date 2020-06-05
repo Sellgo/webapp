@@ -41,9 +41,7 @@ export default ({ supplier }: any) => {
     chart: {
       type: 'pie',
     },
-    title: {
-      text: 'Hit/Miss vs Profitable SKUs',
-    },
+    title: null,
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
     },

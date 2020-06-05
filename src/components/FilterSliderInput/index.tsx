@@ -17,13 +17,13 @@ const FilterSliderInput = (props: any) => {
 
   const handleMinInputCompleteChange = (e: any) => {
     let value = e.target.value;
-    if (value >= filterRange.max) {
-      value = filterRange.max;
+    if (value >= Number(filterRange.max)) {
+      value = Number(filterRange.max);
     } else if (!value || value < range.min) {
       value = range.min;
     }
-    if (value <= filterRange.max && value >= range.min) {
-      handleCompleteChange(dataKey, { min: value, max: filterRange.max });
+    if (value <= Number(filterRange.max) && value >= range.min) {
+      handleCompleteChange(dataKey, { min: value, max: Number(filterRange.max) });
     }
   };
 
@@ -31,11 +31,11 @@ const FilterSliderInput = (props: any) => {
     let value = e.target.value;
     if (!value || value >= range.max) {
       value = range.max;
-    } else if (value < filterRange.min) {
-      value = filterRange.min;
+    } else if (value < Number(filterRange.min)) {
+      value = Number(filterRange.min);
     }
-    if (value >= filterRange.min && value <= range.max) {
-      handleCompleteChange(dataKey, { max: value, min: filterRange.min });
+    if (value >= Number(filterRange.min) && value <= range.max) {
+      handleCompleteChange(dataKey, { max: value, min: Number(filterRange.min) });
     }
   };
 
