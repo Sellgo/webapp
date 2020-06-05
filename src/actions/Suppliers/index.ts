@@ -69,6 +69,7 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
     return { ...supplier, ...{ progress: -1, speed: -1 } };
   });
   dispatch(setSuppliers(suppliers));
+  dispatch(fetchSynthesisProgressUpdates());
 };
 
 export const fetchSupplier = (supplierID: any) => async (
@@ -170,7 +171,7 @@ export const postSynthesisRun = (synthesisId: string) => async (
     bodyFormData
   )
     .then(() => {
-      dispatch(updateSupplier(existingSupplier));
+      dispatch(updateSupplier({ ...existingSupplier, ...{ file_status: 'inactive' } }));
       dispatch(fetchSynthesisProgressUpdates());
     })
     .catch(err => {
@@ -198,7 +199,8 @@ export const fetchSynthesisProgressUpdates = () => async (
       supplier &&
       supplier.file_status &&
       supplier.file_status !== null &&
-      supplier.file_status !== 'completed'
+      supplier.file_status !== 'completed' &&
+      supplier.file_status !== 'inactive'
   );
 
   const handleUpdateSupplier = (response: any, index: any) => {
