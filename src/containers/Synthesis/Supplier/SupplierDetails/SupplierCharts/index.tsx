@@ -110,16 +110,16 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         <ChartContainerHeightProvider>
           {(chartContainerHeight: number) => (
             <Grid className="supplier-charts__chart-grid">
-              <Grid.Column width={1} verticalAlign="middle" textAlign="center">
+              <div className="chart-grid__left-column">
                 <Icon
                   className="chart-grid__left-arrow"
                   name="angle left"
                   size="big"
                   onClick={this.handleLeftArrowClick}
                 />
-              </Grid.Column>
-              <Grid.Column width={14}>
-                {/* IMPORTANT: these styles are required to display chart properly when window resizes */}
+              </div>
+              <div className="chart-grid__middle-column">
+                {/* IMPORTANT: these inner divs & styles are required to handle chart resizing on window resize */}
                 <div
                   style={{
                     position: 'relative',
@@ -131,15 +131,15 @@ class SupplierCharts extends Component<SupplierChartsProps> {
                     <this.renderCharts />
                   </div>
                 </div>
-              </Grid.Column>
-              <Grid.Column width={1} verticalAlign="middle" textAlign="center">
+              </div>
+              <div className="chart-grid__right-column">
                 <Icon
                   className="chart-grid__right-arrow"
                   name="angle right"
                   size="big"
                   onClick={this.handleRightArrowClick}
                 />
-              </Grid.Column>
+              </div>
             </Grid>
           )}
         </ChartContainerHeightProvider>
