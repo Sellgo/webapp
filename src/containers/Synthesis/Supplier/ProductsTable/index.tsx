@@ -107,31 +107,49 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
   renderPrice = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.price, formatCurrency(row.price))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
+    </p>
   );
   renderProfit = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
+    </p>
   );
   renderMargin = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.margin && row.margin !== '0.00', formatPercent(row.margin))}
+    </p>
   );
   renderFee = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.fees && row.fees !== '0.00', formatCurrency(row.fees))}
+    </p>
   );
   renderMonthlyRevenue = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(row.monthly_revenue, '$' + formatNumber(row.monthly_revenue))}
+      {showNAIfZeroOrNull(
+        row.monthly_revenue && row.monthly_revenue !== 0,
+        '$' + formatNumber(row.monthly_revenue)
+      )}
     </p>
   );
   renderRoi = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.roi && row.roi !== '0.00', formatPercent(row.roi))}
+    </p>
   );
   renderRank = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.rank && row.rank !== 0, '#' + formatNumber(row.rank))}
+    </p>
   );
   renderMonthlySalesEst = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(formatNumber(row.sales_monthly), formatNumber(row.sales_monthly))}
+      {showNAIfZeroOrNull(
+        row.sales_monthly && row.sales_monthly !== '0.00',
+        formatNumber(row.sales_monthly)
+      )}
     </p>
   );
   renderCategory = (row: Product) => (
