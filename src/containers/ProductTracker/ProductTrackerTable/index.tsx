@@ -294,28 +294,40 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderDailyInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(row.daily_inventory !== 0, `${row.daily_inventory}`)}
+        {showNAIfZeroOrNull(
+          row.daily_inventory && row.daily_inventory !== 0,
+          `${row.daily_inventory}`
+        )}
       </p>
     );
   };
   renderMonthlyInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(row.monthly_inventory !== 0, `${row.monthly_inventory}`)}
+        {showNAIfZeroOrNull(
+          row.monthly_inventory && row.monthly_inventory !== 0,
+          `${row.monthly_inventory}`
+        )}
       </p>
     );
   };
   renderDailyAmazonInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(row.daily_amazon_inventory !== 0, `${row.daily_amazon_inventory}`)}
+        {showNAIfZeroOrNull(
+          row.daily_amazon_inventory && row.daily_amazon_inventory !== 0,
+          `${row.daily_amazon_inventory}`
+        )}
       </p>
     );
   };
   renderAvgAmazonInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(row.avg_amazon_inventory !== 0, `${row.avg_amazon_inventory}`)}
+        {showNAIfZeroOrNull(
+          row.avg_amazon_inventory && row.avg_amazon_inventory !== 0,
+          `${row.avg_amazon_inventory}`
+        )}
       </p>
     );
   };
