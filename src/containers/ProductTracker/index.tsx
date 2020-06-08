@@ -20,6 +20,7 @@ import ProductSearch from '../../components/ProductSearch/productSearch';
 import AsinSearch from './AsinSearch';
 import { DEFAULT_PERIOD } from '../../constants/Tracker';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
+import { isSubscriptionFree } from '../../utils/subscriptions';
 
 interface ProductTrackerProps {
   subscriptionType: string;
@@ -189,7 +190,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
             <Grid.Row>
               <Grid.Column className="right-column">
                 <div
-                  className={`ProductTracker__search ${subscriptionType === 'free' && 'disabled'}`}
+                  className={`ProductTracker__search ${isSubscriptionFree(subscriptionType) &&
+                    'disabled'}`}
                 >
                   <ProductSearch
                     searchFilteredProduct={this.searchTrackedProduct}

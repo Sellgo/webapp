@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { Progress, Button } from 'semantic-ui-react';
 import { getSellerQuota } from '../../actions/Settings';
 import './index.scss';
+import { isSubscriptionFree } from '../../utils/subscriptions';
 
 interface QuotaMeterProps {
   sellerQuota: any;
@@ -31,7 +32,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
     return (
       <div className="quota-meter">
         <Progress percent={percent} size="tiny" color="blue">
-          {subscriptionType === 'free'
+          {isSubscriptionFree(subscriptionType)
             ? `0 tracked out of 0`
             : `${sellerQuota.used} tracked out of ${sellerQuota.available}`}
         </Progress>

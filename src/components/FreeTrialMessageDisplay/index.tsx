@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import './index.scss';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import {
+  isSubscriptionTrial,
+  isSubscriptionFree,
+  isSubscriptionNotPaid,
+} from '../../utils/subscriptions';
 
 interface SubscriptionMessageProps {
   sellerSubscription: any;
@@ -19,8 +24,8 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
     const { sellerSubscription, subscriptionType } = this.props;
     const today = new Date();
     const exp = new Date(sellerSubscription.expiry_date);
-    if (subscriptionType === 'trial') {
-      const expireDate = moment(exp).diff(today, 'days');
+    const expireDate = moment(exp).diff(today, 'days');
+    if (isSubscriptionTrial(subscriptionType)) {
       return (
         <p>
           {`Your free trial runs out in  ${expireDate} days. Do you like our product? `}
@@ -29,9 +34,8 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
           </Link>
         </p>
       );
-    } else if (subscriptionType === 'free') {
-      if (sellerSubscription.expiry_date !== null && sellerSubscription.expiry_date >= 0) {
-        const expireDate = moment(exp).diff(today, 'days');
+    } else if (isSubscriptionFree(subscriptionType)) {
+      if (sellerSubscription.expiry_date !== null && expireDate >= 0) {
         return (
           <p>
             {`Your free trial runs out in  ${expireDate} days. It seems there was a problem with your MWS token `}
@@ -55,7 +59,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
   render() {
     const { subscriptionType } = this.props;
     return (
-      subscriptionType !== 'paid' && (
+      isSubscriptionNotPaid(subscriptionType) && (
         <Rail className="free-trial-period" internal={true} position="left" key={subscriptionType}>
           <Segment>
             <Message success content={this.content()} />

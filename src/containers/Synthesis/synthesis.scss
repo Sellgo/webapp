@@ -36,7 +36,6 @@
   font-size: 15px !important;
   font-weight: bold !important;
 
-
   &.ui.disabled {
     color: #dfe8f3;
     border: 1px solid #dfe8f3 !important;
@@ -90,6 +89,11 @@
 
 .operations i {
   cursor: pointer;
+}
+
+.operations .disabled.icon {
+  cursor: default;
+  color: 'lightgrey';
 }
 
 .product-ratio-with-pie {

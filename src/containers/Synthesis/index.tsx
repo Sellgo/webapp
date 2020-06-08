@@ -24,6 +24,7 @@ import {
 import { setProgressShow, setConfirmationShow } from '../../actions/UploadSupplier';
 import { setProgress } from '../../actions/Suppliers';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
+import { isSubscriptionFree } from '../../utils/subscriptions';
 
 interface SynthesisProps {
   amazonMWSAuthorized: boolean;
@@ -97,7 +98,7 @@ class Synthesis extends Component<SynthesisProps> {
       currentConfirmationShow,
       subscriptionType,
     } = this.props;
-    if (subscriptionType === 'free') {
+    if (isSubscriptionFree(subscriptionType)) {
       return (
         <Button basic className="add-new-supplier disabled">
           Add New Search

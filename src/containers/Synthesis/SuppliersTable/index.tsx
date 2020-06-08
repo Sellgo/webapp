@@ -30,6 +30,7 @@ import './index.scss';
 import { tableKeys } from '../../../constants';
 import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import get from 'lodash/get';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface SuppliersTableProps {
   subscriptionType: string;
@@ -70,7 +71,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="filename">
         {row.file_status &&
-          (subscriptionType !== 'free' ? (
+          (!isSubscriptionFree(subscriptionType) ? (
             <a href={row.file_url} download={true}>
               {row.file_name}
             </a>
@@ -99,21 +100,20 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           },
           {
             key: '1',
-            text:
-              subscriptionType === 'free' ? (
+            text: isSubscriptionFree(subscriptionType) ? (
+              <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
+            ) : (
+              <a href={row.file_url} download={true}>
                 <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
-              ) : (
-                <a href={row.file_url} download={true}>
-                  <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
-                </a>
-              ),
+              </a>
+            ),
             value: 'dwn_sp_file',
-            disabled: subscriptionType === 'free',
+            disabled: isSubscriptionFree(subscriptionType),
           },
           {
             key: '2',
             text:
-              row.report_url === null || subscriptionType === 'free' ? (
+              row.report_url === null || isSubscriptionFree(subscriptionType) ? (
                 <Dropdown.Item icon="download" text=" Download Results" />
               ) : (
                 <a href={row.report_url} download={true}>
@@ -121,15 +121,16 @@ class SuppliersTable extends Component<SuppliersTableProps> {
                 </a>
               ),
             value: 'dwn_res',
-            disabled: row.report_url === null ? true : false || subscriptionType === 'free',
+            disabled:
+              row.report_url === null ? true : false || isSubscriptionFree(subscriptionType),
           },
           {
             key: '3',
             text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
             value: 'rerun',
-            disabled: !amazonMWSAuthorized || subscriptionType === 'free',
+            disabled: !amazonMWSAuthorized || isSubscriptionFree(subscriptionType),
             onClick: e => {
-              if (subscriptionType === 'free') {
+              if (isSubscriptionFree(subscriptionType)) {
                 e.stopPropagation();
                 return;
               }
@@ -174,48 +175,32 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="operations">
         <Icon
-          disabled={subscriptionType === 'free'}
+          disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs up"
           onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
           style={
-            (row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }) +
-              subscriptionType ===
-            'free'
-              ? { cursor: 'default' }
-              : { cursor: 'pointer' }
+            !isSubscriptionFree(subscriptionType) && row.tag === 'like'
+              ? { color: 'green' }
+              : { color: 'lightgrey' }
           }
         />
         <Icon
-          disabled={subscriptionType === 'free'}
+          disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs down"
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
-          style={
-            row.tag === 'dislike'
-              ? { color: 'red' }
-              : { color: 'lightgrey' } + subscriptionType === 'free'
-              ? { cursor: 'default' }
-              : { cursor: 'pointer' }
-          }
+          style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
         <Icon
-          disabled={subscriptionType === 'free'}
+          disabled={isSubscriptionFree(subscriptionType)}
           name="pencil"
-          style={
-            { color: 'black' } + subscriptionType === 'free'
-              ? { cursor: 'default' }
-              : { cursor: 'pointer' }
-          }
+          style={{ color: 'black' }}
           onClick={() => this.props.onEdit(row)}
         />
         <Icon
-          disabled={subscriptionType === 'free'}
-          className={subscriptionType === 'free' ? `disabled` : ''}
+          disabled={isSubscriptionFree(subscriptionType)}
+          className={isSubscriptionFree(subscriptionType) ? `disabled` : ''}
           name="trash alternate"
-          style={
-            { color: 'black' } + subscriptionType === 'free'
-              ? { cursor: 'default' }
-              : { cursor: 'pointer' }
-          }
+          style={{ color: 'black' }}
           onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
         />
       </div>

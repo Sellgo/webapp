@@ -28,6 +28,7 @@ import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
 
 import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
+import { isSubscriptionFree } from '../../../../utils/subscriptions';
 
 interface ProductsTableProps {
   subscriptionType: string;
@@ -146,7 +147,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { updateProductTrackingStatus, supplierID, subscriptionType } = this.props;
     return (
       <DetailButtons
-        disableTrack={subscriptionType === 'free'}
+        disableTrack={isSubscriptionFree(subscriptionType)}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {
@@ -373,8 +374,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       subscriptionType,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
-    const showTableLock = subscriptionType === 'free';
-    const featuresLock = subscriptionType === 'free';
+    const showTableLock = isSubscriptionFree(subscriptionType);
+    const featuresLock = isSubscriptionFree(subscriptionType);
 
     return (
       <div className="products-table">

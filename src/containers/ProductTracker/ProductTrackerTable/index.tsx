@@ -29,6 +29,7 @@ import { columnFilter } from '../../../constants/Tracker';
 import SelectItemsCount from '../../../components/Table/SelectItemsCount';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface TrackerProps {
   subscriptionType: string;
@@ -426,7 +427,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       subscriptionType,
     } = this.props;
     const { ColumnFilterBox } = this.state;
-    const showTableLock = subscriptionType === 'free';
+    const showTableLock = isSubscriptionFree(subscriptionType);
 
     return (
       <div className="tracker-table">

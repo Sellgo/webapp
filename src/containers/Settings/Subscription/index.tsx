@@ -21,6 +21,7 @@ import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
 import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
+import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -67,7 +68,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   chooseSubscription(subscription: any) {
     const { subscriptionType } = this.props;
 
-    if (subscriptionType !== 'paid') {
+    if (isSubscriptionNotPaid(subscriptionType)) {
       this.checkout(subscription.id);
     } else {
       this.setState({
@@ -339,7 +340,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               Risk free 14-day money back guarantee
             </Grid.Row>
             <Grid.Row>{cardsDisplay}</Grid.Row>
-            {subscriptionType !== 'paid' && (
+            {isSubscriptionNotPaid(subscriptionType) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
                 <Grid className="field-container">
