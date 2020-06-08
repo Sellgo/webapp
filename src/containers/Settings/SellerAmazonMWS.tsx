@@ -120,6 +120,9 @@ const SellerAmazonMWS = (props: any) => {
       }&devMWSAccountId=${'4294-2444-1812'}`
     : '';
 
+  const isHashMWS = () => {
+    return window.location.hash === '#amazon-mws';
+  };
   return (
     <>
       <Grid.Column width={16} id="amazon-mws">
@@ -206,7 +209,7 @@ const SellerAmazonMWS = (props: any) => {
                 &nbsp; &nbsp;
                 <Popup
                   pinned
-                  open={window.location.hash === '#amazon-mws'}
+                  open={isHashMWS()}
                   position="bottom left"
                   basic={true}
                   trigger={
@@ -214,7 +217,7 @@ const SellerAmazonMWS = (props: any) => {
                       className="auth-seller"
                       onClick={() => {
                         setConfirmToken(() => !showConfirmToken);
-                        if (window.location.hash === '#amazon-mws') {
+                        if (isHashMWS()) {
                           window.location.hash = '';
                         }
                       }}

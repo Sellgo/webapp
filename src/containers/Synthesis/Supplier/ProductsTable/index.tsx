@@ -373,7 +373,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       subscriptionType,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
-    const tableLock = subscriptionType === 'free';
+    const showTableLock = subscriptionType === 'free';
     const featuresLock = subscriptionType === 'free';
 
     return (
@@ -408,7 +408,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}
-              tableLock={tableLock}
+              showTableLock={showTableLock}
               featuresLock={featuresLock}
             />
           </>

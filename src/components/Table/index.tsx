@@ -54,7 +54,7 @@ export interface PaginatedTableProps {
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
-  tableLock?: boolean;
+  showTableLock?: boolean;
   featuresLock?: boolean;
 }
 
@@ -97,7 +97,7 @@ export interface GenericTableProps {
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
   renderFilterSectionComponent?: () => void;
-  tableLock?: boolean;
+  showTableLock?: boolean;
   featuresLock?: boolean;
 }
 
@@ -161,7 +161,7 @@ export const GenericTable = (props: GenericTableProps) => {
     updateCheckedRows,
     toggleColumnCheckbox,
     renderFilterSectionComponent,
-    tableLock,
+    showTableLock,
     featuresLock,
   } = props;
   return (
@@ -398,9 +398,9 @@ export const GenericTable = (props: GenericTableProps) => {
           )}
         </Table.Body>
 
-        <Table.Footer className={tableLock ? 'lock-footer' : ''}>
+        <Table.Footer className={showTableLock ? 'lock-footer' : ''}>
           <Table.Row>
-            {tableLock ? (
+            {showTableLock ? (
               <div className="table-lock">
                 <div className="table-lock__content">
                   <p>Want to see more?</p>
@@ -457,7 +457,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
-    tableLock,
+    showTableLock,
     featuresLock,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
@@ -540,7 +540,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-  rows = tableLock ? rows.slice(0, 3) : rows;
+  rows = showTableLock ? rows.slice(0, 3) : rows;
 
   useEffect(() => {
     if (sortClicked) {
@@ -610,7 +610,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
       columnFilterBox={columnFilterBox}
       toggleColumnCheckbox={toggleColumnCheckbox}
       renderFilterSectionComponent={renderFilterSectionComponent}
-      tableLock={tableLock}
+      showTableLock={showTableLock}
       featuresLock={featuresLock}
     />
   );
