@@ -171,7 +171,7 @@ export const postSynthesisRun = (synthesisId: string) => async (
     bodyFormData
   )
     .then(() => {
-      dispatch(updateSupplier({ ...existingSupplier, ...{ file_status: 'inactive' } }));
+      dispatch(updateSupplier({ ...existingSupplier, ...{ file_status: 'pending' } }));
       dispatch(fetchSynthesisProgressUpdates());
     })
     .catch(err => {
