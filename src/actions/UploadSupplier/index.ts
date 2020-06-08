@@ -183,8 +183,6 @@ export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {
 
   // detect file type and update the appropriate read/parse functions
   const fileExtension = getFileExtension(file);
-  console.log(file.type);
-  console.log(fileExtension);
   if (excelExtensions.includes(fileExtension)) {
     readerReadAsFunction = rABS ? reader.readAsBinaryString : reader.readAsArrayBuffer;
     parseFile = () => parseExcel({ type: rABS ? 'binary' : 'array' });
