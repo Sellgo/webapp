@@ -23,7 +23,6 @@ const DetailButtons = (props: any) => {
 
 function TrackButtonWithRating(props: any) {
   const { isTracking, onTrack, score, disableTrack } = props;
-  console.log('disableTrack', disableTrack);
   return (
     <Button
       disabled={disableTrack}
