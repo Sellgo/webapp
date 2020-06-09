@@ -13,6 +13,7 @@ import './index.scss';
 import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import RevenueChart from './RevenueChart';
 import { useWindowSize } from '../../../../../hooks/useWindowSize';
+import ProfitFinderChart from '../../../../../components/Chart/ProfitFinderChart';
 
 interface SupplierChartsProps {
   supplierDetails: Supplier;
@@ -51,12 +52,18 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     switch (this.state.showChart) {
       case 'chart0':
         return supplierDetails && supplierDetails.rate ? (
-          <SupplierHitChart supplier={supplierDetails} />
+          <ProfitFinderChart
+            render={(props: any) => <SupplierHitChart {...props} />}
+            supplier={supplierDetails}
+          />
         ) : null;
 
       case 'chart1': {
         return showProducts.length ? (
-          <RevenueChart products={showProducts} />
+          <ProfitFinderChart
+            render={(props: any) => <RevenueChart {...props} />}
+            products={showProducts}
+          />
         ) : (
           this.renderLoader(showProducts)
         );
