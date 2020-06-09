@@ -180,9 +180,15 @@ const TableHeader = (props: TableHeaderProps) => {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
     const upperBound = filteredColumns.slice(filteredColumns.length - 2, filteredColumns.length);
-    const middleHeader = document.querySelector('.middle-header');
-    const middleBody = document.querySelector('.middle-body');
 
+    const onScroll = (evt: any) => {
+      const middleHeader = document.querySelector('.middle-header');
+      const middleBody = document.querySelector('.middle-body');
+      if (!!middleBody && middleHeader) {
+        middleBody.scrollLeft = evt.target.scrollLeft;
+        middleHeader.scrollLeft = evt.target.scrollLeft;
+      }
+    };
     return (
       <Table.Header>
         <tr className="parent-header-column">
@@ -196,11 +202,7 @@ const TableHeader = (props: TableHeaderProps) => {
           <Table.HeaderCell
             className={'middle-header table-header-scroll'}
             ref={headerRef}
-            onScroll={(evt: any) => {
-              if (middleBody) {
-                middleBody.scrollLeft = evt.target.scrollLeft;
-              }
-            }}
+            onScroll={onScroll}
           >
             <Table.Row>
               {middleBound.map((column, index) => {
@@ -229,12 +231,7 @@ const TableHeader = (props: TableHeaderProps) => {
           <Table.HeaderCell
             className={' middle-scroll-cell header-scroll'}
             ref={headerRef}
-            onScroll={(evt: any) => {
-              if (!!middleBody && middleHeader) {
-                middleBody.scrollLeft = evt.target.scrollLeft;
-                middleHeader.scrollLeft = evt.target.scrollLeft;
-              }
-            }}
+            onScroll={onScroll}
           >
             <Table.Row>
               {middleBound.map((column, index) => {

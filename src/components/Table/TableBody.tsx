@@ -71,7 +71,7 @@ export const TableBody = (props: TableBodyProps) => {
                 </Table.Row>
               ))}
           </td>
-          <td style={{ maxWidth: '670px', overflow: 'hidden' }} ref={ref} className="middle-body">
+          <td ref={ref} className="middle-body">
             {rows.length &&
               rows.map((row: any, index) => (
                 <Table.Row key={`${Date.now() + index}--tb-row`} className="middle-body-child-row">
@@ -108,51 +108,6 @@ export const TableBody = (props: TableBodyProps) => {
               ))}
           </td>
         </tr>
-        {/*{rows.length ? (*/}
-        {/*  rows.map((row: any, index) => (*/}
-        {/*    <React.Fragment key={`${index}-tb-fragment`}>*/}
-        {/*      <Table.Row key={`${Date.now() + index}--tb-row`}>*/}
-        {/*        {lowerBound.map(*/}
-        {/*          (column, colIndex) =>*/}
-        {/*            getColumnLabel(column.dataKey, columnFilterData) && (*/}
-        {/*              <TableCell*/}
-        {/*                type={type}*/}
-        {/*                column={column}*/}
-        {/*                row={row}*/}
-        {/*                key={`${Date.now() + colIndex}--tb-cell`}*/}
-        {/*              />*/}
-        {/*            )*/}
-        {/*        )}*/}
-        {/*      <Table.Cell style={{maxWidth:'670px',overflow:'auto'}}>*/}
-        {/*        {middleBound.map(*/}
-        {/*          (column, colIndex) =>*/}
-        {/*            getColumnLabel(column.dataKey, columnFilterData) && (*/}
-        {/*              <TableCell*/}
-        {/*                type={type}*/}
-        {/*                column={column}*/}
-        {/*                row={row}*/}
-        {/*                key={`${Date.now() + colIndex}--tb-cell`}*/}
-        {/*              />*/}
-        {/*            )*/}
-        {/*        )}*/}
-        {/*      </Table.Cell>*/}
-        {/*        {upperBound.map(*/}
-        {/*          (column, colIndex) =>*/}
-        {/*            getColumnLabel(column.dataKey, columnFilterData) && (*/}
-        {/*              <TableCell*/}
-        {/*                type={type}*/}
-        {/*                column={column}*/}
-        {/*                row={row}*/}
-        {/*                key={`${Date.now() + colIndex}--tb-cell`}*/}
-        {/*              />*/}
-        {/*            )*/}
-        {/*        )}*/}
-        {/*      </Table.Row>*/}
-        {/*    </React.Fragment>*/}
-        {/*  ))*/}
-        {/*) : (*/}
-        {/*  <tr />*/}
-        {/*)}*/}
       </Table.Body>
     );
   }
