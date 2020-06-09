@@ -44,7 +44,7 @@ import { AppConfig } from '../../config';
 import { fetchSupplier } from '../Suppliers';
 import { round } from 'lodash';
 import { acceptedFileFormats } from '../../containers/Synthesis/UploadSupplier/SelectFile';
-import { getFileExtension, convertExtensionToMime, mimeExtensionMapping } from '../../utils/file';
+import { getFileExtension, excelExtensions, csvExtensions } from '../../utils/file';
 
 // store File in memory as it is non-serializable
 let supplierFile: File = new File([], '');
@@ -182,17 +182,15 @@ export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {
   const rABS = !!reader.readAsBinaryString;
 
   // detect file type and update the appropriate read/parse functions
-  if (file.type in mimeExtensionMapping) {
-    const fileExtension = mimeExtensionMapping[file.type];
-    if (['.xls', '.xlsx'].includes(fileExtension)) {
-      readerReadAsFunction = rABS ? reader.readAsBinaryString : reader.readAsArrayBuffer;
-      parseFile = () => parseExcel({ type: rABS ? 'binary' : 'array' });
-    } else if (fileExtension === '.csv') {
-      readerReadAsFunction = reader.readAsText;
-      parseFile = () => parseCsv();
-    } else {
-      return;
-    }
+  const fileExtension = getFileExtension(file);
+  if (excelExtensions.includes(fileExtension)) {
+    readerReadAsFunction = rABS ? reader.readAsBinaryString : reader.readAsArrayBuffer;
+    parseFile = () => parseExcel({ type: rABS ? 'binary' : 'array' });
+  } else if (csvExtensions.includes(fileExtension)) {
+    readerReadAsFunction = reader.readAsText;
+    parseFile = () => parseCsv();
+  } else {
+    return;
   }
 
   reader.onloadend = () => {
@@ -212,7 +210,7 @@ export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {
 
 export const handleRejectedFile = (rejectedFile?: File) => async () => {
   const fileExtension = rejectedFile && getFileExtension(rejectedFile);
-  if (!fileExtension || !acceptedFileFormats.includes(`.${fileExtension.toLowerCase()}`)) {
+  if (!fileExtension || !acceptedFileFormats.includes(fileExtension)) {
     error('Invalid file extension detected.');
     return;
   }
@@ -228,8 +226,6 @@ export const handleRejectedFile = (rejectedFile?: File) => async () => {
 
 export const parseCsvArrayToFile = (fileStringArray: string[][], fileDetails?: File): File => {
   const fileName = fileDetails && fileDetails.name ? fileDetails.name : '';
-  const fileExtension = fileDetails ? getFileExtension(fileDetails) : '';
-  const mimeType = convertExtensionToMime(fileExtension);
 
   // escape commas
   fileStringArray = fileStringArray.map((row: string[]) =>
@@ -240,7 +236,7 @@ export const parseCsvArrayToFile = (fileStringArray: string[][], fileDetails?: F
   );
   const fileString = fileStringArray.join('\n');
 
-  return new File([fileString], fileName, { type: mimeType });
+  return new File([fileString], fileName, { type: 'text/csv' });
 };
 
 export const mapColumn = (fileColumn: string | number, targetColumn: string) => ({
@@ -334,7 +330,7 @@ export const validateAndUploadFile = () => async (
   const columnMappingSetting = columnMappingSettingSelector(getState());
   const file = fileDetailsSelector(getState());
   let uploadFile;
-  if (mimeExtensionMapping[file.type] === '.csv') {
+  if (csvExtensions.includes(getFileExtension(file))) {
     uploadFile = parseCsvArrayToFile(
       fileStringArraySelector(getState()),
       fileDetailsSelector(getState())
