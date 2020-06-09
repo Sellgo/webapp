@@ -291,33 +291,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderWeight = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.weight !== null, `${row.weight} lbs`)}</p>;
   };
-  renderDailyInventory = (row: ProductTrackerDetails) => {
+  renderAvgInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(
-          row.daily_inventory && row.daily_inventory !== 0,
-          `${row.daily_inventory}`
-        )}
-      </p>
-    );
-  };
-  renderMonthlyInventory = (row: ProductTrackerDetails) => {
-    return (
-      <p className="stat">
-        {showNAIfZeroOrNull(
-          row.monthly_inventory && row.monthly_inventory !== 0,
-          `${row.monthly_inventory}`
-        )}
-      </p>
-    );
-  };
-  renderDailyAmazonInventory = (row: ProductTrackerDetails) => {
-    return (
-      <p className="stat">
-        {showNAIfZeroOrNull(
-          row.daily_amazon_inventory && row.daily_amazon_inventory !== 0,
-          `${row.daily_amazon_inventory}`
-        )}
+        {showNAIfZeroOrNull(row.avg_inventory && row.avg_inventory !== 0, `${row.avg_inventory}`)}
       </p>
     );
   };
@@ -446,20 +423,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderRating,
     },
     {
-      label: 'Daily Inventory',
-      dataKey: 'daily_inventory',
+      label: 'Avg Inventory',
+      dataKey: 'avg_inventory',
       type: 'number',
       show: true,
       sortable: true,
-      render: this.renderDailyInventory,
-    },
-    {
-      label: 'Monthly Inventory',
-      dataKey: 'monthly_inventory',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderMonthlyInventory,
+      render: this.renderAvgInventory,
     },
     {
       label: 'Is Amazon Selling',
@@ -468,14 +437,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderIsAmazonSelling,
-    },
-    {
-      label: 'Amazon Inventory',
-      dataKey: 'daily_amazon_inventory',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderDailyAmazonInventory,
     },
     {
       label: 'Avg Amazon Inventory',
