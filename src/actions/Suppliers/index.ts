@@ -234,6 +234,13 @@ export const fetchSynthesisProgressUpdates = () => async (
         dispatch(setSpeed(responses[index].data.speed));
       }
 
+      if (
+        responses[index].data.progress === 100 &&
+        currSynthesisId === supplier.synthesis_file_id
+      ) {
+        dispatch(updateSupplier({ ...supplier, ...{ file_status: 'completed' } }));
+      }
+
       if (responses[index].data.progress === 100) {
         dispatch(fetchSupplier(supplier.supplier_id));
       }
