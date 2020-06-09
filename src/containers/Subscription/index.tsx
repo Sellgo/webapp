@@ -4,6 +4,7 @@ import { Grid, Image } from 'semantic-ui-react';
 import Auth from '../../components/Auth/Auth';
 import Summary from './Summary';
 import Login from './Login';
+import Signup from './Signup';
 
 interface SubscriptionProps {
   auth: Auth;
@@ -31,6 +32,14 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   setSignup() {
     this.setState({
       isSignup: true,
+      isLogin: false,
+    });
+  }
+
+  setLogin() {
+    this.setState({
+      isLogin: true,
+      isSignup: false,
     });
   }
 
@@ -47,8 +56,8 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
           </Grid.Column>
           <Grid.Column width={11} className="subscription-page__content">
             <Summary planType={accountType} />
-            {isLogin && <Login auth={auth} setSignup={this.setSignup} />}
-            {isSignup && <Login auth={auth} setSignup={this.setSignup} />}
+            {isLogin && <Login auth={auth} setSignup={this.setSignup.bind(this)} />}
+            {isSignup && <Signup auth={auth} setLogin={this.setLogin.bind(this)} />}
           </Grid.Column>
         </Grid.Row>
       </Grid>

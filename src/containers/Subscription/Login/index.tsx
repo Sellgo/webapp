@@ -6,7 +6,7 @@ import { useInput } from '../../../hooks/useInput';
 
 interface Props {
   auth: Auth;
-  setSignup: (value: boolean) => void;
+  setSignup: () => void;
 }
 export default function Login(props: Props) {
   const { auth, setSignup } = props;
@@ -79,7 +79,7 @@ export default function Login(props: Props) {
           Need an account?
           <span
             onClick={() => {
-              setSignup(true);
+              setSignup();
             }}
           >
             Register Here
