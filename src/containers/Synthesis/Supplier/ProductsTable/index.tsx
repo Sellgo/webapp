@@ -343,7 +343,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderSizeTiers,
     },
     {
-      label: 'Tracking / Rating',
+      label: 'Tracking/Rating',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,
@@ -408,6 +408,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               handleColumnChange={this.handleColumnChange}
               toggleColumnCheckbox={this.handleClick}
               columnFilterData={this.state.columnFilterData}
+              middleScroll={true}
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}

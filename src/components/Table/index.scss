@@ -177,6 +177,12 @@ i.icon.filter::before {
   height: 2px !important;
   border-spacing: 0 !important;
   padding: 0 !important;
+  border-radius: 30px;
+  background: transparent !important;
+}
+
+.middle-scroll-cell:hover {
+  background: transparent !important;
 }
 
 .remove-right-border-header {
@@ -193,4 +199,122 @@ i.icon.filter::before {
 
 .middle-scroll-header-right-cell {
   @extend .remove-right-border-header;
+}
+/* stylelint-disable no-descending-specificity */
+
+.parent-header-column > th {
+  height: 46px;
+  border-spacing: 0 !important;
+
+  .primary-column {
+    @extend .remove-right-border-header;
+
+    width: 113px !important;
+
+    .th-label {
+      padding-left: 25px !important;
+    }
+  }
+
+  tr > th {
+    border: none !important;
+  }
+
+  padding: 0 !important;
+
+  .sellgo_score {
+    width: 100% !important;
+
+    > .table-cell-container {
+      > .th-label {
+        margin-left: 68px;
+      }
+
+      > .sort-arrow {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.middle-header tr {
+  th {
+    @extend .remove-right-border-header;
+    @extend .remove-left-border-header;
+  }
+}
+
+.middle-body-column {
+  > td {
+    border: none !important;
+    padding: 0 !important;
+  }
+}
+
+.middle-body-child-row {
+  :first-child {
+    @extend .remove-left-border-header;
+  }
+
+  :last-child {
+    @extend .remove-right-border-header;
+  }
+}
+
+.right-body-child-row {
+  :last-child {
+    @extend .remove-right-border-header;
+  }
+}
+
+.left-body-child-row {
+  :first-child {
+    @extend .remove-left-border-header;
+
+    .details-buttons {
+      width: 192px !important;
+    }
+  }
+
+  :nth-child(2) {
+    width: 56px !important;
+  }
+
+  .sellgo_score {
+    width: 100% !important;
+
+    > .detail-buttons {
+      width: 213px !important;
+    }
+  }
+}
+
+.header-scroll {
+  max-width: 670px !important;
+  overflow: auto !important;
+}
+
+@media only screen and (min-device-width: 480px) and (max-device-width: 1919px) {
+  .header-scroll {
+    max-width: 670px !important;
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  .header-scroll {
+    max-width: inherit !important;
+  }
+
+  .table-header-scroll {
+    max-width: inherit !important;
+  }
+}
+
+.table-header-scroll {
+  max-width: 658px !important;
+  overflow: hidden !important;
+}
+
+.left-fixed-header-column {
+  width: 269px !important;
 }

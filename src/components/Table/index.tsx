@@ -105,7 +105,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
-    middleScroll = true,
+    middleScroll = false,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -286,7 +286,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           checkedRows={checkedRows}
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
-          middleScroll
+          middleScroll={middleScroll}
         />
         <TableBody
           extendedInfo={extendedInfo}

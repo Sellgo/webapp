@@ -185,6 +185,38 @@ const TableHeader = (props: TableHeaderProps) => {
 
     return (
       <Table.Header>
+        <tr className="parent-header-column">
+          <Table.HeaderCell>
+            <Table.Row>
+              {lowerBound.map((column, index) => {
+                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
+              })}
+            </Table.Row>
+          </Table.HeaderCell>
+          <Table.HeaderCell
+            className={'middle-header table-header-scroll'}
+            ref={headerRef}
+            onScroll={(evt: any) => {
+              if (middleBody) {
+                middleBody.scrollLeft = evt.target.scrollLeft;
+              }
+            }}
+          >
+            <Table.Row>
+              {middleBound.map((column, index) => {
+                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
+              })}
+            </Table.Row>
+          </Table.HeaderCell>
+          <Table.HeaderCell className="left-fixed-header-column">
+            <Table.Row>
+              {upperBound.map((column, index) => {
+                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
+              })}
+            </Table.Row>
+          </Table.HeaderCell>
+        </tr>
+        <div style={{ height: '15px' }} />
         <Table.Row>
           <Table.HeaderCell className={`middle-scroll-cell`}>
             <Table.Row>
@@ -195,8 +227,7 @@ const TableHeader = (props: TableHeaderProps) => {
             </Table.Row>
           </Table.HeaderCell>
           <Table.HeaderCell
-            style={{ maxWidth: '670px', overflow: 'auto' }}
-            className={' middle-scroll-cell'}
+            className={' middle-scroll-cell header-scroll'}
             ref={headerRef}
             onScroll={(evt: any) => {
               if (!!middleBody && middleHeader) {
@@ -225,39 +256,6 @@ const TableHeader = (props: TableHeaderProps) => {
                     className={`middle-scroll-cell ${getColumnClass(column)}`}
                   />
                 );
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
-        </Table.Row>
-        <div style={{ height: 15 }} />
-        <Table.Row>
-          <Table.HeaderCell>
-            <Table.Row>
-              {lowerBound.map((column, index) => {
-                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
-          <Table.HeaderCell
-            style={{ maxWidth: '670px', overflow: 'hidden' }}
-            className={'middle-header'}
-            ref={headerRef}
-            onScroll={(evt: any) => {
-              if (middleBody) {
-                middleBody.scrollLeft = evt.target.scrollLeft;
-              }
-            }}
-          >
-            <Table.Row>
-              {middleBound.map((column, index) => {
-                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            <Table.Row>
-              {upperBound.map((column, index) => {
-                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
               })}
             </Table.Row>
           </Table.HeaderCell>

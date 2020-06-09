@@ -52,11 +52,11 @@ export const TableBody = (props: TableBodyProps) => {
     const upperBound = columns.slice(columns.length - 2, columns.length);
     return (
       <Table.Body>
-        <tr>
+        <tr className="middle-body-column">
           <td>
             {rows.length &&
               rows.map((row: any, index) => (
-                <Table.Row key={`${Date.now() + index}--tb-row`}>
+                <Table.Row key={`${Date.now() + index}--tb-row`} className="right-body-child-row">
                   {lowerBound.map(
                     (column, colIndex) =>
                       getColumnLabel(column.dataKey, columnFilterData) && (
@@ -74,7 +74,7 @@ export const TableBody = (props: TableBodyProps) => {
           <td style={{ maxWidth: '670px', overflow: 'hidden' }} ref={ref} className="middle-body">
             {rows.length &&
               rows.map((row: any, index) => (
-                <Table.Row key={`${Date.now() + index}--tb-row`}>
+                <Table.Row key={`${Date.now() + index}--tb-row`} className="middle-body-child-row">
                   {middleBound.map(
                     (column, colIndex) =>
                       getColumnLabel(column.dataKey, columnFilterData) && (
@@ -92,7 +92,7 @@ export const TableBody = (props: TableBodyProps) => {
           <td>
             {rows.length &&
               rows.map((row: any, index) => (
-                <Table.Row key={`${Date.now() + index}--tb-row`}>
+                <Table.Row key={`${Date.now() + index}--tb-row`} className="left-body-child-row">
                   {upperBound.map(
                     (column, colIndex) =>
                       getColumnLabel(column.dataKey, columnFilterData) && (
