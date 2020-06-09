@@ -154,8 +154,8 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
       if (err.response.status === 401) {
         dispatch(handleUnauthorizedMwsAuth());
       } else {
-        dispatch(isProductTracked(true, false));
         dispatch(verifyingProduct(false));
+        error(err.response.data.message);
       }
     });
 };
@@ -163,13 +163,15 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
 export const confirmTrackProduct = (
   asin: string,
   marketPlace: string,
-  groupID: number,
-  period: number
+  period: number,
+  groupID?: number
 ) => (dispatch: any) => {
   dispatch(isLoadingTrackerProducts(true));
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  bodyFormData.set('product_track_group_id', groupID.toString());
+  if (groupID) {
+    bodyFormData.set('product_track_group_id', groupID.toString());
+  }
   bodyFormData.set('asin', asin);
   bodyFormData.set('marketplace', marketPlace.toString());
   return Axios.post(
@@ -179,10 +181,12 @@ export const confirmTrackProduct = (
     .then(json => {
       if (json.status === 200) {
         success(`Product ${asin.toUpperCase()} Successfully Tracked`);
+
         setTimeout(() => {
           dispatch(fetchAllSupplierProductTrackerDetails(period));
           dispatch(setMenuItem(null));
-        }, 1000);
+          dispatch(getSellerQuota());
+        }, 300);
       }
     })
     .catch(err => {

@@ -2,7 +2,12 @@ import Axios from 'axios';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
-import { SET_TOS, SET_PP } from '../../constants/UserOnboarding/index';
+import { SET_TOS, SET_PP, SET_NOTIFY_ID } from '../../constants/UserOnboarding/index';
+
+export const setNotifyId = (notifyId: number) => ({
+  type: SET_NOTIFY_ID,
+  payload: notifyId,
+});
 
 export const setTOS = (termsOfService: string) => ({
   type: SET_TOS,

@@ -92,3 +92,81 @@ i.icon.close::before {
 i.icon.filter::before {
   font-size: 11px !important;
 }
+
+.table-header {
+  height: 46px;
+  min-width: 95px;
+}
+
+.table-cell-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.th-label {
+  white-space: pre;
+  line-height: 1.5;
+}
+
+.ui.sortable.table thead th.sorted::after {
+  display: none;
+}
+
+.sort-icon {
+  display: table !important;
+  font-size: 15px;
+}
+
+.default-column-props {
+  height: 46px !important;
+  padding: 4px !important;
+  max-width: 400px !important;
+}
+
+.auto-column {
+  @extend .default-column-props;
+
+  min-width: auto;
+}
+
+.default-column {
+  @extend .default-column-props;
+
+  width: 95px;
+  min-width: 95px;
+}
+
+.small-column {
+  @extend .default-column-props;
+
+  width: 46px;
+  min-width: 46px;
+}
+
+.medium-column {
+  @extend .default-column-props;
+
+  width: 120px;
+  min-width: 120px;
+}
+
+.large-column {
+  @extend .default-column-props;
+
+  width: 190px;
+  min-width: 190px;
+}
+
+.primary-column {
+  @extend .default-column-props;
+
+  .th-label {
+    padding-left: 37px;
+  }
+}
+
+.search-ic {
+  margin-top: -10px;
+  padding-left: 18px;
+}

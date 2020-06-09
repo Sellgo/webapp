@@ -1,10 +1,10 @@
 import { FieldsToMap, UploadSteps } from '../../constants/UploadSupplier';
 import {
   reversedColumnMappingsSelector,
-  csvSelector,
+  fileStringArraySelector,
   isFirstRowHeaderSelector,
   skipColumnMappingCheckSelector,
-  csvFileSelector,
+  fileDetailsSelector,
 } from '../../selectors/UploadSupplier/index';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
@@ -12,8 +12,8 @@ import { AnyAction } from 'redux';
 import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
-import { saveSupplierName, updateSupplierName, updateSearch, saveSearch } from '../Suppliers';
-import { fetchColumnMappings, setColumnMappings, parseCsv } from '.';
+import { saveSupplierDetails, updateSupplierDetails, updateSearch, saveSearch } from '../Suppliers';
+import { fetchColumnMappings, setColumnMappings } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
 import get from 'lodash/get';
@@ -110,11 +110,11 @@ export class AddNewSupplierStep extends Step {
     // eslint-disable-next-line no-useless-catch
     try {
       const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-      const { name, ...other } = formValues;
+      const { ...other } = formValues;
 
       if (!existingSupplier) {
         // add other form values
-        const data: any = await this.dispatch(saveSupplierName(name, other));
+        const data: any = await this.dispatch(saveSupplierDetails(other));
         this.dispatch(openUploadSupplierModal(data));
       } else {
         for (const param in existingSupplier) {
@@ -122,7 +122,7 @@ export class AddNewSupplierStep extends Step {
             delete other[param];
           }
         }
-        await this.dispatch(updateSupplierName(name, existingSupplier.id, other));
+        await this.dispatch(updateSupplierDetails(existingSupplier.id, other));
       }
       this.dispatch(fetchColumnMappings());
     } catch (error) {
@@ -140,41 +140,46 @@ export class SelectFileStep extends Step {
 
   checkFile() {
     const state = this.getState();
-    const csvFile = csvFileSelector(state);
-    const csvArray = csvSelector(state);
-    const fileSet = Boolean(csvFile) && Boolean(csvArray);
-    const errorMessage = fileSet ? undefined : 'Please select a csv file';
+    const fileDetails = fileDetailsSelector(state);
+    const fileStringArray = fileStringArraySelector(state);
+    const fileSet = Boolean(fileDetails) && Boolean(fileStringArray);
+    const errorMessage = fileSet ? undefined : 'Please select a valid file';
     return errorMessage;
   }
 
-  guessColumnMappings(csv: string[][]) {
+  guessColumnMappings(fileStringArray: string[][]) {
     /**
      *  This function guesses column mappings based on whether a cell in the header row contains a specific keyword.
-     *  Note: this function assumes that the first row of the csv is a header.
+     *  Note: this function assumes that the first row of the fileStringArray is a header.
      *
      *  Potential future improvements:
      *    1) check header row against multiple keywords for each column
      *    2) guess from format of data rows
      */
-    const header = csv.length ? csv[0] : []; // assume first row is header
+    const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
 
     const mappings: string[] = [];
     header.forEach((headerCell: string) => {
       const mappingKeys = FieldsToMap.map(item => item.key);
-      const keyIndex = mappingKeys.findIndex(
-        (key: string) => headerCell.toLowerCase().includes(key.toLowerCase()) // find keyword in header cell
-      );
-      mappings.push(mappingKeys[keyIndex]);
+      if (headerCell) {
+        const keyIndex = mappingKeys.findIndex(
+          (key: string) =>
+            String(headerCell)
+              .toLowerCase()
+              .includes(key.toLowerCase()) // find keyword in header cell
+        );
+        mappings.push(mappingKeys[keyIndex]);
+      }
     });
 
     return mappings;
   }
 
   validateFields() {
-    const csv = csvSelector(this.getState());
+    const fileStringArray = fileStringArraySelector(this.getState());
     const hasHeaders = isFirstRowHeaderSelector(this.getState());
     if (hasHeaders) {
-      const mappings = this.guessColumnMappings(csv);
+      const mappings = this.guessColumnMappings(fileStringArray);
       if (mappings) {
         this.dispatch(setColumnMappings(mappings));
       }
@@ -193,10 +198,6 @@ export class SelectFileStep extends Step {
   }
 
   cleanStep() {
-    // remove file
-    // this.dispatch(setRawCsv('', null));
-    // remove mappings
-    // this.dispatch(removeColumnMappings());
     this.dispatch(fetchColumnMappings());
   }
 }
@@ -225,7 +226,7 @@ export class DataMappingStep extends Step {
   }
 
   cleanStep() {
-    this.dispatch(parseCsv());
+    // do nothing
   }
 }
 

@@ -238,6 +238,7 @@ $link-color: #349af8;
 
     .ui.secondary.pointing.menu {
       border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+      margin-bottom: 0;
 
       &.menu-bar-inner {
         border: none !important;
@@ -855,4 +856,11 @@ $link-color: #349af8;
 .no-group {
   background-color: #ccc;
   color: #000;
+}
+
+.ellipsis-ic {
+  color: #98aeca;
+  display: block !important;
+  position: relative !important;
+  top: -6px !important;
 }

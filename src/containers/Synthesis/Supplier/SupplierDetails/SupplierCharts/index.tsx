@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import { Loader, Form, Modal, Header, Grid } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
-import { fetchSupplierDetails } from '../../../../../actions/Suppliers';
 import {
   openSupplierProductDetailModal,
   closeSupplierProductDetailModal,
@@ -15,22 +14,15 @@ import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import RevenueChart from './RevenueChart';
 
 interface SupplierChartsProps {
-  supplierID: any;
   supplierDetails: Supplier;
   filteredProducts: Product[];
   singlePageItemsCount: number;
-  fetchSupplierDetails: (supplierID: any) => void;
   openProductDetailModal: (product?: Product) => void;
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
 }
 class SupplierCharts extends Component<SupplierChartsProps> {
   state = { showChart: 'chart0' };
-
-  componentDidMount() {
-    const { supplierID, fetchSupplierDetails } = this.props;
-    fetchSupplierDetails(supplierID);
-  }
 
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
 
@@ -125,7 +117,6 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
 };

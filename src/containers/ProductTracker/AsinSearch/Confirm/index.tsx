@@ -25,8 +25,8 @@ interface Props {
   confirmTrackProduct: (
     value: string,
     marketplace: string,
-    groupID: number,
-    period: number
+    period: number,
+    groupID?: number
   ) => void;
   searchValue: string;
   trackGroups: any;
@@ -48,11 +48,11 @@ const Confirm = (props: Props) => {
     setSearch,
   } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
-  const [selectedGroup, setSelectedGroup] = useState(0);
+  const [selectedGroup, setSelectedGroup] = useState(undefined);
 
   const trackProduct = () => {
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
-    confirmTrackProduct(searchValue, selectedMarketPlace.value, selectedGroup, period);
+    confirmTrackProduct(searchValue, selectedMarketPlace.value, period, selectedGroup);
     openModal(false);
     setOpenConfirm(!openConfirm);
     setSearch('');
@@ -101,7 +101,7 @@ const Confirm = (props: Props) => {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={2}>
-            <Grid.Column></Grid.Column>
+            <Grid.Column />
             <Grid.Column>
               <div className="Confirm__btn">
                 <Button
@@ -138,8 +138,8 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {
   verifyProduct: (value: boolean, productExist: boolean) => isProductTracked(value, productExist),
-  confirmTrackProduct: (value: string, marketplace: string, groupID: number, period: number) =>
-    confirmTrackProduct(value, marketplace, groupID, period),
+  confirmTrackProduct: (value: string, marketplace: string, period: number, groupID?: number) =>
+    confirmTrackProduct(value, marketplace, period, groupID),
   setMenuItem: (item: any) => setMenuItem(item),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Confirm);

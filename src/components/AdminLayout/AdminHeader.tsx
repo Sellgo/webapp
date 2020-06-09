@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Image, Menu, Dropdown } from 'semantic-ui-react';
+import { Icon, Image, Menu, Dropdown, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import LogoutConfirm from '../LogoutConfirm';
@@ -9,7 +9,9 @@ import './AdminHeader.scss';
 interface AdminProps {
   auth: any;
   children: any;
+  currentNotifyId: number;
 }
+
 export class AdminHeader extends React.Component<AdminProps> {
   userName = localStorage.getItem('userName');
   userPicture = localStorage.getItem('userPicture');
@@ -28,10 +30,11 @@ export class AdminHeader extends React.Component<AdminProps> {
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
-    const { auth } = this.props;
+    const { auth, currentNotifyId } = this.props;
     const { isVisible } = this.state;
     return (
       <div className="admin-header">
+        <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
         <Menu inverted={true} borderless={true} fixed="top" className="top-menu">
           <Menu.Menu>
             <Menu.Item className="mobile-menu">
@@ -72,7 +75,6 @@ export class AdminHeader extends React.Component<AdminProps> {
           </Menu.Menu>
         </Menu>
         <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
-        <div className="navbar-spacer" />
       </div>
     );
   }

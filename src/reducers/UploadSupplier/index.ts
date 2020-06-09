@@ -1,7 +1,7 @@
 import {
   SET_UPLOAD_SUPPLIER_STEP,
-  SET_CSV,
-  SET_RAW_CSV,
+  SET_FILE_STRING_ARRAY,
+  SET_RAW_FILE,
   MAP_COLUMN,
   CLEANUP_UPLOAD_SUPPLIER,
   REMOVE_COLUMN_MAPPINGS,
@@ -27,10 +27,12 @@ import { AnyAction } from 'redux';
 
 interface UploadSupplierState {
   readonly currentStep: number;
-  readonly csvString: string | null;
-  readonly csvFile: File | null;
-  readonly rawCsv: string | null;
-  readonly csv: string[][] | null;
+  readonly fileString: string | null;
+  /** Gotcha: you actually can't store a complete File object in redux because it's non-serializable,
+   * but you can store the details like name, lastModified, ... */
+  readonly fileDetails: File | null;
+  readonly rawFile: string | null;
+  readonly fileStringArray: string[][] | null;
   readonly columnMappings: [];
   readonly setProgress: number;
   readonly setSpeed: number;
@@ -57,11 +59,11 @@ const initialState: UploadSupplierState = {
   setSpeed: 0,
   setEta: 0,
   setProgress: 0,
-  csvString: null,
-  csvFile: null,
+  fileString: null,
+  fileDetails: null,
   columnMappings: [],
-  rawCsv: null,
-  csv: null,
+  rawFile: null,
+  fileStringArray: null,
   resultErrorFile: null,
   resultUpload: null,
   synthesisId: null,
@@ -74,14 +76,12 @@ export default (
   action: AnyAction
 ): UploadSupplierState => {
   switch (action.type) {
-    case SET_CSV: {
-      return setIn(state, 'csv', action.payload);
-      // const newState = setIn(state, 'csv', action.payload);
-      // return setIn(newState, 'currentStep', 2);
+    case SET_FILE_STRING_ARRAY: {
+      return setIn(state, 'fileStringArray', action.payload);
     }
-    case SET_RAW_CSV: {
-      const newState = setIn(state, 'rawCsv', action.csvString);
-      return setIn(newState, 'csvFile', action.csvJSONFile ? action.csvJSONFile : null);
+    case SET_RAW_FILE: {
+      const newState = setIn(state, 'rawFile', action.fileString);
+      return setIn(newState, 'fileDetails', action.newFileDetails ? action.newFileDetails : null);
     }
     case SET_UPLOAD_SUPPLIER_STEP:
       return setIn(state, 'currentStep', action.payload);
@@ -95,8 +95,8 @@ export default (
           newColumnMappings[i] = e;
         }
       });
-      if (action.csvColumn !== -1) {
-        newColumnMappings[action.csvColumn] = action.targetColumn;
+      if (action.fileColumn !== -1) {
+        newColumnMappings[action.fileColumn] = action.targetColumn;
       }
       return setIn(state, 'columnMappings', newColumnMappings);
     }
