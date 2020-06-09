@@ -12,7 +12,7 @@ import {
   fileStringArraySelector,
   fileDetailsSelector,
   rawFileSelector,
-} from '../../selectors/UploadSupplier/index';
+} from '../../selectors/UploadSupplier';
 import { error } from '../../utils/notifications';
 import {
   SET_UPLOAD_SUPPLIER_STEP,
