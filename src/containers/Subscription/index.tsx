@@ -12,13 +12,21 @@ interface SubscriptionProps {
 interface SubscriptionStates {
   isLogin: boolean;
   isSignup: boolean;
+  accountType: string;
 }
 
 class Subscription extends React.Component<SubscriptionProps, SubscriptionStates> {
   state = {
     isLogin: true,
     isSignup: false,
+    accountType: '',
   };
+
+  componentDidMount() {
+    this.setState({
+      accountType: window.location.search === '?type=basic' ? 'basic' : 'pro',
+    });
+  }
 
   setSignup() {
     this.setState({
@@ -27,7 +35,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   }
 
   render() {
-    const { isLogin, isSignup } = this.state;
+    const { isLogin, isSignup, accountType } = this.state;
     const { auth } = this.props;
     return (
       <Grid className="subscription-page" columns={2}>
@@ -38,7 +46,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
             </div>
           </Grid.Column>
           <Grid.Column width={11} className="subscription-page__content">
-            <Summary />
+            <Summary planType={accountType} />
             {isLogin && <Login auth={auth} setSignup={this.setSignup} />}
             {isSignup && <Login auth={auth} setSignup={this.setSignup} />}
           </Grid.Column>
