@@ -4,6 +4,36 @@
     align-items: flex-start;
   }
 
+  .supplier-charts__chart-grid {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .chart-grid__left-column,
+  .chart-grid__right-column {
+    padding: 0;
+    width: 2.5% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .chart-grid__middle-column {
+    width: 95% !important;
+    padding: 14px 0 14px 0;
+  }
+
+  .chart-grid__left-arrow,
+  .chart-grid__right-arrow {
+    color: #349af833;
+    margin: 0;
+
+    &:hover {
+      color: #349af8;
+      cursor: pointer;
+    }
+  }
+
   // On mobile stack radio inputs, align left, and center container
   @media screen and (min-width: 310px) and (max-width: 767px) {
     .ui {
