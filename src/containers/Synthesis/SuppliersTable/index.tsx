@@ -263,14 +263,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       show: true,
       render: this.renderInventory,
     },
-    {
-      label: 'Speed',
-      dataKey: 'speed',
-      sortable: true,
-      type: 'number',
-      show: true,
-      render: this.renderSpeed,
-    },
+    // {
+    //   label: 'Speed',
+    //   dataKey: 'speed',
+    //   sortable: true,
+    //   type: 'number',
+    //   show: true,
+    //   render: this.renderSpeed,
+    // },
     {
       label: 'Progress',
       dataKey: 'progress',
