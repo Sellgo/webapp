@@ -12,7 +12,7 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
 } from '../../../../actions/Suppliers';
-import { PaginatedTable, Column } from '../../../../components/Table';
+import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import {
@@ -406,7 +406,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <>
             {this.renderExportButtons()}
-            <PaginatedTable
+            <GenericTable
               tableKey={tableKeys.PRODUCTS}
               data={filteredProducts}
               columns={this.columns}
@@ -426,6 +426,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               handleColumnChange={this.handleColumnChange}
               toggleColumnCheckbox={this.handleClick}
               columnFilterData={this.state.columnFilterData}
+              middleScroll={true}
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}

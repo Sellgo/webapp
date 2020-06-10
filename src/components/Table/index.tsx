@@ -8,9 +8,9 @@ import { tableKeys } from '../../constants';
 
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
+import TableHeader from './TableHeader';
 import { TableBody } from './TableBody';
 
-import TableHeader from './TableHeader';
 export interface Column {
   render?: (row: any) => string | JSX.Element;
   dataKey?: string;
@@ -24,7 +24,7 @@ export interface Column {
   popUp?: boolean;
 }
 
-export interface PaginatedTableProps {
+export interface GenericTableProps {
   tableKey?: string;
   searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
@@ -51,6 +51,7 @@ export interface PaginatedTableProps {
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
+  middleScroll?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -80,7 +81,7 @@ export const getColumnClass = (column: any) => {
 };
 
 // Handles pagination, filtering, and sorting client-side
-export const PaginatedTable = (props: PaginatedTableProps) => {
+export const GenericTable = (props: GenericTableProps) => {
   const {
     tableKey,
     ptCurrentPage,
@@ -104,6 +105,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
+    middleScroll = false,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -284,6 +286,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           checkedRows={checkedRows}
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
+          middleScroll={middleScroll}
         />
         <TableBody
           extendedInfo={extendedInfo}
@@ -292,6 +295,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           type={name}
           rows={rows}
           expandedRows={expandedRows}
+          middleScroll={middleScroll}
         />
         <Table.Footer>
           <Table.Row>
