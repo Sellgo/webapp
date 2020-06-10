@@ -36,6 +36,11 @@ export const selectItemsCountList = [
     text: '100',
     value: '100',
   },
+  {
+    key: '200',
+    text: '200',
+    value: '200',
+  },
 ];
 
 export const tableKeys = {

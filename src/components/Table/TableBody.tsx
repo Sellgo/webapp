@@ -26,17 +26,11 @@ const TableCell = (props: TableColumnCellProps) => {
       : '';
 
   const cellProps: any = {
-     className,
-    key:   column.dataKey || Date.now(),
+    className,
+    key: column.dataKey || Date.now(),
   };
 
-  return (
-    <Table.Cell {...cellProps}>
-      { column
-        ? renderCell(row, column)
-        : null}
-    </Table.Cell>
-  );
+  return <Table.Cell {...cellProps}>{column ? renderCell(row, column) : null}</Table.Cell>;
 };
 
 export const TableBody = (props: TableBodyProps) => {
@@ -61,9 +55,7 @@ export const TableBody = (props: TableBodyProps) => {
             </Table.Row>
             {expandedRows && expandedRows === row.id && extendedInfo && (
               <Table.Row key={index + '-extended'}>
-                <Table.Cell
-                  colSpan={columns.length}
-                  className='default-column'>
+                <Table.Cell colSpan={columns.length} className="default-column">
                   {''}
                   {expandedRows === row.id && extendedInfo(row)}
                 </Table.Cell>
