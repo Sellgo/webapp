@@ -4,14 +4,17 @@ import { renderToString } from 'react-dom/server';
 import { Grid, Image } from 'semantic-ui-react';
 import Chart from '../../../../../components/Chart/Chart';
 import { showNAIfZeroOrNull } from '../../../../../utils/format';
+import _ from 'lodash';
 
 interface RevenueChartProps {
   products: Product[];
+  profitFinderChartOptions: any;
+  chartComponentRef: any;
 }
 
 class RevenueChart extends Component<RevenueChartProps> {
   render() {
-    const { products } = this.props;
+    const { products, profitFinderChartOptions, chartComponentRef } = this.props;
 
     const productSKUs = products.map(e => e.title);
     const profit = products.map(e => parseFloat(e.profit));
@@ -71,12 +74,8 @@ class RevenueChart extends Component<RevenueChartProps> {
       );
     };
 
-    const chartOptions = {
-      title: {
-        text: 'Revenue Breakdown Comparison',
-        margin: 50,
-        align: 'center',
-      },
+    const revenueChartOptions = {
+      title: null,
       chart: {
         type: 'column',
         zoomType: 'x',
@@ -135,7 +134,9 @@ class RevenueChart extends Component<RevenueChartProps> {
       }),
     };
 
-    return <Chart chartOptions={chartOptions} />;
+    const chartOptions = _.merge(_.cloneDeep(revenueChartOptions), profitFinderChartOptions);
+
+    return <Chart chartOptions={chartOptions} componentRef={chartComponentRef} />;
   }
 }
 

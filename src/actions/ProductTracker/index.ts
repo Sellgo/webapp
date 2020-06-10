@@ -181,10 +181,12 @@ export const confirmTrackProduct = (
     .then(json => {
       if (json.status === 200) {
         success(`Product ${asin.toUpperCase()} Successfully Tracked`);
+
         setTimeout(() => {
           dispatch(fetchAllSupplierProductTrackerDetails(period));
           dispatch(setMenuItem(null));
-        }, 1000);
+          dispatch(getSellerQuota());
+        }, 300);
       }
     })
     .catch(err => {
