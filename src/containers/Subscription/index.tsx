@@ -24,9 +24,14 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   };
 
   componentDidMount() {
-    this.setState({
-      accountType: window.location.search === '?type=basic' ? 'basic' : 'pro',
-    });
+    this.setState(
+      {
+        accountType: window.location.search === '?type=basic' ? 'basic' : 'pro',
+      },
+      () => {
+        localStorage.setItem('planType', this.state.accountType);
+      }
+    );
   }
 
   setSignup() {
