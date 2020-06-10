@@ -51,6 +51,7 @@ export interface PaginatedTableProps {
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
+  pagination?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -104,6 +105,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
+    pagination = true,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -293,19 +295,21 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           rows={rows}
           expandedRows={expandedRows}
         />
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan={columns.length}>
-              <Pagination
-                totalPages={rows.length ? totalPages : ''}
-                activePage={currentPage}
-                onPageChange={(event, data) => {
-                  setCurrentPage(Number(data.activePage));
-                }}
-              />
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
+        {pagination && (
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan={columns.length}>
+                <Pagination
+                  totalPages={rows.length ? totalPages : ''}
+                  activePage={currentPage}
+                  onPageChange={(event, data) => {
+                    setCurrentPage(Number(data.activePage));
+                  }}
+                />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        )}
       </Table>
     </div>
   );
