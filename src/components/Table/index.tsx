@@ -9,6 +9,7 @@ import { tableKeys } from '../../constants';
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import { Link } from 'react-router-dom';
+import { TableBody } from './TableBody';
 import TableHeader from './TableHeader';
 
 export interface Column {
@@ -53,6 +54,7 @@ export interface PaginatedTableProps {
   renderFilterSectionComponent?: () => void;
   showTableLock?: boolean;
   featuresLock?: boolean;
+  pagination?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -106,6 +108,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     toggleColumnCheckbox,
     setPage,
     renderFilterSectionComponent,
+    pagination = true,
     showTableLock,
     featuresLock,
   } = props;
@@ -291,80 +294,48 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
         />
-        <Table.Body>
-          {rows.length ? (
-            rows.map((row, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <Table.Row key={index}>
-                    {columns.map((column, index) => {
-                      return name === 'trackerTable'
-                        ? getColumnLabel(column.dataKey, columnFilterData) && (
-                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                              {renderCell(row, column)}
-                            </Table.Cell>
-                          )
-                        : getColumnLabel(column.dataKey, filteredColumns) && (
-                            <Table.Cell
-                              key={column.dataKey || index}
-                              style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto' }}
-                              className={`table-cell ${column.dataKey} ${getColumnClass(column)}`}
-                            >
-                              {renderCell(row, column)}
-                            </Table.Cell>
-                          );
-                    })}
-                  </Table.Row>
-                  {expandedRows && expandedRows === row.id && extendedInfo && (
-                    <Table.Row key={index + '-extended'}>
-                      <Table.Cell
-                        colSpan={columns.length}
-                        style={{ minWidth: '95px', width: '95px', height: '46px', padding: '4px' }}
-                      >
-                        {''}
-                        {expandedRows === row.id && extendedInfo(row)}
-                      </Table.Cell>
-                    </Table.Row>
-                  )}
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <tr />
-          )}
-        </Table.Body>
+        <TableBody
+          extendedInfo={extendedInfo}
+          columns={columns}
+          columnFilterData={columnFilterData}
+          type={name}
+          rows={rows}
+          expandedRows={expandedRows}
+        />
 
-        <Table.Footer className={showTableLock ? 'lock-footer' : ''}>
-          <Table.Row>
-            {showTableLock ? (
-              <div className="table-lock">
-                <div className="table-lock__content">
-                  <p>Want to see more?</p>
-                  <Icon name="lock" size="big" />
-                  <Link to="/settings/pricing">
-                    <Button primary={true}>Subscribe to Unlock</Button>
-                  </Link>
+        {pagination && (
+          <Table.Footer className={showTableLock ? 'lock-footer' : ''}>
+            <Table.Row>
+              {showTableLock ? (
+                <div className="table-lock">
+                  <div className="table-lock__content">
+                    <p>Want to see more?</p>
+                    <Icon name="lock" size="big" />
+                    <Link to="/settings/pricing">
+                      <Button primary={true}>Subscribe to Unlock</Button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <Table.HeaderCell colSpan={columns.length}>
-                <Pagination
-                  totalPages={rows.length ? totalPages : ''}
-                  activePage={currentPage}
-                  onPageChange={(event, data) => {
-                    setCurrentPage(Number(data.activePage));
-                  }}
-                />
-              </Table.HeaderCell>
-            )}
-          </Table.Row>
-        </Table.Footer>
+              ) : (
+                <Table.HeaderCell colSpan={columns.length}>
+                  <Pagination
+                    totalPages={rows.length ? totalPages : ''}
+                    activePage={currentPage}
+                    onPageChange={(event, data) => {
+                      setCurrentPage(Number(data.activePage));
+                    }}
+                  />
+                </Table.HeaderCell>
+              )}
+            </Table.Row>
+          </Table.Footer>
+        )}
       </Table>
     </div>
   );
 };
 
-const renderCell = (row: { [key: string]: any }, column: Column) => {
+export const renderCell = (row: { [key: string]: any }, column: Column) => {
   if (column.render) {
     return column.render(row);
   }
