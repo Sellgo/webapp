@@ -122,7 +122,9 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
-  const filteredColumns = !!columnFilterData ? columnFilterData : columns.map((c: any) => ({...c,value: c.show}));
+  const filteredColumns = columnFilterData
+    ? columnFilterData
+    : columns.map((c: any) => ({ ...c, value: c.show }));
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
@@ -397,7 +399,10 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
                             }
                           />
                         ) : (
-                          <Icon className={column.icon} style={{display: column.label === 'Search'? 'none' : 'inline-block'}}/>
+                          <Icon
+                            className={column.icon}
+                            style={{ display: column.label === 'Search' ? 'none' : 'inline-block' }}
+                          />
                         )}
                       </div>
                     </Table.HeaderCell>
