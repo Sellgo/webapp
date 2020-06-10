@@ -52,8 +52,8 @@ const Actions = ({
   currentError,
   currentSynId,
   currentProgress,
-  currentSpeed,
-  currentEta,
+  // currentSpeed,
+  // currentEta,
   currentProgressShow,
   postSynthesisRun,
   setProgressShow,
@@ -126,10 +126,10 @@ const Actions = ({
                 indicating
               />
               {currentProgress < 100 ? (
-                <Grid>
-                  <span>Speed: {currentSpeed} UPC/min</span>
+                <Grid style={{ justifyContent: 'center' }}>
+                  {/* <span>Speed: {currentSpeed} UPC/min</span> */}
                   <span>Uploading File</span>
-                  <span>ETA: {Math.ceil(currentEta / 60)} Mins</span>
+                  {/* <span>ETA: {Math.ceil(currentEta / 60)} Mins</span> */}
                 </Grid>
               ) : (
                 <Grid className="Actions__completed">

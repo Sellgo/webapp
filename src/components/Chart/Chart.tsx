@@ -48,10 +48,11 @@ const defaultOptions: Highcharts.Options = {
 
 export interface ChartProps {
   chartOptions?: any;
+  componentRef?: any;
 }
 
 const Chart = (props: ChartProps) => {
-  const { chartOptions } = props;
+  const { chartOptions, componentRef } = props;
   const options = _.merge(_.cloneDeep(defaultOptions), chartOptions);
   if (chartOptions === undefined) {
     return (
@@ -67,7 +68,7 @@ const Chart = (props: ChartProps) => {
       </Segment>
     );
   }
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
+  return <HighchartsReact highcharts={Highcharts} options={options} ref={componentRef} />;
 };
 
 export default Chart;

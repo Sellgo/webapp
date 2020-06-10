@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { Loader, Form, Modal, Header, Grid } from 'semantic-ui-react';
+import { Loader, Form, Modal, Grid, Icon } from 'semantic-ui-react';
 import { Product } from '../../../../../interfaces/Product';
 import { Supplier } from '../../../../../interfaces/Supplier';
 import {
@@ -12,34 +12,78 @@ import ProductDetails from '../../ProductDetails';
 import './index.scss';
 import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import RevenueChart from './RevenueChart';
+import { useWindowSize } from '../../../../../hooks/useWindowSize';
+import ProfitFinderChart from '../../../../../components/Chart/ProfitFinderChart';
+import { setSupplierPageNumber } from '../../../../../actions/Suppliers';
+import { supplierPageNumberSelector } from '../../../../../selectors/Supplier';
 
 interface SupplierChartsProps {
   supplierDetails: Supplier;
   filteredProducts: Product[];
   singlePageItemsCount: number;
+  pageNumber: number;
+  setPageNumber: (pageNumber: number) => void;
   openProductDetailModal: (product?: Product) => void;
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
 }
+
+function ChartContainerHeightProvider({ children }: any) {
+  const windowSize = useWindowSize();
+
+  const chartContainerHeight =
+    windowSize.width && windowSize.width >= 2560
+      ? 500
+      : windowSize.width && windowSize.width >= 1920
+      ? 367
+      : windowSize.width && windowSize.width >= 1368
+      ? 252
+      : 367;
+
+  return children(chartContainerHeight);
+}
+
 class SupplierCharts extends Component<SupplierChartsProps> {
   state = { showChart: 'chart0' };
 
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
+  handleLeftArrowClick = () => {
+    const { pageNumber, setPageNumber } = this.props;
+    if (pageNumber > 1) {
+      setPageNumber(pageNumber - 1);
+    }
+  };
+  handleRightArrowClick = () => {
+    const { pageNumber, setPageNumber, filteredProducts, singlePageItemsCount } = this.props;
+    const maxPageNumber = Math.ceil(filteredProducts.length / singlePageItemsCount);
+    if (pageNumber < maxPageNumber) {
+      setPageNumber(pageNumber + 1);
+    }
+  };
 
   renderCharts = () => {
-    const { supplierDetails, singlePageItemsCount, filteredProducts } = this.props;
+    const { supplierDetails, singlePageItemsCount, filteredProducts, pageNumber } = this.props;
 
-    const showProducts = filteredProducts.slice(0, singlePageItemsCount);
+    const showProducts = filteredProducts.slice(
+      (pageNumber - 1) * singlePageItemsCount,
+      pageNumber * singlePageItemsCount
+    );
 
     switch (this.state.showChart) {
       case 'chart0':
         return supplierDetails && supplierDetails.rate ? (
-          <SupplierHitChart supplier={supplierDetails} />
+          <ProfitFinderChart
+            render={(props: any) => <SupplierHitChart {...props} />}
+            supplier={supplierDetails}
+          />
         ) : null;
 
       case 'chart1': {
         return showProducts.length ? (
-          <RevenueChart products={showProducts} />
+          <ProfitFinderChart
+            render={(props: any) => <RevenueChart {...props} />}
+            products={showProducts}
+          />
         ) : (
           this.renderLoader(showProducts)
         );
@@ -67,16 +111,50 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
+
     return (
       <div className="supplier-charts">
-        {/* IMPORTANT: these styles are required to display chart properly when window resizes */}
-        <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-          <div style={{ position: 'absolute', width: '100%' }}>
-            <this.renderCharts />
+        <Grid className="supplier-charts__chart-grid">
+          <div className="chart-grid__left-column">
+            {this.state.showChart === 'chart1' && (
+              <Icon
+                className="chart-grid__left-arrow"
+                name="angle left"
+                size="big"
+                onClick={this.handleLeftArrowClick}
+              />
+            )}
           </div>
-        </div>
-        <Grid centered className="chart-end-content">
-          <Header as="h4">Select your favorite chart</Header>
+          <ChartContainerHeightProvider>
+            {(chartContainerHeight: number) => (
+              <div className="chart-grid__middle-column">
+                {/* IMPORTANT: these inner divs & styles are required to handle chart resizing on window resize */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: `${chartContainerHeight}px`,
+                  }}
+                >
+                  <div style={{ position: 'absolute', width: '100%' }}>
+                    <this.renderCharts />
+                  </div>
+                </div>
+              </div>
+            )}
+          </ChartContainerHeightProvider>
+          <div className="chart-grid__right-column">
+            {this.state.showChart === 'chart1' && (
+              <Icon
+                className="chart-grid__right-arrow"
+                name="angle right"
+                size="big"
+                onClick={this.handleRightArrowClick}
+              />
+            )}
+          </div>
+        </Grid>
+        <div className="chart-end-content">
           <Form className="chart-end-form">
             <Form.Group>
               <Form.Radio
@@ -93,7 +171,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
               />
             </Form.Group>
           </Form>
-        </Grid>
+        </div>
         <Modal
           size={'large'}
           open={this.props.productDetailsModalOpen}
@@ -114,11 +192,13 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
+  pageNumber: supplierPageNumberSelector(state),
 });
 
 const mapDispatchToProps = {
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SupplierCharts);

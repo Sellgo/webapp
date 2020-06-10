@@ -224,11 +224,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
   renderAvgProfit = (row: ProductTrackerDetails) => (
     <p className="stat">
-      {showNAIfZeroOrNull(row.avg_profit !== '0.00', formatCurrency(row.avg_profit))}
+      {showNAIfZeroOrNull(
+        row.avg_profit && row.avg_profit !== '0.00',
+        formatCurrency(row.avg_profit)
+      )}
     </p>
   );
   renderAvgPrice = (row: ProductTrackerDetails) => (
-    <p className="stat">{showNAIfZeroOrNull(row.avg_price !== '0.00', `$${row.avg_price}`)}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
+    </p>
   );
   renderAvgMargin = (row: ProductTrackerDetails) => {
     const toggleExpandRow = (id: number) => {
@@ -249,7 +254,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return (
       <div className="avg-margin">
         <p className="stat">
-          {showNAIfZeroOrNull(row.avg_margin !== '0.00', `${row.avg_margin}%`)}
+          {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
         </p>
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
           <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
@@ -261,7 +266,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return (
       <>
         <p className="stat">
-          {showNAIfZeroOrNull(row.avg_daily_sales !== '0.00', formatNumber(row.avg_daily_sales))}
+          {showNAIfZeroOrNull(
+            row.avg_daily_sales && row.avg_daily_sales !== '0.00',
+            formatNumber(row.avg_daily_sales)
+          )}
         </p>
       </>
     );
@@ -269,29 +277,45 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderDailyRevenue = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        {showNAIfZeroOrNull(row.avg_daily_revenue !== '0.00', `$${row.avg_daily_revenue}`)}
+        {showNAIfZeroOrNull(
+          row.avg_daily_revenue && row.avg_daily_revenue !== '0.00',
+          `$${row.avg_daily_revenue}`
+        )}
       </p>
     );
   };
   renderAvgROI = (row: ProductTrackerDetails) => {
-    return <p className="stat">{showNAIfZeroOrNull(row.avg_roi !== '0.00', `${row.avg_roi}%`)}</p>;
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.avg_roi && row.avg_roi !== '0.00', `${row.avg_roi}%`)}
+      </p>
+    );
   };
   renderAvgRank = (row: ProductTrackerDetails) => {
-    return <p className="stat">{showNAIfZeroOrNull(row.avg_rank !== 0, row.avg_rank)}</p>;
+    return (
+      <p className="stat">{showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, row.avg_rank)}</p>
+    );
   };
   renderCustomerReviews = (row: ProductTrackerDetails) => {
     return (
-      <p className="stat">{showNAIfZeroOrNull(row.customer_reviews !== 0, row.customer_reviews)}</p>
+      <p className="stat">
+        {showNAIfZeroOrNull(
+          row.customer_reviews && row.customer_reviews !== 0,
+          row.customer_reviews
+        )}
+      </p>
     );
   };
   renderRating = (row: ProductTrackerDetails) => {
-    return <p className="stat">{showNAIfZeroOrNull(row.rating !== '0.0', row.rating)}</p>;
+    return (
+      <p className="stat">{showNAIfZeroOrNull(row.rating && row.rating !== '0.0', row.rating)}</p>
+    );
   };
   renderDimensions = (row: ProductTrackerDetails) => {
-    return <p className="stat">{showNAIfZeroOrNull(row.dimension !== null, row.dimension)}</p>;
+    return <p className="stat">{showNAIfZeroOrNull(row.dimension, row.dimension)}</p>;
   };
   renderWeight = (row: ProductTrackerDetails) => {
-    return <p className="stat">{showNAIfZeroOrNull(row.weight !== null, `${row.weight} lbs`)}</p>;
+    return <p className="stat">{showNAIfZeroOrNull(row.weight, `${row.weight} lbs`)}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;

@@ -22,7 +22,7 @@ export const userOnboarding = [
 
 export const onboardingVideos = [
   {
-    area: 'Supplier Management',
+    category: 'Supplier Management',
     path: [
       {
         id: '-CpCzUP0AVQ',
@@ -33,7 +33,7 @@ export const onboardingVideos = [
     ],
   },
   {
-    area: 'Profit Finder',
+    category: 'Profit Finder',
     path: [
       {
         id: 'C-bpxF0c-24',
@@ -44,7 +44,7 @@ export const onboardingVideos = [
     ],
   },
   {
-    area: 'Product Tracker',
+    category: 'Product Tracker',
     path: [
       {
         id: 'WNAVfz7Ss-A',

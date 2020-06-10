@@ -137,15 +137,15 @@ export default (state = initialState, action: AnyAction) => {
     }
     case REMOVE_TRACKED_PRODUCT: {
       const productId = action.payload;
-      const trackerDetailsAfterRemove = get(state, 'trackerDetails');
-      trackerDetailsAfterRemove.count = trackerDetailsAfterRemove.count - 1;
-      trackerDetailsAfterRemove.results = trackerDetailsAfterRemove.results.filter(
-        (product: any) => product.id !== productId
+      const newStateWithTrackerDetailCountReduced = setIn(
+        state,
+        'trackerDetails.count',
+        get(state, 'trackerDetails.count') - 1
       );
       const newStateWithTrackerDetailsRemoved = setIn(
-        state,
-        'trackerDetails',
-        trackerDetailsAfterRemove
+        newStateWithTrackerDetailCountReduced,
+        'trackerDetails.results',
+        get(state, 'trackerDetails.results').filter((product: any) => product.id !== productId)
       );
       const filteredProductsAfterRemove = get(
         newStateWithTrackerDetailsRemoved,

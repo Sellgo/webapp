@@ -20,6 +20,7 @@ import {
   findFilteredProducts,
   searchFilteredProduct,
   UPDATE_SUPPLIER_PRODUCTS,
+  SET_SUPPLIER_PAGE_NUMBER,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 
@@ -47,6 +48,7 @@ const initialState = {
     weight: '',
   },
   singlePageItemsCount: 10,
+  pageNumber: 1,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -126,6 +128,9 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT:
       return setIn(state, 'singlePageItemsCount', action.payload);
+    case SET_SUPPLIER_PAGE_NUMBER: {
+      return setIn(state, 'pageNumber', action.payload);
+    }
     case SUPPLIER_QUOTA:
       return setIn(state, 'quota', action.payload);
     default:
