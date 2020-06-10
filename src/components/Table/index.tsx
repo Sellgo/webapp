@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input } from 'semantic-ui-react';
+import { Table, Pagination, Icon, Card, Input, Button } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 
 import './index.scss';
@@ -8,9 +8,10 @@ import { tableKeys } from '../../constants';
 
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
+import { Link } from 'react-router-dom';
 import { TableBody } from './TableBody';
-
 import TableHeader from './TableHeader';
+
 export interface Column {
   render?: (row: any) => string | JSX.Element;
   dataKey?: string;
@@ -51,6 +52,8 @@ export interface PaginatedTableProps {
   setPage?: (pageNumber: number) => void;
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
+  showTableLock?: boolean;
+  featuresLock?: boolean;
   pagination?: boolean;
 }
 
@@ -106,6 +109,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     setPage,
     renderFilterSectionComponent,
     pagination = true,
+    showTableLock,
+    featuresLock,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -189,6 +194,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
   rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
+  rows = showTableLock ? rows.slice(0, 3) : rows;
 
   useEffect(() => {
     if (sortClicked) {
@@ -223,7 +229,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   return (
     <div className="generic-table scrollable">
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className="table-menu-header">
+        <div className={`table-menu-header ${featuresLock && 'disabled'}`}>
           {showProductFinderSearch ? (
             <ProductSearch
               searchFilteredProduct={searchProfitFinderProduct}
@@ -233,6 +239,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           ) : (
             <div />
           )}
+
           <SelectItemsCount
             setCurrentPage={setCurrentPage}
             totalCount={totalItemsCount && totalItemsCount}
@@ -295,18 +302,31 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           rows={rows}
           expandedRows={expandedRows}
         />
+
         {pagination && (
-          <Table.Footer>
+          <Table.Footer className={showTableLock ? 'lock-footer' : ''}>
             <Table.Row>
-              <Table.HeaderCell colSpan={columns.length}>
-                <Pagination
-                  totalPages={rows.length ? totalPages : ''}
-                  activePage={currentPage}
-                  onPageChange={(event, data) => {
-                    setCurrentPage(Number(data.activePage));
-                  }}
-                />
-              </Table.HeaderCell>
+              {showTableLock ? (
+                <div className="table-lock">
+                  <div className="table-lock__content">
+                    <p>Want to see more?</p>
+                    <Icon name="lock" size="big" />
+                    <Link to="/settings/pricing">
+                      <Button primary={true}>Subscribe to Unlock</Button>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <Table.HeaderCell colSpan={columns.length}>
+                  <Pagination
+                    totalPages={rows.length ? totalPages : ''}
+                    activePage={currentPage}
+                    onPageChange={(event, data) => {
+                      setCurrentPage(Number(data.activePage));
+                    }}
+                  />
+                </Table.HeaderCell>
+              )}
             </Table.Row>
           </Table.Footer>
         )}

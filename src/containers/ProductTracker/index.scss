@@ -10,6 +10,11 @@
   .product-tracker {
     .ProductTracker__search {
       display: flex;
+
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.3;
+      }
     }
 
     .generic-table {

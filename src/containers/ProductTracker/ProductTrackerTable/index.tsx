@@ -29,8 +29,10 @@ import { columnFilter } from '../../../constants/Tracker';
 import SelectItemsCount from '../../../components/Table/SelectItemsCount';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface TrackerProps {
+  subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
   filteredProducts: any;
@@ -446,8 +448,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       handleMenu,
       setPageNumber,
       productTrackerPageNo,
+      subscriptionType,
     } = this.props;
     const { ColumnFilterBox } = this.state;
+    const showTableLock = isSubscriptionFree(subscriptionType);
 
     return (
       <div className="tracker-table">
@@ -473,20 +477,22 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
 
-          <SelectItemsCount
-            setCurrentPage={setPageNumber}
-            totalCount={filteredProducts.length}
-            singlePageItemsCount={singlePageItemsCount}
-            currentPage={productTrackerPageNo}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-          />
+          {!showTableLock && (
+            <SelectItemsCount
+              setCurrentPage={setPageNumber}
+              totalCount={filteredProducts.length}
+              singlePageItemsCount={singlePageItemsCount}
+              currentPage={productTrackerPageNo}
+              setSinglePageItemsCount={setSinglePageItemsCount}
+            />
+          )}
         </div>
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <PaginatedTable
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
-            data={filteredProducts}
+            data={showTableLock ? [] : filteredProducts}
             columns={this.columns}
             setPage={setPageNumber}
             ptCurrentPage={productTrackerPageNo}
@@ -501,6 +507,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             productTrackerPageNo={this.props.productTrackerPageNo}
             toggleColumnCheckbox={this.handleClick}
             showFilter={true}
+            showTableLock={showTableLock}
           />
         ) : (
           <Segment className="product-tracker-loader">
@@ -523,6 +530,7 @@ const mapStateToProps = (state: any) => {
     filteredProducts: get(state, 'productTracker.filteredProducts'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
+    subscriptionType: get(state, 'subscription.subscriptionType'),
   };
 };
 

@@ -5,10 +5,12 @@ import get from 'lodash/get';
 import { Progress, Button } from 'semantic-ui-react';
 import { getSellerQuota } from '../../actions/Settings';
 import './index.scss';
+import { isSubscriptionFree } from '../../utils/subscriptions';
 
 interface QuotaMeterProps {
   sellerQuota: any;
   getSellerQuota: any;
+  subscriptionType: string;
 }
 
 class QuotaMeter extends React.Component<QuotaMeterProps> {
@@ -18,7 +20,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
   }
 
   render() {
-    const { sellerQuota } = this.props;
+    const { sellerQuota, subscriptionType } = this.props;
 
     // Don't render until data is fetched
     if (!sellerQuota) {
@@ -30,7 +32,9 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
     return (
       <div className="quota-meter">
         <Progress percent={percent} size="tiny" color="blue">
-          {sellerQuota.used} tracked out of {sellerQuota.available}
+          {isSubscriptionFree(subscriptionType)
+            ? `0 tracked out of 0`
+            : `${sellerQuota.used} tracked out of ${sellerQuota.available}`}
         </Progress>
         <Button as={Link} to="/settings/pricing" primary={true} className="add-new-supplier">
           Upgrade Now
@@ -42,6 +46,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
 
 const mapStateToProps = (state: any) => ({
   sellerQuota: get(state, 'settings.sellerQuota'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
 });
 
 const mapDispatchToProps = {
