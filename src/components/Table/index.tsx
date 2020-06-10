@@ -8,6 +8,8 @@ import { tableKeys } from '../../constants';
 
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
+import { TableBody } from './TableBody';
+
 import TableHeader from './TableHeader';
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -283,48 +285,14 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
         />
-        <Table.Body>
-          {rows.length ? (
-            rows.map((row, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <Table.Row key={index}>
-                    {columns.map((column, index) => {
-                      return name === 'trackerTable'
-                        ? getColumnLabel(column.dataKey, columnFilterData) && (
-                            <Table.Cell key={column.dataKey || index} style={{ maxWidth: 400 }}>
-                              {renderCell(row, column)}
-                            </Table.Cell>
-                          )
-                        : getColumnLabel(column.dataKey, filteredColumns) && (
-                            <Table.Cell
-                              key={column.dataKey || index}
-                              style={{ textAlign: column.icon && column.popUp ? 'center' : 'auto' }}
-                              className={`table-cell ${column.dataKey} ${getColumnClass(column)}`}
-                            >
-                              {renderCell(row, column)}
-                            </Table.Cell>
-                          );
-                    })}
-                  </Table.Row>
-                  {expandedRows && expandedRows === row.id && extendedInfo && (
-                    <Table.Row key={index + '-extended'}>
-                      <Table.Cell
-                        colSpan={columns.length}
-                        style={{ minWidth: '95px', width: '95px', height: '46px', padding: '4px' }}
-                      >
-                        {''}
-                        {expandedRows === row.id && extendedInfo(row)}
-                      </Table.Cell>
-                    </Table.Row>
-                  )}
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <tr />
-          )}
-        </Table.Body>
+        <TableBody
+          extendedInfo={extendedInfo}
+          columns={columns}
+          columnFilterData={columnFilterData}
+          type={name}
+          rows={rows}
+          expandedRows={expandedRows}
+        />
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan={columns.length}>
@@ -343,7 +311,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   );
 };
 
-const renderCell = (row: { [key: string]: any }, column: Column) => {
+export const renderCell = (row: { [key: string]: any }, column: Column) => {
   if (column.render) {
     return column.render(row);
   }
