@@ -161,10 +161,15 @@ export class SelectFileStep extends Step {
     const mappings: string[] = [];
     header.forEach((headerCell: string) => {
       const mappingKeys = FieldsToMap.map(item => item.key);
-      const keyIndex = mappingKeys.findIndex(
-        (key: string) => headerCell.toLowerCase().includes(key.toLowerCase()) // find keyword in header cell
-      );
-      mappings.push(mappingKeys[keyIndex]);
+      if (headerCell) {
+        const keyIndex = mappingKeys.findIndex(
+          (key: string) =>
+            String(headerCell)
+              .toLowerCase()
+              .includes(key.toLowerCase()) // find keyword in header cell
+        );
+        mappings.push(mappingKeys[keyIndex]);
+      }
     });
 
     return mappings;

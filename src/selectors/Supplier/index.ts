@@ -24,3 +24,4 @@ export const getSynthesisId = (state: {}) => get(state, 'uploadSupplier.synthesi
 export const supplierMetricsSelector = (state: {}) => get(state, 'suppliers.timeEfficiency');
 
 export const supplierProductsSelector = (state: {}) => get(state, 'supplier.products');
+export const supplierPageNumberSelector = (state: {}) => get(state, 'supplier.pageNumber');

@@ -1,4 +1,4 @@
-.onboarding-page {
+.Onboarding__page {
   $font-fam: 'Work sans', sans-serif !important;
 
   .Onboarding__tutorial {
@@ -59,8 +59,7 @@
     }
 
     div:first-child.carousel.carousel-slider {
-      margin-bottom: 20px;
-      padding: 0 20px 80px 20px;
+      padding: 0 20px 50px 20px;
 
       .slider-wrapper.axis-horizontal .slider {
         .slide {
@@ -133,6 +132,10 @@
     display: flex;
     width: 100%;
     justify-content: space-around;
+
+    .Onboarding__playlist.upnext {
+      width: 320px;
+    }
   }
 
   .Onboarding__playlist.related {
@@ -157,8 +160,6 @@
   }
 
   .column.row {
-    padding: 0 0 0 40px;
-
     .Onboarding__player {
       .ui.grid:first-child {
         margin: 0;
@@ -185,7 +186,7 @@
       font-size: 50px;
       color: #3b4557;
       font-family: $font-fam;
-      padding-left: 14px;
+      padding-left: 40px;
       margin-bottom: 15px;
     }
 
@@ -266,7 +267,7 @@
 }
 
 @media screen and (max-width: 1800px) {
-  .onboarding-page {
+  .Onboarding__page {
     $size: 1.5;
 
     .Onboarding__tutorial {
@@ -291,8 +292,6 @@
       }
 
       div:first-child.carousel.carousel-slider {
-        margin-bottom: 20px / $size;
-
         .slider-wrapper.axis-horizontal .slider {
           .slide {
             min-width: 450px / $size !important;
@@ -335,8 +334,6 @@
     }
 
     .column.row {
-      padding-left: 40px / $size;
-
       .Onboarding__player {
         .header {
           font-size: 30px / $size;
@@ -351,7 +348,7 @@
 
       .Onboarding__playlist.title {
         font-size: 50px / $size;
-        padding-left: 14px / $size;
+        padding-left: 40px / $size;
         margin-bottom: 15px / $size;
       }
 
@@ -435,7 +432,7 @@
 }
 
 @media screen and (max-width: 500px) {
-  .onboarding-page .Slider__container div:first-child.carousel.carousel-slider .slider-wrapper.axis-horizontal .slider .slide {
+  .Onboarding__page .slider-wrapper.axis-horizontal .slider .slide {
     min-width: 100% !important;
     margin: 0;
   }
@@ -446,13 +443,13 @@
 }
 
 @media screen and (max-width: 426px) {
-  .onboarding-page i.fab.fa-youtube {
+  .Onboarding__page i.fab.fa-youtube {
     top: 29%;
   }
 }
 
 @media screen and (max-width: 376px) {
-  .onboarding-page i.fab.fa-youtube {
+  .Onboarding__page i.fab.fa-youtube {
     top: 24%;
   }
 }

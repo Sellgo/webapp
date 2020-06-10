@@ -125,15 +125,19 @@ class Synthesis extends Component<SynthesisProps> {
           position="top left"
           size="tiny"
         >
-          <h4>{'Adding a Supplier'}</h4>
-          To add a supplier:
+          <h4>{'Adding new Search'}</h4>
+          To add a new search:
           <List as={'ol'}>
-            <List.Item as="li">In the Business menu, select the Suppliers.</List.Item>
-            <List.Item as="li">On the Suppliers tab, select New Supplier.</List.Item>
+            <List.Item as="li">Click on Add New Search.</List.Item>
+            <List.Item as="li">In the popup enter the details of the search.</List.Item>
+            <List.Item as="li">Select your supplier file from your computer (.csv).</List.Item>
             <List.Item as="li">
-              On the New Supplier screen, enter the details of the suppler.
+              We will check your file for errors and you will have the option to fix it.
             </List.Item>
-            <List.Item as="li">Save the details of the new supplier.</List.Item>
+            <List.Item as="li">Click on upload.</List.Item>
+            <List.Item as="li">
+              You can close the popup and the upload progress will still run.
+            </List.Item>
           </List>
         </Popup>
       </>

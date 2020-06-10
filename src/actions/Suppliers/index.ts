@@ -38,6 +38,7 @@ import {
   SEARCH_SUPPLIER_PRODUCTS,
   UPDATE_SUPPLIER_PRODUCTS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
+  SET_SUPPLIER_PAGE_NUMBER,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -171,7 +172,7 @@ export const postSynthesisRun = (synthesisId: string) => async (
     bodyFormData
   )
     .then(() => {
-      dispatch(updateSupplier(existingSupplier));
+      dispatch(updateSupplier({ ...existingSupplier, ...{ file_status: 'pending' } }));
       dispatch(fetchSynthesisProgressUpdates());
     })
     .catch(err => {
@@ -199,7 +200,8 @@ export const fetchSynthesisProgressUpdates = () => async (
       supplier &&
       supplier.file_status &&
       supplier.file_status !== null &&
-      supplier.file_status !== 'completed'
+      supplier.file_status !== 'completed' &&
+      supplier.file_status !== 'inactive'
   );
 
   const handleUpdateSupplier = (response: any, index: any) => {
@@ -231,6 +233,13 @@ export const fetchSynthesisProgressUpdates = () => async (
         dispatch(setEta(responses[index].data.eta));
         dispatch(setProgress(responses[index].data.progress));
         dispatch(setSpeed(responses[index].data.speed));
+      }
+
+      if (
+        responses[index].data.progress === 100 &&
+        currSynthesisId === supplier.synthesis_file_id
+      ) {
+        dispatch(updateSupplier({ ...supplier, ...{ file_status: 'completed' } }));
       }
 
       if (responses[index].data.progress === 100) {
@@ -303,11 +312,10 @@ export const fetchSupplierProducts = (supplierID: any) => async (
   );
 
   if (response.data.length) {
-    dispatch(isLoadingSupplierProducts(false));
     const products = response.data;
-
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
+    dispatch(isLoadingSupplierProducts(false));
   } else {
     dispatch(isLoadingSupplierProducts(false));
     error('Data not found');
@@ -520,6 +528,11 @@ export const updateSupplierFilterRanges = (filterRanges: any) => ({
 export const setSupplierSinglePageItemsCount = (itemsCount: number) => ({
   type: SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   payload: itemsCount,
+});
+
+export const setSupplierPageNumber = (pageNumber: number) => ({
+  type: SET_SUPPLIER_PAGE_NUMBER,
+  payload: pageNumber,
 });
 
 export const getTimeEfficiency = () => (dispatch: any) => {
