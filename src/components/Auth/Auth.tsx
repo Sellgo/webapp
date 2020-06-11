@@ -106,6 +106,8 @@ export default class Auth {
     this.getProfile(() => {
       this.registerSeller();
     });
+
+    console.log('plan type: ', localStorage.getItem('planType'));
   };
 
   getProfile(cb: any) {

@@ -4,7 +4,6 @@ import Axios from 'axios';
 import AdminLayout from '../../components/AdminLayout';
 import ScrollToTop from '../../components/ScrollToTop';
 import Settings from '../Settings';
-import Subscription from '../Settings/Subscription';
 import Home from '../Home';
 import Synthesis from '../Synthesis';
 import SupplierDetail from '../Synthesis/Supplier';
@@ -19,6 +18,8 @@ import ProductTracker from '../ProductTracker';
 import Signup from '../Signup';
 import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
+import SubscriptionPage from '../Subscription';
+import Subscription from '../Settings/Subscription';
 
 export const auth = new Auth();
 
@@ -158,6 +159,11 @@ function App() {
             exact={true}
             path="/reset-password"
             render={renderProps => <ResetPassword auth={auth} {...renderProps} />}
+          />
+          <Route
+            exact={true}
+            path="/subscription"
+            render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
           />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
