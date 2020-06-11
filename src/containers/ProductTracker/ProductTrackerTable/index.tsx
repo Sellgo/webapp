@@ -213,7 +213,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
     this.setState({ columnFilterData: [...checkedData] });
   };
-
   renderCheckbox = () => {
     return <Checkbox />;
   };

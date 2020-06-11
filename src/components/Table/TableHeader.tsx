@@ -6,7 +6,8 @@ import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsT
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
-
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -26,6 +27,7 @@ interface Shared {
   columnFilterBox?: boolean;
   handleColumnChange?: any;
   sortedColumnKey: string;
+  handleColumnDrop?: (e: any, data: any) => void;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -52,6 +54,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     currentPage,
     rows,
     columnFilterBox,
+    handleColumnDrop,
   } = props;
   const { dataKey, sortable, label, click, check, popUp, icon } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : {};
@@ -155,10 +158,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             hideOnScroll={true}
             trigger={<Icon className={`${icon}`} />}
             content={
-              <ColumnFilterCard
-                columnFilterData={columnFilterData}
-                handleColumnChange={handleColumnChange}
-              />
+              <DndProvider backend={HTML5Backend}>
+                <ColumnFilterCard
+                  columnFilterData={columnFilterData}
+                  handleColumnChange={handleColumnChange}
+                  handleColumnDrop={handleColumnDrop}
+                />
+              </DndProvider>
             }
           />
         ) : (

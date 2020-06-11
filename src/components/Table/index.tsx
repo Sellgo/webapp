@@ -52,8 +52,8 @@ export interface PaginatedTableProps {
   ptCurrentPage?: number;
   renderFilterSectionComponent?: () => void;
   pagination?: boolean;
+  handleColumnDrop?: (e: any, data: any) => void;
 }
-
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
   let flag = true;
   const foundElement = columnFilterData
@@ -106,6 +106,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     setPage,
     renderFilterSectionComponent,
     pagination = true,
+    handleColumnDrop,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -286,6 +287,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           checkedRows={checkedRows}
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
+          handleColumnDrop={handleColumnDrop}
         />
         <TableBody
           extendedInfo={extendedInfo}

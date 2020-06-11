@@ -383,6 +383,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     });
   };
 
+  handleColumnDrop = (e: any, data: any) => {
+    this.setState({ columnFilterData: data });
+  };
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -429,6 +433,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}
+              handleColumnDrop={this.handleColumnDrop}
             />
           </>
         )}
