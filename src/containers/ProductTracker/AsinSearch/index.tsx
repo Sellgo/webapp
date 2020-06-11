@@ -86,7 +86,7 @@ const AsinSearch = (props: Props) => {
   );
 
   return (
-    <Grid.Row className="AsinSearch__row">
+    <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
         <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} />
         <Dropdown className="selection" openOnFocus trigger={trigger}>

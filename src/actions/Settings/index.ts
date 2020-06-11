@@ -14,6 +14,7 @@ import { sellerIDSelector } from '../../selectors/Seller';
 import { success, error } from '../../utils/notifications';
 import isName from '../../utils/validations/isName';
 import history from '../../history';
+import { fetchSellerSubscription } from './Subscription';
 
 export const getSellerAmazonMWSAuth = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
@@ -41,6 +42,7 @@ export const updateSellerAmazonMWSAuth = (data: AmazonMWS) => (dispatch: any) =>
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/mws-auth`, bodyFormData)
     .then(json => {
       dispatch(updateAmazonMWSAuth(json.data));
+      dispatch(fetchSellerSubscription());
       success('Seller Amazon MWS Updated!');
     })
     .catch(err => {
@@ -66,6 +68,7 @@ export const deleteSellerAmazonMWSAuth = (mwsAuthID: any) => (dispatch: any) => 
   return Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/mws-auth`, bodyFormData)
     .then(() => {
       dispatch(deleteAmazonMWSAuth(mwsAuthID));
+      dispatch(fetchSellerSubscription());
       success('Seller Amazon MWS deleted!');
     })
     .catch(() => {

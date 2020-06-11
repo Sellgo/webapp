@@ -144,6 +144,7 @@ export default function Signup(props: Props, state: State) {
   }
 
   function handleSubmit() {
+    const accountType = window.location.search === '?type=trial' ? 'trial' : 'free';
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else {
@@ -158,6 +159,7 @@ export default function Signup(props: Props, state: State) {
           if (err) {
             error(err);
           } else {
+            localStorage.setItem('accountType', accountType);
             Axios.post(`${AppConfig.BASE_URL_API}newsletter/subscribe`, {
               email,
               firstname,

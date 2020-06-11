@@ -30,8 +30,10 @@ import _ from 'lodash';
 
 import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
 import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
+import { isSubscriptionFree } from '../../../../utils/subscriptions';
 
 interface ProductsTableProps {
+  subscriptionType: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
@@ -164,9 +166,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderDetailButtons = (row: Product) => {
-    const { updateProductTrackingStatus, supplierID } = this.props;
+    const { updateProductTrackingStatus, supplierID, subscriptionType } = this.props;
     return (
       <DetailButtons
+        disableTrack={isSubscriptionFree(subscriptionType)}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {
@@ -392,8 +395,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       updateProfitFinderProducts,
       pageNumber,
       setPageNumber,
+      subscriptionType,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
+    const showTableLock = isSubscriptionFree(subscriptionType);
+    const featuresLock = isSubscriptionFree(subscriptionType);
 
     return (
       <div className="products-table">
@@ -430,6 +436,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}
+              showTableLock={showTableLock}
+              featuresLock={featuresLock}
             />
           </>
         )}
@@ -445,6 +453,7 @@ const mapStateToProps = (state: {}) => ({
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
   supplierDetails: get(state, 'supplier.details'),
   pageNumber: supplierPageNumberSelector(state),
 });

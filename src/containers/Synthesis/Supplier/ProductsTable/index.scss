@@ -225,33 +225,39 @@ $new_black: #707070;
       }
     }
 
-    tfoot th {
-      border-top: none;
-      text-align: center;
+    td p {
+      font-size: 16px;
+    }
 
-      .ui.pagination.menu {
-        box-shadow: none;
-        margin-top: 60px;
-      }
+    tfoot {
+      th {
+        border-top: none;
+        text-align: center;
 
-      .ui.pagination.menu a {
-        color: #000 !important;
-      }
+        .ui.pagination.menu {
+          box-shadow: none;
+          margin-top: 60px;
+        }
 
-      .ui.pagination.menu a:nth-child(2) {
-        color: #98aeca !important;
-      }
+        .ui.pagination.menu a {
+          color: #000 !important;
+        }
 
-      .ui.pagination.menu a:nth-child(1) {
-        color: #98aeca !important;
-      }
+        .ui.pagination.menu a:nth-child(2) {
+          color: #98aeca !important;
+        }
 
-      .ui.pagination.menu a:nth-last-child(2) {
-        color: #98aeca !important;
-      }
+        .ui.pagination.menu a:nth-child(1) {
+          color: #98aeca !important;
+        }
 
-      .ui.pagination.menu a:nth-last-child(1) {
-        color: #98aeca !important;
+        .ui.pagination.menu a:nth-last-child(2) {
+          color: #98aeca !important;
+        }
+
+        .ui.pagination.menu a:nth-last-child(1) {
+          color: #98aeca !important;
+        }
       }
     }
 
@@ -376,10 +382,6 @@ $new_black: #707070;
           font-weight: 600;
         }
       }
-    }
-
-    td p {
-      font-size: 16px;
     }
 
     // Column - Product Image

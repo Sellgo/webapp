@@ -19,6 +19,9 @@ import history from '../../../history';
 
 import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
+import { Link } from 'react-router-dom';
+import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
+import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -29,6 +32,7 @@ interface SubscriptionProps {
   sellerSubscription: any;
   subscriptions: Subscription[];
   location: any;
+  subscriptionType: string;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -62,20 +66,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   chooseSubscription(subscription: any) {
-    const { sellerSubscription } = this.props;
-    // If user has subscription already then change to selected plan
-    // TODO: We're setting state to render the <Confirm> component
-    // but this would be much cleaner as a function call instead of
-    // a component so we can specify callback logic right here.
-    if (sellerSubscription) {
+    const { subscriptionType } = this.props;
+
+    if (isSubscriptionNotPaid(subscriptionType)) {
+      this.checkout(subscription.id);
+    } else {
       this.setState({
         pendingSubscription: true,
         pendingSubscriptionId: subscription.id,
         pendingSubscriptionName: subscription.name,
       });
-      // Otherwise we want to go to payment page
-    } else {
-      this.checkout(subscription.id);
     }
   }
 
@@ -97,11 +97,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   cancelSubscription() {
-    const { profile, setSellerSubscription } = this.props;
+    const { profile, setSellerSubscription, fetchSellerSubscription } = this.props;
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/cancel`)
       .then(() => {
         setSellerSubscription(false);
+        fetchSellerSubscription();
         success(`Your subscription has been cancelled`);
       })
       .catch(() => {
@@ -181,7 +182,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   render() {
-    const { subscriptions, sellerSubscription } = this.props;
+    const { subscriptions, sellerSubscription, subscriptionType } = this.props;
     const {
       promptCancelSubscription,
       pendingSubscription,
@@ -200,7 +201,15 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const cardsDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
       return (
-        <Card key={subscription.id} className={`${isSubscribed && 'active-plan'}`}>
+        <Card
+          key={subscription.id}
+          className={`${isSubscribed && 'active-plan'} ${!isSubscribed &&
+            (Number(subscription.id) === 1
+              ? 'basic-value-content'
+              : Number(subscription.id) === 2
+              ? 'best-value-content'
+              : 'contact-us-content')}`}
+        >
           <Card.Content>
             <Card.Header>
               <Button
@@ -261,6 +270,14 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             )}
 
+            {!subscribedSubscription && (
+              <Link to="/settings/#amazon-mws" className="free-trial-btn">
+                <Button className="basic-btn" fluid>
+                  Free Trial
+                </Button>
+              </Link>
+            )}
+
             <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
               Contact Customer Service
               <a href="mailto: support@sellgo.com">{'support@sellgo.com'}</a>
@@ -272,6 +289,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     return (
       <>
+        <SubscriptionMessage />
         <PageHeader
           title={'Pricing Plans'}
           breadcrumb={[
@@ -322,12 +340,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               Risk free 14-day money back guarantee
             </Grid.Row>
             <Grid.Row>{cardsDisplay}</Grid.Row>
-            {!sellerSubscription && (
+            {isSubscriptionNotPaid(subscriptionType) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
                 <Grid className="field-container">
                   <Input
-                    style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
+                    style={{
+                      marginLeft: '10px',
+                      marginRight: '10px',
+                      marginBottom: '15px',
+                    }}
                     value={this.state.couponVal}
                     onChange={e => this.setState({ couponVal: e.target.value })}
                     onKeyPress={(e: KeyboardEvent) => {
@@ -367,6 +389,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 const mapStateToProps = (state: any) => ({
   profile: state.settings.profile,
   sellerSubscription: state.subscription.sellerSubscription,
+  subscriptionType: state.subscription.subscriptionType,
   subscriptions: state.subscription.subscriptions,
 });
 
