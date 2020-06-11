@@ -72,6 +72,9 @@ const SellerAmazonMWS = (props: any) => {
     const hash = window.location.hash;
     window.location.hash = '';
     window.location.hash = hash;
+
+    //empty account type for redirecting page here on first load
+    localStorage.setItem('accountType', '');
   }, []);
 
   // TODO: Resolve eslint dependency warnings from above effect
@@ -117,6 +120,9 @@ const SellerAmazonMWS = (props: any) => {
       }&devMWSAccountId=${'4294-2444-1812'}`
     : '';
 
+  const isHashMWS = () => {
+    return window.location.hash === '#amazon-mws';
+  };
   return (
     <>
       <Grid.Column width={16} id="amazon-mws">
@@ -201,12 +207,37 @@ const SellerAmazonMWS = (props: any) => {
                   }
                 />
                 &nbsp; &nbsp;
-                <span
-                  className="auth-seller"
-                  onClick={() => setConfirmToken(() => !showConfirmToken)}
+                <Popup
+                  pinned
+                  open={isHashMWS()}
+                  position="bottom left"
+                  basic={true}
+                  trigger={
+                    <span
+                      className="auth-seller"
+                      onClick={() => {
+                        setConfirmToken(() => !showConfirmToken);
+                        if (isHashMWS()) {
+                          window.location.hash = '';
+                        }
+                      }}
+                    >
+                      Authenticate Your Seller Account
+                    </span>
+                  }
+                  className="free-trial-popup"
+                  hideOnScroll={false}
                 >
-                  Authenticate Your Seller Account
-                </span>
+                  <div>
+                    <Icon name="arrow left" />
+                    <p className="title">Start Your Free Trial</p>
+                    <p className="content">
+                      To finish setting up your account and start your free trial. Please enter your
+                      Amazon MWS Authorization. Click on “Authenticate Your Seller Account” for
+                      instructions.
+                    </p>
+                  </div>
+                </Popup>
                 <br />
               </>
             }

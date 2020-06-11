@@ -10,6 +10,11 @@
     justify-content: space-between;
     padding: 0 5px;
 
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.3;
+    }
+
     .product-search {
       height: 100%;
       width: 480px;
@@ -91,6 +96,44 @@ i.icon.close::before {
 
 i.icon.filter::before {
   font-size: 11px !important;
+}
+
+.lock-footer {
+  display: flex;
+  height: 400px;
+
+  .table-lock {
+    height: 453px;
+    position: absolute;
+    background: #98aecaf2;
+    width: 98%;
+    z-index: 9;
+    border-radius: 11px;
+
+    &__content {
+      color: #313a4c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100%;
+
+      p {
+        font-size: 35px;
+      }
+
+      .icon {
+        font-size: 60px;
+      }
+
+      .primary.button {
+        background: #349af8;
+        border-radius: 40px;
+        margin-top: 35px;
+        font-family: 'Work Sans', sans-serif !important;
+      }
+    }
+  }
 }
 
 .table-header {
