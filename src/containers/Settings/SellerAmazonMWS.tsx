@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment, Icon, Confirm, List, Header, Popup } from 'semantic-ui-react';
 import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
+import { isSubscriptionFree } from '../../utils/subscriptions';
+import { connect } from 'react-redux';
 
 const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
   return { key, text: name, value: id, disabled };
@@ -34,7 +36,7 @@ const defaultShowCredentials = {
 };
 
 const SellerAmazonMWS = (props: any) => {
-  const { amazonMWSAuth, updateAmazonMWSAuth, deleteMWSAuth } = props;
+  const { amazonMWSAuth, updateAmazonMWSAuth, deleteMWSAuth, subscriptionType } = props;
   const [marketplaceLocal, setmarketplaceLocal] = useState(defaultMarketplace);
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -69,6 +71,10 @@ const SellerAmazonMWS = (props: any) => {
 
   useEffect(() => {
     // retrigger the scroll to hash after component is mounted
+    if (isSubscriptionFree(subscriptionType)) {
+      window.location.hash = '#amazon-mws';
+    }
+
     const hash = window.location.hash;
     window.location.hash = '';
     window.location.hash = hash;
@@ -209,7 +215,7 @@ const SellerAmazonMWS = (props: any) => {
                 &nbsp; &nbsp;
                 <Popup
                   pinned
-                  open={isHashMWS()}
+                  open={isHashMWS() && isSubscriptionFree(subscriptionType)}
                   position="bottom left"
                   basic={true}
                   trigger={
@@ -328,4 +334,8 @@ const SellerAmazonMWS = (props: any) => {
   );
 };
 
-export default SellerAmazonMWS;
+const mapStateToProps = (state: any) => ({
+  subscriptionType: state.subscription.subscriptionType,
+});
+
+export default connect(mapStateToProps)(SellerAmazonMWS);
