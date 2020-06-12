@@ -20,6 +20,8 @@ import {
   SET_FETCHING_RATING,
   SET_FETCHING_REVIEW,
   SET_FETCHING_KPI,
+  SET_FETCHING_SELLER_INVENTORY,
+  SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY,
 } from '../../constants/Products';
 
 export const setSupplierProductDetails = (product: Product) => ({
@@ -126,6 +128,24 @@ export const fetchSupplierProductDetailChartReview = (productID: string, period?
   }
 };
 
+export const fetchSupplierProductDetailChartSellerInventory = (
+  productID: string,
+  period?: number
+) => async (dispatch: any) => {
+  let queryString = '?';
+  if (period) {
+    queryString += 'period=' + period;
+  }
+  dispatch(setFetchingSellerInventory(true));
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API + `products/${productID}/history/seller-inventory${queryString}`
+  );
+  dispatch(setFetchingSellerInventory(false));
+  if (response.data) {
+    dispatch(setSupplierProductDetailChartSellerInventory(response.data));
+  }
+};
+
 export const fetchSupplierProductDetailChartKPI = (
   supplierID: any,
   productID: string,
@@ -177,6 +197,11 @@ export const setFetchingReview = (isFetching: boolean) => ({
   payload: isFetching,
 });
 
+export const setFetchingSellerInventory = (isFetching: boolean) => ({
+  type: SET_FETCHING_SELLER_INVENTORY,
+  payload: isFetching,
+});
+
 export const setFetchingKpi = (isFetching: boolean) => ({
   type: SET_FETCHING_KPI,
   payload: isFetching,
@@ -204,6 +229,11 @@ export const setSupplierProductDetailChartRating = (data: any) => ({
 
 export const setSupplierProductDetailChartReview = (data: any) => ({
   type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW,
+  payload: data,
+});
+
+export const setSupplierProductDetailChartSellerInventory = (data: any) => ({
+  type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY,
   payload: data,
 });
 
