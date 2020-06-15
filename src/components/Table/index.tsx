@@ -306,7 +306,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
         <TableBody
           extendedInfo={extendedInfo}
           columns={columns}
-          columnFilterData={columnFilterData}
+          columnFilterData={filteredColumns}
           type={name}
           rows={rows}
           expandedRows={expandedRows}

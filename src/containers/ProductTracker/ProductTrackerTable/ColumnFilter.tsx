@@ -61,9 +61,9 @@ const ColumnFilterCard = (props: any) => {
               (check: any, i: any) =>
                 check.value && (
                   <Droppable droppableId={check.dataKey} key={check.dataKey}>
-                    {provided => {
+                    {dragProvided => {
                       return (
-                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                        <div {...dragProvided.droppableProps} ref={dragProvided.innerRef}>
                           <Draggable
                             key={`fc--${Date.now() + i}`}
                             draggableId={check.dataKey}
