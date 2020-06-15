@@ -29,8 +29,11 @@ import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import './index.scss';
 import { tableKeys } from '../../../constants';
 import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
+import get from 'lodash/get';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface SuppliersTableProps {
+  subscriptionType: string;
   suppliers: Supplier[];
   onEdit: any;
   fetchSuppliers: () => void;
@@ -64,18 +67,22 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   };
 
   renderFileName = (row: Supplier) => {
+    const { subscriptionType } = this.props;
     return (
       <div className="filename">
-        {row.file_status && (
-          <a href={row.file_url} download={true}>
-            {row.file_name}
-          </a>
-        )}
+        {row.file_status &&
+          (!isSubscriptionFree(subscriptionType) ? (
+            <a href={row.file_url} download={true}>
+              {row.file_name}
+            </a>
+          ) : (
+            row.file_name
+          ))}
       </div>
     );
   };
   renderActions = (row: Supplier) => {
-    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth } = this.props;
+    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth, subscriptionType } = this.props;
     return (
       <Dropdown
         className={'syn-dropdown-link syn-dropdown-label'}
@@ -93,17 +100,20 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           },
           {
             key: '1',
-            text: (
+            text: isSubscriptionFree(subscriptionType) ? (
+              <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
+            ) : (
               <a href={row.file_url} download={true}>
                 <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
               </a>
             ),
             value: 'dwn_sp_file',
+            disabled: isSubscriptionFree(subscriptionType),
           },
           {
             key: '2',
             text:
-              row.report_url === null ? (
+              row.report_url === null || isSubscriptionFree(subscriptionType) ? (
                 <Dropdown.Item icon="download" text=" Download Results" />
               ) : (
                 <a href={row.report_url} download={true}>
@@ -111,14 +121,19 @@ class SuppliersTable extends Component<SuppliersTableProps> {
                 </a>
               ),
             value: 'dwn_res',
-            disabled: row.report_url === null ? true : false,
+            disabled:
+              row.report_url === null ? true : false || isSubscriptionFree(subscriptionType),
           },
           {
             key: '3',
             text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
             value: 'rerun',
-            disabled: !amazonMWSAuthorized,
-            onClick: () => {
+            disabled: !amazonMWSAuthorized || isSubscriptionFree(subscriptionType),
+            onClick: e => {
+              if (isSubscriptionFree(subscriptionType)) {
+                e.stopPropagation();
+                return;
+              }
               if (amazonMWSAuthorized) {
                 this.props.reRun(row);
               } else {
@@ -156,21 +171,34 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     ) {
       return '';
     }
-    const { favourite, unFavourite } = this.props;
+    const { favourite, unFavourite, subscriptionType } = this.props;
     return (
       <div className="operations">
         <Icon
+          disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs up"
           onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
-          style={row.tag === 'like' ? { color: 'green' } : { color: 'lightgrey' }}
+          style={
+            !isSubscriptionFree(subscriptionType) && row.tag === 'like'
+              ? { color: 'green' }
+              : { color: 'lightgrey' }
+          }
         />
         <Icon
+          disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs down"
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
           style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
         />
-        <Icon name="pencil" style={{ color: 'black' }} onClick={() => this.props.onEdit(row)} />
         <Icon
+          disabled={isSubscriptionFree(subscriptionType)}
+          name="pencil"
+          style={{ color: 'black' }}
+          onClick={() => this.props.onEdit(row)}
+        />
+        <Icon
+          disabled={isSubscriptionFree(subscriptionType)}
+          className={isSubscriptionFree(subscriptionType) ? `disabled` : ''}
           name="trash alternate"
           style={{ color: 'black' }}
           onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
@@ -263,14 +291,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       show: true,
       render: this.renderInventory,
     },
-    {
-      label: 'Speed',
-      dataKey: 'speed',
-      sortable: true,
-      type: 'number',
-      show: true,
-      render: this.renderSpeed,
-    },
+    // {
+    //   label: 'Speed',
+    //   dataKey: 'speed',
+    //   sortable: true,
+    //   type: 'number',
+    //   show: true,
+    //   render: this.renderSpeed,
+    // },
     {
       label: 'Progress',
       dataKey: 'progress',
@@ -366,6 +394,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
+
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -415,6 +444,7 @@ const mapStateToProps = (state: {}) => ({
   showColumns: suppliersTableColumnsSelector(state),
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
 });
 
 const mapDispatchToProps = {
