@@ -435,7 +435,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       popUp: true,
     },
   ];
-
+  handleColumnDrop = (e: any, data: any) => {
+    this.setState({ columnFilterData: data });
+  };
+  reorderColumns = (columns: Column[]) => {
+    this.columns = columns;
+  };
   render() {
     const {
       isLoadingTrackerProducts,
@@ -507,6 +512,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             toggleColumnCheckbox={this.handleClick}
             showFilter={true}
             showTableLock={showTableLock}
+            handleColumnDrop={this.handleColumnDrop}
+            reorderColumns={this.reorderColumns}
+            columnDnD={true}
           />
         ) : (
           <Segment className="product-tracker-loader">

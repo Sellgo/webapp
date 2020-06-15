@@ -864,3 +864,21 @@ $link-color: #349af8;
   position: relative !important;
   top: -6px !important;
 }
+
+.column-selection-container {
+  display: flex !important;
+}
+
+.inactive-columns {
+  cursor: move;
+  color: white;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.active-columns {
+  cursor: move;
+  color: #98aeca;
+  font-size: 20px;
+  font-weight: 900;
+}

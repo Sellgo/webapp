@@ -92,12 +92,7 @@ export const columnFilter = [
     key: 'Select All',
     visible: true,
   },
-  {
-    value: true,
-    key: 'Product Information',
-    // dataKey: 'PRODUCT INFORMATION',
-    visible: false,
-  },
+
   {
     value: true,
     key: 'Avg Price',
@@ -148,12 +143,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Rating',
-    dataKey: 'rating',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Dimensions',
     dataKey: 'dimension',
     visible: true,
@@ -166,9 +155,9 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: '',
-    // dataKey: 'ellipsis horizontal',
-    visible: false,
+    key: 'Rating',
+    dataKey: 'rating',
+    visible: true,
   },
 ];
 

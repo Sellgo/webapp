@@ -20,18 +20,7 @@ export const columnFilter = [
   {
     value: true,
     key: 'Select All',
-    visible: true,
-  },
-  {
-    value: true,
-    key: '',
-    dataKey: 'checkboxes',
-    visible: false,
-  },
-  {
-    value: true,
-    key: 'PRODUCT INFORMATION',
-    dataKey: 'PRODUCT INFORMATION',
+    dataKey: 'select_all',
     visible: true,
   },
   {
@@ -96,13 +85,8 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Tracking / Rating',
-    dataKey: 'sellgo_score',
-    visible: true,
-  },
-  {
-    value: true,
     key: '',
+    dataKey: 'actions',
     visible: false,
   },
 ];

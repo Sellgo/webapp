@@ -372,6 +372,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
     {
+      label: '',
       icon: 'ellipsis horizontal ellipsis-ic',
       dataKey: 'ellipsis horizontal',
       show: true,
@@ -389,7 +390,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   handleColumnDrop = (e: any, data: any) => {
     this.setState({ columnFilterData: data });
   };
-
+  reorderColumns = (columns: Column[]) => {
+    this.columns = columns;
+  };
   render() {
     const {
       isLoadingSupplierProducts,
@@ -442,6 +445,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               showTableLock={showTableLock}
               featuresLock={featuresLock}
               handleColumnDrop={this.handleColumnDrop}
+              reorderColumns={this.reorderColumns}
+              columnDnD={true}
             />
           </>
         )}
