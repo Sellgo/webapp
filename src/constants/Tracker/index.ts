@@ -137,12 +137,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Reviews',
-    dataKey: 'customer_reviews',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Dimensions',
     dataKey: 'dimension',
     visible: true,
@@ -151,6 +145,12 @@ export const columnFilter = [
     value: true,
     key: 'Weight',
     dataKey: 'weight',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Reviews',
+    dataKey: 'customer_reviews',
     visible: true,
   },
   {
