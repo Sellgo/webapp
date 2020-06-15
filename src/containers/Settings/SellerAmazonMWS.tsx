@@ -136,7 +136,7 @@ const SellerAmazonMWS = (props: any) => {
     return window.location.hash === '#amazon-mws';
   };
 
-  const freshFreeAccount = () => {
+  const isFreeAccountWithoutTrial = () => {
     return isSubscriptionFree(subscriptionType) && sellerSubscription.expiry_date === null;
   };
 
@@ -226,7 +226,7 @@ const SellerAmazonMWS = (props: any) => {
                 &nbsp; &nbsp;
                 <Popup
                   pinned
-                  open={isHashMWS() && freshFreeAccount()}
+                  open={isHashMWS() && isFreeAccountWithoutTrial()}
                   position="bottom left"
                   basic={true}
                   trigger={
