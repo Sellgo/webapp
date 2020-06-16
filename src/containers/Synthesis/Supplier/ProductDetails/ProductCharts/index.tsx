@@ -170,9 +170,10 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedSellerInventories: any = this.formatSellerInventories(
           productDetailSellerInventory
         );
+        console.log(isFetchingSellerInventory);
         return isFetchingSellerInventory ? (
           this.renderLoader()
-        ) : formattedSellerInventories ? (
+        ) : formattedSellerInventories && Object.keys(formattedSellerInventories).length ? (
           <SellerInventoryChart sellerInventories={formattedSellerInventories} />
         ) : (
           this.renderNoDataMessage()
@@ -191,13 +192,15 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailPrice,
       productDetailRating,
       productDetailReview,
+      productDetailSellerInventory,
     } = this.props;
     if (
       !productDetailReview ||
       !productDetailRating ||
       !productDetailRank ||
       !productDetailPrice ||
-      !productDetailInventory
+      !productDetailInventory ||
+      !productDetailSellerInventory
     ) {
       return <div />;
     }
