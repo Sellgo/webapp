@@ -1,23 +1,41 @@
 import React, { useState } from 'react';
 import Chart from '../../../../../../components/Chart/Chart';
 import './index.scss';
+import _ from 'lodash';
 
 export default ({ sellerInventories }: any) => {
-  const [hoveredData, setHoveredData] = useState(null);
-
   const data: any = [];
-  for (const [key, value] of Object.entries(sellerInventories)) {
+  for (const key in sellerInventories) {
     data.push({
-      type: 'spline',
-      name: key,
-      data: value,
+      type: 'column',
+      name: sellerInventories[key].name,
+      data: sellerInventories[key].data,
+      totalValue: sellerInventories[key].data
+        .map((dataPoint: any) => dataPoint[1])
+        .reduce((total: number, value: number) => total + value),
     });
   }
+
+  data.sort((a: any, b: any) => {
+    if (a.totalValue > b.totalValue) return 1;
+    if (a.totalValue < b.totalValue) return -1;
+    return 0;
+  });
+
+  const [pieData, setPieData] = useState(
+    data.map((item: any) => {
+      return {
+        name: item.name,
+        y: item.totalValue,
+        visible: true,
+      };
+    })
+  );
 
   const sellerInventoryChartOptions = {
     chart: {
       zoomType: 'x',
-      type: 'spline',
+      type: 'column',
     },
     title: {
       text: 'Seller Inventories',
@@ -59,19 +77,43 @@ export default ({ sellerInventories }: any) => {
     },
     series: data,
     plotOptions: {
+      column: {
+        stacking: 'normal',
+        groupPadding: 0.05,
+        pointPadding: 0.01,
+        cropThreshold: 5,
+        borderWidth: 0.1,
+        borderRadius: 3,
+        cursor: 'pointer',
+        minPointLength: 10,
+      },
       series: {
+        animation: false,
+        events: {
+          legendItemClick: (e: any) => {
+            const newPieData = _.cloneDeep(pieData);
+            const item = newPieData.find((item: any) => item.name === e.target.name);
+            if (item) {
+              item.visible = !e.target.visible;
+            }
+
+            setPieData(newPieData);
+          },
+        },
         point: {
           events: {
             mouseOver: (e: any) => {
-              console.log(e);
-              const i = e.target.index;
-              const hoveredData: any = [];
+              const x = e.target.x;
+              const newPieData: any = [];
               e.target.series.chart.series.forEach((series: any) => {
-                hoveredData.push({ name: series.name, y: series.data[i].y });
+                const item = series.data.find((item: any) => item.category === x);
+                if (series.visible && item) {
+                  newPieData.push({ name: series.name, y: item.y, visible: true });
+                }
               });
 
-              console.log(hoveredData);
-              setHoveredData(hoveredData);
+              setPieData(newPieData);
+              console.log(newPieData);
             },
           },
         },
@@ -94,7 +136,15 @@ export default ({ sellerInventories }: any) => {
     series: {
       name: 'Market Share',
       colorByPoint: true,
-      data: hoveredData,
+      data: pieData.filter((item: any) => item.visible),
+    },
+    tooltip: {
+      pointFormat: '{point.y} ({point.percentage:.1f}%)',
+    },
+    plotOptions: {
+      series: {
+        animation: false,
+      },
     },
   };
 

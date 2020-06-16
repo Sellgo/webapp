@@ -92,10 +92,13 @@ class ProductCharts extends Component<ProductChartsProps> {
     const formattedData: any = {};
     data.forEach((item: any) => {
       const dataPoint = [new Date(item.cdate).getTime(), Number(item.inventory)];
-      if (item.merchant_name in formattedData) {
-        formattedData[item.merchant_name].push(dataPoint);
+      if (item.merchant_id in formattedData) {
+        formattedData[item.merchant_id].data.push(dataPoint);
       } else {
-        formattedData[item.merchant_name] = [dataPoint];
+        formattedData[item.merchant_id] = {
+          name: item.merchant_name,
+          data: [dataPoint],
+        };
       }
     });
     return formattedData;
@@ -170,7 +173,6 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedSellerInventories: any = this.formatSellerInventories(
           productDetailSellerInventory
         );
-        console.log(isFetchingSellerInventory);
         return isFetchingSellerInventory ? (
           this.renderLoader()
         ) : formattedSellerInventories && Object.keys(formattedSellerInventories).length ? (
