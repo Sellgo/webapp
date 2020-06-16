@@ -112,21 +112,13 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailRating,
       productDetailReview,
       productDetailSellerInventory,
-      isFetchingRank,
-      isFetchingPrice,
-      isFetchingInventory,
-      isFetchingRating,
-      isFetchingReview,
-      isFetchingSellerInventory,
     } = this.props;
 
     switch (this.state.showProductChart) {
       case 'chart0': {
         const formattedRanks = this.formatProductDetail('rank', productDetailRank);
         const formattedInventories = this.formatProductDetail('inventory', productDetailInventory);
-        return isFetchingRank && isFetchingInventory ? (
-          this.renderLoader()
-        ) : formattedRanks.length || formattedInventories.length ? (
+        return formattedRanks.length || formattedInventories.length ? (
           <RankVsInventoryChart
             productRanks={formattedRanks}
             productInventories={formattedInventories}
@@ -138,9 +130,7 @@ class ProductCharts extends Component<ProductChartsProps> {
 
       case 'chart1': {
         const formattedPrices = this.formatProductDetail('price', productDetailPrice);
-        return isFetchingPrice ? (
-          this.renderLoader()
-        ) : formattedPrices.length ? (
+        return formattedPrices.length ? (
           <ProductPriceChart productPrices={formattedPrices} />
         ) : (
           this.renderNoDataMessage()
@@ -149,9 +139,7 @@ class ProductCharts extends Component<ProductChartsProps> {
 
       case 'chart2': {
         const formattedRatings = this.formatProductDetail('rating', productDetailRating);
-        return isFetchingRating ? (
-          this.renderLoader()
-        ) : formattedRatings.length ? (
+        return formattedRatings.length ? (
           <ProductRatingChart productRatings={formattedRatings} />
         ) : (
           this.renderNoDataMessage()
@@ -160,9 +148,7 @@ class ProductCharts extends Component<ProductChartsProps> {
 
       case 'chart3': {
         const formattedReviews = this.formatProductDetail('review_count', productDetailReview);
-        return isFetchingReview ? (
-          this.renderLoader()
-        ) : formattedReviews.length ? (
+        return formattedReviews.length ? (
           <ProductReviewChart productReviews={formattedReviews} />
         ) : (
           this.renderNoDataMessage()
@@ -173,9 +159,7 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedSellerInventories: any = this.formatSellerInventories(
           productDetailSellerInventory
         );
-        return isFetchingSellerInventory ? (
-          this.renderLoader()
-        ) : formattedSellerInventories && Object.keys(formattedSellerInventories).length ? (
+        return formattedSellerInventories && Object.keys(formattedSellerInventories).length ? (
           <SellerInventoryChart sellerInventories={formattedSellerInventories} />
         ) : (
           this.renderNoDataMessage()
@@ -195,6 +179,12 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailRating,
       productDetailReview,
       productDetailSellerInventory,
+      isFetchingRank,
+      isFetchingPrice,
+      isFetchingInventory,
+      isFetchingRating,
+      isFetchingReview,
+      isFetchingSellerInventory,
     } = this.props;
     if (
       !productDetailReview ||
@@ -204,12 +194,19 @@ class ProductCharts extends Component<ProductChartsProps> {
       !productDetailInventory ||
       !productDetailSellerInventory
     ) {
-      return <div />;
+      return this.renderNoDataMessage();
     }
     return (
       <div className="product-detail-charts">
         <Divider />
-        {this.renderProductCharts()}
+        {!isFetchingRank &&
+        !isFetchingPrice &&
+        !isFetchingInventory &&
+        !isFetchingRating &&
+        !isFetchingReview &&
+        !isFetchingSellerInventory
+          ? this.renderProductCharts()
+          : this.renderLoader()}
         <Form className="chart-end-form">
           <Form.Group inline={true}>
             <label />
