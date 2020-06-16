@@ -251,13 +251,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         });
       }
     };
+
+    const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
     return (
       <div className="avg-margin">
         <p className="stat">
           {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
         </p>
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
-          <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
+          <Icon className={iconCaretClass} onClick={() => toggleExpandRow(row.id)} />
         </span>
       </div>
     );
