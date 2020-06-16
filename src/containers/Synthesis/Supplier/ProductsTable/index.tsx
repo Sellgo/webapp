@@ -10,6 +10,7 @@ import {
   setSupplierSinglePageItemsCount,
   searchSupplierProducts,
   updateProfitFinderProducts,
+  setSupplierPageNumber,
 } from '../../../../actions/Suppliers';
 import { PaginatedTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -28,8 +29,11 @@ import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
 
 import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
+import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
+import { isSubscriptionFree } from '../../../../utils/subscriptions';
 
 interface ProductsTableProps {
+  subscriptionType: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
@@ -37,6 +41,7 @@ interface ProductsTableProps {
   filterData: any;
   productTrackerGroup: any;
   singlePageItemsCount: number;
+  pageNumber: number;
   supplierDetails: any;
   updateProductTrackingStatus: (
     status: string,
@@ -48,6 +53,7 @@ interface ProductsTableProps {
   ) => void;
   openProductDetailModal: (product?: Product) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
+  setPageNumber: (pageNumber: number) => void;
   searchProducts: (value: string, filterData: any) => void;
   updateProfitFinderProducts: (data: any) => void;
 }
@@ -107,31 +113,49 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
   renderPrice = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.price, formatCurrency(row.price))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
+    </p>
   );
   renderProfit = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
+    </p>
   );
   renderMargin = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.margin && row.margin !== '0.00', formatPercent(row.margin))}
+    </p>
   );
   renderFee = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.fees && row.fees !== '0.00', formatCurrency(row.fees))}
+    </p>
   );
   renderMonthlyRevenue = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(row.monthly_revenue, '$' + formatNumber(row.monthly_revenue))}
+      {showNAIfZeroOrNull(
+        row.monthly_revenue && row.monthly_revenue !== 0,
+        '$' + formatNumber(row.monthly_revenue)
+      )}
     </p>
   );
   renderRoi = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.roi && row.roi !== '0.00', formatPercent(row.roi))}
+    </p>
   );
   renderRank = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.rank && row.rank !== 0, '#' + formatNumber(row.rank))}
+    </p>
   );
   renderMonthlySalesEst = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(formatNumber(row.sales_monthly), formatNumber(row.sales_monthly))}
+      {showNAIfZeroOrNull(
+        row.sales_monthly && row.sales_monthly !== '0.00',
+        formatNumber(row.sales_monthly)
+      )}
     </p>
   );
   renderCategory = (row: Product) => (
@@ -142,9 +166,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderDetailButtons = (row: Product) => {
-    const { updateProductTrackingStatus, supplierID } = this.props;
+    const { updateProductTrackingStatus, supplierID, subscriptionType } = this.props;
     return (
       <DetailButtons
+        disableTrack={isSubscriptionFree(subscriptionType)}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {
@@ -368,8 +393,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       singlePageItemsCount,
       setSinglePageItemsCount,
       updateProfitFinderProducts,
+      pageNumber,
+      setPageNumber,
+      subscriptionType,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
+    const showTableLock = isSubscriptionFree(subscriptionType);
+    const featuresLock = isSubscriptionFree(subscriptionType);
 
     return (
       <div className="products-table">
@@ -392,6 +422,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
               setSinglePageItemsCount={setSinglePageItemsCount}
+              ptCurrentPage={pageNumber}
+              setPage={setPageNumber}
               name={'products'}
               showFilter={true}
               columnFilterBox={ColumnFilterBox}
@@ -403,6 +435,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}
+              showTableLock={showTableLock}
+              featuresLock={featuresLock}
             />
           </>
         )}
@@ -418,7 +452,9 @@ const mapStateToProps = (state: {}) => ({
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
   supplierDetails: get(state, 'supplier.details'),
+  pageNumber: supplierPageNumberSelector(state),
 });
 
 const mapDispatchToProps = {
@@ -440,6 +476,7 @@ const mapDispatchToProps = {
     ),
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
 };

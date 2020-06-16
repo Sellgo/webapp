@@ -3,6 +3,8 @@ import { SET_PRICING_SUBSCRIPTIONS, SET_SELLER_SUBSCRIPTION } from '../../../con
 import { AppConfig } from '../../../config';
 import { warn } from '../../../utils/notifications';
 import { auth } from '../../../containers/App/App';
+import _ from 'lodash';
+import moment from 'moment';
 
 export const fetchSubscriptions = () => (dispatch: any) => {
   return Axios.get(AppConfig.BASE_URL_API + 'subscriptions')
@@ -22,12 +24,32 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
       dispatch(setSellerSubscription(subscription));
       if (subscription === false) {
         warn("You don't have active subscription or your subscription has expired");
+      } else if (subscription.subscription_id === 5) {
+        dispatch(fetchSellerSubscriptionTrial(subscription));
       }
     })
     .catch(err => {
       if (err.response.status === 403) {
         auth.logout();
       }
+    });
+};
+
+export const fetchSellerSubscriptionTrial = (subscription: any) => (dispatch: any) => {
+  const data = _.cloneDeep(subscription);
+  const sellerID = localStorage.getItem('userId');
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/trial`)
+    .then(json => {
+      const prevSubscriptionData = json.data[0] || false;
+      const todayDate = new Date();
+      const expireDate = moment(new Date(prevSubscriptionData.expiry_date)).diff(todayDate, 'days');
+      if (prevSubscriptionData && prevSubscriptionData.expiry_date !== null && expireDate >= 0) {
+        data.expiry_date = prevSubscriptionData.expiry_date;
+        dispatch(setSellerSubscription(data));
+      }
+    })
+    .catch(err => {
+      console.log('console error: ', err);
     });
 };
 

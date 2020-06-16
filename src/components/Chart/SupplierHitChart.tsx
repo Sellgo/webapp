@@ -1,7 +1,8 @@
 import React from 'react';
 import Chart from './Chart';
+import _ from 'lodash';
 
-export default ({ supplier }: any) => {
+export default ({ supplier, profitFinderChartOptions, chartComponentRef }: any) => {
   const rate = parseFloat(supplier.rate);
   const p2l_ratio = supplier.p2l_ratio - parseFloat(supplier.rate);
   const miss = 100 - supplier.p2l_ratio;
@@ -22,7 +23,7 @@ export default ({ supplier }: any) => {
       color: '#ECEBEB',
     },
   ];
-  const chartOptions = {
+  const supplierHitChartOptions = {
     series: [
       {
         type: 'pie',
@@ -41,16 +42,17 @@ export default ({ supplier }: any) => {
     chart: {
       type: 'pie',
     },
-    title: {
-      text: 'Hit/Miss vs Profitable SKUs',
-    },
+    title: null,
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
     },
   };
+
+  const chartOptions = _.merge(_.cloneDeep(supplierHitChartOptions), profitFinderChartOptions);
+
   return (
     <div className="individual-pie-chart">
-      <Chart chartOptions={chartOptions} />
+      <Chart chartOptions={chartOptions} componentRef={chartComponentRef} />
     </div>
   );
 };

@@ -36,6 +36,7 @@ function ProfitFinderFilterSection(props: Props) {
   );
   const [filterType, setFilterType] = useState('');
   const [isSelectAll, setSelectAll] = useState(selectAllStorage);
+  const [hasFilter, setHasFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -542,6 +543,7 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    setHasFilter(isFilterUse());
     if (isSelectAll) {
       selectAll();
     }
@@ -613,6 +615,21 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterRanges(filterDetails);
     setFilterState(data);
   };
+
+  const isFilterUse = () => {
+    if (JSON.stringify(rangeData.sales_monthly) !== JSON.stringify(filterState.sales_monthly))
+      return true;
+    if (JSON.stringify(rangeData.profit) !== JSON.stringify(filterState.profit)) return true;
+    if (JSON.stringify(rangeData.margin) !== JSON.stringify(filterState.margin)) return true;
+    if (JSON.stringify(rangeData.price) !== JSON.stringify(filterState.price)) return true;
+    if (JSON.stringify(rangeData.rank) !== JSON.stringify(filterState.rank)) return true;
+    if (JSON.stringify(rangeData.roi) !== JSON.stringify(filterState.roi)) return true;
+    if (filterState.productSize !== 'All size') return true;
+    if (!isSelectAll) return true;
+
+    return false;
+  };
+
   return (
     <div className="filter-section">
       <div className="filter-header">
@@ -623,8 +640,9 @@ function ProfitFinderFilterSection(props: Props) {
           className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
           onClick={() => handleFilterType('all-filter')}
         >
-          <span className="filter-name">All</span>
           <Icon className="slider" name="sliders horizontal" />
+          <span className="filter-name">All</span>
+          <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
       </div>
       <div className="filter-wrapper">

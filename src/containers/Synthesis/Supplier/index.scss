@@ -10,7 +10,39 @@
         width: 100%;
 
         .supplier-details-card {
+          position: relative;
           padding: 11px;
+
+          i.snowflake.outline {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 25px;
+            height: 25px;
+            margin: 0;
+            font-size: 17px;
+            display: flex;
+            align-items: flex-end;
+            border: 0.20000000298023224px solid #e0e6ee;
+            border-radius: 5px;
+            color: #98aeca;
+            cursor: pointer;
+
+            &::before {
+              width: 25px;
+              height: 25px;
+            }
+
+            &:hover {
+              color: #349af8;
+              box-shadow: 0 3px 6px #00000029;
+            }
+          }
+
+          i.snowflake.outline.active {
+            color: #349af8;
+            box-shadow: 0 3px 6px #00000029;
+          }
 
           .ui.feed {
             .event {
@@ -21,12 +53,6 @@
                   svg {
                     height: 100% !important;
                   }
-                }
-
-                .chart-end-form {
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
                 }
               }
             }
@@ -48,6 +74,12 @@
   .products-table {
     margin-top: unset;
   }
+
+  .right-column > div:first-child {
+    width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
 }
 
 .chart-end-content h4 {
@@ -67,6 +99,12 @@
   border: 1px solid #98aeca;
   border-radius: 10px;
   box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16) !important;
+
+  &.active {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+  }
 }
 
 .Toastify {
@@ -99,7 +137,6 @@
 
 @media screen and (max-height: 900px) {
   .setting .right-column {
-    // flex: 1;
     .wide.column {
       .ui {
         .supplier-details-card {
@@ -172,7 +209,6 @@
 
     .right.floated.nine.wide.column.right-column {
       width: 100% !important;
-      //padding-left: 0 !important;
     }
 
     .right.floated.three.wide.column.right-column {
