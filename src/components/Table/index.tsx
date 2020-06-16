@@ -20,7 +20,7 @@ export interface Column {
   show?: boolean;
   check?: any;
   icon?: any;
-  type?: 'number' | 'string' | 'date';
+  type?: 'number' | 'string' | 'date' | 'boolean';
   click?: (e: any) => void;
   popUp?: boolean;
 }

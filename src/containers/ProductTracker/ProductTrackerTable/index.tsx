@@ -317,6 +317,26 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderWeight = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.weight, `${row.weight} lbs`)}</p>;
   };
+  renderAvgInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.avg_inventory && row.avg_inventory !== 0, `${row.avg_inventory}`)}
+      </p>
+    );
+  };
+  renderAvgAmazonInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(
+          row.avg_amazon_inventory && row.avg_amazon_inventory !== 0,
+          `${row.avg_amazon_inventory}`
+        )}
+      </p>
+    );
+  };
+  renderIsAmazonSelling = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.avg_amazon_inventory ? 'Yes' : 'No'}</p>;
+  };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;
     return (
@@ -427,6 +447,30 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
+    },
+    {
+      label: 'Avg Inventory',
+      dataKey: 'avg_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderAvgInventory,
+    },
+    {
+      label: 'Is Amazon Selling',
+      dataKey: 'is_amazon_selling',
+      type: 'boolean',
+      show: true,
+      sortable: true,
+      render: this.renderIsAmazonSelling,
+    },
+    {
+      label: 'Avg Amazon Inventory',
+      dataKey: 'avg_amazon_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderAvgAmazonInventory,
     },
     {
       icon: 'ellipsis horizontal',
