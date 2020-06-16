@@ -401,6 +401,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const showTableLock = isSubscriptionFree(subscriptionType);
     const featuresLock = isSubscriptionFree(subscriptionType);
 
+    // NOTE: temporarily filter products with ROIs greater than 300%
+    const userEmail = localStorage.getItem('userEmail') || '';
+    let tempFilteredProducts;
+    if (['dev@sellgo.com', 'demo@sellgo.com', 'apobee.mcdonald@sellgo.com'].includes(userEmail)) {
+      tempFilteredProducts = filteredProducts;
+    } else {
+      tempFilteredProducts = filteredProducts.filter(
+        product => !product.roi || Number(product.roi) <= 300
+      );
+    }
+
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -414,7 +425,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             {this.renderExportButtons()}
             <PaginatedTable
               tableKey={tableKeys.PRODUCTS}
-              data={filteredProducts}
+              data={tempFilteredProducts}
               columns={this.columns}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
