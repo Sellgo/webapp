@@ -36,7 +36,13 @@ const defaultShowCredentials = {
 };
 
 const SellerAmazonMWS = (props: any) => {
-  const { amazonMWSAuth, updateAmazonMWSAuth, deleteMWSAuth, subscriptionType } = props;
+  const {
+    amazonMWSAuth,
+    updateAmazonMWSAuth,
+    deleteMWSAuth,
+    subscriptionType,
+    sellerSubscription,
+  } = props;
   const [marketplaceLocal, setmarketplaceLocal] = useState(defaultMarketplace);
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -129,6 +135,11 @@ const SellerAmazonMWS = (props: any) => {
   const isHashMWS = () => {
     return window.location.hash === '#amazon-mws';
   };
+
+  const isFreeAccountWithoutTrial = () => {
+    return isSubscriptionFree(subscriptionType) && sellerSubscription.expiry_date === null;
+  };
+
   return (
     <>
       <Grid.Column width={16} id="amazon-mws">
@@ -215,7 +226,7 @@ const SellerAmazonMWS = (props: any) => {
                 &nbsp; &nbsp;
                 <Popup
                   pinned
-                  open={isHashMWS() && isSubscriptionFree(subscriptionType)}
+                  open={isHashMWS() && isFreeAccountWithoutTrial()}
                   position="bottom left"
                   basic={true}
                   trigger={
@@ -335,6 +346,7 @@ const SellerAmazonMWS = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
+  sellerSubscription: state.subscription.sellerSubscription,
   subscriptionType: state.subscription.subscriptionType,
 });
 
