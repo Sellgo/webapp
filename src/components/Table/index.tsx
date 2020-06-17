@@ -4,7 +4,7 @@ import { Table, Pagination, Icon, Card, Input, Button } from 'semantic-ui-react'
 import SelectItemsCount from './SelectItemsCount';
 
 import './index.scss';
-import { tableKeys } from '../../constants';
+import { tableKeys, selectItemsCountList } from '../../constants';
 
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
@@ -89,7 +89,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     tableKey,
     ptCurrentPage,
     data,
-    singlePageItemsCount = 10,
+    singlePageItemsCount = Number(selectItemsCountList[0].value),
     setSinglePageItemsCount,
     columns,
     extendedInfo,
