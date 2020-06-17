@@ -120,7 +120,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   renderCost = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.product_cost))}
+      {showNAIfZeroOrNull(
+        row.product_cost && row.product_cost !== '0.00',
+        formatCurrency(row.product_cost)
+      )}
     </p>
   );
 
