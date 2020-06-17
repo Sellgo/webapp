@@ -117,6 +117,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
     </p>
   );
+
+  renderCost = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.product_cost))}
+    </p>
+  );
+
   renderProfit = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
@@ -290,6 +297,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderPrice,
+    },
+    {
+      label: 'Cost',
+      dataKey: 'cost',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderCost,
     },
     {
       label: 'Profit',

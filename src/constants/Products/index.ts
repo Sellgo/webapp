@@ -42,6 +42,12 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Cost',
+    dataKey: 'cost',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Profit',
     dataKey: 'profit',
     visible: true,
