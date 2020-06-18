@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Chart from '../../../../../../components/Chart/Chart';
 import './index.scss';
 import _ from 'lodash';
@@ -9,6 +9,7 @@ export default ({ sellerInventories }: any) => {
   const SHOW_SUM = true;
   const data: any = [];
   const totalSeries: any = [];
+  const pieRef: any = useRef(null);
 
   for (const key in sellerInventories) {
     data.push({
@@ -194,6 +195,12 @@ export default ({ sellerInventories }: any) => {
     },
   };
 
+  useEffect(() => {
+    if (pieRef && pieRef.current && pieRef.current.chart) {
+      pieRef.current.chart.update(marketSharePieChartOptions, true, true, false);
+    }
+  });
+
   return (
     <div className="seller-inventory-charts">
       <div className="seller-inventory-charts__time-series">
@@ -203,7 +210,7 @@ export default ({ sellerInventories }: any) => {
       </div>
       <div className="seller-inventory-charts__pie-chart">
         <div style={{ position: 'relative', width: '100%' }}>
-          <Chart chartOptions={marketSharePieChartOptions} />
+          <Chart chartOptions={marketSharePieChartOptions} componentRef={pieRef} />
         </div>
       </div>
     </div>
