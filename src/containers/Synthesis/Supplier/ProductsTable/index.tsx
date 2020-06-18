@@ -117,6 +117,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
     </p>
   );
+
+  renderCost = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.product_cost && row.product_cost !== '0.00',
+        formatCurrency(row.product_cost)
+      )}
+    </p>
+  );
+
   renderProfit = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
@@ -292,6 +302,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderPrice,
     },
     {
+      label: 'Cost',
+      dataKey: 'cost',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderCost,
+    },
+    {
+      label: 'Fees',
+      dataKey: 'fees',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderFee,
+    },
+    {
       label: 'Profit',
       dataKey: 'profit',
       type: 'number',
@@ -306,14 +332,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderMargin,
-    },
-    {
-      label: 'Fees',
-      dataKey: 'fees',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderFee,
     },
     {
       label: 'Monthly\nRevenue',
