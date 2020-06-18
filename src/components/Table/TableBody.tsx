@@ -10,7 +10,6 @@ interface TableBodyProps {
   extendedInfo: any;
   columns: Column[];
   middleScroll?: boolean;
-  ref?: any;
 }
 
 interface TableColumnCellProps {
@@ -36,77 +35,62 @@ const TableCell = (props: TableColumnCellProps) => {
 };
 
 export const TableBody = (props: TableBodyProps) => {
-  const {
-    expandedRows,
-    extendedInfo,
-    rows,
-    columns,
-    columnFilterData,
-    type,
-    middleScroll,
-    ref,
-  } = props;
+  const { expandedRows, extendedInfo, rows, columns, columnFilterData, type, middleScroll } = props;
   if (middleScroll) {
     const lowerBound = columns.slice(0, 2);
     const middleBound = columns.slice(2, columns.length - 2);
     const upperBound = columns.slice(columns.length - 2, columns.length);
+    const scrollRows: any = [
+      {
+        side: 'right',
+        rows: lowerBound,
+      },
+      {
+        side: 'center',
+        rows: middleBound,
+      },
+      {
+        side: 'left',
+        rows: upperBound,
+      },
+    ];
     return (
       <Table.Body>
         <tr className="middle-body-column">
-          <td>
-            {rows.length &&
-              rows.map((row: any, index) => (
-                <Table.Row key={`${Date.now() + index}--tb-row`} className="right-body-child-row">
-                  {lowerBound.map(
-                    (column, colIndex) =>
-                      getColumnLabel(column.dataKey, columnFilterData) && (
-                        <TableCell
-                          type={type}
-                          column={column}
-                          row={row}
-                          key={`${Date.now() + colIndex}--tb-cell`}
-                        />
-                      )
-                  )}
-                </Table.Row>
-              ))}
-          </td>
-          <td ref={ref} className="middle-body">
-            {rows.length &&
-              rows.map((row: any, index) => (
-                <Table.Row key={`${Date.now() + index}--tb-row`} className="middle-body-child-row">
-                  {middleBound.map(
-                    (column, colIndex) =>
-                      getColumnLabel(column.dataKey, columnFilterData) && (
-                        <TableCell
-                          type={type}
-                          column={column}
-                          row={row}
-                          key={`${Date.now() + colIndex}--tb-cell`}
-                        />
-                      )
-                  )}
-                </Table.Row>
-              ))}
-          </td>
-          <td>
-            {rows.length &&
-              rows.map((row: any, index) => (
-                <Table.Row key={`${Date.now() + index}--tb-row`} className="left-body-child-row">
-                  {upperBound.map(
-                    (column, colIndex) =>
-                      getColumnLabel(column.dataKey, columnFilterData) && (
-                        <TableCell
-                          type={type}
-                          column={column}
-                          row={row}
-                          key={`${Date.now() + colIndex}--tb-cell`}
-                        />
-                      )
-                  )}
-                </Table.Row>
-              ))}
-          </td>
+          {scrollRows.map((cell: any) => {
+            let className = '';
+            let tdClassName = '';
+            if (cell.side === 'right') {
+              className = 'right-body-child-row';
+            }
+            if (cell.side === 'center') {
+              className = 'middle-body-child-row';
+              tdClassName = 'middle-body';
+            }
+            if (cell.side === 'left') {
+              className = 'left-body-child-row';
+            }
+            return (
+              <td className={tdClassName} key={`${cell.side}--td-cell`}>
+                {rows.length &&
+                  rows.map((row: any, index: any) => (
+                    <Table.Row key={`${index}--tb-row--${cell.side}`} className={className}>
+                      {cell.rows.map(
+                        (column: any, colIndex: any) =>
+                          getColumnLabel(column.dataKey, columnFilterData) && (
+                            <TableCell
+                              type={type}
+                              column={column}
+                              row={row}
+                              key={`${colIndex}--tb-cell--${cell.side}`}
+                            />
+                          )
+                      )}
+                    </Table.Row>
+                  ))}
+              </td>
+            );
+          })}
         </tr>
       </Table.Body>
     );
