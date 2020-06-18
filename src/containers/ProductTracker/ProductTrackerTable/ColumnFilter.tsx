@@ -27,20 +27,20 @@ const ColumnFilterCard = (props: any) => {
       return;
     }
     const source = columnFilterData.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.source.index].dataKey
+      (c: any) => c.dataKey === columnFilterData[result.source.index + 1].dataKey
     );
     const destination = columnFilterData.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.destination.index].dataKey
+      (c: any) => c.dataKey === columnFilterData[result.destination.index + 1].dataKey
     );
     const sourceIndex = columns.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.source.index].dataKey
+      (c: any) => c.dataKey === columnFilterData[result.source.index + 1].dataKey
     );
     const destinationIndex = columns.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.destination.index].dataKey
+      (c: any) => c.dataKey === columnFilterData[result.destination.index + 1].dataKey
     );
 
     const items = reorder(columnFilterData, source, destination);
-    const sorted = reorder(columns, sourceIndex, destinationIndex - 1);
+    const sorted = reorder(columns, sourceIndex, destinationIndex);
     handleColumnDrop({}, items);
     reorderColumns(sorted);
   };
