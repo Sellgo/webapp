@@ -4,7 +4,12 @@ import './index.scss';
 import _ from 'lodash';
 
 export default ({ sellerInventories }: any) => {
+  // true if you wanna sum up the seller inventories for the time series,
+  // false if you want a stacked bar breakdown of each seller's inventory.
+  const SHOW_SUM = true;
   const data: any = [];
+  const totalSeries: any = [];
+
   for (const key in sellerInventories) {
     data.push({
       type: 'column',
@@ -14,7 +19,25 @@ export default ({ sellerInventories }: any) => {
         .map((dataPoint: any) => dataPoint[1])
         .reduce((total: number, value: number) => total + value),
     });
+
+    sellerInventories[key].data.forEach((dataPoint: any) => {
+      const pointDate = dataPoint[0];
+      const pointInventory = dataPoint[1];
+      if (pointDate in totalSeries) {
+        totalSeries[pointDate][1] += pointInventory;
+      } else {
+        totalSeries[pointDate] = _.cloneDeep(dataPoint);
+      }
+    });
   }
+
+  data.push({
+    type: 'column',
+    name: 'Total',
+    data: Object.keys(totalSeries).map((key: any) => {
+      return totalSeries[key];
+    }),
+  });
 
   data.sort((a: any, b: any) => {
     if (a.totalValue > b.totalValue) return 1;
@@ -23,13 +46,15 @@ export default ({ sellerInventories }: any) => {
   });
 
   const [pieData, setPieData] = useState(
-    data.map((item: any) => {
-      return {
-        name: item.name,
-        y: item.totalValue,
-        visible: true,
-      };
-    })
+    data
+      .filter((item: any) => item.name !== 'Total')
+      .map((item: any) => {
+        return {
+          name: item.name,
+          y: item.totalValue,
+          visible: true,
+        };
+      })
   );
 
   const sellerInventoryChartOptions = {
@@ -38,7 +63,7 @@ export default ({ sellerInventories }: any) => {
       type: 'column',
     },
     title: {
-      text: 'Seller Inventories',
+      text: 'Inventory',
       margin: 50,
       align: 'left',
     },
@@ -75,7 +100,9 @@ export default ({ sellerInventories }: any) => {
     legend: {
       align: 'center',
     },
-    series: data,
+    series: SHOW_SUM
+      ? data.filter((item: any) => item.name === 'Total')
+      : data.filter((item: any) => item.name !== 'Total'),
     plotOptions: {
       column: {
         stacking: 'normal',
@@ -90,27 +117,46 @@ export default ({ sellerInventories }: any) => {
       series: {
         animation: false,
         events: {
-          legendItemClick: (e: any) => {
-            const newPieData = _.cloneDeep(pieData);
-            const item = newPieData.find((item: any) => item.name === e.target.name);
-            if (item) {
-              item.visible = !e.target.visible;
-            }
+          legendItemClick: SHOW_SUM
+            ? undefined
+            : (e: any) => {
+                const newPieData = _.cloneDeep(pieData);
+                const item = newPieData.find((item: any) => item.name === e.target.name);
+                if (item) {
+                  item.visible = !e.target.visible;
+                }
 
-            setPieData(newPieData);
-          },
+                setPieData(newPieData);
+              },
         },
         point: {
           events: {
             mouseOver: (e: any) => {
               const x = e.target.x;
               const newPieData: any = [];
-              e.target.series.chart.series.forEach((series: any) => {
-                const item = series.data.find((item: any) => item.category === x);
-                if (series.visible && item) {
-                  newPieData.push({ name: series.name, y: item.y, visible: true });
+
+              if (SHOW_SUM) {
+                for (const key in sellerInventories) {
+                  const sellerDataPoint = sellerInventories[key].data.find(
+                    (dataPoint: any) => dataPoint[0] === x
+                  );
+
+                  if (sellerDataPoint) {
+                    newPieData.push({
+                      name: sellerInventories[key].name,
+                      y: sellerDataPoint[1],
+                      visible: true,
+                    });
+                  }
                 }
-              });
+              } else {
+                e.target.series.chart.series.forEach((series: any) => {
+                  const item = series.data.find((item: any) => item.category === x);
+                  if (series.visible && item) {
+                    newPieData.push({ name: series.name, y: item.y, visible: true });
+                  }
+                });
+              }
 
               setPieData(newPieData);
             },
