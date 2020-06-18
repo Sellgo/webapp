@@ -310,6 +310,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderCost,
     },
     {
+      label: 'Fees',
+      dataKey: 'fees',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderFee,
+    },
+    {
       label: 'Profit',
       dataKey: 'profit',
       type: 'number',
@@ -324,14 +332,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderMargin,
-    },
-    {
-      label: 'Fees',
-      dataKey: 'fees',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderFee,
     },
     {
       label: 'Monthly\nRevenue',
