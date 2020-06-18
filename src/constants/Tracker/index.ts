@@ -159,6 +159,12 @@ export const columnFilter = [
     dataKey: 'rating',
     visible: true,
   },
+  {
+    value: true,
+    key: '',
+    dataKey: 'actions',
+    visible: false,
+  },
 ];
 
 export const findMinMax = (products: any) => {

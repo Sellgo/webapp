@@ -26,17 +26,21 @@ const ColumnFilterCard = (props: any) => {
     if (!result.destination) {
       return;
     }
-    const source = columnFilterData.findIndex((c: any) => c.dataKey === result.source.droppableId);
-    const destination = columnFilterData.findIndex(
-      (c: any) => c.dataKey === result.destination.droppableId
+    const source = columnFilterData.findIndex(
+      (c: any) => c.dataKey === columnFilterData[result.source.index].dataKey
     );
-    const sourceIndex = columns.findIndex((c: any) => c.dataKey === result.source.droppableId);
+    const destination = columnFilterData.findIndex(
+      (c: any) => c.dataKey === columnFilterData[result.destination.index].dataKey
+    );
+    const sourceIndex = columns.findIndex(
+      (c: any) => c.dataKey === columnFilterData[result.source.index].dataKey
+    );
     const destinationIndex = columns.findIndex(
-      (c: any) => c.dataKey === result.destination.droppableId
+      (c: any) => c.dataKey === columnFilterData[result.destination.index].dataKey
     );
 
     const items = reorder(columnFilterData, source, destination);
-    const sorted = reorder(columns, sourceIndex, destinationIndex);
+    const sorted = reorder(columns, sourceIndex, destinationIndex - 1);
     handleColumnDrop({}, items);
     reorderColumns(sorted);
   };
@@ -56,20 +60,23 @@ const ColumnFilterCard = (props: any) => {
             <span>{selectAll.key}</span>
             <br />
           </div>
+
           <DragDropContext onDragEnd={onDragEnd}>
-            {filters.map(
-              (check: any, i: any) =>
-                check.value && (
-                  <Droppable droppableId={check.dataKey} key={check.dataKey}>
-                    {dragProvided => {
-                      return (
-                        <div {...dragProvided.droppableProps} ref={dragProvided.innerRef}>
+            <Droppable droppableId={'droppableId'} direction={'vertical'}>
+              {provided => {
+                return (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {filters.map(
+                      (check: any, i: any) =>
+                        check.value && (
                           <Draggable
                             key={`fc--${Date.now() + i}`}
                             draggableId={check.dataKey}
                             index={i}
                           >
                             {provided => (
+                              // @ts-ignore
+
                               <div
                                 className="column-selection-container"
                                 ref={provided.innerRef}
@@ -92,12 +99,12 @@ const ColumnFilterCard = (props: any) => {
                               </div>
                             )}
                           </Draggable>
-                        </div>
-                      );
-                    }}
-                  </Droppable>
-                )
-            )}
+                        )
+                    )}
+                  </div>
+                );
+              }}
+            </Droppable>
           </DragDropContext>
           <span style={{ paddingLeft: 30 }}>
             Inactive Columns
