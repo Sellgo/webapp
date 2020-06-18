@@ -226,6 +226,7 @@ i.icon.filter::before {
 
 .middle-scroll-cell:hover {
   background: transparent !important;
+  cursor: auto !important;
 }
 
 .remove-right-border-header {
@@ -365,4 +366,8 @@ i.icon.filter::before {
 
 .left-fixed-header-column {
   width: 269px !important;
+}
+
+.table-scroll-divider {
+  height: 15px;
 }

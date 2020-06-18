@@ -31,7 +31,6 @@ interface Shared {
 export interface TableHeaderProps extends Shared {
   columns: Column[];
   middleScroll?: boolean;
-  headerRef?: any;
 }
 
 export interface TableHeaderCellProps extends Shared {
@@ -174,12 +173,27 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   );
 };
 const TableHeader = (props: TableHeaderProps) => {
-  const { columns, middleScroll, headerRef, ...rest } = props;
+  const { columns, middleScroll, ...rest } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
     const upperBound = filteredColumns.slice(filteredColumns.length - 2, filteredColumns.length);
+
+    const scrollRows: any = [
+      {
+        side: 'right',
+        rows: lowerBound,
+      },
+      {
+        side: 'center',
+        rows: middleBound,
+      },
+      {
+        side: 'left',
+        rows: upperBound,
+      },
+    ];
 
     const onScroll = (evt: any) => {
       const middleHeader = document.querySelector('.middle-header');
@@ -192,70 +206,57 @@ const TableHeader = (props: TableHeaderProps) => {
     return (
       <Table.Header>
         <tr className="parent-header-column">
-          <Table.HeaderCell>
-            <Table.Row>
-              {lowerBound.map((column, index) => {
-                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
-          <Table.HeaderCell
-            className={'middle-header table-header-scroll'}
-            ref={headerRef}
-            onScroll={onScroll}
-          >
-            <Table.Row>
-              {middleBound.map((column, index) => {
-                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
-          <Table.HeaderCell className="left-fixed-header-column">
-            <Table.Row>
-              {upperBound.map((column, index) => {
-                return <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />;
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
+          {scrollRows.map((cell: any, cellIndex: any) => {
+            const headerCellProps: any = {};
+            if (cell.side === 'center') {
+              headerCellProps.className = 'middle-header table-header-scroll';
+              headerCellProps.onScroll = onScroll;
+            }
+            if (cell.side === 'right') {
+              headerCellProps.className = 'left-fixed-header-column';
+            }
+            return (
+              <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
+                <Table.Row>
+                  {cell.rows.map((column: any, index: any) => {
+                    return (
+                      <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />
+                    );
+                  })}
+                </Table.Row>
+              </Table.HeaderCell>
+            );
+          })}
         </tr>
-        <div style={{ height: '15px' }} />
+        <tr className="table-scroll-divider" />
         <Table.Row>
-          <Table.HeaderCell className={`middle-scroll-cell`}>
-            <Table.Row>
-              {lowerBound.map((column, index) => {
-                const className = `middle-scroll-cell ${getColumnClass(column)}`;
-                return <div key={column.dataKey || index} className={className} />;
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
-          <Table.HeaderCell
-            className={' middle-scroll-cell header-scroll'}
-            ref={headerRef}
-            onScroll={onScroll}
-          >
-            <Table.Row>
-              {middleBound.map((column, index) => {
-                return (
-                  <Table.HeaderCell
-                    key={column.dataKey || index}
-                    className={`middle-scroll-cell ${getColumnClass(column)}`}
-                  />
-                );
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
-          <Table.HeaderCell className={`middle-scroll-cell`}>
-            <Table.Row>
-              {upperBound.map((column, index) => {
-                return (
-                  <div
-                    key={column.dataKey || index}
-                    className={`middle-scroll-cell ${getColumnClass(column)}`}
-                  />
-                );
-              })}
-            </Table.Row>
-          </Table.HeaderCell>
+          {scrollRows.map((cell: any, cellIndex: any) => {
+            const headerCellProps: any = {};
+            if (cell.side === 'center') {
+              headerCellProps.className = 'middle-scroll-cell header-scroll';
+              headerCellProps.onScroll = onScroll;
+            } else {
+              headerCellProps.className = `middle-scroll-cell`;
+            }
+            return (
+              <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
+                <Table.Row>
+                  {cell.rows.map((column: any, index: any) => {
+                    const className = `middle-scroll-cell ${getColumnClass(column)}`;
+                    return ['left', 'right'].includes(cell.side) ? (
+                      <td key={column.dataKey || index} className={className} />
+                    ) : (
+                      <Table.HeaderCell
+                        column={column}
+                        className={className}
+                        key={column.dataKey + cell.side || index}
+                      />
+                    );
+                  })}
+                </Table.Row>
+              </Table.HeaderCell>
+            );
+          })}
         </Table.Row>
       </Table.Header>
     );
