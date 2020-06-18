@@ -34,6 +34,7 @@ export default ({ sellerInventories }: any) => {
   data.push({
     type: 'column',
     name: 'Total',
+    color: '#4AD991',
     data: Object.keys(totalSeries).map((key: any) => {
       return totalSeries[key];
     }),
