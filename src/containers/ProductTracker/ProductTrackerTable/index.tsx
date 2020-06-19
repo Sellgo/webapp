@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
 import TrackerMenu from './TrackerMenu';
-import { PaginatedTable, Column } from '../../../components/Table';
+import { GenericTable, Column } from '../../../components/Table';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
 import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils/format';
@@ -535,7 +535,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         </div>
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
-          <PaginatedTable
+          <GenericTable
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
             data={showTableLock ? [] : filteredProducts}

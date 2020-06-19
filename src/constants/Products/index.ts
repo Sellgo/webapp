@@ -30,12 +30,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'PRODUCT INFORMATION',
-    dataKey: 'PRODUCT INFORMATION',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Price',
     dataKey: 'price',
     visible: true,
@@ -84,7 +78,7 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Sales EsT',
+    key: 'Monthly Sales Est',
     dataKey: 'sales_monthly',
     visible: true,
   },
@@ -98,12 +92,6 @@ export const columnFilter = [
     value: true,
     key: 'Size Tier',
     dataKey: 'size_tier',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Tracking / Rating',
-    dataKey: 'sellgo_score',
     visible: true,
   },
   {
