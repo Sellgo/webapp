@@ -1,6 +1,9 @@
 import React from 'react';
 import Chart from '../../../../../components/Chart/Chart';
 
+/**
+ * WARNING: DEPRECATED.
+ */
 export default ({ productRanks, productInventories }: any) => {
   const data = [
     {

@@ -11,11 +11,14 @@ export enum SHOW_TYPE {
 }
 
 export default ({
-  currentShowType = SHOW_TYPE.SumOfSellerLevelInventory,
+  productRanks,
+  productInventories,
   sellerInventories,
+  currentShowType = SHOW_TYPE.SumOfSellerLevelInventory,
 }: any) => {
+  const showRanks = true;
   const data: any = [];
-  const totalSeries: any = [];
+  let totalSeries: any = [];
   const pieRef: any = useRef(null);
   const colors = [
     '#7cb5ec',
@@ -30,10 +33,12 @@ export default ({
     '#91e8e1',
   ];
 
+  // format series data
   for (const key in sellerInventories) {
     sellerInventories[key].color = colors[data.length % colors.length];
 
     data.push({
+      yAxis: showRanks ? 1 : 0,
       type: 'column',
       name: sellerInventories[key].name,
       data: sellerInventories[key].data,
@@ -54,24 +59,39 @@ export default ({
     });
   }
 
-  data.push({
-    type: 'column',
-    name: 'Total',
-    color: '#4AD991',
-    data: Object.keys(totalSeries).map((key: any) => {
-      return totalSeries[key];
-    }),
+  // format `total` series data
+  totalSeries = Object.keys(totalSeries).map((key: any) => {
+    return totalSeries[key];
   });
+  if (currentShowType === SHOW_TYPE.ProductLevelInventory) {
+    data.push({
+      yAxis: showRanks ? 1 : 0,
+      type: 'column',
+      name: 'Inventory',
+      color: '#4AD991',
+      data: productInventories,
+    });
+  } else {
+    data.push({
+      yAxis: showRanks ? 1 : 0,
+      type: 'column',
+      name: 'Inventory',
+      color: '#4AD991',
+      data: totalSeries,
+    });
+  }
 
+  // sort series by total value
   data.sort((a: any, b: any) => {
     if (a.totalValue > b.totalValue) return 1;
     if (a.totalValue < b.totalValue) return -1;
     return 0;
   });
 
+  // initialize pie chart data state
   const [pieData, setPieData] = useState(
     data
-      .filter((item: any) => item.name !== 'Total')
+      .filter((item: any) => item.name !== 'Inventory')
       .map((item: any) => {
         return {
           name: item.name,
@@ -82,13 +102,76 @@ export default ({
       })
   );
 
-  const sellerInventoryChartOptions = {
+  // initialize yAxisOptions of time series chart
+  const inventoryDataPoints = totalSeries.map((item: any) => item[1]);
+  const inventoryYMin = Math.min(...inventoryDataPoints);
+  const inventoryYMax = Math.max(...inventoryDataPoints, 0);
+  const timeSeriesYAxisOptions: any = [
+    {
+      min: inventoryYMin !== Infinity && inventoryYMin > 0 ? inventoryYMin : 0,
+      max: inventoryYMax !== -Infinity ? inventoryYMax : null,
+      allowDecimals: false,
+      gridLineWidth: 0,
+      minorGridLineWidth: 0,
+      lineWidth: 2,
+      title: {
+        text: 'Inventory',
+        align: 'high',
+        style: {
+          color: 'black',
+        },
+      },
+      labels: {
+        format: '{value}',
+        style: {
+          color: 'black',
+        },
+      },
+    },
+  ];
+
+  // update data and options if showing rank
+  if (showRanks) {
+    data.unshift({
+      yAxis: 0,
+      type: 'line',
+      step: true,
+      name: 'Rank',
+      color: '#FD8373',
+      data: productRanks,
+      zIndex: 2,
+    });
+
+    const rankDataPoints = productRanks.map((item: any) => item[1]);
+    const rankYMin = Math.min(...rankDataPoints);
+    const rankYMax = Math.max(...rankDataPoints);
+
+    timeSeriesYAxisOptions[0] = { ...timeSeriesYAxisOptions[0], opposite: true, yAxis: 1 };
+
+    timeSeriesYAxisOptions.unshift({
+      min: rankYMin !== Infinity && rankYMin > 0 ? rankYMin : 0,
+      max: rankYMax !== -Infinity ? rankYMax : null,
+      gridLineWidth: 0,
+      minorGridLineWidth: 0,
+      lineWidth: 2,
+      title: {
+        text: 'Rank',
+        align: 'high',
+        style: {
+          color: 'black',
+        },
+      },
+    });
+  }
+
+  // options for time series chart
+  const timeSeriesChartOptions = {
     chart: {
       zoomType: 'x',
       type: 'column',
     },
     title: {
-      text: 'Inventory',
+      text: showRanks ? 'Rank vs Inventory' : 'Inventory',
       margin: 50,
       align: 'left',
     },
@@ -98,27 +181,7 @@ export default ({
         crosshair: true,
       },
     ],
-    yAxis: [
-      {
-        allowDecimals: false,
-        gridLineWidth: 0,
-        minorGridLineWidth: 0,
-        lineWidth: 2,
-        title: {
-          text: 'Inventory',
-          align: 'high',
-          style: {
-            color: 'black',
-          },
-        },
-        labels: {
-          format: '{value}',
-          style: {
-            color: 'black',
-          },
-        },
-      },
-    ],
+    yAxis: timeSeriesYAxisOptions,
     tooltip: {
       shared: true,
     },
@@ -126,9 +189,13 @@ export default ({
       align: 'center',
     },
     series:
-      currentShowType === SHOW_TYPE.SumOfSellerLevelInventory
-        ? data.filter((item: any) => item.name === 'Total')
-        : data.filter((item: any) => item.name !== 'Total'),
+      currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
+      currentShowType === SHOW_TYPE.ProductLevelInventory
+        ? data.filter(
+            (item: any) =>
+              item.name === 'Inventory' || (showRanks ? item.name === 'Rank' : undefined)
+          )
+        : data.filter((item: any) => item.name !== 'Inventory'),
     plotOptions: {
       column: {
         stacking: 'normal',
@@ -144,7 +211,8 @@ export default ({
         animation: false,
         events: {
           legendItemClick:
-            currentShowType === SHOW_TYPE.SumOfSellerLevelInventory
+            currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
+            currentShowType === SHOW_TYPE.ProductLevelInventory
               ? undefined
               : (e: any) => {
                   const newPieData = _.cloneDeep(pieData);
@@ -162,7 +230,10 @@ export default ({
               const x = e.target.x;
               const newPieData: any = [];
 
-              if (currentShowType === SHOW_TYPE.SumOfSellerLevelInventory) {
+              if (
+                currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
+                currentShowType === SHOW_TYPE.ProductLevelInventory
+              ) {
                 for (const key in sellerInventories) {
                   const sellerDataPoint = sellerInventories[key].data.find(
                     (dataPoint: any) => dataPoint[0] === x
@@ -199,6 +270,7 @@ export default ({
     },
   };
 
+  // options for pie chart
   const marketSharePieChartOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -225,6 +297,7 @@ export default ({
     },
   };
 
+  // fix for pie chart not rendering sometimes
   useEffect(() => {
     if (pieRef && pieRef.current && pieRef.current.chart) {
       pieRef.current.chart.update(marketSharePieChartOptions, true, true, false);
@@ -235,7 +308,7 @@ export default ({
     <div className="seller-inventory-charts">
       <div className="seller-inventory-charts__time-series">
         <div style={{ position: 'relative', width: '100%' }}>
-          <Chart chartOptions={sellerInventoryChartOptions} />
+          <Chart chartOptions={timeSeriesChartOptions} />
         </div>
       </div>
       <div className="seller-inventory-charts__pie-chart">

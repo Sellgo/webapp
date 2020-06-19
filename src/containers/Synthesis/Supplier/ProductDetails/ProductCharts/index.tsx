@@ -23,7 +23,6 @@ import './index.scss';
 import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
-import RankVsInventoryChart from './RankVsInventoryChart';
 import MarketShareChart from './MarketShareChart';
 
 interface ProductChartsProps {
@@ -117,11 +116,20 @@ class ProductCharts extends Component<ProductChartsProps> {
     switch (this.state.showProductChart) {
       case 'chart0': {
         const formattedRanks = this.formatProductDetail('rank', productDetailRank);
-        const formattedInventories = this.formatProductDetail('inventory', productDetailInventory);
-        return formattedRanks.length || formattedInventories.length ? (
-          <RankVsInventoryChart
+        const formattedSellerInventories: any = this.formatSellerInventories(
+          productDetailSellerInventory
+        );
+        const formattedProductInventories = this.formatProductDetail(
+          'inventory',
+          productDetailInventory
+        );
+        return formattedProductInventories.length ||
+          formattedRanks.length ||
+          (formattedSellerInventories && Object.keys(formattedSellerInventories).length) ? (
+          <MarketShareChart
             productRanks={formattedRanks}
-            productInventories={formattedInventories}
+            productInventories={formattedProductInventories}
+            sellerInventories={formattedSellerInventories}
           />
         ) : (
           this.renderNoDataMessage()
@@ -150,17 +158,6 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedReviews = this.formatProductDetail('review_count', productDetailReview);
         return formattedReviews.length ? (
           <ProductReviewChart productReviews={formattedReviews} />
-        ) : (
-          this.renderNoDataMessage()
-        );
-      }
-
-      case 'chart4': {
-        const formattedSellerInventories: any = this.formatSellerInventories(
-          productDetailSellerInventory
-        );
-        return formattedSellerInventories && Object.keys(formattedSellerInventories).length ? (
-          <MarketShareChart sellerInventories={formattedSellerInventories} />
         ) : (
           this.renderNoDataMessage()
         );
@@ -211,7 +208,7 @@ class ProductCharts extends Component<ProductChartsProps> {
           <Form.Group inline={true}>
             <label />
             <Form.Radio
-              label="Rank vs Inventory"
+              label="Market Share"
               value="chart0"
               checked={this.state.showProductChart === 'chart0'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
@@ -232,12 +229,6 @@ class ProductCharts extends Component<ProductChartsProps> {
               label="Review"
               value="chart3"
               checked={this.state.showProductChart === 'chart3'}
-              onChange={(e, { value }) => this.handleProductChartChange(e, value)}
-            />
-            <Form.Radio
-              label="Market Share"
-              value="chart4"
-              checked={this.state.showProductChart === 'chart4'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
           </Form.Group>
