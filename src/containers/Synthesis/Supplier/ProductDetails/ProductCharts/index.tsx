@@ -24,7 +24,7 @@ import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
 import RankVsInventoryChart from './RankVsInventoryChart';
-import SellerInventoryChart from './SellerInventoryChart';
+import MarketShareChart from './MarketShareChart';
 
 interface ProductChartsProps {
   product: any;
@@ -160,7 +160,7 @@ class ProductCharts extends Component<ProductChartsProps> {
           productDetailSellerInventory
         );
         return formattedSellerInventories && Object.keys(formattedSellerInventories).length ? (
-          <SellerInventoryChart sellerInventories={formattedSellerInventories} />
+          <MarketShareChart sellerInventories={formattedSellerInventories} />
         ) : (
           this.renderNoDataMessage()
         );
@@ -235,7 +235,7 @@ class ProductCharts extends Component<ProductChartsProps> {
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
             <Form.Radio
-              label="Seller Inventory"
+              label="Market Share"
               value="chart4"
               checked={this.state.showProductChart === 'chart4'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}

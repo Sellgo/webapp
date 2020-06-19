@@ -3,10 +3,17 @@ import Chart from '../../../../../../components/Chart/Chart';
 import './index.scss';
 import _ from 'lodash';
 
-export default ({ sellerInventories }: any) => {
-  // true if you wanna sum up the seller inventories for the time series,
-  // false if you want a stacked bar breakdown of each seller's inventory.
-  const SHOW_SUM = true;
+// types for the time series
+export enum SHOW_TYPE {
+  ProductLevelInventory,
+  SumOfSellerLevelInventory,
+  SellerLevelInventory,
+}
+
+export default ({
+  currentShowType = SHOW_TYPE.SumOfSellerLevelInventory,
+  sellerInventories,
+}: any) => {
   const data: any = [];
   const totalSeries: any = [];
   const pieRef: any = useRef(null);
@@ -118,9 +125,10 @@ export default ({ sellerInventories }: any) => {
     legend: {
       align: 'center',
     },
-    series: SHOW_SUM
-      ? data.filter((item: any) => item.name === 'Total')
-      : data.filter((item: any) => item.name !== 'Total'),
+    series:
+      currentShowType === SHOW_TYPE.SumOfSellerLevelInventory
+        ? data.filter((item: any) => item.name === 'Total')
+        : data.filter((item: any) => item.name !== 'Total'),
     plotOptions: {
       column: {
         stacking: 'normal',
@@ -135,17 +143,18 @@ export default ({ sellerInventories }: any) => {
       series: {
         animation: false,
         events: {
-          legendItemClick: SHOW_SUM
-            ? undefined
-            : (e: any) => {
-                const newPieData = _.cloneDeep(pieData);
-                const item = newPieData.find((item: any) => item.name === e.target.name);
-                if (item) {
-                  item.visible = !e.target.visible;
-                }
+          legendItemClick:
+            currentShowType === SHOW_TYPE.SumOfSellerLevelInventory
+              ? undefined
+              : (e: any) => {
+                  const newPieData = _.cloneDeep(pieData);
+                  const item = newPieData.find((item: any) => item.name === e.target.name);
+                  if (item) {
+                    item.visible = !e.target.visible;
+                  }
 
-                setPieData(newPieData);
-              },
+                  setPieData(newPieData);
+                },
         },
         point: {
           events: {
@@ -153,7 +162,7 @@ export default ({ sellerInventories }: any) => {
               const x = e.target.x;
               const newPieData: any = [];
 
-              if (SHOW_SUM) {
+              if (currentShowType === SHOW_TYPE.SumOfSellerLevelInventory) {
                 for (const key in sellerInventories) {
                   const sellerDataPoint = sellerInventories[key].data.find(
                     (dataPoint: any) => dataPoint[0] === x
