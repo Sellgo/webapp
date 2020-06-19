@@ -10,8 +10,22 @@ export default ({ sellerInventories }: any) => {
   const data: any = [];
   const totalSeries: any = [];
   const pieRef: any = useRef(null);
+  const colors = [
+    '#7cb5ec',
+    '#434348',
+    '#90ed7d',
+    '#f7a35c',
+    '#8085e9',
+    '#f15c80',
+    '#e4d354',
+    '#2b908f',
+    '#f45b5b',
+    '#91e8e1',
+  ];
 
   for (const key in sellerInventories) {
+    sellerInventories[key].color = colors[data.length % colors.length];
+
     data.push({
       type: 'column',
       name: sellerInventories[key].name,
@@ -19,6 +33,7 @@ export default ({ sellerInventories }: any) => {
       totalValue: sellerInventories[key].data
         .map((dataPoint: any) => dataPoint[1])
         .reduce((total: number, value: number) => total + value),
+      color: sellerInventories[key].color,
     });
 
     sellerInventories[key].data.forEach((dataPoint: any) => {
@@ -54,6 +69,7 @@ export default ({ sellerInventories }: any) => {
         return {
           name: item.name,
           y: item.totalValue,
+          color: item.color,
           visible: true,
         };
       })
@@ -148,6 +164,7 @@ export default ({ sellerInventories }: any) => {
                       name: sellerInventories[key].name,
                       y: sellerDataPoint[1],
                       visible: true,
+                      color: sellerInventories[key].color,
                     });
                   }
                 }
@@ -155,7 +172,12 @@ export default ({ sellerInventories }: any) => {
                 e.target.series.chart.series.forEach((series: any) => {
                   const item = series.data.find((item: any) => item.category === x);
                   if (series.visible && item) {
-                    newPieData.push({ name: series.name, y: item.y, visible: true });
+                    newPieData.push({
+                      name: series.name,
+                      y: item.y,
+                      visible: true,
+                      color: item.color,
+                    });
                   }
                 });
               }
@@ -182,7 +204,6 @@ export default ({ sellerInventories }: any) => {
     },
     series: {
       name: 'Market Share',
-      colorByPoint: true,
       data: pieData.filter((item: any) => item.visible),
     },
     tooltip: {
