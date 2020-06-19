@@ -60,12 +60,12 @@ export default ({
       name: sellerInventories[key].name,
       data: sellerInventories[key].data,
       totalValue: sellerInventories[key].data
-        .map((dataPoint: any) => dataPoint[1])
+        .map(dataPoint => dataPoint[1])
         .reduce((total: number, value: number) => total + value),
       color: sellerInventories[key].color,
     });
 
-    sellerInventories[key].data.forEach((dataPoint: any) => {
+    sellerInventories[key].data.forEach(dataPoint => {
       const pointDate = dataPoint[0];
       const pointInventory = dataPoint[1];
       if (pointDate in sellerSumSeries) {
@@ -75,8 +75,6 @@ export default ({
       }
     });
   }
-
-  // format `total` series data
   sellerSumSeries = Object.keys(sellerSumSeries).map((key: any) => {
     return sellerSumSeries[key];
   });
@@ -140,17 +138,19 @@ export default ({
   }
 
   // sort series by total value
-  data.sort((a: any, b: any) => {
-    if (a.totalValue > b.totalValue) return 1;
-    if (a.totalValue < b.totalValue) return -1;
+  data.sort((a, b) => {
+    if (a.totalValue && b.totalValue) {
+      if (a.totalValue > b.totalValue) return 1;
+      if (a.totalValue < b.totalValue) return -1;
+    }
     return 0;
   });
 
   // initialize pie chart data state
   const [pieData, setPieData] = useState(
     data
-      .filter((item: any) => item.name !== 'Inventory')
-      .map((item: any) => {
+      .filter(item => item.name !== 'Inventory')
+      .map(item => {
         return {
           name: item.name,
           y: item.totalValue,
