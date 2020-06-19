@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+// import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Checkbox } from 'semantic-ui-react';
-
+import { Container, Draggable } from 'react-smooth-dnd';
 const ColumnFilterCard = (props: any) => {
   const {
     handleColumnChange,
@@ -21,22 +21,44 @@ const ColumnFilterCard = (props: any) => {
     return result;
   };
 
-  const onDragEnd = (result: any) => {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
+  // const onDragEnd = (result: any) => {
+  //   // dropped outside the list
+  //   if (!result.destination) {
+  //     return;
+  //   }
+  //   const source = columnFilterData.findIndex(
+  //     (c: any) => c.dataKey === columnFilterData[result.source.index + 1].dataKey
+  //   );
+  //   const destination = columnFilterData.findIndex(
+  //     (c: any) => c.dataKey === columnFilterData[result.destination.index + 1].dataKey
+  //   );
+  //   const sourceIndex = columns.findIndex(
+  //     (c: any) => c.dataKey === columnFilterData[result.source.index + 1].dataKey
+  //   );
+  //   const destinationIndex = columns.findIndex(
+  //     (c: any) => c.dataKey === columnFilterData[result.destination.index + 1].dataKey
+  //   );
+  //
+  //   const items = reorder(columnFilterData, source, destination);
+  //   const sorted = reorder(columns, sourceIndex, destinationIndex);
+  //   handleColumnDrop({}, items);
+  //   reorderColumns(sorted);
+  // };
+
+  const applyDrag = (dragResult: any) => {
+    const { removedIndex, addedIndex } = dragResult;
+    if (removedIndex === null && addedIndex === null) return;
     const source = columnFilterData.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.source.index + 1].dataKey
+      (c: any) => c.dataKey === columnFilterData[removedIndex + 2].dataKey
     );
     const destination = columnFilterData.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.destination.index + 1].dataKey
+      (c: any) => c.dataKey === columnFilterData[addedIndex + 2].dataKey
     );
     const sourceIndex = columns.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.source.index + 1].dataKey
+      (c: any) => c.dataKey === columns[removedIndex + 2].dataKey
     );
     const destinationIndex = columns.findIndex(
-      (c: any) => c.dataKey === columnFilterData[result.destination.index + 1].dataKey
+      (c: any) => c.dataKey === columns[addedIndex + 2].dataKey
     );
 
     const items = reorder(columnFilterData, source, destination);
@@ -60,52 +82,70 @@ const ColumnFilterCard = (props: any) => {
             <span>{selectAll.key}</span>
             <br />
           </div>
+          <Container onDrop={applyDrag} autoScrollEnabled={false}>
+            {filters.map((check: any) => (
+              <Draggable key={check.dataKey}>
+                <div className="column-selection-container">
+                  <Checkbox
+                    checked={check.value}
+                    onChange={(e: any, data: any) => handleColumnChange(e, { ...check, ...data })}
+                  />
+                  <span
+                    className="active-columns"
+                    style={{ cursor: 'move', color: '#98AECA', fontSize: 20 }}
+                  >
+                    <b>:::&nbsp;</b>
+                  </span>
+                  <span>{check.key}</span>
+                </div>
+              </Draggable>
+            ))}
+          </Container>
+          {/*<DragDropContext onDragEnd={onDragEnd}>*/}
+          {/*  <Droppable droppableId={'droppableId'} direction={'vertical'}>*/}
+          {/*    {provided => {*/}
+          {/*      return (*/}
+          {/*        <div {...provided.droppableProps} ref={provided.innerRef}>*/}
+          {/*          {filters.map(*/}
+          {/*            (check: any, i: any) =>*/}
+          {/*              check.value && (*/}
+          {/*                <Draggable*/}
+          {/*                  key={`fc--${Date.now() + i}`}*/}
+          {/*                  draggableId={check.dataKey}*/}
+          {/*                  index={i}*/}
+          {/*                >*/}
+          {/*                  {provided => (*/}
+          {/*                    // @ts-ignore*/}
 
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId={'droppableId'} direction={'vertical'}>
-              {provided => {
-                return (
-                  <div {...provided.droppableProps} ref={provided.innerRef}>
-                    {filters.map(
-                      (check: any, i: any) =>
-                        check.value && (
-                          <Draggable
-                            key={`fc--${Date.now() + i}`}
-                            draggableId={check.dataKey}
-                            index={i}
-                          >
-                            {provided => (
-                              // @ts-ignore
-
-                              <div
-                                className="column-selection-container"
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <Checkbox
-                                  checked={check.value}
-                                  onChange={(e: any, data: any) =>
-                                    handleColumnChange(e, { ...check, ...data })
-                                  }
-                                />
-                                <span
-                                  className="active-columns"
-                                  style={{ cursor: 'move', color: '#98AECA', fontSize: 20 }}
-                                >
-                                  <b>:::&nbsp;</b>
-                                </span>
-                                <span>{check.key}</span>
-                              </div>
-                            )}
-                          </Draggable>
-                        )
-                    )}
-                  </div>
-                );
-              }}
-            </Droppable>
-          </DragDropContext>
+          {/*<div*/}
+          {/*  className="column-selection-container"*/}
+          {/*  ref={provided.innerRef}*/}
+          {/*  {...provided.draggableProps}*/}
+          {/*  {...provided.dragHandleProps}*/}
+          {/*>*/}
+          {/*  <Checkbox*/}
+          {/*    checked={check.value}*/}
+          {/*    onChange={(e: any, data: any) =>*/}
+          {/*      handleColumnChange(e, { ...check, ...data })*/}
+          {/*    }*/}
+          {/*  />*/}
+          {/*  <span*/}
+          {/*    className="active-columns"*/}
+          {/*    style={{ cursor: 'move', color: '#98AECA', fontSize: 20 }}*/}
+          {/*  >*/}
+          {/*    <b>:::&nbsp;</b>*/}
+          {/*  </span>*/}
+          {/*  <span>{check.key}</span>*/}
+          {/*</div>*/}
+          {/*                  )}*/}
+          {/*                </Draggable>*/}
+          {/*              )*/}
+          {/*          )}*/}
+          {/*        </div>*/}
+          {/*      );*/}
+          {/*    }}*/}
+          {/*  </Droppable>*/}
+          {/*</DragDropContext>*/}
           <span style={{ paddingLeft: 30 }}>
             Inactive Columns
             <br />
