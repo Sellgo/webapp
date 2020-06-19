@@ -235,35 +235,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
     </p>
   );
-  renderAvgMargin = (row: ProductTrackerDetails) => {
-    const toggleExpandRow = (id: number) => {
-      if (this.state.expandedRows === null) {
-        this.setState({
-          expandedRows: id,
-        });
-      } else if (this.state.expandedRows === id) {
-        this.setState({
-          expandedRows: null,
-        });
-      } else {
-        this.setState({
-          expandedRows: id,
-        });
-      }
-    };
-
-    const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
-    return (
-      <div className="avg-margin">
-        <p className="stat">
-          {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
-        </p>
-        <span className="caret-icon" style={{ cursor: 'pointer' }}>
-          <Icon className={iconCaretClass} onClick={() => toggleExpandRow(row.id)} />
-        </span>
-      </div>
-    );
-  };
+  renderAvgMargin = (row: ProductTrackerDetails) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
+    </p>
+  );
   renderAvgUnitSold = (row: ProductTrackerDetails) => {
     return (
       <>
@@ -293,9 +269,34 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderAvgRank = (row: ProductTrackerDetails) => {
+    const toggleExpandRow = (id: number) => {
+      if (this.state.expandedRows === null) {
+        this.setState({
+          expandedRows: id,
+        });
+      } else if (this.state.expandedRows === id) {
+        this.setState({
+          expandedRows: null,
+        });
+      } else {
+        this.setState({
+          expandedRows: id,
+        });
+      }
+    };
+
+    const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
     return (
-      <p className="stat">{showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, row.avg_rank)}</p>
+      <div className="dv-arrow">
+        <p className="stat">
+          {showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, row.avg_rank)}
+        </p>
+        <span className="caret-icon" style={{ cursor: 'pointer' }}>
+          <Icon className={iconCaretClass} onClick={() => toggleExpandRow(row.id)} />
+        </span>
+      </div>
     );
   };
   renderCustomerReviews = (row: ProductTrackerDetails) => {
