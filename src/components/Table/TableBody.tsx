@@ -76,26 +76,32 @@ export const TableBody = (props: TableBodyProps) => {
             }
             return (
               <td className={tdClassName} key={`${cell.side}--td-cell`}>
-                {rows.length &&
-                  rows.map((row: any, index: any) => (
-                    <Table.Row
-                      key={`${index}--tb-row--${cell.side}`}
-                      className={className}
-                      as="div"
-                    >
-                      {cell.rows.map(
-                        (column: any, colIndex: any) =>
-                          getColumnLabel(column.dataKey, columnFilterData) && (
-                            <TableCell
-                              type={type}
-                              column={column}
-                              row={row}
-                              key={`${colIndex}--tb-cell--${cell.side}`}
-                            />
-                          )
-                      )}
-                    </Table.Row>
-                  ))}
+                <table className="body-inner-table">
+                  <tbody className="inner-tbody">
+                    {rows.length ? (
+                      rows.map((row: any, index: any) => (
+                        <Table.Row
+                          className={className}
+                          key={`--tb-row--${cell.side}-inner-row--${index}`}
+                        >
+                          {cell.rows.map(
+                            (column: any, colIndex: any) =>
+                              getColumnLabel(column.dataKey, columnFilterData) && (
+                                <TableCell
+                                  type={type}
+                                  column={column}
+                                  row={row}
+                                  key={`${colIndex}--tb-cell--${cell.side}`}
+                                />
+                              )
+                          )}
+                        </Table.Row>
+                      ))
+                    ) : (
+                      <tr />
+                    )}
+                  </tbody>
+                </table>
               </td>
             );
           })}

@@ -217,13 +217,21 @@ const TableHeader = (props: TableHeaderProps) => {
             }
             return (
               <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
-                <Table.Row>
-                  {cell.rows.map((column: any, index: any) => {
-                    return (
-                      <TableHeaderCell column={column} key={column.dataKey || index} {...rest} />
-                    );
-                  })}
-                </Table.Row>
+                <table className="header-inner-table">
+                  <thead className="inner-tbody">
+                    <Table.Row>
+                      {cell.rows.map((column: any, index: any) => {
+                        return (
+                          <TableHeaderCell
+                            column={column}
+                            key={column.dataKey || index}
+                            {...rest}
+                          />
+                        );
+                      })}
+                    </Table.Row>
+                  </thead>
+                </table>
               </Table.HeaderCell>
             );
           })}
@@ -236,24 +244,26 @@ const TableHeader = (props: TableHeaderProps) => {
               headerCellProps.className = 'middle-scroll-cell header-scroll';
               headerCellProps.onScroll = onScroll;
             } else {
-              headerCellProps.className = `middle-scroll-cell`;
+              headerCellProps.className = `middle-scroll-cell-disabled`;
             }
             return (
               <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
-                <Table.Row>
-                  {cell.rows.map((column: any, index: any) => {
-                    const className = `middle-scroll-cell ${getColumnClass(column)}`;
-                    return ['left', 'right'].includes(cell.side) ? (
-                      <td key={column.dataKey || index} className={className} />
-                    ) : (
-                      <Table.HeaderCell
-                        column={column}
-                        className={className}
-                        key={column.dataKey + cell.side || index}
-                      />
-                    );
-                  })}
-                </Table.Row>
+                <table>
+                  <thead>
+                    <Table.Row>
+                      {cell.rows.map((column: any, index: any) => {
+                        const className = `middle-scroll-cell ${getColumnClass(column)}`;
+                        const className2 = `middle-scroll-cell-disabled ${getColumnClass(column)}`;
+
+                        return ['left', 'right'].includes(cell.side) ? (
+                          <td key={column.dataKey || index} className={className2} />
+                        ) : (
+                          <td className={className} key={column.dataKey + cell.side || index} />
+                        );
+                      })}
+                    </Table.Row>
+                  </thead>
+                </table>
               </Table.HeaderCell>
             );
           })}

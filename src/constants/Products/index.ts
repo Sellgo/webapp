@@ -72,7 +72,7 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Sales EsT',
+    key: 'Monthly Sales Est',
     dataKey: 'sales_monthly',
     visible: true,
   },
