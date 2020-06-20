@@ -84,7 +84,9 @@ export const fetchSupplier = (supplierID: any) => async (
     )}/suppliers-compact?supplier_id=${supplierID}`
   );
   if (response.data.length) {
-    dispatch(updateSupplier({ ...response.data[0], id: supplierID }));
+    response.data[0].id = supplierID;
+    response.data[0].file_status = 'completed';
+    dispatch(updateSupplier(response.data[0]));
   }
 };
 
@@ -233,13 +235,6 @@ export const fetchSynthesisProgressUpdates = () => async (
         dispatch(setEta(responses[index].data.eta));
         dispatch(setProgress(responses[index].data.progress));
         dispatch(setSpeed(responses[index].data.speed));
-      }
-
-      if (
-        responses[index].data.progress === 100 &&
-        currSynthesisId === supplier.synthesis_file_id
-      ) {
-        dispatch(updateSupplier({ ...supplier, ...{ file_status: 'completed' } }));
       }
 
       if (responses[index].data.progress === 100) {

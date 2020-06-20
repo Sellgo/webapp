@@ -32,6 +32,7 @@ interface Shared {
 
 export interface TableHeaderProps extends Shared {
   columns: Column[];
+  middleScroll?: boolean;
 }
 
 export interface TableHeaderCellProps extends Shared {
@@ -187,8 +188,105 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   );
 };
 const TableHeader = (props: TableHeaderProps) => {
-  const { columns, ...rest } = props;
+  const { columns, middleScroll, ...rest } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
+  if (middleScroll) {
+    const lowerBound = filteredColumns.slice(0, 2);
+    const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
+    const upperBound = filteredColumns.slice(filteredColumns.length - 2, filteredColumns.length);
+
+    const scrollRows: any = [
+      {
+        side: 'right',
+        rows: lowerBound,
+      },
+      {
+        side: 'center',
+        rows: middleBound,
+      },
+      {
+        side: 'left',
+        rows: upperBound,
+      },
+    ];
+
+    const onScroll = (evt: any) => {
+      const middleHeader = document.querySelector('.middle-header');
+      const middleBody = document.querySelector('.middle-body');
+      if (!!middleBody && middleHeader) {
+        middleBody.scrollLeft = evt.target.scrollLeft;
+        middleHeader.scrollLeft = evt.target.scrollLeft;
+      }
+    };
+    return (
+      <Table.Header>
+        <tr className="parent-header-column">
+          {scrollRows.map((cell: any, cellIndex: any) => {
+            const headerCellProps: any = {};
+            if (cell.side === 'center') {
+              headerCellProps.className = 'middle-header table-header-scroll';
+              headerCellProps.onScroll = onScroll;
+            }
+            if (cell.side === 'right') {
+              headerCellProps.className = 'left-fixed-header-column';
+            }
+            return (
+              <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
+                <table className="header-inner-table">
+                  <thead className="inner-tbody">
+                    <Table.Row>
+                      {cell.rows.map((column: any, index: any) => {
+                        return (
+                          <TableHeaderCell
+                            column={column}
+                            columns={columns}
+                            key={column.dataKey || index}
+                            {...rest}
+                          />
+                        );
+                      })}
+                    </Table.Row>
+                  </thead>
+                </table>
+              </Table.HeaderCell>
+            );
+          })}
+        </tr>
+        <tr className="table-scroll-divider" />
+        <Table.Row>
+          {scrollRows.map((cell: any, cellIndex: any) => {
+            const headerCellProps: any = {};
+            if (cell.side === 'center') {
+              headerCellProps.className = 'middle-scroll-cell header-scroll';
+              headerCellProps.onScroll = onScroll;
+            } else {
+              headerCellProps.className = `middle-scroll-cell-disabled`;
+            }
+            return (
+              <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
+                <table>
+                  <thead>
+                    <Table.Row>
+                      {cell.rows.map((column: any, index: any) => {
+                        const className = `middle-scroll-cell ${getColumnClass(column)}`;
+                        const className2 = `middle-scroll-cell-disabled ${getColumnClass(column)}`;
+
+                        return ['left', 'right'].includes(cell.side) ? (
+                          <td key={column.dataKey || index} className={className2} />
+                        ) : (
+                          <td className={className} key={column.dataKey + cell.side || index} />
+                        );
+                      })}
+                    </Table.Row>
+                  </thead>
+                </table>
+              </Table.HeaderCell>
+            );
+          })}
+        </Table.Row>
+      </Table.Header>
+    );
+  }
   return (
     <Table.Header>
       <Table.Row>

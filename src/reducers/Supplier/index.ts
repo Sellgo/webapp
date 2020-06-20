@@ -23,6 +23,7 @@ import {
   SET_SUPPLIER_PAGE_NUMBER,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
+import { selectItemsCountList } from '../../constants';
 
 const initialState = {
   products: [],
@@ -47,7 +48,7 @@ const initialState = {
     size_tier: '',
     weight: '',
   },
-  singlePageItemsCount: 10,
+  singlePageItemsCount: Number(selectItemsCountList[0].value),
   pageNumber: 1,
 };
 

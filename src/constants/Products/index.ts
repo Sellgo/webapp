@@ -25,8 +25,26 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: '',
+    dataKey: 'checkboxes',
+    visible: false,
+  },
+  {
+    value: true,
     key: 'Price',
     dataKey: 'price',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Cost',
+    dataKey: 'cost',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Fees',
+    dataKey: 'fees',
     visible: true,
   },
   {
@@ -39,12 +57,6 @@ export const columnFilter = [
     value: true,
     key: 'Margin',
     dataKey: 'margin',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Fees',
-    dataKey: 'fees',
     visible: true,
   },
   {
@@ -67,7 +79,7 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Sales EsT',
+    key: 'Monthly Sales Est',
     dataKey: 'sales_monthly',
     visible: true,
   },

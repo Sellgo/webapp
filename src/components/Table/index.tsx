@@ -20,12 +20,12 @@ export interface Column {
   show?: boolean;
   check?: any;
   icon?: any;
-  type?: 'number' | 'string' | 'date';
+  type?: 'number' | 'string' | 'date' | 'boolean';
   click?: (e: any) => void;
   popUp?: boolean;
 }
 
-export interface PaginatedTableProps {
+export interface GenericTableProps {
   tableKey?: string;
   searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
@@ -58,6 +58,7 @@ export interface PaginatedTableProps {
   handleColumnDrop?: (e: any, data: any) => void;
   reorderColumns?: any;
   columnDnD?: boolean;
+  middleScroll?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -87,7 +88,7 @@ export const getColumnClass = (column: any) => {
 };
 
 // Handles pagination, filtering, and sorting client-side
-export const PaginatedTable = (props: PaginatedTableProps) => {
+export const GenericTable = (props: GenericTableProps) => {
   const {
     tableKey,
     ptCurrentPage,
@@ -114,6 +115,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     pagination = true,
     showTableLock,
     featuresLock,
+    middleScroll = false,
     handleColumnDrop,
     reorderColumns,
     columnDnD = false,
@@ -299,6 +301,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           checkedRows={checkedRows}
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
+          middleScroll={middleScroll}
           handleColumnDrop={handleColumnDrop}
           reorderColumns={reorderColumns ? reorderColumns : null}
           columnDnD={columnDnD}
@@ -310,6 +313,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           type={name}
           rows={rows}
           expandedRows={expandedRows}
+          middleScroll={middleScroll}
         />
 
         {pagination && (

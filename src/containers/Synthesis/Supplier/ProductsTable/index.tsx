@@ -12,7 +12,7 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
 } from '../../../../actions/Suppliers';
-import { PaginatedTable, Column } from '../../../../components/Table';
+import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import {
@@ -119,6 +119,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
     </p>
   );
+
+  renderCost = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.product_cost && row.product_cost !== '0.00',
+        formatCurrency(row.product_cost)
+      )}
+    </p>
+  );
+
   renderProfit = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
@@ -294,6 +304,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderPrice,
     },
     {
+      label: 'Cost',
+      dataKey: 'cost',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderCost,
+    },
+    {
+      label: 'Fees',
+      dataKey: 'fees',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderFee,
+    },
+    {
       label: 'Profit',
       dataKey: 'profit',
       type: 'number',
@@ -308,14 +334,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderMargin,
-    },
-    {
-      label: 'Fees',
-      dataKey: 'fees',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderFee,
     },
     {
       label: 'Monthly\nRevenue',
@@ -414,6 +432,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const showTableLock = isSubscriptionFree(subscriptionType);
     const featuresLock = isSubscriptionFree(subscriptionType);
 
+    // NOTE: temporarily filter products with ROIs greater than 300%
+    const userEmail = localStorage.getItem('userEmail') || '';
+    let tempFilteredProducts;
+    if (['dev@sellgo.com', 'demo@sellgo.com', 'apobee.mcdonald@sellgo.com'].includes(userEmail)) {
+      tempFilteredProducts = filteredProducts;
+    } else {
+      tempFilteredProducts = filteredProducts.filter(
+        product => !product.roi || Number(product.roi) <= 300
+      );
+    }
+
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -425,10 +454,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <>
             {this.renderExportButtons()}
-            <PaginatedTable
+            <GenericTable
               tableKey={tableKeys.PRODUCTS}
-              data={filteredProducts}
               columns={this.state.columns}
+              data={tempFilteredProducts}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}
@@ -445,6 +474,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               handleColumnChange={this.handleColumnChange}
               toggleColumnCheckbox={this.handleClick}
               columnFilterData={this.state.columnFilterData}
+              middleScroll={true}
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}

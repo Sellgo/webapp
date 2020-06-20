@@ -26,6 +26,8 @@ interface SupplierChartsProps {
   openProductDetailModal: (product?: Product) => void;
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
+  isStickyChartActive: boolean;
+  setStickyChartActive: Function;
 }
 
 function ChartContainerHeightProvider({ children }: any) {
@@ -107,7 +109,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   }
 
   render() {
-    const { filteredProducts, supplierDetails } = this.props;
+    const {
+      filteredProducts,
+      supplierDetails,
+      isStickyChartActive,
+      setStickyChartActive,
+    } = this.props;
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
@@ -171,6 +178,11 @@ class SupplierCharts extends Component<SupplierChartsProps> {
               />
             </Form.Group>
           </Form>
+          <Icon
+            name="snowflake outline"
+            className={`${isStickyChartActive ? 'active' : ''}`}
+            onClick={() => setStickyChartActive(!isStickyChartActive)}
+          />
         </div>
         <Modal
           size={'large'}
