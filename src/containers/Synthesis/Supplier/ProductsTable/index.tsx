@@ -69,6 +69,7 @@ interface ProductsTableState {
   filteredRanges: any;
   columnFilterData: any;
   ColumnFilterBox: boolean;
+  columns: Column[];
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -79,6 +80,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     filteredRanges: [],
     columnFilterData: columnFilter,
     ColumnFilterBox: false,
+    columns: [],
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -391,8 +393,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ columnFilterData: data });
   };
   reorderColumns = (columns: Column[]) => {
-    this.columns = columns;
+    this.setState({ columns });
   };
+  componentDidMount(): void {
+    this.setState({ columns: this.columns });
+  }
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -422,7 +428,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             <PaginatedTable
               tableKey={tableKeys.PRODUCTS}
               data={filteredProducts}
-              columns={this.columns}
+              columns={this.state.columns}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}

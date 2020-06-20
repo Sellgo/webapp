@@ -74,10 +74,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     columnFilterData: columnFilter,
     groupError: false,
     activeRow: null,
+    columns: [],
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
     retrieveTrackGroup();
+    this.setState({ columns: this.columns });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -439,7 +441,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ columnFilterData: data });
   };
   reorderColumns = (columns: Column[]) => {
-    this.columns = columns;
+    this.setState({ columns });
   };
   render() {
     const {
@@ -497,7 +499,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
             data={showTableLock ? [] : filteredProducts}
-            columns={this.columns}
+            columns={this.state.columns}
             setPage={setPageNumber}
             ptCurrentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
