@@ -160,6 +160,23 @@ export const columnFilter = [
     visible: true,
   },
   {
+    label: 'Avg Inventory',
+    dataKey: 'avg_inventory',
+    value: true,
+    visible: true,
+  },
+  {
+    label: 'Is Amazon Selling',
+    dataKey: 'is_amazon_selling',
+    value: true,
+    visible: true,
+  },
+  {
+    label: 'Avg Amazon Inventory',
+    dataKey: 'avg_amazon_inventory',
+    value: true,
+  },
+  {
     value: true,
     key: '',
     dataKey: 'actions',
