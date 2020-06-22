@@ -4,7 +4,7 @@ import _ from 'lodash';
 import AMAZON_IMAGE from '../../../assets/images/amazon_choice.svg';
 
 const ProductDescription = (props: any) => {
-  const { item } = props;
+  const { item, renderDV } = props;
 
   return (
     <div className="product-tracker-description">
@@ -31,6 +31,7 @@ const ProductDescription = (props: any) => {
               <Icon className="list" />
               <Icon className="cubes" />
             </div> */}
+            {renderDV && renderDV(item)}
           </div>
         </div>
       </div>

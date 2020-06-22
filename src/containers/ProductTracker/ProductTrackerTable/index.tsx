@@ -219,8 +219,34 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderCheckbox = () => {
     return <Checkbox />;
   };
+
+  toggleExpandRow = (id: number) => {
+    if (this.state.expandedRows === null) {
+      this.setState({
+        expandedRows: id,
+      });
+    } else if (this.state.expandedRows === id) {
+      this.setState({
+        expandedRows: null,
+      });
+    } else {
+      this.setState({
+        expandedRows: id,
+      });
+    }
+  };
+  renderDV = (row: ProductTrackerDetails) => {
+    const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
+    return (
+      <div className="dv-arrow">
+        <span className="caret-icon" style={{ cursor: 'pointer' }}>
+          <Icon className={iconCaretClass} onClick={() => this.toggleExpandRow(row.id)} />
+        </span>
+      </div>
+    );
+  };
   renderProductInfo = (row: ProductTrackerDetails) => {
-    return <ProductDescription item={row} />;
+    return <ProductDescription item={row} renderDV={this.renderDV} />;
   };
   renderAvgProfit = (row: ProductTrackerDetails) => (
     <p className="stat">
@@ -271,34 +297,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   renderAvgRank = (row: ProductTrackerDetails) => {
-    const toggleExpandRow = (id: number) => {
-      if (this.state.expandedRows === null) {
-        this.setState({
-          expandedRows: id,
-        });
-      } else if (this.state.expandedRows === id) {
-        this.setState({
-          expandedRows: null,
-        });
-      } else {
-        this.setState({
-          expandedRows: id,
-        });
-      }
-    };
-
-    const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
     return (
-      <div className="dv-arrow">
-        <p className="stat">
-          {showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, row.avg_rank)}
-        </p>
-        <span className="caret-icon" style={{ cursor: 'pointer' }}>
-          <Icon className={iconCaretClass} onClick={() => toggleExpandRow(row.id)} />
-        </span>
-      </div>
+      <p className="stat">{showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, row.avg_rank)}</p>
     );
   };
+
   renderCustomerReviews = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
