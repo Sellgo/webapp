@@ -99,7 +99,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             onOpen={toggleColumnCheckbox}
             position="bottom right"
             basic={true}
-            hideOnScroll={true}
             trigger={<Icon className={`${icon}`} />}
             content={
               <ColumnFilterCard
@@ -161,7 +160,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             onOpen={toggleColumnCheckbox}
             position="bottom right"
             basic={true}
-            hideOnScroll={true}
             trigger={<Icon className={`${icon} popup-ic`} />}
             content={
               <ColumnFilterCard
