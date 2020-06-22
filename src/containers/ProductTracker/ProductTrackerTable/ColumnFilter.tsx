@@ -74,19 +74,21 @@ const ColumnFilterCard = (props: any) => {
           <Container onDrop={applyDrag} autoScrollEnabled={false}>
             {filters.map((check: any) => (
               <Draggable key={check.dataKey}>
-                <div className="column-selection-container">
-                  <Checkbox
-                    checked={check.value}
-                    onChange={(e: any, data: any) => handleColumnChange(e, { ...check, ...data })}
-                  />
-                  <span
-                    className="active-columns"
-                    style={{ cursor: 'move', color: '#98AECA', fontSize: 20 }}
-                  >
-                    <b>:::&nbsp;</b>
-                  </span>
-                  <span>{check.key}</span>
-                </div>
+                {check.value && (
+                  <div className="column-selection-container">
+                    <Checkbox
+                      checked={check.value}
+                      onChange={(e: any, data: any) => handleColumnChange(e, { ...check, ...data })}
+                    />
+                    <span
+                      className="active-columns"
+                      style={{ cursor: 'move', color: '#98AECA', fontSize: 20 }}
+                    >
+                      <b>:::&nbsp;</b>
+                    </span>
+                    <span>{check.key}</span>
+                  </div>
+                )}
               </Draggable>
             ))}
           </Container>

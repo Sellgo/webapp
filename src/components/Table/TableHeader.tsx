@@ -121,10 +121,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   return (
     <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
       {' '}
-      <div
-        className="table-cell-container"
-        style={(icon && popUp) || check ? { justifyContent: 'center' } : {}}
-      >
+      <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
         <span className="th-label">{label}</span>
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
           <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
@@ -165,7 +162,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             position="bottom right"
             basic={true}
             hideOnScroll={true}
-            trigger={<Icon className={`${icon}`} />}
+            trigger={<Icon className={`${icon} popup-ic`} />}
             content={
               <ColumnFilterCard
                 columnFilterData={columnFilterData}

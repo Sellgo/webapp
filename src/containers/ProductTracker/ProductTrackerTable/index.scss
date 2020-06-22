@@ -147,7 +147,7 @@ $link-color: #349af8;
 
 .column-filter-card {
   .ui.checkbox {
-    padding: 4px;
+    margin: 3.5px;
     width: 30px !important;
   }
 }
@@ -881,4 +881,17 @@ $link-color: #349af8;
   color: #98aeca;
   font-size: 20px;
   font-weight: 900;
+}
+
+.popup-ic {
+  line-height: 5;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.popup-cell {
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 46px;
 }
