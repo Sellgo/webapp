@@ -25,7 +25,7 @@ export interface Column {
   popUp?: boolean;
 }
 
-export interface PaginatedTableProps {
+export interface GenericTableProps {
   tableKey?: string;
   searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
@@ -55,6 +55,7 @@ export interface PaginatedTableProps {
   showTableLock?: boolean;
   featuresLock?: boolean;
   pagination?: boolean;
+  middleScroll?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -84,7 +85,7 @@ export const getColumnClass = (column: any) => {
 };
 
 // Handles pagination, filtering, and sorting client-side
-export const PaginatedTable = (props: PaginatedTableProps) => {
+export const GenericTable = (props: GenericTableProps) => {
   const {
     tableKey,
     ptCurrentPage,
@@ -111,6 +112,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     pagination = true,
     showTableLock,
     featuresLock,
+    middleScroll = false,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -293,6 +295,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           checkedRows={checkedRows}
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
+          middleScroll={middleScroll}
         />
         <TableBody
           extendedInfo={extendedInfo}
@@ -301,6 +304,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           type={name}
           rows={rows}
           expandedRows={expandedRows}
+          middleScroll={middleScroll}
         />
 
         {pagination && (
