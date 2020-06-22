@@ -1,6 +1,6 @@
 .quota-meter {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 446px;
 
   .add-new-supplier {
@@ -16,6 +16,7 @@
   .ui.add-new-supplier {
     font-family: 'work sans', sans-serif !important;
     font-size: 14px !important;
+    margin-left: 40px;
   }
 
   .ui.progress > .label {
