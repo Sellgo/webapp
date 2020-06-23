@@ -435,6 +435,26 @@ $link-color: #349af8;
     width: 100%;
     margin: 0;
 
+    .dv-arrow {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      span {
+        float: left;
+        height: 20px;
+        position: relative;
+        top: 5px;
+
+        i {
+          color: #98aeca !important;
+          font-size: 2.4em !important;
+          text-align: left;
+        }
+      }
+    }
+
     td {
       background: #fff;
       border-bottom: 1px solid rgba(34, 36, 38, 0.3);
@@ -468,22 +488,6 @@ $link-color: #349af8;
         background: #000 !important;
         border-radius: 5px !important;
         color: #fff !important;
-      }
-
-      .avg-margin {
-        margin-top: 40px !important;
-
-        .stat {
-          margin-bottom: 12px !important;
-        }
-
-        i {
-          color: #98aeca !important;
-          float: right;
-          font-size: 2.4em !important;
-          margin-bottom: -6px;
-          padding: 0 10px;
-        }
       }
     }
 
