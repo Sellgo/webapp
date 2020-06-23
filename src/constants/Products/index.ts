@@ -20,6 +20,7 @@ export const columnFilter = [
   {
     value: true,
     key: 'Select All',
+    dataKey: 'select_all',
     visible: true,
   },
   {
@@ -97,6 +98,7 @@ export const columnFilter = [
   {
     value: true,
     key: '',
+    dataKey: 'actions',
     visible: false,
   },
 ];

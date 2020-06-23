@@ -74,10 +74,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     columnFilterData: columnFilter,
     groupError: false,
     activeRow: null,
+    columns: [],
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
     retrieveTrackGroup();
+    this.setState({ columns: this.columns });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -215,7 +217,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
     this.setState({ columnFilterData: [...checkedData] });
   };
-
   renderCheckbox = () => {
     return <Checkbox />;
   };
@@ -482,7 +483,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       popUp: true,
     },
   ];
-
+  handleColumnDrop = (e: any, data: any) => {
+    this.setState({ columnFilterData: data });
+  };
+  reorderColumns = (columns: Column[]) => {
+    this.setState({ columns });
+  };
   render() {
     const {
       isLoadingTrackerProducts,
@@ -539,7 +545,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
             data={showTableLock ? [] : filteredProducts}
-            columns={this.columns}
+            columns={this.state.columns}
             setPage={setPageNumber}
             ptCurrentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
@@ -554,6 +560,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             toggleColumnCheckbox={this.handleClick}
             showFilter={true}
             showTableLock={showTableLock}
+            handleColumnDrop={this.handleColumnDrop}
+            reorderColumns={this.reorderColumns}
+            columnDnD={true}
           />
         ) : (
           <Segment className="product-tracker-loader">

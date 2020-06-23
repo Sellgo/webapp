@@ -55,6 +55,9 @@ export interface GenericTableProps {
   showTableLock?: boolean;
   featuresLock?: boolean;
   pagination?: boolean;
+  handleColumnDrop?: (e: any, data: any) => void;
+  reorderColumns?: any;
+  columnDnD?: boolean;
   middleScroll?: boolean;
 }
 
@@ -113,6 +116,9 @@ export const GenericTable = (props: GenericTableProps) => {
     showTableLock,
     featuresLock,
     middleScroll = false,
+    handleColumnDrop,
+    reorderColumns,
+    columnDnD = false,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -130,8 +136,8 @@ export const GenericTable = (props: GenericTableProps) => {
   const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
   const filteredColumns = columnFilterData
-    ? columnFilterData
-    : columns.map((c: any) => ({ ...c, value: c.show }));
+    ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
+    : columns.map((c: any) => ({ ...c, value: c.show, key: c.label }));
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
@@ -296,11 +302,14 @@ export const GenericTable = (props: GenericTableProps) => {
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
           middleScroll={middleScroll}
+          handleColumnDrop={handleColumnDrop}
+          reorderColumns={reorderColumns ? reorderColumns : null}
+          columnDnD={columnDnD}
         />
         <TableBody
           extendedInfo={extendedInfo}
           columns={columns}
-          columnFilterData={columnFilterData}
+          columnFilterData={filteredColumns}
           type={name}
           rows={rows}
           expandedRows={expandedRows}

@@ -69,6 +69,7 @@ interface ProductsTableState {
   filteredRanges: any;
   columnFilterData: any;
   ColumnFilterBox: boolean;
+  columns: Column[];
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -79,6 +80,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     filteredRanges: [],
     columnFilterData: columnFilter,
     ColumnFilterBox: false,
+    columns: [],
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -390,6 +392,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
     {
+      label: '',
       icon: 'ellipsis horizontal ellipsis-ic',
       dataKey: 'ellipsis horizontal',
       show: true,
@@ -403,6 +406,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       ColumnFilterBox: !ColumnFilterBox,
     });
   };
+
+  handleColumnDrop = (e: any, data: any) => {
+    this.setState({ columnFilterData: data });
+  };
+  reorderColumns = (columns: Column[]) => {
+    this.setState({ columns });
+  };
+  componentDidMount(): void {
+    this.setState({ columns: this.columns });
+  }
 
   render() {
     const {
@@ -443,8 +456,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             {this.renderExportButtons()}
             <GenericTable
               tableKey={tableKeys.PRODUCTS}
+              columns={this.state.columns}
               data={tempFilteredProducts}
-              columns={this.columns}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}
@@ -467,6 +480,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               )}
               showTableLock={showTableLock}
               featuresLock={featuresLock}
+              handleColumnDrop={this.handleColumnDrop}
+              reorderColumns={this.reorderColumns}
+              columnDnD={true}
             />
           </>
         )}
