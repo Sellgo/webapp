@@ -895,3 +895,13 @@ $link-color: #349af8;
   width: 50px;
   height: 46px;
 }
+
+.col-size {
+  padding: 0 2px !important;
+  height: 46px !important;
+}
+
+.remove-left-border {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}

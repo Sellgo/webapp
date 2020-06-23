@@ -62,14 +62,17 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     columnDnD = false,
   } = props;
   const { dataKey, sortable, label, click, check, popUp, icon } = column;
-  const style = label === 'Supplier' ? { minWidth: '120px' } : {};
+  const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
   otherProps = {
     onClick: sortable ? (e: any) => setSort(e, dataKey || '') : click ? click : undefined,
     style: { style },
-    className: type === 'trackerTable' ? 'table-header' : `${dataKey} ${getColumnClass(column)}`,
+    className:
+      type === 'trackerTable' ? 'table-header' : `${dataKey} ${getColumnClass(column)} col-size`,
   };
-
+  if (dataKey === 'sellgo_score') {
+    otherProps = { ...otherProps, className: `${otherProps} remove-left-border` };
+  }
   if (sortedColumnKey === dataKey) {
     otherProps = { ...otherProps, sorted: sortDirection };
   }
