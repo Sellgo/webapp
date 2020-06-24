@@ -154,12 +154,7 @@ export const GenericTable = (props: GenericTableProps) => {
           bColumn = b[sortedColumn.dataKey || ''] || '';
         }
         // make string-based sorting case-insensitive
-        if (
-          sortedColumn.dataKey === 'name' ||
-          sortedColumn.dataKey === 'search' ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'file_name') ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'active_status')
-        ) {
+        if (sortedColumn.dataKey && sortedColumn.type === 'string') {
           if (aColumn.toLowerCase() < bColumn.toLowerCase()) {
             return -1;
           }

@@ -291,6 +291,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'PRODUCT INFORMATION',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
