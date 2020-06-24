@@ -50,7 +50,7 @@ export interface GenericTableProps {
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
   setPage?: (pageNumber: number) => void;
-  ptCurrentPage?: number;
+  currentPage?: number;
   renderFilterSectionComponent?: () => void;
   showTableLock?: boolean;
   featuresLock?: boolean;
@@ -91,7 +91,7 @@ export const getColumnClass = (column: any) => {
 export const GenericTable = (props: GenericTableProps) => {
   const {
     tableKey,
-    ptCurrentPage,
+    currentPage,
     data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
@@ -120,12 +120,20 @@ export const GenericTable = (props: GenericTableProps) => {
     reorderColumns,
     columnDnD = false,
   } = props;
-  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
+  const initialPage = currentPage ? currentPage : 1;
+  const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
 
   useEffect(() => {
-    setCurrentPage(initialPage);
-  }, [ptCurrentPage]);
+    setLocalCurrentPage(initialPage);
+  }, [currentPage]);
+
+  // reconcile redux page with local page
+  useEffect(() => {
+    if (setPage) {
+      setPage(localCurrentPage);
+      return () => setPage(1); // reset on unmount
+    }
+  }, [localCurrentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -201,7 +209,10 @@ export const GenericTable = (props: GenericTableProps) => {
 
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
-  rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
+  rows = rows.slice(
+    (localCurrentPage - 1) * singlePageItemsCount,
+    localCurrentPage * singlePageItemsCount
+  );
   rows = showTableLock ? rows.slice(0, 3) : rows;
 
   useEffect(() => {
@@ -229,7 +240,7 @@ export const GenericTable = (props: GenericTableProps) => {
     if (setPage) {
       setPage(1);
     } else {
-      setCurrentPage(1);
+      setLocalCurrentPage(1);
     }
     setSearchValue(e.target.value);
   };
@@ -242,17 +253,17 @@ export const GenericTable = (props: GenericTableProps) => {
             <ProductSearch
               searchFilteredProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
-              setCurrentPage={setCurrentPage}
+              setCurrentPage={setLocalCurrentPage}
             />
           ) : (
             <div />
           )}
 
           <SelectItemsCount
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={setLocalCurrentPage}
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
-            currentPage={currentPage}
+            currentPage={localCurrentPage}
             setSinglePageItemsCount={setSinglePageItemsCount}
           />
         </div>
@@ -290,7 +301,7 @@ export const GenericTable = (props: GenericTableProps) => {
           onSearchChange={onSearchChange}
           onClearSearch={onClearSearch}
           rows={rows}
-          currentPage={currentPage}
+          currentPage={localCurrentPage}
           sortDirection={sortDirection}
           type={name}
           columnFilterData={filteredColumns}
@@ -333,9 +344,9 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length}>
                   <Pagination
                     totalPages={rows.length ? totalPages : ''}
-                    activePage={currentPage}
+                    activePage={localCurrentPage}
                     onPageChange={(event, data) => {
-                      setCurrentPage(Number(data.activePage));
+                      setLocalCurrentPage(Number(data.activePage));
                     }}
                   />
                 </Table.HeaderCell>
