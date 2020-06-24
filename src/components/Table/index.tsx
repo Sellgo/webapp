@@ -360,7 +360,7 @@ export const renderCell = (row: { [key: string]: any }, column: Column) => {
 
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
-  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('descending');
+  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('ascending');
   const [sortClicked, setSortClicked] = useState<true | false>(false);
 
   const handleSort = (e: any, clickedColumn: string) => {
