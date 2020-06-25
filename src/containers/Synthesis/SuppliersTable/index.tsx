@@ -260,6 +260,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Search',
       dataKey: 'search',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderName,
@@ -268,12 +269,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       label: 'Filename',
       dataKey: 'file_name',
       sortable: true,
+      type: 'string',
       show: true,
       render: this.renderFileName,
     },
     {
       label: 'Account Status',
       sortable: true,
+      type: 'string',
       show: true,
       dataKey: 'account_status',
     },

@@ -364,6 +364,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Product Information',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       show: true,
       render: this.renderProductInfo,
     },
