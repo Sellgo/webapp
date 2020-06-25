@@ -464,7 +464,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
               setSinglePageItemsCount={setSinglePageItemsCount}
-              ptCurrentPage={pageNumber}
+              currentPage={pageNumber}
               setPage={setPageNumber}
               name={'products'}
               showFilter={true}
