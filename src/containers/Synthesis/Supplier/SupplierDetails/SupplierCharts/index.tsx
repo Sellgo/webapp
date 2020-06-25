@@ -49,15 +49,14 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   state = { showChart: 'chart0' };
 
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
-  handleLeftArrowClick = () => {
+  handleLeftArrowClick = (minPageNumber: number) => {
     const { pageNumber, setPageNumber } = this.props;
-    if (pageNumber > 1) {
-      setPageNumber(pageNumber - 1);
+    if (pageNumber > minPageNumber) {
+      setPageNumber(pageNumber - minPageNumber);
     }
   };
-  handleRightArrowClick = () => {
-    const { pageNumber, setPageNumber, filteredProducts, singlePageItemsCount } = this.props;
-    const maxPageNumber = Math.ceil(filteredProducts.length / singlePageItemsCount);
+  handleRightArrowClick = (maxPageNumber: number) => {
+    const { pageNumber, setPageNumber } = this.props;
     if (pageNumber < maxPageNumber) {
       setPageNumber(pageNumber + 1);
     }
@@ -114,21 +113,25 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       supplierDetails,
       isStickyChartActive,
       setStickyChartActive,
+      singlePageItemsCount,
+      pageNumber,
     } = this.props;
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
+    const minPageNumber = 1;
+    const maxPageNumber = Math.ceil(filteredProducts.length / singlePageItemsCount);
 
     return (
       <div className="supplier-charts">
         <Grid className="supplier-charts__chart-grid">
           <div className="chart-grid__left-column">
-            {this.state.showChart === 'chart1' && (
+            {pageNumber !== minPageNumber && this.state.showChart === 'chart1' && (
               <Icon
                 className="chart-grid__left-arrow"
                 name="angle left"
                 size="big"
-                onClick={this.handleLeftArrowClick}
+                onClick={() => this.handleLeftArrowClick(minPageNumber)}
               />
             )}
           </div>
@@ -151,12 +154,12 @@ class SupplierCharts extends Component<SupplierChartsProps> {
             )}
           </ChartContainerHeightProvider>
           <div className="chart-grid__right-column">
-            {this.state.showChart === 'chart1' && (
+            {pageNumber !== maxPageNumber && this.state.showChart === 'chart1' && (
               <Icon
                 className="chart-grid__right-arrow"
                 name="angle right"
                 size="big"
-                onClick={this.handleRightArrowClick}
+                onClick={() => this.handleRightArrowClick(maxPageNumber)}
               />
             )}
           </div>
