@@ -510,10 +510,15 @@ $link-color: #349af8;
       text-align: left;
 
       .product-image {
+        width: 72px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+
         img {
-          height: 40px;
-          margin-top: 10px;
-          width: 72px;
+          height: 100%;
+          width: auto;
         }
       }
 
