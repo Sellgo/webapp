@@ -177,6 +177,9 @@ export const GenericTable = (props: GenericTableProps) => {
             return 1;
           }
         }
+        if (aColumn === bColumn && sortDirection === 'descending') {
+          return -1;
+        }
         return 0;
       })
     : data;
