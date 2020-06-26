@@ -178,10 +178,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderDetailButtons = (row: Product) => {
-    const { updateProductTrackingStatus, supplierID, subscriptionType } = this.props;
+    const { updateProductTrackingStatus, supplierID } = this.props;
     return (
       <DetailButtons
-        disableTrack={isSubscriptionFree(subscriptionType)}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {
@@ -443,7 +442,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         product => !product.roi || Number(product.roi) <= 300
       );
     }
-
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
