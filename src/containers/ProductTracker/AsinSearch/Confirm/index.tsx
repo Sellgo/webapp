@@ -58,7 +58,7 @@ const Confirm = (props: Props) => {
     setSearch('');
   };
 
-  const countryOptions = () => {
+  const groupOptions = () => {
     const value: any = [];
     _.map(trackGroups, (group, key) => {
       const data: GroupOption = {
@@ -71,6 +71,13 @@ const Confirm = (props: Props) => {
       data.value = group.id;
       value.push(data);
     });
+
+    const ungroup: GroupOption = {
+      key: trackGroups && trackGroups.length,
+      text: 'Ungrouped',
+      value: 0,
+    };
+    value.push(ungroup);
     return value;
   };
 
@@ -93,7 +100,7 @@ const Confirm = (props: Props) => {
               <Select
                 placeholder="Select Group"
                 value={selectedGroup}
-                options={countryOptions()}
+                options={groupOptions()}
                 onChange={(e, data) => {
                   handleGroupSelection(data.value);
                 }}
