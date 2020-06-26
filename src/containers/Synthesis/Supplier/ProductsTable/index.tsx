@@ -291,6 +291,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'PRODUCT INFORMATION',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
@@ -464,7 +465,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
               setSinglePageItemsCount={setSinglePageItemsCount}
-              ptCurrentPage={pageNumber}
+              currentPage={pageNumber}
               setPage={setPageNumber}
               name={'products'}
               showFilter={true}

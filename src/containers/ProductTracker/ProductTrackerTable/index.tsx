@@ -364,6 +364,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Product Information',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       show: true,
       render: this.renderProductInfo,
     },
@@ -551,7 +552,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             data={showTableLock ? [] : filteredProducts}
             columns={this.state.columns}
             setPage={setPageNumber}
-            ptCurrentPage={productTrackerPageNo}
+            currentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
