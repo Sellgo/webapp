@@ -213,7 +213,7 @@ export const GenericTable = (props: GenericTableProps) => {
     (localCurrentPage - 1) * singlePageItemsCount,
     localCurrentPage * singlePageItemsCount
   );
-  rows = showTableLock ? rows.slice(0, 3) : rows;
+  rows = showTableLock ? rows.slice(0, 5) : rows;
 
   useEffect(() => {
     if (sortClicked) {
