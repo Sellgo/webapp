@@ -549,7 +549,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           <GenericTable
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
-            data={showTableLock ? [] : filteredProducts}
+            data={filteredProducts}
             columns={this.state.columns}
             setPage={setPageNumber}
             currentPage={productTrackerPageNo}
