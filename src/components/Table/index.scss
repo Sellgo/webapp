@@ -139,6 +139,8 @@ i.icon.filter::before {
 .table-header {
   height: 46px;
   min-width: 95px;
+  //display: flex;
+  //align-items: center;
 }
 
 .table-cell-container {
@@ -396,4 +398,83 @@ i.icon.filter::before {
 .body-inner-table {
   border-spacing: 0 3px !important;
   width: 100% !important;
+}
+
+.graph-column {
+  .product-detail-charts {
+    width: 95%;
+    border: 1px solid #2224264d;
+    border-radius: 5px;
+  }
+}
+
+.alter-table {
+  border-spacing: 0 !important;
+}
+
+.remove-bottom-border {
+  border-bottom: none !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.graph-view {
+  position: absolute !important;
+  width: 98.95% !important;
+  z-index: 9999 !important;
+  left: 14px !important;
+}
+
+.remove-top-border {
+  @extend .graph-view;
+
+  border-top: none !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.graph-view-container {
+  height: 34.8em !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.pt-header {
+  position: absolute !important;
+  width: 94% !important;
+  padding-bottom: 10px !important;
+}
+
+.pt-header-cell {
+  display: flex !important;
+  width: 100% !important;
+  justify-content: flex-end !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.pt-scroll-container {
+  max-width: 75% !important;
+  overflow-x: auto !important;
+}
+
+.pt-scroll {
+  width: 1750px !important;
+  height: 12px !important;
+}
+
+.pt-product-info {
+  position: absolute !important;
+  width: 29em !important;
+  height: 4em !important;
+  left: 1em !important;
+  background: #fff !important;
+}
+
+.pt-actions {
+  position: absolute !important;
+  min-width: 55px !important;
+  height: 4em !important;
+  right: 0 !important;
+  background: #fff !important;
 }

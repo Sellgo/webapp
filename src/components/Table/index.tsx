@@ -281,7 +281,13 @@ export const GenericTable = (props: GenericTableProps) => {
           </Card.Content>
         </Card>
       )}
-      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
+      <Table
+        sortable={true}
+        basic="very"
+        textAlign="left"
+        unstackable={true}
+        className={name === 'trackerTable' ? 'alter-table' : ''}
+      >
         <TableHeader
           columns={columns}
           sortedColumnKey={sortedColumnKey}

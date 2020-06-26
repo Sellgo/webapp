@@ -258,9 +258,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     </p>
   );
   renderAvgPrice = (row: ProductTrackerDetails) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
-    </p>
+    <div>
+      <p className="stat">
+        {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
+      </p>
+      {this.renderDV(row)}
+    </div>
   );
   renderAvgMargin = (row: ProductTrackerDetails) => (
     <p className="stat">
@@ -392,7 +395,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily Unit Sold',
+      label: 'Avg Daily \nUnit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
@@ -400,7 +403,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgUnitSold,
     },
     {
-      label: 'Avg Daily Revenue',
+      label: 'Avg Daily \nRevenue',
       dataKey: 'avg_daily_revenue',
       type: 'string',
       show: true,
@@ -464,7 +467,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgInventory,
     },
     {
-      label: 'Is Amazon Selling',
+      label: 'Is Amazon \nSelling',
       dataKey: 'is_amazon_selling',
       type: 'boolean',
       show: true,
@@ -472,7 +475,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderIsAmazonSelling,
     },
     {
-      label: 'Avg Amazon Inventory',
+      label: 'Avg Amazon \nInventory',
       dataKey: 'avg_amazon_inventory',
       type: 'number',
       show: true,
@@ -567,6 +570,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleColumnDrop={this.handleColumnDrop}
             reorderColumns={this.reorderColumns}
             columnDnD={true}
+            middleScroll={true}
           />
         ) : (
           <Segment className="product-tracker-loader">

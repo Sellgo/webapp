@@ -17,15 +17,16 @@ interface TableColumnCellProps {
   row: any;
   type: string;
   as?: string;
+  className?: string;
 }
 
 const TableCell = (props: TableColumnCellProps) => {
-  const { type, column, row, as } = props;
+  const { type, column, row, as, className: customClass } = props;
 
   const className =
     type !== 'trackerTable'
-      ? `table-cell ${column && column.dataKey} ${getColumnClass(column)}`
-      : '';
+      ? `table-cell ${column && column.dataKey} ${getColumnClass(column)} ${customClass}`
+      : `${customClass}`;
 
   let cellProps: any = {
     className,
@@ -34,7 +35,25 @@ const TableCell = (props: TableColumnCellProps) => {
   if (as) {
     cellProps = { ...cellProps, as };
   }
+  if (column.dataKey === 'PRODUCT INFORMATION') {
+    cellProps = {
+      ...cellProps,
+      style: { position: 'absolute', width: '29em', height: '6em', left: '1em' },
+    };
+  }
 
+  if (column.dataKey === 'ellipsis horizontal') {
+    cellProps = {
+      ...cellProps,
+      style: { position: 'absolute', width: '4em', height: '6em', right: 0 },
+    };
+  }
+  if (column.dataKey === 'avg_amazon_inventory') {
+    cellProps = {
+      ...cellProps,
+      style: { minWidth: 275 },
+    };
+  }
   return <Table.Cell {...cellProps}>{column ? renderCell(row, column) : null}</Table.Cell>;
 };
 
@@ -58,6 +77,64 @@ export const TableBody = (props: TableBodyProps) => {
         rows: upperBound,
       },
     ];
+
+    if (type === 'trackerTable') {
+      const style = { height: '6em' };
+      return (
+        <Table.Body className="tracker-body">
+          {rows.length ? (
+            rows.map((row: any, index) => (
+              <React.Fragment key={`${index}-tb-fragment`}>
+                <tr style={{ height: expandedRows && expandedRows === row.id ? '20px' : '8px' }} />
+                <Table.Row key={`${Date.now() + index}--tb-row`} style={style}>
+                  {columns.map(
+                    (column, colIndex) =>
+                      getColumnLabel(column.dataKey, columnFilterData) && (
+                        <TableCell
+                          type={type}
+                          column={column}
+                          row={row}
+                          key={`${Date.now() + colIndex}--tb-cell`}
+                          className={
+                            expandedRows && expandedRows === row.id ? 'remove-bottom-border' : ''
+                          }
+                        />
+                      )
+                  )}
+                </Table.Row>
+
+                {expandedRows && expandedRows === row.id && extendedInfo && (
+                  <React.Fragment>
+                    <Table.Row key={index + '-extended'}>
+                      <Table.Cell
+                        colSpan={columns.length - 1}
+                        className={
+                          expandedRows && expandedRows === row.id
+                            ? 'remove-top-border'
+                            : 'graph-view'
+                        }
+                      >
+                        {''}
+
+                        {expandedRows === row.id && extendedInfo(row)}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row key={index + '-extended'}>
+                      <Table.Cell colSpan={columns.length - 1} className="graph-view-container " />
+                    </Table.Row>
+                    <tr
+                      style={{ height: expandedRows && expandedRows === row.id ? '10px' : '8px' }}
+                    />
+                  </React.Fragment>
+                )}
+              </React.Fragment>
+            ))
+          ) : (
+            <tr />
+          )}
+        </Table.Body>
+      );
+    }
     return (
       <Table.Body>
         <Table.Row className="middle-body-column">
@@ -114,7 +191,10 @@ export const TableBody = (props: TableBodyProps) => {
       {rows.length ? (
         rows.map((row: any, index) => (
           <React.Fragment key={`${index}-tb-fragment`}>
-            <Table.Row key={`${Date.now() + index}--tb-row`}>
+            <Table.Row
+              key={`${Date.now() + index}--tb-row`}
+              style={type === 'trackerTable' ? { height: '8em' } : {}}
+            >
               {columns.map(
                 (column, colIndex) =>
                   getColumnLabel(column.dataKey, columnFilterData) && (
