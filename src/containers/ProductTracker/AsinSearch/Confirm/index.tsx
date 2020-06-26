@@ -66,18 +66,18 @@ const Confirm = (props: Props) => {
         text: '',
         value: 0,
       };
-      data.key = Number(key);
+      data.key = Number(key) + 1;
       data.text = group.name;
       data.value = group.id;
       value.push(data);
     });
 
     const ungroup: GroupOption = {
-      key: trackGroups && trackGroups.length,
+      key: 0,
       text: 'Ungrouped',
       value: 0,
     };
-    value.push(ungroup);
+    value.unshift(ungroup);
     return value;
   };
 
