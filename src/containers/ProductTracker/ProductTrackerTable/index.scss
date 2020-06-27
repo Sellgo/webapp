@@ -188,6 +188,10 @@ $link-color: #349af8;
   }
 }
 
+.dv-arrow span {
+  top: 50px !important;
+}
+
 .tracker-table {
   margin: 0 auto;
   max-width: 100%;
@@ -685,6 +689,7 @@ $link-color: #349af8;
     td p.stat {
       text-align: left;
       white-space: nowrap;
+      line-height: 0.4285em !important;
     }
 
     .mrgn-right {
@@ -913,4 +918,95 @@ $link-color: #349af8;
 .remove-left-border {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+
+.remove-bottom-border {
+  border-bottom: none !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.graph-view {
+  position: absolute !important;
+  width: 99.2% !important;
+  z-index: 9999 !important;
+  left: 14px !important;
+}
+
+.remove-top-border {
+  @extend .graph-view;
+
+  border-top: none !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.graph-view-container {
+  height: 34.8em !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.pt-header {
+  position: absolute !important;
+  width: 94% !important;
+  padding-bottom: 10px !important;
+}
+
+.pt-header-cell {
+  display: flex !important;
+  width: 100% !important;
+  justify-content: flex-end !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.pt-scroll-container {
+  max-width: 75% !important;
+  overflow-x: auto !important;
+}
+
+.pt-scroll {
+  width: 160em !important;
+}
+
+.pt-product-info {
+  position: absolute !important;
+  width: 29em !important;
+  //height: 6em !important;
+  left: 1em !important;
+  background: #fff !important;
+  border-left: 1px solid #2224264d;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.pt-actions {
+  position: absolute !important;
+  min-width: 56px !important;
+  right: 0 !important;
+  background: #fff !important;
+  display: flex;
+  align-items: center;
+}
+
+.pt-price {
+  padding-left: 406px !important;
+}
+
+.pt-avg_amazon_inventory {
+  padding-right: 35px !important;
+}
+
+@media (min-width: 768px) and (max-width: 1080px) {
+  .pt-scroll {
+    width: 170em !important;
+  }
+}
+
+.hidden-arrow-row {
+  border: none !important;
+  background: transparent !important;
+  height: 0 !important;
+  padding: 4px !important;
 }

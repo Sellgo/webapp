@@ -367,6 +367,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       show: true,
       render: this.renderProductInfo,
+      className: 'pt-product-info',
     },
     {
       label: 'Avg Price',
@@ -375,6 +376,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
+      className: 'pt-price',
     },
     {
       label: 'Avg Profit',
@@ -393,7 +395,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily Unit Sold',
+      label: 'Avg Daily \nUnit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
@@ -479,6 +481,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgAmazonInventory,
+      className: 'pt-avg_amazon_inventory',
     },
     {
       icon: 'ellipsis horizontal',
@@ -486,6 +489,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderIcons,
       popUp: true,
+      className: 'pt-actions',
     },
   ];
   handleColumnDrop = (e: any, data: any) => {
@@ -568,6 +572,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleColumnDrop={this.handleColumnDrop}
             reorderColumns={this.reorderColumns}
             columnDnD={true}
+            middleScroll={true}
+            rowExpander={this.renderDV}
           />
         ) : (
           <Segment className="product-tracker-loader">

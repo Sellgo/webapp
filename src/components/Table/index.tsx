@@ -23,6 +23,7 @@ export interface Column {
   type?: 'number' | 'string' | 'date' | 'boolean';
   click?: (e: any) => void;
   popUp?: boolean;
+  className?: string;
 }
 
 export interface GenericTableProps {
@@ -59,6 +60,7 @@ export interface GenericTableProps {
   reorderColumns?: any;
   columnDnD?: boolean;
   middleScroll?: boolean;
+  rowExpander?: any;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -119,6 +121,7 @@ export const GenericTable = (props: GenericTableProps) => {
     handleColumnDrop,
     reorderColumns,
     columnDnD = false,
+    rowExpander,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -292,7 +295,13 @@ export const GenericTable = (props: GenericTableProps) => {
           </Card.Content>
         </Card>
       )}
-      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
+      <Table
+        sortable={true}
+        basic="very"
+        textAlign="left"
+        unstackable={true}
+        className={name === 'trackerTable' ? 'alter-table' : ''}
+      >
         <TableHeader
           columns={columns}
           sortedColumnKey={sortedColumnKey}
@@ -325,6 +334,7 @@ export const GenericTable = (props: GenericTableProps) => {
           rows={rows}
           expandedRows={expandedRows}
           middleScroll={middleScroll}
+          rowExpander={rowExpander}
         />
 
         {pagination && (

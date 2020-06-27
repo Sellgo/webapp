@@ -397,3 +397,15 @@ i.icon.filter::before {
   border-spacing: 0 3px !important;
   width: 100% !important;
 }
+
+.graph-column {
+  .product-detail-charts {
+    width: 95%;
+    border: 1px solid #2224264d;
+    border-radius: 5px;
+  }
+}
+
+.alter-table {
+  border-spacing: 0 !important;
+}
