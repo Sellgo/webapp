@@ -979,10 +979,10 @@ $link-color: #349af8;
 .pt-actions {
   position: absolute !important;
   min-width: 56px !important;
-  //height: 6em !important;
   right: 0 !important;
   background: #fff !important;
-  line-height: 4.5;
+  display: flex;
+  align-items: center;
 }
 
 .pt-price {

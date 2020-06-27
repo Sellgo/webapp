@@ -258,11 +258,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     </p>
   );
   renderAvgPrice = (row: ProductTrackerDetails) => (
-    <div>
-      <p className="stat">
-        {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
-      </p>
-    </div>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
+    </p>
   );
   renderAvgMargin = (row: ProductTrackerDetails) => (
     <p className="stat">
@@ -404,7 +402,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgUnitSold,
     },
     {
-      label: 'Avg Daily \nRevenue',
+      label: 'Avg Daily Revenue',
       dataKey: 'avg_daily_revenue',
       type: 'string',
       show: true,

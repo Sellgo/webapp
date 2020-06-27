@@ -25,13 +25,6 @@ const ProductDescription = (props: any) => {
               <span className="upc-content">{item.upc}</span>
             </div>
             {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
-            {/* <div className="table-icon">
-              <i className="fas fa-skull-crossbones" />
-              <Icon className="lock" />
-              <Icon className="list" />
-              <Icon className="cubes" />
-            </div> */}
-            {/*{renderDV && renderDV(item)}*/}
           </div>
         </div>
       </div>

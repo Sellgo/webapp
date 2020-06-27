@@ -83,7 +83,6 @@ export const TableBody = (props: TableBodyProps) => {
           {rows.length ? (
             rows.map((row: any, index) => (
               <React.Fragment key={`${index}-tb-fragment`}>
-                {/*<tr style={{ height: expandedRows && expandedRows === row.id ?  '5px' : '5px' }} />*/}
                 <tr>
                   <td colSpan={columns.length} className="hidden-arrow-row">
                     {rowExpander(row)}
