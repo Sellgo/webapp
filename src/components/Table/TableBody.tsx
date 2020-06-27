@@ -10,6 +10,7 @@ interface TableBodyProps {
   extendedInfo: any;
   columns: Column[];
   middleScroll?: boolean;
+  rowExpander?: any;
 }
 
 interface TableColumnCellProps {
@@ -22,11 +23,10 @@ interface TableColumnCellProps {
 
 const TableCell = (props: TableColumnCellProps) => {
   const { type, column, row, as, className: customClass } = props;
-
-  const className =
-    type !== 'trackerTable'
-      ? `table-cell ${column && column.dataKey} ${getColumnClass(column)} ${customClass}`
-      : `${customClass}`;
+  const { className: columnClass = '' } = column;
+  const className = `table-cell ${column && column.dataKey} ${getColumnClass(
+    column
+  )} ${customClass} ${columnClass}`;
 
   let cellProps: any = {
     className,
@@ -35,30 +35,28 @@ const TableCell = (props: TableColumnCellProps) => {
   if (as) {
     cellProps = { ...cellProps, as };
   }
-  if (column.dataKey === 'PRODUCT INFORMATION') {
+  if (type === 'trackerTable') {
     cellProps = {
       ...cellProps,
-      style: { position: 'absolute', width: '29em', height: '6em', left: '1em' },
+      className: `${customClass} ${columnClass}`,
+      style: { height: '6em' },
     };
   }
 
-  if (column.dataKey === 'ellipsis horizontal') {
-    cellProps = {
-      ...cellProps,
-      style: { position: 'absolute', width: '4em', height: '6em', right: 0 },
-    };
-  }
-  if (column.dataKey === 'avg_amazon_inventory') {
-    cellProps = {
-      ...cellProps,
-      style: { minWidth: 275 },
-    };
-  }
   return <Table.Cell {...cellProps}>{column ? renderCell(row, column) : null}</Table.Cell>;
 };
 
 export const TableBody = (props: TableBodyProps) => {
-  const { expandedRows, extendedInfo, rows, columns, columnFilterData, type, middleScroll } = props;
+  const {
+    expandedRows,
+    extendedInfo,
+    rows,
+    columns,
+    columnFilterData,
+    type,
+    middleScroll,
+    rowExpander,
+  } = props;
   if (middleScroll) {
     const lowerBound = columns.slice(0, 2);
     const middleBound = columns.slice(2, columns.length - 2);
@@ -85,7 +83,12 @@ export const TableBody = (props: TableBodyProps) => {
           {rows.length ? (
             rows.map((row: any, index) => (
               <React.Fragment key={`${index}-tb-fragment`}>
-                <tr style={{ height: expandedRows && expandedRows === row.id ? '20px' : '8px' }} />
+                {/*<tr style={{ height: expandedRows && expandedRows === row.id ?  '5px' : '5px' }} />*/}
+                <tr>
+                  <td colSpan={columns.length} className="hidden-arrow-row">
+                    {rowExpander(row)}
+                  </td>
+                </tr>
                 <Table.Row key={`${Date.now() + index}--tb-row`} style={style}>
                   {columns.map(
                     (column, colIndex) =>
@@ -119,12 +122,10 @@ export const TableBody = (props: TableBodyProps) => {
                         {expandedRows === row.id && extendedInfo(row)}
                       </Table.Cell>
                     </Table.Row>
-                    <Table.Row key={index + '-extended'}>
+                    <Table.Row key={index + '-extended' + row.id}>
                       <Table.Cell colSpan={columns.length - 1} className="graph-view-container " />
                     </Table.Row>
-                    <tr
-                      style={{ height: expandedRows && expandedRows === row.id ? '10px' : '8px' }}
-                    />
+                    <tr style={{ height: '8px' }} />
                   </React.Fragment>
                 )}
               </React.Fragment>

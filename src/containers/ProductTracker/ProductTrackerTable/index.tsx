@@ -262,7 +262,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       <p className="stat">
         {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
       </p>
-      {this.renderDV(row)}
     </div>
   );
   renderAvgMargin = (row: ProductTrackerDetails) => (
@@ -369,6 +368,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       dataKey: 'PRODUCT INFORMATION',
       show: true,
       render: this.renderProductInfo,
+      className: 'pt-product-info',
     },
     {
       label: 'Avg Price',
@@ -377,6 +377,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
+      className: 'pt-price',
     },
     {
       label: 'Avg Profit',
@@ -467,7 +468,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgInventory,
     },
     {
-      label: 'Is Amazon \nSelling',
+      label: 'Is Amazon Selling',
       dataKey: 'is_amazon_selling',
       type: 'boolean',
       show: true,
@@ -475,12 +476,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderIsAmazonSelling,
     },
     {
-      label: 'Avg Amazon \nInventory',
+      label: 'Avg Amazon Inventory',
       dataKey: 'avg_amazon_inventory',
       type: 'number',
       show: true,
       sortable: true,
       render: this.renderAvgAmazonInventory,
+      className: 'pt-avg_amazon_inventory',
     },
     {
       icon: 'ellipsis horizontal',
@@ -488,6 +490,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderIcons,
       popUp: true,
+      className: 'pt-actions',
     },
   ];
   handleColumnDrop = (e: any, data: any) => {
@@ -571,6 +574,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             reorderColumns={this.reorderColumns}
             columnDnD={true}
             middleScroll={true}
+            rowExpander={this.renderDV}
           />
         ) : (
           <Segment className="product-tracker-loader">

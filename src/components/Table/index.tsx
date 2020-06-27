@@ -23,6 +23,7 @@ export interface Column {
   type?: 'number' | 'string' | 'date' | 'boolean';
   click?: (e: any) => void;
   popUp?: boolean;
+  className?: string;
 }
 
 export interface GenericTableProps {
@@ -59,6 +60,7 @@ export interface GenericTableProps {
   reorderColumns?: any;
   columnDnD?: boolean;
   middleScroll?: boolean;
+  rowExpander?: any;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -119,6 +121,7 @@ export const GenericTable = (props: GenericTableProps) => {
     handleColumnDrop,
     reorderColumns,
     columnDnD = false,
+    rowExpander,
   } = props;
   const initialPage = ptCurrentPage ? ptCurrentPage : 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -320,6 +323,7 @@ export const GenericTable = (props: GenericTableProps) => {
           rows={rows}
           expandedRows={expandedRows}
           middleScroll={middleScroll}
+          rowExpander={rowExpander}
         />
 
         {pagination && (

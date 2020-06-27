@@ -28,6 +28,7 @@ interface Shared {
   handleColumnDrop?: (e: any, data: any) => void;
   reorderColumns: (columns: Column[]) => void;
   columnDnD?: boolean;
+  className?: string;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -61,14 +62,16 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     columns,
     columnDnD = false,
   } = props;
-  const { dataKey, sortable, label, click, check, popUp, icon } = column;
+  const { dataKey, sortable, label, click, check, popUp, icon, className = '' } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
   otherProps = {
     onClick: sortable ? (e: any) => setSort(e, dataKey || '') : click ? click : undefined,
     style: { style },
     className:
-      type === 'trackerTable' ? 'table-header' : `${dataKey} ${getColumnClass(column)} col-size`,
+      type === 'trackerTable'
+        ? `table-header ${dataKey} ${className}`
+        : `${dataKey}  ${getColumnClass(column)} col-size ${className}`,
   };
   if (dataKey === 'sellgo_score') {
     otherProps = { ...otherProps, className: `${otherProps} remove-left-border` };
@@ -78,18 +81,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   }
 
   if (type === 'trackerTable') {
-    if (dataKey === 'PRODUCT INFORMATION') {
-      otherProps = {
-        ...otherProps,
-        className: `${otherProps.className} pt-product-info`,
-      };
-    }
-    if (dataKey === 'ellipsis horizontal') {
-      otherProps = {
-        ...otherProps,
-        className: `${otherProps.className} pt-actions`,
-      };
-    }
+    otherProps = { ...otherProps, style: { height: '56px' } };
     return (
       <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
         {' '}
