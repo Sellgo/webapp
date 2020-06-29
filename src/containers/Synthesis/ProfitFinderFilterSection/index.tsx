@@ -27,15 +27,23 @@ function ProfitFinderFilterSection(props: Props) {
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
-  const selectAllStorage = JSON.parse(
-    typeof localStorage.filterSelectAll === 'undefined' ||
+  const selectAllCategoriesStorage = JSON.parse(
+    typeof localStorage.filterSelectAllCategories === 'undefined' ||
       !filterStorage ||
       filterStorage.supplier_id !== supplierDetails.supplier_id
       ? true
-      : localStorage.filterSelectAll
+      : localStorage.filterSelectAllCategories
+  );
+  const selectAllSizeStorage = JSON.parse(
+    typeof localStorage.filterSelectAllSize === 'undefined' ||
+      !filterStorage ||
+      filterStorage.supplier_id !== supplierDetails.supplier_id
+      ? true
+      : localStorage.filterSelectAllSize
   );
   const [filterType, setFilterType] = useState('');
-  const [isSelectAll, setSelectAll] = useState(selectAllStorage);
+  const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
+  const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
   const [hasFilter, setHasFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
@@ -44,8 +52,15 @@ function ProfitFinderFilterSection(props: Props) {
   const filterInitialData = {
     supplier_id: supplierDetails.supplier_id,
     allFilter: [],
+    sizeTierFilter: [
+      'Small standard-size',
+      'Large standard-size',
+      'Small oversize',
+      'Medium oversize',
+      'Over oversize',
+      'Others',
+    ],
     removeNegative: [],
-    productSize: 'All size',
     price: filteredRanges.price,
     profit: filteredRanges.profit,
     margin: filteredRanges.margin,
@@ -106,8 +121,11 @@ function ProfitFinderFilterSection(props: Props) {
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
   useEffect(() => {
-    if (isSelectAll || !filterStorage) {
-      selectAll(true);
+    if (isSelectAllCategories || !filterStorage) {
+      selectAllCategories(true);
+    }
+    if (isSelectAllSize || !filterStorage) {
+      selectAllSize(true);
     }
     filterProducts(filterSearch, filterState);
   }, [filterState]);
@@ -316,7 +334,7 @@ function ProfitFinderFilterSection(props: Props) {
           },
           {
             label: 'Others',
-            dataKey: 'others',
+            dataKey: 'others-category',
             checked: true,
           },
         ],
@@ -324,32 +342,37 @@ function ProfitFinderFilterSection(props: Props) {
       {
         label: 'Product Size Tiers',
         dataKey: 'product-size-tiers',
-        checkedValue: 'Small standard-size',
-        radio: true,
+        radio: false,
         data: [
-          {
-            label: 'All size',
-            dataKey: 'all-size',
-          },
           {
             label: 'Small standard-size',
             dataKey: 'small-standard-size',
+            checked: true,
           },
           {
             label: 'Large standard-size',
             dataKey: 'large-standard-size',
+            checked: true,
           },
           {
             label: 'Small oversize',
             dataKey: 'small-oversize',
+            checked: true,
           },
           {
             label: 'Medium oversize',
             dataKey: 'medium-oversize',
+            checked: true,
           },
           {
             label: 'Over oversize',
             dataKey: 'over-oversize',
+            checked: true,
+          },
+          {
+            label: 'Others',
+            dataKey: 'others-size-tiers',
+            checked: true,
           },
         ],
       },
@@ -434,24 +457,38 @@ function ProfitFinderFilterSection(props: Props) {
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
 
-  const setRadioFilter = (filterType: string, value: string) => {
-    const data = _.map(allFilter, filter => {
-      if (filter.dataKey === filterType) {
-        filter.checkedValue = value;
+  const toggleSizeTierFilter = (filterDataKey: string, label: string) => {
+    const data = filterState;
+
+    setSelectAllSize(false);
+
+    if (data.sizeTierFilter.indexOf(label) !== -1) {
+      data.sizeTierFilter.splice(data.sizeTierFilter.indexOf(label), 1);
+    } else {
+      data.sizeTierFilter.push(label);
+    }
+    setFilterState(data);
+
+    localStorage.setItem('filterSelectAllSize', JSON.stringify(false));
+    const allData = _.map(allFilter, filter => {
+      if (filter.dataKey === 'product-size-tiers') {
+        if (data.sizeTierFilter.length === filter.data.length) {
+          selectAllSize();
+        }
+        _.map(filter.data, allSizeTierFilterData => {
+          allSizeTierFilterData.checked = data.sizeTierFilter.indexOf(filterDataKey) !== -1;
+          return allSizeTierFilterData;
+        });
       }
       return filter;
     });
-    const filterValue = filterState;
-    filterState.productSize = value;
-
-    setAllFilter(data);
-    setFilterState(filterValue);
+    setAllFilter(allData);
   };
 
   const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
 
-    setSelectAll(false);
+    setSelectCategories(false);
 
     if (data.allFilter.indexOf(label) !== -1) {
       data.allFilter.splice(data.allFilter.indexOf(label), 1);
@@ -460,11 +497,11 @@ function ProfitFinderFilterSection(props: Props) {
     }
     setFilterState(data);
 
-    localStorage.setItem('filterSelectAll', JSON.stringify(false));
+    localStorage.setItem('filterSelectAllCategories', JSON.stringify(false));
     const allData = _.map(allFilter, filter => {
-      if (!filter.radio) {
+      if (filter.dataKey === 'product-category') {
         if (data.allFilter.length === filter.data.length) {
-          selectAll();
+          selectAllCategories();
         }
         _.map(filter.data, allFilterData => {
           allFilterData.checked = data.allFilter.indexOf(filterDataKey) !== -1;
@@ -476,27 +513,15 @@ function ProfitFinderFilterSection(props: Props) {
     setAllFilter(allData);
   };
 
-  const toggleSelectAll = () => {
-    setSelectAll(!isSelectAll);
-    const data = filterState;
-    if (!isSelectAll) {
-      selectAll();
-    } else {
-      localStorage.setItem('filterSelectAll', JSON.stringify(false));
-      data.allFilter = [];
-      setFilterState(data);
-    }
-  };
-
-  const selectAll = (firstLoad?: boolean) => {
+  const selectAllCategories = (firstLoad?: boolean) => {
     if (!firstLoad) {
-      localStorage.setItem('filterSelectAll', JSON.stringify(true));
+      localStorage.setItem('filterSelectAllCategories', JSON.stringify(true));
     }
 
-    setSelectAll(true);
+    setSelectCategories(true);
     const data = filterState;
     _.map(allFilter, filter => {
-      if (!filter.radio) {
+      if (filter.dataKey === 'product-category') {
         _.map(filter.data, allFilterData => {
           if (data.allFilter.indexOf(allFilterData.label) === -1) {
             data.allFilter.push(allFilterData.label);
@@ -510,6 +535,51 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(data);
   };
 
+  const toggleSelectAllCategories = () => {
+    setSelectCategories(!isSelectAllCategories);
+    const data = filterState;
+    if (!isSelectAllCategories) {
+      selectAllCategories();
+    } else {
+      localStorage.setItem('filterSelectAllCategories', JSON.stringify(false));
+      data.allFilter = [];
+      setFilterState(data);
+    }
+  };
+
+  const toggleSelectAllSize = () => {
+    setSelectAllSize(!isSelectAllSize);
+    const data = filterState;
+    if (!isSelectAllSize) {
+      selectAllSize();
+    } else {
+      localStorage.setItem('filterSelectAllSize', JSON.stringify(false));
+      data.sizeTierFilter = [];
+      setFilterState(data);
+    }
+  };
+
+  const selectAllSize = (firstLoad?: boolean) => {
+    if (!firstLoad) {
+      localStorage.setItem('filterSelectAllSize', JSON.stringify(true));
+    }
+
+    setSelectAllSize(true);
+    const data = filterState;
+    _.map(allFilter, filter => {
+      if (filter.dataKey === 'product-size-tiers') {
+        _.map(filter.data, allFilterData => {
+          if (data.sizeTierFilter.indexOf(allFilterData.label) === -1) {
+            data.sizeTierFilter.push(allFilterData.label);
+          }
+          return allFilterData;
+        });
+      }
+      return filter;
+    });
+
+    setFilterState(data);
+  };
   const handleCompleteChange = (datakey: string, range: Range) => {
     const filterDetails: any = filterState;
     const data = _.map(filterRanges, filter => {
@@ -544,8 +614,8 @@ function ProfitFinderFilterSection(props: Props) {
 
   const applyFilter = () => {
     setHasFilter(isFilterUse());
-    if (isSelectAll) {
-      selectAll();
+    if (isSelectAllCategories) {
+      selectAllCategories();
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
@@ -555,7 +625,6 @@ function ProfitFinderFilterSection(props: Props) {
     const data = filterState;
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
-    data.productSize = 'All size';
     data.price = productRanges.price;
     data.profit = productRanges.profit;
     data.margin = productRanges.margin;
@@ -563,7 +632,7 @@ function ProfitFinderFilterSection(props: Props) {
     data.sales_monthly = productRanges.sales_monthly;
     data.rank = productRanges.rank;
     data.removeNegative = [];
-    selectAll();
+    selectAllCategories();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterDataState.filterRanges, filter => {
@@ -624,8 +693,8 @@ function ProfitFinderFilterSection(props: Props) {
     if (JSON.stringify(rangeData.price) !== JSON.stringify(filterState.price)) return true;
     if (JSON.stringify(rangeData.rank) !== JSON.stringify(filterState.rank)) return true;
     if (JSON.stringify(rangeData.roi) !== JSON.stringify(filterState.roi)) return true;
-    if (filterState.productSize !== 'All size') return true;
-    if (!isSelectAll) return true;
+    if (!isSelectAllSize) return true;
+    if (!isSelectAllCategories) return true;
 
     return false;
   };
@@ -651,15 +720,17 @@ function ProfitFinderFilterSection(props: Props) {
           applyFilter={applyFilter}
           resetSingleFilter={resetSingleFilter}
           toggleCheckboxFilter={toggleCheckboxFilter}
+          toggleSizeTierFilter={toggleSizeTierFilter}
           resetFilter={resetFilter}
           filterData={filterDataState}
           handleCompleteChange={handleCompleteChange}
           initialFilterState={filterState}
-          setRadioFilter={setRadioFilter}
-          toggleSelectAll={toggleSelectAll}
-          isSelectAll={isSelectAll}
-          selectAll={selectAll}
+          toggleSelectAllCategories={toggleSelectAllCategories}
+          isSelectAllCategories={isSelectAllCategories}
+          selectAllCategories={selectAllCategories}
           toggleNegative={toggleNegative}
+          toggleSelectAllSize={toggleSelectAllSize}
+          isSelectAllSize={isSelectAllSize}
         />
       </div>
     </div>
