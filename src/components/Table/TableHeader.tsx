@@ -215,7 +215,6 @@ const TableHeader = (props: TableHeaderProps) => {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
     const upperBound = filteredColumns.slice(filteredColumns.length - 2, filteredColumns.length);
-
     const scrollRows: any = [
       {
         side: 'right',
@@ -235,6 +234,13 @@ const TableHeader = (props: TableHeaderProps) => {
         {rest.type === 'trackerTable' && (
           <React.Fragment>
             <Table.Row>
+              {filteredColumns.length === 2 && (
+                <th
+                  key={`header-blank-row`}
+                  colSpan={columns.length - 2}
+                  style={{ height: '56px' }}
+                />
+              )}
               {filteredColumns.map((column, index) => {
                 return (
                   <TableHeaderCell
@@ -249,9 +255,14 @@ const TableHeader = (props: TableHeaderProps) => {
             <Table.Row className="pt-header">
               <td colSpan={filteredColumns.length} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
-                  <div className="pt-scroll">
-                    <p> &nbsp;</p>
-                  </div>
+                  {filteredColumns.map(c => (
+                    <div
+                      className={`${getColumnClass(c)} pt-scroll`}
+                      key={`${c.dataKey}--scroll-col`}
+                    >
+                      <p> &nbsp;</p>
+                    </div>
+                  ))}
                 </div>
               </td>
             </Table.Row>
@@ -261,14 +272,21 @@ const TableHeader = (props: TableHeaderProps) => {
         {rest.type !== 'trackerTable' && (
           <tr className="parent-header-column">
             {scrollRows.map((cell: any, cellIndex: any) => {
-              const headerCellProps: any = {};
+              let headerCellProps: any = {};
               if (cell.side === 'center') {
                 headerCellProps.className = 'middle-header table-header-scroll';
                 headerCellProps.onScroll = onScroll;
+                if (!cell.rows.length) {
+                  headerCellProps = { ...headerCellProps, colSpan: columns.length - 3 };
+                }
               }
               if (cell.side === 'right') {
                 headerCellProps.className = 'left-fixed-header-column';
+                if (filteredColumns.length === 4) {
+                  headerCellProps = { ...headerCellProps, style: { width: '1em' } };
+                }
               }
+
               return (
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
                   <table className="header-inner-table">

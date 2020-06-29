@@ -449,11 +449,11 @@ $link-color: #349af8;
         float: left;
         height: 20px;
         position: relative;
-        top: 5px;
+        top: 60px !important;
 
         i {
           color: #98aeca !important;
-          font-size: 2.4em !important;
+          font-size: 1.8em !important;
           text-align: left;
         }
       }
@@ -964,10 +964,14 @@ $link-color: #349af8;
 .pt-scroll-container {
   max-width: 75% !important;
   overflow-x: auto !important;
+  display: flex !important;
+  height: 16px !important;
+  overflow-y: hidden !important;
 }
 
 .pt-scroll {
-  width: 160em !important;
+  min-width: 120px !important;
+  height: 1px !important;
 }
 
 .pt-product-info {
@@ -976,7 +980,7 @@ $link-color: #349af8;
   //height: 6em !important;
   left: 1em !important;
   background: #fff !important;
-  border-left: 1px solid #2224264d;
+  border-left: 1px solid #2224264d !important;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
@@ -1009,4 +1013,30 @@ $link-color: #349af8;
   background: transparent !important;
   height: 0 !important;
   padding: 4px !important;
+}
+
+@media only screen and (max-width: 1368px) {
+  .remove-top-border {
+    width: 98.8% !important;
+  }
+
+  .pt-scroll {
+    min-width: 140px !important;
+  }
+}
+
+@media only screen and (min-width: 1369px) and (max-width: 1441px) {
+  .remove-top-border {
+    width: 98.9% !important;
+  }
+
+  .pt-scroll {
+    min-width: 140px !important;
+  }
+}
+
+@media only screen and (min-width: 1440px) and (max-width: 1921px) {
+  .pt-scroll {
+    min-width: 130px !important;
+  }
 }
