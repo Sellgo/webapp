@@ -28,3 +28,19 @@
     }
   }
 }
+
+@media screen and (max-width: 1440px) {
+  .free-trial-period {
+    .ui.segment {
+      .content {
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        p {
+          font-size: 16px !important;
+        }
+      }
+    }
+  }
+}
