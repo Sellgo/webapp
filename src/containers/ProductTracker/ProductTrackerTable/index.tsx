@@ -241,7 +241,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return (
       <div className="dv-arrow">
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
-          <Icon className={iconCaretClass} onClick={() => this.toggleExpandRow(row.id)} />
+          <Icon
+            className={iconCaretClass}
+            onClick={() => this.toggleExpandRow(row.id)}
+            size="tiny"
+          />
         </span>
       </div>
     );
