@@ -25,12 +25,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: '',
-    dataKey: 'checkboxes',
-    visible: false,
-  },
-  {
-    value: true,
     key: 'Price',
     dataKey: 'price',
     visible: true,

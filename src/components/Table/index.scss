@@ -376,7 +376,7 @@ i.icon.filter::before {
 }
 
 .left-fixed-header-column {
-  width: 269px !important;
+  width: 18% !important;
 }
 
 .table-scroll-divider {
@@ -408,4 +408,8 @@ i.icon.filter::before {
 
 .alter-table {
   border-spacing: 0 !important;
+}
+
+.popup {
+  z-index: 20 !important;
 }

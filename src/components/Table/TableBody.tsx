@@ -57,6 +57,8 @@ export const TableBody = (props: TableBodyProps) => {
     middleScroll,
     rowExpander,
   } = props;
+  const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
+
   if (middleScroll) {
     const lowerBound = columns.slice(0, 2);
     const middleBound = columns.slice(2, columns.length - 2);
@@ -89,6 +91,16 @@ export const TableBody = (props: TableBodyProps) => {
                   </td>
                 </tr>
                 <Table.Row key={`${Date.now() + index}--tb-row`} style={style}>
+                  {filteredColumns.length === 2 && (
+                    <td
+                      colSpan={columns.length - 2}
+                      key={`${index}-blank-row`}
+                      style={{ height: '60px' }}
+                      className={
+                        expandedRows && expandedRows === row.id ? 'remove-bottom-border' : ''
+                      }
+                    />
+                  )}
                   {columns.map(
                     (column, colIndex) =>
                       getColumnLabel(column.dataKey, columnFilterData) && (
@@ -140,19 +152,25 @@ export const TableBody = (props: TableBodyProps) => {
         <Table.Row className="middle-body-column">
           {scrollRows.map((cell: any) => {
             let className = '';
-            let tdClassName = '';
+            let tableDataProps: any = {};
             if (cell.side === 'right') {
               className = 'right-body-child-row';
             }
             if (cell.side === 'center') {
               className = 'middle-body-child-row';
-              tdClassName = 'middle-body';
+              tableDataProps = { ...tableDataProps, className: 'middle-body' };
+              if (filteredColumns.length === 4) {
+                tableDataProps = { ...tableDataProps, colSpan: columns.length - 3 };
+              }
             }
             if (cell.side === 'left') {
               className = 'left-body-child-row';
+              if (filteredColumns.length === 4) {
+                tableDataProps = { ...tableDataProps, style: { width: '1em' } };
+              }
             }
             return (
-              <td className={tdClassName} key={`${cell.side}--td-cell`}>
+              <td {...tableDataProps} key={`${cell.side}--td-cell`}>
                 <table className="body-inner-table">
                   <tbody className="inner-tbody">
                     {rows.length ? (
@@ -160,7 +178,11 @@ export const TableBody = (props: TableBodyProps) => {
                         <Table.Row
                           className={className}
                           key={`--tb-row--${cell.side}-inner-row--${index}`}
+                          style={filteredColumns.length === 4 ? { height: '46px' } : {}}
                         >
+                          {filteredColumns.length === 4 && cell.side === 'center' && (
+                            <td colSpan={columns.length - 3}>&nbsp;</td>
+                          )}
                           {cell.rows.map(
                             (column: any, colIndex: any) =>
                               getColumnLabel(column.dataKey, columnFilterData) && (
