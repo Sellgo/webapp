@@ -521,8 +521,9 @@ $link-color: #349af8;
         padding: 0 5px;
 
         img {
-          height: 100%;
-          width: auto;
+          height: 40px !important;
+          margin-top: 10px;
+          width: 72px;
         }
       }
 
