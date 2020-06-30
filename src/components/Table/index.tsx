@@ -23,6 +23,7 @@ export interface Column {
   type?: 'number' | 'string' | 'date' | 'boolean';
   click?: (e: any) => void;
   popUp?: boolean;
+  className?: string;
 }
 
 export interface GenericTableProps {
@@ -50,7 +51,7 @@ export interface GenericTableProps {
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
   setPage?: (pageNumber: number) => void;
-  ptCurrentPage?: number;
+  currentPage?: number;
   renderFilterSectionComponent?: () => void;
   showTableLock?: boolean;
   featuresLock?: boolean;
@@ -59,6 +60,7 @@ export interface GenericTableProps {
   reorderColumns?: any;
   columnDnD?: boolean;
   middleScroll?: boolean;
+  rowExpander?: any;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -91,7 +93,7 @@ export const getColumnClass = (column: any) => {
 export const GenericTable = (props: GenericTableProps) => {
   const {
     tableKey,
-    ptCurrentPage,
+    currentPage,
     data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
@@ -119,13 +121,22 @@ export const GenericTable = (props: GenericTableProps) => {
     handleColumnDrop,
     reorderColumns,
     columnDnD = false,
+    rowExpander,
   } = props;
-  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
+  const initialPage = currentPage ? currentPage : 1;
+  const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
 
   useEffect(() => {
-    setCurrentPage(initialPage);
-  }, [ptCurrentPage]);
+    setLocalCurrentPage(initialPage);
+  }, [currentPage]);
+
+  // reconcile redux page with local page
+  useEffect(() => {
+    if (setPage) {
+      setPage(localCurrentPage);
+      return () => setPage(1); // reset on unmount
+    }
+  }, [localCurrentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -153,11 +164,8 @@ export const GenericTable = (props: GenericTableProps) => {
           aColumn = a[sortedColumn.dataKey || ''] || '';
           bColumn = b[sortedColumn.dataKey || ''] || '';
         }
-        if (
-          sortedColumn.dataKey === 'name' ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'file_name') ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'active_status')
-        ) {
+        // make string-based sorting case-insensitive
+        if (sortedColumn.dataKey && sortedColumn.type === 'string') {
           if (aColumn.toLowerCase() < bColumn.toLowerCase()) {
             return -1;
           }
@@ -171,6 +179,9 @@ export const GenericTable = (props: GenericTableProps) => {
           if (aColumn > bColumn) {
             return 1;
           }
+        }
+        if (aColumn === bColumn && sortDirection === 'descending') {
+          return -1;
         }
         return 0;
       })
@@ -201,8 +212,11 @@ export const GenericTable = (props: GenericTableProps) => {
 
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
-  rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-  rows = showTableLock ? rows.slice(0, 3) : rows;
+  rows = rows.slice(
+    (localCurrentPage - 1) * singlePageItemsCount,
+    localCurrentPage * singlePageItemsCount
+  );
+  rows = showTableLock ? rows.slice(0, 5) : rows;
 
   useEffect(() => {
     if (sortClicked) {
@@ -229,7 +243,7 @@ export const GenericTable = (props: GenericTableProps) => {
     if (setPage) {
       setPage(1);
     } else {
-      setCurrentPage(1);
+      setLocalCurrentPage(1);
     }
     setSearchValue(e.target.value);
   };
@@ -242,17 +256,17 @@ export const GenericTable = (props: GenericTableProps) => {
             <ProductSearch
               searchFilteredProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
-              setCurrentPage={setCurrentPage}
+              setCurrentPage={setLocalCurrentPage}
             />
           ) : (
             <div />
           )}
 
           <SelectItemsCount
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={setLocalCurrentPage}
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
-            currentPage={currentPage}
+            currentPage={localCurrentPage}
             setSinglePageItemsCount={setSinglePageItemsCount}
           />
         </div>
@@ -281,7 +295,13 @@ export const GenericTable = (props: GenericTableProps) => {
           </Card.Content>
         </Card>
       )}
-      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
+      <Table
+        sortable={true}
+        basic="very"
+        textAlign="left"
+        unstackable={true}
+        className={name === 'trackerTable' ? 'alter-table' : ''}
+      >
         <TableHeader
           columns={columns}
           sortedColumnKey={sortedColumnKey}
@@ -290,7 +310,7 @@ export const GenericTable = (props: GenericTableProps) => {
           onSearchChange={onSearchChange}
           onClearSearch={onClearSearch}
           rows={rows}
-          currentPage={currentPage}
+          currentPage={localCurrentPage}
           sortDirection={sortDirection}
           type={name}
           columnFilterData={filteredColumns}
@@ -314,6 +334,7 @@ export const GenericTable = (props: GenericTableProps) => {
           rows={rows}
           expandedRows={expandedRows}
           middleScroll={middleScroll}
+          rowExpander={rowExpander}
         />
 
         {pagination && (
@@ -333,9 +354,9 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length}>
                   <Pagination
                     totalPages={rows.length ? totalPages : ''}
-                    activePage={currentPage}
+                    activePage={localCurrentPage}
                     onPageChange={(event, data) => {
-                      setCurrentPage(Number(data.activePage));
+                      setLocalCurrentPage(Number(data.activePage));
                     }}
                   />
                 </Table.HeaderCell>
@@ -360,7 +381,7 @@ export const renderCell = (row: { [key: string]: any }, column: Column) => {
 
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
-  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('descending');
+  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('ascending');
   const [sortClicked, setSortClicked] = useState<true | false>(false);
 
   const handleSort = (e: any, clickedColumn: string) => {

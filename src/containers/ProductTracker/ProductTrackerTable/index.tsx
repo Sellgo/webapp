@@ -241,7 +241,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return (
       <div className="dv-arrow">
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
-          <Icon className={iconCaretClass} onClick={() => this.toggleExpandRow(row.id)} />
+          <Icon
+            className={iconCaretClass}
+            onClick={() => this.toggleExpandRow(row.id)}
+            size="tiny"
+          />
         </span>
       </div>
     );
@@ -364,8 +368,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Product Information',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       show: true,
       render: this.renderProductInfo,
+      className: 'pt-product-info',
     },
     {
       label: 'Avg Price',
@@ -374,6 +380,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
+      className: 'pt-price',
     },
     {
       label: 'Avg Profit',
@@ -392,7 +399,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily Unit Sold',
+      label: 'Avg Daily \nUnit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
@@ -478,6 +485,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgAmazonInventory,
+      className: 'pt-avg_amazon_inventory',
     },
     {
       icon: 'ellipsis horizontal',
@@ -485,6 +493,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderIcons,
       popUp: true,
+      className: 'pt-actions',
     },
   ];
   handleColumnDrop = (e: any, data: any) => {
@@ -548,10 +557,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           <GenericTable
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
-            data={showTableLock ? [] : filteredProducts}
+            data={filteredProducts}
             columns={this.state.columns}
             setPage={setPageNumber}
-            ptCurrentPage={productTrackerPageNo}
+            currentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
@@ -567,6 +576,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleColumnDrop={this.handleColumnDrop}
             reorderColumns={this.reorderColumns}
             columnDnD={true}
+            middleScroll={true}
+            rowExpander={this.renderDV}
           />
         ) : (
           <Segment className="product-tracker-loader">

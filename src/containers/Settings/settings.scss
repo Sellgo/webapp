@@ -186,36 +186,6 @@
   min-width: 434px !important;
 }
 
-.ui.popup.transition.visible.free-trial-popup {
-  min-width: 560px !important;
-  top: -28px !important;
-  left: 310px !important;
-  color: #fff;
-  background: #757575;
-  border: 1px solid #98aeca;
-  border-radius: 11px;
-  padding: 24px 26px;
-  cursor: default;
-
-  .icon {
-    position: absolute;
-    left: -43px;
-    color: #757575;
-    font-size: 30px;
-    top: 12px;
-  }
-
-  .title {
-    font-size: 30px;
-    font-weight: 500;
-    margin-bottom: 25px;
-  }
-
-  .content {
-    font-size: 18px;
-  }
-}
-
 .ui.small.modal.transition.visible.active.auth-token-confirm {
   $font-fam: 'Work Sans', sans-serif !important;
 

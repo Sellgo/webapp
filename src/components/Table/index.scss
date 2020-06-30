@@ -376,7 +376,7 @@ i.icon.filter::before {
 }
 
 .left-fixed-header-column {
-  width: 269px !important;
+  width: 18% !important;
 }
 
 .table-scroll-divider {
@@ -396,4 +396,20 @@ i.icon.filter::before {
 .body-inner-table {
   border-spacing: 0 3px !important;
   width: 100% !important;
+}
+
+.graph-column {
+  .product-detail-charts {
+    width: 95%;
+    border: 1px solid #2224264d;
+    border-radius: 5px;
+  }
+}
+
+.alter-table {
+  border-spacing: 0 !important;
+}
+
+.popup {
+  z-index: 20 !important;
 }
