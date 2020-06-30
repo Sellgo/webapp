@@ -8,8 +8,8 @@ const ProductDescription = (props: any) => {
 
   return (
     <div className="product-tracker-description">
-      <div className="product-image">
-        <img src={item.image_url} alt="product_image" />
+      <div className="product-image" style={{ backgroundImage: `url(${item.image_url})` }}>
+        {' '}
       </div>
       <div>
         <div className="description-text">
