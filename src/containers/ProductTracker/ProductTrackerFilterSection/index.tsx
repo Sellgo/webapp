@@ -42,13 +42,6 @@ function ProductTrackerFilterSection(props: Props) {
       : localStorage.filterSelectAllReviews
   );
 
-  const openPeriodFilter = JSON.parse(
-    typeof localStorage.openPeriod === 'undefined' ||
-      !filterStorage ||
-      filterStorage.sellerID !== sellerID
-      ? false
-      : localStorage.openPeriod
-  );
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
@@ -75,15 +68,6 @@ function ProductTrackerFilterSection(props: Props) {
   const [hasFilter, setHasFilter] = React.useState(false);
 
   useEffect(() => {
-    /*
-     Setting Period Filter
-   */
-    if (openPeriodFilter) {
-      setFilterType('period-filter');
-      resetFilter(true);
-      filterProducts(filterState, activeGroupId);
-      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    }
     /*
       Reset filter when changing groups
     */
@@ -331,7 +315,6 @@ function ProductTrackerFilterSection(props: Props) {
     filterValue.period = value;
     setFilterState(filterValue);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    localStorage.setItem('openPeriod', JSON.stringify(true));
   };
 
   const toggleNegative = (datakey: string) => {
@@ -452,11 +435,7 @@ function ProductTrackerFilterSection(props: Props) {
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
-      localStorage.setItem('openPeriod', JSON.stringify(false));
       return;
-    }
-    if (type !== 'period-filter') {
-      localStorage.setItem('openPeriod', JSON.stringify(false));
     }
     setFilterType(type);
   };
