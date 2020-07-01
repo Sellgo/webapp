@@ -305,7 +305,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Cost',
-      dataKey: 'cost',
+      dataKey: 'product_cost',
       type: 'number',
       sortable: true,
       show: true,

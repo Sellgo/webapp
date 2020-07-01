@@ -32,7 +32,7 @@ export const columnFilter = [
   {
     value: true,
     key: 'Cost',
-    dataKey: 'cost',
+    dataKey: 'product_cost',
     visible: true,
   },
   {
