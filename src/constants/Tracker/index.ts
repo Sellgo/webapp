@@ -92,12 +92,7 @@ export const columnFilter = [
     key: 'Select All',
     visible: true,
   },
-  {
-    value: true,
-    key: 'Product Information',
-    // dataKey: 'PRODUCT INFORMATION',
-    visible: false,
-  },
+
   {
     value: true,
     key: 'Avg Price',
@@ -142,18 +137,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Reviews',
-    dataKey: 'customer_reviews',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Rating',
-    dataKey: 'rating',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Dimensions',
     dataKey: 'dimension',
     visible: true,
@@ -166,8 +149,37 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Reviews',
+    dataKey: 'customer_reviews',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Rating',
+    dataKey: 'rating',
+    visible: true,
+  },
+  {
+    key: 'Avg Inventory',
+    dataKey: 'avg_inventory',
+    value: true,
+    visible: true,
+  },
+  {
+    key: 'Is Amazon Selling',
+    dataKey: 'is_amazon_selling',
+    value: true,
+    visible: true,
+  },
+  {
+    key: 'Avg Amazon Inventory',
+    dataKey: 'avg_amazon_inventory',
+    value: true,
+  },
+  {
+    value: true,
     key: '',
-    // dataKey: 'ellipsis horizontal',
+    dataKey: 'actions',
     visible: false,
   },
 ];

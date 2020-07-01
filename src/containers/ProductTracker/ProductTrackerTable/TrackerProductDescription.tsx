@@ -8,8 +8,8 @@ const ProductDescription = (props: any) => {
 
   return (
     <div className="product-tracker-description">
-      <div className="product-image">
-        <img src={item.image_url} alt="product_image" />
+      <div className="product-image" style={{ backgroundImage: `url(${item.image_url})` }}>
+        {' '}
       </div>
       <div>
         <div className="description-text">
@@ -25,12 +25,6 @@ const ProductDescription = (props: any) => {
               <span className="upc-content">{item.upc}</span>
             </div>
             {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
-            {/* <div className="table-icon">
-              <i className="fas fa-skull-crossbones" />
-              <Icon className="lock" />
-              <Icon className="list" />
-              <Icon className="cubes" />
-            </div> */}
           </div>
         </div>
       </div>

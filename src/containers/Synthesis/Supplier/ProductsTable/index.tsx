@@ -12,7 +12,7 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
 } from '../../../../actions/Suppliers';
-import { PaginatedTable, Column } from '../../../../components/Table';
+import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import {
@@ -69,6 +69,7 @@ interface ProductsTableState {
   filteredRanges: any;
   columnFilterData: any;
   ColumnFilterBox: boolean;
+  columns: Column[];
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -79,6 +80,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     filteredRanges: [],
     columnFilterData: columnFilter,
     ColumnFilterBox: false,
+    columns: [],
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -117,6 +119,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
     </p>
   );
+
+  renderCost = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.product_cost && row.product_cost !== '0.00',
+        formatCurrency(row.product_cost)
+      )}
+    </p>
+  );
+
   renderProfit = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
@@ -166,10 +178,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderDetailButtons = (row: Product) => {
-    const { updateProductTrackingStatus, supplierID, subscriptionType } = this.props;
+    const { updateProductTrackingStatus, supplierID } = this.props;
     return (
       <DetailButtons
-        disableTrack={isSubscriptionFree(subscriptionType)}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={() => {
@@ -279,6 +290,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     {
       label: 'PRODUCT INFORMATION',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
@@ -290,6 +302,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderPrice,
+    },
+    {
+      label: 'Cost',
+      dataKey: 'product_cost',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderCost,
+    },
+    {
+      label: 'Fees',
+      dataKey: 'fees',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderFee,
     },
     {
       label: 'Profit',
@@ -306,14 +334,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderMargin,
-    },
-    {
-      label: 'Fees',
-      dataKey: 'fees',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderFee,
     },
     {
       label: 'Monthly\nRevenue',
@@ -372,6 +392,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
     {
+      label: '',
       icon: 'ellipsis horizontal ellipsis-ic',
       dataKey: 'ellipsis horizontal',
       show: true,
@@ -385,6 +406,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       ColumnFilterBox: !ColumnFilterBox,
     });
   };
+
+  handleColumnDrop = (e: any, data: any) => {
+    this.setState({ columnFilterData: data });
+  };
+  reorderColumns = (columns: Column[]) => {
+    this.setState({ columns });
+  };
+  componentDidMount(): void {
+    this.setState({ columns: this.columns });
+  }
 
   render() {
     const {
@@ -401,6 +432,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const showTableLock = isSubscriptionFree(subscriptionType);
     const featuresLock = isSubscriptionFree(subscriptionType);
 
+    // NOTE: temporarily filter products with ROIs greater than 300%
+    const userEmail = localStorage.getItem('userEmail') || '';
+    let tempFilteredProducts;
+    if (['dev@sellgo.com', 'demo@sellgo.com', 'apobee.mcdonald@sellgo.com'].includes(userEmail)) {
+      tempFilteredProducts = filteredProducts;
+    } else {
+      tempFilteredProducts = filteredProducts.filter(
+        product => !product.roi || Number(product.roi) <= 300
+      );
+    }
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -412,17 +453,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <>
             {this.renderExportButtons()}
-            <PaginatedTable
+            <GenericTable
               tableKey={tableKeys.PRODUCTS}
-              data={filteredProducts}
-              columns={this.columns}
+              columns={this.state.columns}
+              data={tempFilteredProducts}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
               setSinglePageItemsCount={setSinglePageItemsCount}
-              ptCurrentPage={pageNumber}
+              currentPage={pageNumber}
               setPage={setPageNumber}
               name={'products'}
               showFilter={true}
@@ -432,11 +473,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               handleColumnChange={this.handleColumnChange}
               toggleColumnCheckbox={this.handleClick}
               columnFilterData={this.state.columnFilterData}
+              middleScroll={true}
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}
               showTableLock={showTableLock}
               featuresLock={featuresLock}
+              handleColumnDrop={this.handleColumnDrop}
+              reorderColumns={this.reorderColumns}
+              columnDnD={true}
             />
           </>
         )}

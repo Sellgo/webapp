@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
 import TrackerMenu from './TrackerMenu';
-import { PaginatedTable, Column } from '../../../components/Table';
+import { GenericTable, Column } from '../../../components/Table';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
 import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils/format';
@@ -74,10 +74,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     columnFilterData: columnFilter,
     groupError: false,
     activeRow: null,
+    columns: [],
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
     retrieveTrackGroup();
+    this.setState({ columns: this.columns });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -215,12 +217,41 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
     this.setState({ columnFilterData: [...checkedData] });
   };
-
   renderCheckbox = () => {
     return <Checkbox />;
   };
+
+  toggleExpandRow = (id: number) => {
+    if (this.state.expandedRows === null) {
+      this.setState({
+        expandedRows: id,
+      });
+    } else if (this.state.expandedRows === id) {
+      this.setState({
+        expandedRows: null,
+      });
+    } else {
+      this.setState({
+        expandedRows: id,
+      });
+    }
+  };
+  renderDV = (row: ProductTrackerDetails) => {
+    const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
+    return (
+      <div className="dv-arrow">
+        <span className="caret-icon" style={{ cursor: 'pointer' }}>
+          <Icon
+            className={iconCaretClass}
+            onClick={() => this.toggleExpandRow(row.id)}
+            size="tiny"
+          />
+        </span>
+      </div>
+    );
+  };
   renderProductInfo = (row: ProductTrackerDetails) => {
-    return <ProductDescription item={row} />;
+    return <ProductDescription item={row} renderDV={this.renderDV} />;
   };
   renderAvgProfit = (row: ProductTrackerDetails) => (
     <p className="stat">
@@ -235,33 +266,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       {showNAIfZeroOrNull(row.avg_price && row.avg_price !== '0.00', `$${row.avg_price}`)}
     </p>
   );
-  renderAvgMargin = (row: ProductTrackerDetails) => {
-    const toggleExpandRow = (id: number) => {
-      if (this.state.expandedRows === null) {
-        this.setState({
-          expandedRows: id,
-        });
-      } else if (this.state.expandedRows === id) {
-        this.setState({
-          expandedRows: null,
-        });
-      } else {
-        this.setState({
-          expandedRows: id,
-        });
-      }
-    };
-    return (
-      <div className="avg-margin">
-        <p className="stat">
-          {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
-        </p>
-        <span className="caret-icon" style={{ cursor: 'pointer' }}>
-          <Icon className="caret down" onClick={() => toggleExpandRow(row.id)} />
-        </span>
-      </div>
-    );
-  };
+  renderAvgMargin = (row: ProductTrackerDetails) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(row.avg_margin && row.avg_margin !== '0.00', `${row.avg_margin}%`)}
+    </p>
+  );
   renderAvgUnitSold = (row: ProductTrackerDetails) => {
     return (
       <>
@@ -291,11 +300,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderAvgRank = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">{showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, row.avg_rank)}</p>
     );
   };
+
   renderCustomerReviews = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -317,6 +328,26 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderWeight = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.weight, `${row.weight} lbs`)}</p>;
   };
+  renderAvgInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.avg_inventory && row.avg_inventory !== 0, `${row.avg_inventory}`)}
+      </p>
+    );
+  };
+  renderAvgAmazonInventory = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(
+          row.avg_amazon_inventory && row.avg_amazon_inventory !== 0,
+          `${row.avg_amazon_inventory}`
+        )}
+      </p>
+    );
+  };
+  renderIsAmazonSelling = (row: ProductTrackerDetails) => {
+    return <p className="stat">{row.avg_amazon_inventory ? 'Yes' : 'No'}</p>;
+  };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup } = this.props;
     return (
@@ -337,8 +368,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Product Information',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       show: true,
       render: this.renderProductInfo,
+      className: 'pt-product-info',
     },
     {
       label: 'Avg Price',
@@ -347,6 +380,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
+      className: 'pt-price',
     },
     {
       label: 'Avg Profit',
@@ -365,7 +399,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily Unit Sold',
+      label: 'Avg Daily \nUnit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
@@ -429,14 +463,45 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderRating,
     },
     {
+      label: 'Avg Inventory',
+      dataKey: 'avg_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderAvgInventory,
+    },
+    {
+      label: 'Is Amazon Selling',
+      dataKey: 'is_amazon_selling',
+      type: 'boolean',
+      show: true,
+      sortable: true,
+      render: this.renderIsAmazonSelling,
+    },
+    {
+      label: 'Avg Amazon Inventory',
+      dataKey: 'avg_amazon_inventory',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderAvgAmazonInventory,
+      className: 'pt-avg_amazon_inventory',
+    },
+    {
       icon: 'ellipsis horizontal',
       dataKey: 'ellipsis horizontal',
       show: true,
       render: this.renderIcons,
       popUp: true,
+      className: 'pt-actions',
     },
   ];
-
+  handleColumnDrop = (e: any, data: any) => {
+    this.setState({ columnFilterData: data });
+  };
+  reorderColumns = (columns: Column[]) => {
+    this.setState({ columns });
+  };
   render() {
     const {
       isLoadingTrackerProducts,
@@ -489,13 +554,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         </div>
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
-          <PaginatedTable
+          <GenericTable
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
-            data={showTableLock ? [] : filteredProducts}
-            columns={this.columns}
+            data={filteredProducts}
+            columns={this.state.columns}
             setPage={setPageNumber}
-            ptCurrentPage={productTrackerPageNo}
+            currentPage={productTrackerPageNo}
             expandedRows={this.state.expandedRows}
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
@@ -508,6 +573,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             toggleColumnCheckbox={this.handleClick}
             showFilter={true}
             showTableLock={showTableLock}
+            handleColumnDrop={this.handleColumnDrop}
+            reorderColumns={this.reorderColumns}
+            columnDnD={true}
+            middleScroll={true}
+            rowExpander={this.renderDV}
           />
         ) : (
           <Segment className="product-tracker-loader">

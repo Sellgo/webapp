@@ -192,8 +192,10 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           //show if product's category doesn't exist in filter's categories if other's filter is active
           (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
             filterData.allFilter.indexOf('Others') !== -1)) &&
-          //show product if all size tier is active or product's size is equal
-          (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
+          //show product size tier is empty and others is checked
+          ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
+            //show product size tier is matched by one of size tiers
+            filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>

@@ -13,7 +13,7 @@ import {
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
-import { PaginatedTable, Column } from '../../../components/Table';
+import { GenericTable, Column } from '../../../components/Table';
 import { Link } from 'react-router-dom';
 import history from '../../../history';
 import {
@@ -260,6 +260,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Search',
       dataKey: 'search',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderName,
@@ -268,12 +269,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       label: 'Filename',
       dataKey: 'file_name',
       sortable: true,
+      type: 'string',
       show: true,
       render: this.renderFileName,
     },
     {
       label: 'Account Status',
       sortable: true,
+      type: 'string',
       show: true,
       dataKey: 'account_status',
     },
@@ -415,7 +418,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             <SelectColumns columns={columns} />
           </Grid.Column>
         </Grid>
-        <PaginatedTable
+        <GenericTable
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
           data={data}

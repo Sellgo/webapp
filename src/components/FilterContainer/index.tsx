@@ -9,17 +9,19 @@ import { Range } from '../../interfaces/Generic';
 interface Props {
   filterType: string;
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
+  toggleSizeTierFilter: (filterDataKey: string, label: string) => void;
   applyFilter: () => void;
   resetFilter: () => void;
-  toggleSelectAll: () => void;
-  selectAll: () => void;
+  toggleSelectAllCategories: () => void;
+  toggleSelectAllSize: () => void;
+  selectAllCategories: () => void;
   resetSingleFilter: (datakey: string) => void;
   toggleNegative: (datakey: string) => void;
   filterData: SupplierFilter;
   handleCompleteChange: (dataKey: string, range: Range) => void;
   initialFilterState: FilterState;
-  setRadioFilter: (filterType: string, value: string) => void;
-  isSelectAll: boolean;
+  isSelectAllCategories: boolean;
+  isSelectAllSize: boolean;
 }
 
 function FilterContainer(props: Props) {
@@ -27,16 +29,18 @@ function FilterContainer(props: Props) {
   const {
     filterType,
     applyFilter,
+    toggleSizeTierFilter,
     toggleCheckboxFilter,
     resetFilter,
     filterData,
     handleCompleteChange,
     resetSingleFilter,
     initialFilterState,
-    setRadioFilter,
-    toggleSelectAll,
-    isSelectAll,
-    selectAll,
+    toggleSelectAllCategories,
+    toggleSelectAllSize,
+    isSelectAllCategories,
+    selectAllCategories,
+    isSelectAllSize,
     toggleNegative,
   } = props;
 
@@ -56,7 +60,7 @@ function FilterContainer(props: Props) {
                   <div className="content-header">
                     <span className="filter-name">{filter.label}</span>
                     {filter.dataKey === 'product-category' && (
-                      <span className="reset category-list" onClick={() => selectAll()}>
+                      <span className="reset category-list" onClick={() => selectAllCategories()}>
                         x Reset
                       </span>
                     )}
@@ -66,27 +70,41 @@ function FilterContainer(props: Props) {
                       <div className="ui checkbox select-all">
                         <input
                           id="select-all"
-                          checked={isSelectAll}
+                          checked={isSelectAllCategories}
                           onChange={() => {
-                            toggleSelectAll();
+                            toggleSelectAllCategories();
                           }}
                           type="checkbox"
                         />
                         <label htmlFor="select-all"> Select all</label>
                       </div>
                     )}
-
+                    {filter.dataKey === 'product-size-tiers' && (
+                      <div className="ui checkbox all-size">
+                        <input
+                          id="all-size"
+                          checked={isSelectAllSize}
+                          onChange={() => {
+                            toggleSelectAllSize();
+                          }}
+                          type="checkbox"
+                        />
+                        <label htmlFor="all-size"> All size</label>
+                      </div>
+                    )}
                     {_.map(filter.data, (filterData, dataKey) => {
-                      if (filter.radio === true) {
+                      if (filter.dataKey === 'product-size-tiers') {
                         return (
-                          <div className={`ui radio checkbox ${filterData.dataKey}`} key={dataKey}>
+                          <div className="ui checkbox" key={dataKey}>
                             <input
                               id={filterData.dataKey}
-                              checked={initialFilterState.productSize === filterData.label}
+                              checked={
+                                initialFilterState.sizeTierFilter.indexOf(filterData.label) !== -1
+                              }
                               onChange={() => {
-                                setRadioFilter(filter.dataKey, filterData.label);
+                                toggleSizeTierFilter(filterData.dataKey, filterData.label);
                               }}
-                              type="radio"
+                              type="checkbox"
                             />
                             <label htmlFor={filterData.dataKey}> {filterData.label}</label>
                           </div>

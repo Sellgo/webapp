@@ -25,6 +25,7 @@ import {
   VERIFYING_PRODUCT,
 } from '../../constants/Tracker';
 import _ from 'lodash';
+import { selectItemsCountList } from '../../constants';
 
 const initialState = {
   filterData: undefined,
@@ -38,7 +39,7 @@ const initialState = {
   filterRanges: undefined,
   menuItem: null,
   productTrackerCurrentPageNo: 1,
-  singlePageItemsCount: 10,
+  singlePageItemsCount: Number(selectItemsCountList[0].value),
   verifyingProduct: false,
 };
 

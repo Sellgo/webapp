@@ -86,6 +86,71 @@
   .token-field .field {
     width: 100%;
   }
+
+  .free-trial-popup {
+    width: 560px;
+    bottom: -37px;
+    color: #fff;
+    background: #757575;
+    border: 1px solid #98aeca;
+    border-radius: 11px;
+    padding: 24px 26px;
+    position: absolute;
+    cursor: default;
+    right: 325px;
+    z-index: 1;
+
+    .icon {
+      position: absolute;
+      left: -43px;
+      color: #757575;
+      font-size: 30px;
+      top: 12px;
+    }
+
+    .title {
+      font-size: 30px;
+      font-weight: 500;
+      margin-bottom: 25px;
+    }
+
+    .content {
+      font-size: 18px;
+      font-weight: 400 !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+  .free-trial-popup {
+    left: 27% !important;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .free-trial-popup {
+    right: 55px !important;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .free-trial-popup {
+    right: -80px !important;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .free-trial-popup {
+    right: -140px !important;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .free-trial-popup {
+    width: 475px !important;
+    bottom: -61px !important;
+    right: -130px !important;
+  }
 }
 
 @media only screen and (max-width: 1024px) {

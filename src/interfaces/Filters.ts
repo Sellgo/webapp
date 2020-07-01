@@ -40,7 +40,7 @@ export interface FilterState {
   supplierID: string;
   allFilter: string[];
   removeNegative: string[];
-  productSize: string;
+  sizeTierFilter: string[];
   price: {
     min: number;
     max: number;
