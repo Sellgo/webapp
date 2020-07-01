@@ -58,9 +58,6 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
           ...{
             type: 'line',
             step: true,
-            tooltip: {
-              valueDecimals: 0,
-            },
           },
         };
       }),
