@@ -8,6 +8,9 @@ export default ({ productReviews }: any) => {
       name: 'Review Count',
       color: '#0E9FE8',
       data: productReviews,
+      tooltip: {
+        valueDecimals: 0,
+      },
     },
   ];
   const chartOptions = {
