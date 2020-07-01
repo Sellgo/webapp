@@ -11,6 +11,9 @@ export default ({ productRanks, productInventories }: any) => {
       color: '#FD8373',
       data: productRanks,
       zIndex: 2,
+      tooltip: {
+        valueDecimals: 0,
+      },
     },
     {
       yAxis: 1,
@@ -19,6 +22,9 @@ export default ({ productRanks, productInventories }: any) => {
       color: '#4AD991',
       data: productInventories,
       zIndex: 1,
+      tooltip: {
+        valueDecimals: 0,
+      },
     },
   ];
 
