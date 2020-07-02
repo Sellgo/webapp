@@ -4,6 +4,7 @@
 
   &__wrapper {
     width: 1110px !important;
+    margin-bottom: 150px !important;
 
     &.row {
       display: flex !important;
@@ -100,15 +101,19 @@
       &__body {
         tr {
           td {
+            &:first-child {
+              font-size: 25px !important;
+              width: 335px;
+            }
+
             font-size: 20px;
             padding: 20px 25px !important;
             text-align: center;
-            width: 250px;
             height: 63px;
             border: none !important;
 
             p {
-              font-size: 1.25rem;
+              font-size: 20px;
               height: 100%;
               display: flex;
               justify-content: center;
@@ -140,116 +145,6 @@
           }
         }
       }
-      // tbody {
-      //   tr {
-      //     th {
-      //       border: none !important;
-      //       color: #3b4557;
-      //       font-size: 25px;
-      //       font-weight: 400 !important;
-      //       padding: 20px 23px !important;
-      //     }
-      //     td {
-      //       font-size: 20px;
-      //       padding: 20px 25px !important;
-      //       border: none;
-      //       text-align: center;
-      //       width: 250px;
-      //       height: 63px;
-      //       p {
-      //         font-size: 1.25rem;
-      //         height: 100%;
-      //         display: flex;
-      //         justify-content: center;
-      //         align-items: center;
-      //       }
-
-      //       i {
-      //         color: #349af8;
-      //         font-size: 25px;
-      //       }
-      //     }
-      //     &:nth-of-type(odd) {
-      //       background-color: #dfe8f3;
-      //     }
-      //     &:nth-of-type(even) {
-      //       background-color: #fff;
-      //       td {
-      //         &:nth-of-type(odd) {
-      //           background-color: #dfe8f354;
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
-      // thead {
-      //   tr {
-      //     th {
-      //       &:first-child {
-      //         background-color: #fff !important;
-      //       }
-      //       border: none !important;
-      //       color: #fff !important;
-      //       background-color: #349af8 !important;
-      //       font-size: 30px;
-      //       text-align: center !important;
-      //       font-weight: 500 !important;
-      //       padding: 0.75rem !important;
-      //     }
-      //   }
-      // }
-      // tfoot {
-      //   tr {
-      //     td {
-      //       font-size: 20px;
-      //       padding: 20px 25px !important;
-      //       border: none;
-      //       text-align: center;
-      //       width: 250px;
-      //       height: 63px;
-      //       p {
-      //         font-size: 1.25rem;
-      //         height: 100%;
-      //         display: flex;
-      //         justify-content: center;
-      //         align-items: center;
-      //       }
-
-      //       i {
-      //         color: #349af8;
-      //         font-size: 25px;
-      //       }
-      //     }
-      //     .basic-btn {
-      //       border-radius: 40px;
-      //       width: 210px;
-      //       height: 45px;
-      //       margin: auto;
-      //       background: 0;
-      //       border: 2px solid #349af8;
-      //       color: #349af8;
-      //       font-size: 20px;
-      //       font-weight: bold;
-      //       outline: none !important;
-      //       line-height: normal !important;
-      //       padding: 0;
-      //     }
-      //     .primary {
-      //       border-radius: 40px;
-      //       width: 210px;
-      //       height: 45px;
-      //       margin: auto;
-      //       background: #349af8 !important;
-      //       border: 2px solid #349af8;
-      //       color: #349af8;
-      //       font-size: 20px;
-      //       font-weight: bold;
-      //       outline: none !important;
-      //       line-height: normal !important;
-      //       padding: 0;
-      //     }
-      //   }
-      // }
     }
   }
 }
@@ -412,6 +307,12 @@
     font-family: 'Montserrat', sans-serif !important;
     margin-bottom: 50px;
     color: #2e3b4a;
+  }
+
+  .ui.divider {
+    width: 1292px;
+    margin: 0 auto !important;
+    border-top: 1px solid #707070;
   }
 
   .ui.card:nth-child(3) .description {

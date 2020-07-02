@@ -9,6 +9,7 @@ import {
   Grid,
   Image,
   Table,
+  Divider,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
@@ -77,7 +78,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
   chooseSubscription(subscription: any) {
     const { subscriptionType } = this.props;
-
+    console.log('subscription: ', subscription);
     if (isSubscriptionNotPaid(subscriptionType)) {
       this.checkout(subscription.id);
     } else {
@@ -389,6 +390,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <Image src={Stripe} />
             </Grid.Row>
             <Grid.Row className="offer-footer">We offer 14-day money back guarantee.</Grid.Row>
+            <Divider />
           </Grid>
           <Grid className="plans-table-container">
             <div className="plans-table-container__wrapper">
@@ -406,6 +408,36 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 </Table.Header>
 
                 <Table.Body className="plans-table-container__wrapper__table__body">
+                  <Table.Row>
+                    <Table.Cell>Find Profitable Products</Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Maximum monthly Uploads</Table.Cell>
+                    <Table.Cell>
+                      <p>Unlimited</p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>Unlimited</p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>Unlimited</p>
+                    </Table.Cell>
+                  </Table.Row>
                   <Table.Row>
                     <Table.Cell>Supplier Management</Table.Cell>
                     <Table.Cell>
@@ -425,7 +457,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell>Profit Finder</Table.Cell>
+                    <Table.Cell>Filter and Sort</Table.Cell>
                     <Table.Cell>
                       <p>
                         <i className="fa fa-check" />
@@ -443,7 +475,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell>Product Tracker</Table.Cell>
+                    <Table.Cell>Product Tracking</Table.Cell>
                     <Table.Cell>
                       <p>50 Tracking</p>
                     </Table.Cell>
@@ -451,34 +483,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       <p>100 Tracking</p>
                     </Table.Cell>
                     <Table.Cell>
-                      <p>Custom</p>
+                      <p>Inquiry based</p>
                     </Table.Cell>
                   </Table.Row>
                 </Table.Body>
-                <Table.Footer className="plans-table-container__wrapper__table__footer">
-                  <Table.Row>
-                    <Table.Cell />
-                    <Table.Cell>
-                      <Button
-                        // onClick={() => this.chooseSubscription(subscription)}
-                        className={`basic-btn`}
-                        fluid
-                      >
-                        Buy Now
-                      </Button>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        // onClick={() => this.chooseSubscription(subscription)}
-                        primary={true}
-                        fluid
-                      >
-                        Buy Now
-                      </Button>
-                    </Table.Cell>
-                    <Table.Cell />
-                  </Table.Row>
-                </Table.Footer>
               </Table>
             </div>
           </Grid>
