@@ -21,6 +21,7 @@ import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 
 interface SupplierProps {
+  stickyChartSelector: boolean;
   supplierDetails: any;
   isLoadingSupplierProducts: boolean;
   products: any;
@@ -88,7 +89,7 @@ export class Supplier extends React.Component<SupplierProps> {
   };
 
   render() {
-    const { isLoadingSupplierProducts, supplierDetails } = this.props;
+    const { isLoadingSupplierProducts, supplierDetails, stickyChartSelector } = this.props;
 
     return (
       <>
@@ -104,7 +105,7 @@ export class Supplier extends React.Component<SupplierProps> {
         />
 
         <Segment basic={true} className="setting">
-          <Grid>
+          <Grid className={`product-chart ${stickyChartSelector ? 'sticky-chart-active' : ''}`}>
             <Grid.Row className="right-column">
               {!isLoadingSupplierProducts && <SupplierDetails />}
             </Grid.Row>
@@ -132,6 +133,7 @@ const mapStateToProps = (state: any) => ({
   isLoadingSupplierProducts: get(state, 'supplier.isLoadingSupplierProducts'),
   products: supplierProductsSelector(state),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
   progress: get(state, 'supplier.quota'),
 });
 

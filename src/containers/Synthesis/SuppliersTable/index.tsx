@@ -33,6 +33,8 @@ import get from 'lodash/get';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface SuppliersTableProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   subscriptionType: string;
   suppliers: Supplier[];
   onEdit: any;
@@ -361,7 +363,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns } = this.props;
+    const { suppliers, showTab, showColumns, scrollTopSelector, stickyChartSelector } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -419,6 +421,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           </Grid.Column>
         </Grid>
         <GenericTable
+          stickyChartSelector={stickyChartSelector}
+          scrollTopSelector={scrollTopSelector}
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
           data={data}
@@ -448,6 +452,8 @@ const mapStateToProps = (state: {}) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  scrollTopSelector: get(state, 'supplier.setSscrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
 
 const mapDispatchToProps = {

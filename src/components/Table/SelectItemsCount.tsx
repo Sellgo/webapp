@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 import { Dropdown, List } from 'semantic-ui-react';
 import { selectItemsCountList } from '../../constants';
 
 interface SelectItemsCountProps {
+  isScrollSelector: boolean;
   totalCount: number;
   singlePageItemsCount: number;
   currentPage: number;
@@ -12,6 +15,7 @@ interface SelectItemsCountProps {
 
 const SelectItemsCount = (props: SelectItemsCountProps) => {
   const {
+    isScrollSelector,
     totalCount,
     singlePageItemsCount,
     currentPage,
@@ -37,6 +41,7 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
       <List.Item>
         <List.Content>
           <Dropdown
+            {...(isScrollSelector ? { open: false } : {})}
             text={String(singlePageItemsCount)}
             upward={false}
             style={{ width: '100px' }}
@@ -59,4 +64,10 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
   );
 };
 
-export default SelectItemsCount;
+const mapStateToProps = (state: any) => {
+  return {
+    isScrollSelector: get(state, 'supplier.setIsScroll'),
+  };
+};
+
+export default connect(mapStateToProps)(SelectItemsCount);

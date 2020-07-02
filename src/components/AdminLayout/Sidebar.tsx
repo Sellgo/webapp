@@ -1,4 +1,5 @@
 import React, { Component, ReactElement } from 'react';
+import get from 'lodash/get';
 import { connect } from 'react-redux';
 import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Auth from '../Auth/Auth';
 import LogoutConfirm from '../LogoutConfirm';
 import Tour from '../QuickTourMessage';
+import { setContextScroll, setScrollTop, setIsScroll } from '../../actions/Suppliers';
 import './Sidebar.scss';
 
 interface IconD {
@@ -21,7 +23,14 @@ interface State {
 }
 
 class SidebarCollapsible extends Component<
-  { auth: Auth; currentNotifyId: number },
+  {
+    auth: Auth;
+    currentNotifyId: number;
+    contextScrollSelector: number;
+    setContextScroll: (value: number) => void;
+    setScrollTop: (value: boolean) => void;
+    setIsScroll: (value: boolean) => void;
+  },
   { visible: boolean; openConfirm: boolean },
   State
 > {
@@ -56,11 +65,40 @@ class SidebarCollapsible extends Component<
     openConfirm: false,
   };
 
+  private myRef = React.createRef<HTMLDivElement>();
+
+  componentDidMount() {
+    const daw: any = document.querySelector('.pusher');
+    daw.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    const daw: any = document.querySelector('.pusher');
+    daw.removeEventListener('scroll', this.handleScroll);
+  }
+
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
   open = () => {
     this.setState({ openConfirm: true });
   };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
+
+  handleScroll = (e: any): void => {
+    const { setContextScroll, contextScrollSelector, setScrollTop, setIsScroll } = this.props;
+    if (e.currentTarget.scrollTop < contextScrollSelector) {
+      setScrollTop(true);
+    }
+    if (e.currentTarget.scrollTop > contextScrollSelector) {
+      setScrollTop(false);
+    }
+    if (e.currentTarget.scrollTop !== contextScrollSelector) {
+      setIsScroll(true);
+    } else {
+      setIsScroll(false);
+    }
+
+    setContextScroll(e.currentTarget.scrollTop);
+  };
 
   render() {
     const { visible } = this.state;
@@ -180,13 +218,14 @@ class SidebarCollapsible extends Component<
           <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
           <Sidebar.Pusher
+            onScroll={this.handleScroll}
             dimmed={currentNotifyId > 0 ? true : visible}
             onClick={() => {
               visible && this.handleAnimationChange();
             }}
             className={`container Sidebar__pusher ${visible ? '' : 'pusher-scroll-x'}`}
           >
-            <Sidebar.Pusher>{children}</Sidebar.Pusher>
+            {children}
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Grid>
@@ -196,6 +235,13 @@ class SidebarCollapsible extends Component<
 
 const mapStateToProps = (state: any) => ({
   currentNotifyId: notifyIdSelector(state),
+  contextScrollSelector: get(state, 'supplier.setContextScroll'),
 });
 
-export default connect(mapStateToProps)(SidebarCollapsible);
+const mapDispatchToProps = {
+  setContextScroll: (value: number) => setContextScroll(value),
+  setScrollTop: (value: boolean) => setScrollTop(value),
+  setIsScroll: (value: boolean) => setIsScroll(value),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarCollapsible);
