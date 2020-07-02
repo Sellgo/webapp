@@ -46,13 +46,29 @@ export const fetchSellerSubscriptionTrial = (subscription: any) => (dispatch: an
       if (prevSubscriptionData && prevSubscriptionData.expiry_date !== null && expireDate >= 0) {
         data.expiry_date = prevSubscriptionData.expiry_date;
         dispatch(setSellerSubscription(data));
+      } else {
+        dispatch(fetchSellerSubscriptionPaid(data));
       }
     })
     .catch(err => {
       console.log('console error: ', err);
     });
 };
-
+export const fetchSellerSubscriptionPaid = (subscription: any) => (dispatch: any) => {
+  const data = _.cloneDeep(subscription);
+  const sellerID = localStorage.getItem('userId');
+  return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/paid`)
+    .then(json => {
+      const prevSubscriptionData = json.data[0] || false;
+      if (prevSubscriptionData && prevSubscriptionData.status !== null) {
+        data.expiry_date = -1;
+        dispatch(setSellerSubscription(data));
+      }
+    })
+    .catch(err => {
+      console.log('console error: ', err);
+    });
+};
 export const setSubscriptions = (data: any) => ({
   type: SET_PRICING_SUBSCRIPTIONS,
   payload: data,
