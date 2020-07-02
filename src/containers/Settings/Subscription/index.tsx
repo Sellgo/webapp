@@ -1,5 +1,15 @@
 import React from 'react';
-import { Button, Header, Segment, Card, Input, Confirm, Grid, Image } from 'semantic-ui-react';
+import {
+  Button,
+  Header,
+  Segment,
+  Card,
+  Input,
+  Confirm,
+  Grid,
+  Image,
+  Table,
+} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import {
@@ -379,6 +389,98 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <Image src={Stripe} />
             </Grid.Row>
             <Grid.Row className="offer-footer">We offer 14-day money back guarantee.</Grid.Row>
+          </Grid>
+          <Grid className="plans-table-container">
+            <div className="plans-table-container__wrapper">
+              <Grid.Row className="plans-table-container__wrapper__title">
+                <p>Compare Plans</p>{' '}
+              </Grid.Row>
+              <Table striped className="plans-table-container__wrapper__table">
+                <Table.Header className="plans-table-container__wrapper__table__header">
+                  <Table.Row>
+                    <Table.HeaderCell></Table.HeaderCell>
+                    <Table.HeaderCell>Basic Plan</Table.HeaderCell>
+                    <Table.HeaderCell>Pro Plan</Table.HeaderCell>
+                    <Table.HeaderCell>Enterprise</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body className="plans-table-container__wrapper__table__body">
+                  <Table.Row>
+                    <Table.Cell>Supplier Management</Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Profit Finder</Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Product Tracker</Table.Cell>
+                    <Table.Cell>
+                      <p>50 Tracking</p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>100 Tracking</p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>Custom</p>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+                <Table.Footer className="plans-table-container__wrapper__table__footer">
+                  <Table.Row>
+                    <Table.Cell />
+                    <Table.Cell>
+                      <Button
+                        // onClick={() => this.chooseSubscription(subscription)}
+                        className={`basic-btn`}
+                        fluid
+                      >
+                        Buy Now
+                      </Button>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Button
+                        // onClick={() => this.chooseSubscription(subscription)}
+                        primary={true}
+                        fluid
+                      >
+                        Buy Now
+                      </Button>
+                    </Table.Cell>
+                    <Table.Cell />
+                  </Table.Row>
+                </Table.Footer>
+              </Table>
+            </div>
           </Grid>
         </Segment>
       </>
