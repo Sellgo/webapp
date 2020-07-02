@@ -17,7 +17,6 @@ interface Props {
   initialFilterState: ProductTrackerFilterState;
   isAllReviews: boolean;
   toggleCheckboxFilter: (filterDataKey: string) => void;
-  setPeriod: (value: number) => void;
   toggleNegative: (datakey: string) => void;
 }
 
@@ -33,7 +32,6 @@ function ProductTrackerFilter(props: Props) {
     toggleSelectAllReviews,
     isAllReviews,
     toggleCheckboxFilter,
-    setPeriod,
     toggleNegative,
   } = props;
 
@@ -127,36 +125,6 @@ function ProductTrackerFilter(props: Props) {
             </div>
             <Divider />
           </div>
-        </>
-      )}
-      {filterType === 'period-filter' && (
-        <>
-          <div className="pt-filter-content__period">
-            <div className="pt-filter-content__period__header">
-              <span className="pt-filter-content__period__name">{filterData.period.label}</span>
-            </div>
-            <div className="pt-filter-content__period__list">
-              {_.map(filterData.period.data, filterData => {
-                return (
-                  <div
-                    className={`ui radio checkbox ${filterData.dataKey}`}
-                    key={filterData.dataKey}
-                  >
-                    <input
-                      id={filterData.dataKey}
-                      checked={initialFilterState.period === filterData.value}
-                      onChange={() => {
-                        setPeriod(filterData.value || 1);
-                      }}
-                      type="radio"
-                    />
-                    <label htmlFor={filterData.dataKey}> {filterData.label}</label>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <Divider />
         </>
       )}
     </div>

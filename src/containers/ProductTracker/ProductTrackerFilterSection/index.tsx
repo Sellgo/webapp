@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 import { findMinMax, filterProductsByGroupId, DEFAULT_PERIOD } from '../../../constants/Tracker';
@@ -42,13 +42,6 @@ function ProductTrackerFilterSection(props: Props) {
       : localStorage.filterSelectAllReviews
   );
 
-  const openPeriodFilter = JSON.parse(
-    typeof localStorage.openPeriod === 'undefined' ||
-      !filterStorage ||
-      filterStorage.sellerID !== sellerID
-      ? false
-      : localStorage.openPeriod
-  );
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
@@ -75,15 +68,6 @@ function ProductTrackerFilterSection(props: Props) {
   const [hasFilter, setHasFilter] = React.useState(false);
 
   useEffect(() => {
-    /*
-     Setting Period Filter
-   */
-    if (openPeriodFilter) {
-      setFilterType('period-filter');
-      resetFilter(true);
-      filterProducts(filterState, activeGroupId);
-      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    }
     /*
       Reset filter when changing groups
     */
@@ -234,27 +218,27 @@ function ProductTrackerFilterSection(props: Props) {
       radio: true,
       data: [
         {
-          label: 'Today',
+          label: '1D',
           dataKey: 'today',
           value: 1,
         },
         {
-          label: 'Week',
+          label: '7D',
           dataKey: 'week',
           value: 7,
         },
         {
-          label: 'Month',
+          label: '30D',
           dataKey: 'month',
           value: 30,
         },
         {
-          label: '3 Month',
+          label: '90D',
           dataKey: '3-Month',
           value: 90,
         },
         {
-          label: 'Year',
+          label: '365D',
           dataKey: 'year',
           value: 365,
         },
@@ -331,7 +315,6 @@ function ProductTrackerFilterSection(props: Props) {
     filterValue.period = value;
     setFilterState(filterValue);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    localStorage.setItem('openPeriod', JSON.stringify(true));
   };
 
   const toggleNegative = (datakey: string) => {
@@ -452,11 +435,7 @@ function ProductTrackerFilterSection(props: Props) {
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
-      localStorage.setItem('openPeriod', JSON.stringify(false));
       return;
-    }
-    if (type !== 'period-filter') {
-      localStorage.setItem('openPeriod', JSON.stringify(false));
     }
     setFilterType(type);
   };
@@ -476,44 +455,45 @@ function ProductTrackerFilterSection(props: Props) {
     return false;
   };
 
-  const periodBadge = () => {
-    if (filterState.period === 1) return 'T';
-    if (filterState.period === 7) return 'W';
-    if (filterState.period === 30) return 'M';
-    if (filterState.period === 90) return '3M';
-    if (filterState.period === 365) return 'Y';
-  };
-
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
-        <Button
-          basic
-          icon
-          labelPosition="left"
-          className={`tracker-filter-section__header__button tracker-filter-section__header__button--all ${
-            filterType === 'all-filter' ? 'active' : ''
-          }`}
-          onClick={() => handleFilterType('all-filter')}
-        >
-          <Icon
-            className="tracker-filter-section__header__button__slider"
-            name="sliders horizontal"
-          />
-          <span className="tracker-filter-section__header__button__name">All</span>
-          <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
-        </Button>
-        <Button
-          basic
-          className={`tracker-filter-section__header__button tracker-filter-section__header__button--period ${
-            filterType === 'period-filter' ? 'active' : ''
-          }`}
-          onClick={() => handleFilterType('period-filter')}
-        >
-          <span className="tracker-filter-section__header__button__name">Period</span>
-          <Label circular>{periodBadge()}</Label>
-          <Icon className="tracker-filter-section__header__button__caret" name="caret down" />
-        </Button>
+        <div className="tracker-filter-section__header__all-container">
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={`tracker-filter-section__header__all-container__button all-btn ${filterType ===
+              'all-filter' && 'active'}`}
+            onClick={() => handleFilterType('all-filter')}
+          >
+            <Icon
+              className="tracker-filter-section__header__all-container__button__slider"
+              name="sliders horizontal"
+            />
+            <span className="tracker-filter-section__header__all-container__button__name">All</span>
+            <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
+          </Button>
+        </div>
+        <div className="tracker-filter-section__header__period-container">
+          {_.map(filterDataState.period.data, filterData => {
+            return (
+              <div
+                className={`tracker-filter-section__header__period-container__period-items ${filterData.value ===
+                  filterState.period && 'active'}`}
+                key={filterData.dataKey}
+              >
+                <span
+                  onClick={() => {
+                    setPeriod(filterData.value || 1);
+                  }}
+                >
+                  {filterData.label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <>
         <ProductTrackerFilter
@@ -527,7 +507,6 @@ function ProductTrackerFilterSection(props: Props) {
           toggleSelectAllReviews={toggleSelectAllReviews}
           isAllReviews={isAllReviews}
           toggleCheckboxFilter={toggleCheckboxFilter}
-          setPeriod={setPeriod}
           toggleNegative={toggleNegative}
         />
       </>
