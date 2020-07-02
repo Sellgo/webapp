@@ -21,6 +21,7 @@
 
     &__table {
       width: 1110px !important;
+      border: none !important;
 
       &__header {
         tr {
@@ -51,7 +52,7 @@
             height: 63px;
 
             p {
-              font-size: 1.25rem;
+              font-size: 20px !important;
               height: 100%;
               display: flex;
               justify-content: center;
@@ -101,10 +102,10 @@
           td {
             font-size: 20px;
             padding: 20px 25px !important;
-            border: none;
             text-align: center;
             width: 250px;
             height: 63px;
+            border: none !important;
 
             p {
               font-size: 1.25rem;
@@ -121,14 +122,18 @@
           }
 
           &:nth-of-type(odd) {
-            background-color: #dfe8f3;
+            background-color: #dfe8f3 !important;
           }
 
           &:nth-of-type(even) {
-            background-color: #fff;
+            background-color: #dfe8f354 !important;
 
             td {
               &:nth-of-type(odd) {
+                background-color: #fff;
+              }
+
+              &:nth-of-type(even) {
                 background-color: #dfe8f354;
               }
             }
