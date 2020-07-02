@@ -91,6 +91,8 @@ function ProductTrackerFilterSection(props: Props) {
     if (isAllReviews) {
       selectAllReviews(true);
     }
+
+    setHasFilter(isFilterUse());
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {

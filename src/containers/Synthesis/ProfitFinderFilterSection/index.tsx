@@ -128,6 +128,7 @@ function ProfitFinderFilterSection(props: Props) {
       selectAllSize(true);
     }
     filterProducts(filterSearch, filterState);
+    setHasFilter(isFilterUse());
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
