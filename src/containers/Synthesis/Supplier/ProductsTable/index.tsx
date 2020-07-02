@@ -217,19 +217,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderExportButtons = () => {
-    const { supplierDetails } = this.props;
+    const { supplierDetails, subscriptionType } = this.props;
     return (
-      <div className="export-buttons">
+      <div className={`export-buttons ${isSubscriptionFree(subscriptionType) && 'disabled'}`}>
         <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
         <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
         <Image
           as="a"
-          href={supplierDetails.report_url}
-          download={true}
+          href={
+            isSubscriptionFree(subscriptionType)
+              ? 'javascript:void(0);'
+              : supplierDetails.report_url
+          }
+          download={false}
           src={microsoftExcelIcon}
           wrapped={true}
           width={22}
           alt="Export Excel"
+          disabled={isSubscriptionFree(subscriptionType)}
         />
       </div>
     );
