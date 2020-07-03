@@ -210,8 +210,7 @@ export const GenericTable = (props: GenericTableProps) => {
     });
   }
 
-  console.log('Rows: ', rows);
-  rows = sortDirection !== 'descending' ? rows.slice().reverse() : rows;
+  rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
   rows = rows.slice(
     (localCurrentPage - 1) * singlePageItemsCount,

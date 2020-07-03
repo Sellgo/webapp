@@ -76,7 +76,6 @@ function ProductTrackerFilterSection(props: Props) {
     /*
       Reset filter when changing groups
     */
-    console.log('aw aw aw: ');
 
     if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
       setFilterType('');
@@ -99,12 +98,11 @@ function ProductTrackerFilterSection(props: Props) {
       selectAllReviews(true);
     }
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
+
   useEffect(() => {
     /*
-      Reset filter when changing groups
+      Reset filter when adding new asin search
     */
-    console.log('groupProducts: ', groupProducts);
-    console.log('trackerDetails.results: ', trackerDetails.results);
     if (resettingFilter) {
       resetFilter();
       setTimeout(() => {
@@ -113,6 +111,7 @@ function ProductTrackerFilterSection(props: Props) {
       }, 500);
     }
   }, [resettingFilter]);
+
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
       filterRanges: [
