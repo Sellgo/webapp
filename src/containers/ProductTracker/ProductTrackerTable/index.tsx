@@ -11,7 +11,7 @@ import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils
 import { tableKeys } from '../../../constants';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
-import { updateProductTrackingStatus } from '../../../actions/Suppliers';
+import { updateProductTrackingStatus, setFilterButtonUse } from '../../../actions/Suppliers';
 import {
   retrieveProductTrackGroup,
   postCreateProductTrackGroup,
@@ -32,6 +32,7 @@ import _ from 'lodash';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface TrackerProps {
+  filterButtonUse: boolean;
   subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
@@ -45,6 +46,7 @@ interface TrackerProps {
   handleMoveGroup: any;
   handleUntrack: any;
   postCreateProductTrackGroup: (name: any) => void;
+  setFilterButtonUse: (value: boolean) => void;
   updateProductTrackGroup: (updatedGroup: any) => void;
   deleteProductTrackGroup: (deletedGroup: any) => void;
   fetchProductDetailChartRating: (productID: any) => void;
@@ -514,6 +516,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       setPageNumber,
       productTrackerPageNo,
       subscriptionType,
+      filterButtonUse,
+      setFilterButtonUse,
     } = this.props;
     const { ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
@@ -555,6 +559,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <GenericTable
+            setFilterButtonUse={setFilterButtonUse}
+            filterButtonUse={filterButtonUse}
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
@@ -601,6 +607,7 @@ const mapStateToProps = (state: any) => {
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
     subscriptionType: get(state, 'subscription.subscriptionType'),
+    filterButtonUse: get(state, 'supplier.filterButtonUse'),
   };
 };
 
@@ -623,5 +630,6 @@ const mapDispatchToProps = {
     type?: string
   ) =>
     updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, type),
+  setFilterButtonUse: (value: boolean) => setFilterButtonUse(value),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

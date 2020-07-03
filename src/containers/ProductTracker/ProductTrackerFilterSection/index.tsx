@@ -13,6 +13,7 @@ import {
   fetchAllSupplierProductTrackerDetails,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
+import { setFilterButtonUse } from '../../../actions/Suppliers';
 
 interface Props {
   filterProducts: (filterData: any, groupId: any) => void;
@@ -20,6 +21,7 @@ interface Props {
   activeGroupId: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
   isLoadingTrackerProducts: boolean;
+  setFilterButtonUse: (value: boolean) => void;
 }
 
 function ProductTrackerFilterSection(props: Props) {
@@ -29,6 +31,7 @@ function ProductTrackerFilterSection(props: Props) {
     activeGroupId,
     fetchAllTrackedProductDetails,
     isLoadingTrackerProducts,
+    setFilterButtonUse,
   } = props;
   const sellerID = sellerIDSelector();
   const filterStorage = JSON.parse(
@@ -379,6 +382,7 @@ function ProductTrackerFilterSection(props: Props) {
     setHasFilter(isFilterUse());
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    setFilterButtonUse(true);
   };
 
   const resetFilter = (fromPeriod?: boolean) => {
@@ -524,5 +528,6 @@ const mapDispatchToProps = {
   filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
+  setFilterButtonUse: (value: boolean) => setFilterButtonUse(value),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);

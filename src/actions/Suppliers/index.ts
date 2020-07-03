@@ -39,6 +39,7 @@ import {
   UPDATE_SUPPLIER_PRODUCTS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
   SET_SUPPLIER_PAGE_NUMBER,
+  SET_FILTER_BUTTON_USE,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -666,6 +667,11 @@ export const filterSupplierProducts = (value: string, filterData: any) => ({
     value: value,
     filterData: filterData,
   },
+});
+
+export const setFilterButtonUse = (value: boolean) => ({
+  type: SET_FILTER_BUTTON_USE,
+  payload: value,
 });
 
 export const searchSupplierProducts = (value: string, filterData: any) => ({

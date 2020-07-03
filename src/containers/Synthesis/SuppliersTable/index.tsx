@@ -9,6 +9,7 @@ import {
   deleteSupplier,
   setProgress,
   setSpeed,
+  setFilterButtonUse,
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
@@ -34,6 +35,7 @@ import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface SuppliersTableProps {
   subscriptionType: string;
+  filterButtonUse: boolean;
   suppliers: Supplier[];
   onEdit: any;
   fetchSuppliers: () => void;
@@ -44,6 +46,7 @@ interface SuppliersTableProps {
   unFavourite: (supplierID: number, tag: string) => void;
   reRun: (supplier: Supplier) => void;
   deleteSupplier: (supplierID: any) => void;
+  setFilterButtonUse: (value: boolean) => void;
   showTab: string;
   showColumns: any;
   amazonMWSAuthorized: boolean;
@@ -361,7 +364,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns } = this.props;
+    const { suppliers, showTab, showColumns, filterButtonUse, setFilterButtonUse } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -419,6 +422,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           </Grid.Column>
         </Grid>
         <GenericTable
+          setFilterButtonUse={setFilterButtonUse}
+          filterButtonUse={filterButtonUse}
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
           data={data}
@@ -448,6 +453,7 @@ const mapStateToProps = (state: {}) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  filterButtonUse: get(state, 'supplier.filterButtonUse'),
 });
 
 const mapDispatchToProps = {
@@ -459,6 +465,7 @@ const mapDispatchToProps = {
   unFavourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
+  setFilterButtonUse: (value: boolean) => setFilterButtonUse(value),
   setProgress,
   setSpeed,
   handleUnauthorizedMwsAuth,

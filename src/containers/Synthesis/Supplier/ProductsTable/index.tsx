@@ -11,6 +11,7 @@ import {
   searchSupplierProducts,
   updateProfitFinderProducts,
   setSupplierPageNumber,
+  setFilterButtonUse,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -33,6 +34,7 @@ import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
 import { isSubscriptionFree } from '../../../../utils/subscriptions';
 
 interface ProductsTableProps {
+  filterButtonUse: boolean;
   subscriptionType: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
@@ -56,6 +58,7 @@ interface ProductsTableProps {
   setPageNumber: (pageNumber: number) => void;
   searchProducts: (value: string, filterData: any) => void;
   updateProfitFinderProducts: (data: any) => void;
+  setFilterButtonUse: (value: boolean) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -432,6 +435,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       pageNumber,
       setPageNumber,
       subscriptionType,
+      filterButtonUse,
+      setFilterButtonUse,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
@@ -459,6 +464,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           <>
             {this.renderExportButtons()}
             <GenericTable
+              setFilterButtonUse={setFilterButtonUse}
+              filterButtonUse={filterButtonUse}
               tableKey={tableKeys.PRODUCTS}
               columns={this.state.columns}
               data={tempFilteredProducts}
@@ -505,6 +512,7 @@ const mapStateToProps = (state: {}) => ({
   subscriptionType: get(state, 'subscription.subscriptionType'),
   supplierDetails: get(state, 'supplier.details'),
   pageNumber: supplierPageNumberSelector(state),
+  filterButtonUse: get(state, 'supplier.filterButtonUse'),
 });
 
 const mapDispatchToProps = {
@@ -529,6 +537,7 @@ const mapDispatchToProps = {
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
+  setFilterButtonUse: (value: boolean) => setFilterButtonUse(value),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

@@ -21,6 +21,7 @@ import {
   searchFilteredProduct,
   UPDATE_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PAGE_NUMBER,
+  SET_FILTER_BUTTON_USE,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -50,6 +51,7 @@ const initialState = {
   },
   singlePageItemsCount: Number(selectItemsCountList[0].value),
   pageNumber: 1,
+  filterButtonUse: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -131,6 +133,9 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'singlePageItemsCount', action.payload);
     case SET_SUPPLIER_PAGE_NUMBER: {
       return setIn(state, 'pageNumber', action.payload);
+    }
+    case SET_FILTER_BUTTON_USE: {
+      return setIn(state, 'filterButtonUse', action.payload);
     }
     case SUPPLIER_QUOTA:
       return setIn(state, 'quota', action.payload);

@@ -27,6 +27,7 @@ export interface Column {
 }
 
 export interface GenericTableProps {
+  filterButtonUse: boolean;
   tableKey?: string;
   searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
@@ -61,6 +62,7 @@ export interface GenericTableProps {
   columnDnD?: boolean;
   middleScroll?: boolean;
   rowExpander?: any;
+  setFilterButtonUse: (value: boolean) => void;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -122,6 +124,8 @@ export const GenericTable = (props: GenericTableProps) => {
     reorderColumns,
     columnDnD = false,
     rowExpander,
+    filterButtonUse,
+    setFilterButtonUse,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -133,10 +137,11 @@ export const GenericTable = (props: GenericTableProps) => {
   // reconcile redux page with local page
   useEffect(() => {
     if (setPage) {
-      setPage(localCurrentPage);
+      const getCurrentPage = filterButtonUse ? 1 : localCurrentPage;
+      setPage(getCurrentPage);
       return () => setPage(1); // reset on unmount
     }
-  }, [localCurrentPage]);
+  }, [localCurrentPage, filterButtonUse]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -354,8 +359,9 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length}>
                   <Pagination
                     totalPages={rows.length ? totalPages : ''}
-                    activePage={localCurrentPage}
+                    activePage={filterButtonUse ? 1 : localCurrentPage}
                     onPageChange={(event, data) => {
+                      setFilterButtonUse(false);
                       setLocalCurrentPage(Number(data.activePage));
                     }}
                   />

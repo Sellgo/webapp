@@ -7,7 +7,7 @@ import { Product } from '../../../interfaces/Product';
 import { findMinMax } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import { filterSupplierProducts } from '../../../actions/Suppliers';
+import { filterSupplierProducts, setFilterButtonUse } from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
@@ -18,12 +18,22 @@ interface Props {
   filteredProducts: Product[];
   productRanges: any;
   filterSearch: string;
+  filterButtonUse: boolean;
   filterProducts: (value: string, filterData: any) => void;
+  setFilterButtonUse: (value: boolean) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
-  const { productRanges, supplierDetails, filterProducts, filterSearch, products } = props;
-
+  const {
+    productRanges,
+    supplierDetails,
+    filterProducts,
+    filterSearch,
+    products,
+    filterButtonUse,
+    setFilterButtonUse,
+  } = props;
+  console.log(filterButtonUse, 'daw pwde');
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
@@ -619,6 +629,7 @@ function ProfitFinderFilterSection(props: Props) {
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
+    setFilterButtonUse(true);
   };
 
   const resetFilter = () => {
@@ -742,10 +753,12 @@ const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   filterSearch: get(state, 'supplier.filterSearch'),
+  filterButtonUse: get(state, 'supplier.filterButtonUse'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
+  setFilterButtonUse: (value: boolean) => setFilterButtonUse(value),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
