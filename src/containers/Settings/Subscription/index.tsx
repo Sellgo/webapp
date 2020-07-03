@@ -78,7 +78,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
   chooseSubscription(subscription: any) {
     const { subscriptionType } = this.props;
-    console.log('subscription: ', subscription);
     if (isSubscriptionNotPaid(subscriptionType)) {
       this.checkout(subscription.id);
     } else {
