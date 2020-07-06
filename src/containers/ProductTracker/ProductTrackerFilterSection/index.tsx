@@ -86,10 +86,18 @@ function ProductTrackerFilterSection(props: Props) {
       filterProducts(filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     } else if (filterStorage) {
-      setTimeout(() => {
-        filterProducts(filterState, activeGroupId);
-        localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-      }, 500);
+      if (resettingFilter) {
+        resetFilter();
+        setTimeout(() => {
+          applyFilter();
+          filterReset(false);
+        }, 500);
+      } else {
+        setTimeout(() => {
+          filterProducts(filterState, activeGroupId);
+          localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+        }, 500);
+      }
     } else {
       resetFilter();
     }
@@ -98,19 +106,6 @@ function ProductTrackerFilterSection(props: Props) {
       selectAllReviews(true);
     }
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
-
-  useEffect(() => {
-    /*
-      Reset filter when adding new asin search
-    */
-    if (resettingFilter) {
-      resetFilter();
-      setTimeout(() => {
-        applyFilter();
-        filterReset(false);
-      }, 500);
-    }
-  }, [resettingFilter]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
