@@ -128,6 +128,7 @@ function ProfitFinderFilterSection(props: Props) {
       selectAllSize(true);
     }
     filterProducts(filterSearch, filterState);
+    setHasFilter(isFilterUse());
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -633,6 +634,7 @@ function ProfitFinderFilterSection(props: Props) {
     data.rank = productRanges.rank;
     data.removeNegative = [];
     selectAllCategories();
+    selectAllSize();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterDataState.filterRanges, filter => {
