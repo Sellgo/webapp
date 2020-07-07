@@ -62,7 +62,7 @@ export const TableBody = (props: TableBodyProps) => {
   if (middleScroll) {
     const lowerBound = columns.slice(0, 2);
     const middleBound = columns.slice(2, columns.length - 2);
-    const upperBound = columns.slice(columns.length - 2, columns.length);
+    const upperBound = columns.slice(columns.length - 2, columns.length - 1);
     const scrollRows: any = [
       {
         side: 'right',
@@ -166,7 +166,7 @@ export const TableBody = (props: TableBodyProps) => {
             if (cell.side === 'left') {
               className = 'left-body-child-row';
               if (filteredColumns.length === 4) {
-                tableDataProps = { ...tableDataProps, style: { width: '1em' } };
+                tableDataProps = { ...tableDataProps, style: { width: '1em' }, colSpan: 2 };
               }
             }
             return (
