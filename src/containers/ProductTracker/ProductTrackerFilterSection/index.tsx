@@ -31,9 +31,14 @@ function ProductTrackerFilterSection(props: Props) {
     isLoadingTrackerProducts,
   } = props;
   const sellerID = sellerIDSelector();
-  const filterStorage = JSON.parse(
-    typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
-  );
+
+  const filterStorage =
+    typeof localStorage.trackerFilter === 'undefined' ||
+    (JSON.parse(localStorage.trackerFilter) &&
+      JSON.parse(localStorage.trackerFilter).sellerID !== sellerID)
+      ? null
+      : JSON.parse(localStorage.trackerFilter);
+
   const selectAllStorage = JSON.parse(
     typeof localStorage.filterSelectAllReviews === 'undefined' ||
       !filterStorage ||
