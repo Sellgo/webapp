@@ -144,7 +144,6 @@ i.icon.filter::before {
 .table-cell-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .th-label {
@@ -159,7 +158,7 @@ i.icon.filter::before {
 .sort-icon {
   display: table !important;
   font-size: 15px !important;
-  margin: 0 0 -2px 25px !important;
+  margin: 0 0 -2px 12px !important;
 }
 
 .default-column-props {
@@ -348,16 +347,6 @@ i.icon.filter::before {
   max-width: 670px !important;
   overflow: auto !important;
 }
-
-//@media only screen and (min-width: 1920px) {
-//  .header-scroll {
-//    max-width: inherit !important;
-//  }
-//
-//  .table-header-scroll {
-//    max-width: inherit !important;
-//  }
-//}
 
 .table-header-scroll {
   max-width: 658px !important;
