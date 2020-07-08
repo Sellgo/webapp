@@ -14,8 +14,10 @@ import {
   resetFilter,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
+import { setSupplierPageNumber } from '../../../actions/Suppliers';
 
 interface Props {
+  setPageNumber: (pageNumber: number) => void;
   filterProducts: (filterData: any, groupId: any) => void;
   trackerDetails: any;
   resettingFilter: any;
@@ -34,6 +36,7 @@ function ProductTrackerFilterSection(props: Props) {
     isLoadingTrackerProducts,
     resettingFilter,
     filterReset,
+    setPageNumber,
   } = props;
   const sellerID = sellerIDSelector();
 
@@ -397,6 +400,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    setPageNumber(1);
     setHasFilter(isFilterUse());
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
@@ -547,5 +551,6 @@ const mapDispatchToProps = {
   filterReset: (data: boolean) => resetFilter(data),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);
