@@ -248,8 +248,16 @@ export const GenericTable = (props: GenericTableProps) => {
     setSearchValue(e.target.value);
   };
   const totalItemsCount = data.length;
+
+  const handleScroll = (evt: any) => {
+    const scroll = document.querySelector('.pt-scroll-container');
+    if (scroll) {
+      scroll.scrollLeft = evt.target.scrollLeft;
+    }
+  };
+
   return (
-    <div className="generic-table scrollable">
+    <div className="generic-table scrollable" onScroll={handleScroll}>
       {setSinglePageItemsCount && showSelectItemsCount ? (
         <div className={`table-menu-header ${featuresLock && 'disabled'}`}>
           {showProductFinderSearch ? (
