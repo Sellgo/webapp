@@ -724,8 +724,6 @@ function ProfitFinderFilterSection(props: Props) {
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-  const isPopupOpen = false;
-  console.log(isPopupOpen, 'daw');
 
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
@@ -784,7 +782,7 @@ const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   filterSearch: get(state, 'supplier.filterSearch'),
-  scrollTopSelector: get(state, 'supplier.setSscrollTop'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
 

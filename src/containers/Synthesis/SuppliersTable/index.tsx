@@ -452,7 +452,7 @@ const mapStateToProps = (state: {}) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
   subscriptionType: get(state, 'subscription.subscriptionType'),
-  scrollTopSelector: get(state, 'supplier.setSscrollTop'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
 

@@ -383,7 +383,7 @@ const TableHeader = (props: TableHeaderProps) => {
 
 const mapStateToProps = (state: {}) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
-  scrollTopSelector: get(state, 'supplier.setSscrollTop'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
 });
 
 export default connect(mapStateToProps)(TableHeader);

@@ -31,7 +31,7 @@ import { selectItemsCountList } from '../../constants';
 
 const initialState = {
   setIsScroll: false,
-  setSscrollTop: false,
+  setScrollTop: false,
   setContextScroll: 0,
   setStickyChart: false,
   products: [],
@@ -147,7 +147,7 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'setContextScroll', action.payload);
     }
     case SET_SCROLL_TOP: {
-      return setIn(state, 'setSscrollTop', action.payload);
+      return setIn(state, 'setScrollTop', action.payload);
     }
     case SET_IS_SCROLL: {
       return setIn(state, 'setIsScroll', action.payload);

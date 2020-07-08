@@ -607,7 +607,7 @@ const mapStateToProps = (state: any) => {
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
     subscriptionType: get(state, 'subscription.subscriptionType'),
-    scrollTopSelector: get(state, 'supplier.setSscrollTop'),
+    scrollTopSelector: get(state, 'supplier.setScrollTop'),
     stickyChartSelector: get(state, 'supplier.setStickyChart'),
   };
 };

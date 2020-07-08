@@ -482,7 +482,7 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
-  scrollTopSelector: get(state, 'supplier.setSscrollTop'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
 });
