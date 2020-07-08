@@ -11,14 +11,17 @@ import { findMinMax, filterProductsByGroupId, DEFAULT_PERIOD } from '../../../co
 import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
+  resetFilter,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
 
 interface Props {
   filterProducts: (filterData: any, groupId: any) => void;
   trackerDetails: any;
+  resettingFilter: any;
   activeGroupId: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
+  filterReset: (data: boolean) => void;
   isLoadingTrackerProducts: boolean;
 }
 
@@ -29,6 +32,8 @@ function ProductTrackerFilterSection(props: Props) {
     activeGroupId,
     fetchAllTrackedProductDetails,
     isLoadingTrackerProducts,
+    resettingFilter,
+    filterReset,
   } = props;
   const sellerID = sellerIDSelector();
 
@@ -76,6 +81,7 @@ function ProductTrackerFilterSection(props: Props) {
     /*
       Reset filter when changing groups
     */
+
     if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
       setFilterType('');
       resetFilter(true);
@@ -85,10 +91,18 @@ function ProductTrackerFilterSection(props: Props) {
       filterProducts(filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     } else if (filterStorage) {
-      setTimeout(() => {
-        filterProducts(filterState, activeGroupId);
-        localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-      }, 500);
+      if (resettingFilter) {
+        resetFilter();
+        setTimeout(() => {
+          applyFilter();
+          filterReset(false);
+        }, 500);
+      } else {
+        setTimeout(() => {
+          filterProducts(filterState, activeGroupId);
+          localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+        }, 500);
+      }
     } else {
       resetFilter();
     }
@@ -525,10 +539,12 @@ const mapStateToProps = (state: {}) => ({
   isLoadingTrackerProducts: get(state, 'productTracker.isLoadingTrackerProducts'),
   activeGroupId: get(state, 'productTracker.menuItem'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
+  resettingFilter: get(state, 'productTracker.resettingFilter'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
+  filterReset: (data: boolean) => resetFilter(data),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
 };
