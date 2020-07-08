@@ -351,14 +351,16 @@ export const GenericTable = (props: GenericTableProps) => {
                   </div>
                 </div>
               ) : (
-                <Table.HeaderCell colSpan={columns.length}>
-                  <Pagination
-                    totalPages={rows.length ? totalPages : ''}
-                    activePage={localCurrentPage}
-                    onPageChange={(event, data) => {
-                      setLocalCurrentPage(Number(data.activePage));
-                    }}
-                  />
+                <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
+                  <div className="pagination-container">
+                    <Pagination
+                      totalPages={rows.length ? totalPages : ''}
+                      activePage={localCurrentPage}
+                      onPageChange={(event, data) => {
+                        setLocalCurrentPage(Number(data.activePage));
+                      }}
+                    />
+                  </div>
                 </Table.HeaderCell>
               )}
             </Table.Row>
