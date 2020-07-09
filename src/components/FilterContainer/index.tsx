@@ -25,8 +25,6 @@ interface Props {
 }
 
 function FilterContainer(props: Props) {
-  const seeAll = false;
-
   const {
     applyFilter,
     toggleSizeTierFilter,
@@ -47,7 +45,7 @@ function FilterContainer(props: Props) {
   const [isShowMore, setShowMore] = useState(false);
 
   const filterCategory = (
-    <div className={!seeAll ? 'all-filter-content-wrapper' : 'see-all all-filter-content-wrapper'}>
+    <div className={'all-filter-content-wrapper'}>
       {_.map(filterData.allFilter, (filter, key) => {
         return (
           <div className={`all-filter-content ${filter.dataKey}`} key={key}>
@@ -59,7 +57,7 @@ function FilterContainer(props: Props) {
                 </span>
               )}
             </div>
-            <div className={seeAll ? 'see-all filter-list' : 'filter-list'}>
+            <div className={'filter-list'}>
               {filter.dataKey === 'product-category' && (
                 <div className="ui checkbox select-all">
                   <input
