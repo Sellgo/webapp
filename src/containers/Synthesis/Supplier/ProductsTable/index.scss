@@ -1,5 +1,5 @@
 $link-color: #5381db;
-$new_black: #707070;
+$new_black: #3b4557;
 
 .export-buttons {
   position: absolute;
@@ -23,10 +23,10 @@ $new_black: #707070;
   max-width: 100%;
 
   h2 {
-    font-weight: 500;
+    font-weight: 300;
     font-size: 15px;
     white-space: pre-wrap;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Work Sans', sans-serif;
     margin-bottom: 7px;
     line-height: 20px;
     text-align: left;
@@ -68,7 +68,7 @@ $new_black: #707070;
   }
 
   tbody::before {
-    content: '.';
+    //content: '.'; //rwp
     line-height: 14px;
     color: white;
     display: block;
@@ -126,7 +126,7 @@ $new_black: #707070;
     }
 
     button {
-      border-radius: 18px !important;
+      border-radius: 100px !important;
     }
 
     &.with-rating button {
@@ -175,7 +175,6 @@ $new_black: #707070;
 
     a {
       color: $link-color !important;
-      font-weight: 500;
       font-family: '' Work Sans ', sans-serif', sans-serif;
       font-size: 14px;
     }
@@ -224,7 +223,7 @@ $new_black: #707070;
     }
 
     td p {
-      font-size: 16px;
+      font-size: 14px;
     }
 
     tfoot {
@@ -312,7 +311,8 @@ $new_black: #707070;
           border-bottom: 1px solid rgba(34, 36, 38, 0.3);
           background: #fff;
           text-align: left;
-          font-size: 12px;
+          font-size: 14px;
+          font-weight: 600;
         }
 
         th:first-child {

@@ -6,9 +6,9 @@
 
   .table-menu-header {
     display: flex;
-    margin: 30px 0 20px 0;
+    margin: 18px 0 18px 0;
     justify-content: space-between;
-    padding: 0 5px;
+    //padding: 0 5px;
 
     &.disabled {
       pointer-events: none;
@@ -20,19 +20,19 @@
       width: 480px;
 
       input {
-        border: 0.5px solid #a2a2a2 !important;
+        border: 1px solid #98aeca !important;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
       }
 
       button {
         border-left: none !important;
-        border-right: 0.5px solid #a2a2a2 !important;
-        border-top: 0.5px solid #a2a2a2 !important;
-        border-bottom: 0.5px solid #a2a2a2 !important;
+        border-right: 1px solid #349af8 !important;
+        border-top: 1px solid #349af8 !important;
+        border-bottom: 1px solid #349af8 !important;
         background-color: #349af8;
-        border-top-right-radius: 15px !important;
-        border-bottom-right-radius: 15px !important;
+        border-top-right-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;
         color: white;
       }
     }
@@ -42,14 +42,14 @@
       width: 480px;
 
       input {
-        border: 0.5px solid #a2a2a2 !important;
+        border: 1px solid #349af8 !important;
       }
 
       button {
         border-left: none !important;
-        border-right: 0.5px solid #a2a2a2 !important;
-        border-top: 0.5px solid #a2a2a2 !important;
-        border-bottom: 0.5px solid #a2a2a2 !important;
+        border-right: 1px solid #349af8 !important;
+        border-top: 1px solid #349af8 !important;
+        border-bottom: 1px solid #349af8 !important;
       }
     }
   }
@@ -380,7 +380,7 @@ i.icon.filter::before {
 }
 
 .table-scroll-divider {
-  height: 15px;
+  height: 3px;
 }
 
 .inner-tbody::before {
@@ -394,7 +394,7 @@ i.icon.filter::before {
 }
 
 .body-inner-table {
-  border-spacing: 0 3px !important;
+  border-spacing: 0 1px !important;
   width: 100% !important;
 }
 
@@ -412,4 +412,8 @@ i.icon.filter::before {
 
 .popup {
   z-index: 20 !important;
+}
+
+.ptr-scroll-divider {
+  height: 20px !important;
 }
