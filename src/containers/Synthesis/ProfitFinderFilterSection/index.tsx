@@ -7,7 +7,7 @@ import { Product } from '../../../interfaces/Product';
 import { findMinMax } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import { filterSupplierProducts } from '../../../actions/Suppliers';
+import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
@@ -19,10 +19,18 @@ interface Props {
   productRanges: any;
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
+  setPageNumber: (pageNumber: number) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
-  const { productRanges, supplierDetails, filterProducts, filterSearch, products } = props;
+  const {
+    productRanges,
+    supplierDetails,
+    filterProducts,
+    filterSearch,
+    products,
+    setPageNumber,
+  } = props;
 
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
@@ -128,6 +136,7 @@ function ProfitFinderFilterSection(props: Props) {
       selectAllSize(true);
     }
     filterProducts(filterSearch, filterState);
+    setHasFilter(isFilterUse());
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -613,6 +622,7 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    setPageNumber(1);
     setHasFilter(isFilterUse());
     if (isSelectAllCategories) {
       selectAllCategories();
@@ -633,6 +643,7 @@ function ProfitFinderFilterSection(props: Props) {
     data.rank = productRanges.rank;
     data.removeNegative = [];
     selectAllCategories();
+    selectAllSize();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterDataState.filterRanges, filter => {
@@ -746,6 +757,7 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

@@ -15,6 +15,7 @@ export const FILTER_TRACKED_PRODUCTS = 'FILTER_TRACKED_PRODUCTS';
 export const SET_FILTER_SEARCH = 'SET_FILTER_SEARCH';
 export const IS_PRODUCT_TRACKED = 'IS_PRODUCT_TRACKED';
 export const VERIFYING_PRODUCT = 'VERIFYING_PRODUCT';
+export const RESET_FILTER = 'RESET_FILTER';
 
 /*
   IMPORTANT: USE ONLY THE GIVEN VALUE BELOW IF CHANGING DEFAULT PERIOD 
@@ -26,7 +27,7 @@ export const VERIFYING_PRODUCT = 'VERIFYING_PRODUCT';
   From last year: “365”
 
 */
-export const DEFAULT_PERIOD = 1;
+export const DEFAULT_PERIOD = 30;
 
 export const filterKeys: any = [
   // Basic KPI

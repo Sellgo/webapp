@@ -15,6 +15,16 @@ $new_black: #3b4557;
       transition: background-color 0.3s;
     }
   }
+
+  &.disabled {
+    > * {
+      :hover {
+        background-color: unset !important;
+        cursor: default !important;
+        transition: none !important;
+      }
+    }
+  }
 }
 
 .products-table {

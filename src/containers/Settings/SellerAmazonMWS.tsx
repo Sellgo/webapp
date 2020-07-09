@@ -136,7 +136,7 @@ const SellerAmazonMWS = (props: any) => {
     return window.location.hash === '#amazon-mws';
   };
 
-  const isFreeAccountWithoutTrial = () => {
+  const isFreeAccountWithoutHistory = () => {
     return isSubscriptionFree(subscriptionType) && sellerSubscription.expiry_date === null;
   };
 
@@ -234,7 +234,7 @@ const SellerAmazonMWS = (props: any) => {
                   }}
                 >
                   Authenticate Your Seller Account
-                  {isHashMWS() && isFreeAccountWithoutTrial() && (
+                  {!amazonMWSLocal.token && isHashMWS() && isFreeAccountWithoutHistory() && (
                     <div className="free-trial-popup">
                       <Icon name="arrow left" />
                       <p className="title">Start Your Free Trial</p>
