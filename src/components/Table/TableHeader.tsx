@@ -252,7 +252,7 @@ const TableHeader = (props: TableHeaderProps) => {
               })}
             </Table.Row>
             <Table.Row className="pt-header">
-              <td colSpan={filteredColumns.length} className="pt-header-cell">
+              <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
                   {filteredColumns.map(c => (
                     <div
