@@ -413,3 +413,13 @@ i.icon.filter::before {
 .popup {
   z-index: 20 !important;
 }
+
+.pagination-cell {
+  position: absolute !important;
+  width: 100% !important;
+}
+
+.pagination-container {
+  display: flex !important;
+  justify-content: center !important;
+}
