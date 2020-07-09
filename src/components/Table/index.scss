@@ -489,6 +489,16 @@ i.icon.filter::before {
   z-index: 20 !important;
 }
 
+.pagination-cell {
+  position: absolute !important;
+  width: 100% !important;
+}
+
+.pagination-container {
+  display: flex !important;
+  justify-content: center !important;
+}
+
 @media (max-width: 2560px) {
   .large-column {
     min-width: unset;
