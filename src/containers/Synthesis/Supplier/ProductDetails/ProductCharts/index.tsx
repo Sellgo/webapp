@@ -22,6 +22,7 @@ import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
 import RankVsInventoryChart from './RankVsInventoryChart';
+import { MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
 
 interface ProductChartsProps {
   product: any;
@@ -42,7 +43,7 @@ interface ProductChartsProps {
   isFetchingReview: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
-  state = { showProductChart: 'chart0' };
+  state = { showProductChart: 'chart0', period: 1 };
   componentDidMount() {
     const {
       product,
@@ -55,6 +56,7 @@ class ProductCharts extends Component<ProductChartsProps> {
     const period =
       (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
       DEFAULT_PERIOD;
+    this.setState({ period: period });
     fetchProductDetailChartRank(product.product_id, period);
     fetchProductDetailChartPrice(product.product_id, period);
     fetchProductDetailChartInventory(product.product_id, period);
@@ -86,6 +88,16 @@ class ProductCharts extends Component<ProductChartsProps> {
     return formattedData;
   }
 
+  getPeriodStartAndEnd = () => {
+    const { period } = this.state;
+    if (period === 1) return [null, null];
+    const xMax: any = new Date();
+    xMax.setHours(23, 59, 59, 999);
+    const xMin: any = new Date(xMax.getTime() - MILLISECONDS_IN_A_DAY * (period - 1));
+    xMin.setHours(0, 0, 0, 0);
+    return [xMin.getTime(), xMax.getTime()];
+  };
+
   renderProductCharts = () => {
     const {
       productDetailRank,
@@ -99,6 +111,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingRating,
       isFetchingReview,
     } = this.props;
+    const [xMin, xMax] = this.getPeriodStartAndEnd();
 
     switch (this.state.showProductChart) {
       case 'chart0': {
@@ -106,13 +119,13 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedInventories = this.formatProductDetail('inventory', productDetailInventory);
         return isFetchingRank && isFetchingInventory ? (
           this.renderLoader()
-        ) : formattedRanks.length || formattedInventories.length ? (
+        ) : (
           <RankVsInventoryChart
             productRanks={formattedRanks}
             productInventories={formattedInventories}
+            xMax={xMax}
+            xMin={xMin}
           />
-        ) : (
-          this.renderNoDataMessage()
         );
       }
 
@@ -120,10 +133,8 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedPrices = this.formatProductDetail('price', productDetailPrice);
         return isFetchingPrice ? (
           this.renderLoader()
-        ) : formattedPrices.length ? (
-          <ProductPriceChart productPrices={formattedPrices} />
         ) : (
-          this.renderNoDataMessage()
+          <ProductPriceChart productPrices={formattedPrices} xMax={xMax} xMin={xMin} />
         );
       }
 
@@ -131,10 +142,8 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedRatings = this.formatProductDetail('rating', productDetailRating);
         return isFetchingRating ? (
           this.renderLoader()
-        ) : formattedRatings.length ? (
-          <ProductRatingChart productRatings={formattedRatings} />
         ) : (
-          this.renderNoDataMessage()
+          <ProductRatingChart productRatings={formattedRatings} xMax={xMax} xMin={xMin} />
         );
       }
 
@@ -142,10 +151,8 @@ class ProductCharts extends Component<ProductChartsProps> {
         const formattedReviews = this.formatProductDetail('review_count', productDetailReview);
         return isFetchingReview ? (
           this.renderLoader()
-        ) : formattedReviews.length ? (
-          <ProductReviewChart productReviews={formattedReviews} />
         ) : (
-          this.renderNoDataMessage()
+          <ProductReviewChart productReviews={formattedReviews} xMax={xMax} xMin={xMin} />
         );
       }
 
