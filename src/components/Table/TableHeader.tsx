@@ -244,7 +244,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 return (
                   <TableHeaderCell
                     columns={columns}
-                    column={{ ...column, className: index === 1 ? 'ptr' : column.className || '' }}
+                    column={{ ...column, className: index === 1 ? 'ptr' : column.className }}
                     key={column.dataKey || index}
                     {...rest}
                   />
