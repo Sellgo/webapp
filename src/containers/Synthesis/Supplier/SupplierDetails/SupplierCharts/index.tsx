@@ -14,7 +14,7 @@ import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import RevenueChart from './RevenueChart';
 import { useWindowSize } from '../../../../../hooks/useWindowSize';
 import ProfitFinderChart from '../../../../../components/Chart/ProfitFinderChart';
-import { setSupplierPageNumber } from '../../../../../actions/Suppliers';
+import { setSupplierPageNumber, setStickyChart } from '../../../../../actions/Suppliers';
 import { supplierPageNumberSelector } from '../../../../../selectors/Supplier';
 
 interface SupplierChartsProps {
@@ -26,6 +26,7 @@ interface SupplierChartsProps {
   openProductDetailModal: (product?: Product) => void;
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
+  setStickyChart: (value: boolean) => void;
   isStickyChartActive: boolean;
   setStickyChartActive: Function;
 }
@@ -115,6 +116,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       setStickyChartActive,
       singlePageItemsCount,
       pageNumber,
+      setStickyChart,
     } = this.props;
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
@@ -184,7 +186,10 @@ class SupplierCharts extends Component<SupplierChartsProps> {
           <Icon
             name="snowflake outline"
             className={`${isStickyChartActive ? 'active' : ''}`}
-            onClick={() => setStickyChartActive(!isStickyChartActive)}
+            onClick={() => {
+              setStickyChartActive(!isStickyChartActive);
+              setStickyChart(!isStickyChartActive);
+            }}
           />
         </div>
         <Modal
@@ -214,6 +219,7 @@ const mapDispatchToProps = {
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  setStickyChart: (value: boolean) => setStickyChart(value),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SupplierCharts);

@@ -4,11 +4,47 @@
     padding-bottom: 100px;
   }
 
+  &.pf-table {
+    overflow-x: inherit;
+
+    .body-inner-table {
+      background: #f8faff;
+    }
+  }
+
   .table-menu-header {
     display: flex;
-    margin: 30px 0 20px 0;
     justify-content: space-between;
     padding: 0 5px;
+    height: 94px;
+    padding-top: 30px !important;
+    padding-bottom: 27px !important;
+    position: sticky;
+    top: -70px;
+    z-index: 5;
+    background: #f8faff;
+    transition-property: top;
+    transition-duration: 1s;
+
+    &.scroll-top {
+      top: -70;
+      transition-property: top;
+      transition-duration: 1s;
+    }
+
+    &.sticky-chart-active {
+      z-index: 4;
+      top: 240px;
+      transition-property: top;
+      transition-duration: 1s;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      z-index: 4;
+      top: 270px;
+      transition-property: top;
+      transition-duration: 1s;
+    }
 
     &.disabled {
       pointer-events: none;
@@ -57,6 +93,45 @@
   .ui.table {
     thead th {
       border-left: none;
+    }
+
+    &.pf-table {
+      margin-top: -14px;
+
+      thead.pf-header {
+        > tr:first-child {
+          th {
+            position: sticky;
+            top: 15px;
+            transform: scale(0.999);
+            z-index: 6;
+            transition-property: top;
+            transition-duration: 1s;
+
+            &:hover {
+              background: #e6e6e6;
+            }
+          }
+        }
+
+        &.sticky-chart-active > tr:first-child th {
+          top: 363px;
+          transition-property: top;
+          transition-duration: 1s;
+        }
+
+        &.scroll-top > tr:first-child th {
+          top: 98px;
+          transition-property: top;
+          transition-duration: 1s;
+        }
+
+        &.sticky-chart-active.scroll-top > tr:first-child th {
+          top: 438px;
+          transition-property: top;
+          transition-duration: 1s;
+        }
+      }
     }
   }
 
@@ -199,7 +274,6 @@ i.icon.filter::before {
   @extend .default-column-props;
 
   width: 190px !important;
-  min-width: 190px !important;
 }
 
 .primary-column {
@@ -303,6 +377,7 @@ i.icon.filter::before {
   > td {
     border: none !important;
     padding: 0 !important;
+    background: #f8faff;
   }
 }
 
@@ -366,7 +441,7 @@ i.icon.filter::before {
 }
 
 .table-header-scroll {
-  max-width: 658px !important;
+  max-width: 358px !important;
   overflow: hidden !important;
 }
 
@@ -422,4 +497,100 @@ i.icon.filter::before {
 .pagination-container {
   display: flex !important;
   justify-content: center !important;
+}
+
+@media (max-width: 2560px) {
+  .large-column {
+    min-width: unset;
+  }
+
+  .inner-tbody .pf-header-cell.large-column {
+    width: 134px !important;
+  }
+
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 485px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 515px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 608px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 683px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 352px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 382px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 475px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 550px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1536px) {
+  .large-column {
+    min-width: 190px !important;
+  }
+
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 237px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 267px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 360px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 435px;
+          }
+        }
+      }
+    }
+  }
 }

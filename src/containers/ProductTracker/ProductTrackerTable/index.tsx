@@ -32,6 +32,8 @@ import _ from 'lodash';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface TrackerProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
@@ -516,6 +518,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       setPageNumber,
       productTrackerPageNo,
       subscriptionType,
+      scrollTopSelector,
+      stickyChartSelector,
     } = this.props;
     const { ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
@@ -557,6 +561,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <GenericTable
+            stickyChartSelector={stickyChartSelector}
+            scrollTopSelector={scrollTopSelector}
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
@@ -603,6 +609,8 @@ const mapStateToProps = (state: any) => {
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
     subscriptionType: get(state, 'subscription.subscriptionType'),
+    scrollTopSelector: get(state, 'supplier.setScrollTop'),
+    stickyChartSelector: get(state, 'supplier.setStickyChart'),
   };
 };
 

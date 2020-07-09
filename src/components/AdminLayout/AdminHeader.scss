@@ -236,6 +236,18 @@
   }
 }
 
+@media screen and (max-height: 1440px) {
+  .admin-layout {
+    .setting {
+      padding-right: 4px;
+    }
+  }
+
+  .page-header {
+    margin-bottom: 1rem !important;
+  }
+}
+
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .admin-header .main-menu {
     margin-left: 50px !important;
