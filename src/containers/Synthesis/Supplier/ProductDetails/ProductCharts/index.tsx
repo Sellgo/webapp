@@ -88,14 +88,15 @@ class ProductCharts extends Component<ProductChartsProps> {
     return formattedData;
   }
 
-  getPeriodStartAndEnd = () => {
-    const { period } = this.state;
-    if (period === 1) return [null, null];
+  /** Returns the start and end (today) of the period in milliseconds.
+   * @param {number} period - number of days between start and end (today).
+   */
+  getPeriodStartAndEnd = (period: number) => {
     const start: any = new Date();
     start.setHours(23, 59, 59, 999);
     const end: any = new Date(start.getTime() - MILLISECONDS_IN_A_DAY * (period - 1));
     end.setHours(0, 0, 0, 0);
-    return [end.getTime(), start.getTime()];
+    return [start.getTime(), end.getTime()];
   };
 
   renderProductCharts = () => {
@@ -111,7 +112,11 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingRating,
       isFetchingReview,
     } = this.props;
-    const [xMin, xMax] = this.getPeriodStartAndEnd();
+    const { period } = this.state;
+    let [xMin, xMax] = [null, null];
+    if (period !== 1) {
+      [xMin, xMax] = this.getPeriodStartAndEnd(period);
+    }
 
     switch (this.state.showProductChart) {
       case 'chart0': {
