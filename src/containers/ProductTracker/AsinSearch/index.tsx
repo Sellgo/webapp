@@ -98,6 +98,7 @@ const AsinSearch = (props: Props) => {
                   text={option.text}
                   flag={option.flag}
                   value={option.value}
+                  className={'flag-right'}
                   onClick={() => {
                     handleMarketSelection(option);
                   }}
