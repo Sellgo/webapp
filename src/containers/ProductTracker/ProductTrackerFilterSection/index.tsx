@@ -551,6 +551,6 @@ const mapDispatchToProps = {
   filterReset: (data: boolean) => resetFilter(data),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
-  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);
