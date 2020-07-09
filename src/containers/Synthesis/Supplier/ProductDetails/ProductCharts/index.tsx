@@ -91,11 +91,11 @@ class ProductCharts extends Component<ProductChartsProps> {
   getPeriodStartAndEnd = () => {
     const { period } = this.state;
     if (period === 1) return [null, null];
-    const xMax: any = new Date();
-    xMax.setHours(23, 59, 59, 999);
-    const xMin: any = new Date(xMax.getTime() - MILLISECONDS_IN_A_DAY * (period - 1));
-    xMin.setHours(0, 0, 0, 0);
-    return [xMin.getTime(), xMax.getTime()];
+    const start: any = new Date();
+    start.setHours(23, 59, 59, 999);
+    const end: any = new Date(start.getTime() - MILLISECONDS_IN_A_DAY * (period - 1));
+    end.setHours(0, 0, 0, 0);
+    return [end.getTime(), start.getTime()];
   };
 
   renderProductCharts = () => {
