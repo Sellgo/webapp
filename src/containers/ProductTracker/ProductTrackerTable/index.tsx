@@ -304,7 +304,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   renderAvgRank = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
-        #{showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, formatNumber(row.avg_rank))}
+        {showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, '#' + formatNumber(row.avg_rank))}
       </p>
     );
   };
