@@ -50,7 +50,7 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
         shared: true,
       },
       legend: {
-        align: 'left',
+        align: 'center',
       },
       series: data.map((e: any) => {
         return {
@@ -58,9 +58,6 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
           ...{
             type: 'line',
             step: true,
-            tooltip: {
-              valueDecimals: 0,
-            },
           },
         };
       }),

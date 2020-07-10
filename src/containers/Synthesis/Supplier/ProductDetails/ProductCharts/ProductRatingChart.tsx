@@ -8,6 +8,9 @@ export default ({ productRatings }: any) => {
       name: 'Rating',
       color: '#F3A9CA',
       data: productRatings,
+      tooltip: {
+        valueDecimals: 1,
+      },
     },
   ];
   const chartOptions = {

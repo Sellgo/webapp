@@ -980,6 +980,10 @@ $link-color: #349af8;
   border-top-left-radius: 10px;
 }
 
+.pt-product-info:hover {
+  background: #ebedf2 !important;
+}
+
 .pt-actions {
   position: absolute !important;
   min-width: 56px !important;
@@ -987,6 +991,10 @@ $link-color: #349af8;
   background: #fff !important;
   display: flex;
   align-items: center;
+}
+
+.pt-actions:hover {
+  background: #ebedf2 !important;
 }
 
 .pt-price {
