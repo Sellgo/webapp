@@ -399,7 +399,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily \nUnit Sold',
+      label: 'Avg Daily Unit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
