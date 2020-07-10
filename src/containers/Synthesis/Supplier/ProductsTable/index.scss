@@ -7,7 +7,6 @@ $new_black: #707070;
 
   > * {
     margin-left: 24px;
-    top: 106px;
 
     :hover {
       background-color: #98aeca;
@@ -667,4 +666,8 @@ $new_black: #707070;
   .products-table {
     margin-top: -60px;
   }
+}
+
+.amazon_category_name {
+  min-width: 140px !important;
 }

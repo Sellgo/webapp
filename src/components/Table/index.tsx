@@ -27,6 +27,8 @@ export interface Column {
 }
 
 export interface GenericTableProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   tableKey?: string;
   searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
@@ -122,6 +124,8 @@ export const GenericTable = (props: GenericTableProps) => {
     reorderColumns,
     columnDnD = false,
     rowExpander,
+    scrollTopSelector,
+    stickyChartSelector,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -248,6 +252,8 @@ export const GenericTable = (props: GenericTableProps) => {
     setSearchValue(e.target.value);
   };
   const totalItemsCount = data.length;
+  const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
+  const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
 
   const handleScroll = (evt: any) => {
     const scroll = document.querySelector('.pt-scroll-container');
@@ -257,9 +263,15 @@ export const GenericTable = (props: GenericTableProps) => {
   };
 
   return (
-    <div className="generic-table scrollable" onScroll={handleScroll}>
+    <div
+      className={`generic-table scrollable ${name === 'products' ? 'pf-table' : ''}`}
+      onScroll={handleScroll}
+    >
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className={`table-menu-header ${featuresLock && 'disabled'}`}>
+        <div
+          className={`table-menu-header ${isStickyChartActive} ${isScrollTop} ${featuresLock &&
+            'disabled'}`}
+        >
           {showProductFinderSearch ? (
             <ProductSearch
               searchFilteredProduct={searchProfitFinderProduct}
@@ -308,7 +320,7 @@ export const GenericTable = (props: GenericTableProps) => {
         basic="very"
         textAlign="left"
         unstackable={true}
-        className={name === 'trackerTable' ? 'alter-table' : ''}
+        className={`${name === 'trackerTable' ? 'alter-table' : 'pf-table'}`}
       >
         <TableHeader
           columns={columns}
@@ -359,14 +371,16 @@ export const GenericTable = (props: GenericTableProps) => {
                   </div>
                 </div>
               ) : (
-                <Table.HeaderCell colSpan={columns.length}>
-                  <Pagination
-                    totalPages={rows.length ? totalPages : ''}
-                    activePage={localCurrentPage}
-                    onPageChange={(event, data) => {
-                      setLocalCurrentPage(Number(data.activePage));
-                    }}
-                  />
+                <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
+                  <div className="pagination-container">
+                    <Pagination
+                      totalPages={rows.length ? totalPages : ''}
+                      activePage={localCurrentPage}
+                      onPageChange={(event, data) => {
+                        setLocalCurrentPage(Number(data.activePage));
+                      }}
+                    />
+                  </div>
                 </Table.HeaderCell>
               )}
             </Table.Row>

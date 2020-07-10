@@ -485,6 +485,20 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       <p>Inquiry based</p>
                     </Table.Cell>
                   </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Track Inventory Daily</Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                  </Table.Row>
                 </Table.Body>
               </Table>
             </div>

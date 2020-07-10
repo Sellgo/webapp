@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 import { Checkbox, Icon, Popup, Table } from 'semantic-ui-react';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTable/ColumnFilter';
@@ -34,6 +36,8 @@ interface Shared {
 export interface TableHeaderProps extends Shared {
   columns: Column[];
   middleScroll?: boolean;
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
 }
 
 export interface TableHeaderCellProps extends Shared {
@@ -71,7 +75,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     className:
       type === 'trackerTable'
         ? `table-header ${dataKey} ${className}`
-        : `${dataKey}  ${getColumnClass(column)} col-size ${className}`,
+        : `pf-header-cell ${dataKey}  ${getColumnClass(column)} col-size ${className}`,
   };
   if (dataKey === 'sellgo_score') {
     otherProps = { ...otherProps, className: `${otherProps} remove-left-border` };
@@ -193,7 +197,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   );
 };
 const TableHeader = (props: TableHeaderProps) => {
-  const { columns, middleScroll, ...rest } = props;
+  const { columns, stickyChartSelector, scrollTopSelector, middleScroll, ...rest } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
   const onScroll = (evt: any) => {
     const middleHeader = document.querySelector('.middle-header');
@@ -210,7 +214,6 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
-
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
@@ -229,8 +232,16 @@ const TableHeader = (props: TableHeaderProps) => {
         rows: upperBound,
       },
     ];
+
+    const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
+    const isProfitFinder = rest.type !== 'trackerTable' ? 'pf-header' : '';
+
     return (
-      <Table.Header>
+      <Table.Header
+        className={`${isProfitFinder} ${isScrollTop} ${
+          stickyChartSelector ? 'sticky-chart-active' : ''
+        }`}
+      >
         {rest.type === 'trackerTable' && (
           <React.Fragment>
             <Table.Row>
@@ -245,7 +256,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 return (
                   <TableHeaderCell
                     columns={columns}
-                    column={column}
+                    column={{ ...column, className: index === 1 ? 'ptr' : column.className }}
                     key={column.dataKey || index}
                     {...rest}
                   />
@@ -253,7 +264,7 @@ const TableHeader = (props: TableHeaderProps) => {
               })}
             </Table.Row>
             <Table.Row className="pt-header">
-              <td colSpan={filteredColumns.length} className="pt-header-cell">
+              <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
                   {filteredColumns.map(c => (
                     <div
@@ -285,6 +296,9 @@ const TableHeader = (props: TableHeaderProps) => {
                 if (filteredColumns.length === 4) {
                   headerCellProps = { ...headerCellProps, style: { width: '1em' } };
                 }
+              }
+              if (cell.side === 'left') {
+                headerCellProps.className = 'left-most';
               }
 
               return (
@@ -324,7 +338,7 @@ const TableHeader = (props: TableHeaderProps) => {
               return (
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
-                    <thead>
+                    <thead className="center-scrolling">
                       <Table.Row>
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;
@@ -369,4 +383,9 @@ const TableHeader = (props: TableHeaderProps) => {
   );
 };
 
-export default TableHeader;
+const mapStateToProps = (state: {}) => ({
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+});
+
+export default connect(mapStateToProps)(TableHeader);

@@ -1,28 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Image, Divider, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
 import { findMinMax } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import { filterSupplierProducts } from '../../../actions/Suppliers';
+import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
+import microsoftExcelIcon from '../../../assets/images/microsoft-excel.png';
 
 interface Props {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   supplierDetails: any;
   products: Product[];
   filteredProducts: Product[];
   productRanges: any;
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
+  setPageNumber: (pageNumber: number) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
-  const { productRanges, supplierDetails, filterProducts, filterSearch, products } = props;
+  const {
+    productRanges,
+    supplierDetails,
+    filterProducts,
+    filterSearch,
+    products,
+    setPageNumber,
+  } = props;
 
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
@@ -614,6 +625,7 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    setPageNumber(1);
     setHasFilter(isFilterUse());
     if (isSelectAllCategories) {
       selectAllCategories();
@@ -701,39 +713,75 @@ function ProfitFinderFilterSection(props: Props) {
     return false;
   };
 
+  const renderExportButtons = () => {
+    return (
+      <div className="export-buttons">
+        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
+        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
+        <Image
+          as="a"
+          href={supplierDetails.report_url}
+          download={true}
+          src={microsoftExcelIcon}
+          wrapped={true}
+          width={22}
+          alt="Export Excel"
+        />
+      </div>
+    );
+  };
+
+  const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
+  const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
+  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+
   return (
-    <div className="filter-section">
+    <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
+        {renderExportButtons()}
         <Button
           basic
           icon
           labelPosition="left"
           className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
-          onClick={() => handleFilterType('all-filter')}
+          onClick={() => {
+            handleFilterType('all-filter');
+            setFilterModalOpen(true);
+          }}
         >
           <Icon className="slider" name="sliders horizontal" />
           <span className="filter-name">All</span>
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
       </div>
+      <Modal
+        className="FilterContainer__show-filter"
+        open={isFilterModalOpen}
+        onClose={() => setFilterModalOpen(!isFilterModalOpen)}
+      >
+        <i className="fas fa-times" onClick={() => setFilterModalOpen(!isFilterModalOpen)} />
+        <Modal.Content>
+          <FilterContainer
+            filterType={filterType}
+            applyFilter={applyFilter}
+            resetSingleFilter={resetSingleFilter}
+            toggleCheckboxFilter={toggleCheckboxFilter}
+            toggleSizeTierFilter={toggleSizeTierFilter}
+            resetFilter={resetFilter}
+            filterData={filterDataState}
+            handleCompleteChange={handleCompleteChange}
+            initialFilterState={filterState}
+            toggleSelectAllCategories={toggleSelectAllCategories}
+            isSelectAllCategories={isSelectAllCategories}
+            selectAllCategories={selectAllCategories}
+            toggleNegative={toggleNegative}
+            toggleSelectAllSize={toggleSelectAllSize}
+            isSelectAllSize={isSelectAllSize}
+          />
+        </Modal.Content>
+      </Modal>
       <div className="filter-wrapper">
-        <FilterContainer
-          filterType={filterType}
-          applyFilter={applyFilter}
-          resetSingleFilter={resetSingleFilter}
-          toggleCheckboxFilter={toggleCheckboxFilter}
-          toggleSizeTierFilter={toggleSizeTierFilter}
-          resetFilter={resetFilter}
-          filterData={filterDataState}
-          handleCompleteChange={handleCompleteChange}
-          initialFilterState={filterState}
-          toggleSelectAllCategories={toggleSelectAllCategories}
-          isSelectAllCategories={isSelectAllCategories}
-          selectAllCategories={selectAllCategories}
-          toggleNegative={toggleNegative}
-          toggleSelectAllSize={toggleSelectAllSize}
-          isSelectAllSize={isSelectAllSize}
-        />
+        <Divider />
       </div>
     </div>
   );
@@ -744,10 +792,13 @@ const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   filterSearch: get(state, 'supplier.filterSearch'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

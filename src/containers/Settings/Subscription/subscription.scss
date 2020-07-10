@@ -3,7 +3,7 @@
   justify-content: center;
 
   &__wrapper {
-    width: 1110px !important;
+    width: 1137px !important;
     margin-bottom: 150px !important;
 
     &.row {
@@ -21,14 +21,15 @@
     }
 
     &__table {
-      width: 1110px !important;
+      width: 1137px !important;
       border: none !important;
+      background: none !important;
 
       &__header {
         tr {
           th {
             &:first-child {
-              background-color: #fff !important;
+              background-color: transparent !important;
             }
 
             border: none !important;
