@@ -610,7 +610,7 @@ const mapDispatchToProps = {
   fetchProductDetailChartReview: (productID: any) =>
     fetchSupplierProductDetailChartReview(productID),
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
-  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
   postCreateProductTrackGroup: (name: string) => postCreateProductTrackGroup(name),
   updateProductTrackGroup: (group: any) => patchProductTrackGroup(group),
   deleteProductTrackGroup: (groupId: any) => deleteProductTrackGroup(groupId),
