@@ -25,6 +25,7 @@ import {
   SET_CONTEXT_SCROLL,
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
+  SET_EXPORT_FILE,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -58,6 +59,7 @@ const initialState = {
   },
   singlePageItemsCount: Number(selectItemsCountList[0].value),
   pageNumber: 1,
+  exportFile: undefined,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -154,6 +156,9 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SUPPLIER_QUOTA:
       return setIn(state, 'quota', action.payload);
+    case SET_EXPORT_FILE: {
+      return setIn(state, 'exportFile', action.payload);
+    }
     default:
       return state;
   }

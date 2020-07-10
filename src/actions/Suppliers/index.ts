@@ -43,6 +43,7 @@ import {
   SET_CONTEXT_SCROLL,
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
+  SET_EXPORT_FILE,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -560,6 +561,52 @@ export const postProductTrackGroupId = (supplierID: string, name: string) => () 
     });
 };
 
+export const exportFilteredProducts = (filterData: any) => (dispatch: any) => {
+  const sellerID = sellerIDSelector();
+  const bodyFormData = new FormData();
+  bodyFormData.set('product_category', filterData.allFilter);
+  bodyFormData.set('size_tier', filterData.sizeTierFilter);
+  bodyFormData.set('l_price', filterData.price.min);
+  bodyFormData.set('h_price', filterData.price.max);
+  bodyFormData.set('l_profit', filterData.profit.min);
+  bodyFormData.set('h_profit', filterData.profit.max);
+  bodyFormData.set('l_margin', filterData.margin.min);
+  bodyFormData.set('h_margin', filterData.margin.max);
+  bodyFormData.set('l_roi', filterData.roi.min);
+  bodyFormData.set('h_roi', filterData.roi.max);
+  bodyFormData.set('l_rank', filterData.rank.min);
+  bodyFormData.set('h_rank', filterData.rank.max);
+  bodyFormData.set('l_monthly_sales', filterData.sales_monthly.min);
+  bodyFormData.set('h_monthly_sales', filterData.sales_monthly.max);
+  console.log(
+    'exportFilteredProducts filterData.supplier_id:',
+    bodyFormData.get('product_category')
+  );
+  return Axios.post(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${filterData.supplier_id}/synthesis/export`,
+    bodyFormData
+  )
+    .then(data => {
+      console.log('Success export: ', data);
+      dispatch(setExportFile(data));
+      // do nothing
+    })
+    .catch(err => {
+      console.log('Error export: ', err);
+      // for (const er in err.response.data) {
+      //   error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
+      // }
+    });
+};
+
+export const setExportFile = (value: any) => ({
+  type: SET_EXPORT_FILE,
+  payload: {
+    data: value.dada,
+    headers: value.header,
+  },
+});
 export const saveSearch = (other: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();

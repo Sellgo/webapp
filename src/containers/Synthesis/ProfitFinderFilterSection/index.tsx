@@ -7,13 +7,21 @@ import { Product } from '../../../interfaces/Product';
 import { findMinMax } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/Suppliers';
+import {
+  filterSupplierProducts,
+  setSupplierPageNumber,
+  updateProfitFinderProducts,
+  exportFilteredProducts,
+} from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
 import microsoftExcelIcon from '../../../assets/images/microsoft-excel.png';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
+// import { CSVLink } from 'react-csv';
 
 interface Props {
+  subscriptionType: string;
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
   supplierDetails: any;
@@ -23,6 +31,8 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  exportFile: any;
+  exportProducts: (filterData: any) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -33,6 +43,9 @@ function ProfitFinderFilterSection(props: Props) {
     filterSearch,
     products,
     setPageNumber,
+    subscriptionType,
+    exportFile,
+    exportProducts,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -713,20 +726,34 @@ function ProfitFinderFilterSection(props: Props) {
     return false;
   };
 
+  const exportExcel = () => {
+    const data = _.cloneDeep(filterState);
+    exportProducts(data);
+    console.log('exportFile: ', exportFile);
+  };
+
   const renderExportButtons = () => {
     return (
-      <div className="export-buttons">
+      <div className={`export-buttons ${isSubscriptionFree(subscriptionType) && 'disabled'}`}>
         <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
         <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
         <Image
+          onClick={() => {
+            !isSubscriptionFree(subscriptionType) && exportExcel();
+          }}
           as="a"
-          href={supplierDetails.report_url}
           download={true}
           src={microsoftExcelIcon}
           wrapped={true}
           width={22}
           alt="Export Excel"
-        />
+          disabled={isSubscriptionFree(subscriptionType)}
+        >
+          {/* {exportFile && (
+            <CSVLink data={exportFile} target="_blank" />
+          )} */}
+        </Image>
+        {/* <a href={exportFile} download onClick={()=>{exportExcel()}}>test</a> */}
       </div>
     );
   };
@@ -794,11 +821,15 @@ const mapStateToProps = (state: {}) => ({
   filterSearch: get(state, 'supplier.filterSearch'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
+  exportFile: get(state, 'supplier.exportFile'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
+  updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  exportProducts: (filterData: any) => exportFilteredProducts(filterData),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
