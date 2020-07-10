@@ -377,7 +377,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       icon: 'ellipsis horizontal ellipsis-ic',
       dataKey: 'ellipsis horizontal',
       show: true,
-      render: this.renderSyncButtons,
+      // render: this.renderSyncButtons,
       popUp: true,
     },
   ];

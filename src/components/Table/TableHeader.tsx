@@ -214,7 +214,6 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
-
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
@@ -257,7 +256,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 return (
                   <TableHeaderCell
                     columns={columns}
-                    column={column}
+                    column={{ ...column, className: index === 1 ? 'ptr' : column.className }}
                     key={column.dataKey || index}
                     {...rest}
                   />
@@ -265,7 +264,7 @@ const TableHeader = (props: TableHeaderProps) => {
               })}
             </Table.Row>
             <Table.Row className="pt-header">
-              <td colSpan={filteredColumns.length} className="pt-header-cell">
+              <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
                   {filteredColumns.map(c => (
                     <div
@@ -297,6 +296,9 @@ const TableHeader = (props: TableHeaderProps) => {
                 if (filteredColumns.length === 4) {
                   headerCellProps = { ...headerCellProps, style: { width: '1em' } };
                 }
+              }
+              if (cell.side === 'left') {
+                headerCellProps.className = 'left-most';
               }
 
               return (
@@ -336,7 +338,7 @@ const TableHeader = (props: TableHeaderProps) => {
               return (
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
-                    <thead>
+                    <thead className="center-scrolling">
                       <Table.Row>
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;

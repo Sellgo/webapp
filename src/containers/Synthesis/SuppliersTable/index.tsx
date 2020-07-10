@@ -321,7 +321,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderCompleted,
     },
     {
-      label: 'Product to Listing Ratio (%)',
+      label: 'Ratio (%)',
       dataKey: 'p2l_ratio',
       sortable: true,
       type: 'number',
@@ -329,7 +329,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderPLRatio,
     },
     {
-      label: 'Supplier Rate (%)',
+      label: 'Rate (%)',
       dataKey: 'rate',
       sortable: true,
       type: 'number',
@@ -337,7 +337,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderSupplierRate,
     },
     {
-      label: 'Other Actions',
+      label: 'Other',
       dataKey: 'other',
       show: true,
       render: this.renderOperations,

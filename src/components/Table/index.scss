@@ -144,7 +144,7 @@
 }
 
 .sort-arrow {
-  margin: 0 0 -2px 25px;
+  margin: 0 10px -2px 12px;
   max-height: 13px;
   max-width: 10px;
 }
@@ -219,7 +219,6 @@ i.icon.filter::before {
 .table-cell-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .th-label {
@@ -234,7 +233,7 @@ i.icon.filter::before {
 .sort-icon {
   display: table !important;
   font-size: 15px !important;
-  margin: 0 0 -2px 25px !important;
+  margin: 0 0 -2px 12px !important;
 }
 
 .default-column-props {
@@ -591,6 +590,111 @@ i.icon.filter::before {
           }
         }
       }
+    }
+  }
+}
+
+.scroll-column {
+  height: 10px !important;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1281px) {
+  .middle-body {
+    max-width: 290px !important;
+  }
+
+  .middle-header {
+    max-width: 290px !important;
+  }
+
+  .middle-scroll-cell {
+    max-width: 290px !important;
+  }
+
+  .remove-top-border {
+    width: 98.4% !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1281px) {
+  .middle-body {
+    max-width: 540px !important;
+  }
+
+  .middle-header {
+    max-width: 540px !important;
+  }
+
+  .middle-scroll-cell {
+    max-width: 540px !important;
+  }
+}
+
+@media only screen and (min-width: 1280px) and (max-width: 1368px) {
+  .middle-body {
+    max-width: 630px !important;
+  }
+
+  .middle-header {
+    max-width: 630px !important;
+    width: 630px !important;
+  }
+
+  .middle-scroll-cell {
+    max-width: 630px !important;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width: 1441px) {
+  .middle-body {
+    max-width: 630px !important;
+  }
+
+  .middle-header {
+    max-width: 630px !important;
+  }
+
+  .middle-scroll-cell {
+    max-width: 630px !important;
+  }
+}
+
+@media only screen and (min-width: 1440px) and (max-width: 1681px) {
+  .left-most {
+    width: 100px !important;
+  }
+
+  .header-scroll {
+    max-width: 400px !important;
+  }
+}
+
+@media only screen and (min-device-width: 1680px) and (max-device-width: 1921px) {
+  .header-scroll {
+    max-width: 670px !important;
+  }
+
+  .center-scrolling {
+    display: none;
+  }
+}
+
+.left-most {
+  width: auto;
+}
+
+@media only screen and (min-width: 1920px) and (max-width: 2560px) {
+  .left-most {
+    width: 100px !important;
+  }
+
+  .default-column {
+    width: 150px !important;
+  }
+
+  .product-description {
+    .description-text {
+      width: 350px !important;
     }
   }
 }
