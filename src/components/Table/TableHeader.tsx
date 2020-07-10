@@ -89,45 +89,58 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     return (
       <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
         {' '}
-        {label}
-        {label === 'Supplier' && (
-          <span>
-            <Icon
-              className="filter search-filter"
-              onClick={(e: any) => onSetShowSearchFilter(e, label)}
-            />
-          </span>
-        )}
-        {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
-          <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
-        ) : null}
-        {check && <Checkbox value={check} />}
-        {icon && popUp ? (
-          <Popup
-            on="click"
-            open={columnFilterBox}
-            onClose={toggleColumnCheckbox}
-            onOpen={toggleColumnCheckbox}
-            position="bottom right"
-            basic={true}
-            trigger={<Icon className={`${icon}`} />}
-            content={
-              <ColumnFilterCard
-                columnFilterData={columnFilterData}
-                handleColumnChange={handleColumnChange}
-                handleColumnDrop={handleColumnDrop}
-                reorderColumns={reorderColumns}
-                columns={columns}
-                columnDnD={columnDnD}
+        <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
+          <span className="th-label">{label}</span>
+          {label === 'Supplier' && (
+            <span>
+              <Icon
+                className="filter search-filter"
+                onClick={(e: any) => onSetShowSearchFilter(e, label)}
               />
-            }
-          />
-        ) : (
-          <Icon
-            className={icon}
-            style={type === 'trackerTable' ? { justifyContent: 'flex-end', right: '20px' } : {}}
-          />
-        )}
+            </span>
+          )}
+          {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
+            <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
+          ) : sortable && sortedColumnKey === dataKey ? (
+            sortDirection === 'ascending' ? (
+              <span>
+                <Icon name="caret down" className="sort-icon" />
+              </span>
+            ) : (
+              <span>
+                {' '}
+                <Icon name="caret up" className="sort-icon" />
+              </span>
+            )
+          ) : null}
+          {check && <Checkbox value={check} />}
+          {icon && popUp ? (
+            <Popup
+              on="click"
+              open={columnFilterBox}
+              onClose={toggleColumnCheckbox}
+              onOpen={toggleColumnCheckbox}
+              position="bottom right"
+              basic={true}
+              trigger={<Icon className={`${icon}`} />}
+              content={
+                <ColumnFilterCard
+                  columnFilterData={columnFilterData}
+                  handleColumnChange={handleColumnChange}
+                  handleColumnDrop={handleColumnDrop}
+                  reorderColumns={reorderColumns}
+                  columns={columns}
+                  columnDnD={columnDnD}
+                />
+              }
+            />
+          ) : (
+            <Icon
+              className={icon}
+              style={type === 'trackerTable' ? { justifyContent: 'flex-end', right: '20px' } : {}}
+            />
+          )}
+        </div>
       </Table.HeaderCell>
     );
   }
