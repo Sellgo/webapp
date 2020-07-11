@@ -21,6 +21,7 @@ import {
   SET_FILTER_SEARCH,
   IS_PRODUCT_TRACKED,
   VERIFYING_PRODUCT,
+  RESET_FILTER,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
@@ -56,6 +57,11 @@ export const setTrackerSinglePageItemsCount = (itemsCount: number) => ({
 export const setMenuItem = (menuItem: any) => ({
   type: SET_MENU_ITEM,
   payload: menuItem,
+});
+
+export const resetFilter = (data: any) => ({
+  type: RESET_FILTER,
+  payload: data,
 });
 
 export const setProductTrackerPageNumber = (pageNo: number) => ({
@@ -186,6 +192,7 @@ export const confirmTrackProduct = (
           dispatch(fetchAllSupplierProductTrackerDetails(period));
           dispatch(setMenuItem(null));
           dispatch(getSellerQuota());
+          dispatch(resetFilter(true));
         }, 300);
       }
     })

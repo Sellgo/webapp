@@ -20,12 +20,15 @@ export interface Column {
   show?: boolean;
   check?: any;
   icon?: any;
-  type?: 'number' | 'string' | 'date';
+  type?: 'number' | 'string' | 'date' | 'boolean';
   click?: (e: any) => void;
   popUp?: boolean;
+  className?: string;
 }
 
-export interface PaginatedTableProps {
+export interface GenericTableProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   tableKey?: string;
   searchFilterValue?: string;
   data: Array<{ [key: string]: any }>;
@@ -50,11 +53,16 @@ export interface PaginatedTableProps {
   columnFilterBox?: boolean;
   toggleColumnCheckbox?: () => void;
   setPage?: (pageNumber: number) => void;
-  ptCurrentPage?: number;
+  currentPage?: number;
   renderFilterSectionComponent?: () => void;
   showTableLock?: boolean;
   featuresLock?: boolean;
   pagination?: boolean;
+  handleColumnDrop?: (e: any, data: any) => void;
+  reorderColumns?: any;
+  columnDnD?: boolean;
+  middleScroll?: boolean;
+  rowExpander?: any;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -84,10 +92,10 @@ export const getColumnClass = (column: any) => {
 };
 
 // Handles pagination, filtering, and sorting client-side
-export const PaginatedTable = (props: PaginatedTableProps) => {
+export const GenericTable = (props: GenericTableProps) => {
   const {
     tableKey,
-    ptCurrentPage,
+    currentPage,
     data,
     singlePageItemsCount = 10,
     setSinglePageItemsCount,
@@ -111,13 +119,28 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     pagination = true,
     showTableLock,
     featuresLock,
+    middleScroll = false,
+    handleColumnDrop,
+    reorderColumns,
+    columnDnD = false,
+    rowExpander,
+    scrollTopSelector,
+    stickyChartSelector,
   } = props;
-  const initialPage = ptCurrentPage ? ptCurrentPage : 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
+  const initialPage = currentPage ? currentPage : 1;
+  const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
 
   useEffect(() => {
-    setCurrentPage(initialPage);
-  }, [ptCurrentPage]);
+    setLocalCurrentPage(initialPage);
+  }, [currentPage]);
+
+  // reconcile redux page with local page
+  useEffect(() => {
+    if (setPage) {
+      setPage(localCurrentPage);
+      return () => setPage(1); // reset on unmount
+    }
+  }, [localCurrentPage]);
 
   const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
@@ -128,8 +151,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
   const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
   const filteredColumns = columnFilterData
-    ? columnFilterData
-    : columns.map((c: any) => ({ ...c, value: c.show }));
+    ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
+    : columns.map((c: any) => ({ ...c, value: c.show, key: c.label }));
   let rows = checkSortedColumnExist.length
     ? [...data].sort((a, b) => {
         const sortedColumn = checkSortedColumnExist[0];
@@ -145,11 +168,8 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           aColumn = a[sortedColumn.dataKey || ''] || '';
           bColumn = b[sortedColumn.dataKey || ''] || '';
         }
-        if (
-          sortedColumn.dataKey === 'name' ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'file_name') ||
-          (sortedColumn.dataKey && sortedColumn.dataKey === 'active_status')
-        ) {
+        // make string-based sorting case-insensitive
+        if (sortedColumn.dataKey && sortedColumn.type === 'string') {
           if (aColumn.toLowerCase() < bColumn.toLowerCase()) {
             return -1;
           }
@@ -163,6 +183,9 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           if (aColumn > bColumn) {
             return 1;
           }
+        }
+        if (aColumn === bColumn && sortDirection === 'descending') {
+          return -1;
         }
         return 0;
       })
@@ -193,8 +216,11 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
 
   rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
-  rows = rows.slice((currentPage - 1) * singlePageItemsCount, currentPage * singlePageItemsCount);
-  rows = showTableLock ? rows.slice(0, 3) : rows;
+  rows = rows.slice(
+    (localCurrentPage - 1) * singlePageItemsCount,
+    localCurrentPage * singlePageItemsCount
+  );
+  rows = showTableLock ? rows.slice(0, 5) : rows;
 
   useEffect(() => {
     if (sortClicked) {
@@ -221,30 +247,36 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
     if (setPage) {
       setPage(1);
     } else {
-      setCurrentPage(1);
+      setLocalCurrentPage(1);
     }
     setSearchValue(e.target.value);
   };
   const totalItemsCount = data.length;
+  const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
+  const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
+
   return (
-    <div className="generic-table scrollable">
+    <div className={`generic-table scrollable ${name === 'products' ? 'pf-table' : ''}`}>
       {setSinglePageItemsCount && showSelectItemsCount ? (
-        <div className={`table-menu-header ${featuresLock && 'disabled'}`}>
+        <div
+          className={`table-menu-header ${isStickyChartActive} ${isScrollTop} ${featuresLock &&
+            'disabled'}`}
+        >
           {showProductFinderSearch ? (
             <ProductSearch
               searchFilteredProduct={searchProfitFinderProduct}
               searchFilterValue={searchFilterValue}
-              setCurrentPage={setCurrentPage}
+              setCurrentPage={setLocalCurrentPage}
             />
           ) : (
             <div />
           )}
 
           <SelectItemsCount
-            setCurrentPage={setCurrentPage}
+            setCurrentPage={setLocalCurrentPage}
             totalCount={totalItemsCount && totalItemsCount}
             singlePageItemsCount={singlePageItemsCount}
-            currentPage={currentPage}
+            currentPage={localCurrentPage}
             setSinglePageItemsCount={setSinglePageItemsCount}
           />
         </div>
@@ -273,7 +305,13 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           </Card.Content>
         </Card>
       )}
-      <Table sortable={true} basic="very" textAlign="left" unstackable={true}>
+      <Table
+        sortable={true}
+        basic="very"
+        textAlign="left"
+        unstackable={true}
+        className={`${name === 'trackerTable' ? 'alter-table' : 'pf-table'}`}
+      >
         <TableHeader
           columns={columns}
           sortedColumnKey={sortedColumnKey}
@@ -282,7 +320,7 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           onSearchChange={onSearchChange}
           onClearSearch={onClearSearch}
           rows={rows}
-          currentPage={currentPage}
+          currentPage={localCurrentPage}
           sortDirection={sortDirection}
           type={name}
           columnFilterData={filteredColumns}
@@ -293,14 +331,20 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
           checkedRows={checkedRows}
           updateCheckedRows={updateCheckedRows}
           handleColumnChange={handleColumnChange}
+          middleScroll={middleScroll}
+          handleColumnDrop={handleColumnDrop}
+          reorderColumns={reorderColumns ? reorderColumns : null}
+          columnDnD={columnDnD}
         />
         <TableBody
           extendedInfo={extendedInfo}
           columns={columns}
-          columnFilterData={columnFilterData}
+          columnFilterData={filteredColumns}
           type={name}
           rows={rows}
           expandedRows={expandedRows}
+          middleScroll={middleScroll}
+          rowExpander={rowExpander}
         />
 
         {pagination && (
@@ -317,14 +361,16 @@ export const PaginatedTable = (props: PaginatedTableProps) => {
                   </div>
                 </div>
               ) : (
-                <Table.HeaderCell colSpan={columns.length}>
-                  <Pagination
-                    totalPages={rows.length ? totalPages : ''}
-                    activePage={currentPage}
-                    onPageChange={(event, data) => {
-                      setCurrentPage(Number(data.activePage));
-                    }}
-                  />
+                <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
+                  <div className="pagination-container">
+                    <Pagination
+                      totalPages={rows.length ? totalPages : ''}
+                      activePage={localCurrentPage}
+                      onPageChange={(event, data) => {
+                        setLocalCurrentPage(Number(data.activePage));
+                      }}
+                    />
+                  </div>
                 </Table.HeaderCell>
               )}
             </Table.Row>
@@ -347,7 +393,7 @@ export const renderCell = (row: { [key: string]: any }, column: Column) => {
 
 const useSort = (initialValue: string) => {
   const [sortedColumnKey, setSortedColumnKey] = useState(initialValue);
-  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('descending');
+  const [sortDirection, setSortDirection] = useState<'descending' | 'ascending'>('ascending');
   const [sortClicked, setSortClicked] = useState<true | false>(false);
 
   const handleSort = (e: any, clickedColumn: string) => {

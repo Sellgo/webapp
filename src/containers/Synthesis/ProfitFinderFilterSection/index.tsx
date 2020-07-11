@@ -1,41 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Image, Divider, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
 import { findMinMax } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import { filterSupplierProducts } from '../../../actions/Suppliers';
+import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
+import microsoftExcelIcon from '../../../assets/images/microsoft-excel.png';
 
 interface Props {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   supplierDetails: any;
   products: Product[];
   filteredProducts: Product[];
   productRanges: any;
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
+  setPageNumber: (pageNumber: number) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
-  const { productRanges, supplierDetails, filterProducts, filterSearch, products } = props;
+  const {
+    productRanges,
+    supplierDetails,
+    filterProducts,
+    filterSearch,
+    products,
+    setPageNumber,
+  } = props;
 
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
-  const selectAllStorage = JSON.parse(
-    typeof localStorage.filterSelectAll === 'undefined' ||
+  const selectAllCategoriesStorage = JSON.parse(
+    typeof localStorage.filterSelectAllCategories === 'undefined' ||
       !filterStorage ||
       filterStorage.supplier_id !== supplierDetails.supplier_id
       ? true
-      : localStorage.filterSelectAll
+      : localStorage.filterSelectAllCategories
+  );
+  const selectAllSizeStorage = JSON.parse(
+    typeof localStorage.filterSelectAllSize === 'undefined' ||
+      !filterStorage ||
+      filterStorage.supplier_id !== supplierDetails.supplier_id
+      ? true
+      : localStorage.filterSelectAllSize
   );
   const [filterType, setFilterType] = useState('');
-  const [isSelectAll, setSelectAll] = useState(selectAllStorage);
+  const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
+  const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
   const [hasFilter, setHasFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
@@ -44,8 +63,15 @@ function ProfitFinderFilterSection(props: Props) {
   const filterInitialData = {
     supplier_id: supplierDetails.supplier_id,
     allFilter: [],
+    sizeTierFilter: [
+      'Small standard-size',
+      'Large standard-size',
+      'Small oversize',
+      'Medium oversize',
+      'Over oversize',
+      'Others',
+    ],
     removeNegative: [],
-    productSize: 'All size',
     price: filteredRanges.price,
     profit: filteredRanges.profit,
     margin: filteredRanges.margin,
@@ -106,10 +132,14 @@ function ProfitFinderFilterSection(props: Props) {
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
   useEffect(() => {
-    if (isSelectAll || !filterStorage) {
-      selectAll(true);
+    if (isSelectAllCategories || !filterStorage) {
+      selectAllCategories(true);
+    }
+    if (isSelectAllSize || !filterStorage) {
+      selectAllSize(true);
     }
     filterProducts(filterSearch, filterState);
+    setHasFilter(isFilterUse());
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -316,7 +346,7 @@ function ProfitFinderFilterSection(props: Props) {
           },
           {
             label: 'Others',
-            dataKey: 'others',
+            dataKey: 'others-category',
             checked: true,
           },
         ],
@@ -324,32 +354,37 @@ function ProfitFinderFilterSection(props: Props) {
       {
         label: 'Product Size Tiers',
         dataKey: 'product-size-tiers',
-        checkedValue: 'Small standard-size',
-        radio: true,
+        radio: false,
         data: [
-          {
-            label: 'All size',
-            dataKey: 'all-size',
-          },
           {
             label: 'Small standard-size',
             dataKey: 'small-standard-size',
+            checked: true,
           },
           {
             label: 'Large standard-size',
             dataKey: 'large-standard-size',
+            checked: true,
           },
           {
             label: 'Small oversize',
             dataKey: 'small-oversize',
+            checked: true,
           },
           {
             label: 'Medium oversize',
             dataKey: 'medium-oversize',
+            checked: true,
           },
           {
             label: 'Over oversize',
             dataKey: 'over-oversize',
+            checked: true,
+          },
+          {
+            label: 'Others',
+            dataKey: 'others-size-tiers',
+            checked: true,
           },
         ],
       },
@@ -434,24 +469,38 @@ function ProfitFinderFilterSection(props: Props) {
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
 
-  const setRadioFilter = (filterType: string, value: string) => {
-    const data = _.map(allFilter, filter => {
-      if (filter.dataKey === filterType) {
-        filter.checkedValue = value;
+  const toggleSizeTierFilter = (filterDataKey: string, label: string) => {
+    const data = filterState;
+
+    setSelectAllSize(false);
+
+    if (data.sizeTierFilter.indexOf(label) !== -1) {
+      data.sizeTierFilter.splice(data.sizeTierFilter.indexOf(label), 1);
+    } else {
+      data.sizeTierFilter.push(label);
+    }
+    setFilterState(data);
+
+    localStorage.setItem('filterSelectAllSize', JSON.stringify(false));
+    const allData = _.map(allFilter, filter => {
+      if (filter.dataKey === 'product-size-tiers') {
+        if (data.sizeTierFilter.length === filter.data.length) {
+          selectAllSize();
+        }
+        _.map(filter.data, allSizeTierFilterData => {
+          allSizeTierFilterData.checked = data.sizeTierFilter.indexOf(filterDataKey) !== -1;
+          return allSizeTierFilterData;
+        });
       }
       return filter;
     });
-    const filterValue = filterState;
-    filterState.productSize = value;
-
-    setAllFilter(data);
-    setFilterState(filterValue);
+    setAllFilter(allData);
   };
 
   const toggleCheckboxFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
 
-    setSelectAll(false);
+    setSelectCategories(false);
 
     if (data.allFilter.indexOf(label) !== -1) {
       data.allFilter.splice(data.allFilter.indexOf(label), 1);
@@ -460,11 +509,11 @@ function ProfitFinderFilterSection(props: Props) {
     }
     setFilterState(data);
 
-    localStorage.setItem('filterSelectAll', JSON.stringify(false));
+    localStorage.setItem('filterSelectAllCategories', JSON.stringify(false));
     const allData = _.map(allFilter, filter => {
-      if (!filter.radio) {
+      if (filter.dataKey === 'product-category') {
         if (data.allFilter.length === filter.data.length) {
-          selectAll();
+          selectAllCategories();
         }
         _.map(filter.data, allFilterData => {
           allFilterData.checked = data.allFilter.indexOf(filterDataKey) !== -1;
@@ -476,27 +525,15 @@ function ProfitFinderFilterSection(props: Props) {
     setAllFilter(allData);
   };
 
-  const toggleSelectAll = () => {
-    setSelectAll(!isSelectAll);
-    const data = filterState;
-    if (!isSelectAll) {
-      selectAll();
-    } else {
-      localStorage.setItem('filterSelectAll', JSON.stringify(false));
-      data.allFilter = [];
-      setFilterState(data);
-    }
-  };
-
-  const selectAll = (firstLoad?: boolean) => {
+  const selectAllCategories = (firstLoad?: boolean) => {
     if (!firstLoad) {
-      localStorage.setItem('filterSelectAll', JSON.stringify(true));
+      localStorage.setItem('filterSelectAllCategories', JSON.stringify(true));
     }
 
-    setSelectAll(true);
+    setSelectCategories(true);
     const data = filterState;
     _.map(allFilter, filter => {
-      if (!filter.radio) {
+      if (filter.dataKey === 'product-category') {
         _.map(filter.data, allFilterData => {
           if (data.allFilter.indexOf(allFilterData.label) === -1) {
             data.allFilter.push(allFilterData.label);
@@ -510,6 +547,51 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(data);
   };
 
+  const toggleSelectAllCategories = () => {
+    setSelectCategories(!isSelectAllCategories);
+    const data = filterState;
+    if (!isSelectAllCategories) {
+      selectAllCategories();
+    } else {
+      localStorage.setItem('filterSelectAllCategories', JSON.stringify(false));
+      data.allFilter = [];
+      setFilterState(data);
+    }
+  };
+
+  const toggleSelectAllSize = () => {
+    setSelectAllSize(!isSelectAllSize);
+    const data = filterState;
+    if (!isSelectAllSize) {
+      selectAllSize();
+    } else {
+      localStorage.setItem('filterSelectAllSize', JSON.stringify(false));
+      data.sizeTierFilter = [];
+      setFilterState(data);
+    }
+  };
+
+  const selectAllSize = (firstLoad?: boolean) => {
+    if (!firstLoad) {
+      localStorage.setItem('filterSelectAllSize', JSON.stringify(true));
+    }
+
+    setSelectAllSize(true);
+    const data = filterState;
+    _.map(allFilter, filter => {
+      if (filter.dataKey === 'product-size-tiers') {
+        _.map(filter.data, allFilterData => {
+          if (data.sizeTierFilter.indexOf(allFilterData.label) === -1) {
+            data.sizeTierFilter.push(allFilterData.label);
+          }
+          return allFilterData;
+        });
+      }
+      return filter;
+    });
+
+    setFilterState(data);
+  };
   const handleCompleteChange = (datakey: string, range: Range) => {
     const filterDetails: any = filterState;
     const data = _.map(filterRanges, filter => {
@@ -543,9 +625,10 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    setPageNumber(1);
     setHasFilter(isFilterUse());
-    if (isSelectAll) {
-      selectAll();
+    if (isSelectAllCategories) {
+      selectAllCategories();
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
@@ -555,7 +638,6 @@ function ProfitFinderFilterSection(props: Props) {
     const data = filterState;
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
-    data.productSize = 'All size';
     data.price = productRanges.price;
     data.profit = productRanges.profit;
     data.margin = productRanges.margin;
@@ -563,7 +645,8 @@ function ProfitFinderFilterSection(props: Props) {
     data.sales_monthly = productRanges.sales_monthly;
     data.rank = productRanges.rank;
     data.removeNegative = [];
-    selectAll();
+    selectAllCategories();
+    selectAllSize();
     const filterRangeKeys = Object.keys(productRanges);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterDataState.filterRanges, filter => {
@@ -624,43 +707,81 @@ function ProfitFinderFilterSection(props: Props) {
     if (JSON.stringify(rangeData.price) !== JSON.stringify(filterState.price)) return true;
     if (JSON.stringify(rangeData.rank) !== JSON.stringify(filterState.rank)) return true;
     if (JSON.stringify(rangeData.roi) !== JSON.stringify(filterState.roi)) return true;
-    if (filterState.productSize !== 'All size') return true;
-    if (!isSelectAll) return true;
+    if (!isSelectAllSize) return true;
+    if (!isSelectAllCategories) return true;
 
     return false;
   };
 
+  const renderExportButtons = () => {
+    return (
+      <div className="export-buttons">
+        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
+        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
+        <Image
+          as="a"
+          href={supplierDetails.report_url}
+          download={true}
+          src={microsoftExcelIcon}
+          wrapped={true}
+          width={22}
+          alt="Export Excel"
+        />
+      </div>
+    );
+  };
+
+  const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
+  const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
+  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+
   return (
-    <div className="filter-section">
+    <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
+        {renderExportButtons()}
         <Button
           basic
           icon
           labelPosition="left"
           className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
-          onClick={() => handleFilterType('all-filter')}
+          onClick={() => {
+            handleFilterType('all-filter');
+            setFilterModalOpen(true);
+          }}
         >
           <Icon className="slider" name="sliders horizontal" />
           <span className="filter-name">All</span>
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
       </div>
+      <Modal
+        className="FilterContainer__show-filter"
+        open={isFilterModalOpen}
+        onClose={() => setFilterModalOpen(!isFilterModalOpen)}
+      >
+        <i className="fas fa-times" onClick={() => setFilterModalOpen(!isFilterModalOpen)} />
+        <Modal.Content>
+          <FilterContainer
+            filterType={filterType}
+            applyFilter={applyFilter}
+            resetSingleFilter={resetSingleFilter}
+            toggleCheckboxFilter={toggleCheckboxFilter}
+            toggleSizeTierFilter={toggleSizeTierFilter}
+            resetFilter={resetFilter}
+            filterData={filterDataState}
+            handleCompleteChange={handleCompleteChange}
+            initialFilterState={filterState}
+            toggleSelectAllCategories={toggleSelectAllCategories}
+            isSelectAllCategories={isSelectAllCategories}
+            selectAllCategories={selectAllCategories}
+            toggleNegative={toggleNegative}
+            toggleSelectAllSize={toggleSelectAllSize}
+            isSelectAllSize={isSelectAllSize}
+          />
+        </Modal.Content>
+      </Modal>
       <div className="filter-wrapper">
-        <FilterContainer
-          filterType={filterType}
-          applyFilter={applyFilter}
-          resetSingleFilter={resetSingleFilter}
-          toggleCheckboxFilter={toggleCheckboxFilter}
-          resetFilter={resetFilter}
-          filterData={filterDataState}
-          handleCompleteChange={handleCompleteChange}
-          initialFilterState={filterState}
-          setRadioFilter={setRadioFilter}
-          toggleSelectAll={toggleSelectAll}
-          isSelectAll={isSelectAll}
-          selectAll={selectAll}
-          toggleNegative={toggleNegative}
-        />
+        <Divider />
       </div>
     </div>
   );
@@ -671,10 +792,13 @@ const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   filterSearch: get(state, 'supplier.filterSearch'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

@@ -39,6 +39,10 @@ import {
   UPDATE_SUPPLIER_PRODUCTS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
   SET_SUPPLIER_PAGE_NUMBER,
+  SET_STICKY_CHART,
+  SET_CONTEXT_SCROLL,
+  SET_SCROLL_TOP,
+  SET_IS_SCROLL,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -84,7 +88,9 @@ export const fetchSupplier = (supplierID: any) => async (
     )}/suppliers-compact?supplier_id=${supplierID}`
   );
   if (response.data.length) {
-    dispatch(updateSupplier({ ...response.data[0], id: supplierID }));
+    response.data[0].id = supplierID;
+    response.data[0].file_status = 'completed';
+    dispatch(updateSupplier(response.data[0]));
   }
 };
 
@@ -233,13 +239,6 @@ export const fetchSynthesisProgressUpdates = () => async (
         dispatch(setEta(responses[index].data.eta));
         dispatch(setProgress(responses[index].data.progress));
         dispatch(setSpeed(responses[index].data.speed));
-      }
-
-      if (
-        responses[index].data.progress === 100 &&
-        currSynthesisId === supplier.synthesis_file_id
-      ) {
-        dispatch(updateSupplier({ ...supplier, ...{ file_status: 'completed' } }));
       }
 
       if (responses[index].data.progress === 100) {
@@ -698,5 +697,25 @@ export const setSpeed = (value: number) => ({
 
 export const setEta = (value: number) => ({
   type: SET_ETA,
+  payload: value,
+});
+
+export const setStickyChart = (value: any) => ({
+  type: SET_STICKY_CHART,
+  payload: value,
+});
+
+export const setContextScroll = (value: any) => ({
+  type: SET_CONTEXT_SCROLL,
+  payload: value,
+});
+
+export const setScrollTop = (value: any) => ({
+  type: SET_SCROLL_TOP,
+  payload: value,
+});
+
+export const setIsScroll = (value: any) => ({
+  type: SET_IS_SCROLL,
   payload: value,
 });

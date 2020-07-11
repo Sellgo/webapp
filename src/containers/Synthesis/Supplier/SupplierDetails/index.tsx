@@ -3,12 +3,14 @@ import { Feed, Grid, Card } from 'semantic-ui-react';
 import SupplierCharts from './SupplierCharts';
 
 const SupplierDetails = () => {
+  const [isStickyChartActive, setStickyChartActive] = React.useState(false);
   return (
     <>
       <Grid.Column floated="left">
         <Grid.Row>
           <Card
             raised={true}
+            className={`${!isStickyChartActive ? 'active' : ''}`}
             style={{
               width: '100%',
               transition: 'width 0.4s',
@@ -20,7 +22,10 @@ const SupplierDetails = () => {
                   <Feed.Event>
                     <Feed.Content>
                       <Feed.Summary>
-                        <SupplierCharts />
+                        <SupplierCharts
+                          isStickyChartActive={isStickyChartActive}
+                          setStickyChartActive={setStickyChartActive}
+                        />
                       </Feed.Summary>
                     </Feed.Content>
                   </Feed.Event>

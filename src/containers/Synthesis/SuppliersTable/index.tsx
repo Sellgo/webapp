@@ -13,7 +13,7 @@ import {
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
-import { PaginatedTable, Column } from '../../../components/Table';
+import { GenericTable, Column } from '../../../components/Table';
 import { Link } from 'react-router-dom';
 import history from '../../../history';
 import {
@@ -33,6 +33,8 @@ import get from 'lodash/get';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface SuppliersTableProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   subscriptionType: string;
   suppliers: Supplier[];
   onEdit: any;
@@ -260,6 +262,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Search',
       dataKey: 'search',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderName,
@@ -268,12 +271,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       label: 'Filename',
       dataKey: 'file_name',
       sortable: true,
+      type: 'string',
       show: true,
       render: this.renderFileName,
     },
     {
       label: 'Account Status',
       sortable: true,
+      type: 'string',
       show: true,
       dataKey: 'account_status',
     },
@@ -316,7 +321,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderCompleted,
     },
     {
-      label: 'Product to Listing Ratio (%)',
+      label: 'Ratio (%)',
       dataKey: 'p2l_ratio',
       sortable: true,
       type: 'number',
@@ -324,7 +329,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderPLRatio,
     },
     {
-      label: 'Supplier Rate (%)',
+      label: 'Rate (%)',
       dataKey: 'rate',
       sortable: true,
       type: 'number',
@@ -332,7 +337,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderSupplierRate,
     },
     {
-      label: 'Other Actions',
+      label: 'Other',
       dataKey: 'other',
       show: true,
       render: this.renderOperations,
@@ -358,7 +363,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns } = this.props;
+    const { suppliers, showTab, showColumns, scrollTopSelector, stickyChartSelector } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -415,7 +420,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             <SelectColumns columns={columns} />
           </Grid.Column>
         </Grid>
-        <PaginatedTable
+        <GenericTable
+          stickyChartSelector={stickyChartSelector}
+          scrollTopSelector={scrollTopSelector}
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
           data={data}
@@ -445,6 +452,8 @@ const mapStateToProps = (state: {}) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
 
 const mapDispatchToProps = {

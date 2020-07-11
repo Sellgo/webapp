@@ -8,6 +8,9 @@ export default ({ productPrices }: any) => {
       name: 'Price($)',
       color: '#779ADE',
       data: productPrices,
+      tooltip: {
+        valueDecimals: 2,
+      },
     },
   ];
   const chartOptions = {

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment, Icon, Confirm, List, Header, Popup } from 'semantic-ui-react';
 import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
+import { isSubscriptionFree } from '../../utils/subscriptions';
+import { connect } from 'react-redux';
 
 const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
   return { key, text: name, value: id, disabled };
@@ -34,7 +36,13 @@ const defaultShowCredentials = {
 };
 
 const SellerAmazonMWS = (props: any) => {
-  const { amazonMWSAuth, updateAmazonMWSAuth, deleteMWSAuth } = props;
+  const {
+    amazonMWSAuth,
+    updateAmazonMWSAuth,
+    deleteMWSAuth,
+    subscriptionType,
+    sellerSubscription,
+  } = props;
   const [marketplaceLocal, setmarketplaceLocal] = useState(defaultMarketplace);
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -69,6 +77,10 @@ const SellerAmazonMWS = (props: any) => {
 
   useEffect(() => {
     // retrigger the scroll to hash after component is mounted
+    if (isSubscriptionFree(subscriptionType)) {
+      window.location.hash = '#amazon-mws';
+    }
+
     const hash = window.location.hash;
     window.location.hash = '';
     window.location.hash = hash;
@@ -123,6 +135,11 @@ const SellerAmazonMWS = (props: any) => {
   const isHashMWS = () => {
     return window.location.hash === '#amazon-mws';
   };
+
+  const isFreeAccountWithoutHistory = () => {
+    return isSubscriptionFree(subscriptionType) && sellerSubscription.expiry_date === null;
+  };
+
   return (
     <>
       <Grid.Column width={16} id="amazon-mws">
@@ -207,37 +224,28 @@ const SellerAmazonMWS = (props: any) => {
                   }
                 />
                 &nbsp; &nbsp;
-                <Popup
-                  pinned
-                  open={isHashMWS()}
-                  position="bottom left"
-                  basic={true}
-                  trigger={
-                    <span
-                      className="auth-seller"
-                      onClick={() => {
-                        setConfirmToken(() => !showConfirmToken);
-                        if (isHashMWS()) {
-                          window.location.hash = '';
-                        }
-                      }}
-                    >
-                      Authenticate Your Seller Account
-                    </span>
-                  }
-                  className="free-trial-popup"
-                  hideOnScroll={false}
+                <span
+                  className="auth-seller"
+                  onClick={() => {
+                    setConfirmToken(() => !showConfirmToken);
+                    if (isHashMWS()) {
+                      window.location.hash = '';
+                    }
+                  }}
                 >
-                  <div>
-                    <Icon name="arrow left" />
-                    <p className="title">Start Your Free Trial</p>
-                    <p className="content">
-                      To finish setting up your account and start your free trial. Please enter your
-                      Amazon MWS Authorization. Click on “Authenticate Your Seller Account” for
-                      instructions.
-                    </p>
-                  </div>
-                </Popup>
+                  Authenticate Your Seller Account
+                  {!amazonMWSLocal.token && isHashMWS() && isFreeAccountWithoutHistory() && (
+                    <div className="free-trial-popup">
+                      <Icon name="arrow left" />
+                      <p className="title">Start Your Free Trial</p>
+                      <p className="content">
+                        To finish setting up your account and start your free trial. Please enter
+                        your Amazon MWS Authorization. Click on “Authenticate Your Seller Account”
+                        for instructions.
+                      </p>
+                    </div>
+                  )}
+                </span>
                 <br />
               </>
             }
@@ -328,4 +336,9 @@ const SellerAmazonMWS = (props: any) => {
   );
 };
 
-export default SellerAmazonMWS;
+const mapStateToProps = (state: any) => ({
+  sellerSubscription: state.subscription.sellerSubscription,
+  subscriptionType: state.subscription.subscriptionType,
+});
+
+export default connect(mapStateToProps)(SellerAmazonMWS);

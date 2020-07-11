@@ -110,4 +110,7 @@ export interface ProductTrackerDetails {
   supplier_id: number;
   title: string;
   weight: string;
+  avg_inventory: number;
+  avg_amazon_inventory: number;
+  is_amazon_selling: boolean;
 }

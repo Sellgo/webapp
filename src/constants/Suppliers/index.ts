@@ -26,6 +26,10 @@ export const FILTER_SUPPLIER_PRODUCTS = 'FILTER_SUPPLIER_PRODUCTS';
 export const SEARCH_SUPPLIER_PRODUCTS = 'SEARCH_SUPPLIER_PRODUCTS';
 export const UPDATE_PROFIT_FINDER_PRODUCTS = 'UPDATE_PROFIT_FINDER_PRODUCTS';
 export const SET_SUPPLIER_PAGE_NUMBER = 'SET_SUPPLIER_PAGE_NUMBER';
+export const SET_STICKY_CHART = 'SET_STICKY_CHART';
+export const SET_CONTEXT_SCROLL = 'SET_CONTEXT_SCROLL';
+export const SET_SCROLL_TOP = 'SET_SCROLL_TOP';
+export const SET_IS_SCROLL = 'SET_IS_SCROLL';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -192,8 +196,10 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           //show if product's category doesn't exist in filter's categories if other's filter is active
           (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
             filterData.allFilter.indexOf('Others') !== -1)) &&
-          //show product if all size tier is active or product's size is equal
-          (filterData.productSize === 'All size' || filterData.productSize === product.size_tier) &&
+          //show product size tier is empty and others is checked
+          ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
+            //show product size tier is matched by one of size tiers
+            filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>
