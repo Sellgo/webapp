@@ -18,7 +18,6 @@ import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
 import microsoftExcelIcon from '../../../assets/images/microsoft-excel.png';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
-// import { CSVLink } from 'react-csv';
 
 interface Props {
   subscriptionType: string;
@@ -31,8 +30,7 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
-  exportFile: any;
-  exportProducts: (filterData: any) => void;
+  exportProducts: (search: string, filterData: any) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -44,7 +42,7 @@ function ProfitFinderFilterSection(props: Props) {
     products,
     setPageNumber,
     subscriptionType,
-    exportFile,
+    filteredProducts,
     exportProducts,
   } = props;
 
@@ -727,14 +725,18 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const exportExcel = () => {
+    console.log('filteredProducts: ', filteredProducts);
     const data = _.cloneDeep(filterState);
-    exportProducts(data);
-    console.log('exportFile: ', exportFile);
+    exportProducts(filterSearch, data);
   };
 
   const renderExportButtons = () => {
     return (
-      <div className={`export-buttons ${isSubscriptionFree(subscriptionType) && 'disabled'}`}>
+      <div
+        className={`export-buttons ${(isSubscriptionFree(subscriptionType) ||
+          _.isEmpty(filteredProducts)) &&
+          'disabled'}`}
+      >
         <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
         <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
         <Image
@@ -747,13 +749,8 @@ function ProfitFinderFilterSection(props: Props) {
           wrapped={true}
           width={22}
           alt="Export Excel"
-          disabled={isSubscriptionFree(subscriptionType)}
-        >
-          {/* {exportFile && (
-            <CSVLink data={exportFile} target="_blank" />
-          )} */}
-        </Image>
-        {/* <a href={exportFile} download onClick={()=>{exportExcel()}}>test</a> */}
+          disabled={isSubscriptionFree(subscriptionType) || _.isEmpty(filteredProducts)}
+        />
       </div>
     );
   };
@@ -822,14 +819,13 @@ const mapStateToProps = (state: {}) => ({
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
-  exportFile: get(state, 'supplier.exportFile'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
-  exportProducts: (filterData: any) => exportFilteredProducts(filterData),
+  exportProducts: (search: string, filterData: any) => exportFilteredProducts(search, filterData),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

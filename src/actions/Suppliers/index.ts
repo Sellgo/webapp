@@ -43,7 +43,6 @@ import {
   SET_CONTEXT_SCROLL,
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
-  SET_EXPORT_FILE,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -561,11 +560,12 @@ export const postProductTrackGroupId = (supplierID: string, name: string) => () 
     });
 };
 
-export const exportFilteredProducts = (filterData: any) => (dispatch: any) => {
+export const exportFilteredProducts = (searchValue: string, filterData: any) => () => {
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  bodyFormData.set('product_category', filterData.allFilter);
-  bodyFormData.set('size_tier', filterData.sizeTierFilter);
+  bodyFormData.set('search', searchValue);
+  bodyFormData.set('product_category', JSON.stringify(filterData.allFilter));
+  bodyFormData.set('size_tier', JSON.stringify(filterData.sizeTierFilter));
   bodyFormData.set('l_price', filterData.price.min);
   bodyFormData.set('h_price', filterData.price.max);
   bodyFormData.set('l_profit', filterData.profit.min);
@@ -578,19 +578,20 @@ export const exportFilteredProducts = (filterData: any) => (dispatch: any) => {
   bodyFormData.set('h_rank', filterData.rank.max);
   bodyFormData.set('l_monthly_sales', filterData.sales_monthly.min);
   bodyFormData.set('h_monthly_sales', filterData.sales_monthly.max);
-  console.log(
-    'exportFilteredProducts filterData.supplier_id:',
-    bodyFormData.get('product_category')
-  );
+
   return Axios.post(
     AppConfig.BASE_URL_API +
       `sellers/${sellerID}/suppliers/${filterData.supplier_id}/synthesis/export`,
     bodyFormData
   )
-    .then(data => {
-      console.log('Success export: ', data);
-      dispatch(setExportFile(data));
-      // do nothing
+    .then(response => {
+      console.log('Success export: ', response.data);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'file.csv'); //or any other extension
+      document.body.appendChild(link);
+      link.click();
     })
     .catch(err => {
       console.log('Error export: ', err);
@@ -600,13 +601,6 @@ export const exportFilteredProducts = (filterData: any) => (dispatch: any) => {
     });
 };
 
-export const setExportFile = (value: any) => ({
-  type: SET_EXPORT_FILE,
-  payload: {
-    data: value.dada,
-    headers: value.header,
-  },
-});
 export const saveSearch = (other: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
