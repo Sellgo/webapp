@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon, Image, Divider, Modal } from 'semantic-ui-react';
+import { Button, Icon, Image, Divider, Modal, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
@@ -11,7 +11,8 @@ import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
-import microsoftExcelIcon from '../../../assets/images/microsoft-excel.png';
+import msExcelIcon from '../../../assets/images/microsoft-excel.png';
+import csvIcon from '../../../assets/images/csv.svg';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -712,22 +713,46 @@ function ProfitFinderFilterSection(props: Props) {
 
     return false;
   };
-
+  const exportOptions = [
+    {
+      key: 1,
+      text: `.CSV`,
+      icon: csvIcon,
+      value: `${supplierDetails.report_url_csv}`,
+    },
+    { key: 2, text: `.XSLS`, icon: msExcelIcon, value: `${supplierDetails.report_url}` },
+  ];
+  const exportTrigger = (
+    <span className="export-wrapper">
+      <Image src={csvIcon} wrapped={true} />
+    </span>
+  );
   const renderExportButtons = () => {
     return (
-      <div className="export-buttons">
-        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
-        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
-        <Image
-          as="a"
-          href={supplierDetails.report_url}
-          download={true}
-          src={microsoftExcelIcon}
-          wrapped={true}
-          width={22}
-          alt="Export Excel"
-        />
-      </div>
+      <Dropdown
+        className="selection export-wrapper__dropdown"
+        text=""
+        openOnFocus
+        trigger={exportTrigger}
+      >
+        <Dropdown.Menu>
+          {exportOptions.map((option, key) => {
+            return (
+              <Dropdown.Item
+                key={key}
+                as="a"
+                content={
+                  <>
+                    <Image src={option.icon} wrapped={true} />
+                    <span>{option.text}</span>
+                  </>
+                }
+                href={option.value}
+              />
+            );
+          })}
+        </Dropdown.Menu>
+      </Dropdown>
     );
   };
 
@@ -738,7 +763,6 @@ function ProfitFinderFilterSection(props: Props) {
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
-        {renderExportButtons()}
         <Button
           basic
           icon
@@ -753,6 +777,8 @@ function ProfitFinderFilterSection(props: Props) {
           <span className="filter-name">All</span>
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
+
+        {renderExportButtons()}
       </div>
       <Modal
         className="FilterContainer__show-filter"
