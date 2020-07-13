@@ -28,6 +28,10 @@
   .filter-wrapper {
     margin: 0 5px;
     height: 45px;
+
+    .divider {
+      display: none;
+    }
   }
 
   .filter-header {
@@ -155,6 +159,18 @@
 
     &.scroll-top.sticky-chart-active {
       top: 609px;
+    }
+  }
+}
+
+@media (max-width: 2550px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 432px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 549px;
     }
   }
 }
