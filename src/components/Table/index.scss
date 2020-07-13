@@ -423,12 +423,12 @@ i.icon.filter::before {
   max-width: 670px !important;
   overflow: auto !important;
 }
-
-@media only screen and (min-device-width: 480px) and (max-device-width: 1919px) {
-  .header-scroll {
-    max-width: 670px !important;
-  }
-}
+//
+//@media only screen and (min-device-width: 480px) and (max-device-width: 1919px) {
+//  .header-scroll {
+//    max-width: 670px !important;
+//  }
+//}
 
 @media only screen and (min-width: 1920px) {
   .header-scroll {
@@ -651,7 +651,7 @@ i.icon.filter::before {
   }
 }
 
-@media only screen and (min-device-width: 1680px) and (max-device-width: 1921px) {
+@media only screen and (min-device-width: 1680px) and (max-device-width: 1919px) {
   .header-scroll {
     max-width: 670px !important;
   }
@@ -672,6 +672,7 @@ i.icon.filter::before {
 
   .default-column {
     width: 150px !important;
+    min-width: 150px !important;
   }
 
   .product-description {
