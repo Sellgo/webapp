@@ -273,6 +273,7 @@ i.icon.filter::before {
   @extend .default-column-props;
 
   width: 190px !important;
+  min-width: 190px;
 }
 
 .primary-column {
@@ -431,11 +432,11 @@ i.icon.filter::before {
 
 @media only screen and (min-width: 1920px) {
   .header-scroll {
-    max-width: inherit !important;
+    max-width: 670px !important;
   }
 
   .table-header-scroll {
-    max-width: inherit !important;
+    max-width: 670px !important;
   }
 }
 
@@ -499,10 +500,6 @@ i.icon.filter::before {
 }
 
 @media (max-width: 2560px) {
-  .large-column {
-    min-width: unset;
-  }
-
   .inner-tbody .pf-header-cell.large-column {
     width: 134px !important;
   }
