@@ -92,10 +92,10 @@ class ProductCharts extends Component<ProductChartsProps> {
    * @param {number} period - number of days between start and end (today).
    */
   getPeriodStartAndEnd = (period: number) => {
-    const start: any = new Date();
-    start.setHours(23, 59, 59, 999);
-    const end: any = new Date(start.getTime() - MILLISECONDS_IN_A_DAY * (period - 1));
-    end.setHours(0, 0, 0, 0);
+    const end: any = new Date();
+    end.setHours(23, 59, 59, 999);
+    const start: any = new Date(end.getTime() - MILLISECONDS_IN_A_DAY * (period - 1));
+    start.setHours(0, 0, 0, 0);
     return [start.getTime(), end.getTime()];
   };
 
