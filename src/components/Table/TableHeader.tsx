@@ -311,10 +311,10 @@ const TableHeader = (props: TableHeaderProps) => {
             })}
           </tr>
         )}
+
         {rest.type !== 'trackerTable' && (
           <React.Fragment>
             <tr className="table-scroll-divider" />
-
             <Table.Row>
               {scrollRows.map((cell: any, cellIndex: any) => {
                 const headerCellProps: any = {};

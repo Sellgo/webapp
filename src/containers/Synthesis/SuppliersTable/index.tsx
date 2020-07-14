@@ -273,13 +273,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       show: true,
       render: this.renderFileName,
     },
-    /* {
-      label: 'Account Status',
-      sortable: true,
-      type: 'string',
-      show: true,
-      dataKey: 'account_status',
-    }, */
     {
       label: 'Inventory',
       sortable: true,

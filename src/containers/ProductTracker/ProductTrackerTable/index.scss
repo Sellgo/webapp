@@ -256,14 +256,14 @@ $link-color: #349af8;
         font-size: 16px !important;
         font-weight: 600;
         justify-content: center;
-        padding: 6px 12px; //rwp
+        padding: 6px 12px;
 
         .header {
           font-family: 'Work Sans', sans-serif !important;
-          font-size: 15px; //rwp
-          font-weight: 600; //rwp
+          font-size: 15px;
+          font-weight: 600;
           color: #3b4557;
-          line-height: 24px; //rwp
+          line-height: 24px;
         }
       }
     }
@@ -287,7 +287,7 @@ $link-color: #349af8;
 
     .ui.blue.menu .active.item,
     .ui.menu .blue.active.item {
-      border-color: #98aeca !important; //rwp
+      border-color: #98aeca !important;
     }
 
     .ui.secondary.pointing.menu .active.item {
@@ -298,14 +298,14 @@ $link-color: #349af8;
       margin-bottom: 0;
 
       @media screen and (min-width: 1025px) {
-        border-radius: 4px 4px 0 0; //rwp
+        border-radius: 4px 4px 0 0;
       }
 
       h4 {
         color: #5381db !important;
-        font-size: 15px; //rwp
+        font-size: 15px;
         font-weight: 600;
-        line-height: 24px; //rwp
+        line-height: 24px;
       }
     }
   }
@@ -313,7 +313,7 @@ $link-color: #349af8;
   h2 {
     color: #5381db;
     font-size: 14px;
-    font-weight: 500; //rwp
+    font-weight: 500;
     line-height: 16px;
     margin-bottom: 7px;
     overflow: hidden;
@@ -458,7 +458,7 @@ $link-color: #349af8;
 
         i {
           color: #98aeca !important;
-          font-size: 1.6em !important; //rwp
+          font-size: 1.6em !important;
           text-align: left;
         }
       }
@@ -544,8 +544,8 @@ $link-color: #349af8;
             color: #3b4557;
             font-weight: 500;
             font-size: 14px;
-            margin: 0 19px; //rwp
-            line-height: 16px; //rwp
+            margin: 0 19px;
+            line-height: 16px;
             margin-bottom: 2px;
           }
 
@@ -553,8 +553,8 @@ $link-color: #349af8;
             color: #3b4557;
             font-weight: 300;
             font-size: 12px;
-            margin: 0 19px; //rwp
-            line-height: 14px; //rwp
+            margin: 0 19px;
+            line-height: 14px;
           }
         }
 
@@ -967,13 +967,13 @@ $link-color: #349af8;
   max-width: 75% !important;
   overflow-x: auto !important;
   display: flex !important;
-  height: 4px !important; //rwp
+  height: 16px !important;
   overflow-y: hidden !important;
 }
 
 .pt-scroll {
   min-width: 120px !important;
-  height: 10px !important;
+  height: 1px !important;
 }
 
 .pt-product-info {
@@ -982,7 +982,7 @@ $link-color: #349af8;
   //height: 6em !important;
   left: 1em !important;
   background: #fff !important;
-  border-left: 1px solid #98aeca !important; //rwp
+  border-left: 1px solid #98aeca !important;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
