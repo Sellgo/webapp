@@ -22,7 +22,7 @@ import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
 import RankVsInventoryChart from './RankVsInventoryChart';
-import { MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
+import { MILLISECONDS_IN_A_DAY, MINUTES_IN_A_DAY } from '../../../../../utils/date';
 
 interface ProductChartsProps {
   product: any;
@@ -105,7 +105,7 @@ class ProductCharts extends Component<ProductChartsProps> {
         if (tempPoint && nextPoint) {
           while (tempPoint[0] < nextPoint[0]) {
             formattedData.push([tempPoint[0], tempPoint[1]]);
-            tempPoint = [tempPoint[0] + 60 * 1000, tempPoint[1]];
+            tempPoint = [tempPoint[0] + MINUTES_IN_A_DAY, tempPoint[1]];
           }
         }
       }
