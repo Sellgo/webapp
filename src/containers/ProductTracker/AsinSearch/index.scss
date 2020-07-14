@@ -71,3 +71,23 @@
     margin-left: 12px;
   }
 }
+
+.menu.transition.visible {
+  > .item.flag-right {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    justify-content: space-between !important;
+    padding-right: 37px !important;
+
+    i {
+      display: flex;
+      flex-direction: row-reverse;
+      width: max-content;
+      margin: unset;
+    }
+
+    span {
+      padding: 0 5px 0 0;
+    }
+  }
+}

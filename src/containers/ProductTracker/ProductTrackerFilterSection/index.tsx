@@ -12,9 +12,9 @@ import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
   resetFilter,
+  setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
-import { setSupplierPageNumber } from '../../../actions/Suppliers';
 
 interface Props {
   setPageNumber: (pageNumber: number) => void;
@@ -551,6 +551,6 @@ const mapDispatchToProps = {
   filterReset: (data: boolean) => resetFilter(data),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
-  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);
