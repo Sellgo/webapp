@@ -716,45 +716,46 @@ function ProfitFinderFilterSection(props: Props) {
 
     return false;
   };
-  const exportOptions = [
-    {
-      key: 1,
-      text: `.CSV`,
-      icon: csvIcon,
-      value: `${supplierDetails.report_url_csv}`,
-    },
-    { key: 2, text: `.XSLS`, icon: msExcelIcon, value: `${supplierDetails.report_url}` },
-  ];
+
   const exportTrigger = (
     <span className="export-wrapper">
       <Image src={csvIcon} wrapped={true} />
     </span>
   );
   const renderExportButtons = () => {
+    console.log('Sup: ', supplierDetails);
     return (
       <Dropdown
         className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
           'disabled'}`}
-        text=""
         openOnFocus
         trigger={exportTrigger}
       >
         <Dropdown.Menu>
-          {exportOptions.map((option, key) => {
-            return (
-              <Dropdown.Item
-                key={key}
-                as="a"
-                content={
-                  <>
-                    <Image src={option.icon} wrapped={true} />
-                    <span>{option.text}</span>
-                  </>
-                }
-                href={option.value}
-              />
-            );
-          })}
+          <Dropdown.Item
+            key={1}
+            as="a"
+            disabled={_.isEmpty(supplierDetails.report_url_csv)}
+            content={
+              <>
+                <Image src={csvIcon} wrapped={true} />
+                <span>{`.CSV`}</span>
+              </>
+            }
+            href={supplierDetails.report_url_csv}
+          />
+          <Dropdown.Item
+            disabled={_.isEmpty(supplierDetails.report_url)}
+            key={2}
+            as="a"
+            content={
+              <>
+                <Image src={msExcelIcon} wrapped={true} />
+                <span>{`.XSLS`}</span>
+              </>
+            }
+            href={supplierDetails.report_url}
+          />
         </Dropdown.Menu>
       </Dropdown>
     );
