@@ -1,7 +1,8 @@
 import React from 'react';
 import Chart from '../../../../../components/Chart/Chart';
+import { MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
 
-export default ({ productRanks, productInventories }: any) => {
+export default ({ productRanks, productInventories, xMax, xMin }: any) => {
   const data = [
     {
       yAxis: 0,
@@ -50,6 +51,9 @@ export default ({ productRanks, productInventories }: any) => {
       {
         type: 'datetime',
         crosshair: true,
+        min: xMin,
+        max: xMax,
+        minTickInterval: MILLISECONDS_IN_A_DAY,
       },
     ],
     yAxis: [

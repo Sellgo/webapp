@@ -1,6 +1,33 @@
 .filter-section {
+  position: sticky;
+  top: -60px;
+  background: #f8faff;
+  z-index: 4;
+  transition-property: top;
+  transition-duration: 1s;
+
+  &.scroll-top {
+    top: 24px;
+    transition-property: top;
+    transition-duration: 1s;
+  }
+
+  &.sticky-chart-active {
+    z-index: 3;
+    top: 285px;
+    transition-property: top;
+    transition-duration: 1s;
+  }
+
+  &.scroll-top.sticky-chart-active {
+    top: 364px;
+    transition-property: top;
+    transition-duration: 1s;
+  }
+
   .filter-wrapper {
     margin: 0 5px;
+    height: 45px;
   }
 
   .filter-header {
@@ -94,6 +121,65 @@
       &.active {
         background: white !important;
       }
+    }
+  }
+}
+
+.filter-button-popup {
+  max-width: 87% !important;
+  width: 87% !important;
+  height: 500px;
+  overflow: auto;
+
+  i.fas.fa-times {
+    font-size: 15px;
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    color: #98aeca;
+    cursor: pointer;
+  }
+
+  .filter-wrapper {
+    height: 400px;
+    overflow: auto;
+    width: 100%;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 2560px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 530px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 609px;
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 397px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 476px;
+    }
+  }
+}
+
+@media (max-width: 1536px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 282px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 361px;
     }
   }
 }
