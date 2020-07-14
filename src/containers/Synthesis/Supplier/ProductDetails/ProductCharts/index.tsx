@@ -105,7 +105,7 @@ class ProductCharts extends Component<ProductChartsProps> {
         if (tempPoint && nextPoint) {
           while (tempPoint[0] < nextPoint[0]) {
             formattedData.push([tempPoint[0], tempPoint[1]]);
-            tempPoint = [tempPoint[0] + MILLISECONDS_IN_A_MINUTE, tempPoint[1]];
+            tempPoint = [tempPoint[0] + 15 * MILLISECONDS_IN_A_MINUTE, tempPoint[1]];
           }
         }
       }
