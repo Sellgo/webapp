@@ -255,8 +255,18 @@ export const GenericTable = (props: GenericTableProps) => {
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
 
+  const handleScroll = (evt: any) => {
+    const scroll = document.querySelector('.pt-scroll-container');
+    if (scroll) {
+      scroll.scrollLeft = evt.target.scrollLeft;
+    }
+  };
+
   return (
-    <div className={`generic-table scrollable ${name === 'products' ? 'pf-table' : ''}`}>
+    <div
+      className={`generic-table scrollable ${name === 'products' ? 'pf-table' : ''}`}
+      onScroll={handleScroll}
+    >
       {setSinglePageItemsCount && showSelectItemsCount ? (
         <div
           className={`table-menu-header ${isStickyChartActive} ${isScrollTop} ${featuresLock &&

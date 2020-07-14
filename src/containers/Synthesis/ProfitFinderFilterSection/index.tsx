@@ -13,6 +13,7 @@ import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -24,6 +25,7 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  subscriptionType: string;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -34,6 +36,7 @@ function ProfitFinderFilterSection(props: Props) {
     filterSearch,
     products,
     setPageNumber,
+    subscriptionType,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -768,15 +771,7 @@ function ProfitFinderFilterSection(props: Props) {
 
     return false;
   };
-  const exportOptions = [
-    {
-      key: 1,
-      text: `.CSV`,
-      icon: csvIcon,
-      value: `${supplierDetails.report_url_csv}`,
-    },
-    { key: 2, text: `.XSLS`, icon: msExcelIcon, value: `${supplierDetails.report_url}` },
-  ];
+
   const exportTrigger = (
     <span className="export-wrapper">
       <Image src={csvIcon} wrapped={true} />
@@ -785,27 +780,36 @@ function ProfitFinderFilterSection(props: Props) {
   const renderExportButtons = () => {
     return (
       <Dropdown
-        className="selection export-wrapper__dropdown"
-        text=""
+        className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
+          'disabled'}`}
         openOnFocus
         trigger={exportTrigger}
       >
         <Dropdown.Menu>
-          {exportOptions.map((option, key) => {
-            return (
-              <Dropdown.Item
-                key={key}
-                as="a"
-                content={
-                  <>
-                    <Image src={option.icon} wrapped={true} />
-                    <span>{option.text}</span>
-                  </>
-                }
-                href={option.value}
-              />
-            );
-          })}
+          <Dropdown.Item
+            key={1}
+            as="a"
+            disabled={_.isEmpty(supplierDetails.report_url_csv)}
+            content={
+              <>
+                <Image src={csvIcon} wrapped={true} />
+                <span>{`.CSV`}</span>
+              </>
+            }
+            href={supplierDetails.report_url_csv}
+          />
+          <Dropdown.Item
+            disabled={_.isEmpty(supplierDetails.report_url)}
+            key={2}
+            as="a"
+            content={
+              <>
+                <Image src={msExcelIcon} wrapped={true} />
+                <span>{`.XSLS`}</span>
+              </>
+            }
+            href={supplierDetails.report_url}
+          />
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -901,6 +905,7 @@ const mapStateToProps = (state: {}) => ({
   filterSearch: get(state, 'supplier.filterSearch'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
 });
 
 const mapDispatchToProps = {

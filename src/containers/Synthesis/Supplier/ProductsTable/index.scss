@@ -429,7 +429,6 @@ $new_black: #707070;
     }
     // Prevent stats from wrapping (such as "123 /month")
     td p.stat {
-      white-space: pre-line;
       text-align: left;
       line-height: 1;
     }
