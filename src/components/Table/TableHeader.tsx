@@ -227,6 +227,7 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
+
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
