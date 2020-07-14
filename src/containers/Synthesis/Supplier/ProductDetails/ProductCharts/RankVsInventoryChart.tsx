@@ -1,6 +1,6 @@
 import React from 'react';
 import Chart from '../../../../../components/Chart/Chart';
-import { MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
+import { MINUTES_IN_A_DAY } from '../../../../../utils/date';
 
 export default ({ productRanks, productInventories, xMax, xMin }: any) => {
   const data = [
@@ -50,10 +50,12 @@ export default ({ productRanks, productInventories, xMax, xMin }: any) => {
     xAxis: [
       {
         type: 'datetime',
-        crosshair: true,
         min: xMin,
         max: xMax,
-        minTickInterval: MILLISECONDS_IN_A_DAY,
+        minTickInterval: MINUTES_IN_A_DAY,
+        crosshair: {
+          snap: false,
+        },
       },
     ],
     yAxis: [
@@ -98,6 +100,15 @@ export default ({ productRanks, productInventories, xMax, xMin }: any) => {
     ],
     tooltip: {
       shared: true,
+      followPointer: true,
+      xDateFormat: '%a, %b %e, %k:%M',
+    },
+    plotOptions: {
+      series: {
+        marker: {
+          enabled: false,
+        },
+      },
     },
     legend: {
       align: 'center',

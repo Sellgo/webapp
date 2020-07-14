@@ -78,11 +78,37 @@ class ProductCharts extends Component<ProductChartsProps> {
 
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
 
-  formatProductDetail(type: string, data: any) {
-    const formattedData: any[] = [];
+  formatProductDetail(type: string, data: any, xMin?: number, xMax?: number) {
+    const tempData: [[number, number]?] = [];
+    const formattedData: [[number, number]?] = [];
 
     for (let i = 0; i < data.length; i++) {
-      formattedData.push([new Date(data[i].cdate).getTime(), Number(data[i][type])]);
+      const date = new Date(data[i].cdate);
+      date.setUTCHours(date.getUTCHours() - date.getTimezoneOffset() / 60); // adjust to local TZ
+      const time = date.getTime();
+      // filter by period min & max
+      if ((!xMin || time >= xMin) && (!xMax || time <= xMax)) {
+        tempData.push([time, Number(data[i][type])]);
+      }
+    }
+
+    // create minute-interval data points, forward-filled.
+    if (tempData.length === 1) {
+      formattedData.push(tempData[0]);
+    } else {
+      for (let i = 1; i < tempData.length; i++) {
+        const currentPoint = tempData[i - 1];
+        const nextPoint = tempData[i];
+        let tempPoint = currentPoint && currentPoint.slice();
+
+        // forward-fill
+        if (tempPoint && nextPoint) {
+          while (tempPoint[0] < nextPoint[0]) {
+            formattedData.push([tempPoint[0], tempPoint[1]]);
+            tempPoint = [tempPoint[0] + 60 * 1000, tempPoint[1]];
+          }
+        }
+      }
     }
 
     return formattedData;
@@ -113,15 +139,20 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingReview,
     } = this.props;
     const { period } = this.state;
-    let [xMin, xMax] = [null, null];
+    let [xMin, xMax]: [number?, number?] = [undefined, undefined];
     if (period !== 1) {
       [xMin, xMax] = this.getPeriodStartAndEnd(period);
     }
 
     switch (this.state.showProductChart) {
       case 'chart0': {
-        const formattedRanks = this.formatProductDetail('rank', productDetailRank);
-        const formattedInventories = this.formatProductDetail('inventory', productDetailInventory);
+        const formattedRanks = this.formatProductDetail('rank', productDetailRank, xMin, xMax);
+        const formattedInventories = this.formatProductDetail(
+          'inventory',
+          productDetailInventory,
+          xMin,
+          xMax
+        );
         return isFetchingRank && isFetchingInventory ? (
           this.renderLoader()
         ) : (
@@ -135,7 +166,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart1': {
-        const formattedPrices = this.formatProductDetail('price', productDetailPrice);
+        const formattedPrices = this.formatProductDetail('price', productDetailPrice, xMin, xMax);
         return isFetchingPrice ? (
           this.renderLoader()
         ) : (
@@ -144,7 +175,12 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart2': {
-        const formattedRatings = this.formatProductDetail('rating', productDetailRating);
+        const formattedRatings = this.formatProductDetail(
+          'rating',
+          productDetailRating,
+          xMin,
+          xMax
+        );
         return isFetchingRating ? (
           this.renderLoader()
         ) : (
@@ -153,7 +189,12 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart3': {
-        const formattedReviews = this.formatProductDetail('review_count', productDetailReview);
+        const formattedReviews = this.formatProductDetail(
+          'review_count',
+          productDetailReview,
+          xMin,
+          xMax
+        );
         return isFetchingReview ? (
           this.renderLoader()
         ) : (
