@@ -53,6 +53,8 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
       tooltip: {
         shared: true,
         followPointer: true,
+        followTouchMove: true,
+        stickOnContact: true,
         xDateFormat: '%a, %b %e, %k:%M',
       },
       legend: {

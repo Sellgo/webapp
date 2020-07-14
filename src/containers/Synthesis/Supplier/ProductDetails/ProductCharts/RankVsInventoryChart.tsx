@@ -101,6 +101,8 @@ export default ({ productRanks, productInventories, xMax, xMin }: any) => {
     tooltip: {
       shared: true,
       followPointer: true,
+      followTouchMove: true,
+      stickOnContact: true,
       xDateFormat: '%a, %b %e, %k:%M',
     },
     plotOptions: {
