@@ -228,6 +228,7 @@ function FilterContainer(props: Props) {
                               checked={initialFilterState.profitability === filterData.label}
                               onChange={() => {
                                 setRadioFilter(filterData.dataKey, filterData.label);
+                                applyFilter();
                               }}
                               type="radio"
                             />

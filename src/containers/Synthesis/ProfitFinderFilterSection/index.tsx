@@ -491,23 +491,6 @@ function ProfitFinderFilterSection(props: Props) {
           },
         ],
       },
-      {
-        label: 'Amazon',
-        dataKey: 'amazon-preset',
-        radio: false,
-        data: [
-          {
-            label: 'Amazon Choice Products',
-            dataKey: 'amazon-choice-products',
-            checked: true,
-          },
-          {
-            label: 'Amazon is not selling this product',
-            dataKey: 'amazon-not-selling',
-            checked: true,
-          },
-        ],
-      },
     ],
   };
 
@@ -683,6 +666,7 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    console.log('state:', filterState);
     setPageNumber(1);
     setHasFilter(isFilterUse());
     if (isSelectAllCategories) {
