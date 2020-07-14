@@ -215,9 +215,20 @@ const TableHeader = (props: TableHeaderProps) => {
   const onScroll = (evt: any) => {
     const middleHeader = document.querySelector('.middle-header');
     const middleBody = document.querySelector('.middle-body');
+
     if (!!middleBody && middleHeader) {
       middleBody.scrollLeft = evt.target.scrollLeft;
       middleHeader.scrollLeft = evt.target.scrollLeft;
+    }
+  };
+
+  const onHeaderScroll = (evt: any) => {
+    const middleBody = document.querySelector('.middle-body');
+    const centerScroll = document.querySelector('.middle-scroll-cell');
+
+    if (!!middleBody && !!centerScroll) {
+      middleBody.scrollLeft = evt.target.scrollLeft;
+      centerScroll.scrollLeft = evt.target.scrollLeft;
     }
   };
 
@@ -299,7 +310,7 @@ const TableHeader = (props: TableHeaderProps) => {
               let headerCellProps: any = {};
               if (cell.side === 'center') {
                 headerCellProps.className = 'middle-header table-header-scroll';
-                headerCellProps.onScroll = onScroll;
+                headerCellProps.onScroll = onHeaderScroll;
                 if (!cell.rows.length) {
                   headerCellProps = { ...headerCellProps, colSpan: columns.length - 3 };
                 }
@@ -352,7 +363,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
                     <thead className="center-scrolling">
-                      <Table.Row>
+                      <Table.Row className="middle-scrollbar">
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;
                           const className2 = `middle-scroll-cell-disabled ${getColumnClass(
