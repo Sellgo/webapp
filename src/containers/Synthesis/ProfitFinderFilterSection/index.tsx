@@ -723,7 +723,6 @@ function ProfitFinderFilterSection(props: Props) {
     </span>
   );
   const renderExportButtons = () => {
-    console.log('Sup: ', supplierDetails);
     return (
       <Dropdown
         className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
