@@ -10,6 +10,7 @@ interface Props {
   filterType: string;
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   toggleSizeTierFilter: (filterDataKey: string, label: string) => void;
+  setRadioFilter: (filterDataKey: string, label: string) => void;
   applyFilter: () => void;
   resetFilter: () => void;
   toggleSelectAllCategories: () => void;
@@ -40,6 +41,8 @@ function FilterContainer(props: Props) {
     selectAllCategories,
     isSelectAllSize,
     toggleNegative,
+    filterType,
+    setRadioFilter,
   } = props;
 
   const [isShowMore, setShowMore] = useState(false);
@@ -144,51 +147,102 @@ function FilterContainer(props: Props) {
 
   return (
     <div className="filter-container">
-      <>
-        {filterCategory}
-        <Divider className="middle-divider" />
-        <div className="slider-filters">
-          <div className="slider-wrapper">
-            {_.map(filterData.filterRanges, filter => {
+      {filterType === 'all-filter' && (
+        <>
+          {filterCategory}
+          <Divider className="middle-divider" />
+          <div className="slider-filters">
+            <div className="slider-wrapper">
+              {_.map(filterData.filterRanges, filter => {
+                return (
+                  <div className="range-container" key={filter.dataKey}>
+                    <div className="range-label">{filter.label}</div>
+                    <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
+                      x Reset
+                    </span>
+                    <FilterSliderInput
+                      dataKey={filter.dataKey}
+                      range={filter.range}
+                      filterRange={filter.filterRange}
+                      handleCompleteChange={handleCompleteChange}
+                      labelSign={filter.sign}
+                    />
+                    {filter.removeNegative !== undefined && (
+                      <div className="remove-negative">
+                        <Checkbox
+                          label="Remove Negative Values"
+                          key={filter.dataKey}
+                          onChange={() => {
+                            toggleNegative(filter.dataKey);
+                          }}
+                          checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="button-wrapper">
+              <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+                Reset
+              </Button>
+              <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
+                Apply
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {filterType === 'more-filter' && (
+        <>
+          <div className={'presets-filter-content-wrapper'}>
+            <div className="presets-filter-content-wrapper__header">
+              <span className="presets-filter-content-wrapper__header__filter-name">
+                Quick Preset
+              </span>
+              <span
+                className="presets-filter-content-wrapper__header__preset-reset"
+                onClick={() => selectAllCategories()}
+              >
+                x Reset
+              </span>
+            </div>
+            {_.map(filterData.presets, (filter, key) => {
               return (
-                <div className="range-container" key={filter.dataKey}>
-                  <div className="range-label">{filter.label}</div>
-                  <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
-                    x Reset
-                  </span>
-                  <FilterSliderInput
-                    dataKey={filter.dataKey}
-                    range={filter.range}
-                    filterRange={filter.filterRange}
-                    handleCompleteChange={handleCompleteChange}
-                    labelSign={filter.sign}
-                  />
-                  {filter.removeNegative !== undefined && (
-                    <div className="remove-negative">
-                      <Checkbox
-                        label="Remove Negative Values"
-                        key={filter.dataKey}
-                        onChange={() => {
-                          toggleNegative(filter.dataKey);
-                        }}
-                        checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
-                      />
-                    </div>
+                <div
+                  className={`presets-filter-content-wrapper__content ${filter.dataKey}`}
+                  key={key}
+                >
+                  {filter.dataKey === 'profitability-preset' && (
+                    <>
+                      <span className="presets-filter-content-wrapper__content__filter-name">
+                        {filter.label}
+                      </span>
+                      {_.map(filter.data, (filterData, dataKey) => {
+                        return (
+                          <div className={`ui radio checkbox ${filterData.dataKey}`} key={dataKey}>
+                            <input
+                              id={filterData.dataKey}
+                              checked={initialFilterState.profitability === filterData.label}
+                              onChange={() => {
+                                setRadioFilter(filterData.dataKey, filterData.label);
+                              }}
+                              type="radio"
+                            />
+                            <label htmlFor={filterData.dataKey}> {filterData.label}</label>
+                          </div>
+                        );
+                      })}
+                    </>
                   )}
                 </div>
               );
             })}
           </div>
-          <div className="button-wrapper">
-            <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
-              Reset
-            </Button>
-            <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
-              Apply
-            </Button>
-          </div>
-        </div>
-      </>
+        </>
+      )}
       <Modal
         className="FilterContainer__show-more"
         open={isShowMore}

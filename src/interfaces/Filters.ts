@@ -34,11 +34,14 @@ export interface FilterData {
 export interface SupplierFilter {
   allFilter: FilterData[];
   filterRanges: RangeModel[];
+  presets: FilterData[];
 }
 
 export interface FilterState {
   supplierID: string;
   allFilter: string[];
+  profitability: string;
+  amazonChoice: string[];
   removeNegative: string[];
   sizeTierFilter: string[];
   price: {
