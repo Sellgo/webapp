@@ -92,7 +92,8 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
     }
 
-    // create minute-interval data points, forward-filled.
+    // create data points at regular intervals, forward-filled.
+    const timeInterval = 15 * MILLISECONDS_IN_A_MINUTE;
     if (tempData.length === 1) {
       formattedData.push(tempData[0]);
     } else {
@@ -105,7 +106,7 @@ class ProductCharts extends Component<ProductChartsProps> {
         if (tempPoint && nextPoint) {
           while (tempPoint[0] < nextPoint[0]) {
             formattedData.push([tempPoint[0], tempPoint[1]]);
-            tempPoint = [tempPoint[0] + 15 * MILLISECONDS_IN_A_MINUTE, tempPoint[1]];
+            tempPoint = [tempPoint[0] + timeInterval, tempPoint[1]];
           }
         }
       }
