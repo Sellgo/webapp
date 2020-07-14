@@ -13,6 +13,7 @@ import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -24,6 +25,7 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  subscriptionType: string;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -34,6 +36,7 @@ function ProfitFinderFilterSection(props: Props) {
     filterSearch,
     products,
     setPageNumber,
+    subscriptionType,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -730,7 +733,8 @@ function ProfitFinderFilterSection(props: Props) {
   const renderExportButtons = () => {
     return (
       <Dropdown
-        className="selection export-wrapper__dropdown"
+        className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
+          'disabled'}`}
         text=""
         openOnFocus
         trigger={exportTrigger}
@@ -820,6 +824,7 @@ const mapStateToProps = (state: {}) => ({
   filterSearch: get(state, 'supplier.filterSearch'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
 });
 
 const mapDispatchToProps = {
