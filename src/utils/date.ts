@@ -2,3 +2,4 @@ export const HOURS_IN_A_DAY = 24;
 export const MINUTES_IN_A_DAY = HOURS_IN_A_DAY * 60; // 1440
 export const SECONDS_IN_A_DAY = MINUTES_IN_A_DAY * 60; // 86400
 export const MILLISECONDS_IN_A_DAY = SECONDS_IN_A_DAY * 1000; // 86400000
+export const MILLISECONDS_IN_A_MINUTE = 60 * 1000; // 60000
