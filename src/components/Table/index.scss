@@ -273,6 +273,7 @@ i.icon.filter::before {
   @extend .default-column-props;
 
   width: 190px !important;
+  min-width: 190px;
 }
 
 .primary-column {
@@ -423,19 +424,13 @@ i.icon.filter::before {
   overflow: auto !important;
 }
 
-@media only screen and (min-device-width: 480px) and (max-device-width: 1919px) {
+@media only screen and (min-width: 1920px) {
   .header-scroll {
     max-width: 670px !important;
   }
-}
-
-@media only screen and (min-width: 1920px) {
-  .header-scroll {
-    max-width: inherit !important;
-  }
 
   .table-header-scroll {
-    max-width: inherit !important;
+    max-width: 670px !important;
   }
 }
 
@@ -499,10 +494,6 @@ i.icon.filter::before {
 }
 
 @media (max-width: 2560px) {
-  .large-column {
-    min-width: unset;
-  }
-
   .inner-tbody .pf-header-cell.large-column {
     width: 134px !important;
   }
@@ -598,7 +589,7 @@ i.icon.filter::before {
   height: 10px !important;
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1281px) {
+@media only screen and (min-width: 1024px) and (max-width: 1279px) {
   .middle-body {
     max-width: 290px !important;
   }
@@ -616,7 +607,7 @@ i.icon.filter::before {
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1281px) {
+@media only screen and (min-width: 1280px) and (max-width: 1365px) {
   .middle-body {
     max-width: 540px !important;
   }
@@ -626,22 +617,7 @@ i.icon.filter::before {
   }
 
   .middle-scroll-cell {
-    max-width: 540px !important;
-  }
-}
-
-@media only screen and (min-width: 1280px) and (max-width: 1368px) {
-  .middle-body {
-    max-width: 630px !important;
-  }
-
-  .middle-header {
-    max-width: 630px !important;
-    width: 630px !important;
-  }
-
-  .middle-scroll-cell {
-    max-width: 630px !important;
+    max-width: 290px !important;
   }
 }
 
@@ -669,7 +645,7 @@ i.icon.filter::before {
   }
 }
 
-@media only screen and (min-device-width: 1680px) and (max-device-width: 1921px) {
+@media only screen and (min-device-width: 1680px) and (max-device-width: 1919px) {
   .header-scroll {
     max-width: 670px !important;
   }
@@ -683,7 +659,24 @@ i.icon.filter::before {
   width: auto;
 }
 
-@media only screen and (min-width: 1920px) and (max-width: 2560px) {
+@media only screen and (min-width: 1920px) and (max-width: 2559px) {
+  .left-most {
+    width: 100px !important;
+  }
+
+  .default-column {
+    width: 150px !important;
+    min-width: 150px !important;
+  }
+
+  .product-description {
+    .description-text {
+      width: 350px !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 2560px) {
   .left-most {
     width: 100px !important;
   }
