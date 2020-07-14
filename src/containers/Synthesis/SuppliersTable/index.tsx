@@ -181,26 +181,26 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           style={
             !isSubscriptionFree(subscriptionType) && row.tag === 'like'
               ? { color: '#349AF8' }
-              : { color: '#98AECA' }
+              : { color: '#DEDEDF' }
           }
         />
         <Icon
           disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs down"
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
-          style={row.tag === 'dislike' ? { color: 'red' } : { color: '#98AECA' }}
+          style={row.tag === 'dislike' ? { color: '#A2A2A2' } : { color: '#DEDEDF' }}
         />
         <Icon
           disabled={isSubscriptionFree(subscriptionType)}
           name="pencil"
-          style={{ color: '#98AECA' }}
+          style={{ color: '#DEDEDF' }}
           onClick={() => this.props.onEdit(row)}
         />
         <Icon
           disabled={isSubscriptionFree(subscriptionType)}
           className={isSubscriptionFree(subscriptionType) ? `disabled` : ''}
           name="trash alternate"
-          style={{ color: '#98AECA' }}
+          style={{ color: '#DEDEDF' }}
           onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
         />
       </div>
@@ -241,8 +241,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       <div>
         <div className="product-ratio-with-pie">
           {row.p2l_ratio.toString().indexOf('.') === -1
-            ? row.p2l_ratio.toString() + '.00'
-            : row.p2l_ratio}
+            ? row.p2l_ratio.toString() + '.00%'
+            : row.p2l_ratio.toString() + '%'}
         </div>
         <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
       </div>
@@ -253,7 +253,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (row.file_status !== 'completed') {
       return '';
     }
-    return row.rate;
+    return row.rate.toString() + '%';
   };
 
   columns: Column[] = [
@@ -305,7 +305,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderProgress,
     },
     {
-      label: 'Ratio (%)',
+      label: 'Ratio',
       dataKey: 'p2l_ratio',
       sortable: true,
       type: 'number',
@@ -313,7 +313,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderPLRatio,
     },
     {
-      label: 'Rate (%)',
+      label: 'Rate',
       dataKey: 'rate',
       sortable: true,
       type: 'number',

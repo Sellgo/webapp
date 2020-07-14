@@ -20,7 +20,7 @@
     padding: 15px;
 
     h4.ui.header {
-      color: #000;
+      color: #3b4557;
       font-weight: bold;
       font-size: 15px;
     }
@@ -119,7 +119,7 @@
     margin-bottom: 122px;
 
     h1 {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 50px;
       margin-bottom: 28px;
       color: #2e3b4a;
@@ -274,7 +274,7 @@
 
         strong {
           font-weight: normal;
-          color: #000;
+          color: #3b4557;
           line-height: 80px;
           font-size: 20px;
         }
@@ -282,7 +282,7 @@
         strong:first-child {
           line-height: 50px;
           font-size: 24px;
-          color: #000;
+          color: #3b4557;
           font-weight: normal;
         }
       }
@@ -291,13 +291,13 @@
     .extra.content {
       .fluid.button.basic-btn {
         border-radius: 40px;
-        width: 210px;
-        height: 45px;
+        width: 170px;
+        height: 40px;
         margin: auto;
         background: 0;
-        border: 2px solid #349af8;
+        border: 1px solid #349af8;
         color: #349af8;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: bold;
         outline: none !important;
         line-height: normal !important;
@@ -313,22 +313,21 @@
       }
 
       .fluid.button.basic-btn.active-plan {
-        border: 2px solid #eb675e;
-        color: #eb675e;
-        min-width: 191.01px;
-        max-width: 191.01px;
-        min-height: 42.2px !important;
-        max-height: 42.2px !important;
+        border: 1px solid #98aeca;
+        color: #98aeca;
+        font-size: 16px;
+        width: 170px;
+        height: 40px;
       }
 
       .fluid.button.basic-btn:hover {
-        background: #349af8;
-        color: #fff;
+        background: #fff;
+        color: #349af8;
       }
 
       .fluid.button.basic-btn.active-plan:hover {
-        background: #eb675e;
-        color: #fff;
+        background: #fff;
+        color: #98aeca;
       }
 
       p {
@@ -338,7 +337,7 @@
       p.contact-us {
         display: flex;
         color: #2e3b4a;
-        font-size: 12px;
+        font-size: 14px;
       }
 
       a {

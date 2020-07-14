@@ -117,11 +117,12 @@ $new_black: #3b4557;
       align-items: center;
       border: 1px solid #c8ccd2;
       padding: 7px 12px;
-      background: #dee8f3;
+      background: #f8faff;
 
       span {
         margin-left: 10px;
         margin-right: 8px;
+        color: #757575;
       }
     }
 
@@ -140,7 +141,7 @@ $new_black: #3b4557;
 
     &.is-tracking {
       .track-wrap {
-        background-color: #bad9ff;
+        background-color: #dfe8f3;
 
         span {
           color: #349af8;
@@ -208,8 +209,8 @@ $new_black: #3b4557;
 
       .flag-img {
         margin-right: 15px;
-        width: 22px;
-        margin-top: -3px;
+        width: 18px;
+        margin-top: center;
       }
 
       a {

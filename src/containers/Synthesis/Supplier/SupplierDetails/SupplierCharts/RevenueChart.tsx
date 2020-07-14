@@ -61,14 +61,17 @@ class RevenueChart extends Component<RevenueChartProps> {
               </div>
               {data.map((series: any, index: number) => {
                 return (
-                  <div key={index}>
+                  <div key={index} style={{ color: '#ffffff', fontSize: '1.2em' }}>
                     {series.name}: {series.data[x]}
                   </div>
                 );
               })}
-              <div style={{ color: '#ffffff' }} />
-              <div>ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}</div>
-              <div>Margin(%): {showNAIfZeroOrNull(margins[x], margins[x])}</div>
+              <div style={{ color: '#ffffff', fontSize: '1.2em' }}>
+                ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}
+              </div>
+              <div style={{ color: '#ffffff', fontSize: '1.2em' }}>
+                Margin(%): {showNAIfZeroOrNull(margins[x], margins[x])}
+              </div>
             </Grid.Column>
           </Grid>
         </div>
