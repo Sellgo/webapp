@@ -89,45 +89,58 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     return (
       <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
         {' '}
-        {label}
-        {label === 'Supplier' && (
-          <span>
-            <Icon
-              className="filter search-filter"
-              onClick={(e: any) => onSetShowSearchFilter(e, label)}
-            />
-          </span>
-        )}
-        {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
-          <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
-        ) : null}
-        {check && <Checkbox value={check} />}
-        {icon && popUp ? (
-          <Popup
-            on="click"
-            open={columnFilterBox}
-            onClose={toggleColumnCheckbox}
-            onOpen={toggleColumnCheckbox}
-            position="bottom right"
-            basic={true}
-            trigger={<Icon className={`${icon}`} />}
-            content={
-              <ColumnFilterCard
-                columnFilterData={columnFilterData}
-                handleColumnChange={handleColumnChange}
-                handleColumnDrop={handleColumnDrop}
-                reorderColumns={reorderColumns}
-                columns={columns}
-                columnDnD={columnDnD}
+        <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
+          <span className="th-label">{label}</span>
+          {label === 'Supplier' && (
+            <span>
+              <Icon
+                className="filter search-filter"
+                onClick={(e: any) => onSetShowSearchFilter(e, label)}
               />
-            }
-          />
-        ) : (
-          <Icon
-            className={icon}
-            style={type === 'trackerTable' ? { justifyContent: 'flex-end', right: '20px' } : {}}
-          />
-        )}
+            </span>
+          )}
+          {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
+            <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
+          ) : sortable && sortedColumnKey === dataKey ? (
+            sortDirection === 'ascending' ? (
+              <span>
+                <Icon name="caret down" className="sort-icon" />
+              </span>
+            ) : (
+              <span>
+                {' '}
+                <Icon name="caret up" className="sort-icon" />
+              </span>
+            )
+          ) : null}
+          {check && <Checkbox value={check} />}
+          {icon && popUp ? (
+            <Popup
+              on="click"
+              open={columnFilterBox}
+              onClose={toggleColumnCheckbox}
+              onOpen={toggleColumnCheckbox}
+              position="bottom right"
+              basic={true}
+              trigger={<Icon className={`${icon}`} />}
+              content={
+                <ColumnFilterCard
+                  columnFilterData={columnFilterData}
+                  handleColumnChange={handleColumnChange}
+                  handleColumnDrop={handleColumnDrop}
+                  reorderColumns={reorderColumns}
+                  columns={columns}
+                  columnDnD={columnDnD}
+                />
+              }
+            />
+          ) : (
+            <Icon
+              className={icon}
+              style={type === 'trackerTable' ? { justifyContent: 'flex-end', right: '20px' } : {}}
+            />
+          )}
+        </div>
       </Table.HeaderCell>
     );
   }
@@ -214,7 +227,6 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
-
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
@@ -257,7 +269,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 return (
                   <TableHeaderCell
                     columns={columns}
-                    column={column}
+                    column={{ ...column, className: index === 1 ? 'ptr' : column.className }}
                     key={column.dataKey || index}
                     {...rest}
                   />
@@ -265,7 +277,7 @@ const TableHeader = (props: TableHeaderProps) => {
               })}
             </Table.Row>
             <Table.Row className="pt-header">
-              <td colSpan={filteredColumns.length} className="pt-header-cell">
+              <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
                   {filteredColumns.map(c => (
                     <div
@@ -297,6 +309,9 @@ const TableHeader = (props: TableHeaderProps) => {
                 if (filteredColumns.length === 4) {
                   headerCellProps = { ...headerCellProps, style: { width: '1em' } };
                 }
+              }
+              if (cell.side === 'left') {
+                headerCellProps.className = 'left-most';
               }
 
               return (
@@ -336,7 +351,7 @@ const TableHeader = (props: TableHeaderProps) => {
               return (
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
-                    <thead>
+                    <thead className="center-scrolling">
                       <Table.Row>
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;

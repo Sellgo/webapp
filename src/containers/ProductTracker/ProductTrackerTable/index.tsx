@@ -403,7 +403,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily \nUnit Sold',
+      label: 'Avg Daily Unit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
@@ -620,7 +620,7 @@ const mapDispatchToProps = {
   fetchProductDetailChartReview: (productID: any) =>
     fetchSupplierProductDetailChartReview(productID),
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
-  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
   postCreateProductTrackGroup: (name: string) => postCreateProductTrackGroup(name),
   updateProductTrackGroup: (group: any) => patchProductTrackGroup(group),
   deleteProductTrackGroup: (groupId: any) => deleteProductTrackGroup(groupId),
