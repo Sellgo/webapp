@@ -242,11 +242,6 @@ function ProductTrackerFilterSection(props: Props) {
       radio: true,
       data: [
         {
-          label: '1D',
-          dataKey: 'today',
-          value: 1,
-        },
-        {
           label: '7D',
           dataKey: 'week',
           value: 7,

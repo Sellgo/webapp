@@ -43,7 +43,7 @@ interface ProductChartsProps {
   isFetchingReview: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
-  state = { showProductChart: 'chart0', period: 1 };
+  state = { showProductChart: 'chart0', period: DEFAULT_PERIOD };
   componentDidMount() {
     const {
       product,
