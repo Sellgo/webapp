@@ -33,7 +33,6 @@ export const DEFAULT_PERIOD = 30;
 export const filterPeriods: FilterData = {
   label: 'Period Reference',
   dataKey: 'period-reference',
-  checkedValue: 'Today',
   radio: true,
   data: [
     {
