@@ -1,8 +1,7 @@
 import React from 'react';
 import StepLineChart from '../../../../../components/Chart/StepLineChart';
-import { MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
 
-export default ({ productReviews, xMin, xMax }: any) => {
+export default ({ productReviews, period, xMin, xMax }: any) => {
   const data = [
     {
       type: 'line',
@@ -21,9 +20,9 @@ export default ({ productReviews, xMin, xMax }: any) => {
       {
         min: xMin,
         max: xMax,
-        minTickInterval: MILLISECONDS_IN_A_DAY,
       },
     ],
+    period: period,
   };
   return <StepLineChart options={chartOptions} />;
 };

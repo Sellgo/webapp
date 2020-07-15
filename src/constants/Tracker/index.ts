@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { FilterData } from '../../interfaces/Filters';
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
 export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT';
@@ -28,6 +29,34 @@ export const RESET_FILTER = 'RESET_FILTER';
 
 */
 export const DEFAULT_PERIOD = 30;
+
+export const filterPeriods: FilterData = {
+  label: 'Period Reference',
+  dataKey: 'period-reference',
+  radio: true,
+  data: [
+    {
+      label: '7D',
+      dataKey: 'week',
+      value: 7,
+    },
+    {
+      label: '30D',
+      dataKey: 'month',
+      value: 30,
+    },
+    {
+      label: '90D',
+      dataKey: '3-Month',
+      value: 90,
+    },
+    {
+      label: '365D',
+      dataKey: 'year',
+      value: 365,
+    },
+  ],
+};
 
 export const filterKeys: any = [
   // Basic KPI

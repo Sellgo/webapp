@@ -1,8 +1,11 @@
 import React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import Boost from 'highcharts/modules/boost';
 import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
+
+Boost(Highcharts);
 
 /* 
 Define default Highchart options here.

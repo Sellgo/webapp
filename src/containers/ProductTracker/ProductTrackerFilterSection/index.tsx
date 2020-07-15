@@ -7,7 +7,12 @@ import _ from 'lodash';
 import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
-import { findMinMax, filterProductsByGroupId, DEFAULT_PERIOD } from '../../../constants/Tracker';
+import {
+  findMinMax,
+  filterProductsByGroupId,
+  DEFAULT_PERIOD,
+  filterPeriods,
+} from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
@@ -235,34 +240,7 @@ function ProductTrackerFilterSection(props: Props) {
         ],
       },
     },
-    period: {
-      label: 'Period Reference',
-      dataKey: 'period-reference',
-      checkedValue: 'Today',
-      radio: true,
-      data: [
-        {
-          label: '7D',
-          dataKey: 'week',
-          value: 7,
-        },
-        {
-          label: '30D',
-          dataKey: 'month',
-          value: 30,
-        },
-        {
-          label: '90D',
-          dataKey: '3-Month',
-          value: 90,
-        },
-        {
-          label: '365D',
-          dataKey: 'year',
-          value: 365,
-        },
-      ],
-    },
+    period: filterPeriods,
   };
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
