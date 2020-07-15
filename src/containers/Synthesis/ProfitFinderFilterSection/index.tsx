@@ -7,10 +7,15 @@ import { Product } from '../../../interfaces/Product';
 import { findMinMax } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/Suppliers';
+import {
+  filterSupplierProducts,
+  setSupplierPageNumber,
+  setLeadsTracker,
+} from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
+import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
@@ -25,6 +30,7 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  setLeadsTracker: (sellerId: number, supplierId: number) => void;
   subscriptionType: string;
 }
 
@@ -763,6 +769,11 @@ function ProfitFinderFilterSection(props: Props) {
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+  const isEnterprise = subscriptionType === 'Enterprise' ? true : false;
+  const leadsStatus =
+    props.supplierDetails.leads_tracker_status === null ||
+    props.supplierDetails.leads_tracker_status === 'inactive';
+  const isToggle = leadsStatus ? false : true;
 
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
@@ -781,8 +792,16 @@ function ProfitFinderFilterSection(props: Props) {
           <span className="filter-name">All</span>
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
-
-        {renderExportButtons()}
+        <span>
+          <p className={`${isEnterprise ? '' : 'hidden'}`}>Leads Tracking</p>
+          <LeadsTrackerToggle
+            setLeadsTracker={props.setLeadsTracker}
+            seller_id={props.supplierDetails.seller_id}
+            supplier_id={props.supplierDetails.supplier_id}
+            isToggle={isToggle}
+          />
+          {renderExportButtons()}
+        </span>
       </div>
       <Modal
         className="FilterContainer__show-filter"
@@ -830,6 +849,7 @@ const mapStateToProps = (state: {}) => ({
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

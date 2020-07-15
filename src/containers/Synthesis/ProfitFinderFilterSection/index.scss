@@ -34,6 +34,31 @@
     display: flex;
     justify-content: space-between;
 
+    > span {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 5px;
+
+      .ToggleSwitch {
+        width: 55px;
+        margin-right: 20px;
+        margin-left: 10px;
+      }
+
+      p {
+        font-weight: 600;
+        color: #3b4557;
+        font-size: 14px;
+        margin: inherit;
+
+        &.hidden {
+          display: none;
+        }
+      }
+    }
+
     .export-wrapper__dropdown {
       &.active {
         border-color: rgba(34, 36, 38, 0.35);
