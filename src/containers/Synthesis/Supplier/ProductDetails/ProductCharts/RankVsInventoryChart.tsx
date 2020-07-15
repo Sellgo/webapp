@@ -1,6 +1,7 @@
 import React from 'react';
 import Chart from '../../../../../components/Chart/Chart';
 import { MINUTES_IN_A_DAY } from '../../../../../utils/date';
+import { filterPeriods } from '../../../../../constants/Tracker';
 
 export default ({ productRanks, productInventories, period, xMax, xMin }: any) => {
   const data = [
@@ -103,7 +104,10 @@ export default ({ productRanks, productInventories, period, xMax, xMin }: any) =
       followPointer: true,
       followTouchMove: true,
       stickOnContact: true,
-      xDateFormat: period === 365 ? '%a, %b %e' : '%a, %b %e, %k:%M',
+      xDateFormat:
+        period === filterPeriods.data[filterPeriods.data.length - 1].value
+          ? '%a, %b %e'
+          : '%a, %b %e, %k:%M',
     },
     plotOptions: {
       series: {

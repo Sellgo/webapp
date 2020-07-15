@@ -2,6 +2,7 @@ import React from 'react';
 import Chart from './Chart';
 import _ from 'lodash';
 import { MINUTES_IN_A_DAY } from '../../utils/date';
+import { filterPeriods } from '../../constants/Tracker';
 
 export interface StepLineChartOptions {
   title: string;
@@ -55,7 +56,10 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
         followPointer: true,
         followTouchMove: true,
         stickOnContact: true,
-        xDateFormat: options.period === 365 ? '%a, %b %e' : '%a, %b %e, %k:%M',
+        xDateFormat:
+          options.period === filterPeriods.data[filterPeriods.data.length - 1].value
+            ? '%a, %b %e'
+            : '%a, %b %e, %k:%M',
       },
       legend: {
         align: 'center',
