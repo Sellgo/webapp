@@ -313,7 +313,7 @@ $link-color: #349af8;
   h2 {
     color: #5381db;
     font-size: 14px;
-    font-weight: 500; //rwp
+    font-weight: 500;
     line-height: 16px;
     margin-bottom: 7px;
     overflow: hidden;
@@ -458,7 +458,7 @@ $link-color: #349af8;
 
         i {
           color: #98aeca !important;
-          font-size: 1.6em !important; //rwp
+          font-size: 1.6em !important;
           text-align: left;
         }
       }
@@ -544,8 +544,8 @@ $link-color: #349af8;
             color: #3b4557;
             font-weight: 500;
             font-size: 14px;
-            margin: 0 19px; //rwp
-            line-height: 16px; //rwp
+            margin: 0 19px;
+            line-height: 16px;
             margin-bottom: 2px;
           }
 
@@ -553,8 +553,8 @@ $link-color: #349af8;
             color: #3b4557;
             font-weight: 300;
             font-size: 12px;
-            margin: 0 19px; //rwp
-            line-height: 14px; //rwp
+            margin: 0 19px;
+            line-height: 14px;
           }
         }
 
@@ -967,7 +967,7 @@ $link-color: #349af8;
   max-width: 75% !important;
   overflow-x: auto !important;
   display: flex !important;
-  height: 4px !important; //rwp
+  height: 4px !important;
   overflow-y: hidden !important;
 }
 
@@ -982,7 +982,7 @@ $link-color: #349af8;
   //height: 6em !important;
   left: 1em !important;
   background: #fff !important;
-  border-left: 1px solid #98aeca !important; //rwp
+  border-left: 1px solid #98aeca !important;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
