@@ -1,7 +1,7 @@
 import React from 'react';
 import StepLineChart from '../../../../../components/Chart/StepLineChart';
 
-export default ({ productRatings, xMin, xMax }: any) => {
+export default ({ productRatings, period, xMin, xMax }: any) => {
   const data = [
     {
       type: 'line',
@@ -22,6 +22,7 @@ export default ({ productRatings, xMin, xMax }: any) => {
         max: xMax,
       },
     ],
+    period: period,
   };
   return <StepLineChart options={chartOptions} />;
 };

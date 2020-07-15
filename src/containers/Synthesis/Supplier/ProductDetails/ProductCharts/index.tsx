@@ -209,6 +209,7 @@ class ProductCharts extends Component<ProductChartsProps> {
           <RankVsInventoryChart
             productRanks={formattedRanks}
             productInventories={formattedInventories}
+            period={period}
             xMax={xMax}
             xMin={xMin}
           />
@@ -226,7 +227,12 @@ class ProductCharts extends Component<ProductChartsProps> {
         return isFetchingPrice ? (
           this.renderLoader()
         ) : (
-          <ProductPriceChart productPrices={formattedPrices} xMax={xMax} xMin={xMin} />
+          <ProductPriceChart
+            productPrices={formattedPrices}
+            period={period}
+            xMax={xMax}
+            xMin={xMin}
+          />
         );
       }
 
@@ -241,7 +247,12 @@ class ProductCharts extends Component<ProductChartsProps> {
         return isFetchingRating ? (
           this.renderLoader()
         ) : (
-          <ProductRatingChart productRatings={formattedRatings} xMax={xMax} xMin={xMin} />
+          <ProductRatingChart
+            productRatings={formattedRatings}
+            period={period}
+            xMax={xMax}
+            xMin={xMin}
+          />
         );
       }
 
@@ -256,7 +267,12 @@ class ProductCharts extends Component<ProductChartsProps> {
         return isFetchingReview ? (
           this.renderLoader()
         ) : (
-          <ProductReviewChart productReviews={formattedReviews} xMax={xMax} xMin={xMin} />
+          <ProductReviewChart
+            productReviews={formattedReviews}
+            period={period}
+            xMax={xMax}
+            xMin={xMin}
+          />
         );
       }
 

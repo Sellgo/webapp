@@ -55,7 +55,7 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
         followPointer: true,
         followTouchMove: true,
         stickOnContact: true,
-        xDateFormat: '%a, %b %e, %k:%M',
+        xDateFormat: options.period === 365 ? '%a, %b %e' : '%a, %b %e, %k:%M',
       },
       legend: {
         align: 'center',

@@ -2,7 +2,7 @@ import React from 'react';
 import Chart from '../../../../../components/Chart/Chart';
 import { MINUTES_IN_A_DAY } from '../../../../../utils/date';
 
-export default ({ productRanks, productInventories, xMax, xMin }: any) => {
+export default ({ productRanks, productInventories, period, xMax, xMin }: any) => {
   const data = [
     {
       yAxis: 0,
@@ -103,7 +103,7 @@ export default ({ productRanks, productInventories, xMax, xMin }: any) => {
       followPointer: true,
       followTouchMove: true,
       stickOnContact: true,
-      xDateFormat: '%a, %b %e, %k:%M',
+      xDateFormat: period === 365 ? '%a, %b %e' : '%a, %b %e, %k:%M',
     },
     plotOptions: {
       series: {
