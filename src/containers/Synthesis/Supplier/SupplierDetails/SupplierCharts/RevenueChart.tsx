@@ -122,7 +122,6 @@ class RevenueChart extends Component<RevenueChartProps> {
           pointPadding: 0.01,
           cropThreshold: 5,
           borderWidth: 0.1,
-          //borderRadius: 3,
           cursor: 'pointer',
         },
         series: {
