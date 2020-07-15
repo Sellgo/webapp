@@ -27,12 +27,13 @@
 
   .filter-wrapper {
     margin: 0 5px;
-    height: 45px;
+    height: 0;
   }
 
   .filter-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .export-wrapper__dropdown {
       &.active {
@@ -43,7 +44,7 @@
       padding: 7px 10px !important;
 
       .dropdown.icon {
-        font-size: 16px;
+        font-size: 12px;
         padding: 10px;
         display: flex;
         align-items: center;
@@ -83,7 +84,7 @@
       display: flex;
       align-items: center;
       font-family: 'Work Sans', sans-serif !important;
-      margin: 15px;
+      //margin: 0 15px;
       position: relative;
       height: 32px;
       width: 107px;

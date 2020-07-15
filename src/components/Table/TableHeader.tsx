@@ -290,6 +290,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 </div>
               </td>
             </Table.Row>
+            <tr className="ptr-scroll-container" />
           </React.Fragment>
         )}
 

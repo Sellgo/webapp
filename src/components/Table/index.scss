@@ -299,6 +299,7 @@ i.icon.filter::before {
 .middle-scroll-cell:hover {
   background: transparent !important;
   cursor: pointer !important;
+  height: 5px !important;
 }
 
 .middle-scroll-cell-disabled {
@@ -688,4 +689,8 @@ i.icon.filter::before {
       width: 350px !important;
     }
   }
+}
+
+.ptr-scroll-container {
+  height: 20px !important;
 }
