@@ -313,6 +313,27 @@
   }
 }
 
+.ui.modal.transition.visible.active.FilterContainer__presets {
+  height: 500px;
+  border-radius: 15px;
+  padding: 40px 21px 57px 31px;
+
+  .content {
+    padding: 0;
+    height: 100%;
+    overflow: auto;
+  }
+
+  i.fas.fa-times {
+    font-size: 15px;
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    color: #98aeca;
+    cursor: pointer;
+  }
+}
+
 .ui.modal.transition.visible.active.FilterContainer__show-filter {
   min-width: 85%;
   height: 500px;
