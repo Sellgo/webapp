@@ -93,23 +93,62 @@
   .ui.table {
     thead th {
       border-left: none;
+      border: none;
+      border-radius: unset;
     }
 
     &.pf-table {
-      margin-top: -14px;
+      margin-top: -28px;
 
       thead.pf-header {
-        > tr:first-child {
+        > tr {
           th {
-            position: sticky;
-            top: 15px;
-            transform: scale(0.999);
-            z-index: 6;
-            transition-property: top;
-            transition-duration: 1s;
+            border: none;
+          }
 
-            &:hover {
-              background: #e6e6e6;
+          &:first-child {
+            th {
+              position: sticky;
+              top: 15px;
+              transform: scale(0.999);
+              z-index: 6;
+              transition-property: top;
+              transition-duration: 1s;
+            }
+          }
+        }
+
+        > tr:first-child > th {
+          border-bottom: 20px solid #f8faff !important;
+          background: #f8faff;
+          border-radius: unset;
+
+          &:hover {
+            background: #e6e6e6;
+          }
+
+          table.header-inner-table {
+            border-top: 1px solid #bec0c3;
+            border-bottom: 1px solid #bec0c3;
+          }
+
+          &:first-child {
+            table.header-inner-table {
+              .pf-header-cell:last-child {
+                border-radius: unset;
+              }
+
+              border-left: 1px solid #bec0c3;
+              border-top-left-radius: 10px;
+              border-bottom-left-radius: 10px;
+            }
+          }
+
+          &:last-child {
+            table.header-inner-table {
+              border-right: 1px solid #bec0c3;
+              border-top-right-radius: 10px;
+              border-bottom-right-radius: 10px;
             }
           }
         }
@@ -121,13 +160,13 @@
         }
 
         &.scroll-top > tr:first-child th {
-          top: 98px;
+          top: 80px;
           transition-property: top;
           transition-duration: 1s;
         }
 
         &.sticky-chart-active.scroll-top > tr:first-child th {
-          top: 438px;
+          top: 417px;
           transition-property: top;
           transition-duration: 1s;
         }
@@ -273,6 +312,7 @@ i.icon.filter::before {
   @extend .default-column-props;
 
   width: 190px !important;
+  min-width: 190px;
 }
 
 .primary-column {
@@ -423,19 +463,13 @@ i.icon.filter::before {
   overflow: auto !important;
 }
 
-@media only screen and (min-device-width: 480px) and (max-device-width: 1919px) {
+@media only screen and (min-width: 1920px) {
   .header-scroll {
     max-width: 670px !important;
   }
-}
-
-@media only screen and (min-width: 1920px) {
-  .header-scroll {
-    max-width: inherit !important;
-  }
 
   .table-header-scroll {
-    max-width: inherit !important;
+    max-width: 670px !important;
   }
 }
 
@@ -499,10 +533,6 @@ i.icon.filter::before {
 }
 
 @media (max-width: 2560px) {
-  .large-column {
-    min-width: unset;
-  }
-
   .inner-tbody .pf-header-cell.large-column {
     width: 134px !important;
   }
@@ -526,7 +556,35 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 683px;
+            top: 665px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 2550px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 387px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 455px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 490px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 605px;
           }
         }
       }
@@ -554,7 +612,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 550px;
+            top: 532px;
           }
         }
       }
@@ -586,7 +644,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 435px;
+            top: 417px;
           }
         }
       }
@@ -598,7 +656,7 @@ i.icon.filter::before {
   height: 10px !important;
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1281px) {
+@media only screen and (min-width: 1024px) and (max-width: 1279px) {
   .middle-body {
     max-width: 290px !important;
   }
@@ -616,7 +674,7 @@ i.icon.filter::before {
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1281px) {
+@media only screen and (min-width: 1280px) and (max-width: 1365px) {
   .middle-body {
     max-width: 540px !important;
   }
@@ -626,22 +684,7 @@ i.icon.filter::before {
   }
 
   .middle-scroll-cell {
-    max-width: 540px !important;
-  }
-}
-
-@media only screen and (min-width: 1280px) and (max-width: 1368px) {
-  .middle-body {
-    max-width: 630px !important;
-  }
-
-  .middle-header {
-    max-width: 630px !important;
-    width: 630px !important;
-  }
-
-  .middle-scroll-cell {
-    max-width: 630px !important;
+    max-width: 290px !important;
   }
 }
 
@@ -669,7 +712,7 @@ i.icon.filter::before {
   }
 }
 
-@media only screen and (min-device-width: 1680px) and (max-device-width: 1921px) {
+@media only screen and (min-device-width: 1680px) and (max-device-width: 1919px) {
   .header-scroll {
     max-width: 670px !important;
   }
@@ -683,7 +726,24 @@ i.icon.filter::before {
   width: auto;
 }
 
-@media only screen and (min-width: 1920px) and (max-width: 2560px) {
+@media only screen and (min-width: 1920px) and (max-width: 2559px) {
+  .left-most {
+    width: 100px !important;
+  }
+
+  .default-column {
+    width: 150px !important;
+    min-width: 150px !important;
+  }
+
+  .product-description {
+    .description-text {
+      width: 350px !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 2560px) {
   .left-most {
     width: 100px !important;
   }

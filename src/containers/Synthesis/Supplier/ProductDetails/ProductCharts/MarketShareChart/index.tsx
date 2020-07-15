@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Chart from '../../../../../../components/Chart/Chart';
 import './index.scss';
 import _ from 'lodash';
+import { MINUTES_IN_A_DAY } from '../../../../../../utils/date';
+import { filterPeriods } from '../../../../../../constants/Tracker';
 
 // types for the time series
 export enum SHOW_TYPE {
@@ -25,11 +27,17 @@ export default ({
   productRanks,
   productInventories,
   sellerInventories,
+  period,
+  xMin,
+  xMax,
   currentShowType = SHOW_TYPE.ProductLevelInventory,
 }: {
   productRanks: [number, number][];
   productInventories: [number, number][];
   sellerInventories: { [key: string]: { name: string; data: [number, number][]; color: string } };
+  period: number;
+  xMin?: number;
+  xMax?: number;
   currentShowType?: SHOW_TYPE;
 }) => {
   const showRanks = true;
@@ -236,12 +244,24 @@ export default ({
     xAxis: [
       {
         type: 'datetime',
-        crosshair: true,
+        min: xMin,
+        max: xMax,
+        minTickInterval: MINUTES_IN_A_DAY,
+        crosshair: {
+          snap: false,
+        },
       },
     ],
     yAxis: timeSeriesYAxisOptions,
     tooltip: {
       shared: true,
+      followPointer: true,
+      followTouchMove: true,
+      stickOnContact: true,
+      xDateFormat:
+        period === filterPeriods.data[filterPeriods.data.length - 1].value
+          ? '%a, %b %e'
+          : '%a, %b %e, %k:%M',
     },
     legend: {
       align: 'center',
@@ -267,6 +287,9 @@ export default ({
       },
       series: {
         animation: false,
+        marker: {
+          enabled: false,
+        },
         events: {
           legendItemClick:
             currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||

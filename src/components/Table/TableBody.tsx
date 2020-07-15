@@ -160,7 +160,11 @@ export const TableBody = (props: TableBodyProps) => {
               className = 'middle-body-child-row';
               tableDataProps = { ...tableDataProps, className: 'middle-body' };
               if (filteredColumns.length === 4) {
-                tableDataProps = { ...tableDataProps, colSpan: columns.length - 3 };
+                tableDataProps = {
+                  ...tableDataProps,
+                  colSpan: columns.length - 3,
+                  style: { padding: 0.5 },
+                };
               }
             }
             if (cell.side === 'left') {
