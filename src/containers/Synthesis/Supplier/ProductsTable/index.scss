@@ -7,7 +7,6 @@ $new_black: #707070;
 
   > * {
     margin-left: 24px;
-    top: 106px;
 
     :hover {
       background-color: #98aeca;
@@ -430,7 +429,6 @@ $new_black: #707070;
     }
     // Prevent stats from wrapping (such as "123 /month")
     td p.stat {
-      white-space: pre-line;
       text-align: left;
       line-height: 1;
     }
@@ -667,4 +665,8 @@ $new_black: #707070;
   .products-table {
     margin-top: -60px;
   }
+}
+
+.amazon_category_name {
+  min-width: 140px !important;
 }

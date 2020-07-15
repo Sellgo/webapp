@@ -1,10 +1,83 @@
 .filter-section {
+  position: sticky;
+  top: -60px;
+  background: #f8faff;
+  z-index: 4;
+  transition-property: top;
+  transition-duration: 1s;
+
+  &.scroll-top {
+    top: 24px;
+    transition-property: top;
+    transition-duration: 1s;
+  }
+
+  &.sticky-chart-active {
+    z-index: 3;
+    top: 285px;
+    transition-property: top;
+    transition-duration: 1s;
+  }
+
+  &.scroll-top.sticky-chart-active {
+    top: 364px;
+    transition-property: top;
+    transition-duration: 1s;
+  }
+
   .filter-wrapper {
     margin: 0 5px;
+    height: 45px;
+
+    .divider {
+      display: none;
+    }
   }
 
   .filter-header {
     display: flex;
+    justify-content: space-between;
+
+    .export-wrapper__dropdown {
+      &.active {
+        border-color: rgba(34, 36, 38, 0.35);
+      }
+
+      min-width: 80px !important;
+      padding: 7px 10px !important;
+
+      .dropdown.icon {
+        font-size: 16px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .menu {
+        overflow: hidden;
+
+        .item {
+          padding: 8px !important;
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          height: 37px;
+
+          .image {
+            margin: 0 5px 0 0 !important;
+            width: 24px;
+            height: 26px;
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
   }
 
   .ui.basic {
@@ -93,6 +166,77 @@
       &.active {
         background: white !important;
       }
+    }
+  }
+}
+
+.filter-button-popup {
+  max-width: 87% !important;
+  width: 87% !important;
+  height: 500px;
+  overflow: auto;
+
+  i.fas.fa-times {
+    font-size: 15px;
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    color: #98aeca;
+    cursor: pointer;
+  }
+
+  .filter-wrapper {
+    height: 400px;
+    overflow: auto;
+    width: 100%;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 2560px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 530px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 609px;
+    }
+  }
+}
+
+@media (max-width: 2550px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 432px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 549px;
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 397px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 476px;
+    }
+  }
+}
+
+@media (max-width: 1536px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 282px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 361px;
     }
   }
 }

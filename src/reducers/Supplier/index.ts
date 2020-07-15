@@ -21,11 +21,19 @@ import {
   searchFilteredProduct,
   UPDATE_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PAGE_NUMBER,
+  SET_STICKY_CHART,
+  SET_CONTEXT_SCROLL,
+  SET_SCROLL_TOP,
+  SET_IS_SCROLL,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
 
 const initialState = {
+  setIsScroll: false,
+  setScrollTop: false,
+  setContextScroll: 0,
+  setStickyChart: false,
   products: [],
   filteredProducts: [],
   filterRanges: undefined,
@@ -131,6 +139,18 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'singlePageItemsCount', action.payload);
     case SET_SUPPLIER_PAGE_NUMBER: {
       return setIn(state, 'pageNumber', action.payload);
+    }
+    case SET_STICKY_CHART: {
+      return setIn(state, 'setStickyChart', action.payload);
+    }
+    case SET_CONTEXT_SCROLL: {
+      return setIn(state, 'setContextScroll', action.payload);
+    }
+    case SET_SCROLL_TOP: {
+      return setIn(state, 'setScrollTop', action.payload);
+    }
+    case SET_IS_SCROLL: {
+      return setIn(state, 'setIsScroll', action.payload);
     }
     case SUPPLIER_QUOTA:
       return setIn(state, 'quota', action.payload);

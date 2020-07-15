@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Image, Divider, Modal, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
@@ -11,8 +11,13 @@ import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
+import msExcelIcon from '../../../assets/images/microsoft-excel.png';
+import csvIcon from '../../../assets/images/csv.svg';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface Props {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   supplierDetails: any;
   products: Product[];
   filteredProducts: Product[];
@@ -20,6 +25,7 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  subscriptionType: string;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -30,6 +36,7 @@ function ProfitFinderFilterSection(props: Props) {
     filterSearch,
     products,
     setPageNumber,
+    subscriptionType,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -710,39 +717,101 @@ function ProfitFinderFilterSection(props: Props) {
     return false;
   };
 
+  const exportTrigger = (
+    <span className="export-wrapper">
+      <Image src={csvIcon} wrapped={true} />
+    </span>
+  );
+  const renderExportButtons = () => {
+    return (
+      <Dropdown
+        className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
+          'disabled'}`}
+        openOnFocus
+        trigger={exportTrigger}
+      >
+        <Dropdown.Menu>
+          <Dropdown.Item
+            key={1}
+            as="a"
+            disabled={_.isEmpty(supplierDetails.report_url_csv)}
+            content={
+              <>
+                <Image src={csvIcon} wrapped={true} />
+                <span>{`.CSV`}</span>
+              </>
+            }
+            href={supplierDetails.report_url_csv}
+          />
+          <Dropdown.Item
+            disabled={_.isEmpty(supplierDetails.report_url)}
+            key={2}
+            as="a"
+            content={
+              <>
+                <Image src={msExcelIcon} wrapped={true} />
+                <span>{`.XSLS`}</span>
+              </>
+            }
+            href={supplierDetails.report_url}
+          />
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+
+  const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
+  const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
+  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+
   return (
-    <div className="filter-section">
+    <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
         <Button
           basic
           icon
           labelPosition="left"
           className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
-          onClick={() => handleFilterType('all-filter')}
+          onClick={() => {
+            handleFilterType('all-filter');
+            setFilterModalOpen(true);
+          }}
         >
           <Icon className="slider" name="sliders horizontal" />
           <span className="filter-name">All</span>
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
+
+        {renderExportButtons()}
       </div>
+      <Modal
+        className="FilterContainer__show-filter"
+        open={isFilterModalOpen}
+        onClose={() => setFilterModalOpen(!isFilterModalOpen)}
+      >
+        <i className="fas fa-times" onClick={() => setFilterModalOpen(!isFilterModalOpen)} />
+        <Modal.Content>
+          <FilterContainer
+            filterType={filterType}
+            applyFilter={applyFilter}
+            resetSingleFilter={resetSingleFilter}
+            toggleCheckboxFilter={toggleCheckboxFilter}
+            toggleSizeTierFilter={toggleSizeTierFilter}
+            resetFilter={resetFilter}
+            filterData={filterDataState}
+            handleCompleteChange={handleCompleteChange}
+            initialFilterState={filterState}
+            toggleSelectAllCategories={toggleSelectAllCategories}
+            isSelectAllCategories={isSelectAllCategories}
+            selectAllCategories={selectAllCategories}
+            toggleNegative={toggleNegative}
+            toggleSelectAllSize={toggleSelectAllSize}
+            isSelectAllSize={isSelectAllSize}
+          />
+        </Modal.Content>
+      </Modal>
       <div className="filter-wrapper">
-        <FilterContainer
-          filterType={filterType}
-          applyFilter={applyFilter}
-          resetSingleFilter={resetSingleFilter}
-          toggleCheckboxFilter={toggleCheckboxFilter}
-          toggleSizeTierFilter={toggleSizeTierFilter}
-          resetFilter={resetFilter}
-          filterData={filterDataState}
-          handleCompleteChange={handleCompleteChange}
-          initialFilterState={filterState}
-          toggleSelectAllCategories={toggleSelectAllCategories}
-          isSelectAllCategories={isSelectAllCategories}
-          selectAllCategories={selectAllCategories}
-          toggleNegative={toggleNegative}
-          toggleSelectAllSize={toggleSelectAllSize}
-          isSelectAllSize={isSelectAllSize}
-        />
+        <Divider />
       </div>
     </div>
   );
@@ -753,6 +822,9 @@ const mapStateToProps = (state: {}) => ({
   products: supplierProductsSelector(state),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   filterSearch: get(state, 'supplier.filterSearch'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
 });
 
 const mapDispatchToProps = {

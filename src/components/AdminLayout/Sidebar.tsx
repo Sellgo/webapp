@@ -6,6 +6,7 @@ import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Auth from '../Auth/Auth';
 import LogoutConfirm from '../LogoutConfirm';
 import Tour from '../QuickTourMessage';
+import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
 
 interface IconD {
@@ -21,7 +22,10 @@ interface State {
 }
 
 class SidebarCollapsible extends Component<
-  { auth: Auth; currentNotifyId: number },
+  {
+    auth: Auth;
+    currentNotifyId: number;
+  },
   { visible: boolean; openConfirm: boolean },
   State
 > {
@@ -179,15 +183,13 @@ class SidebarCollapsible extends Component<
 
           <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
-          <Sidebar.Pusher
+          <SidebarPusher
             dimmed={currentNotifyId > 0 ? true : visible}
-            onClick={() => {
-              visible && this.handleAnimationChange();
-            }}
-            className={`container Sidebar__pusher ${visible ? '' : 'pusher-scroll-x'}`}
+            handleAnimationChange={this.handleAnimationChange}
+            visible={visible}
           >
-            <Sidebar.Pusher>{children}</Sidebar.Pusher>
-          </Sidebar.Pusher>
+            {children}
+          </SidebarPusher>
         </Sidebar.Pushable>
       </Grid>
     );
