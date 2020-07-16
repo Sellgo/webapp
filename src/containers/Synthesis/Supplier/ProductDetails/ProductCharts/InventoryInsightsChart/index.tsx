@@ -236,11 +236,7 @@ export default ({
       zoomType: 'x',
       type: 'column',
     },
-    title: {
-      text: showRanks ? 'Rank vs Inventory' : 'Inventory',
-      margin: 50,
-      align: 'left',
-    },
+    title: null,
     xAxis: [
       {
         type: 'datetime',
@@ -371,11 +367,7 @@ export default ({
       plotShadow: false,
       type: 'pie',
     },
-    title: {
-      text: 'Market Share',
-      margin: 50,
-      align: 'left',
-    },
+    title: null,
     series: {
       name: 'Market Share',
       data: pieData.filter((item: any) => item.visible),

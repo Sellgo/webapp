@@ -23,7 +23,7 @@ import './index.scss';
 import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
-import MarketShareChart from './MarketShareChart';
+import InventoryInsightsChart from './InventoryInsightsChart';
 import { MILLISECONDS_IN_A_DAY, MILLISECONDS_IN_A_MINUTE } from '../../../../../utils/date';
 
 interface ProductChartsProps {
@@ -226,7 +226,7 @@ class ProductCharts extends Component<ProductChartsProps> {
           xMax
         );
         return (
-          <MarketShareChart
+          <InventoryInsightsChart
             productRanks={formattedRanks}
             productInventories={formattedProductInventories}
             sellerInventories={formattedSellerInventories}
