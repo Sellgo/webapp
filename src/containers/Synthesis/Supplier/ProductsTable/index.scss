@@ -117,14 +117,14 @@ $new_black: #3b4557;
   }
 
   .track-btn {
-    width: 80%;
+    width: 89%;
+    margin-left: 1rem;
 
     .track-wrap {
       width: 200%;
       display: flex !important;
-      align-items: center;
       border: 1px solid #c8ccd2;
-      padding: 7px 12px;
+      padding: 5px 7px 7px 12px;
       background: #f8faff;
 
       span {
