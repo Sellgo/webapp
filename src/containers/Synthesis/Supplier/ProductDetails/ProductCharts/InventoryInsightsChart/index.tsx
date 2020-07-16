@@ -57,7 +57,7 @@ export default (props: {
     '#FDA373',
     '#FEDA83',
     '#F9FE83',
-    '#5EE2A0',
+    '#4BB480',
   ];
 
   // format series data
