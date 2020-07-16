@@ -133,6 +133,9 @@ class InventoryInsightsChart extends Component<
       },
     },
     marketSharePieChartOptions: {
+      lang: {
+        noData: 'No seller inventory',
+      },
       chart: {
         plotBackgroundColor: null,
         plotBorderWidth: null,
@@ -167,8 +170,13 @@ class InventoryInsightsChart extends Component<
         verticalAlign: 'middle',
         layout: 'vertical',
         padding: 0,
-        itemMarginTop: 5,
-        itemMarginBottom: 5,
+        itemMarginTop: 7,
+        itemMarginBottom: 7,
+        margin: 8,
+        itemStyle: {
+          fontWeight: 'normal',
+        },
+        reversed: true,
         width: '40%',
       },
       plotOptions: {
@@ -594,7 +602,7 @@ class InventoryInsightsChart extends Component<
 
     const pieChartOptions = _.merge(_.cloneDeep(marketSharePieChartOptions), {
       title: {
-        text: `<b>${pieSum}<b> <br>Inventory`,
+        text: pieSum !== 0 ? `<b>${pieSum}<b> <br>Inventory` : '',
       },
       series: {
         data: activePieData.filter((item: any) => item.visible),

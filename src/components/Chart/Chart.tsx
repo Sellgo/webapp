@@ -2,12 +2,14 @@ import React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Boost from 'highcharts/modules/boost';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
 import { PercentAlign } from '../../utils/highchartExtensions';
 
-// activate extensions
+// activate modules
 Boost(Highcharts);
+NoDataToDisplay(Highcharts);
 PercentAlign(Highcharts);
 
 /* 
