@@ -578,12 +578,6 @@ $link-color: #349af8;
     td:nth-child(1) {
       vertical-align: middle;
 
-      // Top seller label
-      .label {
-        margin-bottom: 6px;
-        white-space: nowrap;
-      }
-
       .image-wrapper {
         align-items: center;
         display: flex;
@@ -704,16 +698,6 @@ $link-color: #349af8;
 
   .brand {
     margin-bottom: 0;
-  }
-
-  .ui.label {
-    color: #f0bd39;
-    font-size: 14px;
-    margin: 0;
-    margin-bottom: 10px;
-    padding: 5px 5px 5px 32px;
-    position: relative;
-    width: 100%;
   }
 
   .ui.star.rating .active.icon {

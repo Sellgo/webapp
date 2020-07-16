@@ -25,6 +25,7 @@ import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
 import InventoryInsightsChart from './InventoryInsightsChart';
 import { MILLISECONDS_IN_A_DAY, MILLISECONDS_IN_A_MINUTE } from '../../../../../utils/date';
+import BetaLabel from '../../../../../components/BetaLabel';
 
 interface ProductChartsProps {
   product: any;
@@ -336,7 +337,12 @@ class ProductCharts extends Component<ProductChartsProps> {
           <Form.Group inline={true}>
             <label />
             <Form.Radio
-              label="Inventory Insights"
+              label={
+                <label>
+                  Inventory Insights
+                  <BetaLabel />
+                </label>
+              }
               value="chart0"
               checked={this.state.showProductChart === 'chart0'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
