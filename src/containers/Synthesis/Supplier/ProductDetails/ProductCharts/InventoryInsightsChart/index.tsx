@@ -467,7 +467,12 @@ class InventoryInsightsChart extends Component<
       currentShowType === SHOW_TYPE.ProductLevelInventory
     ) {
       allData.forEach(series => {
-        if ((series.name === 'Others' && !showOthers) || series.name === 'Inventory') return;
+        if (
+          (series.name === 'Others' && !showOthers) ||
+          series.name === 'Inventory' ||
+          series.name === 'Rank'
+        )
+          return;
         const sellerDataPoint = series.data.find((dataPoint: any) => dataPoint[0] === x);
         if (sellerDataPoint) {
           newPieData.push({
