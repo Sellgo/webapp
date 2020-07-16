@@ -203,6 +203,18 @@
   }
 }
 
+@media (max-width: 2550px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 432px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 549px;
+    }
+  }
+}
+
 @media (max-width: 1920px) {
   .filter-section {
     &.sticky-chart-active {

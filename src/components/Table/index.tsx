@@ -320,7 +320,9 @@ export const GenericTable = (props: GenericTableProps) => {
         basic="very"
         textAlign="left"
         unstackable={true}
-        className={`${name === 'trackerTable' ? 'alter-table' : 'pf-table'}`}
+        className={`${
+          name === 'trackerTable' ? 'alter-table' : name === 'products' ? 'pf-table' : ''
+        }`}
       >
         <TableHeader
           columns={columns}
