@@ -144,8 +144,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       </Table.HeaderCell>
     );
   }
-  // @ts-ignore
-  // @ts-ignore
   return (
     <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
       {' '}
