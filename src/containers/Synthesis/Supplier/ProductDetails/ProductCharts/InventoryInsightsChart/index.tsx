@@ -25,6 +25,7 @@ export interface Series {
 
 export interface PieItem {
   name: string;
+  x?: number;
   y: number;
   color: string;
   visible: boolean;
@@ -55,6 +56,7 @@ export interface InventoryInsightsChartState {
 const defaultPieData: PieItem[] = [
   {
     name: '',
+    x: 0,
     y: 0,
     color: '',
     visible: false,
@@ -152,7 +154,6 @@ class InventoryInsightsChart extends Component<
         headerFormat:
           '<span style="font-size: 18px;color:{point.color}">●</span>' +
           '<span style="font-size: 12px;font-weight:bold;"> {point.key}</span><br/>',
-        pointFormat: 'Inventory: <b>{point.y}</b><br>Share: <b>{point.percentage:.1f}%</b>',
         style: {
           color: 'white',
           opacity: 0.9,
@@ -390,12 +391,19 @@ class InventoryInsightsChart extends Component<
         const y = latestPoint ? latestPoint[1] : 0;
         return {
           name: item.name,
+          x: latestTimeStamp,
           y: y,
           color: item.color,
           visible: true,
         };
       });
 
+    const dateFormat =
+      period === filterPeriods.data[filterPeriods.data.length - 1].value
+        ? '%a, %b %e'
+        : '%a, %b %e, %k:%M';
+
+    // update state with processed props
     this.setState(prevState => ({
       allData: data,
       initialPieData: initialPieData,
@@ -408,10 +416,7 @@ class InventoryInsightsChart extends Component<
           max: xMax,
         },
         tooltip: {
-          xDateFormat:
-            period === filterPeriods.data[filterPeriods.data.length - 1].value
-              ? '%a, %b %e'
-              : '%a, %b %e, %k:%M',
+          xDateFormat: dateFormat,
         },
         series:
           currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
@@ -509,6 +514,14 @@ class InventoryInsightsChart extends Component<
           },
         },
       }),
+      marketSharePieChartOptions: _.merge(_.cloneDeep(prevState.marketSharePieChartOptions), {
+        tooltip: {
+          pointFormat:
+            '<span style="font-size: 11px">{point.x:' +
+            dateFormat +
+            '}</span><br>Inventory: <b>{point.y}</b><br>Share: <b>{point.percentage:.1f}%</b>',
+        },
+      }),
     }));
   }
 
@@ -536,6 +549,7 @@ class InventoryInsightsChart extends Component<
         if (sellerDataPoint) {
           newPieData.push({
             name: series.name,
+            x: x,
             y: sellerDataPoint[1],
             visible: true,
             color: series.color,
@@ -548,6 +562,7 @@ class InventoryInsightsChart extends Component<
         if (series.visible && item) {
           newPieData.push({
             name: series.name,
+            x: x,
             y: item.y,
             visible: true,
             color: item.color,
