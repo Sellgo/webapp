@@ -21,6 +21,11 @@ Highcharts.setOptions({
   },
 });
 const defaultOptions: Highcharts.Options = {
+  chart: {
+    style: {
+      fontFamily: 'Work Sans',
+    },
+  },
   plotOptions: {
     series: {
       // general options for all series
