@@ -163,7 +163,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
-        {label === 'Search' && (
+        {label === 'Search Name' && (
           <span className="search-ic">
             <Icon
               className="filter search-filter"

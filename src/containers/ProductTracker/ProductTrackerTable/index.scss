@@ -1031,7 +1031,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 140px !important;
+    min-width: 130px !important;
   }
 }
 
@@ -1047,11 +1047,11 @@ $link-color: #349af8;
 
 @media only screen and (min-width: 1440px) and (max-width: 1921px) {
   .pt-scroll {
-    min-width: 130px !important;
+    min-width: 126px !important;
   }
 
   .pt-scroll-container {
-    max-width: 67% !important;
+    max-width: 74% !important;
   }
 }
 
@@ -1061,7 +1061,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 160px !important;
+    min-width: 131px !important;
   }
 
   .pt-scroll-container {
@@ -1095,7 +1095,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 140px !important;
+    min-width: 135px !important;
   }
 }
 
@@ -1105,13 +1105,17 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 140px !important;
+    min-width: 132px !important;
   }
 }
 
 @media only screen and (min-width: 1680px) and (max-width: 1919px) {
   .remove-top-border {
     width: 99.1% !important;
+  }
+
+  .pt-scroll {
+    min-width: 131px !important;
   }
 }
 
