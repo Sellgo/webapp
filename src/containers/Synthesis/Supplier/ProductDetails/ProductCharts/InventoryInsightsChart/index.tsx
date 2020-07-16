@@ -455,21 +455,49 @@ class InventoryInsightsChart extends Component<
                    * 3. If there is a pinned column and the pinned column is clicked,
                    * revert its color, unpin it and return to initial pie chart.
                    */
+                  let pinType = '';
+                  pinType = 'color';
+                  const xAxis = e.point.series.chart.xAxis[0];
                   if (!this.state.pinnedPoint) {
-                    e.point.update({ color: pinnedPointPattern });
+                    if (pinType === 'line') {
+                      xAxis.addPlotLine({
+                        value: e.point.x,
+                        color: '#000000',
+                        width: 1,
+                        zIndex: 9999,
+                        id: 'pinnedColumn',
+                      });
+                    } else {
+                      e.point.update({ color: pinnedPointPattern });
+                    }
                     this.setState({
                       pinnedPoint: e.point,
                       defaultPieData: this._getPieDataOfEventPoint(e.point),
                     });
                   } else if (this.state.pinnedPoint && this.state.pinnedPoint !== e.point) {
-                    this.state.pinnedPoint.update({ color: inventorySumColor });
-                    e.point.update({ color: pinnedPointPattern });
+                    if (pinType === 'line') {
+                      xAxis.removePlotLine('pinnedColumn');
+                      xAxis.addPlotLine({
+                        value: e.point.x,
+                        color: '#000000',
+                        width: 1,
+                        zIndex: 9999,
+                        id: 'pinnedColumn',
+                      });
+                    } else {
+                      this.state.pinnedPoint.update({ color: inventorySumColor });
+                      e.point.update({ color: pinnedPointPattern });
+                    }
                     this.setState({
                       pinnedPoint: e.point,
                       defaultPieData: this._getPieDataOfEventPoint(e.point),
                     });
                   } else if (this.state.pinnedPoint && this.state.pinnedPoint === e.point) {
-                    this.state.pinnedPoint.update({ color: inventorySumColor });
+                    if (pinType === 'line') {
+                      xAxis.removePlotLine('pinnedColumn');
+                    } else {
+                      this.state.pinnedPoint.update({ color: inventorySumColor });
+                    }
                     this.setState({
                       pinnedPoint: undefined,
                       defaultPieData: this.state.initialPieData,
