@@ -149,7 +149,17 @@ class InventoryInsightsChart extends Component<
         innerSize: '50%',
       },
       tooltip: {
-        pointFormat: '{point.y} ({point.percentage:.1f}%)',
+        headerFormat:
+          '<span style="font-size: 18px;color:{point.color}">●</span>' +
+          '<span style="font-size: 12px;font-weight:bold;"> {point.key}</span><br/>',
+        pointFormat: 'Inventory: <b>{point.y}</b><br>Share: <b>{point.percentage:.1f}%</b>',
+        style: {
+          color: 'white',
+          opacity: 0.9,
+        },
+        backgroundColor: '#757575',
+        shadow: false,
+        borderWidth: 0,
       },
       legend: {
         align: 'right',
