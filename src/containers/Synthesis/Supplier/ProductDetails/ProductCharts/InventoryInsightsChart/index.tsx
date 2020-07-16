@@ -23,15 +23,7 @@ interface Series {
   zIndex?: number;
 }
 
-export default ({
-  productRanks,
-  productInventories,
-  sellerInventories,
-  period,
-  xMin,
-  xMax,
-  currentShowType = SHOW_TYPE.ProductLevelInventory,
-}: {
+export default (props: {
   productRanks: [number, number][];
   productInventories: [number, number][];
   sellerInventories: { [key: string]: { name: string; data: [number, number][]; color: string } };
@@ -40,6 +32,16 @@ export default ({
   xMax?: number;
   currentShowType?: SHOW_TYPE;
 }) => {
+  const {
+    productRanks,
+    productInventories,
+    sellerInventories,
+    period,
+    xMin,
+    xMax,
+    currentShowType = SHOW_TYPE.ProductLevelInventory,
+  } = props;
+
   const showRanks = true;
   const showOthers = true;
   const data: Series[] = [];
@@ -360,6 +362,14 @@ export default ({
   };
 
   // options for pie chart
+  const pieSum = pieData
+    .filter((item: any) => item.visible)
+    .map(i => i.y)
+    .reduce((a, b) => {
+      const c = a ? a : 0;
+      const d = b ? b : 0;
+      return c + d;
+    }, 0);
   const marketSharePieChartOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -367,16 +377,26 @@ export default ({
       plotShadow: false,
       type: 'pie',
     },
-    title: null,
+    title: {
+      text: `<b>${pieSum}<b> <br>Inventory`,
+      style: { fontSize: '20px' },
+      align: 'center',
+      verticalAlign: 'middle',
+    },
     series: {
       name: 'Market Share',
+      innerSize: '50%',
       data: pieData.filter((item: any) => item.visible),
     },
     tooltip: {
       pointFormat: '{point.y} ({point.percentage:.1f}%)',
     },
     plotOptions: {
+      pie: {
+        center: ['50%', '50%'],
+      },
       series: {
+        innerSize: '50%',
         animation: false,
       },
     },
