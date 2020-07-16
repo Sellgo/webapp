@@ -391,6 +391,7 @@ export default ({
 
   return (
     <div className="seller-inventory-charts">
+      <div className="seller-inventory-charts__title">Inventory Insights</div>
       <div className="seller-inventory-charts__time-series">
         <div style={{ position: 'relative', width: '100%' }}>
           <Chart chartOptions={timeSeriesChartOptions} />
