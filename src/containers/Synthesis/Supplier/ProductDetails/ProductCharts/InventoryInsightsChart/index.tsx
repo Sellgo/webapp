@@ -46,16 +46,16 @@ export default ({
   let sellerSumSeries: any = [];
   const pieRef: any = useRef(null);
   const colors = [
-    '#7cb5ec',
-    '#434348',
-    '#90ed7d',
-    '#f7a35c',
-    '#8085e9',
-    '#f15c80',
-    '#e4d354',
-    '#2b908f',
-    '#f45b5b',
-    '#91e8e1',
+    '#A3A0FB',
+    '#607EFA',
+    '#55D8FD',
+    '#A0F1FB',
+    '#FD73E8',
+    '#FD8373',
+    '#FDA373',
+    '#FEDA83',
+    '#F9FE83',
+    '#5EE2A0',
   ];
 
   // format series data
@@ -203,7 +203,7 @@ export default ({
       type: 'line',
       step: true,
       name: 'Rank',
-      color: '#FD8373',
+      color: '#FD4F1E',
       data: productRanks,
       zIndex: 2,
     });
