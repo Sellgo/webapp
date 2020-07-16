@@ -28,7 +28,7 @@
     border-radius: 0 !important;
     visibility: visible;
     transition: width 0.5s !important;
-    width: 50px !important;
+    width: 48px !important;
 
     &.visible {
       width: 246px !important;
@@ -58,7 +58,7 @@
 
     i {
       padding-left: 0;
-      font-size: 25px;
+      font-size: 20px;
       min-width: 48px;
 
       &.fa-angle-right {
