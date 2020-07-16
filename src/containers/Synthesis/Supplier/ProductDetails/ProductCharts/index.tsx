@@ -336,7 +336,7 @@ class ProductCharts extends Component<ProductChartsProps> {
           <Form.Group inline={true}>
             <label />
             <Form.Radio
-              label="Market Share"
+              label="Inventory Insights"
               value="chart0"
               checked={this.state.showProductChart === 'chart0'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
