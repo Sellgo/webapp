@@ -299,12 +299,6 @@ class ProductCharts extends Component<ProductChartsProps> {
 
   render() {
     const {
-      productDetailRank,
-      productDetailInventory,
-      productDetailPrice,
-      productDetailRating,
-      productDetailReview,
-      productDetailSellerInventory,
       isFetchingRank,
       isFetchingPrice,
       isFetchingInventory,
@@ -312,16 +306,6 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingReview,
       isFetchingSellerInventory,
     } = this.props;
-    if (
-      !productDetailReview ||
-      !productDetailRating ||
-      !productDetailRank ||
-      !productDetailPrice ||
-      !productDetailInventory ||
-      !productDetailSellerInventory
-    ) {
-      return this.renderNoDataMessage();
-    }
     return (
       <div className="product-detail-charts">
         <Divider />

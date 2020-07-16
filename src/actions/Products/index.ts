@@ -37,9 +37,7 @@ export const fetchSupplierProductDetails = (supplierID: any, productID: any) => 
     AppConfig.BASE_URL_API +
       `sellers/${sellerID}/suppliers/${supplierID}/products/${productID}/detail`
   );
-  if (response.data.length) {
-    dispatch(setSupplierProductDetails(response.data[0]));
-  }
+  dispatch(setSupplierProductDetails(response.data[0]));
 };
 
 export const fetchSupplierProductDetailChartRank = (productID: string, period?: number) => async (
@@ -53,10 +51,8 @@ export const fetchSupplierProductDetailChartRank = (productID: string, period?: 
   const response = await Axios.get(
     AppConfig.BASE_URL_API + `products/${productID}/history/rank${queryString}`
   );
+  dispatch(setSupplierProductDetailChartRank(response.data));
   dispatch(setFetchingRank(false));
-  if (response.data) {
-    dispatch(setSupplierProductDetailChartRank(response.data));
-  }
 };
 
 export const fetchSupplierProductDetailChartPrice = (productID: string, period?: number) => async (
@@ -70,10 +66,8 @@ export const fetchSupplierProductDetailChartPrice = (productID: string, period?:
   const response = await Axios.get(
     AppConfig.BASE_URL_API + `products/${productID}/history/price${queryString}`
   );
+  dispatch(setSupplierProductDetailChartPrice(response.data));
   dispatch(setFetchingPrice(false));
-  if (response.data) {
-    dispatch(setSupplierProductDetailChartPrice(response.data));
-  }
 };
 
 export const fetchSupplierProductDetailChartInventory = (
@@ -88,10 +82,8 @@ export const fetchSupplierProductDetailChartInventory = (
   const response = await Axios.get(
     AppConfig.BASE_URL_API + `products/${productID}/history/inventory${queryString}`
   );
+  dispatch(setSupplierProductDetailChartInventory(response.data));
   dispatch(setFetchingInventory(false));
-  if (response.data) {
-    dispatch(setSupplierProductDetailChartInventory(response.data));
-  }
 };
 
 export const fetchSupplierProductDetailChartRating = (productID: string, period?: number) => async (
@@ -105,10 +97,8 @@ export const fetchSupplierProductDetailChartRating = (productID: string, period?
   const response = await Axios.get(
     AppConfig.BASE_URL_API + `products/${productID}/history/rating${queryString}`
   );
+  dispatch(setSupplierProductDetailChartRating(response.data));
   dispatch(setFetchingRating(false));
-  if (response.data) {
-    dispatch(setSupplierProductDetailChartRating(response.data));
-  }
 };
 
 export const fetchSupplierProductDetailChartReview = (productID: string, period?: number) => async (
@@ -123,9 +113,7 @@ export const fetchSupplierProductDetailChartReview = (productID: string, period?
     AppConfig.BASE_URL_API + `products/${productID}/history/review-count${queryString}`
   );
   dispatch(setFetchingReview(false));
-  if (response.data) {
-    dispatch(setSupplierProductDetailChartReview(response.data));
-  }
+  dispatch(setSupplierProductDetailChartReview(response.data));
 };
 
 export const fetchSupplierProductDetailChartSellerInventory = (
@@ -140,10 +128,8 @@ export const fetchSupplierProductDetailChartSellerInventory = (
   const response = await Axios.get(
     AppConfig.BASE_URL_API + `products/${productID}/history/seller-inventory${queryString}`
   );
+  dispatch(setSupplierProductDetailChartSellerInventory(response.data));
   dispatch(setFetchingSellerInventory(false));
-  if (response.data) {
-    dispatch(setSupplierProductDetailChartSellerInventory(response.data));
-  }
 };
 
 export const fetchSupplierProductDetailChartKPI = (
@@ -165,11 +151,8 @@ export const fetchSupplierProductDetailChartKPI = (
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `products/${productID}/history/kpi${queryString}`
   );
+  dispatch(setSupplierProductDetailChartKPI(response.data));
   dispatch(setFetchingKpi(false));
-
-  if (response.data) {
-    dispatch(setSupplierProductDetailChartKPI(response.data));
-  }
 };
 
 export const setFetchingRank = (isFetching: boolean) => ({
