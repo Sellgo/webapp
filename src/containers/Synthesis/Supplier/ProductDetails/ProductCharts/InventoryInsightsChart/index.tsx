@@ -237,6 +237,7 @@ export default (props: {
     chart: {
       zoomType: 'x',
       type: 'column',
+      height: 372, // 400 - seller-inventory-charts__title's height
     },
     title: null,
     xAxis: [
@@ -376,6 +377,7 @@ export default (props: {
       plotBorderWidth: null,
       plotShadow: false,
       type: 'pie',
+      height: 372, // 400 - seller-inventory-charts__title's height
     },
     title: {
       text: `<b>${pieSum}<b> <br>Inventory`,
