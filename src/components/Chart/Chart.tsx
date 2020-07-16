@@ -4,8 +4,11 @@ import HighchartsReact from 'highcharts-react-official';
 import Boost from 'highcharts/modules/boost';
 import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
+import { PercentAlign } from '../../utils/highchartExtensions';
 
+// activate extensions
 Boost(Highcharts);
+PercentAlign(Highcharts);
 
 /* 
 Define default Highchart options here.

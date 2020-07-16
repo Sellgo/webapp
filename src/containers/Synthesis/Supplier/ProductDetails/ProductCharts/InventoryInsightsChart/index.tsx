@@ -141,6 +141,7 @@ class InventoryInsightsChart extends Component<
       title: {
         style: { fontSize: '20px' },
         align: 'center',
+        percentAlign: -20,
         verticalAlign: 'middle',
       },
       series: {
@@ -150,13 +151,33 @@ class InventoryInsightsChart extends Component<
       tooltip: {
         pointFormat: '{point.y} ({point.percentage:.1f}%)',
       },
+      legend: {
+        align: 'right',
+        verticalAlign: 'middle',
+        layout: 'vertical',
+        padding: 0,
+        itemMarginTop: 5,
+        itemMarginBottom: 5,
+        width: '40%',
+      },
       plotOptions: {
         pie: {
           center: ['50%', '50%'],
+          showInLegend: true,
+          dataLabels: {
+            enabled: false,
+          },
         },
         series: {
           innerSize: '50%',
           animation: false,
+          point: {
+            events: {
+              legendItemClick: function(e: any) {
+                e.preventDefault();
+              },
+            },
+          },
         },
       },
     },
