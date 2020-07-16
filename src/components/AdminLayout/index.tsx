@@ -6,15 +6,17 @@ import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Sidebar from './Sidebar';
 import Auth from '../Auth/Auth';
 import './index.scss';
+import { isSubscriptionNotPaid } from '../../utils/subscriptions';
 
 interface Props {
   auth: Auth;
   currentNotifyId: number;
+  subscriptionType: string;
 }
 
 class AdminLayout extends React.Component<Props> {
   public render() {
-    const { children, auth, currentNotifyId } = this.props;
+    const { children, auth, currentNotifyId, subscriptionType } = this.props;
 
     return (
       <React.Fragment>
@@ -22,7 +24,12 @@ class AdminLayout extends React.Component<Props> {
           {this.props.children}
         </AdminHeader>
         <Sidebar auth={auth}>
-          <Segment className="admin-layout" basic={true}>
+          <Segment
+            className={`admin-layout ${
+              isSubscriptionNotPaid(subscriptionType) ? 'message-active' : ''
+            } `}
+            basic={true}
+          >
             {children}
           </Segment>
         </Sidebar>
@@ -33,6 +40,7 @@ class AdminLayout extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => ({
   currentNotifyId: notifyIdSelector(state),
+  subscriptionType: state.subscription.subscriptionType,
 });
 
 export default connect(mapStateToProps)(AdminLayout);
