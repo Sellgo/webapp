@@ -353,7 +353,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
                     <thead className="center-scrolling">
-                      <Table.Row>
+                      <Table.Row className="pf-middle-scroll">
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;
                           const className2 = `middle-scroll-cell-disabled ${getColumnClass(
