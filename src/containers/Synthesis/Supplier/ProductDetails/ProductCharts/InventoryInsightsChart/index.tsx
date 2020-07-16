@@ -12,7 +12,7 @@ export enum SHOW_TYPE {
   SellerLevelInventory,
 }
 
-interface Series {
+export interface Series {
   yAxis: number;
   type: string;
   name: string;
@@ -23,7 +23,7 @@ interface Series {
   zIndex?: number;
 }
 
-export default (props: {
+export interface InventoryInsightsChartProps {
   productRanks: [number, number][];
   productInventories: [number, number][];
   sellerInventories: { [key: string]: { name: string; data: [number, number][]; color: string } };
@@ -31,7 +31,9 @@ export default (props: {
   xMin?: number;
   xMax?: number;
   currentShowType?: SHOW_TYPE;
-}) => {
+}
+
+export default (props: InventoryInsightsChartProps) => {
   const {
     productRanks,
     productInventories,
@@ -39,7 +41,7 @@ export default (props: {
     period,
     xMin,
     xMax,
-    currentShowType = SHOW_TYPE.ProductLevelInventory,
+    currentShowType = SHOW_TYPE.SumOfSellerLevelInventory,
   } = props;
 
   const showRanks = true;
@@ -157,18 +159,29 @@ export default (props: {
   });
 
   // initialize pie chart data state
-  const [pieData, setPieData] = useState(
+  const latestTimeStamp = data
+    .filter(item => item.name !== 'Inventory')
+    .filter(item => (showOthers ? true : item.name !== 'Other'))
+    .flatMap(item => item.data)
+    .map(item => item[0])
+    .reduce((a, b) => Math.max(a, b), 0);
+  const [initialPieData] = useState(
     data
       .filter(item => item.name !== 'Inventory')
+      .filter(item => (showOthers ? true : item.name !== 'Other'))
       .map(item => {
+        const latestPoint = item.data.find(point => point[0] === latestTimeStamp);
+        const y = latestPoint ? latestPoint[1] : 0;
         return {
           name: item.name,
-          y: item.totalValue,
+          y: y,
           color: item.color,
           visible: true,
         };
       })
   );
+  const [defaultPieData, setDefaultPieData] = useState(initialPieData);
+  const [activePieData, setActivePieData] = useState(initialPieData);
 
   // initialize yAxisOptions of time series chart
   const inventoryDataPoints = sellerSumSeries.map((item: any) => item[1]);
@@ -231,6 +244,59 @@ export default (props: {
       },
     });
   }
+
+  // get pie data on time series chart
+  const getPieDataOfEventPoint = (point: any) => {
+    const x = point.x;
+    const chartSeries = point.series.chart.series;
+    const newPieData: any = [];
+
+    if (
+      currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
+      currentShowType === SHOW_TYPE.ProductLevelInventory
+    ) {
+      for (const key in sellerInventories) {
+        const sellerDataPoint = sellerInventories[key].data.find(
+          (dataPoint: any) => dataPoint[0] === x
+        );
+
+        if (sellerDataPoint) {
+          newPieData.push({
+            name: sellerInventories[key].name,
+            y: sellerDataPoint[1],
+            visible: true,
+            color: sellerInventories[key].color,
+          });
+        }
+      }
+    } else {
+      chartSeries.forEach((series: any) => {
+        const item = series.data.find((item: any) => item.category === x);
+        if (series.visible && item) {
+          newPieData.push({
+            name: series.name,
+            y: item.y,
+            visible: true,
+            color: item.color,
+          });
+        }
+      });
+    }
+
+    if (showOthers && otherSeries) {
+      const otherDataPoint = otherSeries.data.find(dataPoint => dataPoint[0] === x);
+      if (otherDataPoint) {
+        newPieData.push({
+          name: otherSeries.name,
+          y: otherDataPoint[1],
+          visible: true,
+          color: otherSeries.color,
+        });
+      }
+    }
+
+    return newPieData;
+  };
 
   // options for time series chart
   const timeSeriesChartOptions = {
@@ -295,66 +361,33 @@ export default (props: {
             currentShowType === SHOW_TYPE.ProductLevelInventory
               ? undefined
               : (e: any) => {
-                  const newPieData = _.cloneDeep(pieData);
+                  const newPieData = _.cloneDeep(activePieData);
                   const item = newPieData.find((item: any) => item.name === e.target.name);
                   if (item) {
                     item.visible = !e.target.visible;
                   }
 
-                  setPieData(newPieData);
+                  setActivePieData(newPieData);
                 },
         },
         point: {
           events: {
             mouseOver: (e: any) => {
-              const x = e.target.x;
-              const newPieData: any = [];
-
-              if (
-                currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
-                currentShowType === SHOW_TYPE.ProductLevelInventory
-              ) {
-                for (const key in sellerInventories) {
-                  const sellerDataPoint = sellerInventories[key].data.find(
-                    (dataPoint: any) => dataPoint[0] === x
-                  );
-
-                  if (sellerDataPoint) {
-                    newPieData.push({
-                      name: sellerInventories[key].name,
-                      y: sellerDataPoint[1],
-                      visible: true,
-                      color: sellerInventories[key].color,
-                    });
-                  }
-                }
-              } else {
-                e.target.series.chart.series.forEach((series: any) => {
-                  const item = series.data.find((item: any) => item.category === x);
-                  if (series.visible && item) {
-                    newPieData.push({
-                      name: series.name,
-                      y: item.y,
-                      visible: true,
-                      color: item.color,
-                    });
-                  }
-                });
-              }
-
-              if (showOthers && otherSeries) {
-                const otherDataPoint = otherSeries.data.find(dataPoint => dataPoint[0] === x);
-                if (otherDataPoint) {
-                  newPieData.push({
-                    name: otherSeries.name,
-                    y: otherDataPoint[1],
-                    visible: true,
-                    color: otherSeries.color,
-                  });
-                }
-              }
-
-              setPieData(newPieData);
+              const newPieData = getPieDataOfEventPoint(e.target);
+              console.log('MouseOver - setting active pie data to: ');
+              console.log(newPieData);
+              setActivePieData(newPieData);
+            },
+            mouseOut: () => {
+              console.log('MouseOut - setting active pie data to: ');
+              console.log(defaultPieData);
+              setActivePieData(defaultPieData);
+            },
+            click: (e: any) => {
+              const newPieData = getPieDataOfEventPoint(e.point);
+              console.log('Click - setting default pie data to: ');
+              console.log(newPieData);
+              setDefaultPieData(newPieData);
             },
           },
         },
@@ -363,7 +396,7 @@ export default (props: {
   };
 
   // options for pie chart
-  const pieSum = pieData
+  const pieSum = activePieData
     .filter((item: any) => item.visible)
     .map(i => i.y)
     .reduce((a, b) => {
@@ -388,7 +421,7 @@ export default (props: {
     series: {
       name: 'Market Share',
       innerSize: '50%',
-      data: pieData.filter((item: any) => item.visible),
+      data: activePieData.filter((item: any) => item.visible),
     },
     tooltip: {
       pointFormat: '{point.y} ({point.percentage:.1f}%)',
