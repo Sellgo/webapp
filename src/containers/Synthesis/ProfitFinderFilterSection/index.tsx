@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon, Image, Divider, Modal, Dropdown } from 'semantic-ui-react';
+import { Button, Icon, Image, Modal, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
@@ -875,9 +875,7 @@ function ProfitFinderFilterSection(props: Props) {
           />
         </Modal.Content>
       </Modal>
-      <div className="filter-wrapper">
-        <Divider />
-      </div>
+      <div className="filter-wrapper">{/* <Divider /> */}</div>
     </div>
   );
 }

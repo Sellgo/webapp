@@ -2,9 +2,9 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  height: 50px;
+  height: 10px;
   margin-bottom: 2rem;
-  padding: 1em 1em;
+  padding: 0 1em;
 
   @media (max-width: 767px) {
     display: block;
@@ -17,7 +17,7 @@
     .icon.divider {
       color: #98aeca;
       font-size: 16px;
-      margin: 0 10px;
+      margin: 0 8px;
     }
 
     @media screen and (max-width: 450px) {
@@ -29,13 +29,14 @@
     }
 
     .section {
-      color: #5381db;
-      font-size: 20px;
+      color: #3b4557;
+      font-size: 16px;
       font-weight: 600;
     }
 
     .active.section {
-      color: #1b1c1d;
+      color: #5381db;
+      font-size: 16px;
       font-weight: 600;
     }
   }

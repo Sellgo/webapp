@@ -15,10 +15,9 @@
   .table-menu-header {
     display: flex;
     justify-content: space-between;
-    padding: 0 5px;
     height: 94px;
-    padding-top: 30px !important;
-    padding-bottom: 27px !important;
+    padding-top: 20px !important;
+    padding-bottom: 37px !important;
     position: sticky;
     top: -70px;
     z-index: 5;
@@ -56,19 +55,19 @@
       width: 480px;
 
       input {
-        border: 0.5px solid #a2a2a2 !important;
+        border: 1px solid #98aeca !important;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
       }
 
       button {
         border-left: none !important;
-        border-right: 0.5px solid #a2a2a2 !important;
-        border-top: 0.5px solid #a2a2a2 !important;
-        border-bottom: 0.5px solid #a2a2a2 !important;
+        border-right: 1px solid #349af8 !important;
+        border-top: 1px solid #349af8 !important;
+        border-bottom: 1px solid #349af8 !important;
         background-color: #349af8;
-        border-top-right-radius: 15px !important;
-        border-bottom-right-radius: 15px !important;
+        border-top-right-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;
         color: white;
       }
     }
@@ -78,14 +77,14 @@
       width: 480px;
 
       input {
-        border: 0.5px solid #a2a2a2 !important;
+        border: 1px solid #349af8 !important;
       }
 
       button {
         border-left: none !important;
-        border-right: 0.5px solid #a2a2a2 !important;
-        border-top: 0.5px solid #a2a2a2 !important;
-        border-bottom: 0.5px solid #a2a2a2 !important;
+        border-right: 1px solid #349af8 !important;
+        border-top: 1px solid #349af8 !important;
+        border-bottom: 1px solid #349af8 !important;
       }
     }
   }
@@ -93,21 +92,62 @@
   .ui.table {
     thead th {
       border-left: none;
+      border: none;
+      border-radius: unset;
     }
 
     &.pf-table {
-      thead.pf-header {
-        > tr:first-child {
-          th {
-            position: sticky;
-            top: 15px;
-            transform: scale(0.999);
-            z-index: 6;
-            transition-property: top;
-            transition-duration: 1s;
+      margin-top: -28px;
 
-            &:hover {
-              background: #e6e6e6;
+      thead.pf-header {
+        > tr {
+          th {
+            border: none;
+          }
+
+          &:first-child {
+            th {
+              position: sticky;
+              top: 15px;
+              transform: scale(0.999);
+              z-index: 6;
+              transition-property: top;
+              transition-duration: 1s;
+            }
+          }
+        }
+
+        > tr:first-child > th {
+          border-bottom: 20px solid #f8faff !important;
+          background: #f8faff;
+          border-radius: unset;
+
+          &:hover {
+            background: #e6e6e6;
+          }
+
+          table.header-inner-table {
+            border-top: 1px solid #bec0c3;
+            border-bottom: 1px solid #bec0c3;
+          }
+
+          &:first-child {
+            table.header-inner-table {
+              .pf-header-cell:last-child {
+                border-radius: unset;
+              }
+
+              border-left: 1px solid #bec0c3;
+              border-top-left-radius: 10px;
+              border-bottom-left-radius: 10px;
+            }
+          }
+
+          &:last-child {
+            table.header-inner-table {
+              border-right: 1px solid #bec0c3;
+              border-top-right-radius: 10px;
+              border-bottom-right-radius: 10px;
             }
           }
         }
@@ -119,13 +159,13 @@
         }
 
         &.scroll-top > tr:first-child th {
-          top: 98px;
+          top: 80px;
           transition-property: top;
           transition-duration: 1s;
         }
 
         &.sticky-chart-active.scroll-top > tr:first-child th {
-          top: 438px;
+          top: 417px;
           transition-property: top;
           transition-duration: 1s;
         }
@@ -289,7 +329,7 @@ i.icon.filter::before {
 
 .middle-scroll-cell {
   border: none !important;
-  height: 2px !important;
+  height: 0 !important;
   border-spacing: 0 !important;
   padding: 0 !important;
   border-radius: 30px;
@@ -299,6 +339,7 @@ i.icon.filter::before {
 .middle-scroll-cell:hover {
   background: transparent !important;
   cursor: pointer !important;
+  height: unset !important;
 }
 
 .middle-scroll-cell-disabled {
@@ -447,7 +488,7 @@ i.icon.filter::before {
 }
 
 .table-scroll-divider {
-  height: 15px;
+  height: 3px;
 }
 
 .inner-tbody::before {
@@ -461,7 +502,7 @@ i.icon.filter::before {
 }
 
 .body-inner-table {
-  border-spacing: 0 3px !important;
+  border-spacing: 0 1px !important;
   width: 100% !important;
 }
 
@@ -515,7 +556,35 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 683px;
+            top: 665px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 2550px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 387px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 455px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 490px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 605px;
           }
         }
       }
@@ -543,7 +612,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 550px;
+            top: 532px;
           }
         }
       }
@@ -575,7 +644,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 435px;
+            top: 417px;
           }
         }
       }
@@ -688,4 +757,20 @@ i.icon.filter::before {
       width: 350px !important;
     }
   }
+}
+
+.ptr-scroll-container {
+  height: 20px !important;
+}
+
+.header-scroll::-webkit-scrollbar {
+  height: 7px !important;
+}
+
+.header-scroll::-webkit-scrollbar-thumb {
+  border-radius: 5px !important;
+}
+
+.header-scroll::-webkit-scrollbar-track {
+  border-radius: 5px !important;
 }

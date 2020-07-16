@@ -27,12 +27,13 @@
 
   .filter-wrapper {
     margin: 0 5px;
-    height: 45px;
+    height: 0;
   }
 
   .filter-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     &__options {
       display: flex;
@@ -43,11 +44,11 @@
         border-color: rgba(34, 36, 38, 0.35);
       }
 
-      min-width: 80px !important;
-      padding: 7px 10px !important;
+      min-width: 70px !important;
+      padding: 5px 10px !important;
 
       .dropdown.icon {
-        font-size: 16px;
+        font-size: 12px;
         padding: 10px;
         display: flex;
         align-items: center;
@@ -82,11 +83,12 @@
 
   .ui.basic {
     &.button {
-      border-radius: 20px;
+      border-radius: 100px;
+      border: 1px #98aeca;
       display: flex;
       align-items: center;
       font-family: 'Work Sans', sans-serif !important;
-      margin: 5px;
+      //margin: 0 15px;
       position: relative;
       height: 32px;
       width: 107px;
@@ -144,7 +146,7 @@
       &.reset-filter-btn {
         width: 83px;
         height: 25px;
-        font-weight: bold;
+        font-weight: 600;
         border: 1px solid #98aeca;
         border-radius: 100px;
         color: #98aeca !important;
@@ -155,7 +157,7 @@
       &.apply-filter-btn {
         width: 83px;
         height: 25px;
-        font-weight: bold;
+        font-weight: 600;
         border: 1px solid #349af8;
         border-radius: 100px;
         color: #349af8 !important;
@@ -201,6 +203,18 @@
 
     &.scroll-top.sticky-chart-active {
       top: 609px;
+    }
+  }
+}
+
+@media (max-width: 2550px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 432px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 549px;
     }
   }
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import Chart from './Chart';
 import _ from 'lodash';
+import { MINUTES_IN_A_DAY } from '../../utils/date';
+import { filterPeriods } from '../../constants/Tracker';
 
 export interface StepLineChartOptions {
   title: string;
@@ -31,7 +33,10 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
       xAxis: [
         {
           type: 'datetime',
-          crosshair: true,
+          minTickInterval: MINUTES_IN_A_DAY,
+          crosshair: {
+            snap: false,
+          },
         },
       ],
       yAxis: {
@@ -48,9 +53,23 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
       },
       tooltip: {
         shared: true,
+        followPointer: true,
+        followTouchMove: true,
+        stickOnContact: true,
+        xDateFormat:
+          options.period === filterPeriods.data[filterPeriods.data.length - 1].value
+            ? '%a, %b %e'
+            : '%a, %b %e, %k:%M',
       },
       legend: {
         align: 'center',
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            enabled: false,
+          },
+        },
       },
       series: data.map((e: any) => {
         return {
