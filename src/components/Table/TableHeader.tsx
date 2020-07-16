@@ -144,6 +144,8 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       </Table.HeaderCell>
     );
   }
+  // @ts-ignore
+  // @ts-ignore
   return (
     <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
       {' '}
@@ -163,7 +165,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
-        {label === 'Search' && (
+        {label === 'Search Name' && (
           <span className="search-ic">
             <Icon
               className="filter search-filter"
