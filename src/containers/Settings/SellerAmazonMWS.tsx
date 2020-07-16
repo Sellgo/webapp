@@ -127,9 +127,8 @@ const SellerAmazonMWS = (props: any) => {
   const showMeHowUrl = marketplaceLocal.id
     ? `https://sellercentral.${
         marketplaceLocal.link
-      }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Denverton-${
-        marketplaceLocal.code
-      }&devMWSAccountId=${'4294-2444-1812'}`
+      }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Sellgo\
+&devMWSAccountId=${'4294-2444-1812'}`
     : '';
 
   const isHashMWS = () => {
