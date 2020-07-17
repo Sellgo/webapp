@@ -185,31 +185,17 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
-export const profitablePresetFilter = (profit: any, type: string) => {
-  if (type === 'Profitable') {
-    return profit > 0;
-  } else if (type === 'Non-Profitable Products') {
-    return profit < 0;
-  } else {
-    return true;
-  }
-};
-
 export const findFilteredProducts = (products: any, filterData: any) => {
-  console.log('products: ', products);
-  console.log('filterData: ', filterData.profitability);
   const updatedFilterProducts = _.filter(products, product => {
-    return !_.isEmpty(filterData)
-      ? profitablePresetFilter(Number(product.profit), filterData.profitability) &&
-          // show if product's category matched one of filter's categories
-          ((!_.isEmpty(filterData.allFilter) &&
-            filterData.allFilter.indexOf(product.amazon_category_name) !== -1) ||
-            //show if product's category is empty & other's filter is active
-            (_.isEmpty(product.amazon_category_name) &&
-              filterData.allFilter.indexOf('Others') !== -1) ||
-            //show if product's category doesn't exist in filter's categories if other's filter is active
-            (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
-              filterData.allFilter.indexOf('Others') !== -1)) &&
+    return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
+      ? // show if product's category matched one of filter's categories
+        (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
+          //show if product's category is empty & other's filter is active
+          (_.isEmpty(product.amazon_category_name) &&
+            filterData.allFilter.indexOf('Others') !== -1) ||
+          //show if product's category doesn't exist in filter's categories if other's filter is active
+          (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
+            filterData.allFilter.indexOf('Others') !== -1)) &&
           //show product size tier is empty and others is checked
           ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
             //show product size tier is matched by one of size tiers

@@ -11,8 +11,9 @@ interface Props {
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   toggleSizeTierFilter: (filterDataKey: string, label: string) => void;
   setRadioFilter: (filterDataKey: string, label: string) => void;
-  applyFilter: () => void;
+  applyFilter: (isPreset?: boolean) => void;
   resetFilter: () => void;
+  resetPreset: () => void;
   toggleSelectAllCategories: () => void;
   toggleSelectAllSize: () => void;
   selectAllCategories: () => void;
@@ -31,6 +32,7 @@ function FilterContainer(props: Props) {
     toggleSizeTierFilter,
     toggleCheckboxFilter,
     resetFilter,
+    resetPreset,
     filterData,
     handleCompleteChange,
     resetSingleFilter,
@@ -202,12 +204,9 @@ function FilterContainer(props: Props) {
               <span className="presets-filter-content-wrapper__header__filter-name">
                 Quick Preset
               </span>
-              <span
-                className="presets-filter-content-wrapper__header__preset-reset"
-                onClick={() => selectAllCategories()}
-              >
-                x Reset
-              </span>
+              <div className="presets-filter-content-wrapper__header__preset-reset">
+                <p onClick={() => resetPreset()}>x Reset</p>
+              </div>
             </div>
             {_.map(filterData.presets, (filter, key) => {
               return (
@@ -222,13 +221,13 @@ function FilterContainer(props: Props) {
                       </span>
                       {_.map(filter.data, (filterData, dataKey) => {
                         return (
-                          <div className={`ui radio checkbox ${filterData.dataKey}`} key={dataKey}>
+                          <div className={`ui radio checkbox ${filter.checkedValue}`} key={dataKey}>
                             <input
                               id={filterData.dataKey}
                               checked={initialFilterState.profitability === filterData.label}
                               onChange={() => {
                                 setRadioFilter(filterData.dataKey, filterData.label);
-                                applyFilter();
+                                applyFilter(true);
                               }}
                               type="radio"
                             />

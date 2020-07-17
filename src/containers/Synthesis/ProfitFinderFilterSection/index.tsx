@@ -145,7 +145,6 @@ function ProfitFinderFilterSection(props: Props) {
     }
     filterProducts(filterSearch, filterState);
     setHasFilter(isFilterUse());
-    console.log('aw', filterState);
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -480,14 +479,17 @@ function ProfitFinderFilterSection(props: Props) {
           {
             label: 'All Products',
             dataKey: 'all-products',
+            checked: true,
           },
           {
             label: 'Profitable',
             dataKey: 'profitability',
+            checked: false,
           },
           {
             label: 'Non-Profitable Products',
             dataKey: 'non-profitable-products',
+            checked: false,
           },
         ],
       },
@@ -552,19 +554,6 @@ function ProfitFinderFilterSection(props: Props) {
       return filter;
     });
     setAllFilter(allData);
-  };
-  const setRadioFilter = (filterType: string, value: string) => {
-    const data = _.map(presetFilter, filter => {
-      if (filter.dataKey === filterType) {
-        filter.checkedValue = value;
-      }
-      return filter;
-    });
-    const filterValue = filterState;
-    filterState.profitability = value;
-
-    setPresetFilter(data);
-    setFilterState(filterValue);
   };
   const selectAllCategories = (firstLoad?: boolean) => {
     if (!firstLoad) {
@@ -664,13 +653,67 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
+  const setRadioFilter = (filterType: string, value: string) => {
+    resetSingleFilter('profit');
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === filterType) {
+        filter.checkedValue = value;
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = value;
 
-  const applyFilter = () => {
-    console.log('state:', filterState);
+    if (value === 'Profitable') {
+      filterValue.profit.min = 0;
+      filterValue.profit.max = rangeData.profit.max;
+    } else if (value === 'Non-Profitable Products') {
+      filterValue.profit.min = rangeData.profit.min;
+      filterValue.profit.max = 0;
+    } else {
+      filterValue.profit = rangeData.profit;
+    }
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+
+  const resetProfitabilityPreset = (preset?: true) => {
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === 'profitability-preset') {
+        filter.checkedValue = 'profitability';
+        _.map(filter.data, dk => {
+          if (filter.dataKey === 'profitability') {
+            dk.checked = true;
+          }
+          return dk;
+        });
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = 'All Products';
+    if (!preset) {
+      filterValue.profit = productRanges.profit;
+    }
+
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+  const resetPreset = () => {
+    resetProfitabilityPreset();
+    applyFilter(true);
+  };
+  const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasFilter(isFilterUse());
     if (isSelectAllCategories) {
       selectAllCategories();
+    }
+    if (
+      !isPreset &&
+      JSON.stringify(initialFilterState.profit) !== JSON.stringify(filterState.profit)
+    ) {
+      resetProfitabilityPreset(!isPreset);
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
@@ -703,7 +746,6 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const handleFilterType = (type: string) => {
-    console.log('type: ', type);
     if (filterType === type) {
       setFilterType('');
       return;
@@ -872,6 +914,7 @@ function ProfitFinderFilterSection(props: Props) {
             toggleSelectAllSize={toggleSelectAllSize}
             isSelectAllSize={isSelectAllSize}
             setRadioFilter={setRadioFilter}
+            resetPreset={resetPreset}
           />
         </Modal.Content>
       </Modal>
