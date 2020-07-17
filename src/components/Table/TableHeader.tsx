@@ -163,7 +163,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
-        {label === 'Search' && (
+        {label === 'Search Name' && (
           <span className="search-ic">
             <Icon
               className="filter search-filter"
@@ -215,20 +215,9 @@ const TableHeader = (props: TableHeaderProps) => {
   const onScroll = (evt: any) => {
     const middleHeader = document.querySelector('.middle-header');
     const middleBody = document.querySelector('.middle-body');
-
     if (!!middleBody && middleHeader) {
       middleBody.scrollLeft = evt.target.scrollLeft;
       middleHeader.scrollLeft = evt.target.scrollLeft;
-    }
-  };
-
-  const onHeaderScroll = (evt: any) => {
-    const middleBody = document.querySelector('.middle-body');
-    const centerScroll = document.querySelector('.middle-scroll-cell');
-
-    if (!!middleBody && !!centerScroll) {
-      middleBody.scrollLeft = evt.target.scrollLeft;
-      centerScroll.scrollLeft = evt.target.scrollLeft;
     }
   };
 
@@ -238,6 +227,7 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
+
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
@@ -301,6 +291,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 </div>
               </td>
             </Table.Row>
+            <tr className="ptr-scroll-container" />
           </React.Fragment>
         )}
 
@@ -310,7 +301,7 @@ const TableHeader = (props: TableHeaderProps) => {
               let headerCellProps: any = {};
               if (cell.side === 'center') {
                 headerCellProps.className = 'middle-header table-header-scroll';
-                headerCellProps.onScroll = onHeaderScroll;
+                headerCellProps.onScroll = onScroll;
                 if (!cell.rows.length) {
                   headerCellProps = { ...headerCellProps, colSpan: columns.length - 3 };
                 }
@@ -363,7 +354,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
                     <thead className="center-scrolling">
-                      <Table.Row className="middle-scrollbar">
+                      <Table.Row className="pf-middle-scroll">
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;
                           const className2 = `middle-scroll-cell-disabled ${getColumnClass(

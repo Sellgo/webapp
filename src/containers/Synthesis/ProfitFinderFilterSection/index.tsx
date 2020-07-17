@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon, Image, Divider, Modal } from 'semantic-ui-react';
+import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
 import { findMinMax } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import { filterSupplierProducts, setSupplierPageNumber } from '../../../actions/Suppliers';
+import {
+  filterSupplierProducts,
+  setSupplierPageNumber,
+  setIsScroll,
+} from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
-import microsoftExcelIcon from '../../../assets/images/microsoft-excel.png';
+import msExcelIcon from '../../../assets/images/microsoft-excel.png';
+import csvIcon from '../../../assets/images/csv.svg';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -23,6 +29,10 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  setIsScroll: (value: boolean) => void;
+  subscriptionType: string;
+  isScrollSelector: boolean;
+  scrollTop: boolean;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -33,6 +43,8 @@ function ProfitFinderFilterSection(props: Props) {
     filterSearch,
     products,
     setPageNumber,
+    subscriptionType,
+    filteredProducts,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -715,35 +727,54 @@ function ProfitFinderFilterSection(props: Props) {
 
   const renderExportButtons = () => {
     return (
-      <div className="export-buttons">
-        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
-        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
-        <Image
-          as="a"
-          href={supplierDetails.report_url}
-          download={true}
-          src={microsoftExcelIcon}
-          wrapped={true}
-          width={22}
-          alt="Export Excel"
-        />
-      </div>
+      <Popup
+        className="export__list"
+        trigger={
+          <Button
+            className={`selection export-wrapper__dropdown`}
+            content={<Image src={csvIcon} wrapped={true} />}
+            icon="caret down"
+          />
+        }
+        content={
+          <List divided>
+            <List.Item disabled={_.isEmpty(supplierDetails.report_url_csv)}>
+              <a href={supplierDetails.report_url}>
+                <Image src={csvIcon} wrapped={true} />
+                <span>{`.CSV`}</span>
+              </a>
+            </List.Item>
+            <List.Item disabled={_.isEmpty(supplierDetails.report_url)}>
+              <a href={supplierDetails.report_url}>
+                <Image src={msExcelIcon} wrapped={true} />
+                <span>{`.XSLS`}</span>
+              </a>
+            </List.Item>
+          </List>
+        }
+        disabled={isSubscriptionFree(subscriptionType)}
+        position="bottom center"
+        on="click"
+        basic
+        hideOnScroll
+      />
     );
   };
 
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
-        {renderExportButtons()}
         <Button
           basic
           icon
           labelPosition="left"
-          className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
+          className={
+            (filterType === 'all-filter' ? 'active all-filter' : 'all-filter') +
+            (_.isEmpty(filteredProducts) ? ' disabled' : '')
+          }
           onClick={() => {
             handleFilterType('all-filter');
             setFilterModalOpen(true);
@@ -753,6 +784,8 @@ function ProfitFinderFilterSection(props: Props) {
           <span className="filter-name">All</span>
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
+
+        {renderExportButtons()}
       </div>
       <Modal
         className="FilterContainer__show-filter"
@@ -780,9 +813,6 @@ function ProfitFinderFilterSection(props: Props) {
           />
         </Modal.Content>
       </Modal>
-      <div className="filter-wrapper">
-        <Divider />
-      </div>
     </div>
   );
 }
@@ -794,11 +824,15 @@ const mapStateToProps = (state: {}) => ({
   filterSearch: get(state, 'supplier.filterSearch'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  subscriptionType: get(state, 'subscription.subscriptionType'),
+  isScrollSelector: get(state, 'supplier.setIsScroll'),
+  scrollTop: get(state, 'supplier.setScrollTop'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  setIsScroll: (value: boolean) => setIsScroll(value),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
