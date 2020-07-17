@@ -64,17 +64,6 @@ export const TableBody = (props: TableBodyProps) => {
     const lowerBound = columns.slice(0, 2);
     const middleBound = columns.slice(2, columns.length - 2);
     const upperBound = columns.slice(columns.length - 2, columns.length - 1);
-
-    const onBodyScroll = (evt: any) => {
-      const middleHeader = document.querySelector('.middle-header');
-      const centerScroll = document.querySelector('.middle-scroll-cell');
-
-      if (!!middleHeader && !!centerScroll) {
-        middleHeader.scrollLeft = evt.target.scrollLeft;
-        centerScroll.scrollLeft = evt.target.scrollLeft;
-      }
-    };
-
     const scrollRows: any = [
       {
         side: 'right',
@@ -174,11 +163,7 @@ export const TableBody = (props: TableBodyProps) => {
             }
             if (cell.side === 'center') {
               className = 'middle-body-child-row';
-              tableDataProps = {
-                ...tableDataProps,
-                className: 'middle-body',
-                onScroll: onBodyScroll,
-              };
+              tableDataProps = { ...tableDataProps, className: 'middle-body' };
               if (filteredColumns.length === 4) {
                 tableDataProps = {
                   ...tableDataProps,
