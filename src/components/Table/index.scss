@@ -26,20 +26,19 @@
     transition-duration: 1s;
 
     &.scroll-top {
-      top: -70;
+      top: -70px;
       transition-property: top;
       transition-duration: 1s;
     }
 
     &.sticky-chart-active {
-      z-index: 4;
+      z-index: 5;
       top: 240px;
       transition-property: top;
       transition-duration: 1s;
     }
 
     &.scroll-top.sticky-chart-active {
-      z-index: 4;
       top: 270px;
       transition-property: top;
       transition-duration: 1s;
@@ -97,7 +96,7 @@
     }
 
     &.pf-table {
-      margin-top: -28px;
+      margin-top: -15px;
 
       thead.pf-header {
         > tr {
@@ -108,9 +107,8 @@
           &:first-child {
             th {
               position: sticky;
-              top: 15px;
-              transform: scale(0.999);
-              z-index: 6;
+              top: 6px;
+              z-index: 3;
               transition-property: top;
               transition-duration: 1s;
             }
@@ -119,6 +117,7 @@
 
         > tr:first-child > th {
           border-bottom: 20px solid #f8faff !important;
+          border-top: 20px solid #f8faff !important;
           background: #f8faff;
           border-radius: unset;
 
@@ -159,7 +158,7 @@
         }
 
         &.scroll-top > tr:first-child th {
-          top: 80px;
+          top: 60px;
           transition-property: top;
           transition-duration: 1s;
         }
@@ -552,11 +551,11 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 608px;
+            top: 588px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 665px;
+            top: 650px;
           }
         }
       }
@@ -572,7 +571,7 @@ i.icon.filter::before {
       }
 
       &.scroll-top.sticky-chart-active {
-        top: 455px;
+        top: 385px;
       }
     }
 
@@ -580,11 +579,11 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 490px;
+            top: 470px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 605px;
+            top: 510px;
           }
         }
       }
@@ -608,11 +607,11 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 475px;
+            top: 455px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 532px;
+            top: 512px;
           }
         }
       }
@@ -640,11 +639,11 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 360px;
+            top: 340px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 417px;
+            top: 397px;
           }
         }
       }
