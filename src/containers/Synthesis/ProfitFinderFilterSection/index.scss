@@ -24,12 +24,6 @@
     transition-duration: 1s;
   }
 
-  .filter-wrapper {
-    display: none;
-    margin: 0 5px;
-    height: 0;
-  }
-
   .filter-header {
     display: flex;
     justify-content: space-between;
@@ -181,7 +175,7 @@
   }
 }
 
-.ui.bottom.center.basic.popup.transition.visible.Export__list {
+.ui.bottom.center.basic.popup.transition.visible.export__list {
   width: 80px;
   margin-top: 0 !important;
   padding: 0;
@@ -244,13 +238,6 @@
     top: 11px;
     color: #98aeca;
     cursor: pointer;
-  }
-
-  .filter-wrapper {
-    height: 400px;
-    overflow: auto;
-    width: 100%;
-    padding: 14px;
   }
 }
 

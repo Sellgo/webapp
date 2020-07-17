@@ -33,15 +33,15 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
       ? totalCount
       : currentPage * singlePageItemsCount;
 
-  const [scrollValue1, setScrollValue1] = React.useState(false);
+  const [scrollValue, setScrollValue] = React.useState(false);
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
   React.useEffect(() => {
-    setScrollValue1(true);
+    setScrollValue(true);
     setIsScroll(true);
   }, [scrollTop]);
 
-  if (scrollValue1) {
+  if (scrollValue) {
     setIsScroll(false);
   }
   return (
