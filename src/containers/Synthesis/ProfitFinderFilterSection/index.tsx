@@ -83,7 +83,7 @@ function ProfitFinderFilterSection(props: Props) {
       'Over oversize',
       'Others',
     ],
-    profitability: 'All products',
+    profitability: 'All Products',
     removeNegative: [],
     price: filteredRanges.price,
     profit: filteredRanges.profit,
