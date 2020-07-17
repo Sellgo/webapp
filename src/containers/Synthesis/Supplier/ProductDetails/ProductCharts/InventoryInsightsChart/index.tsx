@@ -177,6 +177,7 @@ class InventoryInsightsChart extends Component<
           fontWeight: 'normal',
         },
         reversed: true,
+        labelFormat: '({y}) {name}',
         width: '40%',
       },
       plotOptions: {
