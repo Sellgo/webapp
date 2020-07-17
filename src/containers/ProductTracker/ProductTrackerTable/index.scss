@@ -988,7 +988,7 @@ $link-color: #349af8;
   background: #fff !important;
   border-left: 1px solid #98aeca !important;
   border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-top-left-radius: 10px !important;
 }
 
 .pt-product-info:hover {
@@ -1008,12 +1008,8 @@ $link-color: #349af8;
   background: #ebedf2 !important;
 }
 
-.pt-price {
+.ptr {
   padding-left: 406px !important;
-}
-
-.pt-avg_amazon_inventory {
-  padding-right: 35px !important;
 }
 
 @media (min-width: 768px) and (max-width: 1080px) {
@@ -1129,6 +1125,12 @@ $link-color: #349af8;
   }
 }
 
-.ptr {
-  padding-left: 29em !important;
+.ptr-header-row {
+  .pt-product-info {
+    border-bottom-left-radius: 10px !important;
+  }
+}
+
+.ptr-last-cell {
+  padding-right: 30px !important;
 }

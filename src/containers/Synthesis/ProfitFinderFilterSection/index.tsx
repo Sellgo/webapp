@@ -855,7 +855,7 @@ function ProfitFinderFilterSection(props: Props) {
             labelPosition="left"
             className={
               (filterType === 'all-filter' ? 'active all-filter' : 'all-filter') +
-              (_.isEmpty(filteredProducts) ? ' disabled' : '')
+              (!isFilterUse() && _.isEmpty(filteredProducts) ? ' disabled' : '')
             }
             onClick={() => {
               handleFilterType('all-filter');
@@ -872,7 +872,7 @@ function ProfitFinderFilterSection(props: Props) {
             labelPosition="left"
             className={
               (filterType === 'more-filter' ? 'active more-filter' : 'more-filter') +
-              (_.isEmpty(filteredProducts) ? ' disabled' : '')
+              (!isFilterUse() && _.isEmpty(filteredProducts) ? ' disabled' : '')
             }
             onClick={() => {
               handleFilterType('more-filter');

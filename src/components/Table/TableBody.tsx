@@ -40,7 +40,7 @@ const TableCell = (props: TableColumnCellProps) => {
     cellProps = {
       ...cellProps,
       className: className.trim(),
-      style: { height: '6em' },
+      style: { height: '6.05em' },
     };
   }
 
