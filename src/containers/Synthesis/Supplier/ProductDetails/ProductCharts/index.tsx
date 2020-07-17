@@ -22,7 +22,7 @@ import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
 import RankVsInventoryChart from './RankVsInventoryChart';
-import { MILLISECONDS_IN_A_DAY } from '../../../../../utils/date';
+import { MILLISECONDS_IN_A_DAY, MILLISECONDS_IN_A_MINUTE } from '../../../../../utils/date';
 
 interface ProductChartsProps {
   product: any;
@@ -43,7 +43,7 @@ interface ProductChartsProps {
   isFetchingReview: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
-  state = { showProductChart: 'chart0', period: 1 };
+  state = { showProductChart: 'chart0', period: DEFAULT_PERIOD };
   componentDidMount() {
     const {
       product,
@@ -78,11 +78,79 @@ class ProductCharts extends Component<ProductChartsProps> {
 
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
 
-  formatProductDetail(type: string, data: any) {
-    const formattedData: any[] = [];
+  /**
+   * Formats an array of product details data into regularly-intervalled time series data for ingestion by Highcharts.
+   * Intervals are dynamically adjusted depending on the period.
+   * @param {string} type the attribute name for the product's detail value.
+   * @param {[any]} data array of product details - objects with attributes 'cdate' and specified by the 'type' param.
+   * @param {number} period the range of the product details data.
+   * @param {number?} xMin a timestamp (in milliseconds) where any data point before this timestamp is filtered out.
+   * @param {number?} xMax a timestamp (in milliseconds) where any data point after this timestamp is filtered out.
+   * @returns {[[number, number]?]} an array of length-2 arrays, where the first element is the timestamp
+   * in milliseconds and the second element is the value of the product detail.
+   */
+  formatProductDetail(type: string, data: [any], period: number, xMin?: number, xMax?: number) {
+    const tempData: [[number, number]?] = [];
+    const formattedData: [[number, number]?] = [];
 
     for (let i = 0; i < data.length; i++) {
-      formattedData.push([new Date(data[i].cdate).getTime(), Number(data[i][type])]);
+      const date = new Date(data[i].cdate);
+      date.setUTCHours(date.getUTCHours() - date.getTimezoneOffset() / 60); // adjust to local TZ
+      const time = date.getTime();
+      if ((!xMin || time >= xMin) && (!xMax || time <= xMax)) {
+        tempData.push([time, Number(data[i][type])]);
+      }
+    }
+
+    // adjust for 1D
+    if (tempData.length === 1) {
+      const point = tempData.pop();
+      if (point) {
+        const end: any = new Date(point[0]);
+        end.setHours(23, 59, 59, 999);
+        const start: any = new Date(point[0]);
+        start.setHours(0, 0, 0, 0);
+        tempData.push([start.getTime(), point[1]]);
+        tempData.push([end.getTime(), point[1]]);
+      }
+    }
+
+    // dynamically adjust frequencies based on period
+    let minutes: number;
+    switch (period) {
+      case 1:
+        minutes = 5;
+        break;
+      case 7:
+        minutes = 60;
+        break;
+      case 30:
+        minutes = 240;
+        break;
+      case 90:
+        minutes = 720;
+        break;
+      case 365:
+        minutes = 1440;
+        break;
+      default:
+        minutes = 60;
+    }
+    const timeInterval = minutes * MILLISECONDS_IN_A_MINUTE;
+
+    // create data points at regular intervals, forward-filled.
+    for (let i = 1; i < tempData.length; i++) {
+      const currentPoint = tempData[i - 1];
+      const nextPoint = tempData[i];
+      let tempPoint = currentPoint && currentPoint.slice();
+
+      // forward-fill
+      if (tempPoint && nextPoint) {
+        while (tempPoint[0] < nextPoint[0]) {
+          formattedData.push([tempPoint[0], tempPoint[1]]);
+          tempPoint = [tempPoint[0] + timeInterval, tempPoint[1]];
+        }
+      }
     }
 
     return formattedData;
@@ -90,6 +158,7 @@ class ProductCharts extends Component<ProductChartsProps> {
 
   /** Returns the start and end (today) of the period in milliseconds.
    * @param {number} period - number of days between start and end (today).
+   * @returns {[number, number]} an array containing start and end in milliseconds.
    */
   getPeriodStartAndEnd = (period: number) => {
     const end: any = new Date();
@@ -113,21 +182,34 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingReview,
     } = this.props;
     const { period } = this.state;
-    let [xMin, xMax] = [null, null];
+    let [xMin, xMax]: [number?, number?] = [undefined, undefined];
     if (period !== 1) {
       [xMin, xMax] = this.getPeriodStartAndEnd(period);
     }
 
     switch (this.state.showProductChart) {
       case 'chart0': {
-        const formattedRanks = this.formatProductDetail('rank', productDetailRank);
-        const formattedInventories = this.formatProductDetail('inventory', productDetailInventory);
+        const formattedRanks = this.formatProductDetail(
+          'rank',
+          productDetailRank,
+          period,
+          xMin,
+          xMax
+        );
+        const formattedInventories = this.formatProductDetail(
+          'inventory',
+          productDetailInventory,
+          period,
+          xMin,
+          xMax
+        );
         return isFetchingRank && isFetchingInventory ? (
           this.renderLoader()
         ) : (
           <RankVsInventoryChart
             productRanks={formattedRanks}
             productInventories={formattedInventories}
+            period={period}
             xMax={xMax}
             xMin={xMin}
           />
@@ -135,29 +217,62 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart1': {
-        const formattedPrices = this.formatProductDetail('price', productDetailPrice);
+        const formattedPrices = this.formatProductDetail(
+          'price',
+          productDetailPrice,
+          period,
+          xMin,
+          xMax
+        );
         return isFetchingPrice ? (
           this.renderLoader()
         ) : (
-          <ProductPriceChart productPrices={formattedPrices} xMax={xMax} xMin={xMin} />
+          <ProductPriceChart
+            productPrices={formattedPrices}
+            period={period}
+            xMax={xMax}
+            xMin={xMin}
+          />
         );
       }
 
       case 'chart2': {
-        const formattedRatings = this.formatProductDetail('rating', productDetailRating);
+        const formattedRatings = this.formatProductDetail(
+          'rating',
+          productDetailRating,
+          period,
+          xMin,
+          xMax
+        );
         return isFetchingRating ? (
           this.renderLoader()
         ) : (
-          <ProductRatingChart productRatings={formattedRatings} xMax={xMax} xMin={xMin} />
+          <ProductRatingChart
+            productRatings={formattedRatings}
+            period={period}
+            xMax={xMax}
+            xMin={xMin}
+          />
         );
       }
 
       case 'chart3': {
-        const formattedReviews = this.formatProductDetail('review_count', productDetailReview);
+        const formattedReviews = this.formatProductDetail(
+          'review_count',
+          productDetailReview,
+          period,
+          xMin,
+          xMax
+        );
         return isFetchingReview ? (
           this.renderLoader()
         ) : (
-          <ProductReviewChart productReviews={formattedReviews} xMax={xMax} xMin={xMin} />
+          <ProductReviewChart
+            productReviews={formattedReviews}
+            period={period}
+            xMax={xMax}
+            xMin={xMin}
+          />
         );
       }
 

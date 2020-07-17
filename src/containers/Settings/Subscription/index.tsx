@@ -241,7 +241,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 ? subscription.track_limit + ' Product Tracker Limit'
                 : Number(subscription.id) === 2
                 ? subscription.track_limit + ' Product Tracker Limit'
-                : 'More than 100 Product Tracker Limit'}
+                : 'More than 100,000 Product Tracker Limit'}
             </Card.Meta>
           </Card.Content>
           <Card.Content className={`${Number(subscription.id) === 3 && 'contact-us'}`}>
@@ -310,7 +310,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
-          content="Are you sure you want to cancel your subscription"
+          content="Are you sure you want to cancel your subscription?"
           open={promptCancelSubscription}
           onCancel={() => {
             this.setState({ promptCancelSubscription: false });

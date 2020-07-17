@@ -44,6 +44,7 @@ function ProfitFinderFilterSection(props: Props) {
     products,
     setPageNumber,
     subscriptionType,
+    filteredProducts,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -763,7 +764,6 @@ function ProfitFinderFilterSection(props: Props) {
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
@@ -771,7 +771,10 @@ function ProfitFinderFilterSection(props: Props) {
           basic
           icon
           labelPosition="left"
-          className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
+          className={
+            (filterType === 'all-filter' ? 'active all-filter' : 'all-filter') +
+            (_.isEmpty(filteredProducts) ? ' disabled' : '')
+          }
           onClick={() => {
             handleFilterType('all-filter');
             setFilterModalOpen(true);
@@ -810,9 +813,7 @@ function ProfitFinderFilterSection(props: Props) {
           />
         </Modal.Content>
       </Modal>
-      <div className="filter-wrapper">
-        <Divider />
-      </div>
+      <div className="filter-wrapper">{/* <Divider /> */}</div>
     </div>
   );
 }

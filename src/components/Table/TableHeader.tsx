@@ -163,7 +163,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
-        {label === 'Search' && (
+        {label === 'Search Name' && (
           <span className="search-ic">
             <Icon
               className="filter search-filter"
@@ -227,6 +227,7 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
+
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
@@ -290,6 +291,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 </div>
               </td>
             </Table.Row>
+            <tr className="ptr-scroll-container" />
           </React.Fragment>
         )}
 
@@ -352,7 +354,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
                     <thead className="center-scrolling">
-                      <Table.Row>
+                      <Table.Row className="pf-middle-scroll">
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;
                           const className2 = `middle-scroll-cell-disabled ${getColumnClass(
