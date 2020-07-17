@@ -373,6 +373,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       );
     }
 
+    console.log('suppliers: ', suppliers);
     const all = suppliers.filter(supplier => supplier.status !== 'inactive');
     const allData = all.filter(supplier => supplier.progress !== -1);
     const draftData = all.filter(
@@ -392,7 +393,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
-
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
