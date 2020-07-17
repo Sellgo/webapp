@@ -8,7 +8,7 @@ import { Range } from '../../interfaces/Generic';
 
 interface Props {
   filterType: string;
-  applyFilter: () => void;
+  applyFilter: (isPreset?: boolean) => void;
   resetFilter: () => void;
   resetSingleFilter: (datakey: string) => void;
   toggleSelectAllReviews: () => void;
@@ -18,6 +18,8 @@ interface Props {
   isAllReviews: boolean;
   toggleCheckboxFilter: (filterDataKey: string) => void;
   toggleNegative: (datakey: string) => void;
+  resetPreset: () => void;
+  setRadioFilter: (filterDataKey: string, label: string) => void;
 }
 
 function ProductTrackerFilter(props: Props) {
@@ -33,6 +35,8 @@ function ProductTrackerFilter(props: Props) {
     isAllReviews,
     toggleCheckboxFilter,
     toggleNegative,
+    resetPreset,
+    setRadioFilter,
   } = props;
 
   return (
@@ -123,6 +127,52 @@ function ProductTrackerFilter(props: Props) {
               </Button>
             </div>
             <Divider />
+          </div>
+        </>
+      )}
+      {filterType === 'more-filter' && (
+        <>
+          <div className={'presets-filter-content-wrapper'}>
+            <div className="presets-filter-content-wrapper__header">
+              <span className="presets-filter-content-wrapper__header__filter-name">
+                Quick Preset
+              </span>
+              <div className="presets-filter-content-wrapper__header__preset-reset">
+                <p onClick={() => resetPreset()}>x Reset</p>
+              </div>
+            </div>
+            {_.map(filterData.presets, (filter, key) => {
+              return (
+                <div
+                  className={`presets-filter-content-wrapper__content ${filter.dataKey}`}
+                  key={key}
+                >
+                  {filter.dataKey === 'profitability-preset' && (
+                    <>
+                      <span className="presets-filter-content-wrapper__content__filter-name">
+                        {filter.label}
+                      </span>
+                      {_.map(filter.data, (filterData, dataKey) => {
+                        return (
+                          <div className={`ui radio checkbox ${filter.checkedValue}`} key={dataKey}>
+                            <input
+                              id={filterData.dataKey}
+                              checked={initialFilterState.profitability === filterData.label}
+                              onChange={() => {
+                                setRadioFilter(filterData.dataKey, filterData.label);
+                                applyFilter(true);
+                              }}
+                              type="radio"
+                            />
+                            <label htmlFor={filterData.dataKey}> {filterData.label}</label>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </>
       )}

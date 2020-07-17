@@ -78,6 +78,7 @@ export interface ProductTrackerFilterInterface {
     reviews: FilterData;
   };
   period: FilterData;
+  presets: FilterData[];
 }
 
 export interface ProductTrackerFilterState {
@@ -85,6 +86,7 @@ export interface ProductTrackerFilterState {
   removeNegative: string[];
   reviews: string[];
   period: number;
+  profitability: string;
   price: {
     min: number;
     max: number;

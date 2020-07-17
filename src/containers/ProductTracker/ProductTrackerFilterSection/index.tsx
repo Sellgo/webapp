@@ -69,6 +69,7 @@ function ProductTrackerFilterSection(props: Props) {
     sellerID: sellerID,
     reviews: [],
     removeNegative: [],
+    profitability: 'All Products',
     period: DEFAULT_PERIOD,
     avg_price: filteredRanges.avg_price,
     avg_profit: filteredRanges.avg_profit,
@@ -84,7 +85,6 @@ function ProductTrackerFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
   const [hasFilter, setHasFilter] = React.useState(false);
-
   useEffect(() => {
     /*
       Reset filter when changing groups
@@ -241,9 +241,35 @@ function ProductTrackerFilterSection(props: Props) {
       },
     },
     period: filterPeriods,
+    presets: [
+      {
+        label: 'Profitability',
+        dataKey: 'profitability-preset',
+        checkedValue: 'All Products',
+        radio: true,
+        data: [
+          {
+            label: 'All Products',
+            dataKey: 'all-products',
+            checked: true,
+          },
+          {
+            label: 'Profitable',
+            dataKey: 'profitability',
+            checked: false,
+          },
+          {
+            label: 'Non-Profitable Products',
+            dataKey: 'non-profitable-products',
+            checked: false,
+          },
+        ],
+      },
+    ],
   };
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
+  const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
 
   const handleCompleteChange = (datakey: string, range: Range) => {
     const filterDetails: any = filterState;
@@ -372,9 +398,17 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(filterDetails);
   };
 
-  const applyFilter = () => {
+  const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasFilter(isFilterUse());
+
+    if (
+      !isPreset &&
+      JSON.stringify(initialFilterState.avg_profit) !== JSON.stringify(filterState.avg_profit)
+    ) {
+      resetProfitabilityPreset(!isPreset);
+    }
+
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
   };
@@ -430,6 +464,55 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
+  const resetProfitabilityPreset = (preset?: true) => {
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === 'profitability-preset') {
+        filter.checkedValue = 'profitability';
+        _.map(filter.data, dk => {
+          if (filter.dataKey === 'profitability') {
+            dk.checked = true;
+          }
+          return dk;
+        });
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = 'All Products';
+    if (!preset) {
+      filterValue.avg_profit = filteredRanges.avg_profit;
+    }
+
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+  const resetPreset = () => {
+    resetProfitabilityPreset();
+    applyFilter(true);
+  };
+  const setRadioFilter = (filterType: string, value: string) => {
+    resetSingleFilter('profit');
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === filterType) {
+        filter.checkedValue = value;
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = value;
+
+    if (value === 'Profitable') {
+      filterValue.avg_profit.min = 0;
+      filterValue.avg_profit.max = rangeData.avg_profit.max;
+    } else if (value === 'Non-Profitable Products') {
+      filterValue.avg_profit.min = rangeData.avg_profit.min;
+      filterValue.avg_profit.max = 0;
+    } else {
+      filterValue.avg_profit = rangeData.avg_profit;
+    }
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
@@ -472,6 +555,23 @@ function ProductTrackerFilterSection(props: Props) {
             <span className="tracker-filter-section__header__all-container__button__name">All</span>
             <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
           </Button>
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={`tracker-filter-section__header__all-container__button more-btn ${filterType ===
+              'more-filter' && 'active'}`}
+            onClick={() => handleFilterType('more-filter')}
+          >
+            <Icon
+              className="tracker-filter-section__header__all-container__button__slider"
+              name="sliders horizontal"
+            />
+            <span className="tracker-filter-section__header__all-container__button__name">
+              More
+            </span>
+            <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
+          </Button>
         </div>
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {
@@ -506,6 +606,8 @@ function ProductTrackerFilterSection(props: Props) {
           isAllReviews={isAllReviews}
           toggleCheckboxFilter={toggleCheckboxFilter}
           toggleNegative={toggleNegative}
+          setRadioFilter={setRadioFilter}
+          resetPreset={resetPreset}
         />
       </>
     </div>
