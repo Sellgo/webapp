@@ -1,6 +1,6 @@
 .filter-section {
   position: sticky;
-  top: -60px;
+  top: -40px;
   background: #f8faff;
   z-index: 4;
   transition-property: top;
@@ -13,7 +13,6 @@
   }
 
   &.sticky-chart-active {
-    z-index: 3;
     top: 285px;
     transition-property: top;
     transition-duration: 1s;
@@ -26,6 +25,7 @@
   }
 
   .filter-wrapper {
+    display: none;
     margin: 0 5px;
     height: 45px;
 
@@ -39,6 +39,19 @@
     justify-content: space-between;
 
     .export-wrapper__dropdown {
+      background: #fff;
+      box-shadow: none;
+      border: 1px solid rgba(34, 36, 38, 0.15);
+      border-radius: 0.28571429rem;
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      align-items: center;
+
+      i {
+        margin: 0 !important;
+      }
+
       &.active {
         border-color: rgba(34, 36, 38, 0.35);
       }
@@ -170,6 +183,56 @@
   }
 }
 
+.ui.bottom.center.basic.popup.transition.visible.Export__list {
+  width: 80px;
+  margin-top: 0 !important;
+  padding: 0;
+
+  .item {
+    align-items: center;
+    padding: 7px 0 7px 11px !important;
+    display: flex !important;
+    min-height: 26px;
+    justify-content: flex-start;
+
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    a {
+      color: black;
+    }
+
+    .ui.image {
+      img {
+        max-width: 16px;
+        min-width: 16px;
+      }
+
+      &:last-child {
+        img {
+          max-width: 23px;
+          min-width: 23px;
+        }
+      }
+    }
+
+    span {
+      font-size: 12px !important;
+    }
+
+    &:last-child {
+      .ui.image {
+        padding-right: 0 !important;
+
+        img {
+          max-width: 23px;
+        }
+      }
+    }
+  }
+}
+
 .filter-button-popup {
   max-width: 87% !important;
   width: 87% !important;
@@ -196,7 +259,7 @@
 @media (max-width: 2560px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 530px;
+      top: 550px;
     }
 
     &.scroll-top.sticky-chart-active {
@@ -212,7 +275,7 @@
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 549px;
+      top: 470px;
     }
   }
 }
@@ -220,7 +283,7 @@
 @media (max-width: 1920px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 397px;
+      top: 417px;
     }
 
     &.scroll-top.sticky-chart-active {
@@ -232,7 +295,7 @@
 @media (max-width: 1536px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 282px;
+      top: 300px;
     }
 
     &.scroll-top.sticky-chart-active {
