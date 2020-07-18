@@ -255,7 +255,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (row.file_status !== 'completed') {
       return '';
     }
-    return row.rate.toString() + '%';
+    return row.rate !== null ? row.rate.toString() + '%' : row.rate;
   };
 
   columns: Column[] = [
