@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon, Image } from 'semantic-ui-react';
+import { Segment, Loader, Icon } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -28,11 +28,12 @@ import ProductCheckBox from './productCheckBox';
 import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
 
-import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
 import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
 import { isSubscriptionFree } from '../../../../utils/subscriptions';
 
 interface ProductsTableProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   subscriptionType: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
@@ -42,7 +43,6 @@ interface ProductsTableProps {
   productTrackerGroup: any;
   singlePageItemsCount: number;
   pageNumber: number;
-  supplierDetails: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -216,25 +216,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
   };
 
-  renderExportButtons = () => {
-    const { supplierDetails } = this.props;
-    return (
-      <div className="export-buttons">
-        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
-        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
-        <Image
-          as="a"
-          href={supplierDetails.report_url}
-          download={true}
-          src={microsoftExcelIcon}
-          wrapped={true}
-          width={22}
-          alt="Export Excel"
-        />
-      </div>
-    );
-  };
-
   handleColumnChange = (e: any, data: any) => {
     e.stopPropagation();
     setTimeout(() => {
@@ -288,7 +269,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderCheckBox,
     },
     {
-      label: 'PRODUCT INFORMATION',
+      label: 'Product Information',
       dataKey: 'PRODUCT INFORMATION',
       type: 'string',
       sortable: false,
@@ -396,7 +377,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       icon: 'ellipsis horizontal ellipsis-ic',
       dataKey: 'ellipsis horizontal',
       show: true,
-      render: this.renderSyncButtons,
+      // render: this.renderSyncButtons,
       popUp: true,
     },
   ];
@@ -427,6 +408,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       pageNumber,
       setPageNumber,
       subscriptionType,
+      scrollTopSelector,
+      stickyChartSelector,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
@@ -452,8 +435,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           </Segment>
         ) : (
           <>
-            {this.renderExportButtons()}
             <GenericTable
+              stickyChartSelector={stickyChartSelector}
+              scrollTopSelector={scrollTopSelector}
               tableKey={tableKeys.PRODUCTS}
               columns={this.state.columns}
               data={tempFilteredProducts}
@@ -498,7 +482,8 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
-  supplierDetails: get(state, 'supplier.details'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
 });
 

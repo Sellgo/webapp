@@ -6,6 +6,10 @@
     min-height: 100vh;
     padding: 20px 55px 0 100px;
     transition: width 0.8s, padding 0.8s;
+
+    &.message-active {
+      padding: 45px 55px 0 100px !important;
+    }
   }
 }
 

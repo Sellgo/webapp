@@ -39,6 +39,10 @@ import {
   UPDATE_SUPPLIER_PRODUCTS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
   SET_SUPPLIER_PAGE_NUMBER,
+  SET_STICKY_CHART,
+  SET_CONTEXT_SCROLL,
+  SET_SCROLL_TOP,
+  SET_IS_SCROLL,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -693,5 +697,25 @@ export const setSpeed = (value: number) => ({
 
 export const setEta = (value: number) => ({
   type: SET_ETA,
+  payload: value,
+});
+
+export const setStickyChart = (value: any) => ({
+  type: SET_STICKY_CHART,
+  payload: value,
+});
+
+export const setContextScroll = (value: any) => ({
+  type: SET_CONTEXT_SCROLL,
+  payload: value,
+});
+
+export const setScrollTop = (value: any) => ({
+  type: SET_SCROLL_TOP,
+  payload: value,
+});
+
+export const setIsScroll = (value: any) => ({
+  type: SET_IS_SCROLL,
   payload: value,
 });

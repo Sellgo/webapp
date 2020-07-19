@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 import { Checkbox, Icon, Popup, Table } from 'semantic-ui-react';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTable/ColumnFilter';
@@ -34,6 +36,8 @@ interface Shared {
 export interface TableHeaderProps extends Shared {
   columns: Column[];
   middleScroll?: boolean;
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
 }
 
 export interface TableHeaderCellProps extends Shared {
@@ -71,7 +75,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     className:
       type === 'trackerTable'
         ? `table-header ${dataKey} ${className}`
-        : `${dataKey}  ${getColumnClass(column)} col-size ${className}`,
+        : `pf-header-cell ${dataKey}  ${getColumnClass(column)} col-size ${className}`,
   };
   if (dataKey === 'sellgo_score') {
     otherProps = { ...otherProps, className: `${otherProps} remove-left-border` };
@@ -85,45 +89,58 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     return (
       <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
         {' '}
-        {label}
-        {label === 'Supplier' && (
-          <span>
-            <Icon
-              className="filter search-filter"
-              onClick={(e: any) => onSetShowSearchFilter(e, label)}
-            />
-          </span>
-        )}
-        {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
-          <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
-        ) : null}
-        {check && <Checkbox value={check} />}
-        {icon && popUp ? (
-          <Popup
-            on="click"
-            open={columnFilterBox}
-            onClose={toggleColumnCheckbox}
-            onOpen={toggleColumnCheckbox}
-            position="bottom right"
-            basic={true}
-            trigger={<Icon className={`${icon}`} />}
-            content={
-              <ColumnFilterCard
-                columnFilterData={columnFilterData}
-                handleColumnChange={handleColumnChange}
-                handleColumnDrop={handleColumnDrop}
-                reorderColumns={reorderColumns}
-                columns={columns}
-                columnDnD={columnDnD}
+        <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
+          <span className="th-label">{label}</span>
+          {label === 'Supplier' && (
+            <span>
+              <Icon
+                className="filter search-filter"
+                onClick={(e: any) => onSetShowSearchFilter(e, label)}
               />
-            }
-          />
-        ) : (
-          <Icon
-            className={icon}
-            style={type === 'trackerTable' ? { justifyContent: 'flex-end', right: '20px' } : {}}
-          />
-        )}
+            </span>
+          )}
+          {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
+            <img src={SortIcon} className="sort-arrow" alt="sort arrow" />
+          ) : sortable && sortedColumnKey === dataKey ? (
+            sortDirection === 'ascending' ? (
+              <span>
+                <Icon name="caret down" className="sort-icon" />
+              </span>
+            ) : (
+              <span>
+                {' '}
+                <Icon name="caret up" className="sort-icon" />
+              </span>
+            )
+          ) : null}
+          {check && <Checkbox value={check} />}
+          {icon && popUp ? (
+            <Popup
+              on="click"
+              open={columnFilterBox}
+              onClose={toggleColumnCheckbox}
+              onOpen={toggleColumnCheckbox}
+              position="bottom right"
+              basic={true}
+              trigger={<Icon className={`${icon}`} />}
+              content={
+                <ColumnFilterCard
+                  columnFilterData={columnFilterData}
+                  handleColumnChange={handleColumnChange}
+                  handleColumnDrop={handleColumnDrop}
+                  reorderColumns={reorderColumns}
+                  columns={columns}
+                  columnDnD={columnDnD}
+                />
+              }
+            />
+          ) : (
+            <Icon
+              className={icon}
+              style={type === 'trackerTable' ? { justifyContent: 'flex-end', right: '20px' } : {}}
+            />
+          )}
+        </div>
       </Table.HeaderCell>
     );
   }
@@ -146,7 +163,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
-        {label === 'Search' && (
+        {label === 'Search Name' && (
           <span className="search-ic">
             <Icon
               className="filter search-filter"
@@ -193,7 +210,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   );
 };
 const TableHeader = (props: TableHeaderProps) => {
-  const { columns, middleScroll, ...rest } = props;
+  const { columns, stickyChartSelector, scrollTopSelector, middleScroll, ...rest } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
   const onScroll = (evt: any) => {
     const middleHeader = document.querySelector('.middle-header');
@@ -229,11 +246,19 @@ const TableHeader = (props: TableHeaderProps) => {
         rows: upperBound,
       },
     ];
+
+    const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
+    const isProfitFinder = rest.type !== 'trackerTable' ? 'pf-header' : '';
+
     return (
-      <Table.Header>
+      <Table.Header
+        className={`${isProfitFinder} ${isScrollTop} ${
+          stickyChartSelector ? 'sticky-chart-active' : ''
+        }`}
+      >
         {rest.type === 'trackerTable' && (
           <React.Fragment>
-            <Table.Row>
+            <Table.Row className="ptr-header-row">
               {filteredColumns.length === 2 && (
                 <th
                   key={`header-blank-row`}
@@ -242,10 +267,14 @@ const TableHeader = (props: TableHeaderProps) => {
                 />
               )}
               {filteredColumns.map((column, index) => {
+                let className =
+                  index === 1 && filteredColumns.length > 2 ? 'ptr' : column.className;
+                className =
+                  index === filteredColumns.length - 2 ? `${className} ptr-last-cell` : className;
                 return (
                   <TableHeaderCell
                     columns={columns}
-                    column={column}
+                    column={{ ...column, className }}
                     key={column.dataKey || index}
                     {...rest}
                   />
@@ -253,7 +282,7 @@ const TableHeader = (props: TableHeaderProps) => {
               })}
             </Table.Row>
             <Table.Row className="pt-header">
-              <td colSpan={filteredColumns.length} className="pt-header-cell">
+              <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
                   {filteredColumns.map(c => (
                     <div
@@ -266,6 +295,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 </div>
               </td>
             </Table.Row>
+            <tr className="ptr-scroll-container" />
           </React.Fragment>
         )}
 
@@ -286,12 +316,16 @@ const TableHeader = (props: TableHeaderProps) => {
                   headerCellProps = { ...headerCellProps, style: { width: '1em' } };
                 }
               }
+              if (cell.side === 'left') {
+                headerCellProps.className = 'left-most';
+                headerCellProps = { ...headerCellProps, style: { width: '1em' } };
+              }
 
               return (
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
                   <table className="header-inner-table">
                     <thead className="inner-tbody">
-                      <Table.Row>
+                      <Table.Row style={!cell.rows.length ? { height: '46px' } : {}}>
                         {cell.rows.map((column: any, index: any) => {
                           return (
                             <TableHeaderCell
@@ -324,8 +358,8 @@ const TableHeader = (props: TableHeaderProps) => {
               return (
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
                   <table>
-                    <thead>
-                      <Table.Row>
+                    <thead className="center-scrolling">
+                      <Table.Row className="pf-middle-scroll">
                         {cell.rows.map((column: any, index: any) => {
                           const className = `middle-scroll-cell ${getColumnClass(column)}`;
                           const className2 = `middle-scroll-cell-disabled ${getColumnClass(
@@ -369,4 +403,9 @@ const TableHeader = (props: TableHeaderProps) => {
   );
 };
 
-export default TableHeader;
+const mapStateToProps = (state: {}) => ({
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+});
+
+export default connect(mapStateToProps)(TableHeader);

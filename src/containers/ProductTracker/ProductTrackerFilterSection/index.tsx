@@ -4,21 +4,31 @@ import { connect } from 'react-redux';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
-import { findMinMax, filterProductsByGroupId, DEFAULT_PERIOD } from '../../../constants/Tracker';
+import {
+  findMinMax,
+  filterProductsByGroupId,
+  DEFAULT_PERIOD,
+  filterPeriods,
+} from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
+  resetFilter,
+  setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
 
 interface Props {
+  setPageNumber: (pageNumber: number) => void;
   filterProducts: (filterData: any, groupId: any) => void;
   trackerDetails: any;
+  resettingFilter: any;
   activeGroupId: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
+  filterReset: (data: boolean) => void;
   isLoadingTrackerProducts: boolean;
 }
 
@@ -29,11 +39,19 @@ function ProductTrackerFilterSection(props: Props) {
     activeGroupId,
     fetchAllTrackedProductDetails,
     isLoadingTrackerProducts,
+    resettingFilter,
+    filterReset,
+    setPageNumber,
   } = props;
   const sellerID = sellerIDSelector();
-  const filterStorage = JSON.parse(
-    typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
-  );
+
+  const filterStorage =
+    typeof localStorage.trackerFilter === 'undefined' ||
+    (JSON.parse(localStorage.trackerFilter) &&
+      JSON.parse(localStorage.trackerFilter).sellerID !== sellerID)
+      ? null
+      : JSON.parse(localStorage.trackerFilter);
+
   const selectAllStorage = JSON.parse(
     typeof localStorage.filterSelectAllReviews === 'undefined' ||
       !filterStorage ||
@@ -42,13 +60,6 @@ function ProductTrackerFilterSection(props: Props) {
       : localStorage.filterSelectAllReviews
   );
 
-  const openPeriodFilter = JSON.parse(
-    typeof localStorage.openPeriod === 'undefined' ||
-      !filterStorage ||
-      filterStorage.sellerID !== sellerID
-      ? false
-      : localStorage.openPeriod
-  );
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
@@ -76,17 +87,9 @@ function ProductTrackerFilterSection(props: Props) {
 
   useEffect(() => {
     /*
-     Setting Period Filter
-   */
-    if (openPeriodFilter) {
-      setFilterType('period-filter');
-      resetFilter(true);
-      filterProducts(filterState, activeGroupId);
-      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    }
-    /*
       Reset filter when changing groups
     */
+
     if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
       setFilterType('');
       resetFilter(true);
@@ -96,10 +99,18 @@ function ProductTrackerFilterSection(props: Props) {
       filterProducts(filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     } else if (filterStorage) {
-      setTimeout(() => {
-        filterProducts(filterState, activeGroupId);
-        localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-      }, 500);
+      if (resettingFilter) {
+        resetFilter();
+        setTimeout(() => {
+          applyFilter();
+          filterReset(false);
+        }, 500);
+      } else {
+        setTimeout(() => {
+          filterProducts(filterState, activeGroupId);
+          localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+        }, 500);
+      }
     } else {
       resetFilter();
     }
@@ -107,6 +118,8 @@ function ProductTrackerFilterSection(props: Props) {
     if (isAllReviews) {
       selectAllReviews(true);
     }
+
+    setHasFilter(isFilterUse());
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
@@ -227,39 +240,7 @@ function ProductTrackerFilterSection(props: Props) {
         ],
       },
     },
-    period: {
-      label: 'Period Reference',
-      dataKey: 'period-reference',
-      checkedValue: 'Today',
-      radio: true,
-      data: [
-        {
-          label: 'Today',
-          dataKey: 'today',
-          value: 1,
-        },
-        {
-          label: 'Week',
-          dataKey: 'week',
-          value: 7,
-        },
-        {
-          label: 'Month',
-          dataKey: 'month',
-          value: 30,
-        },
-        {
-          label: '3 Month',
-          dataKey: '3-Month',
-          value: 90,
-        },
-        {
-          label: 'Year',
-          dataKey: 'year',
-          value: 365,
-        },
-      ],
-    },
+    period: filterPeriods,
   };
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
@@ -331,7 +312,6 @@ function ProductTrackerFilterSection(props: Props) {
     filterValue.period = value;
     setFilterState(filterValue);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    localStorage.setItem('openPeriod', JSON.stringify(true));
   };
 
   const toggleNegative = (datakey: string) => {
@@ -393,6 +373,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const applyFilter = () => {
+    setPageNumber(1);
     setHasFilter(isFilterUse());
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
@@ -452,11 +433,7 @@ function ProductTrackerFilterSection(props: Props) {
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
-      localStorage.setItem('openPeriod', JSON.stringify(false));
       return;
-    }
-    if (type !== 'period-filter') {
-      localStorage.setItem('openPeriod', JSON.stringify(false));
     }
     setFilterType(type);
   };
@@ -476,44 +453,45 @@ function ProductTrackerFilterSection(props: Props) {
     return false;
   };
 
-  const periodBadge = () => {
-    if (filterState.period === 1) return 'T';
-    if (filterState.period === 7) return 'W';
-    if (filterState.period === 30) return 'M';
-    if (filterState.period === 90) return '3M';
-    if (filterState.period === 365) return 'Y';
-  };
-
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
-        <Button
-          basic
-          icon
-          labelPosition="left"
-          className={`tracker-filter-section__header__button tracker-filter-section__header__button--all ${
-            filterType === 'all-filter' ? 'active' : ''
-          }`}
-          onClick={() => handleFilterType('all-filter')}
-        >
-          <Icon
-            className="tracker-filter-section__header__button__slider"
-            name="sliders horizontal"
-          />
-          <span className="tracker-filter-section__header__button__name">All</span>
-          <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
-        </Button>
-        <Button
-          basic
-          className={`tracker-filter-section__header__button tracker-filter-section__header__button--period ${
-            filterType === 'period-filter' ? 'active' : ''
-          }`}
-          onClick={() => handleFilterType('period-filter')}
-        >
-          <span className="tracker-filter-section__header__button__name">Period</span>
-          <Label circular>{periodBadge()}</Label>
-          <Icon className="tracker-filter-section__header__button__caret" name="caret down" />
-        </Button>
+        <div className="tracker-filter-section__header__all-container">
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={`tracker-filter-section__header__all-container__button all-btn ${filterType ===
+              'all-filter' && 'active'}`}
+            onClick={() => handleFilterType('all-filter')}
+          >
+            <Icon
+              className="tracker-filter-section__header__all-container__button__slider"
+              name="sliders horizontal"
+            />
+            <span className="tracker-filter-section__header__all-container__button__name">All</span>
+            <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
+          </Button>
+        </div>
+        <div className="tracker-filter-section__header__period-container">
+          {_.map(filterDataState.period.data, filterData => {
+            return (
+              <div
+                className={`tracker-filter-section__header__period-container__period-items ${filterData.value ===
+                  filterState.period && 'active'}`}
+                key={filterData.dataKey}
+              >
+                <span
+                  onClick={() => {
+                    setPeriod(filterData.value || 1);
+                  }}
+                >
+                  {filterData.label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <>
         <ProductTrackerFilter
@@ -527,7 +505,6 @@ function ProductTrackerFilterSection(props: Props) {
           toggleSelectAllReviews={toggleSelectAllReviews}
           isAllReviews={isAllReviews}
           toggleCheckboxFilter={toggleCheckboxFilter}
-          setPeriod={setPeriod}
           toggleNegative={toggleNegative}
         />
       </>
@@ -539,11 +516,14 @@ const mapStateToProps = (state: {}) => ({
   isLoadingTrackerProducts: get(state, 'productTracker.isLoadingTrackerProducts'),
   activeGroupId: get(state, 'productTracker.menuItem'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
+  resettingFilter: get(state, 'productTracker.resettingFilter'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
+  filterReset: (data: boolean) => resetFilter(data),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);

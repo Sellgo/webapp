@@ -32,6 +32,8 @@ import _ from 'lodash';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface TrackerProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
@@ -303,7 +305,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
   renderAvgRank = (row: ProductTrackerDetails) => {
     return (
-      <p className="stat">{showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, row.avg_rank)}</p>
+      <p className="stat">
+        {showNAIfZeroOrNull(row.avg_rank && row.avg_rank !== 0, '#' + formatNumber(row.avg_rank))}
+      </p>
     );
   };
 
@@ -367,7 +371,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   columns: Column[] = [
     {
       label: 'Product Information',
-      dataKey: 'PRODUCT INFORMATION',
+      dataKey: 'Product Information',
       type: 'string',
       show: true,
       render: this.renderProductInfo,
@@ -399,7 +403,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily \nUnit Sold',
+      label: 'Avg Daily Unit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
@@ -514,6 +518,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       setPageNumber,
       productTrackerPageNo,
       subscriptionType,
+      scrollTopSelector,
+      stickyChartSelector,
     } = this.props;
     const { ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
@@ -555,6 +561,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <GenericTable
+            stickyChartSelector={stickyChartSelector}
+            scrollTopSelector={scrollTopSelector}
             columnFilterBox={ColumnFilterBox}
             tableKey={tableKeys.PRODUCTS}
             data={filteredProducts}
@@ -601,6 +609,8 @@ const mapStateToProps = (state: any) => {
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
     subscriptionType: get(state, 'subscription.subscriptionType'),
+    scrollTopSelector: get(state, 'supplier.setScrollTop'),
+    stickyChartSelector: get(state, 'supplier.setStickyChart'),
   };
 };
 
@@ -610,7 +620,7 @@ const mapDispatchToProps = {
   fetchProductDetailChartReview: (productID: any) =>
     fetchSupplierProductDetailChartReview(productID),
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
-  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
   postCreateProductTrackGroup: (name: string) => postCreateProductTrackGroup(name),
   updateProductTrackGroup: (group: any) => patchProductTrackGroup(group),
   deleteProductTrackGroup: (groupId: any) => deleteProductTrackGroup(groupId),

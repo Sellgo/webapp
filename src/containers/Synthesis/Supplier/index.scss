@@ -1,4 +1,12 @@
 .setting {
+  .product-chart.sticky-chart-active {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-top: 14px !important;
+    margin-top: -13px !important;
+    background: #f8faff;
+  }
   // Give left filters column a fixed width
 
   // Make right column expand to take up available width
@@ -131,6 +139,26 @@
     i.icon {
       font-size: 0.8rem;
       margin: 0 3px;
+    }
+  }
+}
+
+@media (max-width: 1440px) {
+  .supplier-details-card {
+    .ui.feed {
+      .event {
+        .content {
+          padding: 0 !important;
+
+          .chart-grid__middle-column {
+            padding-top: 0 !important;
+
+            > div:first-child {
+              height: 270px !important;
+            }
+          }
+        }
+      }
     }
   }
 }
