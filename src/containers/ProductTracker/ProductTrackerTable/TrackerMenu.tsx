@@ -67,7 +67,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       <div className="menu-bar">
         <Menu pointing={true} stackable={true} secondary={true} color={'blue'} className="wdt100">
           <Menu.Item
-            style={{ paddingBottom: '17px' }}
+            style={{ paddingBottom: '14px' }}
             name={'All Groups'}
             active={this.props.activeGroupId === null ? true : false}
             onClick={() => {

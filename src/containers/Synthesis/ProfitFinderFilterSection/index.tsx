@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon, Image, Divider, Modal, Dropdown } from 'semantic-ui-react';
+import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
@@ -11,6 +11,7 @@ import {
   filterSupplierProducts,
   setSupplierPageNumber,
   setLeadsTracker,
+  setIsScroll,
 } from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
@@ -31,7 +32,10 @@ interface Props {
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
   setLeadsTracker: (sellerId: number, supplierId: number) => void;
+  setIsScroll: (value: boolean) => void;
   subscriptionType: string;
+  isScrollSelector: boolean;
+  scrollTop: boolean;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -43,6 +47,7 @@ function ProfitFinderFilterSection(props: Props) {
     products,
     setPageNumber,
     subscriptionType,
+    filteredProducts,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -723,46 +728,39 @@ function ProfitFinderFilterSection(props: Props) {
     return false;
   };
 
-  const exportTrigger = (
-    <span className="export-wrapper">
-      <Image src={csvIcon} wrapped={true} />
-    </span>
-  );
   const renderExportButtons = () => {
     return (
-      <Dropdown
-        className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
-          'disabled'}`}
-        openOnFocus
-        trigger={exportTrigger}
-      >
-        <Dropdown.Menu>
-          <Dropdown.Item
-            key={1}
-            as="a"
-            disabled={_.isEmpty(supplierDetails.report_url_csv)}
-            content={
-              <>
+      <Popup
+        className="export__list"
+        trigger={
+          <Button
+            className={`selection export-wrapper__dropdown`}
+            content={<Image src={csvIcon} wrapped={true} />}
+            icon="caret down"
+          />
+        }
+        content={
+          <List divided>
+            <List.Item disabled={_.isEmpty(supplierDetails.report_url_csv)}>
+              <a href={supplierDetails.report_url}>
                 <Image src={csvIcon} wrapped={true} />
                 <span>{`.CSV`}</span>
-              </>
-            }
-            href={supplierDetails.report_url_csv}
-          />
-          <Dropdown.Item
-            disabled={_.isEmpty(supplierDetails.report_url)}
-            key={2}
-            as="a"
-            content={
-              <>
+              </a>
+            </List.Item>
+            <List.Item disabled={_.isEmpty(supplierDetails.report_url)}>
+              <a href={supplierDetails.report_url}>
                 <Image src={msExcelIcon} wrapped={true} />
                 <span>{`.XSLS`}</span>
-              </>
-            }
-            href={supplierDetails.report_url}
-          />
-        </Dropdown.Menu>
-      </Dropdown>
+              </a>
+            </List.Item>
+          </List>
+        }
+        disabled={isSubscriptionFree(subscriptionType)}
+        position="bottom center"
+        on="click"
+        basic
+        hideOnScroll
+      />
     );
   };
 
@@ -774,7 +772,7 @@ function ProfitFinderFilterSection(props: Props) {
     props.supplierDetails.leads_tracker_status === null ||
     props.supplierDetails.leads_tracker_status === 'inactive';
   const isToggle = leadsStatus ? false : true;
-
+  
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
@@ -782,7 +780,10 @@ function ProfitFinderFilterSection(props: Props) {
           basic
           icon
           labelPosition="left"
-          className={filterType === 'all-filter' ? 'active all-filter' : 'all-filter'}
+          className={
+            (filterType === 'all-filter' ? 'active all-filter' : 'all-filter') +
+            (!isFilterUse() && _.isEmpty(filteredProducts) ? ' disabled' : '')
+          }
           onClick={() => {
             handleFilterType('all-filter');
             setFilterModalOpen(true);
@@ -829,9 +830,6 @@ function ProfitFinderFilterSection(props: Props) {
           />
         </Modal.Content>
       </Modal>
-      <div className="filter-wrapper">
-        <Divider />
-      </div>
     </div>
   );
 }
@@ -844,12 +842,15 @@ const mapStateToProps = (state: {}) => ({
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  isScrollSelector: get(state, 'supplier.setIsScroll'),
+  scrollTop: get(state, 'supplier.setScrollTop'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
+  setIsScroll: (value: boolean) => setIsScroll(value),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
