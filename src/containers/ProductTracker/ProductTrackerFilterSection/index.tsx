@@ -63,7 +63,6 @@ function ProductTrackerFilterSection(props: Props) {
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
-  console.log('groupProducts: ', groupProducts);
   const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
@@ -370,6 +369,7 @@ function ProductTrackerFilterSection(props: Props) {
       data.amazonChoice.push(filterDataKey);
     }
     setFilterState(data);
+    applyFilter(true);
   };
   const setPeriod = (value: number) => {
     fetchAllTrackedProductDetails(value);
