@@ -14,13 +14,13 @@
 
   .sub.header {
     padding-top: 10px;
-    font-size: 16px;
+    font-size: 14px;
     color: #3b4557;
   }
 
   h4.ui.header {
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     color: #3b4557;
   }
 
@@ -36,8 +36,8 @@
     border: 0;
     background: none;
     font-family: $font-fam;
-    font-weight: bold;
-    font-size: 18px !important;
+    font-weight: 600;
+    font-size: 16px !important;
     letter-spacing: 0;
     color: #000000de !important;
     margin-bottom: 5px;
@@ -64,9 +64,9 @@
       border-radius: 40px;
       margin-bottom: 20px;
       height: 35px;
-      font-size: 16px;
+      font-size: 14px;
       padding: 0;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     .ui.segment {
@@ -86,7 +86,7 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        background: #2e3b4a 0% 0% no-repeat padding-box;
+        background: #98aeca 0% 0% no-repeat padding-box;
         box-shadow: 0 3px 20px #00000029;
         border-radius: 15px 0 0 15px;
         min-width: 40px;
@@ -96,7 +96,7 @@
       }
 
       i.fa-pencil-alt {
-        color: #f8faff;
+        color: #fff;
       }
 
       i.fa-check {

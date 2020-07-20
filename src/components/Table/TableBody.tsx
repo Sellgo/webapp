@@ -24,7 +24,7 @@ interface TableColumnCellProps {
 const TableCell = (props: TableColumnCellProps) => {
   const { type, column, row, as, className: customClass } = props;
   const { className: columnClass = '' } = column;
-  const className = `table-cell ${column && column.dataKey} ${getColumnClass(
+  let className = `table-cell ${column && column.dataKey} ${getColumnClass(
     column
   )} ${customClass} ${columnClass}`;
 
@@ -36,10 +36,11 @@ const TableCell = (props: TableColumnCellProps) => {
     cellProps = { ...cellProps, as };
   }
   if (type === 'trackerTable') {
+    className = `${customClass} ${columnClass} ptr-cell`;
     cellProps = {
       ...cellProps,
-      className: `${customClass} ${columnClass}`,
-      style: { height: '6em' },
+      className: className.trim(),
+      style: { height: '6.05em' },
     };
   }
 
@@ -90,7 +91,11 @@ export const TableBody = (props: TableBodyProps) => {
                     {rowExpander(row)}
                   </td>
                 </tr>
-                <Table.Row key={`${Date.now() + index}--tb-row`} style={style}>
+                <Table.Row
+                  key={`${Date.now() + index}--tb-row`}
+                  style={style}
+                  className={filteredColumns.length > 2 ? 'ptr-row' : ''}
+                >
                   {filteredColumns.length === 2 && (
                     <td
                       colSpan={columns.length - 2}
