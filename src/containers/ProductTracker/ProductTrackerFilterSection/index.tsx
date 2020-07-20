@@ -63,6 +63,7 @@ function ProductTrackerFilterSection(props: Props) {
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
+  console.log('groupProducts: ', groupProducts);
   const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
@@ -262,6 +263,23 @@ function ProductTrackerFilterSection(props: Props) {
             label: 'Non-Profitable Products',
             dataKey: 'non-profitable-products',
             checked: false,
+          },
+        ],
+      },
+      {
+        label: 'Amazon',
+        dataKey: 'amazon-choice-preset',
+        radio: false,
+        data: [
+          {
+            label: 'Amazon Choice Products',
+            dataKey: 'amazon-choice-products',
+            checked: true,
+          },
+          {
+            label: 'Amazon is not selling this product',
+            dataKey: 'not-amazon-products',
+            checked: true,
           },
         ],
       },

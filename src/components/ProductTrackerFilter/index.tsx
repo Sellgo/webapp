@@ -132,24 +132,24 @@ function ProductTrackerFilter(props: Props) {
       )}
       {filterType === 'more-filter' && (
         <>
-          <div className={'presets-filter-content-wrapper'}>
-            <div className="presets-filter-content-wrapper__header">
-              <span className="presets-filter-content-wrapper__header__filter-name">
+          <div className={'pt-filter-content__preset-filter'}>
+            <div className="pt-filter-content__preset-filter__header">
+              <span className="pt-filter-content__preset-filter__header__filter-name">
                 Quick Preset
               </span>
-              <div className="presets-filter-content-wrapper__header__preset-reset">
+              <div className="pt-filter-content__preset-filter__header__preset-reset">
                 <p onClick={() => resetPreset()}>x Reset</p>
               </div>
             </div>
             {_.map(filterData.presets, (filter, key) => {
               return (
                 <div
-                  className={`presets-filter-content-wrapper__content ${filter.dataKey}`}
+                  className={`pt-filter-content__preset-filter__content ${filter.dataKey}`}
                   key={key}
                 >
                   {filter.dataKey === 'profitability-preset' && (
                     <>
-                      <span className="presets-filter-content-wrapper__content__filter-name">
+                      <span className="pt-filter-content__preset-filter__content__filter-name">
                         {filter.label}
                       </span>
                       {_.map(filter.data, (filterData, dataKey) => {
