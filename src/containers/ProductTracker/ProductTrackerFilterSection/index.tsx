@@ -85,7 +85,8 @@ function ProductTrackerFilterSection(props: Props) {
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
-  const [hasFilter, setHasFilter] = React.useState(false);
+  const [hasAllFilter, setHasAllFilter] = React.useState(false);
+  const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
   useEffect(() => {
     /*
       Reset filter when changing groups
@@ -120,7 +121,8 @@ function ProductTrackerFilterSection(props: Props) {
       selectAllReviews(true);
     }
 
-    setHasFilter(isFilterUse());
+    setHasAllFilter(isAllFilterUse());
+    setHasPresetFilter(isPresetFilterUse());
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
@@ -439,7 +441,8 @@ function ProductTrackerFilterSection(props: Props) {
 
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
-    setHasFilter(isFilterUse());
+    setHasAllFilter(isAllFilterUse());
+    setHasPresetFilter(isPresetFilterUse());
 
     if (
       !isPreset &&
@@ -579,7 +582,7 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterType(type);
   };
 
-  const isFilterUse = () => {
+  const isAllFilterUse = () => {
     const ranges = findMinMax(groupProducts);
     if (JSON.stringify(ranges.customer_reviews) !== JSON.stringify(filterState.customer_reviews))
       return true;
@@ -591,6 +594,10 @@ function ProductTrackerFilterSection(props: Props) {
     if (JSON.stringify(ranges.avg_rank) !== JSON.stringify(filterState.avg_rank)) return true;
     if (JSON.stringify(ranges.avg_roi) !== JSON.stringify(filterState.avg_roi)) return true;
     if (!isAllReviews) return true;
+    return false;
+  };
+
+  const isPresetFilterUse = () => {
     if (filterState.profitability !== 'All Products') return true;
     if (filterState.amazonChoice.length !== 2) return true;
     return false;
@@ -613,7 +620,7 @@ function ProductTrackerFilterSection(props: Props) {
               name="sliders horizontal"
             />
             <span className="tracker-filter-section__header__all-container__button__name">All</span>
-            <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
+            <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
           <Button
             basic
@@ -630,7 +637,7 @@ function ProductTrackerFilterSection(props: Props) {
             <span className="tracker-filter-section__header__all-container__button__name">
               More
             </span>
-            <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
+            <Icon name="filter" className={` ${hasPresetFilter ? 'blue' : 'grey'} `} />
           </Button>
         </div>
         <div className="tracker-filter-section__header__period-container">
