@@ -68,6 +68,7 @@ function ProductTrackerFilterSection(props: Props) {
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
     sellerID: sellerID,
+    amazonChoice: ['amazon-choice-products', 'not-amazon-products'],
     reviews: [],
     removeNegative: [],
     profitability: 'All Products',
@@ -330,7 +331,7 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
-  const toggleCheckboxFilter = (filterDataKey: string) => {
+  const toggleReviewsCheckbox = (filterDataKey: string) => {
     const data = filterState;
     setAllReviews(false);
     localStorage.setItem('filterSelectAllReviews', JSON.stringify(false));
@@ -350,6 +351,26 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
+  const toggleAmazonPresetCheckbox = (filterDataKey: string) => {
+    const data = filterState;
+    const presetData = _.map(presetFilter, preset => {
+      if (preset.dataKey === 'amazon-choice-preset') {
+        console.log('toggleAmazonPresetCheckbox: ', filterDataKey);
+        _.map(preset.data, amzData => {
+          amzData.checked = data.amazonChoice.indexOf(filterDataKey) !== -1;
+          return amzData;
+        });
+      }
+      return preset;
+    });
+    setPresetFilter(presetData);
+    if (data.amazonChoice.indexOf(filterDataKey) !== -1) {
+      data.amazonChoice.splice(data.amazonChoice.indexOf(filterDataKey), 1);
+    } else {
+      data.amazonChoice.push(filterDataKey);
+    }
+    setFilterState(data);
+  };
   const setPeriod = (value: number) => {
     fetchAllTrackedProductDetails(value);
     const filterValue = filterState;
@@ -622,7 +643,8 @@ function ProductTrackerFilterSection(props: Props) {
           initialFilterState={filterState}
           toggleSelectAllReviews={toggleSelectAllReviews}
           isAllReviews={isAllReviews}
-          toggleCheckboxFilter={toggleCheckboxFilter}
+          toggleReviewsCheckbox={toggleReviewsCheckbox}
+          toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           toggleNegative={toggleNegative}
           setRadioFilter={setRadioFilter}
           resetPreset={resetPreset}

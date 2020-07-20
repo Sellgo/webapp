@@ -85,6 +85,7 @@ export interface ProductTrackerFilterState {
   supplierID: string;
   removeNegative: string[];
   reviews: string[];
+  amazonChoice: string[];
   period: number;
   profitability: string;
   price: {

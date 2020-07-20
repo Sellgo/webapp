@@ -16,7 +16,8 @@ interface Props {
   handleCompleteChange: (dataKey: string, range: Range) => void;
   initialFilterState: ProductTrackerFilterState;
   isAllReviews: boolean;
-  toggleCheckboxFilter: (filterDataKey: string) => void;
+  toggleReviewsCheckbox: (filterDataKey: string) => void;
+  toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
   toggleNegative: (datakey: string) => void;
   resetPreset: () => void;
   setRadioFilter: (filterDataKey: string, label: string) => void;
@@ -33,7 +34,8 @@ function ProductTrackerFilter(props: Props) {
     initialFilterState,
     toggleSelectAllReviews,
     isAllReviews,
-    toggleCheckboxFilter,
+    toggleReviewsCheckbox,
+    toggleAmazonPresetCheckbox,
     toggleNegative,
     resetPreset,
     setRadioFilter,
@@ -107,7 +109,7 @@ function ProductTrackerFilter(props: Props) {
                           id={filterData.label}
                           checked={initialFilterState.reviews.indexOf(filterData.dataKey) !== -1}
                           onChange={() => {
-                            toggleCheckboxFilter(filterData.dataKey);
+                            toggleReviewsCheckbox(filterData.dataKey);
                           }}
                           type="checkbox"
                         />
@@ -163,6 +165,30 @@ function ProductTrackerFilter(props: Props) {
                                 applyFilter(true);
                               }}
                               type="radio"
+                            />
+                            <label htmlFor={filterData.dataKey}> {filterData.label}</label>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
+                  {filter.dataKey === 'amazon-choice-preset' && (
+                    <>
+                      <span className="pt-filter-content__preset-filter__content__filter-name">
+                        {filter.label}
+                      </span>
+                      {_.map(filter.data, (filterData, dataKey) => {
+                        return (
+                          <div className={`ui checkbox`} key={dataKey}>
+                            <input
+                              id={filterData.dataKey}
+                              checked={
+                                initialFilterState.amazonChoice.indexOf(filterData.dataKey) !== -1
+                              }
+                              onChange={() => {
+                                toggleAmazonPresetCheckbox(filterData.dataKey);
+                              }}
+                              type="checkbox"
                             />
                             <label htmlFor={filterData.dataKey}> {filterData.label}</label>
                           </div>
