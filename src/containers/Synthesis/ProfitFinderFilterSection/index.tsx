@@ -19,7 +19,7 @@ import FilterContainer from '../../../components/FilterContainer';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
-import { isSubscriptionFree } from '../../../utils/subscriptions';
+import { isSubscriptionFree, isPlanEnterprise } from '../../../utils/subscriptions';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -767,12 +767,11 @@ function ProfitFinderFilterSection(props: Props) {
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-  const isEnterprise = subscriptionType === 'Enterprise' ? true : false;
   const leadsStatus =
     props.supplierDetails.leads_tracker_status === null ||
     props.supplierDetails.leads_tracker_status === 'inactive';
   const isToggle = leadsStatus ? false : true;
-  
+
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
@@ -794,7 +793,7 @@ function ProfitFinderFilterSection(props: Props) {
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
         <span>
-          <p className={`${isEnterprise ? '' : 'hidden'}`}>Leads Tracking</p>
+          <p className={`${isPlanEnterprise(subscriptionType) ? '' : 'hidden'}`}>Leads Tracking</p>
           <LeadsTrackerToggle
             setLeadsTracker={props.setLeadsTracker}
             seller_id={props.supplierDetails.seller_id}

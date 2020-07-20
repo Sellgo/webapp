@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { isPlanEnterprise } from '../../utils/subscriptions';
 import './index.scss';
 
 interface Props {
@@ -10,9 +11,12 @@ interface Props {
 const LeadsTrackerToggle = (props: any | Props) => {
   const { setLeadsTracker, seller_id, supplier_id, isToggle, subscriptionType } = props;
 
-  const isEnterprise = subscriptionType === 'Enterprise' ? true : false;
   return (
-    <div className={`ToggleSwitch ToggleSwitch__rounded ${isEnterprise ? '' : 'hidden'}`}>
+    <div
+      className={`ToggleSwitch ToggleSwitch__rounded ${
+        isPlanEnterprise(subscriptionType) ? '' : 'hidden'
+      }`}
+    >
       <div className="ToggleSwitch__wrapper">
         <div
           className={`Slider ${isToggle ? 'active' : ''}`}
