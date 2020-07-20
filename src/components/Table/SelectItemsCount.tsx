@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import { Dropdown, List } from 'semantic-ui-react';
 import { selectItemsCountList } from '../../constants';
 import { setIsScroll } from '../../actions/Suppliers';
+import { setProductTrackerPageNumber } from '../../actions/ProductTracker';
 
 interface SelectItemsCountProps {
   isScrollSelector: boolean;
@@ -12,6 +13,7 @@ interface SelectItemsCountProps {
   singlePageItemsCount: number;
   currentPage: number;
   setSinglePageItemsCount: (itemsCount: any) => void;
+  setPageNumber: (pageNumber: number) => void;
   setCurrentPage: (number: number) => void;
   setIsScroll: (value: boolean) => void;
 }
@@ -26,6 +28,7 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
     setSinglePageItemsCount,
     setCurrentPage,
     setIsScroll,
+    setPageNumber,
   } = props;
 
   const maxCount =
@@ -68,12 +71,13 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
               const newItemsCount = Number(data.value);
               setSinglePageItemsCount(newItemsCount);
               setCurrentPage(1);
+              setPageNumber(1);
             }}
           />
         </List.Content>
       </List.Item>
       <List.Item>
-        <List.Content>Items per page</List.Content>
+        <List.Content>Items per page daw</List.Content>
       </List.Item>
     </List>
   );
@@ -88,6 +92,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   setIsScroll: (value: boolean) => setIsScroll(value),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectItemsCount);
