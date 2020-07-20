@@ -525,8 +525,27 @@ function ProductTrackerFilterSection(props: Props) {
     setPresetFilter(data);
     setFilterState(filterValue);
   };
+
+  const resetAmazonChoicePreset = () => {
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === 'amazon-choice-preset') {
+        _.map(filter.data, dk => {
+          dk.checked = true;
+          return dk;
+        });
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.amazonChoice = filterInitialData.amazonChoice;
+
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+
   const resetPreset = () => {
     resetProfitabilityPreset();
+    resetAmazonChoicePreset();
     applyFilter(true);
   };
   const setRadioFilter = (filterType: string, value: string) => {
@@ -572,6 +591,8 @@ function ProductTrackerFilterSection(props: Props) {
     if (JSON.stringify(ranges.avg_rank) !== JSON.stringify(filterState.avg_rank)) return true;
     if (JSON.stringify(ranges.avg_roi) !== JSON.stringify(filterState.avg_roi)) return true;
     if (!isAllReviews) return true;
+    if (filterState.profitability !== 'All Products') return true;
+    if (filterState.amazonChoice.length !== 2) return true;
     return false;
   };
 
