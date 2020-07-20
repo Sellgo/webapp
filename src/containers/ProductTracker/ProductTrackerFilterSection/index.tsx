@@ -356,7 +356,6 @@ function ProductTrackerFilterSection(props: Props) {
     const data = filterState;
     const presetData = _.map(presetFilter, preset => {
       if (preset.dataKey === 'amazon-choice-preset') {
-        console.log('toggleAmazonPresetCheckbox: ', filterDataKey);
         _.map(preset.data, amzData => {
           amzData.checked = data.amazonChoice.indexOf(filterDataKey) !== -1;
           return amzData;

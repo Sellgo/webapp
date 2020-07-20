@@ -373,7 +373,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       );
     }
 
-    console.log('suppliers: ', suppliers);
     const all = suppliers.filter(supplier => supplier.status !== 'inactive');
     const allData = all.filter(supplier => supplier.progress !== -1);
     const draftData = all.filter(
