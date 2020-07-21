@@ -211,8 +211,8 @@ function ProductTrackerFilterSection(props: Props) {
         },
       ],
       reviews: {
-        label: 'Reviews',
-        dataKey: 'reviews',
+        label: 'Rating',
+        dataKey: 'rating',
         radio: false,
         data: [
           {

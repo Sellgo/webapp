@@ -812,7 +812,8 @@ function ProfitFinderFilterSection(props: Props) {
         className="export__list"
         trigger={
           <Button
-            className={`selection export-wrapper__dropdown`}
+            className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
+              'disabled'}`}
             content={<Image src={csvIcon} wrapped={true} />}
             icon="caret down"
           />
