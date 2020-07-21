@@ -4,7 +4,8 @@ import './index.scss';
 import _ from 'lodash';
 import { MINUTES_IN_A_DAY } from '../../../../../../utils/date';
 import { filterPeriods } from '../../../../../../constants/Tracker';
-import Highcharts from 'highcharts';
+import Highcharts, { Point } from 'highcharts';
+import { hexToRgbA } from '../../../../../../utils/colors';
 
 // types for the time series
 export enum SHOW_TYPE {
@@ -79,12 +80,15 @@ const defaultPinnedPoint: Highcharts.Point | undefined = undefined;
 
 const rankColor = '#FD4F1E';
 const inventorySumColor = '#4AD991';
-const pinnedPointPattern = '#000000';
 
 class InventoryInsightsChart extends Component<
   InventoryInsightsChartProps,
   InventoryInsightsChartState
 > {
+  static defaultProps = {
+    currentShowType: SHOW_TYPE.SumOfSellerLevelInventory,
+  };
+
   state = {
     allData: defaultAllData,
     showOthers: true,
@@ -111,7 +115,8 @@ class InventoryInsightsChart extends Component<
         shared: true,
         followPointer: true,
         followTouchMove: true,
-        stickOnContact: true,
+        animation: false,
+        hideDelay: 10,
       },
       legend: {
         align: 'center',
@@ -209,9 +214,6 @@ class InventoryInsightsChart extends Component<
         },
       },
     },
-  };
-  static defaultProps = {
-    currentShowType: SHOW_TYPE.ProductLevelInventory,
   };
 
   componentDidMount() {
@@ -505,53 +507,34 @@ class InventoryInsightsChart extends Component<
                    * Clicking an inventory column will pin the pie chart to it.
                    * 1. If no column is pinned, pin it.
                    * 2. If there is a pinned column and another column is clicked,
-                   * revert pinned column color and pin new column.
+                   unpin previous pinned column and pin new column.
                    * 3. If there is a pinned column and the pinned column is clicked,
-                   * revert its color, unpin it and return to initial pie chart.
+                   * unpin it and return to initial pie chart.
                    */
-                  let pinType = '';
-                  pinType = 'color';
-                  const xAxis = e.point.series.chart.xAxis[0];
+                  const newColor = hexToRgbA(inventorySumColor, 0.2);
+                  const points = e.point.series.points;
                   if (!this.state.pinnedPoint) {
-                    if (pinType === 'line') {
-                      xAxis.addPlotLine({
-                        value: e.point.x,
-                        color: '#000000',
-                        width: 1,
-                        zIndex: 9999,
-                        id: 'pinnedColumn',
-                      });
-                    } else {
-                      e.point.update({ color: pinnedPointPattern });
-                    }
+                    points.forEach((point: Point) => {
+                      if (point !== e.point) point.update({ color: newColor });
+                    });
                     this.setState({
                       pinnedPoint: e.point,
                       defaultPieData: this._getPieDataOfEventPoint(e.point),
                     });
                   } else if (this.state.pinnedPoint && this.state.pinnedPoint !== e.point) {
-                    if (pinType === 'line') {
-                      xAxis.removePlotLine('pinnedColumn');
-                      xAxis.addPlotLine({
-                        value: e.point.x,
-                        color: '#000000',
-                        width: 1,
-                        zIndex: 9999,
-                        id: 'pinnedColumn',
-                      });
-                    } else {
-                      this.state.pinnedPoint.update({ color: inventorySumColor });
-                      e.point.update({ color: pinnedPointPattern });
-                    }
+                    points.forEach((point: Point) => {
+                      point !== e.point
+                        ? point.update({ color: newColor })
+                        : point.update({ color: inventorySumColor });
+                    });
                     this.setState({
                       pinnedPoint: e.point,
                       defaultPieData: this._getPieDataOfEventPoint(e.point),
                     });
                   } else if (this.state.pinnedPoint && this.state.pinnedPoint === e.point) {
-                    if (pinType === 'line') {
-                      xAxis.removePlotLine('pinnedColumn');
-                    } else {
-                      this.state.pinnedPoint.update({ color: inventorySumColor });
-                    }
+                    points.forEach((point: Point) => {
+                      point.update({ color: inventorySumColor });
+                    });
                     this.setState({
                       pinnedPoint: undefined,
                       defaultPieData: this.state.initialPieData,
