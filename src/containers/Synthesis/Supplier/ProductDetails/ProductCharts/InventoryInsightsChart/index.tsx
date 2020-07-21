@@ -129,6 +129,11 @@ class InventoryInsightsChart extends Component<
           marker: {
             enabled: false,
           },
+          states: {
+            inactive: {
+              enabled: false,
+            },
+          },
         },
       },
     },
