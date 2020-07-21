@@ -53,6 +53,7 @@ interface SuppliersTableProps {
   setProgress: any;
   setSpeed: any;
   handleUnauthorizedMwsAuth: any;
+  currentActiveColumn: string;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -356,7 +357,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns, scrollTopSelector, stickyChartSelector } = this.props;
+    const {
+      suppliers,
+      showTab,
+      showColumns,
+      scrollTopSelector,
+      stickyChartSelector,
+      currentActiveColumn,
+    } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -414,6 +422,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           </Grid.Column>
         </Grid>
         <GenericTable
+          currentActiveColumn={currentActiveColumn}
           stickyChartSelector={stickyChartSelector}
           scrollTopSelector={scrollTopSelector}
           key={`Suppliers-${showTab}`}
@@ -447,6 +456,7 @@ const mapStateToProps = (state: {}) => ({
   subscriptionType: get(state, 'subscription.subscriptionType'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
+  currentActiveColumn: get(state, 'supplier.activeColumn'),
 });
 
 const mapDispatchToProps = {

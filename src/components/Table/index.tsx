@@ -27,6 +27,7 @@ export interface Column {
 }
 
 export interface GenericTableProps {
+  currentActiveColumn: string;
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
   tableKey?: string;
@@ -126,6 +127,7 @@ export const GenericTable = (props: GenericTableProps) => {
     rowExpander,
     scrollTopSelector,
     stickyChartSelector,
+    currentActiveColumn,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -148,7 +150,9 @@ export const GenericTable = (props: GenericTableProps) => {
   // const [itemsCount, setItemsCount] = useState(10);
 
   const showColumns = columns.filter(e => e.show);
-  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
+  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort(
+    currentActiveColumn
+  );
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
   const filteredColumns = columnFilterData
     ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))

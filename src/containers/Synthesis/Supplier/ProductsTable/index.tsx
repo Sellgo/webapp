@@ -32,6 +32,7 @@ import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
 import { isSubscriptionFree } from '../../../../utils/subscriptions';
 
 interface ProductsTableProps {
+  currentActiveColumn: string;
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
   subscriptionType: string;
@@ -410,6 +411,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       subscriptionType,
       scrollTopSelector,
       stickyChartSelector,
+      currentActiveColumn,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
@@ -436,6 +438,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         ) : (
           <>
             <GenericTable
+              currentActiveColumn={currentActiveColumn}
               stickyChartSelector={stickyChartSelector}
               scrollTopSelector={scrollTopSelector}
               tableKey={tableKeys.PRODUCTS}
@@ -485,6 +488,7 @@ const mapStateToProps = (state: {}) => ({
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
+  currentActiveColumn: get(state, 'supplier.activeColumn'),
 });
 
 const mapDispatchToProps = {
