@@ -13,9 +13,8 @@ const LeadsTrackerToggle = (props: any | Props) => {
 
   return (
     <div
-      className={`ToggleSwitch ToggleSwitch__rounded ${
-        isPlanEnterprise(subscriptionType) ? '' : 'hidden'
-      }`}
+      className={`ToggleSwitch ToggleSwitch__rounded ${isPlanEnterprise(subscriptionType) &&
+        'hidden'}`}
     >
       <div className="ToggleSwitch__wrapper">
         <div
