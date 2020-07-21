@@ -163,7 +163,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
-        {label === 'Search' && (
+        {label === 'Search Name' && (
           <span className="search-ic">
             <Icon
               className="filter search-filter"
@@ -227,6 +227,7 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
+
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
@@ -257,7 +258,7 @@ const TableHeader = (props: TableHeaderProps) => {
       >
         {rest.type === 'trackerTable' && (
           <React.Fragment>
-            <Table.Row>
+            <Table.Row className="ptr-header-row">
               {filteredColumns.length === 2 && (
                 <th
                   key={`header-blank-row`}
@@ -266,10 +267,16 @@ const TableHeader = (props: TableHeaderProps) => {
                 />
               )}
               {filteredColumns.map((column, index) => {
+                let className =
+                  index === 1 && filteredColumns.length > 2 ? 'ptr' : column.className;
+                className =
+                  index === filteredColumns.length - 2 && index >= 2
+                    ? `${className} ptr-last-cell`
+                    : className;
                 return (
                   <TableHeaderCell
                     columns={columns}
-                    column={{ ...column, className: index === 1 ? 'ptr' : column.className }}
+                    column={{ ...column, className }}
                     key={column.dataKey || index}
                     {...rest}
                   />
@@ -313,13 +320,14 @@ const TableHeader = (props: TableHeaderProps) => {
               }
               if (cell.side === 'left') {
                 headerCellProps.className = 'left-most';
+                headerCellProps = { ...headerCellProps, style: { width: '1em' } };
               }
 
               return (
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
                   <table className="header-inner-table">
                     <thead className="inner-tbody">
-                      <Table.Row>
+                      <Table.Row style={!cell.rows.length ? { height: '46px' } : {}}>
                         {cell.rows.map((column: any, index: any) => {
                           return (
                             <TableHeaderCell

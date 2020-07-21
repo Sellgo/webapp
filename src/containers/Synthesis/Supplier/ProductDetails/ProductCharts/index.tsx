@@ -110,17 +110,10 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
     }
 
-    // adjust for 1D
-    if (tempData.length === 1) {
-      const point = tempData.pop();
-      if (point) {
-        const end: any = new Date(point[0]);
-        end.setHours(23, 59, 59, 999);
-        const start: any = new Date(point[0]);
-        start.setHours(0, 0, 0, 0);
-        tempData.push([start.getTime(), point[1]]);
-        tempData.push([end.getTime(), point[1]]);
-      }
+    if (tempData.length > 0) {
+      const now = new Date();
+      now.setUTCHours(now.getUTCHours() - now.getTimezoneOffset() / 60); // adjust to local TZ
+      tempData.push([now.getTime(), Number(data[data.length - 1][type])]);
     }
 
     // dynamically adjust frequencies based on period

@@ -192,6 +192,10 @@ $link-color: #349af8;
   top: 50px !important;
 }
 
+.ptr-row td:nth-child(2) {
+  padding-left: 406px !important;
+}
+
 .tracker-table {
   margin: 0 auto;
   max-width: 100%;
@@ -960,15 +964,37 @@ $link-color: #349af8;
   height: 10px !important;
 }
 
+.inner-product-info {
+  border-left: 1px solid rgba(34, 36, 38, 0.3) !important;
+  height: 100% !important;
+  padding: 12px 14px !important;
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  border-top: 1px solid rgba(34, 36, 38, 0.3) !important;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.3) !important;
+}
+
 .pt-product-info {
   position: absolute !important;
   width: 29em !important;
   //height: 6em !important;
   left: 1em !important;
   background: #fff !important;
-  border-left: 1px solid #98aeca !important;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  display: flex;
+  padding: 0 !important;
+  align-items: center !important;
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+
+  .table-cell-container {
+    @extend .inner-product-info;
+
+    height: 100% !important;
+    width: 100% !important;
+  }
 }
 
 .pt-product-info:hover {
@@ -988,12 +1014,8 @@ $link-color: #349af8;
   background: #ebedf2 !important;
 }
 
-.pt-price {
+.ptr {
   padding-left: 406px !important;
-}
-
-.pt-avg_amazon_inventory {
-  padding-right: 35px !important;
 }
 
 @media (min-width: 768px) and (max-width: 1080px) {
@@ -1015,7 +1037,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 140px !important;
+    min-width: 130px !important;
   }
 }
 
@@ -1031,11 +1053,11 @@ $link-color: #349af8;
 
 @media only screen and (min-width: 1440px) and (max-width: 1921px) {
   .pt-scroll {
-    min-width: 130px !important;
+    min-width: 126px !important;
   }
 
   .pt-scroll-container {
-    max-width: 67% !important;
+    max-width: 74% !important;
   }
 }
 
@@ -1045,7 +1067,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 160px !important;
+    min-width: 131px !important;
   }
 
   .pt-scroll-container {
@@ -1079,7 +1101,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 140px !important;
+    min-width: 135px !important;
   }
 }
 
@@ -1089,13 +1111,17 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 140px !important;
+    min-width: 132px !important;
   }
 }
 
 @media only screen and (min-width: 1680px) and (max-width: 1919px) {
   .remove-top-border {
     width: 99.1% !important;
+  }
+
+  .pt-scroll {
+    min-width: 131px !important;
   }
 }
 
@@ -1105,6 +1131,6 @@ $link-color: #349af8;
   }
 }
 
-.ptr {
-  padding-left: 29em !important;
+.ptr-last-cell {
+  padding-right: 30px !important;
 }
