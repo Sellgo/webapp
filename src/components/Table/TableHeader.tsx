@@ -270,7 +270,9 @@ const TableHeader = (props: TableHeaderProps) => {
                 let className =
                   index === 1 && filteredColumns.length > 2 ? 'ptr' : column.className;
                 className =
-                  index === filteredColumns.length - 2 ? `${className} ptr-last-cell` : className;
+                  index === filteredColumns.length - 2 && index >= 2
+                    ? `${className} ptr-last-cell`
+                    : className;
                 return (
                   <TableHeaderCell
                     columns={columns}
