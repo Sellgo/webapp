@@ -474,12 +474,16 @@ i.icon.filter::before {
 
 .table-header-scroll {
   max-width: 358px !important;
-  overflow: hidden !important;
+  overflow-x: auto !important;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
 .middle-body {
   max-width: 670px !important;
-  overflow: hidden !important;
+  overflow: auto !important;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
 
 .left-fixed-header-column {
@@ -709,6 +713,16 @@ i.icon.filter::before {
   .header-scroll {
     max-width: 400px !important;
   }
+
+  .middle-scroll-cell {
+    min-width: 105px !important;
+  }
+}
+
+@media only screen and (min-width: 1536px) {
+  .middle-scroll-cell {
+    min-width: 105px !important;
+  }
 }
 
 @media only screen and (min-device-width: 1680px) and (max-device-width: 1919px) {
@@ -739,6 +753,10 @@ i.icon.filter::before {
     .description-text {
       width: 350px !important;
     }
+  }
+
+  .middle-scroll-cell {
+    min-width: 148px !important;
   }
 }
 
@@ -772,4 +790,12 @@ i.icon.filter::before {
 
 .header-scroll::-webkit-scrollbar-track {
   border-radius: 5px !important;
+}
+
+.middle-body::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.table-header-scroll::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
