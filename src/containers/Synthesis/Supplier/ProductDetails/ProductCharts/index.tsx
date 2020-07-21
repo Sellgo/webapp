@@ -26,6 +26,7 @@ import ProductReviewChart from './ProductReviewChart';
 import InventoryInsightsChart from './InventoryInsightsChart';
 import { MILLISECONDS_IN_A_DAY, MILLISECONDS_IN_A_MINUTE } from '../../../../../utils/date';
 import BetaLabel from '../../../../../components/BetaLabel';
+import _ from 'lodash';
 
 interface ProductChartsProps {
   product: any;
@@ -94,12 +95,12 @@ class ProductCharts extends Component<ProductChartsProps> {
    * @param {number} period the range of the product details data.
    * @param {number?} xMin a timestamp (in milliseconds) where any data point before this timestamp is filtered out.
    * @param {number?} xMax a timestamp (in milliseconds) where any data point after this timestamp is filtered out.
-   * @returns {[[number, number]?]} an array of length-2 arrays, where the first element is the timestamp
-   * in milliseconds and the second element is the value of the product detail.
+   * @returns {[number, number | null][]} an array of length-2 arrays, where the first element is the timestamp
+   * in milliseconds and the second element is the value of the product detail (null if no value).
    */
   formatProductDetail(type: string, data: [any], period: number, xMin?: number, xMax?: number) {
-    const tempData: [number, number][] = [];
-    const formattedData: [number, number][] = [];
+    const tempData: [number, number | null][] = [];
+    const formattedData: [number, number | null][] = [];
 
     for (let i = 0; i < data.length; i++) {
       const date = new Date(data[i].cdate);
@@ -143,7 +144,7 @@ class ProductCharts extends Component<ProductChartsProps> {
     for (let i = 1; i < tempData.length; i++) {
       const currentPoint = tempData[i - 1];
       const nextPoint = tempData[i];
-      let tempPoint = currentPoint && currentPoint.slice();
+      let tempPoint = _.clone(currentPoint);
 
       // forward-fill
       if (tempPoint && nextPoint) {

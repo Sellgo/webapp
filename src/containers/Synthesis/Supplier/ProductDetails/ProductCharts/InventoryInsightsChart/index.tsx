@@ -17,7 +17,7 @@ export interface Series {
   yAxis: number;
   type: string;
   name: string;
-  data: [number, number][];
+  data: [number, number | null][];
   totalValue?: number;
   color: string;
   step?: boolean;
@@ -27,15 +27,15 @@ export interface Series {
 export interface PieItem {
   name: string;
   x?: number;
-  y: number;
+  y: number | null;
   color: string;
   visible: boolean;
 }
 
 export interface InventoryInsightsChartProps {
   productCategory?: string;
-  productRanks: [number, number][];
-  productInventories: [number, number][];
+  productRanks: [number, number | null][];
+  productInventories: [number, number | null][];
   sellerInventories: { [key: string]: { name: string; data: [number, number][]; color: string } };
   period: number;
   xMin?: number;
@@ -211,7 +211,7 @@ class InventoryInsightsChart extends Component<
     },
   };
   static defaultProps = {
-    currentShowType: SHOW_TYPE.SumOfSellerLevelInventory,
+    currentShowType: SHOW_TYPE.ProductLevelInventory,
   };
 
   componentDidMount() {
@@ -281,13 +281,13 @@ class InventoryInsightsChart extends Component<
         sellerSumSeriesDateValueMap[item[0]] = item[1];
       });
 
-      productInventories.forEach((item: [number, number]) => {
+      productInventories.forEach(item => {
         const pointDate = item[0];
         const sellerSumInventory = sellerSumSeriesDateValueMap[pointDate]
           ? sellerSumSeriesDateValueMap[pointDate]
           : 0;
         const productInventory = item[1];
-        const inventoryDiff = productInventory - sellerSumInventory;
+        const inventoryDiff = productInventory ? productInventory - sellerSumInventory : 0;
         if (inventoryDiff > 0) {
           otherSeriesData.push([pointDate, inventoryDiff]);
           totalValue += inventoryDiff;
@@ -393,15 +393,16 @@ class InventoryInsightsChart extends Component<
       });
     }
 
-    // initialize pie chart data state
     const latestTimeStamp = data
-      .filter(item => item.name !== 'Inventory')
+      .filter(item => item.name !== 'Inventory' && item.name !== 'Rank')
       .filter(item => (showOthers ? true : item.name !== 'Other'))
       .flatMap(item => item.data)
       .map(item => item[0])
       .reduce((a, b) => Math.max(a, b), 0);
+
+    // initialize pie chart data state
     const initialPieData: PieItem[] = data
-      .filter(item => item.name !== 'Inventory')
+      .filter(item => item.name !== 'Inventory' && item.name !== 'Rank')
       .filter(item => (showOthers ? true : item.name !== 'Other'))
       .filter(item => item.data.find(point => point[0] === latestTimeStamp))
       .map(item => {
@@ -620,8 +621,8 @@ class InventoryInsightsChart extends Component<
     }
 
     newPieData.sort((a, b) => {
-      if (a.y >= b.y) return 1;
-      if (a.y < b.y) return -1;
+      if (a.y && b.y && a.y >= b.y) return 1;
+      if (a.y && b.y && a.y < b.y) return -1;
       return 0;
     });
 
