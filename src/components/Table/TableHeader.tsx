@@ -327,7 +327,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
                   <table className="header-inner-table">
                     <thead className="inner-tbody">
-                      <Table.Row style={!cell.rows.length ? { height: '46px' } : {}}>
+                      <Table.Row style={!cell.rows.length ? { height: '47px' } : {}}>
                         {cell.rows.map((column: any, index: any) => {
                           return (
                             <TableHeaderCell
