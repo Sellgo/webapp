@@ -16,10 +16,6 @@ export const PercentAlign = function(H) {
     if (tOptions && tOptions.percentAlign) {
       const percentAlign = tOptions.percentAlign;
       tOptions.x = ((this.chartWidth + this.plotLeft) * percentAlign) / 100;
-      console.log(this);
-      console.log(
-        `${this.chartWidth}|${this.plotLeft}|${tOptions.x}|||${this.plotSizeX}|${this.plotWidth}|${this.plotBox.x}`
-      );
     }
 
     // Run original proceed method
