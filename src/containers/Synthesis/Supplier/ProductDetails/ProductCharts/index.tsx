@@ -200,6 +200,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailRating,
       productDetailReview,
       productDetailSellerInventory,
+      product,
     } = this.props;
     const { period } = this.state;
     let [xMin, xMax]: [number?, number?] = [undefined, undefined];
@@ -229,6 +230,7 @@ class ProductCharts extends Component<ProductChartsProps> {
         return (
           <InventoryInsightsChart
             productRanks={formattedRanks}
+            productCategory={product.amazon_category_name}
             productInventories={formattedProductInventories}
             sellerInventories={formattedSellerInventories}
             period={period}

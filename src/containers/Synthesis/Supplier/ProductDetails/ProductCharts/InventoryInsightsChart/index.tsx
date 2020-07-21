@@ -4,6 +4,7 @@ import './index.scss';
 import _ from 'lodash';
 import { MINUTES_IN_A_DAY } from '../../../../../../utils/date';
 import { filterPeriods } from '../../../../../../constants/Tracker';
+import Highcharts from 'highcharts';
 
 // types for the time series
 export enum SHOW_TYPE {
@@ -32,6 +33,7 @@ export interface PieItem {
 }
 
 export interface InventoryInsightsChartProps {
+  productCategory?: string;
   productRanks: [number, number][];
   productInventories: [number, number][];
   sellerInventories: { [key: string]: { name: string; data: [number, number][]; color: string } };
@@ -75,6 +77,7 @@ const defaultAllData: Series[] = [
 
 const defaultPinnedPoint: Highcharts.Point | undefined = undefined;
 
+const rankColor = '#FD4F1E';
 const inventorySumColor = '#4AD991';
 const pinnedPointPattern = '#000000';
 
@@ -213,6 +216,7 @@ class InventoryInsightsChart extends Component<
 
   componentDidMount() {
     const {
+      productCategory,
       productRanks,
       productInventories,
       sellerInventories,
@@ -362,7 +366,7 @@ class InventoryInsightsChart extends Component<
         type: 'line',
         step: true,
         name: 'Rank',
-        color: '#FD4F1E',
+        color: rankColor,
         data: productRanks,
         zIndex: 2,
       });
@@ -430,7 +434,37 @@ class InventoryInsightsChart extends Component<
           max: xMax,
         },
         tooltip: {
-          xDateFormat: dateFormat,
+          formatter: function(tooltip: any) {
+            if (
+              currentShowType === SHOW_TYPE.ProductLevelInventory ||
+              currentShowType === SHOW_TYPE.SumOfSellerLevelInventory
+            ) {
+              // eslint-disable-next-line @typescript-eslint/no-this-alias
+              const tooltipContext: any = this;
+              const timeStamp = new Date(tooltipContext.x).getTime();
+
+              let tooltipString = `<span style=font-size:10px>`;
+              tooltipString += `${Highcharts.dateFormat(dateFormat, timeStamp)}`;
+              tooltipString += `</span><br/>`;
+
+              if (productCategory && productRanks.length > 0) {
+                tooltipString += `Category: <b>${productCategory}</b> <br/>`;
+              }
+
+              [
+                { name: 'Rank', color: rankColor },
+                { name: 'Inventory', color: inventorySumColor },
+              ].forEach(series => {
+                const point = tooltipContext.points.find((p: any) => p.series.name === series.name);
+                tooltipString += `<span style="color:${series.color}">●</span> ${series.name}: `;
+                tooltipString += `<b>${point ? Highcharts.numberFormat(point.y, 0) : 0}</b><br>`;
+              });
+
+              return tooltipString;
+            } else {
+              return tooltip.defaultFormatter.call(this, tooltip);
+            }
+          },
         },
         series:
           currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
