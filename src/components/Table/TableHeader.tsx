@@ -309,7 +309,11 @@ const TableHeader = (props: TableHeaderProps) => {
                 headerCellProps.className = 'middle-header table-header-scroll';
                 headerCellProps.onScroll = onScroll;
                 if (!cell.rows.length) {
-                  headerCellProps = { ...headerCellProps, colSpan: columns.length - 3 };
+                  headerCellProps = {
+                    ...headerCellProps,
+                    colSpan: columns.length - 3,
+                    style: { background: '#fff' },
+                  };
                 }
               }
               if (cell.side === 'right') {
