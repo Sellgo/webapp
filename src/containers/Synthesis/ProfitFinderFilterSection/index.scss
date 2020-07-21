@@ -1,6 +1,6 @@
 .filter-section {
   position: sticky;
-  top: -40px;
+  top: -37px;
   background: #f8faff;
   z-index: 4;
   transition-property: top;
@@ -280,7 +280,7 @@
 @media (max-width: 1536px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 300px;
+      top: 307px;
     }
 
     &.scroll-top.sticky-chart-active {

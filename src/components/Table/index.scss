@@ -19,7 +19,7 @@
     padding-top: 20px !important;
     padding-bottom: 37px !important;
     position: sticky;
-    top: -70px;
+    top: -100px;
     z-index: 5;
     background: #f8faff;
     transition-property: top;
@@ -107,7 +107,7 @@
           &:first-child {
             th {
               position: sticky;
-              top: 6px;
+              top: 0;
               z-index: 3;
               transition-property: top;
               transition-duration: 1s;
@@ -559,7 +559,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 650px;
+            top: 640px;
           }
         }
       }
@@ -575,7 +575,7 @@ i.icon.filter::before {
       }
 
       &.scroll-top.sticky-chart-active {
-        top: 385px;
+        top: 378px;
       }
     }
 
@@ -587,7 +587,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 510px;
+            top: 500px;
           }
         }
       }
