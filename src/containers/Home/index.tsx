@@ -3,11 +3,12 @@ import queryString from 'query-string';
 import history from '../../history';
 import { success } from '../../utils/notifications';
 import Login from '../Login';
+import ReactPixel from 'react-facebook-pixel';
 
 export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
-
+    ReactPixel.init('990701281388485');
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     }
