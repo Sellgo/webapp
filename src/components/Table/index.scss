@@ -124,10 +124,6 @@
           background: #f8faff;
           border-radius: unset;
 
-          &:hover {
-            background: #e6e6e6;
-          }
-
           table.header-inner-table {
             border-top: 1px solid #bec0c3;
             border-bottom: 1px solid #bec0c3;
@@ -263,7 +259,7 @@ i.icon.filter::before {
 
 .th-label {
   white-space: pre;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .ui.sortable.table thead th.sorted::after {
