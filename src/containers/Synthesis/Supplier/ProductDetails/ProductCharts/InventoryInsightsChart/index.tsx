@@ -4,8 +4,7 @@ import './index.scss';
 import _ from 'lodash';
 import { MINUTES_IN_A_DAY } from '../../../../../../utils/date';
 import { filterPeriods } from '../../../../../../constants/Tracker';
-import Highcharts, { Point } from 'highcharts';
-import { hexToRgbA } from '../../../../../../utils/colors';
+import Highcharts from 'highcharts';
 
 // types for the time series
 export enum SHOW_TYPE {
@@ -98,7 +97,6 @@ class InventoryInsightsChart extends Component<
     timeSeriesChartOptions: {
       chart: {
         zoomType: 'x',
-        type: 'column',
         height: 372, // 400 - seller-inventory-charts__title's height
       },
       title: null,
@@ -248,7 +246,7 @@ class InventoryInsightsChart extends Component<
 
       data.push({
         yAxis: 0,
-        type: 'column',
+        type: 'areaspline',
         name: sellerInventories[key].name,
         data: sellerInventories[key].data,
         totalValue: sellerInventories[key].data
@@ -274,7 +272,7 @@ class InventoryInsightsChart extends Component<
     // push sum series to data
     const sumData: Series = {
       yAxis: 0,
-      type: 'column',
+      type: 'areaspline',
       name: 'Inventory',
       data:
         currentShowType === SHOW_TYPE.ProductLevelInventory ? productInventories : sellerSumSeries,
@@ -434,6 +432,7 @@ class InventoryInsightsChart extends Component<
             : data.filter((item: any) => item.name !== 'Inventory'),
         plotOptions: {
           series: {
+            trackByArea: true,
             events: {
               legendItemClick:
                 currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
@@ -448,53 +447,46 @@ class InventoryInsightsChart extends Component<
 
                       this.setState({ activePieData: newPieData });
                     },
+              click: (e: any) => {
+                const xAxis = e.point.series.chart.xAxis[0];
+                const plotLineObject = {
+                  value: e.point.x,
+                  color: '#000000',
+                  width: 1,
+                  zIndex: 9999,
+                  id: 'pinnedColumn',
+                };
+                if (!this.state.pinnedPoint) {
+                  xAxis.addPlotLine(plotLineObject);
+                  this.setState({
+                    pinnedPoint: e.point,
+                    defaultPieData: this._getPieDataOfEventPoint(e.point),
+                  });
+                } else if (this.state.pinnedPoint && this.state.pinnedPoint !== e.point) {
+                  xAxis.removePlotLine('pinnedColumn');
+                  xAxis.addPlotLine(plotLineObject);
+                  this.setState({
+                    pinnedPoint: e.point,
+                    defaultPieData: this._getPieDataOfEventPoint(e.point),
+                  });
+                } else if (this.state.pinnedPoint && this.state.pinnedPoint === e.point) {
+                  xAxis.removePlotLine('pinnedColumn');
+                  this.setState({
+                    pinnedPoint: undefined,
+                    defaultPieData: this.state.initialPieData,
+                  });
+                }
+              },
             },
             point: {
               events: {
                 mouseOver: (e: any) => {
-                  this.setState({ activePieData: this._getPieDataOfEventPoint(e.target) });
+                  this.setState({
+                    activePieData: this._getPieDataOfEventPoint(e.target),
+                  });
                 },
                 mouseOut: () => {
                   this.setState({ activePieData: this.state.defaultPieData });
-                },
-                click: (e: any) => {
-                  /**
-                   * Clicking an inventory column will pin the pie chart to it.
-                   * 1. If no column is pinned, pin it.
-                   * 2. If there is a pinned column and another column is clicked,
-                   unpin previous pinned column and pin new column.
-                   * 3. If there is a pinned column and the pinned column is clicked,
-                   * unpin it and return to initial pie chart.
-                   */
-                  const newColor = hexToRgbA(inventorySumColor, 0.2);
-                  const points = e.point.series.points;
-                  if (!this.state.pinnedPoint) {
-                    points.forEach((point: Point) => {
-                      if (point !== e.point) point.update({ color: newColor });
-                    });
-                    this.setState({
-                      pinnedPoint: e.point,
-                      defaultPieData: this._getPieDataOfEventPoint(e.point),
-                    });
-                  } else if (this.state.pinnedPoint && this.state.pinnedPoint !== e.point) {
-                    points.forEach((point: Point) => {
-                      point !== e.point
-                        ? point.update({ color: newColor })
-                        : point.update({ color: inventorySumColor });
-                    });
-                    this.setState({
-                      pinnedPoint: e.point,
-                      defaultPieData: this._getPieDataOfEventPoint(e.point),
-                    });
-                  } else if (this.state.pinnedPoint && this.state.pinnedPoint === e.point) {
-                    points.forEach((point: Point) => {
-                      point.update({ color: inventorySumColor });
-                    });
-                    this.setState({
-                      pinnedPoint: undefined,
-                      defaultPieData: this.state.initialPieData,
-                    });
-                  }
                 },
               },
             },
