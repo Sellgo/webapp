@@ -675,11 +675,11 @@ function ProfitFinderFilterSection(props: Props) {
     filterState.profitability = value;
 
     if (value === 'Profitable') {
-      filterValue.profit.min = 0.0;
+      filterValue.profit.min = 0.01;
       filterValue.profit.max = rangeData.profit.max;
     } else if (value === 'Non-Profitable Products') {
       filterValue.profit.min = rangeData.profit.min;
-      filterValue.profit.max = 0.0;
+      filterValue.profit.max = 0;
     } else {
       filterValue.profit = rangeData.profit;
     }

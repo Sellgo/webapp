@@ -562,7 +562,7 @@ function ProductTrackerFilterSection(props: Props) {
     filterState.profitability = value;
 
     if (value === 'Profitable') {
-      filterValue.avg_profit.min = 0;
+      filterValue.avg_profit.min = 0.01;
       filterValue.avg_profit.max = rangeData.avg_profit.max;
     } else if (value === 'Non-Profitable Products') {
       filterValue.avg_profit.min = rangeData.avg_profit.min;
