@@ -25,6 +25,7 @@
     height: 2.35rem;
 
     .Slider {
+      border: none;
       position: absolute;
       cursor: pointer;
       top: 0;
@@ -49,6 +50,7 @@
       }
 
       i.fas.fa-user-ninja {
+        font-size: 11px;
         width: 25px;
         height: 25px;
         box-shadow: 0 1px 3px #00000029;
