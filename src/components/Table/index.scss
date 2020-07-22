@@ -2,6 +2,8 @@
   &.scrollable {
     overflow-x: auto;
     padding-bottom: 100px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
   }
 
   &.pf-table {
@@ -797,5 +799,9 @@ i.icon.filter::before {
 }
 
 .table-header-scroll::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.scrollable::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
