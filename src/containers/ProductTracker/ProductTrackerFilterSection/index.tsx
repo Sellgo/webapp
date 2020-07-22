@@ -89,8 +89,8 @@ function ProductTrackerFilterSection(props: Props) {
   const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
   useEffect(() => {
     /*
-      For new data in filters 
-      7/23/2020 - amazonChoice
+      For new data in filters , will be remove in future
+      7/23/2020 - amazonChoice, profitability
     */
     if (filterState.amazonChoice === undefined) {
       filterState.amazonChoice = filterInitialData.amazonChoice;
