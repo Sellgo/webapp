@@ -89,9 +89,18 @@ function ProductTrackerFilterSection(props: Props) {
   const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
   useEffect(() => {
     /*
+      For new data in filters 
+      7/23/2020 - amazonChoice
+    */
+    if (filterState.amazonChoice === undefined) {
+      filterState.amazonChoice = filterInitialData.amazonChoice;
+    }
+    if (filterState.profitability === undefined) {
+      filterState.profitability = filterInitialData.profitability;
+    }
+    /*
       Reset filter when changing groups
     */
-
     if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
       setFilterType('');
       resetFilter(true);

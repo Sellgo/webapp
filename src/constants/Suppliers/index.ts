@@ -187,7 +187,6 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
-    console.log('filterData: ', filterData);
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
       ? // show if product's category matched one of filter's categories
         (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
