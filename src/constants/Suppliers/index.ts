@@ -186,7 +186,16 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
 };
 
 export const findFilteredProducts = (products: any, filterData: any) => {
+  const newSupplierDK = _.cloneDeep(supplierDataKeys);
+  // if (filterData.profitability === 'All Products') {
+  //   const index = newSupplierDK.indexOf('profit');
+  //   newSupplierDK.splice(index, 1);
+  // }
   const updatedFilterProducts = _.filter(products, product => {
+    console.log('newSupplierDK: ', newSupplierDK);
+    console.log('asdasd: ', product.profit);
+    console.log('Number: ', parseFloat(product.profit));
+    console.log('Number2: ', parseFloat(product.profit) > 0);
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
       ? // show if product's category matched one of filter's categories
         (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
@@ -201,13 +210,16 @@ export const findFilteredProducts = (products: any, filterData: any) => {
             //show product size tier is matched by one of size tiers
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
           //Product's Min and Max must be valid from filter's min & max
-          supplierDataKeys.every(
+          // (filterData.profitability === 'All Products' && Number(product.profit) === 0)) &&
+          // filterData.profitability !== 'All Products' && Number(product.profit) !== 0 ||
+          newSupplierDK.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
               Number(product[dataKey]) <= Number(filterData[dataKey].max)
           )
       : null;
   });
+  console.log('updatedFilterProducts: ', updatedFilterProducts);
   return updatedFilterProducts;
 };
 

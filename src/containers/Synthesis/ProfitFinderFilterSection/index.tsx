@@ -67,7 +67,8 @@ function ProfitFinderFilterSection(props: Props) {
   const [filterType, setFilterType] = useState('');
   const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
   const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
-  const [hasFilter, setHasFilter] = React.useState(false);
+  const [hasAllFilter, setHasAllFilter] = React.useState(false);
+  const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -152,7 +153,8 @@ function ProfitFinderFilterSection(props: Props) {
       selectAllSize(true);
     }
     filterProducts(filterSearch, filterState);
-    setHasFilter(isFilterUse());
+    setHasAllFilter(isFilterUse());
+    setHasPresetFilter(isPresetFilterUse());
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -673,11 +675,11 @@ function ProfitFinderFilterSection(props: Props) {
     filterState.profitability = value;
 
     if (value === 'Profitable') {
-      filterValue.profit.min = 0;
+      filterValue.profit.min = 0.0;
       filterValue.profit.max = rangeData.profit.max;
     } else if (value === 'Non-Profitable Products') {
       filterValue.profit.min = rangeData.profit.min;
-      filterValue.profit.max = 0;
+      filterValue.profit.max = 0.0;
     } else {
       filterValue.profit = rangeData.profit;
     }
@@ -713,7 +715,8 @@ function ProfitFinderFilterSection(props: Props) {
   };
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
-    setHasFilter(isFilterUse());
+    setHasAllFilter(isFilterUse());
+    setHasPresetFilter(isPresetFilterUse());
     if (isSelectAllCategories) {
       selectAllCategories();
     }
@@ -805,6 +808,10 @@ function ProfitFinderFilterSection(props: Props) {
 
     return false;
   };
+  const isPresetFilterUse = () => {
+    if (filterState.profitability !== 'All Products') return true;
+    return false;
+  };
 
   const renderExportButtons = () => {
     return (
@@ -856,7 +863,7 @@ function ProfitFinderFilterSection(props: Props) {
             labelPosition="left"
             className={
               (filterType === 'all-filter' ? 'active all-filter' : 'all-filter') +
-              (!isFilterUse() && _.isEmpty(filteredProducts) ? ' disabled' : '')
+              (!hasAllFilter && _.isEmpty(filteredProducts) ? ' disabled' : '')
             }
             onClick={() => {
               handleFilterType('all-filter');
@@ -865,7 +872,7 @@ function ProfitFinderFilterSection(props: Props) {
           >
             <Icon className="slider" name="sliders horizontal" />
             <span className="filter-name">All</span>
-            <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
+            <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
           <Button
             basic
@@ -873,7 +880,7 @@ function ProfitFinderFilterSection(props: Props) {
             labelPosition="left"
             className={
               (filterType === 'more-filter' ? 'active more-filter' : 'more-filter') +
-              (!isFilterUse() && _.isEmpty(filteredProducts) ? ' disabled' : '')
+              (!hasPresetFilter && _.isEmpty(filteredProducts) ? ' disabled' : '')
             }
             onClick={() => {
               handleFilterType('more-filter');
@@ -882,7 +889,7 @@ function ProfitFinderFilterSection(props: Props) {
           >
             <Icon className="slider" name="sliders horizontal" />
             <span className="filter-name">More</span>
-            <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
+            <Icon name="filter" className={` ${hasPresetFilter ? 'blue' : 'grey'} `} />
           </Button>
         </div>
 
