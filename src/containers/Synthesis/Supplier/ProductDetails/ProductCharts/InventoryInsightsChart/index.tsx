@@ -413,7 +413,9 @@ class InventoryInsightsChart extends Component<
               ].forEach(series => {
                 const point = tooltipContext.points.find((p: any) => p.series.name === series.name);
                 tooltipString += `<span style="color:${series.color}">●</span> ${series.name}: `;
-                tooltipString += `<b>${point ? Highcharts.numberFormat(point.y, 0) : 0}</b><br>`;
+                tooltipString += `<b>${
+                  point ? Highcharts.numberFormat(point.y, 0) : 'Unknown'
+                }</b><br>`;
               });
 
               return tooltipString;
