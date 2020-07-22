@@ -510,7 +510,6 @@ $link-color: #349af8;
       .ui.checkbox input:checked ~ .box::after,
       .ui.checkbox input:checked ~ label::after {
         background: #000 !important;
-        border-radius: 5px !important;
         color: #fff !important;
       }
     }
