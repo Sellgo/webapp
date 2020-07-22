@@ -3,6 +3,7 @@ import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Boost from 'highcharts/modules/boost';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
+import BrokenAxis from 'highcharts/modules/broken-axis';
 import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
 import { PercentAlign } from '../../utils/highchartExtensions';
@@ -10,6 +11,7 @@ import { PercentAlign } from '../../utils/highchartExtensions';
 // activate modules
 Boost(Highcharts);
 NoDataToDisplay(Highcharts);
+BrokenAxis(Highcharts);
 PercentAlign(Highcharts);
 
 /* 

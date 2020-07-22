@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Chart from '../../../../../../components/Chart/Chart';
 import './index.scss';
 import _ from 'lodash';
-import { MINUTES_IN_A_DAY } from '../../../../../../utils/date';
+import { MINUTES_IN_A_DAY, MILLISECONDS_IN_A_DAY } from '../../../../../../utils/date';
 import { filterPeriods } from '../../../../../../constants/Tracker';
 import Highcharts from 'highcharts';
 
@@ -50,6 +50,7 @@ export interface InventoryInsightsChartState {
   defaultPieData: PieItem[];
   activePieData: PieItem[];
   pinnedPoint?: Highcharts.Point;
+  unpinBtnRef?: any;
   timeSeriesChartOptions: any;
   marketSharePieChartOptions: any;
 }
@@ -75,6 +76,7 @@ const defaultAllData: Series[] = [
 ];
 
 const defaultPinnedPoint: Highcharts.Point | undefined = undefined;
+const defaultUnpinBtnRef: any | undefined = undefined;
 
 const rankColor = '#FD4F1E';
 const inventorySumColor = '#4AD991';
@@ -94,6 +96,7 @@ class InventoryInsightsChart extends Component<
     defaultPieData: defaultPieData,
     activePieData: defaultPieData,
     pinnedPoint: defaultPinnedPoint,
+    unpinBtnRef: defaultUnpinBtnRef,
     timeSeriesChartOptions: {
       chart: {
         zoomType: 'x',
@@ -129,6 +132,8 @@ class InventoryInsightsChart extends Component<
           minPointLength: 10,
         },
         series: {
+          gapSize: MILLISECONDS_IN_A_DAY,
+          gapUnit: 'value',
           animation: false,
           marker: {
             enabled: false,
@@ -450,7 +455,8 @@ class InventoryInsightsChart extends Component<
                       this.setState({ activePieData: newPieData });
                     },
               click: (e: any) => {
-                const xAxis = e.point.series.chart.xAxis[0];
+                const chart = e.point.series.chart;
+                const xAxis = chart.xAxis[0];
                 const plotLineObject = {
                   value: e.point.x,
                   color: '#000000',
@@ -458,8 +464,34 @@ class InventoryInsightsChart extends Component<
                   zIndex: 9999,
                   id: 'pinnedColumn',
                 };
+
+                const showUnpinButton = () => {
+                  const unpinBtnRef = chart.renderer
+                    .button('Unpin', 70, 15)
+                    .attr({ zIndex: 3, id: 'unpinButton' })
+                    .on('click', (e: any) => {
+                      console.log(e);
+                      xAxis.removePlotLine('pinnedColumn');
+                      if (this.state.unpinBtnRef) {
+                        this.state.unpinBtnRef.destroy();
+                      }
+                      this.setState({
+                        pinnedPoint: undefined,
+                        unpinBtnRef: undefined,
+                        defaultPieData: this.state.initialPieData,
+                      });
+                    })
+                    .add();
+
+                  this.setState({
+                    unpinBtnRef: unpinBtnRef,
+                  });
+                };
+
                 if (!this.state.pinnedPoint) {
                   xAxis.addPlotLine(plotLineObject);
+                  if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
+                  showUnpinButton();
                   this.setState({
                     pinnedPoint: e.point,
                     defaultPieData: this._getPieDataOfEventPoint(e.point),
@@ -467,15 +499,11 @@ class InventoryInsightsChart extends Component<
                 } else if (this.state.pinnedPoint && this.state.pinnedPoint !== e.point) {
                   xAxis.removePlotLine('pinnedColumn');
                   xAxis.addPlotLine(plotLineObject);
+                  if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
+                  showUnpinButton();
                   this.setState({
                     pinnedPoint: e.point,
                     defaultPieData: this._getPieDataOfEventPoint(e.point),
-                  });
-                } else if (this.state.pinnedPoint && this.state.pinnedPoint === e.point) {
-                  xAxis.removePlotLine('pinnedColumn');
-                  this.setState({
-                    pinnedPoint: undefined,
-                    defaultPieData: this.state.initialPieData,
                   });
                 }
               },
@@ -485,6 +513,7 @@ class InventoryInsightsChart extends Component<
                 mouseOver: (e: any) => {
                   this.setState({
                     activePieData: this._getPieDataOfEventPoint(e.target),
+                    defaultPieData: this._getPieDataOfEventPoint(e.target),
                   });
                 },
                 mouseOut: () => {

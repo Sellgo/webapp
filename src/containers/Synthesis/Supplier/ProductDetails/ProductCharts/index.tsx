@@ -50,7 +50,10 @@ interface ProductChartsProps {
   isFetchingSellerInventory: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
-  state = { showProductChart: 'chart0', period: DEFAULT_PERIOD };
+  state = {
+    showProductChart: 'chart0',
+    period: DEFAULT_PERIOD,
+  };
   componentDidMount() {
     const {
       product,
@@ -88,17 +91,24 @@ class ProductCharts extends Component<ProductChartsProps> {
   handleProductChartChange = (e: any, showProductChart: any) => this.setState({ showProductChart });
 
   /**
-   * Formats an array of product details data into regularly-intervalled time series data for ingestion by Highcharts.
+   * Formats an array of daily data (list of dicts) into smaller-intervalled data for ingestion by Highcharts.
    * Intervals are dynamically adjusted depending on the period.
-   * @param {string} type the attribute name for the product's detail value.
-   * @param {[any]} data array of product details - objects with attributes 'cdate' and specified by the 'type' param.
-   * @param {number} period the range of the product details data.
+   * @param {string} type the attribute name for the value in the dictionary.
+   * @param {{ [key: string]: any; cdate: any; inventory: any }[]} data array of product details.
+   * objects with attributes 'cdate' and specified by the 'type' param.
+   * @param {number} intervalMilliseconds the range of the product details data.
    * @param {number?} xMin a timestamp (in milliseconds) where any data point before this timestamp is filtered out.
    * @param {number?} xMax a timestamp (in milliseconds) where any data point after this timestamp is filtered out.
    * @returns {[number, number | null][]} an array of length-2 arrays, where the first element is the timestamp
    * in milliseconds and the second element is the value of the product detail (null if no value).
    */
-  formatProductDetail(type: string, data: [any], period: number, xMin?: number, xMax?: number) {
+  formatTimeSeries(
+    type: string,
+    data: { [key: string]: any; cdate: any; inventory: any }[],
+    intervalMilliseconds: number,
+    xMin?: number,
+    xMax?: number
+  ) {
     const tempData: [number, number | null][] = [];
     const formattedData: [number, number | null][] = [];
 
@@ -108,49 +118,19 @@ class ProductCharts extends Component<ProductChartsProps> {
       const time = date.getTime();
       if ((!xMin || time >= xMin) && (!xMax || time <= xMax)) {
         tempData.push([time, Number(data[i][type])]);
+        tempData.push([time + MILLISECONDS_IN_A_DAY, Number(data[i][type])]);
       }
     }
 
-    if (tempData.length > 0) {
-      const now = new Date();
-      now.setUTCHours(now.getUTCHours() - now.getTimezoneOffset() / 60); // adjust to local TZ
-      tempData.push([now.getTime(), Number(data[data.length - 1][type])]);
-    }
-
-    // dynamically adjust frequencies based on period
-    let minutes: number;
-    switch (period) {
-      case 1:
-        minutes = 5;
-        break;
-      case 7:
-        minutes = 60;
-        break;
-      case 30:
-        minutes = 240;
-        break;
-      case 90:
-        minutes = 720;
-        break;
-      case 365:
-        minutes = 1440;
-        break;
-      default:
-        minutes = 60;
-    }
-    const timeInterval = minutes * MILLISECONDS_IN_A_MINUTE;
-
     // create data points at regular intervals, forward-filled.
-    for (let i = 1; i < tempData.length; i++) {
+    for (let i = 1; i < tempData.length; i += 2) {
       const currentPoint = tempData[i - 1];
       const nextPoint = tempData[i];
       let tempPoint = _.clone(currentPoint);
-
-      // forward-fill
       if (tempPoint && nextPoint) {
         while (tempPoint[0] < nextPoint[0]) {
           formattedData.push([tempPoint[0], tempPoint[1]]);
-          tempPoint = [tempPoint[0] + timeInterval, tempPoint[1]];
+          tempPoint = [tempPoint[0] + intervalMilliseconds, tempPoint[1]];
         }
       }
     }
@@ -158,19 +138,54 @@ class ProductCharts extends Component<ProductChartsProps> {
     return formattedData;
   }
 
-  formatSellerInventories(data: any) {
-    const formattedData: any = {};
+  /** Formats an array of seller inventories daily data with @see formatTimeSeries */
+  formatSellerInventories(
+    type: string,
+    data: any,
+    intervalMilliseconds: number,
+    xMin?: number,
+    xMax?: number
+  ) {
+    const tempData: {
+      [merchantId: string]: {
+        name: string;
+        data: { cdate: any; inventory: any }[];
+      };
+    } = {};
+    const formattedData: {
+      [merchantId: string]: {
+        name: string;
+        data: [number, number | null][];
+      };
+    } = {};
+
     data.forEach((item: any) => {
-      const dataPoint = [new Date(item.cdate).getTime(), Number(item.inventory)];
-      if (item.merchant_id in formattedData) {
-        formattedData[item.merchant_id].data.push(dataPoint);
+      const dataPoint: { cdate: any; inventory: any } = {
+        cdate: item.cdate,
+        inventory: item.inventory,
+      };
+      if (item.merchant_id in tempData) {
+        tempData[item.merchant_id].data.push(dataPoint);
       } else {
-        formattedData[item.merchant_id] = {
+        tempData[item.merchant_id] = {
           name: item.merchant_name,
           data: [dataPoint],
         };
       }
     });
+
+    for (const merchantId in tempData) {
+      const newData = this.formatTimeSeries(
+        type,
+        tempData[merchantId].data,
+        intervalMilliseconds,
+        xMin,
+        xMax
+      );
+      const newDict = { ...tempData[merchantId], data: newData };
+      formattedData[merchantId] = newDict;
+    }
+
     return formattedData;
   }
 
@@ -184,6 +199,17 @@ class ProductCharts extends Component<ProductChartsProps> {
     const start: any = new Date(end.getTime() - MILLISECONDS_IN_A_DAY * (period - 1));
     start.setHours(0, 0, 0, 0);
     return [start.getTime(), end.getTime()];
+  };
+
+  /** Convert period (in days) to the interval (in milliseconds) to be used in the time series charts. */
+  convertPeriodToIntervalMs = (period: number) => {
+    let minutes = 60;
+    if (period === 1) minutes = 5;
+    else if (period === 7) minutes = 60;
+    else if (period === 30) minutes = 240;
+    else if (period === 90) minutes = 720;
+    else if (period === 365) minutes = 1440;
+    return minutes * MILLISECONDS_IN_A_MINUTE;
   };
 
   renderProductCharts = () => {
@@ -201,23 +227,30 @@ class ProductCharts extends Component<ProductChartsProps> {
     if (period !== 1) {
       [xMin, xMax] = this.getPeriodStartAndEnd(period);
     }
+    const intervalMs = this.convertPeriodToIntervalMs(period);
 
     switch (this.state.showProductChart) {
       case 'chart0': {
-        const formattedRanks = this.formatProductDetail(
+        const formattedRanks = this.formatTimeSeries(
           'rank',
           productDetailRank,
-          period,
+          intervalMs,
           xMin,
           xMax
         );
+        console.log(productDetailInventory);
+        console.log(productDetailSellerInventory);
         const formattedSellerInventories: any = this.formatSellerInventories(
-          productDetailSellerInventory
+          'inventory',
+          productDetailSellerInventory,
+          intervalMs,
+          xMin,
+          xMax
         );
-        const formattedProductInventories = this.formatProductDetail(
+        const formattedProductInventories = this.formatTimeSeries(
           'inventory',
           productDetailInventory,
-          period,
+          intervalMs,
           xMin,
           xMax
         );
@@ -235,10 +268,10 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart1': {
-        const formattedPrices = this.formatProductDetail(
+        const formattedPrices = this.formatTimeSeries(
           'price',
           productDetailPrice,
-          period,
+          intervalMs,
           xMin,
           xMax
         );
@@ -253,10 +286,10 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart2': {
-        const formattedRatings = this.formatProductDetail(
+        const formattedRatings = this.formatTimeSeries(
           'rating',
           productDetailRating,
-          period,
+          intervalMs,
           xMin,
           xMax
         );
@@ -271,10 +304,10 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart3': {
-        const formattedReviews = this.formatProductDetail(
+        const formattedReviews = this.formatTimeSeries(
           'review_count',
           productDetailReview,
-          period,
+          intervalMs,
           xMin,
           xMax
         );
