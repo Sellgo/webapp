@@ -337,12 +337,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderSupplierRate,
     },
     {
-      label: 'Leads Tracking',
-      dataKey: 'leads_tracking',
-      show: this.props.sellerSubscription.subscription_id === 3 ? true : false,
-      render: this.renderLeadsTracker,
-    },
-    {
       label: 'Completed',
       dataKey: 'udate',
       sortable: true,
@@ -355,6 +349,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       dataKey: 'action',
       show: true,
       render: this.renderActions,
+    },
+    {
+      label: 'Leads Tracking',
+      dataKey: 'leads_tracking',
+      show: this.props.sellerSubscription.subscription_id === 3 ? true : false,
+      render: this.renderLeadsTracker,
     },
     {
       label: 'Other',

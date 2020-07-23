@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import get from 'lodash/get';
 import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { setSupplierTableColumns } from '../../../actions/Suppliers';
 import { Column } from '../../../components/Table';
+import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 interface SelectColumnsProps {
   columns: Column[];
   setColumn: (column: {}) => void;
+  subscriptionType: string;
 }
 class SelectColumns extends Component<SelectColumnsProps> {
   handleItemClick = (column: Column) => {
@@ -31,8 +34,16 @@ class SelectColumns extends Component<SelectColumnsProps> {
     localStorage.setItem('suppliersTableColumns', JSON.stringify(changeColumn));
   };
   render() {
-    const { columns } = this.props;
+    const { columns, subscriptionType } = this.props;
     const isAllChecked = columns.every(e => e.show || false);
+
+    const filterOptions = columns.filter(column => {
+      if (!isPlanEnterprise(subscriptionType)) {
+        return column.dataKey !== 'leads_tracking';
+      }
+      return column;
+    });
+
     return (
       <Dropdown
         selection
@@ -60,7 +71,7 @@ class SelectColumns extends Component<SelectColumnsProps> {
               this.handleAllClick();
             },
           },
-          ...columns.map((column: Column) => ({
+          ...filterOptions.map((column: Column) => ({
             text: (
               <div className="ui checkbox">
                 <input
@@ -85,8 +96,12 @@ class SelectColumns extends Component<SelectColumnsProps> {
   }
 }
 
+const mapStateToProps = (state: {}) => ({
+  subscriptionType: get(state, 'subscription.subscriptionType'),
+});
+
 const mapDispatchToProps = {
   setColumn: (column: {}) => setSupplierTableColumns(column),
 };
 
-export default connect(null, mapDispatchToProps)(SelectColumns);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectColumns);
