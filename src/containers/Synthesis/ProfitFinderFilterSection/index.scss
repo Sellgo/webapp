@@ -1,6 +1,6 @@
 .filter-section {
   position: sticky;
-  top: -37px;
+  top: -38px;
   background: #f8faff;
   z-index: 4;
   transition-property: top;
@@ -273,6 +273,30 @@
 
     &.scroll-top.sticky-chart-active {
       top: 476px;
+    }
+  }
+}
+
+@media (max-width: 1680px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 310px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 354px;
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 310px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 354px;
     }
   }
 }

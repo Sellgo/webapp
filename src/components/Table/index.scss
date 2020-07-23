@@ -623,7 +623,63 @@ i.icon.filter::before {
   }
 }
 
-@media (max-width: 1536px) {
+@media (max-width: 1680px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 260px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 260px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 340px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 384px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 260px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 260px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 340px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 384px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1550px) {
   .large-column {
     min-width: 190px !important;
   }
