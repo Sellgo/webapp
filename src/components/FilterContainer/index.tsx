@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { SupplierFilter, FilterState } from '../../interfaces/Filters';
 import { Range } from '../../interfaces/Generic';
 import AllFilter from './AllFilter';
-import PresetFilter from './PresetFillter';
+import PresetFilter from './PresetFilter';
 
 interface Props {
   filterType: string;
