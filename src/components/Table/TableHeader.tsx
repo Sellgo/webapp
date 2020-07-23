@@ -348,7 +348,7 @@ const TableHeader = (props: TableHeaderProps) => {
         )}
         <tr className="table-scroll-divider" />
         {rest.type !== 'trackerTable' && (
-          <Table.Row>
+          <Table.Row className={'pf-middle-scroll'}>
             {scrollRows.map((cell: any, cellIndex: any) => {
               const headerCellProps: any = {};
               if (cell.side === 'center') {
