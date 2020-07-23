@@ -56,6 +56,7 @@
       width: 480px;
 
       input {
+        font-family: 'Work sans', sans-serif !important;
         border: 1px solid #98aeca !important;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
@@ -122,10 +123,6 @@
           border-top: 20px solid #f8faff !important;
           background: #f8faff;
           border-radius: unset;
-
-          &:hover {
-            background: #e6e6e6;
-          }
 
           table.header-inner-table {
             border-top: 1px solid #bec0c3;
@@ -262,7 +259,7 @@ i.icon.filter::before {
 
 .th-label {
   white-space: pre;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .ui.sortable.table thead th.sorted::after {
