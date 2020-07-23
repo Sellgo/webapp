@@ -5,7 +5,7 @@ import { ProductTrackerFilterInterface, ProductTrackerFilterState } from '../../
 import { setIsScroll } from '../../actions/Suppliers';
 import _ from 'lodash';
 
-interface AllFilterProps {
+interface PresetFilterProps {
   applyFilter: (isPreset?: boolean) => void;
   filterData: ProductTrackerFilterInterface;
   initialFilterState: ProductTrackerFilterState;
@@ -14,7 +14,7 @@ interface AllFilterProps {
   toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
 }
 
-const AllFilter = (props: AllFilterProps) => {
+const PresetFilter = (props: PresetFilterProps) => {
   const {
     applyFilter,
     filterData,
@@ -98,4 +98,4 @@ const mapDispatchToProps = {
   setIsScroll: (value: boolean) => setIsScroll(value),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(PresetFilter);
