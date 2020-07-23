@@ -19,7 +19,7 @@ import FilterContainer from '../../../components/FilterContainer';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
-import { isSubscriptionFree, isPlanEnterprise } from '../../../utils/subscriptions';
+import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -36,6 +36,7 @@ interface Props {
   subscriptionType: string;
   isScrollSelector: boolean;
   scrollTop: boolean;
+  sellerSubscription: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -48,6 +49,7 @@ function ProfitFinderFilterSection(props: Props) {
     setPageNumber,
     subscriptionType,
     filteredProducts,
+    sellerSubscription,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -793,7 +795,9 @@ function ProfitFinderFilterSection(props: Props) {
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
         <span>
-          <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
+          <p className={`${!(sellerSubscription.subscription_id === 3) && 'hidden'}`}>
+            Leads Tracking
+          </p>
           <LeadsTrackerToggle
             setLeadsTracker={props.setLeadsTracker}
             seller_id={props.supplierDetails.seller_id}
@@ -843,6 +847,7 @@ const mapStateToProps = (state: {}) => ({
   subscriptionType: get(state, 'subscription.subscriptionType'),
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {

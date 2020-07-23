@@ -1,21 +1,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { isPlanEnterprise } from '../../utils/subscriptions';
 import './index.scss';
 
 interface Props {
-  subscriptionType: string;
+  sellerSubscription: any;
 }
 
 const LeadsTrackerToggle = (props: any | Props) => {
-  const { setLeadsTracker, seller_id, supplier_id, isToggle, subscriptionType } = props;
+  const { setLeadsTracker, seller_id, supplier_id, isToggle, sellerSubscription } = props;
+  const isEnterprise = !(sellerSubscription.subscription_id === 3) && 'hidden';
 
   return (
-    <div
-      className={`ToggleSwitch ToggleSwitch__rounded ${!isPlanEnterprise(subscriptionType) &&
-        'hidden'}`}
-    >
+    <div className={`ToggleSwitch ToggleSwitch__rounded ${isEnterprise}`}>
       <div className="ToggleSwitch__wrapper">
         <div
           className={`Slider ${isToggle ? 'active' : ''}`}
@@ -29,7 +26,7 @@ const LeadsTrackerToggle = (props: any | Props) => {
 };
 
 const mapStateToProps = (state: {}) => ({
-  subscriptionType: get(state, 'subscription.subscriptionType'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 export default connect(mapStateToProps)(LeadsTrackerToggle);
