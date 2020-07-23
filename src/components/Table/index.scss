@@ -21,7 +21,7 @@
     padding-top: 20px !important;
     padding-bottom: 37px !important;
     position: sticky;
-    top: -70px;
+    top: -100px;
     z-index: 5;
     background: #f8faff;
     transition-property: top;
@@ -109,7 +109,7 @@
           &:first-child {
             th {
               position: sticky;
-              top: 6px;
+              top: 0;
               z-index: 3;
               transition-property: top;
               transition-duration: 1s;
@@ -561,7 +561,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 650px;
+            top: 640px;
           }
         }
       }
@@ -577,7 +577,7 @@ i.icon.filter::before {
       }
 
       &.scroll-top.sticky-chart-active {
-        top: 385px;
+        top: 378px;
       }
     }
 
@@ -589,7 +589,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 510px;
+            top: 500px;
           }
         }
       }
@@ -625,7 +625,63 @@ i.icon.filter::before {
   }
 }
 
-@media (max-width: 1536px) {
+@media (max-width: 1680px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 260px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 260px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 340px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 384px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 260px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 260px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 340px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 384px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1550px) {
   .large-column {
     min-width: 190px !important;
   }
