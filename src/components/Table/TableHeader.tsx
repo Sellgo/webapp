@@ -224,6 +224,39 @@ const TableHeader = (props: TableHeaderProps) => {
   const onScrollTable = (evt: any) => {
     const table = document.querySelector('.generic-table');
     if (table) {
+      // const pinfo = document.querySelector(".pt-product-info");
+      const rows = document.getElementsByClassName('pt-product-info');
+      const ptrActions = document.getElementsByClassName('pt-actions');
+      if (rows.length && evt.target.scrollLeft > 0) {
+        for (let i = 0; i <= rows.length; i++) {
+          const pinfo = rows.item(i);
+          const ptAction = ptrActions.item(i);
+          if (pinfo) {
+            if (!pinfo.className.includes('ptr-left-shadow')) {
+              pinfo.className = `${pinfo.className} ptr-left-shadow`;
+            }
+          }
+
+          if (ptAction) {
+            if (!ptAction.className.includes('ptr-left-shadow')) {
+              ptAction.className = `${ptAction.className} ptr-right-shadow`;
+            }
+          }
+        }
+        if (evt.target.scrollLeft <= 30) {
+          for (let i = 0; i <= rows.length; i++) {
+            const pinfo = rows.item(i);
+            const ptAction = ptrActions.item(i);
+
+            if (pinfo) {
+              pinfo.className = pinfo.className.replace('ptr-left-shadow', ' ');
+            }
+            if (ptAction) {
+              ptAction.className = ptAction.className.replace('ptr-right-shadow', ' ');
+            }
+          }
+        }
+      }
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
