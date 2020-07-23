@@ -35,7 +35,6 @@ class SelectColumns extends Component<SelectColumnsProps> {
   };
   render() {
     const { columns, subscriptionType } = this.props;
-    const isAllChecked = columns.every(e => e.show || false);
 
     const filterOptions = columns.filter(column => {
       if (!isPlanEnterprise(subscriptionType)) {
@@ -43,6 +42,8 @@ class SelectColumns extends Component<SelectColumnsProps> {
       }
       return column;
     });
+
+    const isAllChecked = filterOptions.every(e => e.show || false);
 
     return (
       <Dropdown
