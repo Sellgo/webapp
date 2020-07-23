@@ -828,7 +828,7 @@ function ProfitFinderFilterSection(props: Props) {
         content={
           <List divided>
             <List.Item disabled={_.isEmpty(supplierDetails.report_url_csv)}>
-              <a href={supplierDetails.report_url}>
+              <a href={supplierDetails.report_url_csv}>
                 <Image src={csvIcon} wrapped={true} />
                 <span>{`.CSV`}</span>
               </a>
