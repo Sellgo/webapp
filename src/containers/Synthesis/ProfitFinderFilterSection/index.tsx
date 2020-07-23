@@ -793,7 +793,7 @@ function ProfitFinderFilterSection(props: Props) {
           <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
         </Button>
         <span>
-          <p className={`${isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
+          <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
           <LeadsTrackerToggle
             setLeadsTracker={props.setLeadsTracker}
             seller_id={props.supplierDetails.seller_id}
