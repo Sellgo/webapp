@@ -22,6 +22,10 @@
           width: 106px;
         }
 
+        &.more-btn {
+          width: 115px;
+        }
+
         &--period {
           width: 124px;
         }
@@ -111,16 +115,6 @@
         }
       }
     }
-  }
-
-  .ui.button:nth-child(1) {
-    padding: 0 !important;
-    width: 107px;
-  }
-
-  .ui.button:nth-child(2) span {
-    margin-left: 14px;
-    margin-right: 3px;
   }
 
   .circular.label {
