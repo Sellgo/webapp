@@ -42,11 +42,20 @@ const PROD_ANALYTICS = {
   fullStoryOrgId: 'Q36Y3',
 };
 
+const DEV_MWS = {
+  DEVELOPER_ID: '0138-2430-7717', // Sellgo
+};
+
+const PROD_MWS = {
+  DEVELOPER_ID: '4294-2444-1812', // Denverton
+};
+
 const prod = {
   ...PROD_AUTH_CONFIG,
   ...PROD_URLS,
   ...PROD_KEYS,
   ...PROD_ANALYTICS,
+  ...PROD_MWS,
   callbackUrl: 'https://app.sellgo.com/callback',
 };
 
@@ -55,6 +64,7 @@ const dev = {
   ...DEV_URLS,
   ...DEV_KEYS,
   ...DEV_ANALYTICS,
+  ...DEV_MWS,
   callbackUrl: 'https://app.sellgo-dev.com/callback',
 };
 
@@ -63,6 +73,7 @@ const local = {
   ...DEV_URLS,
   ...DEV_KEYS,
   ...DEV_ANALYTICS,
+  ...DEV_MWS,
   callbackUrl: 'http://localhost:3000/callback',
 };
 
