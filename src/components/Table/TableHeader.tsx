@@ -309,7 +309,11 @@ const TableHeader = (props: TableHeaderProps) => {
                 headerCellProps.className = 'middle-header table-header-scroll';
                 headerCellProps.onScroll = onScroll;
                 if (!cell.rows.length) {
-                  headerCellProps = { ...headerCellProps, colSpan: columns.length - 3 };
+                  headerCellProps = {
+                    ...headerCellProps,
+                    colSpan: columns.length - 3,
+                    style: { background: '#fff' },
+                  };
                 }
               }
               if (cell.side === 'right') {
@@ -327,7 +331,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
                   <table className="header-inner-table">
                     <thead className="inner-tbody">
-                      <Table.Row style={!cell.rows.length ? { height: '46px' } : {}}>
+                      <Table.Row style={!cell.rows.length ? { height: '47px' } : {}}>
                         {cell.rows.map((column: any, index: any) => {
                           return (
                             <TableHeaderCell
