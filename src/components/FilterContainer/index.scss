@@ -277,6 +277,68 @@
       margin-bottom: 10px;
     }
   }
+
+  .presets-filter-content-wrapper {
+    &__header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+
+      &__filter-name {
+        font-weight: 600;
+        color: #3b4557;
+        font-size: 16px;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      &__preset-reset {
+        padding: 0 10px;
+
+        p {
+          cursor: pointer;
+          color: #349af8;
+          font-size: 12px;
+          display: contents;
+        }
+      }
+    }
+
+    &__content {
+      &__filter-name {
+        font-weight: 600;
+        color: #3b4557;
+        font-size: 16px;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px;
+    }
+  }
+}
+
+.ui.modal.transition.visible.active.FilterContainer__presets {
+  height: 500px;
+  border-radius: 15px;
+  padding: 40px 21px 57px 31px;
+
+  .content {
+    padding: 0;
+    height: 100%;
+    overflow: auto;
+  }
+
+  i.fas.fa-times {
+    font-size: 15px;
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    color: #98aeca;
+    cursor: pointer;
+  }
 }
 
 .ui.modal.transition.visible.active.FilterContainer__show-filter {
@@ -474,6 +536,16 @@
 
   .ui.modal.transition.visible.active.FilterContainer__show-more {
     width: 823px;
+    height: 479px;
+
+    .ui.checkbox {
+      max-width: 295px;
+      margin-right: 20px;
+    }
+  }
+
+  .ui.modal.transition.visible.active.FilterContainer__presets {
+    width: 500px;
     height: 479px;
 
     .ui.checkbox {

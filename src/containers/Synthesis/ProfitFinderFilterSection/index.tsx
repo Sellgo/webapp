@@ -10,11 +10,13 @@ import { supplierProductsSelector } from '../../../selectors/Supplier';
 import {
   filterSupplierProducts,
   setSupplierPageNumber,
+  setLeadsTracker,
   setIsScroll,
 } from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
+import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
@@ -29,10 +31,12 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  setLeadsTracker: (sellerId: number, supplierId: number) => void;
   setIsScroll: (value: boolean) => void;
   subscriptionType: string;
   isScrollSelector: boolean;
   scrollTop: boolean;
+  sellerSubscription: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -45,6 +49,7 @@ function ProfitFinderFilterSection(props: Props) {
     setPageNumber,
     subscriptionType,
     filteredProducts,
+    sellerSubscription,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -67,7 +72,8 @@ function ProfitFinderFilterSection(props: Props) {
   const [filterType, setFilterType] = useState('');
   const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
   const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
-  const [hasFilter, setHasFilter] = React.useState(false);
+  const [hasAllFilter, setHasAllFilter] = React.useState(false);
+  const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -83,6 +89,7 @@ function ProfitFinderFilterSection(props: Props) {
       'Over oversize',
       'Others',
     ],
+    profitability: 'All Products',
     removeNegative: [],
     price: filteredRanges.price,
     profit: filteredRanges.profit,
@@ -151,7 +158,8 @@ function ProfitFinderFilterSection(props: Props) {
       selectAllSize(true);
     }
     filterProducts(filterSearch, filterState);
-    setHasFilter(isFilterUse());
+    setHasAllFilter(isFilterUse());
+    setHasPresetFilter(isPresetFilterUse());
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -476,10 +484,36 @@ function ProfitFinderFilterSection(props: Props) {
         filterRange: filterState.rank,
       },
     ],
+    presets: [
+      {
+        label: 'Profitability',
+        dataKey: 'profitability-preset',
+        checkedValue: 'All Products',
+        radio: true,
+        data: [
+          {
+            label: 'All Products',
+            dataKey: 'all-products',
+            checked: true,
+          },
+          {
+            label: 'Profitable',
+            dataKey: 'profitability',
+            checked: false,
+          },
+          {
+            label: 'Non-Profitable Products',
+            dataKey: 'non-profitable-products',
+            checked: false,
+          },
+        ],
+      },
+    ],
   };
 
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
+  const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
 
   const toggleSizeTierFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
@@ -536,7 +570,6 @@ function ProfitFinderFilterSection(props: Props) {
     });
     setAllFilter(allData);
   };
-
   const selectAllCategories = (firstLoad?: boolean) => {
     if (!firstLoad) {
       localStorage.setItem('filterSelectAllCategories', JSON.stringify(true));
@@ -635,12 +668,68 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
+  const setRadioFilter = (filterType: string, value: string) => {
+    resetSingleFilter('profit');
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === filterType) {
+        filter.checkedValue = value;
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = value;
 
-  const applyFilter = () => {
+    if (value === 'Profitable') {
+      filterValue.profit.min = 0.01;
+      filterValue.profit.max = rangeData.profit.max;
+    } else if (value === 'Non-Profitable Products') {
+      filterValue.profit.min = rangeData.profit.min;
+      filterValue.profit.max = 0;
+    } else {
+      filterValue.profit = rangeData.profit;
+    }
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+
+  const resetProfitabilityPreset = (preset?: true) => {
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === 'profitability-preset') {
+        filter.checkedValue = 'profitability';
+        _.map(filter.data, dk => {
+          if (filter.dataKey === 'profitability') {
+            dk.checked = true;
+          }
+          return dk;
+        });
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = 'All Products';
+    if (!preset) {
+      filterValue.profit = productRanges.profit;
+    }
+
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+  const resetPreset = () => {
+    resetProfitabilityPreset();
+    applyFilter(true);
+  };
+  const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
-    setHasFilter(isFilterUse());
+    setHasAllFilter(isFilterUse());
+    setHasPresetFilter(isPresetFilterUse());
     if (isSelectAllCategories) {
       selectAllCategories();
+    }
+    if (
+      !isPreset &&
+      JSON.stringify(initialFilterState.profit) !== JSON.stringify(filterState.profit)
+    ) {
+      resetProfitabilityPreset(!isPreset);
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
@@ -724,6 +813,10 @@ function ProfitFinderFilterSection(props: Props) {
 
     return false;
   };
+  const isPresetFilterUse = () => {
+    if (filterState.profitability !== 'All Products') return true;
+    return false;
+  };
 
   const renderExportButtons = () => {
     return (
@@ -765,33 +858,77 @@ function ProfitFinderFilterSection(props: Props) {
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+  const leadsStatus =
+    props.supplierDetails.leads_tracker_status === null ||
+    props.supplierDetails.leads_tracker_status === 'inactive';
+  const isToggle = leadsStatus ? false : true;
+
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
-        <Button
-          basic
-          icon
-          labelPosition="left"
-          className={
-            (filterType === 'all-filter' ? 'active all-filter' : 'all-filter') +
-            (!isFilterUse() && _.isEmpty(filteredProducts) ? ' disabled' : '')
-          }
-          onClick={() => {
-            handleFilterType('all-filter');
-            setFilterModalOpen(true);
-          }}
-        >
-          <Icon className="slider" name="sliders horizontal" />
-          <span className="filter-name">All</span>
-          <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
-        </Button>
+        <div className="filter-header__options">
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={
+              (filterType === 'all-filter' ? 'active all-filter' : 'all-filter') +
+              (!hasAllFilter && _.isEmpty(filteredProducts) ? ' disabled' : '')
+            }
+            onClick={() => {
+              handleFilterType('all-filter');
+              setFilterModalOpen(true);
+            }}
+          >
+            <Icon className="slider" name="sliders horizontal" />
+            <span className="filter-name">All</span>
+            <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
+          </Button>
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={
+              (filterType === 'more-filter' ? 'active more-filter' : 'more-filter') +
+              (!hasPresetFilter && _.isEmpty(filteredProducts) ? ' disabled' : '')
+            }
+            onClick={() => {
+              handleFilterType('more-filter');
+              setFilterModalOpen(true);
+            }}
+          >
+            <Icon className="slider" name="sliders horizontal" />
+            <span className="filter-name">More</span>
+            <Icon name="filter" className={` ${hasPresetFilter ? 'blue' : 'grey'} `} />
+          </Button>
+        </div>
 
-        {renderExportButtons()}
+        <div className="leads-export-wrapper">
+          <p className={`${!(sellerSubscription.subscription_id === 3) && 'hidden'}`}>
+            Leads Tracking
+          </p>
+          <LeadsTrackerToggle
+            setLeadsTracker={props.setLeadsTracker}
+            seller_id={props.supplierDetails.seller_id}
+            supplier_id={props.supplierDetails.supplier_id}
+            isToggle={isToggle}
+          />
+          {renderExportButtons()}
+        </div>
       </div>
       <Modal
-        className="FilterContainer__show-filter"
+        className={
+          filterType === 'all-filter'
+            ? `FilterContainer__show-filter`
+            : filterType === 'more-filter'
+            ? `FilterContainer__presets`
+            : ''
+        }
         open={isFilterModalOpen}
-        onClose={() => setFilterModalOpen(!isFilterModalOpen)}
+        onClose={() => {
+          setFilterModalOpen(!isFilterModalOpen);
+          setFilterType('');
+        }}
       >
         <i className="fas fa-times" onClick={() => setFilterModalOpen(!isFilterModalOpen)} />
         <Modal.Content>
@@ -811,6 +948,8 @@ function ProfitFinderFilterSection(props: Props) {
             toggleNegative={toggleNegative}
             toggleSelectAllSize={toggleSelectAllSize}
             isSelectAllSize={isSelectAllSize}
+            setRadioFilter={setRadioFilter}
+            resetPreset={resetPreset}
           />
         </Modal.Content>
       </Modal>
@@ -828,11 +967,13 @@ const mapStateToProps = (state: {}) => ({
   subscriptionType: get(state, 'subscription.subscriptionType'),
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setIsScroll: (value: boolean) => setIsScroll(value),
 };
 

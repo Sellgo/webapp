@@ -603,11 +603,21 @@ $new_black: #3b4557;
       .fingerprint-track {
         cursor: pointer;
         width: 15px !important;
+
+        &.disabled {
+          pointer-events: none;
+          opacity: 0.3;
+        }
       }
 
       .fingerprint-untrack {
         cursor: pointer;
         width: 15px !important;
+
+        &.disabled {
+          pointer-events: none;
+          opacity: 0.3;
+        }
       }
     }
   }
