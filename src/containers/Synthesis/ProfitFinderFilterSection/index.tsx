@@ -649,6 +649,7 @@ function ProfitFinderFilterSection(props: Props) {
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
+    setFilterModalOpen(false);
   };
 
   const resetFilter = () => {
@@ -675,6 +676,7 @@ function ProfitFinderFilterSection(props: Props) {
       setFilterRanges(filterRanges);
     });
     setFilterState(data);
+    setFilterModalOpen(false);
   };
 
   const handleFilterType = (type: string) => {

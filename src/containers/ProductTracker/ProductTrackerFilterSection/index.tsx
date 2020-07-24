@@ -377,6 +377,7 @@ function ProductTrackerFilterSection(props: Props) {
     setHasFilter(isFilterUse());
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    setFilterType('');
   };
 
   const resetFilter = (fromPeriod?: boolean) => {
@@ -428,6 +429,7 @@ function ProductTrackerFilterSection(props: Props) {
       setFilterRanges(ranges);
     });
     setFilterState(data);
+    setFilterType('');
   };
 
   const handleFilterType = (type: string) => {
