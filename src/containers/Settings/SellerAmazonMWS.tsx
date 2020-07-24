@@ -4,6 +4,7 @@ import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
 import { isSubscriptionFree } from '../../utils/subscriptions';
 import { connect } from 'react-redux';
+import { AppConfig } from '../../config';
 
 const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
   return { key, text: name, value: id, disabled };
@@ -125,10 +126,8 @@ const SellerAmazonMWS = (props: any) => {
   };
 
   const showMeHowUrl = marketplaceLocal.id
-    ? `https://sellercentral.${
-        marketplaceLocal.link
-      }/gp/mws/registration/register.html?signInPageDisplayed=1&developerName=Sellgo\
-&devMWSAccountId=${'4294-2444-1812'}`
+    ? `https://sellercentral.${marketplaceLocal.link}/gp/mws/registration/register.html?signInPageDisplayed=1\
+&developerName=Sellgo&devMWSAccountId=${AppConfig.DEVELOPER_ID}`
     : '';
 
   const isHashMWS = () => {

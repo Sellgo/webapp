@@ -129,6 +129,25 @@ export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (disp
     });
 };
 
+export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
+  dispatch: any,
+  getState: () => any
+) => {
+  const existingSupplier = suppliersByIdSelector(getState())[supplierId];
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerId}/suppliers/${supplierId}/leads-tracker`
+  )
+    .then(json => {
+      dispatch(
+        updateSupplier({ ...existingSupplier, ...{ leads_tracker_status: json.data.status } })
+      );
+      dispatch(fetchSupplierDetails(supplierId));
+    })
+    .catch(() => {
+      // display error
+    });
+};
+
 export const supplierProgress = () => (dispatch: any) => {
   const sellerID = sellerIDSelector();
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/quota-meter`)

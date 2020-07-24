@@ -10,11 +10,13 @@ import { supplierProductsSelector } from '../../../selectors/Supplier';
 import {
   filterSupplierProducts,
   setSupplierPageNumber,
+  setLeadsTracker,
   setIsScroll,
 } from '../../../actions/Suppliers';
 import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
+import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
@@ -29,10 +31,12 @@ interface Props {
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
+  setLeadsTracker: (sellerId: number, supplierId: number) => void;
   setIsScroll: (value: boolean) => void;
   subscriptionType: string;
   isScrollSelector: boolean;
   scrollTop: boolean;
+  sellerSubscription: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -45,6 +49,7 @@ function ProfitFinderFilterSection(props: Props) {
     setPageNumber,
     subscriptionType,
     filteredProducts,
+    sellerSubscription,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -853,6 +858,11 @@ function ProfitFinderFilterSection(props: Props) {
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = props.stickyChartSelector ? 'sticky-chart-active' : '';
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+  const leadsStatus =
+    props.supplierDetails.leads_tracker_status === null ||
+    props.supplierDetails.leads_tracker_status === 'inactive';
+  const isToggle = leadsStatus ? false : true;
+
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
@@ -893,7 +903,18 @@ function ProfitFinderFilterSection(props: Props) {
           </Button>
         </div>
 
-        {renderExportButtons()}
+        <div className="leads-export-wrapper">
+          <p className={`${!(sellerSubscription.subscription_id === 3) && 'hidden'}`}>
+            Leads Tracking
+          </p>
+          <LeadsTrackerToggle
+            setLeadsTracker={props.setLeadsTracker}
+            seller_id={props.supplierDetails.seller_id}
+            supplier_id={props.supplierDetails.supplier_id}
+            isToggle={isToggle}
+          />
+          {renderExportButtons()}
+        </div>
       </div>
       <Modal
         className={
@@ -946,11 +967,13 @@ const mapStateToProps = (state: {}) => ({
   subscriptionType: get(state, 'subscription.subscriptionType'),
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setIsScroll: (value: boolean) => setIsScroll(value),
 };
 

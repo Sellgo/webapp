@@ -70,6 +70,7 @@ interface ProductsTableState {
   columnFilterData: any;
   ColumnFilterBox: boolean;
   columns: Column[];
+  updateTracking: boolean;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -81,6 +82,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     columnFilterData: columnFilter,
     ColumnFilterBox: false,
     columns: [],
+    updateTracking: false,
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -179,29 +181,35 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
+    const { updateTracking } = this.state;
     return (
       <DetailButtons
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
-        onTrack={() => {
-          if (row.tracking_status !== null) {
-            updateProductTrackingStatus(
-              row.tracking_status === 'active' ? 'inactive' : 'active',
-              undefined,
-              row.product_track_id,
-              undefined,
-              'supplier',
-              supplierID
-            );
-          } else {
-            updateProductTrackingStatus(
-              'active',
-              row.product_id,
-              undefined,
-              undefined,
-              'supplier',
-              supplierID
-            );
+        onTrack={async () => {
+          if (!updateTracking) {
+            await this.setState({ updateTracking: true });
+            if (row.tracking_status !== null) {
+              await updateProductTrackingStatus(
+                row.tracking_status === 'active' ? 'inactive' : 'active',
+                undefined,
+                row.product_track_id,
+                undefined,
+                'supplier',
+                supplierID
+              );
+              await this.setState({ updateTracking: false });
+            } else {
+              await updateProductTrackingStatus(
+                'active',
+                row.product_id,
+                undefined,
+                undefined,
+                'supplier',
+                supplierID
+              );
+              await this.setState({ updateTracking: false });
+            }
           }
         }}
       />
