@@ -86,7 +86,6 @@ function ProductTrackerFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
-  const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
   useEffect(() => {
     /*
       For new data in filters , will be remove in future
@@ -131,7 +130,6 @@ function ProductTrackerFilterSection(props: Props) {
     }
 
     setHasAllFilter(isAllFilterUse());
-    setHasPresetFilter(isPresetFilterUse());
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
@@ -450,7 +448,6 @@ function ProductTrackerFilterSection(props: Props) {
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasAllFilter(isAllFilterUse());
-    setHasPresetFilter(isPresetFilterUse());
 
     if (
       !isPreset &&
@@ -461,6 +458,9 @@ function ProductTrackerFilterSection(props: Props) {
 
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    if (!isPreset) {
+      setFilterType('');
+    }
   };
 
   const resetFilter = (fromPeriod?: boolean) => {
@@ -512,6 +512,7 @@ function ProductTrackerFilterSection(props: Props) {
       setFilterRanges(ranges);
     });
     setFilterState(data);
+    setFilterType('');
   };
 
   const resetProfitabilityPreset = (preset?: true) => {
@@ -605,12 +606,6 @@ function ProductTrackerFilterSection(props: Props) {
     return false;
   };
 
-  const isPresetFilterUse = () => {
-    if (filterState.profitability !== 'All Products') return true;
-    if (filterState.amazonChoice.length !== 2) return true;
-    return false;
-  };
-
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
@@ -638,14 +633,10 @@ function ProductTrackerFilterSection(props: Props) {
               'more-filter' && 'active'}`}
             onClick={() => handleFilterType('more-filter')}
           >
-            <Icon
-              className="tracker-filter-section__header__all-container__button__slider"
-              name="sliders horizontal"
-            />
             <span className="tracker-filter-section__header__all-container__button__name">
               More
             </span>
-            <Icon name="filter" className={` ${hasPresetFilter ? 'blue' : 'grey'} `} />
+            <Icon name="angle down" />
           </Button>
         </div>
         <div className="tracker-filter-section__header__period-container">
