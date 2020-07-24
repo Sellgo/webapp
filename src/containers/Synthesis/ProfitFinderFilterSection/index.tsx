@@ -903,9 +903,8 @@ function ProfitFinderFilterSection(props: Props) {
               setFilterModalOpen(true);
             }}
           >
-            <Icon className="slider" name="sliders horizontal" />
             <span className="filter-name">More</span>
-            <Icon name="filter" className={` ${hasPresetFilter ? 'blue' : 'grey'} `} />
+            <Icon name="angle down" />
           </Button>
         </div>
 
