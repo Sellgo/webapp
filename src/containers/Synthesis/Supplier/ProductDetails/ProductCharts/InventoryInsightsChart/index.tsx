@@ -133,9 +133,11 @@ class InventoryInsightsChart extends Component<
           cursor: 'pointer',
           minPointLength: 10,
         },
-        series: {
+        areaspline: {
           gapSize: MILLISECONDS_IN_A_DAY,
           gapUnit: 'value',
+        },
+        series: {
           animation: false,
           marker: {
             enabled: false,
