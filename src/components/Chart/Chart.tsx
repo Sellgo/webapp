@@ -8,6 +8,22 @@ import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
 import { PercentAlign } from '../../utils/highchartExtensions';
 
+export const defaultButtonTheme: any = {
+  theme: {
+    fill: 'white',
+    stroke: 'silver',
+    r: 0,
+    states: {
+      hover: {
+        fill: '#41739D',
+        style: {
+          color: 'white',
+        },
+      },
+    },
+  },
+};
+
 // activate modules
 Boost(Highcharts);
 NoDataToDisplay(Highcharts);
@@ -32,6 +48,7 @@ const defaultOptions: Highcharts.Options = {
     style: {
       fontFamily: 'Work Sans',
     },
+    resetZoomButton: defaultButtonTheme,
   },
   plotOptions: {
     series: {

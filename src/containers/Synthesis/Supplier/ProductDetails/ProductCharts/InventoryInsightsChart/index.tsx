@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from '../../../../../../components/Chart/Chart';
+import Chart, { defaultButtonTheme } from '../../../../../../components/Chart/Chart';
 import './index.scss';
 import _ from 'lodash';
 import { MINUTES_IN_A_DAY, MILLISECONDS_IN_A_DAY } from '../../../../../../utils/date';
@@ -475,7 +475,14 @@ class InventoryInsightsChart extends Component<
                 // function to render unpin button
                 const showUnpinButton = () => {
                   const unpinBtnRef = chart.renderer
-                    .button('Unpin', chart.plotBox.x + 10, chart.plotBox.y + 5)
+                    .button(
+                      'Unpin',
+                      chart.plotBox.x + 10,
+                      chart.plotBox.y + 5,
+                      null,
+                      defaultButtonTheme.theme,
+                      defaultButtonTheme.theme.states.hover
+                    )
                     .attr({ zIndex: 3, id: 'unpinButton' })
                     .on('click', () => {
                       xAxis.removePlotLine('pinnedColumn');
