@@ -346,7 +346,11 @@ class InventoryInsightsChart extends Component<
         min: rankYMin !== Infinity && rankYMin > 0 ? rankYMin : 0,
         max: rankYMax !== -Infinity ? rankYMax : null,
         opposite: true,
-        yAxis: 1,
+        labels: {
+          formatter: function(label: any) {
+            return label.value < 1000000 ? label.value : label.value / 1000000 + 'M';
+          },
+        },
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         lineWidth: 2,
@@ -453,9 +457,7 @@ class InventoryInsightsChart extends Component<
                   : (e: any) => {
                       const newPieData = _.cloneDeep(this.state.activePieData);
                       const item = newPieData.find((item: any) => item.name === e.target.name);
-                      if (item) {
-                        item.visible = !e.target.visible;
-                      }
+                      if (item) item.visible = !e.target.visible;
 
                       this.setState({ activePieData: newPieData });
                     },
@@ -466,20 +468,18 @@ class InventoryInsightsChart extends Component<
                   value: e.point.x,
                   color: '#000000',
                   width: 1,
-                  zIndex: 9999,
+                  zIndex: 3,
                   id: 'pinnedColumn',
                 };
 
+                // function to render unpin button
                 const showUnpinButton = () => {
                   const unpinBtnRef = chart.renderer
-                    .button('Unpin', 70, 15)
+                    .button('Unpin', chart.plotBox.x + 10, chart.plotBox.y + 5)
                     .attr({ zIndex: 3, id: 'unpinButton' })
-                    .on('click', (e: any) => {
-                      console.log(e);
+                    .on('click', () => {
                       xAxis.removePlotLine('pinnedColumn');
-                      if (this.state.unpinBtnRef) {
-                        this.state.unpinBtnRef.destroy();
-                      }
+                      if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
                       this.setState({
                         pinnedPoint: undefined,
                         unpinBtnRef: undefined,
@@ -488,11 +488,10 @@ class InventoryInsightsChart extends Component<
                     })
                     .add();
 
-                  this.setState({
-                    unpinBtnRef: unpinBtnRef,
-                  });
+                  this.setState({ unpinBtnRef: unpinBtnRef });
                 };
 
+                // handle point pinning
                 if (!this.state.pinnedPoint) {
                   xAxis.addPlotLine(plotLineObject);
                   if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();

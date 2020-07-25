@@ -238,8 +238,6 @@ class ProductCharts extends Component<ProductChartsProps> {
           xMin,
           xMax
         );
-        console.log(productDetailInventory);
-        console.log(productDetailSellerInventory);
         const formattedSellerInventories: any = this.formatSellerInventories(
           'inventory',
           productDetailSellerInventory,
