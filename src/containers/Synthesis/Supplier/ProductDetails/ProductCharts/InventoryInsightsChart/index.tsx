@@ -101,6 +101,8 @@ class InventoryInsightsChart extends Component<
       chart: {
         zoomType: 'x',
         height: 372, // 400 - seller-inventory-charts__title's height
+        alignTicks: false,
+        animation: false,
       },
       title: null,
       xAxis: {
@@ -304,6 +306,7 @@ class InventoryInsightsChart extends Component<
         allowDecimals: false,
         gridLineWidth: 0,
         minorGridLineWidth: 0,
+        endOnTick: false,
         lineWidth: 2,
         title: {
           text: 'Inventory',
