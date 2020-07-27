@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { FilterData } from '../../interfaces/Filters';
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
 export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT';
@@ -15,6 +16,7 @@ export const FILTER_TRACKED_PRODUCTS = 'FILTER_TRACKED_PRODUCTS';
 export const SET_FILTER_SEARCH = 'SET_FILTER_SEARCH';
 export const IS_PRODUCT_TRACKED = 'IS_PRODUCT_TRACKED';
 export const VERIFYING_PRODUCT = 'VERIFYING_PRODUCT';
+export const RESET_FILTER = 'RESET_FILTER';
 
 /*
   IMPORTANT: USE ONLY THE GIVEN VALUE BELOW IF CHANGING DEFAULT PERIOD 
@@ -26,7 +28,35 @@ export const VERIFYING_PRODUCT = 'VERIFYING_PRODUCT';
   From last year: “365”
 
 */
-export const DEFAULT_PERIOD = 1;
+export const DEFAULT_PERIOD = 30;
+
+export const filterPeriods: FilterData = {
+  label: 'Period Reference',
+  dataKey: 'period-reference',
+  radio: true,
+  data: [
+    {
+      label: '7D',
+      dataKey: 'week',
+      value: 7,
+    },
+    {
+      label: '30D',
+      dataKey: 'month',
+      value: 30,
+    },
+    {
+      label: '90D',
+      dataKey: '3-Month',
+      value: 90,
+    },
+    {
+      label: '365D',
+      dataKey: 'year',
+      value: 365,
+    },
+  ],
+};
 
 export const filterKeys: any = [
   // Basic KPI
@@ -92,12 +122,7 @@ export const columnFilter = [
     key: 'Select All',
     visible: true,
   },
-  {
-    value: true,
-    key: 'Product Information',
-    // dataKey: 'PRODUCT INFORMATION',
-    visible: false,
-  },
+
   {
     value: true,
     key: 'Avg Price',
@@ -142,18 +167,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Reviews',
-    dataKey: 'customer_reviews',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Rating',
-    dataKey: 'rating',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Dimensions',
     dataKey: 'dimension',
     visible: true,
@@ -166,8 +179,37 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Reviews',
+    dataKey: 'customer_reviews',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Rating',
+    dataKey: 'rating',
+    visible: true,
+  },
+  {
+    key: 'Avg Inventory',
+    dataKey: 'avg_inventory',
+    value: true,
+    visible: true,
+  },
+  {
+    key: 'Is Amazon Selling',
+    dataKey: 'is_amazon_selling',
+    value: true,
+    visible: true,
+  },
+  {
+    key: 'Avg Amazon Inventory',
+    dataKey: 'avg_amazon_inventory',
+    value: true,
+  },
+  {
+    value: true,
     key: '',
-    // dataKey: 'ellipsis horizontal',
+    dataKey: 'actions',
     visible: false,
   },
 ];
@@ -211,11 +253,23 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   return filteredProducts;
 };
 
+export const getAmazonChoiceProducts = (filter: string[], productAmazonData: string) => {
+  if (filter.indexOf('amazon-choice-products') !== -1 && !_.isEmpty(productAmazonData)) {
+    return true;
+  } else if (filter.indexOf('not-amazon-products') !== -1 && _.isEmpty(productAmazonData)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
-      ? (filterData.reviews.length === 5 ||
-          filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+      ? !_.isEmpty(filterData.amazonChoice) &&
+          getAmazonChoiceProducts(filterData.amazonChoice, product.amazon_choice) &&
+          (filterData.reviews.length === 5 ||
+            filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
           filterKeys.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&

@@ -2,15 +2,14 @@
   $fon-family: 'Work sans', sans-serif !important;
 
   display: flex;
-  margin-left: 96px;
+  margin-left: 3rem;
 
   .AsinSearch__menu {
     display: flex;
     height: 34px;
     width: 485px;
     background: #fff 0% 0% no-repeat padding-box;
-    box-shadow: 0 1px 2px #00000029;
-    border-radius: 11px;
+    border-radius: 10px;
 
     &__label {
       width: 100%;
@@ -23,12 +22,12 @@
       flex-grow: 1 !important;
 
       input {
-        border-top: 0.5px solid #313a4c;
-        border-left: 0.5px solid #313a4c;
-        border-bottom: 0.5px solid #313a4c;
+        border-top: 1px solid #98aeca;
+        border-left: 1px solid #98aeca;
+        border-bottom: 1px solid #98aeca;
         border-radius: 0;
-        border-top-left-radius: 11px;
-        border-bottom-left-radius: 11px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
         color: #3b4557;
         font-size: 14px;
         font-weight: 500;
@@ -41,14 +40,14 @@
       align-items: center;
       min-height: 34px;
       border: 0;
-      border-top: 0.5px solid #313a4c;
-      border-right: 0.5px solid #313a4c;
-      border-bottom: 0.5px solid #313a4c;
+      border-top: 1px solid #98aeca;
+      border-right: 1px solid #98aeca;
+      border-bottom: 1px solid #98aeca;
       border-radius: 0;
       padding-top: 0;
       padding-bottom: 0;
-      border-top-right-radius: 11px;
-      border-bottom-right-radius: 11px;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
       color: #3b4557;
       font-size: 14px;
       font-weight: 500;
@@ -68,6 +67,26 @@
     font-size: 16px;
     font-weight: bold;
     font-family: $fon-family;
-    margin-left: 10px;
+    margin-left: 12px;
+  }
+}
+
+.menu.transition.visible {
+  > .item.flag-right {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    justify-content: space-between !important;
+    padding-right: 37px !important;
+
+    i {
+      display: flex;
+      flex-direction: row-reverse;
+      width: max-content;
+      margin: unset;
+    }
+
+    span {
+      padding: 0 5px 0 0;
+    }
   }
 }

@@ -9,6 +9,7 @@ import {
 } from '../../../../actions/Suppliers';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import _ from 'lodash';
 
 interface ProductCheckBoxHeaderProps {
   currentPage: number;
@@ -99,12 +100,16 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="checkbox-menu-item">
             <img
-              className="fingerprint-track"
+              className={`fingerprint-track ${(_.isEmpty(checkedRows) ||
+                Object.values(checkedRows).indexOf(true) === -1) &&
+                'disabled'}`}
               src={Thumb}
               onClick={() => handleBulkClick('track')}
             />
             <img
-              className="fingerprint-untrack"
+              className={`fingerprint-untrack ${(_.isEmpty(checkedRows) ||
+                Object.values(checkedRows).indexOf(true) === -1) &&
+                'disabled'}`}
               src={SlashThumb}
               onClick={() => handleBulkClick('untrack')}
             />

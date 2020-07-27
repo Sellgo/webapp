@@ -33,6 +33,12 @@ $base-font-size: 1em;
         display: flex;
         flex-direction: column;
 
+        .reset-password {
+          margin-bottom: 0;
+          text-align: right;
+          font-size: 14px;
+        }
+
         a {
           text-align: right;
           color: #fff;

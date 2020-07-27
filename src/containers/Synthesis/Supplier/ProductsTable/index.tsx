@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon, Image } from 'semantic-ui-react';
+import { Segment, Loader, Icon } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -12,7 +12,7 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
 } from '../../../../actions/Suppliers';
-import { PaginatedTable, Column } from '../../../../components/Table';
+import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import {
@@ -28,11 +28,12 @@ import ProductCheckBox from './productCheckBox';
 import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
 
-import microsoftExcelIcon from '../../../../assets/images/microsoft-excel.png';
 import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
 import { isSubscriptionFree } from '../../../../utils/subscriptions';
 
 interface ProductsTableProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   subscriptionType: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
@@ -42,7 +43,6 @@ interface ProductsTableProps {
   productTrackerGroup: any;
   singlePageItemsCount: number;
   pageNumber: number;
-  supplierDetails: any;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -69,6 +69,8 @@ interface ProductsTableState {
   filteredRanges: any;
   columnFilterData: any;
   ColumnFilterBox: boolean;
+  columns: Column[];
+  updateTracking: boolean;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -79,6 +81,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     filteredRanges: [],
     columnFilterData: columnFilter,
     ColumnFilterBox: false,
+    columns: [],
+    updateTracking: false,
   };
 
   UNSAFE_componentWillReceiveProps(props: any) {
@@ -117,6 +121,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
     </p>
   );
+
+  renderCost = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.product_cost && row.product_cost !== '0.00',
+        formatCurrency(row.product_cost)
+      )}
+    </p>
+  );
+
   renderProfit = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
@@ -166,31 +180,36 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderDetailButtons = (row: Product) => {
-    const { updateProductTrackingStatus, supplierID, subscriptionType } = this.props;
+    const { updateProductTrackingStatus, supplierID } = this.props;
+    const { updateTracking } = this.state;
     return (
       <DetailButtons
-        disableTrack={isSubscriptionFree(subscriptionType)}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
-        onTrack={() => {
-          if (row.tracking_status !== null) {
-            updateProductTrackingStatus(
-              row.tracking_status === 'active' ? 'inactive' : 'active',
-              undefined,
-              row.product_track_id,
-              undefined,
-              'supplier',
-              supplierID
-            );
-          } else {
-            updateProductTrackingStatus(
-              'active',
-              row.product_id,
-              undefined,
-              undefined,
-              'supplier',
-              supplierID
-            );
+        onTrack={async () => {
+          if (!updateTracking) {
+            await this.setState({ updateTracking: true });
+            if (row.tracking_status !== null) {
+              await updateProductTrackingStatus(
+                row.tracking_status === 'active' ? 'inactive' : 'active',
+                undefined,
+                row.product_track_id,
+                undefined,
+                'supplier',
+                supplierID
+              );
+              await this.setState({ updateTracking: false });
+            } else {
+              await updateProductTrackingStatus(
+                'active',
+                row.product_id,
+                undefined,
+                undefined,
+                'supplier',
+                supplierID
+              );
+              await this.setState({ updateTracking: false });
+            }
           }
         }}
       />
@@ -201,25 +220,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return (
       <div>
         <Icon name="sync alternate" style={{ color: '#98aec9' }} />
-      </div>
-    );
-  };
-
-  renderExportButtons = () => {
-    const { supplierDetails } = this.props;
-    return (
-      <div className="export-buttons">
-        <span style={{ display: 'none' }}>Icon made by Freepik from www.flaticon.com</span>
-        <span style={{ display: 'none' }}>Icon made by Pixel Perfect from www.flaticon.com</span>
-        <Image
-          as="a"
-          href={supplierDetails.report_url}
-          download={true}
-          src={microsoftExcelIcon}
-          wrapped={true}
-          width={22}
-          alt="Export Excel"
-        />
       </div>
     );
   };
@@ -277,8 +277,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderCheckBox,
     },
     {
-      label: 'PRODUCT INFORMATION',
+      label: 'Product Information',
       dataKey: 'PRODUCT INFORMATION',
+      type: 'string',
       sortable: false,
       show: true,
       render: this.renderProductInfo,
@@ -290,6 +291,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderPrice,
+    },
+    {
+      label: 'Cost',
+      dataKey: 'product_cost',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderCost,
+    },
+    {
+      label: 'Fees',
+      dataKey: 'fees',
+      type: 'number',
+      sortable: true,
+      show: true,
+      render: this.renderFee,
     },
     {
       label: 'Profit',
@@ -306,14 +323,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderMargin,
-    },
-    {
-      label: 'Fees',
-      dataKey: 'fees',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderFee,
     },
     {
       label: 'Monthly\nRevenue',
@@ -372,10 +381,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderDetailButtons,
     },
     {
+      label: '',
       icon: 'ellipsis horizontal ellipsis-ic',
       dataKey: 'ellipsis horizontal',
       show: true,
-      render: this.renderSyncButtons,
+      // render: this.renderSyncButtons,
       popUp: true,
     },
   ];
@@ -385,6 +395,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       ColumnFilterBox: !ColumnFilterBox,
     });
   };
+
+  handleColumnDrop = (e: any, data: any) => {
+    this.setState({ columnFilterData: data });
+  };
+  reorderColumns = (columns: Column[]) => {
+    this.setState({ columns });
+  };
+  componentDidMount(): void {
+    this.setState({ columns: this.columns });
+  }
 
   render() {
     const {
@@ -396,11 +416,23 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       pageNumber,
       setPageNumber,
       subscriptionType,
+      scrollTopSelector,
+      stickyChartSelector,
     } = this.props;
     const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
     const featuresLock = isSubscriptionFree(subscriptionType);
 
+    // NOTE: temporarily filter products with ROIs greater than 300%
+    const userEmail = localStorage.getItem('userEmail') || '';
+    let tempFilteredProducts;
+    if (['dev@sellgo.com', 'demo@sellgo.com', 'apobee.mcdonald@sellgo.com'].includes(userEmail)) {
+      tempFilteredProducts = filteredProducts;
+    } else {
+      tempFilteredProducts = filteredProducts.filter(
+        product => !product.roi || Number(product.roi) <= 300
+      );
+    }
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -411,18 +443,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           </Segment>
         ) : (
           <>
-            {this.renderExportButtons()}
-            <PaginatedTable
+            <GenericTable
+              stickyChartSelector={stickyChartSelector}
+              scrollTopSelector={scrollTopSelector}
               tableKey={tableKeys.PRODUCTS}
-              data={filteredProducts}
-              columns={this.columns}
+              columns={this.state.columns}
+              data={tempFilteredProducts}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
               setSinglePageItemsCount={setSinglePageItemsCount}
-              ptCurrentPage={pageNumber}
+              currentPage={pageNumber}
               setPage={setPageNumber}
               name={'products'}
               showFilter={true}
@@ -432,11 +465,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               handleColumnChange={this.handleColumnChange}
               toggleColumnCheckbox={this.handleClick}
               columnFilterData={this.state.columnFilterData}
+              middleScroll={true}
               renderFilterSectionComponent={() => (
                 <ProfitFinderFilterSection productRanges={productRanges} />
               )}
               showTableLock={showTableLock}
               featuresLock={featuresLock}
+              handleColumnDrop={this.handleColumnDrop}
+              reorderColumns={this.reorderColumns}
+              columnDnD={true}
             />
           </>
         )}
@@ -453,7 +490,8 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
-  supplierDetails: get(state, 'supplier.details'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
 });
 

@@ -60,9 +60,9 @@
 
   h3.ui.header {
     font-family: $font-fam;
-    font-size: 24px;
-    font-weight: bold;
-    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    color: #3b4557;
   }
 
   .row:nth-child(1) h3.ui.header {
@@ -85,9 +85,8 @@
     width: 367px !important;
     display: flex;
     align-items: center;
-    border: 0.5px solid #888;
+    border: 1px solid #98aeca;
     background: #fff 0% 0% no-repeat padding-box;
-    box-shadow: 0 1px 2px #00000029;
     text-align: left;
     font-size: 14px;
     font-weight: 300;
@@ -109,19 +108,19 @@
 
   .primary-btn button.ui.button,
   .error-btn button.ui.button {
-    font-size: 16px;
+    font-size: 14px;
     width: 167px;
     height: 35px;
-    border-radius: 40px;
+    border-radius: 100px;
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
     color: #f8faff;
     padding: 0;
   }
 
   .primary-btn button.ui.button {
     background: #349af8 0% 0% no-repeat padding-box;
-    border: 0.5px solid #349af8;
+    border: 1px solid #349af8;
   }
 
   .ui.form {
@@ -130,7 +129,7 @@
     .sub.header:first-child {
       margin-bottom: 20px;
       font-size: 16px;
-      color: #000;
+      color: #3b4557;
     }
   }
 
@@ -186,36 +185,6 @@
   min-width: 434px !important;
 }
 
-.ui.popup.transition.visible.free-trial-popup {
-  min-width: 560px !important;
-  top: -28px !important;
-  left: 310px !important;
-  color: #fff;
-  background: #757575;
-  border: 1px solid #98aeca;
-  border-radius: 11px;
-  padding: 24px 26px;
-  cursor: default;
-
-  .icon {
-    position: absolute;
-    left: -43px;
-    color: #757575;
-    font-size: 30px;
-    top: 12px;
-  }
-
-  .title {
-    font-size: 30px;
-    font-weight: 500;
-    margin-bottom: 25px;
-  }
-
-  .content {
-    font-size: 18px;
-  }
-}
-
 .ui.small.modal.transition.visible.active.auth-token-confirm {
   $font-fam: 'Work Sans', sans-serif !important;
 
@@ -246,7 +215,7 @@
 
   h3.ui.icon.header {
     padding-top: 10px;
-    color: #000 !important;
+    color: #3b4557 !important;
     font-size: 30px;
     font-weight: bold;
   }
@@ -258,7 +227,7 @@
   .sub.header {
     margin-top: 40px;
     margin-bottom: 40px;
-    color: #000 !important;
+    color: #3b4557 !important;
     font-size: 16px;
     text-align: left;
 

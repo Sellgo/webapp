@@ -1,3 +1,155 @@
+.plans-table-container {
+  display: flex !important;
+  justify-content: center;
+
+  &__wrapper {
+    width: 1137px !important;
+    margin-bottom: 150px !important;
+
+    &.row {
+      display: flex !important;
+      justify-content: center;
+    }
+
+    &__title {
+      p {
+        padding: 50px 0;
+        font-size: 57px;
+        color: #3b4557;
+        font-weight: 500;
+      }
+    }
+
+    &__table {
+      width: 1137px !important;
+      border: none !important;
+      background: none !important;
+
+      &__header {
+        tr {
+          th {
+            &:first-child {
+              background-color: transparent !important;
+            }
+
+            border: none !important;
+            color: #fff !important;
+            background-color: #349af8 !important;
+            font-size: 30px;
+            text-align: center !important;
+            font-weight: 500 !important;
+            padding: 0.75rem !important;
+          }
+        }
+      }
+
+      &__footer {
+        tr {
+          td {
+            font-size: 20px;
+            padding: 20px 25px !important;
+            border: none;
+            text-align: center;
+            width: 250px;
+            height: 63px;
+
+            p {
+              font-size: 20px !important;
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+
+            i {
+              color: #349af8;
+              font-size: 25px;
+            }
+          }
+
+          .basic-btn {
+            border-radius: 40px;
+            width: 210px;
+            height: 45px;
+            margin: auto;
+            background: 0;
+            border: 2px solid #349af8;
+            color: #349af8;
+            font-size: 20px;
+            font-weight: bold;
+            outline: none !important;
+            line-height: normal !important;
+            padding: 0;
+          }
+
+          .primary {
+            border-radius: 40px;
+            width: 210px;
+            height: 45px;
+            margin: auto;
+            background: #349af8 !important;
+            border: 2px solid #349af8;
+            color: #349af8;
+            font-size: 20px;
+            font-weight: bold;
+            outline: none !important;
+            line-height: normal !important;
+            padding: 0;
+          }
+        }
+      }
+
+      &__body {
+        tr {
+          td {
+            &:first-child {
+              font-size: 25px !important;
+              width: 335px;
+            }
+
+            font-size: 20px;
+            padding: 20px 25px !important;
+            text-align: center;
+            height: 63px;
+            border: none !important;
+
+            p {
+              font-size: 20px;
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+
+            i {
+              color: #349af8;
+              font-size: 25px;
+            }
+          }
+
+          &:nth-of-type(odd) {
+            background-color: #dfe8f3 !important;
+          }
+
+          &:nth-of-type(even) {
+            background-color: #dfe8f354 !important;
+
+            td {
+              &:nth-of-type(odd) {
+                background-color: #fff;
+              }
+
+              &:nth-of-type(even) {
+                background-color: #dfe8f354;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 .pricing-container {
   background-color: #f8faff;
   padding-bottom: 30px;
@@ -20,7 +172,7 @@
     padding: 15px;
 
     h4.ui.header {
-      color: #000;
+      color: #3b4557;
       font-weight: bold;
       font-size: 15px;
     }
@@ -119,7 +271,7 @@
     margin-bottom: 122px;
 
     h1 {
-      font-weight: 800;
+      font-weight: 700;
       font-size: 50px;
       margin-bottom: 28px;
       color: #2e3b4a;
@@ -156,6 +308,12 @@
     font-family: 'Montserrat', sans-serif !important;
     margin-bottom: 50px;
     color: #2e3b4a;
+  }
+
+  .ui.divider {
+    width: 1292px;
+    margin: 0 auto !important;
+    border-top: 1px solid #707070;
   }
 
   .ui.card:nth-child(3) .description {
@@ -197,7 +355,8 @@
 
     .pro-plan {
       font-size: 41px !important;
-      font-weight: 800 !important;
+      font-weight: 700 !important;
+      color: #3b4557 !important;
     }
 
     .content {
@@ -273,7 +432,7 @@
 
         strong {
           font-weight: normal;
-          color: #000;
+          color: #3b4557;
           line-height: 80px;
           font-size: 20px;
         }
@@ -281,7 +440,7 @@
         strong:first-child {
           line-height: 50px;
           font-size: 24px;
-          color: #000;
+          color: #3b4557;
           font-weight: normal;
         }
       }
@@ -290,13 +449,13 @@
     .extra.content {
       .fluid.button.basic-btn {
         border-radius: 40px;
-        width: 210px;
-        height: 45px;
+        width: 170px;
+        height: 40px;
         margin: auto;
         background: 0;
-        border: 2px solid #349af8;
+        border: 1px solid #349af8;
         color: #349af8;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: bold;
         outline: none !important;
         line-height: normal !important;
@@ -312,22 +471,21 @@
       }
 
       .fluid.button.basic-btn.active-plan {
-        border: 2px solid #eb675e;
-        color: #eb675e;
-        min-width: 191.01px;
-        max-width: 191.01px;
-        min-height: 42.2px !important;
-        max-height: 42.2px !important;
+        border: 1px solid #98aeca;
+        color: #98aeca;
+        font-size: 16px;
+        width: 170px;
+        height: 40px;
       }
 
       .fluid.button.basic-btn:hover {
-        background: #349af8;
-        color: #fff;
+        background: #fff;
+        color: #349af8;
       }
 
       .fluid.button.basic-btn.active-plan:hover {
-        background: #eb675e;
-        color: #fff;
+        background: #fff;
+        color: #98aeca;
       }
 
       p {
@@ -337,7 +495,7 @@
       p.contact-us {
         display: flex;
         color: #2e3b4a;
-        font-size: 12px;
+        font-size: 14px;
       }
 
       a {

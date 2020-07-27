@@ -1,22 +1,31 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 import { Dropdown, List } from 'semantic-ui-react';
 import { selectItemsCountList } from '../../constants';
+import { setIsScroll } from '../../actions/Suppliers';
 
 interface SelectItemsCountProps {
+  isScrollSelector: boolean;
+  scrollTop: boolean;
   totalCount: number;
   singlePageItemsCount: number;
   currentPage: number;
   setSinglePageItemsCount: (itemsCount: any) => void;
   setCurrentPage: (number: number) => void;
+  setIsScroll: (value: boolean) => void;
 }
 
 const SelectItemsCount = (props: SelectItemsCountProps) => {
   const {
+    isScrollSelector,
+    scrollTop,
     totalCount,
     singlePageItemsCount,
     currentPage,
     setSinglePageItemsCount,
     setCurrentPage,
+    setIsScroll,
   } = props;
 
   const maxCount =
@@ -24,8 +33,17 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
       ? totalCount
       : currentPage * singlePageItemsCount;
 
+  const [scrollValue, setScrollValue] = React.useState(false);
   const minCount = (currentPage - 1) * singlePageItemsCount + 1;
 
+  React.useEffect(() => {
+    setScrollValue(true);
+    setIsScroll(true);
+  }, [scrollTop]);
+
+  if (scrollValue) {
+    setIsScroll(false);
+  }
   return (
     <List horizontal={true} className="select-items-list">
       <List.Item>
@@ -37,6 +55,8 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
       <List.Item>
         <List.Content>
           <Dropdown
+            {...(isScrollSelector ? { open: false } : {})}
+            openOnFocus
             text={String(singlePageItemsCount)}
             upward={false}
             style={{ width: '100px' }}
@@ -59,4 +79,15 @@ const SelectItemsCount = (props: SelectItemsCountProps) => {
   );
 };
 
-export default SelectItemsCount;
+const mapStateToProps = (state: any) => {
+  return {
+    isScrollSelector: get(state, 'supplier.setIsScroll'),
+    scrollTop: get(state, 'supplier.setScrollTop'),
+  };
+};
+
+const mapDispatchToProps = {
+  setIsScroll: (value: boolean) => setIsScroll(value),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectItemsCount);

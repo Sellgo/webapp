@@ -1,6 +1,6 @@
 .quota-meter {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 446px;
 
   .add-new-supplier {
@@ -8,25 +8,28 @@
   }
 
   .ui.tiny.progress {
-    height: 6px;
+    height: 4px;
     top: 5px;
     width: 60%;
+    margin-left: -40px;
   }
 
   .ui.add-new-supplier {
     font-family: 'work sans', sans-serif !important;
     font-size: 14px !important;
+    margin-left: 40px;
   }
 
   .ui.progress > .label {
     font-family: 'work sans', sans-serif !important;
     font-size: 14px;
     font-weight: 400;
+    color: #3b4557;
     margin-top: -2px;
   }
 
   .ui.tiny.progress .bar {
-    height: 6px;
+    height: 4px;
   }
 
   @media screen and (max-width: 340px) {

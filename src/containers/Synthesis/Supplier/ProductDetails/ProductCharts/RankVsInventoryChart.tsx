@@ -1,7 +1,9 @@
 import React from 'react';
 import Chart from '../../../../../components/Chart/Chart';
+import { MINUTES_IN_A_DAY } from '../../../../../utils/date';
+import { filterPeriods } from '../../../../../constants/Tracker';
 
-export default ({ productRanks, productInventories }: any) => {
+export default ({ productRanks, productInventories, period, xMax, xMin }: any) => {
   const data = [
     {
       yAxis: 0,
@@ -11,6 +13,9 @@ export default ({ productRanks, productInventories }: any) => {
       color: '#FD8373',
       data: productRanks,
       zIndex: 2,
+      tooltip: {
+        valueDecimals: 0,
+      },
     },
     {
       yAxis: 1,
@@ -19,6 +24,9 @@ export default ({ productRanks, productInventories }: any) => {
       color: '#4AD991',
       data: productInventories,
       zIndex: 1,
+      tooltip: {
+        valueDecimals: 0,
+      },
     },
   ];
 
@@ -43,7 +51,12 @@ export default ({ productRanks, productInventories }: any) => {
     xAxis: [
       {
         type: 'datetime',
-        crosshair: true,
+        min: xMin,
+        max: xMax,
+        minTickInterval: MINUTES_IN_A_DAY,
+        crosshair: {
+          snap: false,
+        },
       },
     ],
     yAxis: [
@@ -88,6 +101,20 @@ export default ({ productRanks, productInventories }: any) => {
     ],
     tooltip: {
       shared: true,
+      followPointer: true,
+      followTouchMove: true,
+      stickOnContact: true,
+      xDateFormat:
+        period === filterPeriods.data[filterPeriods.data.length - 1].value
+          ? '%a, %b %e'
+          : '%a, %b %e, %k:%M',
+    },
+    plotOptions: {
+      series: {
+        marker: {
+          enabled: false,
+        },
+      },
     },
     legend: {
       align: 'center',

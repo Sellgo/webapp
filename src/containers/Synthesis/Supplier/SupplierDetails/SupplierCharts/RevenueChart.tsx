@@ -27,9 +27,9 @@ class RevenueChart extends Component<RevenueChartProps> {
     const margins = products.map(e => e.margin);
 
     const data = [
-      { color: '#CAE1F3', negativeColor: '#FD8373', name: 'Profit($)', data: profit },
-      { color: '#F3D2CA', name: 'Amz fee($)', data: fees },
-      { color: '#F3E9CA', name: 'COGS($)', data: product_cost },
+      { color: '#00C802', negativeColor: '#FF4F00', name: 'Profit($)', data: profit },
+      { color: '#FFE400', name: 'Amz fee($)', data: fees },
+      { color: '#FF9200', name: 'COGS($)', data: product_cost },
     ];
 
     const tooltipPointFormatter = function(this: Highcharts.Point): string {
@@ -48,26 +48,30 @@ class RevenueChart extends Component<RevenueChartProps> {
                 centered
                 style={{ display: 'inline-block' }}
               />
-              <div style={{ color: 'grey', fontSize: '0.9em' }}>
+              <div style={{ color: '#ffffff', fontSize: '0.9em' }}>
                 ASIN: {showNAIfZeroOrNull(asins[x], asins[x])}
               </div>
-              <div style={{ color: 'grey', fontSize: '0.9em' }}>
+              <div style={{ color: '#ffffff', fontSize: '0.9em' }}>
                 UPC: {showNAIfZeroOrNull(upcs[x], upcs[x])}
               </div>
             </Grid.Column>
             <Grid.Column style={{ padding: 0 }}>
-              <div style={{ width: '312.5px', whiteSpace: 'normal' }}>
+              <div style={{ color: '#ffffff', width: '312.5px', whiteSpace: 'normal' }}>
                 <h4>{productTitle}</h4>
               </div>
               {data.map((series: any, index: number) => {
                 return (
-                  <div key={index}>
+                  <div key={index} style={{ color: '#ffffff', fontSize: '1.2em' }}>
                     {series.name}: {series.data[x]}
                   </div>
                 );
               })}
-              <div>ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}</div>
-              <div>Margin(%): {showNAIfZeroOrNull(margins[x], margins[x])}</div>
+              <div style={{ color: '#ffffff', fontSize: '1.2em' }}>
+                ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}
+              </div>
+              <div style={{ color: '#ffffff', fontSize: '1.2em' }}>
+                Margin(%): {showNAIfZeroOrNull(margins[x], margins[x])}
+              </div>
             </Grid.Column>
           </Grid>
         </div>
@@ -89,21 +93,20 @@ class RevenueChart extends Component<RevenueChartProps> {
       },
       yAxis: {
         title: {
-          text: 'Sub-Revenue($)',
+          text: 'Revenue Component($)',
         },
       },
       tooltip: {
         useHTML: true,
         headerFormat: null, //remove default format
         pointFormatter: tooltipPointFormatter,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#3B4557',
         borderWidth: 0.1,
         borderRadius: 3,
         distance: 100,
         crosshairs: true,
         followPointer: true,
         followTouchMove: true,
-        outside: true,
         style: {
           padding: 0,
         },
@@ -118,7 +121,6 @@ class RevenueChart extends Component<RevenueChartProps> {
           pointPadding: 0.01,
           cropThreshold: 5,
           borderWidth: 0.1,
-          borderRadius: 3,
           cursor: 'pointer',
         },
         series: {

@@ -9,11 +9,12 @@ import {
   deleteSupplier,
   setProgress,
   setSpeed,
+  setLeadsTracker,
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
 import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
-import { PaginatedTable, Column } from '../../../components/Table';
+import { GenericTable, Column } from '../../../components/Table';
 import { Link } from 'react-router-dom';
 import history from '../../../history';
 import {
@@ -31,9 +32,13 @@ import { tableKeys } from '../../../constants';
 import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import get from 'lodash/get';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
+import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 
 interface SuppliersTableProps {
+  stickyChartSelector: boolean;
+  scrollTopSelector: boolean;
   subscriptionType: string;
+  sellerSubscription: any;
   suppliers: Supplier[];
   onEdit: any;
   fetchSuppliers: () => void;
@@ -44,6 +49,7 @@ interface SuppliersTableProps {
   unFavourite: (supplierID: number, tag: string) => void;
   reRun: (supplier: Supplier) => void;
   deleteSupplier: (supplierID: any) => void;
+  setLeadsTracker: (sellerId: number, supplierId: number) => void;
   showTab: string;
   showColumns: any;
   amazonMWSAuthorized: boolean;
@@ -81,6 +87,23 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       </div>
     );
   };
+
+  renderLeadsTracker = (row: Supplier) => {
+    const { setLeadsTracker } = this.props;
+    const leadsStatus =
+      row.leads_tracker_status === null || row.leads_tracker_status === 'inactive';
+    const isToggle = leadsStatus ? false : true;
+
+    return (
+      <LeadsTrackerToggle
+        setLeadsTracker={setLeadsTracker}
+        seller_id={row.seller_id}
+        supplier_id={row.supplier_id}
+        isToggle={isToggle}
+      />
+    );
+  };
+
   renderActions = (row: Supplier) => {
     const { amazonMWSAuthorized, handleUnauthorizedMwsAuth, subscriptionType } = this.props;
     return (
@@ -101,10 +124,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           {
             key: '1',
             text: isSubscriptionFree(subscriptionType) ? (
-              <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
+              <Dropdown.Item icon="cart arrow down" text=" Download Search File" />
             ) : (
               <a href={row.file_url} download={true}>
-                <Dropdown.Item icon="cart arrow down" text=" Download Supplier File" />
+                <Dropdown.Item icon="cart arrow down" text=" Download Search File" />
               </a>
             ),
             value: 'dwn_sp_file',
@@ -114,10 +137,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             key: '2',
             text:
               row.report_url === null || isSubscriptionFree(subscriptionType) ? (
-                <Dropdown.Item icon="download" text=" Download Results" />
+                <Dropdown.Item icon="download" text=" Download Result File" />
               ) : (
                 <a href={row.report_url} download={true}>
-                  <Dropdown.Item icon="download" text=" Download Results" />
+                  <Dropdown.Item icon="download" text=" Download Result File" />
                 </a>
               ),
             value: 'dwn_res',
@@ -180,27 +203,27 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
           style={
             !isSubscriptionFree(subscriptionType) && row.tag === 'like'
-              ? { color: 'green' }
-              : { color: 'lightgrey' }
+              ? { color: '#349AF8' }
+              : { color: '#DEDEDF' }
           }
         />
         <Icon
           disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs down"
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
-          style={row.tag === 'dislike' ? { color: 'red' } : { color: 'lightgrey' }}
+          style={row.tag === 'dislike' ? { color: '#A2A2A2' } : { color: '#DEDEDF' }}
         />
         <Icon
           disabled={isSubscriptionFree(subscriptionType)}
           name="pencil"
-          style={{ color: 'black' }}
+          style={{ color: '#DEDEDF' }}
           onClick={() => this.props.onEdit(row)}
         />
         <Icon
           disabled={isSubscriptionFree(subscriptionType)}
           className={isSubscriptionFree(subscriptionType) ? `disabled` : ''}
           name="trash alternate"
-          style={{ color: 'black' }}
+          style={{ color: '#DEDEDF' }}
           onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
         />
       </div>
@@ -241,8 +264,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       <div>
         <div className="product-ratio-with-pie">
           {row.p2l_ratio.toString().indexOf('.') === -1
-            ? row.p2l_ratio.toString() + '.00'
-            : row.p2l_ratio}
+            ? row.p2l_ratio.toString() + '.00%'
+            : row.p2l_ratio.toString() + '%'}
         </div>
         <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
       </div>
@@ -253,35 +276,25 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (row.file_status !== 'completed') {
       return '';
     }
-    return row.rate;
+    return row.rate !== null ? row.rate.toString() + '%' : row.rate;
   };
 
   columns: Column[] = [
     {
-      label: 'Search',
+      label: 'Search Name',
       dataKey: 'search',
+      type: 'string',
       sortable: true,
       show: true,
       render: this.renderName,
     },
     {
-      label: 'Filename',
+      label: 'File Name',
       dataKey: 'file_name',
       sortable: true,
+      type: 'string',
       show: true,
       render: this.renderFileName,
-    },
-    {
-      label: 'Account Status',
-      sortable: true,
-      show: true,
-      dataKey: 'account_status',
-    },
-    {
-      label: 'Action',
-      dataKey: 'action',
-      show: true,
-      render: this.renderActions,
     },
     {
       label: 'Inventory',
@@ -308,6 +321,22 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderProgress,
     },
     {
+      label: 'Ratio',
+      dataKey: 'p2l_ratio',
+      sortable: true,
+      type: 'number',
+      show: true,
+      render: this.renderPLRatio,
+    },
+    {
+      label: 'Rate',
+      dataKey: 'rate',
+      sortable: true,
+      type: 'number',
+      show: true,
+      render: this.renderSupplierRate,
+    },
+    {
       label: 'Completed',
       dataKey: 'udate',
       sortable: true,
@@ -316,23 +345,19 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderCompleted,
     },
     {
-      label: 'Product to Listing Ratio (%)',
-      dataKey: 'p2l_ratio',
-      sortable: true,
-      type: 'number',
+      label: 'Action',
+      dataKey: 'action',
       show: true,
-      render: this.renderPLRatio,
+      render: this.renderActions,
     },
     {
-      label: 'Supplier Rate (%)',
-      dataKey: 'rate',
-      sortable: true,
-      type: 'number',
-      show: true,
-      render: this.renderSupplierRate,
+      label: 'Leads Tracking',
+      dataKey: 'leads_tracking',
+      show: this.props.sellerSubscription.subscription_id === 3 ? true : false,
+      render: this.renderLeadsTracker,
     },
     {
-      label: 'Other Actions',
+      label: 'Other',
       dataKey: 'other',
       show: true,
       render: this.renderOperations,
@@ -358,7 +383,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     this.props.resetSuppliers();
   }
   render() {
-    const { suppliers, showTab, showColumns } = this.props;
+    const { suppliers, showTab, showColumns, scrollTopSelector, stickyChartSelector } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
       return (
@@ -415,7 +440,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             <SelectColumns columns={columns} />
           </Grid.Column>
         </Grid>
-        <PaginatedTable
+        <GenericTable
+          stickyChartSelector={stickyChartSelector}
+          scrollTopSelector={scrollTopSelector}
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
           data={data}
@@ -445,6 +472,9 @@ const mapStateToProps = (state: {}) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  scrollTopSelector: get(state, 'supplier.setScrollTop'),
+  stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
 
 const mapDispatchToProps = {
@@ -456,6 +486,7 @@ const mapDispatchToProps = {
   unFavourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
+  setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setProgress,
   setSpeed,
   handleUnauthorizedMwsAuth,

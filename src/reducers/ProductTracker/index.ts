@@ -23,8 +23,10 @@ import {
   findMinMax,
   IS_PRODUCT_TRACKED,
   VERIFYING_PRODUCT,
+  RESET_FILTER,
 } from '../../constants/Tracker';
 import _ from 'lodash';
+import { selectItemsCountList } from '../../constants';
 
 const initialState = {
   filterData: undefined,
@@ -38,8 +40,9 @@ const initialState = {
   filterRanges: undefined,
   menuItem: null,
   productTrackerCurrentPageNo: 1,
-  singlePageItemsCount: 10,
+  singlePageItemsCount: Number(selectItemsCountList[0].value),
   verifyingProduct: false,
+  resettingFilter: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -171,6 +174,9 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_FILTER_SEARCH: {
       return setIn(state, 'filterSearch', action.payload);
+    }
+    case RESET_FILTER: {
+      return setIn(state, 'resettingFilter', action.payload);
     }
     default:
       return state;

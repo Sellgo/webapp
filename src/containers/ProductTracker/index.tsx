@@ -231,7 +231,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setTrackerSinglePageItemsCount(itemsCount),
-  setPageNumber: (itemsCount: number) => setProductTrackerPageNumber(itemsCount),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
   filterProducts: (productData: any, groupId: any) => filterTrackedProducts(productData, groupId),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),

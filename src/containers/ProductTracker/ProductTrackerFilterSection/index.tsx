@@ -4,21 +4,31 @@ import { connect } from 'react-redux';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
-import { findMinMax, filterProductsByGroupId, DEFAULT_PERIOD } from '../../../constants/Tracker';
+import {
+  findMinMax,
+  filterProductsByGroupId,
+  DEFAULT_PERIOD,
+  filterPeriods,
+} from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
   fetchAllSupplierProductTrackerDetails,
+  resetFilter,
+  setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
 
 interface Props {
+  setPageNumber: (pageNumber: number) => void;
   filterProducts: (filterData: any, groupId: any) => void;
   trackerDetails: any;
+  resettingFilter: any;
   activeGroupId: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
+  filterReset: (data: boolean) => void;
   isLoadingTrackerProducts: boolean;
 }
 
@@ -29,11 +39,19 @@ function ProductTrackerFilterSection(props: Props) {
     activeGroupId,
     fetchAllTrackedProductDetails,
     isLoadingTrackerProducts,
+    resettingFilter,
+    filterReset,
+    setPageNumber,
   } = props;
   const sellerID = sellerIDSelector();
-  const filterStorage = JSON.parse(
-    typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
-  );
+
+  const filterStorage =
+    typeof localStorage.trackerFilter === 'undefined' ||
+    (JSON.parse(localStorage.trackerFilter) &&
+      JSON.parse(localStorage.trackerFilter).sellerID !== sellerID)
+      ? null
+      : JSON.parse(localStorage.trackerFilter);
+
   const selectAllStorage = JSON.parse(
     typeof localStorage.filterSelectAllReviews === 'undefined' ||
       !filterStorage ||
@@ -42,13 +60,6 @@ function ProductTrackerFilterSection(props: Props) {
       : localStorage.filterSelectAllReviews
   );
 
-  const openPeriodFilter = JSON.parse(
-    typeof localStorage.openPeriod === 'undefined' ||
-      !filterStorage ||
-      filterStorage.sellerID !== sellerID
-      ? false
-      : localStorage.openPeriod
-  );
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
@@ -56,8 +67,10 @@ function ProductTrackerFilterSection(props: Props) {
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
     sellerID: sellerID,
+    amazonChoice: ['amazon-choice-products', 'not-amazon-products'],
     reviews: [],
     removeNegative: [],
+    profitability: 'All Products',
     period: DEFAULT_PERIOD,
     avg_price: filteredRanges.avg_price,
     avg_profit: filteredRanges.avg_profit,
@@ -72,17 +85,17 @@ function ProductTrackerFilterSection(props: Props) {
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
-  const [hasFilter, setHasFilter] = React.useState(false);
-
+  const [hasAllFilter, setHasAllFilter] = React.useState(false);
   useEffect(() => {
     /*
-     Setting Period Filter
-   */
-    if (openPeriodFilter) {
-      setFilterType('period-filter');
-      resetFilter(true);
-      filterProducts(filterState, activeGroupId);
-      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+      For new data in filters , will be remove in future
+      7/23/2020 - amazonChoice, profitability
+    */
+    if (filterState.amazonChoice === undefined) {
+      filterState.amazonChoice = filterInitialData.amazonChoice;
+    }
+    if (filterState.profitability === undefined) {
+      filterState.profitability = filterInitialData.profitability;
     }
     /*
       Reset filter when changing groups
@@ -96,10 +109,18 @@ function ProductTrackerFilterSection(props: Props) {
       filterProducts(filterState, activeGroupId);
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     } else if (filterStorage) {
-      setTimeout(() => {
-        filterProducts(filterState, activeGroupId);
-        localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-      }, 500);
+      if (resettingFilter) {
+        resetFilter();
+        setTimeout(() => {
+          applyFilter();
+          filterReset(false);
+        }, 500);
+      } else {
+        setTimeout(() => {
+          filterProducts(filterState, activeGroupId);
+          localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+        }, 500);
+      }
     } else {
       resetFilter();
     }
@@ -107,6 +128,8 @@ function ProductTrackerFilterSection(props: Props) {
     if (isAllReviews) {
       selectAllReviews(true);
     }
+
+    setHasAllFilter(isAllFilterUse());
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
@@ -195,8 +218,8 @@ function ProductTrackerFilterSection(props: Props) {
         },
       ],
       reviews: {
-        label: 'Reviews',
-        dataKey: 'reviews',
+        label: 'Rating',
+        dataKey: 'rating',
         radio: false,
         data: [
           {
@@ -227,42 +250,53 @@ function ProductTrackerFilterSection(props: Props) {
         ],
       },
     },
-    period: {
-      label: 'Period Reference',
-      dataKey: 'period-reference',
-      checkedValue: 'Today',
-      radio: true,
-      data: [
-        {
-          label: 'Today',
-          dataKey: 'today',
-          value: 1,
-        },
-        {
-          label: 'Week',
-          dataKey: 'week',
-          value: 7,
-        },
-        {
-          label: 'Month',
-          dataKey: 'month',
-          value: 30,
-        },
-        {
-          label: '3 Month',
-          dataKey: '3-Month',
-          value: 90,
-        },
-        {
-          label: 'Year',
-          dataKey: 'year',
-          value: 365,
-        },
-      ],
-    },
+    period: filterPeriods,
+    presets: [
+      {
+        label: 'Profitability',
+        dataKey: 'profitability-preset',
+        checkedValue: 'All Products',
+        radio: true,
+        data: [
+          {
+            label: 'All Products',
+            dataKey: 'all-products',
+            checked: true,
+          },
+          {
+            label: 'Profitable',
+            dataKey: 'profitability',
+            checked: false,
+          },
+          {
+            label: 'Non-Profitable Products',
+            dataKey: 'non-profitable-products',
+            checked: false,
+          },
+        ],
+      },
+      {
+        label: 'Amazon',
+        dataKey: 'amazon-choice-preset',
+        radio: false,
+        data: [
+          {
+            label: 'Amazon Choice Products',
+            dataKey: 'amazon-choice-products',
+            checked: true,
+          },
+          {
+            label: 'Amazon is not selling this product',
+            dataKey: 'not-amazon-products',
+            checked: true,
+          },
+        ],
+      },
+    ],
   };
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
+  const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
 
   const handleCompleteChange = (datakey: string, range: Range) => {
     const filterDetails: any = filterState;
@@ -305,7 +339,7 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
-  const toggleCheckboxFilter = (filterDataKey: string) => {
+  const toggleReviewsCheckbox = (filterDataKey: string) => {
     const data = filterState;
     setAllReviews(false);
     localStorage.setItem('filterSelectAllReviews', JSON.stringify(false));
@@ -325,13 +359,32 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
   };
 
+  const toggleAmazonPresetCheckbox = (filterDataKey: string) => {
+    const data = filterState;
+    const presetData = _.map(presetFilter, preset => {
+      if (preset.dataKey === 'amazon-choice-preset') {
+        _.map(preset.data, amzData => {
+          amzData.checked = data.amazonChoice.indexOf(filterDataKey) !== -1;
+          return amzData;
+        });
+      }
+      return preset;
+    });
+    setPresetFilter(presetData);
+    if (data.amazonChoice.indexOf(filterDataKey) !== -1) {
+      data.amazonChoice.splice(data.amazonChoice.indexOf(filterDataKey), 1);
+    } else {
+      data.amazonChoice.push(filterDataKey);
+    }
+    setFilterState(data);
+    applyFilter(true);
+  };
   const setPeriod = (value: number) => {
     fetchAllTrackedProductDetails(value);
     const filterValue = filterState;
     filterValue.period = value;
     setFilterState(filterValue);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    localStorage.setItem('openPeriod', JSON.stringify(true));
   };
 
   const toggleNegative = (datakey: string) => {
@@ -392,10 +445,22 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(filterDetails);
   };
 
-  const applyFilter = () => {
-    setHasFilter(isFilterUse());
+  const applyFilter = (isPreset?: boolean) => {
+    setPageNumber(1);
+    setHasAllFilter(isAllFilterUse());
+
+    if (
+      !isPreset &&
+      JSON.stringify(initialFilterState.avg_profit) !== JSON.stringify(filterState.avg_profit)
+    ) {
+      resetProfitabilityPreset(!isPreset);
+    }
+
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    if (!isPreset) {
+      setFilterType('');
+    }
   };
 
   const resetFilter = (fromPeriod?: boolean) => {
@@ -447,21 +512,86 @@ function ProductTrackerFilterSection(props: Props) {
       setFilterRanges(ranges);
     });
     setFilterState(data);
+    setFilterType('');
   };
 
+  const resetProfitabilityPreset = (preset?: true) => {
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === 'profitability-preset') {
+        filter.checkedValue = 'profitability';
+        _.map(filter.data, dk => {
+          if (filter.dataKey === 'profitability') {
+            dk.checked = true;
+          }
+          return dk;
+        });
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = 'All Products';
+    if (!preset) {
+      filterValue.avg_profit = filteredRanges.avg_profit;
+    }
+
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+
+  const resetAmazonChoicePreset = () => {
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === 'amazon-choice-preset') {
+        _.map(filter.data, dk => {
+          dk.checked = true;
+          return dk;
+        });
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.amazonChoice = filterInitialData.amazonChoice;
+
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
+
+  const resetPreset = () => {
+    resetProfitabilityPreset();
+    resetAmazonChoicePreset();
+    applyFilter(true);
+  };
+  const setRadioFilter = (filterType: string, value: string) => {
+    resetSingleFilter('profit');
+    const data = _.map(presetFilter, filter => {
+      if (filter.dataKey === filterType) {
+        filter.checkedValue = value;
+      }
+      return filter;
+    });
+    const filterValue = filterState;
+    filterState.profitability = value;
+
+    if (value === 'Profitable') {
+      filterValue.avg_profit.min = 0.01;
+      filterValue.avg_profit.max = rangeData.avg_profit.max;
+    } else if (value === 'Non-Profitable Products') {
+      filterValue.avg_profit.min = rangeData.avg_profit.min;
+      filterValue.avg_profit.max = 0;
+    } else {
+      filterValue.avg_profit = rangeData.avg_profit;
+    }
+    setPresetFilter(data);
+    setFilterState(filterValue);
+  };
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
-      localStorage.setItem('openPeriod', JSON.stringify(false));
       return;
-    }
-    if (type !== 'period-filter') {
-      localStorage.setItem('openPeriod', JSON.stringify(false));
     }
     setFilterType(type);
   };
 
-  const isFilterUse = () => {
+  const isAllFilterUse = () => {
     const ranges = findMinMax(groupProducts);
     if (JSON.stringify(ranges.customer_reviews) !== JSON.stringify(filterState.customer_reviews))
       return true;
@@ -476,44 +606,58 @@ function ProductTrackerFilterSection(props: Props) {
     return false;
   };
 
-  const periodBadge = () => {
-    if (filterState.period === 1) return 'T';
-    if (filterState.period === 7) return 'W';
-    if (filterState.period === 30) return 'M';
-    if (filterState.period === 90) return '3M';
-    if (filterState.period === 365) return 'Y';
-  };
-
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
-        <Button
-          basic
-          icon
-          labelPosition="left"
-          className={`tracker-filter-section__header__button tracker-filter-section__header__button--all ${
-            filterType === 'all-filter' ? 'active' : ''
-          }`}
-          onClick={() => handleFilterType('all-filter')}
-        >
-          <Icon
-            className="tracker-filter-section__header__button__slider"
-            name="sliders horizontal"
-          />
-          <span className="tracker-filter-section__header__button__name">All</span>
-          <Icon name="filter" className={` ${hasFilter ? 'blue' : 'grey'} `} />
-        </Button>
-        <Button
-          basic
-          className={`tracker-filter-section__header__button tracker-filter-section__header__button--period ${
-            filterType === 'period-filter' ? 'active' : ''
-          }`}
-          onClick={() => handleFilterType('period-filter')}
-        >
-          <span className="tracker-filter-section__header__button__name">Period</span>
-          <Label circular>{periodBadge()}</Label>
-          <Icon className="tracker-filter-section__header__button__caret" name="caret down" />
-        </Button>
+        <div className="tracker-filter-section__header__all-container">
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={`tracker-filter-section__header__all-container__button all-btn ${filterType ===
+              'all-filter' && 'active'}`}
+            onClick={() => handleFilterType('all-filter')}
+          >
+            <Icon
+              className="tracker-filter-section__header__all-container__button__slider"
+              name="sliders horizontal"
+            />
+            <span className="tracker-filter-section__header__all-container__button__name">All</span>
+            <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
+          </Button>
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={`tracker-filter-section__header__all-container__button more-btn ${filterType ===
+              'more-filter' && 'active'}`}
+            onClick={() => handleFilterType('more-filter')}
+          >
+            <span className="tracker-filter-section__header__all-container__button__name">
+              More
+            </span>
+            <Icon name="angle down" />
+          </Button>
+        </div>
+        <div className="tracker-filter-section__header__period-container">
+          {_.map(filterDataState.period.data, filterData => {
+            return (
+              <div
+                className={`tracker-filter-section__header__period-container__period-items ${filterData.value ===
+                  filterState.period && 'active'}`}
+                key={filterData.dataKey}
+              >
+                <span
+                  onClick={() => {
+                    setPeriod(filterData.value || 1);
+                  }}
+                >
+                  {filterData.label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <>
         <ProductTrackerFilter
@@ -526,9 +670,11 @@ function ProductTrackerFilterSection(props: Props) {
           initialFilterState={filterState}
           toggleSelectAllReviews={toggleSelectAllReviews}
           isAllReviews={isAllReviews}
-          toggleCheckboxFilter={toggleCheckboxFilter}
-          setPeriod={setPeriod}
+          toggleReviewsCheckbox={toggleReviewsCheckbox}
+          toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           toggleNegative={toggleNegative}
+          setRadioFilter={setRadioFilter}
+          resetPreset={resetPreset}
         />
       </>
     </div>
@@ -539,11 +685,14 @@ const mapStateToProps = (state: {}) => ({
   isLoadingTrackerProducts: get(state, 'productTracker.isLoadingTrackerProducts'),
   activeGroupId: get(state, 'productTracker.menuItem'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
+  resettingFilter: get(state, 'productTracker.resettingFilter'),
 });
 
 const mapDispatchToProps = {
   filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
+  filterReset: (data: boolean) => resetFilter(data),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
+  setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerFilterSection);
