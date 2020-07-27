@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { Container, Header, Form, Button, Icon, Divider } from 'semantic-ui-react';
+import { Container, Header, Form, Button, Divider } from 'semantic-ui-react';
 import Auth from '../../../components/Auth/Auth';
 import { useInput } from '../../../hooks/useInput';
 import PasswordValidator from 'password-validator';
 import StepsInfo from '../../../components/StepsInfo/StepsInfo';
 import { Steps } from '../../../interfaces/StepsInfo';
+import StepsContent from '../StepsContent';
 
 interface Props {
   auth: Auth;
@@ -143,22 +144,7 @@ export default function Signup(props: Props, state: State) {
   };
   return (
     <Container text className="signup-container">
-      <div className="signup-container__steps-content">
-        <div className="signup-container__steps-content__register active">
-          <span className="signup-container__steps-content__register__title">1. Register</span>
-          <span className="signup-container__steps-content__register__icon">
-            <Icon name="pen square" />
-          </span>
-        </div>
-
-        <Divider section />
-        <div className="signup-container__steps-content__payment">
-          <span className="signup-container__steps-content__payment__title">2. Payment</span>
-          <span className="signup-container__steps-content__payment__icon">
-            <Icon name="credit card" />
-          </span>
-        </div>
-      </div>
+      <StepsContent contentType={'register'} />
       <Header as="h3">Register Here</Header>
       <Form className="signup-container__form" onSubmit={handleSubmit}>
         <Form.Input size="huge" label="Username" type="mail" placeholder="Email" {...bindEmail} />
