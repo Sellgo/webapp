@@ -22,7 +22,7 @@ Highcharts.setOptions({
 });
 const defaultOptions: Highcharts.Options = {
   chart: {
-    spacing: [0, 0, 0, 0],
+    spacing: [5, 5, 5, 5],
   },
   plotOptions: {
     series: {
