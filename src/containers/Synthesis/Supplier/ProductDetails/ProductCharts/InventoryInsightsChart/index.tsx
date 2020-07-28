@@ -1,10 +1,12 @@
 import React, { Component, createRef } from 'react';
-import Chart, { defaultButtonTheme } from '../../../../../../components/Chart/Chart';
+import { defaultButtonTheme } from '../../../../../../components/Chart/Chart';
 import './index.scss';
 import _ from 'lodash';
 import { MINUTES_IN_A_DAY, MILLISECONDS_IN_A_DAY } from '../../../../../../utils/date';
 import { filterPeriods } from '../../../../../../constants/Tracker';
 import Highcharts from 'highcharts';
+import TimeSeriesChart from './TimeSeriesChart';
+import PieChart from './PieChart';
 
 // types for the time series
 export enum SHOW_TYPE {
@@ -555,8 +557,7 @@ class InventoryInsightsChart extends Component<
     return newPieData;
   };
 
-  handleTimeSeriesClick() {
-    const chart = this.timeSeriesRef.current.chart;
+  handleTimeSeriesClick(chart: any) {
     const point = chart.hoverPoint;
     if (!point) return;
 
@@ -616,40 +617,15 @@ class InventoryInsightsChart extends Component<
   render() {
     const { timeSeriesChartOptions, marketSharePieChartOptions, activePieData } = this.state;
 
-    const pieSum = activePieData
-      .filter((item: any) => item.visible)
-      .map(i => i.y)
-      .reduce((a, b) => {
-        const c = a ? a : 0;
-        const d = b ? b : 0;
-        return c + d;
-      }, 0);
-
-    const pieChartOptions = _.merge(_.cloneDeep(marketSharePieChartOptions), {
-      title: {
-        text: pieSum !== 0 ? `<b>${pieSum}<b> <br>Inventory` : '',
-      },
-      series: {
-        data: activePieData.filter((item: any) => item.visible),
-      },
-    });
-
     return (
       <div className="seller-inventory-charts">
         <div className="seller-inventory-charts__title">Inventory Insights</div>
-        <div
-          className="seller-inventory-charts__time-series"
-          onClick={() => this.handleTimeSeriesClick()}
-        >
-          <div style={{ position: 'relative', width: '100%' }}>
-            <Chart chartOptions={timeSeriesChartOptions} componentRef={this.timeSeriesRef} />
-          </div>
-        </div>
-        <div className="seller-inventory-charts__pie-chart">
-          <div style={{ position: 'relative', width: '100%' }}>
-            <Chart chartOptions={pieChartOptions} />
-          </div>
-        </div>
+        <TimeSeriesChart
+          handleClick={() => this.handleTimeSeriesClick(this.timeSeriesRef.current.chart)}
+          chartOptions={timeSeriesChartOptions}
+          componentRef={this.timeSeriesRef}
+        />
+        <PieChart chartOptions={marketSharePieChartOptions} pieData={activePieData} />
       </div>
     );
   }
