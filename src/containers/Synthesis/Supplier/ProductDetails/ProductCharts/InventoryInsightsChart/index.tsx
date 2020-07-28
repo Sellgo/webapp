@@ -459,7 +459,10 @@ class InventoryInsightsChart extends Component<
               mouseOver: (e: any) => {
                 this.setState({
                   activePieData: this._getPieDataOfEventPoint(e.target),
-                  defaultPieData: this._getPieDataOfEventPoint(e.target),
+                  defaultPieData:
+                    (this.state.pinnedPoint &&
+                      this._getPieDataOfEventPoint(this.state.pinnedPoint)) ||
+                    this._getPieDataOfEventPoint(e.target),
                 });
               },
               mouseOut: () => {
