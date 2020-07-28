@@ -250,6 +250,10 @@ class InventoryInsightsChart extends Component<
       '#F9FE83',
       '#4BB480',
     ];
+    const dateFormat =
+      period === filterPeriods.data[filterPeriods.data.length - 1].value
+        ? '%a, %b %e'
+        : '%a, %b %e, %k:%M';
 
     // format series data
     for (const key in sellerInventories) {
@@ -269,11 +273,9 @@ class InventoryInsightsChart extends Component<
       sellerInventories[key].data.forEach(dataPoint => {
         const pointDate = dataPoint[0];
         const pointInventory = dataPoint[1];
-        if (pointDate in sellerSumSeries) {
-          sellerSumSeries[pointDate][1] += pointInventory;
-        } else {
-          sellerSumSeries[pointDate] = _.cloneDeep(dataPoint);
-        }
+        pointDate in sellerSumSeries
+          ? (sellerSumSeries[pointDate][1] += pointInventory)
+          : (sellerSumSeries[pointDate] = _.cloneDeep(dataPoint));
       });
     }
     sellerSumSeries = Object.keys(sellerSumSeries).map((key: any) => {
@@ -299,10 +301,11 @@ class InventoryInsightsChart extends Component<
       }
       return 0;
     });
+
     // initialize yAxisOptions of time series chart
     const inventoryDataPoints = sellerSumSeries.map((item: any) => item[1]);
     const inventoryYMin = Math.min(...inventoryDataPoints) - 2; //avoid hiding shortest data column
-    const inventoryYMax = Math.max(...inventoryDataPoints, 0);
+    const inventoryYMax = Math.max(...inventoryDataPoints) + 1;
     const timeSeriesYAxisOptions: any = [
       {
         min: inventoryYMin !== Infinity && inventoryYMin > 0 ? inventoryYMin : 0,
@@ -311,7 +314,6 @@ class InventoryInsightsChart extends Component<
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         endOnTick: false,
-        lineWidth: 2,
         title: {
           text: 'Inventory',
           align: 'high',
@@ -355,7 +357,6 @@ class InventoryInsightsChart extends Component<
         },
         gridLineWidth: 0,
         minorGridLineWidth: 0,
-        lineWidth: 2,
         title: {
           text: 'Rank',
           align: 'high',
@@ -387,11 +388,6 @@ class InventoryInsightsChart extends Component<
           visible: true,
         };
       });
-
-    const dateFormat =
-      period === filterPeriods.data[filterPeriods.data.length - 1].value
-        ? '%a, %b %e'
-        : '%a, %b %e, %k:%M';
 
     const newTimeSeriesChartOptions = {
       yAxis: timeSeriesYAxisOptions,
