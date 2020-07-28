@@ -635,7 +635,7 @@ class InventoryInsightsChart extends Component<
         <div className="seller-inventory-charts__title">Inventory Insights</div>
         <div
           className="seller-inventory-charts__time-series"
-          onClick={e => this.handleTimeSeriesClick(e)}
+          onClick={() => this.handleTimeSeriesClick()}
         >
           <div style={{ position: 'relative', width: '100%' }}>
             <Chart chartOptions={timeSeriesChartOptions} componentRef={this.timeSeriesRef} />
