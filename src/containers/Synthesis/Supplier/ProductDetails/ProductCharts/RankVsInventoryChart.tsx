@@ -67,6 +67,7 @@ export default ({ productRanks, productInventories, period, xMax, xMin }: any) =
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         lineWidth: 2,
+        endOnTick: false,
         title: {
           text: data[firstYAxisIndex === -1 ? 0 : firstYAxisIndex].name,
           align: 'high',

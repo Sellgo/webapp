@@ -95,6 +95,9 @@ class RevenueChart extends Component<RevenueChartProps> {
         title: {
           text: 'Revenue Component($)',
         },
+        endOnTick: false,
+        startOnTick: false,
+        maxPadding: 0,
       },
       tooltip: {
         useHTML: true,

@@ -21,6 +21,9 @@ Highcharts.setOptions({
   },
 });
 const defaultOptions: Highcharts.Options = {
+  chart: {
+    spacing: [0, 0, 0, 0],
+  },
   plotOptions: {
     series: {
       // general options for all series
