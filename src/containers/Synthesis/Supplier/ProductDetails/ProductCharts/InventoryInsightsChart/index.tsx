@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Chart, { defaultButtonTheme } from '../../../../../../components/Chart/Chart';
 import './index.scss';
 import _ from 'lodash';
@@ -88,6 +88,8 @@ class InventoryInsightsChart extends Component<
   static defaultProps = {
     currentShowType: SHOW_TYPE.ProductLevelInventory,
   };
+
+  timeSeriesRef: any = createRef();
 
   state = {
     allData: defaultAllData,
@@ -391,158 +393,111 @@ class InventoryInsightsChart extends Component<
         ? '%a, %b %e'
         : '%a, %b %e, %k:%M';
 
+    const newTimeSeriesChartOptions = {
+      yAxis: timeSeriesYAxisOptions,
+      xAxis: {
+        min: xMin,
+        max: xMax,
+      },
+      tooltip: {
+        formatter: function(tooltip: any) {
+          if (
+            currentShowType === SHOW_TYPE.ProductLevelInventory ||
+            currentShowType === SHOW_TYPE.SumOfSellerLevelInventory
+          ) {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
+            const tooltipContext: any = this;
+            const timeStamp = new Date(tooltipContext.x).getTime();
+
+            let tooltipString = `<span style=font-size:10px>`;
+            tooltipString += `${Highcharts.dateFormat(dateFormat, timeStamp)}`;
+            tooltipString += `</span><br/>`;
+
+            if (productCategory && productRanks.length > 0) {
+              tooltipString += `Category: <b>${productCategory}</b> <br/>`;
+            }
+
+            [
+              { name: 'Rank', color: rankColor },
+              { name: 'Inventory', color: inventorySumColor },
+            ].forEach(series => {
+              const point = tooltipContext.points.find((p: any) => p.series.name === series.name);
+              tooltipString += `<span style="color:${series.color}">●</span> ${series.name}: `;
+              tooltipString += `<b>${
+                point ? Highcharts.numberFormat(point.y, 0) : 'Unknown'
+              }</b><br>`;
+            });
+
+            return tooltipString;
+          } else {
+            return tooltip.defaultFormatter.call(this, tooltip);
+          }
+        },
+      },
+      series:
+        currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
+        currentShowType === SHOW_TYPE.ProductLevelInventory
+          ? data.filter(
+              (item: any) =>
+                item.name === 'Inventory' || (showRanks ? item.name === 'Rank' : undefined)
+            )
+          : data.filter((item: any) => item.name !== 'Inventory'),
+      plotOptions: {
+        series: {
+          trackByArea: true,
+          events: {
+            legendItemClick:
+              currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
+              currentShowType === SHOW_TYPE.ProductLevelInventory
+                ? undefined
+                : (e: any) => {
+                    const newPieData = _.cloneDeep(this.state.activePieData);
+                    const item = newPieData.find((item: any) => item.name === e.target.name);
+                    if (item) item.visible = !e.target.visible;
+
+                    this.setState({ activePieData: newPieData });
+                  },
+          },
+          point: {
+            events: {
+              mouseOver: (e: any) => {
+                this.setState({
+                  activePieData: this._getPieDataOfEventPoint(e.target),
+                  defaultPieData: this._getPieDataOfEventPoint(e.target),
+                });
+              },
+              mouseOut: () => {
+                this.setState({ activePieData: this.state.defaultPieData });
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const newMarketSharePieChartOptions = {
+      tooltip: {
+        pointFormat:
+          '<span style="font-size: 11px">{point.x:' +
+          dateFormat +
+          '}</span><br>Inventory: <b>{point.y}</b><br>Share: <b>{point.percentage:.1f}%</b>',
+      },
+    };
+
     // update state with processed props
     this.setState(prevState => ({
       allData: data,
       initialPieData: initialPieData,
       defaultPieData: initialPieData,
       activePieData: initialPieData,
-      timeSeriesChartOptions: _.merge(_.cloneDeep(prevState.timeSeriesChartOptions), {
-        yAxis: timeSeriesYAxisOptions,
-        xAxis: {
-          min: xMin,
-          max: xMax,
-        },
-        tooltip: {
-          formatter: function(tooltip: any) {
-            if (
-              currentShowType === SHOW_TYPE.ProductLevelInventory ||
-              currentShowType === SHOW_TYPE.SumOfSellerLevelInventory
-            ) {
-              // eslint-disable-next-line @typescript-eslint/no-this-alias
-              const tooltipContext: any = this;
-              const timeStamp = new Date(tooltipContext.x).getTime();
-
-              let tooltipString = `<span style=font-size:10px>`;
-              tooltipString += `${Highcharts.dateFormat(dateFormat, timeStamp)}`;
-              tooltipString += `</span><br/>`;
-
-              if (productCategory && productRanks.length > 0) {
-                tooltipString += `Category: <b>${productCategory}</b> <br/>`;
-              }
-
-              [
-                { name: 'Rank', color: rankColor },
-                { name: 'Inventory', color: inventorySumColor },
-              ].forEach(series => {
-                const point = tooltipContext.points.find((p: any) => p.series.name === series.name);
-                tooltipString += `<span style="color:${series.color}">●</span> ${series.name}: `;
-                tooltipString += `<b>${
-                  point ? Highcharts.numberFormat(point.y, 0) : 'Unknown'
-                }</b><br>`;
-              });
-
-              return tooltipString;
-            } else {
-              return tooltip.defaultFormatter.call(this, tooltip);
-            }
-          },
-        },
-        series:
-          currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
-          currentShowType === SHOW_TYPE.ProductLevelInventory
-            ? data.filter(
-                (item: any) =>
-                  item.name === 'Inventory' || (showRanks ? item.name === 'Rank' : undefined)
-              )
-            : data.filter((item: any) => item.name !== 'Inventory'),
-        plotOptions: {
-          series: {
-            trackByArea: true,
-            events: {
-              legendItemClick:
-                currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
-                currentShowType === SHOW_TYPE.ProductLevelInventory
-                  ? undefined
-                  : (e: any) => {
-                      const newPieData = _.cloneDeep(this.state.activePieData);
-                      const item = newPieData.find((item: any) => item.name === e.target.name);
-                      if (item) item.visible = !e.target.visible;
-
-                      this.setState({ activePieData: newPieData });
-                    },
-              click: (e: any) => {
-                const chart = e.point.series.chart;
-                const xAxis = chart.xAxis[0];
-                const plotLineObject = {
-                  value: e.point.x,
-                  color: '#000000',
-                  width: 1,
-                  zIndex: 3,
-                  id: 'pinnedColumn',
-                };
-
-                // function to render unpin button
-                const showUnpinButton = () => {
-                  const unpinBtnRef = chart.renderer
-                    .button(
-                      'Unpin',
-                      chart.plotBox.x + 10,
-                      chart.plotBox.y + 5,
-                      null,
-                      defaultButtonTheme.theme,
-                      defaultButtonTheme.theme.states.hover
-                    )
-                    .attr({ zIndex: 3, id: 'unpinButton' })
-                    .on('click', () => {
-                      xAxis.removePlotLine('pinnedColumn');
-                      if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
-                      this.setState({
-                        pinnedPoint: undefined,
-                        unpinBtnRef: undefined,
-                        defaultPieData: this.state.initialPieData,
-                      });
-                    })
-                    .add();
-
-                  this.setState({ unpinBtnRef: unpinBtnRef });
-                };
-
-                // handle point pinning
-                if (!this.state.pinnedPoint) {
-                  xAxis.addPlotLine(plotLineObject);
-                  if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
-                  showUnpinButton();
-                  this.setState({
-                    pinnedPoint: e.point,
-                    defaultPieData: this._getPieDataOfEventPoint(e.point),
-                  });
-                } else if (this.state.pinnedPoint && this.state.pinnedPoint !== e.point) {
-                  xAxis.removePlotLine('pinnedColumn');
-                  xAxis.addPlotLine(plotLineObject);
-                  if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
-                  showUnpinButton();
-                  this.setState({
-                    pinnedPoint: e.point,
-                    defaultPieData: this._getPieDataOfEventPoint(e.point),
-                  });
-                }
-              },
-            },
-            point: {
-              events: {
-                mouseOver: (e: any) => {
-                  this.setState({
-                    activePieData: this._getPieDataOfEventPoint(e.target),
-                    defaultPieData: this._getPieDataOfEventPoint(e.target),
-                  });
-                },
-                mouseOut: () => {
-                  this.setState({ activePieData: this.state.defaultPieData });
-                },
-              },
-            },
-          },
-        },
-      }),
-      marketSharePieChartOptions: _.merge(_.cloneDeep(prevState.marketSharePieChartOptions), {
-        tooltip: {
-          pointFormat:
-            '<span style="font-size: 11px">{point.x:' +
-            dateFormat +
-            '}</span><br>Inventory: <b>{point.y}</b><br>Share: <b>{point.percentage:.1f}%</b>',
-        },
-      }),
+      timeSeriesChartOptions: _.merge(
+        _.cloneDeep(prevState.timeSeriesChartOptions),
+        newTimeSeriesChartOptions
+      ),
+      marketSharePieChartOptions: _.merge(
+        _.cloneDeep(prevState.marketSharePieChartOptions),
+        newMarketSharePieChartOptions
+      ),
     }));
   }
 
@@ -596,6 +551,64 @@ class InventoryInsightsChart extends Component<
     return newPieData;
   };
 
+  handleTimeSeriesClick() {
+    const chart = this.timeSeriesRef.current.chart;
+    const point = chart.hoverPoint;
+    if (!point) return;
+
+    const xAxis = chart.xAxis[0];
+    const plotLineObject = {
+      value: point.x,
+      color: '#000000',
+      width: 1,
+      zIndex: 3,
+      id: 'pinnedColumn',
+    };
+    // function to render unpin button
+    const showUnpinButton = () => {
+      const unpinBtnRef = chart.renderer
+        .button(
+          'Unpin',
+          chart.plotBox.x + 10,
+          chart.plotBox.y + 5,
+          null,
+          defaultButtonTheme.theme,
+          defaultButtonTheme.theme.states.hover
+        )
+        .attr({ zIndex: 3, id: 'unpinButton' })
+        .on('click', () => {
+          xAxis.removePlotLine('pinnedColumn');
+          if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
+          this.setState({
+            pinnedPoint: undefined,
+            unpinBtnRef: undefined,
+            defaultPieData: this.state.initialPieData,
+          });
+        })
+        .add();
+      this.setState({ unpinBtnRef: unpinBtnRef });
+    };
+    // handle point pinning
+    if (!this.state.pinnedPoint) {
+      xAxis.addPlotLine(plotLineObject);
+      if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
+      showUnpinButton();
+      this.setState({
+        pinnedPoint: point,
+        defaultPieData: this._getPieDataOfEventPoint(point),
+      });
+    } else if (this.state.pinnedPoint && this.state.pinnedPoint !== point) {
+      xAxis.removePlotLine('pinnedColumn');
+      xAxis.addPlotLine(plotLineObject);
+      if (this.state.unpinBtnRef) this.state.unpinBtnRef.destroy();
+      showUnpinButton();
+      this.setState({
+        pinnedPoint: point,
+        defaultPieData: this._getPieDataOfEventPoint(point),
+      });
+    }
+  }
+
   render() {
     const { timeSeriesChartOptions, marketSharePieChartOptions, activePieData } = this.state;
 
@@ -620,9 +633,12 @@ class InventoryInsightsChart extends Component<
     return (
       <div className="seller-inventory-charts">
         <div className="seller-inventory-charts__title">Inventory Insights</div>
-        <div className="seller-inventory-charts__time-series">
+        <div
+          className="seller-inventory-charts__time-series"
+          onClick={e => this.handleTimeSeriesClick(e)}
+        >
           <div style={{ position: 'relative', width: '100%' }}>
-            <Chart chartOptions={timeSeriesChartOptions} />
+            <Chart chartOptions={timeSeriesChartOptions} componentRef={this.timeSeriesRef} />
           </div>
         </div>
         <div className="seller-inventory-charts__pie-chart">
