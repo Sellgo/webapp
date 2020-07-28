@@ -359,6 +359,7 @@ class InventoryInsightsChart extends Component<
         },
         gridLineWidth: 0,
         minorGridLineWidth: 0,
+        endOnTick: false,
         title: {
           text: 'Rank',
           align: 'high',
