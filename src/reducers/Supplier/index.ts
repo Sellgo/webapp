@@ -26,6 +26,7 @@ import {
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
   SET_ACTIVE_COLUMN,
+  SET_SORT_COLUMN,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -42,6 +43,7 @@ const initialState = {
   filterData: undefined,
   filterSearch: '',
   activeColumn: '',
+  sortedColumn: '',
   trackData: {
     avg_price: '',
     daily_rank: 0,
@@ -69,6 +71,9 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_ACTIVE_COLUMN: {
       return setIn(state, 'activeColumn', action.payload);
+    }
+    case SET_SORT_COLUMN: {
+      return setIn(state, 'sortedColumn', action.payload);
     }
     case SET_SUPPLIER_PRODUCTS: {
       return setIn(state, 'products', action.payload);

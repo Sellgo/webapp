@@ -8,7 +8,7 @@ import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsT
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
-import { setActiveColumn } from '../../actions/Suppliers';
+import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -33,6 +33,7 @@ interface Shared {
   columnDnD?: boolean;
   className?: string;
   setActiveColumn: (value?: string) => void;
+  setSortColumn: (value?: string) => void;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -66,6 +67,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     handleColumnDrop,
     reorderColumns,
     columns,
+    setSortColumn,
     columnDnD = false,
   } = props;
   const { dataKey, sortable, label, click, check, popUp, icon, className = '' } = column;
@@ -75,6 +77,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     onClick: sortable
       ? (e: any) => {
           setSort(e, dataKey || '');
+          setSortColumn(sortDirection);
           props.setActiveColumn(dataKey);
         }
       : click
@@ -421,6 +424,7 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {
   setActiveColumn,
+  setSortColumn,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableHeader);

@@ -31,6 +31,7 @@ export const SET_CONTEXT_SCROLL = 'SET_CONTEXT_SCROLL';
 export const SET_SCROLL_TOP = 'SET_SCROLL_TOP';
 export const SET_IS_SCROLL = 'SET_IS_SCROLL';
 export const SET_ACTIVE_COLUMN = 'SET_ACTIVE_COLUMN';
+export const SET_SORT_COLUMN = 'SET_SORT_COLUMN';
 
 export const dataKeys: any = [
   // Basic KPI
