@@ -437,6 +437,44 @@ class InventoryInsightsChart extends Component<
             return tooltip.defaultFormatter.call(this, tooltip);
           }
         },
+        positioner: (boxWidth: number, boxHeight: number, point: any) => {
+          const chart = this.timeSeriesRef.current.chart,
+            plotLeft = chart.plotLeft,
+            plotTop = chart.plotTop,
+            plotWidth = chart.plotWidth,
+            plotHeight = chart.plotHeight,
+            distance = 5,
+            pointX = point.plotX,
+            pointY = point.plotY;
+          let x: number = pointX + plotLeft + (chart.inverted ? distance : -boxWidth - distance),
+            y: number = pointY - boxHeight + plotTop + 15, // point is 15 pixels up from tooltip bottom
+            alignedRight;
+
+          if (x < 7) x = plotLeft + pointX + distance; // too far left, adjust it
+
+          // Test if tooltip is too far right,
+          // if so, move it to be inside and then up to not cover the point.
+          if (x + boxWidth > plotLeft + plotWidth) {
+            x -= x + boxWidth - (plotLeft + plotWidth);
+            y = pointY - boxHeight + plotTop - distance;
+            alignedRight = true;
+          }
+          // If it is now above the plot area, align it to the top of the plot area
+          if (y < plotTop + 5) {
+            y = plotTop + 5;
+            // If tooltip is still covering the point, move it below instead
+            if (alignedRight && pointY >= y && pointY <= y + boxHeight) {
+              y = pointY + plotTop + distance; // below
+            }
+          }
+          // If tooltip is below chart, move it up. Better to cover the point than to
+          // disappear outside the chart.
+          if (y + boxHeight > plotTop + plotHeight) {
+            y = Math.max(plotTop, plotTop + plotHeight - boxHeight - distance); // below
+          }
+
+          return { x: x, y: y };
+        },
       },
       series:
         currentShowType === SHOW_TYPE.SumOfSellerLevelInventory ||
