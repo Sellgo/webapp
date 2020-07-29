@@ -8,6 +8,8 @@ import LogoutConfirm from '../LogoutConfirm';
 import Tour from '../QuickTourMessage';
 import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
+import { getLatestSupplier } from '../../actions/Suppliers';
+import { latestSupplierSelector } from '../../selectors/Supplier';
 
 interface IconD {
   id: number;
@@ -25,6 +27,8 @@ class SidebarCollapsible extends Component<
   {
     auth: Auth;
     currentNotifyId: number;
+    getLatestSupplier: any;
+    latest: string;
   },
   { visible: boolean; openConfirm: boolean },
   State
@@ -65,6 +69,10 @@ class SidebarCollapsible extends Component<
     this.setState({ openConfirm: true });
   };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
+  componentDidMount(): void {
+    const { getLatestSupplier } = this.props;
+    getLatestSupplier();
+  }
 
   render() {
     const { visible } = this.state;
@@ -198,6 +206,11 @@ class SidebarCollapsible extends Component<
 
 const mapStateToProps = (state: any) => ({
   currentNotifyId: notifyIdSelector(state),
+  latest: latestSupplierSelector(state),
 });
 
-export default connect(mapStateToProps)(SidebarCollapsible);
+const mapDispatchToProps = (dispatch: any) => ({
+  getLatestSupplier: dispatch(getLatestSupplier()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarCollapsible);

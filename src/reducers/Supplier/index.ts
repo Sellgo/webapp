@@ -25,6 +25,7 @@ import {
   SET_CONTEXT_SCROLL,
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
+  SET_LATEST_SUPPLIER,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -58,6 +59,7 @@ const initialState = {
   },
   singlePageItemsCount: Number(selectItemsCountList[0].value),
   pageNumber: 1,
+  latest: {},
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -154,6 +156,10 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SUPPLIER_QUOTA:
       return setIn(state, 'quota', action.payload);
+
+    case SET_LATEST_SUPPLIER:
+      return setIn(state, 'latest', action.payload);
+
     default:
       return state;
   }

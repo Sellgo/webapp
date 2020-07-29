@@ -43,6 +43,7 @@ import {
   SET_CONTEXT_SCROLL,
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
+  SET_LATEST_SUPPLIER,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -60,6 +61,19 @@ export const setSuppliers = (suppliers: Suppliers) => ({
   payload: suppliers,
 });
 
+export const setLatestSupplier = (supplier: Supplier) => {
+  localStorage.setItem('LATEST_SUPPLIER', JSON.stringify(supplier));
+};
+
+export const getLatestSupplier = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+  const latest = localStorage.getItem('LATEST_SUPPLIER');
+  const supplier = latest ? JSON.parse(latest) : null;
+  dispatch({
+    type: SET_LATEST_SUPPLIER,
+    payload: supplier,
+  });
+};
+
 export const resetSuppliers = () => ({ type: RESET_SUPPLIERS });
 
 export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
@@ -73,8 +87,11 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
     }
     return { ...supplier, ...{ progress: -1, speed: -1 } };
   });
+  const [supplier]: any = suppliers;
+
   dispatch(setSuppliers(suppliers));
   dispatch(fetchSynthesisProgressUpdates());
+  setLatestSupplier(supplier);
 };
 
 export const fetchSupplier = (supplierID: any) => async (

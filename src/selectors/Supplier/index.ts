@@ -25,3 +25,4 @@ export const supplierMetricsSelector = (state: {}) => get(state, 'suppliers.time
 
 export const supplierProductsSelector = (state: {}) => get(state, 'supplier.products');
 export const supplierPageNumberSelector = (state: {}) => get(state, 'supplier.pageNumber');
+export const latestSupplierSelector = (state: {}) => get(state, 'supplier.latest');
