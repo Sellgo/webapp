@@ -3,6 +3,10 @@
   justify-content: center !important;
   min-height: 100vh;
 
+  .row {
+    height: 100%;
+  }
+
   &__logo-container {
     max-width: 585px;
 

@@ -115,6 +115,63 @@ class CheckoutForm extends React.Component<any> {
             </Form.Field>
           </Form.Group>
 
+          <Header className="payment-container__stripe-checkout-form__billing_title" as="h2">
+            Billing Address
+          </Header>
+          <Form.Input
+            className="payment-container__stripe-checkout-form__address"
+            size="huge"
+            label="Address"
+            type="text"
+            placeholder="Address"
+            onChange={event => {
+              this.setState({ address: event.target.value });
+            }}
+          />
+          <Form.Group className="payment-container__stripe-checkout-form__group-2">
+            <Form.Input
+              className="payment-container__stripe-checkout-form__group-2__city"
+              size="huge"
+              label="City"
+              type="text"
+              placeholder="City"
+              onChange={event => {
+                this.setState({ city: event.target.value });
+              }}
+            />
+            <Form.Input
+              className="payment-container__stripe-checkout-form__group-2__state"
+              size="huge"
+              label="State"
+              type="text"
+              placeholder="eg. California"
+              onChange={event => {
+                this.setState({ state: event.target.value });
+              }}
+            />
+          </Form.Group>
+          <Form.Group className="payment-container__stripe-checkout-form__group-3">
+            <Form.Input
+              className="payment-container__stripe-checkout-form__group-3__country"
+              size="huge"
+              label="Contry or Region"
+              type="text"
+              placeholder="City"
+              onChange={event => {
+                this.setState({ ccountryity: event.target.value });
+              }}
+            />
+            <Form.Input
+              className="payment-container__stripe-checkout-form__group-3__zipcode"
+              size="huge"
+              label="Zipcode"
+              type="text"
+              placeholder="eg. 97201"
+              onChange={event => {
+                this.setState({ zipcode: event.target.value });
+              }}
+            />
+          </Form.Group>
           <button disabled={!this.props.stripe}>Complete Payment</button>
         </Form>
       </>

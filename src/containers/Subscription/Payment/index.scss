@@ -39,15 +39,18 @@
     &__group-1 {
       &__card-name {
         width: 50%;
-
-        &::-webkit-input-placeholder {
-          color: #98aeca;
-        }
       }
 
       &__card-exp-field,
       &__card-cvc-field {
         width: 25%;
+      }
+    }
+
+    &__group-2,
+    &__group-3 {
+      .field {
+        width: 50%;
       }
     }
   }
