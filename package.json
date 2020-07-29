@@ -5,6 +5,8 @@
   "dependencies": {
     "@analytics/fullstory": "^0.2.2",
     "@analytics/google-analytics": "^0.2.2",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.8.0",
     "analytics": "^0.3.0",
     "auth0-js": "^9.12.2",
     "auth0-lock": "^11.22.2",

@@ -20,6 +20,7 @@ import ResetPassword from '../ResetPassword';
 import Onboarding from '../Onboarding';
 import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
+import Payment from '../Subscription/Payment';
 
 export const auth = new Auth();
 
@@ -165,6 +166,7 @@ function App() {
             path="/subscription"
             render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
           />
+          <Route exact={true} path="/subscription/payment" component={Payment} />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute
