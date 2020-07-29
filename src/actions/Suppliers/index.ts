@@ -43,7 +43,6 @@ import {
   SET_CONTEXT_SCROLL,
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
-  SET_LATEST_SUPPLIER,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -65,13 +64,9 @@ export const setLatestSupplier = (supplier: Supplier) => {
   localStorage.setItem('LATEST_SUPPLIER', JSON.stringify(supplier));
 };
 
-export const getLatestSupplier = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+export const getLatestSupplier = () => {
   const latest = localStorage.getItem('LATEST_SUPPLIER');
-  const supplier = latest ? JSON.parse(latest) : null;
-  dispatch({
-    type: SET_LATEST_SUPPLIER,
-    payload: supplier,
-  });
+  return latest ? JSON.parse(latest) : null;
 };
 
 export const resetSuppliers = () => ({ type: RESET_SUPPLIERS });

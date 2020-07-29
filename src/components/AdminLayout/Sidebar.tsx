@@ -9,7 +9,6 @@ import Tour from '../QuickTourMessage';
 import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
-import { latestSupplierSelector } from '../../selectors/Supplier';
 
 interface IconD {
   id: number;
@@ -27,8 +26,6 @@ class SidebarCollapsible extends Component<
   {
     auth: Auth;
     currentNotifyId: number;
-    getLatestSupplier: any;
-    latest: string;
   },
   { visible: boolean; openConfirm: boolean },
   State
@@ -43,12 +40,20 @@ class SidebarCollapsible extends Component<
         notifyId: 1,
       },
       {
+        id: 7,
+        label: 'Profit Finder',
+        icon: 'fas fa-clipboard-list',
+        path: '/synthesis',
+        notifyId: 1,
+      },
+      {
         id: 2,
         label: 'Product Tracker',
         icon: 'fas fa-fingerprint',
         path: '/product-tracker',
         notifyId: 2,
       },
+
       { id: 3, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
       { id: 4, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
       { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
@@ -69,21 +74,22 @@ class SidebarCollapsible extends Component<
     this.setState({ openConfirm: true });
   };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
-  componentDidMount(): void {
-    const { getLatestSupplier } = this.props;
-    getLatestSupplier();
-  }
 
   render() {
     const { visible } = this.state;
     const { children, auth, currentNotifyId } = this.props;
     const initPath = window.location.pathname;
+    let supplier_id = '';
+    const latest = getLatestSupplier();
+    if (latest) {
+      supplier_id = latest.supplier_id;
+    }
 
     const sidebarMenu = (
       <>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id < 3) {
+            if (icon.id < 3 || icon.id === 7) {
               return (
                 <Tour
                   data={icon}
@@ -94,7 +100,9 @@ class SidebarCollapsible extends Component<
                         visible && this.handleAnimationChange();
                       }}
                       as={Link}
-                      to={icon.path}
+                      to={
+                        icon.id === 7 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
+                      }
                       name={icon.icon}
                       active={initPath.startsWith(icon.path)}
                     >
@@ -137,7 +145,7 @@ class SidebarCollapsible extends Component<
                   }
                 />
               );
-            } else if (icon.id > 3) {
+            } else if (icon.id > 3 && icon.id !== 7) {
               return (
                 <Tour
                   data={icon}
@@ -206,11 +214,6 @@ class SidebarCollapsible extends Component<
 
 const mapStateToProps = (state: any) => ({
   currentNotifyId: notifyIdSelector(state),
-  latest: latestSupplierSelector(state),
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  getLatestSupplier: dispatch(getLatestSupplier()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarCollapsible);
+export default connect(mapStateToProps)(SidebarCollapsible);
