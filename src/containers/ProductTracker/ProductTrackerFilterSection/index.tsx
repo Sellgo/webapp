@@ -67,7 +67,7 @@ function ProductTrackerFilterSection(props: Props) {
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
     sellerID: sellerID,
-    amazonChoice: ['amazon-choice-products', 'not-amazon-products'],
+    amazonChoice: ['not-amazon-products'],
     reviews: [],
     removeNegative: [],
     profitability: 'All Products',
@@ -288,7 +288,7 @@ function ProductTrackerFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Amazon is not selling this product',
+            label: 'Amazon is NOT a seller',
             dataKey: 'not-amazon-products',
             checked: true,
           },
