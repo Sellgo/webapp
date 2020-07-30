@@ -256,9 +256,15 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
-      ? (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
+      ? /*
+          show amazon choice products if checked, if not, show all
+        */
+        (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
           (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
             !_.isEmpty(product.amazon_choice))) &&
+          /*
+          show NOT selling products if checked, if not, show all
+        */
           (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
             (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
               !product.is_amazon_selling)) &&
