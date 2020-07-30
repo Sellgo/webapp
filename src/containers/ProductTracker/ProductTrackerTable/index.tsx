@@ -371,7 +371,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   columns: Column[] = [
     {
       label: 'Product Information',
-      dataKey: 'Product Information',
+      dataKey: 'title',
+      sortable: true,
       type: 'string',
       show: true,
       render: this.renderProductInfo,

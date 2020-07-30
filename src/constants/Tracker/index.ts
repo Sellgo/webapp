@@ -253,11 +253,23 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   return filteredProducts;
 };
 
+export const getAmazonChoiceProducts = (filter: string[], productAmazonData: string) => {
+  if (filter.indexOf('amazon-choice-products') !== -1 && !_.isEmpty(productAmazonData)) {
+    return true;
+  } else if (filter.indexOf('not-amazon-products') !== -1 && _.isEmpty(productAmazonData)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
-      ? (filterData.reviews.length === 5 ||
-          filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+      ? !_.isEmpty(filterData.amazonChoice) &&
+          getAmazonChoiceProducts(filterData.amazonChoice, product.amazon_choice) &&
+          (filterData.reviews.length === 5 ||
+            filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
           filterKeys.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&

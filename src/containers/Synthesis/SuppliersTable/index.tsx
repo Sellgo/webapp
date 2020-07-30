@@ -9,6 +9,7 @@ import {
   deleteSupplier,
   setProgress,
   setSpeed,
+  setLeadsTracker,
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
@@ -31,11 +32,13 @@ import { tableKeys } from '../../../constants';
 import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import get from 'lodash/get';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
+import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
   subscriptionType: string;
+  sellerSubscription: any;
   suppliers: Supplier[];
   onEdit: any;
   fetchSuppliers: () => void;
@@ -46,6 +49,7 @@ interface SuppliersTableProps {
   unFavourite: (supplierID: number, tag: string) => void;
   reRun: (supplier: Supplier) => void;
   deleteSupplier: (supplierID: any) => void;
+  setLeadsTracker: (sellerId: number, supplierId: number) => void;
   showTab: string;
   showColumns: any;
   amazonMWSAuthorized: boolean;
@@ -83,6 +87,23 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       </div>
     );
   };
+
+  renderLeadsTracker = (row: Supplier) => {
+    const { setLeadsTracker } = this.props;
+    const leadsStatus =
+      row.leads_tracker_status === null || row.leads_tracker_status === 'inactive';
+    const isToggle = leadsStatus ? false : true;
+
+    return (
+      <LeadsTrackerToggle
+        setLeadsTracker={setLeadsTracker}
+        seller_id={row.seller_id}
+        supplier_id={row.supplier_id}
+        isToggle={isToggle}
+      />
+    );
+  };
+
   renderActions = (row: Supplier) => {
     const { amazonMWSAuthorized, handleUnauthorizedMwsAuth, subscriptionType } = this.props;
     return (
@@ -330,6 +351,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderActions,
     },
     {
+      label: 'Leads Tracking',
+      dataKey: 'leads_tracking',
+      show: this.props.sellerSubscription.subscription_id === 3 ? true : false,
+      render: this.renderLeadsTracker,
+    },
+    {
       label: 'Other',
       dataKey: 'other',
       show: true,
@@ -445,6 +472,7 @@ const mapStateToProps = (state: {}) => ({
   amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
 });
@@ -458,6 +486,7 @@ const mapDispatchToProps = {
   unFavourite: (supplierID: number, tag: string) => setFavouriteSupplier(supplierID, tag),
   reRun: (supplier: Supplier) => postSynthesisRerun(supplier),
   deleteSupplier: (supplier: any) => deleteSupplier(supplier),
+  setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setProgress,
   setSpeed,
   handleUnauthorizedMwsAuth,

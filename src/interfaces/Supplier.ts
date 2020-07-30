@@ -28,4 +28,5 @@ export interface Supplier {
   file_url: string;
   report_url: string;
   file_status: string;
+  leads_tracker_status?: string;
 }

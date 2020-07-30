@@ -107,7 +107,6 @@ class RevenueChart extends Component<RevenueChartProps> {
         crosshairs: true,
         followPointer: true,
         followTouchMove: true,
-        outside: true,
         style: {
           padding: 0,
         },

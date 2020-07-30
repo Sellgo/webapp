@@ -193,6 +193,49 @@
     }
   }
 
+  &__preset-filter {
+    padding: 10px;
+
+    &__header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+
+      &__filter-name {
+        font-weight: 600;
+        color: #3b4557;
+        font-size: 16px;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      &__preset-reset {
+        padding: 0 10px;
+
+        p {
+          cursor: pointer;
+          color: #349af8;
+          font-size: 12px;
+          display: contents;
+        }
+      }
+    }
+
+    &__content {
+      &__filter-name {
+        font-weight: 600;
+        color: #3b4557;
+        font-size: 16px;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px;
+    }
+  }
+
   &__period {
     &__list {
       display: flex;
