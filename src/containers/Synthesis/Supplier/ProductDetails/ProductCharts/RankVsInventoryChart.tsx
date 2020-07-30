@@ -3,6 +3,9 @@ import Chart from '../../../../../components/Chart/Chart';
 import { MINUTES_IN_A_DAY } from '../../../../../utils/date';
 import { filterPeriods } from '../../../../../constants/Tracker';
 
+/**
+ * WARNING: DEPRECATED.
+ */
 export default ({ productRanks, productInventories, period, xMax, xMin }: any) => {
   const data = [
     {
