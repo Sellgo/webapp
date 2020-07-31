@@ -109,7 +109,7 @@ function ProductTrackerFilterSection(props: Props) {
       localStorage.setItem('trackerFilter', JSON.stringify(filterState));
     } else if (filterStorage) {
       if (resettingFilter) {
-        filterReset(true);
+        resetFilter();
         setTimeout(() => {
           applyFilter();
           filterReset(false);
