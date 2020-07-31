@@ -27,8 +27,7 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
       },
       title: {
         text: title,
-        margin: 50,
-        align: 'left',
+        align: 'center',
       },
       xAxis: [
         {
