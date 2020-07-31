@@ -7,6 +7,7 @@ import Login from '../Login';
 export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
+
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     }

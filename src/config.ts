@@ -11,6 +11,7 @@ const PROD_URLS = {
   BASE_URL_API: 'https://api.sellgo.com/api/',
   CHANGE_PASS_API_URL: 'https://sellgo.auth0.com/dbconnections/change_password',
 };
+
 const DEV_KEYS = {
   STRIPE_API_KEY: 'pk_test_thMkxDX66HmQoec5jcK34bAc0083aPonvE',
   PIXEL_ID: '990701281388485',
