@@ -1,13 +1,14 @@
 import React from 'react';
 import {
   ElementsConsumer,
-  CardElement,
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
 } from '@stripe/react-stripe-js';
 import { error, success } from '../../../utils/notifications';
-import { Form, Header } from 'semantic-ui-react';
+import { Form, Header, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { AppConfig } from '../../../config';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -26,8 +27,21 @@ const CARD_ELEMENT_OPTIONS = {
     },
   },
 };
-class CheckoutForm extends React.Component<any> {
-  constructor(props: any) {
+
+interface MyProps {
+  stripe: any;
+  elements: any;
+}
+interface MyState {
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+class CheckoutForm extends React.Component<MyProps, MyState> {
+  constructor(props: MyProps) {
     super(props);
     this.state = {
       name: '',
@@ -38,23 +52,29 @@ class CheckoutForm extends React.Component<any> {
       country: '',
     };
   }
-  handleSubmit = async (event: Event) => {
+  handleSubmit = (event: any) => {
     // Block native form submission.
     event.preventDefault();
 
     const { stripe, elements } = this.props;
-
+    const { name, address, city, state, zipCode, country } = this.state;
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
       return;
     }
+    const cardElement = elements.getElement(CardNumberElement);
 
-    const result = await stripe.confirmCardPayment('{CLIENT_SECRET}', {
+    const result = stripe.confirmCardPayment(AppConfig.STRIPE_API_KEY, {
       payment_method: {
-        card: elements.getElement(CardElement),
+        card: cardElement,
         billing_details: {
-          name: 'Jenny Rosen',
+          name: name,
+          address: address,
+          city: city,
+          country: country,
+          state: state,
+          postal_code: zipCode,
         },
       },
     });
@@ -84,10 +104,7 @@ class CheckoutForm extends React.Component<any> {
           Secure Credit Card Payment
         </Header>
         <span className="payment-container__subtitle">14-days money back guarantee.</span>
-        <Form
-          onSubmit={() => this.handleSubmit}
-          className="payment-container__stripe-checkout-form"
-        >
+        <Form onSubmit={this.handleSubmit} className="payment-container__stripe-checkout-form">
           <Form.Field className="payment-container__stripe-checkout-form__card-number-field">
             <label htmlFor="CardNumber">Credit Card Number</label>
             <CardNumberElement id="CardNumber" options={CARD_ELEMENT_OPTIONS} />
@@ -154,11 +171,11 @@ class CheckoutForm extends React.Component<any> {
             <Form.Input
               className="payment-container__stripe-checkout-form__group-3__country"
               size="huge"
-              label="Contry or Region"
+              label="Country or Region"
               type="text"
-              placeholder="City"
+              placeholder="Country"
               onChange={event => {
-                this.setState({ ccountryity: event.target.value });
+                this.setState({ country: event.target.value });
               }}
             />
             <Form.Input
@@ -168,11 +185,31 @@ class CheckoutForm extends React.Component<any> {
               type="text"
               placeholder="eg. 97201"
               onChange={event => {
-                this.setState({ zipcode: event.target.value });
+                this.setState({ zipCode: event.target.value });
               }}
             />
           </Form.Group>
-          <button disabled={!this.props.stripe}>Complete Payment</button>
+
+          <Form.Group className="payment-container__stripe-checkout-form__buttons">
+            <Link
+              to="/subscription"
+              className="payment-container__stripe-checkout-form__buttons__back"
+            >
+              <Button size="huge" basic>
+                Back
+              </Button>
+            </Link>
+            <Form.Field
+              disabled={!this.props.stripe}
+              size="huge"
+              className="payment-container__stripe-checkout-form__buttons__register"
+              control={Button}
+              primary={true}
+              value="Submit"
+            >
+              Complete Payment
+            </Form.Field>
+          </Form.Group>
         </Form>
       </>
     );
