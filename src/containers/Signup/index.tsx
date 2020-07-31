@@ -162,10 +162,7 @@ export default function Signup(props: Props, state: State) {
           } else {
             localStorage.setItem('accountType', accountType);
             ReactPixel.init(AppConfig.PIXEL_ID);
-            ReactPixel.track('CompleteRegistration', {
-              first_name: firstname,
-              last_name: lastname,
-            });
+            ReactPixel.track('CompleteRegistration');
             Axios.post(`${AppConfig.BASE_URL_API}newsletter/subscribe`, {
               email,
               firstname,
