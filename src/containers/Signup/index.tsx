@@ -37,7 +37,6 @@ function Signup(props: any, state: State) {
   useEffect(() => {
     fetchTOS();
     fetchPP();
-    console.log('props privacyPolicy: ', privacyPolicy);
   }, [fetchTOS, fetchPP]);
 
   const passwordPolicy = new PasswordValidator()
