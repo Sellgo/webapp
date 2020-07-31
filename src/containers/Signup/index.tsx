@@ -11,6 +11,7 @@ import Axios from 'axios';
 import PasswordValidator from 'password-validator';
 import '../Signup/index.scss';
 import { AppConfig } from '../../config';
+import ReactPixel from 'react-facebook-pixel';
 
 interface Props {
   auth: Auth;
@@ -160,6 +161,11 @@ export default function Signup(props: Props, state: State) {
             error(err);
           } else {
             localStorage.setItem('accountType', accountType);
+            ReactPixel.init(AppConfig.PIXEL_ID);
+            ReactPixel.track('CompleteRegistration', {
+              first_name: firstname,
+              last_name: lastname,
+            });
             Axios.post(`${AppConfig.BASE_URL_API}newsletter/subscribe`, {
               email,
               firstname,
