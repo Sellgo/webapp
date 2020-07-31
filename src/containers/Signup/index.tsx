@@ -161,6 +161,7 @@ export default function Signup(props: Props, state: State) {
             error(err);
           } else {
             localStorage.setItem('accountType', accountType);
+            ReactPixel.init(AppConfig.PIXEL_ID);
             ReactPixel.track('CompleteRegistration', {
               first_name: firstname,
               last_name: lastname,
