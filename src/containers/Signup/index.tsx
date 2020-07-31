@@ -153,6 +153,10 @@ function Signup(props: any, state: State) {
   function onFocus() {
     setFocusPassword(true);
   }
+  const onClose = () => {
+    setOpenTOS(false);
+    setOpenPP(false);
+  };
 
   const TOS = () => {
     return (
@@ -177,7 +181,7 @@ function Signup(props: any, state: State) {
   };
   const newUserExperiencePopup = () => {
     return (
-      <Modal size={'small'} open={openTOS || openPP}>
+      <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
         <Modal.Content>
           {openTOS && <TOS />}
           {openPP && <PP />}
