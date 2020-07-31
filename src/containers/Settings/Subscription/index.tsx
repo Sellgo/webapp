@@ -33,6 +33,7 @@ import Stripe from '../../../assets/images/powered_by_stripe.svg';
 import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
+import _ from 'lodash';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -400,9 +401,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <Table.Header className="plans-table-container__wrapper__table__header">
                   <Table.Row>
                     <Table.HeaderCell></Table.HeaderCell>
-                    <Table.HeaderCell>Basic Plan</Table.HeaderCell>
-                    <Table.HeaderCell>Pro Plan</Table.HeaderCell>
-                    <Table.HeaderCell>Enterprise</Table.HeaderCell>
+                    {_.map(subscriptions, (data, index) => {
+                      return <Table.HeaderCell key={index}>{data.name}</Table.HeaderCell>;
+                    })}
                   </Table.Row>
                 </Table.Header>
 
@@ -475,15 +476,21 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Product Tracking</Table.Cell>
-                    <Table.Cell>
-                      <p>50 Tracking</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>100 Tracking</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Inquiry based</p>
-                    </Table.Cell>
+                    {_.map(subscriptions, (data, index) => {
+                      if (data.track_limit !== -1) {
+                        return (
+                          <Table.Cell key={index}>
+                            <p>{data.track_limit}</p>
+                          </Table.Cell>
+                        );
+                      } else {
+                        return (
+                          <Table.Cell key={index}>
+                            <p>Inquiry based</p>
+                          </Table.Cell>
+                        );
+                      }
+                    })}
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Track Inventory Daily</Table.Cell>

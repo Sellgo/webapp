@@ -2,10 +2,33 @@ import React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Boost from 'highcharts/modules/boost';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
+import BrokenAxis from 'highcharts/modules/broken-axis';
 import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
+import { PercentAlign } from '../../utils/highchartExtensions';
 
+export const defaultButtonTheme: any = {
+  theme: {
+    fill: 'white',
+    stroke: 'silver',
+    r: 0,
+    states: {
+      hover: {
+        fill: '#41739D',
+        style: {
+          color: 'white',
+        },
+      },
+    },
+  },
+};
+
+// activate modules
 Boost(Highcharts);
+NoDataToDisplay(Highcharts);
+BrokenAxis(Highcharts);
+PercentAlign(Highcharts);
 
 /* 
 Define default Highchart options here.
@@ -21,6 +44,12 @@ Highcharts.setOptions({
   },
 });
 const defaultOptions: Highcharts.Options = {
+  chart: {
+    style: {
+      fontFamily: 'Work Sans',
+    },
+    resetZoomButton: defaultButtonTheme,
+  },
   plotOptions: {
     series: {
       // general options for all series
