@@ -35,6 +35,24 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
     });
 };
 
+export const createSubscription = (data: any) => {
+  const sellerID = localStorage.getItem('userId');
+  const bodyFormData = new FormData();
+  bodyFormData.set('subscription_id', data.subscription_id);
+  bodyFormData.set('payment_method_id', data.payment_method_id);
+  bodyFormData.set('price_id', data.subscription_id);
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/create`,
+    bodyFormData
+  )
+    .then(response => {
+      console.log('response: ', response);
+    })
+    .catch(err => {
+      console.log('error: ', err);
+    });
+};
+
 export const fetchSellerSubscriptionTrial = (subscription: any) => (dispatch: any) => {
   const data = _.cloneDeep(subscription);
   const sellerID = localStorage.getItem('userId');

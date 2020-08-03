@@ -1,14 +1,17 @@
 import React from 'react';
 import {
-  ElementsConsumer,
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
+  useStripe,
+  useElements,
 } from '@stripe/react-stripe-js';
-import { error, success } from '../../../utils/notifications';
 import { Form, Header, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { AppConfig } from '../../../config';
+import { connect } from 'react-redux';
+import { get } from 'lodash';
+import { createSubscription } from '../../../actions/Settings/Subscription';
+import { useInput } from '../../../hooks/useInput';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -29,197 +32,181 @@ const CARD_ELEMENT_OPTIONS = {
 };
 
 interface MyProps {
-  stripe: any;
-  elements: any;
+  sellerSubscription: any;
 }
-interface MyState {
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-}
-class CheckoutForm extends React.Component<MyProps, MyState> {
-  constructor(props: MyProps) {
-    super(props);
-    this.state = {
-      name: '',
-      address: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: '',
-    };
-  }
-  handleSubmit = (event: any) => {
+function CheckoutForm(props: MyProps) {
+  const stripe: any = useStripe();
+  const elements = useElements();
+
+  const { value: name, bind: bindName } = useInput('');
+  const { value: address, bind: bindAddress } = useInput('');
+  const { value: city, bind: bindCity } = useInput('');
+  const { value: stateAddress, bind: bindStateAddress } = useInput('');
+  const { value: zipCode, bind: bindZipCode } = useInput('');
+  const { value: country, bind: bindCountry } = useInput('');
+  const handleSubmit = async (event: any) => {
+    console.log('THIS: ', name, address, city, stateAddress, zipCode, country);
+    // const { name, address, city, stateAddress, zipCode, country } = state;
     // Block native form submission.
     event.preventDefault();
-
-    const { stripe, elements } = this.props;
-    const { name, address, city, state, zipCode, country } = this.state;
+    const { sellerSubscription } = props;
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
       return;
     }
     const cardElement = elements.getElement(CardNumberElement);
+    // If a previous payment was attempted, get the latest invoice
+    const latestInvoicePaymentIntentStatus = localStorage.getItem(
+      'latestInvoicePaymentIntentStatus'
+    );
 
-    const result = stripe.confirmCardPayment(AppConfig.STRIPE_API_KEY, {
-      payment_method: {
-        card: cardElement,
-        billing_details: {
-          name: name,
-          address: address,
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+      billing_details: {
+        name: name,
+        address: {
+          line1: address,
           city: city,
           country: country,
-          state: state,
+          state: stateAddress,
           postal_code: zipCode,
         },
       },
     });
 
-    if (result.error) {
-      error(result.error);
-      // Show error to your customer (e.g., insufficient funds)
-      console.log(result.error.message);
+    if (error) {
+      console.log('[createPaymentMethod error]', error);
     } else {
-      success('The payment has been processed!');
-      // The payment has been processed!
-      if (result.paymentIntent.status === 'succeeded') {
-        success('The payment succeeded!');
-        // Show a success message to your customer
-        // There's a risk of the customer closing the window before callback
-        // execution. Set up a webhook or plugin to listen for the
-        // payment_intent.succeeded event that handles any business critical
-        // post-payment actions.
+      console.log('[PaymentMethod]', paymentMethod);
+      const paymentMethodId = paymentMethod.id;
+      if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
+        // Update the payment method and retry invoice payment
+        // const invoiceId = localStorage.getItem('latestInvoiceId');
+        // retryInvoiceWithNewPaymentMethod({
+        //   customerId,
+        //   paymentMethodId,
+        //   invoiceId,
+        //   priceId,
+        // });
+      } else {
+        const data = {
+          subscription_id: sellerSubscription.subscription_id,
+          payment_method_id: paymentMethodId,
+        };
+        createSubscription(data);
       }
     }
   };
 
-  render() {
-    return (
-      <>
-        <Header className="payment-container__title" as="h2">
-          Secure Credit Card Payment
-        </Header>
-        <span className="payment-container__subtitle">14-days money back guarantee.</span>
-        <Form onSubmit={this.handleSubmit} className="payment-container__stripe-checkout-form">
-          <Form.Field className="payment-container__stripe-checkout-form__card-number-field">
-            <label htmlFor="CardNumber">Credit Card Number</label>
-            <CardNumberElement id="CardNumber" options={CARD_ELEMENT_OPTIONS} />
-          </Form.Field>
-          <Form.Group className="checkout-form__group-1">
-            <Form.Input
-              className="payment-container__stripe-checkout-form__group-1__card-name"
-              size="huge"
-              label="FirstName"
-              type="text"
-              placeholder="Name on Card"
-              onChange={event => {
-                this.setState({ name: event.target.value });
-              }}
-            />
-            <Form.Field className="payment-container__stripe-checkout-form__group-1__card-exp-field">
-              <label htmlFor="expiry">Expiry Date</label>
-
-              <CardExpiryElement id="expiry" options={CARD_ELEMENT_OPTIONS} />
-            </Form.Field>
-
-            <Form.Field className="payment-container__stripe-checkout-form__group-1__card-cvc-field">
-              <label htmlFor="cvc">CVC</label>
-              <CardCvcElement id="cvc" options={CARD_ELEMENT_OPTIONS} />
-            </Form.Field>
-          </Form.Group>
-
-          <Header className="payment-container__stripe-checkout-form__billing_title" as="h2">
-            Billing Address
-          </Header>
-          <Form.Input
-            className="payment-container__stripe-checkout-form__address"
-            size="huge"
-            label="Address"
-            type="text"
-            placeholder="Address"
-            onChange={event => {
-              this.setState({ address: event.target.value });
-            }}
-          />
-          <Form.Group className="payment-container__stripe-checkout-form__group-2">
-            <Form.Input
-              className="payment-container__stripe-checkout-form__group-2__city"
-              size="huge"
-              label="City"
-              type="text"
-              placeholder="City"
-              onChange={event => {
-                this.setState({ city: event.target.value });
-              }}
-            />
-            <Form.Input
-              className="payment-container__stripe-checkout-form__group-2__state"
-              size="huge"
-              label="State"
-              type="text"
-              placeholder="eg. California"
-              onChange={event => {
-                this.setState({ state: event.target.value });
-              }}
-            />
-          </Form.Group>
-          <Form.Group className="payment-container__stripe-checkout-form__group-3">
-            <Form.Input
-              className="payment-container__stripe-checkout-form__group-3__country"
-              size="huge"
-              label="Country or Region"
-              type="text"
-              placeholder="Country"
-              onChange={event => {
-                this.setState({ country: event.target.value });
-              }}
-            />
-            <Form.Input
-              className="payment-container__stripe-checkout-form__group-3__zipcode"
-              size="huge"
-              label="Zipcode"
-              type="text"
-              placeholder="eg. 97201"
-              onChange={event => {
-                this.setState({ zipCode: event.target.value });
-              }}
-            />
-          </Form.Group>
-
-          <Form.Group className="payment-container__stripe-checkout-form__buttons">
-            <Link
-              to="/subscription"
-              className="payment-container__stripe-checkout-form__buttons__back"
-            >
-              <Button size="huge" basic>
-                Back
-              </Button>
-            </Link>
-            <Form.Field
-              disabled={!this.props.stripe}
-              size="huge"
-              className="payment-container__stripe-checkout-form__buttons__register"
-              control={Button}
-              primary={true}
-              value="Submit"
-            >
-              Complete Payment
-            </Form.Field>
-          </Form.Group>
-        </Form>
-      </>
-    );
-  }
-}
-
-export default function InjectedCheckoutForm() {
   return (
-    <ElementsConsumer>
-      {({ stripe, elements }) => <CheckoutForm stripe={stripe} elements={elements} />}
-    </ElementsConsumer>
+    <>
+      <Header className="payment-container__title" as="h2">
+        Secure Credit Card Payment
+      </Header>
+      <span className="payment-container__subtitle">14-days money back guarantee.</span>
+      <Form onSubmit={handleSubmit} className="payment-container__stripe-checkout-form">
+        <Form.Field className="payment-container__stripe-checkout-form__card-number-field">
+          <label htmlFor="CardNumber">Credit Card Number</label>
+          <CardNumberElement id="CardNumber" options={CARD_ELEMENT_OPTIONS} />
+        </Form.Field>
+        <Form.Group className="checkout-form__group-1">
+          <Form.Input
+            className="payment-container__stripe-checkout-form__group-1__card-name"
+            size="huge"
+            label="FirstName"
+            type="text"
+            placeholder="Name on Card"
+            {...bindName}
+          />
+          <Form.Field className="payment-container__stripe-checkout-form__group-1__card-exp-field">
+            <label htmlFor="expiry">Expiry Date</label>
+
+            <CardExpiryElement id="expiry" options={CARD_ELEMENT_OPTIONS} />
+          </Form.Field>
+
+          <Form.Field className="payment-container__stripe-checkout-form__group-1__card-cvc-field">
+            <label htmlFor="cvc">CVC</label>
+            <CardCvcElement id="cvc" options={CARD_ELEMENT_OPTIONS} />
+          </Form.Field>
+        </Form.Group>
+
+        <Header className="payment-container__stripe-checkout-form__billing_title" as="h2">
+          Billing Address
+        </Header>
+        <Form.Input
+          className="payment-container__stripe-checkout-form__address"
+          size="huge"
+          label="Address"
+          type="text"
+          placeholder="Address"
+          {...bindAddress}
+        />
+        <Form.Group className="payment-container__stripe-checkout-form__group-2">
+          <Form.Input
+            className="payment-container__stripe-checkout-form__group-2__city"
+            size="huge"
+            label="City"
+            type="text"
+            placeholder="City"
+            {...bindCity}
+          />
+          <Form.Input
+            className="payment-container__stripe-checkout-form__group-2__state"
+            size="huge"
+            label="State"
+            type="text"
+            placeholder="eg. California"
+            {...bindStateAddress}
+          />
+        </Form.Group>
+        <Form.Group className="payment-container__stripe-checkout-form__group-3">
+          <Form.Input
+            className="payment-container__stripe-checkout-form__group-3__country"
+            size="huge"
+            label="Country or Region"
+            type="text"
+            placeholder="Country"
+            {...bindCountry}
+          />
+          <Form.Input
+            className="payment-container__stripe-checkout-form__group-3__zipcode"
+            size="huge"
+            label="Zipcode"
+            type="text"
+            placeholder="eg. 97201"
+            {...bindZipCode}
+          />
+        </Form.Group>
+
+        <Form.Group className="payment-container__stripe-checkout-form__buttons">
+          <Link
+            to="/subscription"
+            className="payment-container__stripe-checkout-form__buttons__back"
+          >
+            <Button size="huge" basic>
+              Back
+            </Button>
+          </Link>
+          <Form.Field
+            disabled={!stripe}
+            size="huge"
+            className="payment-container__stripe-checkout-form__buttons__register"
+            control={Button}
+            primary={true}
+            value="Submit"
+          >
+            Complete Payment
+          </Form.Field>
+        </Form.Group>
+      </Form>
+    </>
   );
 }
+
+const mapStateToProps = (state: {}) => ({
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
+});
+
+export default connect(mapStateToProps)(CheckoutForm);
