@@ -154,7 +154,6 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SUPPLIER_QUOTA:
       return setIn(state, 'quota', action.payload);
-
     default:
       return state;
   }

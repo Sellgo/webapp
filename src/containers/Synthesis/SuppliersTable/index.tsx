@@ -62,6 +62,7 @@ interface SuppliersTableProps {
 
 class SuppliersTable extends Component<SuppliersTableProps> {
   state = { showPieChartModalOpen: false, supplier: undefined, showDeleteConfirm: false };
+
   renderName = (row: Supplier) => {
     const name =
       row.file_status === 'completed' ? (
