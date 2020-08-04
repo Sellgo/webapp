@@ -263,6 +263,16 @@ label.block {
   width: 421px !important;
 }
 
+.dropdown_pid {
+  display: block !important;
+  font-size: 13px;
+  margin-bottom: 10px;
+
+  :first-child {
+    font-weight: 600 !important;
+  }
+}
+
 .phone-field input[type='number']::-webkit-inner-spin-button,
 .phone-field input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;

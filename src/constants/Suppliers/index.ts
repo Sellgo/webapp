@@ -216,7 +216,8 @@ export const searchFilteredProduct = (products: any, value: string) => {
     return (
       (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
       (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
+      (product.ean && product.ean.toLowerCase().indexOf(value.toLowerCase()) !== -1)
     );
   });
   return updatedFilterProducts;

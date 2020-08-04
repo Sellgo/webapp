@@ -23,6 +23,7 @@ export interface Product {
   product_cost: string;
   fees: string;
   upc: string;
+  ean: string;
   dimension: string;
   weight: string;
   size_tier: string;

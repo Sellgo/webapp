@@ -39,6 +39,9 @@ export const currentError = (state: object): [] => get(state, 'uploadSupplier.re
 export const fileStringArraySelector = (state: object): string[][] =>
   get(state, 'uploadSupplier.fileStringArray', null);
 
+export const primaryIdTypeSelector = (state: object): string =>
+  get(state, 'uploadSupplier.primaryIdType', '');
+
 export const columnMappingsSelector = (state: object): [] =>
   get(state, 'uploadSupplier.columnMappings', []);
 
