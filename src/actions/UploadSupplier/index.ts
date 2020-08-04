@@ -5,7 +5,6 @@ import Axios from 'axios';
 import XLSX from 'xlsx';
 import reduce from 'lodash/reduce';
 import {
-  isFirstRowHeaderSelector,
   columnMappingSettingSelector,
   currentStepSelector,
   columnMappingsSelector,
@@ -377,8 +376,6 @@ export const validateAndUploadFile = () => async (
     bodyFormData.set('sku', reversedColumnMappings.sku);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'msrp'))
     bodyFormData.set('msrp', reversedColumnMappings.msrp);
-  // correct this
-  if (isFirstRowHeaderSelector(getState())) bodyFormData.set('has_header', 'True');
 
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
