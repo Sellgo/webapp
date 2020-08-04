@@ -82,11 +82,9 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
     }
     return { ...supplier, ...{ progress: -1, speed: -1 } };
   });
-  const [supplier]: any = suppliers;
 
   dispatch(setSuppliers(suppliers));
   dispatch(fetchSynthesisProgressUpdates());
-  setLatestSupplier(supplier);
 };
 
 export const fetchSupplier = (supplierID: any) => async (

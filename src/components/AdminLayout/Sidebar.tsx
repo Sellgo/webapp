@@ -27,22 +27,22 @@ class SidebarCollapsible extends Component<
     auth: Auth;
     currentNotifyId: number;
   },
-  { visible: boolean; openConfirm: boolean },
+  { visible: boolean; openConfirm: boolean; active: number },
   State
 > {
   state = {
     sidebarIcon: [
       {
-        id: 1,
-        label: 'Profit Finder',
-        icon: 'fas fa-search-dollar',
-        path: '/synthesis',
-        notifyId: 1,
+        id: 7,
+        label: 'Search Management',
+        icon: 'fas fa-clipboard-list',
+        path: '/synthesis/',
+        notifyId: 2,
       },
       {
-        id: 7,
-        label: 'Profit Finder',
-        icon: 'fas fa-clipboard-list',
+        id: 1,
+        label: 'Search Management',
+        icon: 'fas fa-search-dollar',
         path: '/synthesis',
         notifyId: 1,
       },
@@ -67,6 +67,7 @@ class SidebarCollapsible extends Component<
     ],
     visible: false,
     openConfirm: false,
+    active: 1,
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
@@ -74,6 +75,7 @@ class SidebarCollapsible extends Component<
     this.setState({ openConfirm: true });
   };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
+  setActiveLink = (id: number) => this.setState({ active: id });
 
   render() {
     const { visible } = this.state;
@@ -98,17 +100,17 @@ class SidebarCollapsible extends Component<
                     <Menu.Item
                       onClick={() => {
                         visible && this.handleAnimationChange();
+                        this.setActiveLink(icon.id);
                       }}
                       as={Link}
-                      to={
-                        icon.id === 7 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
-                      }
+                      disabled={!!(icon.id === 7 && !supplier_id)}
+                      to={icon.id === 7 && !!supplier_id ? `${icon.path}${supplier_id}` : icon.path}
                       name={icon.icon}
-                      active={initPath.startsWith(icon.path)}
+                      active={icon.id === this.state.active}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'}`}
+                          'forward'} ${icon.id === 7 && !supplier_id ? 'disabled-link' : ''}`}
                       />
 
                       <Label> {icon.label} </Label>
