@@ -102,7 +102,6 @@ function ProductTrackerFilterSection(props: Props) {
     */
     if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
       setFilterType('');
-      resetFilter(true);
       const filterValue = filterState;
       filterValue.activeGroupId = activeGroupId;
       setFilterState(filterValue);
@@ -463,40 +462,21 @@ function ProductTrackerFilterSection(props: Props) {
     }
   };
 
-  const resetFilter = (fromPeriod?: boolean) => {
+  const resetFilter = (onClick?: boolean) => {
     const ranges = findMinMax(groupProducts);
     const data = filterState;
     data.sellerID = sellerIDSelector();
-    if (!fromPeriod) {
-      data.reviews = [];
-      data.removeNegative = [];
-      selectAllReviews();
-    }
+
+    data.reviews = [];
+    data.removeNegative = [];
+    selectAllReviews();
     data.avg_price = ranges.avg_price;
 
-    data.avg_profit =
-      fromPeriod && data.removeNegative.indexOf('avg_profit') !== -1
-        ? {
-            min: ranges.avg_profit.min < 0 ? 0 : ranges.avg_profit.min,
-            max: ranges.avg_profit.max < 0 ? 0 : ranges.avg_profit.max,
-          }
-        : ranges.avg_profit;
+    data.avg_profit = ranges.avg_profit;
 
-    data.avg_margin =
-      fromPeriod && data.removeNegative.indexOf('avg_margin') !== -1
-        ? {
-            min: ranges.avg_margin.min < 0 ? 0 : ranges.avg_margin.min,
-            max: ranges.avg_margin.max < 0 ? 0 : ranges.avg_margin.max,
-          }
-        : ranges.avg_margin;
+    data.avg_margin = ranges.avg_margin;
 
-    data.avg_roi =
-      fromPeriod && data.removeNegative.indexOf('avg_roi') !== -1
-        ? {
-            min: ranges.avg_roi.min < 0 ? 0 : ranges.avg_roi.min,
-            max: ranges.avg_roi.max < 0 ? 0 : ranges.avg_roi.max,
-          }
-        : ranges.avg_roi;
+    data.avg_roi = ranges.avg_roi;
 
     data.avg_daily_sales = ranges.avg_daily_sales;
     data.avg_rank = ranges.avg_rank;
@@ -512,7 +492,9 @@ function ProductTrackerFilterSection(props: Props) {
       setFilterRanges(ranges);
     });
     setFilterState(data);
-    setFilterType('');
+    if (onClick) {
+      setFilterType('');
+    }
   };
 
   const resetProfitabilityPreset = (preset?: true) => {
