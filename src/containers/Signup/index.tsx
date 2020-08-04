@@ -14,6 +14,7 @@ import { AppConfig } from '../../config';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { fetchTOS, fetchPP } from '../../actions/UserOnboarding';
+import ReactPixel from 'react-facebook-pixel';
 
 interface Props {
   auth: Auth;
@@ -205,6 +206,8 @@ function Signup(props: any, state: State) {
             error(err);
           } else {
             localStorage.setItem('accountType', accountType);
+            ReactPixel.init(AppConfig.PIXEL_ID);
+            ReactPixel.track('CompleteRegistration');
             Axios.post(`${AppConfig.BASE_URL_API}newsletter/subscribe`, {
               email,
               firstname,
