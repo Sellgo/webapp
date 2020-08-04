@@ -33,32 +33,32 @@ class SidebarCollapsible extends Component<
   state = {
     sidebarIcon: [
       {
-        id: 7,
+        id: 1,
         label: 'Search Management',
         icon: 'fas fa-clipboard-list',
         path: '/synthesis/',
-        notifyId: 2,
+        notifyId: 1,
       },
       {
-        id: 1,
+        id: 2,
         label: 'Search Management',
         icon: 'fas fa-search-dollar',
         path: '/synthesis',
         notifyId: 1,
       },
       {
-        id: 2,
+        id: 3,
         label: 'Product Tracker',
         icon: 'fas fa-fingerprint',
         path: '/product-tracker',
         notifyId: 2,
       },
 
-      { id: 3, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
-      { id: 4, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
-      { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
+      { id: 4, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
+      { id: 5, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
+      { id: 6, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
       {
-        id: 6,
+        id: 7,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -91,7 +91,7 @@ class SidebarCollapsible extends Component<
       <>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id < 3 || icon.id === 7) {
+            if (icon.id <= 3) {
               return (
                 <Tour
                   data={icon}
@@ -103,14 +103,14 @@ class SidebarCollapsible extends Component<
                         this.setActiveLink(icon.id);
                       }}
                       as={Link}
-                      disabled={!!(icon.id === 7 && !supplier_id)}
-                      to={icon.id === 7 && !!supplier_id ? `${icon.path}${supplier_id}` : icon.path}
+                      disabled={!!(icon.id === 1 && !supplier_id)}
+                      to={icon.id === 1 && !!supplier_id ? `${icon.path}${supplier_id}` : icon.path}
                       name={icon.icon}
                       active={icon.id === this.state.active}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'} ${icon.id === 7 && !supplier_id ? 'disabled-link' : ''}`}
+                          'forward'} ${icon.id === 1 && !supplier_id ? 'disabled-link' : ''}`}
                       />
 
                       <Label> {icon.label} </Label>
@@ -125,7 +125,7 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id === 3) {
+            if (icon.id === 4) {
               return (
                 <Tour
                   data={icon}
@@ -147,7 +147,7 @@ class SidebarCollapsible extends Component<
                   }
                 />
               );
-            } else if (icon.id > 3 && icon.id !== 7) {
+            } else if (icon.id > 3) {
               return (
                 <Tour
                   data={icon}
@@ -160,8 +160,8 @@ class SidebarCollapsible extends Component<
                       name={icon.icon}
                       active={initPath.startsWith(icon.path)}
                       onClick={() => {
-                        icon.id === 4 && this.open();
-                        icon.id === 5 && visible && this.handleAnimationChange();
+                        icon.id === 5 && this.open();
+                        icon.id === 6 && visible && this.handleAnimationChange();
                       }}
                     >
                       <i
