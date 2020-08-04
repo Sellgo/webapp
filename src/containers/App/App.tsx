@@ -61,6 +61,7 @@ const PrivateRoute = connect(
     requireSubscription,
     sellerSubscription,
     fetchSellerSubscription,
+    isSubscriptionFlow,
     location,
     ...rest
   }: any) => {
@@ -100,6 +101,7 @@ const PrivateRoute = connect(
       sellerSubscription,
       fetchSellerSubscription,
       requireSubscription,
+      isSubscriptionFlow,
       location,
     ]);
 
@@ -122,10 +124,12 @@ const PrivateRoute = connect(
           // 2) or make available via redux or context provider
           props.match.params.auth = auth;
 
-          return (
+          return !isSubscriptionFlow ? (
             <AdminLayout auth={auth}>
               <Component {...props} />
             </AdminLayout>
+          ) : (
+            <Component auth={auth} {...props} />
           );
         }}
       />
@@ -166,7 +170,12 @@ function App() {
             path="/subscription"
             render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
           />
-          <Route exact={true} path="/subscription/payment" component={Payment} />
+          <PrivateRoute
+            exact={true}
+            path="/subscription/payment"
+            component={Payment}
+            isSubscriptionFlow={true}
+          />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />
           <PrivateRoute
@@ -174,24 +183,28 @@ function App() {
             path="/synthesis"
             component={Synthesis}
             requireSubscription={true}
+            isSubscriptionFlow={false}
           />
           <PrivateRoute
             exact={true}
             path="/synthesis/:supplierID"
             component={SupplierDetail}
             requireSubscription={true}
+            isSubscriptionFlow={false}
           />
           <PrivateRoute
             exact={true}
             path="/product-tracker"
             component={ProductTracker}
             requireSubscription={true}
+            isSubscriptionFlow={false}
           />
           <PrivateRoute
             exact={true}
             path="/onboarding"
             component={Onboarding}
             requireSubscription={true}
+            isSubscriptionFlow={false}
           />
           <Route component={NotFound} />
         </Switch>

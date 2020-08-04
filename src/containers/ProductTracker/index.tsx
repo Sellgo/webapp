@@ -164,6 +164,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       setPageNumber,
       subscriptionType,
     } = this.props;
+    console.log('subscriptionType: ', subscriptionType);
     const { searchValue } = this.state;
     const currentGroupName = activeGroupId
       ? activeGroupId !== -1

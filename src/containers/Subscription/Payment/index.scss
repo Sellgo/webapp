@@ -79,6 +79,44 @@
       }
     }
   }
+
+  &.container {
+    box-shadow: 0 3px 20px #00000029;
+    border: 1px solid $font-grey;
+    border-radius: 8px;
+    margin: 0 !important;
+    width: 1157px !important;
+    padding: 33px 26px 29px 26px !important;
+    font-family: $font-fam;
+
+    &.text {
+      max-width: unset !important;
+    }
+
+    h3 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: $font-black;
+      margin-bottom: 20px !important;
+    }
+  }
+
+  .payment-success-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 500px;
+
+    button {
+      background-color: $font-blue;
+      font-size: 18px !important;
+      font-weight: bold;
+      width: 267px;
+      height: 56px;
+    }
+  }
 }
 
 /**

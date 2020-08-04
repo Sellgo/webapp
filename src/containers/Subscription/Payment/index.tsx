@@ -9,10 +9,16 @@ import { loadStripe } from '@stripe/stripe-js';
 import { success } from '../../../utils/notifications';
 import history from '../../../history';
 import Summary from '../Summary';
+import { connect } from 'react-redux';
+import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
+import SuccessContent from './SuccessContent';
+import Auth from '../../../components/Auth/Auth';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 interface PaymentProps {
+  auth: Auth;
   location: any;
+  subscriptionType: string;
 }
 class Payment extends React.Component<PaymentProps> {
   state = {
@@ -44,7 +50,9 @@ class Payment extends React.Component<PaymentProps> {
   }
   render() {
     const { accountType } = this.state;
-
+    const { subscriptionType, auth } = this.props;
+    console.log('subscriptionType: ', subscriptionType);
+    console.log(isSubscriptionNotPaid(subscriptionType));
     return (
       <Grid className="subscription-page" columns={2}>
         <Grid.Row>
@@ -57,10 +65,13 @@ class Payment extends React.Component<PaymentProps> {
             <Summary planType={accountType} />
             <Container text className="payment-container">
               <StepsContent contentType={'payment'} />
-
-              <Elements stripe={stripePromise}>
-                <CheckoutForm />
-              </Elements>
+              {isSubscriptionNotPaid(subscriptionType) ? (
+                <Elements stripe={stripePromise}>
+                  <CheckoutForm />
+                </Elements>
+              ) : (
+                <SuccessContent auth={auth} />
+              )}
             </Container>
           </Grid.Column>
         </Grid.Row>
@@ -69,4 +80,8 @@ class Payment extends React.Component<PaymentProps> {
   }
 }
 
-export default Payment;
+const mapStateToProps = (state: any) => ({
+  subscriptionType: state.subscription.subscriptionType,
+});
+
+export default connect(mapStateToProps)(Payment);
