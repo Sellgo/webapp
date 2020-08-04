@@ -1,4 +1,4 @@
-import { FieldsToMap, UploadSteps } from '../../constants/UploadSupplier';
+import { FieldsToMap, UploadSteps, PRODUCT_ID_TYPES } from '../../constants/UploadSupplier';
 import {
   reversedColumnMappingsSelector,
   fileStringArraySelector,
@@ -13,7 +13,7 @@ import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
 import { saveSupplierDetails, updateSupplierDetails, updateSearch, saveSearch } from '../Suppliers';
-import { fetchColumnMappings, setColumnMappings } from '.';
+import { fetchColumnMappings, setColumnMappings, setPrimaryIdType } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
 import get from 'lodash/get';
@@ -147,27 +147,55 @@ export class SelectFileStep extends Step {
     return errorMessage;
   }
 
-  guessColumnMappings(fileStringArray: string[][]) {
-    /**
-     *  This function guesses column mappings based on whether a cell in the header row contains a specific keyword.
-     *  Note: this function assumes that the first row of the fileStringArray is a header.
-     *
-     *  Potential future improvements:
-     *    1) check header row against multiple keywords for each column
-     *    2) guess from format of data rows
-     */
+  /**
+   *  This function guesses the primary id type of the file based on whether a cell in the header
+   * row contains a specific keyword.
+   *  Note: this function assumes that the first row of the fileStringArray is a header.
+   */
+  guessPrimaryIdType(fileStringArray: string[][]) {
+    const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
+
+    for (const idType of PRODUCT_ID_TYPES) {
+      const found =
+        header.findIndex(headerCell =>
+          String(headerCell)
+            .toLowerCase()
+            .includes(idType.toLowerCase())
+        ) !== -1;
+
+      if (found) return idType;
+    }
+
+    return null;
+  }
+
+  /**
+   *  This function guesses column mappings based on whether a cell in the header row contains a specific keyword.
+   *  Note: this function assumes that the first row of the fileStringArray is a header.
+   *
+   *  Potential future improvements:
+   *
+   *    1) check header row against multiple keywords for each column
+   *
+   *    2) guess from format of data rows
+   */
+  guessColumnMappings(fileStringArray: string[][], primaryIdType?: string) {
     const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
 
     const mappings: string[] = [];
     header.forEach((headerCell: string) => {
       const mappingKeys = FieldsToMap.map(item => item.key);
       if (headerCell) {
-        const keyIndex = mappingKeys.findIndex(
-          (key: string) =>
-            String(headerCell)
+        const keyIndex = mappingKeys.findIndex((key: string) => {
+          if (key === 'primary_id' && primaryIdType) {
+            return String(headerCell)
               .toLowerCase()
-              .includes(key.toLowerCase()) // find keyword in header cell
-        );
+              .includes(primaryIdType.toLowerCase());
+          }
+          return String(headerCell)
+            .toLowerCase()
+            .includes(key.toLowerCase()); // find keyword in header cell
+        });
         mappings.push(mappingKeys[keyIndex]);
       }
     });
@@ -179,7 +207,14 @@ export class SelectFileStep extends Step {
     const fileStringArray = fileStringArraySelector(this.getState());
     const hasHeaders = isFirstRowHeaderSelector(this.getState());
     if (hasHeaders) {
-      const mappings = this.guessColumnMappings(fileStringArray);
+      const primaryIdType = this.guessPrimaryIdType(fileStringArray);
+      let mappings;
+      if (primaryIdType) {
+        this.dispatch(setPrimaryIdType(primaryIdType));
+        mappings = this.guessColumnMappings(fileStringArray, primaryIdType);
+      } else {
+        mappings = this.guessColumnMappings(fileStringArray);
+      }
       if (mappings) {
         this.dispatch(setColumnMappings(mappings));
       }
