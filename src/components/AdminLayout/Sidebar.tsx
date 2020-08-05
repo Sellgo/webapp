@@ -125,7 +125,7 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id === 4) {
+            if (icon.id > 4) {
               return (
                 <Tour
                   data={icon}
