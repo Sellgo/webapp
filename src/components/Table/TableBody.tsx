@@ -111,7 +111,7 @@ export const TableBody = (props: TableBodyProps) => {
                     <td
                       colSpan={columns.length - 2}
                       key={`${index}-blank-row`}
-                      style={{ height: '60px' }}
+                      style={{ height: '6.05em' }}
                       className={
                         expandedRows && expandedRows === row.id ? 'remove-bottom-border' : ''
                       }
