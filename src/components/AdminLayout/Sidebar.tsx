@@ -27,7 +27,7 @@ class SidebarCollapsible extends Component<
     auth: Auth;
     currentNotifyId: number;
   },
-  { visible: boolean; openConfirm: boolean; active: number },
+  { visible: boolean; openConfirm: boolean; profitFinderActive: number },
   State
 > {
   state = {
@@ -35,14 +35,14 @@ class SidebarCollapsible extends Component<
       {
         id: 1,
         label: 'Search Management',
-        icon: 'fas fa-clipboard-list',
-        path: '/synthesis/',
+        icon: 'fas fa-search-dollar',
+        path: '/synthesis',
         notifyId: 1,
       },
       {
         id: 2,
         label: 'Search Management',
-        icon: 'fas fa-search-dollar',
+        icon: 'fas fa-clipboard-list',
         path: '/synthesis',
         notifyId: 1,
       },
@@ -67,7 +67,7 @@ class SidebarCollapsible extends Component<
     ],
     visible: false,
     openConfirm: false,
-    active: 1,
+    profitFinderActive: 1,
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
@@ -75,7 +75,7 @@ class SidebarCollapsible extends Component<
     this.setState({ openConfirm: true });
   };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
-  setActiveLink = (id: number) => this.setState({ active: id });
+  setActiveLink = (id: number) => this.setState({ profitFinderActive: id });
 
   render() {
     const { visible } = this.state;
@@ -103,14 +103,14 @@ class SidebarCollapsible extends Component<
                         this.setActiveLink(icon.id);
                       }}
                       as={Link}
-                      disabled={!!(icon.id === 1 && !supplier_id)}
-                      to={icon.id === 1 && !!supplier_id ? `${icon.path}${supplier_id}` : icon.path}
+                      disabled={!!(icon.id === 2 && !supplier_id)}
+                      to={icon.id === 2 && !!supplier_id ? `${icon.path}${supplier_id}` : icon.path}
                       name={icon.icon}
-                      active={icon.id === this.state.active}
+                      active={icon.id === this.state.profitFinderActive}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'} ${icon.id === 1 && !supplier_id ? 'disabled-link' : ''}`}
+                          'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
                       />
 
                       <Label> {icon.label} </Label>
