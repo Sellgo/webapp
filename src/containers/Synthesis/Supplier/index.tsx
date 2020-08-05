@@ -99,7 +99,7 @@ export class Supplier extends React.Component<SupplierProps> {
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: 'Search Management', to: '/synthesis' },
-            { content: `Profile Finder: ${supplierDetails.search}` || 'Search' },
+            { content: `Profit Finder: ${supplierDetails.search}` || 'Search' },
           ]}
           callToAction={<QuotaMeter />}
         />

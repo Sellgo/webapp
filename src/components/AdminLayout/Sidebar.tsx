@@ -104,7 +104,9 @@ class SidebarCollapsible extends Component<
                       }}
                       as={Link}
                       disabled={!!(icon.id === 2 && !supplier_id)}
-                      to={icon.id === 2 && !!supplier_id ? `${icon.path}${supplier_id}` : icon.path}
+                      to={
+                        icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
+                      }
                       name={icon.icon}
                       active={icon.id === this.state.profitFinderActive}
                     >
@@ -125,7 +127,7 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id > 4) {
+            if (icon.id === 4) {
               return (
                 <Tour
                   data={icon}
@@ -147,7 +149,7 @@ class SidebarCollapsible extends Component<
                   }
                 />
               );
-            } else if (icon.id > 3) {
+            } else if (icon.id > 4) {
               return (
                 <Tour
                   data={icon}
@@ -160,8 +162,8 @@ class SidebarCollapsible extends Component<
                       name={icon.icon}
                       active={initPath.startsWith(icon.path)}
                       onClick={() => {
-                        icon.id === 5 && this.open();
-                        icon.id === 6 && visible && this.handleAnimationChange();
+                        icon.id === 6 && this.open();
+                        icon.id === 7 && visible && this.handleAnimationChange();
                       }}
                     >
                       <i
