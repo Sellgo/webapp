@@ -4,6 +4,7 @@
   $font-blue: #349af8;
   $font-grey: #98aeca;
   $font-red: #eb675e;
+  $font-green: #5dc560;
 
   &__steps-content {
     display: flex;
@@ -116,6 +117,13 @@
 
       &__error {
         color: $font-red;
+        font-size: 20px;
+        text-align: center;
+        min-height: 30px;
+      }
+
+      &__success {
+        color: $font-green;
         font-size: 20px;
         text-align: center;
         min-height: 30px;

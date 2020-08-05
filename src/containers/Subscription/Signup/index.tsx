@@ -7,6 +7,7 @@ import PasswordValidator from 'password-validator';
 import StepsInfo from '../../../components/StepsInfo/StepsInfo';
 import { Steps } from '../../../interfaces/StepsInfo';
 import StepsContent from '../StepsContent';
+import history from '../../../history';
 
 interface Props {
   auth: Auth;
@@ -133,10 +134,8 @@ export default function Signup(props: Props, state: State) {
             setVerifyEmailError(true);
             setErrorMessage(err.description);
           } else {
-            // history.push({
-            //   pathname: '/',
-            //   state: { email },
-            // });
+            history.push('/subscription?signup=success');
+            setLogin();
           }
         }
       );

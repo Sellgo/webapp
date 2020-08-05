@@ -12,10 +12,17 @@ interface Props {
 export default function Login(props: Props) {
   const { auth, setSignup } = props;
   const [isError, setError] = useState(false);
+  const [isSignupSuccess, setSignupSuccess] = useState(
+    window.location.search === '?signup=success'
+  );
   const { value: username, bind: bindUserName } = useInput('');
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
-
+  const setErrorMessage = () => {
+    setError(true);
+    setSignupSuccess(false);
+  };
   const handleSubmit = () => {
+    localStorage.setItem('subscriptionLogin', 'true');
     auth.webAuth.login(
       {
         responseType: 'token',
@@ -27,7 +34,7 @@ export default function Login(props: Props) {
         if (err) {
           console.log('Error: ', err);
           resetPassword();
-          setError(true);
+          setErrorMessage();
         } else {
           console.log('Success!');
         }
@@ -48,9 +55,16 @@ export default function Login(props: Props) {
         />
         <Form.Input size="huge" label="Password" type="password" {...bindPassword} />
 
-        <div className="login-container__form__error">
-          {isError ? <span>Incorrect Username or Password!</span> : <span />}
-        </div>
+        {isError && (
+          <div className="login-container__form__error">
+            <span>Incorrect Username or Password!</span>
+          </div>
+        )}
+        {!isError && isSignupSuccess && (
+          <div className="login-container__form__success">
+            <span>A link to verify your email has been sent to your email</span>
+          </div>
+        )}
         <Form.Field
           size="huge"
           className="login-container__form__login"

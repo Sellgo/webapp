@@ -8,6 +8,10 @@ export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
 
+    // if (localStorage.getItem('subscriptionLogin') === 'true') {
+    //   history.replace('/subscription/payment');
+    //   localStorage.removeItem('subscriptionLogin');
+    // }
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     }

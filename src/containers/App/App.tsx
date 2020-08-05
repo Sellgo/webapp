@@ -183,28 +183,24 @@ function App() {
             path="/synthesis"
             component={Synthesis}
             requireSubscription={true}
-            isSubscriptionFlow={false}
           />
           <PrivateRoute
             exact={true}
             path="/synthesis/:supplierID"
             component={SupplierDetail}
             requireSubscription={true}
-            isSubscriptionFlow={false}
           />
           <PrivateRoute
             exact={true}
             path="/product-tracker"
             component={ProductTracker}
             requireSubscription={true}
-            isSubscriptionFlow={false}
           />
           <PrivateRoute
             exact={true}
             path="/onboarding"
             component={Onboarding}
             requireSubscription={true}
-            isSubscriptionFlow={false}
           />
           <Route component={NotFound} />
         </Switch>

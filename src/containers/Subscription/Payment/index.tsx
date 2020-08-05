@@ -1,18 +1,15 @@
 import React from 'react';
 import './index.scss';
 import { Container, Grid, Image } from 'semantic-ui-react';
-import queryString from 'query-string';
 import StepsContent from '../StepsContent';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';
 import { loadStripe } from '@stripe/stripe-js';
-import { success } from '../../../utils/notifications';
-import history from '../../../history';
 import Summary from '../Summary';
 import { connect } from 'react-redux';
 import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
-import SuccessContent from './SuccessContent';
 import Auth from '../../../components/Auth/Auth';
+import PaidContent from './PaidContent';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 interface PaymentProps {
@@ -25,20 +22,6 @@ class Payment extends React.Component<PaymentProps> {
     accountType: '',
   };
   componentDidMount() {
-    const { location } = this.props;
-
-    // Show success message if success url param (user has signed up for a plan)
-    // Then redirect to /synthesis
-    // TODO: Change stripe success redirect url to /synthesis and handle there
-    if (location.search) {
-      const urlParams = queryString.parse(location.search);
-      if (urlParams.success) {
-        success(`You've signed up for a plan. Welcome!`);
-        history.push('/synthesis');
-        return;
-      }
-    }
-
     this.setState(
       {
         accountType: window.location.search === '?type=basic' ? 'basic' : 'pro',
@@ -70,7 +53,7 @@ class Payment extends React.Component<PaymentProps> {
                   <CheckoutForm />
                 </Elements>
               ) : (
-                <SuccessContent auth={auth} />
+                <PaidContent auth={auth} />
               )}
             </Container>
           </Grid.Column>

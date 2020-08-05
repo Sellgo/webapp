@@ -102,19 +102,28 @@
     }
   }
 
-  .payment-success-container {
+  .payment-success-container,
+  .paid-content-container {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     height: 500px;
 
+    a {
+      color: $font-blue !important;
+    }
+
     button {
-      background-color: $font-blue;
+      background-color: $font-blue !important;
       font-size: 18px !important;
       font-weight: bold;
       width: 267px;
       height: 56px;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 }
