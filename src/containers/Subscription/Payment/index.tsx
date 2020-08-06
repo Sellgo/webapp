@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.scss';
 import { Container, Grid, Image } from 'semantic-ui-react';
 import StepsContent from '../StepsContent';
@@ -24,10 +24,16 @@ interface PaymentProps {
 const Payment = (props: PaymentProps) => {
   // class Payment extends React.Component<PaymentProps> {
 
+  const [paymentError, setPaymentError] = useState(false);
+  const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
   const { subscriptionType, auth, successPayment } = props;
   const accountType = window.location.search === '?type=basic' ? 'basic' : 'pro';
   localStorage.setItem('planType', accountType);
 
+  const handlePaymentError = (data: any) => {
+    setPaymentError(true);
+    setPaymentErrorMessage(data.message);
+  };
   return (
     <Grid className="subscription-page" columns={2}>
       <Grid.Row>
@@ -40,9 +46,15 @@ const Payment = (props: PaymentProps) => {
           <Summary planType={accountType} />
           <Container text className="payment-container">
             <StepsContent contentType={'payment'} />
+            {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (
+              <div className="payment-container__error">
+                <div className="payment-container__error__title">Credit Card Declined</div>
+                <div className="payment-container__error__message">{paymentErrorMessage}</div>
+              </div>
+            )}
             {!successPayment && isSubscriptionNotPaid(subscriptionType) && (
               <Elements stripe={stripePromise}>
-                <CheckoutForm accountType={accountType} />
+                <CheckoutForm accountType={accountType} handlePaymentError={handlePaymentError} />
               </Elements>
             )}
             {isSubscriptionPaid(subscriptionType) && <PaidContent auth={auth} />}

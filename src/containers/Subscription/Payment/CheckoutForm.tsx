@@ -16,6 +16,8 @@ import {
 } from '../../../actions/Settings/Subscription';
 import { useInput } from '../../../hooks/useInput';
 import { defaultMarketplaces } from '../../../constants/Settings';
+import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
+import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -23,7 +25,7 @@ const CARD_ELEMENT_OPTIONS = {
       color: '#3b4557',
       fontFamily: "'Work Sans', sans-serif",
       fontSmoothing: 'antialiased',
-      fontSize: '21px',
+      fontSize: window.innerWidth < 1440 ? '18px' : '21px',
       '::placeholder': {
         color: '#98AECA',
       },
@@ -40,6 +42,7 @@ interface MyProps {
   accountType: string;
   createSubscriptionData: (data: any) => void;
   retryInvoiceW: (data: any) => void;
+  handlePaymentError: (data: any) => void;
 }
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
@@ -65,7 +68,7 @@ function CheckoutForm(props: MyProps) {
   const handleSubmit = async (event: any) => {
     // Block native form submission.
     event.preventDefault();
-    const { accountType, createSubscriptionData, retryInvoiceW } = props;
+    const { accountType, createSubscriptionData, retryInvoiceW, handlePaymentError } = props;
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
@@ -94,6 +97,7 @@ function CheckoutForm(props: MyProps) {
     });
 
     if (error) {
+      handlePaymentError(error);
       console.log('[createPaymentMethod error]', error);
     } else {
       console.log('[PaymentMethod]', paymentMethod);
@@ -205,7 +209,18 @@ function CheckoutForm(props: MyProps) {
             {...bindZipCode}
           />
         </Form.Group>
-
+        <div className="payment-container__stripe-checkout-form__card-icons">
+          <img
+            className="payment-container__stripe-checkout-form__card-icons__four-cards"
+            src={cardIcons}
+            alt="cards"
+          />
+          <img
+            className="payment-container__stripe-checkout-form__card-icons__stripe-card"
+            src={stripeIcon}
+            alt="powered by stripe"
+          />
+        </div>
         <Form.Group className="payment-container__stripe-checkout-form__buttons">
           <Link
             to="/subscription"

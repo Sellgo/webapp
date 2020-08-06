@@ -32,9 +32,11 @@
       font-weight: bold !important;
     }
 
-    input {
-      font-size: 21px !important;
+    .ui input[type='text'] {
+      font-size: 21px;
       font-family: $font-fam;
+      padding: 13.2px 12px;
+      border: 1px solid #98aeca;
     }
 
     input::placeholder {
@@ -71,29 +73,59 @@
         width: 50%;
 
         .dropdown {
-          padding: 1.35571em 1em !important;
+          padding: 1.29em 1em !important;
+          border-color: #98aeca !important;
+
+          .menu > .item {
+            font-size: 18px;
+          }
+
+          i {
+            height: 100% !important;
+            display: flex;
+            align-items: center;
+          }
         }
 
         .country-label {
-          font-size: 21px;
+          font-size: 20px;
         }
+      }
+    }
+
+    &__card-icons {
+      display: flex;
+      margin-left: -15px;
+      padding: 20px 0;
+
+      &__four-cards {
+        width: 200px;
+      }
+
+      &__stripe-card {
+        width: 95px;
       }
     }
 
     &__buttons {
       padding: 10px;
       display: flex;
+      justify-content: space-between;
 
       &__back {
-        width: 50%;
+        width: 45%;
 
         .button {
           width: 100%;
+          font-family: $font-fam;
+          height: 56px;
+          border: 1px solid #98aeca !important;
+          box-shadow: unset !important;
         }
       }
 
       &__register {
-        width: 50%;
+        width: 45%;
 
         .primary {
           width: 100% !important;
@@ -101,6 +133,7 @@
           font-size: 18px !important;
           font-weight: bold;
           height: 56px;
+          font-family: $font-fam;
         }
       }
     }
@@ -125,6 +158,27 @@
       letter-spacing: 0;
       color: $font-black;
       margin-bottom: 20px !important;
+    }
+  }
+
+  &__error {
+    width: 600px;
+    border: 1px solid #eb675e;
+    border-radius: 10px;
+    color: white;
+    background: #eb675e;
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px 0;
+
+    &__title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    &__message {
+      font-size: 18px;
+      font-weight: 500;
     }
   }
 
@@ -168,7 +222,7 @@
   width: 100%;
   color: #32325d;
   background-color: white;
-  border: 1px solid transparent;
+  border: 1px solid #98aeca;
   border-radius: 4px;
   box-shadow: 0 1px 3px 0 #e6ebf1;
   -webkit-transition: box-shadow 150ms ease;
@@ -188,4 +242,26 @@
 
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
+}
+
+@media screen and (max-width: 1680px) {
+  .payment-container {
+    &.container {
+      width: 100% !important;
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .payment-container {
+    &__stripe-checkout-form {
+      .ui input[type='text'] {
+        font-size: 18px !important;
+      }
+    }
+  }
+
+  .StripeElement {
+    height: 49px !important;
+  }
 }
