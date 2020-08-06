@@ -53,13 +53,8 @@ class Synthesis extends Component<SynthesisProps> {
     isEditModal: false,
   };
   componentDidMount() {
-    const { getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
+    const { getAmazonMWSAuthorized } = this.props;
     getAmazonMWSAuthorized();
-    const acceptedTos = localStorage.getItem('acceptedTos');
-    const acceptedPp = localStorage.getItem('acceptedPp');
-    if (!acceptedTos || !acceptedPp) {
-      openUserOnboardingModal();
-    }
   }
 
   openUpdateSupplierPopup = (supplier: any): void => {
