@@ -177,8 +177,8 @@ class Synthesis extends Component<SynthesisProps> {
       <>
         <SubscriptionMessage />
         <PageHeader
-          title="Profit Finder"
-          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}
+          title="Search Management"
+          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
           callToAction={this.renderAddNewSupplierModal()}
         />
 
