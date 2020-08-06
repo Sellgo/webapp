@@ -59,6 +59,7 @@ export const createSubscription = (data: any) => (dispatch: any) => {
     .then((data: any) => {
       if (data.subscription.status === 'active') {
         dispatch(setSuccessPayment(true));
+        localStorage.removeItem('planType');
       }
     })
     .catch(err => {
@@ -76,7 +77,6 @@ const handleRequiresPaymentMethod = (data: any) => {
       'latestInvoicePaymentIntentStatus',
       data.subscription.latest_invoice.payment_intent.status
     );
-    console.error('handleRequiresPaymentMethod: Your card was declined');
     throw { error: { message: 'Your card was declined.' } };
   } else {
     return data;

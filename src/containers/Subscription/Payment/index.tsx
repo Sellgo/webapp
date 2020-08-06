@@ -27,8 +27,7 @@ const Payment = (props: PaymentProps) => {
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
   const { subscriptionType, auth, successPayment } = props;
-  const accountType = window.location.search === '?type=basic' ? 'basic' : 'pro';
-  localStorage.setItem('planType', accountType);
+  const accountType = localStorage.getItem('planType') || '';
 
   const handlePaymentError = (data: any) => {
     setPaymentError(true);
