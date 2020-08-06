@@ -1,4 +1,8 @@
-import { SET_PRICING_SUBSCRIPTIONS, SET_SELLER_SUBSCRIPTION } from '../../../constants/Settings';
+import {
+  SET_PRICING_SUBSCRIPTIONS,
+  SET_SELLER_SUBSCRIPTION,
+  SET_SUCCESS_PAYMENT,
+} from '../../../constants/Settings';
 import { AnyAction } from 'redux';
 import { setIn } from '../../../utils/immutablity';
 
@@ -38,6 +42,9 @@ export default (state = initialState, action: AnyAction) => {
       const newStateWithPlan = setIn(state, 'plan', plan);
       const newState = setIn(newStateWithPlan, 'subscriptionType', type);
       return setIn(newState, 'sellerSubscription', sellerSubscriptionData);
+    }
+    case SET_SUCCESS_PAYMENT: {
+      return setIn(state, 'successPayment', action.payload);
     }
     default:
       return state;

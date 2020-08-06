@@ -10,7 +10,10 @@ import { Form, Header, Button, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
-import { createSubscription } from '../../../actions/Settings/Subscription';
+import {
+  createSubscription,
+  retryInvoiceWithNewPaymentMethod,
+} from '../../../actions/Settings/Subscription';
 import { useInput } from '../../../hooks/useInput';
 import { defaultMarketplaces } from '../../../constants/Settings';
 
@@ -35,6 +38,8 @@ const CARD_ELEMENT_OPTIONS = {
 interface MyProps {
   sellerSubscription: any;
   accountType: string;
+  createSubscriptionData: (data: any) => void;
+  retryInvoiceW: (data: any) => void;
 }
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
@@ -58,17 +63,16 @@ function CheckoutForm(props: MyProps) {
   const trigger = <span className="country-label">{selectedCountry.name}</span>;
 
   const handleSubmit = async (event: any) => {
-    console.log('THIS: ', name, address, city, stateAddress, zipCode, selectedCountry.code);
-    // const { name, address, city, stateAddress, zipCode, country } = state;
     // Block native form submission.
     event.preventDefault();
-    const { accountType } = props;
+    const { accountType, createSubscriptionData, retryInvoiceW } = props;
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
       return;
     }
     const cardElement = elements.getElement(CardNumberElement);
+
     // If a previous payment was attempted, get the latest invoice
     const latestInvoicePaymentIntentStatus = localStorage.getItem(
       'latestInvoicePaymentIntentStatus'
@@ -96,23 +100,20 @@ function CheckoutForm(props: MyProps) {
       const paymentMethodId = paymentMethod.id;
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
         // Update the payment method and retry invoice payment
-        // const invoiceId = localStorage.getItem('latestInvoiceId');
-        // retryInvoiceWithNewPaymentMethod({
-        //   customerId,
-        //   paymentMethodId,
-        //   invoiceId,
-        //   priceId,
-        // });
+        const invoiceId = localStorage.getItem('latestInvoiceId');
+        retryInvoiceW({
+          paymentMethodId,
+          invoiceId,
+        });
       } else {
         const data = {
           subscription_id: accountType === 'basic' ? 1 : 2,
           payment_method_id: paymentMethodId,
         };
-        createSubscription(data);
+        createSubscriptionData(data);
       }
     }
   };
-
   return (
     <>
       <Header className="payment-container__title" as="h2">
@@ -233,5 +234,8 @@ function CheckoutForm(props: MyProps) {
 const mapStateToProps = (state: {}) => ({
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
-
-export default connect(mapStateToProps)(CheckoutForm);
+const mapDispatchToProps = {
+  createSubscriptionData: (data: any) => createSubscription(data),
+  retryInvoiceW: (data: any) => retryInvoiceWithNewPaymentMethod(data),
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
