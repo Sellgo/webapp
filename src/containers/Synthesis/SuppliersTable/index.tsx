@@ -10,6 +10,7 @@ import {
   setProgress,
   setSpeed,
   setLeadsTracker,
+  setLatestSupplier,
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
@@ -65,7 +66,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderName = (row: Supplier) => {
     const name =
       row.file_status === 'completed' ? (
-        <Link to={`/synthesis/${row.supplier_id}`}>{row.search}</Link>
+        <Link to={`/synthesis/${row.supplier_id}`} onClick={() => setLatestSupplier(row)}>
+          {row.search}
+        </Link>
       ) : (
         row.search
       );
