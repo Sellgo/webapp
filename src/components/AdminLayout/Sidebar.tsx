@@ -8,6 +8,7 @@ import LogoutConfirm from '../LogoutConfirm';
 import Tour from '../QuickTourMessage';
 import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
+import { getLatestSupplier } from '../../actions/Suppliers';
 
 interface IconD {
   id: number;
@@ -26,30 +27,38 @@ class SidebarCollapsible extends Component<
     auth: Auth;
     currentNotifyId: number;
   },
-  { visible: boolean; openConfirm: boolean },
+  { visible: boolean; openConfirm: boolean; profitFinderActive: number },
   State
 > {
   state = {
     sidebarIcon: [
       {
         id: 1,
-        label: 'Profit Finder',
+        label: 'Search Management',
         icon: 'fas fa-search-dollar',
         path: '/synthesis',
         notifyId: 1,
       },
       {
         id: 2,
+        label: 'Profit Finder',
+        icon: 'fas fa-clipboard-list',
+        path: '/synthesis',
+        notifyId: 1,
+      },
+      {
+        id: 3,
         label: 'Product Tracker',
         icon: 'fas fa-fingerprint',
         path: '/product-tracker',
         notifyId: 2,
       },
-      { id: 3, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
-      { id: 4, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
-      { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
+
+      { id: 4, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
+      { id: 5, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
+      { id: 6, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
       {
-        id: 6,
+        id: 7,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -58,6 +67,7 @@ class SidebarCollapsible extends Component<
     ],
     visible: false,
     openConfirm: false,
+    profitFinderActive: 1,
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
@@ -65,17 +75,23 @@ class SidebarCollapsible extends Component<
     this.setState({ openConfirm: true });
   };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
+  setActiveLink = (id: number) => this.setState({ profitFinderActive: id });
 
   render() {
     const { visible } = this.state;
     const { children, auth, currentNotifyId } = this.props;
     const initPath = window.location.pathname;
+    let supplier_id = '';
+    const latest = getLatestSupplier();
+    if (latest) {
+      supplier_id = latest.supplier_id;
+    }
 
     const sidebarMenu = (
       <>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id < 3) {
+            if (icon.id <= 3) {
               return (
                 <Tour
                   data={icon}
@@ -84,15 +100,19 @@ class SidebarCollapsible extends Component<
                     <Menu.Item
                       onClick={() => {
                         visible && this.handleAnimationChange();
+                        this.setActiveLink(icon.id);
                       }}
                       as={Link}
-                      to={icon.path}
+                      disabled={!!(icon.id === 2 && !supplier_id)}
+                      to={
+                        icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
+                      }
                       name={icon.icon}
-                      active={initPath.startsWith(icon.path)}
+                      active={icon.id === this.state.profitFinderActive}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'}`}
+                          'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
                       />
 
                       <Label> {icon.label} </Label>
@@ -107,7 +127,7 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id === 3) {
+            if (icon.id === 4) {
               return (
                 <Tour
                   data={icon}
@@ -129,7 +149,7 @@ class SidebarCollapsible extends Component<
                   }
                 />
               );
-            } else if (icon.id > 3) {
+            } else if (icon.id > 4) {
               return (
                 <Tour
                   data={icon}
@@ -142,8 +162,8 @@ class SidebarCollapsible extends Component<
                       name={icon.icon}
                       active={initPath.startsWith(icon.path)}
                       onClick={() => {
-                        icon.id === 4 && this.open();
-                        icon.id === 5 && visible && this.handleAnimationChange();
+                        icon.id === 6 && this.open();
+                        icon.id === 7 && visible && this.handleAnimationChange();
                       }}
                     >
                       <i

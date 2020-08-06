@@ -53,17 +53,8 @@ class Synthesis extends Component<SynthesisProps> {
     isEditModal: false,
   };
   componentDidMount() {
-    const { getAmazonMWSAuthorized, openUserOnboardingModal } = this.props;
+    const { getAmazonMWSAuthorized } = this.props;
     getAmazonMWSAuthorized();
-    const acceptedTos = localStorage.getItem('acceptedTos');
-    const acceptedPp = localStorage.getItem('acceptedPp');
-    if (!acceptedTos || !acceptedPp) {
-      openUserOnboardingModal();
-    }
-    console.log(
-      "localStorage.getItem('subscriptionLogin') === 'true'",
-      localStorage.getItem('subscriptionLogin') === 'true'
-    );
   }
 
   openUpdateSupplierPopup = (supplier: any): void => {
@@ -181,8 +172,8 @@ class Synthesis extends Component<SynthesisProps> {
       <>
         <SubscriptionMessage />
         <PageHeader
-          title="Profit Finder"
-          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Profit Finder' }]}
+          title="Search Management"
+          breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
           callToAction={this.renderAddNewSupplierModal()}
         />
 

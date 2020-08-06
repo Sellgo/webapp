@@ -39,8 +39,10 @@ function QuickTour({ child, data, currentNotifyId, setNotifyId, modalTermsOpen }
         <Grid.Row className="QuickTour__content">
           <Grid.Column>
             <Header as="h2">
-              {notifications[data.notifyId - 1].title}
-              <Header.Subheader>{notifications[data.notifyId - 1].description}</Header.Subheader>
+              {!!notifications[data.notifyId - 1] && notifications[data.notifyId - 1].title}
+              <Header.Subheader>
+                {!!notifications[data.notifyId - 1] && notifications[data.notifyId - 1].description}
+              </Header.Subheader>
             </Header>
           </Grid.Column>
           <Grid.Column>

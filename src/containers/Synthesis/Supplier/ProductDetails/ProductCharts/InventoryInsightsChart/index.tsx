@@ -268,7 +268,7 @@ class InventoryInsightsChart extends Component<
         data: sellerInventories[key].data,
         totalValue: sellerInventories[key].data
           .map(dataPoint => dataPoint[1])
-          .reduce((total: number, value: number) => total + value),
+          .reduce((total: number, value: number) => total + value, 0),
         color: sellerInventories[key].color,
       });
 

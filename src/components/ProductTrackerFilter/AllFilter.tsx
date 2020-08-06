@@ -10,7 +10,7 @@ import { Range } from '../../interfaces/Generic';
 
 interface AllFilterProps {
   applyFilter: (isPreset?: boolean) => void;
-  resetFilter: () => void;
+  resetFilter: (onClick: boolean) => void;
   resetSingleFilter: (datakey: string) => void;
   toggleSelectAllReviews: () => void;
   filterData: ProductTrackerFilterInterface;
@@ -112,7 +112,7 @@ const AllFilter = (props: AllFilterProps) => {
         </div>
       </div>
       <div className="pt-filter-content__button-wrapper">
-        <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
+        <Button basic className="reset-filter-btn" onClick={() => resetFilter(true)}>
           Reset
         </Button>
         <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
