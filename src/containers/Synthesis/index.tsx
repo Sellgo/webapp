@@ -60,6 +60,10 @@ class Synthesis extends Component<SynthesisProps> {
     if (!acceptedTos || !acceptedPp) {
       openUserOnboardingModal();
     }
+    console.log(
+      "localStorage.getItem('subscriptionLogin') === 'true'",
+      localStorage.getItem('subscriptionLogin') === 'true'
+    );
   }
 
   openUpdateSupplierPopup = (supplier: any): void => {

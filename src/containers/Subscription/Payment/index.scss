@@ -32,6 +32,11 @@
       font-weight: bold !important;
     }
 
+    input {
+      font-size: 21px !important;
+      font-family: $font-fam;
+    }
+
     input::placeholder {
       color: #98aeca !important;
     }
@@ -47,10 +52,31 @@
       }
     }
 
-    &__group-2,
+    &__billing_title {
+      margin: 50px 0 25px 0 !important;
+    }
+
+    &__group-2 {
+      .field {
+        width: 50%;
+      }
+    }
+
     &__group-3 {
       .field {
         width: 50%;
+      }
+
+      &__country {
+        width: 50%;
+
+        .dropdown {
+          padding: 1.35571em 1em !important;
+        }
+
+        .country-label {
+          font-size: 21px;
+        }
       }
     }
 

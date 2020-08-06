@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
 import Auth from '../../../components/Auth/Auth';
 import PaidContent from './PaidContent';
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+import { AppConfig } from '../../../config';
+const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
   auth: Auth;
@@ -50,7 +51,7 @@ class Payment extends React.Component<PaymentProps> {
               <StepsContent contentType={'payment'} />
               {isSubscriptionNotPaid(subscriptionType) ? (
                 <Elements stripe={stripePromise}>
-                  <CheckoutForm />
+                  <CheckoutForm accountType={accountType} />
                 </Elements>
               ) : (
                 <PaidContent auth={auth} />

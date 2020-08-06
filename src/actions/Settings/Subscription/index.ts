@@ -40,7 +40,6 @@ export const createSubscription = (data: any) => {
   const bodyFormData = new FormData();
   bodyFormData.set('subscription_id', data.subscription_id);
   bodyFormData.set('payment_method_id', data.payment_method_id);
-  bodyFormData.set('price_id', data.subscription_id);
   return Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/create`,
     bodyFormData

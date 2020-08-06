@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -6,12 +6,13 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Header, Button } from 'semantic-ui-react';
+import { Form, Header, Button, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { createSubscription } from '../../../actions/Settings/Subscription';
 import { useInput } from '../../../hooks/useInput';
+import { defaultMarketplaces } from '../../../constants/Settings';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -33,6 +34,7 @@ const CARD_ELEMENT_OPTIONS = {
 
 interface MyProps {
   sellerSubscription: any;
+  accountType: string;
 }
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
@@ -43,13 +45,24 @@ function CheckoutForm(props: MyProps) {
   const { value: city, bind: bindCity } = useInput('');
   const { value: stateAddress, bind: bindStateAddress } = useInput('');
   const { value: zipCode, bind: bindZipCode } = useInput('');
-  const { value: country, bind: bindCountry } = useInput('');
+  const [selectedCountry, setSelectedCountry] = useState({
+    key: 1,
+    name: `US`,
+    code: 'us',
+    value: 'ATVPDKIKX0DER',
+  });
+
+  const handleCountry = (data: any) => {
+    setSelectedCountry(data);
+  };
+  const trigger = <span className="country-label">{selectedCountry.name}</span>;
+
   const handleSubmit = async (event: any) => {
-    console.log('THIS: ', name, address, city, stateAddress, zipCode, country);
+    console.log('THIS: ', name, address, city, stateAddress, zipCode, selectedCountry.code);
     // const { name, address, city, stateAddress, zipCode, country } = state;
     // Block native form submission.
     event.preventDefault();
-    const { sellerSubscription } = props;
+    const { accountType } = props;
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
@@ -69,7 +82,7 @@ function CheckoutForm(props: MyProps) {
         address: {
           line1: address,
           city: city,
-          country: country,
+          country: selectedCountry.code,
           state: stateAddress,
           postal_code: zipCode,
         },
@@ -92,7 +105,7 @@ function CheckoutForm(props: MyProps) {
         // });
       } else {
         const data = {
-          subscription_id: sellerSubscription.subscription_id,
+          subscription_id: accountType === 'basic' ? 1 : 2,
           payment_method_id: paymentMethodId,
         };
         createSubscription(data);
@@ -106,6 +119,7 @@ function CheckoutForm(props: MyProps) {
         Secure Credit Card Payment
       </Header>
       <span className="payment-container__subtitle">14-days money back guarantee.</span>
+
       <Form onSubmit={handleSubmit} className="payment-container__stripe-checkout-form">
         <Form.Field className="payment-container__stripe-checkout-form__card-number-field">
           <label htmlFor="CardNumber">Credit Card Number</label>
@@ -162,14 +176,25 @@ function CheckoutForm(props: MyProps) {
           />
         </Form.Group>
         <Form.Group className="payment-container__stripe-checkout-form__group-3">
-          <Form.Input
-            className="payment-container__stripe-checkout-form__group-3__country"
-            size="huge"
-            label="Country or Region"
-            type="text"
-            placeholder="Country"
-            {...bindCountry}
-          />
+          <Form.Field className="payment-container__stripe-checkout-form__group-3__country">
+            <label htmlFor="Country">Country</label>
+            <Dropdown id="Country" className="selection" openOnFocus trigger={trigger}>
+              <Dropdown.Menu>
+                {defaultMarketplaces.map((option, key) => {
+                  return (
+                    <Dropdown.Item
+                      key={key}
+                      text={option.name}
+                      value={option.id}
+                      onClick={() => {
+                        handleCountry(option);
+                      }}
+                    />
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Form.Field>
           <Form.Input
             className="payment-container__stripe-checkout-form__group-3__zipcode"
             size="huge"
