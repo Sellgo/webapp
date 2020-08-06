@@ -35,14 +35,14 @@ class SidebarCollapsible extends Component<
       {
         id: 1,
         label: 'Search Management',
-        icon: 'fas fa-search-dollar',
+        icon: 'fas fa-clipboard-list',
         path: '/synthesis',
         notifyId: 1,
       },
       {
         id: 2,
         label: 'Profit Finder',
-        icon: 'fas fa-clipboard-list',
+        icon: 'fas fa-search-dollar',
         path: '/synthesis',
         notifyId: 1,
       },
