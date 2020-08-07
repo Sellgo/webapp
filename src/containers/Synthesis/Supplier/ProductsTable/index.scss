@@ -681,3 +681,13 @@ $new_black: #3b4557;
 .amazon_category_name {
   min-width: 140px !important;
 }
+
+@media screen and (min-width: 1921px) {
+  .pf-middle-scroll {
+    display: none !important;
+  }
+
+  .table-scroll-divider {
+    display: none !important;
+  }
+}
