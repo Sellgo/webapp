@@ -3,11 +3,18 @@ import './index.scss';
 import { Container, Header, Form, Button, Divider } from 'semantic-ui-react';
 import Auth from '../../../components/Auth/Auth';
 import { useInput } from '../../../hooks/useInput';
-import PasswordValidator from 'password-validator';
 import StepsInfo from '../../../components/StepsInfo/StepsInfo';
 import { Steps } from '../../../interfaces/StepsInfo';
 import StepsContent from '../StepsContent';
 import history from '../../../history';
+import {
+  passwordPolicy,
+  strong,
+  lowerUpper,
+  alphanumeric,
+  specialCharacters,
+  Length,
+} from '../../../constants/Validators';
 
 interface Props {
   auth: Auth;
@@ -25,46 +32,6 @@ export default function Signup(props: Props, state: State) {
   const { value: lastName, bind: bindLastName } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
   const [isFocusPW, setFocusPassword] = useState(false);
-
-  const passwordPolicy = new PasswordValidator()
-    .is()
-    .min(8)
-    .has()
-    .uppercase()
-    .has()
-    .lowercase()
-    .has()
-    .digits()
-    .has()
-    .symbols();
-
-  const strong = new PasswordValidator()
-    .is()
-    .min(10)
-    .has()
-    .uppercase()
-    .has()
-    .lowercase()
-    .has()
-    .digits()
-    .has()
-    .symbols();
-
-  const lowerUpper = new PasswordValidator()
-    .has()
-    .uppercase()
-    .has()
-    .lowercase();
-
-  const alphanumeric = new PasswordValidator()
-    .has()
-    .letters()
-    .has()
-    .digits();
-
-  const specialCharacters = new PasswordValidator().has().symbols();
-
-  const Length = new PasswordValidator().is().min(8);
 
   state = {
     stepsInfo: [
@@ -171,7 +138,6 @@ export default function Signup(props: Props, state: State) {
           stepsData={state.stepsInfo}
           {...bindPassword}
         />
-        {/* <Form.Input size="huge" label="Password" type="password" {...bindPassword} /> */}
 
         <div className="signup-container__form__error">
           {verifyEmailError ? <span>{errorMessage}</span> : <span />}

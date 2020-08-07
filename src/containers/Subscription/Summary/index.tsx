@@ -24,20 +24,12 @@ function Summary(props: SummaryProps) {
     }/mo billed monthly`,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
-      {
-        text: '-Manage your supplier files in Supplier Management',
-      },
-      {
-        text: `-${
-          !_.isEmpty(subscriptions) ? subscriptions[index].track_limit : '-'
-        } Products can be tracked through Product Tracker`,
-      },
-      {
-        text: '-Unlimited access in our Profit Finder',
-      },
-      {
-        text: '-Sellgo support',
-      },
+      '-Manage your supplier files in Supplier Management',
+      `-${
+        !_.isEmpty(subscriptions) ? subscriptions[index].track_limit : '-'
+      } Products can be tracked through Product Tracker`,
+      '-Unlimited access in our Profit Finder',
+      '-Sellgo support',
     ],
   };
 
@@ -54,7 +46,7 @@ function Summary(props: SummaryProps) {
           {_.map(plan.benefits, (items, key) => {
             return (
               <span key={key} className="summary-container__content__benefits-content__items">
-                {items.text}
+                {items}
               </span>
             );
           })}

@@ -35,8 +35,6 @@ export default function Login(props: Props) {
           console.log('Error: ', err);
           resetPassword();
           setErrorMessage();
-        } else {
-          console.log('Success!');
         }
       }
     );

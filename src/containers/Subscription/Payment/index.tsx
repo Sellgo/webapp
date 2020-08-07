@@ -22,8 +22,6 @@ interface PaymentProps {
   successPayment: any;
 }
 const Payment = (props: PaymentProps) => {
-  // class Payment extends React.Component<PaymentProps> {
-
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
   const { subscriptionType, auth, successPayment } = props;
