@@ -80,7 +80,6 @@ class SidebarCollapsible extends Component<
   render() {
     const { visible } = this.state;
     const { children, auth, currentNotifyId } = this.props;
-    const initPath = window.location.pathname;
     let supplier_id = '';
     const latest = getLatestSupplier();
     if (latest) {
@@ -160,10 +159,11 @@ class SidebarCollapsible extends Component<
                       as={Link}
                       to={icon.path}
                       name={icon.icon}
-                      active={initPath.startsWith(icon.path)}
+                      active={icon.id === this.state.profitFinderActive}
                       onClick={() => {
-                        icon.id === 6 && this.open();
+                        icon.id === 5 && this.open();
                         icon.id === 7 && visible && this.handleAnimationChange();
+                        this.setActiveLink(icon.id);
                       }}
                     >
                       <i
