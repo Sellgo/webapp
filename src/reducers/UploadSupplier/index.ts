@@ -120,7 +120,6 @@ export default (
     }
 
     case SET_PRIMARY_ID_TYPE: {
-      console.log('SETING PID');
       return setIn(state, 'primaryIdType', action.payload);
     }
 
