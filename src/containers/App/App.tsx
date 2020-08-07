@@ -132,14 +132,6 @@ const PrivateRoute = connect(
 );
 
 function App() {
-  /* eslint no-unused-vars: ["error", { "args": "none" }] */
-  history.listen((location, action) => {
-    const container = document.querySelector('.Sidebar__pusher');
-    if (container) {
-      container.scrollTo(0, 0);
-    }
-  });
-
   return (
     <div className="App__container">
       <Router history={history}>
