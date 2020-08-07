@@ -695,3 +695,13 @@ $new_black: #3b4557;
     width: 93% !important;
   }
 }
+
+@media screen and (min-width: 1921px) {
+  .pf-middle-scroll {
+    display: none !important;
+  }
+
+  .table-scroll-divider {
+    display: none !important;
+  }
+}
