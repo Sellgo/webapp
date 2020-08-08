@@ -88,7 +88,10 @@ export const retryInvoiceWithNewPaymentMethod = (data: any) => {
   const bodyFormData = new FormData();
   bodyFormData.set('payment_method_id', data.payment_method_id);
   bodyFormData.set('invoice_id', data.invoice_id);
-  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/retry-invoice`, bodyFormData)
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/retry-invoice`,
+    bodyFormData
+  )
     .then(response => {
       console.log('response: ', response);
     })

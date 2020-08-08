@@ -134,9 +134,9 @@ function CheckoutForm(props: MyProps) {
           <Form.Input
             className="payment-container__stripe-checkout-form__group-1__card-name"
             size="huge"
-            label="FirstName"
+            label="Name on Card"
             type="text"
-            placeholder="Name on Card"
+            placeholder="John Smith"
             {...bindName}
           />
           <Form.Field className="payment-container__stripe-checkout-form__group-1__card-exp-field">

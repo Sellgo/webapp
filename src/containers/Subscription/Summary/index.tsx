@@ -43,10 +43,10 @@ function Summary(props: SummaryProps) {
         </p>
         <p className="summary-container__content__moneyback-guarantee">{plan.subDescription}</p>
         <div className="summary-container__content__benefits-content">
-          {_.map(plan.benefits, (items, key) => {
+          {_.map(plan.benefits, (item, key) => {
             return (
               <span key={key} className="summary-container__content__benefits-content__items">
-                {items}
+                {item}
               </span>
             );
           })}

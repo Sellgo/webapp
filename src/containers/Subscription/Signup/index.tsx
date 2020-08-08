@@ -117,14 +117,14 @@ export default function Signup(props: Props, state: State) {
         <Form.Group className="signup-container__form__fullname-group">
           <Form.Input
             size="huge"
-            label="FirstName"
+            label="First Name"
             type="text"
             placeholder="First Name"
             {...bindFirstName}
           />
           <Form.Input
             size="huge"
-            label="LastName"
+            label="Last Name"
             type="text"
             placeholder="Last Name"
             {...bindLastName}
