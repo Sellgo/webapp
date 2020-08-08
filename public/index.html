@@ -68,6 +68,17 @@
        * For passing user information, please see
        * https://api-docs.elevio.help/en/articles/24
        */
+       var user_traits = localStorage.getItem('__user_traits');
+       user_traits = JSON.parse(user_traits);
+       var userName = localStorage.getItem('userName');
+       var userHash = localStorage.getItem('userHash');
+       window._elev.on("load", function (_elev) {
+        window._elev.setUser({
+          first_name: userName,
+          email: user_traits.displayName,
+          user_hash: userHash
+        });
+      });
     </script>
     <!-- End Elevio Code -->
     

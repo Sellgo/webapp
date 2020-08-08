@@ -9,6 +9,7 @@
     "auth0-js": "^9.12.2",
     "auth0-lock": "^11.22.2",
     "axios": "^0.18.0",
+    "crypto-js": "^4.0.0",
     "csv-parse": "^4.8.6",
     "highcharts": "^8.0.4",
     "highcharts-react-official": "^3.0.0",
