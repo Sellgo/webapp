@@ -25,7 +25,6 @@ export default function Login(props: Props) {
     time: 0,
   });
   const handleSubmit = () => {
-    localStorage.setItem('subscriptionLogin', 'false');
     setMessageDetails({
       key: '',
       header: '',

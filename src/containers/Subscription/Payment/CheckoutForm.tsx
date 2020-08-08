@@ -138,6 +138,7 @@ function CheckoutForm(props: MyProps) {
             type="text"
             placeholder="John Smith"
             {...bindName}
+            required
           />
           <Form.Field className="payment-container__stripe-checkout-form__group-1__card-exp-field">
             <label htmlFor="expiry">Expiry Date</label>
