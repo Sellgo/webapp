@@ -5,25 +5,22 @@ import { FieldsToMap, PRODUCT_ID_TYPES } from '../../../../constants/UploadSuppl
 import {
   reversedColumnMappingsSelector,
   fileHeaderSelector,
-  isFirstRowHeaderSelector,
   primaryIdTypeSelector,
+  fileStringArraySelector,
 } from '../../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
-import {
-  mapColumn,
-  toggleFirstRowHeader,
-  setPrimaryIdType,
-} from '../../../../actions/UploadSupplier';
+import { mapColumn, setPrimaryIdType, setColumnMappings } from '../../../../actions/UploadSupplier';
 import isNil from 'lodash/isNil';
+import { guessColumnMappings } from '../../../../utils/file';
 
 interface ColumnMappingsProps {
   availableFields: string[];
   mapColumn: typeof mapColumn;
   reversedColumnMappings: { [key: string]: number | string };
-  isFirstRowHeader: boolean;
-  toggleFirstRowHeader: typeof toggleFirstRowHeader;
-  setPrimaryIdType: typeof setPrimaryIdType;
   primaryIdType: string;
+  setPrimaryIdType: typeof setPrimaryIdType;
+  fileStringArray: string[][];
+  setColumnMappings: typeof setColumnMappings;
 }
 
 const ColumnMappings = ({
@@ -32,12 +29,23 @@ const ColumnMappings = ({
   reversedColumnMappings,
   primaryIdType,
   setPrimaryIdType,
+  fileStringArray,
+  setColumnMappings,
 }: ColumnMappingsProps) => {
   const availableFieldOptions = availableFields.map((availableField, index) => ({
     text: availableField,
     value: index,
   }));
   const productIdOptions = PRODUCT_ID_TYPES.map(id => ({ text: id, value: id }));
+
+  const primaryIdDropdownChange = (data: any) => {
+    const primaryIdType = data.value as string;
+    setPrimaryIdType(primaryIdType);
+    const mappings = guessColumnMappings(fileStringArray, primaryIdType);
+    if (mappings) {
+      setColumnMappings(mappings);
+    }
+  };
 
   return (
     <>
@@ -50,7 +58,7 @@ const ColumnMappings = ({
                   <Dropdown
                     inline
                     className={styles.dropdown_pid}
-                    onChange={(event, data) => setPrimaryIdType(data.value as string)}
+                    onChange={(event, data) => primaryIdDropdownChange(data)}
                     value={primaryIdType}
                     name="primary_id_type"
                     options={productIdOptions}
@@ -79,13 +87,13 @@ const mapStateToProps = (state: {}) => ({
   availableFields: fileHeaderSelector(state),
   reversedColumnMappings: reversedColumnMappingsSelector(state),
   primaryIdType: primaryIdTypeSelector(state),
-  isFirstRowHeader: isFirstRowHeaderSelector(state),
+  fileStringArray: fileStringArraySelector(state),
 });
 
 const mapDispatchToProps = {
   mapColumn,
-  toggleFirstRowHeader,
   setPrimaryIdType,
+  setColumnMappings,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ColumnMappings);
