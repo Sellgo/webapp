@@ -8,9 +8,9 @@ export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
 
-    if (localStorage.getItem('subscriptionLogin') === 'true') {
-      history.replace('/subscription/payment');
-      localStorage.removeItem('subscriptionLogin');
+    const redirectPath = localStorage.getItem('loginRedirectPath');
+    if (redirectPath === '/subscription/payment') {
+      history.replace(redirectPath);
     } else if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     }
