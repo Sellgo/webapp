@@ -7,7 +7,7 @@ import {
   setUploadSupplierStep,
 } from '../../../actions/UploadSupplier';
 import { Grid, Icon, Label, Segment, Header } from 'semantic-ui-react';
-import styles from './UploadSupplier.module.css';
+import styles from './UploadSupplier.module.scss';
 import {
   currentProgressShow,
   currentResultUpload,
