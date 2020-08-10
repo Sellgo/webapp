@@ -15,7 +15,7 @@ import {
   retryInvoiceWithNewPaymentMethod,
 } from '../../../actions/Settings/Subscription';
 import { useInput } from '../../../hooks/useInput';
-import { defaultMarketplaces } from '../../../constants/Settings';
+import { countryList } from '../../../constants/Settings';
 import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
 import { postalCode } from '../../../constants/Validators';
@@ -56,9 +56,9 @@ function CheckoutForm(props: MyProps) {
   const { value: zipCode, bind: bindZipCode } = useInput('');
   const [selectedCountry, setSelectedCountry] = useState({
     key: 1,
-    name: `US`,
+    name: `United States`,
     code: 'US',
-    value: 'ATVPDKIKX0DER',
+    value: 'US',
   });
   const [zipCodeError, setZipCodeError] = useState(false);
 
@@ -192,7 +192,7 @@ function CheckoutForm(props: MyProps) {
             <label htmlFor="Country">Country</label>
             <Dropdown id="Country" className="selection" openOnFocus trigger={trigger}>
               <Dropdown.Menu>
-                {defaultMarketplaces.map((option, key) => {
+                {countryList.map((option, key) => {
                   return (
                     <Dropdown.Item
                       key={key}
