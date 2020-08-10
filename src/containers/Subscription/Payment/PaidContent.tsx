@@ -21,6 +21,7 @@ export default function PaidContent(props: PaidContentProps) {
         control={Button}
         primary={true}
         onClick={() => {
+          localStorage.setItem('loginRedirectPath', '');
           auth.logout();
         }}
       >

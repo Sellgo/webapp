@@ -1,5 +1,5 @@
 import PasswordValidator from 'password-validator';
-
+import { isPostalCode } from 'validator';
 export const passwordPolicy = new PasswordValidator()
   .is()
   .min(8)
@@ -39,3 +39,7 @@ export const alphanumeric = new PasswordValidator()
 export const specialCharacters = new PasswordValidator().has().symbols();
 
 export const Length = new PasswordValidator().is().min(8);
+
+export const postalCode = (code: string, country: any) => {
+  return isPostalCode(code, country);
+};

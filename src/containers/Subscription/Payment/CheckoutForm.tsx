@@ -18,6 +18,7 @@ import { useInput } from '../../../hooks/useInput';
 import { defaultMarketplaces } from '../../../constants/Settings';
 import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
+import { postalCode } from '../../../constants/Validators';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -56,9 +57,10 @@ function CheckoutForm(props: MyProps) {
   const [selectedCountry, setSelectedCountry] = useState({
     key: 1,
     name: `US`,
-    code: 'us',
+    code: 'US',
     value: 'ATVPDKIKX0DER',
   });
+  const [zipCodeError, setZipCodeError] = useState(false);
 
   const handleCountry = (data: any) => {
     setSelectedCountry(data);
@@ -72,6 +74,12 @@ function CheckoutForm(props: MyProps) {
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
+
+    if (!postalCode(zipCode, selectedCountry.code.split(','))) {
+      setZipCodeError(true);
+      handlePaymentError({ message: 'Zipcode is invalid' });
       return;
     }
     const cardElement = elements.getElement(CardNumberElement);
@@ -98,9 +106,7 @@ function CheckoutForm(props: MyProps) {
 
     if (error) {
       handlePaymentError(error);
-      console.log('[createPaymentMethod error]', error);
     } else {
-      console.log('[PaymentMethod]', paymentMethod);
       const paymentMethodId = paymentMethod.id;
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
         // Update the payment method and retry invoice payment
@@ -202,7 +208,8 @@ function CheckoutForm(props: MyProps) {
             </Dropdown>
           </Form.Field>
           <Form.Input
-            className="payment-container__stripe-checkout-form__group-3__zipcode"
+            className={`payment-container__stripe-checkout-form__group-3__zipcode ${zipCodeError &&
+              'error'}`}
             size="huge"
             label="Zipcode"
             type="text"

@@ -18,6 +18,7 @@ export default function SuccessContent(props: SuccessPaymentProps) {
         control={Button}
         primary={true}
         onClick={() => {
+          localStorage.setItem('loginRedirectPath', '');
           auth.logout();
         }}
       >
