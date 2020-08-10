@@ -2,6 +2,7 @@ import {
   SET_PRICING_SUBSCRIPTIONS,
   SET_SELLER_SUBSCRIPTION,
   SET_SUCCESS_PAYMENT,
+  SET_STRIPE_ERROR,
 } from '../../../constants/Settings';
 import { AnyAction } from 'redux';
 import { setIn } from '../../../utils/immutablity';
@@ -11,6 +12,7 @@ const initialState = {
   subscriptionType: '',
   plan: '',
   subscriptions: [],
+  stripeErrorMessage: undefined,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -45,6 +47,9 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_SUCCESS_PAYMENT: {
       return setIn(state, 'successPayment', action.payload);
+    }
+    case SET_STRIPE_ERROR: {
+      return setIn(state, 'stripeErrorMessage', action.payload);
     }
     default:
       return state;

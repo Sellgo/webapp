@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { Container, Grid, Image } from 'semantic-ui-react';
 import StepsContent from '../StepsContent';
@@ -13,6 +13,7 @@ import PaidContent from './PaidContent';
 import { AppConfig } from '../../../config';
 import get from 'lodash/get';
 import SuccessContent from './SuccessContent';
+import _ from 'lodash';
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
@@ -20,17 +21,24 @@ interface PaymentProps {
   location: any;
   subscriptionType: string;
   successPayment: any;
+  stripeErrorMessage: any;
 }
 const Payment = (props: PaymentProps) => {
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
-  const { subscriptionType, auth, successPayment } = props;
+  const { subscriptionType, auth, successPayment, stripeErrorMessage } = props;
   const accountType = localStorage.getItem('planType') || '';
 
   const handlePaymentError = (data: any) => {
+    if (_.isEmpty(data)) return;
     setPaymentError(true);
     setPaymentErrorMessage(data.message);
   };
+
+  useEffect(() => {
+    handlePaymentError(stripeErrorMessage);
+  }, [stripeErrorMessage]);
+
   return (
     <Grid className="subscription-page" columns={2}>
       <Grid.Row>
@@ -66,6 +74,7 @@ const Payment = (props: PaymentProps) => {
 const mapStateToProps = (state: any) => ({
   subscriptionType: state.subscription.subscriptionType,
   successPayment: get(state, 'subscription.successPayment'),
+  stripeErrorMessage: get(state, 'subscription.stripeErrorMessage'),
 });
 
 export default connect(mapStateToProps)(Payment);
