@@ -75,7 +75,6 @@
     border-radius: 8px;
     margin: 0 !important;
     width: 1157px !important;
-    height: 652px !important;
     padding: 33px 26px 29px 26px !important;
     font-family: $font-fam;
 
@@ -85,7 +84,7 @@
 
     h3 {
       font-size: 30px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0;
       color: $font-black;
       margin-bottom: 20px !important;
@@ -95,6 +94,17 @@
       &__fullname-group {
         .field {
           width: 50% !important;
+        }
+      }
+
+      &__consent {
+        color: #3b4557;
+        font-size: 15px;
+        text-align: center;
+
+        span {
+          text-decoration: underline;
+          cursor: pointer;
         }
       }
 
@@ -113,7 +123,7 @@
           label {
             color: $font-black;
             font-size: 19px;
-            font-weight: 600;
+            font-weight: 700;
           }
 
           .input {
@@ -130,6 +140,15 @@
         }
       }
 
+      input[type='text'] {
+        border: 1px solid #98aeca !important;
+        box-shadow: unset !important;
+      }
+
+      input::placeholder {
+        color: #98aeca !important;
+      }
+
       &__error {
         color: $font-red;
         font-size: 20px;
@@ -141,7 +160,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 20px 0 35px;
+        margin: 15px 0 35px;
 
         button {
           background-color: $font-blue !important;

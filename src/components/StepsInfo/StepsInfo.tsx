@@ -9,10 +9,11 @@ interface Props {
   focusInput: any;
   blurInput: any;
   subscriptionRegister?: boolean;
+  id?: any;
 }
 
 const StepsInfo = (props: Props) => {
-  const { stepsData, onChange, isFocusPW, focusInput, blurInput, subscriptionRegister } = props;
+  const { stepsData, onChange, isFocusPW, focusInput, blurInput, subscriptionRegister, id } = props;
   const [isPassword, setPassword] = useState(true);
   const stepsDisplay = stepsData.map((stat: Steps) => {
     if (stat.stepShow) {
@@ -43,6 +44,7 @@ const StepsInfo = (props: Props) => {
       trigger={
         <div className={`ui icon input field ${subscriptionRegister && 'huge'}`}>
           <input
+            id={id}
             autoFocus={isFocusPW}
             onBlur={blurInput}
             onFocus={focusInput}

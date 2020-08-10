@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Container, Header, Form, Button, Divider } from 'semantic-ui-react';
+import { Container, Header, Form, Button, Divider, Modal, TextArea } from 'semantic-ui-react';
 import Auth from '../../../components/Auth/Auth';
 import { useInput } from '../../../hooks/useInput';
 import StepsInfo from '../../../components/StepsInfo/StepsInfo';
@@ -15,16 +15,23 @@ import {
   specialCharacters,
   Length,
 } from '../../../constants/Validators';
+import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
+import get from 'lodash/get';
+import { connect } from 'react-redux';
 
 interface Props {
   auth: Auth;
   setLogin: () => void;
+  termsOfService: any;
+  privacyPolicy: any;
+  fetchPP: any;
+  fetchTOS: any;
 }
 interface State {
   stepsInfo: Steps[];
 }
-export default function Signup(props: Props, state: State) {
-  const { auth, setLogin } = props;
+function Signup(props: Props, state: State) {
+  const { auth, setLogin, termsOfService, privacyPolicy, fetchTOS, fetchPP } = props;
   const [verifyEmailError, setVerifyEmailError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { value: email, bind: bindEmail } = useInput('');
@@ -32,7 +39,13 @@ export default function Signup(props: Props, state: State) {
   const { value: lastName, bind: bindLastName } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
   const [isFocusPW, setFocusPassword] = useState(false);
+  const [openTOS, setOpenTOS] = useState(false);
+  const [openPP, setOpenPP] = useState(false);
 
+  useEffect(() => {
+    fetchTOS();
+    fetchPP();
+  }, [fetchTOS, fetchPP]);
   state = {
     stepsInfo: [
       {
@@ -85,6 +98,42 @@ export default function Signup(props: Props, state: State) {
     setFocusPassword(true);
   }
 
+  const onClose = () => {
+    setOpenTOS(false);
+    setOpenPP(false);
+  };
+
+  const TOS = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Terms of Service</Header>
+        <Form>
+          <TextArea rows="20" value={termsOfService} />
+        </Form>
+      </div>
+    );
+  };
+
+  const PP = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Privacy Policy</Header>
+        <Form>
+          <TextArea rows="20" value={privacyPolicy} />
+        </Form>
+      </div>
+    );
+  };
+  const newUserExperiencePopup = () => {
+    return (
+      <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
+        <Modal.Content>
+          {openTOS && <TOS />}
+          {openPP && <PP />}
+        </Modal.Content>
+      </Modal>
+    );
+  };
   const handleSubmit = () => {
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
@@ -110,6 +159,7 @@ export default function Signup(props: Props, state: State) {
   };
   return (
     <Container text className="signup-container">
+      {newUserExperiencePopup()}
       <StepsContent contentType={'register'} />
       <Header as="h3">Register Here</Header>
       <Form className="signup-container__form" onSubmit={handleSubmit}>
@@ -130,14 +180,18 @@ export default function Signup(props: Props, state: State) {
             {...bindLastName}
           />
         </Form.Group>
-        <StepsInfo
-          subscriptionRegister={true}
-          isFocusPW={isFocusPW}
-          focusInput={onFocus}
-          blurInput={onBlur}
-          stepsData={state.stepsInfo}
-          {...bindPassword}
-        />
+        <Form.Field className="payment-container__stripe-checkout-form__password-field">
+          <label htmlFor="password">Password</label>
+          <StepsInfo
+            id="password"
+            subscriptionRegister={true}
+            isFocusPW={isFocusPW}
+            focusInput={onFocus}
+            blurInput={onBlur}
+            stepsData={state.stepsInfo}
+            {...bindPassword}
+          />
+        </Form.Field>
 
         <div className="signup-container__form__error">
           {verifyEmailError ? <span>{errorMessage}</span> : <span />}
@@ -151,6 +205,25 @@ export default function Signup(props: Props, state: State) {
         >
           Register
         </Form.Field>
+        <p className="signup-container__form__consent">
+          By signing up, you’re agreeing to our{' '}
+          <span
+            onClick={() => {
+              setOpenTOS(true);
+            }}
+          >
+            terms of service
+          </span>{' '}
+          and you have read our{' '}
+          <span
+            onClick={() => {
+              setOpenPP(true);
+            }}
+          >
+            data use policy
+          </span>{' '}
+          as well as the use of cookies.
+        </p>
         <Divider section />
         <p className="signup-container__form__sign-up">
           Already have a Sellgo account
@@ -166,3 +239,15 @@ export default function Signup(props: Props, state: State) {
     </Container>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  termsOfService: get(state, 'userOnboarding.termsOfService'),
+  privacyPolicy: get(state, 'userOnboarding.privacyPolicy'),
+});
+
+const mapDispatchToProps = {
+  fetchTOS: () => fetchTOS(),
+  fetchPP: () => fetchPP(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
