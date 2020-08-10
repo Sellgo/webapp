@@ -5,6 +5,7 @@ import Auth from '../../components/Auth/Auth';
 import Summary from './Summary';
 import Login from './Login';
 import Signup from './Signup';
+import history from '../../history';
 
 interface SubscriptionProps {
   auth: Auth;
@@ -24,6 +25,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   };
 
   componentDidMount() {
+    if (localStorage.getItem('isLoggedIn') === 'true') history.push('/settings/pricing');
     this.setState(
       {
         accountType: window.location.search === '?type=basic' ? 'basic' : 'pro',
