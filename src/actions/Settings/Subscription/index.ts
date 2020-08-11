@@ -63,7 +63,6 @@ export const createSubscription = (data: any) => (dispatch: any) => {
     .then(handlePaymentThatRequiresCustomerAction)
     .then(handleRequiresPaymentMethod)
     .then((data: any) => {
-      console.log('onComplete: ', data);
       if (
         (data.subscription && data.subscription.status === 'active') ||
         data.payment_intent.status === 'succeeded'
@@ -76,15 +75,13 @@ export const createSubscription = (data: any) => (dispatch: any) => {
         dispatch(setStripeLoading(false));
       }
     })
-    .catch((err: any) => {
-      console.log('catch: ', err.message);
-      dispatch(setStripeError({ message: err.message }));
+    .catch(err => {
+      dispatch(setStripeError({ message: err.response.data.message }));
       dispatch(setStripeLoading(false));
     });
 };
 
 const handlePaymentThatRequiresCustomerAction = (data: any) => {
-  console.log('handlePaymentThatRequiresCustomerAction: ', data);
   if (data.subscription && data.subscription.status === 'active') {
     // Subscription is active, no customer actions required.
     return data;
@@ -139,7 +136,6 @@ const handlePaymentThatRequiresCustomerAction = (data: any) => {
 };
 
 const handleRequiresPaymentMethod = (data: any) => {
-  console.log('handleRequiresPaymentMethod: ', data);
   if (data.subscription && data.subscription.status === 'active') {
     // subscription is active, no customer actions required.
     return {
