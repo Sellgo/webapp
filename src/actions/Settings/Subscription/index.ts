@@ -51,13 +51,6 @@ export const createSubscription = (data: any) => (dispatch: any) => {
     AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription/create`,
     bodyFormData
   )
-    .then((result: any) => {
-      if (result.error) {
-        // The card had an error when trying to attach it to a customer.
-        throw result;
-      }
-      return result;
-    })
     .then((response: any) => {
       return {
         invoice: response.data.stripe_subscription,
@@ -70,6 +63,7 @@ export const createSubscription = (data: any) => (dispatch: any) => {
     .then(handlePaymentThatRequiresCustomerAction)
     .then(handleRequiresPaymentMethod)
     .then((data: any) => {
+      console.log('onComplete: ', data);
       if (
         (data.subscription && data.subscription.status === 'active') ||
         data.payment_intent.status === 'succeeded'
@@ -83,12 +77,14 @@ export const createSubscription = (data: any) => (dispatch: any) => {
       }
     })
     .catch((err: any) => {
-      dispatch(setStripeError(err));
+      console.log('catch: ', err.message);
+      dispatch(setStripeError({ message: err.message }));
       dispatch(setStripeLoading(false));
     });
 };
 
 const handlePaymentThatRequiresCustomerAction = (data: any) => {
+  console.log('handlePaymentThatRequiresCustomerAction: ', data);
   if (data.subscription && data.subscription.status === 'active') {
     // Subscription is active, no customer actions required.
     return data;
@@ -112,6 +108,7 @@ const handlePaymentThatRequiresCustomerAction = (data: any) => {
           // Start code flow to handle updating the payment details.
           // Display error message in your UI.
           // The card was declined (i.e. insufficient funds, card has expired, etc).
+
           throw result.error;
         } else {
           if (result.paymentIntent.status === 'succeeded') {
@@ -142,6 +139,7 @@ const handlePaymentThatRequiresCustomerAction = (data: any) => {
 };
 
 const handleRequiresPaymentMethod = (data: any) => {
+  console.log('handleRequiresPaymentMethod: ', data);
   if (data.subscription && data.subscription.status === 'active') {
     // subscription is active, no customer actions required.
     return {

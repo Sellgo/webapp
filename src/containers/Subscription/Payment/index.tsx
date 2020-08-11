@@ -51,8 +51,7 @@ const Payment = (props: PaymentProps) => {
             <StepsContent contentType={'payment'} />
             {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (
               <div className="payment-container__error">
-                <div className="payment-container__error__title">Credit Card Declined</div>
-                <div className="payment-container__error__message">{paymentErrorMessage}</div>
+                <div className="payment-container__error__title">{paymentErrorMessage}</div>
               </div>
             )}
             {!successPayment && isSubscriptionNotPaid(subscriptionType) && (
