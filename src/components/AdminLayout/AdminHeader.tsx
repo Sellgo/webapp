@@ -21,7 +21,10 @@ export class AdminHeader extends React.Component<AdminProps> {
     isVisible: false,
     openConfirm: false,
   };
-  userEmail = localStorage.getItem('userEmail');
+  userEmail =
+    localStorage.getItem('userEmail') !== null
+      ? localStorage.getItem('userEmail')
+      : 'richard@sellgo.com';
 
   toggleMenu = () => {
     this.setState({
