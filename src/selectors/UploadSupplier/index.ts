@@ -37,7 +37,7 @@ export const currentSupplier = (state: object): [] => get(state, 'modals.uploadS
 export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultError', []);
 
 export const fileStringArraySelector = (state: object): string[][] =>
-  get(state, 'uploadSupplier.fileStringArray', null);
+  get(state, 'uploadSupplier.fileStringArray', []);
 
 export const primaryIdTypeSelector = (state: object): string =>
   get(state, 'uploadSupplier.primaryIdType', '');

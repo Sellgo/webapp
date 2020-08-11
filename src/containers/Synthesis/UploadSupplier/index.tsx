@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './UploadSupplier.module.scss';
 import { connect } from 'react-redux';
 import UploadSteps from './UploadSteps';
-import SupplierInformation from './SupplierInformation';
 import Actions from './Actions';
 import SelectFile from './SelectFile';
 import DataMapping from './DataMapping';
@@ -34,15 +33,16 @@ export const UploadSupplier = (props: Props) => {
       <UploadSteps isEditModal={isEditModal} finished={currentProgressShow ? finished : false} />
       <div className={`upload-section ${styles.section}`}>
         <FormWrapper>
-          {currentStep === 0 && <AddNewSearch />}
+          {currentStep === 0 && (
+            <div className="new-search-container">
+              <AddNewSearch />
+              <SelectFile />
+            </div>
+          )}
 
-          {currentStep === 1 && <SupplierInformation />}
+          {currentStep === 1 && <DataMapping />}
 
-          {currentStep === 2 && <SelectFile />}
-
-          {currentStep === 3 && <DataMapping />}
-
-          {currentStep === 4 && (
+          {currentStep === 2 && (
             <Submit
               onFinished={() => {
                 setFinished(true);

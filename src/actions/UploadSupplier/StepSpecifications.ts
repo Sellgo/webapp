@@ -44,100 +44,6 @@ export abstract class Step {
 export class AddNewSearchStep extends Step {
   step = UploadSteps.AddNewSearch;
 
-  validate() {
-    const state = this.getState();
-    const isFormValid = isValid('supplier-info')(state);
-    let errorMessage;
-
-    if (!isFormValid) {
-      // submitting will make errors visible
-      this.dispatch(submit('supplier-info'));
-      errorMessage = 'Please fill required fields';
-    }
-
-    return errorMessage;
-  }
-
-  async finalizeStep() {
-    const formValues: any = getFormValues('supplier-info')(this.getState());
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-      const { ...other } = formValues;
-
-      if (!existingSupplier) {
-        // add other form values
-        const data: any = await this.dispatch(saveSearch(other));
-        this.dispatch(openUploadSupplierModal(data));
-      } else {
-        for (const param in existingSupplier) {
-          if (existingSupplier[param] === other[param]) {
-            delete other[param];
-          }
-        }
-        await this.dispatch(updateSearch(existingSupplier.id, other));
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  cleanStep() {
-    // this.dispatch(destroy('supplier-info'));
-  }
-}
-
-export class AddNewSupplierStep extends Step {
-  step = UploadSteps.AddNewSupplier;
-
-  validate() {
-    const state = this.getState();
-    const isFormValid = isValid('supplier-info')(state);
-    let errorMessage;
-
-    if (!isFormValid) {
-      // submitting will make errors visible
-      this.dispatch(submit('supplier-info'));
-      errorMessage = 'Please fill required fields';
-    }
-
-    return errorMessage;
-  }
-
-  async finalizeStep() {
-    const formValues: any = getFormValues('supplier-info')(this.getState());
-
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
-      const { ...other } = formValues;
-
-      if (!existingSupplier) {
-        // add other form values
-        const data: any = await this.dispatch(saveSupplierDetails(other));
-        this.dispatch(openUploadSupplierModal(data));
-      } else {
-        for (const param in existingSupplier) {
-          if (existingSupplier[param] === other[param]) {
-            delete other[param];
-          }
-        }
-        await this.dispatch(updateSupplierDetails(existingSupplier.id, other));
-      }
-      this.dispatch(fetchColumnMappings());
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  cleanStep() {
-    // this.dispatch(destroy('supplier-info'));
-  }
-}
-
-export class SelectFileStep extends Step {
-  step = UploadSteps.SelectFile;
-
   checkFile() {
     const state = this.getState();
     const fileDetails = fileDetailsSelector(state);
@@ -222,20 +128,59 @@ export class SelectFileStep extends Step {
 
     return undefined;
   }
-
   validate() {
-    const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
-    let errorCheck = this.checkFile();
-    if (!errorCheck) {
-      errorCheck = skipColumnMappingCheck ? undefined : this.validateFields();
+    const state = this.getState();
+    const isFormValid = isValid('supplier-info')(state);
+    let errorMessage;
+    const errorCheck = this.checkFile();
+
+    if (!isFormValid) {
+      // submitting will make errors visible
+      this.dispatch(submit('supplier-info'));
+      errorMessage = 'Please fill required fields';
+    } else if (errorCheck) {
+      errorMessage = errorCheck;
     }
-    return errorCheck;
+    const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
+    if (!errorCheck) {
+      errorMessage = skipColumnMappingCheck ? undefined : this.validateFields();
+    }
+    return errorMessage;
+  }
+
+  async finalizeStep() {
+    const formValues: any = getFormValues('supplier-info')(this.getState());
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const existingSupplier = get(this.getState(), 'modals.uploadSupplier.meta', null);
+      const { ...other } = formValues;
+
+      if (!existingSupplier) {
+        // add other form values
+        const data: any = await this.dispatch(saveSearch(other));
+        const supplierDetails: any = await this.dispatch(saveSupplierDetails(other));
+
+        this.dispatch(openUploadSupplierModal({ ...data, ...supplierDetails }));
+      } else {
+        for (const param in existingSupplier) {
+          if (existingSupplier[param] === other[param]) {
+            delete other[param];
+          }
+        }
+        await this.dispatch(updateSupplierDetails(existingSupplier.id, other));
+        await this.dispatch(updateSearch(existingSupplier.id, other));
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   cleanStep() {
+    // this.dispatch(destroy('supplier-info'));
     this.dispatch(fetchColumnMappings());
   }
 }
+
 (window as any).test = validator.isDecimal;
 
 export class DataMappingStep extends Step {
@@ -281,12 +226,6 @@ export function getStepSpecification(stepNumber: number) {
   switch (stepNumber) {
     case UploadSteps.AddNewSearch:
       return AddNewSearchStep;
-
-    case UploadSteps.AddNewSupplier:
-      return AddNewSupplierStep;
-
-    case UploadSteps.SelectFile:
-      return SelectFileStep;
 
     case UploadSteps.DataMapping:
       return DataMappingStep;
