@@ -51,7 +51,13 @@ export default function Login(props: Props) {
           placeholder="Email"
           {...bindUserName}
         />
-        <Form.Input size="huge" label="Password" type="password" {...bindPassword} />
+        <Form.Input
+          size="huge"
+          label="Password"
+          type="password"
+          placeholder="Password"
+          {...bindPassword}
+        />
 
         {isError && (
           <div className="login-container__form__error">
