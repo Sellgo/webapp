@@ -129,7 +129,7 @@
           }
 
           .input {
-            font-size: 21px !important;
+            font-size: 21px;
 
             input {
               background: #fff 0% 0% no-repeat padding-box !important;
@@ -203,6 +203,18 @@
   .signup-container {
     &.container {
       width: 100% !important;
+
+      .signup-container__form {
+        &.ui.form {
+          label {
+            font-size: 17px;
+          }
+
+          .input {
+            font-size: 18px !important;
+          }
+        }
+      }
     }
   }
 }
