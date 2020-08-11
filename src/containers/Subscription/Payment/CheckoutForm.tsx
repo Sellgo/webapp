@@ -6,13 +6,14 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Form, Header, Button, Dropdown } from 'semantic-ui-react';
+import { Form, Header, Button, Dropdown, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import {
   createSubscription,
   retryInvoiceWithNewPaymentMethod,
+  setStripeLoading,
 } from '../../../actions/Settings/Subscription';
 import { useInput } from '../../../hooks/useInput';
 import { countryList } from '../../../constants/Settings';
@@ -44,11 +45,13 @@ interface MyProps {
   createSubscriptionData: (data: any) => void;
   retryInvoiceW: (data: any) => void;
   handlePaymentError: (data: any) => void;
+  setStripeLoad: (data: boolean) => void;
+  stripeLoading: boolean;
 }
 function CheckoutForm(props: MyProps) {
   const stripe: any = useStripe();
   const elements = useElements();
-
+  const { stripeLoading } = props;
   const { value: name, bind: bindName } = useInput('');
   const { value: address, bind: bindAddress } = useInput('');
   const { value: city, bind: bindCity } = useInput('');
@@ -70,7 +73,13 @@ function CheckoutForm(props: MyProps) {
   const handleSubmit = async (event: any) => {
     // Block native form submission.
     event.preventDefault();
-    const { accountType, createSubscriptionData, retryInvoiceW, handlePaymentError } = props;
+    const {
+      accountType,
+      createSubscriptionData,
+      retryInvoiceW,
+      handlePaymentError,
+      setStripeLoad,
+    } = props;
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
@@ -82,6 +91,7 @@ function CheckoutForm(props: MyProps) {
       handlePaymentError({ message: 'Zipcode is invalid' });
       return;
     }
+    setStripeLoad(true);
     const cardElement = elements.getElement(CardNumberElement);
 
     // If a previous payment was attempted, get the latest invoice
@@ -106,6 +116,7 @@ function CheckoutForm(props: MyProps) {
 
     if (error) {
       handlePaymentError(error);
+      setStripeLoad(false);
     } else {
       const paymentMethodId = paymentMethod.id;
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
@@ -239,7 +250,7 @@ function CheckoutForm(props: MyProps) {
             </Button>
           </Link>
           <Form.Field
-            disabled={!stripe}
+            disabled={!stripe || stripeLoading}
             size="huge"
             className="payment-container__stripe-checkout-form__buttons__register"
             control={Button}
@@ -247,6 +258,7 @@ function CheckoutForm(props: MyProps) {
             value="Submit"
           >
             Complete Payment
+            {stripeLoading && <Loader active inline size="mini" inverted />}
           </Form.Field>
         </Form.Group>
       </Form>
@@ -256,9 +268,11 @@ function CheckoutForm(props: MyProps) {
 
 const mapStateToProps = (state: {}) => ({
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
+  stripeLoading: get(state, 'subscription.stripeLoading'),
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
   retryInvoiceW: (data: any) => retryInvoiceWithNewPaymentMethod(data),
+  setStripeLoad: (data: boolean) => setStripeLoading(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

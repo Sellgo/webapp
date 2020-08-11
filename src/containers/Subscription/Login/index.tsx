@@ -40,7 +40,7 @@ export default function Login(props: Props) {
     );
   };
   return (
-    <Container text className="login-container">
+    <Container text className={`login-container ${isSignupSuccess && 'success'}`}>
       <StepsContent contentType={'register'} />
       <Header as="h3">Login</Header>
       <Form className="login-container__form" onSubmit={handleSubmit}>

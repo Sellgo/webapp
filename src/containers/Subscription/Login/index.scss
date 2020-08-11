@@ -81,6 +81,10 @@
     padding: 33px 26px 29px 26px !important;
     font-family: $font-fam;
 
+    &.success {
+      height: 615px !important;
+    }
+
     &.text {
       max-width: unset !important;
     }

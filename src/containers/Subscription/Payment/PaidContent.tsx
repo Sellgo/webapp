@@ -1,9 +1,10 @@
 import React from 'react';
 import './index.scss';
 import { Header, Button, Form } from 'semantic-ui-react';
-import history from '../../../history';
+import { createBrowserHistory } from 'history';
 
 export default function PaidContent() {
+  const history = createBrowserHistory({ forceRefresh: true });
   return (
     <div className="paid-content-container">
       <Header as="h3">Your account already has an active plan</Header>

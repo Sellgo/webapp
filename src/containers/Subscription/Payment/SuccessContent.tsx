@@ -1,9 +1,10 @@
 import React from 'react';
 import './index.scss';
 import { Header, Button, Form } from 'semantic-ui-react';
-import history from '../../../history';
+import { createBrowserHistory } from 'history';
 
 export default function SuccessContent() {
+  const history = createBrowserHistory({ forceRefresh: true });
   return (
     <div className="payment-success-container">
       <Header as="h3">Payment Success</Header>

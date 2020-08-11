@@ -4,6 +4,7 @@ import {
   SET_SELLER_SUBSCRIPTION,
   SET_SUCCESS_PAYMENT,
   SET_STRIPE_ERROR,
+  SET_STRIPE_LOADING,
 } from '../../../constants/Settings';
 import { AppConfig } from '../../../config';
 import { warn } from '../../../utils/notifications';
@@ -64,24 +65,26 @@ export const createSubscription = (data: any) => (dispatch: any) => {
         price_id: data.payment_method_id,
         isRetry: true,
         subscription: response.data.stripe_subscription,
-
-        // payment_method_id: data.payment_method_id,
-        // price_id: data.payment_method_id,
-        // subscription: response.data.stripe_subscription,
       };
     })
     .then(handlePaymentThatRequiresCustomerAction)
     .then(handleRequiresPaymentMethod)
     .then((data: any) => {
-      if (data.subscription && data.subscription.status === 'active') {
+      if (
+        (data.subscription && data.subscription.status === 'active') ||
+        data.payment_intent.status === 'succeeded'
+      ) {
         dispatch(setSuccessPayment(true));
         localStorage.removeItem('planType');
+        dispatch(setStripeLoading(false));
       } else if (data.message) {
         dispatch(setStripeError(data));
+        dispatch(setStripeLoading(false));
       }
     })
     .catch((err: any) => {
       dispatch(setStripeError(err));
+      dispatch(setStripeLoading(false));
     });
 };
 
@@ -115,7 +118,13 @@ const handlePaymentThatRequiresCustomerAction = (data: any) => {
             // Show a success message to your customer.
             // There's a risk of the customer closing the window before the callback.
             // We recommend setting up webhook endpoints later in this guide.
-            return data;
+            return {
+              price_id: data.payment_method_id,
+              subscription: data.subscription,
+              invoice: data.invoice,
+              payment_method_id: data.payment_method_id,
+              payment_intent: result.paymentIntent,
+            };
           }
         }
       })
@@ -124,14 +133,22 @@ const handlePaymentThatRequiresCustomerAction = (data: any) => {
       });
   } else {
     // No customer action needed.
-    return data;
+    return {
+      subscription: data.subscription,
+      price_id: data.payment_method_id,
+      payment_method_id: data.payment_method_id,
+    };
   }
 };
 
 const handleRequiresPaymentMethod = (data: any) => {
   if (data.subscription && data.subscription.status === 'active') {
     // subscription is active, no customer actions required.
-    return data;
+    return {
+      subscription: data.subscription,
+      price_id: data.payment_method_id,
+      payment_method_id: data.payment_method_id,
+    };
   } else if (
     data.subscription &&
     data.subscription.latest_invoice.payment_intent.status === 'requires_payment_method'
@@ -208,6 +225,10 @@ export const setSubscriptions = (data: any) => ({
   payload: data,
 });
 
+export const setStripeLoading = (data: any) => ({
+  type: SET_STRIPE_LOADING,
+  payload: data,
+});
 export const setSuccessPayment = (data: any) => ({
   type: SET_SUCCESS_PAYMENT,
   payload: data,

@@ -10,7 +10,9 @@ export default class Home extends React.Component<any> {
 
     const redirectPath = localStorage.getItem('loginRedirectPath');
     if (redirectPath === '/subscription/payment') {
-      history.replace(redirectPath);
+      console.log('redirectPath: ', redirectPath);
+      history.push(redirectPath);
+      localStorage.setItem('loginRedirectPath', '/');
     } else if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     }
