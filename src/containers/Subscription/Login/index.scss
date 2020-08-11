@@ -37,7 +37,7 @@
 
       &__icon {
         border-radius: 50%;
-        border: 2px solid $font-grey;
+        border: 1px solid $font-grey;
         height: 40px;
         width: 40px;
         justify-content: center;
@@ -74,9 +74,10 @@
     box-shadow: 0 3px 20px #00000029;
     border: 1px solid $font-grey;
     border-radius: 8px;
+    background: #fff;
     margin: 0 !important;
     width: 1157px !important;
-    height: 652px !important;
+    height: 572px !important;
     padding: 33px 26px 29px 26px !important;
     font-family: $font-fam;
 
@@ -133,7 +134,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 20px 0 35px;
+        margin: 50px 0 30px;
 
         button {
           background-color: $font-blue;
@@ -161,8 +162,10 @@
       }
 
       .ui.divider {
-        border: 0.5px solid #98aeca;
         margin: 0 !important;
+        height: 1px !important;
+        background: #98aeca;
+        border: unset;
       }
     }
   }

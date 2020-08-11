@@ -36,7 +36,7 @@
 
       &__icon {
         border-radius: 50%;
-        border: 2px solid $font-grey;
+        border: 1px solid $font-grey;
         height: 40px;
         width: 40px;
         justify-content: center;
@@ -75,6 +75,8 @@
     border-radius: 8px;
     margin: 0 !important;
     width: 1157px !important;
+    height: 721px;
+    background: #fff;
     padding: 33px 26px 29px 26px !important;
     font-family: $font-fam;
 
@@ -188,8 +190,10 @@
       }
 
       .ui.divider {
-        border: 0.5px solid #98aeca;
         margin: 0 !important;
+        height: 1px !important;
+        background: #98aeca;
+        border: unset;
       }
     }
   }

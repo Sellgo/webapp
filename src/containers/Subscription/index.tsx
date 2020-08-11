@@ -19,13 +19,16 @@ interface SubscriptionStates {
 
 class Subscription extends React.Component<SubscriptionProps, SubscriptionStates> {
   state = {
-    isLogin: true,
-    isSignup: false,
+    isLogin: false,
+    isSignup: true,
     accountType: '',
   };
 
   componentDidMount() {
-    if (localStorage.getItem('isLoggedIn') === 'true') history.push('/settings/pricing');
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      localStorage.setItem('loginRedirectPath', '/');
+      history.push('/settings/pricing');
+    }
     this.setState(
       {
         accountType: window.location.search === '?type=basic' ? 'basic' : 'pro',
