@@ -32,6 +32,10 @@
       font-weight: bold !important;
     }
 
+    label::after {
+      display: none !important;
+    }
+
     .ui input[type='text'] {
       font-size: 21px;
       font-family: $font-fam;

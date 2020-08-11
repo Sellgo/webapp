@@ -1,13 +1,9 @@
 import React from 'react';
 import './index.scss';
 import { Header, Button, Form } from 'semantic-ui-react';
-import Auth from '../../../components/Auth/Auth';
+import history from '../../../history';
 
-interface SuccessPaymentProps {
-  auth: Auth;
-}
-export default function SuccessContent(props: SuccessPaymentProps) {
-  const { auth } = props;
+export default function SuccessContent() {
   return (
     <div className="payment-success-container">
       <Header as="h3">Payment Success</Header>
@@ -19,7 +15,7 @@ export default function SuccessContent(props: SuccessPaymentProps) {
         primary={true}
         onClick={() => {
           localStorage.setItem('loginRedirectPath', '/');
-          auth.logout();
+          history.push('/');
         }}
       >
         Log in

@@ -8,7 +8,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import Summary from '../Summary';
 import { connect } from 'react-redux';
 import { isSubscriptionNotPaid, isSubscriptionPaid } from '../../../utils/subscriptions';
-import Auth from '../../../components/Auth/Auth';
 import PaidContent from './PaidContent';
 import { AppConfig } from '../../../config';
 import get from 'lodash/get';
@@ -17,7 +16,6 @@ import _ from 'lodash';
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
-  auth: Auth;
   location: any;
   subscriptionType: string;
   successPayment: any;
@@ -26,7 +24,7 @@ interface PaymentProps {
 const Payment = (props: PaymentProps) => {
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
-  const { subscriptionType, auth, successPayment, stripeErrorMessage } = props;
+  const { subscriptionType, successPayment, stripeErrorMessage } = props;
   const accountType = localStorage.getItem('planType') || '';
 
   const handlePaymentError = (data: any) => {
@@ -62,8 +60,8 @@ const Payment = (props: PaymentProps) => {
                 <CheckoutForm accountType={accountType} handlePaymentError={handlePaymentError} />
               </Elements>
             )}
-            {isSubscriptionPaid(subscriptionType) && <PaidContent auth={auth} />}
-            {successPayment && <SuccessContent auth={auth} />}
+            {isSubscriptionPaid(subscriptionType) && <PaidContent />}
+            {successPayment && <SuccessContent />}
           </Container>
         </Grid.Column>
       </Grid.Row>

@@ -1,13 +1,9 @@
 import React from 'react';
 import './index.scss';
 import { Header, Button, Form } from 'semantic-ui-react';
-import Auth from '../../../components/Auth/Auth';
+import history from '../../../history';
 
-interface PaidContentProps {
-  auth: Auth;
-}
-export default function PaidContent(props: PaidContentProps) {
-  const { auth } = props;
+export default function PaidContent() {
   return (
     <div className="paid-content-container">
       <Header as="h3">Your account already has an active plan</Header>
@@ -22,7 +18,7 @@ export default function PaidContent(props: PaidContentProps) {
         primary={true}
         onClick={() => {
           localStorage.setItem('loginRedirectPath', '/');
-          auth.logout();
+          history.push('/');
         }}
       >
         Log in
