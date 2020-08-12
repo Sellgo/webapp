@@ -61,7 +61,6 @@ const PrivateRoute = connect(
     requireSubscription,
     sellerSubscription,
     fetchSellerSubscription,
-    isSubscriptionFlow,
     location,
     ...rest
   }: any) => {
@@ -101,7 +100,6 @@ const PrivateRoute = connect(
       sellerSubscription,
       fetchSellerSubscription,
       requireSubscription,
-      isSubscriptionFlow,
       location,
     ]);
 
@@ -124,12 +122,10 @@ const PrivateRoute = connect(
           // 2) or make available via redux or context provider
           props.match.params.auth = auth;
 
-          return !isSubscriptionFlow ? (
+          return (
             <AdminLayout auth={auth}>
               <Component {...props} />
             </AdminLayout>
-          ) : (
-            <Component auth={auth} {...props} />
           );
         }}
       />
@@ -170,11 +166,10 @@ function App() {
             path="/subscription"
             render={renderProps => <SubscriptionPage auth={auth} {...renderProps} />}
           />
-          <PrivateRoute
+          <Route
             exact={true}
             path="/subscription/payment"
-            component={Payment}
-            isSubscriptionFlow={true}
+            render={renderProps => <Payment auth={auth} {...renderProps} />}
           />
           <PrivateRoute exact={true} path="/settings" component={Settings} />
           <PrivateRoute exact={true} path="/settings/pricing" component={Subscription} />

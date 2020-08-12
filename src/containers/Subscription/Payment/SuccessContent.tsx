@@ -8,6 +8,7 @@ export default function SuccessContent() {
   return (
     <div className="payment-success-container">
       <Header as="h3">Payment Success</Header>
+      <p>Please verify you email</p>
       <p>We have sent you a receipt in your email</p>
       <Form.Field
         size="huge"

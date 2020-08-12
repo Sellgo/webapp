@@ -8,15 +8,9 @@ export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
 
-    const redirectPath = localStorage.getItem('loginRedirectPath');
-    if (redirectPath === '/subscription/payment') {
-      console.log('redirectPath: ', redirectPath);
-      history.push(redirectPath);
-      localStorage.setItem('loginRedirectPath', '/');
-    } else if (localStorage.getItem('isLoggedIn') === 'true') {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     }
-
     // Show email verification success message if "verified" param
     // This URL is configured in Auth0 settings
     if (location.search) {

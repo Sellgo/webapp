@@ -150,8 +150,12 @@ function Signup(props: Props, state: State) {
             setVerifyEmailError(true);
             setErrorMessage(err.description);
           } else {
-            history.push('/subscription?signup=success');
-            setLogin();
+            const data = {
+              email: email,
+              name: firstName + ' ' + lastName,
+            };
+            auth.getSellerID(data);
+            history.push('/subscription/payment');
           }
         }
       );
@@ -163,7 +167,7 @@ function Signup(props: Props, state: State) {
       <StepsContent contentType={'register'} />
       <Header as="h3">Register Here</Header>
       <Form className="signup-container__form" onSubmit={handleSubmit}>
-        <Form.Input size="huge" label="Username" type="mail" placeholder="Email" {...bindEmail} />
+        <Form.Input size="huge" label="Email" type="mail" placeholder="Email" {...bindEmail} />
         <Form.Group className="signup-container__form__fullname-group">
           <Form.Input
             size="huge"

@@ -13,6 +13,8 @@ import { AppConfig } from '../../../config';
 import get from 'lodash/get';
 import SuccessContent from './SuccessContent';
 import _ from 'lodash';
+import Auth from '../../../components/Auth/Auth';
+import history from '../../../history';
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
@@ -20,6 +22,7 @@ interface PaymentProps {
   subscriptionType: string;
   successPayment: any;
   stripeErrorMessage: any;
+  auth: Auth;
 }
 const Payment = (props: PaymentProps) => {
   const [paymentError, setPaymentError] = useState(false);
@@ -34,6 +37,10 @@ const Payment = (props: PaymentProps) => {
   };
 
   useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      localStorage.setItem('loginRedirectPath', '/');
+      history.push('/settings/pricing');
+    }
     handlePaymentError(stripeErrorMessage);
   }, [stripeErrorMessage]);
 

@@ -22,7 +22,6 @@ export default function Login(props: Props) {
     setSignupSuccess(false);
   };
   const handleSubmit = () => {
-    localStorage.setItem('loginRedirectPath', '/subscription/payment');
     auth.webAuth.login(
       {
         responseType: 'token',

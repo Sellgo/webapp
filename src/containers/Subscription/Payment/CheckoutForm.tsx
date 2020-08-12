@@ -7,7 +7,6 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { Form, Header, Button, Dropdown, Loader } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import {
@@ -20,6 +19,7 @@ import { countryList } from '../../../constants/Settings';
 import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
 import { postalCode } from '../../../constants/Validators';
+import { auth } from '../../App/App';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -241,14 +241,14 @@ function CheckoutForm(props: MyProps) {
           />
         </div>
         <Form.Group className="payment-container__stripe-checkout-form__buttons">
-          <Link
-            to="/subscription"
+          <Button
+            onClick={() => auth.logout()}
+            size="huge"
+            basic
             className="payment-container__stripe-checkout-form__buttons__back"
           >
-            <Button size="huge" basic>
-              Back
-            </Button>
-          </Link>
+            Back
+          </Button>
           <Form.Field
             disabled={!stripe || stripeLoading}
             size="huge"
