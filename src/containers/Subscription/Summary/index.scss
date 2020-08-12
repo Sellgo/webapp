@@ -72,12 +72,27 @@
   .summary-container {
     &.container {
       width: 100% !important;
+      height: unset !important;
+
+      h3 {
+        font-size: 26px;
+      }
     }
 
     &__content {
+      &__plan-title,
+      &__plan-value,
+      p {
+        font-size: 18px;
+      }
+
       &__benefits-content {
         line-height: 1.2;
         font-size: 18px;
+
+        &__items {
+          font-size: 16px;
+        }
       }
     }
   }
