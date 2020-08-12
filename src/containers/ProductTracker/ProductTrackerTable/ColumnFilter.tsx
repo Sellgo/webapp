@@ -107,7 +107,7 @@ const ColumnFilterCard = (props: any) => {
           {filters.map(
             (check: any, i: any) =>
               !check.value && (
-                <div className="column-selection-container" key={`inactive---${i}`}>
+                <div className="column-selection-container-inactive" key={`inactive---${i}`}>
                   <Checkbox
                     checked={check.value}
                     onChange={(e: any, data: any) => handleColumnChange(e, { ...check, ...data })}

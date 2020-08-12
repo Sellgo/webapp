@@ -886,6 +886,12 @@ $link-color: #349af8;
 
 .column-selection-container {
   display: flex !important;
+  background: #fff !important;
+  border-top: 0.2px solid #98aeca;
+}
+
+.column-selection-container-inactive {
+  display: flex !important;
 }
 
 .inactive-columns {
@@ -1183,11 +1189,6 @@ $link-color: #349af8;
 .smooth-dnd-container {
   background: #98aeca;
   border-bottom: 0.2px solid #98aeca;
-}
-
-.smooth-dnd-draggable-wrapper {
-  background: #fff !important;
-  border-top: 0.2px solid #98aeca;
 }
 
 .popup {
