@@ -27,7 +27,7 @@ class SidebarCollapsible extends Component<
     auth: Auth;
     currentNotifyId: number;
   },
-  { visible: boolean; openConfirm: boolean; profitFinderActive: number },
+  { visible: boolean; openConfirm: boolean },
   State
 > {
   state = {
@@ -67,7 +67,6 @@ class SidebarCollapsible extends Component<
     ],
     visible: false,
     openConfirm: false,
-    profitFinderActive: 1,
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
@@ -75,17 +74,18 @@ class SidebarCollapsible extends Component<
     this.setState({ openConfirm: true });
   };
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
-  setActiveLink = (id: number) => this.setState({ profitFinderActive: id });
-
   render() {
-    const { visible } = this.state;
+    const { visible, sidebarIcon } = this.state;
     const { children, auth, currentNotifyId } = this.props;
     let supplier_id = '';
     const latest = getLatestSupplier();
     if (latest) {
       supplier_id = latest.supplier_id;
     }
-
+    const currentPath = window.location.pathname;
+    const links = sidebarIcon.map((link: any) =>
+      link.id === 2 ? `${link.path}/${supplier_id}` : link.path
+    );
     const sidebarMenu = (
       <>
         <Menu.Menu>
@@ -99,7 +99,6 @@ class SidebarCollapsible extends Component<
                     <Menu.Item
                       onClick={() => {
                         visible && this.handleAnimationChange();
-                        this.setActiveLink(icon.id);
                       }}
                       as={Link}
                       disabled={!!(icon.id === 2 && !supplier_id)}
@@ -107,7 +106,7 @@ class SidebarCollapsible extends Component<
                         icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
                       }
                       name={icon.icon}
-                      active={icon.id === this.state.profitFinderActive}
+                      active={links[icon.id - 1] === currentPath}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
@@ -159,11 +158,10 @@ class SidebarCollapsible extends Component<
                       as={Link}
                       to={icon.path}
                       name={icon.icon}
-                      active={icon.id === this.state.profitFinderActive}
+                      active={links[icon.id - 1] === currentPath}
                       onClick={() => {
                         icon.id === 5 && this.open();
                         icon.id === 7 && visible && this.handleAnimationChange();
-                        this.setActiveLink(icon.id);
                       }}
                     >
                       <i
