@@ -23,10 +23,11 @@ export default function Login(props: Props) {
     setSignupSuccess(false);
     setErrorMessage(message);
   };
+  const redirectPath = localStorage.getItem('loginRedirectPath');
   useEffect(() => {
-    const redirectPath = localStorage.getItem('loginRedirectPath');
     if (redirectPath && redirectPath.indexOf('-unverified') !== -1) {
       enableErrorMessage('Please verify your email before logging in.');
+      localStorage.setItem('loginRedirectPath', '/');
     }
   }, []);
   const handleSubmit = () => {
@@ -41,7 +42,6 @@ export default function Login(props: Props) {
       },
       err => {
         if (err) {
-          console.log('Error: ', err);
           resetPassword();
           enableErrorMessage('Incorrect Username or Password!');
         }

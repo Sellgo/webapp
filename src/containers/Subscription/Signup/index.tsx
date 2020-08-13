@@ -135,6 +135,7 @@ function Signup(props: Props, state: State) {
     );
   };
   const handleSubmit = () => {
+    localStorage.removeItem('userId');
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else {

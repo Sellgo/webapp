@@ -19,6 +19,8 @@ import { countryList } from '../../../constants/Settings';
 import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
 import { postalCode } from '../../../constants/Validators';
+import { AppConfig } from '../../../config';
+import Axios from 'axios';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -130,6 +132,7 @@ function CheckoutForm(props: MyProps) {
           subscription_id: accountType === 'basic' ? 1 : 2,
           payment_method_id: paymentMethodId,
         };
+        Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
       }
     }
@@ -242,7 +245,7 @@ function CheckoutForm(props: MyProps) {
         <Form.Group className="payment-container__stripe-checkout-form__buttons">
           <Button
             onClick={() => {
-              window.location.href = 'https://sellgo.com/pricing';
+              window.location.href = AppConfig.WEB_URL;
             }}
             size="huge"
             basic

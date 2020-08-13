@@ -19,10 +19,10 @@ export default function PaidContent() {
         primary={true}
         onClick={() => {
           localStorage.setItem('loginRedirectPath', '/');
-          history.push('/');
+          history.push('/settings/pricing');
         }}
       >
-        Log in
+        Open Sellgo Pricing
       </Form.Field>
     </div>
   );

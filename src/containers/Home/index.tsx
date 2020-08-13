@@ -14,12 +14,12 @@ export default class Home extends React.Component<any> {
       history.replace('/synthesis');
     }
 
-    if (location.state && redirectPath) {
+    if (location.state && redirectPath && redirectPath.indexOf('/subscription') !== -1) {
       if (
         location.state.options &&
         location.state.options.flashMessage.text === 'Please verify your email before logging in.'
       ) {
-        redirectPath = redirectPath + '-unverified';
+        redirectPath = '/subscription' + window.location.search + '-unverified';
         localStorage.setItem('loginRedirectPath', redirectPath);
         history.replace(redirectPath);
       }

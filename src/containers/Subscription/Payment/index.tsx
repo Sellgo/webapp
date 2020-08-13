@@ -15,6 +15,8 @@ import SuccessContent from './SuccessContent';
 import _ from 'lodash';
 import Auth from '../../../components/Auth/Auth';
 import history from '../../../history';
+import { fetchSellerSubscription } from '../../../actions/Settings/Subscription';
+import Axios from 'axios';
 const stripePromise = loadStripe(AppConfig.STRIPE_API_KEY);
 
 interface PaymentProps {
@@ -23,11 +25,19 @@ interface PaymentProps {
   successPayment: any;
   stripeErrorMessage: any;
   auth: Auth;
+  sellerSubscription: any;
+  fetchSellerSubscription: () => void;
 }
 const Payment = (props: PaymentProps) => {
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMessage, setPaymentErrorMessage] = useState('');
-  const { subscriptionType, successPayment, stripeErrorMessage } = props;
+  const {
+    subscriptionType,
+    successPayment,
+    stripeErrorMessage,
+    sellerSubscription,
+    fetchSellerSubscription,
+  } = props;
   const accountType = localStorage.getItem('planType') || '';
 
   const handlePaymentError = (data: any) => {
@@ -38,14 +48,19 @@ const Payment = (props: PaymentProps) => {
 
   const sellerID = localStorage.getItem('userId');
   useEffect(() => {
+    localStorage.setItem('loginRedirectPath', '/');
+    if (sellerSubscription === undefined) {
+      Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
+      fetchSellerSubscription();
+      return;
+    }
     if (localStorage.getItem('isLoggedIn') === 'true') {
       localStorage.setItem('loginRedirectPath', '/');
-      history.push('/settings/pricing');
     } else if (_.isEmpty(sellerID)) {
       history.push('/subscription');
     }
     handlePaymentError(stripeErrorMessage);
-  }, [stripeErrorMessage]);
+  }, [stripeErrorMessage, subscriptionType, sellerSubscription]);
 
   return (
     <Grid className="subscription-page" columns={2}>
@@ -78,10 +93,14 @@ const Payment = (props: PaymentProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  subscriptionType: state.subscription.subscriptionType,
+const mapStateToProps = (state: {}) => ({
+  subscriptionType: get(state, 'subscription.subscriptionType'),
   successPayment: get(state, 'subscription.successPayment'),
   stripeErrorMessage: get(state, 'subscription.stripeErrorMessage'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
+const mapDispatchToProps = {
+  fetchSellerSubscription: () => fetchSellerSubscription(),
+};
 
-export default connect(mapStateToProps)(Payment);
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);
