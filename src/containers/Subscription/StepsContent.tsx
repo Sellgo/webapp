@@ -10,10 +10,13 @@ function StepsContent(props: StepsContentProps) {
   return (
     <div className="login-container__steps-content">
       <div
-        className={`login-container__steps-content__register ${contentType === 'register' &&
+        className={`login-container__steps-content__register ${(contentType === 'register' ||
+          contentType === 'login') &&
           'active'}`}
       >
-        <span className="login-container__steps-content__register__title">1. Register</span>
+        <span className="login-container__steps-content__register__title">
+          1.{contentType !== 'payment' && contentType === 'login' ? ' Login' : ' Register'}
+        </span>
         <span className="login-container__steps-content__register__icon">
           <Icon name="pen square" />
         </span>
