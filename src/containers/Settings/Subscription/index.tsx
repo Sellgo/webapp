@@ -207,7 +207,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     const trackTitle = 'Unlimited Profit Finder';
 
-    const subscriptionsSorted = subscriptions.sort((a, b) => (a.id > b.id ? 1 : -1));
+    const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
 
     const cardsDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;

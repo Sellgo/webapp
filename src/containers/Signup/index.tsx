@@ -8,13 +8,20 @@ import { useInput } from '../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
 import history from '../../history';
 import Axios from 'axios';
-import PasswordValidator from 'password-validator';
 import '../Signup/index.scss';
 import { AppConfig } from '../../config';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { fetchTOS, fetchPP } from '../../actions/UserOnboarding';
 import ReactPixel from 'react-facebook-pixel';
+import {
+  strong,
+  lowerUpper,
+  alphanumeric,
+  specialCharacters,
+  Length,
+  passwordPolicy,
+} from '../../constants/Validators';
 
 interface Props {
   auth: Auth;
@@ -39,46 +46,6 @@ function Signup(props: any, state: State) {
     fetchTOS();
     fetchPP();
   }, [fetchTOS, fetchPP]);
-
-  const passwordPolicy = new PasswordValidator()
-    .is()
-    .min(8)
-    .has()
-    .uppercase()
-    .has()
-    .lowercase()
-    .has()
-    .digits()
-    .has()
-    .symbols();
-
-  const strong = new PasswordValidator()
-    .is()
-    .min(10)
-    .has()
-    .uppercase()
-    .has()
-    .lowercase()
-    .has()
-    .digits()
-    .has()
-    .symbols();
-
-  const lowerUpper = new PasswordValidator()
-    .has()
-    .uppercase()
-    .has()
-    .lowercase();
-
-  const alphanumeric = new PasswordValidator()
-    .has()
-    .letters()
-    .has()
-    .digits();
-
-  const specialCharacters = new PasswordValidator().has().symbols();
-
-  const Length = new PasswordValidator().is().min(8);
 
   state = {
     stepsInfo: [
