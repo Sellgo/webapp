@@ -245,7 +245,7 @@ function CheckoutForm(props: MyProps) {
         <Form.Group className="payment-container__stripe-checkout-form__buttons">
           <Button
             onClick={() => {
-              window.location.href = AppConfig.WEB_URL;
+              window.location.href = AppConfig.WEB_URL + '/pricing';
             }}
             size="huge"
             basic
