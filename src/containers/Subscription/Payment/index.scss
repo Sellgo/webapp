@@ -207,6 +207,14 @@
     align-items: center;
     height: 500px;
 
+    &__login {
+      .ui {
+        &.button {
+          font-family: $font-fam;
+        }
+      }
+    }
+
     a {
       color: $font-blue !important;
     }

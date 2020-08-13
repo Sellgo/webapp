@@ -231,7 +231,7 @@ function Signup(props: Props, state: State) {
         </p>
         <Divider section />
         <p className="signup-container__form__sign-up">
-          Already have a Sellgo account
+          Already have a Sellgo account?
           <span
             onClick={() => {
               setLogin();

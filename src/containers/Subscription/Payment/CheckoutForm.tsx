@@ -44,7 +44,7 @@ interface MyProps {
   sellerSubscription: any;
   accountType: string;
   createSubscriptionData: (data: any) => void;
-  retryInvoiceW: (data: any) => void;
+  retryInvoice: (data: any) => void;
   handlePaymentError: (data: any) => void;
   setStripeLoad: (data: boolean) => void;
   stripeLoading: boolean;
@@ -77,7 +77,7 @@ function CheckoutForm(props: MyProps) {
     const {
       accountType,
       createSubscriptionData,
-      retryInvoiceW,
+      retryInvoice,
       handlePaymentError,
       setStripeLoad,
     } = props;
@@ -123,7 +123,7 @@ function CheckoutForm(props: MyProps) {
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
         // Update the payment method and retry invoice payment
         const invoiceId = localStorage.getItem('latestInvoiceId');
-        retryInvoiceW({
+        retryInvoice({
           paymentMethodId,
           invoiceId,
         });
@@ -276,7 +276,7 @@ const mapStateToProps = (state: {}) => ({
 });
 const mapDispatchToProps = {
   createSubscriptionData: (data: any) => createSubscription(data),
-  retryInvoiceW: (data: any) => retryInvoiceWithNewPaymentMethod(data),
+  retryInvoice: (data: any) => retryInvoiceWithNewPaymentMethod(data),
   setStripeLoad: (data: boolean) => setStripeLoading(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);
