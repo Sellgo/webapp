@@ -3,12 +3,13 @@ import './index.scss';
 import { Header, Button, Form } from 'semantic-ui-react';
 import { createBrowserHistory } from 'history';
 
-export default function SuccessContent() {
+export default function SuccessContent(props: any) {
+  const { sellerSubscription } = props;
   const history = createBrowserHistory({ forceRefresh: true });
   return (
     <div className="payment-success-container">
       <Header as="h3">Payment Success</Header>
-      <p>Please verify you email</p>
+      {!sellerSubscription && <p>Please verify you email</p>}
       <p>We have sent you a receipt in your email</p>
       <Form.Field
         size="huge"

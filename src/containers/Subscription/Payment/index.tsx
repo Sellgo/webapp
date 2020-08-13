@@ -60,7 +60,7 @@ const Payment = (props: PaymentProps) => {
       history.push('/subscription');
     }
     handlePaymentError(stripeErrorMessage);
-  }, [stripeErrorMessage, subscriptionType, sellerSubscription]);
+  }, [stripeErrorMessage, sellerSubscription]);
 
   return (
     <Grid className="subscription-page" columns={2}>
@@ -85,7 +85,7 @@ const Payment = (props: PaymentProps) => {
               </Elements>
             )}
             {isSubscriptionPaid(subscriptionType) && <PaidContent />}
-            {successPayment && <SuccessContent />}
+            {successPayment && <SuccessContent sellerSubscription={sellerSubscription} />}
           </Container>
         </Grid.Column>
       </Grid.Row>
