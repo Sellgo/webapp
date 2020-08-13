@@ -56,6 +56,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     pendingSubscription: false,
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
+    isYearly: false,
   };
 
   componentDidMount() {
@@ -199,6 +200,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       pendingSubscription,
       pendingSubscriptionId,
       pendingSubscriptionName,
+      isYearly,
     } = this.state;
 
     const subscribedSubscription = sellerSubscription
@@ -208,20 +210,21 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const trackTitle = 'Unlimited Profit Finder';
 
     const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
-
-    const cardsDisplay = subscriptionsSorted.map((subscription: Subscription) => {
+    console.log('subscriptionsSorted', subscriptionsSorted);
+    const monthlyDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
       return (
         <Card
           key={subscription.id}
-          className={`${isSubscribed && 'active-plan'} ${!isSubscribed &&
+          className={`card-container monthly-card ${isSubscribed &&
+            'active-plan'} ${!isSubscribed &&
             (Number(subscription.id) === 1
               ? 'basic-value-content'
               : Number(subscription.id) === 2
               ? 'best-value-content'
               : 'contact-us-content')}`}
         >
-          <Card.Content>
+          <Card.Content className="card-container__header">
             <Card.Header>
               <Button
                 className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
@@ -231,7 +234,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             </Card.Header>
           </Card.Content>
-          <Card.Content>
+          <Card.Content className="card-container__name">
             <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
               {subscription.name}
             </Card.Header>
@@ -245,7 +248,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 : 'More than 100,000 Product Tracker Limit'}
             </Card.Meta>
           </Card.Content>
-          <Card.Content className={`${Number(subscription.id) === 3 && 'contact-us'}`}>
+          <Card.Content
+            className={`card-container__details ${Number(subscription.id) === 3 && 'contact-us'}`}
+          >
             <Card.Header>
               <strong>$&nbsp;</strong>
               {Number(subscription.id) === 3
@@ -297,7 +302,102 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         </Card>
       );
     });
+    const yearlyDisplay = subscriptionsSorted.map((subscription: Subscription) => {
+      const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
+      return (
+        <Card
+          key={subscription.id}
+          className={`card-container yearly-card ${isSubscribed && 'active-plan'} ${!isSubscribed &&
+            (Number(subscription.id) === 1
+              ? 'basic-value-content'
+              : Number(subscription.id) === 2
+              ? 'best-value-content'
+              : 'contact-us-content')}`}
+        >
+          <Card.Content className="card-container__header">
+            <Card.Header>
+              <Button
+                className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
+                fluid
+              >
+                Best Value
+              </Button>
+            </Card.Header>
+          </Card.Content>
+          <Card.Content className="card-container__name">
+            <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
+              {subscription.name}
+            </Card.Header>
+            <Card.Meta>
+              {trackTitle}
+              <br />
+              {Number(subscription.id) === 1
+                ? subscription.track_limit + ' Product Tracker Limit'
+                : Number(subscription.id) === 2
+                ? subscription.track_limit + ' Product Tracker Limit'
+                : 'More than 100,000 Product Tracker Limit'}
+            </Card.Meta>
+          </Card.Content>
+          {Number(subscription.id) !== 3 && (
+            <Card.Content className="card-container__discount-details">
+              <p className="card-container__discount-details__slash">828</p>
+              <p className="card-container__discount-details__save">Pay $690</p>
+            </Card.Content>
+          )}
+          <Card.Content
+            className={`card-container__details ${Number(subscription.id) === 3 && 'contact-us'}`}
+          >
+            <Card.Header>
+              <strong>$&nbsp;</strong>
+              {Number(subscription.id) === 3
+                ? 'Contact Us'
+                : Math.trunc(Number(subscription.price))
+                ? Math.trunc(Number(subscription.price))
+                : 0.0}
+              <strong>&nbsp;/mo</strong>
+            </Card.Header>
+            <Card.Description>
+              {`${Number(subscription.id) !== 3 && 'Billed Annually'}`}
+            </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            {isSubscribed && (
+              <Button
+                onClick={() => {
+                  this.setState({ promptCancelSubscription: true });
+                }}
+                className={`basic-btn active-plan`}
+                fluid
+              >
+                Cancel
+              </Button>
+            )}
+            {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
+              <Button
+                onClick={() => this.chooseSubscription(subscription)}
+                className={`basic-btn`}
+                fluid
+              >
+                {subscribedSubscription ? 'Change Plan' : 'Get Started'}
+              </Button>
+            )}
 
+            {!subscribedSubscription && (
+              <Link to="/settings/#amazon-mws" className="free-trial-btn">
+                <Button className="basic-btn" fluid>
+                  Free Trial
+                </Button>
+              </Link>
+            )}
+
+            <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
+              Contact Customer Service
+              <a href="mailto: support@sellgo.com">{'support@sellgo.com'}</a>
+            </p>
+          </Card.Content>
+        </Card>
+      );
+    });
     return (
       <>
         <SubscriptionMessage />
@@ -350,7 +450,31 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               For new members register with Amazon Seller Central Account <br />
               Risk free 14-day money back guarantee
             </Grid.Row>
-            <Grid.Row>{cardsDisplay}</Grid.Row>
+
+            <Grid.Row className="pricing-type flex-center">
+              <div className="pricing-type__content">
+                <Button
+                  className={`pricing-type__content__monthly-btn ${!isYearly && 'primary active'}`}
+                  onClick={() => {
+                    this.setState({ isYearly: false });
+                  }}
+                >
+                  Monthly
+                </Button>
+                <Button
+                  className={`pricing-type__content__yearly-btn ${isYearly && 'primary active'}`}
+                  onClick={() => {
+                    this.setState({ isYearly: true });
+                  }}
+                >
+                  Yearly
+                </Button>
+                <div className="pricing-type__content__circle" />
+              </div>
+            </Grid.Row>
+            <Grid.Row className="pricing-content flex-center">
+              {isYearly ? yearlyDisplay : monthlyDisplay}
+            </Grid.Row>
             {isSubscriptionNotPaid(subscriptionType) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
