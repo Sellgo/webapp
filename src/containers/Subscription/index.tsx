@@ -28,10 +28,12 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
     if (localStorage.getItem('isLoggedIn') === 'true') {
       localStorage.setItem('loginRedirectPath', '/');
       history.push('/settings/pricing');
+    } else if (window.location.search.indexOf('-unverified') !== -1) {
+      this.setLogin();
     }
     this.setState(
       {
-        accountType: window.location.search === '?type=basic' ? 'basic' : 'pro',
+        accountType: window.location.search.indexOf('basic') !== -1 ? 'basic' : 'pro',
       },
       () => {
         localStorage.setItem('planType', this.state.accountType);
@@ -40,6 +42,8 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   }
 
   setSignup() {
+    localStorage.setItem('loginRedirectPath', '/subscription?type=' + this.state.accountType);
+    window.location.search = '?type=' + this.state.accountType;
     this.setState({
       isSignup: true,
       isLogin: false,
@@ -47,6 +51,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   }
 
   setLogin() {
+    localStorage.setItem('loginRedirectPath', '/subscription' + window.location.search);
     this.setState({
       isLogin: true,
       isSignup: false,
@@ -66,7 +71,9 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
           </Grid.Column>
           <Grid.Column width={11} className="subscription-page__content">
             <Summary planType={accountType} />
-            {isLogin && <Login auth={auth} setSignup={this.setSignup.bind(this)} />}
+            {isLogin && (
+              <Login auth={auth} planType={accountType} setSignup={this.setSignup.bind(this)} />
+            )}
             {isSignup && <Signup auth={auth} setLogin={this.setLogin.bind(this)} />}
           </Grid.Column>
         </Grid.Row>

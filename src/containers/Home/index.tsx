@@ -7,9 +7,19 @@ import Login from '../Login';
 export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
-
+    let redirectPath = localStorage.getItem('loginRedirectPath');
     if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
+    }
+    if (location.state && redirectPath) {
+      if (
+        location.state.options &&
+        location.state.options.flashMessage.text === 'Please verify your email before logging in.'
+      ) {
+        redirectPath = redirectPath + '-unverified';
+        localStorage.setItem('loginRedirectPath', redirectPath);
+        history.replace(redirectPath);
+      }
     }
     // Show email verification success message if "verified" param
     // This URL is configured in Auth0 settings

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { Container, Header, Form, Button, Divider } from 'semantic-ui-react';
 import Auth from '../../../components/Auth/Auth';
@@ -8,20 +8,30 @@ import StepsContent from '../StepsContent';
 interface Props {
   auth: Auth;
   setSignup: () => void;
+  planType: string;
 }
 export default function Login(props: Props) {
-  const { auth, setSignup } = props;
+  const { auth, setSignup, planType } = props;
   const [isError, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isSignupSuccess, setSignupSuccess] = useState(
     window.location.search === '?signup=success'
   );
   const { value: username, bind: bindUserName } = useInput('');
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
-  const setErrorMessage = () => {
+  const enableErrorMessage = (message: string) => {
     setError(true);
     setSignupSuccess(false);
+    setErrorMessage(message);
   };
+  useEffect(() => {
+    const redirectPath = localStorage.getItem('loginRedirectPath');
+    if (redirectPath && redirectPath.indexOf('-unverified') !== -1) {
+      enableErrorMessage('Please verify your email before logging in.');
+    }
+  }, []);
   const handleSubmit = () => {
+    localStorage.setItem('loginRedirectPath', '/subscription?type=' + planType);
     auth.webAuth.login(
       {
         responseType: 'token',
@@ -33,7 +43,7 @@ export default function Login(props: Props) {
         if (err) {
           console.log('Error: ', err);
           resetPassword();
-          setErrorMessage();
+          enableErrorMessage('Incorrect Username or Password!');
         }
       }
     );
@@ -60,7 +70,7 @@ export default function Login(props: Props) {
 
         {isError && (
           <div className="login-container__form__error">
-            <span>Incorrect Username or Password!</span>
+            <span>{errorMessage}</span>
           </div>
         )}
         {!isError && isSignupSuccess && (

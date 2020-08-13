@@ -36,10 +36,13 @@ const Payment = (props: PaymentProps) => {
     setPaymentErrorMessage(data.message);
   };
 
+  const sellerID = localStorage.getItem('userId');
   useEffect(() => {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       localStorage.setItem('loginRedirectPath', '/');
       history.push('/settings/pricing');
+    } else if (_.isEmpty(sellerID)) {
+      history.push('/subscription');
     }
     handlePaymentError(stripeErrorMessage);
   }, [stripeErrorMessage]);
