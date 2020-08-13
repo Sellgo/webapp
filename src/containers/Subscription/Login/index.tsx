@@ -8,10 +8,9 @@ import StepsContent from '../StepsContent';
 interface Props {
   auth: Auth;
   setSignup: () => void;
-  planType: string;
 }
 export default function Login(props: Props) {
-  const { auth, setSignup, planType } = props;
+  const { auth, setSignup } = props;
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSignupSuccess, setSignupSuccess] = useState(
@@ -31,7 +30,8 @@ export default function Login(props: Props) {
     }
   }, []);
   const handleSubmit = () => {
-    localStorage.setItem('loginRedirectPath', '/subscription?type=' + planType);
+    const search = window.location.search;
+    localStorage.setItem('loginRedirectPath', '/subscription/payment' + search);
     auth.webAuth.login(
       {
         responseType: 'token',

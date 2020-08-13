@@ -8,9 +8,12 @@ export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
     let redirectPath = localStorage.getItem('loginRedirectPath');
-    if (localStorage.getItem('isLoggedIn') === 'true') {
+    if (redirectPath && redirectPath !== '/') {
+      history.replace(redirectPath);
+    } else if (localStorage.getItem('isLoggedIn') === 'true') {
       history.replace('/synthesis');
     }
+
     if (location.state && redirectPath) {
       if (
         location.state.options &&

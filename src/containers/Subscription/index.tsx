@@ -71,9 +71,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
           </Grid.Column>
           <Grid.Column width={11} className="subscription-page__content">
             <Summary planType={accountType} />
-            {isLogin && (
-              <Login auth={auth} planType={accountType} setSignup={this.setSignup.bind(this)} />
-            )}
+            {isLogin && <Login auth={auth} setSignup={this.setSignup.bind(this)} />}
             {isSignup && <Signup auth={auth} setLogin={this.setLogin.bind(this)} />}
           </Grid.Column>
         </Grid.Row>

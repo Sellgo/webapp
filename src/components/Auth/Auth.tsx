@@ -147,6 +147,7 @@ export default class Auth {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userName');
     localStorage.removeItem('userPicture');
+    localStorage.setItem('loginRedirectPath', '/');
   };
 
   public logout = () => {

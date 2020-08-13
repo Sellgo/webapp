@@ -19,7 +19,6 @@ import { countryList } from '../../../constants/Settings';
 import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
 import { postalCode } from '../../../constants/Validators';
-import { auth } from '../../App/App';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -242,12 +241,14 @@ function CheckoutForm(props: MyProps) {
         </div>
         <Form.Group className="payment-container__stripe-checkout-form__buttons">
           <Button
-            onClick={() => auth.logout()}
+            onClick={() => {
+              window.location.href = 'https://sellgo.com/pricing';
+            }}
             size="huge"
             basic
             className="payment-container__stripe-checkout-form__buttons__back"
           >
-            Back
+            Cancel
           </Button>
           <Form.Field
             disabled={!stripe || stripeLoading}
