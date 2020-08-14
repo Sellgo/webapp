@@ -212,12 +212,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
 
-    const monthlyDisplay = subscriptionsSorted.map((subscription: Subscription) => {
+    const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
       return (
         <Card
           key={subscription.id}
-          className={`card-container monthly-card ${isSubscribed &&
+          className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'} ${isSubscribed &&
             'active-plan'} ${!isSubscribed &&
             (Number(subscription.id) === 1
               ? 'basic-value-content'
@@ -249,95 +249,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 : 'More than 100,000 Product Tracker Limit'}
             </Card.Meta>
           </Card.Content>
-          <Card.Content
-            className={`card-container__details ${Number(subscription.id) === 3 && 'contact-us'}`}
-          >
-            <Card.Header>
-              <strong>$&nbsp;</strong>
-              {Number(subscription.id) === 3
-                ? 'Contact Us'
-                : Math.trunc(Number(subscription.monthly_price))}
-              <strong>&nbsp;/mo</strong>
-            </Card.Header>
-            <Card.Description>
-              {`${Number(subscription.id) !== 3 && 'Billed Monthly'}`}
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            {isSubscribed && (
-              <Button
-                onClick={() => {
-                  this.setState({ promptCancelSubscription: true });
-                }}
-                className={`basic-btn active-plan`}
-                fluid
-              >
-                Cancel
-              </Button>
-            )}
-            {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
-              <Button
-                onClick={() => this.chooseSubscription(subscription, 'monthly')}
-                className={`basic-btn`}
-                fluid
-              >
-                {subscribedSubscription ? 'Change Plan' : 'Get Started'}
-              </Button>
-            )}
-
-            {!subscribedSubscription && (
-              <Link to="/settings/#amazon-mws" className="free-trial-btn">
-                <Button className="basic-btn" fluid>
-                  Free Trial
-                </Button>
-              </Link>
-            )}
-
-            <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
-              Contact Customer Service
-              <a href="mailto: support@sellgo.com">{'support@sellgo.com'}</a>
-            </p>
-          </Card.Content>
-        </Card>
-      );
-    });
-    const yearlyDisplay = subscriptionsSorted.map((subscription: Subscription) => {
-      const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
-      return (
-        <Card
-          key={subscription.id}
-          className={`card-container yearly-card ${isSubscribed && 'active-plan'} ${!isSubscribed &&
-            (Number(subscription.id) === 1
-              ? 'basic-value-content'
-              : Number(subscription.id) === 2
-              ? 'best-value-content'
-              : 'contact-us-content')}`}
-        >
-          <Card.Content className="card-container__header">
-            <Card.Header>
-              <Button
-                className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
-                fluid
-              >
-                Best Value
-              </Button>
-            </Card.Header>
-          </Card.Content>
-          <Card.Content className="card-container__name">
-            <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
-              {subscription.name}
-            </Card.Header>
-            <Card.Meta>
-              {trackTitle}
-              <br />
-              {Number(subscription.id) === 1
-                ? subscription.track_limit + ' Product Tracker Limit'
-                : Number(subscription.id) === 2
-                ? subscription.track_limit + ' Product Tracker Limit'
-                : 'More than 100,000 Product Tracker Limit'}
-            </Card.Meta>
-          </Card.Content>
-          {Number(subscription.id) !== 3 && (
+          {isYearly && Number(subscription.id) !== 3 && (
             <Card.Content className="card-container__discount-details">
               <p className="card-container__discount-details__slash">
                 ${subscription.monthly_price * 12}
@@ -354,11 +266,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <strong>$&nbsp;</strong>
               {Number(subscription.id) === 3
                 ? 'Contact Us'
-                : Number(subscription.yearly_price / 12).toFixed(2)}
+                : isYearly
+                ? Number(subscription.yearly_price / 12).toFixed(2)
+                : Math.trunc(Number(subscription.monthly_price))}
               <strong>&nbsp;/mo</strong>
             </Card.Header>
             <Card.Description>
-              {`${Number(subscription.id) !== 3 && 'Billed Annually'}`}
+              {Number(subscription.id) !== 3 && (isYearly ? 'Billed Annually' : 'Billed Monthly')}
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
@@ -375,7 +289,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             )}
             {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
               <Button
-                onClick={() => this.chooseSubscription(subscription, 'yearly')}
+                onClick={() =>
+                  this.chooseSubscription(subscription, isYearly ? 'yearly' : 'monthly')
+                }
                 className={`basic-btn`}
                 fluid
               >
@@ -473,9 +389,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <div className="pricing-type__content__circle" />
               </div>
             </Grid.Row>
-            <Grid.Row className="pricing-content flex-center">
-              {isYearly ? yearlyDisplay : monthlyDisplay}
-            </Grid.Row>
+            <Grid.Row className="pricing-content flex-center">{plansDisplay}</Grid.Row>
             {isSubscriptionNotPaid(subscriptionType) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
