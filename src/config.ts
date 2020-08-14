@@ -3,6 +3,7 @@ const DEV_URLS = {
   BASE_URL_AUTH: 'sellgo-dev.auth0.com',
   BASE_URL_API: 'https://api.sellgo-dev.com/api/',
   CHANGE_PASS_API_URL: 'https://sellgo-dev.auth0.com/dbconnections/change_password',
+  WEB_URL: 'https://sellgo-dev.com',
 };
 
 const PROD_URLS = {
@@ -10,14 +11,17 @@ const PROD_URLS = {
   BASE_URL_AUTH: 'sellgo.auth0.com',
   BASE_URL_API: 'https://api.sellgo.com/api/',
   CHANGE_PASS_API_URL: 'https://sellgo.auth0.com/dbconnections/change_password',
+  WEB_URL: 'https://sellgo.com',
 };
 
 const DEV_KEYS = {
   STRIPE_API_KEY: 'pk_test_thMkxDX66HmQoec5jcK34bAc0083aPonvE',
+  PIXEL_ID: '990701281388485',
 };
 
 const PROD_KEYS = {
   STRIPE_API_KEY: 'pk_live_6iiX5s4PCakcnwTP3Gf81UyV00XSgjLLmU',
+  PIXEL_ID: '990701281388485',
 };
 
 const DEV_AUTH_CONFIG = {
