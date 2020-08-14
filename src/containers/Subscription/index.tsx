@@ -46,8 +46,12 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   }
 
   setSignup() {
-    localStorage.setItem('loginRedirectPath', '/subscription?type=' + this.state.accountType);
-    window.location.search = '?type=' + this.state.accountType;
+    localStorage.setItem(
+      'loginRedirectPath',
+      '/subscription?type=' + this.state.accountType + '&' + 'mode=' + this.state.paymentMode
+    );
+    window.location.search =
+      '?type=' + this.state.accountType + '&' + 'mode=' + this.state.paymentMode;
     this.setState({
       isSignup: true,
       isLogin: false,

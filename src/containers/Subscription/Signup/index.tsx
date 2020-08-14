@@ -6,7 +6,6 @@ import { useInput } from '../../../hooks/useInput';
 import StepsInfo from '../../../components/StepsInfo/StepsInfo';
 import { Steps } from '../../../interfaces/StepsInfo';
 import StepsContent from '../StepsContent';
-import history from '../../../history';
 import {
   passwordPolicy,
   strong,
@@ -156,7 +155,6 @@ function Signup(props: Props, state: State) {
               name: firstName + ' ' + lastName,
             };
             auth.getSellerID(data);
-            history.push('/subscription/payment');
           }
         }
       );
@@ -175,6 +173,7 @@ function Signup(props: Props, state: State) {
             label="First Name"
             type="text"
             placeholder="First Name"
+            required
             {...bindFirstName}
           />
           <Form.Input
@@ -182,6 +181,7 @@ function Signup(props: Props, state: State) {
             label="Last Name"
             type="text"
             placeholder="Last Name"
+            required
             {...bindLastName}
           />
         </Form.Group>
