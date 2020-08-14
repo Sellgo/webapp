@@ -385,7 +385,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
-      className: 'pt-price',
+      className: 'pt-price ptr-sm-cell',
     },
     {
       label: 'Avg Profit',
@@ -393,6 +393,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       sortable: true,
       show: true,
+      className: 'ptr-sm-cell',
       render: this.renderAvgProfit,
     },
     {
@@ -401,6 +402,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       sortable: true,
       show: true,
+      className: 'ptr-sm-cell',
       render: this.renderAvgMargin,
     },
     {
@@ -409,6 +411,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       sortable: true,
       show: true,
+      className: 'ptr-lg-cell',
       render: this.renderAvgUnitSold,
     },
     {
@@ -417,6 +420,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       show: true,
       sortable: true,
+      className: 'ptr-lg-cell',
       render: this.renderDailyRevenue,
     },
     {
@@ -425,6 +429,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       show: true,
       sortable: true,
+      className: 'ptr-sm-cell',
       render: this.renderAvgROI,
     },
     {
@@ -433,6 +438,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'number',
       show: true,
       sortable: true,
+      className: 'ptr-lg-cell',
       render: this.renderAvgRank,
     },
     {
@@ -441,6 +447,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       show: true,
       sortable: true,
+      className: 'ptr-mid-cell',
       render: this.renderDimensions,
     },
     {
@@ -450,6 +457,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderWeight,
+      className: 'ptr-xsm-cell',
     },
     {
       label: 'Reviews',
@@ -457,6 +465,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'number',
       show: true,
       sortable: true,
+      className: 'ptr-default-cell',
       render: this.renderCustomerReviews,
     },
     {
@@ -465,6 +474,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       show: true,
       sortable: true,
+      className: 'ptr-xsm-cell',
       render: this.renderRating,
     },
     {
@@ -473,6 +483,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'number',
       show: true,
       sortable: true,
+      className: 'ptr-default-cell',
       render: this.renderAvgInventory,
     },
     {
@@ -481,6 +492,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'boolean',
       show: true,
       sortable: true,
+      className: 'ptr-lg-cell',
       render: this.renderIsAmazonSelling,
     },
     {
@@ -490,7 +502,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgAmazonInventory,
-      className: 'pt-avg_amazon_inventory',
+      className: 'pt-avg_amazon_inventory ptr-xl-cell last-ptr-cell',
     },
     {
       icon: 'ellipsis horizontal',

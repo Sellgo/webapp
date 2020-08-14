@@ -172,7 +172,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
           : ''
         : 'Ungrouped'
       : 'All Groups';
-
     return (
       <>
         <SubscriptionMessage />

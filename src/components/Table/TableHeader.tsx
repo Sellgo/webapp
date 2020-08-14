@@ -135,10 +135,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
               }
             />
           ) : (
-            <Icon
-              className={icon}
-              style={type === 'trackerTable' ? { justifyContent: 'flex-end', right: '20px' } : {}}
-            />
+            <Icon className={icon} style={type === 'trackerTable' ? { display: 'none' } : {}} />
           )}
         </div>
       </Table.HeaderCell>
@@ -227,7 +224,25 @@ const TableHeader = (props: TableHeaderProps) => {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
+  const [fixedHeaderClass, setFixedHeaderClass] = React.useState('');
+  const wrapper = document.querySelector('.pusher-scroll-x');
 
+  const onWrapperScroll = () => {
+    if (wrapper) {
+      const fixedHeader = 'fixed-ptr-header';
+      wrapper.scrollTop > 180 ? setFixedHeaderClass(fixedHeader) : setFixedHeaderClass('');
+    }
+  };
+
+  const fixedHeaderScroll = (evt: any) => {
+    onScrollTable(evt);
+  };
+
+  React.useEffect(() => {
+    if (wrapper) {
+      wrapper.addEventListener('scroll', onWrapperScroll);
+    }
+  }, []);
   if (middleScroll) {
     const lowerBound = filteredColumns.slice(0, 2);
     const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
@@ -258,7 +273,10 @@ const TableHeader = (props: TableHeaderProps) => {
       >
         {rest.type === 'trackerTable' && (
           <React.Fragment>
-            <Table.Row className="ptr-header-row">
+            <Table.Row
+              className={`ptr-header-row ${fixedHeaderClass}`}
+              onScroll={fixedHeaderScroll}
+            >
               {filteredColumns.length === 2 && (
                 <th
                   key={`header-blank-row`}
@@ -283,7 +301,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 );
               })}
             </Table.Row>
-            <Table.Row className="pt-header">
+            <Table.Row className="pt-header" style={fixedHeaderClass ? { display: 'none' } : {}}>
               <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
                   {filteredColumns.map(c => (

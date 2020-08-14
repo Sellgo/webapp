@@ -54,6 +54,50 @@
       }
     }
 
+    .ptr-cell-content {
+      > :first-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .fixed-ptr-header {
+      position: fixed;
+      z-index: 99;
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 89%;
+      background: #fff;
+      padding-bottom: 10px;
+      top: 0;
+      transition-property: all;
+      transition-duration: 0.5s;
+      transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+
+      > :first-child {
+        position: fixed !important;
+        left: 112px !important;
+      }
+
+      > :last-child {
+        position: fixed !important;
+        top: 0;
+        right: 3.8% !important;
+        z-index: 999;
+      }
+    }
+
+    .fixed-ptr-header::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .fixed-ptr-header::-webkit-scrollbar-track {
+      margin-left: 25% !important;
+      margin-right: 10%;
+      border-radius: 10px;
+    }
+
     @media screen and (min-width: 310px) and (max-width: 767px) {
       .search-product .ui.input {
         width: 250px !important;
@@ -78,6 +122,148 @@
         margin-left: 0 !important;
         margin-top: 0 !important;
       }
+
+      .fixed-ptr-header {
+        max-width: 80%;
+
+        > :last-child {
+          right: 6.2% !important;
+        }
+      }
+    }
+
+    @media screen and (min-width: 1280px) and (max-width: 1365px) {
+      .fixed-ptr-header {
+        max-width: 83%;
+
+        > :last-child {
+          right: 5% !important;
+        }
+      }
+
+      .last-ptr-cell {
+        min-width: 270px !important;
+      }
+    }
+
+    @media screen and (min-width: 1366px) and (max-width: 1439px) {
+      .fixed-ptr-header {
+        max-width: 86%;
+
+        > :last-child {
+          right: 4.6% !important;
+        }
+      }
+
+      .last-ptr-cell {
+        min-width: 260px !important;
+      }
+    }
+
+    @media screen and (min-width: 1440px) and (max-width: 1599px) {
+      .fixed-ptr-header {
+        max-width: 87%;
+
+        > :last-child {
+          right: 4.5% !important;
+        }
+      }
+
+      .last-ptr-cell {
+        min-width: 270px !important;
+      }
+    }
+
+    @media screen and (min-width: 1600px) and (max-width: 1679px) {
+      .fixed-ptr-header {
+        max-width: 88%;
+
+        > :last-child {
+          right: 4% !important;
+        }
+      }
+
+      .last-ptr-cell {
+        min-width: 280px !important;
+      }
+    }
+
+    @media screen and (min-width: 1680px) and (max-width: 1919px) {
+      .fixed-ptr-header {
+        max-width: 89%;
+
+        > :last-child {
+          right: 3.8% !important;
+        }
+      }
+
+      .last-ptr-cell {
+        min-width: 270px !important;
+      }
+    }
+
+    @media screen and (min-width: 1920px) and (max-width: 2559px) {
+      .fixed-ptr-header {
+        max-width: 90.2%;
+
+        > :last-child {
+          right: 3.3% !important;
+        }
+      }
+
+      .last-ptr-cell {
+        min-width: 275px !important;
+      }
+    }
+
+    @media screen and (min-width: 2560px) and (max-width: 2600px) {
+      .fixed-ptr-header {
+        max-width: 92.5%;
+
+        > :last-child {
+          right: 2.5% !important;
+        }
+      }
+
+      .last-ptr-cell {
+        min-width: 300px !important;
+      }
     }
   }
+}
+
+.ptr-xsm-cell {
+  min-width: 102px !important;
+
+  @extend .ptr-cell-content;
+}
+
+.ptr-sm-cell {
+  min-width: 120px !important;
+
+  @extend .ptr-cell-content;
+}
+
+.ptr-default-cell {
+  min-width: 140px !important;
+
+  @extend .ptr-cell-content;
+}
+
+.ptr-mid-cell {
+  min-width: 157px !important;
+
+  @extend .ptr-cell-content;
+}
+
+.ptr-lg-cell {
+  min-width: 175px !important;
+
+  @extend .ptr-cell-content;
+}
+
+.ptr-xl-cell {
+  min-width: 225px !important;
+
+  @extend .ptr-cell-content;
 }

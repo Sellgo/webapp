@@ -260,6 +260,10 @@ export const GenericTable = (props: GenericTableProps) => {
     if (scroll) {
       scroll.scrollLeft = evt.target.scrollLeft;
     }
+    const ptrFixedHeader = document.querySelector('.fixed-ptr-header');
+    if (ptrFixedHeader) {
+      ptrFixedHeader.scrollLeft = evt.target.scrollLeft;
+    }
   };
 
   return (
