@@ -242,9 +242,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             <Card.Meta>
               {trackTitle}
               <br />
-              {Number(subscription.id) === 1
-                ? subscription.track_limit + ' Product Tracker Limit'
-                : Number(subscription.id) === 2
+              {Number(subscription.id) === 1 || Number(subscription.id) === 2
                 ? subscription.track_limit + ' Product Tracker Limit'
                 : 'More than 100,000 Product Tracker Limit'}
             </Card.Meta>
@@ -278,9 +276,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           <Card.Content extra>
             {isSubscribed && (
               <Button
-                onClick={() => {
-                  this.setState({ promptCancelSubscription: true });
-                }}
+                onClick={() => this.setState({ promptCancelSubscription: true })}
                 className={`basic-btn active-plan`}
                 fluid
               >
@@ -315,6 +311,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         </Card>
       );
     });
+
     return (
       <>
         <SubscriptionMessage />
