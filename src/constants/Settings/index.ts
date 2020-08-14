@@ -5,6 +5,9 @@ export const SET_SELLER_INFO = 'SET_SELLER_INFO';
 export const UPDATE_SELLER_INFO = 'UPDATE_SELLER_INFO';
 export const DELETE_SELLER_AMAZON_MWS_AUTH = 'DELETE_SELLER_AMAZON_MWS_AUTH';
 export const SET_PRICING_SUBSCRIPTIONS = 'SET_PRICING_SUBSCRIPTIONS';
+export const SET_SUCCESS_PAYMENT = 'SET_SUCCESS_PAYMENT';
+export const SET_STRIPE_ERROR = 'SET_STRIPE_ERROR';
+export const SET_STRIPE_LOADING = 'SET_STRIPE_LOADING';
 export const SET_SELLER_SUBSCRIPTION = 'SET_SELLER_SUBSCRIPTION';
 export const SET_AMAZON_MWS_AUTHORIZED = 'SET_AMAZON_MWS_AUTHORIZED';
 export const SET_SELLER_QUOTA = 'SET_SELLER_QUOTA';
@@ -32,4 +35,46 @@ export const defaultMarketplaces = [
   { name: 'Australia', code: 'AU', link: 'amazon.com.au', id: 'A39IBJ37TRP1C6', disabled: true },
   { name: 'Japan', code: 'JP', link: 'amazon.com', id: 'A1VC38T7YXB528', disabled: true },
   { name: 'China', code: 'CN', link: 'amazon.com', id: 'AAHKV2X7AFYLW', disabled: true },
+];
+
+export const countryList = [
+  { name: 'Australia', code: 'AU', id: 'AU' },
+  { name: 'Austria', code: 'AT', id: 'AT' },
+  { name: 'Belgium', code: 'BE', id: 'BE' },
+  { name: 'Brazil', code: 'BR', id: 'BR' },
+  { name: 'Bulgaria', code: 'BG', id: 'BG' },
+  { name: 'Canada', code: 'CA', id: 'CA' },
+  { name: 'Cyprus', code: 'CY', id: 'CY' },
+  { name: 'Czech Republic', code: 'CZ', id: 'CZ' },
+  { name: 'Denmark', code: 'DK', id: 'DK' },
+  { name: 'Estonia', code: 'EE', id: 'EE' },
+  { name: 'Finland', code: 'FI', id: 'FI' },
+  { name: 'France', code: 'FR', id: 'FR' },
+  { name: 'Germany', code: 'DE', id: 'DE' },
+  { name: 'Greece', code: 'GR', id: 'GR' },
+  { name: 'Hong Kong', code: 'HK', id: 'HK' },
+  { name: 'India', code: 'IN', id: 'IN' },
+  { name: 'Ireland', code: 'IE', id: 'IE' },
+  { name: 'Italy', code: 'IT', id: 'IT' },
+  { name: 'Japan', code: 'JP', id: 'JP' },
+  { name: 'Latvia', code: 'LV', id: 'LV' },
+  { name: 'Lithuania', code: 'LT', id: 'LT' },
+  { name: 'Luxembourg', code: 'LU', id: 'LU' },
+  { name: 'Malaysia', code: 'MY', id: 'MY' },
+  { name: 'Malta', code: 'MT', id: 'MT' },
+  { name: 'Mexico', code: 'MX', id: 'MX' },
+  { name: 'Netherlands', code: 'NL', id: 'NL' },
+  { name: 'New Zealand', code: 'NZ', id: 'NZ' },
+  { name: 'Norway', code: 'NO', id: 'NO' },
+  { name: 'Poland', code: 'PL', id: 'PL' },
+  { name: 'Portugal', code: 'PT', id: 'PT' },
+  { name: 'Romania', code: 'RO', id: 'RO' },
+  { name: 'Singapore', code: 'SG', id: 'SG' },
+  { name: 'Slovakia', code: 'SK', id: 'SK' },
+  { name: 'Slovenia', code: 'SI', id: 'SI' },
+  { name: 'Spain', code: 'ES', id: 'ES' },
+  { name: 'Sweden', code: 'SE', id: 'SE' },
+  { name: 'Switzerland', code: 'CH', id: 'CH' },
+  { name: 'Kingdom', code: 'GB', id: 'GB' },
+  { name: 'United States', code: 'US', id: 'US' },
 ];

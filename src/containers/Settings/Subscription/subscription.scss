@@ -157,6 +157,57 @@
   flex-direction: column !important;
   height: max-content;
 
+  .flex-center {
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+  }
+
+  .pricing-type {
+    &__content {
+      .button {
+        background-color: #98aeca !important;
+      }
+
+      .primary {
+        background-color: #349af8 !important;
+      }
+
+      .button:hover {
+        opacity: 0.7 !important;
+      }
+
+      &__circle {
+        width: 25px;
+        height: 25px;
+        position: relative;
+        top: -49%;
+        left: 48%;
+        background: #fff;
+        border-radius: 50%;
+      }
+
+      &__monthly-btn {
+        border-top-right-radius: unset !important;
+        border-bottom-right-radius: unset !important;
+      }
+
+      &__yearly-btn {
+        border-top-left-radius: unset !important;
+        border-bottom-left-radius: unset !important;
+      }
+
+      &__monthly-btn,
+      &__yearly-btn {
+        font-size: 20px;
+        color: #fff !important;
+        border-radius: 50px;
+        font-weight: 600;
+        padding: 10px 25px;
+      }
+    }
+  }
+
   .coupon-container {
     display: flex;
     flex-direction: column;
@@ -279,12 +330,6 @@
     }
   }
 
-  .row:nth-child(2) {
-    display: flex;
-    justify-content: center !important;
-    align-items: center;
-  }
-
   .setcard-container {
     height: max-content !important;
     margin-top: 30px;
@@ -340,9 +385,110 @@
     transition: transform 0.2s;
     background: #fff 0% 0% no-repeat padding-box;
 
-    strong {
-      font-weight: 500;
-      font-size: 18px;
+    .card-container {
+      &__header {
+        padding: 0;
+        min-height: 40px;
+
+        .header {
+          margin-top: 0;
+        }
+
+        .header button {
+          display: none;
+          border-radius: 10px 10px 0 0;
+          padding: 11px 0;
+          color: #fff;
+          background: #349af8 0% 0% no-repeat padding-box;
+          box-shadow: 0 3px 20px #00000029;
+          height: 43px;
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 20px;
+        }
+
+        .best-value {
+          display: block !important;
+        }
+      }
+
+      &__name {
+        padding: 0 20px 24px 20px;
+        min-height: max-content;
+        max-height: max-content;
+
+        .header {
+          font-size: 32px;
+          font-weight: 800;
+          color: #2e3b4a;
+          line-height: normal;
+          margin-bottom: 15px;
+        }
+      }
+
+      &__discount-details {
+        display: flex;
+        font-size: 20px;
+        font-weight: 500;
+        justify-content: center;
+        padding: 0;
+
+        &__slash {
+          color: #98aeca;
+          text-decoration: line-through;
+          display: inline-block;
+          margin-right: 10px;
+          margin-bottom: 0;
+        }
+
+        &__save {
+          color: #349af8 !important;
+          margin-bottom: 0;
+        }
+      }
+
+      &__details {
+        padding: 0 20px 0 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: max-content;
+        max-height: max-content;
+
+        .description {
+          margin-top: 0;
+          font-size: 16px;
+          line-height: normal;
+          font-weight: normal;
+          margin-bottom: 35.03px;
+          text-align: center;
+          color: #2e3b4a;
+        }
+
+        .header {
+          font-size: 50px;
+          font-weight: 800;
+          display: flex;
+          justify-content: center;
+          height: 50px;
+          color: #2e3b4a;
+          margin-bottom: 24px;
+
+          strong {
+            font-weight: 500;
+            font-size: 18px;
+            color: #3b4557;
+            line-height: 80px;
+          }
+
+          strong:first-child {
+            line-height: 50px;
+            font-size: 24px;
+            color: #3b4557;
+            font-weight: normal;
+          }
+        }
+      }
     }
 
     .meta {
@@ -361,89 +507,6 @@
 
     .content {
       border-top: 0 !important;
-    }
-
-    .content:first-child {
-      padding: 0;
-      min-height: 40px;
-
-      .header {
-        margin-top: 0;
-      }
-
-      .header button {
-        display: none;
-        border-radius: 10px 10px 0 0;
-        padding: 11px 0;
-        color: #fff;
-        background: #349af8 0% 0% no-repeat padding-box;
-        box-shadow: 0 3px 20px #00000029;
-        height: 43px;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 20px;
-      }
-
-      .best-value {
-        display: block !important;
-      }
-    }
-
-    .content:nth-child(2) {
-      padding: 0 20px 24px 20px;
-      min-height: max-content;
-      max-height: max-content;
-
-      .header {
-        font-size: 32px;
-        font-weight: 800;
-        color: #2e3b4a;
-        line-height: normal;
-        margin-bottom: 15px;
-      }
-    }
-
-    .content:nth-child(3) {
-      padding: 0 20px 0 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: max-content;
-      max-height: max-content;
-
-      .description {
-        margin-top: 0;
-        font-size: 16px;
-        line-height: normal;
-        font-weight: normal;
-        margin-bottom: 35.03px;
-        text-align: center;
-        color: #2e3b4a;
-      }
-
-      .header {
-        font-size: 50px;
-        font-weight: 800;
-        display: flex;
-        justify-content: center;
-        height: 50px;
-        color: #2e3b4a;
-        margin-bottom: 24px;
-
-        strong {
-          font-weight: normal;
-          color: #3b4557;
-          line-height: 80px;
-          font-size: 20px;
-        }
-
-        strong:first-child {
-          line-height: 50px;
-          font-size: 24px;
-          color: #3b4557;
-          font-weight: normal;
-        }
-      }
     }
 
     .extra.content {
@@ -506,6 +569,14 @@
       a:hover {
         color: #349af8 !important;
         text-decoration: underline;
+      }
+    }
+
+    &.yearly-card {
+      max-height: 400px !important;
+
+      &.best-value-content {
+        max-height: 460px !important;
       }
     }
 

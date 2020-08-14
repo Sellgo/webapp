@@ -633,6 +633,10 @@ $new_black: #3b4557;
       top: 0;
       right: 0;
     }
+
+    .track-btn {
+      margin-left: 0 !important;
+    }
   }
 }
 
@@ -680,6 +684,16 @@ $new_black: #3b4557;
 
 .amazon_category_name {
   min-width: 140px !important;
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2560px) {
+  .track-btn {
+    width: 100% !important;
+  }
+
+  .detail-buttons {
+    width: 93% !important;
+  }
 }
 
 @media screen and (min-width: 1921px) {
