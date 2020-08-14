@@ -437,7 +437,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <Table.Header className="plans-table-container__wrapper__table__header">
                   <Table.Row>
                     <Table.HeaderCell></Table.HeaderCell>
-                    {_.map(subscriptions, (data, index) => {
+                    {_.map(subscriptionsSorted, (data, index) => {
                       return <Table.HeaderCell key={index}>{data.name}</Table.HeaderCell>;
                     })}
                   </Table.Row>
@@ -512,7 +512,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Product Tracking</Table.Cell>
-                    {_.map(subscriptions, (data, index) => {
+                    {_.map(subscriptionsSorted, (data, index) => {
                       if (data.track_limit !== -1) {
                         return (
                           <Table.Cell key={index}>
