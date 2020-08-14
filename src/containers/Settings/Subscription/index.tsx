@@ -78,10 +78,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     fetchSubscriptions();
   }
 
-  chooseSubscription(subscription: any) {
+  chooseSubscription(subscription: any, paymentMode: string) {
     const { subscriptionType } = this.props;
     if (isSubscriptionNotPaid(subscriptionType)) {
-      this.checkout(subscription.id);
+      this.checkout(subscription.id, paymentMode);
     } else {
       this.setState({
         pendingSubscription: true,
@@ -122,8 +122,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       });
   }
 
-  checkout(subscriptionId: any) {
-    this.createCheckoutSession(subscriptionId)
+  checkout(subscriptionId: any, paymentMode: string) {
+    this.createCheckoutSession(subscriptionId, paymentMode)
       .then((checkoutSessionId: any) => {
         this.redirectToCheckout(checkoutSessionId);
       })
@@ -132,10 +132,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       });
   }
 
-  createCheckoutSession(subscriptionId: any) {
+  createCheckoutSession(subscriptionId: any, paymentMode: string) {
     const { profile } = this.props;
     const bodyFormData = new FormData();
     bodyFormData.append('subscription_id', subscriptionId);
+    bodyFormData.append('payment_mode', paymentMode);
     bodyFormData.append('email', profile.email);
 
     // Include affiliate referral
@@ -210,7 +211,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const trackTitle = 'Unlimited Profit Finder';
 
     const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
-    console.log('subscriptionsSorted', subscriptionsSorted);
+
     const monthlyDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
       return (
@@ -255,9 +256,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <strong>$&nbsp;</strong>
               {Number(subscription.id) === 3
                 ? 'Contact Us'
-                : Math.trunc(Number(subscription.price))
-                ? Math.trunc(Number(subscription.price))
-                : 0.0}
+                : Math.trunc(Number(subscription.monthly_price))}
               <strong>&nbsp;/mo</strong>
             </Card.Header>
             <Card.Description>
@@ -278,7 +277,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             )}
             {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
               <Button
-                onClick={() => this.chooseSubscription(subscription)}
+                onClick={() => this.chooseSubscription(subscription, 'monthly')}
                 className={`basic-btn`}
                 fluid
               >
@@ -340,8 +339,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           </Card.Content>
           {Number(subscription.id) !== 3 && (
             <Card.Content className="card-container__discount-details">
-              <p className="card-container__discount-details__slash">828</p>
-              <p className="card-container__discount-details__save">Pay $690</p>
+              <p className="card-container__discount-details__slash">
+                ${subscription.monthly_price * 12}
+              </p>
+              <p className="card-container__discount-details__save">
+                Pay ${Math.round(subscription.yearly_price)}
+              </p>
             </Card.Content>
           )}
           <Card.Content
@@ -351,9 +354,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <strong>$&nbsp;</strong>
               {Number(subscription.id) === 3
                 ? 'Contact Us'
-                : Math.trunc(Number(subscription.price))
-                ? Math.trunc(Number(subscription.price))
-                : 0.0}
+                : Number(subscription.yearly_price / 12).toFixed(2)}
               <strong>&nbsp;/mo</strong>
             </Card.Header>
             <Card.Description>
@@ -374,7 +375,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             )}
             {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
               <Button
-                onClick={() => this.chooseSubscription(subscription)}
+                onClick={() => this.chooseSubscription(subscription, 'yearly')}
                 className={`basic-btn`}
                 fluid
               >

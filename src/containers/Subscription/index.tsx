@@ -15,6 +15,7 @@ interface SubscriptionStates {
   isLogin: boolean;
   isSignup: boolean;
   accountType: string;
+  paymentMode: string;
 }
 
 class Subscription extends React.Component<SubscriptionProps, SubscriptionStates> {
@@ -22,6 +23,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
     isLogin: false,
     isSignup: true,
     accountType: '',
+    paymentMode: '',
   };
 
   componentDidMount() {
@@ -34,9 +36,11 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
     this.setState(
       {
         accountType: window.location.search.indexOf('basic') !== -1 ? 'basic' : 'pro',
+        paymentMode: window.location.search.indexOf('yearly') !== -1 ? 'yearly' : 'monthly',
       },
       () => {
         localStorage.setItem('planType', this.state.accountType);
+        localStorage.setItem('paymentMode', this.state.paymentMode);
       }
     );
   }
@@ -59,7 +63,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
   }
 
   render() {
-    const { isLogin, isSignup, accountType } = this.state;
+    const { isLogin, isSignup, accountType, paymentMode } = this.state;
     const { auth } = this.props;
     return (
       <Grid className="subscription-page" columns={2}>
@@ -70,7 +74,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
             </div>
           </Grid.Column>
           <Grid.Column width={11} className="subscription-page__content">
-            <Summary planType={accountType} />
+            <Summary planType={accountType} paymentMode={paymentMode} />
             {isLogin && <Login auth={auth} setSignup={this.setSignup.bind(this)} />}
             {isSignup && <Signup auth={auth} setLogin={this.setLogin.bind(this)} />}
           </Grid.Column>
