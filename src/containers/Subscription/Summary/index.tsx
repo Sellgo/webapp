@@ -7,12 +7,13 @@ import { connect } from 'react-redux';
 import { fetchSubscriptions } from '../../../actions/Settings/Subscription';
 
 interface SummaryProps {
-  planType: any;
+  planType: string;
+  paymentMode: string;
   subscriptions: Subscription[];
   fetchSubscriptions: () => void;
 }
 function Summary(props: SummaryProps) {
-  const { planType, subscriptions, fetchSubscriptions } = props;
+  const { planType, paymentMode, subscriptions, fetchSubscriptions } = props;
   useEffect(() => {
     fetchSubscriptions();
   }, []);
@@ -20,8 +21,12 @@ function Summary(props: SummaryProps) {
   const plan = {
     name: `${!_.isEmpty(subscriptions) ? subscriptions[index].name : '-'}`,
     description: `$${
-      !_.isEmpty(subscriptions) ? subscriptions[index].price : '0'
-    }/mo billed monthly`,
+      !_.isEmpty(subscriptions)
+        ? paymentMode === 'yearly'
+          ? subscriptions[index].yearly_price + '/mo billed yearly'
+          : subscriptions[index].monthly_price + '/mo billed monthly'
+        : '0/mo billed monthly'
+    }`,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
       '-Manage your supplier files in Supplier Management',

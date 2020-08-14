@@ -39,6 +39,7 @@ const Payment = (props: PaymentProps) => {
     fetchSellerSubscription,
   } = props;
   const accountType = localStorage.getItem('planType') || '';
+  const paymentMode = localStorage.getItem('paymentMode') || '';
 
   const handlePaymentError = (data: any) => {
     if (_.isEmpty(data)) return;
@@ -71,7 +72,7 @@ const Payment = (props: PaymentProps) => {
           </div>
         </Grid.Column>
         <Grid.Column width={11} className="subscription-page__content">
-          <Summary planType={accountType} />
+          <Summary planType={accountType} paymentMode={paymentMode} />
           <Container text className="payment-container">
             <StepsContent contentType={'payment'} />
             {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (
@@ -81,7 +82,11 @@ const Payment = (props: PaymentProps) => {
             )}
             {!successPayment && isSubscriptionNotPaid(subscriptionType) && (
               <Elements stripe={stripePromise}>
-                <CheckoutForm accountType={accountType} handlePaymentError={handlePaymentError} />
+                <CheckoutForm
+                  accountType={accountType}
+                  paymentMode={paymentMode}
+                  handlePaymentError={handlePaymentError}
+                />
               </Elements>
             )}
             {isSubscriptionPaid(subscriptionType) && <PaidContent />}

@@ -43,6 +43,7 @@ const CARD_ELEMENT_OPTIONS = {
 interface MyProps {
   sellerSubscription: any;
   accountType: string;
+  paymentMode: string;
   createSubscriptionData: (data: any) => void;
   retryInvoice: (data: any) => void;
   handlePaymentError: (data: any) => void;
@@ -76,6 +77,7 @@ function CheckoutForm(props: MyProps) {
     event.preventDefault();
     const {
       accountType,
+      paymentMode,
       createSubscriptionData,
       retryInvoice,
       handlePaymentError,
@@ -131,6 +133,7 @@ function CheckoutForm(props: MyProps) {
         const data = {
           subscription_id: accountType === 'basic' ? 1 : 2,
           payment_method_id: paymentMethodId,
+          payment_mode: paymentMode,
         };
         Axios.defaults.headers.common.Authorization = ``;
         createSubscriptionData(data);
