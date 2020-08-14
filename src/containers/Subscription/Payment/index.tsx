@@ -50,6 +50,9 @@ const Payment = (props: PaymentProps) => {
   const sellerID = localStorage.getItem('userId');
   useEffect(() => {
     localStorage.setItem('loginRedirectPath', '/');
+    if (sellerID === null) {
+      return;
+    }
     if (sellerSubscription === undefined) {
       Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
       fetchSellerSubscription();
