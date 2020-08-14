@@ -56,6 +56,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     pendingSubscription: false,
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
+    pendingSubscriptionMode: '',
     isYearly: false,
   };
 
@@ -87,15 +88,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         pendingSubscription: true,
         pendingSubscriptionId: subscription.id,
         pendingSubscriptionName: subscription.name,
+        pendingSubscriptionMode: paymentMode,
       });
     }
   }
 
   // Change plan that user is subscribed to
-  changeSubscription(subscriptionId: any) {
+  changeSubscription(subscriptionId: any, paymentMode: string) {
     const { profile, fetchSellerSubscription } = this.props;
     const bodyFormData = new FormData();
     bodyFormData.append('subscription_id', subscriptionId);
+    bodyFormData.append('payment_mode', paymentMode);
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/update`, bodyFormData)
       .then(() => {
@@ -201,6 +204,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       pendingSubscription,
       pendingSubscriptionId,
       pendingSubscriptionName,
+      pendingSubscriptionMode,
       isYearly,
     } = this.state;
 
@@ -337,13 +341,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
-          content={`Would you like to change your plan to "${pendingSubscriptionName}"`}
+          content={`Would you like to change your plan to "${_.startCase(
+            pendingSubscriptionMode
+          )} ${pendingSubscriptionName}"`}
           open={pendingSubscription ? true : false}
           onCancel={() => {
             this.setState({
               pendingSubscription: false,
               pendingSubscriptionId: '',
               pendingSubscriptionName: '',
+              pendingSubscriptionMode: '',
             });
           }}
           onConfirm={() => {
@@ -351,9 +358,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscription: false,
               pendingSubscriptionId: '',
               pendingSubscriptionName: '',
+              pendingSubscriptionMode: '',
             });
 
-            this.changeSubscription(pendingSubscriptionId);
+            this.changeSubscription(pendingSubscriptionId, pendingSubscriptionMode);
           }}
         />
 
