@@ -763,6 +763,7 @@ function ProfitFinderFilterSection(props: Props) {
       setFilterRanges(filterRanges);
     });
     setFilterState(data);
+    applyFilter();
     setFilterType('');
     setFilterModalOpen(false);
   };
