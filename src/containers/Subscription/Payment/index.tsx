@@ -48,20 +48,19 @@ const Payment = (props: PaymentProps) => {
   };
 
   const sellerID = localStorage.getItem('userId');
+
   useEffect(() => {
     localStorage.setItem('loginRedirectPath', '/');
-    if (sellerID === null) {
-      return;
-    }
-    if (sellerSubscription === undefined) {
-      Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
-      fetchSellerSubscription();
-      return;
-    }
+
     if (localStorage.getItem('isLoggedIn') === 'true') {
       localStorage.setItem('loginRedirectPath', '/');
     } else if (_.isEmpty(sellerID)) {
       history.push('/subscription');
+    }
+    if (sellerSubscription === undefined && localStorage.getItem('idToken') !== null) {
+      Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('idToken')}`;
+      fetchSellerSubscription();
+      return;
     }
     handlePaymentError(stripeErrorMessage);
   }, [stripeErrorMessage, sellerSubscription]);
