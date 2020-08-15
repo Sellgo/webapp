@@ -48,9 +48,6 @@ export const columnMappingsSelector = (state: object): [] =>
 export const columnMappingSettingSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.columnMappingSetting', false);
 
-export const skipColumnMappingCheckSelector = (state: object): boolean =>
-  get(state, 'uploadSupplier.skipColumnMappingCheck', false);
-
 export const fileHeaderSelector = createSelector([fileStringArraySelector], fileStringArray => {
   const headerRow = fileStringArray.length > 0 ? fileStringArray[0] : [];
 

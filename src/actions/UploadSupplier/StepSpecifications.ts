@@ -3,7 +3,6 @@ import {
   reversedColumnMappingsSelector,
   fileStringArraySelector,
   isFirstRowHeaderSelector,
-  skipColumnMappingCheckSelector,
   fileDetailsSelector,
   primaryIdTypeSelector,
 } from '../../selectors/UploadSupplier/index';
@@ -74,6 +73,7 @@ export class AddNewSearchStep extends Step {
 
     return undefined;
   }
+
   validate() {
     const state = this.getState();
     const isFormValid = isValid('supplier-info')(state);
@@ -87,10 +87,11 @@ export class AddNewSearchStep extends Step {
     } else if (errorCheck) {
       errorMessage = errorCheck;
     }
-    const skipColumnMappingCheck = skipColumnMappingCheckSelector(this.getState());
+
     if (!errorCheck) {
-      errorMessage = skipColumnMappingCheck ? undefined : this.guessMappings();
+      this.guessMappings();
     }
+
     return errorMessage;
   }
 
@@ -122,7 +123,6 @@ export class AddNewSearchStep extends Step {
   }
 
   cleanStep() {
-    // this.dispatch(destroy('supplier-info'));
     this.dispatch(fetchColumnMappings());
   }
 }

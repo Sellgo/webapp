@@ -9,7 +9,6 @@ import {
   TOGGLE_FIRST_ROW_HEADER,
   SET_COLUMN_MAPPINGS,
   SET_COLUMN_MAPPING_SETTING,
-  SET_SKIP_COLUMN_MAPPING_CHECK,
   SET_RESULT_UPLOAD,
   SET_SYNTHESIS_ID,
   SET_SPEED,
@@ -109,10 +108,6 @@ export default (
 
     case SET_COLUMN_MAPPING_SETTING: {
       return setIn(state, 'columnMappingSetting', action.payload);
-    }
-
-    case SET_SKIP_COLUMN_MAPPING_CHECK: {
-      return setIn(state, 'skipColumnMappingCheck', action.payload);
     }
 
     case SET_COLUMN_MAPPINGS: {
