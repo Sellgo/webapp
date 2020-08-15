@@ -221,7 +221,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
 
     const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
-      const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
+      const isSubscribed =
+        subscribedSubscription &&
+        subscribedSubscription.id === subscription.id &&
+        (isYearly
+          ? sellerSubscription.payment_mode === 'yearly'
+          : sellerSubscription.payment_mode === 'monthly');
       return (
         <Card
           key={subscription.id}
@@ -291,7 +296,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 Cancel
               </Button>
             )}
-            {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
+            {!isSubscribed && (
               <Button
                 onClick={() =>
                   this.chooseSubscription(subscription, isYearly ? 'yearly' : 'monthly')
