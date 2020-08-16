@@ -60,6 +60,15 @@ export const setSuppliers = (suppliers: Suppliers) => ({
   payload: suppliers,
 });
 
+export const setLatestSupplier = (supplier: Supplier) => {
+  localStorage.setItem('LATEST_SUPPLIER', JSON.stringify(supplier));
+};
+
+export const getLatestSupplier = () => {
+  const latest = localStorage.getItem('LATEST_SUPPLIER');
+  return latest ? JSON.parse(latest) : null;
+};
+
 export const resetSuppliers = () => ({ type: RESET_SUPPLIERS });
 
 export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
@@ -73,6 +82,7 @@ export const fetchSuppliers = () => async (dispatch: ThunkDispatch<{}, {}, AnyAc
     }
     return { ...supplier, ...{ progress: -1, speed: -1 } };
   });
+
   dispatch(setSuppliers(suppliers));
   dispatch(fetchSynthesisProgressUpdates());
 };
@@ -123,6 +133,25 @@ export const setFavouriteSupplier = (supplierID: any, isFavourite: any) => (disp
   )
     .then(json => {
       dispatch(updateSupplier(json.data));
+    })
+    .catch(() => {
+      // display error
+    });
+};
+
+export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
+  dispatch: any,
+  getState: () => any
+) => {
+  const existingSupplier = suppliersByIdSelector(getState())[supplierId];
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerId}/suppliers/${supplierId}/leads-tracker`
+  )
+    .then(json => {
+      dispatch(
+        updateSupplier({ ...existingSupplier, ...{ leads_tracker_status: json.data.status } })
+      );
+      dispatch(fetchSupplierDetails(supplierId));
     })
     .catch(() => {
       // display error

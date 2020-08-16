@@ -5,13 +5,13 @@ import Axios from 'axios';
 import XLSX from 'xlsx';
 import reduce from 'lodash/reduce';
 import {
-  isFirstRowHeaderSelector,
   columnMappingSettingSelector,
   currentStepSelector,
   columnMappingsSelector,
   fileStringArraySelector,
   fileDetailsSelector,
   rawFileSelector,
+  primaryIdTypeSelector,
 } from '../../selectors/UploadSupplier';
 import { error } from '../../utils/notifications';
 import {
@@ -36,6 +36,7 @@ import {
   SET_VALID_ROWS,
   SET_ERROR_ROWS,
   SET_LOADING,
+  SET_PRIMARY_ID_TYPE,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -250,6 +251,11 @@ export const setColumnMappings = (columnMapping: any) => ({
   payload: columnMapping,
 });
 
+export const setPrimaryIdType = (primaryIdType: string) => ({
+  type: SET_PRIMARY_ID_TYPE,
+  payload: primaryIdType,
+});
+
 export const setResultUpload = (resultUpload: any) => ({
   type: SET_RESULT_UPLOAD,
   payload: resultUpload,
@@ -307,9 +313,10 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/csv-column-mapping`
   );
   if (response.data) {
-    const { upc, product_cost, sku, title, msrp } = response.data;
+    const { primary_id_type, primary_id, product_cost, sku, title, msrp } = response.data;
     const columnMappings = [];
-    if (upc !== null) columnMappings[upc] = 'upc';
+    if (primary_id_type !== null) columnMappings[primary_id_type] = 'primary_id_type';
+    if (primary_id !== null) columnMappings[primary_id] = 'primary_id';
     if (product_cost !== null) columnMappings[product_cost] = 'cost';
     if (sku !== null) columnMappings[sku] = 'sku';
     if (title !== null) columnMappings[title] = 'title';
@@ -328,6 +335,7 @@ export const validateAndUploadFile = () => async (
   const supplierID = newSupplierIdSelector(getState());
   const columnMappings = columnMappingsSelector(getState());
   const columnMappingSetting = columnMappingSettingSelector(getState());
+  const primaryIdType = primaryIdTypeSelector(getState());
   const file = fileDetailsSelector(getState());
   let uploadFile;
   if (csvExtensions.includes(getFileExtension(file))) {
@@ -359,7 +367,8 @@ export const validateAndUploadFile = () => async (
   bodyFormData.set('seller_id', String(sellerID));
   bodyFormData.set('file', uploadFile);
   bodyFormData.set('cost', reversedColumnMappings.cost);
-  bodyFormData.set('upc', reversedColumnMappings.upc);
+  bodyFormData.set('primary_id_type', primaryIdType);
+  bodyFormData.set('primary_id', reversedColumnMappings.primary_id);
   if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'title'))
     bodyFormData.set('title', reversedColumnMappings.title);
@@ -367,8 +376,6 @@ export const validateAndUploadFile = () => async (
     bodyFormData.set('sku', reversedColumnMappings.sku);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'msrp'))
     bodyFormData.set('msrp', reversedColumnMappings.msrp);
-  // correct this
-  if (isFirstRowHeaderSelector(getState())) bodyFormData.set('has_header', 'True');
 
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,

@@ -29,7 +29,7 @@ const ProductSearch = (props: any) => {
         }
       }}
       {...bindSearch}
-      placeholder="Search Product Name/UPC/ASIN"
+      placeholder="Search Product Name/UPC/ASIN/EAN"
     />
   );
 };

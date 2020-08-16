@@ -2,6 +2,8 @@
   &.scrollable {
     overflow-x: auto;
     padding-bottom: 100px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
   }
 
   &.pf-table {
@@ -19,7 +21,7 @@
     padding-top: 20px !important;
     padding-bottom: 37px !important;
     position: sticky;
-    top: -70px;
+    top: -100px;
     z-index: 5;
     background: #f8faff;
     transition-property: top;
@@ -54,6 +56,7 @@
       width: 480px;
 
       input {
+        font-family: 'Work sans', sans-serif !important;
         border: 1px solid #98aeca !important;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
@@ -107,7 +110,7 @@
           &:first-child {
             th {
               position: sticky;
-              top: 6px;
+              top: 0;
               z-index: 3;
               transition-property: top;
               transition-duration: 1s;
@@ -116,14 +119,10 @@
         }
 
         > tr:first-child > th {
-          border-bottom: 20px solid #f8faff !important;
+          border-bottom: 1px solid #f8faff !important;
           border-top: 20px solid #f8faff !important;
           background: #f8faff;
           border-radius: unset;
-
-          &:hover {
-            background: #e6e6e6;
-          }
 
           table.header-inner-table {
             border-top: 1px solid #bec0c3;
@@ -260,7 +259,7 @@ i.icon.filter::before {
 
 .th-label {
   white-space: pre;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .ui.sortable.table thead th.sorted::after {
@@ -474,12 +473,16 @@ i.icon.filter::before {
 
 .table-header-scroll {
   max-width: 358px !important;
-  overflow: hidden !important;
+  overflow-x: auto !important;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
 .middle-body {
   max-width: 670px !important;
-  overflow: hidden !important;
+  overflow: auto !important;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
 
 .left-fixed-header-column {
@@ -555,7 +558,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 650px;
+            top: 640px;
           }
         }
       }
@@ -571,7 +574,7 @@ i.icon.filter::before {
       }
 
       &.scroll-top.sticky-chart-active {
-        top: 385px;
+        top: 378px;
       }
     }
 
@@ -583,7 +586,7 @@ i.icon.filter::before {
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 510px;
+            top: 500px;
           }
         }
       }
@@ -619,7 +622,63 @@ i.icon.filter::before {
   }
 }
 
-@media (max-width: 1536px) {
+@media (max-width: 1680px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 260px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 260px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 340px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 384px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 260px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 260px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 340px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 384px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1550px) {
   .large-column {
     min-width: 190px !important;
   }
@@ -709,6 +768,16 @@ i.icon.filter::before {
   .header-scroll {
     max-width: 400px !important;
   }
+
+  .middle-scroll-cell {
+    min-width: 105px !important;
+  }
+}
+
+@media only screen and (min-width: 1536px) {
+  .middle-scroll-cell {
+    min-width: 105px !important;
+  }
 }
 
 @media only screen and (min-device-width: 1680px) and (max-device-width: 1919px) {
@@ -740,6 +809,10 @@ i.icon.filter::before {
       width: 350px !important;
     }
   }
+
+  .middle-scroll-cell {
+    min-width: 148px !important;
+  }
 }
 
 @media only screen and (min-width: 2560px) {
@@ -755,6 +828,10 @@ i.icon.filter::before {
     .description-text {
       width: 350px !important;
     }
+  }
+
+  .pf-header-cell {
+    height: 47px !important;
   }
 }
 
@@ -772,4 +849,16 @@ i.icon.filter::before {
 
 .header-scroll::-webkit-scrollbar-track {
   border-radius: 5px !important;
+}
+
+.middle-body::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.table-header-scroll::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.scrollable::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }

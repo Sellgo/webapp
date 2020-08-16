@@ -1,0 +1,297 @@
+.payment-container {
+  $font-fam: 'Work Sans', sans-serif !important;
+  $font-black: #3b4557;
+  $font-blue: #349af8;
+  $font-grey: #98aeca;
+  $font-red: #eb675e;
+
+  &.ui.container {
+    padding: 50px 0;
+    max-width: 1100px !important;
+  }
+
+  h2.header {
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: #3b4557;
+    margin-bottom: 0;
+    line-height: 0.8;
+  }
+
+  &__subtitle {
+    font-size: 20px;
+    color: #3b4557;
+  }
+
+  &__stripe-checkout-form {
+    margin: 25px 0;
+
+    label {
+      font-size: 19px !important;
+      font-weight: bold !important;
+    }
+
+    label::after {
+      display: none !important;
+    }
+
+    .ui input[type='text'] {
+      font-size: 21px;
+      font-family: $font-fam;
+      padding: 13.2px 12px;
+      border: 1px solid #98aeca;
+    }
+
+    input::placeholder {
+      color: #98aeca !important;
+    }
+
+    &__group-1 {
+      &__card-name {
+        width: 50%;
+      }
+
+      &__card-exp-field,
+      &__card-cvc-field {
+        width: 25%;
+      }
+    }
+
+    &__billing_title {
+      margin: 50px 0 25px 0 !important;
+    }
+
+    &__group-2 {
+      .field {
+        width: 50%;
+      }
+    }
+
+    &__group-3 {
+      .field {
+        width: 50%;
+      }
+
+      &__country {
+        width: 50%;
+
+        .dropdown {
+          padding: 1.29em 1em !important;
+          border-color: #98aeca !important;
+
+          .menu > .item {
+            font-size: 18px;
+          }
+
+          i {
+            height: 100% !important;
+            display: flex;
+            align-items: center;
+          }
+        }
+
+        .country-label {
+          font-size: 20px;
+        }
+      }
+    }
+
+    &__card-icons {
+      display: flex;
+      margin-left: -15px;
+      padding: 20px 0;
+
+      &__four-cards {
+        width: 200px;
+      }
+
+      &__stripe-card {
+        width: 95px;
+      }
+    }
+
+    &__buttons {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+
+      &__back {
+        width: 45%;
+
+        .button {
+          width: 100%;
+          font-family: $font-fam;
+          height: 56px;
+          border: 1px solid #98aeca !important;
+          box-shadow: unset !important;
+        }
+      }
+
+      &__register {
+        width: 45%;
+
+        &.disabled {
+          opacity: 1 !important;
+        }
+
+        .primary {
+          width: 100% !important;
+          background-color: $font-blue !important;
+          font-size: 18px !important;
+          font-weight: bold;
+          height: 56px;
+          font-family: $font-fam;
+
+          &.disabled {
+            opacity: 0.65 !important;
+          }
+        }
+
+        .ui.loader {
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+
+  &.container {
+    box-shadow: 0 3px 20px #00000029;
+    border: 1px solid $font-grey;
+    border-radius: 8px;
+    margin: 0 !important;
+    background: #fff;
+    width: 1157px !important;
+    padding: 33px 26px 29px 26px !important;
+    font-family: $font-fam;
+
+    &.text {
+      max-width: unset !important;
+    }
+
+    h3 {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: $font-black;
+      margin-bottom: 20px !important;
+    }
+  }
+
+  &__error {
+    width: 600px;
+    border: 1px solid #eb675e;
+    border-radius: 10px;
+    color: white;
+    background: #eb675e;
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px 0;
+
+    &__title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    &__message {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+  .payment-success-container,
+  .paid-content-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 500px;
+
+    &__login {
+      .ui {
+        &.button {
+          font-family: $font-fam;
+        }
+      }
+    }
+
+    a {
+      color: $font-blue !important;
+    }
+
+    button {
+      background-color: $font-blue !important;
+      font-size: 18px !important;
+      font-weight: bold;
+      width: 267px;
+      height: 56px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+/**
+* Shows how you can use CSS to style your Element's container.
+* These classes are added to your Stripe Element by default.
+* You can override these classNames by using the options passed
+* to the CardElement component.
+* https://stripe.com/docs/js/elements_object/create_element?type=card#elements_create-options-classes
+*/
+
+.StripeElement {
+  height: 53px;
+  padding: 10px 12px;
+  width: 100%;
+  color: #32325d;
+  background-color: white;
+  border: 1px solid #98aeca;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+@media screen and (max-width: 1680px) {
+  .payment-container {
+    &.container {
+      width: 100% !important;
+    }
+
+    h2.header {
+      font-size: 32px;
+      line-height: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .payment-container {
+    &__stripe-checkout-form {
+      .ui input[type='text'] {
+        font-size: 18px !important;
+      }
+    }
+  }
+
+  .StripeElement {
+    height: 49px !important;
+  }
+}

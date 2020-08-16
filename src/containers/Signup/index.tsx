@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Form, Header } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Header, Modal, TextArea } from 'semantic-ui-react';
 import SignupBase from '../../components/SignupBase';
 import StepsInfo from '../../components/StepsInfo/StepsInfo';
 import { Steps } from '../../interfaces/StepsInfo';
@@ -8,10 +8,20 @@ import { useInput } from '../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
 import history from '../../history';
 import Axios from 'axios';
-import PasswordValidator from 'password-validator';
 import '../Signup/index.scss';
 import { AppConfig } from '../../config';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import { fetchTOS, fetchPP } from '../../actions/UserOnboarding';
 import ReactPixel from 'react-facebook-pixel';
+import {
+  strong,
+  lowerUpper,
+  alphanumeric,
+  specialCharacters,
+  Length,
+  passwordPolicy,
+} from '../../constants/Validators';
 
 interface Props {
   auth: Auth;
@@ -21,54 +31,21 @@ interface State {
   stepsInfo: Steps[];
 }
 
-export default function Signup(props: Props, state: State) {
-  const { auth } = props;
+function Signup(props: any, state: State) {
+  const { auth, termsOfService, privacyPolicy, fetchTOS, fetchPP } = props;
   const { value: email, bind: bindEmail } = useInput('');
   const { value: firstname, bind: bindFirstName } = useInput('');
   const { value: lastname, bind: bindLastName } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
 
   const [isFocusPW, setFocusPassword] = useState(false);
+  const [openTOS, setOpenTOS] = useState(false);
+  const [openPP, setOpenPP] = useState(false);
 
-  const passwordPolicy = new PasswordValidator()
-    .is()
-    .min(8)
-    .has()
-    .uppercase()
-    .has()
-    .lowercase()
-    .has()
-    .digits()
-    .has()
-    .symbols();
-
-  const strong = new PasswordValidator()
-    .is()
-    .min(10)
-    .has()
-    .uppercase()
-    .has()
-    .lowercase()
-    .has()
-    .digits()
-    .has()
-    .symbols();
-
-  const lowerUpper = new PasswordValidator()
-    .has()
-    .uppercase()
-    .has()
-    .lowercase();
-
-  const alphanumeric = new PasswordValidator()
-    .has()
-    .letters()
-    .has()
-    .digits();
-
-  const specialCharacters = new PasswordValidator().has().symbols();
-
-  const Length = new PasswordValidator().is().min(8);
+  useEffect(() => {
+    fetchTOS();
+    fetchPP();
+  }, [fetchTOS, fetchPP]);
 
   state = {
     stepsInfo: [
@@ -143,7 +120,42 @@ export default function Signup(props: Props, state: State) {
   function onFocus() {
     setFocusPassword(true);
   }
+  const onClose = () => {
+    setOpenTOS(false);
+    setOpenPP(false);
+  };
 
+  const TOS = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Terms of Service</Header>
+        <Form>
+          <TextArea rows="20" value={termsOfService} />
+        </Form>
+      </div>
+    );
+  };
+
+  const PP = () => {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Header as="h4">Our Privacy Policy</Header>
+        <Form>
+          <TextArea rows="20" value={privacyPolicy} />
+        </Form>
+      </div>
+    );
+  };
+  const newUserExperiencePopup = () => {
+    return (
+      <Modal onClose={() => onClose()} size={'small'} open={openTOS || openPP}>
+        <Modal.Content>
+          {openTOS && <TOS />}
+          {openPP && <PP />}
+        </Modal.Content>
+      </Modal>
+    );
+  };
   function handleSubmit() {
     const accountType = window.location.search === '?type=trial' ? 'trial' : 'free';
     if (!passwordPolicy.validate(password)) {
@@ -194,7 +206,9 @@ export default function Signup(props: Props, state: State) {
           {...bindPassword}
         />
         <span className="consent">
-          By signing up, you are agreeing to receive emails from Sellgo
+          By clicking Register, you agree to our{' '}
+          <span onClick={() => setOpenTOS(true)}>Terms of Service</span> and{' '}
+          <span onClick={() => setOpenPP(true)}>Privacy Policy</span>
         </span>
         <Form.Field control={Button} fluid={true} primary={true}>
           Register
@@ -205,6 +219,19 @@ export default function Signup(props: Props, state: State) {
           </b>
         </label>
       </Form>
+      {newUserExperiencePopup()}
     </SignupBase>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  termsOfService: get(state, 'userOnboarding.termsOfService'),
+  privacyPolicy: get(state, 'userOnboarding.privacyPolicy'),
+});
+
+const mapDispatchToProps = {
+  fetchTOS: () => fetchTOS(),
+  fetchPP: () => fetchPP(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

@@ -5,4 +5,6 @@ export const isFetchingPriceSelector = (state: {}) => get(state, 'product.isFetc
 export const isFetchingInventorySelector = (state: {}) => get(state, 'product.isFetchingInventory');
 export const isFetchingRatingSelector = (state: {}) => get(state, 'product.isFetchingRating');
 export const isFetchingReviewSelector = (state: {}) => get(state, 'product.isFetchingReview');
+export const isFetchingSellerInventorySelector = (state: {}) =>
+  get(state, 'product.isFetchingSellerInventory');
 export const isFetchingKPISelector = (state: {}) => get(state, 'product.isFetchingKPI');

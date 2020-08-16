@@ -270,7 +270,9 @@ const TableHeader = (props: TableHeaderProps) => {
                 let className =
                   index === 1 && filteredColumns.length > 2 ? 'ptr' : column.className;
                 className =
-                  index === filteredColumns.length - 2 ? `${className} ptr-last-cell` : className;
+                  index === filteredColumns.length - 2 && index >= 2
+                    ? `${className} ptr-last-cell`
+                    : className;
                 return (
                   <TableHeaderCell
                     columns={columns}
@@ -307,7 +309,11 @@ const TableHeader = (props: TableHeaderProps) => {
                 headerCellProps.className = 'middle-header table-header-scroll';
                 headerCellProps.onScroll = onScroll;
                 if (!cell.rows.length) {
-                  headerCellProps = { ...headerCellProps, colSpan: columns.length - 3 };
+                  headerCellProps = {
+                    ...headerCellProps,
+                    colSpan: columns.length - 3,
+                    style: { background: '#fff' },
+                  };
                 }
               }
               if (cell.side === 'right') {
@@ -325,7 +331,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
                   <table className="header-inner-table">
                     <thead className="inner-tbody">
-                      <Table.Row style={!cell.rows.length ? { height: '46px' } : {}}>
+                      <Table.Row style={!cell.rows.length ? { height: '47px' } : {}}>
                         {cell.rows.map((column: any, index: any) => {
                           return (
                             <TableHeaderCell
@@ -346,7 +352,7 @@ const TableHeader = (props: TableHeaderProps) => {
         )}
         <tr className="table-scroll-divider" />
         {rest.type !== 'trackerTable' && (
-          <Table.Row>
+          <Table.Row className={'pf-middle-scroll'}>
             {scrollRows.map((cell: any, cellIndex: any) => {
               const headerCellProps: any = {};
               if (cell.side === 'center') {

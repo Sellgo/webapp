@@ -1,0 +1,95 @@
+.ToggleSwitch {
+  position: relative;
+  width: 100%;
+  height: 2.35rem;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.ToggleSwitch__rounded {
+    .Slider {
+      border-radius: 15rem;
+      background: #eceff1;
+      border: 1px solid #a0a0a0;
+
+      &::before {
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .ToggleSwitch__wrapper {
+    position: relative;
+    width: 100%;
+    height: 2.35rem;
+
+    .Slider {
+      border: none;
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: 0.4s ease;
+      width: 51px;
+      height: 25px;
+      background: #98aeca;
+      color: #98aeca;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin: auto;
+
+      &.active {
+        justify-content: flex-end;
+        background: #349af8;
+        color: #349af8;
+        transition: justify-content 0.5s linear;
+      }
+
+      i.fas.fa-user-ninja {
+        margin-right: -0.5px;
+        margin-left: -0.5px;
+        margin-bottom: -0.3px;
+        font-size: 11px;
+        width: 27px;
+        height: 27px;
+        box-shadow: 0 1px 3px #00000029;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: #ffff;
+      }
+
+      &::before {
+        display: none;
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        background: #fff;
+        content: '';
+        margin: 0;
+        padding: 0;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        transition: 0.4s;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      }
+
+      &.isChecked {
+        background: #fff;
+
+        &::before {
+          left: calc(100% - 0.1rem - 1.7rem);
+          background: #09f;
+          transition: left 2s linear;
+        }
+      }
+    }
+  }
+}

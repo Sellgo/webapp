@@ -19,7 +19,8 @@ export interface AmazonMWS {
 export interface Subscription {
   id: string;
   name: string;
-  price: number;
+  monthly_price: number;
+  yearly_price: number;
   synthesis_limit: number;
   track_limit: number;
 }

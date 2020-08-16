@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Grid } from 'semantic-ui-react';
-import styles from './UploadSupplier.module.css';
+import styles from './UploadSupplier.module.scss';
 import { Field } from 'redux-form';
 import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
 import { marketPlace } from '../../../constants/UploadSupplier';
