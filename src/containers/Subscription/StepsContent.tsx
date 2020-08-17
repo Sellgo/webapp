@@ -3,17 +3,17 @@ import { Icon, Divider } from 'semantic-ui-react';
 
 interface StepsContentProps {
   contentType: string;
+  loggedIn?: boolean;
 }
 
 function StepsContent(props: StepsContentProps) {
-  const { contentType } = props;
-  const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const { contentType, loggedIn } = props;
   return (
     <div className="login-container__steps-content">
       <div
-        className={`login-container__steps-content__${contentType} ${(contentType === 'register' ||
-          contentType === 'login') &&
-          'active'}`}
+        className={`login-container__steps-content__${!loggedIn ? 'register' : 'login'} ${
+          contentType !== 'payment' ? 'active' : 'false'
+        }`}
       >
         <span className="login-container__steps-content__register__title">
           1.
