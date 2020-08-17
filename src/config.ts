@@ -89,6 +89,7 @@ function getAppConfig() {
   } else if (process.env.REACT_APP_ENV === 'development') {
     return dev;
   }
+
   return local;
 }
 
