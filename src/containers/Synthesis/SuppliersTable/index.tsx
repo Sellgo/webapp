@@ -34,6 +34,7 @@ import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import get from 'lodash/get';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
+import _ from 'lodash';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
@@ -423,6 +424,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
 
+    const sortedByCompletedData = _.cloneDeep(data).sort((a, b) => (a.udate < b.udate ? 1 : -1));
+
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -448,7 +451,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           scrollTopSelector={scrollTopSelector}
           key={`Suppliers-${showTab}`}
           tableKey={tableKeys.SUPPLIERS}
-          data={data}
+          data={sortedByCompletedData}
           columns={columns}
           name={'supplier'}
         />
