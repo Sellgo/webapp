@@ -71,6 +71,7 @@ export const createSubscription = (data: any) => (dispatch: any) => {
         dispatch(setSuccessPayment(true));
         localStorage.removeItem('planType');
         dispatch(setStripeLoading(false));
+        window.location.href = '/subscription/payment';
       } else if (data.message) {
         dispatch(setStripeError(data));
         dispatch(setStripeLoading(false));
