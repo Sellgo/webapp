@@ -7,15 +7,19 @@ interface StepsContentProps {
 
 function StepsContent(props: StepsContentProps) {
   const { contentType } = props;
+  const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
   return (
     <div className="login-container__steps-content">
       <div
-        className={`login-container__steps-content__register ${(contentType === 'register' ||
+        className={`login-container__steps-content__${contentType} ${(contentType === 'register' ||
           contentType === 'login') &&
           'active'}`}
       >
         <span className="login-container__steps-content__register__title">
-          1.{contentType !== 'payment' && contentType === 'login' ? ' Login' : ' Register'}
+          1.
+          {(contentType !== 'payment' && contentType === 'login') || loggedIn
+            ? ' Login'
+            : ' Register'}
         </span>
         <span className="login-container__steps-content__register__icon">
           <Icon name="pen square" />
