@@ -15,11 +15,15 @@ const PROD_URLS = {
 const DEV_KEYS = {
   STRIPE_API_KEY: 'pk_test_thMkxDX66HmQoec5jcK34bAc0083aPonvE',
   PIXEL_ID: '990701281388485',
+  ELEVIO_ID: '5f21ef059e2e7',
+  ELEVIO_SECRET: '5f21ef059ec69',
 };
 
 const PROD_KEYS = {
   STRIPE_API_KEY: 'pk_live_6iiX5s4PCakcnwTP3Gf81UyV00XSgjLLmU',
   PIXEL_ID: '990701281388485',
+  ELEVIO_ID: '5f21ef059e2e7',
+  ELEVIO_SECRET: '5f21ef059ec69',
 };
 
 const DEV_AUTH_CONFIG = {
@@ -85,7 +89,6 @@ function getAppConfig() {
   } else if (process.env.REACT_APP_ENV === 'development') {
     return dev;
   }
-
   return local;
 }
 

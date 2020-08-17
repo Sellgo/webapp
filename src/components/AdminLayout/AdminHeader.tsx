@@ -5,6 +5,7 @@ import Logo from '../Logo';
 import LogoutConfirm from '../LogoutConfirm';
 import MobileHeader from './MobileHeader';
 import * as crypto from 'crypto';
+import { AppConfig } from '../../config';
 
 import './AdminHeader.scss';
 
@@ -39,8 +40,7 @@ export class AdminHeader extends React.Component<AdminProps> {
     const { auth, currentNotifyId } = this.props;
     const { isVisible } = this.state;
 
-    const elevioAccountSecret = '5f21ef059ec69';
-    const hmac = crypto.createHmac('sha256', elevioAccountSecret);
+    const hmac = crypto.createHmac('sha256', AppConfig.ELEVIO_SECRET);
     hmac.update(JSON.stringify(this.userEmail));
     const userHash = hmac.digest('hex');
     localStorage.setItem('userHash', userHash);
