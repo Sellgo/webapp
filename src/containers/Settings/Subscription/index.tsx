@@ -530,7 +530,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   <Table.Row>
                     <Table.Cell>Product Tracking</Table.Cell>
                     {_.map(subscriptionsSorted, (data, index) => {
-                      if (data.track_limit !== -1) {
+                      if (data.name !== 'Enterprise') {
                         return (
                           <Table.Cell key={index}>
                             <p>{data.track_limit}</p>
