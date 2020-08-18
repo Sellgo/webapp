@@ -530,12 +530,13 @@ i.icon.filter::before {
   z-index: 999;
   bottom: 0;
   background: #fff !important;
+  right: 2px;
 }
 
 .pagination-container {
   display: flex !important;
   justify-content: flex-end !important;
-  margin-right: 150px;
+  margin-right: 25px;
 }
 
 @media (max-width: 2560px) {
