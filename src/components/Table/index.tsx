@@ -383,7 +383,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       onNextPage={setLocalCurrentPage}
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
-                      currentPage={currentPage || 1}
+                      currentPage={localCurrentPage || 1}
                       totalPages={totalPages}
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
