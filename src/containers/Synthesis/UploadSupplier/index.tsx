@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './UploadSupplier.module.css';
+import styles from './UploadSupplier.module.scss';
 import { connect } from 'react-redux';
 import UploadSteps from './UploadSteps';
 import SupplierInformation from './SupplierInformation';

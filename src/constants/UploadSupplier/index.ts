@@ -11,6 +11,7 @@ export const TOGGLE_FIRST_ROW_HEADER = 'TOGGLE_FIRST_ROW_HEADER';
 export const SET_COLUMN_MAPPING_SETTING = 'SET_COLUMN_MAPPING_SETTING';
 export const SET_SKIP_COLUMN_MAPPING_CHECK = 'SET_SKIP_COLUMN_MAPPING_CHECK';
 export const SET_COLUMN_MAPPINGS = 'SET_COLUMN_MAPPINGS';
+export const SET_PRIMARY_ID_TYPE = 'SET_PRIMARY_ID_TYPE';
 export const SET_RESULT_UPLOAD = 'SET_RESULT_UPLOAD';
 export const SET_SYNTHESIS_ID = 'SET_SYNTHESIS_ID';
 export const SET_SPEED = 'SET_SPEED';
@@ -33,10 +34,11 @@ export enum UploadSteps {
   Submit,
 }
 
+export const PRODUCT_ID_TYPES = ['UPC', 'ASIN', 'EAN'];
+
 export const FieldsToMap = [
   {
-    key: 'upc',
-    label: 'UPC',
+    key: 'primary_id',
     required: true,
   },
   {

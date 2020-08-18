@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Button, Header, Divider, Modal, Progress, Grid } from 'semantic-ui-react';
-import styles from './UploadSupplier.module.css';
+import styles from './UploadSupplier.module.scss';
 import {
   setUploadSupplierStep,
   setProgressShow,

@@ -5,6 +5,12 @@
   .consent {
     margin-bottom: 12px;
     color: #fff;
+    font-size: 13px;
+
+    span {
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 
   .header {

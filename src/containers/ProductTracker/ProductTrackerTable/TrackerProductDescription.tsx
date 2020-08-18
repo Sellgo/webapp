@@ -21,9 +21,11 @@ const ProductDescription = (props: any) => {
           <div className="wrap-prod-information">
             <div className="information">
               <img className="flag-img" src={COUNTRY_IMAGE} alt="product_img" />
-              <div className="asin-upc-wrapper">
+              <div className="asin-pid-wrapper">
                 <span className="asin-content">{item.asin}</span>
-                <span className="upc-content">{item.upc}</span>
+                <span className="pid-content">
+                  {item.upc ? item.upc : item.ean ? item.ean : ''}
+                </span>
               </div>
               {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
             </div>

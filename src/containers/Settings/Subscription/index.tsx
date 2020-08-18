@@ -33,6 +33,7 @@ import Stripe from '../../../assets/images/powered_by_stripe.svg';
 import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
+import _ from 'lodash';
 
 interface SubscriptionProps {
   getSeller: () => void;
@@ -55,10 +56,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     pendingSubscription: false,
     pendingSubscriptionId: '',
     pendingSubscriptionName: '',
+    pendingSubscriptionMode: '',
+    isYearly: false,
   };
 
   componentDidMount() {
-    const { getSeller, fetchSubscriptions, location } = this.props;
+    const { getSeller, fetchSubscriptions, location, sellerSubscription } = this.props;
 
     // Show success message if success url param (user has signed up for a plan)
     // Then redirect to /synthesis
@@ -74,26 +77,32 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     getSeller();
     fetchSubscriptions();
+
+    this.setState({
+      isYearly: sellerSubscription.payment_mode === 'yearly' ? true : false,
+    });
   }
 
-  chooseSubscription(subscription: any) {
+  chooseSubscription(subscription: any, paymentMode: string) {
     const { subscriptionType } = this.props;
     if (isSubscriptionNotPaid(subscriptionType)) {
-      this.checkout(subscription.id);
+      this.checkout(subscription.id, paymentMode);
     } else {
       this.setState({
         pendingSubscription: true,
         pendingSubscriptionId: subscription.id,
         pendingSubscriptionName: subscription.name,
+        pendingSubscriptionMode: paymentMode,
       });
     }
   }
 
   // Change plan that user is subscribed to
-  changeSubscription(subscriptionId: any) {
+  changeSubscription(subscriptionId: any, paymentMode: string) {
     const { profile, fetchSellerSubscription } = this.props;
     const bodyFormData = new FormData();
     bodyFormData.append('subscription_id', subscriptionId);
+    bodyFormData.append('payment_mode', paymentMode);
 
     Axios.post(AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/update`, bodyFormData)
       .then(() => {
@@ -120,8 +129,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       });
   }
 
-  checkout(subscriptionId: any) {
-    this.createCheckoutSession(subscriptionId)
+  checkout(subscriptionId: any, paymentMode: string) {
+    this.createCheckoutSession(subscriptionId, paymentMode)
       .then((checkoutSessionId: any) => {
         this.redirectToCheckout(checkoutSessionId);
       })
@@ -130,10 +139,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       });
   }
 
-  createCheckoutSession(subscriptionId: any) {
+  createCheckoutSession(subscriptionId: any, paymentMode: string) {
     const { profile } = this.props;
     const bodyFormData = new FormData();
     bodyFormData.append('subscription_id', subscriptionId);
+    bodyFormData.append('payment_mode', paymentMode);
     bodyFormData.append('email', profile.email);
 
     // Include affiliate referral
@@ -198,6 +208,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       pendingSubscription,
       pendingSubscriptionId,
       pendingSubscriptionName,
+      pendingSubscriptionMode,
+      isYearly,
     } = this.state;
 
     const subscribedSubscription = sellerSubscription
@@ -206,21 +218,27 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     const trackTitle = 'Unlimited Profit Finder';
 
-    const subscriptionsSorted = subscriptions.sort((a, b) => (a.id > b.id ? 1 : -1));
+    const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
 
-    const cardsDisplay = subscriptionsSorted.map((subscription: Subscription) => {
-      const isSubscribed = subscribedSubscription && subscribedSubscription.id === subscription.id;
+    const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
+      const isSubscribed =
+        subscribedSubscription &&
+        subscribedSubscription.id === subscription.id &&
+        (isYearly
+          ? sellerSubscription.payment_mode === 'yearly'
+          : sellerSubscription.payment_mode === 'monthly');
       return (
         <Card
           key={subscription.id}
-          className={`${isSubscribed && 'active-plan'} ${!isSubscribed &&
+          className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'} ${isSubscribed &&
+            'active-plan'} ${!isSubscribed &&
             (Number(subscription.id) === 1
               ? 'basic-value-content'
               : Number(subscription.id) === 2
               ? 'best-value-content'
               : 'contact-us-content')}`}
         >
-          <Card.Content>
+          <Card.Content className="card-container__header">
             <Card.Header>
               <Button
                 className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
@@ -230,49 +248,59 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             </Card.Header>
           </Card.Content>
-          <Card.Content>
+          <Card.Content className="card-container__name">
             <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
               {subscription.name}
             </Card.Header>
             <Card.Meta>
               {trackTitle}
               <br />
-              {Number(subscription.id) === 1
-                ? subscription.track_limit + ' Product Tracker Limit'
-                : Number(subscription.id) === 2
+              {Number(subscription.id) === 1 || Number(subscription.id) === 2
                 ? subscription.track_limit + ' Product Tracker Limit'
                 : 'More than 100,000 Product Tracker Limit'}
             </Card.Meta>
           </Card.Content>
-          <Card.Content className={`${Number(subscription.id) === 3 && 'contact-us'}`}>
+          {isYearly && Number(subscription.id) !== 3 && (
+            <Card.Content className="card-container__discount-details">
+              <p className="card-container__discount-details__slash">
+                ${subscription.monthly_price * 12}
+              </p>
+              <p className="card-container__discount-details__save">
+                Pay ${Math.round(subscription.yearly_price)}
+              </p>
+            </Card.Content>
+          )}
+          <Card.Content
+            className={`card-container__details ${Number(subscription.id) === 3 && 'contact-us'}`}
+          >
             <Card.Header>
               <strong>$&nbsp;</strong>
               {Number(subscription.id) === 3
                 ? 'Contact Us'
-                : Math.trunc(Number(subscription.price))
-                ? Math.trunc(Number(subscription.price))
-                : 0.0}
+                : isYearly
+                ? Number(subscription.yearly_price / 12).toFixed(2)
+                : Math.trunc(Number(subscription.monthly_price))}
               <strong>&nbsp;/mo</strong>
             </Card.Header>
             <Card.Description>
-              {`${Number(subscription.id) !== 3 && 'Billed Monthly'}`}
+              {Number(subscription.id) !== 3 && (isYearly ? 'Billed Annually' : 'Billed Monthly')}
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
             {isSubscribed && (
               <Button
-                onClick={() => {
-                  this.setState({ promptCancelSubscription: true });
-                }}
+                onClick={() => this.setState({ promptCancelSubscription: true })}
                 className={`basic-btn active-plan`}
                 fluid
               >
                 Cancel
               </Button>
             )}
-            {(!subscribedSubscription || subscribedSubscription.id !== subscription.id) && (
+            {!isSubscribed && (
               <Button
-                onClick={() => this.chooseSubscription(subscription)}
+                onClick={() =>
+                  this.chooseSubscription(subscription, isYearly ? 'yearly' : 'monthly')
+                }
                 className={`basic-btn`}
                 fluid
               >
@@ -322,13 +350,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         />
 
         <Confirm
-          content={`Would you like to change your plan to "${pendingSubscriptionName}"`}
+          content={`Would you like to change your plan to "${_.startCase(
+            pendingSubscriptionMode
+          )} ${pendingSubscriptionName}"`}
           open={pendingSubscription ? true : false}
           onCancel={() => {
             this.setState({
               pendingSubscription: false,
               pendingSubscriptionId: '',
               pendingSubscriptionName: '',
+              pendingSubscriptionMode: '',
             });
           }}
           onConfirm={() => {
@@ -336,9 +367,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               pendingSubscription: false,
               pendingSubscriptionId: '',
               pendingSubscriptionName: '',
+              pendingSubscriptionMode: '',
             });
 
-            this.changeSubscription(pendingSubscriptionId);
+            this.changeSubscription(pendingSubscriptionId, pendingSubscriptionMode);
           }}
         />
 
@@ -349,7 +381,29 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               For new members register with Amazon Seller Central Account <br />
               Risk free 14-day money back guarantee
             </Grid.Row>
-            <Grid.Row>{cardsDisplay}</Grid.Row>
+
+            <Grid.Row className="pricing-type flex-center">
+              <div className="pricing-type__content">
+                <Button
+                  className={`pricing-type__content__monthly-btn ${!isYearly && 'primary active'}`}
+                  onClick={() => {
+                    this.setState({ isYearly: false });
+                  }}
+                >
+                  Monthly
+                </Button>
+                <Button
+                  className={`pricing-type__content__yearly-btn ${isYearly && 'primary active'}`}
+                  onClick={() => {
+                    this.setState({ isYearly: true });
+                  }}
+                >
+                  Yearly
+                </Button>
+                <div className="pricing-type__content__circle" />
+              </div>
+            </Grid.Row>
+            <Grid.Row className="pricing-content flex-center">{plansDisplay}</Grid.Row>
             {isSubscriptionNotPaid(subscriptionType) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
@@ -400,9 +454,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <Table.Header className="plans-table-container__wrapper__table__header">
                   <Table.Row>
                     <Table.HeaderCell></Table.HeaderCell>
-                    <Table.HeaderCell>Basic Plan</Table.HeaderCell>
-                    <Table.HeaderCell>Pro Plan</Table.HeaderCell>
-                    <Table.HeaderCell>Enterprise</Table.HeaderCell>
+                    {_.map(subscriptionsSorted, (data, index) => {
+                      return <Table.HeaderCell key={index}>{data.name}</Table.HeaderCell>;
+                    })}
                   </Table.Row>
                 </Table.Header>
 
@@ -475,15 +529,21 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Product Tracking</Table.Cell>
-                    <Table.Cell>
-                      <p>50 Tracking</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>100 Tracking</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Inquiry based</p>
-                    </Table.Cell>
+                    {_.map(subscriptionsSorted, (data, index) => {
+                      if (data.name !== 'Enterprise') {
+                        return (
+                          <Table.Cell key={index}>
+                            <p>{data.track_limit}</p>
+                          </Table.Cell>
+                        );
+                      } else {
+                        return (
+                          <Table.Cell key={index}>
+                            <p>Inquiry based</p>
+                          </Table.Cell>
+                        );
+                      }
+                    })}
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Track Inventory Daily</Table.Cell>

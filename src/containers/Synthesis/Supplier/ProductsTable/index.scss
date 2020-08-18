@@ -603,11 +603,21 @@ $new_black: #3b4557;
       .fingerprint-track {
         cursor: pointer;
         width: 15px !important;
+
+        &.disabled {
+          pointer-events: none;
+          opacity: 0.3;
+        }
       }
 
       .fingerprint-untrack {
         cursor: pointer;
         width: 15px !important;
+
+        &.disabled {
+          pointer-events: none;
+          opacity: 0.3;
+        }
       }
     }
   }
@@ -622,6 +632,10 @@ $new_black: #3b4557;
       position: absolute;
       top: 0;
       right: 0;
+    }
+
+    .track-btn {
+      margin-left: 0 !important;
     }
   }
 }
@@ -670,4 +684,24 @@ $new_black: #3b4557;
 
 .amazon_category_name {
   min-width: 140px !important;
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2560px) {
+  .track-btn {
+    width: 100% !important;
+  }
+
+  .detail-buttons {
+    width: 93% !important;
+  }
+}
+
+@media screen and (min-width: 1921px) {
+  .pf-middle-scroll {
+    display: none !important;
+  }
+
+  .table-scroll-divider {
+    display: none !important;
+  }
 }

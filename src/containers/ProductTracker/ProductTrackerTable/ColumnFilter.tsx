@@ -59,7 +59,7 @@ const ColumnFilterCard = (props: any) => {
     return (
       <div className="column-filter-card" onClick={(e: any) => e.stopPropagation()}>
         <div>
-          <span style={{ paddingLeft: 30 }}>
+          <span style={{ paddingLeft: 30, lineHeight: 2 }}>
             Active Columns
             <br />
           </span>
@@ -71,7 +71,15 @@ const ColumnFilterCard = (props: any) => {
             <span>{selectAll.key}</span>
             <br />
           </div>
-          <Container onDrop={applyDrag} autoScrollEnabled={false}>
+          <Container
+            onDrop={applyDrag}
+            autoScrollEnabled={true}
+            dragClass="opacity-ghost"
+            dropClass="opacity-ghost-drop"
+            getGhostParent={() => {
+              return document.body;
+            }}
+          >
             {filters.map((check: any) => (
               <Draggable key={check.dataKey}>
                 {check.value && (
@@ -82,7 +90,7 @@ const ColumnFilterCard = (props: any) => {
                     />
                     <span
                       className="active-columns"
-                      style={{ cursor: 'move', color: '#98AECA', fontSize: 20 }}
+                      style={{ cursor: 'move', color: '#98AECA', fontSize: 20, paddingLeft: '5px' }}
                     >
                       <b>:::&nbsp;</b>
                     </span>
@@ -92,14 +100,14 @@ const ColumnFilterCard = (props: any) => {
               </Draggable>
             ))}
           </Container>
-          <span style={{ paddingLeft: 30 }}>
+          <span style={{ paddingLeft: 30, lineHeight: 2 }}>
             Inactive Columns
             <br />
           </span>
           {filters.map(
             (check: any, i: any) =>
               !check.value && (
-                <div className="column-selection-container" key={`inactive---${i}`}>
+                <div className="column-selection-container-inactive" key={`inactive---${i}`}>
                   <Checkbox
                     checked={check.value}
                     onChange={(e: any, data: any) => handleColumnChange(e, { ...check, ...data })}

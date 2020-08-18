@@ -4,6 +4,32 @@
     margin-bottom: 5px;
     justify-content: space-between;
 
+    &__period-container {
+      display: flex;
+      border-left: 1px solid #98aeca;
+      border-right: 1px solid #98aeca;
+      align-items: center;
+      font-weight: 400;
+
+      &__period-items {
+        margin-right: 5px;
+        color: #98aeca;
+
+        &:first-child {
+          margin: 0 5px;
+        }
+
+        &.active {
+          color: #349af8;
+          font-weight: 600;
+        }
+
+        span {
+          cursor: pointer;
+        }
+      }
+    }
+
     &__all-container {
       display: flex;
 
@@ -20,6 +46,17 @@
 
         &.all-btn {
           width: 106px;
+        }
+
+        &.more-btn {
+          span {
+            margin-left: 13px;
+          }
+
+          padding: 0 10px 0 13px !important;
+          display: flex;
+          align-items: center;
+          width: 86px;
         }
 
         &--period {
@@ -66,6 +103,11 @@
               width: 13px !important;
             }
 
+            &.angle.down {
+              width: 13px;
+              margin-right: 10px !important;
+            }
+
             &.filter-left-icon {
               color: #3b4557;
               padding-left: 5px;
@@ -85,42 +127,6 @@
         }
       }
     }
-
-    &__period-container {
-      display: flex;
-      border-left: 1px solid #98aeca;
-      border-right: 1px solid #98aeca;
-      align-items: center;
-      font-weight: 400;
-
-      &__period-items {
-        margin-right: 5px;
-        color: #98aeca;
-
-        &:first-child {
-          margin: 0 5px;
-        }
-
-        &.active {
-          color: #349af8;
-          font-weight: 600;
-        }
-
-        span {
-          cursor: pointer;
-        }
-      }
-    }
-  }
-
-  .ui.button:nth-child(1) {
-    padding: 0 !important;
-    width: 107px;
-  }
-
-  .ui.button:nth-child(2) span {
-    margin-left: 14px;
-    margin-right: 3px;
   }
 
   .circular.label {

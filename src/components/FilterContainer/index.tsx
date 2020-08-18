@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { Checkbox, Button, Divider, Modal } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import _ from 'lodash';
 import { SupplierFilter, FilterState } from '../../interfaces/Filters';
-import FilterSliderInput from '../FilterSliderInput';
 import { Range } from '../../interfaces/Generic';
+import AllFilter from './AllFilter';
+import PresetFilter from './PresetFilter';
 
 interface Props {
   filterType: string;
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   toggleSizeTierFilter: (filterDataKey: string, label: string) => void;
-  applyFilter: () => void;
+  setRadioFilter: (filterDataKey: string, label: string) => void;
+  applyFilter: (isPreset?: boolean) => void;
   resetFilter: () => void;
+  resetPreset: () => void;
   toggleSelectAllCategories: () => void;
   toggleSelectAllSize: () => void;
   selectAllCategories: () => void;
@@ -30,6 +33,7 @@ function FilterContainer(props: Props) {
     toggleSizeTierFilter,
     toggleCheckboxFilter,
     resetFilter,
+    resetPreset,
     filterData,
     handleCompleteChange,
     resetSingleFilter,
@@ -40,6 +44,8 @@ function FilterContainer(props: Props) {
     selectAllCategories,
     isSelectAllSize,
     toggleNegative,
+    filterType,
+    setRadioFilter,
   } = props;
 
   const [isShowMore, setShowMore] = useState(false);
@@ -144,51 +150,28 @@ function FilterContainer(props: Props) {
 
   return (
     <div className="filter-container">
-      <>
-        {filterCategory}
-        <Divider className="middle-divider" />
-        <div className="slider-filters">
-          <div className="slider-wrapper">
-            {_.map(filterData.filterRanges, filter => {
-              return (
-                <div className="range-container" key={filter.dataKey}>
-                  <div className="range-label">{filter.label}</div>
-                  <span className="reset" onClick={() => resetSingleFilter(`${filter.dataKey}`)}>
-                    x Reset
-                  </span>
-                  <FilterSliderInput
-                    dataKey={filter.dataKey}
-                    range={filter.range}
-                    filterRange={filter.filterRange}
-                    handleCompleteChange={handleCompleteChange}
-                    labelSign={filter.sign}
-                  />
-                  {filter.removeNegative !== undefined && (
-                    <div className="remove-negative">
-                      <Checkbox
-                        label="Remove Negative Values"
-                        key={filter.dataKey}
-                        onChange={() => {
-                          toggleNegative(filter.dataKey);
-                        }}
-                        checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
-                      />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <div className="button-wrapper">
-            <Button basic className="reset-filter-btn" onClick={() => resetFilter()}>
-              Reset
-            </Button>
-            <Button basic className="apply-filter-btn" onClick={() => applyFilter()}>
-              Apply
-            </Button>
-          </div>
-        </div>
-      </>
+      {filterType === 'all-filter' && (
+        <AllFilter
+          applyFilter={applyFilter}
+          resetFilter={resetFilter}
+          filterData={filterData}
+          handleCompleteChange={handleCompleteChange}
+          resetSingleFilter={resetSingleFilter}
+          initialFilterState={initialFilterState}
+          toggleNegative={toggleNegative}
+          filterCategory={filterCategory}
+        />
+      )}
+
+      {filterType === 'more-filter' && (
+        <PresetFilter
+          applyFilter={applyFilter}
+          initialFilterState={initialFilterState}
+          filterData={filterData}
+          setRadioFilter={setRadioFilter}
+          resetPreset={resetPreset}
+        />
+      )}
       <Modal
         className="FilterContainer__show-more"
         open={isShowMore}

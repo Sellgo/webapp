@@ -4,7 +4,7 @@ import Stepper from '../../../components/Stepper';
 import { setUploadSupplierStep } from '../../../actions/UploadSupplier';
 import { currentStepSelector, currentProgressShow } from '../../../selectors/UploadSupplier';
 import { Icon } from 'semantic-ui-react';
-import styles from './UploadSupplier.module.css';
+import styles from './UploadSupplier.module.scss';
 
 interface Props {
   value: number;
