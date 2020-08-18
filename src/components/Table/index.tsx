@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Pagination, Icon, Card, Input, Button } from 'semantic-ui-react';
+import { Table, Icon, Card, Input, Button } from 'semantic-ui-react';
 import SelectItemsCount from './SelectItemsCount';
 
 import './index.scss';
@@ -11,6 +11,7 @@ import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/Produc
 import { Link } from 'react-router-dom';
 import { TableBody } from './TableBody';
 import TableHeader from './TableHeader';
+import Pagination from '../Pagination';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -376,11 +377,16 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
                     <Pagination
-                      totalPages={rows.length ? totalPages : ''}
-                      activePage={localCurrentPage}
-                      onPageChange={(event, data) => {
-                        setLocalCurrentPage(Number(data.activePage));
-                      }}
+                      onPageSizeSelect={size =>
+                        setSinglePageItemsCount ? setSinglePageItemsCount(size) : {}
+                      }
+                      onNextPage={setLocalCurrentPage}
+                      onPrevPage={setLocalCurrentPage}
+                      onPageNumberUpdate={setLocalCurrentPage}
+                      currentPage={currentPage || 1}
+                      totalPages={totalPages}
+                      totalRecords={totalItemsCount}
+                      pageSize={singlePageItemsCount}
                     />
                   </div>
                 </Table.HeaderCell>

@@ -525,13 +525,17 @@ i.icon.filter::before {
 }
 
 .pagination-cell {
-  position: absolute !important;
   width: 100% !important;
+  position: fixed !important;
+  z-index: 999;
+  bottom: 0;
+  background: #fff !important;
 }
 
 .pagination-container {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: flex-end !important;
+  margin-right: 150px;
 }
 
 @media (max-width: 2560px) {
