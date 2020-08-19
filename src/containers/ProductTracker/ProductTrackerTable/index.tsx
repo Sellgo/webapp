@@ -78,6 +78,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     groupError: false,
     activeRow: null,
     columns: [],
+    defaultSort: '',
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -590,6 +591,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             columnDnD={true}
             middleScroll={true}
             rowExpander={this.renderDV}
+            defaultSort={this.state.defaultSort}
+            onSort={defaultSort => this.setState({ defaultSort })}
           />
         ) : (
           <Segment className="product-tracker-loader">

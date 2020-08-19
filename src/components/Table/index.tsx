@@ -60,6 +60,8 @@ export interface GenericTableProps {
   featuresLock?: boolean;
   pagination?: boolean;
   handleColumnDrop?: (e: any, data: any) => void;
+  onSort?: (sort: any) => void;
+  defaultSort?: any;
   reorderColumns?: any;
   columnDnD?: boolean;
   middleScroll?: boolean;
@@ -128,6 +130,8 @@ export const GenericTable = (props: GenericTableProps) => {
     scrollTopSelector,
     stickyChartSelector,
     currentActiveColumn,
+    onSort,
+    defaultSort,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -148,11 +152,23 @@ export const GenericTable = (props: GenericTableProps) => {
   // TODO: Move singlePageItemsCount and setSinglePageItemsCount
   // to local state if it doesn't need to be global (in redux).
   // const [itemsCount, setItemsCount] = useState(10);
-
   const showColumns = columns.filter(e => e.show);
-  const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort(
-    currentActiveColumn
-  );
+  const {
+    sortedColumnKey,
+    sortDirection: sortOrder,
+    setSort,
+    sortClicked,
+    setSortClicked,
+  } = useSort(currentActiveColumn);
+  let sortDirection = sortOrder;
+  useEffect(() => {
+    if (onSort && sortClicked) onSort(sortDirection);
+  }, [sortDirection]);
+
+  if (!!defaultSort && !sortClicked) {
+    sortDirection = defaultSort;
+  }
+
   const checkSortedColumnExist = showColumns.filter(column => column.dataKey === sortedColumnKey);
   const filteredColumns = columnFilterData
     ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
