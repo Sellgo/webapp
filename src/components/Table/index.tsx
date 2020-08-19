@@ -160,7 +160,9 @@ export const GenericTable = (props: GenericTableProps) => {
     sortClicked,
     setSortClicked,
   } = useSort(currentActiveColumn);
+
   let sortDirection = sortOrder;
+
   useEffect(() => {
     if (onSort && sortClicked) onSort(sortDirection);
   }, [sortDirection]);
