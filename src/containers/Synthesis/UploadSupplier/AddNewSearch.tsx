@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.scss';
 import { Field } from 'redux-form';
-import { InputField, SelectField, TextAreaField } from '../../../components/ReduxFormFields';
+import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { marketPlace } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
 
@@ -27,15 +27,7 @@ const AddNewSearch = () => {
                 placeholder="Search Name"
                 maxLength="100"
               />
-              <div className={`field ${styles['description-box']}`}>
-                <Field
-                  component={TextAreaField}
-                  label="Search Description"
-                  className="AddNewSearch__description-field"
-                  name="description"
-                  placeholder="Search Description"
-                />
-              </div>
+              <div className={`field `} />
             </div>
           </Grid.Column>
           <Grid.Column className={'AddNewSearch__second-column'} width={7}>

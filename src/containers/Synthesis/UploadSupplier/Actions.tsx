@@ -91,7 +91,7 @@ const Actions = ({
     setConfirm(!openConfirm);
     setProgressShow(true);
   };
-  if (processCompleted && currentStep === 4) {
+  if (processCompleted && currentStep === 2) {
     return (
       <div className={`${className || ''} ${styles.actions} submit-actions`}>
         {currentProgressShow ? (
@@ -114,7 +114,7 @@ const Actions = ({
           </a>
         ) : null}
 
-        {openProgress && currentStep === 4 && (
+        {openProgress && (
           <>
             <Grid className="Actions__progress-bar">
               <Progress
@@ -194,7 +194,7 @@ const Actions = ({
       }`}
     >
       <div className={`${styles['btns-wrap']} ${styles.upload}`}>
-        {currentStep === 2 && (
+        {currentStep === 0 && (
           <a
             className="Actions__template-download"
             href="https://sellgo-public-dev.s3.amazonaws.com/template.csv"
@@ -220,7 +220,7 @@ const Actions = ({
           >
             {(() => {
               switch (currentStep) {
-                case 4:
+                case 2:
                   return 'Submit';
                 default:
                   return 'Next';
