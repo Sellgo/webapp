@@ -140,7 +140,7 @@
 }
 
 .new-supplier-modal .content .rc-steps-item-tail {
-  width: 88%;
+  width: 94%;
 }
 
 .new-supplier-modal .content .AddNewSearch__new-search {
@@ -803,9 +803,9 @@ div.new-supplier-cont > div:nth-child(2) {
   background: #f8faff 0% 0% no-repeat padding-box;
   border: 1px solid #98aeca;
   border-bottom: none;
-  border-left: none;
-  border-right: none;
   border-radius: 15px;
+  width: 870px !important;
+  margin-left: -2px !important;
 }
 
 .new-supplier-modal .content .new-supp-container {
