@@ -26,7 +26,6 @@ import {
   TOGGLE_FIRST_ROW_HEADER,
   SET_COLUMN_MAPPINGS,
   SET_COLUMN_MAPPING_SETTING,
-  SET_SKIP_COLUMN_MAPPING_CHECK,
   MAX_FILE_SIZE_BYTES,
   SET_RESULT_UPLOAD,
   SET_SYNTHESIS_ID,
@@ -298,11 +297,6 @@ export const setLoadingShow = (check: boolean) => ({
 
 export const setColumnMappingSetting = (checked: boolean) => ({
   type: SET_COLUMN_MAPPING_SETTING,
-  payload: checked,
-});
-
-export const setSkipColumnMappingCheck = (checked: boolean) => ({
-  type: SET_SKIP_COLUMN_MAPPING_CHECK,
   payload: checked,
 });
 
