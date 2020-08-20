@@ -50,7 +50,7 @@ export default function Login(props: Props) {
   };
   return (
     <Container text className={`login-container ${isSignupSuccess && 'success'}`}>
-      <StepsContent contentType={'login'} loggedIn={true} />
+      <StepsContent contentType={'login'} />
       <Header as="h3">Login</Header>
       <Form className="login-container__form" onSubmit={handleSubmit}>
         <Form.Input

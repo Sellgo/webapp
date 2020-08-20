@@ -373,7 +373,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderSizeTiers,
     },
     {
-      label: 'Tracking / Scoring',
+      label: 'Tracking / Rating',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,

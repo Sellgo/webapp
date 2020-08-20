@@ -485,9 +485,9 @@ $link-color: #349af8;
       font-size: 14px !important;
 
       &:first-child {
-        border-bottom-left-radius: 10px !important;
+        border-bottom-left-radius: 10px;
         border-left: 1px solid rgba(34, 36, 38, 0.3);
-        border-top-left-radius: 10px !important;
+        border-top-left-radius: 10px;
         width: 200px;
       }
 
@@ -648,9 +648,9 @@ $link-color: #349af8;
         }
 
         th:first-child {
-          border-bottom-left-radius: 10px !important;
+          border-bottom-left-radius: 10px;
           border-left: 1px solid rgba(34, 36, 38, 0.3);
-          border-top-left-radius: 10px !important;
+          border-top-left-radius: 10px;
           padding-left: 40px;
         }
 

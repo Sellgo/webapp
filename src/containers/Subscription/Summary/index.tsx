@@ -29,12 +29,12 @@ function Summary(props: SummaryProps) {
     }`,
     subDescription: '14-Days Money Back Guarantee',
     benefits: [
-      '-Manage your supplier files in Search Management',
+      '-Manage your supplier files in Supplier Management',
       `-${
         !_.isEmpty(subscriptions) ? subscriptions[index].track_limit : '-'
       } Products can be tracked through Product Tracker`,
       '-Unlimited access in our Profit Finder',
-      '-Sellgo Premium Support',
+      '-Sellgo support',
     ],
   };
 

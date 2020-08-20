@@ -3,23 +3,19 @@ import { Icon, Divider } from 'semantic-ui-react';
 
 interface StepsContentProps {
   contentType: string;
-  loggedIn?: boolean;
 }
 
 function StepsContent(props: StepsContentProps) {
-  const { contentType, loggedIn } = props;
+  const { contentType } = props;
   return (
     <div className="login-container__steps-content">
       <div
-        className={`login-container__steps-content__${!loggedIn ? 'register' : 'login'} ${
-          contentType !== 'payment' ? 'active' : 'false'
-        }`}
+        className={`login-container__steps-content__register ${(contentType === 'register' ||
+          contentType === 'login') &&
+          'active'}`}
       >
         <span className="login-container__steps-content__register__title">
-          1.
-          {(contentType !== 'payment' && contentType === 'login') || loggedIn
-            ? ' Login'
-            : ' Register'}
+          1.{contentType !== 'payment' && contentType === 'login' ? ' Login' : ' Register'}
         </span>
         <span className="login-container__steps-content__register__icon">
           <Icon name="pen square" />
