@@ -64,8 +64,6 @@ const Payment = (props: PaymentProps) => {
     }
     handlePaymentError(stripeErrorMessage);
   }, [stripeErrorMessage, sellerSubscription]);
-  const loggedIn =
-    sellerSubscription !== undefined || localStorage.getItem('isLoggedIn') === 'true';
 
   return (
     <Grid className="subscription-page" columns={2}>
@@ -78,7 +76,7 @@ const Payment = (props: PaymentProps) => {
         <Grid.Column width={11} className="subscription-page__content">
           <Summary planType={accountType} paymentMode={paymentMode} />
           <Container text className="payment-container">
-            <StepsContent contentType={'payment'} loggedIn={loggedIn} />
+            <StepsContent contentType={'payment'} />
             {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (
               <div className="payment-container__error">
                 <div className="payment-container__error__title">{paymentErrorMessage}</div>

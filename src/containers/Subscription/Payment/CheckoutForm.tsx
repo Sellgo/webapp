@@ -66,7 +66,6 @@ function CheckoutForm(props: MyProps) {
     value: 'US',
   });
   const [zipCodeError, setZipCodeError] = useState(false);
-  const [nameCardError, setNameCardError] = useState(false);
 
   const handleCountry = (data: any) => {
     setSelectedCountry(data);
@@ -90,11 +89,6 @@ function CheckoutForm(props: MyProps) {
       return;
     }
 
-    if (!name) {
-      handlePaymentError({ message: 'Please fill out Name on Card field' });
-      setNameCardError(true);
-      return;
-    }
     if (!postalCode(zipCode, selectedCountry.code.split(','))) {
       setZipCodeError(true);
       handlePaymentError({ message: 'Zipcode is invalid' });
@@ -160,13 +154,13 @@ function CheckoutForm(props: MyProps) {
         </Form.Field>
         <Form.Group className="checkout-form__group-1">
           <Form.Input
-            className={`payment-container__stripe-checkout-form__group-1__card-name ${nameCardError &&
-              'error'}`}
+            className="payment-container__stripe-checkout-form__group-1__card-name"
             size="huge"
             label="Name on Card"
             type="text"
             placeholder="John Smith"
             {...bindName}
+            required
           />
           <Form.Field className="payment-container__stripe-checkout-form__group-1__card-exp-field">
             <label htmlFor="expiry">Expiry Date</label>

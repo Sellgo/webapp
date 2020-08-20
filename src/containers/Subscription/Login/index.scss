@@ -19,21 +19,8 @@
       }
     }
 
-    &__login {
-      margin-right: -10px;
-
-      &__icon i {
-        font-size: 15px !important;
-      }
-    }
-
     &__payment {
-      margin-right: -10px;
       margin-left: -23px;
-
-      &.false {
-        margin-right: -20px;
-      }
 
       &__icon i {
         font-size: 11px !important;
@@ -41,7 +28,6 @@
     }
 
     &__register,
-    &__login,
     &__payment {
       justify-content: center;
       display: flex;
