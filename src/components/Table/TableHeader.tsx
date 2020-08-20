@@ -68,6 +68,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     reorderColumns,
     columns,
     setSortColumn,
+    setActiveColumn,
     columnDnD = false,
   } = props;
   const { dataKey, sortable, label, click, check, popUp, icon, className = '' } = column;
@@ -78,7 +79,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       ? (e: any) => {
           setSort(e, dataKey || '');
           setSortColumn(sortDirection);
-          props.setActiveColumn(dataKey);
+          setActiveColumn(dataKey);
         }
       : click
       ? click
