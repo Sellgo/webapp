@@ -997,7 +997,7 @@ $link-color: #349af8;
 }
 
 .pt-scroll {
-  min-width: 120px !important;
+  min-width: 96px !important;
   height: 10px !important;
 }
 
@@ -1088,13 +1088,13 @@ $link-color: #349af8;
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1281px) {
+@media only screen and (min-width: 1024px) and (max-width: 1279px) {
   .remove-top-border {
     width: 98.4% !important;
   }
 
   .pt-scroll {
-    min-width: 131px !important;
+    min-width: 97px !important;
   }
 
   .pt-scroll-container {
@@ -1110,6 +1110,10 @@ $link-color: #349af8;
   .pt-scroll-container {
     max-width: 62% !important;
   }
+
+  .pt-scroll {
+    min-width: 96px !important;
+  }
 }
 
 @media only screen and (min-width: 1366px) and (max-width: 1439px) {
@@ -1120,6 +1124,10 @@ $link-color: #349af8;
   .pt-scroll-container {
     max-width: 65% !important;
   }
+
+  .pt-scroll {
+    min-width: 96px !important;
+  }
 }
 
 @media only screen and (min-width: 1440px) and (max-width: 1599px) {
@@ -1128,7 +1136,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 135px !important;
+    min-width: 100px !important;
   }
 }
 
@@ -1138,7 +1146,7 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 132px !important;
+    min-width: 97px !important;
   }
 }
 
@@ -1148,13 +1156,17 @@ $link-color: #349af8;
   }
 
   .pt-scroll {
-    min-width: 131px !important;
+    min-width: 96px !important;
   }
 }
 
 @media only screen and (min-width: 1920px) and (max-width: 2558px) {
   .remove-top-border {
     width: 99.2% !important;
+  }
+
+  .pt-scroll {
+    min-width: 91px !important;
   }
 }
 
@@ -1187,7 +1199,7 @@ $link-color: #349af8;
 }
 
 .smooth-dnd-container {
-  background: #98aeca;
+  background: #349af899;
   border-bottom: 0.2px solid #98aeca;
 }
 

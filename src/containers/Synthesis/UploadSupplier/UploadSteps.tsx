@@ -20,15 +20,6 @@ const steps = [
     icon: <Icon className="plus square" />,
   },
   {
-    title: 'Additional Info',
-    icon: <i className="fas fa-pen-square" />,
-  },
-  {
-    title: 'Select File',
-    icon: <i className="fas fa-file" />,
-    description: '',
-  },
-  {
     title: 'Data Mapping',
     icon: <Icon name="copy" />,
     description: '',

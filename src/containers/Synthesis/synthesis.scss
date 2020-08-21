@@ -140,15 +140,13 @@
 }
 
 .new-supplier-modal .content .rc-steps-item-tail {
-  width: 88%;
+  width: 94%;
 }
 
 .new-supplier-modal .content .AddNewSearch__new-search {
-  min-width: 869px;
-  min-height: 345px;
+  min-width: 100%;
+  min-height: 100px;
   background: #fff 0% 0% no-repeat padding-box;
-  border: 1px solid #98aeca;
-  border-radius: 15px;
 }
 
 .new-supplier-modal .content .form {
@@ -815,11 +813,14 @@ div.new-supplier-cont > div:nth-child(2) {
 }
 
 .new-supplier-modal button.file-uploader {
-  min-height: 345px !important;
+  min-height: 250px !important;
   max-height: 345px !important;
   background: #f8faff 0% 0% no-repeat padding-box;
   border: 1px solid #98aeca;
+  border-bottom: none;
   border-radius: 15px;
+  width: 869px !important;
+  margin-left: -1px !important;
 }
 
 .new-supplier-modal .content .new-supp-container {
@@ -1085,4 +1086,9 @@ div.new-supplier-cont .ui.button {
   .new-supplier-modal .submit-actions button {
     margin-bottom: 20px;
   }
+}
+
+.new-search-container {
+  border: 1px solid #98aeca;
+  border-radius: 15px;
 }
