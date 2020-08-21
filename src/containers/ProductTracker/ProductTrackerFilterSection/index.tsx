@@ -86,7 +86,6 @@ function ProductTrackerFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
-  const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
   useEffect(() => {
     /*
       For new data in filters , will be remove in future
@@ -103,7 +102,6 @@ function ProductTrackerFilterSection(props: Props) {
     */
     if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
       setFilterType('');
-      resetFilter(true);
       const filterValue = filterState;
       filterValue.activeGroupId = activeGroupId;
       setFilterState(filterValue);
@@ -131,7 +129,6 @@ function ProductTrackerFilterSection(props: Props) {
     }
 
     setHasAllFilter(isAllFilterUse());
-    setHasPresetFilter(isPresetFilterUse());
   }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
@@ -450,7 +447,6 @@ function ProductTrackerFilterSection(props: Props) {
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasAllFilter(isAllFilterUse());
-    setHasPresetFilter(isPresetFilterUse());
 
     if (
       !isPreset &&
@@ -461,42 +457,26 @@ function ProductTrackerFilterSection(props: Props) {
 
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    if (!isPreset) {
+      setFilterType('');
+    }
   };
 
-  const resetFilter = (fromPeriod?: boolean) => {
+  const resetFilter = (onClick?: boolean) => {
     const ranges = findMinMax(groupProducts);
     const data = filterState;
     data.sellerID = sellerIDSelector();
-    if (!fromPeriod) {
-      data.reviews = [];
-      data.removeNegative = [];
-      selectAllReviews();
-    }
+
+    data.reviews = [];
+    data.removeNegative = [];
+    selectAllReviews();
     data.avg_price = ranges.avg_price;
 
-    data.avg_profit =
-      fromPeriod && data.removeNegative.indexOf('avg_profit') !== -1
-        ? {
-            min: ranges.avg_profit.min < 0 ? 0 : ranges.avg_profit.min,
-            max: ranges.avg_profit.max < 0 ? 0 : ranges.avg_profit.max,
-          }
-        : ranges.avg_profit;
+    data.avg_profit = ranges.avg_profit;
 
-    data.avg_margin =
-      fromPeriod && data.removeNegative.indexOf('avg_margin') !== -1
-        ? {
-            min: ranges.avg_margin.min < 0 ? 0 : ranges.avg_margin.min,
-            max: ranges.avg_margin.max < 0 ? 0 : ranges.avg_margin.max,
-          }
-        : ranges.avg_margin;
+    data.avg_margin = ranges.avg_margin;
 
-    data.avg_roi =
-      fromPeriod && data.removeNegative.indexOf('avg_roi') !== -1
-        ? {
-            min: ranges.avg_roi.min < 0 ? 0 : ranges.avg_roi.min,
-            max: ranges.avg_roi.max < 0 ? 0 : ranges.avg_roi.max,
-          }
-        : ranges.avg_roi;
+    data.avg_roi = ranges.avg_roi;
 
     data.avg_daily_sales = ranges.avg_daily_sales;
     data.avg_rank = ranges.avg_rank;
@@ -512,6 +492,9 @@ function ProductTrackerFilterSection(props: Props) {
       setFilterRanges(ranges);
     });
     setFilterState(data);
+    if (onClick) {
+      setFilterType('');
+    }
   };
 
   const resetProfitabilityPreset = (preset?: true) => {
@@ -605,12 +588,6 @@ function ProductTrackerFilterSection(props: Props) {
     return false;
   };
 
-  const isPresetFilterUse = () => {
-    if (filterState.profitability !== 'All Products') return true;
-    if (filterState.amazonChoice.length !== 2) return true;
-    return false;
-  };
-
   return (
     <div className="tracker-filter-section">
       <div className="tracker-filter-section__header">
@@ -638,14 +615,10 @@ function ProductTrackerFilterSection(props: Props) {
               'more-filter' && 'active'}`}
             onClick={() => handleFilterType('more-filter')}
           >
-            <Icon
-              className="tracker-filter-section__header__all-container__button__slider"
-              name="sliders horizontal"
-            />
             <span className="tracker-filter-section__header__all-container__button__name">
               More
             </span>
-            <Icon name="filter" className={` ${hasPresetFilter ? 'blue' : 'grey'} `} />
+            <Icon name="angle down" />
           </Button>
         </div>
         <div className="tracker-filter-section__header__period-container">

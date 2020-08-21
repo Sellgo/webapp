@@ -733,6 +733,10 @@ function ProfitFinderFilterSection(props: Props) {
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
+    if (!isPreset) {
+      setFilterType('');
+      setFilterModalOpen(false);
+    }
   };
 
   const resetFilter = () => {
@@ -759,6 +763,9 @@ function ProfitFinderFilterSection(props: Props) {
       setFilterRanges(filterRanges);
     });
     setFilterState(data);
+    applyFilter();
+    setFilterType('');
+    setFilterModalOpen(false);
   };
 
   const handleFilterType = (type: string) => {
@@ -897,9 +904,8 @@ function ProfitFinderFilterSection(props: Props) {
               setFilterModalOpen(true);
             }}
           >
-            <Icon className="slider" name="sliders horizontal" />
             <span className="filter-name">More</span>
-            <Icon name="filter" className={` ${hasPresetFilter ? 'blue' : 'grey'} `} />
+            <Icon name="angle down" />
           </Button>
         </div>
 

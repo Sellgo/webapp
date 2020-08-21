@@ -23,6 +23,7 @@ class RevenueChart extends Component<RevenueChartProps> {
     const fees = products.map(e => parseFloat(e.fees));
     const roi = products.map(e => parseFloat(e.roi));
     const upcs = products.map(e => e.upc);
+    const eans = products.map(e => e.ean);
     const asins = products.map(e => e.asin);
     const margins = products.map(e => e.margin);
 
@@ -52,7 +53,7 @@ class RevenueChart extends Component<RevenueChartProps> {
                 ASIN: {showNAIfZeroOrNull(asins[x], asins[x])}
               </div>
               <div style={{ color: '#ffffff', fontSize: '0.9em' }}>
-                UPC: {showNAIfZeroOrNull(upcs[x], upcs[x])}
+                {upcs[x] ? `UPC: ${upcs[x]}` : eans[x] ? `EAN: ${eans[x]}` : ''}
               </div>
             </Grid.Column>
             <Grid.Column style={{ padding: 0 }}>
@@ -107,7 +108,6 @@ class RevenueChart extends Component<RevenueChartProps> {
         crosshairs: true,
         followPointer: true,
         followTouchMove: true,
-        outside: true,
         style: {
           padding: 0,
         },

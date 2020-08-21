@@ -371,14 +371,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   columns: Column[] = [
     {
       label: 'Product Information',
-      dataKey: 'Product Information',
+      dataKey: 'title',
+      sortable: true,
       type: 'string',
       show: true,
       render: this.renderProductInfo,
       className: 'pt-product-info',
     },
     {
-      label: 'Avg Price',
+      label: 'Avg\nPrice',
       dataKey: 'avg_price',
       type: 'string',
       sortable: true,
@@ -387,7 +388,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       className: 'pt-price',
     },
     {
-      label: 'Avg Profit',
+      label: 'Avg\nProfit',
       dataKey: 'avg_profit',
       type: 'string',
       sortable: true,
@@ -395,7 +396,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgProfit,
     },
     {
-      label: 'Avg Margin',
+      label: 'Avg\nMargin',
       dataKey: 'avg_margin',
       type: 'string',
       sortable: true,
@@ -403,7 +404,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgMargin,
     },
     {
-      label: 'Avg Daily Unit Sold',
+      label: 'Avg Daily\nUnit Sold',
       dataKey: 'avg_daily_sales',
       type: 'string',
       sortable: true,
@@ -411,7 +412,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgUnitSold,
     },
     {
-      label: 'Avg Daily Revenue',
+      label: 'Avg Daily\nRevenue',
       dataKey: 'avg_daily_revenue',
       type: 'string',
       show: true,
@@ -419,7 +420,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderDailyRevenue,
     },
     {
-      label: 'Avg ROI',
+      label: 'Avg\nROI',
       dataKey: 'avg_roi',
       type: 'string',
       show: true,
@@ -427,7 +428,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgROI,
     },
     {
-      label: 'Avg Daily Rank',
+      label: 'Avg Daily\nRank',
       dataKey: 'avg_rank',
       type: 'number',
       show: true,
@@ -467,7 +468,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderRating,
     },
     {
-      label: 'Avg Inventory',
+      label: 'Avg\nInventory',
       dataKey: 'avg_inventory',
       type: 'number',
       show: true,
@@ -475,7 +476,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgInventory,
     },
     {
-      label: 'Is Amazon Selling',
+      label: 'Is Amazon\nSelling',
       dataKey: 'is_amazon_selling',
       type: 'boolean',
       show: true,
@@ -483,7 +484,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderIsAmazonSelling,
     },
     {
-      label: 'Avg Amazon Inventory',
+      label: 'Avg Amazon\nInventory',
       dataKey: 'avg_amazon_inventory',
       type: 'number',
       show: true,

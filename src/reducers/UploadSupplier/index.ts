@@ -9,7 +9,6 @@ import {
   TOGGLE_FIRST_ROW_HEADER,
   SET_COLUMN_MAPPINGS,
   SET_COLUMN_MAPPING_SETTING,
-  SET_SKIP_COLUMN_MAPPING_CHECK,
   SET_RESULT_UPLOAD,
   SET_SYNTHESIS_ID,
   SET_SPEED,
@@ -21,6 +20,8 @@ import {
   SET_ERROR_ROWS,
   SET_PROGRESS,
   SET_LOADING,
+  SET_PRIMARY_ID_TYPE,
+  PRODUCT_ID_TYPES,
 } from '../../constants/UploadSupplier';
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
@@ -34,6 +35,7 @@ interface UploadSupplierState {
   readonly rawFile: string | null;
   readonly fileStringArray: string[][] | null;
   readonly columnMappings: [];
+  readonly primaryIdType: string;
   readonly setProgress: number;
   readonly setSpeed: number;
   readonly setEta: number;
@@ -62,8 +64,9 @@ const initialState: UploadSupplierState = {
   fileString: null,
   fileDetails: null,
   columnMappings: [],
+  primaryIdType: PRODUCT_ID_TYPES[0], //UPC
   rawFile: null,
-  fileStringArray: null,
+  fileStringArray: [],
   resultErrorFile: null,
   resultUpload: null,
   synthesisId: null,
@@ -79,10 +82,12 @@ export default (
     case SET_FILE_STRING_ARRAY: {
       return setIn(state, 'fileStringArray', action.payload);
     }
+
     case SET_RAW_FILE: {
       const newState = setIn(state, 'rawFile', action.fileString);
       return setIn(newState, 'fileDetails', action.newFileDetails ? action.newFileDetails : null);
     }
+
     case SET_UPLOAD_SUPPLIER_STEP:
       return setIn(state, 'currentStep', action.payload);
 
@@ -105,12 +110,12 @@ export default (
       return setIn(state, 'columnMappingSetting', action.payload);
     }
 
-    case SET_SKIP_COLUMN_MAPPING_CHECK: {
-      return setIn(state, 'skipColumnMappingCheck', action.payload);
-    }
-
     case SET_COLUMN_MAPPINGS: {
       return setIn(state, 'columnMappings', action.payload);
+    }
+
+    case SET_PRIMARY_ID_TYPE: {
+      return setIn(state, 'primaryIdType', action.payload);
     }
 
     case CLEANUP_UPLOAD_SUPPLIER: {

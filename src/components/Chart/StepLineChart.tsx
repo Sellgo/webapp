@@ -27,8 +27,7 @@ const renderStepLineChartOptions = (options: StepLineChartOptions) => {
       },
       title: {
         text: title,
-        margin: 50,
-        align: 'left',
+        align: 'center',
       },
       xAxis: [
         {
@@ -89,7 +88,7 @@ const StepLineChart = (props: any) => {
   const { options } = props;
   const chartOptions = renderStepLineChartOptions(options);
   return (
-    <div className="individual-stepline-chart">
+    <div className="individual-stepline-chart" style={{ height: '400px' }}>
       <Chart chartOptions={chartOptions} />
     </div>
   );

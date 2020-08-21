@@ -1,0 +1,18 @@
+.seller-inventory-charts {
+  height: 400px;
+
+  .seller-inventory-charts__title {
+    font-size: 18px;
+    height: 28px;
+  }
+
+  .seller-inventory-charts__time-series {
+    display: inline-flex;
+    width: 66%;
+  }
+
+  .seller-inventory-charts__pie-chart {
+    display: inline-flex;
+    width: 34%;
+  }
+}
