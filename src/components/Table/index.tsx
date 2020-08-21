@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { Table, Icon, Card, Input, Button } from 'semantic-ui-react';
-import SelectItemsCount from './SelectItemsCount';
-
 import './index.scss';
-import { tableKeys } from '../../constants';
-
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import { Link } from 'react-router-dom';
@@ -95,7 +91,6 @@ export const getColumnClass = (column: any) => {
 // Handles pagination, filtering, and sorting client-side
 export const GenericTable = (props: GenericTableProps) => {
   const {
-    tableKey,
     currentPage,
     data,
     singlePageItemsCount = 10,
@@ -142,11 +137,6 @@ export const GenericTable = (props: GenericTableProps) => {
       return () => setPage(1); // reset on unmount
     }
   }, [localCurrentPage]);
-
-  const showSelectItemsCount = tableKey === tableKeys.PRODUCTS ? true : false;
-  // TODO: Move singlePageItemsCount and setSinglePageItemsCount
-  // to local state if it doesn't need to be global (in redux).
-  // const [itemsCount, setItemsCount] = useState(10);
 
   const showColumns = columns.filter(e => e.show);
   const { sortedColumnKey, sortDirection, setSort, sortClicked, setSortClicked } = useSort('');
@@ -268,7 +258,7 @@ export const GenericTable = (props: GenericTableProps) => {
       className={`generic-table scrollable ${name === 'products' ? 'pf-table' : ''}`}
       onScroll={handleScroll}
     >
-      {setSinglePageItemsCount && showSelectItemsCount ? (
+      {showProductFinderSearch ? (
         <div
           className={`table-menu-header ${isStickyChartActive} ${isScrollTop} ${featuresLock &&
             'disabled'}`}
@@ -282,14 +272,6 @@ export const GenericTable = (props: GenericTableProps) => {
           ) : (
             <div />
           )}
-
-          <SelectItemsCount
-            setCurrentPage={setLocalCurrentPage}
-            totalCount={totalItemsCount && totalItemsCount}
-            singlePageItemsCount={singlePageItemsCount}
-            currentPage={localCurrentPage}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-          />
         </div>
       ) : (
         ''

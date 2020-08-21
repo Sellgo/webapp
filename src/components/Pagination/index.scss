@@ -13,10 +13,10 @@
     padding: 0;
 
     .icon {
-      font-size: 19px;
+      font-size: 15px;
       color: #349af8;
       margin-left: 3px !important;
-      margin-top: 3px !important;
+      margin-top: 1px !important;
     }
   }
 
@@ -44,10 +44,10 @@
     margin-left: 5px;
 
     .icon {
-      font-size: 19px;
+      font-size: 15px;
       color: #349af8;
       margin-left: 3px !important;
-      margin-top: 3px !important;
+      margin-top: 1px !important;
     }
   }
 
@@ -67,6 +67,12 @@
   .page-size {
     margin-left: 5px;
 
+    .active {
+      .icon {
+        transform: rotate(180deg) !important;
+      }
+    }
+
     .page-size-input {
       min-width: 55px;
       border: 0.1px solid #98aeca;
@@ -75,15 +81,20 @@
       display: flex;
       align-items: center;
       margin-right: 5px;
+      justify-content: center;
       font-size: 12px;
       padding: 3px 3px 3px 8px;
+
+      .text {
+        padding-right: 20px;
+      }
 
       .icon {
         font-size: 22px;
         margin-left: 5px;
         color: #98aeca;
         padding: 2px !important;
-        top: 15px !important;
+        top: 14px !important;
       }
     }
   }
@@ -103,6 +114,7 @@
     > input {
       border: 0;
       text-align: center;
+      padding: 1px !important;
     }
   }
 }
