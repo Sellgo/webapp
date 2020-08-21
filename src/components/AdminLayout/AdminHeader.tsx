@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import LogoutConfirm from '../LogoutConfirm';
 import MobileHeader from './MobileHeader';
+import * as crypto from 'crypto';
+import { AppConfig } from '../../config';
+
 import './AdminHeader.scss';
 
 interface AdminProps {
@@ -19,6 +22,10 @@ export class AdminHeader extends React.Component<AdminProps> {
     isVisible: false,
     openConfirm: false,
   };
+  userEmail =
+    localStorage.getItem('userEmail') !== null
+      ? localStorage.getItem('userEmail')
+      : 'richard@sellgo.com';
 
   toggleMenu = () => {
     this.setState({
@@ -32,6 +39,12 @@ export class AdminHeader extends React.Component<AdminProps> {
   render() {
     const { auth, currentNotifyId } = this.props;
     const { isVisible } = this.state;
+
+    const hmac = crypto.createHmac('sha256', AppConfig.ELEVIO_SECRET);
+    hmac.update(JSON.stringify(this.userEmail));
+    const userHash = hmac.digest('hex');
+    localStorage.setItem('userHash', userHash);
+
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
