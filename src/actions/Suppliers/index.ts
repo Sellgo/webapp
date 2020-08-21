@@ -43,6 +43,8 @@ import {
   SET_CONTEXT_SCROLL,
   SET_SCROLL_TOP,
   SET_IS_SCROLL,
+  SET_ACTIVE_COLUMN,
+  SET_SORT_COLUMN,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -746,5 +748,15 @@ export const setScrollTop = (value: any) => ({
 
 export const setIsScroll = (value: any) => ({
   type: SET_IS_SCROLL,
+  payload: value,
+});
+
+export const setActiveColumn = (value?: string) => ({
+  type: SET_ACTIVE_COLUMN,
+  payload: value,
+});
+
+export const setSortColumn = (value?: string) => ({
+  type: SET_SORT_COLUMN,
   payload: value,
 });
