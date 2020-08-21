@@ -178,6 +178,59 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderSizeTiers = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
   );
+  renderFbaFee = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(row.fba_fee && row.fba_fee !== '0.00', formatCurrency(row.fba_fee))}
+    </p>
+  );
+  renderReferralFee = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.referral_fee && row.referral_fee !== '0.00',
+        formatCurrency(row.referral_fee)
+      )}
+    </p>
+  );
+  renderVariableClosingFee = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.variable_closing_fee && row.variable_closing_fee !== '0.00',
+        formatCurrency(row.variable_closing_fee)
+      )}
+    </p>
+  );
+  renderNumFbaNewOffers = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.num_fba_new_offers && row.num_fba_new_offers !== 0,
+        formatNumber(row.num_fba_new_offers)
+      )}
+    </p>
+  );
+  renderNumFbmNewOffers = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.num_fbm_new_offers && row.num_fbm_new_offers !== 0,
+        formatNumber(row.num_fbm_new_offers)
+      )}
+    </p>
+  );
+  renderLowNewFbaPrice = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.low_new_fba_price && row.low_new_fba_price !== '0.00',
+        formatCurrency(row.low_new_fba_price)
+      )}
+    </p>
+  );
+  renderLowNewFbmPrice = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.low_new_fbm_price && row.low_new_fbm_price !== '0.00',
+        formatCurrency(row.low_new_fbm_price)
+      )}
+    </p>
+  );
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
@@ -371,6 +424,62 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       render: this.renderSizeTiers,
+    },
+    {
+      label: 'FBA Fee',
+      dataKey: 'fba_fee',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderFbaFee,
+    },
+    {
+      label: 'Referral\nFee',
+      dataKey: 'referral_fee',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderReferralFee,
+    },
+    {
+      label: 'Variable\nClosing Fee',
+      dataKey: 'variable_closing_fee',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderVariableClosingFee,
+    },
+    {
+      label: 'Num New\nFBA Offers',
+      dataKey: 'num_new_fba_offers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderNumFbaNewOffers,
+    },
+    {
+      label: 'Num New\nFBM Offers',
+      dataKey: 'num_new_fbm_offers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderNumFbmNewOffers,
+    },
+    {
+      label: 'Low New\nFBA Price',
+      dataKey: 'low_new_fba_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderLowNewFbaPrice,
+    },
+    {
+      label: 'Low New\nFBM Price',
+      dataKey: 'low_new_fbm_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderLowNewFbmPrice,
     },
     {
       label: 'Tracking / Rating',
