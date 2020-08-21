@@ -22,6 +22,9 @@ export default ({ productPrices, period, xMin, xMax }: any) => {
         max: xMax,
       },
     ],
+    yAxis: {
+      endOnTick: false,
+    },
     period: period,
   };
   return <StepLineChart options={chartOptions} />;
