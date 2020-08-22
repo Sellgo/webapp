@@ -8,6 +8,7 @@ import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsT
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
+import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -31,6 +32,8 @@ interface Shared {
   reorderColumns: (columns: Column[]) => void;
   columnDnD?: boolean;
   className?: string;
+  setActiveColumn: (value?: string) => void;
+  setSortColumn: (value?: string) => void;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -64,13 +67,23 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     handleColumnDrop,
     reorderColumns,
     columns,
+    setSortColumn,
+    setActiveColumn,
     columnDnD = false,
   } = props;
   const { dataKey, sortable, label, click, check, popUp, icon, className = '' } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
   otherProps = {
-    onClick: sortable ? (e: any) => setSort(e, dataKey || '') : click ? click : undefined,
+    onClick: sortable
+      ? (e: any) => {
+          setSort(e, dataKey || '');
+          setSortColumn(sortDirection);
+          setActiveColumn(dataKey);
+        }
+      : click
+      ? click
+      : undefined,
     style: { style },
     className:
       type === 'trackerTable'
@@ -414,4 +427,9 @@ const mapStateToProps = (state: {}) => ({
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
 });
 
-export default connect(mapStateToProps)(TableHeader);
+const mapDispatchToProps = {
+  setActiveColumn,
+  setSortColumn,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableHeader);
