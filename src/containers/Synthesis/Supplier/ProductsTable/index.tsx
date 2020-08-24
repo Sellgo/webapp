@@ -44,6 +44,7 @@ interface ProductsTableProps {
   productTrackerGroup: any;
   singlePageItemsCount: number;
   pageNumber: number;
+  recentSuppliers: any[];
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -606,6 +607,7 @@ const mapStateToProps = (state: {}) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
+  recentSuppliers: get(state, 'suppliers.recentSuppliers'),
 });
 
 const mapDispatchToProps = {
