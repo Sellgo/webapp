@@ -36,7 +36,6 @@ interface SupplierProps {
   resetSupplierProducts: typeof resetSupplierProducts;
   supplierProgress: (supplierID: any) => void;
   progress: any;
-  recentSuppliers: any[];
   suppliers: any[];
   history: any;
 }
