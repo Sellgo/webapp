@@ -483,7 +483,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderLowNewFbmPrice,
     },
     {
-      label: 'Tracking / Rating',
+      label: 'Tracking / Scoring',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,

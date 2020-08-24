@@ -236,7 +236,7 @@ export const GenericTable = (props: GenericTableProps) => {
     });
   }
 
-  rows = sortDirection === 'descending' ? rows.slice().reverse() : rows;
+  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   const sortedProducts = rows;
   rows = rows.slice(
     (localCurrentPage - 1) * singlePageItemsCount,
