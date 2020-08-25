@@ -52,7 +52,7 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Fees',
+    key: 'Total Fees',
     dataKey: 'fees',
     visible: true,
   },
@@ -112,18 +112,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Category',
-    dataKey: 'amazon_category_name',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Size Tier',
-    dataKey: 'size_tier',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Num New FBA Offers',
     dataKey: 'num_new_fba_offers',
     visible: true,
@@ -132,6 +120,18 @@ export const columnFilter = [
     value: true,
     key: 'Num New FBM Offers',
     dataKey: 'num_new_fbm_offers',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Category',
+    dataKey: 'amazon_category_name',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Size Tier',
+    dataKey: 'size_tier',
     visible: true,
   },
   {
