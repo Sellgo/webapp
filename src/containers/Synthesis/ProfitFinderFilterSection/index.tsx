@@ -491,8 +491,12 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const profitablePresetOptions = [
-    { key: 'profitability', text: 'P', value: 'Profitable' },
-    { key: 'non-profitable-products', text: 'NP', value: 'Non-Profitable Products' },
+    { key: 'profitability', text: 'Profitable Products', value: 'Profitable' },
+    {
+      key: 'non-profitable-products',
+      text: 'Non-Profitable Products',
+      value: 'Non-Profitable Products',
+    },
   ];
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
@@ -841,15 +845,22 @@ function ProfitFinderFilterSection(props: Props) {
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
           <Button.Group
+            className={`filter-header__options__profitability-preset ${
+              filterState.profitabilityFilter.active ? 'blue' : 'basic'
+            }`}
             onClick={() => {
               setProfitability();
               applyFilter(true);
             }}
-            color={filterState.profitabilityFilter.active ? 'blue' : 'red'}
           >
-            <Button>{filterState.profitabilityFilter.value === 'Profitable' ? 'P' : 'NP'}</Button>
+            <Button className="profitability-preset-btn">
+              {filterState.profitabilityFilter.value === 'Profitable'
+                ? 'Profitable'
+                : 'Non-Profitable'}
+            </Button>
             <Dropdown
-              className="button icon"
+              className="button"
+              icon="angle down"
               floating
               options={profitablePresetOptions}
               trigger={<></>}

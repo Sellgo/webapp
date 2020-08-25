@@ -59,6 +59,71 @@
           width: 86px;
         }
 
+        &__profitability-preset {
+          border: none !important;
+          box-shadow: unset !important;
+
+          .profitability-preset-btn {
+            color: #98aeca !important;
+            border: 1px solid #98aeca !important;
+            box-shadow: unset !important;
+            border-top-left-radius: 100px !important;
+            border-bottom-left-radius: 100px !important;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            font-weight: 600 !important;
+            padding: 0 6px 0 8px;
+            height: 32px;
+          }
+
+          .ui.dropdown {
+            color: #98aeca !important;
+            border: 1px solid #98aeca !important;
+            box-shadow: unset !important;
+            border-left: none !important;
+            border-top-right-radius: 100px !important;
+            border-bottom-right-radius: 100px !important;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            font-weight: 600 !important;
+            padding: 10px 5px;
+            height: 32px;
+
+            .menu {
+              padding: 15px 0;
+              border-radius: 15px !important;
+              width: 204px;
+
+              .item:hover {
+                background-color: #98aeca !important;
+              }
+            }
+          }
+
+          &.basic {
+            .profitability-preset-btn {
+              color: #3b4557 !important;
+            }
+
+            .ui.dropdown {
+              color: #3b4557 !important;
+            }
+          }
+
+          &.blue {
+            .profitability-preset-btn {
+              color: #fff !important;
+              background-color: #349af8 !important;
+              border-right: 1px solid #4285f461 !important;
+            }
+
+            .ui.dropdown {
+              color: #fff !important;
+              background-color: #349af8 !important;
+            }
+          }
+        }
+
         &--period {
           width: 124px;
         }
