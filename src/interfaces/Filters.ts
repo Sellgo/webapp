@@ -90,7 +90,6 @@ export interface ProductTrackerFilterState {
   reviews: string[];
   amazonChoice: string[];
   period: number;
-  profitability: string;
   profitabilityFilter: {
     value: string;
     active: boolean;

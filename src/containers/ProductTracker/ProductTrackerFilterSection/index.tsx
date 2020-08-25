@@ -70,7 +70,6 @@ function ProductTrackerFilterSection(props: Props) {
     amazonChoice: ['not-amazon-products'],
     reviews: [],
     removeNegative: [],
-    profitability: 'All Products',
     profitabilityFilter: {
       value: 'Profitable',
       active: false,
@@ -99,9 +98,6 @@ function ProductTrackerFilterSection(props: Props) {
   }
 
   useEffect(() => {
-    if (filterState.profitability === undefined) {
-      filterState.profitability = filterInitialData.profitability;
-    }
     /*
       Reset filter when changing groups
     */
@@ -506,29 +502,7 @@ function ProductTrackerFilterSection(props: Props) {
     if (onClick) {
       setFilterType('');
     }
-  };
-
-  const resetProfitabilityPreset = (preset?: true) => {
-    const data = _.map(presetFilter, filter => {
-      if (filter.dataKey === 'profitability-preset') {
-        filter.checkedValue = 'profitability';
-        _.map(filter.data, dk => {
-          if (filter.dataKey === 'profitability') {
-            dk.checked = true;
-          }
-          return dk;
-        });
-      }
-      return filter;
-    });
-    const filterValue = filterState;
-    filterState.profitability = 'All Products';
-    if (!preset) {
-      filterValue.avg_profit = filteredRanges.avg_profit;
-    }
-
-    setPresetFilter(data);
-    setFilterState(filterValue);
+    applyFilter();
   };
 
   const resetAmazonChoicePreset = () => {
@@ -549,7 +523,6 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const resetPreset = () => {
-    resetProfitabilityPreset();
     resetAmazonChoicePreset();
     applyFilter(true);
   };
@@ -575,29 +548,7 @@ function ProductTrackerFilterSection(props: Props) {
     }
     setFilterState(filterValue);
   };
-  const setRadioFilter = (filterType: string, value: string) => {
-    resetSingleFilter('profit');
-    const data = _.map(presetFilter, filter => {
-      if (filter.dataKey === filterType) {
-        filter.checkedValue = value;
-      }
-      return filter;
-    });
-    const filterValue = filterState;
-    filterState.profitability = value;
 
-    if (value === 'Profitable') {
-      filterValue.avg_profit.min = 0.01;
-      filterValue.avg_profit.max = rangeData.avg_profit.max;
-    } else if (value === 'Non-Profitable Products') {
-      filterValue.avg_profit.min = rangeData.avg_profit.min;
-      filterValue.avg_profit.max = 0;
-    } else {
-      filterValue.avg_profit = rangeData.avg_profit;
-    }
-    setPresetFilter(data);
-    setFilterState(filterValue);
-  };
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
@@ -708,7 +659,6 @@ function ProductTrackerFilterSection(props: Props) {
           toggleReviewsCheckbox={toggleReviewsCheckbox}
           toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           toggleNegative={toggleNegative}
-          setRadioFilter={setRadioFilter}
           resetPreset={resetPreset}
         />
       </>
