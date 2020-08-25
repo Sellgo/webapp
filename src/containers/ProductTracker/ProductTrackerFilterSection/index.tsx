@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dropdown } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 import {
@@ -71,6 +71,10 @@ function ProductTrackerFilterSection(props: Props) {
     reviews: [],
     removeNegative: [],
     profitability: 'All Products',
+    profitabilityFilter: {
+      value: 'Profitable',
+      active: false,
+    },
     period: DEFAULT_PERIOD,
     avg_price: filteredRanges.avg_price,
     avg_profit: filteredRanges.avg_profit,
@@ -86,14 +90,15 @@ function ProductTrackerFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
+
+  if (filterState.amazonChoice === undefined) {
+    filterState.amazonChoice = filterInitialData.amazonChoice;
+  }
+  if (filterState.profitabilityFilter === undefined) {
+    filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
+  }
+
   useEffect(() => {
-    /*
-      For new data in filters , will be remove in future
-      7/23/2020 - amazonChoice, profitability
-    */
-    if (filterState.amazonChoice === undefined) {
-      filterState.amazonChoice = filterInitialData.amazonChoice;
-    }
     if (filterState.profitability === undefined) {
       filterState.profitability = filterInitialData.profitability;
     }
@@ -293,6 +298,12 @@ function ProductTrackerFilterSection(props: Props) {
       },
     ],
   };
+
+  const profitablePresetOptions = [
+    { key: 'profitability', text: 'P', value: 'Profitable' },
+    { key: 'non-profitable-products', text: 'NP', value: 'Non-Profitable Products' },
+  ];
+
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
   const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
@@ -452,7 +463,7 @@ function ProductTrackerFilterSection(props: Props) {
       !isPreset &&
       JSON.stringify(initialFilterState.avg_profit) !== JSON.stringify(filterState.avg_profit)
     ) {
-      resetProfitabilityPreset(!isPreset);
+      filterState.profitabilityFilter.active = false;
     }
 
     filterProducts(filterState, activeGroupId);
@@ -542,6 +553,28 @@ function ProductTrackerFilterSection(props: Props) {
     resetAmazonChoicePreset();
     applyFilter(true);
   };
+
+  const setProfitability = (value?: any) => {
+    const filterValue = _.cloneDeep(filterState);
+    const objData = {
+      value: value ? value : filterValue.profitabilityFilter.value,
+      active: value ? true : !filterValue.profitabilityFilter.active,
+    };
+    filterValue.profitabilityFilter = objData;
+
+    if (filterValue.profitabilityFilter.active) {
+      if (filterValue.profitabilityFilter.value === 'Profitable') {
+        filterValue.avg_profit.min = 0.01;
+        filterValue.avg_profit.max = rangeData.avg_profit.max;
+      } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
+        filterValue.avg_profit.min = rangeData.avg_profit.min;
+        filterValue.avg_profit.max = 0;
+      }
+    } else {
+      filterValue.avg_profit = rangeData.avg_profit;
+    }
+    setFilterState(filterValue);
+  };
   const setRadioFilter = (filterType: string, value: string) => {
     resetSingleFilter('profit');
     const data = _.map(presetFilter, filter => {
@@ -620,6 +653,26 @@ function ProductTrackerFilterSection(props: Props) {
             </span>
             <Icon name="angle down" />
           </Button>
+
+          <Button.Group
+            onClick={() => {
+              setProfitability();
+              applyFilter(true);
+            }}
+            color={filterState.profitabilityFilter.active ? 'blue' : 'red'}
+          >
+            <Button>{filterState.profitabilityFilter.value === 'Profitable' ? 'P' : 'NP'}</Button>
+            <Dropdown
+              className="button icon"
+              floating
+              options={profitablePresetOptions}
+              trigger={<></>}
+              onChange={(e, data) => {
+                setProfitability(data.value);
+                applyFilter(true);
+              }}
+            />
+          </Button.Group>
         </div>
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {

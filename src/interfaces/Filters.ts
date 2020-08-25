@@ -91,6 +91,10 @@ export interface ProductTrackerFilterState {
   amazonChoice: string[];
   period: number;
   profitability: string;
+  profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
   price: {
     min: number;
     max: number;
