@@ -28,6 +28,18 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'ASIN',
+    dataKey: 'asin',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'UPC',
+    dataKey: 'upc',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Price',
     dataKey: 'price',
     visible: true,

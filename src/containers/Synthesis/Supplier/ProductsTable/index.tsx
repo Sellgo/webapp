@@ -109,6 +109,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderCheckBox = (row: Product) => {
+    console.log('row: ', row);
     const { checkedRows } = this.state;
     let checked = false;
     if (checkedRows[row.id] !== undefined) {
@@ -117,6 +118,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return <ProductCheckBox item={row} checked={checked} onClick={this.handleItemSelect} />;
   };
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
+
+  renderASIN = (row: Product) => <p className="stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
+
+  renderUPC = (row: Product) => <p className="stat">{showNAIfZeroOrNull(row.upc, row.upc)}</p>;
+
   renderPrice = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
@@ -337,6 +343,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderProductInfo,
+    },
+    {
+      label: 'ASIN',
+      dataKey: 'asin',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderASIN,
+    },
+    {
+      label: 'UPC',
+      dataKey: 'upc',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderUPC,
     },
     {
       label: 'Price',
