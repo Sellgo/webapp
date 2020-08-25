@@ -41,6 +41,10 @@ export interface FilterState {
   supplierID: string;
   allFilter: string[];
   profitability: string;
+  profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
   amazonChoice: string[];
   removeNegative: string[];
   sizeTierFilter: string[];

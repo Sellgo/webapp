@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
+import { Button, Icon, Image, Modal, Popup, List, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
@@ -51,7 +51,6 @@ function ProfitFinderFilterSection(props: Props) {
     filteredProducts,
     sellerSubscription,
   } = props;
-
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
@@ -90,6 +89,10 @@ function ProfitFinderFilterSection(props: Props) {
       'Others',
     ],
     profitability: 'All Products',
+    profitabilityFilter: {
+      value: 'Profitable',
+      active: false,
+    },
     removeNegative: [],
     price: filteredRanges.price,
     profit: filteredRanges.profit,
@@ -150,6 +153,9 @@ function ProfitFinderFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
+  if (filterState.profitabilityFilter === undefined) {
+    filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
+  }
   useEffect(() => {
     if (isSelectAllCategories || !filterStorage) {
       selectAllCategories(true);
@@ -511,6 +517,10 @@ function ProfitFinderFilterSection(props: Props) {
     ],
   };
 
+  const profitablePresetOptions = [
+    { key: 'profitability', text: 'P', value: 'Profitable' },
+    { key: 'non-profitable-products', text: 'NP', value: 'Non-Profitable Products' },
+  ];
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
   const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
@@ -668,7 +678,33 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
+  const setProfitability = (value?: any) => {
+    const filterValue = filterState;
+    // if (!value) filterState.profitabilityFilter.active = false;
+
+    const objData = {
+      value: value ? value : filterValue.profitabilityFilter.value,
+      active: value ? true : !filterValue.profitabilityFilter.active,
+    };
+    filterValue.profitabilityFilter = objData;
+
+    if (filterValue.profitabilityFilter.active) {
+      if (filterValue.profitabilityFilter.value === 'Profitable') {
+        filterValue.profit.min = 0.01;
+        filterValue.profit.max = rangeData.profit.max;
+      } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
+        filterValue.profit.min = rangeData.profit.min;
+        filterValue.profit.max = 0;
+      }
+    } else {
+      filterValue.profit = rangeData.profit;
+    }
+    setFilterState(filterValue);
+  };
   const setRadioFilter = (filterType: string, value: string) => {
+    console.log('filterType: ', filterType);
+    console.log('value: ', value);
+    console.log('filterState: ', filterState);
     resetSingleFilter('profit');
     const data = _.map(presetFilter, filter => {
       if (filter.dataKey === filterType) {
@@ -907,6 +943,25 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">More</span>
             <Icon name="angle down" />
           </Button>
+          <Button.Group
+            onClick={() => {
+              setProfitability();
+              applyFilter(true);
+            }}
+            color={filterState.profitabilityFilter.active ? 'blue' : 'red'}
+          >
+            <Button>{filterState.profitabilityFilter.value === 'Profitable' ? 'P' : 'NP'}</Button>
+            <Dropdown
+              className="button icon"
+              floating
+              options={profitablePresetOptions}
+              trigger={<></>}
+              onChange={(e, data) => {
+                setProfitability(data.value);
+                applyFilter(true);
+              }}
+            />
+          </Button.Group>
         </div>
 
         <div className="leads-export-wrapper">
