@@ -1,6 +1,8 @@
 import React from 'react';
 import { Dropdown, Button, Input, Icon } from 'semantic-ui-react';
 import './index.scss';
+import { selectItemsCountList } from '../../constants';
+
 interface PaginationProps {
   totalRecords?: number;
   currentPage: number;
@@ -27,12 +29,6 @@ const Pagination = (props: PaginationProps) => {
   } = props;
 
   const [page, setPage] = React.useState(currentPage);
-
-  const options = [
-    { key: 1, text: '50', value: 50 },
-    { key: 2, text: '100', value: 100 },
-    { key: 3, text: '200', value: 200 },
-  ];
 
   const onPageSizeChanges = (evt: any, data: any) => {
     evt.stopPropagation();
@@ -69,7 +65,7 @@ const Pagination = (props: PaginationProps) => {
             <Dropdown
               text={`${pageSize}`}
               value={pageSize}
-              options={options}
+              options={selectItemsCountList}
               className="page-size-input"
               selection
               onChange={onPageSizeChanges}

@@ -27,6 +27,13 @@ export interface Product {
   dimension: string;
   weight: string;
   size_tier: string;
+  fba_fee: string;
+  referral_fee: string;
+  variable_closing_fee: string;
+  num_fba_new_offers: number;
+  num_fbm_new_offers: number;
+  low_new_fba_price: string;
+  low_new_fbm_price: string;
 }
 export interface ProductsTrackData {
   avg_price: string;

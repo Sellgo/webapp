@@ -306,7 +306,7 @@
 @media (max-width: 1920px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 417px;
+      top: 420px;
     }
 
     &.scroll-top.sticky-chart-active {
@@ -347,6 +347,18 @@
 
     &.scroll-top.sticky-chart-active {
       top: 361px;
+    }
+  }
+}
+
+@media (max-width: 1367px) {
+  .filter-section {
+    &.sticky-chart-active {
+      top: 404px;
+    }
+
+    &.scroll-top.sticky-chart-active {
+      top: 450px;
     }
   }
 }

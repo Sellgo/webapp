@@ -45,6 +45,7 @@ interface TrackerProps {
   periodValue: any;
   handleMoveGroup: any;
   handleUntrack: any;
+  currentActiveColumn: string;
   postCreateProductTrackGroup: (name: any) => void;
   updateProductTrackGroup: (updatedGroup: any) => void;
   deleteProductTrackGroup: (deletedGroup: any) => void;
@@ -76,6 +77,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     groupError: false,
     activeRow: null,
     columns: [],
+    defaultSort: '',
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -520,6 +522,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       subscriptionType,
       scrollTopSelector,
       stickyChartSelector,
+      currentActiveColumn,
     } = this.props;
     const { ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
@@ -551,6 +554,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
           <GenericTable
+            currentActiveColumn={currentActiveColumn}
             stickyChartSelector={stickyChartSelector}
             scrollTopSelector={scrollTopSelector}
             columnFilterBox={ColumnFilterBox}
@@ -577,6 +581,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             columnDnD={true}
             middleScroll={true}
             rowExpander={this.renderDV}
+            defaultSort={this.state.defaultSort}
+            onSort={defaultSort => this.setState({ defaultSort })}
           />
         ) : (
           <Segment className="product-tracker-loader">
@@ -602,6 +608,7 @@ const mapStateToProps = (state: any) => {
     subscriptionType: get(state, 'subscription.subscriptionType'),
     scrollTopSelector: get(state, 'supplier.setScrollTop'),
     stickyChartSelector: get(state, 'supplier.setStickyChart'),
+    currentActiveColumn: get(state, 'supplier.activeColumn'),
   };
 };
 

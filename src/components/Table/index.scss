@@ -552,7 +552,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 485px;
+        top: 494px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -580,7 +580,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 387px;
+        top: 399px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -608,7 +608,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 352px;
+        top: 366px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -636,7 +636,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 260px;
+        top: 272px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -664,7 +664,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 260px;
+        top: 258px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -696,7 +696,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 237px;
+        top: 252px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -708,11 +708,39 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 340px;
+            top: 330px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
             top: 397px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1367px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 360px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 360px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 434px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 483px;
           }
         }
       }
