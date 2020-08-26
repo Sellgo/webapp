@@ -9,7 +9,7 @@ import {
   RESET_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_DETAILS,
   RESET_SUPPLIER,
-  UPDATE_SUPPLIER_PRODUCT,
+  UPDATE_SUPPLIER_PRODUCT_TRACK,
   UPDATE_PROFIT_FINDER_PRODUCTS,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
   UPDATE_SUPPLIER_FILTER_RANGES,
@@ -20,7 +20,7 @@ import {
   SEARCH_SUPPLIER_PRODUCTS,
   findFilteredProducts,
   searchFilteredProduct,
-  UPDATE_SUPPLIER_PRODUCTS,
+  UPDATE_SUPPLIER_PRODUCT_TRACKS,
   SET_SUPPLIER_PAGE_NUMBER,
   SET_STICKY_CHART,
   SET_CONTEXT_SCROLL,
@@ -28,6 +28,7 @@ import {
   SET_IS_SCROLL,
   SET_ACTIVE_COLUMN,
   SET_SORT_COLUMN,
+  UPDATE_SUPPLIER_PRODUCT,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -86,7 +87,7 @@ export default (state = initialState, action: AnyAction) => {
     case SET_SUPPLIER_DETAILS: {
       return setIn(state, 'details', action.payload);
     }
-    case UPDATE_SUPPLIER_PRODUCT: {
+    case UPDATE_SUPPLIER_PRODUCT_TRACK: {
       const updateProduct = action.payload;
       const products = get(state, 'products').map((product: any) => {
         const checkProduct = product;
@@ -98,7 +99,7 @@ export default (state = initialState, action: AnyAction) => {
       });
       return setIn(state, 'products', products);
     }
-    case UPDATE_SUPPLIER_PRODUCTS: {
+    case UPDATE_SUPPLIER_PRODUCT_TRACKS: {
       const updateProducts = action.payload;
       const products = get(state, 'products').map((product: any) => {
         const checkProduct = product;
@@ -169,6 +170,17 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_PRODUCTS_LOADING_DATA_BUSTER: {
       return setIn(state, 'productsLoadingDataBuster', action.payload);
+    }
+    case UPDATE_SUPPLIER_PRODUCT: {
+      const updateProduct = action.payload;
+      const products = get(state, 'products').map((product: any) => {
+        return product.product_id === updateProduct.product_id ? updateProduct : product;
+      });
+      const nextState = setIn(state, 'products', products);
+      const filteredProducts = get(state, 'filteredProducts').map((product: any) => {
+        return product.product_id === updateProduct.product_id ? updateProduct : product;
+      });
+      return setIn(nextState, 'filteredProducts', filteredProducts);
     }
     default:
       return state;

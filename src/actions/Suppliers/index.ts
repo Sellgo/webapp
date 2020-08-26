@@ -31,13 +31,13 @@ import {
   SET_SUPPLIER_PRODUCTS_TRACK_DATA,
   RESET_SUPPLIER,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
-  UPDATE_SUPPLIER_PRODUCT,
+  UPDATE_SUPPLIER_PRODUCT_TRACK,
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   FILTER_SUPPLIER_PRODUCTS,
   SEARCH_SUPPLIER_PRODUCTS,
-  UPDATE_SUPPLIER_PRODUCTS,
+  UPDATE_SUPPLIER_PRODUCT_TRACKS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
   SET_SUPPLIER_PAGE_NUMBER,
   SET_STICKY_CHART,
@@ -47,6 +47,7 @@ import {
   SET_ACTIVE_COLUMN,
   SET_SORT_COLUMN,
   SET_PRODUCTS_LOADING_DATA_BUSTER,
+  UPDATE_SUPPLIER_PRODUCT,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -449,7 +450,7 @@ export const updateProductTrackingStatus = (
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(updateSupplierProduct(json.data));
+          dispatch(updateSupplierProductTrack(json.data));
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
@@ -471,7 +472,7 @@ export const updateProductTrackingStatus = (
               dispatch(setMenuItem(menuItem));
             }
           } else {
-            dispatch(updateSupplierProduct(json.data));
+            dispatch(updateSupplierProductTrack(json.data));
           }
         })
         .catch(err => {
@@ -497,7 +498,7 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
     .then(json => {
       success('Request succeeded');
       dispatch(getSellerQuota());
-      dispatch(updateSupplierProducts(json.data));
+      dispatch(updateSupplierProductTracks(json.data));
     })
     .catch(err => {
       console.log('err.response', err.response);
@@ -523,7 +524,7 @@ export const requestProductBulkUnTracking = (products: { product_id: number }[])
     .then(json => {
       success('Request succeeded');
       dispatch(getSellerQuota());
-      dispatch(updateSupplierProducts(json.data));
+      dispatch(updateSupplierProductTracks(json.data));
     })
     .catch(err => {
       console.log('err.response', err.response);
@@ -535,13 +536,13 @@ export const requestProductBulkUnTracking = (products: { product_id: number }[])
     });
 };
 
-export const updateSupplierProduct = (data: any) => ({
-  type: UPDATE_SUPPLIER_PRODUCT,
+export const updateSupplierProductTrack = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCT_TRACK,
   payload: data,
 });
 
-export const updateSupplierProducts = (data: any) => ({
-  type: UPDATE_SUPPLIER_PRODUCTS,
+export const updateSupplierProductTracks = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCT_TRACKS,
   payload: data,
 });
 
@@ -769,29 +770,39 @@ export const triggerDataBuster = (synthesisFileID: number, productID: number) =>
 ) => {
   const sellerID = sellerIDSelector();
   const productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
+  const supplier = supplierDetailsSelector(getState());
+
   const bodyFormData = new FormData();
+  bodyFormData.set('product_id', String(productID));
   bodyFormData.set('synthesis_file_id', String(synthesisFileID));
-  // return Axios.post(
-  //   AppConfig.BASE_URL_API +
-  //     `sellers/${sellerID}/suppliers/${supplier.supplier_id}/synthesis/rerun`,
-  //   bodyFormData
-  // )
-  //   .then(() => {
-  //     dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
-  //     dispatch(fetchSynthesisProgressUpdates());
-  //     success('Rerun successfully initiated!');
-  //     setProductsLoadingDataBuster(productsLoadingDataBuster.filter(i => i !== productID));
-  //   })
-  //   .catch(err => {
-  //     if (err.response.status === 401) {
-  //       dispatch(handleUnauthorizedMwsAuth());
-  //     } else {
-  //       error('Rerun failed. Try again!');
-  //     }
-  //   });
+
+  dispatch(setProductsLoadingDataBuster([...productsLoadingDataBuster, productID]));
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplier.supplier_id}/data-buster`,
+    bodyFormData
+  )
+    .then(response => {
+      const bustedData = response.data;
+      // update products & filteredProducts
+      console.log(bustedData);
+      console.log('Trying to update supplier product');
+      dispatch(updateSupplierProduct(response.data));
+      dispatch(
+        setProductsLoadingDataBuster(productsLoadingDataBuster.filter(i => i !== productID))
+      );
+      console.log(bustedData);
+    })
+    .catch(() => {
+      // display error
+    });
 };
 
 export const setProductsLoadingDataBuster = (value: number[]) => ({
   type: SET_PRODUCTS_LOADING_DATA_BUSTER,
   payload: value,
+});
+
+export const updateSupplierProduct = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCT,
+  payload: data,
 });

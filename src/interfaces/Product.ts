@@ -36,7 +36,7 @@ export interface Product {
   low_new_fbm_price: string;
   is_amazon_selling: boolean;
   reviews: number;
-  rating: number;
+  rating: string;
 }
 export interface ProductsTrackData {
   avg_price: string;

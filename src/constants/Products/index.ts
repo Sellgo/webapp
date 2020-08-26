@@ -40,12 +40,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Is Amazon Selling',
-    dataKey: 'is_amazon_selling',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Price',
     dataKey: 'price',
     visible: true,

@@ -29,8 +29,12 @@ import ProductCheckBox from './productCheckBox';
 import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
 
-import { supplierPageNumberSelector } from '../../../../selectors/Supplier';
+import {
+  supplierPageNumberSelector,
+  supplierDetailsSelector,
+} from '../../../../selectors/Supplier';
 import { isSubscriptionFree } from '../../../../utils/subscriptions';
+import { Supplier } from '../../../../interfaces/Supplier';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -58,7 +62,9 @@ interface ProductsTableProps {
   setPageNumber: (pageNumber: number) => void;
   searchProducts: (value: string, filterData: any) => void;
   updateProfitFinderProducts: (data: any) => void;
+  supplierDetails: Supplier;
   productsLoadingDataBuster: number[];
+  bustData: (synthesisFileID: number, productID: number) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -187,37 +193,33 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       {showNAIfZeroOrNull(row.low_new_fbm_price, formatCurrency(row.low_new_fbm_price))}
     </p>
   );
-  renderIsAmazonSelling = (row: Product) => (
-    <p className="stat">
-      {row.is_amazon_selling !== undefined && row.is_amazon_selling !== null
-        ? row.is_amazon_selling === true
-          ? 'Yes'
-          : 'No'
-        : this.renderDataBusterIcon(row.product_id)}
-    </p>
-  );
   renderReviews = (row: Product) => (
     <p className="stat">
-      {row.reviews
+      {row.reviews !== undefined && row.reviews !== null
         ? showNAIfZeroOrNull(row.reviews, row.reviews)
         : this.renderDataBusterIcon(row.product_id)}
     </p>
   );
   renderRating = (row: Product) => (
     <p className="stat">
-      {row.rating
+      {row.rating !== undefined && row.rating !== null
         ? showNAIfZeroOrNull(row.rating, row.rating)
         : this.renderDataBusterIcon(row.product_id)}
     </p>
   );
 
   renderDataBusterIcon = (productId: number) => {
-    const { productsLoadingDataBuster } = this.props;
+    const { productsLoadingDataBuster, bustData, supplierDetails } = this.props;
 
     return productsLoadingDataBuster.includes(productId) ? (
       <Icon loading name="refresh" color="blue" />
     ) : (
-      <Icon name="info circle" color="blue" onClick={() => alert('hi')} />
+      <Icon
+        name="info circle"
+        color="blue"
+        style={{ cursor: 'pointer' }}
+        onClick={() => bustData(supplierDetails.synthesis_file_id, productId)}
+      />
     );
   };
 
@@ -341,14 +343,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
-    },
-    {
-      label: 'Is Amazon\nSelling',
-      dataKey: 'is_amazon_selling',
-      type: 'string',
-      show: true,
-      sortable: true,
-      render: this.renderIsAmazonSelling,
     },
     {
       label: 'Price',
@@ -618,7 +612,7 @@ const mapStateToProps = (state: {}) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
-  supplierDetails: get(state, 'supplier.details'),
+  supplierDetails: supplierDetailsSelector(state),
   productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
 });
 
@@ -644,7 +638,7 @@ const mapDispatchToProps = {
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
-  triggerDataBuster: (synthesisFileID: number, productID: number) =>
+  bustData: (synthesisFileID: number, productID: number) =>
     triggerDataBuster(synthesisFileID, productID),
 };
 
