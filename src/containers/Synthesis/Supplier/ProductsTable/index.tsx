@@ -182,6 +182,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderCategory = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.amazon_category_name, row.amazon_category_name)}</p>
   );
+  renderPackageQuantity = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.package_quantity, row.package_quantity)}</p>
+  );
   renderSizeTiers = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
   );
@@ -439,6 +442,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderCategory,
+    },
+    {
+      label: 'Package \nQuantity',
+      dataKey: 'package_quantity',
+      type: 'string',
+      sortable: true,
+      show: true,
+      render: this.renderPackageQuantity,
     },
     {
       label: 'Size Tier',
