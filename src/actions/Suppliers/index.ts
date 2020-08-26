@@ -782,15 +782,10 @@ export const triggerDataBuster = (synthesisFileID: number, productID: number) =>
     bodyFormData
   )
     .then(response => {
-      const bustedData = response.data;
-      // update products & filteredProducts
-      console.log(bustedData);
-      console.log('Trying to update supplier product');
       dispatch(updateSupplierProduct(response.data));
       dispatch(
         setProductsLoadingDataBuster(productsLoadingDataBuster.filter(i => i !== productID))
       );
-      console.log(bustedData);
     })
     .catch(() => {
       // display error
