@@ -124,6 +124,12 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Package Quantity',
+    dataKey: 'package_quantity',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Category',
     dataKey: 'amazon_category_name',
     visible: true,

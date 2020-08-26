@@ -232,6 +232,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       )}
     </p>
   );
+  renderPackageQuantity = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(row.package_quantity, formatNumber(row.package_quantity))}
+    </p>
+  );
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
@@ -465,6 +470,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       render: this.renderNumFbmNewOffers,
+    },
+    {
+      label: 'Package\nQuantity',
+      dataKey: 'package_quantity',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderPackageQuantity,
     },
     {
       label: 'Category',
