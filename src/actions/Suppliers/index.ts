@@ -10,6 +10,7 @@ import {
   getSynthesisId,
   suppliersByIdSelector,
   supplierDetailsSelector,
+  productsLoadingDataBusterSelector,
 } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -45,6 +46,7 @@ import {
   SET_IS_SCROLL,
   SET_ACTIVE_COLUMN,
   SET_SORT_COLUMN,
+  SET_PRODUCTS_LOADING_DATA_BUSTER,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -758,5 +760,38 @@ export const setActiveColumn = (value?: string) => ({
 
 export const setSortColumn = (value?: string) => ({
   type: SET_SORT_COLUMN,
+  payload: value,
+});
+
+export const triggerDataBuster = (synthesisFileID: number, productID: number) => (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerID = sellerIDSelector();
+  const productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
+  const bodyFormData = new FormData();
+  bodyFormData.set('synthesis_file_id', String(synthesisFileID));
+  // return Axios.post(
+  //   AppConfig.BASE_URL_API +
+  //     `sellers/${sellerID}/suppliers/${supplier.supplier_id}/synthesis/rerun`,
+  //   bodyFormData
+  // )
+  //   .then(() => {
+  //     dispatch(updateSupplier({ ...supplier, ...{ progress: 0, file_status: 'pending' } }));
+  //     dispatch(fetchSynthesisProgressUpdates());
+  //     success('Rerun successfully initiated!');
+  //     setProductsLoadingDataBuster(productsLoadingDataBuster.filter(i => i !== productID));
+  //   })
+  //   .catch(err => {
+  //     if (err.response.status === 401) {
+  //       dispatch(handleUnauthorizedMwsAuth());
+  //     } else {
+  //       error('Rerun failed. Try again!');
+  //     }
+  //   });
+};
+
+export const setProductsLoadingDataBuster = (value: number[]) => ({
+  type: SET_PRODUCTS_LOADING_DATA_BUSTER,
   payload: value,
 });

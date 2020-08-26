@@ -2,6 +2,7 @@ import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
 import get from 'lodash/get';
 import {
+  SET_PRODUCTS_LOADING_DATA_BUSTER,
   IS_LOADING_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PRODUCTS,
   SET_SUPPLIER_PRODUCTS_TRACK_DATA,
@@ -62,6 +63,7 @@ const initialState = {
   },
   singlePageItemsCount: Number(selectItemsCountList[0].value),
   pageNumber: 1,
+  productsLoadingDataBuster: [],
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -162,8 +164,12 @@ export default (state = initialState, action: AnyAction) => {
     case SET_IS_SCROLL: {
       return setIn(state, 'setIsScroll', action.payload);
     }
-    case SUPPLIER_QUOTA:
+    case SUPPLIER_QUOTA: {
       return setIn(state, 'quota', action.payload);
+    }
+    case SET_PRODUCTS_LOADING_DATA_BUSTER: {
+      return setIn(state, 'productsLoadingDataBuster', action.payload);
+    }
     default:
       return state;
   }

@@ -11,6 +11,7 @@ import {
   searchSupplierProducts,
   updateProfitFinderProducts,
   setSupplierPageNumber,
+  triggerDataBuster,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -57,6 +58,7 @@ interface ProductsTableProps {
   setPageNumber: (pageNumber: number) => void;
   searchProducts: (value: string, filterData: any) => void;
   updateProfitFinderProducts: (data: any) => void;
+  productsLoadingDataBuster: number[];
 }
 
 export interface CheckedRowDictionary {
@@ -118,60 +120,35 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
   renderPrice = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.price, formatCurrency(row.price))}</p>
   );
 
   renderCost = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(
-        row.product_cost && row.product_cost !== '0.00',
-        formatCurrency(row.product_cost)
-      )}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.product_cost, formatCurrency(row.product_cost))}</p>
   );
 
   renderProfit = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.profit && row.profit !== '0.00', formatCurrency(row.profit))}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
   );
   renderMargin = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.margin && row.margin !== '0.00', formatPercent(row.margin))}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
   );
   renderFee = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.fees && row.fees !== '0.00', formatCurrency(row.fees))}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
   );
   renderMonthlyRevenue = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(
-        row.monthly_revenue && row.monthly_revenue !== 0,
-        '$' + formatNumber(row.monthly_revenue)
-      )}
+      {showNAIfZeroOrNull(row.monthly_revenue, '$' + formatNumber(row.monthly_revenue))}
     </p>
   );
   renderRoi = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.roi && row.roi !== '0.00', formatPercent(row.roi))}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
   );
   renderRank = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.rank && row.rank !== 0, '#' + formatNumber(row.rank))}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
   );
   renderMonthlySalesEst = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(
-        row.sales_monthly && row.sales_monthly !== '0.00',
-        formatNumber(row.sales_monthly)
-      )}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.sales_monthly, formatNumber(row.sales_monthly))}</p>
   );
   renderCategory = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.amazon_category_name, row.amazon_category_name)}</p>
@@ -180,58 +157,69 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
   );
   renderFbaFee = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.fba_fee && row.fba_fee !== '0.00', formatCurrency(row.fba_fee))}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.fba_fee, formatCurrency(row.fba_fee))}</p>
   );
   renderReferralFee = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(
-        row.referral_fee && row.referral_fee !== '0.00',
-        formatCurrency(row.referral_fee)
-      )}
-    </p>
+    <p className="stat">{showNAIfZeroOrNull(row.referral_fee, formatCurrency(row.referral_fee))}</p>
   );
   renderVariableClosingFee = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(
-        row.variable_closing_fee && row.variable_closing_fee !== '0.00',
-        formatCurrency(row.variable_closing_fee)
-      )}
+      {showNAIfZeroOrNull(row.variable_closing_fee, formatCurrency(row.variable_closing_fee))}
     </p>
   );
   renderNumFbaNewOffers = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(
-        row.num_fba_new_offers && row.num_fba_new_offers !== 0,
-        formatNumber(row.num_fba_new_offers)
-      )}
+      {showNAIfZeroOrNull(row.num_fba_new_offers, formatNumber(row.num_fba_new_offers))}
     </p>
   );
   renderNumFbmNewOffers = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(
-        row.num_fbm_new_offers && row.num_fbm_new_offers !== 0,
-        formatNumber(row.num_fbm_new_offers)
-      )}
+      {showNAIfZeroOrNull(row.num_fbm_new_offers, formatNumber(row.num_fbm_new_offers))}
     </p>
   );
   renderLowNewFbaPrice = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(
-        row.low_new_fba_price && row.low_new_fba_price !== '0.00',
-        formatCurrency(row.low_new_fba_price)
-      )}
+      {showNAIfZeroOrNull(row.low_new_fba_price, formatCurrency(row.low_new_fba_price))}
     </p>
   );
   renderLowNewFbmPrice = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(
-        row.low_new_fbm_price && row.low_new_fbm_price !== '0.00',
-        formatCurrency(row.low_new_fbm_price)
-      )}
+      {showNAIfZeroOrNull(row.low_new_fbm_price, formatCurrency(row.low_new_fbm_price))}
     </p>
   );
+  renderIsAmazonSelling = (row: Product) => (
+    <p className="stat">
+      {row.is_amazon_selling !== undefined && row.is_amazon_selling !== null
+        ? row.is_amazon_selling === true
+          ? 'Yes'
+          : 'No'
+        : this.renderDataBusterIcon(row.product_id)}
+    </p>
+  );
+  renderReviews = (row: Product) => (
+    <p className="stat">
+      {row.reviews
+        ? showNAIfZeroOrNull(row.reviews, row.reviews)
+        : this.renderDataBusterIcon(row.product_id)}
+    </p>
+  );
+  renderRating = (row: Product) => (
+    <p className="stat">
+      {row.rating
+        ? showNAIfZeroOrNull(row.rating, row.rating)
+        : this.renderDataBusterIcon(row.product_id)}
+    </p>
+  );
+
+  renderDataBusterIcon = (productId: number) => {
+    const { productsLoadingDataBuster } = this.props;
+
+    return productsLoadingDataBuster.includes(productId) ? (
+      <Icon loading name="refresh" color="blue" />
+    ) : (
+      <Icon name="info circle" color="blue" onClick={() => alert('hi')} />
+    );
+  };
 
   renderDetailButtons = (row: Product) => {
     const { updateProductTrackingStatus, supplierID } = this.props;
@@ -337,6 +325,30 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderProductInfo,
+    },
+    {
+      label: 'Reviews',
+      dataKey: 'reviews',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderReviews,
+    },
+    {
+      label: 'Rating',
+      dataKey: 'rating',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderRating,
+    },
+    {
+      label: 'Is Amazon\nSelling',
+      dataKey: 'is_amazon_selling',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderIsAmazonSelling,
     },
     {
       label: 'Price',
@@ -606,6 +618,8 @@ const mapStateToProps = (state: {}) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
+  supplierDetails: get(state, 'supplier.details'),
+  productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
 });
 
 const mapDispatchToProps = {
@@ -630,6 +644,8 @@ const mapDispatchToProps = {
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
+  triggerDataBuster: (synthesisFileID: number, productID: number) =>
+    triggerDataBuster(synthesisFileID, productID),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
