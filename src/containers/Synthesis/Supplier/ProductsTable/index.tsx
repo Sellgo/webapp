@@ -117,6 +117,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return <ProductCheckBox item={row} checked={checked} onClick={this.handleItemSelect} />;
   };
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
+
+  renderASIN = (row: Product) => <p className="stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
+
+  renderUPC = (row: Product) => <p className="stat">{showNAIfZeroOrNull(row.upc, row.upc)}</p>;
+
   renderPrice = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.price && row.price !== '0.00', formatCurrency(row.price))}
@@ -176,6 +181,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderCategory = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.amazon_category_name, row.amazon_category_name)}</p>
   );
+  renderPackageQuantity = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.package_quantity, row.package_quantity)}</p>
+  );
   renderSizeTiers = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
   );
@@ -230,11 +238,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         row.low_new_fbm_price && row.low_new_fbm_price !== '0.00',
         formatCurrency(row.low_new_fbm_price)
       )}
-    </p>
-  );
-  renderPackageQuantity = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.package_quantity, formatNumber(row.package_quantity))}
     </p>
   );
 
@@ -342,6 +345,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderProductInfo,
+    },
+    {
+      label: 'ASIN',
+      dataKey: 'asin',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderASIN,
+    },
+    {
+      label: 'UPC',
+      dataKey: 'upc',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderUPC,
     },
     {
       label: 'Price',

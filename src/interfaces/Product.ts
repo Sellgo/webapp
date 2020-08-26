@@ -34,7 +34,7 @@ export interface Product {
   num_fbm_new_offers: number;
   low_new_fba_price: string;
   low_new_fbm_price: string;
-  package_quantity: number;
+  package_quantity: string;
 }
 export interface ProductsTrackData {
   avg_price: string;
