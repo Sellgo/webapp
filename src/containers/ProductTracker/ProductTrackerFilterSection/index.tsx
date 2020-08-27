@@ -67,7 +67,7 @@ function ProductTrackerFilterSection(props: Props) {
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
     sellerID: sellerID,
-    amazonChoice: ['not-amazon-products'],
+    amazonChoice: [],
     reviews: [],
     removeNegative: [],
     profitabilityFilter: {
@@ -296,11 +296,12 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const profitablePresetOptions = [
-    { key: 'profitability', text: 'Profitable Products', value: 'Profitable' },
+    { key: 'profitability', text: 'Profitable Products', value: 'Profitable', active: false },
     {
       key: 'non-profitable-products',
       text: 'Non-Profitable Products',
       value: 'Non-Profitable Products',
+      active: false,
     },
   ];
 
@@ -629,6 +630,7 @@ function ProductTrackerFilterSection(props: Props) {
               floating
               options={profitablePresetOptions}
               trigger={<></>}
+              selectOnBlur={false}
               onChange={(e, data) => {
                 setProfitability(data.value);
                 applyFilter(true);

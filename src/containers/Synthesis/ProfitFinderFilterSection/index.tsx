@@ -864,6 +864,7 @@ function ProfitFinderFilterSection(props: Props) {
               floating
               options={profitablePresetOptions}
               trigger={<></>}
+              selectOnBlur={false}
               onChange={(e, data) => {
                 setProfitability(data.value);
                 applyFilter(true);

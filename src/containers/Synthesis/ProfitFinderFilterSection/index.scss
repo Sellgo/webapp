@@ -90,6 +90,7 @@
       &__profitability-preset {
         border: none !important;
         box-shadow: unset !important;
+        background: white;
 
         .profitability-preset-btn {
           color: #98aeca !important;
@@ -100,7 +101,7 @@
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
           font-weight: 600 !important;
-          padding: 0 6px 0 8px;
+          padding: 0 10px 0 15px;
           height: 32px;
         }
 
@@ -125,6 +126,10 @@
             .item:hover {
               background-color: #98aeca !important;
             }
+          }
+
+          .angle.down {
+            margin: 0 0.1em 0 -0.114286em;
           }
         }
 
