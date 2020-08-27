@@ -752,6 +752,26 @@ i.icon.filter::before {
   height: 10px !important;
 }
 
+.xs-column {
+  min-width: 50px !important;
+}
+
+.sm-column {
+  min-width: 96px !important;
+}
+
+.md-column {
+  min-width: 110px !important;
+}
+
+.lg-column {
+  min-width: 142px !important;
+}
+
+.xl-column {
+  min-width: 195px !important;
+}
+
 @media only screen and (min-width: 1024px) and (max-width: 1279px) {
   .middle-body {
     max-width: 290px !important;
