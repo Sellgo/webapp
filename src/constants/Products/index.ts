@@ -148,12 +148,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Package Quantity',
-    dataKey: 'package_quantity',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Size Tier',
     dataKey: 'size_tier',
     visible: true,
