@@ -47,6 +47,12 @@ const Pagination = (props: PaginationProps) => {
     }
   };
 
+  const onBlur = () => {
+    if (!page) {
+      setPage(currentPage);
+    }
+  };
+
   const onNext = () => onNextPage(currentPage + 1);
   const onPrev = () => onPrevPage(currentPage - 1);
 
@@ -96,6 +102,8 @@ const Pagination = (props: PaginationProps) => {
           className="page-number-input"
           onChange={onPageNumberChanges}
           onKeyDown={onPageNumberChanges}
+          onBlur={onBlur}
+          maxLength="5"
         />
       </div>
       <div>
