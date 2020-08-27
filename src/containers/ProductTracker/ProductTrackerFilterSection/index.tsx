@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
-import { Button, Icon, Dropdown } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 import {
@@ -20,6 +20,7 @@ import {
   setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
+import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 
 interface Props {
   setPageNumber: (pageNumber: number) => void;
@@ -294,16 +295,6 @@ function ProductTrackerFilterSection(props: Props) {
       },
     ],
   };
-
-  const profitablePresetOptions = [
-    { key: 'profitability', text: 'Profitable Products', value: 'Profitable', active: false },
-    {
-      key: 'non-profitable-products',
-      text: 'Non-Profitable Products',
-      value: 'Non-Profitable Products',
-      active: false,
-    },
-  ];
 
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
@@ -609,34 +600,11 @@ function ProductTrackerFilterSection(props: Props) {
             </span>
             <Icon name="angle down" />
           </Button>
-
-          <Button.Group
-            className={`tracker-filter-section__header__all-container__button__profitability-preset ${
-              filterState.profitabilityFilter.active ? 'blue' : 'basic'
-            }`}
-            onClick={() => {
-              setProfitability();
-              applyFilter(true);
-            }}
-          >
-            <Button className="profitability-preset-btn">
-              {filterState.profitabilityFilter.value === 'Profitable'
-                ? 'Profitable'
-                : 'Non-Profitable'}
-            </Button>
-            <Dropdown
-              className="button"
-              icon="angle down"
-              floating
-              options={profitablePresetOptions}
-              trigger={<></>}
-              selectOnBlur={false}
-              onChange={(e, data) => {
-                setProfitability(data.value);
-                applyFilter(true);
-              }}
-            />
-          </Button.Group>
+          <ProfitabilityFilterPreset
+            setProfitability={setProfitability}
+            applyFilter={applyFilter}
+            filterState={filterState}
+          />
         </div>
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {

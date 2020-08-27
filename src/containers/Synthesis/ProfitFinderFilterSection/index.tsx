@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon, Image, Modal, Popup, List, Dropdown } from 'semantic-ui-react';
+import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
@@ -20,6 +20,7 @@ import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
+import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -51,6 +52,7 @@ function ProfitFinderFilterSection(props: Props) {
     filteredProducts,
     sellerSubscription,
   } = props;
+
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
@@ -490,14 +492,6 @@ function ProfitFinderFilterSection(props: Props) {
     ],
   };
 
-  const profitablePresetOptions = [
-    { key: 'profitability', text: 'Profitable Products', value: 'Profitable' },
-    {
-      key: 'non-profitable-products',
-      text: 'Non-Profitable Products',
-      value: 'Non-Profitable Products',
-    },
-  ];
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
 
@@ -844,33 +838,12 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
-          <Button.Group
-            className={`filter-header__options__profitability-preset ${
-              filterState.profitabilityFilter.active ? 'blue' : 'basic'
-            }`}
-            onClick={() => {
-              setProfitability();
-              applyFilter(true);
-            }}
-          >
-            <Button className="profitability-preset-btn">
-              {filterState.profitabilityFilter.value === 'Profitable'
-                ? 'Profitable'
-                : 'Non-Profitable'}
-            </Button>
-            <Dropdown
-              className="button"
-              icon="angle down"
-              floating
-              options={profitablePresetOptions}
-              trigger={<></>}
-              selectOnBlur={false}
-              onChange={(e, data) => {
-                setProfitability(data.value);
-                applyFilter(true);
-              }}
-            />
-          </Button.Group>
+
+          <ProfitabilityFilterPreset
+            setProfitability={setProfitability}
+            applyFilter={applyFilter}
+            filterState={filterState}
+          />
         </div>
 
         <div className="leads-export-wrapper">
