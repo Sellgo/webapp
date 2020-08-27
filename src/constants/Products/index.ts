@@ -28,6 +28,18 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'ASIN',
+    dataKey: 'asin',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'UPC',
+    dataKey: 'upc',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Reviews',
     dataKey: 'reviews',
     visible: true,
@@ -96,6 +108,12 @@ export const columnFilter = [
     value: true,
     key: 'Category',
     dataKey: 'amazon_category_name',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Package Quantity',
+    dataKey: 'package_quantity',
     visible: true,
   },
   {
