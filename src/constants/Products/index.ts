@@ -40,6 +40,18 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Reviews',
+    dataKey: 'customer_reviews',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Rating',
+    dataKey: 'rating',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Price',
     dataKey: 'price',
     visible: true,
