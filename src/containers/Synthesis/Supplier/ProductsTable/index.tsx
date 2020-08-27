@@ -204,7 +204,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderReviews = (row: Product) => (
     <p className="stat">
       {row.customer_reviews !== undefined && row.customer_reviews !== null
-        ? showNAIfZeroOrNull(row.customer_reviews, row.customer_reviews)
+        ? showNAIfZeroOrNull(row.customer_reviews, formatNumber(row.customer_reviews))
         : this.renderDataBusterIcon(row.product_id)}
     </p>
   );
