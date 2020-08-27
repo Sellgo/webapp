@@ -783,6 +783,7 @@ export const triggerDataBuster = (synthesisFileID: number, productID: number) =>
   )
     .then(response => {
       dispatch(updateSupplierProduct(response.data));
+      const productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
       dispatch(
         setProductsLoadingDataBuster(productsLoadingDataBuster.filter(i => i !== productID))
       );

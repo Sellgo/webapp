@@ -41,7 +41,7 @@ export const columnFilter = [
   {
     value: true,
     key: 'Reviews',
-    dataKey: 'reviews',
+    dataKey: 'customer_reviews',
     visible: true,
   },
   {
