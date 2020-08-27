@@ -42,13 +42,13 @@ const Pagination = (props: PaginationProps) => {
       const { value } = data;
       setPage(value);
     }
-    if (evt.key === 'Enter') {
+    if (evt.key === 'Enter' && +page !== 0) {
       onPageNumberUpdate(page);
     }
   };
 
   const onBlur = () => {
-    if (!page) {
+    if (!page || +page === 0) {
       setPage(currentPage);
     }
   };
