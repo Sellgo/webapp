@@ -45,6 +45,7 @@ Highcharts.setOptions({
 });
 const defaultOptions: Highcharts.Options = {
   chart: {
+    spacing: [5, 5, 5, 5],
     style: {
       fontFamily: 'Work Sans',
     },

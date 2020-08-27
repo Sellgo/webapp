@@ -5,7 +5,7 @@ import Auth from '../../components/Auth/Auth';
 import Summary from './Summary';
 import Login from './Login';
 import Signup from './Signup';
-import history from '../../history';
+import { createBrowserHistory } from 'history';
 
 interface SubscriptionProps {
   auth: Auth;
@@ -18,6 +18,7 @@ interface SubscriptionStates {
   paymentMode: string;
 }
 
+const history = createBrowserHistory({ forceRefresh: true });
 class Subscription extends React.Component<SubscriptionProps, SubscriptionStates> {
   state = {
     isLogin: false,
