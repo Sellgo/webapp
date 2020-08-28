@@ -45,7 +45,7 @@ const Pagination = (props: PaginationProps) => {
 
     if (evt.key === 'Enter') {
       const pageNo = getValidatedPage();
-      onPageNumberUpdate(+pageNo);
+      onPageNumberUpdate(pageNo);
       setPage(pageNo);
     }
   };
@@ -56,9 +56,9 @@ const Pagination = (props: PaginationProps) => {
     let value: any = page;
     if (!page) {
       value = currentPage;
-    } else if (+page < 1) {
+    } else if (page < 1) {
       value = 1;
-    } else if (+page > totalPages) {
+    } else if (page > totalPages) {
       value = totalPages;
     }
 
@@ -114,7 +114,6 @@ const Pagination = (props: PaginationProps) => {
           onChange={onPageNumberChanges}
           onKeyDown={onPageNumberChanges}
           onBlur={onBlur}
-          maxLength="5"
         />
       </div>
       <div>

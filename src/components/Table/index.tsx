@@ -392,7 +392,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       totalPages={totalPages}
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
-                      showPageSize
+                      showPageSize={name !== 'supplier'}
                     />
                   </div>
                 </Table.HeaderCell>
