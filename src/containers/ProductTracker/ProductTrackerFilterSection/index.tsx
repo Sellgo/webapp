@@ -102,36 +102,38 @@ function ProductTrackerFilterSection(props: Props) {
     /*
       Reset filter when changing groups
     */
-    if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
-      setFilterType('');
-      const filterValue = filterState;
-      filterValue.activeGroupId = activeGroupId;
-      setFilterState(filterValue);
-      filterProducts(filterState, activeGroupId);
-      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    } else if (filterStorage) {
-      if (resettingFilter) {
-        resetFilter();
-        setTimeout(() => {
-          applyFilter();
-          filterReset(false);
-        }, 500);
+    if (!_.isEmpty(groupProducts)) {
+      if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
+        setFilterType('');
+        const filterValue = filterState;
+        filterValue.activeGroupId = activeGroupId;
+        setFilterState(filterValue);
+        filterProducts(filterState, activeGroupId);
+        localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+      } else if (filterStorage) {
+        if (resettingFilter) {
+          resetFilter();
+          setTimeout(() => {
+            applyFilter();
+            filterReset(false);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            filterProducts(filterState, activeGroupId);
+            localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+          }, 500);
+        }
       } else {
-        setTimeout(() => {
-          filterProducts(filterState, activeGroupId);
-          localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-        }, 500);
+        resetFilter();
       }
-    } else {
-      resetFilter();
-    }
 
-    if (isAllReviews) {
-      selectAllReviews(true);
-    }
+      if (isAllReviews) {
+        selectAllReviews(true);
+      }
 
-    setHasAllFilter(isAllFilterUse());
-  }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
+      setHasAllFilter(isAllFilterUse());
+    }
+  }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts, groupProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
