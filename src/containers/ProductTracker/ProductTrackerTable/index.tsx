@@ -26,7 +26,6 @@ import {
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
 import { columnFilter } from '../../../constants/Tracker';
-import SelectItemsCount from '../../../components/Table/SelectItemsCount';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
@@ -551,16 +550,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupCancel={this.handleEditGroupCancel}
             handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
-
-          {!showTableLock && (
-            <SelectItemsCount
-              setCurrentPage={setPageNumber}
-              totalCount={filteredProducts.length}
-              singlePageItemsCount={singlePageItemsCount}
-              currentPage={productTrackerPageNo}
-              setSinglePageItemsCount={setSinglePageItemsCount}
-            />
-          )}
         </div>
         <ProductTrackerFilterSection />
         {!isLoadingTrackerProducts && productTrackerResult ? (
@@ -577,6 +566,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             expandedRows={this.state.expandedRows}
             extendedInfo={(product: any) => <ProductCharts product={product} />}
             singlePageItemsCount={singlePageItemsCount}
+            setSinglePageItemsCount={setSinglePageItemsCount}
             setPageNumber={setPageNumber}
             name={'trackerTable'}
             columnFilterData={this.state.columnFilterData}

@@ -526,13 +526,21 @@ i.icon.filter::before {
 }
 
 .pagination-cell {
-  position: absolute !important;
   width: 100% !important;
+  position: fixed !important;
+  z-index: 999;
+  bottom: 0;
+  background: #fff !important;
+  right: 10px;
+  padding: 5.8px 0.78571em !important;
+  -webkit-box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  -moz-box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
 }
 
 .pagination-container {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: flex-end !important;
 }
 
 @media (max-width: 2560px) {

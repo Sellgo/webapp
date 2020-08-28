@@ -25,3 +25,5 @@ export const supplierMetricsSelector = (state: {}) => get(state, 'suppliers.time
 
 export const supplierProductsSelector = (state: {}) => get(state, 'supplier.products');
 export const supplierPageNumberSelector = (state: {}) => get(state, 'supplier.pageNumber');
+export const productsLoadingDataBusterSelector = (state: {}): number[] =>
+  get(state, 'supplier.productsLoadingDataBuster');
