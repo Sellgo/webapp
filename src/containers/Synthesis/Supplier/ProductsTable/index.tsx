@@ -12,8 +12,6 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
   triggerDataBuster,
-  setProductsLoadingDataBuster,
-  pollDataBuster,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -67,8 +65,6 @@ interface ProductsTableProps {
   supplierDetails: Supplier;
   productsLoadingDataBuster: number[];
   bustData: (synthesisFileID: number, productIDs: number[]) => void;
-  setProductsLoadingDataBuster: typeof setProductsLoadingDataBuster;
-  pollDataBuster: () => void;
 }
 
 export interface CheckedRowDictionary {
@@ -241,7 +237,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           }
         />
       );
-    } else if (dataBusterStatus === 'pending') {
+    } else if (!dataBusterStatus) {
       return (
         <Icon
           name="info circle"
@@ -695,8 +691,6 @@ const mapDispatchToProps = {
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
   bustData: (synthesisFileID: number, productIDs: number[]) =>
     triggerDataBuster(synthesisFileID, productIDs),
-  setProductsLoadingDataBuster,
-  pollDataBuster,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

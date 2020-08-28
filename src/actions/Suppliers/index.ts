@@ -346,12 +346,7 @@ export const fetchSupplierProducts = (supplierID: any) => async (
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
     dispatch(isLoadingSupplierProducts(false));
-    dispatch(
-      setProductsLoadingDataBuster(
-        products.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
-      )
-    );
-    dispatch(pollDataBuster());
+    return products;
   } else {
     dispatch(isLoadingSupplierProducts(false));
     error('Data not found');
@@ -363,20 +358,20 @@ export const setSupplierDetails = (supplier: Supplier) => ({
   payload: supplier,
 });
 
-export const fetchSupplierDetails = (supplierID: any) => (
+export const fetchSupplierDetails = (supplierID: any) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   const sellerID = sellerIDSelector();
-
-  Axios.get(
+  const response = await Axios.get(
     `${AppConfig.BASE_URL_API}sellers/${String(
       sellerID
     )}/suppliers-compact?supplier_id=${supplierID}`
-  ).then(response => {
-    if (response.data.length) {
-      dispatch(setSupplierDetails(response.data[0]));
-    }
-  });
+  );
+  if (response.data.length) {
+    const supplier: Supplier = response.data[0];
+    dispatch(setSupplierDetails(supplier));
+    return supplier;
+  }
 };
 
 export const setSupplierProductsTrackData = (data: any) => ({
@@ -784,19 +779,19 @@ export const triggerDataBuster = (synthesisFileID: number, productIDs: number[])
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplier.supplier_id}/data-buster`,
     bodyFormData
   )
-    .then(() => dispatch(pollDataBuster()))
+    .then(() => dispatch(pollDataBuster(productIDs)))
     .catch(err => {
       error(err.response.data.message);
     });
 };
 
-export const pollDataBuster = () => async (dispatch: any, getState: any) => {
+export const pollDataBuster = (productIDs?: number[]) => async (dispatch: any, getState: any) => {
   const sellerID = sellerIDSelector();
   const supplier = supplierDetailsSelector(getState());
-  let productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
+  let productsToPoll = productIDs ? productIDs : productsLoadingDataBusterSelector(getState());
 
   do {
-    const requests = productsLoadingDataBuster.map(productId => {
+    const requests = productsToPoll.map(productId => {
       return Axios.get(
         AppConfig.BASE_URL_API +
           `sellers/${sellerID}/suppliers/${supplier.supplier_id}/data-buster/progress` +
@@ -806,7 +801,6 @@ export const pollDataBuster = () => async (dispatch: any, getState: any) => {
 
     const responses = await Promise.all(requests);
     responses.forEach(response => {
-      console.log(response.data.data_buster_status);
       if (response.data.data_buster_status !== 'processing') {
         dispatch(updateSupplierProduct(response.data));
         const productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
@@ -815,12 +809,12 @@ export const pollDataBuster = () => async (dispatch: any, getState: any) => {
             productsLoadingDataBuster.filter(i => i !== response.data.product_id)
           )
         );
+        productsToPoll = productsToPoll.filter(i => i !== response.data.product_id);
       }
     });
 
     await timeout(1000);
-    productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
-  } while (productsLoadingDataBuster.length > 0);
+  } while (productsToPoll.length > 0);
 };
 
 export const setProductsLoadingDataBuster = (value: number[]) => ({
