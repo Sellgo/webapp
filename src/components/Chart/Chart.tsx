@@ -6,7 +6,7 @@ import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import BrokenAxis from 'highcharts/modules/broken-axis';
 import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
-import { PercentAlign } from '../../utils/highchartExtensions';
+import { PercentAlign, LegendTooltip } from '../../utils/highchartExtensions';
 
 export const defaultButtonTheme: any = {
   theme: {
@@ -29,6 +29,7 @@ Boost(Highcharts);
 NoDataToDisplay(Highcharts);
 BrokenAxis(Highcharts);
 PercentAlign(Highcharts);
+LegendTooltip(Highcharts);
 
 /* 
 Define default Highchart options here.
@@ -82,10 +83,11 @@ const defaultOptions: Highcharts.Options = {
 export interface ChartProps {
   chartOptions?: any;
   componentRef?: any;
+  containerProps?: any;
 }
 
 const Chart = (props: ChartProps) => {
-  const { chartOptions, componentRef } = props;
+  const { chartOptions, componentRef, containerProps } = props;
   const options = _.merge(_.cloneDeep(defaultOptions), chartOptions);
   if (chartOptions === undefined) {
     return (
@@ -101,7 +103,14 @@ const Chart = (props: ChartProps) => {
       </Segment>
     );
   }
-  return <HighchartsReact highcharts={Highcharts} options={options} ref={componentRef} />;
+  return (
+    <HighchartsReact
+      highcharts={Highcharts}
+      options={options}
+      ref={componentRef}
+      containerProps={containerProps}
+    />
+  );
 };
 
 export default Chart;
