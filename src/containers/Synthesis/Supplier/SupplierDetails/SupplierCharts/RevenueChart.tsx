@@ -85,9 +85,9 @@ class RevenueChart extends Component<RevenueChartProps> {
                   </div>
                 );
               })}
-              <div style={styles.textStyle}>ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}</div>
+              <div style={styles.textStyle}>ROI: {showNAIfZeroOrNull(roi[x], roi[x] + '%')}</div>
               <div style={styles.textStyle}>
-                Margin(%): {showNAIfZeroOrNull(margins[x], margins[x])}
+                Margin: {showNAIfZeroOrNull(margins[x], margins[x] + '%')}
               </div>
             </Grid.Column>
           </Grid>
