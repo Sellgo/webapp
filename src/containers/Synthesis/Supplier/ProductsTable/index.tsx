@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon } from 'semantic-ui-react';
+import { Segment, Loader, Icon, Popup } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -227,11 +227,18 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       return <Icon loading name="refresh" color="blue" />;
     } else if (dataBusterStatus === 'failed') {
       return (
-        <Icon
-          name="x"
-          color="red"
-          style={{ cursor: 'pointer' }}
-          onClick={() => bustData(supplierDetails.synthesis_file_id, [productId])}
+        <Popup
+          content="Unable to find on Amazon."
+          position="top center"
+          size="tiny"
+          trigger={
+            <Icon
+              name="x"
+              color="red"
+              style={{ cursor: 'pointer' }}
+              onClick={() => bustData(supplierDetails.synthesis_file_id, [productId])}
+            />
+          }
         />
       );
     } else if (dataBusterStatus === 'pending') {
