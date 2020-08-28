@@ -3,7 +3,7 @@ import { Product } from '../../../../../interfaces/Product';
 import { renderToString } from 'react-dom/server';
 import { Grid, Image } from 'semantic-ui-react';
 import Chart from '../../../../../components/Chart/Chart';
-import { showNAIfZeroOrNull } from '../../../../../utils/format';
+import { showNAIfZeroOrNull, formatCurrency } from '../../../../../utils/format';
 import _ from 'lodash';
 
 interface RevenueChartProps {
@@ -36,41 +36,57 @@ class RevenueChart extends Component<RevenueChartProps> {
     const tooltipPointFormatter = function(this: Highcharts.Point): string {
       const x = this.x;
       const productTitle = this.category;
+      const styles: any = {
+        titleStyle: {
+          color: '#ffffff',
+          width: '295px',
+          whiteSpace: 'normal',
+          marginBottom: '10px',
+        },
+        textStyle: {
+          color: '#ffffff',
+          fontSize: '1.1em',
+          fontWeight: 'normal',
+          paddingBottom: '3px',
+        },
+        captionStyle: {
+          color: '#ffffff',
+          fontSize: '0.9em',
+          fontWeight: 'normal',
+        },
+      };
+
       return renderToString(
-        <div style={{ width: '500px' }}>
+        <div style={{ width: '510px' }}>
           <Grid columns={2} verticalAlign="middle">
-            <Grid.Column width={6} textAlign="center" style={{ padding: '5px 0 0 0' }}>
+            <Grid.Column width={6} textAlign="center" style={{ padding: '5px 20px 0 0' }}>
               <Image
                 src={
                   image_urls && image_urls[x] !== null
-                    ? image_urls[x]
+                    ? image_urls[x].replace('SL75', 'SL300')
                     : 'http://localhost:3000/images/intro.png'
                 }
                 centered
-                style={{ display: 'inline-block' }}
+                style={{ display: 'inline-block', marginBottom: '5px' }}
               />
-              <div style={{ color: '#ffffff', fontSize: '0.9em' }}>
-                ASIN: {showNAIfZeroOrNull(asins[x], asins[x])}
-              </div>
-              <div style={{ color: '#ffffff', fontSize: '0.9em' }}>
+              <div style={styles.captionStyle}>ASIN: {showNAIfZeroOrNull(asins[x], asins[x])}</div>
+              <div style={styles.captionStyle}>
                 {upcs[x] ? `UPC: ${upcs[x]}` : eans[x] ? `EAN: ${eans[x]}` : ''}
               </div>
             </Grid.Column>
             <Grid.Column style={{ padding: 0 }}>
-              <div style={{ color: '#ffffff', width: '312.5px', whiteSpace: 'normal' }}>
+              <div style={styles.titleStyle}>
                 <h4>{productTitle}</h4>
               </div>
               {data.map((series: any, index: number) => {
                 return (
-                  <div key={index} style={{ color: '#ffffff', fontSize: '1.2em' }}>
-                    {series.name}: {series.data[x]}
+                  <div key={index} style={styles.textStyle}>
+                    {series.name}: {formatCurrency(series.data[x])}
                   </div>
                 );
               })}
-              <div style={{ color: '#ffffff', fontSize: '1.2em' }}>
-                ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}
-              </div>
-              <div style={{ color: '#ffffff', fontSize: '1.2em' }}>
+              <div style={styles.textStyle}>ROI(%): {showNAIfZeroOrNull(roi[x], roi[x])}</div>
+              <div style={styles.textStyle}>
                 Margin(%): {showNAIfZeroOrNull(margins[x], margins[x])}
               </div>
             </Grid.Column>
@@ -84,9 +100,7 @@ class RevenueChart extends Component<RevenueChartProps> {
       chart: {
         type: 'column',
         zoomType: 'x',
-        animation: {
-          enabled: true,
-        },
+        animation: false,
       },
       xAxis: {
         categories: productSKUs,
@@ -104,7 +118,7 @@ class RevenueChart extends Component<RevenueChartProps> {
         useHTML: true,
         headerFormat: null, //remove default format
         pointFormatter: tooltipPointFormatter,
-        backgroundColor: '#3B4557',
+        backgroundColor: '#757575',
         borderWidth: 0.1,
         borderRadius: 3,
         distance: 100,
