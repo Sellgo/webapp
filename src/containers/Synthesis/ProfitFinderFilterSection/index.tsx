@@ -142,6 +142,14 @@ function ProfitFinderFilterSection(props: Props) {
       'Toys & Games',
       'Video Games',
     ],
+    customizable: [
+      {
+        dataKey: 'listing-monthly',
+        operation: '≤',
+        value: 1200,
+        active: true,
+      },
+    ],
   };
   const initialFilterState: any =
     filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
@@ -490,6 +498,25 @@ function ProfitFinderFilterSection(props: Props) {
         filterRange: filterState.rank,
       },
     ],
+    presets: [
+      {
+        label: 'Customizable',
+        dataKey: 'customizable-preset',
+        radio: false,
+        data: [
+          {
+            label: 'Listing generates',
+            dataKey: 'listing-monthly',
+            targetValue: '$/month',
+          },
+          {
+            label: 'Profit is',
+            dataKey: 'profit-monthly',
+            targetValue: '$/month',
+          },
+        ],
+      },
+    ],
   };
 
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
@@ -670,6 +697,15 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  const resetCustomizableFilter = () => {
+    console.log('resetCustomizableFilter ');
+  };
+
+  const resetPreset = () => {
+    resetCustomizableFilter();
+    applyFilter(true);
+  };
+
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasAllFilter(isFilterUse());
@@ -838,7 +874,19 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
-
+          <Button
+            basic
+            icon
+            labelPosition="left"
+            className={`more-filter`}
+            onClick={() => {
+              handleFilterType('more-filter');
+              setFilterModalOpen(true);
+            }}
+          >
+            <span className="filter-name">More</span>
+            <Icon name="angle down" />
+          </Button>
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
@@ -891,6 +939,7 @@ function ProfitFinderFilterSection(props: Props) {
             toggleNegative={toggleNegative}
             toggleSelectAllSize={toggleSelectAllSize}
             isSelectAllSize={isSelectAllSize}
+            resetPreset={resetPreset}
           />
         </Modal.Content>
       </Modal>

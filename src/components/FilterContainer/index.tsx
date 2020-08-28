@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { SupplierFilter, FilterState } from '../../interfaces/Filters';
 import { Range } from '../../interfaces/Generic';
 import AllFilter from './AllFilter';
+import PresetFilter from './PresetFilter';
 
 interface Props {
   filterType: string;
@@ -22,6 +23,7 @@ interface Props {
   initialFilterState: FilterState;
   isSelectAllCategories: boolean;
   isSelectAllSize: boolean;
+  resetPreset: () => void;
 }
 
 function FilterContainer(props: Props) {
@@ -41,6 +43,7 @@ function FilterContainer(props: Props) {
     isSelectAllSize,
     toggleNegative,
     filterType,
+    resetPreset,
   } = props;
 
   const [isShowMore, setShowMore] = useState(false);
@@ -155,6 +158,14 @@ function FilterContainer(props: Props) {
           initialFilterState={initialFilterState}
           toggleNegative={toggleNegative}
           filterCategory={filterCategory}
+        />
+      )}
+      {filterType === 'more-filter' && (
+        <PresetFilter
+          applyFilter={applyFilter}
+          initialFilterState={initialFilterState}
+          filterData={filterData}
+          resetPreset={resetPreset}
         />
       )}
       <Modal

@@ -545,12 +545,34 @@
   }
 
   .ui.modal.transition.visible.active.FilterContainer__presets {
-    width: 500px;
+    width: 845px;
     height: 479px;
 
     .ui.checkbox {
       max-width: 295px;
       margin-right: 20px;
+
+      &.customizable-checkbox {
+        max-width: 361px !important;
+
+        .input {
+          max-width: 80px;
+          margin: 0 5px;
+          border: 1px solid #98aeca;
+        }
+
+        .dropdown {
+          border: 1px solid #98aeca;
+          background: #f8faff;
+          border-radius: 5px;
+
+          .icon {
+            border: unset !important;
+            margin: 0 5px;
+            height: 10px;
+          }
+        }
+      }
     }
   }
 }
