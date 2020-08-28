@@ -852,10 +852,6 @@ $link-color: #349af8;
   }
 }
 
-.ui.popup {
-  cursor: pointer;
-}
-
 .product-tracker-loader {
   margin-top: 45px !important;
 }
@@ -1201,4 +1197,11 @@ $link-color: #349af8;
 .smooth-dnd-container {
   background: #349af899;
   border-bottom: 0.2px solid #98aeca;
+}
+
+.column-swap-popup.popup {
+  padding: 1px !important;
+  width: 250px;
+  border-radius: 11px !important;
+  cursor: pointer;
 }
