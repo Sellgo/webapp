@@ -106,13 +106,35 @@ export class Supplier extends React.Component<SupplierProps> {
     fetchSupplierDetails(supplier.supplier_id);
   };
 
+  renderSupplierDropdown = () => {
+    const { supplierDetails, suppliers = [] } = this.props;
+    return (
+      <Dropdown
+        text={`Profit Finder - ${supplierDetails.search}`}
+        floating
+        labeled
+        button
+        icon={'angle down'}
+        className="recent-suppliers-text"
+        scrolling
+      >
+        <Dropdown.Menu>
+          {suppliers.map((supplier: any, index: any) => (
+            <Dropdown.Item
+              key={`recent-sup-${index}`}
+              className="recent-suppliers-text"
+              onClick={() => this.selectSupplier(supplier)}
+            >
+              {supplier && supplier.search}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+
   render() {
-    const {
-      isLoadingSupplierProducts,
-      supplierDetails,
-      stickyChartSelector,
-      suppliers = [],
-    } = this.props;
+    const { isLoadingSupplierProducts, supplierDetails, stickyChartSelector } = this.props;
     return (
       <>
         <SubscriptionMessage />
@@ -123,29 +145,7 @@ export class Supplier extends React.Component<SupplierProps> {
             { content: 'Search Management', to: '/synthesis' },
             {
               content: `Profit Finder: ${supplierDetails.search} ` || 'Search',
-              as: () => (
-                <Dropdown
-                  text={`Profit Finder - ${supplierDetails.search}`}
-                  floating
-                  labeled
-                  button
-                  icon={'angle down'}
-                  className="recent-suppliers-text"
-                  scrolling
-                >
-                  <Dropdown.Menu>
-                    {suppliers.map((supplier: any, index: any) => (
-                      <Dropdown.Item
-                        key={`recent-sup-${index}`}
-                        className="recent-suppliers-text"
-                        onClick={() => this.selectSupplier(supplier)}
-                      >
-                        {supplier && supplier.search}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ),
+              as: () => this.renderSupplierDropdown(),
             },
           ]}
           callToAction={<QuotaMeter />}
