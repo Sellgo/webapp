@@ -531,7 +531,7 @@ i.icon.filter::before {
   z-index: 999;
   bottom: 0;
   background: #fff !important;
-  right: 2px;
+  right: 10px;
   padding: 5.8px 0.78571em !important;
   -webkit-box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
   -moz-box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
@@ -541,7 +541,6 @@ i.icon.filter::before {
 .pagination-container {
   display: flex !important;
   justify-content: flex-end !important;
-  margin-right: 25px;
 }
 
 @media (max-width: 2560px) {
