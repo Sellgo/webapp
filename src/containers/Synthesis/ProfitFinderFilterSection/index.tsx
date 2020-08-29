@@ -149,6 +149,12 @@ function ProfitFinderFilterSection(props: Props) {
         value: 1200,
         active: true,
       },
+      {
+        dataKey: 'profit-monthly',
+        operation: '≤',
+        value: 250,
+        active: false,
+      },
     ],
   };
   const initialFilterState: any =
@@ -577,6 +583,25 @@ function ProfitFinderFilterSection(props: Props) {
     });
     setAllFilter(allData);
   };
+
+  const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
+    const filterData = filterState;
+    _.map(filterData.customizable, customizableData => {
+      if (customizableData.dataKey === dataKey) {
+        if (type === 'operation') {
+          customizableData.operation = value;
+        } else if (type === 'filter-value') {
+          customizableData.value = value;
+        } else if (type === 'toggle') {
+          customizableData.active = !customizableData.active;
+        }
+      }
+      return customizableData;
+    });
+    setFilterState(filterData);
+    applyFilter(true);
+  };
+
   const selectAllCategories = (firstLoad?: boolean) => {
     if (!firstLoad) {
       localStorage.setItem('filterSelectAllCategories', JSON.stringify(true));
@@ -718,6 +743,7 @@ function ProfitFinderFilterSection(props: Props) {
     ) {
       filterState.profitabilityFilter.active = false;
     }
+    console.log('filterState: ', filterState);
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
     if (!isPreset) {
@@ -940,6 +966,7 @@ function ProfitFinderFilterSection(props: Props) {
             toggleSelectAllSize={toggleSelectAllSize}
             isSelectAllSize={isSelectAllSize}
             resetPreset={resetPreset}
+            customizeFilterChange={customizeFilterChange}
           />
         </Modal.Content>
       </Modal>

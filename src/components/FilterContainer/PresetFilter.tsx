@@ -8,10 +8,11 @@ interface PresetFilterProps {
   filterData: SupplierFilter;
   initialFilterState: FilterState;
   resetPreset: () => void;
+  customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
-  const { applyFilter, filterData, initialFilterState, resetPreset } = props;
+  const { applyFilter, filterData, initialFilterState, resetPreset, customizeFilterChange } = props;
 
   return (
     <div className={'presets-filter-content-wrapper'}>
@@ -36,44 +37,68 @@ const PresetFilter = (props: PresetFilterProps) => {
                 <span className="presets-filter-content-wrapper__content__filter-name">
                   {filter.label}
                 </span>
-                {_.map(filter.data, (filterData, dataKey) => {
-                  const customizableData = _.filter(initialFilterState.customizable, data => {
-                    console.log('data: ', data);
-                    console.log('filterData: ', filterData);
-                    return data.dataKey === filterData.dataKey;
-                  });
-                  console.log('customizableData: ', customizableData);
-
+                {_.map(filter.data, (filterData, index) => {
                   return (
                     <div
                       className="presets-filter-content-wrapper__content__filter-item"
-                      key={dataKey}
+                      key={index}
                     >
-                      <div className={`ui checkbox customizable-checkbox`} key={dataKey}>
+                      <div className={`ui checkbox customizable-checkbox`} key={index}>
                         <input
                           id={filterData.dataKey}
-                          checked={initialFilterState.allFilter.indexOf(filterData.label) !== -1}
+                          checked={
+                            initialFilterState.customizable[index] &&
+                            initialFilterState.customizable[index].active
+                          }
                           onChange={() => {
+                            customizeFilterChange(filterData.dataKey, 'toggle');
                             // toggleCheckboxFilter(filterData.dataKey, filterData.label);
                           }}
                           type="checkbox"
                         />
                         <label htmlFor={filterData.dataKey}>{filterData.label}</label>
                         <Dropdown
-                          text={customizableData[0] && customizableData[0].operation}
+                          text={
+                            initialFilterState.customizable[index] &&
+                            initialFilterState.customizable[index].operation
+                          }
                           icon={'caret down'}
                         >
                           <Dropdown.Menu>
-                            <Dropdown.Item text="≤" />
-                            <Dropdown.Item text="=" />
-                            <Dropdown.Item text="≥" />
+                            <Dropdown.Item
+                              text="≤"
+                              onClick={() =>
+                                customizeFilterChange(filterData.dataKey, 'operation', '≤')
+                              }
+                            />
+                            <Dropdown.Item
+                              text="="
+                              onClick={() =>
+                                customizeFilterChange(filterData.dataKey, 'operation', '=')
+                              }
+                            />
+                            <Dropdown.Item
+                              text="≥"
+                              onClick={() =>
+                                customizeFilterChange(filterData.dataKey, 'operation', '≥')
+                              }
+                            />
                           </Dropdown.Menu>
                         </Dropdown>
                         <div className="ui input">
                           <input
                             type="number"
-                            value={filterData.value}
-                            // onChange={this.handlePasswordChange}
+                            value={
+                              initialFilterState.customizable[index] &&
+                              initialFilterState.customizable[index].value
+                            }
+                            onChange={evt =>
+                              customizeFilterChange(
+                                filterData.dataKey,
+                                'filter-value',
+                                evt.target.value
+                              )
+                            }
                           />
                         </div>
                         {filterData.targetValue}
