@@ -38,7 +38,7 @@ class PieChart extends Component<PieChartProps> {
     return (
       <div className="seller-inventory-charts__pie-chart">
         <div style={{ position: 'relative', width: '100%' }}>
-          <Chart chartOptions={pieChartOptions} />
+          <Chart chartOptions={pieChartOptions} containerProps={{ id: 'seller-inventory-pie' }} />
         </div>
       </div>
     );

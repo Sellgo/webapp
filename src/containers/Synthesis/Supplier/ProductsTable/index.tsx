@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon } from 'semantic-ui-react';
+import { Segment, Loader, Icon, Popup } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -64,7 +64,7 @@ interface ProductsTableProps {
   updateProfitFinderProducts: (data: any) => void;
   supplierDetails: Supplier;
   productsLoadingDataBuster: number[];
-  bustData: (synthesisFileID: number, productID: number) => void;
+  bustData: (synthesisFileID: number, productIDs: number[]) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -203,32 +203,50 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
   renderReviews = (row: Product) => (
     <p className="stat">
-      {row.customer_reviews !== undefined && row.customer_reviews !== null
+      {row.data_buster_status === 'completed'
         ? showNAIfZeroOrNull(row.customer_reviews, formatNumber(row.customer_reviews))
-        : this.renderDataBusterIcon(row.product_id)}
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
   renderRating = (row: Product) => (
     <p className="stat">
-      {row.rating !== undefined && row.rating !== null
+      {row.data_buster_status === 'completed'
         ? showNAIfZeroOrNull(row.rating, row.rating)
-        : this.renderDataBusterIcon(row.product_id)}
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
 
-  renderDataBusterIcon = (productId: number) => {
+  renderDataBusterIcon = (productId: number, dataBusterStatus: string) => {
     const { productsLoadingDataBuster, bustData, supplierDetails } = this.props;
 
-    return productsLoadingDataBuster.includes(productId) ? (
-      <Icon loading name="refresh" color="blue" />
-    ) : (
-      <Icon
-        name="info circle"
-        color="blue"
-        style={{ cursor: 'pointer' }}
-        onClick={() => bustData(supplierDetails.synthesis_file_id, productId)}
-      />
-    );
+    if (productsLoadingDataBuster.includes(productId) || dataBusterStatus === 'processing') {
+      return <Icon loading name="refresh" color="blue" />;
+    } else if (dataBusterStatus === 'failed') {
+      return (
+        <Popup
+          content="Unable to find on Amazon."
+          position="top center"
+          size="tiny"
+          trigger={
+            <Icon
+              name="x"
+              color="red"
+              style={{ cursor: 'pointer' }}
+              onClick={() => bustData(supplierDetails.synthesis_file_id, [productId])}
+            />
+          }
+        />
+      );
+    } else if (!dataBusterStatus) {
+      return (
+        <Icon
+          name="info circle"
+          color="blue"
+          style={{ cursor: 'pointer' }}
+          onClick={() => bustData(supplierDetails.synthesis_file_id, [productId])}
+        />
+      );
+    }
   };
 
   renderDetailButtons = (row: Product) => {
@@ -342,6 +360,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'string',
       show: true,
       sortable: true,
+      className: 'md-column',
       render: this.renderASIN,
     },
     {
@@ -350,6 +369,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'string',
       show: true,
       sortable: true,
+      className: 'md-column',
       render: this.renderUPC,
     },
     {
@@ -374,135 +394,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       sortable: true,
       show: true,
+      className: 'sm-column',
       render: this.renderPrice,
-    },
-    {
-      label: 'Cost',
-      dataKey: 'product_cost',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderCost,
-    },
-    {
-      label: 'Fees',
-      dataKey: 'fees',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderFee,
-    },
-    {
-      label: 'Profit',
-      dataKey: 'profit',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderProfit,
-    },
-    {
-      label: 'Margin',
-      dataKey: 'margin',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderMargin,
-    },
-    {
-      label: 'Monthly\nRevenue',
-      dataKey: 'monthly_revenue',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderMonthlyRevenue,
-    },
-    {
-      label: 'ROI',
-      dataKey: 'roi',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderRoi,
-    },
-    {
-      label: 'Rank',
-      dataKey: 'rank',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderRank,
-    },
-    {
-      label: 'Monthly \nSales Est',
-      dataKey: 'sales_monthly',
-      type: 'number',
-      sortable: true,
-      show: true,
-      render: this.renderMonthlySalesEst,
-    },
-    {
-      label: 'Category',
-      dataKey: 'amazon_category_name',
-      type: 'string',
-      sortable: true,
-      show: true,
-      render: this.renderCategory,
-    },
-    {
-      label: 'Package \nQuantity',
-      dataKey: 'package_quantity',
-      type: 'string',
-      sortable: true,
-      show: true,
-      render: this.renderPackageQuantity,
-    },
-    {
-      label: 'Size Tier',
-      dataKey: 'size_tier',
-      type: 'string',
-      show: true,
-      sortable: true,
-      render: this.renderSizeTiers,
-    },
-    {
-      label: 'FBA Fee',
-      dataKey: 'fba_fee',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderFbaFee,
-    },
-    {
-      label: 'Referral\nFee',
-      dataKey: 'referral_fee',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderReferralFee,
-    },
-    {
-      label: 'Variable\nClosing Fee',
-      dataKey: 'variable_closing_fee',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderVariableClosingFee,
-    },
-    {
-      label: 'Num New\nFBA Offers',
-      dataKey: 'num_new_fba_offers',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderNumFbaNewOffers,
-    },
-    {
-      label: 'Num New\nFBM Offers',
-      dataKey: 'num_new_fbm_offers',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderNumFbmNewOffers,
     },
     {
       label: 'Low New\nFBA Price',
@@ -510,6 +403,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      className: 'sm-column',
       render: this.renderLowNewFbaPrice,
     },
     {
@@ -518,7 +412,152 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      className: 'sm-column',
       render: this.renderLowNewFbmPrice,
+    },
+    {
+      label: 'Cost',
+      dataKey: 'product_cost',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderCost,
+    },
+    {
+      label: 'Total\nFees',
+      dataKey: 'fees',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderFee,
+    },
+    {
+      label: 'FBA Fee',
+      dataKey: 'fba_fee',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'sm-column',
+      render: this.renderFbaFee,
+    },
+    {
+      label: 'Referral\nFee',
+      dataKey: 'referral_fee',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'sm-column',
+      render: this.renderReferralFee,
+    },
+    {
+      label: 'Variable\nClosing Fee',
+      dataKey: 'variable_closing_fee',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'md-column',
+      render: this.renderVariableClosingFee,
+    },
+    {
+      label: 'Profit',
+      dataKey: 'profit',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderProfit,
+    },
+    {
+      label: 'Margin',
+      dataKey: 'margin',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderMargin,
+    },
+    {
+      label: 'Monthly\nRevenue',
+      dataKey: 'monthly_revenue',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderMonthlyRevenue,
+    },
+    {
+      label: 'ROI',
+      dataKey: 'roi',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderRoi,
+    },
+    {
+      label: 'Rank',
+      dataKey: 'rank',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderRank,
+    },
+    {
+      label: 'Monthly \nSales Est',
+      dataKey: 'sales_monthly',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'md-column',
+      render: this.renderMonthlySalesEst,
+    },
+    {
+      label: 'Num New\nFBA Offers',
+      dataKey: 'num_new_fba_offers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'md-column',
+      render: this.renderNumFbaNewOffers,
+    },
+    {
+      label: 'Num New\nFBM Offers',
+      dataKey: 'num_new_fbm_offers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'md-column',
+      render: this.renderNumFbmNewOffers,
+    },
+    {
+      label: 'Package\nQuantity',
+      dataKey: 'package_quantity',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'sm-column',
+      render: this.renderPackageQuantity,
+    },
+    {
+      label: 'Category',
+      dataKey: 'amazon_category_name',
+      type: 'string',
+      sortable: true,
+      show: true,
+      className: 'lg-column',
+      render: this.renderCategory,
+    },
+    {
+      label: 'Size Tier',
+      dataKey: 'size_tier',
+      type: 'string',
+      show: true,
+      sortable: true,
+      className: 'xl-column',
+      render: this.renderSizeTiers,
     },
     {
       label: 'Tracking / Scoring',
@@ -550,7 +589,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   reorderColumns = (columns: Column[]) => {
     this.setState({ columns });
   };
-  componentDidMount(): void {
+
+  componentDidMount() {
     this.setState({ columns: this.columns });
   }
 
@@ -670,8 +710,8 @@ const mapDispatchToProps = {
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
-  bustData: (synthesisFileID: number, productID: number) =>
-    triggerDataBuster(synthesisFileID, productID),
+  bustData: (synthesisFileID: number, productIDs: number[]) =>
+    triggerDataBuster(synthesisFileID, productIDs),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
