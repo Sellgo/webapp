@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Icon, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -14,8 +14,9 @@ import {
   fetchSupplierProducts,
   resetSupplierProducts,
   supplierProgress,
+  fetchSuppliers,
 } from '../../../actions/Suppliers';
-import { supplierProductsSelector } from '../../../selectors/Supplier';
+import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
@@ -23,6 +24,7 @@ import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 interface SupplierProps {
   stickyChartSelector: boolean;
   supplierDetails: any;
+  fetchSuppliers: () => void;
   isLoadingSupplierProducts: boolean;
   products: any;
   match: { params: { supplierID: '' } };
@@ -34,14 +36,23 @@ interface SupplierProps {
   resetSupplierProducts: typeof resetSupplierProducts;
   supplierProgress: (supplierID: any) => void;
   progress: any;
+  suppliers: any[];
+  history: any;
 }
 
 export class Supplier extends React.Component<SupplierProps> {
   componentDidMount() {
-    const { fetchSupplierDetails, fetchSupplierProducts, match, supplierProgress } = this.props;
+    const {
+      fetchSupplierDetails,
+      fetchSupplierProducts,
+      match,
+      supplierProgress,
+      fetchSuppliers,
+    } = this.props;
     fetchSupplierDetails(match.params.supplierID);
     fetchSupplierProducts(match.params.supplierID);
     supplierProgress(match.params.supplierID);
+    fetchSuppliers();
   }
 
   componentWillUnmount() {
@@ -88,9 +99,42 @@ export class Supplier extends React.Component<SupplierProps> {
     );
   };
 
+  selectSupplier = (supplier: any) => {
+    const { history, fetchSupplierDetails, fetchSupplierProducts } = this.props;
+    history.push(`/synthesis/${supplier.supplier_id}`);
+    fetchSupplierProducts(supplier.supplier_id);
+    fetchSupplierDetails(supplier.supplier_id);
+  };
+
+  renderSupplierDropdown = () => {
+    const { supplierDetails, suppliers = [] } = this.props;
+    return (
+      <Dropdown
+        text={`Profit Finder - ${supplierDetails.search}`}
+        floating
+        labeled
+        button
+        icon={'angle down'}
+        className="recent-suppliers-text"
+        scrolling
+      >
+        <Dropdown.Menu>
+          {suppliers.map((supplier: any, index: any) => (
+            <Dropdown.Item
+              key={`recent-sup-${index}`}
+              className="recent-suppliers-text"
+              onClick={() => this.selectSupplier(supplier)}
+            >
+              {supplier && supplier.search}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+
   render() {
     const { isLoadingSupplierProducts, supplierDetails, stickyChartSelector } = this.props;
-
     return (
       <>
         <SubscriptionMessage />
@@ -99,7 +143,10 @@ export class Supplier extends React.Component<SupplierProps> {
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: 'Search Management', to: '/synthesis' },
-            { content: `Profit Finder: ${supplierDetails.search}` || 'Search' },
+            {
+              content: `Profit Finder: ${supplierDetails.search} ` || 'Search',
+              as: () => this.renderSupplierDropdown(),
+            },
           ]}
           callToAction={<QuotaMeter />}
         />
@@ -135,6 +182,7 @@ const mapStateToProps = (state: any) => ({
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   progress: get(state, 'supplier.quota'),
+  suppliers: suppliersSelector(state),
 });
 
 const mapDispatchToProps = {
@@ -144,6 +192,7 @@ const mapDispatchToProps = {
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
   supplierProgress: () => supplierProgress(),
+  fetchSuppliers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Supplier);
