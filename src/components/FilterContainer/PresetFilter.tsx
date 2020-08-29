@@ -59,7 +59,10 @@ const PresetFilter = (props: PresetFilterProps) => {
                           type="checkbox"
                         />
                         <label htmlFor={filterData.dataKey}>{filterData.label}</label>
-                        <Dropdown text={customizableData[0] && customizableData[0].operation}>
+                        <Dropdown
+                          text={customizableData[0] && customizableData[0].operation}
+                          icon={'caret down'}
+                        >
                           <Dropdown.Menu>
                             <Dropdown.Item text="≤" />
                             <Dropdown.Item text="=" />
@@ -70,7 +73,6 @@ const PresetFilter = (props: PresetFilterProps) => {
                           <input
                             type="number"
                             value={filterData.value}
-                            placeholder="insert value"
                             // onChange={this.handlePasswordChange}
                           />
                         </div>

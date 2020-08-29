@@ -557,19 +557,29 @@
 
         .input {
           max-width: 80px;
-          margin: 0 5px;
-          border: 1px solid #98aeca;
+          margin: 0;
+          color: #98aeca;
+          margin-right: 5px;
+
+          input {
+            padding: 3px 0 3px 5px;
+            border-radius: 5px;
+            border: 1px solid #98aeca;
+          }
         }
 
         .dropdown {
           border: 1px solid #98aeca;
           background: #f8faff;
           border-radius: 5px;
+          padding: 3px 0 2px 5px;
+          margin: 0 5px;
 
           .icon {
             border: unset !important;
             margin: 0 5px;
             height: 10px;
+            color: #98aeca;
           }
         }
       }
