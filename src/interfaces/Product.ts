@@ -37,6 +37,7 @@ export interface Product {
   customer_reviews: number;
   rating: string;
   package_quantity: string;
+  data_buster_status: string;
 }
 export interface ProductsTrackData {
   avg_price: string;

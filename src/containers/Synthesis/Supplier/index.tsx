@@ -14,45 +14,64 @@ import {
   fetchSupplierProducts,
   resetSupplierProducts,
   supplierProgress,
+  setProductsLoadingDataBuster,
+  pollDataBuster,
   fetchSuppliers,
 } from '../../../actions/Suppliers';
 import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
+import { Product } from '../../../interfaces/Product';
+import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
 
 interface SupplierProps {
   stickyChartSelector: boolean;
   supplierDetails: any;
   fetchSuppliers: () => void;
   isLoadingSupplierProducts: boolean;
-  products: any;
+  products: Product[];
   match: { params: { supplierID: '' } };
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
-  fetchSupplierDetails: (supplierID: any) => void;
+  fetchSupplierDetails: (supplierID: any) => Promise<SupplierInterface | undefined>;
   resetSupplier: () => void;
-  fetchSupplierProducts: (supplierID: any) => void;
+  fetchSupplierProducts: (supplierID: any) => Promise<Product[] | undefined>;
   resetSupplierProducts: typeof resetSupplierProducts;
   supplierProgress: (supplierID: any) => void;
   progress: any;
+  setProductsLoadingDataBuster: typeof setProductsLoadingDataBuster;
+  pollDataBuster: () => void;
   suppliers: any[];
   history: any;
 }
-
 export class Supplier extends React.Component<SupplierProps> {
-  componentDidMount() {
+  async componentDidMount() {
     const {
       fetchSupplierDetails,
       fetchSupplierProducts,
       match,
       supplierProgress,
+      setProductsLoadingDataBuster,
+      pollDataBuster,
       fetchSuppliers,
     } = this.props;
-    fetchSupplierDetails(match.params.supplierID);
-    fetchSupplierProducts(match.params.supplierID);
-    supplierProgress(match.params.supplierID);
+
     fetchSuppliers();
+    supplierProgress(match.params.supplierID);
+
+    const results = await Promise.all([
+      fetchSupplierDetails(match.params.supplierID),
+      fetchSupplierProducts(match.params.supplierID),
+    ]);
+
+    const fetchedProducts: Product[] | undefined = results[1];
+    if (fetchedProducts) {
+      setProductsLoadingDataBuster(
+        fetchedProducts.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
+      );
+    }
+    pollDataBuster();
   }
 
   componentWillUnmount() {
@@ -192,6 +211,8 @@ const mapDispatchToProps = {
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
   supplierProgress: () => supplierProgress(),
+  setProductsLoadingDataBuster,
+  pollDataBuster,
   fetchSuppliers,
 };
 

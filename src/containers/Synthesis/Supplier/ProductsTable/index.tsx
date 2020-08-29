@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon } from 'semantic-ui-react';
+import { Segment, Loader, Icon, Popup } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -64,7 +64,7 @@ interface ProductsTableProps {
   updateProfitFinderProducts: (data: any) => void;
   supplierDetails: Supplier;
   productsLoadingDataBuster: number[];
-  bustData: (synthesisFileID: number, productID: number) => void;
+  bustData: (synthesisFileID: number, productIDs: number[]) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -203,32 +203,50 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
   renderReviews = (row: Product) => (
     <p className="stat">
-      {row.customer_reviews !== undefined && row.customer_reviews !== null
+      {row.data_buster_status === 'completed'
         ? showNAIfZeroOrNull(row.customer_reviews, formatNumber(row.customer_reviews))
-        : this.renderDataBusterIcon(row.product_id)}
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
   renderRating = (row: Product) => (
     <p className="stat">
-      {row.rating !== undefined && row.rating !== null
+      {row.data_buster_status === 'completed'
         ? showNAIfZeroOrNull(row.rating, row.rating)
-        : this.renderDataBusterIcon(row.product_id)}
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
 
-  renderDataBusterIcon = (productId: number) => {
+  renderDataBusterIcon = (productId: number, dataBusterStatus: string) => {
     const { productsLoadingDataBuster, bustData, supplierDetails } = this.props;
 
-    return productsLoadingDataBuster.includes(productId) ? (
-      <Icon loading name="refresh" color="blue" />
-    ) : (
-      <Icon
-        name="info circle"
-        color="blue"
-        style={{ cursor: 'pointer' }}
-        onClick={() => bustData(supplierDetails.synthesis_file_id, productId)}
-      />
-    );
+    if (productsLoadingDataBuster.includes(productId) || dataBusterStatus === 'processing') {
+      return <Icon loading name="refresh" color="blue" />;
+    } else if (dataBusterStatus === 'failed') {
+      return (
+        <Popup
+          content="Unable to find on Amazon."
+          position="top center"
+          size="tiny"
+          trigger={
+            <Icon
+              name="x"
+              color="red"
+              style={{ cursor: 'pointer' }}
+              onClick={() => bustData(supplierDetails.synthesis_file_id, [productId])}
+            />
+          }
+        />
+      );
+    } else if (!dataBusterStatus) {
+      return (
+        <Icon
+          name="info circle"
+          color="blue"
+          style={{ cursor: 'pointer' }}
+          onClick={() => bustData(supplierDetails.synthesis_file_id, [productId])}
+        />
+      );
+    }
   };
 
   renderDetailButtons = (row: Product) => {
@@ -571,7 +589,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   reorderColumns = (columns: Column[]) => {
     this.setState({ columns });
   };
-  componentDidMount(): void {
+
+  componentDidMount() {
     this.setState({ columns: this.columns });
   }
 
@@ -691,8 +710,8 @@ const mapDispatchToProps = {
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   searchProducts: (value: string, productData: any) => searchSupplierProducts(value, productData),
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
-  bustData: (synthesisFileID: number, productID: number) =>
-    triggerDataBuster(synthesisFileID, productID),
+  bustData: (synthesisFileID: number, productIDs: number[]) =>
+    triggerDataBuster(synthesisFileID, productIDs),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
