@@ -20,6 +20,7 @@ import {
   setProductTrackerPageNumber,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
+import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 
 interface Props {
   setPageNumber: (pageNumber: number) => void;
@@ -67,10 +68,13 @@ function ProductTrackerFilterSection(props: Props) {
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData: any = {
     sellerID: sellerID,
-    amazonChoice: ['amazon-choice-products', 'not-amazon-products'],
+    amazonChoice: [],
     reviews: [],
     removeNegative: [],
-    profitability: 'All Products',
+    profitabilityFilter: {
+      value: 'Profitable',
+      active: false,
+    },
     period: DEFAULT_PERIOD,
     avg_price: filteredRanges.avg_price,
     avg_profit: filteredRanges.avg_profit,
@@ -86,50 +90,50 @@ function ProductTrackerFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
+
+  if (filterState.amazonChoice === undefined) {
+    filterState.amazonChoice = filterInitialData.amazonChoice;
+  }
+  if (filterState.profitabilityFilter === undefined) {
+    filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
+  }
+
   useEffect(() => {
-    /*
-      For new data in filters , will be remove in future
-      7/23/2020 - amazonChoice, profitability
-    */
-    if (filterState.amazonChoice === undefined) {
-      filterState.amazonChoice = filterInitialData.amazonChoice;
-    }
-    if (filterState.profitability === undefined) {
-      filterState.profitability = filterInitialData.profitability;
-    }
     /*
       Reset filter when changing groups
     */
-    if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
-      setFilterType('');
-      const filterValue = filterState;
-      filterValue.activeGroupId = activeGroupId;
-      setFilterState(filterValue);
-      filterProducts(filterState, activeGroupId);
-      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-    } else if (filterStorage) {
-      if (resettingFilter) {
-        resetFilter();
-        setTimeout(() => {
-          applyFilter();
-          filterReset(false);
-        }, 500);
+    if (!_.isEmpty(groupProducts)) {
+      if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
+        setFilterType('');
+        const filterValue = filterState;
+        filterValue.activeGroupId = activeGroupId;
+        setFilterState(filterValue);
+        filterProducts(filterState, activeGroupId);
+        localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+      } else if (filterStorage) {
+        if (resettingFilter) {
+          resetFilter();
+          setTimeout(() => {
+            applyFilter();
+            filterReset(false);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            filterProducts(filterState, activeGroupId);
+            localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+          }, 500);
+        }
       } else {
-        setTimeout(() => {
-          filterProducts(filterState, activeGroupId);
-          localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-        }, 500);
+        resetFilter();
       }
-    } else {
-      resetFilter();
-    }
 
-    if (isAllReviews) {
-      selectAllReviews(true);
-    }
+      if (isAllReviews) {
+        selectAllReviews(true);
+      }
 
-    setHasAllFilter(isAllFilterUse());
-  }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts]);
+      setHasAllFilter(isAllFilterUse());
+    }
+  }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts, groupProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
@@ -285,7 +289,7 @@ function ProductTrackerFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Amazon is not selling this product',
+            label: 'Amazon is NOT a seller',
             dataKey: 'not-amazon-products',
             checked: true,
           },
@@ -293,6 +297,7 @@ function ProductTrackerFilterSection(props: Props) {
       },
     ],
   };
+
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.all.filterRanges);
   const [filterReviews, setFilterReviews] = React.useState(filterDataState.all.reviews.data);
   const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
@@ -452,7 +457,7 @@ function ProductTrackerFilterSection(props: Props) {
       !isPreset &&
       JSON.stringify(initialFilterState.avg_profit) !== JSON.stringify(filterState.avg_profit)
     ) {
-      resetProfitabilityPreset(!isPreset);
+      filterState.profitabilityFilter.active = false;
     }
 
     filterProducts(filterState, activeGroupId);
@@ -495,29 +500,7 @@ function ProductTrackerFilterSection(props: Props) {
     if (onClick) {
       setFilterType('');
     }
-  };
-
-  const resetProfitabilityPreset = (preset?: true) => {
-    const data = _.map(presetFilter, filter => {
-      if (filter.dataKey === 'profitability-preset') {
-        filter.checkedValue = 'profitability';
-        _.map(filter.data, dk => {
-          if (filter.dataKey === 'profitability') {
-            dk.checked = true;
-          }
-          return dk;
-        });
-      }
-      return filter;
-    });
-    const filterValue = filterState;
-    filterState.profitability = 'All Products';
-    if (!preset) {
-      filterValue.avg_profit = filteredRanges.avg_profit;
-    }
-
-    setPresetFilter(data);
-    setFilterState(filterValue);
+    applyFilter();
   };
 
   const resetAmazonChoicePreset = () => {
@@ -538,33 +521,32 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const resetPreset = () => {
-    resetProfitabilityPreset();
     resetAmazonChoicePreset();
     applyFilter(true);
   };
-  const setRadioFilter = (filterType: string, value: string) => {
-    resetSingleFilter('profit');
-    const data = _.map(presetFilter, filter => {
-      if (filter.dataKey === filterType) {
-        filter.checkedValue = value;
-      }
-      return filter;
-    });
-    const filterValue = filterState;
-    filterState.profitability = value;
 
-    if (value === 'Profitable') {
-      filterValue.avg_profit.min = 0.01;
-      filterValue.avg_profit.max = rangeData.avg_profit.max;
-    } else if (value === 'Non-Profitable Products') {
-      filterValue.avg_profit.min = rangeData.avg_profit.min;
-      filterValue.avg_profit.max = 0;
+  const setProfitability = (value?: any) => {
+    const filterValue = _.cloneDeep(filterState);
+    const objData = {
+      value: value ? value : filterValue.profitabilityFilter.value,
+      active: value ? true : !filterValue.profitabilityFilter.active,
+    };
+    filterValue.profitabilityFilter = objData;
+
+    if (filterValue.profitabilityFilter.active) {
+      if (filterValue.profitabilityFilter.value === 'Profitable') {
+        filterValue.avg_profit.min = 0.01;
+        filterValue.avg_profit.max = rangeData.avg_profit.max;
+      } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
+        filterValue.avg_profit.min = rangeData.avg_profit.min;
+        filterValue.avg_profit.max = 0;
+      }
     } else {
       filterValue.avg_profit = rangeData.avg_profit;
     }
-    setPresetFilter(data);
     setFilterState(filterValue);
   };
+
   const handleFilterType = (type: string) => {
     if (filterType === type) {
       setFilterType('');
@@ -620,6 +602,11 @@ function ProductTrackerFilterSection(props: Props) {
             </span>
             <Icon name="angle down" />
           </Button>
+          <ProfitabilityFilterPreset
+            setProfitability={setProfitability}
+            applyFilter={applyFilter}
+            filterState={filterState}
+          />
         </div>
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {
@@ -655,7 +642,6 @@ function ProductTrackerFilterSection(props: Props) {
           toggleReviewsCheckbox={toggleReviewsCheckbox}
           toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           toggleNegative={toggleNegative}
-          setRadioFilter={setRadioFilter}
           resetPreset={resetPreset}
         />
       </>

@@ -58,14 +58,44 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Low New FBA Price',
+    dataKey: 'low_new_fba_price',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Low New FBM Price',
+    dataKey: 'low_new_fbm_price',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Cost',
     dataKey: 'product_cost',
     visible: true,
   },
   {
     value: true,
-    key: 'Fees',
+    key: 'Total Fees',
     dataKey: 'fees',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'FBA Fee',
+    dataKey: 'fba_fee',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Referral Fee',
+    dataKey: 'referral_fee',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Variable Closing Fee',
+    dataKey: 'variable_closing_fee',
     visible: true,
   },
   {
@@ -106,14 +136,26 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Category',
-    dataKey: 'amazon_category_name',
+    key: 'Num New FBA Offers',
+    dataKey: 'num_new_fba_offers',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Num New FBM Offers',
+    dataKey: 'num_new_fbm_offers',
     visible: true,
   },
   {
     value: true,
     key: 'Package Quantity',
     dataKey: 'package_quantity',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Category',
+    dataKey: 'amazon_category_name',
     visible: true,
   },
   {

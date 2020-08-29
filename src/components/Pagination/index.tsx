@@ -8,7 +8,7 @@ interface PaginationProps {
   currentPage: number;
   pageSize: number;
   showPageSize?: boolean;
-  totalPages?: number;
+  totalPages: number;
   onNextPage: (currentPage: number) => void;
   onPrevPage: (currentPage: number) => void;
   onPageSizeSelect: (size: number) => void;
@@ -42,11 +42,28 @@ const Pagination = (props: PaginationProps) => {
       const { value } = data;
       setPage(value);
     }
+
     if (evt.key === 'Enter') {
-      onPageNumberUpdate(page);
+      const pageNo = getValidatedPage();
+      onPageNumberUpdate(+pageNo);
+      setPage(pageNo);
     }
   };
 
+  const onBlur = () => setPage(getValidatedPage());
+
+  const getValidatedPage = (): number => {
+    let value: any = page;
+    if (!page) {
+      value = currentPage;
+    } else if (+page < 1) {
+      value = 1;
+    } else if (+page > totalPages) {
+      value = totalPages;
+    }
+
+    return value;
+  };
   const onNext = () => onNextPage(currentPage + 1);
   const onPrev = () => onPrevPage(currentPage - 1);
 
@@ -96,6 +113,8 @@ const Pagination = (props: PaginationProps) => {
           className="page-number-input"
           onChange={onPageNumberChanges}
           onKeyDown={onPageNumberChanges}
+          onBlur={onBlur}
+          maxLength="5"
         />
       </div>
       <div>
