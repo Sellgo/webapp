@@ -83,6 +83,19 @@ const defaultUnpinBtnRef: any | undefined = undefined;
 const rankColor = '#FD4F1E';
 const inventorySumColor = '#4AD991';
 
+const sortByYDescending = (a: any, b: any) => {
+  if (a.y && b.y && a.y >= b.y) return -1;
+  if (a.y && b.y && a.y < b.y) return 1;
+  return 0;
+};
+const sortByTotalValueAscending = (a: any, b: any) => {
+  if (a.totalValue && b.totalValue) {
+    if (a.totalValue >= b.totalValue) return 1;
+    if (a.totalValue < b.totalValue) return -1;
+  }
+  return 0;
+};
+
 class InventoryInsightsChart extends Component<
   InventoryInsightsChartProps,
   InventoryInsightsChartState
@@ -198,8 +211,8 @@ class InventoryInsightsChart extends Component<
         itemStyle: {
           fontWeight: 'normal',
         },
-        reversed: true,
-        labelFormat: '({y}) {name}',
+        labelFormat: '{percentage:.1f}% {name}',
+        tooltip: true,
         width: '40%',
       },
       plotOptions: {
@@ -295,14 +308,7 @@ class InventoryInsightsChart extends Component<
     };
     data.push(sumData);
 
-    // sort series by total value
-    data.sort((a, b) => {
-      if (a.totalValue && b.totalValue) {
-        if (a.totalValue >= b.totalValue) return 1;
-        if (a.totalValue < b.totalValue) return -1;
-      }
-      return 0;
-    });
+    data.sort(sortByTotalValueAscending);
 
     // initialize yAxisOptions of time series chart
     const inventoryDataPoints = sellerSumSeries.map((item: any) => item[1]);
@@ -391,11 +397,7 @@ class InventoryInsightsChart extends Component<
           visible: true,
         };
       })
-      .sort((a, b) => {
-        if (a.y && b.y && a.y >= b.y) return 1;
-        if (a.y && b.y && a.y < b.y) return -1;
-        return 0;
-      });
+      .sort(sortByYDescending);
 
     const newTimeSeriesChartOptions = {
       yAxis: timeSeriesYAxisOptions,
@@ -587,11 +589,7 @@ class InventoryInsightsChart extends Component<
       });
     }
 
-    newPieData.sort((a, b) => {
-      if (a.y && b.y && a.y >= b.y) return 1;
-      if (a.y && b.y && a.y < b.y) return -1;
-      return 0;
-    });
+    newPieData.sort(sortByYDescending);
 
     return newPieData;
   };

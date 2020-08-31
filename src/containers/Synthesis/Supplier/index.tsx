@@ -14,46 +14,64 @@ import {
   fetchSupplierProducts,
   resetSupplierProducts,
   supplierProgress,
+  setProductsLoadingDataBuster,
+  pollDataBuster,
   fetchSuppliers,
 } from '../../../actions/Suppliers';
 import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
+import { Product } from '../../../interfaces/Product';
+import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
 
 interface SupplierProps {
   stickyChartSelector: boolean;
   supplierDetails: any;
   fetchSuppliers: () => void;
   isLoadingSupplierProducts: boolean;
-  products: any;
+  products: Product[];
   match: { params: { supplierID: '' } };
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
-  fetchSupplierDetails: (supplierID: any) => void;
+  fetchSupplierDetails: (supplierID: any) => Promise<SupplierInterface | undefined>;
   resetSupplier: () => void;
-  fetchSupplierProducts: (supplierID: any) => void;
+  fetchSupplierProducts: (supplierID: any) => Promise<Product[] | undefined>;
   resetSupplierProducts: typeof resetSupplierProducts;
   supplierProgress: (supplierID: any) => void;
   progress: any;
-  recentSuppliers: any[];
+  setProductsLoadingDataBuster: typeof setProductsLoadingDataBuster;
+  pollDataBuster: () => void;
   suppliers: any[];
   history: any;
 }
-
 export class Supplier extends React.Component<SupplierProps> {
-  componentDidMount() {
+  async componentDidMount() {
     const {
       fetchSupplierDetails,
       fetchSupplierProducts,
       match,
       supplierProgress,
+      setProductsLoadingDataBuster,
+      pollDataBuster,
       fetchSuppliers,
     } = this.props;
-    fetchSupplierDetails(match.params.supplierID);
-    fetchSupplierProducts(match.params.supplierID);
-    supplierProgress(match.params.supplierID);
+
     fetchSuppliers();
+    supplierProgress(match.params.supplierID);
+
+    const results = await Promise.all([
+      fetchSupplierDetails(match.params.supplierID),
+      fetchSupplierProducts(match.params.supplierID),
+    ]);
+
+    const fetchedProducts: Product[] | undefined = results[1];
+    if (fetchedProducts) {
+      setProductsLoadingDataBuster(
+        fetchedProducts.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
+      );
+    }
+    pollDataBuster();
   }
 
   componentWillUnmount() {
@@ -107,13 +125,35 @@ export class Supplier extends React.Component<SupplierProps> {
     fetchSupplierDetails(supplier.supplier_id);
   };
 
+  renderSupplierDropdown = () => {
+    const { supplierDetails, suppliers = [] } = this.props;
+    return (
+      <Dropdown
+        text={`Profit Finder - ${supplierDetails.search}`}
+        floating
+        labeled
+        button
+        icon={'angle down'}
+        className="recent-suppliers-text"
+        scrolling
+      >
+        <Dropdown.Menu>
+          {suppliers.map((supplier: any, index: any) => (
+            <Dropdown.Item
+              key={`recent-sup-${index}`}
+              className="recent-suppliers-text"
+              onClick={() => this.selectSupplier(supplier)}
+            >
+              {supplier && supplier.search}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+
   render() {
-    const {
-      isLoadingSupplierProducts,
-      supplierDetails,
-      stickyChartSelector,
-      suppliers = [],
-    } = this.props;
+    const { isLoadingSupplierProducts, supplierDetails, stickyChartSelector } = this.props;
     return (
       <>
         <SubscriptionMessage />
@@ -124,29 +164,7 @@ export class Supplier extends React.Component<SupplierProps> {
             { content: 'Search Management', to: '/synthesis' },
             {
               content: `Profit Finder: ${supplierDetails.search} ` || 'Search',
-              as: () => (
-                <Dropdown
-                  text={`Profit Finder - ${supplierDetails.search}`}
-                  floating
-                  labeled
-                  button
-                  icon={'angle down'}
-                  className="recent-suppliers-text"
-                  scrolling
-                >
-                  <Dropdown.Menu>
-                    {suppliers.map((supplier: any, index: any) => (
-                      <Dropdown.Item
-                        key={`recent-sup-${index}`}
-                        className="recent-suppliers-text"
-                        onClick={() => this.selectSupplier(supplier)}
-                      >
-                        {supplier && supplier.search}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ),
+              as: () => this.renderSupplierDropdown(),
             },
           ]}
           callToAction={<QuotaMeter />}
@@ -193,6 +211,8 @@ const mapDispatchToProps = {
   fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
   resetSupplierProducts: () => resetSupplierProducts(),
   supplierProgress: () => supplierProgress(),
+  setProductsLoadingDataBuster,
+  pollDataBuster,
   fetchSuppliers,
 };
 

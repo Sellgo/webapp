@@ -10,6 +10,7 @@ import {
   getSynthesisId,
   suppliersByIdSelector,
   supplierDetailsSelector,
+  productsLoadingDataBusterSelector,
 } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -30,13 +31,13 @@ import {
   SET_SUPPLIER_PRODUCTS_TRACK_DATA,
   RESET_SUPPLIER,
   SET_SUPPLIER_PRODUCT_TRACKER_GROUP,
-  UPDATE_SUPPLIER_PRODUCT,
+  UPDATE_SUPPLIER_PRODUCT_TRACK,
   UPDATE_SUPPLIER_FILTER_RANGES,
   findMinMaxRange,
   SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
   FILTER_SUPPLIER_PRODUCTS,
   SEARCH_SUPPLIER_PRODUCTS,
-  UPDATE_SUPPLIER_PRODUCTS,
+  UPDATE_SUPPLIER_PRODUCT_TRACKS,
   UPDATE_PROFIT_FINDER_PRODUCTS,
   SET_SUPPLIER_PAGE_NUMBER,
   SET_STICKY_CHART,
@@ -45,12 +46,15 @@ import {
   SET_IS_SCROLL,
   SET_ACTIVE_COLUMN,
   SET_SORT_COLUMN,
+  SET_PRODUCTS_LOADING_DATA_BUSTER,
+  UPDATE_SUPPLIER_PRODUCT,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 import { UntrackSuccess } from '../../components/ToastMessages';
+import { timeout } from '../../utils/timeout';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -221,10 +225,6 @@ export const postSynthesisRun = (synthesisId: string) => async (
     });
 };
 
-function timeout(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export const fetchSynthesisProgressUpdates = () => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => {}
@@ -342,10 +342,11 @@ export const fetchSupplierProducts = (supplierID: any) => async (
   );
 
   if (response.data.length) {
-    const products = response.data;
+    const products: Product[] = response.data;
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
     dispatch(isLoadingSupplierProducts(false));
+    return products;
   } else {
     dispatch(isLoadingSupplierProducts(false));
     error('Data not found');
@@ -357,20 +358,20 @@ export const setSupplierDetails = (supplier: Supplier) => ({
   payload: supplier,
 });
 
-export const fetchSupplierDetails = (supplierID: any) => (
+export const fetchSupplierDetails = (supplierID: any) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   const sellerID = sellerIDSelector();
-
-  Axios.get(
+  const response = await Axios.get(
     `${AppConfig.BASE_URL_API}sellers/${String(
       sellerID
     )}/suppliers-compact?supplier_id=${supplierID}`
-  ).then(response => {
-    if (response.data.length) {
-      dispatch(setSupplierDetails(response.data[0]));
-    }
-  });
+  );
+  if (response.data.length) {
+    const supplier: Supplier = response.data[0];
+    dispatch(setSupplierDetails(supplier));
+    return supplier;
+  }
 };
 
 export const setSupplierProductsTrackData = (data: any) => ({
@@ -447,7 +448,7 @@ export const updateProductTrackingStatus = (
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(updateSupplierProduct(json.data));
+          dispatch(updateSupplierProductTrack(json.data));
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
@@ -469,7 +470,7 @@ export const updateProductTrackingStatus = (
               dispatch(setMenuItem(menuItem));
             }
           } else {
-            dispatch(updateSupplierProduct(json.data));
+            dispatch(updateSupplierProductTrack(json.data));
           }
         })
         .catch(err => {
@@ -495,7 +496,7 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
     .then(json => {
       success('Request succeeded');
       dispatch(getSellerQuota());
-      dispatch(updateSupplierProducts(json.data));
+      dispatch(updateSupplierProductTracks(json.data));
     })
     .catch(err => {
       console.log('err.response', err.response);
@@ -521,7 +522,7 @@ export const requestProductBulkUnTracking = (products: { product_id: number }[])
     .then(json => {
       success('Request succeeded');
       dispatch(getSellerQuota());
-      dispatch(updateSupplierProducts(json.data));
+      dispatch(updateSupplierProductTracks(json.data));
     })
     .catch(err => {
       console.log('err.response', err.response);
@@ -533,13 +534,13 @@ export const requestProductBulkUnTracking = (products: { product_id: number }[])
     });
 };
 
-export const updateSupplierProduct = (data: any) => ({
-  type: UPDATE_SUPPLIER_PRODUCT,
+export const updateSupplierProductTrack = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCT_TRACK,
   payload: data,
 });
 
-export const updateSupplierProducts = (data: any) => ({
-  type: UPDATE_SUPPLIER_PRODUCTS,
+export const updateSupplierProductTracks = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCT_TRACKS,
   payload: data,
 });
 
@@ -759,4 +760,69 @@ export const setActiveColumn = (value?: string) => ({
 export const setSortColumn = (value?: string) => ({
   type: SET_SORT_COLUMN,
   payload: value,
+});
+
+export const triggerDataBuster = (synthesisFileID: number, productIDs: number[]) => (
+  dispatch: any,
+  getState: any
+) => {
+  const sellerID = sellerIDSelector();
+  const productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
+  const supplier = supplierDetailsSelector(getState());
+
+  const bodyFormData = new FormData();
+  bodyFormData.set('product_ids', String(productIDs.join(',')));
+  bodyFormData.set('synthesis_file_id', String(synthesisFileID));
+
+  dispatch(setProductsLoadingDataBuster([...productsLoadingDataBuster, ...productIDs]));
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplier.supplier_id}/data-buster`,
+    bodyFormData
+  )
+    .then(() => dispatch(pollDataBuster(productIDs)))
+    .catch(err => {
+      error(err.response.data.message);
+    });
+};
+
+export const pollDataBuster = (productIDs?: number[]) => async (dispatch: any, getState: any) => {
+  const sellerID = sellerIDSelector();
+  const supplier = supplierDetailsSelector(getState());
+  let productsToPoll = productIDs ? productIDs : productsLoadingDataBusterSelector(getState());
+
+  do {
+    const requests = productsToPoll.map(productId => {
+      return Axios.get(
+        AppConfig.BASE_URL_API +
+          `sellers/${sellerID}/suppliers/${supplier.supplier_id}/data-buster/progress` +
+          `?synthesis_file_id=${supplier.synthesis_file_id}&product_id=${productId}`
+      );
+    });
+
+    const responses = await Promise.all(requests);
+    responses.forEach(response => {
+      if (response.data.data_buster_status !== 'processing') {
+        dispatch(updateSupplierProduct(response.data));
+        const productsLoadingDataBuster = productsLoadingDataBusterSelector(getState());
+        dispatch(
+          setProductsLoadingDataBuster(
+            productsLoadingDataBuster.filter(i => i !== response.data.product_id)
+          )
+        );
+        productsToPoll = productsToPoll.filter(i => i !== response.data.product_id);
+      }
+    });
+
+    await timeout(1000);
+  } while (productsToPoll.length > 0);
+};
+
+export const setProductsLoadingDataBuster = (value: number[]) => ({
+  type: SET_PRODUCTS_LOADING_DATA_BUSTER,
+  payload: value,
+});
+
+export const updateSupplierProduct = (data: any) => ({
+  type: UPDATE_SUPPLIER_PRODUCT,
+  payload: data,
 });

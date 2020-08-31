@@ -134,6 +134,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
               onClose={toggleColumnCheckbox}
               onOpen={toggleColumnCheckbox}
               position="bottom right"
+              className="column-swap-popup"
               basic={true}
               trigger={<Icon className={`${icon}`} />}
               content={
@@ -199,6 +200,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             onClose={toggleColumnCheckbox}
             onOpen={toggleColumnCheckbox}
             position="bottom right"
+            className="column-swap-popup"
             basic={true}
             trigger={<Icon className={`${icon} popup-ic`} />}
             content={

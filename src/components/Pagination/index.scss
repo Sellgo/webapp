@@ -85,7 +85,7 @@
       font-size: 12px;
       padding: 3px 3px 3px 8px;
 
-      .text {
+      > .text {
         padding-right: 20px;
       }
 
@@ -96,6 +96,13 @@
         padding: 2px !important;
         line-height: unset !important;
         top: unset !important;
+      }
+
+      .menu {
+        .item {
+          text-align: center;
+          padding: 0.78571429rem !important;
+        }
       }
     }
   }

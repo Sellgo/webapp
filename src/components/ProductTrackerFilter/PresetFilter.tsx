@@ -6,23 +6,14 @@ import { setIsScroll } from '../../actions/Suppliers';
 import _ from 'lodash';
 
 interface PresetFilterProps {
-  applyFilter: (isPreset?: boolean) => void;
   filterData: ProductTrackerFilterInterface;
   initialFilterState: ProductTrackerFilterState;
   resetPreset: () => void;
-  setRadioFilter: (filterDataKey: string, label: string) => void;
   toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
-  const {
-    applyFilter,
-    filterData,
-    initialFilterState,
-    setRadioFilter,
-    resetPreset,
-    toggleAmazonPresetCheckbox,
-  } = props;
+  const { filterData, initialFilterState, resetPreset, toggleAmazonPresetCheckbox } = props;
 
   return (
     <div className={'pt-filter-content__preset-filter'}>
@@ -35,29 +26,6 @@ const PresetFilter = (props: PresetFilterProps) => {
       {_.map(filterData.presets, (filter, key) => {
         return (
           <div className={`pt-filter-content__preset-filter__content ${filter.dataKey}`} key={key}>
-            {filter.dataKey === 'profitability-preset' && (
-              <>
-                <span className="pt-filter-content__preset-filter__content__filter-name">
-                  {filter.label}
-                </span>
-                {_.map(filter.data, (filterData, dataKey) => {
-                  return (
-                    <div className={`ui radio checkbox ${filter.checkedValue}`} key={dataKey}>
-                      <input
-                        id={filterData.dataKey}
-                        checked={initialFilterState.profitability === filterData.label}
-                        onChange={() => {
-                          setRadioFilter(filterData.dataKey, filterData.label);
-                          applyFilter(true);
-                        }}
-                        type="radio"
-                      />
-                      <label htmlFor={filterData.dataKey}> {filterData.label}</label>
-                    </div>
-                  );
-                })}
-              </>
-            )}
             {filter.dataKey === 'amazon-choice-preset' && (
               <>
                 <span className="pt-filter-content__preset-filter__content__filter-name">

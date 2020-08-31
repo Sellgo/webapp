@@ -20,10 +20,10 @@ export const suppliersTableColumnsSelector = (state: {}) =>
 export const supplierDetailsSelector = (state: {}) => get(state, 'supplier.details');
 export const supplierSelector = (state: {}) => get(state, 'suppliers.supplier');
 export const newSupplierIdSelector = (state: {}) => get(state, 'suppliers.newSupplier');
-export const recentSuppliers = (state: {}) => get(state, 'suppliers.recentSuppliers');
-
 export const getSynthesisId = (state: {}) => get(state, 'uploadSupplier.synthesisId');
 export const supplierMetricsSelector = (state: {}) => get(state, 'suppliers.timeEfficiency');
 
 export const supplierProductsSelector = (state: {}) => get(state, 'supplier.products');
 export const supplierPageNumberSelector = (state: {}) => get(state, 'supplier.pageNumber');
+export const productsLoadingDataBusterSelector = (state: {}): number[] =>
+  get(state, 'supplier.productsLoadingDataBuster');

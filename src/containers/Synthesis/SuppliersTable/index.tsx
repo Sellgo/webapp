@@ -64,6 +64,7 @@ interface SuppliersTableProps {
 
 class SuppliersTable extends Component<SuppliersTableProps> {
   state = { showPieChartModalOpen: false, supplier: undefined, showDeleteConfirm: false };
+
   renderName = (row: Supplier) => {
     const name =
       row.file_status === 'completed' ? (
@@ -431,7 +432,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
 
-    const sortedByCompletedData = _.cloneDeep(data).sort((a, b) => (a.udate < b.udate ? 1 : -1));
+    const sortedByCompletedData = _.cloneDeep(data).sort((a, b) => (a.udate > b.udate ? 1 : -1));
 
     return (
       <div className="suppliers-table">

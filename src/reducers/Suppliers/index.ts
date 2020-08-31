@@ -24,7 +24,6 @@ const initialState = {
   timeEfficiency: [],
   newSupplier: null,
   newSearchName: null,
-  recentSuppliers: [],
 };
 
 export default (state: Suppliers = initialState, action: AnyAction) => {
