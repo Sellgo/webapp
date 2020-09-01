@@ -189,7 +189,40 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
+export const customFilterOperation = (
+  operation: string,
+  prodValue: number,
+  filterValue: number
+) => {
+  switch (operation) {
+    case '≤':
+      return prodValue <= filterValue;
+    case '≥':
+      return prodValue >= filterValue;
+    case '=':
+      return prodValue === filterValue;
+    default:
+      return false;
+  }
+};
+
+export const listingGeneratesCustomizableFilter = (product: any, customizableFilter: any) => {
+  const generatesValue = product.price * product.sales_monthly;
+  let result = true;
+  _.filter(customizableFilter, filter => {
+    if (filter.dataKey === 'listing-monthly' && filter.active) {
+      if (!filter.active) return result;
+      else {
+        result = customFilterOperation(filter.operation, generatesValue, filter.value);
+      }
+    }
+  });
+  return result;
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
+  console.log('products: ', products);
+  console.log('filterData: ', filterData);
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
       ? // show if product's category matched one of filter's categories
@@ -204,6 +237,8 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
             //show product size tier is matched by one of size tiers
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
+          //customiable filters
+          listingGeneratesCustomizableFilter(product, filterData.customizable) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>

@@ -599,7 +599,35 @@ function ProfitFinderFilterSection(props: Props) {
       return customizableData;
     });
     setFilterState(filterData);
+    profitCustomizableFilter();
     applyFilter(true);
+  };
+
+  const profitCustomizableFilter = () => {
+    const filterData = filterState;
+    console.log('productRanges.profit: ', productRanges.profit);
+    _.map(filterData.customizable, filter => {
+      if (filter.dataKey === 'profit-monthly' && filter.active) {
+        switch (filter.operation) {
+          case '≤':
+            filterData.profit.min = productRanges.profit.min;
+            filterData.profit.max = Number(filter.value);
+            break;
+          case '≥':
+            filterData.profit.min = Number(filter.value);
+            filterData.profit.max = productRanges.profit.max;
+            break;
+          case '=':
+            filterData.profit.min = Number(filter.value);
+            filterData.profit.max = Number(filter.value);
+            break;
+          default:
+            return null;
+        }
+      }
+    });
+    console.log('filterData.profit: ', filterData.profit);
+    setFilterState(filterData);
   };
 
   const selectAllCategories = (firstLoad?: boolean) => {
@@ -743,7 +771,6 @@ function ProfitFinderFilterSection(props: Props) {
     ) {
       filterState.profitabilityFilter.active = false;
     }
-    console.log('filterState: ', filterState);
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
     if (!isPreset) {
