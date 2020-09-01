@@ -74,6 +74,8 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   const { dataKey, sortable, label, click, check, popUp, icon, className = '' } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
+  const columnClass = type !== 'leads-tracker' ? getColumnClass(column) : '';
+
   otherProps = {
     onClick: sortable
       ? (e: any) => {
@@ -88,7 +90,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     className:
       type === 'trackerTable'
         ? `table-header ${dataKey} ${className}`
-        : `pf-header-cell ${dataKey}  ${getColumnClass(column)} col-size ${className}`,
+        : `pf-header-cell ${dataKey}  ${columnClass} col-size ${className}`,
   };
   if (dataKey === 'sellgo_score') {
     otherProps = { ...otherProps, className: `${otherProps} remove-left-border` };
@@ -244,9 +246,17 @@ const TableHeader = (props: TableHeaderProps) => {
   };
 
   if (middleScroll) {
-    const lowerBound = filteredColumns.slice(0, 2);
-    const middleBound = filteredColumns.slice(2, filteredColumns.length - 2);
-    const upperBound = filteredColumns.slice(filteredColumns.length - 2, filteredColumns.length);
+    const products = rest.type === 'products';
+    const lowerBound = filteredColumns.slice(0, products ? 2 : 5);
+    const middleBound = filteredColumns.slice(
+      products ? 2 : 5,
+      products ? filteredColumns.length - 2 : filteredColumns.length - 7
+    );
+    // eslint-disable-next-line max-len
+    const upperBound = filteredColumns.slice(
+      products ? filteredColumns.length - 2 : filteredColumns.length - 7,
+      filteredColumns.length
+    );
     const scrollRows: any = [
       {
         side: 'right',

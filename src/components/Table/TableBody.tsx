@@ -61,10 +61,19 @@ export const TableBody = (props: TableBodyProps) => {
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
 
   if (middleScroll) {
-    const lowerBound = columns.slice(0, 2);
-    const middleBound = columns.slice(2, columns.length - 2);
-    const upperBound = columns.slice(columns.length - 2, columns.length - 1);
-
+    // const lowerBound = columns.slice(0, 2);
+    // const middleBound = columns.slice(2, columns.length - 2);
+    // const upperBound = columns.slice(columns.length - 2, columns.length - 1);
+    const products = type === 'products';
+    const lowerBound = filteredColumns.slice(0, products ? 2 : 5);
+    const middleBound = filteredColumns.slice(
+      products ? 2 : 5,
+      products ? filteredColumns.length - 2 : filteredColumns.length - 7
+    );
+    const upperBound = filteredColumns.slice(
+      products ? filteredColumns.length - 1 : filteredColumns.length - 7,
+      filteredColumns.length
+    );
     const onBodyScroll = (evt: any) => {
       const middleHeader = document.querySelector('.middle-header');
       const centerScroll = document.querySelector('.middle-scroll-cell');

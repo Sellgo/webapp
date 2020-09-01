@@ -676,11 +676,6 @@ $new_black: #3b4557;
   }
 }
 
-@media screen and (min-width: 1856px) {
-  .products-table {
-    margin-top: -40px;
-  }
-}
 
 .amazon_category_name {
   min-width: 140px !important;
@@ -704,4 +699,19 @@ $new_black: #3b4557;
   .table-scroll-divider {
     display: none !important;
   }
+}
+
+.lt-sm-col {
+  width: 80px !important;
+  min-width: 80px !important;
+}
+
+.lt-md-col {
+  min-width: 120px !important;
+  width: 120px !important;
+}
+
+.lt-lg-col {
+  min-width: 240px !important;
+  width: 240px !important;
 }

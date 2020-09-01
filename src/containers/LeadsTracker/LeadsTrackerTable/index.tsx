@@ -10,6 +10,10 @@ import get from 'lodash/get';
 import { setSupplierPageNumber, setSupplierSinglePageItemsCount } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
+import { leads } from '../../../selectors/LeadsTracker';
+import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
+import ProductDescription from '../../Synthesis/Supplier/ProductsTable/productDescription';
+import DetailButtons from './detailButtons';
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -18,6 +22,7 @@ class LeadsTracker extends React.Component<any, any> {
     super(props);
     this.state = {
       columns: this.columns,
+      checkedRows: {},
     };
   }
 
@@ -43,6 +48,40 @@ class LeadsTracker extends React.Component<any, any> {
     this.setState({ checkedRows });
   };
 
+  renderProductInfo = (row: Product) => <ProductDescription item={row} />;
+  renderSearch = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.search, row.search)}</p>;
+  renderProductID = (row: any) => (
+    <p className="stat">{showNAIfZeroOrNull(row.product_id, row.product_id)}</p>
+  );
+  renderASIN = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
+  renderPrice = (row: any) => (
+    <p className="stat">{showNAIfZeroOrNull(row.price, formatCurrency(row.price))}</p>
+  );
+  renderProfit = (row: any) => (
+    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+  );
+
+  renderMargin = (row: any) => (
+    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+  );
+  renderRoi = (row: any) => (
+    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+  );
+  renderAverage = (row: any) => (
+    <p className="stat">{showNAIfZeroOrNull(row.avg_price, formatCurrency(row.avg_price))}</p>
+  );
+  renderIndex = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.v, row.index_price)}</p>;
+
+  renderChange = (row: any) => (
+    <p className="stat">{showNAIfZeroOrNull(row.v, row.change_price)}</p>
+  );
+  renderHighs = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.v, row.max_price)}</p>;
+  renderLows = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.v, row.min_price)}</p>;
+
+  renderDetailButtons = (row: any) => {
+    return <DetailButtons score={0} isTracking={true} onTrack={() => console.log(row)} />;
+  };
+
   handleClick = () => {
     const { ColumnFilterBox } = this.state;
     this.setState({
@@ -57,34 +96,52 @@ class LeadsTracker extends React.Component<any, any> {
       show: true,
       check: true,
       render: this.renderCheckBox,
+      className: 'lt-sm-col',
     },
     {
       label: 'Product Information',
       dataKey: 'title',
       type: 'string',
-      sortable: true,
+      // sortable: true,
       show: true,
+      className: 'lt-lg-col',
+      render: this.renderProductInfo,
     },
     {
       label: 'Search File',
+      dataKey: 'search_file',
+      type: 'string',
+      sortable: true,
+      show: true,
+      className: 'lt-md-col',
+      render: this.renderSearch,
+    },
+    {
+      label: 'Product ID',
+      dataKey: 'product_id',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'lt-md-col',
+      render: this.renderProductID,
+    },
+    {
+      label: 'ASIN',
+      dataKey: 'asin',
+      type: 'string',
+      sortable: true,
+      show: true,
+      className: 'lt-sm-col',
+      render: this.renderASIN,
+    },
+    {
+      label: 'Price',
       dataKey: 'price',
       type: 'number',
       sortable: true,
       show: true,
-    },
-    {
-      label: 'Cost',
-      dataKey: 'product_cost',
-      type: 'number',
-      sortable: true,
-      show: true,
-    },
-    {
-      label: 'Fees',
-      dataKey: 'fees',
-      type: 'number',
-      sortable: true,
-      show: true,
+      className: 'lt-md-col',
+      render: this.renderPrice,
     },
     {
       label: 'Profit',
@@ -92,20 +149,17 @@ class LeadsTracker extends React.Component<any, any> {
       type: 'number',
       sortable: true,
       show: true,
+      className: 'lt-md-col',
+      render: this.renderProfit,
     },
     {
-      label: 'Margin',
-      dataKey: 'margin',
+      label: 'Profit Margin',
+      dataKey: 'profit_margin',
       type: 'number',
       sortable: true,
       show: true,
-    },
-    {
-      label: 'Monthly\nRevenue',
-      dataKey: 'monthly_revenue',
-      type: 'number',
-      sortable: true,
-      show: true,
+      className: 'lt-md-col',
+      render: this.renderMargin,
     },
     {
       label: 'ROI',
@@ -113,90 +167,62 @@ class LeadsTracker extends React.Component<any, any> {
       type: 'number',
       sortable: true,
       show: true,
+      className: 'lt-sm-col',
+      render: this.renderRoi,
     },
     {
-      label: 'Rank',
-      dataKey: 'rank',
+      label: 'Average',
+      dataKey: 'average',
       type: 'number',
       sortable: true,
       show: true,
+      className: 'lt-md-col',
+      render: this.renderAverage,
     },
     {
-      label: 'Monthly \nSales Est',
-      dataKey: 'sales_monthly',
+      label: 'Index',
+      dataKey: 'index',
       type: 'number',
       sortable: true,
       show: true,
+      className: 'lt-md-col',
+      render: this.renderIndex,
     },
     {
-      label: 'Category',
-      dataKey: 'amazon_category_name',
+      label: 'Change',
+      dataKey: 'change',
       type: 'string',
       sortable: true,
       show: true,
+      className: 'lt-md-col',
+      render: this.renderChange,
     },
     {
-      label: 'Size Tier',
-      dataKey: 'size_tier',
+      label: 'Highs',
+      dataKey: 'highs',
       type: 'string',
       show: true,
       sortable: true,
+      className: 'lt-sm-col',
+      render: this.renderHighs,
     },
     {
-      label: 'FBA Fee',
-      dataKey: 'fba_fee',
+      label: 'Lows',
+      dataKey: 'lows',
       type: 'number',
       show: true,
       sortable: true,
+      className: 'lt-sm-col',
+      render: this.renderLows,
     },
     {
-      label: 'Referral\nFee',
-      dataKey: 'referral_fee',
-      type: 'number',
-      show: true,
-      sortable: true,
-    },
-    {
-      label: 'Variable\nClosing Fee',
-      dataKey: 'variable_closing_fee',
-      type: 'number',
-      show: true,
-      sortable: true,
-    },
-    {
-      label: 'Num New\nFBA Offers',
-      dataKey: 'num_new_fba_offers',
-      type: 'number',
-      show: true,
-      sortable: true,
-    },
-    {
-      label: 'Num New\nFBM Offers',
-      dataKey: 'num_new_fbm_offers',
-      type: 'number',
-      show: true,
-      sortable: true,
-    },
-    {
-      label: 'Low New\nFBA Price',
-      dataKey: 'low_new_fba_price',
-      type: 'number',
-      show: true,
-      sortable: true,
-    },
-    {
-      label: 'Low New\nFBM Price',
-      dataKey: 'low_new_fbm_price',
-      type: 'number',
-      show: true,
-      sortable: true,
-    },
-    {
-      label: 'Tracking / Scoring',
+      label: 'Tracking',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,
       sortable: true,
+      className: 'lt-sm-col',
+      render: this.renderDetailButtons,
     },
     {
       label: '',
@@ -205,13 +231,14 @@ class LeadsTracker extends React.Component<any, any> {
       show: true,
       // render: this.renderSyncButtons,
       popUp: true,
+      className: 'lt-sm-col',
     },
   ];
 
   render() {
-    const { currentActiveColumn, setSinglePageItemsCount, setPageNumber } = this.props;
+    const { currentActiveColumn, setSinglePageItemsCount, setPageNumber, leads } = this.props;
     const { checkedRows, columns, ColumnFilterBox } = this.state;
-
+    console.log('leads', leads);
     return (
       <div className="products-table">
         <GenericTable
@@ -219,7 +246,7 @@ class LeadsTracker extends React.Component<any, any> {
           scrollTopSelector={false}
           tableKey={tableKeys.LEADS}
           columns={columns}
-          data={[]}
+          data={leads}
           // searchFilterValue={searchValue}
           // showProductFinderSearch={true}
           // searchFilteredProduct={this.searchFilteredProduct}
@@ -228,7 +255,7 @@ class LeadsTracker extends React.Component<any, any> {
           setSinglePageItemsCount={setSinglePageItemsCount}
           currentPage={1}
           setPage={setPageNumber}
-          name={'products'}
+          name={'leads-tracker'}
           showFilter={true}
           // columnFilterBox={ColumnFilterBox}
           checkedRows={checkedRows}
@@ -254,6 +281,7 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   stickyChartSelector: get(state, 'supplier.singlePageItemsCount'),
   pageNumber: supplierPageNumberSelector(state),
+  leads: leads(state),
 });
 
 const mapDispatchToProps = {
