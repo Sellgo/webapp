@@ -55,12 +55,16 @@ class RevenueChart extends Component<RevenueChartProps> {
           fontSize: '0.9em',
           fontWeight: 'normal',
         },
+        tooltipStyle: { width: '510px' },
+        imageStyle: { display: 'inline-block', marginBottom: '5px' },
+        leftColumnStyle: { padding: '5px 20px 0 0' },
+        rightColumnStyle: { padding: 0 },
       };
 
       return renderToString(
-        <div style={{ width: '510px' }}>
+        <div style={styles.tooltipStyle}>
           <Grid columns={2} verticalAlign="middle">
-            <Grid.Column width={6} textAlign="center" style={{ padding: '5px 20px 0 0' }}>
+            <Grid.Column width={6} textAlign="center" style={styles.leftColumnStyle}>
               <Image
                 src={
                   image_urls && image_urls[x] !== null
@@ -68,14 +72,14 @@ class RevenueChart extends Component<RevenueChartProps> {
                     : 'http://localhost:3000/images/intro.png'
                 }
                 centered
-                style={{ display: 'inline-block', marginBottom: '5px' }}
+                style={styles.imageStyle}
               />
               <div style={styles.captionStyle}>ASIN: {showNAIfZeroOrNull(asins[x], asins[x])}</div>
               <div style={styles.captionStyle}>
                 {upcs[x] ? `UPC: ${upcs[x]}` : eans[x] ? `EAN: ${eans[x]}` : ''}
               </div>
             </Grid.Column>
-            <Grid.Column style={{ padding: 0 }}>
+            <Grid.Column style={styles.rightColumnStyle}>
               <div style={styles.titleStyle}>
                 <h4>{productTitle}</h4>
               </div>
