@@ -608,18 +608,35 @@ function ProfitFinderFilterSection(props: Props) {
     console.log('productRanges.profit: ', productRanges.profit);
     _.map(filterData.customizable, filter => {
       if (filter.dataKey === 'profit-monthly' && filter.active) {
+        console.log('test: ', Number(filter.value) > productRanges.profit.min);
         switch (filter.operation) {
           case '≤':
             filterData.profit.min = productRanges.profit.min;
-            filterData.profit.max = Number(filter.value);
+            filterData.profit.max =
+              Number(filter.value) > productRanges.profit.max
+                ? productRanges.profit.max
+                : Number(filter.value);
             break;
           case '≥':
-            filterData.profit.min = Number(filter.value);
+            filterData.profit.min =
+              Number(filter.value) < productRanges.profit.min
+                ? productRanges.profit.min
+                : Number(filter.value);
             filterData.profit.max = productRanges.profit.max;
             break;
           case '=':
-            filterData.profit.min = Number(filter.value);
-            filterData.profit.max = Number(filter.value);
+            filterData.profit.min =
+              Number(filter.value) < productRanges.profit.min
+                ? productRanges.profit.min
+                : Number(filter.value) > productRanges.profit.max
+                ? productRanges.profit.max
+                : Number(filter.value);
+            filterData.profit.max =
+              Number(filter.value) > productRanges.profit.max
+                ? productRanges.profit.max
+                : Number(filter.value) < productRanges.profit.min
+                ? productRanges.profit.min
+                : Number(filter.value);
             break;
           default:
             return null;
@@ -728,6 +745,7 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
+
   const setProfitability = (value?: any) => {
     const filterValue = filterState;
     const objData = {
@@ -750,6 +768,7 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  // toggleOffCustomFilter = (dataKey: string) => {};
   const resetCustomizableFilter = () => {
     console.log('resetCustomizableFilter ');
   };
