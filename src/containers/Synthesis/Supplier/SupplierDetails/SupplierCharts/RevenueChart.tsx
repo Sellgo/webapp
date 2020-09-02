@@ -3,7 +3,7 @@ import { Product } from '../../../../../interfaces/Product';
 import { renderToString } from 'react-dom/server';
 import { Grid, Image } from 'semantic-ui-react';
 import Chart from '../../../../../components/Chart/Chart';
-import { showNAIfZeroOrNull, formatCurrency } from '../../../../../utils/format';
+import { showNAIfZeroOrNull } from '../../../../../utils/format';
 import _ from 'lodash';
 
 interface RevenueChartProps {
@@ -19,6 +19,7 @@ class RevenueChart extends Component<RevenueChartProps> {
     const productSKUs = products.map(e => e.title);
     const profit = products.map(e => parseFloat(e.profit));
     const product_cost = products.map(e => parseFloat(e.product_cost));
+    const prices = products.map(e => parseFloat(e.price));
     const image_urls = products.map(e => e.image_url);
     const fees = products.map(e => parseFloat(e.fees));
     const roi = products.map(e => parseFloat(e.roi));
@@ -78,10 +79,13 @@ class RevenueChart extends Component<RevenueChartProps> {
               <div style={styles.titleStyle}>
                 <h4>{productTitle}</h4>
               </div>
+              <div style={styles.textStyle}>
+                Price($): {showNAIfZeroOrNull(prices[x], prices[x])}
+              </div>
               {data.map((series: any, index: number) => {
                 return (
                   <div key={index} style={styles.textStyle}>
-                    {series.name}: {formatCurrency(series.data[x])}
+                    {series.name}: {series.data[x]}
                   </div>
                 );
               })}
