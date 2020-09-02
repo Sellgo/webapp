@@ -147,10 +147,10 @@ function ProfitFinderFilterSection(props: Props) {
         dataKey: 'listing-monthly',
         operation: '≤',
         value: 1200,
-        active: true,
+        active: false,
       },
       {
-        dataKey: 'profit-monthly',
+        dataKey: 'profit',
         operation: '≤',
         value: 250,
         active: false,
@@ -517,7 +517,7 @@ function ProfitFinderFilterSection(props: Props) {
           },
           {
             label: 'Profit is',
-            dataKey: 'profit-monthly',
+            dataKey: 'profit',
             targetValue: '$/month',
           },
         ],
@@ -585,8 +585,7 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
-    const filterData = filterState;
-    _.map(filterData.customizable, customizableData => {
+    _.map(filterState.customizable, customizableData => {
       if (customizableData.dataKey === dataKey) {
         if (type === 'operation') {
           customizableData.operation = value;
@@ -598,22 +597,42 @@ function ProfitFinderFilterSection(props: Props) {
       }
       return customizableData;
     });
-    setFilterState(filterData);
+    setFilterState(filterState);
     profitCustomizableFilter();
+    //resets negative filter on slider based on custom filter key
+    toggleNegative(dataKey, true);
     applyFilter(true);
+  };
+
+  const toggleOffCustomFilter = (dataKey: string) => {
+    const filterData = filterState;
+    console.log('productRanges.profit: ', productRanges.profit);
+    _.map(filterData.customizable, filter => {
+      if (filter.dataKey === dataKey && filter.active) {
+        filter.active = false;
+      }
+      return filter;
+    });
+    setFilterState(filterData);
+  };
+
+  const resetCustomizableFilter = () => {
+    const filterData = filterState;
+    filterData.customizable = filterInitialData.customizable;
+    setFilterState(filterData);
   };
 
   const profitCustomizableFilter = () => {
     const filterData = filterState;
-    console.log('productRanges.profit: ', productRanges.profit);
     _.map(filterData.customizable, filter => {
-      if (filter.dataKey === 'profit-monthly' && filter.active) {
-        console.log('test: ', Number(filter.value) > productRanges.profit.min);
+      if (filter.dataKey === 'profit' && filter.active) {
         switch (filter.operation) {
           case '≤':
             filterData.profit.min = productRanges.profit.min;
             filterData.profit.max =
-              Number(filter.value) > productRanges.profit.max
+              Number(filter.value) < productRanges.profit.min
+                ? productRanges.profit.min
+                : Number(filter.value) > productRanges.profit.max
                 ? productRanges.profit.max
                 : Number(filter.value);
             break;
@@ -621,6 +640,8 @@ function ProfitFinderFilterSection(props: Props) {
             filterData.profit.min =
               Number(filter.value) < productRanges.profit.min
                 ? productRanges.profit.min
+                : Number(filter.value) > productRanges.profit.max
+                ? productRanges.profit.max
                 : Number(filter.value);
             filterData.profit.max = productRanges.profit.max;
             break;
@@ -632,10 +653,10 @@ function ProfitFinderFilterSection(props: Props) {
                 ? productRanges.profit.max
                 : Number(filter.value);
             filterData.profit.max =
-              Number(filter.value) > productRanges.profit.max
-                ? productRanges.profit.max
-                : Number(filter.value) < productRanges.profit.min
+              Number(filter.value) < productRanges.profit.min
                 ? productRanges.profit.min
+                : Number(filter.value) > productRanges.profit.max
+                ? productRanges.profit.max
                 : Number(filter.value);
             break;
           default:
@@ -643,7 +664,6 @@ function ProfitFinderFilterSection(props: Props) {
         }
       }
     });
-    console.log('filterData.profit: ', filterData.profit);
     setFilterState(filterData);
   };
 
@@ -768,11 +788,6 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
-  // toggleOffCustomFilter = (dataKey: string) => {};
-  const resetCustomizableFilter = () => {
-    console.log('resetCustomizableFilter ');
-  };
-
   const resetPreset = () => {
     resetCustomizableFilter();
     applyFilter(true);
@@ -789,6 +804,7 @@ function ProfitFinderFilterSection(props: Props) {
       JSON.stringify(initialFilterState.profit) !== JSON.stringify(filterState.profit)
     ) {
       filterState.profitabilityFilter.active = false;
+      toggleOffCustomFilter('profit');
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
@@ -802,16 +818,16 @@ function ProfitFinderFilterSection(props: Props) {
     const data = filterState;
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
-    data.price = productRanges.price;
-    data.profit = productRanges.profit;
-    data.margin = productRanges.margin;
-    data.roi = productRanges.roi;
-    data.sales_monthly = productRanges.sales_monthly;
-    data.rank = productRanges.rank;
+    data.price = rangeData.price;
+    data.profit = rangeData.profit;
+    data.margin = rangeData.margin;
+    data.roi = rangeData.roi;
+    data.sales_monthly = rangeData.sales_monthly;
+    data.rank = rangeData.rank;
     data.removeNegative = [];
     selectAllCategories();
     selectAllSize();
-    const filterRangeKeys = Object.keys(productRanges);
+    const filterRangeKeys = Object.keys(rangeData);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterDataState.filterRanges, filter => {
         if (filter.dataKey === key) {
@@ -835,33 +851,48 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterType(type);
   };
 
-  const toggleNegative = (datakey: string) => {
+  const toggleNegative = (datakey: string, isPreset?: boolean) => {
     const data = filterState;
     const filterDetails = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
-        if (data.removeNegative.indexOf(datakey) !== -1) {
-          data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
-          filter.range = rangeData[datakey];
-          filter.filterRange = rangeData[datakey];
-          data[datakey] = rangeData[datakey];
+        if (isPreset) {
+          if (data.removeNegative.indexOf(datakey) !== -1) {
+            //only toggle negative slider if change is from preset
+            data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+            filter.range = rangeData[datakey];
+            filter.filterRange = rangeData[datakey];
+          }
         } else {
-          data.removeNegative.push(datakey);
-          filter.range = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
-          filter.filterRange = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
-          data[filter.dataKey] = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
+          if (data.removeNegative.indexOf(datakey) !== -1) {
+            data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+            filter.range = rangeData[datakey];
+            filter.filterRange = rangeData[datakey];
+            data[datakey] = rangeData[datakey];
+          } else {
+            data.removeNegative.push(datakey);
+            filter.range = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+            filter.filterRange = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+            data[filter.dataKey] = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+          }
         }
       }
       return filter;
     });
+
+    //resets custom filter based on slider
+    if (!isPreset) {
+      toggleOffCustomFilter(datakey);
+    }
+
     setFilterRanges(filterDetails);
     setFilterState(data);
   };
