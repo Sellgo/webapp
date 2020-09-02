@@ -34,13 +34,16 @@ export interface FilterData {
 export interface SupplierFilter {
   allFilter: FilterData[];
   filterRanges: RangeModel[];
-  presets: FilterData[];
 }
 
 export interface FilterState {
   supplierID: string;
   allFilter: string[];
   profitability: string;
+  profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
   amazonChoice: string[];
   removeNegative: string[];
   sizeTierFilter: string[];
@@ -87,7 +90,10 @@ export interface ProductTrackerFilterState {
   reviews: string[];
   amazonChoice: string[];
   period: number;
-  profitability: string;
+  profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
   price: {
     min: number;
     max: number;

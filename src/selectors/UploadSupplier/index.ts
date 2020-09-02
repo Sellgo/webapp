@@ -37,7 +37,7 @@ export const currentSupplier = (state: object): [] => get(state, 'modals.uploadS
 export const currentError = (state: object): [] => get(state, 'uploadSupplier.resultError', []);
 
 export const fileStringArraySelector = (state: object): string[][] =>
-  get(state, 'uploadSupplier.fileStringArray', null);
+  get(state, 'uploadSupplier.fileStringArray', []);
 
 export const primaryIdTypeSelector = (state: object): string =>
   get(state, 'uploadSupplier.primaryIdType', '');
@@ -47,9 +47,6 @@ export const columnMappingsSelector = (state: object): [] =>
 
 export const columnMappingSettingSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.columnMappingSetting', false);
-
-export const skipColumnMappingCheckSelector = (state: object): boolean =>
-  get(state, 'uploadSupplier.skipColumnMappingCheck', false);
 
 export const fileHeaderSelector = createSelector([fileStringArraySelector], fileStringArray => {
   const headerRow = fileStringArray.length > 0 ? fileStringArray[0] : [];

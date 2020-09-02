@@ -19,7 +19,6 @@ interface Props {
   toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
   toggleNegative: (datakey: string) => void;
   resetPreset: () => void;
-  setRadioFilter: (filterDataKey: string, label: string) => void;
 }
 
 function ProductTrackerFilter(props: Props) {
@@ -37,7 +36,6 @@ function ProductTrackerFilter(props: Props) {
     toggleAmazonPresetCheckbox,
     toggleNegative,
     resetPreset,
-    setRadioFilter,
   } = props;
 
   return (
@@ -58,10 +56,8 @@ function ProductTrackerFilter(props: Props) {
       )}
       {filterType === 'more-filter' && (
         <PresetFilter
-          applyFilter={applyFilter}
           initialFilterState={initialFilterState}
           filterData={filterData}
-          setRadioFilter={setRadioFilter}
           toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           resetPreset={resetPreset}
         />

@@ -250,6 +250,7 @@ i.icon.filter::before {
 .table-header {
   height: 46px;
   min-width: 95px;
+  padding: 0 5px !important;
 }
 
 .table-cell-container {
@@ -525,13 +526,21 @@ i.icon.filter::before {
 }
 
 .pagination-cell {
-  position: absolute !important;
   width: 100% !important;
+  position: fixed !important;
+  z-index: 9999;
+  bottom: 0;
+  background: #fff !important;
+  right: 10px;
+  padding: 5.8px 0.78571em !important;
+  -webkit-box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  -moz-box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
+  box-shadow: 0 -3px 6px 0 rgba(0, 0, 9, 0.25);
 }
 
 .pagination-container {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: flex-end !important;
 }
 
 @media (max-width: 2560px) {
@@ -542,7 +551,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 485px;
+        top: 494px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -570,7 +579,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 387px;
+        top: 399px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -598,7 +607,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 352px;
+        top: 366px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -626,7 +635,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 260px;
+        top: 272px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -654,7 +663,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 260px;
+        top: 258px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -686,7 +695,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 237px;
+        top: 252px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -698,7 +707,7 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 340px;
+            top: 330px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
@@ -710,8 +719,56 @@ i.icon.filter::before {
   }
 }
 
+@media (max-width: 1367px) {
+  .generic-table {
+    .table-menu-header {
+      &.sticky-chart-active {
+        top: 360px;
+      }
+
+      &.scroll-top.sticky-chart-active {
+        top: 360px;
+      }
+    }
+
+    .ui.table {
+      &.pf-table {
+        thead.pf-header {
+          &.sticky-chart-active > tr:first-child th {
+            top: 434px;
+          }
+
+          &.sticky-chart-active.scroll-top > tr:first-child th {
+            top: 483px;
+          }
+        }
+      }
+    }
+  }
+}
+
 .scroll-column {
   height: 10px !important;
+}
+
+.xs-column {
+  min-width: 50px !important;
+}
+
+.sm-column {
+  min-width: 96px !important;
+}
+
+.md-column {
+  min-width: 110px !important;
+}
+
+.lg-column {
+  min-width: 142px !important;
+}
+
+.xl-column {
+  min-width: 195px !important;
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1279px) {

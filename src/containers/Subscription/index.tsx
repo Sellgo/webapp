@@ -5,7 +5,6 @@ import Auth from '../../components/Auth/Auth';
 import Summary from './Summary';
 import Login from './Login';
 import Signup from './Signup';
-import history from '../../history';
 
 interface SubscriptionProps {
   auth: Auth;
@@ -28,8 +27,8 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
 
   componentDidMount() {
     if (localStorage.getItem('isLoggedIn') === 'true') {
-      localStorage.setItem('loginRedirectPath', '/');
-      history.push('/settings/pricing');
+      this.setLogin();
+      localStorage.setItem('isLoggedIn', 'false');
     } else if (window.location.search.indexOf('-unverified') !== -1) {
       this.setLogin();
     }

@@ -124,6 +124,7 @@ export default class Auth {
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
     localStorage.setItem('isLoggedIn', 'true');
+    this.removeFilters();
     this.getProfile(() => {
       this.registerSeller();
     });
@@ -150,6 +151,13 @@ export default class Auth {
     localStorage.removeItem('userName');
     localStorage.removeItem('userPicture');
     localStorage.setItem('loginRedirectPath', '/');
+  };
+
+  public removeFilters = () => {
+    localStorage.removeItem('filterState');
+    localStorage.removeItem('filterSelectAllCategories');
+    localStorage.removeItem('trackerFilter');
+    localStorage.removeItem('filterSelectAllReviews');
   };
 
   public logout = () => {

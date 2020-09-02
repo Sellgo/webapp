@@ -5,16 +5,13 @@ import _ from 'lodash';
 import { SupplierFilter, FilterState } from '../../interfaces/Filters';
 import { Range } from '../../interfaces/Generic';
 import AllFilter from './AllFilter';
-import PresetFilter from './PresetFilter';
 
 interface Props {
   filterType: string;
   toggleCheckboxFilter: (filterDataKey: string, label: string) => void;
   toggleSizeTierFilter: (filterDataKey: string, label: string) => void;
-  setRadioFilter: (filterDataKey: string, label: string) => void;
   applyFilter: (isPreset?: boolean) => void;
   resetFilter: () => void;
-  resetPreset: () => void;
   toggleSelectAllCategories: () => void;
   toggleSelectAllSize: () => void;
   selectAllCategories: () => void;
@@ -33,7 +30,6 @@ function FilterContainer(props: Props) {
     toggleSizeTierFilter,
     toggleCheckboxFilter,
     resetFilter,
-    resetPreset,
     filterData,
     handleCompleteChange,
     resetSingleFilter,
@@ -45,7 +41,6 @@ function FilterContainer(props: Props) {
     isSelectAllSize,
     toggleNegative,
     filterType,
-    setRadioFilter,
   } = props;
 
   const [isShowMore, setShowMore] = useState(false);
@@ -160,16 +155,6 @@ function FilterContainer(props: Props) {
           initialFilterState={initialFilterState}
           toggleNegative={toggleNegative}
           filterCategory={filterCategory}
-        />
-      )}
-
-      {filterType === 'more-filter' && (
-        <PresetFilter
-          applyFilter={applyFilter}
-          initialFilterState={initialFilterState}
-          filterData={filterData}
-          setRadioFilter={setRadioFilter}
-          resetPreset={resetPreset}
         />
       )}
       <Modal
