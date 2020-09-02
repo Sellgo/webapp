@@ -2,9 +2,15 @@
   border: none !important;
   box-shadow: unset !important;
   background: white;
+  color: #3b4557 !important;
+  border-top-left-radius: 100px !important;
+  border-bottom-left-radius: 100px !important;
+  border-top-right-radius: 100px !important;
+  border-bottom-right-radius: 100px !important;
+  height: 32px;
 
   .profitability-preset-btn {
-    color: #98aeca !important;
+    color: #3b4557 !important;
     border: 1px solid #98aeca !important;
     box-shadow: unset !important;
     border-top-left-radius: 100px !important;
@@ -13,11 +19,10 @@
     border-bottom-right-radius: 0;
     font-weight: 600 !important;
     padding: 0 10px 0 15px;
-    height: 32px;
   }
 
   .ui.dropdown {
-    color: #98aeca !important;
+    color: #3b4557 !important;
     border: 1px solid #98aeca !important;
     box-shadow: unset !important;
     border-left: none !important;
@@ -46,7 +51,9 @@
 
   &.basic {
     .profitability-preset-btn {
-      color: #3b4557 !important;
+      &.ui.button {
+        color: #3b4557 !important;
+      }
     }
 
     .ui.dropdown {

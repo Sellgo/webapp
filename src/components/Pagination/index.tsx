@@ -50,7 +50,11 @@ const Pagination = (props: PaginationProps) => {
     }
   };
 
-  const onBlur = () => setPage(getValidatedPage());
+  const onBlur = () => {
+    const pageNo = getValidatedPage();
+    onPageNumberUpdate(pageNo);
+    setPage(pageNo);
+  };
 
   const getValidatedPage = (): number => {
     let value: any = page;
@@ -64,8 +68,8 @@ const Pagination = (props: PaginationProps) => {
 
     return value;
   };
-  const onNext = () => onNextPage(currentPage + 1);
-  const onPrev = () => onPrevPage(currentPage - 1);
+  const onNext = () => onNextPage(+currentPage + 1);
+  const onPrev = () => onPrevPage(+currentPage - 1);
 
   React.useEffect(() => {
     setPage(currentPage);
