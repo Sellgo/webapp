@@ -155,6 +155,18 @@ function ProfitFinderFilterSection(props: Props) {
         value: 250,
         active: false,
       },
+      {
+        dataKey: 'price',
+        operation: '≤',
+        value: 20,
+        active: false,
+      },
+      {
+        dataKey: 'margin',
+        operation: '≤',
+        value: 15,
+        active: false,
+      },
     ],
   };
   const initialFilterState: any =
@@ -177,6 +189,20 @@ function ProfitFinderFilterSection(props: Props) {
     }
     if (isSelectAllSize || !filterStorage) {
       selectAllSize(true);
+    }
+    console.log(
+      'b4 filter: ',
+      filterState,
+      filterState.customizable.length,
+      filterInitialData.customizable.length
+    );
+    if (filterState.customizable.length !== filterInitialData.customizable.length) {
+      filterState.customizable = _.map(filterState.customizable, (item: any) => {
+        const item2 = _.findKey(filterInitialData.customizable, { dataKey: item.dataKey });
+
+        return _.extend(item, item2);
+      });
+      console.log('add: ', filterState.customizable);
     }
     filterProducts(filterSearch, filterState);
     setHasAllFilter(isFilterUse());
@@ -520,6 +546,16 @@ function ProfitFinderFilterSection(props: Props) {
             dataKey: 'profit',
             targetValue: '$/month',
           },
+          {
+            label: 'Amazon price is',
+            dataKey: 'price',
+            targetValue: '$',
+          },
+          {
+            label: 'Profit Margin is',
+            dataKey: 'margin',
+            targetValue: '%',
+          },
         ],
       },
     ],
@@ -593,12 +629,15 @@ function ProfitFinderFilterSection(props: Props) {
           customizableData.value = value;
         } else if (type === 'toggle') {
           customizableData.active = !customizableData.active;
+          if (!customizableData.active && filterState[dataKey]) {
+            filterState[dataKey] = rangeData[dataKey];
+          }
         }
       }
       return customizableData;
     });
     setFilterState(filterState);
-    profitCustomizableFilter();
+    customizableFilterWithSlider(dataKey);
     //resets negative filter on slider based on custom filter key
     toggleNegative(dataKey, true);
     applyFilter(true);
@@ -606,7 +645,6 @@ function ProfitFinderFilterSection(props: Props) {
 
   const toggleOffCustomFilter = (dataKey: string) => {
     const filterData = filterState;
-    console.log('productRanges.profit: ', productRanges.profit);
     _.map(filterData.customizable, filter => {
       if (filter.dataKey === dataKey && filter.active) {
         filter.active = false;
@@ -622,41 +660,42 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterData);
   };
 
-  const profitCustomizableFilter = () => {
+  const customizableFilterWithSlider = (dataKey: string) => {
+    console.log('customizableFilterWithSlider dataKey: ', dataKey);
     const filterData = filterState;
     _.map(filterData.customizable, filter => {
-      if (filter.dataKey === 'profit' && filter.active) {
+      if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
         switch (filter.operation) {
           case '≤':
-            filterData.profit.min = productRanges.profit.min;
-            filterData.profit.max =
-              Number(filter.value) < productRanges.profit.min
-                ? productRanges.profit.min
-                : Number(filter.value) > productRanges.profit.max
-                ? productRanges.profit.max
+            filterData[dataKey].min = productRanges[dataKey].min;
+            filterData[dataKey].max =
+              Number(filter.value) < productRanges[dataKey].min
+                ? productRanges[dataKey].min
+                : Number(filter.value) > productRanges[dataKey].max
+                ? productRanges[dataKey].max
                 : Number(filter.value);
             break;
           case '≥':
-            filterData.profit.min =
-              Number(filter.value) < productRanges.profit.min
-                ? productRanges.profit.min
-                : Number(filter.value) > productRanges.profit.max
-                ? productRanges.profit.max
+            filterData[dataKey].min =
+              Number(filter.value) < productRanges[dataKey].min
+                ? productRanges[dataKey].min
+                : Number(filter.value) > productRanges[dataKey].max
+                ? productRanges[dataKey].max
                 : Number(filter.value);
-            filterData.profit.max = productRanges.profit.max;
+            filterData[dataKey].max = productRanges[dataKey].max;
             break;
           case '=':
-            filterData.profit.min =
-              Number(filter.value) < productRanges.profit.min
-                ? productRanges.profit.min
-                : Number(filter.value) > productRanges.profit.max
-                ? productRanges.profit.max
+            filterData[dataKey].min =
+              Number(filter.value) < productRanges[dataKey].min
+                ? productRanges[dataKey].min
+                : Number(filter.value) > productRanges[dataKey].max
+                ? productRanges[dataKey].max
                 : Number(filter.value);
-            filterData.profit.max =
-              Number(filter.value) < productRanges.profit.min
-                ? productRanges.profit.min
-                : Number(filter.value) > productRanges.profit.max
-                ? productRanges.profit.max
+            filterData[dataKey].max =
+              Number(filter.value) < productRanges[dataKey].min
+                ? productRanges[dataKey].min
+                : Number(filter.value) > productRanges[dataKey].max
+                ? productRanges[dataKey].max
                 : Number(filter.value);
             break;
           default:
@@ -1035,7 +1074,8 @@ function ProfitFinderFilterSection(props: Props) {
             resetFilter={resetFilter}
             filterData={filterDataState}
             handleCompleteChange={handleCompleteChange}
-            initialFilterState={filterState}
+            filterState={filterState}
+            filterInitialData={filterInitialData}
             toggleSelectAllCategories={toggleSelectAllCategories}
             isSelectAllCategories={isSelectAllCategories}
             selectAllCategories={selectAllCategories}

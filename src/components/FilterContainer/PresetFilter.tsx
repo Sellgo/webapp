@@ -6,13 +6,21 @@ import { Dropdown } from 'semantic-ui-react';
 interface PresetFilterProps {
   applyFilter: (isPreset?: boolean) => void;
   filterData: SupplierFilter;
-  initialFilterState: FilterState;
+  filterState: FilterState;
+  filterInitialData: FilterState;
   resetPreset: () => void;
   customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
-  const { applyFilter, filterData, initialFilterState, resetPreset, customizeFilterChange } = props;
+  const {
+    applyFilter,
+    filterData,
+    filterState,
+    resetPreset,
+    customizeFilterChange,
+    filterInitialData,
+  } = props;
 
   return (
     <div className={'presets-filter-content-wrapper'}>
@@ -47,8 +55,8 @@ const PresetFilter = (props: PresetFilterProps) => {
                         <input
                           id={filterData.dataKey}
                           checked={
-                            initialFilterState.customizable[index] &&
-                            initialFilterState.customizable[index].active
+                            filterState.customizable[index] &&
+                            filterState.customizable[index].active
                           }
                           onChange={() => {
                             customizeFilterChange(filterData.dataKey, 'toggle');
@@ -59,8 +67,8 @@ const PresetFilter = (props: PresetFilterProps) => {
                         <label htmlFor={filterData.dataKey}>{filterData.label}</label>
                         <Dropdown
                           text={
-                            initialFilterState.customizable[index] &&
-                            initialFilterState.customizable[index].operation
+                            filterState.customizable[index] &&
+                            filterState.customizable[index].operation
                           }
                           icon={'caret down'}
                         >
@@ -89,9 +97,18 @@ const PresetFilter = (props: PresetFilterProps) => {
                           <input
                             type="number"
                             value={
-                              initialFilterState.customizable[index] &&
-                              initialFilterState.customizable[index].value
+                              filterState.customizable[index] &&
+                              filterState.customizable[index].value
                             }
+                            onBlur={evt => {
+                              if (!evt.target.value) {
+                                customizeFilterChange(
+                                  filterData.dataKey,
+                                  'filter-value',
+                                  filterInitialData.customizable[index].value
+                                );
+                              }
+                            }}
                             onChange={evt =>
                               customizeFilterChange(
                                 filterData.dataKey,
