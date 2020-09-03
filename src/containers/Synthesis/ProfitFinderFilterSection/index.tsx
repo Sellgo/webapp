@@ -156,15 +156,27 @@ function ProfitFinderFilterSection(props: Props) {
         active: false,
       },
       {
+        dataKey: 'margin',
+        operation: '≤',
+        value: 15,
+        active: false,
+      },
+      {
         dataKey: 'price',
         operation: '≤',
         value: 20,
         active: false,
       },
       {
-        dataKey: 'margin',
+        dataKey: 'sales_monthly',
+        operation: '≥',
+        value: 90,
+        active: false,
+      },
+      {
+        dataKey: 'customer_reviews',
         operation: '≤',
-        value: 15,
+        value: 25,
         active: false,
       },
     ],
@@ -193,12 +205,12 @@ function ProfitFinderFilterSection(props: Props) {
     console.log(
       'b4 filter: ',
       filterState,
-      filterState.customizable.length,
-      filterInitialData.customizable.length
+      filterState.customizable,
+      filterInitialData.customizable
     );
     if (filterState.customizable.length !== filterInitialData.customizable.length) {
-      filterState.customizable = _.map(filterState.customizable, (item: any) => {
-        const item2 = _.findKey(filterInitialData.customizable, { dataKey: item.dataKey });
+      filterState.customizable = _.map(filterInitialData.customizable, (item: any) => {
+        const item2 = _.findKey(filterState.customizable, { dataKey: item.dataKey });
 
         return _.extend(item, item2);
       });
@@ -547,14 +559,24 @@ function ProfitFinderFilterSection(props: Props) {
             targetValue: '$/month',
           },
           {
+            label: 'Profit Margin is',
+            dataKey: 'margin',
+            targetValue: '%',
+          },
+          {
             label: 'Amazon price is',
             dataKey: 'price',
             targetValue: '$',
           },
           {
-            label: 'Profit Margin is',
-            dataKey: 'margin',
-            targetValue: '%',
+            label: 'Estimated Sales Volume is',
+            dataKey: 'sales_monthly',
+            targetValue: '/month',
+          },
+          {
+            label: 'Product review is',
+            dataKey: 'customer_reviews',
+            targetValue: 'reviews',
           },
         ],
       },
