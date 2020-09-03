@@ -810,6 +810,8 @@ export const pollDataBuster = (productIDs?: number[]) => async (dispatch: any, g
           )
         );
         productsToPoll = productsToPoll.filter(i => i !== response.data.product_id);
+      } else if (response.status !== 200) {
+        error(response.data.message);
       }
     });
 
