@@ -61,9 +61,17 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <!-- Start UserPilot Code -->
-    <script src = "https://js.userpilot.io/44jg18o5/latest.js"></script>
+    <script>window.userpilotSettings = {token: "19hj64h1"}</script> 
+    <script src = "https://js.userpilot.io/sdk/latest.js"></script>
     <script>
-      userpilot.anonymous();
+      userpilot.identify(
+        __user_id, // Used to identify users 
+        {
+          name: userName, // Full name
+          email: userEmail, // Email address
+          created_at: "1519205055", // Signup date as a Unix timestamp
+        }
+      );
     </script>
     <!-- End UserPilot Code -->
   </body>

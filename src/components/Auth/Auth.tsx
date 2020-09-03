@@ -58,6 +58,27 @@ export default class Auth {
       });
   };
 
+  public getSellerID(data: any) {
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('name', data.name);
+
+    Axios.post(AppConfig.BASE_URL_API + 'sellers/register', formData)
+      .then((response: any) => {
+        const data = response.data[0] ? response.data[0] : response.data;
+        if (data) {
+          localStorage.setItem('userId', data.id);
+          localStorage.setItem('cDate', data.cdate);
+
+          history.push('/subscription/payment');
+        }
+      })
+      .catch(err => {
+        alert(`Error: ${err.message}. Check with Sellgo Support Team for further details.`);
+        this.logout();
+      });
+  }
+
   public handleAuthentication = () => {
     this.auth0Lock.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -103,6 +124,7 @@ export default class Auth {
     localStorage.setItem('idToken', this.idToken);
     localStorage.setItem('idTokenExpires', String(this.expiresAt));
     localStorage.setItem('isLoggedIn', 'true');
+    this.removeFilters();
     this.getProfile(() => {
       this.registerSeller();
     });
@@ -128,6 +150,14 @@ export default class Auth {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userName');
     localStorage.removeItem('userPicture');
+    localStorage.setItem('loginRedirectPath', '/');
+  };
+
+  public removeFilters = () => {
+    localStorage.removeItem('filterState');
+    localStorage.removeItem('filterSelectAllCategories');
+    localStorage.removeItem('trackerFilter');
+    localStorage.removeItem('filterSelectAllReviews');
   };
 
   public logout = () => {

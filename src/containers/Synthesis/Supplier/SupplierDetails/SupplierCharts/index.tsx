@@ -33,15 +33,15 @@ interface SupplierChartsProps {
 
 function ChartContainerHeightProvider({ children }: any) {
   const windowSize = useWindowSize();
-
+  // 18px less than the chartHeight specified in src/components/Chart/ProfitFinderChart.tsx
   const chartContainerHeight =
     windowSize.width && windowSize.width >= 2560
-      ? 500
+      ? 465
       : windowSize.width && windowSize.width >= 1920
-      ? 367
+      ? 345
       : windowSize.width && windowSize.width >= 1368
-      ? 252
-      : 367;
+      ? 242
+      : 345;
 
   return children(chartContainerHeight);
 }

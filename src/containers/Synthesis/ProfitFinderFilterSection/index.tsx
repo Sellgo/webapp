@@ -20,6 +20,7 @@ import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
+import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -73,7 +74,6 @@ function ProfitFinderFilterSection(props: Props) {
   const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
   const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
-  const [hasPresetFilter, setHasPresetFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -90,6 +90,10 @@ function ProfitFinderFilterSection(props: Props) {
       'Others',
     ],
     profitability: 'All Products',
+    profitabilityFilter: {
+      value: 'Profitable',
+      active: false,
+    },
     removeNegative: [],
     price: filteredRanges.price,
     profit: filteredRanges.profit,
@@ -150,6 +154,9 @@ function ProfitFinderFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
+  if (filterState.profitabilityFilter === undefined) {
+    filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
+  }
   useEffect(() => {
     if (isSelectAllCategories || !filterStorage) {
       selectAllCategories(true);
@@ -159,7 +166,6 @@ function ProfitFinderFilterSection(props: Props) {
     }
     filterProducts(filterSearch, filterState);
     setHasAllFilter(isFilterUse());
-    setHasPresetFilter(isPresetFilterUse());
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -484,36 +490,10 @@ function ProfitFinderFilterSection(props: Props) {
         filterRange: filterState.rank,
       },
     ],
-    presets: [
-      {
-        label: 'Profitability',
-        dataKey: 'profitability-preset',
-        checkedValue: 'All Products',
-        radio: true,
-        data: [
-          {
-            label: 'All Products',
-            dataKey: 'all-products',
-            checked: true,
-          },
-          {
-            label: 'Profitable',
-            dataKey: 'profitability',
-            checked: false,
-          },
-          {
-            label: 'Non-Profitable Products',
-            dataKey: 'non-profitable-products',
-            checked: false,
-          },
-        ],
-      },
-    ],
   };
 
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
-  const [presetFilter, setPresetFilter] = React.useState(filterDataState.presets);
 
   const toggleSizeTierFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
@@ -668,60 +648,31 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
-  const setRadioFilter = (filterType: string, value: string) => {
-    resetSingleFilter('profit');
-    const data = _.map(presetFilter, filter => {
-      if (filter.dataKey === filterType) {
-        filter.checkedValue = value;
-      }
-      return filter;
-    });
+  const setProfitability = (value?: any) => {
     const filterValue = filterState;
-    filterState.profitability = value;
+    const objData = {
+      value: value ? value : filterValue.profitabilityFilter.value,
+      active: value ? true : !filterValue.profitabilityFilter.active,
+    };
+    filterValue.profitabilityFilter = objData;
 
-    if (value === 'Profitable') {
-      filterValue.profit.min = 0.01;
-      filterValue.profit.max = rangeData.profit.max;
-    } else if (value === 'Non-Profitable Products') {
-      filterValue.profit.min = rangeData.profit.min;
-      filterValue.profit.max = 0;
+    if (filterValue.profitabilityFilter.active) {
+      if (filterValue.profitabilityFilter.value === 'Profitable') {
+        filterValue.profit.min = 0.01;
+        filterValue.profit.max = rangeData.profit.max;
+      } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
+        filterValue.profit.min = rangeData.profit.min;
+        filterValue.profit.max = 0;
+      }
     } else {
       filterValue.profit = rangeData.profit;
     }
-    setPresetFilter(data);
     setFilterState(filterValue);
   };
 
-  const resetProfitabilityPreset = (preset?: true) => {
-    const data = _.map(presetFilter, filter => {
-      if (filter.dataKey === 'profitability-preset') {
-        filter.checkedValue = 'profitability';
-        _.map(filter.data, dk => {
-          if (filter.dataKey === 'profitability') {
-            dk.checked = true;
-          }
-          return dk;
-        });
-      }
-      return filter;
-    });
-    const filterValue = filterState;
-    filterState.profitability = 'All Products';
-    if (!preset) {
-      filterValue.profit = productRanges.profit;
-    }
-
-    setPresetFilter(data);
-    setFilterState(filterValue);
-  };
-  const resetPreset = () => {
-    resetProfitabilityPreset();
-    applyFilter(true);
-  };
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasAllFilter(isFilterUse());
-    setHasPresetFilter(isPresetFilterUse());
     if (isSelectAllCategories) {
       selectAllCategories();
     }
@@ -729,7 +680,7 @@ function ProfitFinderFilterSection(props: Props) {
       !isPreset &&
       JSON.stringify(initialFilterState.profit) !== JSON.stringify(filterState.profit)
     ) {
-      resetProfitabilityPreset(!isPreset);
+      filterState.profitabilityFilter.active = false;
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
@@ -763,6 +714,7 @@ function ProfitFinderFilterSection(props: Props) {
       setFilterRanges(filterRanges);
     });
     setFilterState(data);
+    applyFilter();
     setFilterType('');
     setFilterModalOpen(false);
   };
@@ -817,10 +769,6 @@ function ProfitFinderFilterSection(props: Props) {
     if (!isSelectAllSize) return true;
     if (!isSelectAllCategories) return true;
 
-    return false;
-  };
-  const isPresetFilterUse = () => {
-    if (filterState.profitability !== 'All Products') return true;
     return false;
   };
 
@@ -890,22 +838,12 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
-          <Button
-            basic
-            icon
-            labelPosition="left"
-            className={
-              (filterType === 'more-filter' ? 'active more-filter' : 'more-filter') +
-              (!hasPresetFilter && _.isEmpty(filteredProducts) ? ' disabled' : '')
-            }
-            onClick={() => {
-              handleFilterType('more-filter');
-              setFilterModalOpen(true);
-            }}
-          >
-            <span className="filter-name">More</span>
-            <Icon name="angle down" />
-          </Button>
+
+          <ProfitabilityFilterPreset
+            setProfitability={setProfitability}
+            applyFilter={applyFilter}
+            filterState={filterState}
+          />
         </div>
 
         <div className="leads-export-wrapper">
@@ -953,8 +891,6 @@ function ProfitFinderFilterSection(props: Props) {
             toggleNegative={toggleNegative}
             toggleSelectAllSize={toggleSelectAllSize}
             isSelectAllSize={isSelectAllSize}
-            setRadioFilter={setRadioFilter}
-            resetPreset={resetPreset}
           />
         </Modal.Content>
       </Modal>
