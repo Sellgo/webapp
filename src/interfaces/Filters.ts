@@ -128,4 +128,5 @@ export interface ProductTrackerFilterState {
     min: number;
     max: number;
   };
+  customizable: CustomizableFilterModel[];
 }

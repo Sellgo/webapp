@@ -253,7 +253,57 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   return filteredProducts;
 };
 
+export const customFilterOperation = (
+  operation: string,
+  prodValue: number,
+  filterValue: number
+) => {
+  console.log('prodValue PT: ', prodValue, filterValue);
+  switch (operation) {
+    case '≤':
+      return prodValue <= filterValue;
+    case '≥':
+      return prodValue >= filterValue;
+    case '=':
+      return Number(prodValue) === Number(filterValue);
+    default:
+      return false;
+  }
+};
+
+export const listingGeneratesCustomizableFilter = (product: any, customizableFilter: any) => {
+  const generatesValue = product.avg_price * product.avg_daily_sales;
+  let result = true;
+  _.filter(customizableFilter, filter => {
+    if (filter.dataKey === 'listing-monthly' && filter.active) {
+      if (!filter.active) return result;
+      else {
+        result = customFilterOperation(filter.operation, generatesValue, filter.value);
+      }
+    }
+  });
+  return result;
+};
+
+export const reviewsCustomizableFilter = (product: any, customizableFilter: any) => {
+  console.log('customizableFilter PT: ', customizableFilter);
+  let result = true;
+  _.filter(customizableFilter, filter => {
+    if (filter.dataKey === 'customer_reviews' && filter.active) {
+      if (!filter.active) return result;
+      else {
+        if (product.customer_reviews === null) return result;
+        else {
+          result = customFilterOperation(filter.operation, product.customer_reviews, filter.value);
+        }
+      }
+    }
+  });
+  return result;
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
+  console.log('products PT: ', products);
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
       ? /*
@@ -270,6 +320,8 @@ export const findFilteredProducts = (products: any, filterData: any) => {
               !product.is_amazon_selling)) &&
           (filterData.reviews.length === 5 ||
             filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+          listingGeneratesCustomizableFilter(product, filterData.customizable) &&
+          reviewsCustomizableFilter(product, filterData.customizable) &&
           filterKeys.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&

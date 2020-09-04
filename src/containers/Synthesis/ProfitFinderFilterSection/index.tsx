@@ -202,12 +202,6 @@ function ProfitFinderFilterSection(props: Props) {
     if (isSelectAllSize || !filterStorage) {
       selectAllSize(true);
     }
-    console.log(
-      'b4 filter: ',
-      filterState,
-      filterState.customizable,
-      filterInitialData.customizable
-    );
     if (filterState.customizable.length !== filterInitialData.customizable.length) {
       filterState.customizable = _.map(filterInitialData.customizable, (item: any) => {
         const item2 = _.findKey(filterState.customizable, { dataKey: item.dataKey });
