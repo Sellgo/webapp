@@ -304,29 +304,6 @@ function ProductTrackerFilterSection(props: Props) {
     period: filterPeriods,
     presets: [
       {
-        label: 'Profitability',
-        dataKey: 'profitability-preset',
-        checkedValue: 'All Products',
-        radio: true,
-        data: [
-          {
-            label: 'All Products',
-            dataKey: 'all-products',
-            checked: true,
-          },
-          {
-            label: 'Profitable',
-            dataKey: 'profitability',
-            checked: false,
-          },
-          {
-            label: 'Non-Profitable Products',
-            dataKey: 'non-profitable-products',
-            checked: false,
-          },
-        ],
-      },
-      {
         label: 'Amazon',
         dataKey: 'amazon-choice-preset',
         radio: false,
@@ -550,7 +527,6 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const customizableFilterWithSlider = (dataKey: string) => {
-    console.log('customizableFilterWithSlider dataKey: ', dataKey);
     const filterData = filterState;
     _.map(filterData.customizable, filter => {
       if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
@@ -592,6 +568,7 @@ function ProductTrackerFilterSection(props: Props) {
         }
       }
     });
+    console.log('filterData: ', filterData);
     setFilterState(filterData);
   };
 

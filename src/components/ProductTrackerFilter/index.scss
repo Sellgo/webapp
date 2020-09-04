@@ -90,10 +90,12 @@
       display: flex;
       flex-direction: column;
       padding: 0 10px;
+      margin-bottom: 10px;
 
       &__filter-item {
         .customizable-checkbox {
           max-width: 400px !important;
+          margin-bottom: 0 !important;
 
           .input {
             max-width: 80px;
@@ -117,8 +119,8 @@
 
             .icon {
               border: unset !important;
-              margin: 0 5px;
-              height: 10px;
+              margin: 0 5px !important;
+              height: 10px !important;
               color: #98aeca;
             }
           }

@@ -677,8 +677,8 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const customizableFilterWithSlider = (dataKey: string) => {
-    console.log('customizableFilterWithSlider dataKey: ', dataKey);
     const filterData = filterState;
+    console.log('filterData1: ', filterData);
     _.map(filterData.customizable, filter => {
       if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
         switch (filter.operation) {
@@ -719,6 +719,7 @@ function ProfitFinderFilterSection(props: Props) {
         }
       }
     });
+    console.log('filterData2: ', filterData);
     setFilterState(filterData);
   };
 

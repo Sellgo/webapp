@@ -206,30 +206,26 @@ export const customFilterOperation = (
   }
 };
 
-export const listingGeneratesCustomizableFilter = (product: any, customizableFilter: any) => {
-  const generatesValue = product.price * product.sales_monthly;
+export const customizableFilter = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (filter.dataKey === 'listing-monthly' && filter.active) {
+      const generatesValue = product.price * product.sales_monthly;
       if (!filter.active) return result;
       else {
         result = customFilterOperation(filter.operation, generatesValue, filter.value);
       }
-    }
-  });
-  return result;
-};
-
-export const reviewsCustomizableFilter = (product: any, customizableFilter: any) => {
-  let result = true;
-  _.filter(customizableFilter, filter => {
-    if (filter.dataKey === 'customer_reviews' && filter.active) {
+    } else if (filter.dataKey === 'customer_reviews' && filter.active) {
       if (!filter.active) return result;
       else {
         if (product.customer_reviews === null) return result;
         else {
           result = customFilterOperation(filter.operation, product.customer_reviews, filter.value);
         }
+      }
+    } else {
+      if (filter.active && filter.operation === '=') {
+        result = Number(product[filter.dataKey]) === Number(filter.value);
       }
     }
   });
@@ -252,8 +248,7 @@ export const findFilteredProducts = (products: any, filterData: any) => {
             //show product size tier is matched by one of size tiers
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
           //customizable filters
-          listingGeneratesCustomizableFilter(product, filterData.customizable) &&
-          reviewsCustomizableFilter(product, filterData.customizable) &&
+          customizableFilter(product, filterData.customizable) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>
