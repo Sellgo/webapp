@@ -208,7 +208,6 @@ function ProfitFinderFilterSection(props: Props) {
 
         return _.extend(item, item2);
       });
-      console.log('add: ', filterState.customizable);
     }
     filterProducts(filterSearch, filterState);
     setHasAllFilter(isFilterUse());
@@ -678,7 +677,6 @@ function ProfitFinderFilterSection(props: Props) {
 
   const customizableFilterWithSlider = (dataKey: string) => {
     const filterData = filterState;
-    console.log('filterData1: ', filterData);
     _.map(filterData.customizable, filter => {
       if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
         switch (filter.operation) {
@@ -719,7 +717,6 @@ function ProfitFinderFilterSection(props: Props) {
         }
       }
     });
-    console.log('filterData2: ', filterData);
     setFilterState(filterData);
   };
 

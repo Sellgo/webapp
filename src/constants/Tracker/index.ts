@@ -258,7 +258,6 @@ export const customFilterOperation = (
   prodValue: number,
   filterValue: number
 ) => {
-  console.log('prodValue PT: ', prodValue, filterValue);
   switch (operation) {
     case '≤':
       return prodValue <= filterValue;
@@ -296,6 +295,7 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   });
   return result;
 };
+
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
@@ -321,7 +321,6 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           )
       : products;
   });
-  console.log('products PT: ', updatedFilterProducts);
   return updatedFilterProducts;
 };
 

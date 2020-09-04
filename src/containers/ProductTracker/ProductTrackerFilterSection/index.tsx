@@ -568,7 +568,6 @@ function ProductTrackerFilterSection(props: Props) {
         }
       }
     });
-    console.log('filterData: ', filterData);
     setFilterState(filterData);
   };
 
