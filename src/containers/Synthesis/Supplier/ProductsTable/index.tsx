@@ -516,7 +516,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Num New\nFBA Offers',
-      dataKey: 'num_new_fba_offers',
+      dataKey: 'num_fba_new_offers',
       type: 'number',
       show: true,
       sortable: true,
@@ -525,7 +525,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Num New\nFBM Offers',
-      dataKey: 'num_new_fbm_offers',
+      dataKey: 'num_fbm_new_offers',
       type: 'number',
       show: true,
       sortable: true,
