@@ -180,7 +180,7 @@
 }
 
 .sort-arrow {
-  margin: 0 10px -2px 12px;
+  margin: 0 3px -2px 12px;
   max-height: 13px;
   max-width: 10px;
 }
@@ -323,7 +323,7 @@ i.icon.filter::before {
 
 .search-ic {
   margin-top: -10px;
-  padding-left: 18px;
+  //padding-left: 18px;
 }
 
 .middle-scroll-cell {
@@ -918,4 +918,14 @@ i.icon.filter::before {
 
 .scrollable::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
+}
+
+.range-filters {
+  padding: 0 !important;
+  border-radius: 20px !important;
+}
+
+.column-filter-ic {
+  margin-top: -12px !important;
+  color: #98aeca;
 }

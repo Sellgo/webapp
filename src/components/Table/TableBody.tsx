@@ -68,16 +68,21 @@ export const TableBody = (props: TableBodyProps) => {
     const lowerBound = filteredColumns.slice(0, products ? 2 : 5);
     const middleBound = filteredColumns.slice(
       products ? 2 : 5,
-      products ? filteredColumns.length - 2 : filteredColumns.length - 7
+      products ? filteredColumns.length - 2 : filteredColumns.length - 6
     );
     const upperBound = filteredColumns.slice(
-      products ? filteredColumns.length - 1 : filteredColumns.length - 7,
+      products ? filteredColumns.length - 1 : filteredColumns.length - 6,
       filteredColumns.length
     );
     const onBodyScroll = (evt: any) => {
+      const leadsHeader = document.querySelector('.leads-tracker-middle');
+
       const middleHeader = document.querySelector('.middle-header');
       const centerScroll = document.querySelector('.middle-scroll-cell');
 
+      if (leadsHeader) {
+        leadsHeader.scrollLeft = evt.target.scrollLeft;
+      }
       if (!!middleHeader && !!centerScroll) {
         middleHeader.scrollLeft = evt.target.scrollLeft;
         centerScroll.scrollLeft = evt.target.scrollLeft;
@@ -182,10 +187,10 @@ export const TableBody = (props: TableBodyProps) => {
               className = 'right-body-child-row';
             }
             if (cell.side === 'center') {
-              className = 'middle-body-child-row';
+              className = 'middle-body-child-row ';
               tableDataProps = {
                 ...tableDataProps,
-                className: 'middle-body',
+                className: 'middle-body lt-border leads-tracker-middle',
                 onScroll: onBodyScroll,
               };
               if (filteredColumns.length === 4) {
@@ -204,7 +209,11 @@ export const TableBody = (props: TableBodyProps) => {
             }
             return (
               <td {...tableDataProps} key={`${cell.side}--td-cell`}>
-                <table className="body-inner-table">
+                <table
+                  className={`body-inner-table ${
+                    type === 'leads-tracker' ? `lt-border-${cell.side}` : ''
+                  }`}
+                >
                   <tbody className="inner-tbody">
                     {rows.length ? (
                       rows.map((row: any, index: any) => (

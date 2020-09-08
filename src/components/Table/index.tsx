@@ -14,6 +14,10 @@ export interface Column {
   dataKey?: string;
   label?: string;
   sortable?: boolean;
+  searchable?: boolean;
+  filter?: boolean;
+  filterType?: string;
+  searchIconPosition?: string;
   show?: boolean;
   check?: any;
   icon?: any;
@@ -63,6 +67,12 @@ export interface GenericTableProps {
   columnDnD?: boolean;
   middleScroll?: boolean;
   rowExpander?: any;
+  pageCount?: any;
+  toggleColumnFilters?: (data: any) => void;
+  activeColumnFilters?: any;
+  applyColumnFilters?: (data: any) => void;
+  cancelColumnFilters?: () => void;
+  resetColumnFilters?: () => void;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -128,6 +138,12 @@ export const GenericTable = (props: GenericTableProps) => {
     currentActiveColumn,
     onSort,
     defaultSort,
+    pageCount,
+    toggleColumnFilters,
+    activeColumnFilters,
+    applyColumnFilters,
+    cancelColumnFilters,
+    resetColumnFilters,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -278,7 +294,9 @@ export const GenericTable = (props: GenericTableProps) => {
 
   return (
     <div
-      className={`generic-table scrollable ${name === 'products' ? 'pf-table' : ''}`}
+      className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : ''}  ${
+        name === 'products' ? 'pf-table' : ''
+      }`}
       onScroll={handleScroll}
     >
       {showProductFinderSearch ? (
@@ -353,6 +371,11 @@ export const GenericTable = (props: GenericTableProps) => {
           handleColumnDrop={handleColumnDrop}
           reorderColumns={reorderColumns ? reorderColumns : null}
           columnDnD={columnDnD}
+          toggleColumnFilters={toggleColumnFilters}
+          activeColumnFilters={activeColumnFilters}
+          applyColumnFilters={applyColumnFilters}
+          cancelColumnFilters={cancelColumnFilters}
+          resetColumnFilters={resetColumnFilters}
         />
         <TableBody
           extendedInfo={extendedInfo}
@@ -389,7 +412,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
                       currentPage={localCurrentPage || 1}
-                      totalPages={totalPages}
+                      totalPages={name === 'leads-tracker' ? pageCount : totalPages}
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
                       showPageSize={name !== 'supplier'}

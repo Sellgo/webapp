@@ -1,19 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-
-import { GenericTable, Column } from '../../../components/Table';
+import { Icon, Loader, Segment } from 'semantic-ui-react';
+import { Column, GenericTable } from '../../../components/Table';
 import { tableKeys } from '../../../constants';
 import { supplierPageNumberSelector } from '../../../selectors/Supplier';
 import get from 'lodash/get';
 
-import { setSupplierPageNumber, setSupplierSinglePageItemsCount } from '../../../actions/Suppliers';
+import {
+  setSupplierPageNumber,
+  setSupplierSinglePageItemsCount,
+  updateProductTrackingStatus,
+} from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
-import { leads } from '../../../selectors/LeadsTracker';
+import { isFetchingLeadsKPISelector, leads } from '../../../selectors/LeadsTracker';
 import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
-import ProductDescription from '../../Synthesis/Supplier/ProductsTable/productDescription';
+import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
+import LeadsTrackerFilterSection from '../LeadsTrackerFilterSection';
+import { FetchLeadsFilters, fetchLeadsKPIs } from '../../../actions/LeadsTracker';
+
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -23,6 +30,9 @@ class LeadsTracker extends React.Component<any, any> {
     this.state = {
       columns: this.columns,
       checkedRows: {},
+      activeColumn: { dataKey: 'price' },
+      activeColumnFilters: {},
+      updateTracking: false,
     };
   }
 
@@ -48,38 +58,119 @@ class LeadsTracker extends React.Component<any, any> {
     this.setState({ checkedRows });
   };
 
+  getActiveColumn = () => !!this.state.activeColumn && this.state.activeColumn.dataKey;
+
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
-  renderSearch = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.search, row.search)}</p>;
-  renderProductID = (row: any) => (
-    <p className="stat">{showNAIfZeroOrNull(row.product_id, row.product_id)}</p>
+  renderSearch = (row: any) => (
+    <p className="lt-stat">{showNAIfZeroOrNull(row.search, row.search)}</p>
   );
-  renderASIN = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
+  renderProductID = (row: any) => (
+    <p className="lt-stat">{showNAIfZeroOrNull(row.product_id, row.product_id)}</p>
+  );
+  renderASIN = (row: any) => <p className="lt-stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
   renderPrice = (row: any) => (
-    <p className="stat">{showNAIfZeroOrNull(row.price, formatCurrency(row.price))}</p>
+    <p className="stat" onClick={() => this.setActiveColumn(this.getColumn('price'))}>
+      {showNAIfZeroOrNull(row.price, formatCurrency(row.price))}
+    </p>
   );
   renderProfit = (row: any) => (
-    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+    <p className="stat" onClick={() => this.setActiveColumn(this.getColumn('profit'))}>
+      {showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}
+    </p>
   );
 
   renderMargin = (row: any) => (
-    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+    <p className="stat" onClick={() => this.setActiveColumn(this.getColumn('margin'))}>
+      {showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}
+    </p>
   );
   renderRoi = (row: any) => (
-    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+    <p className="stat" onClick={() => this.setActiveColumn(this.getColumn('roi'))}>
+      {showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}
+    </p>
   );
   renderAverage = (row: any) => (
-    <p className="stat">{showNAIfZeroOrNull(row.avg_price, formatCurrency(row.avg_price))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row[`avg_${this.getActiveColumn()}`],
+        formatCurrency(row[`avg_${this.getActiveColumn()}`])
+      )}
+    </p>
   );
-  renderIndex = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.v, row.index_price)}</p>;
+  renderIndex = (row: any) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row[`index_${this.getActiveColumn()}`],
+        row[`index_${this.getActiveColumn()}`]
+      )}
+    </p>
+  );
 
-  renderChange = (row: any) => (
-    <p className="stat">{showNAIfZeroOrNull(row.v, row.change_price)}</p>
+  renderChange = (row: any) => {
+    const value = row[`change_${this.getActiveColumn()}_perc`];
+    const columnClass = `stat ${value < 0 ? 'change-low' : value > 0 ? 'change-high' : ''}`;
+    return (
+      <p className={columnClass}>
+        {value !== 0 && <Icon name={'arrow down'} />}
+        {showNAIfZeroOrNull(
+          row[`change_${this.getActiveColumn()}`],
+          row[`change_${this.getActiveColumn()}`]
+        )}
+        {value !== 0 && `(${row[`change_${this.getActiveColumn()}_perc`]} %)`}
+      </p>
+    );
+  };
+  renderHighs = (row: any) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row[`max_${this.getActiveColumn()}`],
+        row[`max_${this.getActiveColumn()}`]
+      )}
+    </p>
   );
-  renderHighs = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.v, row.max_price)}</p>;
-  renderLows = (row: any) => <p className="stat">{showNAIfZeroOrNull(row.v, row.min_price)}</p>;
+  renderLows = (row: any) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row[`low_${this.getActiveColumn()}`],
+        row[`low_${this.getActiveColumn()}`]
+      )}
+    </p>
+  );
 
   renderDetailButtons = (row: any) => {
-    return <DetailButtons score={0} isTracking={true} onTrack={() => console.log(row)} />;
+    const { updateProductTrackingStatus, supplierID } = this.props;
+    const { updateTracking } = this.state;
+    return (
+      <DetailButtons
+        isTracking={row.tracking_status === 'active'}
+        onTrack={async () => {
+          if (!updateTracking) {
+            await this.setState({ updateTracking: true });
+            if (row.tracking_status !== null) {
+              await updateProductTrackingStatus(
+                row.tracking_status === 'active' ? 'inactive' : 'active',
+                undefined,
+                row.product_track_id,
+                undefined,
+                'supplier',
+                supplierID
+              );
+              await this.setState({ updateTracking: false });
+            } else {
+              await updateProductTrackingStatus(
+                'active',
+                row.product_id,
+                undefined,
+                undefined,
+                'supplier',
+                supplierID
+              );
+              await this.setState({ updateTracking: false });
+            }
+          }
+        }}
+      />
+    );
   };
 
   handleClick = () => {
@@ -88,6 +179,24 @@ class LeadsTracker extends React.Component<any, any> {
       ColumnFilterBox: !ColumnFilterBox,
     });
   };
+
+  componentDidMount() {
+    this.fetchLeadsData({ pageNo: 1 });
+  }
+
+  setActiveColumn = (column: any) => {
+    this.setState({ activeColumn: column });
+    this.toggleColumn(column);
+  };
+
+  onSort = (order: string) => {
+    const { currentActiveColumn, fetchLeads } = this.props;
+    const sort_direction = order === 'ascending' ? 'asc' : 'dsc';
+    fetchLeads({ sort: currentActiveColumn, sort_direction });
+  };
+
+  setActiveColumnFilters = (data: any) => this.setState({ activeColumnFilters: data });
+
   columns: Column[] = [
     {
       label: '',
@@ -96,13 +205,14 @@ class LeadsTracker extends React.Component<any, any> {
       show: true,
       check: true,
       render: this.renderCheckBox,
-      className: 'lt-sm-col',
+      className: 'lt-checkbox',
     },
     {
       label: 'Product Information',
       dataKey: 'title',
       type: 'string',
-      // sortable: true,
+      filterType: 'checkbox',
+      searchIconPosition: 'left',
       show: true,
       className: 'lt-lg-col',
       render: this.renderProductInfo,
@@ -112,8 +222,11 @@ class LeadsTracker extends React.Component<any, any> {
       dataKey: 'search_file',
       type: 'string',
       sortable: true,
+      searchable: true,
       show: true,
       className: 'lt-md-col',
+      filter: true,
+      filterType: 'checkbox',
       render: this.renderSearch,
     },
     {
@@ -131,7 +244,7 @@ class LeadsTracker extends React.Component<any, any> {
       type: 'string',
       sortable: true,
       show: true,
-      className: 'lt-sm-col',
+      className: 'lt-md-col',
       render: this.renderASIN,
     },
     {
@@ -139,8 +252,10 @@ class LeadsTracker extends React.Component<any, any> {
       dataKey: 'price',
       type: 'number',
       sortable: true,
+      searchable: true,
+      filter: true,
       show: true,
-      className: 'lt-md-col',
+      className: `lt-middle-sm-col`,
       render: this.renderPrice,
     },
     {
@@ -148,17 +263,21 @@ class LeadsTracker extends React.Component<any, any> {
       dataKey: 'profit',
       type: 'number',
       sortable: true,
+      searchable: true,
+      filter: true,
       show: true,
-      className: 'lt-md-col',
+      className: 'lt-middle-sm-col',
       render: this.renderProfit,
     },
     {
       label: 'Profit Margin',
-      dataKey: 'profit_margin',
+      dataKey: 'margin',
       type: 'number',
       sortable: true,
+      searchable: true,
+      filter: true,
       show: true,
-      className: 'lt-md-col',
+      className: 'lt-middle-md-col',
       render: this.renderMargin,
     },
     {
@@ -166,8 +285,9 @@ class LeadsTracker extends React.Component<any, any> {
       dataKey: 'roi',
       type: 'number',
       sortable: true,
+      searchable: true,
       show: true,
-      className: 'lt-sm-col',
+      className: 'lt-middle-sm-col',
       render: this.renderRoi,
     },
     {
@@ -175,6 +295,8 @@ class LeadsTracker extends React.Component<any, any> {
       dataKey: 'average',
       type: 'number',
       sortable: true,
+      searchable: true,
+      filter: true,
       show: true,
       className: 'lt-md-col',
       render: this.renderAverage,
@@ -184,6 +306,7 @@ class LeadsTracker extends React.Component<any, any> {
       dataKey: 'index',
       type: 'number',
       sortable: true,
+      searchable: true,
       show: true,
       className: 'lt-md-col',
       render: this.renderIndex,
@@ -193,6 +316,8 @@ class LeadsTracker extends React.Component<any, any> {
       dataKey: 'change',
       type: 'string',
       sortable: true,
+      searchable: true,
+      filter: true,
       show: true,
       className: 'lt-md-col',
       render: this.renderChange,
@@ -203,6 +328,7 @@ class LeadsTracker extends React.Component<any, any> {
       type: 'string',
       show: true,
       sortable: true,
+      searchable: true,
       className: 'lt-sm-col',
       render: this.renderHighs,
     },
@@ -212,81 +338,194 @@ class LeadsTracker extends React.Component<any, any> {
       type: 'number',
       show: true,
       sortable: true,
+      searchable: true,
+      filter: true,
       className: 'lt-sm-col',
       render: this.renderLows,
     },
     {
       label: 'Tracking',
-      dataKey: 'sellgo_score',
+      dataKey: 'tracking',
       type: 'number',
       show: true,
       sortable: true,
-      className: 'lt-sm-col',
+      className: 'lt-sm-col leads-tracking',
       render: this.renderDetailButtons,
     },
-    {
-      label: '',
-      icon: 'ellipsis horizontal ellipsis-ic',
-      dataKey: 'ellipsis horizontal',
-      show: true,
-      // render: this.renderSyncButtons,
-      popUp: true,
-      className: 'lt-sm-col',
-    },
   ];
+  toggleColumn = (column: any) => {
+    const { columns } = this.state;
+    let tableColumns = columns;
+    tableColumns = tableColumns.map((c: any) => {
+      if (c.dataKey === column.dataKey) {
+        c = { ...c, className: `${c.className} active-column ` };
+      } else {
+        c = { ...c, className: c.className.replace('active-column ', '') };
+      }
+      return c;
+    });
+    this.setState({ columns: tableColumns });
+  };
+
+  fetchLeadsData = (filter: any) => {
+    const {
+      fetchLeads,
+      period,
+      pageNo: page,
+      pageSize: per_page,
+      sort,
+      sortDirection: sort_direction,
+      supplierID,
+    } = this.props;
+    const payload = { page, per_page, sort, sort_direction, period, supplierID };
+    fetchLeads({ ...payload, ...filter });
+  };
+
+  getColumn = (dataKey: string) => this.columns.find((c: Column) => c.dataKey === dataKey);
+
+  parseFilters = (filter: any): string => {
+    const { dataKey, value } = filter;
+    return value ? `${dataKey}_min=${value.min}& ${dataKey}_max=${value.max}` : '';
+  };
 
   render() {
-    const { currentActiveColumn, setSinglePageItemsCount, setPageNumber, leads } = this.props;
-    const { checkedRows, columns, ColumnFilterBox } = this.state;
-    console.log('leads', leads);
+    const {
+      currentActiveColumn,
+      setSinglePageItemsCount,
+      pageNo,
+      pageSize,
+      leads,
+      isFetchingLeadsKPI,
+      totalPages,
+      period,
+    } = this.props;
+    const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
+    const middleHeader = document.querySelector('.leads-tracker-middle');
+
+    const onScroll = (evt: any) => {
+      const middleBody = document.querySelector('.lt-toggle-button-container');
+      const innerBody = document.querySelector('.middle-body');
+
+      if (!!middleBody && middleHeader && innerBody) {
+        middleBody.scrollLeft = evt.target.scrollLeft;
+        middleHeader.scrollLeft = evt.target.scrollLeft;
+        innerBody.scrollLeft = evt.target.scrollLeft;
+      }
+    };
+    if (middleHeader) {
+      middleHeader.addEventListener('scroll', onScroll);
+    }
     return (
-      <div className="products-table">
-        <GenericTable
-          currentActiveColumn={currentActiveColumn}
-          scrollTopSelector={false}
-          tableKey={tableKeys.LEADS}
-          columns={columns}
-          data={leads}
-          // searchFilterValue={searchValue}
-          // showProductFinderSearch={true}
-          // searchFilteredProduct={this.searchFilteredProduct}
-          // updateProfitFinderProducts={updateProfitFinderProducts}
-          singlePageItemsCount={50}
-          setSinglePageItemsCount={setSinglePageItemsCount}
-          currentPage={1}
-          setPage={setPageNumber}
-          name={'leads-tracker'}
-          showFilter={true}
-          // columnFilterBox={ColumnFilterBox}
-          checkedRows={checkedRows}
-          updateCheckedRows={this.updateCheckedRows}
-          // handleColumnChange={this.handleColumnChange}
-          toggleColumnCheckbox={this.handleClick}
-          // columnFilterData={this.state.columnFilterData}
-          middleScroll={true}
-          // renderFilterSectionComponent={() => (
-          //   <ProfitFinderFilterSection productRanges={productRanges} />
-          // )}
-          // handleColumnDrop={this.handleColumnDrop}
-          // reorderColumns={this.reorderColumns}
-          columnFilterBox={ColumnFilterBox}
-          columnDnD={true}
-          stickyChartSelector
-        />
+      <div className="leads-table">
+        {isFetchingLeadsKPI ? (
+          <Segment>
+            <Loader active={true} inline="centered" size="massive">
+              Loading
+            </Loader>
+          </Segment>
+        ) : (
+          <React.Fragment>
+            <div style={{ display: 'flex' }}>
+              {columns.slice(0, 5).map((c: any, i: any) => (
+                <div className={c.className} key={`left-${i}`} />
+              ))}
+              <div className="lt-toggle-button-container" onScroll={onScroll}>
+                {columns.slice(5, 9).map((c: any, i: any) => (
+                  <div
+                    className={`${c.className.replace('active-column', '')} ${
+                      !!activeColumn && activeColumn.dataKey === c.dataKey
+                        ? 'toggle-column-active'
+                        : 'toggle-column'
+                    }`}
+                    key={`middle-${i}`}
+                    onClick={() => this.setActiveColumn(c)}
+                  >
+                    <Icon name="pin" />
+                  </div>
+                ))}
+              </div>
+              {columns.slice(9, columns.length - 2).map((c: any, i: any) => (
+                <div className={c.className} key={`left-${i}`} />
+              ))}
+              <LeadsTrackerFilterSection
+                defaultPeriod={period}
+                onPeriodSelect={(period: any) => this.fetchLeadsData({ period })}
+              />
+            </div>
+            <GenericTable
+              currentActiveColumn={currentActiveColumn}
+              scrollTopSelector={false}
+              tableKey={tableKeys.LEADS}
+              columns={columns}
+              data={leads}
+              singlePageItemsCount={pageSize}
+              setSinglePageItemsCount={setSinglePageItemsCount}
+              currentPage={pageNo}
+              setPage={page => {
+                if (page !== pageNo) {
+                  this.fetchLeadsData({ pageNo: page });
+                }
+              }}
+              name={'leads-tracker'}
+              pageCount={totalPages}
+              showFilter={true}
+              onSort={this.onSort}
+              checkedRows={checkedRows}
+              updateCheckedRows={this.updateCheckedRows}
+              toggleColumnCheckbox={this.handleClick}
+              middleScroll={true}
+              columnFilterBox={ColumnFilterBox}
+              columnDnD={true}
+              activeColumnFilters={activeColumnFilters}
+              toggleColumnFilters={this.setActiveColumnFilters}
+              stickyChartSelector
+              applyColumnFilters={(filter: any) =>
+                this.fetchLeadsData({ query: this.parseFilters(filter) })
+              }
+              cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
+              resetColumnFilters={() => console.log('reset')}
+            />
+          </React.Fragment>
+        )}
       </div>
     );
   }
 }
 const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
-  stickyChartSelector: get(state, 'supplier.singlePageItemsCount'),
   pageNumber: supplierPageNumberSelector(state),
   leads: leads(state),
+  isFetchingLeadsKPI: isFetchingLeadsKPISelector(state),
+  currentActiveColumn: get(state, 'supplier.activeColumn'),
+  pageSize: get(state, 'leads.pageSize'),
+  pageNo: get(state, 'leads.pageNo'),
+  sort: get(state, 'leads.sort'),
+  sortDirection: get(state, 'leads.sortDirection'),
+  period: get(state, 'leads.period'),
+  totalRecords: get(state, 'leads.totalRecords'),
+  totalPages: get(state, 'leads.totalPages'),
 });
 
 const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  fetchLeads: (payload: FetchLeadsFilters) => fetchLeadsKPIs(payload),
+  updateProductTrackingStatus: (
+    status: string,
+    productID?: any,
+    productTrackerID?: any,
+    productTrackerGroupID?: any,
+    name?: string,
+    supplierID?: any
+  ) =>
+    updateProductTrackingStatus(
+      status,
+      productID,
+      productTrackerID,
+      productTrackerGroupID,
+      name,
+      supplierID
+    ),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeadsTracker);

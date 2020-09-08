@@ -4,7 +4,15 @@ import InputRange from '../InputRange';
 import { Range } from '../../interfaces/Generic';
 
 const FilterSliderInput = (props: any) => {
-  const { dataKey, range, filterRange, handleCompleteChange, labelSign } = props;
+  const {
+    dataKey,
+    range,
+    filterRange,
+    handleCompleteChange,
+    labelSign,
+    minLabel = '',
+    maxLabel = '',
+  } = props;
   const [filterRangeLocal, setFilterRangeLocal] = useState(props.filterRange);
 
   useEffect(() => {
@@ -55,7 +63,7 @@ const FilterSliderInput = (props: any) => {
 
       <div className="min-max-content">
         <div className="min-wrapper">
-          {labelSign === '$' && <span className="dollar-sign">{labelSign}</span>}
+          {labelSign === '$' && <span className="dollar-sign">{`${labelSign} ${minLabel} `}</span>}
           <Input
             placeholder="Min"
             id="min"
@@ -83,7 +91,7 @@ const FilterSliderInput = (props: any) => {
         </div>
 
         <div className="max-wrapper">
-          {labelSign === '$' && <span className="dollar-sign">{labelSign}</span>}
+          {labelSign === '$' && <span className="dollar-sign">{`${labelSign} ${maxLabel} `}</span>}
           <Input
             placeholder="Max"
             id="max"

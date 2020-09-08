@@ -194,7 +194,7 @@ function App() {
           />
           <PrivateRoute
             exact={true}
-            path="/leads-tracker"
+            path="/leads-tracker/:supplierID"
             component={LeadsTracker}
             requireSubscription={true}
           />

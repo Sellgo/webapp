@@ -3,7 +3,7 @@ import LeadsTrackerTable from './LeadsTrackerTable';
 import PageHeader from '../../components/PageHeader';
 import QuotaMeter from '../../components/QuotaMeter';
 
-const LeadsTracker = () => {
+const LeadsTracker = (props: any) => {
   return (
     <div>
       <PageHeader
@@ -11,7 +11,7 @@ const LeadsTracker = () => {
         breadcrumb={[{ content: 'Leads Tracker', to: '/' }]}
         callToAction={<QuotaMeter />}
       />
-      <LeadsTrackerTable />
+      <LeadsTrackerTable supplierID={props.match.params.supplierID} />
     </div>
   );
 };
