@@ -7,6 +7,7 @@ class UserPilotReload extends React.Component<any> {
       (window as any).userpilot.reload();
     }
   }
+
   render() {
     return null;
   }
