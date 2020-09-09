@@ -5,38 +5,84 @@ import './index.scss';
 
 const RangeFilterBox = (props: any) => {
   const {
-    resetFilters,
     cancelFilters,
     applyFilters,
     filterType,
     labelSign,
-    checkboxFilters = [
-      { name: 'test', id: 1 },
-      { name: 'test 2', id: 2 },
-    ],
+    checkboxData = [],
+    dataKey,
+    filterRange,
+    ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
+  const [localData, setLocalData] = React.useState([]);
+  const [range, setFilterRange] = React.useState(filterRange);
+
+  const resetFiltersValue = () => {
+    if (filterType === 'checkbox') {
+      setLocalData([]);
+    } else {
+      setFilterRange(filterRange);
+    }
+  };
+
+  const setCheck = (value: any) => {
+    let check: any = localData;
+    if (hasChecked(value)) {
+      check = check.filter((c: any) => c !== value);
+    } else {
+      check = [...check, ...[value]];
+    }
+    setLocalData(check);
+  };
+
+  // @ts-ignore
+  const hasChecked = (value: any) => localData.includes(value);
+
+  const setFilters = () => {
+    let res: any;
+    if (filterType === 'checkbox') {
+      res = { dataKey, value: localData.join(',') };
+    } else {
+      res = { ...filter, value: range };
+    }
+
+    applyFilters(res);
+  };
+
+  const onRangeChange = (dataKey: string, value: any) => {
+    setFilter({ dataKey, value });
+    setFilterRange(value);
+  };
+
   return (
     <div className="column-range-filter">
       <p className="filter-label">{`${props.label} ${labelSign}`}</p>
-      <div className="reset-filters" onClick={() => resetFilters()}>
+      <div className="reset-filters" onClick={() => resetFiltersValue()}>
         <p>X Reset</p>
       </div>
       {filterType === 'range' && (
         <FilterSliderInput
-          {...props}
+          filterRange={range}
+          dataKey={dataKey}
+          {...rest}
           minLabel={'Min'}
           labelSign={labelSign}
           maxLabel={'Max'}
-          handleCompleteChange={(dataKey: any, value: any) => setFilter({ dataKey, value })}
+          handleCompleteChange={onRangeChange}
         />
       )}
       {filterType === 'checkbox' && (
         <div className="checkbox-filters-list">
           <Form>
-            {checkboxFilters.map((check: any) => (
-              <Form.Field key={check.id}>
-                <Checkbox label={check.name} className="checkbox-filter" />
+            {checkboxData.map((check: any) => (
+              <Form.Field key={check.value}>
+                <Checkbox
+                  label={check.value}
+                  className="checkbox-filter"
+                  checked={hasChecked(check.value)}
+                  onClick={() => setCheck(check.value)}
+                />
               </Form.Field>
             ))}
           </Form>
@@ -44,7 +90,7 @@ const RangeFilterBox = (props: any) => {
       )}
 
       <div className="button-wrapper">
-        <Button basic className="apply-filter-btn" onClick={() => applyFilters(filter)}>
+        <Button basic className="apply-filter-btn" onClick={() => setFilters()}>
           Apply
         </Button>
         <Button basic className="cancel-filter-btn" onClick={() => cancelFilters()}>

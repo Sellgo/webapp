@@ -190,7 +190,9 @@ export const TableBody = (props: TableBodyProps) => {
               className = 'middle-body-child-row ';
               tableDataProps = {
                 ...tableDataProps,
-                className: 'middle-body lt-border leads-tracker-middle',
+                className: `middle-body ${
+                  type === 'leads-tracker' ? 'lt-border leads-tracker-middle' : ''
+                }`,
                 onScroll: onBodyScroll,
               };
               if (filteredColumns.length === 4) {

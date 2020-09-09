@@ -73,6 +73,7 @@ export interface GenericTableProps {
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
   resetColumnFilters?: () => void;
+  checkboxData?: any;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -144,6 +145,7 @@ export const GenericTable = (props: GenericTableProps) => {
     applyColumnFilters,
     cancelColumnFilters,
     resetColumnFilters,
+    checkboxData,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -376,6 +378,7 @@ export const GenericTable = (props: GenericTableProps) => {
           applyColumnFilters={applyColumnFilters}
           cancelColumnFilters={cancelColumnFilters}
           resetColumnFilters={resetColumnFilters}
+          checkboxData={checkboxData}
         />
         <TableBody
           extendedInfo={extendedInfo}

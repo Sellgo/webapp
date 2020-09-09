@@ -14,18 +14,47 @@ import {
 } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
-import { isFetchingLeadsKPISelector, leads } from '../../../selectors/LeadsTracker';
+import { fileSearch, isFetchingLeadsKPISelector, leads } from '../../../selectors/LeadsTracker';
 import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
 import LeadsTrackerFilterSection from '../LeadsTrackerFilterSection';
-import { FetchLeadsFilters, fetchLeadsKPIs } from '../../../actions/LeadsTracker';
+import { FetchLeadsFilters, fetchLeadsKPIs, fetchLeadsSearch } from '../../../actions/LeadsTracker';
 
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
-class LeadsTracker extends React.Component<any, any> {
-  constructor(props: any) {
+
+export interface LeadsTrackerTableProps {
+  setSinglePageItemsCount: (payload: any) => void;
+  setPageNumber: (pageNo: number) => void;
+  fetchLeads: (payload: any) => void;
+  fetchSearchFileData: (payload: any) => void;
+  updateProductTrackingStatus: (
+    status: string,
+    productID?: any,
+    productTrackerID?: any,
+    productTrackerGroupID?: any,
+    name?: string,
+    supplierID?: any
+  ) => void;
+  singlePageItemsCount: number;
+  pageNumber: number;
+  leads: [any];
+  fileSearch: [any];
+  isFetchingLeadsKPI: boolean;
+  currentActiveColumn: any;
+  pageSize: number;
+  pageNo: number;
+  sort: string;
+  sortDirection: string;
+  period: number;
+  totalRecords: number;
+  totalPages: number;
+  supplierID: string;
+}
+class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
+  constructor(props: LeadsTrackerTableProps) {
     super(props);
     this.state = {
       columns: this.columns,
@@ -33,6 +62,7 @@ class LeadsTracker extends React.Component<any, any> {
       activeColumn: { dataKey: 'price' },
       activeColumnFilters: {},
       updateTracking: false,
+      defaultSort: 'asc',
     };
   }
 
@@ -138,7 +168,7 @@ class LeadsTracker extends React.Component<any, any> {
   );
 
   renderDetailButtons = (row: any) => {
-    const { updateProductTrackingStatus, supplierID } = this.props;
+    const { updateProductTrackingStatus } = this.props;
     const { updateTracking } = this.state;
     return (
       <DetailButtons
@@ -149,24 +179,25 @@ class LeadsTracker extends React.Component<any, any> {
             if (row.tracking_status !== null) {
               await updateProductTrackingStatus(
                 row.tracking_status === 'active' ? 'inactive' : 'active',
-                undefined,
+                row.product_id,
                 row.product_track_id,
                 undefined,
                 'supplier',
-                supplierID
+                row.supplier_id
               );
               await this.setState({ updateTracking: false });
             } else {
               await updateProductTrackingStatus(
                 'active',
                 row.product_id,
-                undefined,
+                row.product_track_id,
                 undefined,
                 'supplier',
-                supplierID
+                row.supplier_id
               );
               await this.setState({ updateTracking: false });
             }
+            await this.fetchLeadsData({});
           }
         }}
       />
@@ -190,9 +221,10 @@ class LeadsTracker extends React.Component<any, any> {
   };
 
   onSort = (order: string) => {
-    const { currentActiveColumn, fetchLeads } = this.props;
-    const sort_direction = order === 'ascending' ? 'asc' : 'dsc';
-    fetchLeads({ sort: currentActiveColumn, sort_direction });
+    const { currentActiveColumn } = this.props;
+    const sort_direction = order === 'descending' ? 'desc' : 'asc';
+    this.fetchLeadsData({ sort: currentActiveColumn, sort_direction });
+    this.setState({ defaultSort: order });
   };
 
   setActiveColumnFilters = (data: any) => this.setState({ activeColumnFilters: data });
@@ -370,6 +402,7 @@ class LeadsTracker extends React.Component<any, any> {
   fetchLeadsData = (filter: any) => {
     const {
       fetchLeads,
+      fetchSearchFileData,
       period,
       pageNo: page,
       pageSize: per_page,
@@ -377,15 +410,27 @@ class LeadsTracker extends React.Component<any, any> {
       sortDirection: sort_direction,
       supplierID,
     } = this.props;
-    const payload = { page, per_page, sort, sort_direction, period, supplierID };
-    fetchLeads({ ...payload, ...filter });
+    let payload = { page, per_page, sort, sort_direction, period, supplierID };
+    if (filter) payload = { ...payload, ...filter };
+    fetchLeads(payload);
+    fetchSearchFileData(payload);
   };
 
   getColumn = (dataKey: string) => this.columns.find((c: Column) => c.dataKey === dataKey);
 
   parseFilters = (filter: any): string => {
     const { dataKey, value } = filter;
-    return value ? `${dataKey}_min=${value.min}& ${dataKey}_max=${value.max}` : '';
+    let query = '';
+    if (value) {
+      if (dataKey === 'search_file') {
+        query = `searches=${value}`;
+      } else {
+        query = `${dataKey}_min=${value.min}& ${dataKey}_max=${value.max}`;
+      }
+    }
+
+    this.setState({ ColumnFilterBox: false });
+    return query;
   };
 
   render() {
@@ -398,8 +443,16 @@ class LeadsTracker extends React.Component<any, any> {
       isFetchingLeadsKPI,
       totalPages,
       period,
+      fileSearch,
     } = this.props;
-    const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
+    const {
+      checkedRows,
+      columns,
+      ColumnFilterBox,
+      activeColumn,
+      activeColumnFilters,
+      defaultSort,
+    } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
 
     const onScroll = (evt: any) => {
@@ -415,6 +468,7 @@ class LeadsTracker extends React.Component<any, any> {
     if (middleHeader) {
       middleHeader.addEventListener('scroll', onScroll);
     }
+
     return (
       <div className="leads-table">
         {isFetchingLeadsKPI ? (
@@ -463,12 +517,13 @@ class LeadsTracker extends React.Component<any, any> {
               currentPage={pageNo}
               setPage={page => {
                 if (page !== pageNo) {
-                  this.fetchLeadsData({ pageNo: page });
+                  this.fetchLeadsData({ page });
                 }
               }}
               name={'leads-tracker'}
               pageCount={totalPages}
               showFilter={true}
+              defaultSort={defaultSort}
               onSort={this.onSort}
               checkedRows={checkedRows}
               updateCheckedRows={this.updateCheckedRows}
@@ -478,12 +533,12 @@ class LeadsTracker extends React.Component<any, any> {
               columnDnD={true}
               activeColumnFilters={activeColumnFilters}
               toggleColumnFilters={this.setActiveColumnFilters}
+              checkboxData={fileSearch}
               stickyChartSelector
               applyColumnFilters={(filter: any) =>
                 this.fetchLeadsData({ query: this.parseFilters(filter) })
               }
               cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
-              resetColumnFilters={() => console.log('reset')}
             />
           </React.Fragment>
         )}
@@ -504,12 +559,15 @@ const mapStateToProps = (state: {}) => ({
   period: get(state, 'leads.period'),
   totalRecords: get(state, 'leads.totalRecords'),
   totalPages: get(state, 'leads.totalPages'),
+  fileSearch: fileSearch(state),
 });
 
 const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   fetchLeads: (payload: FetchLeadsFilters) => fetchLeadsKPIs(payload),
+  fetchSearchFileData: (payload: any) => fetchLeadsSearch(payload),
+
   updateProductTrackingStatus: (
     status: string,
     productID?: any,

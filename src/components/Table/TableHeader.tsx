@@ -40,6 +40,7 @@ interface Shared {
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
   resetColumnFilters?: () => void;
+  checkboxData: any;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -81,6 +82,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     applyColumnFilters,
     cancelColumnFilters,
     resetColumnFilters,
+    checkboxData,
   } = props;
   const {
     dataKey,
@@ -154,14 +156,14 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         <RangeFilterBox
           label={label}
           dataKey={dataKey}
-          range={{ min: 0, max: 100 }}
-          filterRange={{ min: 1, max: 10 }}
+          range={{ min: 1, max: 100 }}
+          filterRange={{ min: 25, max: 75 }}
           labelSign={'$'}
           filterType={filterType}
           resetFilters={resetColumnFilters}
           cancelFilters={cancelColumnFilters}
           applyFilters={applyColumnFilters}
-          l
+          checkboxData={checkboxData}
         />
       }
     />
@@ -410,7 +412,11 @@ const TableHeader = (props: TableHeaderProps) => {
         )}
 
         {rest.type !== 'trackerTable' && (
-          <tr className="parent-header-column lead-tracker-header">
+          <tr
+            className={`parent-header-column ${
+              rest.type === 'leads-tracker' ? 'lead-tracker-header' : ''
+            }`}
+          >
             {scrollRows.map((cell: any, cellIndex: any) => {
               let headerCellProps: any = {};
               if (cell.side === 'center') {
@@ -425,17 +431,21 @@ const TableHeader = (props: TableHeaderProps) => {
                 }
               }
               if (cell.side === 'right') {
-                headerCellProps.className = 'left-fixed-header-column lt-border-right';
+                headerCellProps.className = `left-fixed-header-column ${
+                  rest.type === 'leads-tracker' ? 'lt-border-right' : ''
+                }`;
                 if (filteredColumns.length === 4) {
                   headerCellProps = { ...headerCellProps, style: { width: '1em' } };
                 }
               }
-              if (cell.side === 'center') {
+              if (cell.side === 'center' && rest.type === 'leads-tracker') {
                 headerCellProps.className = ' leads-tracker-middle';
                 headerCellProps = { ...headerCellProps };
               }
               if (cell.side === 'left') {
-                headerCellProps.className = 'left-most lt-border-left';
+                headerCellProps.className = `left-most ${
+                  rest.type === 'leads-tracker' ? 'lt-border-left' : ''
+                }`;
                 headerCellProps = { ...headerCellProps, style: { width: '1em' } };
               }
 
