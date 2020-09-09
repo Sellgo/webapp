@@ -5,7 +5,6 @@ class ScrollToTop extends React.Component<any> {
   componentDidUpdate(prevProps: any) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
-      (window as any).userpilot.reload();
       const container = document.querySelector('.Sidebar__pusher');
       if (container) {
         container.scrollTo(0, 0);
