@@ -310,7 +310,7 @@ export const GenericTable = (props: GenericTableProps) => {
 
   return (
     <div
-      className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : ''}  ${
+      className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
         name === 'products' ? 'pf-table' : ''
       }`}
       onScroll={handleScroll}
