@@ -63,11 +63,12 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
 export const fetchLeadsSearch = (payload: any) => async (dispatch: any) => {
   dispatch(setFetchingFileSearch(true));
   // eslint-disable-next-line max-len
-  const { period = 30, page = 1, per_page = 50, supplierID = '' } = payload;
+  const { period = 30, page = 1, per_page = 50 } = payload;
+  const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
-      `sellers/${supplierID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&column_value=search`
+      `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&column_value=search`
   );
   if (response.data) {
     dispatch(setFileSearch(response.data));
