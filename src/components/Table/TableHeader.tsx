@@ -100,7 +100,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
   const columnClass = type !== 'leads-tracker' ? getColumnClass(column) : '';
-
   otherProps = {
     onClick:
       sortable && type !== 'leads-tracker'

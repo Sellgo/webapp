@@ -63,6 +63,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       activeColumnFilters: {},
       updateTracking: false,
       defaultSort: 'asc',
+      sorting: false,
     };
   }
 
@@ -146,7 +147,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
           row[`change_${this.getActiveColumn()}`],
           row[`change_${this.getActiveColumn()}`]
         )}
-        {value !== 0 && `(${row[`change_${this.getActiveColumn()}_perc`]} %)`}
+        {value !== 0 && `(${row[`change_${this.getActiveColumn()}_perc`]}%)`}
       </p>
     );
   };
@@ -220,11 +221,12 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     this.toggleColumn(column);
   };
 
-  onSort = (order: string) => {
+  onSort = async (order: string) => {
     const { currentActiveColumn } = this.props;
+    await this.setState({ sorting: true });
     const sort_direction = order === 'descending' ? 'desc' : 'asc';
-    this.fetchLeadsData({ sort: currentActiveColumn, sort_direction });
-    this.setState({ defaultSort: order });
+    localStorage.setItem('leads-sort', sort_direction);
+    await this.fetchLeadsData({ sort: currentActiveColumn, sort_direction, sorting: true });
   };
 
   setActiveColumnFilters = (data: any) => this.setState({ activeColumnFilters: data });
@@ -284,7 +286,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'price',
       type: 'number',
       sortable: true,
-      searchable: true,
       filter: true,
       show: true,
       className: `lt-middle-sm-col`,
@@ -295,7 +296,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'profit',
       type: 'number',
       sortable: true,
-      searchable: true,
       filter: true,
       show: true,
       className: 'lt-middle-sm-col',
@@ -306,7 +306,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'margin',
       type: 'number',
       sortable: true,
-      searchable: true,
       filter: true,
       show: true,
       className: 'lt-middle-md-col',
@@ -317,7 +316,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'roi',
       type: 'number',
       sortable: true,
-      searchable: true,
       show: true,
       className: 'lt-middle-sm-col',
       render: this.renderRoi,
@@ -327,7 +325,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'average',
       type: 'number',
       sortable: true,
-      searchable: true,
       filter: true,
       show: true,
       className: 'lt-md-col',
@@ -338,7 +335,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'index',
       type: 'number',
       sortable: true,
-      searchable: true,
       show: true,
       className: 'lt-md-col',
       render: this.renderIndex,
@@ -348,7 +344,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'change',
       type: 'string',
       sortable: true,
-      searchable: true,
       filter: true,
       show: true,
       className: 'lt-md-col',
@@ -360,7 +355,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'string',
       show: true,
       sortable: true,
-      searchable: true,
+      filter: true,
       className: 'lt-sm-col',
       render: this.renderHighs,
     },
@@ -370,7 +365,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'number',
       show: true,
       sortable: true,
-      searchable: true,
       filter: true,
       className: 'lt-sm-col',
       render: this.renderLows,
@@ -380,7 +374,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'tracking',
       type: 'number',
       show: true,
-      sortable: true,
+      sortable: false,
       className: 'lt-sm-col leads-tracking',
       render: this.renderDetailButtons,
     },
@@ -425,7 +419,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       if (dataKey === 'search_file') {
         query = `searches=${value}`;
       } else {
-        query = `${dataKey}_min=${value.min}& ${dataKey}_max=${value.max}`;
+        query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
       }
     }
 
@@ -436,7 +430,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   render() {
     const {
       currentActiveColumn,
-      setSinglePageItemsCount,
       pageNo,
       pageSize,
       leads,
@@ -445,14 +438,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       period,
       fileSearch,
     } = this.props;
-    const {
-      checkedRows,
-      columns,
-      ColumnFilterBox,
-      activeColumn,
-      activeColumnFilters,
-      defaultSort,
-    } = this.state;
+    const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
 
     const onScroll = (evt: any) => {
@@ -501,10 +487,12 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               {columns.slice(9, columns.length - 2).map((c: any, i: any) => (
                 <div className={c.className} key={`left-${i}`} />
               ))}
-              <LeadsTrackerFilterSection
-                defaultPeriod={period}
-                onPeriodSelect={(period: any) => this.fetchLeadsData({ period })}
-              />
+              <div style={{ marginBottom: 5 }}>
+                <LeadsTrackerFilterSection
+                  defaultPeriod={period}
+                  onPeriodSelect={(period: any) => this.fetchLeadsData({ period })}
+                />
+              </div>
             </div>
             <GenericTable
               currentActiveColumn={currentActiveColumn}
@@ -513,7 +501,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               columns={columns}
               data={leads}
               singlePageItemsCount={pageSize}
-              setSinglePageItemsCount={setSinglePageItemsCount}
+              // setSinglePageItemsCount={setSinglePageItemsCount}
               currentPage={pageNo}
               setPage={page => {
                 if (page !== pageNo) {
@@ -523,7 +511,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               name={'leads-tracker'}
               pageCount={totalPages}
               showFilter={true}
-              defaultSort={defaultSort}
+              // defaultSort={defaultSort}
               onSort={this.onSort}
               checkedRows={checkedRows}
               updateCheckedRows={this.updateCheckedRows}
@@ -533,6 +521,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               columnDnD={true}
               activeColumnFilters={activeColumnFilters}
               toggleColumnFilters={this.setActiveColumnFilters}
+              setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page })}
               checkboxData={fileSearch}
               stickyChartSelector
               applyColumnFilters={(filter: any) =>

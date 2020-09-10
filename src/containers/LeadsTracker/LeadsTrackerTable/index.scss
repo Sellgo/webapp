@@ -615,7 +615,7 @@ $new_black: #3b4557;
 
 .lt-middle-md-col {
   min-width: 143px !important;
-  width: 145px !important;
+  width: 144px !important;
 }
 
 .lt-checkbox {
@@ -629,6 +629,7 @@ $new_black: #3b4557;
   border-top: 1px solid #98aeca;
   border-bottom: 0;
   border-right: 1px solid #98aeca;
+  margin-left: 0.5px;
 }
 
 .lt-state {
@@ -647,6 +648,9 @@ $new_black: #3b4557;
 
 .change-high {
   color: #07bc0c !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .icon {
     transform: rotate(225deg);
@@ -655,6 +659,9 @@ $new_black: #3b4557;
 
 .change-low {
   color: #e74c3c !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .icon {
     transform: rotate(-45deg);

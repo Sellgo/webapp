@@ -21,9 +21,9 @@ export interface FetchLeadsFilters {
   sort_direction: string;
   supplierID: string;
   query: string;
+  sorting: boolean;
 }
 export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: any) => {
-  dispatch(setFetchingKpi(true));
   // eslint-disable-next-line max-len
   const {
     period = 30,
@@ -33,12 +33,18 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
     sort_direction = 'asc',
     supplierID = '',
     query = '',
+    sorting = false,
   } = payload;
+  if (!sorting) {
+    dispatch(setFetchingKpi(true));
+  }
+
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
-      `sellers/${supplierID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&sort=${sort}&sort_direction=${sort_direction}& ${query}`
+      `sellers/${supplierID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&sort=${sort}&sort_direction=${sort_direction}&${query}`
   );
+
   if (response.data) {
     dispatch(setLeads(response.data));
     dispatch(setSort(sort));

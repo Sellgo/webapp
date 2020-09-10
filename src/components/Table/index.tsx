@@ -246,7 +246,9 @@ export const GenericTable = (props: GenericTableProps) => {
     });
   }
 
-  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  if (name !== 'leads-tracker') {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  }
   const sortedProducts = rows;
   rows = rows.slice(
     (localCurrentPage - 1) * singlePageItemsCount,

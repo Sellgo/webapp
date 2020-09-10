@@ -8,7 +8,10 @@ const LeadsTracker = (props: any) => {
     <div>
       <PageHeader
         title={'Leads Tracker'}
-        breadcrumb={[{ content: 'Leads Tracker', to: '/' }]}
+        breadcrumb={[
+          { content: 'Home', to: '/' },
+          { content: 'Leads Tracker', to: '/leads-tracker' },
+        ]}
         callToAction={<QuotaMeter />}
       />
       <LeadsTrackerTable supplierID={props.match.params.supplierID} />
