@@ -23,7 +23,6 @@ export interface FetchLeadsFilters {
   sort: string;
   sort_direction: string;
   query: string;
-  sorting: boolean;
 }
 export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: any) => {
   // eslint-disable-next-line max-len
@@ -34,11 +33,9 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
     sort = 'price',
     sort_direction = 'asc',
     query = '',
-    sorting = false,
   } = payload;
-  if (!sorting) {
-    dispatch(setFetchingKpi(true));
-  }
+
+  dispatch(setFetchingKpi(true));
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
