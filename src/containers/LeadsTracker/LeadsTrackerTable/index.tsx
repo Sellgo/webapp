@@ -51,7 +51,6 @@ export interface LeadsTrackerTableProps {
   period: number;
   totalRecords: number;
   totalPages: number;
-  supplierID: string;
 }
 class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   constructor(props: LeadsTrackerTableProps) {
@@ -402,9 +401,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       pageSize: per_page,
       sort,
       sortDirection: sort_direction,
-      supplierID,
     } = this.props;
-    let payload = { page, per_page, sort, sort_direction, period, supplierID };
+    let payload = { page, per_page, sort, sort_direction, period };
     if (filter) payload = { ...payload, ...filter };
     fetchLeads(payload);
     fetchSearchFileData(payload);

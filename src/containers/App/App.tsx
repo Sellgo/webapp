@@ -22,6 +22,7 @@ import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
+import UserPilotReload from '../../components/UserPilotReload';
 
 export const auth = new Auth();
 
@@ -139,6 +140,7 @@ function App() {
     <div className="App__container">
       <Router history={history}>
         <ScrollToTop />
+        <UserPilotReload />
         <Switch>
           <Route
             exact={true}
@@ -194,7 +196,7 @@ function App() {
           />
           <PrivateRoute
             exact={true}
-            path="/leads-tracker/:supplierID"
+            path="/leads-tracker"
             component={LeadsTracker}
             requireSubscription={true}
           />

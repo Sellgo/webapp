@@ -249,6 +249,18 @@ export const GenericTable = (props: GenericTableProps) => {
   if (name !== 'leads-tracker') {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
+
+  // keep the unbusted data buster columns in PF at end of sort
+  if (
+    name === 'products' &&
+    (sortedColumnKey === 'rating' || sortedColumnKey === 'customer_reviews')
+  ) {
+    rows = [
+      ...rows.filter(r => r.data_buster_status === 'completed'),
+      ...rows.filter(r => r.data_buster_status !== 'completed').reverse(),
+    ];
+  }
+
   const sortedProducts = rows;
   rows = rows.slice(
     (localCurrentPage - 1) * singlePageItemsCount,

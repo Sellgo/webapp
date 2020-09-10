@@ -13,13 +13,15 @@ import {
   FETCH_FILE_SEARCH,
   FETCH_FILE_SEARCH_SUCCESS,
 } from '../../constants/LeadsTracker';
+
+import { sellerIDSelector } from '../../selectors/Seller';
+
 export interface FetchLeadsFilters {
   period: number;
   page: number;
   per_page: number;
   sort: string;
   sort_direction: string;
-  supplierID: string;
   query: string;
   sorting: boolean;
 }
@@ -31,18 +33,18 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
     per_page = 10,
     sort = 'price',
     sort_direction = 'asc',
-    supplierID = '',
     query = '',
     sorting = false,
   } = payload;
   if (!sorting) {
     dispatch(setFetchingKpi(true));
   }
+  const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
-      `sellers/${supplierID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&sort=${sort}&sort_direction=${sort_direction}&${query}`
+      `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&sort=${sort}&sort_direction=${sort_direction}&${query}`
   );
 
   if (response.data) {
