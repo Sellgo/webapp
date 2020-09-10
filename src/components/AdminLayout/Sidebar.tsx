@@ -58,7 +58,7 @@ class SidebarCollapsible extends Component<
         label: 'Leads Tracker',
         icon: 'fas fa-user-ninja',
         path: '/leads-tracker',
-        notifyId: 0,
+        notifyId: 2,
       },
       { id: 5, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
       { id: 6, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
@@ -153,7 +153,7 @@ class SidebarCollapsible extends Component<
                   }
                 />
               );
-            } else if (icon.id > 5) {
+            } else if (icon.id > 4) {
               return (
                 <Tour
                   data={icon}
