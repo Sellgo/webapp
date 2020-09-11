@@ -14,7 +14,6 @@ export interface Column {
   dataKey?: string;
   label?: string;
   sortable?: boolean;
-  searchable?: boolean;
   filter?: boolean;
   filterType?: string;
   searchIconPosition?: string;
@@ -185,43 +184,44 @@ export const GenericTable = (props: GenericTableProps) => {
   const filteredColumns = columnFilterData
     ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
     : columns.map((c: any) => ({ ...c, value: c.show, key: c.label }));
-  let rows = checkSortedColumnExist.length
-    ? [...data].sort((a, b) => {
-        const sortedColumn = checkSortedColumnExist[0];
-        let aColumn;
-        let bColumn;
-        if (sortedColumn.type === 'number') {
-          aColumn = Number(a[sortedColumn.dataKey || '']);
-          bColumn = Number(b[sortedColumn.dataKey || '']);
-        } else if (sortedColumn.type === 'date') {
-          aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
-          bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
-        } else {
-          aColumn = a[sortedColumn.dataKey || ''] || '';
-          bColumn = b[sortedColumn.dataKey || ''] || '';
-        }
-        // make string-based sorting case-insensitive
-        if (sortedColumn.dataKey && sortedColumn.type === 'string') {
-          if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+  let rows =
+    checkSortedColumnExist.length && name !== 'leads-tracker'
+      ? [...data].sort((a, b) => {
+          const sortedColumn = checkSortedColumnExist[0];
+          let aColumn;
+          let bColumn;
+          if (sortedColumn.type === 'number') {
+            aColumn = Number(a[sortedColumn.dataKey || '']);
+            bColumn = Number(b[sortedColumn.dataKey || '']);
+          } else if (sortedColumn.type === 'date') {
+            aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
+            bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
+          } else {
+            aColumn = a[sortedColumn.dataKey || ''] || '';
+            bColumn = b[sortedColumn.dataKey || ''] || '';
+          }
+          // make string-based sorting case-insensitive
+          if (sortedColumn.dataKey && sortedColumn.type === 'string') {
+            if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+              return -1;
+            }
+            if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+              return 1;
+            }
+          } else {
+            if (aColumn < bColumn) {
+              return -1;
+            }
+            if (aColumn > bColumn) {
+              return 1;
+            }
+          }
+          if (aColumn === bColumn && sortDirection === 'descending') {
             return -1;
           }
-          if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
-            return 1;
-          }
-        } else {
-          if (aColumn < bColumn) {
-            return -1;
-          }
-          if (aColumn > bColumn) {
-            return 1;
-          }
-        }
-        if (aColumn === bColumn && sortDirection === 'descending') {
-          return -1;
-        }
-        return 0;
-      })
-    : data;
+          return 0;
+        })
+      : data;
 
   const [filterName, setFilterName] = useState('');
 
@@ -239,14 +239,15 @@ export const GenericTable = (props: GenericTableProps) => {
     : rows;
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
-  if (checkSortedColumnExist[0]) {
-    const key: any = checkSortedColumnExist[0].dataKey;
-    rows = rows.sort((a, b) => {
-      return a[key] - b[key];
-    });
-  }
 
   if (name !== 'leads-tracker') {
+    if (checkSortedColumnExist[0]) {
+      const key: any = checkSortedColumnExist[0].dataKey;
+      rows = rows.sort((a, b) => {
+        return a[key] - b[key];
+      });
+    }
+
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
@@ -361,7 +362,11 @@ export const GenericTable = (props: GenericTableProps) => {
         textAlign="left"
         unstackable={true}
         className={`${
-          name === 'trackerTable' ? 'alter-table' : name === 'products' ? 'pf-table' : ''
+          name === 'trackerTable'
+            ? 'alter-table'
+            : name === 'products' || name === 'leads-tracker'
+            ? 'pf-table'
+            : ''
         }`}
       >
         <TableHeader

@@ -224,7 +224,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     const { currentActiveColumn } = this.props;
     await this.setState({ sorting: true });
     const sort_direction = order === 'descending' ? 'desc' : 'asc';
-    localStorage.setItem('leads-sort', sort_direction);
     await this.fetchLeadsData({ sort: currentActiveColumn, sort_direction, sorting: true });
   };
 
@@ -255,7 +254,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       dataKey: 'search_file',
       type: 'string',
       sortable: true,
-      searchable: true,
       show: true,
       className: 'lt-md-col',
       filter: true,
@@ -335,6 +333,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'number',
       sortable: true,
       show: true,
+      filter: true,
       className: 'lt-md-col',
       render: this.renderIndex,
     },
@@ -382,9 +381,9 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     const { columns } = this.state;
     let tableColumns = columns;
     tableColumns = tableColumns.map((c: any) => {
-      if (c.dataKey === column.dataKey) {
+      if (c.dataKey === column.dataKey && !c.className.includes('active-column')) {
         c = { ...c, className: `${c.className} active-column ` };
-      } else {
+      } else if (c.dataKey !== column.dataKey) {
         c = { ...c, className: c.className.replace('active-column ', '') };
       }
       return c;
@@ -499,7 +498,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               columns={columns}
               data={leads}
               singlePageItemsCount={pageSize}
-              // setSinglePageItemsCount={setSinglePageItemsCount}
               currentPage={pageNo}
               setPage={page => {
                 if (page !== pageNo) {
@@ -509,7 +507,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               name={'leads-tracker'}
               pageCount={totalPages}
               showFilter={true}
-              // defaultSort={defaultSort}
               onSort={this.onSort}
               checkedRows={checkedRows}
               updateCheckedRows={this.updateCheckedRows}

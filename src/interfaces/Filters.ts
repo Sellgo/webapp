@@ -119,15 +119,3 @@ export interface ProductTrackerFilterState {
     max: number;
   };
 }
-
-interface ColumnFilterRange {
-  defaultValues: { min: number; max: number };
-  range: { min: number; max: number };
-}
-
-export interface ColumnFilters {
-  type: 'checkboxes' | 'range';
-  dataKey: string;
-  checkboxValues: [string];
-  range: ColumnFilterRange;
-}

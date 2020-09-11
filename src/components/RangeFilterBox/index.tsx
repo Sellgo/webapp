@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FilterSliderInput from '../FilterSliderInput';
 import { Button, Form, Checkbox } from 'semantic-ui-react';
 import './index.scss';
@@ -12,11 +12,26 @@ const RangeFilterBox = (props: any) => {
     checkboxData = [],
     dataKey,
     filterRange,
+    name,
     ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
   const [localData, setLocalData] = React.useState([]);
   const [range, setFilterRange] = React.useState(filterRange);
+
+  useEffect(() => {
+    let saved: any = localStorage.getItem(`${name}:${dataKey}`);
+    if (saved) {
+      saved = JSON.parse(saved);
+      if (filterType === 'checkbox') {
+        const checks = saved.value.split(',');
+        setLocalData(checks);
+      }
+      if (filterType === 'range') {
+        setFilterRange(saved.value);
+      }
+    }
+  }, []);
 
   const resetFiltersValue = () => {
     if (filterType === 'checkbox') {
@@ -24,6 +39,7 @@ const RangeFilterBox = (props: any) => {
     } else {
       setFilterRange(filterRange);
     }
+    localStorage.removeItem(`${name}:${dataKey}`);
   };
 
   const setCheck = (value: any) => {
@@ -46,8 +62,12 @@ const RangeFilterBox = (props: any) => {
     } else {
       res = { ...filter, value: range, dataKey };
     }
-
     applyFilters(res);
+    saveFilters(res);
+  };
+
+  const saveFilters = (filter: any) => {
+    localStorage.setItem(`${name}:${dataKey}`, JSON.stringify(filter));
   };
 
   const onRangeChange = (dataKey: string, value: any) => {

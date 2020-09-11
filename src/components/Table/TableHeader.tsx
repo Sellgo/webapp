@@ -163,6 +163,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           cancelFilters={cancelColumnFilters}
           applyFilters={applyColumnFilters}
           checkboxData={checkboxData}
+          name={type}
         />
       }
     />
