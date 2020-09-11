@@ -97,8 +97,12 @@
           max-width: 400px !important;
           margin-bottom: 0 !important;
 
+          &__label {
+            font-weight: 500;
+          }
+
           .input {
-            max-width: 80px;
+            max-width: 60px;
             margin: 0;
             color: #98aeca;
             margin-right: 5px;
@@ -107,21 +111,37 @@
               padding: 3px 0 3px 5px;
               border-radius: 5px;
               border: 1px solid #98aeca;
+              font-size: 12px !important;
+              font-weight: 500;
+              font-family: 'Work sans', sans-serif;
             }
           }
 
           .dropdown {
             border: 1px solid #98aeca;
-            background: #f8faff;
+            background: #fff;
             border-radius: 5px;
-            padding: 3px 0 2px 5px;
+            padding: 1px 0 1px 5px;
             margin: 0 5px;
+            font-size: 12px;
+            font-weight: 500;
 
             .icon {
               border: unset !important;
               margin: 0 5px !important;
               height: 10px !important;
               color: #98aeca;
+            }
+
+            .menu {
+              border-radius: 5px;
+              border: 1px solid #98aeca;
+
+              .item {
+                width: 15px;
+                padding: 5px 3px 4px 4px !important;
+                font-size: 12px;
+              }
             }
           }
         }

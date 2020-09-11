@@ -81,7 +81,12 @@ const PresetFilter = (props: PresetFilterProps) => {
                           }}
                           type="checkbox"
                         />
-                        <label htmlFor={filterData.dataKey}>{filterData.label}</label>
+                        <label
+                          className="customizable-checkbox__label"
+                          htmlFor={filterData.dataKey}
+                        >
+                          {filterData.label}
+                        </label>
                         <Dropdown
                           text={
                             filterState.customizable[index] &&

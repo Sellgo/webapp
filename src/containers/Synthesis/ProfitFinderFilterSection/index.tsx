@@ -1077,7 +1077,13 @@ function ProfitFinderFilterSection(props: Props) {
           setFilterType('');
         }}
       >
-        <i className="fas fa-times" onClick={() => setFilterModalOpen(!isFilterModalOpen)} />
+        <i
+          className="fas fa-times"
+          onClick={() => {
+            setFilterModalOpen(!isFilterModalOpen);
+            setFilterType('');
+          }}
+        />
         <Modal.Content>
           <FilterContainer
             filterType={filterType}
