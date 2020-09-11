@@ -21,6 +21,7 @@ import Onboarding from '../Onboarding';
 import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
+import UserPilotReload from '../../components/UserPilotReload';
 
 export const auth = new Auth();
 
@@ -138,6 +139,7 @@ function App() {
     <div className="App__container">
       <Router history={history}>
         <ScrollToTop />
+        <UserPilotReload />
         <Switch>
           <Route
             exact={true}
