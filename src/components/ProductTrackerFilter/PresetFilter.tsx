@@ -78,7 +78,6 @@ const PresetFilter = (props: PresetFilterProps) => {
                           }
                           onChange={() => {
                             customizeFilterChange(filterData.dataKey, 'toggle');
-                            // toggleCheckboxFilter(filterData.dataKey, filterData.label);
                           }}
                           type="checkbox"
                         />
