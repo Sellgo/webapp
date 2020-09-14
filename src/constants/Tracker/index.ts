@@ -253,9 +253,18 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   return filteredProducts;
 };
 
+export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
+  if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
+    return true;
+  else {
+    return (
+      profitabilityFilter.value === 'Non-Profitable Products' && Number(product.avg_profit) !== 0
+    );
+  }
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
-    console.log('Number(product.avg_profit): ', Number(product.avg_profit));
     return filterData !== undefined
       ? /*
           show amazon choice products if checked, if not, show all
@@ -271,8 +280,7 @@ export const findFilteredProducts = (products: any, filterData: any) => {
               !product.is_amazon_selling)) &&
           (filterData.reviews.length === 5 ||
             filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
-          filterData.profitabilityFilter.value === 'Non-Profitable Products' &&
-          Number(product.avg_profit) !== 0 &&
+          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
           filterKeys.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
@@ -280,7 +288,6 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           )
       : products;
   });
-  console.log('products: ', updatedFilterProducts);
   return updatedFilterProducts;
 };
 
