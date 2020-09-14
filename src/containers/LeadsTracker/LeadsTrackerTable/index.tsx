@@ -14,12 +14,17 @@ import {
 } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
-import { fileSearch, isFetchingLeadsKPISelector, leads } from '../../../selectors/LeadsTracker';
+import {
+  filters,
+  isFetchingLeadsKPISelector,
+  leads,
+  loadingFilters,
+} from '../../../selectors/LeadsTracker';
 import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
 import LeadsTrackerFilterSection from '../LeadsTrackerFilterSection';
-import { FetchLeadsFilters, fetchLeadsKPIs, fetchLeadsSearch } from '../../../actions/LeadsTracker';
+import { fetchFilters, FetchLeadsFilters, fetchLeadsKPIs } from '../../../actions/LeadsTracker';
 
 export interface CheckedRowDictionary {
   [index: number]: boolean;
@@ -29,7 +34,7 @@ export interface LeadsTrackerTableProps {
   setSinglePageItemsCount: (payload: any) => void;
   setPageNumber: (pageNo: number) => void;
   fetchLeads: (payload: any) => void;
-  fetchSearchFileData: (payload: any) => void;
+  fetchFilters: (payload: any) => void;
   updateProductTrackingStatus: (
     status: string,
     productID?: any,
@@ -41,7 +46,7 @@ export interface LeadsTrackerTableProps {
   singlePageItemsCount: number;
   pageNumber: number;
   leads: [any];
-  fileSearch: [any];
+  filters: [any];
   isFetchingLeadsKPI: boolean;
   currentActiveColumn: any;
   pageSize: number;
@@ -51,6 +56,7 @@ export interface LeadsTrackerTableProps {
   period: number;
   totalRecords: number;
   totalPages: number;
+  loadingFilters: boolean;
 }
 class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   constructor(props: LeadsTrackerTableProps) {
@@ -58,7 +64,15 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     this.state = {
       columns: this.columns,
       checkedRows: {},
-      activeColumn: { dataKey: 'price' },
+      activeColumn: {
+        label: 'Price',
+        dataKey: 'price',
+        type: 'number',
+        sortable: true,
+        filter: true,
+        show: true,
+        className: `lt-middle-sm-col`,
+      },
       activeColumnFilters: {},
       updateTracking: false,
       defaultSort: 'asc',
@@ -213,6 +227,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
 
   componentDidMount() {
     this.fetchLeadsData({ pageNo: 1 });
+    this.toggleColumn(this.state.activeColumn);
   }
 
   setActiveColumn = (column: any) => {
@@ -224,10 +239,19 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     const { currentActiveColumn } = this.props;
     await this.setState({ sorting: true });
     const sort_direction = order === 'descending' ? 'desc' : 'asc';
-    await this.fetchLeadsData({ sort: currentActiveColumn, sort_direction, sorting: true });
+    await this.fetchLeadsData({
+      sort: currentActiveColumn,
+      sort_direction,
+      sorting: true,
+    });
   };
 
-  setActiveColumnFilters = (data: any) => this.setState({ activeColumnFilters: data });
+  setActiveColumnFilters = (data: any) => {
+    const { fetchFilters } = this.props;
+    const query = `column_value=${data}&column_type=${data === 'search' ? data : 'slider'}`;
+    fetchFilters({ query });
+    this.setState({ activeColumnFilters: data });
+  };
 
   columns: Column[] = [
     {
@@ -251,7 +275,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     },
     {
       label: 'Search File',
-      dataKey: 'search_file',
+      dataKey: 'search',
       type: 'string',
       sortable: true,
       show: true,
@@ -314,12 +338,13 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'number',
       sortable: true,
       show: true,
+      filter: true,
       className: 'lt-middle-sm-col',
       render: this.renderRoi,
     },
     {
       label: 'Average',
-      dataKey: 'average',
+      dataKey: 'avg',
       type: 'number',
       sortable: true,
       filter: true,
@@ -349,7 +374,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     },
     {
       label: 'Highs',
-      dataKey: 'highs',
+      dataKey: 'max',
       type: 'string',
       show: true,
       sortable: true,
@@ -359,7 +384,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     },
     {
       label: 'Lows',
-      dataKey: 'lows',
+      dataKey: 'min',
       type: 'number',
       show: true,
       sortable: true,
@@ -386,6 +411,10 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       } else if (c.dataKey !== column.dataKey) {
         c = { ...c, className: c.className.replace('active-column ', '') };
       }
+      const data = ['avg', 'change', 'min', 'max', 'index'];
+      if (data.includes(c.dataKey)) {
+        c = { ...c, dataKey: `${c.dataKey}_${column.dataKey}` };
+      }
       return c;
     });
     this.setState({ columns: tableColumns });
@@ -394,7 +423,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   fetchLeadsData = (filter: any) => {
     const {
       fetchLeads,
-      fetchSearchFileData,
       period,
       pageNo: page,
       pageSize: per_page,
@@ -404,7 +432,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     let payload = { page, per_page, sort, sort_direction, period };
     if (filter) payload = { ...payload, ...filter };
     fetchLeads(payload);
-    fetchSearchFileData(payload);
   };
 
   getColumn = (dataKey: string) => this.columns.find((c: Column) => c.dataKey === dataKey);
@@ -433,7 +460,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       isFetchingLeadsKPI,
       totalPages,
       period,
-      fileSearch,
+      filters,
+      loadingFilters,
     } = this.props;
     const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
@@ -517,7 +545,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               activeColumnFilters={activeColumnFilters}
               toggleColumnFilters={this.setActiveColumnFilters}
               setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page })}
-              checkboxData={fileSearch}
+              loadingFilters={loadingFilters}
+              filterValues={filters}
               stickyChartSelector
               applyColumnFilters={(filter: any) =>
                 this.fetchLeadsData({ query: this.parseFilters(filter) })
@@ -543,14 +572,15 @@ const mapStateToProps = (state: {}) => ({
   period: get(state, 'leads.period'),
   totalRecords: get(state, 'leads.totalRecords'),
   totalPages: get(state, 'leads.totalPages'),
-  fileSearch: fileSearch(state),
+  filters: filters(state),
+  loadingFilters: loadingFilters(state),
 });
 
 const mapDispatchToProps = {
   setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   fetchLeads: (payload: FetchLeadsFilters) => fetchLeadsKPIs(payload),
-  fetchSearchFileData: (payload: any) => fetchLeadsSearch(payload),
+  fetchFilters: (payload: any) => fetchFilters(payload),
 
   updateProductTrackingStatus: (
     status: string,

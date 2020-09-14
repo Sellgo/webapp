@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import FilterSliderInput from '../FilterSliderInput';
-import { Button, Form, Checkbox } from 'semantic-ui-react';
+import { Button, Form, Checkbox, Loader, Dimmer } from 'semantic-ui-react';
 import './index.scss';
 
 const RangeFilterBox = (props: any) => {
@@ -9,15 +9,16 @@ const RangeFilterBox = (props: any) => {
     applyFilters,
     filterType,
     labelSign,
-    checkboxData = [],
     dataKey,
-    filterRange,
     name,
+    values = [],
+    loading,
     ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
+  const [min_max, setMinMax] = React.useState({});
   const [localData, setLocalData] = React.useState([]);
-  const [range, setFilterRange] = React.useState(filterRange);
+  const [range, setFilterRange] = React.useState({});
 
   useEffect(() => {
     let saved: any = localStorage.getItem(`${name}:${dataKey}`);
@@ -30,14 +31,25 @@ const RangeFilterBox = (props: any) => {
       if (filterType === 'range') {
         setFilterRange(saved.value);
       }
+    } else {
+      if (filterType === 'checkbox') {
+        setLocalData(values);
+      } else {
+        if (!!values && values.length) {
+          const [range] = values;
+          const value = { min: range[`${dataKey}_min`], max: range[`${dataKey}_max`] };
+          setMinMax(value);
+          setFilterRange(value);
+        }
+      }
     }
-  }, []);
+  }, [values]);
 
   const resetFiltersValue = () => {
     if (filterType === 'checkbox') {
       setLocalData([]);
     } else {
-      setFilterRange(filterRange);
+      setFilterRange(min_max);
     }
     localStorage.removeItem(`${name}:${dataKey}`);
   };
@@ -74,6 +86,7 @@ const RangeFilterBox = (props: any) => {
     setFilter({ dataKey, value });
     setFilterRange(value);
   };
+  console.log(loading);
 
   return (
     <div className="column-range-filter">
@@ -81,42 +94,51 @@ const RangeFilterBox = (props: any) => {
       <div className="reset-filters" onClick={() => resetFiltersValue()}>
         <p>X Reset</p>
       </div>
-      {filterType === 'range' && (
-        <FilterSliderInput
-          filterRange={range}
-          dataKey={dataKey}
-          {...rest}
-          minLabel={'Min'}
-          labelSign={labelSign}
-          maxLabel={'Max'}
-          handleCompleteChange={onRangeChange}
-        />
-      )}
-      {filterType === 'checkbox' && (
-        <div className="checkbox-filters-list">
-          <Form>
-            {checkboxData.map((check: any) => (
-              <Form.Field key={check.value}>
-                <Checkbox
-                  label={check.value}
-                  className="checkbox-filter"
-                  checked={hasChecked(check.value)}
-                  onClick={() => setCheck(check.value)}
-                />
-              </Form.Field>
-            ))}
-          </Form>
-        </div>
-      )}
+      {loading ? (
+        <Dimmer active={loading} inverted>
+          <Loader size="medium">Loading</Loader>
+        </Dimmer>
+      ) : (
+        <React.Fragment>
+          {filterType === 'range' && (
+            <FilterSliderInput
+              filterRange={range}
+              dataKey={dataKey}
+              range={min_max}
+              {...rest}
+              minLabel={'Min'}
+              labelSign={labelSign}
+              maxLabel={'Max'}
+              handleCompleteChange={onRangeChange}
+            />
+          )}
+          {filterType === 'checkbox' && (
+            <div className="checkbox-filters-list">
+              <Form>
+                {localData.map((check: any) => (
+                  <Form.Field key={check.value}>
+                    <Checkbox
+                      label={check.value}
+                      className="checkbox-filter"
+                      checked={hasChecked(check.value)}
+                      onClick={() => setCheck(check.value)}
+                    />
+                  </Form.Field>
+                ))}
+              </Form>
+            </div>
+          )}
 
-      <div className="button-wrapper">
-        <Button basic className="apply-filter-btn" onClick={() => setFilters()}>
-          Apply
-        </Button>
-        <Button basic className="cancel-filter-btn" onClick={() => cancelFilters()}>
-          Cancel
-        </Button>
-      </div>
+          <div className="button-wrapper">
+            <Button basic className="apply-filter-btn" onClick={() => setFilters()}>
+              Apply
+            </Button>
+            <Button basic className="cancel-filter-btn" onClick={() => cancelFilters()}>
+              Cancel
+            </Button>
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 };

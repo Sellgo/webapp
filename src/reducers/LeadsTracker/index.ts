@@ -1,8 +1,8 @@
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
 import {
-  FETCH_FILE_SEARCH,
-  FETCH_FILE_SEARCH_SUCCESS,
+  FETCH_FILTERS,
+  FETCH_FILTERS_SUCCESS,
   SET_FETCHING_KPI,
   SET_LEADS,
   SET_PAGE_NO,
@@ -25,8 +25,8 @@ const initialState = {
   sort: 'price',
   sortDirection: 'asc',
   totalRecords: 0,
-  fileSearch: [],
-  fetchingFileSearch: false,
+  filters: [],
+  fetchingFilters: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -49,10 +49,10 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'totalRecords', action.payload);
     case TOTAL_PAGES:
       return setIn(state, 'totalPages', action.payload);
-    case FETCH_FILE_SEARCH:
-      return setIn(state, 'fileSearch', action.payload);
-    case FETCH_FILE_SEARCH_SUCCESS:
-      return setIn(state, 'fetchingFileSearch', action.payload);
+    case FETCH_FILTERS:
+      return setIn(state, 'filters', action.payload);
+    case FETCH_FILTERS_SUCCESS:
+      return setIn(state, 'fetchingFilters', action.payload);
     default:
       return state;
   }

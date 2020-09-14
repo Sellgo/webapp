@@ -40,7 +40,8 @@ interface Shared {
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
   resetColumnFilters?: () => void;
-  checkboxData: any;
+  loadingFilters?: boolean;
+  filterValues?: any;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -82,7 +83,8 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     applyColumnFilters,
     cancelColumnFilters,
     resetColumnFilters,
-    checkboxData,
+    loadingFilters,
+    filterValues,
   } = props;
   const {
     dataKey,
@@ -155,14 +157,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         <RangeFilterBox
           label={label}
           dataKey={dataKey}
-          range={{ min: 1, max: 100 }}
-          filterRange={{ min: 25, max: 75 }}
           labelSign={'$'}
           filterType={filterType}
           resetFilters={resetColumnFilters}
           cancelFilters={cancelColumnFilters}
           applyFilters={applyColumnFilters}
-          checkboxData={checkboxData}
+          loading={loadingFilters}
+          values={filterValues}
           name={type}
         />
       }

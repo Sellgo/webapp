@@ -10,8 +10,8 @@ import {
   SET_PERIOD,
   SET_TOTAL_RECORDS,
   TOTAL_PAGES,
-  FETCH_FILE_SEARCH,
-  FETCH_FILE_SEARCH_SUCCESS,
+  FETCH_FILTERS,
+  FETCH_FILTERS_SUCCESS,
 } from '../../constants/LeadsTracker';
 
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -59,20 +59,20 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
   dispatch(setFetchingKpi(false));
 };
 
-export const fetchLeadsSearch = (payload: any) => async (dispatch: any) => {
-  dispatch(setFetchingFileSearch(true));
+export const fetchFilters = (payload: any) => async (dispatch: any) => {
+  dispatch(setFetchingFilters(true));
   // eslint-disable-next-line max-len
-  const { period = 30, page = 1, per_page = 50 } = payload;
+  const { period = 30, page = 1, per_page = 50, query = '' } = payload;
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
-      `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&column_value=search`
+      `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&${query}`
   );
   if (response.data) {
-    dispatch(setFileSearch(response.data));
+    dispatch(setFilters(response.data));
   }
-  dispatch(setFetchingFileSearch(false));
+  dispatch(setFetchingFilters(false));
 };
 
 export const setFetchingKpi = (isFetching: boolean) => ({
@@ -80,8 +80,8 @@ export const setFetchingKpi = (isFetching: boolean) => ({
   payload: isFetching,
 });
 
-export const setFetchingFileSearch = (isFetching: boolean) => ({
-  type: FETCH_FILE_SEARCH_SUCCESS,
+export const setFetchingFilters = (isFetching: boolean) => ({
+  type: FETCH_FILTERS_SUCCESS,
   payload: isFetching,
 });
 
@@ -125,7 +125,7 @@ export const setTotalPages = (totalPages: number) => ({
   payload: totalPages,
 });
 
-export const setFileSearch = (data: any) => ({
-  type: FETCH_FILE_SEARCH,
+export const setFilters = (data: any) => ({
+  type: FETCH_FILTERS,
   payload: data,
 });
