@@ -228,7 +228,12 @@ export const GenericTable = (props: GenericTableProps) => {
     });
   }
 
-  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  if (name === 'trackerTable' && sortClicked) {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  }
+  if (name !== 'trackerTable') {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  }
 
   // keep the unbusted data buster columns in PF at end of sort
   if (
