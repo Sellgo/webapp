@@ -377,6 +377,7 @@ $new_black: #3b4557;
 
     td p.lt-stat {
       color: #98aeca;
+      text-align: center;
     }
 
     .mrgn-right {
@@ -566,7 +567,7 @@ $new_black: #3b4557;
   border-radius: 0 !important;
   border-top: 0 !important;
   border-right: 0 !important;
-  border-left: 1px solid #98aeca !important;
+  //border-left: 1px solid #98aeca !important;
   text-align: center;
   border-bottom: 0 !important;
 
@@ -614,7 +615,7 @@ $new_black: #3b4557;
 }
 
 .lt-middle-md-col {
-  min-width: 143px !important;
+  min-width: 144px !important;
   width: 144px !important;
 }
 
@@ -628,6 +629,7 @@ $new_black: #3b4557;
   display: flex;
   border-top: 1px solid #98aeca;
   border-bottom: 0;
+  border-left: 1px solid #98aeca;
   border-right: 1px solid #98aeca;
   margin-left: 0.5px;
 }
@@ -670,6 +672,10 @@ $new_black: #3b4557;
 
 .change {
   padding: 0 !important;
+}
+
+.table-cell-container {
+  justify-content: center !important;
 }
 
 .lt-header-text {
@@ -739,7 +745,7 @@ $new_black: #3b4557;
 
   .lt-toggle-button-container {
     width: 243px !important;
-    min-width: 243px !important;
+    min-width: 242px !important;
     overflow-x: auto;
   }
 
@@ -754,6 +760,10 @@ $new_black: #3b4557;
 
   .detail-buttons {
     width: 140px !important;
+  }
+
+  .generic-table .ui.table.pf-table thead.pf-header > tr:first-child > th table.header-inner-table {
+    border-bottom: 0 solid #bec0c3 !important;
   }
 }
 
@@ -766,8 +776,8 @@ $new_black: #3b4557;
   }
 
   .lt-toggle-button-container {
-    width: 325px !important;
-    min-width: 325px !important;
+    width: 327px !important;
+    min-width: 327px !important;
     overflow-x: auto;
   }
 
@@ -782,6 +792,36 @@ $new_black: #3b4557;
 
   .detail-buttons {
     width: 140px !important;
+  }
+
+  .generic-table .ui.table.pf-table thead.pf-header > tr:first-child > th table.header-inner-table {
+    border-bottom: 0 solid #bec0c3 !important;
+  }
+}
+
+@media only screen and (min-width: 2559px) and (max-width: 2600px) {
+  .lt-lg-col {
+    min-width: 450px !important;
+    width: 450px !important;
+  }
+
+  .lt-description-text {
+    width: 420px !important;
+  }
+
+  .lt-toggle-button-container {
+    .lt-middle-sm-col {
+      min-width: 176px !important;
+    }
+
+    .lt-middle-md-col {
+      min-width: 269px !important;
+    }
+  }
+
+  .lt-md-col {
+    min-width: 130px !important;
+    width: 130px !important;
   }
 }
 

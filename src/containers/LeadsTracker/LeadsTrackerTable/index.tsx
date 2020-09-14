@@ -109,11 +109,11 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     <p className="lt-stat">{showNAIfZeroOrNull(row.search, row.search)}</p>
   );
   renderProductID = (row: any) => (
-    <p className="lt-stat">{showNAIfZeroOrNull(row.product_id, row.product_id)}</p>
+    <p className="lt-stat">{showNAIfZeroOrNull(row.identifier, row.identifier)}</p>
   );
   renderASIN = (row: any) => <p className="lt-stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
   renderPrice = (row: any) => (
-    <p className="stat" onClick={() => this.setActiveColumn(this.getColumn('price'))}>
+    <p className="lt-stat" onClick={() => this.setActiveColumn(this.getColumn('price'))}>
       {showNAIfZeroOrNull(row.price, formatCurrency(row.price))}
     </p>
   );
@@ -286,7 +286,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     },
     {
       label: 'Product ID',
-      dataKey: 'product_id',
+      dataKey: 'identifier',
       type: 'number',
       sortable: true,
       show: true,
