@@ -204,6 +204,8 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
             //show product size tier is matched by one of size tiers
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
+          filterData.profitabilityFilter.value === 'Non-Profitable Products' &&
+          Number(product.profit) !== 0 &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>
