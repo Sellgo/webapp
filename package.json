@@ -22,6 +22,8 @@
     "query-string": "^6.11.0",
     "rc-steps": "^3.5.0",
     "react": "^16.13.1",
+    "react-chip-input": "^1.0.5",
+    "react-custom-chips": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^10.2.1",
     "react-facebook-pixel": "^1.0.3",

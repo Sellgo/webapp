@@ -11,6 +11,7 @@ import {
 import get from 'lodash/get';
 import _ from 'lodash';
 import { DEFAULT_PERIOD } from '../../../../constants/Tracker';
+import ReactChipInput from 'react-chip-input';
 
 interface GroupOption {
   key: number;
@@ -49,6 +50,7 @@ const Confirm = (props: Props) => {
   } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [selectedGroup, setSelectedGroup] = useState(undefined);
+  const [asinValues, setAsinValues] = useState([]);
 
   const trackProduct = () => {
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
@@ -84,7 +86,30 @@ const Confirm = (props: Props) => {
   const handleGroupSelection = (data: any) => {
     setSelectedGroup(data);
   };
+  // const asinChange = (chips: any) => {
+  //   console.log("chips: ", chips)
+  //   setAsinValues(chips)
+  // }
 
+  const addChip = (data: string) => {
+    console.log('data: ', data);
+    const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
+    console.log('value: ', value);
+    const chips = asinValues.concat(value);
+
+    //remove duplicates
+    const uniqueChips = Array.from(new Set(chips));
+
+    console.log('add asinValues: ', uniqueChips);
+    setAsinValues(uniqueChips);
+    // this.setState({ chips });
+  };
+  const removeChip = (index: any) => {
+    const chips = asinValues.slice();
+    chips.splice(index, 1);
+    setAsinValues(chips);
+    console.log('rem asinValues: ', chips);
+  };
   return (
     <>
       <Modal open={open} className="Confirm__grouping-asin">
@@ -104,6 +129,19 @@ const Confirm = (props: Props) => {
                 onChange={(e, data) => {
                   handleGroupSelection(data.value);
                 }}
+              />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={1} className="multiple-asin-container">
+            <Grid.Column className="multiple-asin-container__title">
+              Insert Asin or Amazon URL (Up to 12):{' '}
+            </Grid.Column>
+            <Grid.Column>
+              <ReactChipInput
+                classes="multiple-asin-container__wrapper"
+                chips={asinValues}
+                onSubmit={addChip}
+                onRemove={removeChip}
               />
             </Grid.Column>
           </Grid.Row>
