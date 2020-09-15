@@ -183,7 +183,7 @@ function App() {
           />
           <PrivateRoute
             exact={true}
-            path="/synthesis/:supplierID"
+            path="/profit-finder/:supplierID"
             component={SupplierDetail}
             requireSubscription={true}
           />
