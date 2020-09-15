@@ -16,6 +16,7 @@ export interface Column {
   sortable?: boolean;
   filter?: boolean;
   filterType?: string;
+  filterSign?: string;
   searchIconPosition?: string;
   show?: boolean;
   check?: any;

@@ -87,7 +87,7 @@ const FilterSliderInput = (props: any) => {
               }
             }}
           />
-          {labelSign === '%' && <span className="percent-sign">{labelSign}</span>}
+          {labelSign === '%' && <span className="percent-sign">{`${labelSign} ${minLabel} `}</span>}
         </div>
 
         <div className="max-wrapper">
@@ -115,7 +115,7 @@ const FilterSliderInput = (props: any) => {
               }
             }}
           />
-          {labelSign === '%' && <span className="percent-sign">{labelSign}</span>}
+          {labelSign === '%' && <span className="percent-sign">{`${labelSign} ${maxLabel} `}</span>}
         </div>
       </div>
     </div>

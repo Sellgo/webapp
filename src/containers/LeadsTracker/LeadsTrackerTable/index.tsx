@@ -70,6 +70,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
         type: 'number',
         sortable: true,
         filter: true,
+        filterSign: '$',
         show: true,
         className: `lt-middle-sm-col`,
       },
@@ -113,7 +114,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   );
   renderASIN = (row: any) => <p className="lt-stat">{showNAIfZeroOrNull(row.asin, row.asin)}</p>;
   renderPrice = (row: any) => (
-    <p className="lt-stat" onClick={() => this.setActiveColumn(this.getColumn('price'))}>
+    <p className="stat" onClick={() => this.setActiveColumn(this.getColumn('price'))}>
       {showNAIfZeroOrNull(row.price, formatCurrency(row.price))}
     </p>
   );
@@ -211,7 +212,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               );
               await this.setState({ updateTracking: false });
             }
-            await this.fetchLeadsData({});
+            await this.fetchLeadsData({ loading: false });
           }
         }}
       />
@@ -237,7 +238,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
 
   onSort = async (order: string) => {
     const { currentActiveColumn } = this.props;
-    await this.setState({ sorting: true });
+    await this.setState({ loading: false });
     const sort_direction = order === 'descending' ? 'desc' : 'asc';
     await this.fetchLeadsData({
       sort: currentActiveColumn,
@@ -281,6 +282,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       show: true,
       className: 'lt-md-col',
       filter: true,
+      filterSign: '',
       filterType: 'checkbox',
       render: this.renderSearch,
     },
@@ -308,6 +310,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'number',
       sortable: true,
       filter: true,
+      filterSign: '$',
       show: true,
       className: `lt-middle-sm-col`,
       render: this.renderPrice,
@@ -318,6 +321,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'number',
       sortable: true,
       filter: true,
+      filterSign: '$',
       show: true,
       className: 'lt-middle-sm-col',
       render: this.renderProfit,
@@ -328,6 +332,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'number',
       sortable: true,
       filter: true,
+      filterSign: '%',
       show: true,
       className: 'lt-middle-md-col',
       render: this.renderMargin,
@@ -339,6 +344,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       sortable: true,
       show: true,
       filter: true,
+      filterSign: '%',
       className: 'lt-middle-sm-col',
       render: this.renderRoi,
     },
@@ -349,6 +355,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       sortable: true,
       filter: true,
       show: true,
+      filterSign: '$',
       className: 'lt-md-col',
       render: this.renderAverage,
     },
@@ -359,6 +366,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       sortable: true,
       show: true,
       filter: true,
+      filterSign: '$',
       className: 'lt-md-col',
       render: this.renderIndex,
     },
@@ -368,6 +376,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'string',
       sortable: true,
       filter: true,
+      filterSign: '$',
       show: true,
       className: 'lt-md-col',
       render: this.renderChange,
@@ -379,6 +388,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       show: true,
       sortable: true,
       filter: true,
+      filterSign: '$',
       className: 'lt-sm-col',
       render: this.renderHighs,
     },
@@ -389,6 +399,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       show: true,
       sortable: true,
       filter: true,
+      filterSign: '$',
       className: 'lt-sm-col',
       render: this.renderLows,
     },
@@ -403,7 +414,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     },
   ];
   toggleColumn = (column: any) => {
-    const { columns } = this.state;
+    const { columns, activeColumn } = this.state;
     let tableColumns = columns;
     tableColumns = tableColumns.map((c: any) => {
       if (c.dataKey === column.dataKey && !c.className.includes('active-column')) {
@@ -411,9 +422,24 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       } else if (c.dataKey !== column.dataKey) {
         c = { ...c, className: c.className.replace('active-column ', '') };
       }
-      const data = ['avg', 'change', 'min', 'max', 'index'];
+      const data = [
+        `avg_${activeColumn.dataKey}`,
+        `change_${activeColumn.dataKey}`,
+        `min_${activeColumn.dataKey}`,
+        `max_${activeColumn.dataKey}`,
+        `index_${activeColumn.dataKey}`,
+        'avg',
+        'change',
+        'min',
+        'max',
+        'index',
+      ];
       if (data.includes(c.dataKey)) {
-        c = { ...c, dataKey: `${c.dataKey}_${column.dataKey}` };
+        c = {
+          ...c,
+          dataKey: `${c.dataKey.split('_')[0]}_${column.dataKey}`,
+          filterSign: column.filterSign,
+        };
       }
       return c;
     });

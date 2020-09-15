@@ -98,6 +98,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filterType = 'range',
     filter = false,
     searchIconPosition = 'right',
+    filterSign,
   } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
@@ -157,7 +158,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         <RangeFilterBox
           label={label}
           dataKey={dataKey}
-          labelSign={'$'}
+          labelSign={filterSign}
           filterType={filterType}
           resetFilters={resetColumnFilters}
           cancelFilters={cancelColumnFilters}

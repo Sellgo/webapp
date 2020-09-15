@@ -86,7 +86,6 @@ const RangeFilterBox = (props: any) => {
     setFilter({ dataKey, value });
     setFilterRange(value);
   };
-  console.log(loading);
 
   return (
     <div className="column-range-filter">

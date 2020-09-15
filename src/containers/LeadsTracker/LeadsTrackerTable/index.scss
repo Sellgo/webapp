@@ -459,7 +459,7 @@ $new_black: #3b4557;
   }
 
   .detail-buttons {
-    width: 172px;
+    width: 96px;
   }
 
   .rating-name {
@@ -767,7 +767,7 @@ $new_black: #3b4557;
   }
 }
 
-@media only screen and (min-width: 1680px) and (max-width: 1919px) {
+@media only screen and (min-width: 1680px) and (max-width: 1850px) {
   .leads-tracker-middle {
     display: block !important;
     width: 325px !important;
@@ -799,7 +799,14 @@ $new_black: #3b4557;
   }
 }
 
-@media only screen and (min-width: 2559px) and (max-width: 2600px) {
+@media only screen and (min-width: 1875px) and (max-width: 2559px) {
+  .detail-buttons {
+    width: 96px !important;
+    margin: auto;
+  }
+}
+
+@media only screen and (min-width: 2560px) and (max-width: 2600px) {
   .lt-lg-col {
     min-width: 450px !important;
     width: 450px !important;
