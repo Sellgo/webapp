@@ -4,7 +4,6 @@ import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
 import { connect } from 'react-redux';
 import {
-  isProductTracked,
   confirmTrackProduct,
   setMenuItem,
   checkTrackProduct,
@@ -23,7 +22,6 @@ interface GroupOption {
 interface Props {
   open: boolean;
   openModal: Function;
-  verifyProduct: (value: boolean, productExist: boolean) => void;
   confirmTrackProduct: (
     value: string,
     marketplace: string,
@@ -36,22 +34,24 @@ interface Props {
   filterData: any;
   setMenuItem: (item: any) => void;
   checkProduct: (asin: string) => void;
+  checkedProductsData: any;
 }
 const Confirm = (props: Props) => {
   const {
     asinData,
     open,
     openModal,
-    verifyProduct,
     trackGroups,
     confirmTrackProduct,
     selectedMarketPlace,
     filterData,
     checkProduct,
+    checkedProductsData,
   } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [selectedGroup, setSelectedGroup] = useState(undefined);
   const [asinValues, setAsinValues] = useState([]);
+  const [checkedProducts, setCheckedProducts] = useState([]);
   const asinRefContainer = useRef(null);
 
   useEffect(() => {
@@ -71,6 +71,10 @@ const Confirm = (props: Props) => {
     }
   }, [open, asinData]);
 
+  useEffect(() => {
+    console.log('checkedProductsData: ', checkedProductsData);
+    setCheckedProducts(checkedProductsData);
+  }, [checkedProductsData]);
   const trackProduct = () => {
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
     confirmTrackProduct(asinValues.join(), selectedMarketPlace.value, period, selectedGroup);
@@ -104,10 +108,6 @@ const Confirm = (props: Props) => {
   const handleGroupSelection = (data: any) => {
     setSelectedGroup(data);
   };
-  // const asinChange = (chips: any) => {
-  //   console.log("chips: ", chips)
-  //   setAsinValues(chips)
-  // }
 
   const addChip = (data: string) => {
     console.log('data: ', data);
@@ -118,6 +118,7 @@ const Confirm = (props: Props) => {
     const uniqueChips = Array.from(new Set(chips));
     console.log('add asinValues: ', uniqueChips);
     setAsinValues(uniqueChips);
+    checkProduct(uniqueChips.join());
     focusAsin();
   };
 
@@ -166,6 +167,44 @@ const Confirm = (props: Props) => {
               </div>
             </Grid.Column>
           </Grid.Row>
+
+          <Grid.Row columns={1} className="multiple-asin-container">
+            <Grid.Column className="multiple-asin-container__title">Added Asin:</Grid.Column>
+            <Grid.Column>
+              <div className="added-asin-container">
+                {_.map(checkedProducts, (product: any, index) => {
+                  return (
+                    <div key={index} className="added-asin-container__item" title={product.title}>
+                      {product.image_url ? (
+                        <div
+                          className="added-asin-container__item__image"
+                          style={{ backgroundImage: `url(${product.image_url})` }}
+                        />
+                      ) : (
+                        <div className="added-asin-container__item__no-image">No Image</div>
+                      )}
+                      <div className="added-asin-container__item__descriptions">
+                        <h2
+                          className={`added-asin-container__item__descriptions__title ${
+                            product.title ? '' : 'error'
+                          }`}
+                        >
+                          {product.title ? product.title : 'Invalid ASIN or URL'}
+                        </h2>
+                        <span
+                          className={`added-asin-container__item__descriptions__asin ${
+                            product.title ? '' : 'error'
+                          }`}
+                        >
+                          {product.asin}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Grid.Column>
+          </Grid.Row>
           <Grid.Row columns={2}>
             <Grid.Column />
             <Grid.Column>
@@ -175,7 +214,6 @@ const Confirm = (props: Props) => {
                   onClick={() => {
                     openModal(false);
                     setOpenConfirm(!openConfirm);
-                    verifyProduct(false, false);
                   }}
                 />
                 <Button
@@ -200,10 +238,10 @@ const Confirm = (props: Props) => {
 const mapStateToProps = (state: {}) => ({
   trackGroups: get(state, 'productTracker.trackerGroup'),
   filterData: get(state, 'productTracker.filterData'),
+  checkedProductsData: get(state, 'productTracker.checkedProductsData'),
 });
 
 const mapDispatchToProps = {
-  verifyProduct: (value: boolean, productExist: boolean) => isProductTracked(value, productExist),
   confirmTrackProduct: (value: string, marketplace: string, period: number, groupID?: number) =>
     confirmTrackProduct(value, marketplace, period, groupID),
   setMenuItem: (item: any) => setMenuItem(item),

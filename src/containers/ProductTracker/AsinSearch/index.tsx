@@ -3,22 +3,10 @@ import { Menu, Button, Grid, Dropdown } from 'semantic-ui-react';
 import Confirm from './Confirm';
 import './index.scss';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
-import { checkTrackProduct } from '../../../actions/ProductTracker';
-import { AsinSearchWarning } from '../../../components/ToastMessages';
-import { warn, dismiss } from '../../../utils/notifications';
+import { dismiss } from '../../../utils/notifications';
 import ReactChipInput from 'react-chip-input';
 
-interface Props {
-  checkProduct: (asin: string) => void;
-  verifyingProductTracked: { value: boolean; productExist: boolean };
-  verifyingProduct: boolean;
-}
-
-const AsinSearch = (props: Props) => {
-  const { verifyingProductTracked, verifyingProduct } = props;
-
-  // const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput('');
+const AsinSearch = () => {
   const [asinValues, setAsinValues] = useState([]);
 
   const [selectedMarketPlace, setSelectedMarketPlace] = useState({
@@ -48,45 +36,8 @@ const AsinSearch = (props: Props) => {
         .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
     }
   }, []);
-  const handleWarning = (exist: boolean) => {
-    let header = '';
-    let subHeader = '';
-    if (exist) {
-      header = 'ASIN is already in Product Tracker';
-      subHeader = 'You have already added that ASIN into the Product Tracker';
-    } else {
-      header = "ASIN can't be found on Amazon";
-      subHeader = "The ASIN of the product can't be found in Amazon's database";
-    }
-
-    return warn(<AsinSearchWarning header={header} subheader={subHeader} />);
-  };
-  useEffect(() => {
-    if (!verifyingProduct) {
-      if (verifyingProductTracked.value && !verifyingProductTracked.productExist) {
-        handleWarning(false);
-      } else if (verifyingProductTracked.value && verifyingProductTracked.productExist) {
-        handleWarning(true);
-      } else if (!verifyingProductTracked.value && verifyingProductTracked.productExist) {
-        // setOpen(true);
-        dismiss();
-      }
-    } else {
-      // setOpen(false);
-    }
-  }, [verifyingProduct]);
 
   const verifyProduct = () => {
-    // const search = searchValue.trim();
-    // const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))');
-    // const m = search.match(regex);
-    // if (m) {
-    //   setSearchDetails(m[1]);
-    //   checkProduct(m[1]);
-    // } else {
-    //   setSearchDetails(search);
-    //   checkProduct(search);
-    // }
     setOpen(true);
     dismiss();
   };
@@ -166,13 +117,4 @@ const AsinSearch = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: {}) => ({
-  verifyingProductTracked: get(state, 'productTracker.verifyingProductTracked'),
-  verifyingProduct: get(state, 'productTracker.verifyingProduct'),
-});
-
-const mapDispatchToProps = {
-  checkProduct: (asin: string) => checkTrackProduct(asin),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AsinSearch);
+export default connect()(AsinSearch);

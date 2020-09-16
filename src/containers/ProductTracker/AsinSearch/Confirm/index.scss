@@ -95,13 +95,21 @@ $asin-font: 'Work sans', sans-serif !important;
   $asin-font: $asin-font;
 
   width: 580px;
-  height: 297px;
 
   .content {
     background: transparent !important;
     padding: 40px;
 
     .multiple-asin-container {
+      margin-bottom: 20px;
+
+      &__title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #3b4557;
+        margin-bottom: 10px;
+      }
+
       &__wrapper {
         border: 1px #98aeca solid !important;
         border-radius: 11px;
@@ -114,8 +122,13 @@ $asin-font: 'Work sans', sans-serif !important;
           overflow: hidden;
           flex-wrap: wrap;
 
+          .col {
+            margin-top: -10px;
+          }
+
           .p-2.col-auto {
             margin-left: 5px;
+            margin-bottom: 10px;
 
             div {
               border: 1px solid #98aeca;
@@ -153,10 +166,6 @@ $asin-font: 'Work sans', sans-serif !important;
                 background: #eb675e;
               }
             }
-
-            &:first-child {
-              margin-left: unset !important;
-            }
           }
         }
 
@@ -164,7 +173,7 @@ $asin-font: 'Work sans', sans-serif !important;
           border-bottom: 1px solid #98aeca;
           margin-left: 5px;
           padding: 2px 0;
-          width: 250px;
+          width: 210px;
 
           input {
             border: none !important;
@@ -172,6 +181,83 @@ $asin-font: 'Work sans', sans-serif !important;
             font-size: 12px;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             width: 100%;
+          }
+
+          input::placeholder {
+            color: #98aeca;
+          }
+        }
+      }
+    }
+
+    .added-asin-container {
+      &__title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #3b4557;
+        margin-bottom: 10px;
+      }
+
+      border: 1px #98aeca solid !important;
+      border-radius: 11px;
+      box-shadow: none !important;
+      padding: 10px;
+      max-height: 133px;
+      overflow-x: auto;
+
+      &__item {
+        display: flex;
+        height: 35px;
+        align-items: center;
+        margin-bottom: 10px;
+
+        &__image {
+          width: 34px;
+          padding: 0 5px;
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+          height: 34px;
+        }
+
+        &__no-image {
+          width: 34px;
+          height: 34px;
+          text-align: center;
+          border: 1px solid #f7f7f7;
+          font-size: 8px;
+          font-weight: 600;
+          align-items: center;
+          display: flex;
+        }
+
+        &__descriptions {
+          margin-left: 5px;
+          max-width: 320px;
+
+          .error {
+            color: #eb675e !important;
+          }
+
+          &__title {
+            color: #5381db;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+            margin-bottom: 5px;
+            overflow: hidden;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: pre-wrap;
+            white-space: nowrap;
+          }
+
+          &__asin {
+            color: #3b4557;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+            margin-bottom: 2px;
           }
         }
       }
@@ -201,7 +287,7 @@ $asin-font: 'Work sans', sans-serif !important;
           width: 70%;
 
           .ui.selection.dropdown {
-            width: 333px;
+            width: 100%;
             min-height: 35px !important;
             background: #fff 0% 0% no-repeat padding-box;
             border: 0.56px solid #a2a2a2;
@@ -232,10 +318,4 @@ $asin-font: 'Work sans', sans-serif !important;
       }
     }
   }
-}
-
-.ui.modal.transition.visible.active.Confirm__group {
-  @extend .ui.modal.transition.visible.active.Confirm__grouping-asin;
-
-  height: 228px;
 }

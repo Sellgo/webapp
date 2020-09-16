@@ -19,7 +19,7 @@ import {
   REMOVE_PRODUCTS_IN_GROUP,
   FILTER_TRACKED_PRODUCTS,
   SET_FILTER_SEARCH,
-  IS_PRODUCT_TRACKED,
+  CHECKED_PRODUCTS_DATA,
   VERIFYING_PRODUCT,
   RESET_FILTER,
 } from '../../constants/Tracker';
@@ -36,12 +36,9 @@ export const verifyingProduct = (value: boolean) => ({
   payload: value,
 });
 
-export const isProductTracked = (value: boolean, productExist: boolean) => ({
-  type: IS_PRODUCT_TRACKED,
-  payload: {
-    value: value,
-    productExist: productExist,
-  },
+export const checkedProductsData = (value: any) => ({
+  type: CHECKED_PRODUCTS_DATA,
+  payload: value,
 });
 
 export const setSupplierProductTrackerDetails = (product: ProductTrackerDetails) => ({
@@ -154,7 +151,7 @@ export const checkTrackProduct = (asin: string) => (dispatch: any) => {
     .then(json => {
       console.log('check: ', json);
       if (json.status === 200) {
-        dispatch(isProductTracked(json.data.is_tracked, true));
+        dispatch(checkedProductsData(json.data));
         dispatch(verifyingProduct(false));
       }
     })
