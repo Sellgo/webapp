@@ -233,7 +233,11 @@ export const GenericTable = (props: GenericTableProps) => {
     });
   }
 
-  rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  if (name === 'trackerTable' && sortClicked) {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  } else if (name !== 'trackerTable') {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  }
 
   // keep the unbusted data buster columns in PF at end of sort
   if (
@@ -254,7 +258,7 @@ export const GenericTable = (props: GenericTableProps) => {
   rows = showTableLock ? rows.slice(0, 5) : rows;
 
   useEffect(() => {
-    if (sortClicked) {
+    if (name === 'products' && sortClicked) {
       if (updateProfitFinderProducts) {
         updateProfitFinderProducts(sortedProducts);
       }
