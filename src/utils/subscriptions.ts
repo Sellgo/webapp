@@ -1,3 +1,6 @@
+import { Subscription, SellerSubscription } from '../interfaces/Seller';
+import moment from 'moment';
+
 export const isSubscriptionFree = (type: string) => {
   return type === 'free';
 };
@@ -32,4 +35,16 @@ export const isPlanFreeTrial = (plan: string) => {
 
 export const isPlanFreeAccount = (plan: string) => {
   return plan === 'Free Account';
+};
+
+export const isTrialExpired = (sellerSubscription: SellerSubscription) => {
+  if (!sellerSubscription || !sellerSubscription.expiry_date) {
+    return false;
+  }
+
+  const today = new Date();
+  const exp = new Date(sellerSubscription.expiry_date);
+  const expireDateMinutes = moment(exp).diff(today, 'minutes');
+
+  return expireDateMinutes <= 0;
 };

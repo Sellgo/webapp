@@ -45,15 +45,17 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
             </Link>
           </p>
         );
-      } else {
+      } else if (sellerSubscription.expiry_date !== null && expireDateMinutes <= 0) {
         return (
           <p>
-            {' Your free account can only view demo files. To unlock features . '}
+            {`Your free trial has expired. Do you like our product? `}
             <Link to="/settings/pricing" className="free-trial-btn">
               <span>Click here to pick a plan</span>
             </Link>
           </p>
         );
+      } else {
+        return <p>{'To unlock features, pick a plan: '}</p>;
       }
     }
   }

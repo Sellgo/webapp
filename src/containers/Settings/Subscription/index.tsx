@@ -32,7 +32,7 @@ import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
 import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
-import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
+import { isSubscriptionNotPaid, isTrialExpired } from '../../../utils/subscriptions';
 import _ from 'lodash';
 
 interface SubscriptionProps {
@@ -308,7 +308,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             )}
 
-            {!subscribedSubscription && (
+            {!subscribedSubscription && !isTrialExpired(sellerSubscription) && (
               <Link to="/settings/#amazon-mws" className="free-trial-btn">
                 <Button className="basic-btn" fluid>
                   Free Trial
