@@ -7,6 +7,7 @@ import {
   isProductTracked,
   confirmTrackProduct,
   setMenuItem,
+  checkTrackProduct,
 } from '../../../../actions/ProductTracker';
 import get from 'lodash/get';
 import _ from 'lodash';
@@ -29,19 +30,16 @@ interface Props {
     period: number,
     groupID?: number
   ) => void;
-  asinValues: string[];
+  asinData: any;
   trackGroups: any;
   selectedMarketPlace: any;
   filterData: any;
   setMenuItem: (item: any) => void;
-  addChip: (data: string) => void;
-  removeChip: (index: any) => void;
+  checkProduct: (asin: string) => void;
 }
 const Confirm = (props: Props) => {
   const {
-    asinValues,
-    addChip,
-    removeChip,
+    asinData,
     open,
     openModal,
     verifyProduct,
@@ -49,22 +47,33 @@ const Confirm = (props: Props) => {
     confirmTrackProduct,
     selectedMarketPlace,
     filterData,
+    checkProduct,
   } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [selectedGroup, setSelectedGroup] = useState(undefined);
+  const [asinValues, setAsinValues] = useState([]);
   const asinRefContainer = useRef(null);
 
   useEffect(() => {
     if (asinRefContainer.current) {
       const parentRef = (asinRefContainer as any).current.children[0];
-      parentRef.children[0].children[0].classList.add('error');
-      console.log('refContainer: ', parentRef.children[0].children[0]);
+      // parentRef.children[0].children[0].classList.add('error');
+      console.log('refContainer: ', parentRef.getElementsByClassName('form-control')[0]);
+      parentRef
+        .getElementsByClassName('form-control')[0]
+        .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
     }
-  }, [asinValues]);
+    console.log('b4 open: ', open, asinData);
+    if (open && !_.isEmpty(asinData)) {
+      setAsinValues(asinData);
+      console.log('asinValues: ', asinValues, asinData);
+      checkProduct(asinData.join());
+    }
+  }, [open, asinData]);
 
   const trackProduct = () => {
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
-    confirmTrackProduct('', selectedMarketPlace.value, period, selectedGroup);
+    confirmTrackProduct(asinValues.join(), selectedMarketPlace.value, period, selectedGroup);
     openModal(false);
     setOpenConfirm(!openConfirm);
   };
@@ -100,23 +109,29 @@ const Confirm = (props: Props) => {
   //   setAsinValues(chips)
   // }
 
-  // const addChip = (data: string) => {
-  //   console.log('data: ', data);
-  //   const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
-  //   console.log('value: ', value);
-  //   const chips = asinValues.concat(value);
-  //   //remove duplicates
-  //   const uniqueChips = Array.from(new Set(chips));
-  //   console.log('add asinValues: ', uniqueChips);
-  //   setAsinValues(uniqueChips);
-  // };
+  const addChip = (data: string) => {
+    console.log('data: ', data);
+    const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
+    console.log('value: ', value);
+    const chips = asinValues.concat(value);
+    //remove duplicates
+    const uniqueChips = Array.from(new Set(chips));
+    console.log('add asinValues: ', uniqueChips);
+    setAsinValues(uniqueChips);
+    focusAsin();
+  };
 
-  // const removeChip = (index: any) => {
-  //   const chips = asinValues.slice();
-  //   chips.splice(index, 1);
-  //   setAsinValues(chips);
-  //   console.log('rem asinValues: ', chips);
-  // };
+  const removeChip = (index: any) => {
+    const chips = asinValues.slice();
+    chips.splice(index, 1);
+    setAsinValues(chips);
+    console.log('rem asinValues: ', chips);
+  };
+
+  const focusAsin = () => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    parentRef.getElementsByClassName('form-control')[0].focus();
+  };
 
   return (
     <>
@@ -192,5 +207,6 @@ const mapDispatchToProps = {
   confirmTrackProduct: (value: string, marketplace: string, period: number, groupID?: number) =>
     confirmTrackProduct(value, marketplace, period, groupID),
   setMenuItem: (item: any) => setMenuItem(item),
+  checkProduct: (asin: string) => checkTrackProduct(asin),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Confirm);

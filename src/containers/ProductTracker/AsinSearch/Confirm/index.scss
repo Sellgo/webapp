@@ -111,6 +111,8 @@ $asin-font: 'Work sans', sans-serif !important;
         .align-items-center {
           display: flex;
           align-items: center;
+          overflow: hidden;
+          flex-wrap: wrap;
 
           .p-2.col-auto {
             margin-left: 5px;
@@ -162,12 +164,14 @@ $asin-font: 'Work sans', sans-serif !important;
           border-bottom: 1px solid #98aeca;
           margin-left: 5px;
           padding: 2px 0;
+          width: 250px;
 
           input {
             border: none !important;
             outline: none !important;
             font-size: 12px;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            width: 100%;
           }
         }
       }

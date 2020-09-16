@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, Button, Grid, Dropdown } from 'semantic-ui-react';
 import Confirm from './Confirm';
 import './index.scss';
@@ -38,6 +38,16 @@ const AsinSearch = (props: Props) => {
     setSelectedMarketPlace(data);
   };
 
+  const asinRefContainer = useRef(null);
+  useEffect(() => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    if (parentRef) {
+      console.log('input', parentRef.getElementsByClassName('form-control')[0]);
+      parentRef
+        .getElementsByClassName('form-control')[0]
+        .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
+    }
+  }, []);
   const handleWarning = (exist: boolean) => {
     let header = '';
     let subHeader = '';
@@ -58,11 +68,11 @@ const AsinSearch = (props: Props) => {
       } else if (verifyingProductTracked.value && verifyingProductTracked.productExist) {
         handleWarning(true);
       } else if (!verifyingProductTracked.value && verifyingProductTracked.productExist) {
-        setOpen(true);
+        // setOpen(true);
         dismiss();
       }
     } else {
-      setOpen(false);
+      // setOpen(false);
     }
   }, [verifyingProduct]);
 
@@ -96,6 +106,7 @@ const AsinSearch = (props: Props) => {
     const uniqueChips = Array.from(new Set(chips));
     console.log('add asinValues: ', uniqueChips);
     setAsinValues(uniqueChips);
+    focusAsin();
   };
 
   const removeChip = (index: any) => {
@@ -105,17 +116,24 @@ const AsinSearch = (props: Props) => {
     console.log('rem asinValues: ', chips);
   };
 
+  const focusAsin = () => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    parentRef.getElementsByClassName('form-control')[0].focus();
+  };
+
   return (
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
         {/* <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} /> */}
 
-        <ReactChipInput
-          classes="multiple-asin-container__wrapper asdsadsad test dasds"
-          chips={asinValues}
-          onSubmit={addChip}
-          onRemove={removeChip}
-        />
+        <div className="multiple-asin-container" ref={asinRefContainer} onClick={() => focusAsin()}>
+          <ReactChipInput
+            classes="multiple-asin-container__wrapper"
+            chips={asinValues}
+            onSubmit={addChip}
+            onRemove={removeChip}
+          />
+        </div>
         <Dropdown className="selection" openOnFocus trigger={trigger}>
           <Dropdown.Menu>
             {marketPlaceOptions.map((option, key) => {
@@ -141,9 +159,7 @@ const AsinSearch = (props: Props) => {
       <Confirm
         open={open}
         openModal={setOpen}
-        asinValues={asinValues}
-        addChip={addChip}
-        removeChip={removeChip}
+        asinData={asinValues}
         selectedMarketPlace={selectedMarketPlace}
       />
     </Grid.Row>
