@@ -37,16 +37,6 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     updateCheckedRows({});
   }, [currentPage]);
 
-  // NOTE: this useEffect may result better UX, remove if not used later.
-  // useEffect(() => {
-  //   for (const k in checkedRows) {
-  //     if (checkedRows[k] && !openTrackingPopup) {
-  //       setOpenTrackingPopup(true);
-  //       break;
-  //     }
-  //   }
-  // }, [checkedRows]);
-
   const handleCheckBoxClick = () => {
     const newChecked = !checked;
     setChecked(newChecked);

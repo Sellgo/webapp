@@ -39,7 +39,7 @@ interface Shared {
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
-  resetColumnFilters?: () => void;
+  resetColumnFilters?: (dataKey: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
 }
@@ -138,6 +138,20 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     otherProps = { ...otherProps, sorted: sortDirection };
   }
 
+  const isFilterActive = () => {
+    const localFilterData = localStorage.getItem(`${type}:${dataKey}`);
+    let parsed: any;
+    if (localFilterData) {
+      parsed = JSON.parse(localFilterData);
+      if (filterType === 'checkbox') {
+        parsed = parsed.value.length ? parsed : undefined;
+      } else {
+        parsed = Object.keys(parsed.value).length ? parsed : undefined;
+      }
+    }
+    return parsed ? parsed : undefined;
+  };
+
   const ColumnFilter = (
     <Popup
       on="click"
@@ -150,7 +164,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       basic={true}
       trigger={
         <Icon
-          className="filter column-filter-ic"
+          className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
           onClick={() => (toggleColumnFilters ? toggleColumnFilters(dataKey) : undefined)}
         />
       }
@@ -247,7 +261,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
         {filter && searchIconPosition === 'left' && ColumnFilter}
 
-        <span className="th-label">{label}</span>
+        <span className="th-label" {...sorting}>
+          {label}
+        </span>
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
           <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
         ) : sortable && sortedColumnKey === dataKey ? (
@@ -332,15 +348,15 @@ const TableHeader = (props: TableHeaderProps) => {
   };
 
   if (middleScroll) {
-    const products = rest.type === 'products';
-    const lowerBound = filteredColumns.slice(0, products ? 2 : 5);
+    const isTypeProducts = rest.type === 'products';
+    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
     const middleBound = filteredColumns.slice(
-      products ? 2 : 5,
-      products ? filteredColumns.length - 2 : filteredColumns.length - 6
+      isTypeProducts ? 2 : 5,
+      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
     );
     // eslint-disable-next-line max-len
     const upperBound = filteredColumns.slice(
-      products ? filteredColumns.length - 2 : filteredColumns.length - 6,
+      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
       filteredColumns.length
     );
     const scrollRows: any = [

@@ -103,6 +103,23 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     this.setState({ checkedRows });
   };
 
+  getFilterValue = (dataKey: string): any => {
+    const key = this.getRightColumns().includes(dataKey)
+      ? `${dataKey.split('_')[0]}_${this.getActiveColumn()}`
+      : dataKey;
+    const localFilters = localStorage.getItem(`leads-tracker:${key}`);
+    let parsed: any;
+    if (localFilters) {
+      parsed = JSON.parse(localFilters);
+      if (dataKey === 'search') {
+        parsed = parsed.value.length ? parsed : undefined;
+      } else {
+        parsed = Object.keys(parsed.value).length ? parsed : undefined;
+      }
+    }
+    return parsed ? parsed : undefined;
+  };
+
   getActiveColumn = () => !!this.state.activeColumn && this.state.activeColumn.dataKey;
 
   renderProductInfo = (row: Product) => <ProductDescription item={row} />;
@@ -226,6 +243,21 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     });
   };
 
+  getSavedFilters = (resetKey = '') => {
+    const { columns } = this.state;
+    let query = '';
+    columns.forEach((c: any) => {
+      if (resetKey !== c.dataKey) {
+        const saved: any = this.getFilterValue(c.dataKey);
+        if (saved && !!saved.value) {
+          const parsed = this.parseFilters(saved);
+          query = !parsed.includes('undefined') ? `${query}&${this.parseFilters(saved)}&` : query;
+        }
+      }
+    });
+    return query;
+  };
+
   componentDidMount() {
     this.fetchLeadsData({ pageNo: 1 });
     this.toggleColumn(this.state.activeColumn);
@@ -239,11 +271,11 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   onSort = async (order: string) => {
     const { currentActiveColumn } = this.props;
     await this.setState({ loading: false });
-    const sort_direction = order === 'descending' ? 'desc' : 'asc';
+    const sortDirection = order === 'descending' ? 'desc' : 'asc';
     await this.fetchLeadsData({
       sort: currentActiveColumn,
-      sort_direction,
-      sorting: true,
+      sort_direction: sortDirection,
+      loading: false,
     });
   };
 
@@ -327,7 +359,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       render: this.renderProfit,
     },
     {
-      label: 'Profit Margin',
+      label: 'Margin',
       dataKey: 'margin',
       type: 'number',
       sortable: true,
@@ -356,7 +388,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       filter: true,
       show: true,
       filterSign: '$',
-      className: 'lt-md-col',
+      className: 'lt-md-col lt-avg',
       render: this.renderAverage,
     },
     {
@@ -413,8 +445,25 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       render: this.renderDetailButtons,
     },
   ];
+
+  getRightColumns = () => {
+    const { activeColumn } = this.state;
+    return [
+      `avg_${activeColumn.dataKey}`,
+      `change_${activeColumn.dataKey}`,
+      `min_${activeColumn.dataKey}`,
+      `max_${activeColumn.dataKey}`,
+      `index_${activeColumn.dataKey}`,
+      'avg',
+      'change',
+      'min',
+      'max',
+      'index',
+    ];
+  };
+
   toggleColumn = (column: any) => {
-    const { columns, activeColumn } = this.state;
+    const { columns } = this.state;
     let tableColumns = columns;
     tableColumns = tableColumns.map((c: any) => {
       if (c.dataKey === column.dataKey && !c.className.includes('active-column')) {
@@ -422,23 +471,12 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       } else if (c.dataKey !== column.dataKey) {
         c = { ...c, className: c.className.replace('active-column ', '') };
       }
-      const data = [
-        `avg_${activeColumn.dataKey}`,
-        `change_${activeColumn.dataKey}`,
-        `min_${activeColumn.dataKey}`,
-        `max_${activeColumn.dataKey}`,
-        `index_${activeColumn.dataKey}`,
-        'avg',
-        'change',
-        'min',
-        'max',
-        'index',
-      ];
+      const data = this.getRightColumns();
       if (data.includes(c.dataKey)) {
         c = {
           ...c,
           dataKey: `${c.dataKey.split('_')[0]}_${column.dataKey}`,
-          filterSign: column.filterSign,
+          filterSign: c.dataKey === 'index' ? '' : column.filterSign,
         };
       }
       return c;
@@ -446,17 +484,28 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     this.setState({ columns: tableColumns });
   };
 
-  fetchLeadsData = (filter: any) => {
+  getFilters = () => {
     const {
-      fetchLeads,
       period,
       pageNo: page,
       pageSize: per_page,
       sort,
       sortDirection: sort_direction,
     } = this.props;
-    let payload = { page, per_page, sort, sort_direction, period };
+    return { page, per_page, sort, sort_direction, period };
+  };
+
+  fetchLeadsData = (filter: any = {}, resetKey = '') => {
+    const { fetchLeads } = this.props;
+    let payload: any = this.getFilters();
     if (filter) payload = { ...payload, ...filter };
+    let query = this.getSavedFilters(resetKey);
+    if (filter.query && filter.query.length && !query.includes(filter.query)) {
+      query = `${query}&${filter.query}`;
+    }
+    if (query) {
+      payload = { ...payload, query };
+    }
     fetchLeads(payload);
   };
 
@@ -466,7 +515,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     const { dataKey, value } = filter;
     let query = '';
     if (value) {
-      if (dataKey === 'search_file') {
+      if (dataKey === 'search') {
         query = `searches=${value}`;
       } else {
         query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
@@ -477,6 +526,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     return query;
   };
 
+  applyFilters = (data: any) => {
+    const filter = Object.keys(data.value).length ? data : undefined;
+    let query = '';
+    if (filter) {
+      query = this.parseFilters(filter);
+    }
+    this.fetchLeadsData({ query });
+  };
   render() {
     const {
       currentActiveColumn,
@@ -570,13 +627,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               columnDnD={true}
               activeColumnFilters={activeColumnFilters}
               toggleColumnFilters={this.setActiveColumnFilters}
+              resetColumnFilters={(resetKey: string) => {
+                this.fetchLeadsData(this.getFilters(), resetKey);
+              }}
               setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page })}
               loadingFilters={loadingFilters}
               filterValues={filters}
               stickyChartSelector
-              applyColumnFilters={(filter: any) =>
-                this.fetchLeadsData({ query: this.parseFilters(filter) })
-              }
+              applyColumnFilters={this.applyFilters}
               cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
             />
           </React.Fragment>

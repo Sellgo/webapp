@@ -7,6 +7,7 @@ const RangeFilterBox = (props: any) => {
   const {
     cancelFilters,
     applyFilters,
+    resetFilters,
     filterType,
     labelSign,
     dataKey,
@@ -16,12 +17,22 @@ const RangeFilterBox = (props: any) => {
     ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
-  const [min_max, setMinMax] = React.useState({});
+  const [minMax, setMinMax] = React.useState({});
   const [localData, setLocalData] = React.useState([]);
   const [range, setFilterRange] = React.useState({});
 
+  const getMinMax = () => {
+    let value = {};
+    if (!!values && values.length) {
+      const [range] = values;
+      value = { min: range[`${dataKey}_min`], max: range[`${dataKey}_max`] };
+    }
+    return value;
+  };
+
   useEffect(() => {
     let saved: any = localStorage.getItem(`${name}:${dataKey}`);
+    const value = getMinMax();
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
@@ -29,18 +40,15 @@ const RangeFilterBox = (props: any) => {
         setLocalData(checks);
       }
       if (filterType === 'range') {
+        setMinMax(value);
         setFilterRange(saved.value);
       }
     } else {
       if (filterType === 'checkbox') {
         setLocalData(values);
       } else {
-        if (!!values && values.length) {
-          const [range] = values;
-          const value = { min: range[`${dataKey}_min`], max: range[`${dataKey}_max`] };
-          setMinMax(value);
-          setFilterRange(value);
-        }
+        setMinMax(value);
+        setFilterRange(value);
       }
     }
   }, [values]);
@@ -49,8 +57,9 @@ const RangeFilterBox = (props: any) => {
     if (filterType === 'checkbox') {
       setLocalData([]);
     } else {
-      setFilterRange(min_max);
+      setFilterRange(minMax);
     }
+    resetFilters(dataKey);
     localStorage.removeItem(`${name}:${dataKey}`);
   };
 
@@ -75,7 +84,10 @@ const RangeFilterBox = (props: any) => {
       res = { ...filter, value: range, dataKey };
     }
     applyFilters(res);
-    saveFilters(res);
+
+    if (Object.keys(res.value).length) {
+      saveFilters(res);
+    }
   };
 
   const saveFilters = (filter: any) => {
@@ -103,7 +115,7 @@ const RangeFilterBox = (props: any) => {
             <FilterSliderInput
               filterRange={range}
               dataKey={dataKey}
-              range={min_max}
+              range={minMax}
               {...rest}
               minLabel={'Min'}
               labelSign={labelSign}
@@ -114,7 +126,7 @@ const RangeFilterBox = (props: any) => {
           {filterType === 'checkbox' && (
             <div className="checkbox-filters-list">
               <Form>
-                {localData.map((check: any) => (
+                {values.map((check: any) => (
                   <Form.Field key={check.value}>
                     <Checkbox
                       label={check.value}

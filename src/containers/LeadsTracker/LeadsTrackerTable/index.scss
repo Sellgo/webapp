@@ -370,8 +370,6 @@ $new_black: #3b4557;
 
     // Prevent stats from wrapping (such as "123 /month")
     td p.stat {
-      //text-align: left;
-      //line-height: 1;
       color: #3b4557;
     }
 
@@ -586,12 +584,18 @@ $new_black: #3b4557;
   background: #98aeca !important;
 }
 
+.remove-radius {
+  border-radius: 0 !important;
+}
+
 .lt-border-right {
   border-right: 1px solid #98aeca !important;
+  background: #f8faff !important;
 }
 
 .lt-border-left {
   border-left: 1px solid #98aeca !important;
+  background: #f8faff !important;
 }
 
 .lt-border {
@@ -617,6 +621,10 @@ $new_black: #3b4557;
 .lt-middle-md-col {
   min-width: 144px !important;
   width: 144px !important;
+}
+
+.lt-middle-sm-col:hover {
+  @extend .remove-radius;
 }
 
 .lt-checkbox {
@@ -692,6 +700,12 @@ $new_black: #3b4557;
 
 .leads-tracker-middle {
   height: auto;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1439px) {
+  .leads-table {
+    overflow: auto !important;
+  }
 }
 
 @media only screen and (min-width: 1440px) and (max-width: 1599px) {
@@ -848,4 +862,8 @@ $new_black: #3b4557;
   top: 10px;
   transition-property: top;
   transition-duration: 1s;
+}
+
+.lt-avg:hover {
+  @extend .remove-radius;
 }

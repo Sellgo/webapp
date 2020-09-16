@@ -46,7 +46,7 @@ export const filterPeriods: FilterData = {
       value: 30,
     },
     {
-      label: '30D',
+      label: '90D',
       dataKey: '3-Month',
       value: 90,
     },
