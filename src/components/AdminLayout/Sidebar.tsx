@@ -43,7 +43,7 @@ class SidebarCollapsible extends Component<
         id: 2,
         label: 'Profit Finder',
         icon: 'fas fa-search-dollar',
-        path: '/synthesis',
+        path: '/profit-finder',
         notifyId: 1,
       },
       {
