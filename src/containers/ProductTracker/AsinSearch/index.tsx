@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Input, Button, Grid, Dropdown } from 'semantic-ui-react';
+import { Menu, Button, Grid, Dropdown } from 'semantic-ui-react';
 import Confirm from './Confirm';
-import { useInput } from '../../../hooks';
 import './index.scss';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { checkTrackProduct } from '../../../actions/ProductTracker';
 import { AsinSearchWarning } from '../../../components/ToastMessages';
 import { warn, dismiss } from '../../../utils/notifications';
+import ReactChipInput from 'react-chip-input';
 
 interface Props {
   checkProduct: (asin: string) => void;
@@ -18,7 +18,8 @@ interface Props {
 const AsinSearch = (props: Props) => {
   const { verifyingProductTracked, verifyingProduct } = props;
 
-  const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput('');
+  // const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput('');
+  const [asinValues, setAsinValues] = useState([]);
 
   const [selectedMarketPlace, setSelectedMarketPlace] = useState({
     key: 1,
@@ -51,7 +52,7 @@ const AsinSearch = (props: Props) => {
     return warn(<AsinSearchWarning header={header} subheader={subHeader} />);
   };
   useEffect(() => {
-    if (searchValue && !verifyingProduct) {
+    if (!verifyingProduct) {
       if (verifyingProductTracked.value && !verifyingProductTracked.productExist) {
         handleWarning(false);
       } else if (verifyingProductTracked.value && verifyingProductTracked.productExist) {
@@ -86,10 +87,35 @@ const AsinSearch = (props: Props) => {
     </span>
   );
 
+  const addChip = (data: string) => {
+    console.log('data: ', data);
+    const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
+    console.log('value: ', value);
+    const chips = asinValues.concat(value);
+    //remove duplicates
+    const uniqueChips = Array.from(new Set(chips));
+    console.log('add asinValues: ', uniqueChips);
+    setAsinValues(uniqueChips);
+  };
+
+  const removeChip = (index: any) => {
+    const chips = asinValues.slice();
+    chips.splice(index, 1);
+    setAsinValues(chips);
+    console.log('rem asinValues: ', chips);
+  };
+
   return (
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
-        <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} />
+        {/* <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} /> */}
+
+        <ReactChipInput
+          classes="multiple-asin-container__wrapper asdsadsad test dasds"
+          chips={asinValues}
+          onSubmit={addChip}
+          onRemove={removeChip}
+        />
         <Dropdown className="selection" openOnFocus trigger={trigger}>
           <Dropdown.Menu>
             {marketPlaceOptions.map((option, key) => {
@@ -115,9 +141,10 @@ const AsinSearch = (props: Props) => {
       <Confirm
         open={open}
         openModal={setOpen}
-        searchValue={''}
+        asinValues={asinValues}
+        addChip={addChip}
+        removeChip={removeChip}
         selectedMarketPlace={selectedMarketPlace}
-        setSearch={setSearch}
       />
     </Grid.Row>
   );

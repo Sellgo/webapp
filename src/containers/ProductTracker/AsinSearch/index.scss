@@ -11,6 +11,73 @@
     background: #fff 0% 0% no-repeat padding-box;
     border-radius: 10px;
 
+    .multiple-asin-container {
+      &__wrapper {
+        border-top: 1px solid #98aeca;
+        border-left: 1px solid #98aeca;
+        border-bottom: 1px solid #98aeca;
+        border-radius: 0;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        box-shadow: none !important;
+        padding: 0 5px;
+
+        .align-items-center {
+          display: flex;
+          align-items: center;
+
+          .p-2.col-auto {
+            &:first-child {
+              margin-left: unset !important;
+            }
+
+            margin-left: 5px;
+
+            div {
+              border: 1px solid #98aeca;
+              border-radius: 6px !important;
+              background: #fff;
+              display: flex;
+              align-items: center;
+              font-size: 12px;
+              font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+              padding: 4px !important;
+              height: 24px;
+
+              svg {
+                background: #98aeca;
+                border-radius: 50%;
+                fill: #fff;
+                height: 13px;
+                width: 13px;
+                margin-left: 5px;
+                padding: 1px;
+                margin-top: -1px !important;
+
+                path {
+                  transform: scale(0.45);
+                  -webkit-transform: scale(0.45);
+                }
+              }
+            }
+          }
+        }
+
+        .custom-form-control {
+          border-bottom: 1px solid #98aeca;
+          margin-left: 5px;
+          padding: 2px 0;
+
+          input {
+            border: none !important;
+            outline: none !important;
+            font-size: 12px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          }
+        }
+      }
+    }
+
     &__label {
       width: 100%;
       display: flex;
@@ -40,9 +107,7 @@
       align-items: center;
       min-height: 34px;
       border: 0;
-      border-top: 1px solid #98aeca;
-      border-right: 1px solid #98aeca;
-      border-bottom: 1px solid #98aeca;
+      border: 1px solid #98aeca;
       border-radius: 0;
       padding-top: 0;
       padding-bottom: 0;

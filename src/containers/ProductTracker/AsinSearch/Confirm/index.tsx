@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Modal, Header, Grid, Select } from 'semantic-ui-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Modal, Grid, Select } from 'semantic-ui-react';
 import TrackIconWhite from '../../../../assets/images/fingerprint-2.svg';
 import './index.scss';
 import { connect } from 'react-redux';
@@ -29,16 +29,19 @@ interface Props {
     period: number,
     groupID?: number
   ) => void;
-  searchValue: string;
+  asinValues: string[];
   trackGroups: any;
   selectedMarketPlace: any;
   filterData: any;
   setMenuItem: (item: any) => void;
-  setSearch: any;
+  addChip: (data: string) => void;
+  removeChip: (index: any) => void;
 }
 const Confirm = (props: Props) => {
   const {
-    searchValue,
+    asinValues,
+    addChip,
+    removeChip,
     open,
     openModal,
     verifyProduct,
@@ -46,18 +49,24 @@ const Confirm = (props: Props) => {
     confirmTrackProduct,
     selectedMarketPlace,
     filterData,
-    setSearch,
   } = props;
   const [openConfirm, setOpenConfirm] = useState(true);
   const [selectedGroup, setSelectedGroup] = useState(undefined);
-  const [asinValues, setAsinValues] = useState([]);
+  const asinRefContainer = useRef(null);
+
+  useEffect(() => {
+    if (asinRefContainer.current) {
+      const parentRef = (asinRefContainer as any).current.children[0];
+      parentRef.children[0].children[0].classList.add('error');
+      console.log('refContainer: ', parentRef.children[0].children[0]);
+    }
+  }, [asinValues]);
 
   const trackProduct = () => {
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
-    confirmTrackProduct(searchValue, selectedMarketPlace.value, period, selectedGroup);
+    confirmTrackProduct('', selectedMarketPlace.value, period, selectedGroup);
     openModal(false);
     setOpenConfirm(!openConfirm);
-    setSearch('');
   };
 
   const groupOptions = () => {
@@ -91,34 +100,28 @@ const Confirm = (props: Props) => {
   //   setAsinValues(chips)
   // }
 
-  const addChip = (data: string) => {
-    console.log('data: ', data);
-    const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
-    console.log('value: ', value);
-    const chips = asinValues.concat(value);
+  // const addChip = (data: string) => {
+  //   console.log('data: ', data);
+  //   const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
+  //   console.log('value: ', value);
+  //   const chips = asinValues.concat(value);
+  //   //remove duplicates
+  //   const uniqueChips = Array.from(new Set(chips));
+  //   console.log('add asinValues: ', uniqueChips);
+  //   setAsinValues(uniqueChips);
+  // };
 
-    //remove duplicates
-    const uniqueChips = Array.from(new Set(chips));
+  // const removeChip = (index: any) => {
+  //   const chips = asinValues.slice();
+  //   chips.splice(index, 1);
+  //   setAsinValues(chips);
+  //   console.log('rem asinValues: ', chips);
+  // };
 
-    console.log('add asinValues: ', uniqueChips);
-    setAsinValues(uniqueChips);
-    // this.setState({ chips });
-  };
-  const removeChip = (index: any) => {
-    const chips = asinValues.slice();
-    chips.splice(index, 1);
-    setAsinValues(chips);
-    console.log('rem asinValues: ', chips);
-  };
   return (
     <>
       <Modal open={open} className="Confirm__grouping-asin">
         <Modal.Content className="Confirm__content">
-          <div>
-            <Header as="h4" icon>
-              ASIN: <span>{searchValue.toUpperCase()}</span>
-            </Header>
-          </div>
           <Grid.Row columns={2}>
             <Grid.Column>Select Group: </Grid.Column>
             <Grid.Column>
@@ -137,12 +140,15 @@ const Confirm = (props: Props) => {
               Insert Asin or Amazon URL (Up to 12):{' '}
             </Grid.Column>
             <Grid.Column>
-              <ReactChipInput
-                classes="multiple-asin-container__wrapper"
-                chips={asinValues}
-                onSubmit={addChip}
-                onRemove={removeChip}
-              />
+              {' '}
+              <div className="multiple-asin-container" ref={asinRefContainer}>
+                <ReactChipInput
+                  classes="multiple-asin-container__wrapper"
+                  chips={asinValues}
+                  onSubmit={addChip}
+                  onRemove={removeChip}
+                />
+              </div>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={2}>

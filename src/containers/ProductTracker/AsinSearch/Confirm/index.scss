@@ -113,10 +113,6 @@ $asin-font: 'Work sans', sans-serif !important;
           align-items: center;
 
           .p-2.col-auto {
-            &:first-child {
-              margin-left: unset !important;
-            }
-
             margin-left: 5px;
 
             div {
@@ -145,6 +141,19 @@ $asin-font: 'Work sans', sans-serif !important;
                   -webkit-transform: scale(0.45);
                 }
               }
+            }
+
+            &.error div:first-child {
+              border: 1px solid #eb675e !important;
+              color: #eb675e;
+
+              svg {
+                background: #eb675e;
+              }
+            }
+
+            &:first-child {
+              margin-left: unset !important;
             }
           }
         }
