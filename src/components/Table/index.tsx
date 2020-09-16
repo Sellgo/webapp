@@ -230,8 +230,7 @@ export const GenericTable = (props: GenericTableProps) => {
 
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-  }
-  if (name !== 'trackerTable') {
+  } else if (name !== 'trackerTable') {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
@@ -254,7 +253,7 @@ export const GenericTable = (props: GenericTableProps) => {
   rows = showTableLock ? rows.slice(0, 5) : rows;
 
   useEffect(() => {
-    if (sortClicked) {
+    if (name === 'products' && sortClicked) {
       if (updateProfitFinderProducts) {
         updateProfitFinderProducts(sortedProducts);
       }
