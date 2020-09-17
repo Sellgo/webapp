@@ -68,7 +68,7 @@ export const TableBody = (props: TableBodyProps) => {
       isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
     );
     const upperBound = filteredColumns.slice(
-      isTypeProducts ? filteredColumns.length - 1 : filteredColumns.length - 6,
+      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
       filteredColumns.length
     );
     const onBodyScroll = (evt: any) => {
