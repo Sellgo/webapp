@@ -48,10 +48,11 @@ const Confirm = (props: Props) => {
     checkProduct,
     checkedProductsData,
   } = props;
-  const [openConfirm, setOpenConfirm] = useState(true);
   const [selectedGroup, setSelectedGroup] = useState(undefined);
   const [asinValues, setAsinValues] = useState([]);
   const [checkedProducts, setCheckedProducts] = useState([]);
+  const [asinHasTracked, setAsinHasTracked] = useState(false);
+  const [asinError, setAsinError] = useState('');
   const asinRefContainer = useRef(null);
 
   useEffect(() => {
@@ -71,15 +72,70 @@ const Confirm = (props: Props) => {
     }
   }, [open, asinData]);
 
+  const checkTracked = (product: any) => {
+    return product.is_tracked;
+  };
+
   useEffect(() => {
     console.log('checkedProductsData: ', checkedProductsData);
-    setCheckedProducts(checkedProductsData);
+    const sortedProducts = _.cloneDeep(checkedProductsData).sort(
+      (a: any, b: any) => a.position - b.position
+    );
+    setCheckedProducts(sortedProducts);
+
+    if (asinRefContainer.current) {
+      const parentRef = (asinRefContainer as any).current.children[0];
+      if (!_.isEmpty(sortedProducts)) {
+        console.log('sortedProducts: ', sortedProducts);
+        setAsinHasTracked(checkTracked(sortedProducts));
+        _.each(sortedProducts, (product, index) => {
+          if (
+            product.is_tracked ||
+            product.message === 'This does not look like a valid ASIN' ||
+            product.message === 'This ASIN was not found on Amazon'
+          ) {
+            parentRef.getElementsByClassName('col-auto')[index].classList.add('error');
+            setAsinError('Invalid ASIN is marked with red color');
+            if (sortedProducts.length > 12) {
+              setAsinError('Invalid ASIN is marked with red color and reached max amount of item');
+            }
+          } else if (sortedProducts.length > 12) {
+            setAsinError('Reached max amount of ASIN or URL');
+          } else {
+            parentRef.getElementsByClassName('col-auto')[index].classList.remove('error');
+          }
+        });
+      }
+    }
   }, [checkedProductsData]);
+
+  const getValidProducts = () => {
+    const sortedProducts = _.cloneDeep(checkedProductsData).sort(
+      (a: any, b: any) => a.position - b.position
+    );
+    const validProducts: any = [];
+    _.each(sortedProducts, product => {
+      if (product.is_tracked === false) {
+        validProducts.push(product.asin);
+      }
+    });
+    return validProducts.join();
+  };
+
   const trackProduct = () => {
+    const validProducts = getValidProducts();
+    console.log('validProducts: ', validProducts);
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
-    confirmTrackProduct(asinValues.join(), selectedMarketPlace.value, period, selectedGroup);
+    confirmTrackProduct(validProducts, selectedMarketPlace.value, period, selectedGroup);
     openModal(false);
-    setOpenConfirm(!openConfirm);
+    EmptyData();
+  };
+
+  const EmptyData = () => {
+    setAsinError('');
+    setCheckedProducts([]);
+    setAsinValues([]);
+    setAsinHasTracked(false);
   };
 
   const groupOptions = () => {
@@ -115,7 +171,7 @@ const Confirm = (props: Props) => {
     console.log('value: ', value);
     const chips = asinValues.concat(value);
     //remove duplicates
-    const uniqueChips = Array.from(new Set(chips));
+    const uniqueChips = Array.from(new Set(chips)).filter(item => item);
     console.log('add asinValues: ', uniqueChips);
     setAsinValues(uniqueChips);
     checkProduct(uniqueChips.join());
@@ -125,7 +181,14 @@ const Confirm = (props: Props) => {
   const removeChip = (index: any) => {
     const chips = asinValues.slice();
     chips.splice(index, 1);
+    setAsinError('');
+    setAsinHasTracked(false);
     setAsinValues(chips);
+    if (!_.isEmpty(chips)) {
+      checkProduct(chips.join());
+    } else {
+      setCheckedProducts([]);
+    }
     console.log('rem asinValues: ', chips);
   };
 
@@ -152,12 +215,19 @@ const Confirm = (props: Props) => {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={1} className="multiple-asin-container">
-            <Grid.Column className="multiple-asin-container__title">
-              Insert Asin or Amazon URL (Up to 12):{' '}
+            <Grid.Column
+              className={`multiple-asin-container__title ${(asinError !== '' || asinHasTracked) &&
+                'error'}`}
+            >
+              Insert Asin or Amazon URL (Up to 12):
             </Grid.Column>
             <Grid.Column>
               {' '}
-              <div className="multiple-asin-container" ref={asinRefContainer}>
+              <div
+                className="multiple-asin-container"
+                ref={asinRefContainer}
+                key={asinValues.join()}
+              >
                 <ReactChipInput
                   classes="multiple-asin-container__wrapper"
                   chips={asinValues}
@@ -166,45 +236,55 @@ const Confirm = (props: Props) => {
                 />
               </div>
             </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row columns={1} className="multiple-asin-container">
-            <Grid.Column className="multiple-asin-container__title">Added Asin:</Grid.Column>
-            <Grid.Column>
-              <div className="added-asin-container">
-                {_.map(checkedProducts, (product: any, index) => {
-                  return (
-                    <div key={index} className="added-asin-container__item" title={product.title}>
-                      {product.image_url ? (
-                        <div
-                          className="added-asin-container__item__image"
-                          style={{ backgroundImage: `url(${product.image_url})` }}
-                        />
-                      ) : (
-                        <div className="added-asin-container__item__no-image">No Image</div>
-                      )}
-                      <div className="added-asin-container__item__descriptions">
-                        <h2
-                          className={`added-asin-container__item__descriptions__title ${
-                            product.title ? '' : 'error'
-                          }`}
-                        >
-                          {product.title ? product.title : 'Invalid ASIN or URL'}
-                        </h2>
-                        <span
-                          className={`added-asin-container__item__descriptions__asin ${
-                            product.title ? '' : 'error'
-                          }`}
-                        >
-                          {product.asin}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+            <Grid.Column className="multiple-asin-container__error-container">
+              <div className="multiple-asin-container__error-container__message">{asinError}</div>
             </Grid.Column>
           </Grid.Row>
+          {!_.isEmpty(checkedProducts) && (
+            <Grid.Row columns={1} className="multiple-asin-container">
+              <Grid.Column className="multiple-asin-container__title">Added Asin:</Grid.Column>
+              <Grid.Column className="added-asin-container">
+                <div className="added-asin-container__wrapper">
+                  {_.map(checkedProducts, (product: any, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="added-asin-container__wrapper__item"
+                        title={product.title}
+                      >
+                        {product.image_url ? (
+                          <div
+                            className="added-asin-container__wrapper__item__image"
+                            style={{ backgroundImage: `url(${product.image_url})` }}
+                          />
+                        ) : (
+                          <div className="added-asin-container__wrapper__item__no-image">
+                            No Image
+                          </div>
+                        )}
+                        <div className="added-asin-container__wrapper__item__descriptions">
+                          <h2
+                            className={`added-asin-container__wrapper__item__descriptions__title ${
+                              product.title ? '' : 'error'
+                            }`}
+                          >
+                            {product.title ? product.title : 'Invalid ASIN or URL'}
+                          </h2>
+                          <span
+                            className={`added-asin-container__wrapper__item__descriptions__asin ${
+                              product.title ? '' : 'error'
+                            }`}
+                          >
+                            {product.asin}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+          )}
           <Grid.Row columns={2}>
             <Grid.Column />
             <Grid.Column>
@@ -212,11 +292,12 @@ const Confirm = (props: Props) => {
                 <Button
                   content="Cancel"
                   onClick={() => {
+                    EmptyData();
                     openModal(false);
-                    setOpenConfirm(!openConfirm);
                   }}
                 />
                 <Button
+                  disabled={_.isEmpty(getValidProducts())}
                   icon
                   labelPosition="left"
                   onClick={() => {

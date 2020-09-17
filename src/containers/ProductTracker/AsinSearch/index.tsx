@@ -35,7 +35,11 @@ const AsinSearch = () => {
         .getElementsByClassName('form-control')[0]
         .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
     }
-  }, []);
+
+    if (open) {
+      setAsinValues([]);
+    }
+  }, [open]);
 
   const verifyProduct = () => {
     setOpen(true);
@@ -50,11 +54,11 @@ const AsinSearch = () => {
 
   const addChip = (data: string) => {
     console.log('data: ', data);
-    const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
+    const value = data.replace(/[^A-Z0-9]+/gi, ' ').split(' ') as any;
     console.log('value: ', value);
     const chips = asinValues.concat(value);
     //remove duplicates
-    const uniqueChips = Array.from(new Set(chips));
+    const uniqueChips = Array.from(new Set(chips)).filter(item => item);
     console.log('add asinValues: ', uniqueChips);
     setAsinValues(uniqueChips);
     focusAsin();
@@ -75,8 +79,6 @@ const AsinSearch = () => {
   return (
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
-        {/* <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} /> */}
-
         <div className="multiple-asin-container" ref={asinRefContainer} onClick={() => focusAsin()}>
           <ReactChipInput
             classes="multiple-asin-container__wrapper"

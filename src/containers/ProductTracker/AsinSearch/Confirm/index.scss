@@ -101,13 +101,27 @@ $asin-font: 'Work sans', sans-serif !important;
     padding: 40px;
 
     .multiple-asin-container {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
 
       &__title {
         font-size: 18px;
         font-weight: 700;
         color: #3b4557;
         margin-bottom: 10px;
+
+        &.error {
+          color: red;
+        }
+      }
+
+      &__error-container {
+        margin: -10px 10px;
+        min-height: 14px;
+
+        &__message {
+          font-size: 10px;
+          color: red;
+        }
       }
 
       &__wrapper {
@@ -115,6 +129,7 @@ $asin-font: 'Work sans', sans-serif !important;
         border-radius: 11px;
         box-shadow: none !important;
         padding: 10px;
+        padding-bottom: unset;
 
         .align-items-center {
           display: flex;
@@ -123,7 +138,7 @@ $asin-font: 'Work sans', sans-serif !important;
           flex-wrap: wrap;
 
           .col {
-            margin-top: -10px;
+            margin-bottom: 10px;
           }
 
           .p-2.col-auto {
@@ -191,73 +206,85 @@ $asin-font: 'Work sans', sans-serif !important;
     }
 
     .added-asin-container {
-      &__title {
-        font-size: 18px;
-        font-weight: 700;
-        color: #3b4557;
-        margin-bottom: 10px;
-      }
-
       border: 1px #98aeca solid !important;
       border-radius: 11px;
       box-shadow: none !important;
       padding: 10px;
-      max-height: 133px;
-      overflow-x: auto;
 
-      &__item {
-        display: flex;
-        height: 35px;
-        align-items: center;
-        margin-bottom: 10px;
+      &::-webkit-scrollbar-track {
+        border-radius: 12px;
+      }
 
-        &__image {
-          width: 34px;
-          padding: 0 5px;
-          background-repeat: no-repeat;
-          background-size: contain;
-          background-position: center;
-          height: 34px;
+      &::-webkit-scrollbar-thumb {
+        background: #98aeca !important;
+      }
+
+      &__wrapper {
+        min-height: 133px;
+        max-height: 133px;
+        overflow-x: auto;
+
+        &__title {
+          font-size: 18px;
+          font-weight: 700;
+          color: #3b4557;
+          margin-bottom: 10px;
         }
 
-        &__no-image {
-          width: 34px;
-          height: 34px;
-          text-align: center;
-          border: 1px solid #f7f7f7;
-          font-size: 8px;
-          font-weight: 600;
-          align-items: center;
+        &__item {
           display: flex;
-        }
+          height: 35px;
+          align-items: center;
+          margin-bottom: 10px;
 
-        &__descriptions {
-          margin-left: 5px;
-          max-width: 320px;
-
-          .error {
-            color: #eb675e !important;
+          &__image {
+            width: 34px;
+            padding: 0 5px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            height: 34px;
           }
 
-          &__title {
-            color: #5381db;
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 16px;
-            margin-bottom: 5px;
-            overflow: hidden;
-            text-align: left;
-            text-overflow: ellipsis;
-            white-space: pre-wrap;
-            white-space: nowrap;
+          &__no-image {
+            width: 34px;
+            height: 34px;
+            text-align: center;
+            border: 1px solid #f7f7f7;
+            font-size: 8px;
+            font-weight: 600;
+            align-items: center;
+            display: flex;
           }
 
-          &__asin {
-            color: #3b4557;
-            font-weight: 500;
-            font-size: 12px;
-            line-height: 16px;
-            margin-bottom: 2px;
+          &__descriptions {
+            margin-left: 5px;
+            max-width: 320px;
+
+            .error {
+              color: #eb675e !important;
+            }
+
+            &__title {
+              color: #5381db;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 16px;
+              margin-bottom: 5px;
+              overflow: hidden;
+              text-align: left;
+              text-overflow: ellipsis;
+              white-space: pre-wrap;
+              white-space: nowrap;
+            }
+
+            &__asin {
+              color: #3b4557;
+              font-weight: 500;
+              font-size: 12px;
+              line-height: 16px;
+              margin-bottom: 2px;
+            }
           }
         }
       }

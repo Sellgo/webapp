@@ -185,6 +185,7 @@ export const confirmTrackProduct = (
     bodyFormData
   )
     .then(json => {
+      console.log('track api: ', json);
       if (json.status === 200) {
         success(`Product ${asin.toUpperCase()} Successfully Tracked`);
 
@@ -197,6 +198,7 @@ export const confirmTrackProduct = (
       }
     })
     .catch(err => {
+      console.log('track api err: ', err.response.data.message);
       if (err.response.status === 401) {
         dispatch(handleUnauthorizedMwsAuth());
       } else {
