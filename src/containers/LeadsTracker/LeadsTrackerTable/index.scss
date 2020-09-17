@@ -66,8 +66,6 @@ $new_black: #3b4557;
   .flag-row {
     display: flex;
     margin-top: 8px;
-    // margin: 0;
-    // display: contents;
 
     img {
       height: 18px;
@@ -135,7 +133,6 @@ $new_black: #3b4557;
     }
 
     .btn-lbl {
-      //width: 54px !important;
       border-top-right-radius: 18px !important;
       border-bottom-right-radius: 18px !important;
       display: flex !important;
@@ -184,7 +181,6 @@ $new_black: #3b4557;
 
     .product-description {
       text-align: left;
-      //padding-left: 30px;
       display: flex;
 
       .flag-img {
