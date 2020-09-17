@@ -77,6 +77,10 @@
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             width: 100%;
           }
+
+          input::placeholder {
+            color: #98aeca;
+          }
         }
       }
     }

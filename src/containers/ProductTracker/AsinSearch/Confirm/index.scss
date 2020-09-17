@@ -103,6 +103,11 @@ $asin-font: 'Work sans', sans-serif !important;
     .multiple-asin-container {
       margin-bottom: 10px;
 
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
       &__title {
         font-size: 18px;
         font-weight: 700;
@@ -130,6 +135,10 @@ $asin-font: 'Work sans', sans-serif !important;
         box-shadow: none !important;
         padding: 10px;
         padding-bottom: unset;
+
+        &.error-wrapper {
+          border: 1px #eb675e solid !important;
+        }
 
         .align-items-center {
           display: flex;
@@ -280,6 +289,14 @@ $asin-font: 'Work sans', sans-serif !important;
 
             &__asin {
               color: #3b4557;
+              font-weight: 500;
+              font-size: 12px;
+              line-height: 16px;
+              margin-bottom: 2px;
+            }
+
+            &__already-tracked {
+              color: #eb675e !important;
               font-weight: 500;
               font-size: 12px;
               line-height: 16px;

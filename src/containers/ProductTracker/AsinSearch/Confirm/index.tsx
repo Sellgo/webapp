@@ -35,6 +35,7 @@ interface Props {
   setMenuItem: (item: any) => void;
   checkProduct: (asin: string) => void;
   checkedProductsData: any;
+  verifyingProduct: boolean;
 }
 const Confirm = (props: Props) => {
   const {
@@ -46,6 +47,7 @@ const Confirm = (props: Props) => {
     selectedMarketPlace,
     filterData,
     checkProduct,
+    verifyingProduct,
     checkedProductsData,
   } = props;
   const [selectedGroup, setSelectedGroup] = useState(undefined);
@@ -64,10 +66,8 @@ const Confirm = (props: Props) => {
         .getElementsByClassName('form-control')[0]
         .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
     }
-    console.log('b4 open: ', open, asinData);
     if (open && !_.isEmpty(asinData)) {
       setAsinValues(asinData);
-      console.log('asinValues: ', asinValues, asinData);
       checkProduct(asinData.join());
     }
   }, [open, asinData]);
@@ -85,6 +85,10 @@ const Confirm = (props: Props) => {
 
     if (asinRefContainer.current) {
       const parentRef = (asinRefContainer as any).current.children[0];
+
+      parentRef
+        .getElementsByClassName('form-control')[0]
+        .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
       if (!_.isEmpty(sortedProducts)) {
         console.log('sortedProducts: ', sortedProducts);
         setAsinHasTracked(checkTracked(sortedProducts));
@@ -97,7 +101,7 @@ const Confirm = (props: Props) => {
             parentRef.getElementsByClassName('col-auto')[index].classList.add('error');
             setAsinError('Invalid ASIN is marked with red color');
             if (sortedProducts.length > 12) {
-              setAsinError('Invalid ASIN is marked with red color and reached max amount of item');
+              setAsinError('Invalid ASIN is marked with red color and reached max amount of items');
             }
           } else if (sortedProducts.length > 12) {
             setAsinError('Reached max amount of ASIN or URL');
@@ -105,6 +109,7 @@ const Confirm = (props: Props) => {
             parentRef.getElementsByClassName('col-auto')[index].classList.remove('error');
           }
         });
+        focusAsin();
       }
     }
   }, [checkedProductsData]);
@@ -224,12 +229,14 @@ const Confirm = (props: Props) => {
             <Grid.Column>
               {' '}
               <div
-                className="multiple-asin-container"
+                className={`multiple-asin-container ${verifyingProduct && 'disabled'}`}
                 ref={asinRefContainer}
                 key={asinValues.join()}
               >
                 <ReactChipInput
-                  classes="multiple-asin-container__wrapper"
+                  classes={`multiple-asin-container__wrapper ${(asinError !== '' ||
+                    asinHasTracked) &&
+                    'error-wrapper'}`}
                   chips={asinValues}
                   onSubmit={addChip}
                   onRemove={removeChip}
@@ -277,6 +284,11 @@ const Confirm = (props: Props) => {
                           >
                             {product.asin}
                           </span>
+                          {product.is_tracked && (
+                            <span className="added-asin-container__wrapper__item__descriptions__already-tracked  ">
+                              (Already Tracked)
+                            </span>
+                          )}
                         </div>
                       </div>
                     );
@@ -319,6 +331,7 @@ const Confirm = (props: Props) => {
 const mapStateToProps = (state: {}) => ({
   trackGroups: get(state, 'productTracker.trackerGroup'),
   filterData: get(state, 'productTracker.filterData'),
+  verifyingProduct: get(state, 'productTracker.verifyingProduct'),
   checkedProductsData: get(state, 'productTracker.checkedProductsData'),
 });
 
