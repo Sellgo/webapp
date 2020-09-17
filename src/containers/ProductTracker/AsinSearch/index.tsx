@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { dismiss } from '../../../utils/notifications';
 import ReactChipInput from 'react-chip-input';
 import _ from 'lodash';
+import ScrollContainer from 'react-indiana-drag-scroll';
 
 const AsinSearch = () => {
   const [asinValues, setAsinValues] = useState([]);
@@ -94,12 +95,14 @@ const AsinSearch = () => {
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
         <div className="multiple-asin-container" ref={asinRefContainer} onClick={() => focusAsin()}>
-          <ReactChipInput
-            classes="multiple-asin-container__wrapper"
-            chips={asinValues}
-            onSubmit={addChip}
-            onRemove={removeChip}
-          />
+          <ScrollContainer className="scroll-container" vertical={false}>
+            <ReactChipInput
+              classes="multiple-asin-container__wrapper"
+              chips={asinValues}
+              onSubmit={addChip}
+              onRemove={removeChip}
+            />
+          </ScrollContainer>
         </div>
         <Dropdown className="selection" openOnFocus trigger={trigger}>
           <Dropdown.Menu>

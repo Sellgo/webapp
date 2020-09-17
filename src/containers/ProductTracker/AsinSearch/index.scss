@@ -11,7 +11,7 @@
     border-radius: 10px;
 
     .multiple-asin-container {
-      &__wrapper {
+      .scroll-container {
         border-top: 1px solid #98aeca;
         border-left: 1px solid #98aeca;
         border-bottom: 1px solid #98aeca;
@@ -22,13 +22,11 @@
         padding: 0 5px;
         min-width: 325px;
         max-width: 325px;
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+        height: 34px;
+      }
 
-        &::-webkit-scrollbar {
-          display: none;
-        }
+      &__wrapper {
+        box-shadow: none !important;
 
         .align-items-center {
           display: flex;
