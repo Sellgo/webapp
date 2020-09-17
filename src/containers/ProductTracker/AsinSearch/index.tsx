@@ -5,6 +5,7 @@ import './index.scss';
 import { connect } from 'react-redux';
 import { dismiss } from '../../../utils/notifications';
 import ReactChipInput from 'react-chip-input';
+import _ from 'lodash';
 
 const AsinSearch = () => {
   const [asinValues, setAsinValues] = useState([]);
@@ -46,6 +47,18 @@ const AsinSearch = () => {
     dismiss();
   };
 
+  const convertAsinLinks = (data: string) => {
+    const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))');
+    const asinData = data.split(' ');
+    _.each(asinData, (item, index) => {
+      const res = item.match(regex);
+      if (res) {
+        asinData[index] = res[1];
+      }
+    });
+    return asinData.join();
+  };
+
   const trigger = (
     <span className="AsinSearch__menu__label">
       {selectedMarketPlace.text} <i className={selectedMarketPlace.flag + ' flag'} />
@@ -54,9 +67,10 @@ const AsinSearch = () => {
 
   const addChip = (data: string) => {
     console.log('data: ', data);
-    const value = data.replace(/[^A-Z0-9]+/gi, ' ').split(' ') as any;
-    console.log('value: ', value);
-    const chips = asinValues.concat(value);
+    const converedData = convertAsinLinks(data);
+    const removedSpecialsCharacters = converedData.replace(/[^A-Z0-9]+/gi, ' ').split(' ') as any;
+    console.log('varemovedSpecialsCharacterslue: ', removedSpecialsCharacters);
+    const chips = asinValues.concat(removedSpecialsCharacters);
     //remove duplicates
     const uniqueChips = Array.from(new Set(chips)).filter(item => item);
     console.log('add asinValues: ', uniqueChips);
@@ -114,6 +128,7 @@ const AsinSearch = () => {
         openModal={setOpen}
         asinData={asinValues}
         selectedMarketPlace={selectedMarketPlace}
+        convertAsinLinks={convertAsinLinks}
       />
     </Grid.Row>
   );

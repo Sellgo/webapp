@@ -36,6 +36,7 @@ interface Props {
   checkProduct: (asin: string) => void;
   checkedProductsData: any;
   verifyingProduct: boolean;
+  convertAsinLinks: (data: string) => string;
 }
 const Confirm = (props: Props) => {
   const {
@@ -49,6 +50,7 @@ const Confirm = (props: Props) => {
     checkProduct,
     verifyingProduct,
     checkedProductsData,
+    convertAsinLinks,
   } = props;
   const [selectedGroup, setSelectedGroup] = useState(undefined);
   const [asinValues, setAsinValues] = useState([]);
@@ -171,10 +173,10 @@ const Confirm = (props: Props) => {
   };
 
   const addChip = (data: string) => {
-    console.log('data: ', data);
-    const value = data.replace(/[^A-Z0-9]+/gi, '_').split('_') as any;
-    console.log('value: ', value);
-    const chips = asinValues.concat(value);
+    const converedData = convertAsinLinks(data);
+    const removedSpecialsCharacters = converedData.replace(/[^A-Z0-9]+/gi, ' ').split(' ') as any;
+    console.log('varemovedSpecialsCharacterslue: ', removedSpecialsCharacters);
+    const chips = asinValues.concat(removedSpecialsCharacters);
     //remove duplicates
     const uniqueChips = Array.from(new Set(chips)).filter(item => item);
     console.log('add asinValues: ', uniqueChips);
@@ -232,6 +234,7 @@ const Confirm = (props: Props) => {
                 className={`multiple-asin-container ${verifyingProduct && 'disabled'}`}
                 ref={asinRefContainer}
                 key={asinValues.join()}
+                onClick={e => e.stopPropagation()}
               >
                 <ReactChipInput
                   classes={`multiple-asin-container__wrapper ${(asinError !== '' ||
