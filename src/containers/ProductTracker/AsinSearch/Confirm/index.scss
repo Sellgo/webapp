@@ -272,6 +272,10 @@ $asin-font: 'Work sans', sans-serif !important;
             margin-left: 5px;
             max-width: 320px;
 
+            .is-tracked {
+              color: #f1c40f;
+            }
+
             .error {
               color: #eb675e !important;
             }
@@ -281,12 +285,12 @@ $asin-font: 'Work sans', sans-serif !important;
               font-size: 12px;
               font-weight: 500;
               line-height: 16px;
-              margin-bottom: 5px;
               overflow: hidden;
               text-align: left;
               text-overflow: ellipsis;
               white-space: pre-wrap;
               white-space: nowrap;
+              margin: 0;
             }
 
             &__asin {
@@ -298,7 +302,8 @@ $asin-font: 'Work sans', sans-serif !important;
             }
 
             &__already-tracked {
-              color: #eb675e !important;
+              margin-left: 5px;
+              color: #f1c40f !important;
               font-weight: 500;
               font-size: 12px;
               line-height: 16px;

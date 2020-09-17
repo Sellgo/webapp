@@ -274,14 +274,14 @@ const Confirm = (props: Props) => {
                         <div className="added-asin-container__wrapper__item__descriptions">
                           <h2
                             className={`added-asin-container__wrapper__item__descriptions__title ${
-                              product.title ? '' : 'error'
+                              !product.title ? 'error' : product.is_tracked ? 'is-tracked' : ''
                             }`}
                           >
                             {product.title ? product.title : 'Invalid ASIN or URL'}
                           </h2>
                           <span
                             className={`added-asin-container__wrapper__item__descriptions__asin ${
-                              product.title ? '' : 'error'
+                              !product.title ? 'error' : product.is_tracked ? 'is-tracked' : ''
                             }`}
                           >
                             {product.asin}
