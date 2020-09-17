@@ -234,7 +234,6 @@ const Confirm = (props: Props) => {
                 className={`multiple-asin-container ${verifyingProduct && 'disabled'}`}
                 ref={asinRefContainer}
                 key={asinValues.join()}
-                onClick={e => e.stopPropagation()}
               >
                 <ReactChipInput
                   classes={`multiple-asin-container__wrapper ${(asinError !== '' ||

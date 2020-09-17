@@ -22,7 +22,13 @@
         padding: 0 5px;
         min-width: 325px;
         max-width: 325px;
-        overflow: hidden;
+        overflow: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
 
         .align-items-center {
           display: flex;
@@ -36,6 +42,7 @@
             margin-left: 5px;
 
             div {
+              pointer-events: none;
               border: 1px solid #98aeca;
               border-radius: 6px !important;
               background: #fff;
@@ -55,6 +62,7 @@
                 margin-left: 5px;
                 padding: 1px;
                 margin-top: -1px !important;
+                pointer-events: auto !important;
 
                 path {
                   transform: scale(0.45);
