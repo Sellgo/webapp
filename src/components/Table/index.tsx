@@ -255,212 +255,212 @@ export const GenericTable = (props: GenericTableProps) => {
         return a[key] - b[key];
       });
     }
-
-    if (name === 'trackerTable' && sortClicked) {
-      rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-    } else if (name !== 'trackerTable') {
-      rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-    }
-
-    // keep the unbusted data buster columns in PF at end of sort
-    if (
-      name === 'products' &&
-      (sortedColumnKey === 'rating' || sortedColumnKey === 'customer_reviews')
-    ) {
-      rows = [
-        ...rows.filter(r => r.data_buster_status === 'completed'),
-        ...rows.filter(r => r.data_buster_status !== 'completed').reverse(),
-      ];
-    }
-
-    const sortedProducts = rows;
-    rows = rows.slice(
-      (localCurrentPage - 1) * singlePageItemsCount,
-      localCurrentPage * singlePageItemsCount
-    );
-    rows = showTableLock ? rows.slice(0, 5) : rows;
-
-    useEffect(() => {
-      if (name === 'products' && sortClicked) {
-        if (updateProfitFinderProducts) {
-          updateProfitFinderProducts(sortedProducts);
-        }
-        setSortClicked(false);
-      }
-    });
-
-    const onSetShowSearchFilter = (e: any, key: any) => {
-      e.stopPropagation();
-      setShowSearchFilter(true);
-      setFilterName(key);
-    };
-
-    const onClearSearch = (e: any) => {
-      e.stopPropagation();
-      setShowSearchFilter(false);
-      setSearchValue('');
-    };
-
-    const onSearchChange = (e: any) => {
-      if (setPage) {
-        setPage(1);
-      } else {
-        setLocalCurrentPage(1);
-      }
-      setSearchValue(e.target.value);
-    };
-    const totalItemsCount = data.length;
-    const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
-    const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
-
-    const handleScroll = (evt: any) => {
-      const scroll = document.querySelector('.pt-scroll-container');
-      if (scroll) {
-        scroll.scrollLeft = evt.target.scrollLeft;
-      }
-    };
-
-    return (
-      <div
-        className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
-          name === 'products' ? 'pf-table' : ''
-        }`}
-        onScroll={handleScroll}
-      >
-        {showProductFinderSearch ? (
-          <div
-            className={`table-menu-header ${isStickyChartActive} ${isScrollTop} ${featuresLock &&
-              'disabled'}`}
-          >
-            {showProductFinderSearch ? (
-              <ProductSearch
-                searchFilteredProduct={searchProfitFinderProduct}
-                searchFilterValue={searchFilterValue}
-                setCurrentPage={setLocalCurrentPage}
-              />
-            ) : (
-              <div />
-            )}
-          </div>
-        ) : (
-          ''
-        )}
-        {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
-        {showSearchFilter && (
-          <Card className="filter-card">
-            <Card.Header>
-              <span className="card-header">{filterName}</span>
-              <span className="card-header" />
-              <Icon
-                className="close icon close-icon"
-                onClick={onClearSearch}
-                style={{ float: 'right' }}
-              />
-            </Card.Header>
-            <Card.Content>
-              <Input
-                icon="search"
-                value={searchValue}
-                placeholder="Search..."
-                onChange={onSearchChange}
-              />
-            </Card.Content>
-          </Card>
-        )}
-        <Table
-          sortable={true}
-          basic="very"
-          textAlign="left"
-          unstackable={true}
-          className={`${
-            name === 'trackerTable'
-              ? 'alter-table'
-              : name === 'products' || name === 'leads-tracker'
-              ? 'pf-table'
-              : ''
-          }`}
-        >
-          <TableHeader
-            columns={columns}
-            sortedColumnKey={sortedColumnKey}
-            setSort={setSort}
-            onSetShowSearchFilter={onSetShowSearchFilter}
-            onSearchChange={onSearchChange}
-            onClearSearch={onClearSearch}
-            rows={rows}
-            currentPage={localCurrentPage}
-            sortDirection={sortDirection}
-            type={name}
-            columnFilterData={filteredColumns}
-            toggleColumnCheckbox={toggleColumnCheckbox}
-            searchFilteredProduct={searchProfitFinderProduct}
-            renderFilterSectionComponent={renderFilterSectionComponent}
-            columnFilterBox={columnFilterBox}
-            checkedRows={checkedRows}
-            updateCheckedRows={updateCheckedRows}
-            handleColumnChange={handleColumnChange}
-            middleScroll={middleScroll}
-            handleColumnDrop={handleColumnDrop}
-            reorderColumns={reorderColumns ? reorderColumns : null}
-            columnDnD={columnDnD}
-            toggleColumnFilters={toggleColumnFilters}
-            activeColumnFilters={activeColumnFilters}
-            applyColumnFilters={applyColumnFilters}
-            cancelColumnFilters={cancelColumnFilters}
-            resetColumnFilters={resetColumnFilters}
-            loadingFilters={loadingFilters}
-            filterValues={filterValues}
-          />
-          <TableBody
-            extendedInfo={extendedInfo}
-            columns={columns}
-            columnFilterData={filteredColumns}
-            type={name}
-            rows={rows}
-            expandedRows={expandedRows}
-            middleScroll={middleScroll}
-            rowExpander={rowExpander}
-          />
-
-          {pagination && (
-            <Table.Footer className={showTableLock ? 'lock-footer' : ''}>
-              <Table.Row>
-                {showTableLock ? (
-                  <div className="table-lock">
-                    <div className="table-lock__content">
-                      <p>Want to see more?</p>
-                      <Icon name="lock" size="big" />
-                      <Link to="/settings/pricing">
-                        <Button primary={true}>Subscribe to Unlock</Button>
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
-                    <div className="pagination-container">
-                      <Pagination
-                        onPageSizeSelect={size =>
-                          setSinglePageItemsCount ? setSinglePageItemsCount(size) : {}
-                        }
-                        onNextPage={setLocalCurrentPage}
-                        onPrevPage={setLocalCurrentPage}
-                        onPageNumberUpdate={setLocalCurrentPage}
-                        currentPage={localCurrentPage || 1}
-                        totalPages={name === 'leads-tracker' ? pageCount : totalPages}
-                        totalRecords={totalItemsCount}
-                        pageSize={singlePageItemsCount}
-                        showPageSize={name !== 'supplier'}
-                      />
-                    </div>
-                  </Table.HeaderCell>
-                )}
-              </Table.Row>
-            </Table.Footer>
-          )}
-        </Table>
-      </div>
-    );
   }
+
+  if (name === 'trackerTable' && sortClicked) {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  } else if (name !== 'trackerTable') {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+  }
+
+  // keep the unbusted data buster columns in PF at end of sort
+  if (
+    name === 'products' &&
+    (sortedColumnKey === 'rating' || sortedColumnKey === 'customer_reviews')
+  ) {
+    rows = [
+      ...rows.filter(r => r.data_buster_status === 'completed'),
+      ...rows.filter(r => r.data_buster_status !== 'completed').reverse(),
+    ];
+  }
+
+  const sortedProducts = rows;
+  rows = rows.slice(
+    (localCurrentPage - 1) * singlePageItemsCount,
+    localCurrentPage * singlePageItemsCount
+  );
+  rows = showTableLock ? rows.slice(0, 5) : rows;
+
+  useEffect(() => {
+    if (name === 'products' && sortClicked) {
+      if (updateProfitFinderProducts) {
+        updateProfitFinderProducts(sortedProducts);
+      }
+      setSortClicked(false);
+    }
+  });
+
+  const onSetShowSearchFilter = (e: any, key: any) => {
+    e.stopPropagation();
+    setShowSearchFilter(true);
+    setFilterName(key);
+  };
+
+  const onClearSearch = (e: any) => {
+    e.stopPropagation();
+    setShowSearchFilter(false);
+    setSearchValue('');
+  };
+
+  const onSearchChange = (e: any) => {
+    if (setPage) {
+      setPage(1);
+    } else {
+      setLocalCurrentPage(1);
+    }
+    setSearchValue(e.target.value);
+  };
+  const totalItemsCount = data.length;
+  const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
+  const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
+
+  const handleScroll = (evt: any) => {
+    const scroll = document.querySelector('.pt-scroll-container');
+    if (scroll) {
+      scroll.scrollLeft = evt.target.scrollLeft;
+    }
+  };
+
+  return (
+    <div
+      className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
+        name === 'products' ? 'pf-table' : ''
+      }`}
+      onScroll={handleScroll}
+    >
+      {showProductFinderSearch ? (
+        <div
+          className={`table-menu-header ${isStickyChartActive} ${isScrollTop} ${featuresLock &&
+            'disabled'}`}
+        >
+          {showProductFinderSearch ? (
+            <ProductSearch
+              searchFilteredProduct={searchProfitFinderProduct}
+              searchFilterValue={searchFilterValue}
+              setCurrentPage={setLocalCurrentPage}
+            />
+          ) : (
+            <div />
+          )}
+        </div>
+      ) : (
+        ''
+      )}
+      {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
+      {showSearchFilter && (
+        <Card className="filter-card">
+          <Card.Header>
+            <span className="card-header">{filterName}</span>
+            <span className="card-header" />
+            <Icon
+              className="close icon close-icon"
+              onClick={onClearSearch}
+              style={{ float: 'right' }}
+            />
+          </Card.Header>
+          <Card.Content>
+            <Input
+              icon="search"
+              value={searchValue}
+              placeholder="Search..."
+              onChange={onSearchChange}
+            />
+          </Card.Content>
+        </Card>
+      )}
+      <Table
+        sortable={true}
+        basic="very"
+        textAlign="left"
+        unstackable={true}
+        className={`${
+          name === 'trackerTable'
+            ? 'alter-table'
+            : name === 'products' || name === 'leads-tracker'
+            ? 'pf-table'
+            : ''
+        }`}
+      >
+        <TableHeader
+          columns={columns}
+          sortedColumnKey={sortedColumnKey}
+          setSort={setSort}
+          onSetShowSearchFilter={onSetShowSearchFilter}
+          onSearchChange={onSearchChange}
+          onClearSearch={onClearSearch}
+          rows={rows}
+          currentPage={localCurrentPage}
+          sortDirection={sortDirection}
+          type={name}
+          columnFilterData={filteredColumns}
+          toggleColumnCheckbox={toggleColumnCheckbox}
+          searchFilteredProduct={searchProfitFinderProduct}
+          renderFilterSectionComponent={renderFilterSectionComponent}
+          columnFilterBox={columnFilterBox}
+          checkedRows={checkedRows}
+          updateCheckedRows={updateCheckedRows}
+          handleColumnChange={handleColumnChange}
+          middleScroll={middleScroll}
+          handleColumnDrop={handleColumnDrop}
+          reorderColumns={reorderColumns ? reorderColumns : null}
+          columnDnD={columnDnD}
+          toggleColumnFilters={toggleColumnFilters}
+          activeColumnFilters={activeColumnFilters}
+          applyColumnFilters={applyColumnFilters}
+          cancelColumnFilters={cancelColumnFilters}
+          resetColumnFilters={resetColumnFilters}
+          loadingFilters={loadingFilters}
+          filterValues={filterValues}
+        />
+        <TableBody
+          extendedInfo={extendedInfo}
+          columns={columns}
+          columnFilterData={filteredColumns}
+          type={name}
+          rows={rows}
+          expandedRows={expandedRows}
+          middleScroll={middleScroll}
+          rowExpander={rowExpander}
+        />
+
+        {pagination && (
+          <Table.Footer className={showTableLock ? 'lock-footer' : ''}>
+            <Table.Row>
+              {showTableLock ? (
+                <div className="table-lock">
+                  <div className="table-lock__content">
+                    <p>Want to see more?</p>
+                    <Icon name="lock" size="big" />
+                    <Link to="/settings/pricing">
+                      <Button primary={true}>Subscribe to Unlock</Button>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
+                  <div className="pagination-container">
+                    <Pagination
+                      onPageSizeSelect={size =>
+                        setSinglePageItemsCount ? setSinglePageItemsCount(size) : {}
+                      }
+                      onNextPage={setLocalCurrentPage}
+                      onPrevPage={setLocalCurrentPage}
+                      onPageNumberUpdate={setLocalCurrentPage}
+                      currentPage={localCurrentPage || 1}
+                      totalPages={name === 'leads-tracker' ? pageCount : totalPages}
+                      totalRecords={totalItemsCount}
+                      pageSize={singlePageItemsCount}
+                      showPageSize={name !== 'supplier'}
+                    />
+                  </div>
+                </Table.HeaderCell>
+              )}
+            </Table.Row>
+          </Table.Footer>
+        )}
+      </Table>
+    </div>
+  );
 };
 
 export const renderCell = (row: { [key: string]: any }, column: Column) => {
