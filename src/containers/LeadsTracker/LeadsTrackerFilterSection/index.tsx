@@ -25,7 +25,7 @@ function LeadsTrackerFilterSection(props: Props) {
   };
 
   return (
-    <div className="tracker-filter-section">
+    <div className="tracker-filter-section leads-tracker-filters">
       <div className="tracker-filter-section__header__period-container">
         {_.map(filterDataState.period.data, filterData => {
           return (
