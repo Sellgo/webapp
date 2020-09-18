@@ -45,7 +45,7 @@ const RangeFilterBox = (props: any) => {
       }
     } else {
       if (filterType === 'checkbox') {
-        setLocalData(values);
+        setLocalData([]);
       } else {
         setMinMax(value);
         setFilterRange(value);
