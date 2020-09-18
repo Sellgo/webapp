@@ -123,7 +123,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   const sorting = {
     onClick:
-      type === 'leads-tracker'
+      type === 'leads-tracker' && sortable
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
