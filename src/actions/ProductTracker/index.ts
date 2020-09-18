@@ -142,21 +142,18 @@ export const postCreateProductTrackGroup = (name: string) => (dispatch: any) => 
 };
 
 export const checkTrackProduct = (asin: string) => (dispatch: any) => {
-  console.log('asin checking: ', asin);
   dispatch(verifyingProduct(true));
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
   bodyFormData.set('asin', asin);
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/search/check`, bodyFormData)
     .then(json => {
-      console.log('check: ', json);
       if (json.status === 200) {
         dispatch(checkedProductsData(json.data));
         dispatch(verifyingProduct(false));
       }
     })
     .catch(err => {
-      console.log('check error: ', err.response.data.message);
       if (err.response.status === 401) {
         dispatch(handleUnauthorizedMwsAuth());
       } else {
@@ -185,7 +182,6 @@ export const confirmTrackProduct = (
     bodyFormData
   )
     .then(json => {
-      console.log('track api: ', json);
       if (json.status === 200) {
         success(`Product ${asin.toUpperCase()} Successfully Tracked`);
 
@@ -198,7 +194,6 @@ export const confirmTrackProduct = (
       }
     })
     .catch(err => {
-      console.log('track api err: ', err.response.data.message);
       if (err.response.status === 401) {
         dispatch(handleUnauthorizedMwsAuth());
       } else {

@@ -32,7 +32,6 @@ const AsinSearch = () => {
   useEffect(() => {
     const parentRef = (asinRefContainer as any).current.children[0];
     if (parentRef) {
-      console.log('input', parentRef.getElementsByClassName('form-control')[0]);
       parentRef
         .getElementsByClassName('form-control')[0]
         .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
@@ -67,35 +66,44 @@ const AsinSearch = () => {
   );
 
   const addChip = (data: string) => {
-    console.log('data: ', data);
     const converedData = convertAsinLinks(data);
     const removedSpecialsCharacters = converedData.replace(/[^A-Z0-9]+/gi, ' ').split(' ') as any;
-    console.log('varemovedSpecialsCharacterslue: ', removedSpecialsCharacters);
     const chips = asinValues.concat(removedSpecialsCharacters);
     //remove duplicates
     const uniqueChips = Array.from(new Set(chips)).filter(item => item);
-    console.log('add asinValues: ', uniqueChips);
     setAsinValues(uniqueChips);
-    focusAsin();
   };
 
   const removeChip = (index: any) => {
     const chips = asinValues.slice();
     chips.splice(index, 1);
     setAsinValues(chips);
-    console.log('rem asinValues: ', chips);
   };
 
-  const focusAsin = () => {
+  const focusAsin = (e: any) => {
     const parentRef = (asinRefContainer as any).current.children[0];
-    parentRef.getElementsByClassName('form-control')[0].focus();
+    const input = parentRef.getElementsByClassName('form-control')[0];
+    input.focus();
+    if (e.target.tagName === 'DIV') {
+      input.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
   };
 
   return (
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
-        <div className="multiple-asin-container" ref={asinRefContainer} onClick={() => focusAsin()}>
-          <ScrollContainer className="scroll-container" vertical={false}>
+        <div
+          className="multiple-asin-container"
+          ref={asinRefContainer}
+          onClick={(e: any) => {
+            focusAsin(e);
+          }}
+        >
+          <ScrollContainer
+            className="scroll-container"
+            vertical={false}
+            ignoreElements={'.custom-form-control'}
+          >
             <ReactChipInput
               classes="multiple-asin-container__wrapper"
               chips={asinValues}

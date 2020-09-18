@@ -62,8 +62,6 @@ const Confirm = (props: Props) => {
   useEffect(() => {
     if (asinRefContainer.current) {
       const parentRef = (asinRefContainer as any).current.children[0];
-      // parentRef.children[0].children[0].classList.add('error');
-      console.log('refContainer: ', parentRef.getElementsByClassName('form-control')[0]);
       parentRef
         .getElementsByClassName('form-control')[0]
         .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
@@ -79,7 +77,6 @@ const Confirm = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log('checkedProductsData: ', checkedProductsData);
     const sortedProducts = _.cloneDeep(checkedProductsData).sort(
       (a: any, b: any) => a.position - b.position
     );
@@ -92,7 +89,6 @@ const Confirm = (props: Props) => {
         .getElementsByClassName('form-control')[0]
         .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
       if (!_.isEmpty(sortedProducts)) {
-        console.log('sortedProducts: ', sortedProducts);
         setAsinHasTracked(checkTracked(sortedProducts));
         _.each(sortedProducts, (product, index) => {
           if (
@@ -131,7 +127,6 @@ const Confirm = (props: Props) => {
 
   const trackProduct = () => {
     const validProducts = getValidProducts();
-    console.log('validProducts: ', validProducts);
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
     confirmTrackProduct(validProducts, selectedMarketPlace.value, period, selectedGroup);
     openModal(false);
@@ -175,11 +170,9 @@ const Confirm = (props: Props) => {
   const addChip = (data: string) => {
     const converedData = convertAsinLinks(data);
     const removedSpecialsCharacters = converedData.replace(/[^A-Z0-9]+/gi, ' ').split(' ') as any;
-    console.log('varemovedSpecialsCharacterslue: ', removedSpecialsCharacters);
     const chips = asinValues.concat(removedSpecialsCharacters);
     //remove duplicates
     const uniqueChips = Array.from(new Set(chips)).filter(item => item);
-    console.log('add asinValues: ', uniqueChips);
     setAsinValues(uniqueChips);
     checkProduct(uniqueChips.join());
     focusAsin();
@@ -196,7 +189,6 @@ const Confirm = (props: Props) => {
     } else {
       setCheckedProducts([]);
     }
-    console.log('rem asinValues: ', chips);
   };
 
   const focusAsin = () => {
