@@ -153,6 +153,8 @@ function Signup(props: Props, state: State) {
             const data = {
               email: email,
               name: firstName + ' ' + lastName,
+              first_name: firstName,
+              last_name: lastName,
             };
             auth.getSellerID(data);
           }
