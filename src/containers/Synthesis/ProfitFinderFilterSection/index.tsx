@@ -28,7 +28,6 @@ interface Props {
   supplierDetails: any;
   products: Product[];
   filteredProducts: Product[];
-  productRanges: any;
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
@@ -42,7 +41,6 @@ interface Props {
 
 function ProfitFinderFilterSection(props: Props) {
   const {
-    productRanges,
     supplierDetails,
     filterProducts,
     filterSearch,
@@ -694,16 +692,16 @@ function ProfitFinderFilterSection(props: Props) {
     const data = filterState;
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
-    data.price = productRanges.price;
-    data.profit = productRanges.profit;
-    data.margin = productRanges.margin;
-    data.roi = productRanges.roi;
-    data.sales_monthly = productRanges.sales_monthly;
-    data.rank = productRanges.rank;
+    data.price = rangeData.price;
+    data.profit = rangeData.profit;
+    data.margin = rangeData.margin;
+    data.roi = rangeData.roi;
+    data.sales_monthly = rangeData.sales_monthly;
+    data.rank = rangeData.rank;
     data.removeNegative = [];
     selectAllCategories();
     selectAllSize();
-    const filterRangeKeys = Object.keys(productRanges);
+    const filterRangeKeys = Object.keys(rangeData);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterDataState.filterRanges, filter => {
         if (filter.dataKey === key) {
