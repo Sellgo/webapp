@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, Button, Grid, Dropdown } from 'semantic-ui-react';
 import Confirm from './Confirm';
 import './index.scss';
-import { connect } from 'react-redux';
 import { dismiss } from '../../../utils/notifications';
 import ReactChipInput from 'react-chip-input';
 import _ from 'lodash';
@@ -155,4 +154,4 @@ const AsinSearch = () => {
   );
 };
 
-export default connect()(AsinSearch);
+export default AsinSearch;

@@ -130,10 +130,10 @@ const Confirm = (props: Props) => {
     const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
     confirmTrackProduct(validProducts, selectedMarketPlace.value, period, selectedGroup);
     openModal(false);
-    EmptyData();
+    emptyData();
   };
 
-  const EmptyData = () => {
+  const emptyData = () => {
     setAsinError('');
     setCheckedProducts([]);
     setAsinValues([]);
@@ -298,7 +298,7 @@ const Confirm = (props: Props) => {
                 <Button
                   content="Cancel"
                   onClick={() => {
-                    EmptyData();
+                    emptyData();
                     openModal(false);
                   }}
                 />
