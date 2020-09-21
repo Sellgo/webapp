@@ -319,7 +319,6 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 };
 
 export const findFilteredProducts = (products: any, filterData: any) => {
-  console.log('pt products:', products);
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
       ? /*

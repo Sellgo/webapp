@@ -247,7 +247,6 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 };
 
 export const findFilteredProducts = (products: any, filterData: any) => {
-  console.log('products profit: ', products);
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
       ? // show if product's category matched one of filter's categories
