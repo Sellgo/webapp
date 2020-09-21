@@ -89,6 +89,15 @@ const AsinSearch = () => {
     }
   };
 
+  const triggerBySpaceOrComma = (e: any) => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    const inputValue = parentRef.getElementsByClassName('form-control')[0].value;
+    if (e.keyCode === 188 || e.keyCode === 32) {
+      // comma or space
+      addChip(inputValue);
+    }
+  };
+
   return (
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
@@ -98,6 +107,7 @@ const AsinSearch = () => {
           onClick={(e: any) => {
             focusAsin(e);
           }}
+          onKeyUp={triggerBySpaceOrComma}
         >
           <ScrollContainer
             className="scroll-container"
