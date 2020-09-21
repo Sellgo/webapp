@@ -232,6 +232,14 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   return result;
 };
 
+export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
+  if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
+    return true;
+  else {
+    return profitabilityFilter.value === 'Non-Profitable Products' && Number(product.profit) !== 0;
+  }
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
@@ -249,6 +257,8 @@ export const findFilteredProducts = (products: any, filterData: any) => {
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
           //customizable filters
           customizableFilter(product, filterData.customizable) &&
+          //NonProfitable filters
+          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>

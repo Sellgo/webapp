@@ -54,7 +54,7 @@ const Submit = (props: SubmitProps) => {
   const percentValid = Number(((Number(currentValid) / totalRows) * 100).toFixed(1));
   const errServerUpload = currentResult === 'DATA_REPORT' ? true : false;
   const onPrevStep = () => {
-    setStep(2);
+    setStep(0);
   };
 
   useAsyncEffect(async () => {

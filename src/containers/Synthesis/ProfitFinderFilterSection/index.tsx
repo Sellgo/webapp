@@ -28,7 +28,6 @@ interface Props {
   supplierDetails: any;
   products: Product[];
   filteredProducts: Product[];
-  productRanges: any;
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
@@ -42,7 +41,6 @@ interface Props {
 
 function ProfitFinderFilterSection(props: Props) {
   const {
-    productRanges,
     supplierDetails,
     filterProducts,
     filterSearch,
@@ -681,35 +679,35 @@ function ProfitFinderFilterSection(props: Props) {
       if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
         switch (filter.operation) {
           case '≤':
-            filterData[dataKey].min = productRanges[dataKey].min;
+            filterData[dataKey].min = rangeData[dataKey].min;
             filterData[dataKey].max =
-              Number(filter.value) < productRanges[dataKey].min
-                ? productRanges[dataKey].min
-                : Number(filter.value) > productRanges[dataKey].max
-                ? productRanges[dataKey].max
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
                 : Number(filter.value);
             break;
           case '≥':
             filterData[dataKey].min =
-              Number(filter.value) < productRanges[dataKey].min
-                ? productRanges[dataKey].min
-                : Number(filter.value) > productRanges[dataKey].max
-                ? productRanges[dataKey].max
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
                 : Number(filter.value);
-            filterData[dataKey].max = productRanges[dataKey].max;
+            filterData[dataKey].max = rangeData[dataKey].max;
             break;
           case '=':
             filterData[dataKey].min =
-              Number(filter.value) < productRanges[dataKey].min
-                ? productRanges[dataKey].min
-                : Number(filter.value) > productRanges[dataKey].max
-                ? productRanges[dataKey].max
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
                 : Number(filter.value);
             filterData[dataKey].max =
-              Number(filter.value) < productRanges[dataKey].min
-                ? productRanges[dataKey].min
-                : Number(filter.value) > productRanges[dataKey].max
-                ? productRanges[dataKey].max
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
                 : Number(filter.value);
             break;
           default:

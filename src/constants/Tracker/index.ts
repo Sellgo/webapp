@@ -296,6 +296,16 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   return result;
 };
 
+export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
+  if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
+    return true;
+  else {
+    return (
+      profitabilityFilter.value === 'Non-Profitable Products' && Number(product.avg_profit) !== 0
+    );
+  }
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
@@ -314,6 +324,7 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           (filterData.reviews.length === 5 ||
             filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
           customizableFilter(product, filterData.customizable) &&
+          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
           filterKeys.every(
             (dataKey: any) =>
               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
