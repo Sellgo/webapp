@@ -13,12 +13,14 @@ interface Props {
   toggleSelectAllReviews: () => void;
   filterData: ProductTrackerFilterInterface;
   handleCompleteChange: (dataKey: string, range: Range) => void;
+  filterState: ProductTrackerFilterState;
   initialFilterState: ProductTrackerFilterState;
   isAllReviews: boolean;
   toggleReviewsCheckbox: (filterDataKey: string) => void;
   toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
   toggleNegative: (datakey: string) => void;
   resetPreset: () => void;
+  customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
 }
 
 function ProductTrackerFilter(props: Props) {
@@ -36,6 +38,8 @@ function ProductTrackerFilter(props: Props) {
     toggleAmazonPresetCheckbox,
     toggleNegative,
     resetPreset,
+    customizeFilterChange,
+    filterState,
   } = props;
 
   return (
@@ -43,7 +47,7 @@ function ProductTrackerFilter(props: Props) {
       {filterType === 'all-filter' && (
         <AllFilter
           applyFilter={applyFilter}
-          initialFilterState={initialFilterState}
+          filterState={filterState}
           filterData={filterData}
           toggleNegative={toggleNegative}
           toggleSelectAllReviews={toggleSelectAllReviews}
@@ -56,10 +60,12 @@ function ProductTrackerFilter(props: Props) {
       )}
       {filterType === 'more-filter' && (
         <PresetFilter
+          filterState={filterState}
           initialFilterState={initialFilterState}
           filterData={filterData}
           toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           resetPreset={resetPreset}
+          customizeFilterChange={customizeFilterChange}
         />
       )}
     </div>
