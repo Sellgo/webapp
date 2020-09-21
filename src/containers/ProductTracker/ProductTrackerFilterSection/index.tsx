@@ -92,7 +92,7 @@ function ProductTrackerFilterSection(props: Props) {
         active: false,
       },
       {
-        dataKey: 'avg_profit',
+        dataKey: 'profit-monthly',
         operation: '≤',
         value: 250,
         active: false,
@@ -332,7 +332,7 @@ function ProductTrackerFilterSection(props: Props) {
           },
           {
             label: 'Profit is',
-            dataKey: 'avg_profit',
+            dataKey: 'profit-monthly',
             targetValue: '$/month',
           },
           {

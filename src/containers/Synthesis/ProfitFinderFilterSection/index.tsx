@@ -148,7 +148,7 @@ function ProfitFinderFilterSection(props: Props) {
         active: false,
       },
       {
-        dataKey: 'profit',
+        dataKey: 'profit-monthly',
         operation: '≤',
         value: 250,
         active: false,
@@ -546,7 +546,7 @@ function ProfitFinderFilterSection(props: Props) {
           },
           {
             label: 'Profit is',
-            dataKey: 'profit',
+            dataKey: 'profit-monthly',
             targetValue: '$/month',
           },
           {

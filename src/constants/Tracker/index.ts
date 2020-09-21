@@ -274,10 +274,22 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (filter.dataKey === 'listing-monthly' && filter.active) {
-      const generatesValue = product.avg_price * product.avg_daily_sales;
+      const generatesValue =
+        Math.round(
+          (Number(product.avg_price) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
+        ) / 100;
       if (!filter.active) return result;
       else {
         result = customFilterOperation(filter.operation, generatesValue, filter.value);
+      }
+    } else if (filter.dataKey === 'profit-monthly' && filter.active) {
+      const profitMonthly =
+        Math.round(
+          (Number(product.avg_profit) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
+        ) / 100;
+      if (!filter.active) return result;
+      else {
+        result = customFilterOperation(filter.operation, profitMonthly, filter.value);
       }
     } else if (filter.dataKey === 'customer_reviews' && filter.active) {
       if (!filter.active) return result;
@@ -307,6 +319,7 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 };
 
 export const findFilteredProducts = (products: any, filterData: any) => {
+  console.log('pt products:', products);
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
       ? /*

@@ -215,6 +215,12 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
       else {
         result = customFilterOperation(filter.operation, generatesValue, filter.value);
       }
+    } else if (filter.dataKey === 'profit-monthly' && filter.active) {
+      const profitMonthly = product.profit * product.sales_monthly;
+      if (!filter.active) return result;
+      else {
+        result = customFilterOperation(filter.operation, profitMonthly, filter.value);
+      }
     } else if (filter.dataKey === 'customer_reviews' && filter.active) {
       if (!filter.active) return result;
       else {
@@ -241,6 +247,7 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 };
 
 export const findFilteredProducts = (products: any, filterData: any) => {
+  console.log('products profit: ', products);
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
       ? // show if product's category matched one of filter's categories
