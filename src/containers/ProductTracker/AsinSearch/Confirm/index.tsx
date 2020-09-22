@@ -215,6 +215,7 @@ const Confirm = (props: Props) => {
   return (
     <>
       <Modal open={open} className="Confirm__grouping-asin">
+        <Modal.Header className="header-container">Insert ASIN</Modal.Header>
         <Modal.Content className="Confirm__content">
           <Grid.Row columns={2}>
             <Grid.Column>Select Group: </Grid.Column>
