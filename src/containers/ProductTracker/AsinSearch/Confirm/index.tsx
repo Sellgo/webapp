@@ -52,7 +52,7 @@ const Confirm = (props: Props) => {
     checkedProductsData,
     convertAsinLinks,
   } = props;
-  const [selectedGroup, setSelectedGroup] = useState(undefined);
+  const [selectedGroup, setSelectedGroup] = useState(0);
   const [asinValues, setAsinValues] = useState([]);
   const [checkedProducts, setCheckedProducts] = useState([]);
   const [asinHasTracked, setAsinHasTracked] = useState(false);
@@ -138,6 +138,7 @@ const Confirm = (props: Props) => {
     setCheckedProducts([]);
     setAsinValues([]);
     setAsinHasTracked(false);
+    setSelectedGroup(0);
   };
 
   const groupOptions = () => {

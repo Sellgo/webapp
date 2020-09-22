@@ -42,6 +42,9 @@ const AsinSearch = () => {
   }, [open]);
 
   const verifyProduct = () => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    const inputValue = parentRef.getElementsByClassName('form-control')[0].value;
+    addChip(inputValue);
     setOpen(true);
     dismiss();
   };

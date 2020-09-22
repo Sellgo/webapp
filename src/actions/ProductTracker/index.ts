@@ -183,8 +183,8 @@ export const confirmTrackProduct = (
   )
     .then(json => {
       if (json.status === 200) {
-        success(`Product ${asin.toUpperCase()} Successfully Tracked`);
-
+        const asinList = asin.replace(',', ', ').toUpperCase();
+        success(`Product${json.data.length > 1 ? 's' : ''} ${asinList} Successfully Tracked`);
         setTimeout(() => {
           dispatch(fetchAllSupplierProductTrackerDetails(period));
           dispatch(setMenuItem(null));
