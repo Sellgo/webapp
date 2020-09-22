@@ -253,6 +253,61 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   return filteredProducts;
 };
 
+export const customFilterOperation = (
+  operation: string,
+  prodValue: number,
+  filterValue: number
+) => {
+  switch (operation) {
+    case '≤':
+      return prodValue <= filterValue;
+    case '≥':
+      return prodValue >= filterValue;
+    case '=':
+      return Number(prodValue) === Number(filterValue);
+    default:
+      return false;
+  }
+};
+
+export const customizableFilter = (product: any, customizableFilter: any) => {
+  let result = true;
+  _.filter(customizableFilter, filter => {
+    if (filter.dataKey === 'listing-monthly' && filter.active) {
+      const generatesValue =
+        Math.round(
+          (Number(product.avg_price) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
+        ) / 100;
+      if (!filter.active) return result;
+      else {
+        result = customFilterOperation(filter.operation, generatesValue, filter.value);
+      }
+    } else if (filter.dataKey === 'profit-monthly' && filter.active) {
+      const profitMonthly =
+        Math.round(
+          (Number(product.avg_profit) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
+        ) / 100;
+      if (!filter.active) return result;
+      else {
+        result = customFilterOperation(filter.operation, profitMonthly, filter.value);
+      }
+    } else if (filter.dataKey === 'customer_reviews' && filter.active) {
+      if (!filter.active) return result;
+      else {
+        if (product.customer_reviews === null) return result;
+        else {
+          result = customFilterOperation(filter.operation, product.customer_reviews, filter.value);
+        }
+      }
+    } else {
+      if (filter.active && filter.operation === '=') {
+        result = Number(product[filter.dataKey]) === Number(filter.value);
+      }
+    }
+  });
+  return result;
+};
+
 export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
   if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
     return true;
@@ -280,6 +335,7 @@ export const findFilteredProducts = (products: any, filterData: any) => {
               !product.is_amazon_selling)) &&
           (filterData.reviews.length === 5 ||
             filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+          customizableFilter(product, filterData.customizable) &&
           findNonProfitableProducts(product, filterData.profitabilityFilter) &&
           filterKeys.every(
             (dataKey: any) =>

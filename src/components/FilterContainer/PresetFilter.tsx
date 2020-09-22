@@ -1,72 +1,54 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
-import { ProductTrackerFilterInterface, ProductTrackerFilterState } from '../../interfaces/Filters';
-import { setIsScroll } from '../../actions/Suppliers';
+import { FilterState, SupplierFilter } from '../../interfaces/Filters';
 import _ from 'lodash';
 import { Dropdown } from 'semantic-ui-react';
 
 interface PresetFilterProps {
-  filterData: ProductTrackerFilterInterface;
-  filterState: ProductTrackerFilterState;
-  initialFilterState: ProductTrackerFilterState;
+  applyFilter: (isPreset?: boolean) => void;
+  filterData: SupplierFilter;
+  filterState: FilterState;
+  filterInitialData: FilterState;
   resetPreset: () => void;
-  toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
   customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
   const {
+    applyFilter,
     filterData,
-    initialFilterState,
-    resetPreset,
-    toggleAmazonPresetCheckbox,
-    customizeFilterChange,
     filterState,
+    resetPreset,
+    customizeFilterChange,
+    filterInitialData,
   } = props;
 
   return (
-    <div className={'pt-filter-content__preset-filter'}>
-      <div className="pt-filter-content__preset-filter__header">
-        <span className="pt-filter-content__preset-filter__header__filter-name">Quick Preset</span>
-        <div className="pt-filter-content__preset-filter__header__preset-reset">
-          <p onClick={() => resetPreset()}>x Reset</p>
+    <div className={'presets-filter-content-wrapper'}>
+      <div className="presets-filter-content-wrapper__header">
+        <span className="presets-filter-content-wrapper__header__filter-name">Quick Preset</span>
+        <div className="presets-filter-content-wrapper__header__preset-reset">
+          <p
+            onClick={() => {
+              resetPreset();
+              applyFilter();
+            }}
+          >
+            x Reset
+          </p>
         </div>
       </div>
       {_.map(filterData.presets, (filter, key) => {
         return (
-          <div className={`pt-filter-content__preset-filter__content ${filter.dataKey}`} key={key}>
-            {filter.dataKey === 'amazon-choice-preset' && (
-              <>
-                <span className="pt-filter-content__preset-filter__content__filter-name">
-                  {filter.label}
-                </span>
-                {_.map(filter.data, (filterData, dataKey) => {
-                  return (
-                    <div className={`ui checkbox`} key={dataKey}>
-                      <input
-                        id={filterData.dataKey}
-                        checked={filterState.amazonChoice.indexOf(filterData.dataKey) !== -1}
-                        onChange={() => {
-                          toggleAmazonPresetCheckbox(filterData.dataKey);
-                        }}
-                        type="checkbox"
-                      />
-                      <label htmlFor={filterData.dataKey}> {filterData.label}</label>
-                    </div>
-                  );
-                })}
-              </>
-            )}
+          <div className={`presets-filter-content-wrapper__content ${filter.dataKey}`} key={key}>
             {filter.dataKey === 'customizable-preset' && (
               <>
-                <span className="pt-filter-content__preset-filter__content__filter-name">
+                <span className="presets-filter-content-wrapper__content__filter-name">
                   {filter.label}
                 </span>
                 {_.map(filter.data, (filterData, index) => {
                   return (
                     <div
-                      className="pt-filter-content__preset-filter__content__filter-item"
+                      className="presets-filter-content-wrapper__content__filter-item"
                       key={index}
                     >
                       <div className={`ui checkbox customizable-checkbox`} key={index}>
@@ -127,7 +109,7 @@ const PresetFilter = (props: PresetFilterProps) => {
                                 customizeFilterChange(
                                   filterData.dataKey,
                                   'filter-value',
-                                  initialFilterState.customizable[index].value
+                                  filterInitialData.customizable[index].value
                                 );
                               }
                             }}
@@ -154,15 +136,4 @@ const PresetFilter = (props: PresetFilterProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    isScrollSelector: get(state, 'supplier.setIsScroll'),
-    scrollTop: get(state, 'supplier.setScrollTop'),
-  };
-};
-
-const mapDispatchToProps = {
-  setIsScroll: (value: boolean) => setIsScroll(value),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PresetFilter);
+export default PresetFilter;
