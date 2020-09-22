@@ -179,9 +179,6 @@ export const GenericTable = (props: GenericTableProps) => {
     if (onSort && sortClicked) {
       onSort(sortDirection);
     }
-    if (['products', 'trackerTable'].includes(name)) {
-      setLocalCurrentPage(1);
-    }
   }, [sortDirection]);
 
   if (!!defaultSort && !sortClicked) {
@@ -321,6 +318,12 @@ export const GenericTable = (props: GenericTableProps) => {
     }
   };
 
+  const resetPage = () => {
+    if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
+      setLocalCurrentPage(1);
+    }
+  };
+
   return (
     <div
       className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
@@ -411,6 +414,7 @@ export const GenericTable = (props: GenericTableProps) => {
           resetColumnFilters={resetColumnFilters}
           loadingFilters={loadingFilters}
           filterValues={filterValues}
+          resetPage={resetPage}
         />
         <TableBody
           extendedInfo={extendedInfo}
