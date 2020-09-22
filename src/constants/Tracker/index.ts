@@ -260,9 +260,9 @@ export const customFilterOperation = (
 ) => {
   switch (operation) {
     case '≤':
-      return prodValue <= filterValue;
+      return Number(prodValue) <= Number(filterValue);
     case '≥':
-      return prodValue >= filterValue;
+      return Number(prodValue) >= Number(filterValue);
     case '=':
       return Number(prodValue) === Number(filterValue);
     default:
@@ -273,35 +273,52 @@ export const customFilterOperation = (
 export const customizableFilter = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
-    if (filter.dataKey === 'listing-monthly' && filter.active) {
-      const generatesValue =
-        Math.round(
-          (Number(product.avg_price) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
-        ) / 100;
-      if (!filter.active) return result;
-      else {
-        result = customFilterOperation(filter.operation, generatesValue, filter.value);
-      }
-    } else if (filter.dataKey === 'profit-monthly' && filter.active) {
-      const profitMonthly =
-        Math.round(
-          (Number(product.avg_profit) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
-        ) / 100;
-      if (!filter.active) return result;
-      else {
-        result = customFilterOperation(filter.operation, profitMonthly, filter.value);
-      }
-    } else if (filter.dataKey === 'customer_reviews' && filter.active) {
-      if (!filter.active) return result;
-      else {
-        if (product.customer_reviews === null) return result;
+    if (result) {
+      if (filter.dataKey === 'listing-monthly' && filter.active) {
+        const generatesValue =
+          Math.round(
+            (Number(product.avg_price) * Number(product.avg_monthly_sales) + Number.EPSILON) * 100
+          ) / 100;
+        if (!filter.active) result = true;
         else {
-          result = customFilterOperation(filter.operation, product.customer_reviews, filter.value);
+          result = customFilterOperation(filter.operation, generatesValue, filter.value);
         }
       }
-    } else {
-      if (filter.active && filter.operation === '=') {
-        result = Number(product[filter.dataKey]) === Number(filter.value);
+      if (filter.dataKey === 'profit-monthly' && filter.active) {
+        const profitMonthly =
+          Math.round(
+            (Number(product.avg_profit) * Number(product.avg_monthly_sales) + Number.EPSILON) * 100
+          ) / 100;
+        if (!filter.active) result = true;
+        else {
+          result = customFilterOperation(filter.operation, profitMonthly, filter.value);
+        }
+      }
+      if (filter.dataKey === 'avg_monthly_sales' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          if (product.customer_reviews === null) result = true;
+          else {
+            result = customFilterOperation(
+              filter.operation,
+              product.avg_monthly_sales,
+              filter.value
+            );
+          }
+        }
+      }
+      if (filter.dataKey === 'customer_reviews' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          if (product.customer_reviews === null) result = true;
+          else {
+            result = customFilterOperation(
+              filter.operation,
+              product.customer_reviews,
+              filter.value
+            );
+          }
+        }
       }
     }
   });
