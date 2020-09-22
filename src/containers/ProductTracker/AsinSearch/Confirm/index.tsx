@@ -196,6 +196,21 @@ const Confirm = (props: Props) => {
     parentRef.getElementsByClassName('form-control')[0].focus();
   };
 
+  const triggerBySpaceOrComma = (e: any) => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    const inputValue = parentRef.getElementsByClassName('form-control')[0].value;
+    if (e.keyCode === 188 || e.keyCode === 32) {
+      // comma or space
+      addChip(inputValue);
+    }
+  };
+
+  const triggerByPaste = (e: any) => {
+    const pastedValue = e.clipboardData;
+    addChip(pastedValue.getData('Text'));
+    e.clipboardData.setData('text/plain', '');
+    e.preventDefault();
+  };
   return (
     <>
       <Modal open={open} className="Confirm__grouping-asin">
@@ -218,7 +233,7 @@ const Confirm = (props: Props) => {
               className={`multiple-asin-container__title ${(asinError !== '' || asinHasTracked) &&
                 'error'}`}
             >
-              Insert Asin or Amazon URL (Up to 12):
+              Insert ASIN or Amazon URL (Up to 12):
             </Grid.Column>
             <Grid.Column>
               {' '}
@@ -226,6 +241,8 @@ const Confirm = (props: Props) => {
                 className={`multiple-asin-container ${verifyingProduct && 'disabled'}`}
                 ref={asinRefContainer}
                 key={asinValues.join()}
+                onKeyUp={triggerBySpaceOrComma}
+                onPaste={triggerByPaste}
               >
                 <ReactChipInput
                   classes={`multiple-asin-container__wrapper ${(asinError !== '' ||
@@ -243,7 +260,7 @@ const Confirm = (props: Props) => {
           </Grid.Row>
           {!_.isEmpty(checkedProducts) && (
             <Grid.Row columns={1} className="multiple-asin-container">
-              <Grid.Column className="multiple-asin-container__title">Added Asin:</Grid.Column>
+              <Grid.Column className="multiple-asin-container__title">Added ASIN:</Grid.Column>
               <Grid.Column className="added-asin-container">
                 <div className="added-asin-container__wrapper">
                   {_.map(checkedProducts, (product: any, index) => {

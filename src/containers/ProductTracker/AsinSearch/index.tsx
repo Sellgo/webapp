@@ -47,7 +47,7 @@ const AsinSearch = () => {
   };
 
   const convertAsinLinks = (data: string) => {
-    const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))');
+    const regex = RegExp('(?:[/dp/]|$)([A-Z0-9]{10})');
     const asinData = data.split(' ');
     _.each(asinData, (item, index) => {
       const res = item.match(regex);
@@ -97,6 +97,13 @@ const AsinSearch = () => {
     }
   };
 
+  const triggerByPaste = (e: any) => {
+    const pastedValue = e.clipboardData;
+    addChip(pastedValue.getData('Text'));
+    e.clipboardData.setData('text/plain', '');
+    e.preventDefault();
+  };
+
   return (
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
@@ -107,6 +114,7 @@ const AsinSearch = () => {
             focusAsin(e);
           }}
           onKeyUp={triggerBySpaceOrComma}
+          onPaste={triggerByPaste}
         >
           <ScrollContainer
             className="scroll-container"
