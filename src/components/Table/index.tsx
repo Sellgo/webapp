@@ -259,7 +259,7 @@ export const GenericTable = (props: GenericTableProps) => {
 
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-  } else if (name !== 'trackerTable') {
+  } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
