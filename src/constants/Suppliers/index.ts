@@ -209,29 +209,33 @@ export const customFilterOperation = (
 export const customizableFilter = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
-    if (filter.dataKey === 'listing-monthly' && filter.active) {
-      const generatesValue = product.price * product.sales_monthly;
-      if (!filter.active) return result;
-      else {
-        result = customFilterOperation(filter.operation, generatesValue, filter.value);
-      }
-    } else if (filter.dataKey === 'profit-monthly' && filter.active) {
-      const profitMonthly = product.profit * product.sales_monthly;
-      if (!filter.active) return result;
-      else {
-        result = customFilterOperation(filter.operation, profitMonthly, filter.value);
-      }
-    } else if (filter.dataKey === 'customer_reviews' && filter.active) {
-      if (!filter.active) return result;
-      else {
-        if (product.customer_reviews === null) return result;
+    if (result) {
+      if (filter.dataKey === 'listing-monthly' && filter.active) {
+        const generatesValue = product.price * product.sales_monthly;
+        if (!filter.active) result = true;
         else {
-          result = customFilterOperation(filter.operation, product.customer_reviews, filter.value);
+          result = customFilterOperation(filter.operation, generatesValue, filter.value);
         }
       }
-    } else {
-      if (filter.active && filter.operation === '=') {
-        result = Number(product[filter.dataKey]) === Number(filter.value);
+      if (filter.dataKey === 'profit-monthly' && filter.active) {
+        const profitMonthly = product.profit * product.sales_monthly;
+        if (!filter.active) result = true;
+        else {
+          result = customFilterOperation(filter.operation, profitMonthly, filter.value);
+        }
+      }
+      if (filter.dataKey === 'customer_reviews' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          if (product.customer_reviews === null) result = true;
+          else {
+            result = customFilterOperation(
+              filter.operation,
+              product.customer_reviews,
+              filter.value
+            );
+          }
+        }
       }
     }
   });
