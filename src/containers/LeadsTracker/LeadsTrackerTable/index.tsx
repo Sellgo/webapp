@@ -193,8 +193,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   renderLows = (row: any) => (
     <p className="stat">
       {showNAIfZeroOrNull(
-        row[`low_${this.getActiveColumn()}`],
-        row[`low_${this.getActiveColumn()}`]
+        row[`min_${this.getActiveColumn()}`],
+        row[`min_${this.getActiveColumn()}`]
       )}
     </p>
   );
