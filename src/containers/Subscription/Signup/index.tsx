@@ -17,6 +17,7 @@ import {
 import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
+import { History } from 'history';
 
 interface Props {
   auth: Auth;
@@ -25,12 +26,13 @@ interface Props {
   privacyPolicy: any;
   fetchPP: any;
   fetchTOS: any;
+  history: History;
 }
 interface State {
   stepsInfo: Steps[];
 }
 function Signup(props: Props, state: State) {
-  const { auth, setLogin, termsOfService, privacyPolicy, fetchTOS, fetchPP } = props;
+  const { auth, setLogin, termsOfService, privacyPolicy, fetchTOS, fetchPP, history } = props;
   const [verifyEmailError, setVerifyEmailError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { value: email, bind: bindEmail } = useInput('');
@@ -40,7 +42,6 @@ function Signup(props: Props, state: State) {
   const [isFocusPW, setFocusPassword] = useState(false);
   const [openTOS, setOpenTOS] = useState(false);
   const [openPP, setOpenPP] = useState(false);
-
   useEffect(() => {
     fetchTOS();
     fetchPP();
@@ -157,6 +158,8 @@ function Signup(props: Props, state: State) {
               last_name: lastName,
             };
             auth.getSellerID(data);
+
+            history.push('/subscription/payment');
           }
         }
       );
