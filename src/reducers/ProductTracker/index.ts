@@ -21,7 +21,7 @@ import {
   findFilteredProducts,
   searchFilteredProduct,
   findMinMax,
-  IS_PRODUCT_TRACKED,
+  CHECKED_PRODUCTS_DATA,
   VERIFYING_PRODUCT,
   RESET_FILTER,
 } from '../../constants/Tracker';
@@ -35,7 +35,7 @@ const initialState = {
     count: 0,
     results: [],
   },
-  verifyingProductTracked: {},
+  checkedProductsData: [],
   filteredProducts: [],
   filterRanges: undefined,
   menuItem: null,
@@ -53,8 +53,8 @@ export default (state = initialState, action: AnyAction) => {
     case VERIFYING_PRODUCT: {
       return setIn(state, 'verifyingProduct', action.payload);
     }
-    case IS_PRODUCT_TRACKED: {
-      return setIn(state, 'verifyingProductTracked', action.payload);
+    case CHECKED_PRODUCTS_DATA: {
+      return setIn(state, 'checkedProductsData', action.payload);
     }
     case SET_PRODUCT_TRACKER_DETAILS: {
       const data = action.payload;

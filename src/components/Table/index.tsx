@@ -179,9 +179,6 @@ export const GenericTable = (props: GenericTableProps) => {
     if (onSort && sortClicked) {
       onSort(sortDirection);
     }
-    if (['products', 'trackerTable'].includes(name)) {
-      setLocalCurrentPage(1);
-    }
   }, [sortDirection]);
 
   if (!!defaultSort && !sortClicked) {
@@ -259,7 +256,7 @@ export const GenericTable = (props: GenericTableProps) => {
 
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-  } else if (name !== 'trackerTable') {
+  } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
@@ -318,6 +315,12 @@ export const GenericTable = (props: GenericTableProps) => {
     const scroll = document.querySelector('.pt-scroll-container');
     if (scroll) {
       scroll.scrollLeft = evt.target.scrollLeft;
+    }
+  };
+
+  const resetPage = () => {
+    if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
+      setLocalCurrentPage(1);
     }
   };
 
@@ -411,6 +414,7 @@ export const GenericTable = (props: GenericTableProps) => {
           resetColumnFilters={resetColumnFilters}
           loadingFilters={loadingFilters}
           filterValues={filterValues}
+          resetPage={resetPage}
         />
         <TableBody
           extendedInfo={extendedInfo}

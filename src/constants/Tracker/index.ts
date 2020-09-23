@@ -14,7 +14,7 @@ export const REMOVE_TRACKED_PRODUCT = 'REMOVE_TRACKED_PRODUCT';
 export const REMOVE_PRODUCTS_IN_GROUP = 'REMOVE_PRODUCTS_IN_GROUP';
 export const FILTER_TRACKED_PRODUCTS = 'FILTER_TRACKED_PRODUCTS';
 export const SET_FILTER_SEARCH = 'SET_FILTER_SEARCH';
-export const IS_PRODUCT_TRACKED = 'IS_PRODUCT_TRACKED';
+export const CHECKED_PRODUCTS_DATA = 'CHECKED_PRODUCTS_DATA';
 export const VERIFYING_PRODUCT = 'VERIFYING_PRODUCT';
 export const RESET_FILTER = 'RESET_FILTER';
 
@@ -253,16 +253,12 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   return filteredProducts;
 };
 
-export const customFilterOperation = (
-  operation: string,
-  prodValue: number,
-  filterValue: number
-) => {
+export const customFilterOperation = (operation: string, prodValue: any, filterValue: any) => {
   switch (operation) {
     case '≤':
-      return prodValue <= filterValue;
+      return Number(prodValue) <= Number(filterValue);
     case '≥':
-      return prodValue >= filterValue;
+      return Number(prodValue) >= Number(filterValue);
     case '=':
       return Number(prodValue) === Number(filterValue);
     default:
@@ -273,35 +269,49 @@ export const customFilterOperation = (
 export const customizableFilter = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
-    if (filter.dataKey === 'listing-monthly' && filter.active) {
-      const generatesValue =
-        Math.round(
-          (Number(product.avg_price) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
-        ) / 100;
-      if (!filter.active) return result;
-      else {
-        result = customFilterOperation(filter.operation, generatesValue, filter.value);
-      }
-    } else if (filter.dataKey === 'profit-monthly' && filter.active) {
-      const profitMonthly =
-        Math.round(
-          (Number(product.avg_profit) * Number(product.avg_daily_sales) + Number.EPSILON) * 100
-        ) / 100;
-      if (!filter.active) return result;
-      else {
-        result = customFilterOperation(filter.operation, profitMonthly, filter.value);
-      }
-    } else if (filter.dataKey === 'customer_reviews' && filter.active) {
-      if (!filter.active) return result;
-      else {
-        if (product.customer_reviews === null) return result;
+    if (result) {
+      if (filter.dataKey === 'listing-monthly' && filter.active) {
+        const generatesValue = (
+          Number(product.avg_price) *
+          (Math.round(product.avg_daily_sales) * 30)
+        ).toFixed(2);
+        if (!filter.active) result = true;
         else {
-          result = customFilterOperation(filter.operation, product.customer_reviews, filter.value);
+          result = customFilterOperation(filter.operation, generatesValue, filter.value);
         }
       }
-    } else {
-      if (filter.active && filter.operation === '=') {
-        result = Number(product[filter.dataKey]) === Number(filter.value);
+      if (filter.dataKey === 'profit-monthly' && filter.active) {
+        const profitMonthly = (
+          Number(product.avg_profit) *
+          (Math.round(product.avg_daily_sales) * 30)
+        ).toFixed(2);
+        if (!filter.active) result = true;
+        else {
+          result = customFilterOperation(filter.operation, profitMonthly, filter.value);
+        }
+      }
+      if (filter.dataKey === 'avg_monthly_sales' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          if (product.customer_reviews === null) result = true;
+          else {
+            const monthlySales = (Math.round(product.avg_daily_sales) * 30).toFixed(2);
+            result = customFilterOperation(filter.operation, monthlySales, filter.value);
+          }
+        }
+      }
+      if (filter.dataKey === 'customer_reviews' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          if (product.customer_reviews === null) result = true;
+          else {
+            result = customFilterOperation(
+              filter.operation,
+              product.customer_reviews,
+              filter.value
+            );
+          }
+        }
       }
     }
   });

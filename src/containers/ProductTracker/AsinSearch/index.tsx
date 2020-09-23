@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, Input, Button, Grid, Dropdown } from 'semantic-ui-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, Button, Grid, Dropdown } from 'semantic-ui-react';
 import Confirm from './Confirm';
-import { useInput } from '../../../hooks';
 import './index.scss';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
-import { checkTrackProduct } from '../../../actions/ProductTracker';
-import { AsinSearchWarning } from '../../../components/ToastMessages';
-import { warn, dismiss } from '../../../utils/notifications';
+import { dismiss } from '../../../utils/notifications';
+import ReactChipInput from 'react-chip-input';
+import _ from 'lodash';
+import ScrollContainer from 'react-indiana-drag-scroll';
 
-interface Props {
-  checkProduct: (asin: string) => void;
-  verifyingProductTracked: { value: boolean; productExist: boolean };
-  verifyingProduct: boolean;
-}
-
-const AsinSearch = (props: Props) => {
-  const { checkProduct, verifyingProductTracked, verifyingProduct } = props;
-
-  const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput('');
-  const [searchDetails, setSearchDetails] = useState('');
+const AsinSearch = () => {
+  const [asinValues, setAsinValues] = useState([]);
 
   const [selectedMarketPlace, setSelectedMarketPlace] = useState({
     key: 1,
@@ -38,45 +27,38 @@ const AsinSearch = (props: Props) => {
     setSelectedMarketPlace(data);
   };
 
-  const handleWarning = (exist: boolean) => {
-    let header = '';
-    let subHeader = '';
-    if (exist) {
-      header = 'ASIN is already in Product Tracker';
-      subHeader = 'You have already added that ASIN into the Product Tracker';
-    } else {
-      header = "ASIN can't be found on Amazon";
-      subHeader = "The ASIN of the product can't be found in Amazon's database";
+  const asinRefContainer = useRef(null);
+  useEffect(() => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    if (parentRef) {
+      parentRef
+        .getElementsByClassName('form-control')[0]
+        .setAttribute('placeholder', 'Insert ASIN or Amazon URL (12 Max)');
     }
 
-    return warn(<AsinSearchWarning header={header} subheader={subHeader} />);
-  };
-  useEffect(() => {
-    if (searchValue && !verifyingProduct) {
-      if (verifyingProductTracked.value && !verifyingProductTracked.productExist) {
-        handleWarning(false);
-      } else if (verifyingProductTracked.value && verifyingProductTracked.productExist) {
-        handleWarning(true);
-      } else if (!verifyingProductTracked.value && verifyingProductTracked.productExist) {
-        setOpen(true);
-        dismiss();
-      }
-    } else {
-      setOpen(false);
+    if (open) {
+      setAsinValues([]);
     }
-  }, [verifyingProduct]);
+  }, [open]);
 
   const verifyProduct = () => {
-    const search = searchValue.trim();
-    const regex = RegExp('/(?:dp|o|gp|-)/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))');
-    const m = search.match(regex);
-    if (m) {
-      setSearchDetails(m[1]);
-      checkProduct(m[1]);
-    } else {
-      setSearchDetails(search);
-      checkProduct(search);
-    }
+    const parentRef = (asinRefContainer as any).current.children[0];
+    const inputValue = parentRef.getElementsByClassName('form-control')[0].value;
+    addChip(inputValue);
+    setOpen(true);
+    dismiss();
+  };
+
+  const convertAsinLinks = (data: string) => {
+    const regex = RegExp('(?:[/dp/]|$)([A-Z0-9]{10})');
+    const asinData = data.split(' ');
+    _.each(asinData, (item, index) => {
+      const res = item.match(regex);
+      if (res) {
+        asinData[index] = res[1];
+      }
+    });
+    return asinData.join();
   };
 
   const trigger = (
@@ -85,10 +67,71 @@ const AsinSearch = (props: Props) => {
     </span>
   );
 
+  const addChip = (data: string) => {
+    const converedData = convertAsinLinks(data);
+    const removedSpecialsCharacters = converedData.replace(/[^A-Z0-9]+/gi, ' ').split(' ') as any;
+    const chips = asinValues.concat(removedSpecialsCharacters);
+    //remove duplicates
+    const uniqueChips = Array.from(new Set(chips)).filter(item => item);
+    setAsinValues(uniqueChips);
+  };
+
+  const removeChip = (index: any) => {
+    const chips = asinValues.slice();
+    chips.splice(index, 1);
+    setAsinValues(chips);
+  };
+
+  const focusAsin = (e: any) => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    const input = parentRef.getElementsByClassName('form-control')[0];
+    input.focus();
+    if (e.target.tagName === 'DIV') {
+      input.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
+  };
+
+  const triggerBySpaceOrComma = (e: any) => {
+    const parentRef = (asinRefContainer as any).current.children[0];
+    const inputValue = parentRef.getElementsByClassName('form-control')[0].value;
+    if (e.keyCode === 188 || e.keyCode === 32) {
+      // comma or space
+      addChip(inputValue);
+    }
+  };
+
+  const triggerByPaste = (e: any) => {
+    const pastedValue = e.clipboardData;
+    addChip(pastedValue.getData('Text'));
+    e.clipboardData.setData('text/plain', '');
+    e.preventDefault();
+  };
+
   return (
     <Grid.Row className="AsinSearch__row" disabled={true}>
       <Menu.Menu className="AsinSearch__menu">
-        <Input placeholder="Insert ASIN or Amazon URL" value={searchValue} {...bindSearch} />
+        <div
+          className="multiple-asin-container"
+          ref={asinRefContainer}
+          onClick={(e: any) => {
+            focusAsin(e);
+          }}
+          onKeyUp={triggerBySpaceOrComma}
+          onPaste={triggerByPaste}
+        >
+          <ScrollContainer
+            className="scroll-container"
+            vertical={false}
+            ignoreElements={'.custom-form-control'}
+          >
+            <ReactChipInput
+              classes="multiple-asin-container__wrapper"
+              chips={asinValues}
+              onSubmit={addChip}
+              onRemove={removeChip}
+            />
+          </ScrollContainer>
+        </div>
         <Dropdown className="selection" openOnFocus trigger={trigger}>
           <Dropdown.Menu>
             {marketPlaceOptions.map((option, key) => {
@@ -114,21 +157,12 @@ const AsinSearch = (props: Props) => {
       <Confirm
         open={open}
         openModal={setOpen}
-        searchValue={searchDetails}
+        asinData={asinValues}
         selectedMarketPlace={selectedMarketPlace}
-        setSearch={setSearch}
+        convertAsinLinks={convertAsinLinks}
       />
     </Grid.Row>
   );
 };
 
-const mapStateToProps = (state: {}) => ({
-  verifyingProductTracked: get(state, 'productTracker.verifyingProductTracked'),
-  verifyingProduct: get(state, 'productTracker.verifyingProduct'),
-});
-
-const mapDispatchToProps = {
-  checkProduct: (asin: string) => checkTrackProduct(asin),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AsinSearch);
+export default AsinSearch;

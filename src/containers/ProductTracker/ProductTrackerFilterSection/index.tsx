@@ -110,7 +110,7 @@ function ProductTrackerFilterSection(props: Props) {
         active: false,
       },
       {
-        dataKey: 'avg_daily_sales',
+        dataKey: 'avg_monthly_sales',
         operation: '≥',
         value: 90,
         active: false,
@@ -347,7 +347,7 @@ function ProductTrackerFilterSection(props: Props) {
           },
           {
             label: 'Estimated Sales Volume is',
-            dataKey: 'avg_daily_sales',
+            dataKey: 'avg_monthly_sales',
             targetValue: '/month',
           },
           {
