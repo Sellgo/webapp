@@ -253,11 +253,7 @@ export const filterProductsByGroupId = (products: any, productTrackGroupId: any)
   return filteredProducts;
 };
 
-export const customFilterOperation = (
-  operation: string,
-  prodValue: number,
-  filterValue: number
-) => {
+export const customFilterOperation = (operation: string, prodValue: any, filterValue: any) => {
   switch (operation) {
     case '≤':
       return Number(prodValue) <= Number(filterValue);
@@ -275,20 +271,20 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   _.filter(customizableFilter, filter => {
     if (result) {
       if (filter.dataKey === 'listing-monthly' && filter.active) {
-        const generatesValue =
-          Math.round(
-            (Number(product.avg_price) * Number(product.avg_monthly_sales) + Number.EPSILON) * 100
-          ) / 100;
+        const generatesValue = (
+          Number(product.avg_price) *
+          (Math.round(product.avg_daily_sales) * 30)
+        ).toFixed(2);
         if (!filter.active) result = true;
         else {
           result = customFilterOperation(filter.operation, generatesValue, filter.value);
         }
       }
       if (filter.dataKey === 'profit-monthly' && filter.active) {
-        const profitMonthly =
-          Math.round(
-            (Number(product.avg_profit) * Number(product.avg_monthly_sales) + Number.EPSILON) * 100
-          ) / 100;
+        const profitMonthly = (
+          Number(product.avg_profit) *
+          (Math.round(product.avg_daily_sales) * 30)
+        ).toFixed(2);
         if (!filter.active) result = true;
         else {
           result = customFilterOperation(filter.operation, profitMonthly, filter.value);
@@ -299,11 +295,8 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
         else {
           if (product.customer_reviews === null) result = true;
           else {
-            result = customFilterOperation(
-              filter.operation,
-              product.avg_monthly_sales,
-              filter.value
-            );
+            const monthlySales = (Math.round(product.avg_daily_sales) * 30).toFixed(2);
+            result = customFilterOperation(filter.operation, monthlySales, filter.value);
           }
         }
       }

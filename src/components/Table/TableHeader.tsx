@@ -42,6 +42,7 @@ interface Shared {
   resetColumnFilters?: (dataKey: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
+  resetPage: () => void;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -85,6 +86,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     resetColumnFilters,
     loadingFilters,
     filterValues,
+    resetPage,
   } = props;
   const {
     dataKey,
@@ -110,6 +112,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
+            resetPage();
           }
         : click
         ? click
