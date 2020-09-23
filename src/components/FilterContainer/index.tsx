@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { SupplierFilter, FilterState } from '../../interfaces/Filters';
 import { Range } from '../../interfaces/Generic';
 import AllFilter from './AllFilter';
+import PresetFilter from './PresetFilter';
 
 interface Props {
   filterType: string;
@@ -19,9 +20,12 @@ interface Props {
   toggleNegative: (datakey: string) => void;
   filterData: SupplierFilter;
   handleCompleteChange: (dataKey: string, range: Range) => void;
-  initialFilterState: FilterState;
+  filterState: FilterState;
+  filterInitialData: any;
   isSelectAllCategories: boolean;
   isSelectAllSize: boolean;
+  resetPreset: () => void;
+  customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
 }
 
 function FilterContainer(props: Props) {
@@ -33,7 +37,7 @@ function FilterContainer(props: Props) {
     filterData,
     handleCompleteChange,
     resetSingleFilter,
-    initialFilterState,
+    filterState,
     toggleSelectAllCategories,
     toggleSelectAllSize,
     isSelectAllCategories,
@@ -41,6 +45,9 @@ function FilterContainer(props: Props) {
     isSelectAllSize,
     toggleNegative,
     filterType,
+    resetPreset,
+    customizeFilterChange,
+    filterInitialData,
   } = props;
 
   const [isShowMore, setShowMore] = useState(false);
@@ -91,7 +98,7 @@ function FilterContainer(props: Props) {
                     <div className="ui checkbox" key={dataKey}>
                       <input
                         id={filterData.dataKey}
-                        checked={initialFilterState.sizeTierFilter.indexOf(filterData.label) !== -1}
+                        checked={filterState.sizeTierFilter.indexOf(filterData.label) !== -1}
                         onChange={() => {
                           toggleSizeTierFilter(filterData.dataKey, filterData.label);
                         }}
@@ -105,7 +112,7 @@ function FilterContainer(props: Props) {
                     <div className={`ui checkbox ${dataKey > 3 ? 'more' : 'less'}`} key={dataKey}>
                       <input
                         id={filterData.dataKey}
-                        checked={initialFilterState.allFilter.indexOf(filterData.label) !== -1}
+                        checked={filterState.allFilter.indexOf(filterData.label) !== -1}
                         onChange={() => {
                           toggleCheckboxFilter(filterData.dataKey, filterData.label);
                         }}
@@ -152,9 +159,19 @@ function FilterContainer(props: Props) {
           filterData={filterData}
           handleCompleteChange={handleCompleteChange}
           resetSingleFilter={resetSingleFilter}
-          initialFilterState={initialFilterState}
+          filterState={filterState}
           toggleNegative={toggleNegative}
           filterCategory={filterCategory}
+        />
+      )}
+      {filterType === 'more-filter' && (
+        <PresetFilter
+          applyFilter={applyFilter}
+          filterState={filterState}
+          filterData={filterData}
+          filterInitialData={filterInitialData}
+          resetPreset={resetPreset}
+          customizeFilterChange={customizeFilterChange}
         />
       )}
       <Modal
