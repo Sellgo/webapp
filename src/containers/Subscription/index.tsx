@@ -5,11 +5,9 @@ import Auth from '../../components/Auth/Auth';
 import Summary from './Summary';
 import Login from './Login';
 import Signup from './Signup';
-import { History } from 'history';
 
 interface SubscriptionProps {
   auth: Auth;
-  history: History;
 }
 
 interface SubscriptionStates {
@@ -64,7 +62,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
 
   render() {
     const { isLogin, isSignup, accountType, paymentMode } = this.state;
-    const { auth, history } = this.props;
+    const { auth } = this.props;
     return (
       <Grid className="subscription-page" columns={2}>
         <Grid.Row>
@@ -76,9 +74,7 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
           <Grid.Column width={11} className="subscription-page__content">
             <Summary planType={accountType} paymentMode={paymentMode} />
             {isLogin && <Login auth={auth} setSignup={this.setSignup.bind(this)} />}
-            {isSignup && (
-              <Signup auth={auth} setLogin={this.setLogin.bind(this)} history={history} />
-            )}
+            {isSignup && <Signup auth={auth} setLogin={this.setLogin.bind(this)} />}
           </Grid.Column>
         </Grid.Row>
       </Grid>
