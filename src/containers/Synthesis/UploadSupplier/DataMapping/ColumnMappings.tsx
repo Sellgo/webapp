@@ -36,7 +36,7 @@ const ColumnMappings = ({
     text: availableField,
     value: index,
   }));
-  const productIdOptions = PRODUCT_ID_TYPES.map(id => ({ text: id, value: id }));
+  const productIdOptions = PRODUCT_ID_TYPES.map(item => ({ text: item.label, value: item.value }));
 
   const primaryIdDropdownChange = (data: any) => {
     const primaryIdType = data.value as string;

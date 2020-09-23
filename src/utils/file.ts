@@ -24,15 +24,12 @@ export const getFileExtension = (file: File): string => {
 export const guessPrimaryIdType = (fileStringArray: string[][]): string | null => {
   const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
 
-  for (const idType of PRODUCT_ID_TYPES) {
+  for (const item of PRODUCT_ID_TYPES) {
     const found =
       header.findIndex(headerCell =>
-        String(headerCell)
-          .toLowerCase()
-          .includes(idType.toLowerCase())
+        item.label.toLowerCase().includes(String(headerCell).toLowerCase())
       ) !== -1;
-
-    if (found) return idType;
+    if (found) return item.value;
   }
 
   return null;
@@ -53,16 +50,14 @@ export const guessColumnMappings = (
   primaryIdType?: string
 ): string[] => {
   const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
-
+  const primaryIdValue = primaryIdType && primaryIdType === 'ASIN' ? 'ASIN/ISBN' : primaryIdType;
   const mappings: string[] = [];
   header.forEach((headerCell: string) => {
     const mappingKeys = FieldsToMap.map(item => item.key);
     if (headerCell) {
       const keyIndex = mappingKeys.findIndex((key: string) => {
-        if (key === 'primary_id' && primaryIdType) {
-          return String(headerCell)
-            .toLowerCase()
-            .includes(primaryIdType.toLowerCase());
+        if (key === 'primary_id' && primaryIdValue) {
+          return primaryIdValue.toLowerCase().includes(String(headerCell).toLowerCase());
         }
         return String(headerCell)
           .toLowerCase()
