@@ -14,6 +14,7 @@ const AddNewSearch = (props: any) => {
   const { fileDetails } = props;
   const [fileName, setFileName] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const name = fileDetails
       ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
