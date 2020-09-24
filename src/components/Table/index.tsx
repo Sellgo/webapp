@@ -176,7 +176,7 @@ export const GenericTable = (props: GenericTableProps) => {
   let sortDirection = sortOrder;
 
   useEffect(() => {
-    if (onSort && sortClicked) {
+    if (onSort && sortClicked && name !== 'leads-tracker') {
       onSort(sortDirection);
     }
   }, [sortDirection]);
@@ -324,6 +324,9 @@ export const GenericTable = (props: GenericTableProps) => {
   const resetPage = () => {
     if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
       setLocalCurrentPage(1);
+    }
+    if (onSort && name === 'leads-tracker') {
+      onSort(sortDirection);
     }
   };
 
