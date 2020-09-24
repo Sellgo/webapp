@@ -44,7 +44,7 @@ interface Shared {
   resetColumnFilters?: (dataKey: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
-  resetPage: () => void;
+  resetPage: (value: string) => void;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -114,7 +114,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
-            resetPage();
+            resetPage(sortDirection);
           }
         : click
         ? click
@@ -133,7 +133,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
-            resetPage();
+            resetPage(sortDirection);
           }
         : undefined,
   };
@@ -273,7 +273,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
           <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
         ) : sortable && sortedColumnKey === dataKey ? (
-          sortDirection === `${type !== 'leads-tracker' ? 'descending' : 'ascending'}` ? (
+          sortDirection === 'ascending' ? (
             <span>
               <Icon name="caret up" className="sort-icon" {...sorting} />
             </span>
