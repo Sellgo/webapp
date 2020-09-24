@@ -84,6 +84,44 @@ function ProductTrackerFilterSection(props: Props) {
     avg_rank: filteredRanges.avg_rank,
     customer_reviews: filteredRanges.customer_reviews,
     activeGroupId: activeGroupId,
+    customizable: [
+      {
+        dataKey: 'listing-monthly',
+        operation: '≤',
+        value: 1200,
+        active: false,
+      },
+      {
+        dataKey: 'profit-monthly',
+        operation: '≤',
+        value: 250,
+        active: false,
+      },
+      {
+        dataKey: 'avg_margin',
+        operation: '≤',
+        value: 15,
+        active: false,
+      },
+      {
+        dataKey: 'avg_price',
+        operation: '≤',
+        value: 20,
+        active: false,
+      },
+      {
+        dataKey: 'avg_monthly_sales',
+        operation: '≥',
+        value: 90,
+        active: false,
+      },
+      {
+        dataKey: 'customer_reviews',
+        operation: '≤',
+        value: 25,
+        active: false,
+      },
+    ],
   };
   const initialFilterState: any =
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
@@ -97,11 +135,21 @@ function ProductTrackerFilterSection(props: Props) {
   if (filterState.profitabilityFilter === undefined) {
     filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
   }
+  if (filterState.customizable === undefined) {
+    filterState.customizable = filterInitialData.customizable;
+  }
 
   useEffect(() => {
     /*
       Reset filter when changing groups
     */
+    if (filterState.customizable.length !== filterInitialData.customizable.length) {
+      filterState.customizable = _.map(filterInitialData.customizable, (item: any) => {
+        const item2 = _.findKey(filterState.customizable, { dataKey: item.dataKey });
+
+        return _.extend(item, item2);
+      });
+    }
     if (!_.isEmpty(groupProducts)) {
       if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
         setFilterType('');
@@ -256,29 +304,6 @@ function ProductTrackerFilterSection(props: Props) {
     period: filterPeriods,
     presets: [
       {
-        label: 'Profitability',
-        dataKey: 'profitability-preset',
-        checkedValue: 'All Products',
-        radio: true,
-        data: [
-          {
-            label: 'All Products',
-            dataKey: 'all-products',
-            checked: true,
-          },
-          {
-            label: 'Profitable',
-            dataKey: 'profitability',
-            checked: false,
-          },
-          {
-            label: 'Non-Profitable Products',
-            dataKey: 'non-profitable-products',
-            checked: false,
-          },
-        ],
-      },
-      {
         label: 'Amazon',
         dataKey: 'amazon-choice-preset',
         radio: false,
@@ -292,6 +317,43 @@ function ProductTrackerFilterSection(props: Props) {
             label: 'Amazon is NOT a seller',
             dataKey: 'not-amazon-products',
             checked: true,
+          },
+        ],
+      },
+      {
+        label: 'Customizable',
+        dataKey: 'customizable-preset',
+        radio: false,
+        data: [
+          {
+            label: 'Listing generates',
+            dataKey: 'listing-monthly',
+            targetValue: '$/month',
+          },
+          {
+            label: 'Profit is',
+            dataKey: 'profit-monthly',
+            targetValue: '$/month',
+          },
+          {
+            label: 'Profit Margin is',
+            dataKey: 'avg_margin',
+            targetValue: '%',
+          },
+          {
+            label: 'Amazon price is',
+            dataKey: 'avg_price',
+            targetValue: '$',
+          },
+          {
+            label: 'Estimated Sales Volume is',
+            dataKey: 'avg_monthly_sales',
+            targetValue: '/month',
+          },
+          {
+            label: 'Product review is',
+            dataKey: 'customer_reviews',
+            targetValue: 'reviews',
           },
         ],
       },
@@ -391,33 +453,48 @@ function ProductTrackerFilterSection(props: Props) {
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
   };
 
-  const toggleNegative = (datakey: string) => {
+  const toggleNegative = (datakey: string, isPreset?: boolean) => {
     const data = filterState;
     const filterDetails = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
-        if (data.removeNegative.indexOf(datakey) !== -1) {
-          data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
-          filter.range = rangeData[datakey];
-          filter.filterRange = rangeData[datakey];
-          data[datakey] = rangeData[datakey];
+        if (isPreset) {
+          if (data.removeNegative.indexOf(datakey) !== -1) {
+            //only toggle negative slider if change is from preset
+            data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+            filter.range = rangeData[datakey];
+            filter.filterRange = rangeData[datakey];
+          }
         } else {
-          data.removeNegative.push(datakey);
-          filter.range = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
-          filter.filterRange = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
-          data[filter.dataKey] = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
+          if (data.removeNegative.indexOf(datakey) !== -1) {
+            data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+            filter.range = rangeData[datakey];
+            filter.filterRange = rangeData[datakey];
+            data[datakey] = rangeData[datakey];
+          } else {
+            data.removeNegative.push(datakey);
+            filter.range = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+            filter.filterRange = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+            data[filter.dataKey] = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+          }
         }
       }
       return filter;
     });
+
+    //resets custom filter based on slider
+    if (!isPreset) {
+      toggleOffCustomFilter(datakey);
+    }
+
     setFilterRanges(filterDetails);
     setFilterState(data);
   };
@@ -449,6 +526,84 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(filterDetails);
   };
 
+  const customizableFilterWithSlider = (dataKey: string) => {
+    const filterData = filterState;
+    _.map(filterData.customizable, filter => {
+      if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
+        switch (filter.operation) {
+          case '≤':
+            filterData[dataKey].min = rangeData[dataKey].min;
+            filterData[dataKey].max =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            break;
+          case '≥':
+            filterData[dataKey].min =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            filterData[dataKey].max = rangeData[dataKey].max;
+            break;
+          case '=':
+            filterData[dataKey].min =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            filterData[dataKey].max =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            break;
+          default:
+            return null;
+        }
+      }
+    });
+    setFilterState(filterData);
+  };
+
+  const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
+    _.map(filterState.customizable, customizableData => {
+      if (customizableData.dataKey === dataKey) {
+        if (type === 'operation') {
+          customizableData.operation = value;
+        } else if (type === 'filter-value') {
+          customizableData.value = value;
+        } else if (type === 'toggle') {
+          customizableData.active = !customizableData.active;
+          if (!customizableData.active && filterState[dataKey]) {
+            filterState[dataKey] = rangeData[dataKey];
+          }
+        }
+      }
+      return customizableData;
+    });
+    setFilterState(filterState);
+    customizableFilterWithSlider(dataKey);
+    //resets negative filter on slider based on custom filter key
+    toggleNegative(dataKey, true);
+    applyFilter(true);
+  };
+
+  const toggleOffCustomFilter = (dataKey: string) => {
+    const filterData = filterState;
+    _.map(filterData.customizable, filter => {
+      if (filter.dataKey === dataKey && filter.active) {
+        filter.active = false;
+      }
+      return filter;
+    });
+    setFilterState(filterData);
+  };
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasAllFilter(isAllFilterUse());
@@ -636,13 +791,15 @@ function ProductTrackerFilterSection(props: Props) {
           resetFilter={resetFilter}
           filterData={filterDataState}
           handleCompleteChange={handleCompleteChange}
-          initialFilterState={filterState}
+          filterState={filterState}
+          initialFilterState={filterInitialData}
           toggleSelectAllReviews={toggleSelectAllReviews}
           isAllReviews={isAllReviews}
           toggleReviewsCheckbox={toggleReviewsCheckbox}
           toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           toggleNegative={toggleNegative}
           resetPreset={resetPreset}
+          customizeFilterChange={customizeFilterChange}
         />
       </>
     </div>

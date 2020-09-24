@@ -1,0 +1,83 @@
+.column-range-filter {
+  width: 289px;
+  padding: 34px;
+  min-height: 221px;
+  border-radius: 20px;
+  box-shadow: 3px 3px 6px #0000004b;
+
+  .filter-label {
+    line-height: 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: #3b4557;
+  }
+
+  .reset-filters {
+    margin-bottom: 10px;
+    color: #5381db;
+    cursor: pointer;
+    font-weight: 500;
+    width: 60px;
+  }
+
+  .checkbox-filters-list {
+    .checkbox-filter {
+      > label {
+        color: #3b4557;
+        font-size: 17px;
+      }
+    }
+  }
+
+  .range-content {
+    .min-max-content {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+
+      .min-wrapper {
+        width: 85px;
+
+        .ui.input {
+          > input {
+            height: 30px;
+            width: 80px;
+          }
+        }
+      }
+
+      .max-wrapper {
+        width: 85px;
+
+        .ui.input {
+          > input {
+            height: 30px;
+            width: 80px;
+          }
+        }
+      }
+    }
+  }
+
+  .button-wrapper {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      width: 100px;
+      height: 25px;
+      border-radius: 100px !important;
+      padding: 2px;
+    }
+
+    .apply-filter-btn {
+      border: 1px solid #349af8;
+    }
+
+    .cancel-filter-btn {
+      border: 1px solid #98aeca;
+    }
+  }
+}

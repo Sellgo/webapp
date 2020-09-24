@@ -23,7 +23,6 @@ import {
   showNAIfZeroOrNull,
 } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import { initialFilterRanges, findMinMax } from '../../../../constants/Suppliers';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
 import { columnFilter } from '../../../../constants/Products';
@@ -74,7 +73,6 @@ export interface CheckedRowDictionary {
 interface ProductsTableState {
   checkedRows: CheckedRowDictionary;
   searchValue: string;
-  productRanges: any;
   filteredRanges: any;
   columnFilterData: any;
   ColumnFilterBox: boolean;
@@ -86,21 +84,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   state: ProductsTableState = {
     checkedRows: {},
     searchValue: '',
-    productRanges: initialFilterRanges,
     filteredRanges: [],
     columnFilterData: columnFilter,
     ColumnFilterBox: false,
     columns: [],
     updateTracking: false,
   };
-
-  UNSAFE_componentWillReceiveProps(props: any) {
-    if (props.products && props.products !== this.props.products) {
-      // Get min and max range for each filter setting based on all products
-      const productRanges = findMinMax(props.products);
-      this.setState({ productRanges });
-    }
-  }
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
     this.setState({ checkedRows });
@@ -516,7 +505,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Num New\nFBA Offers',
-      dataKey: 'num_new_fba_offers',
+      dataKey: 'num_fba_new_offers',
       type: 'number',
       show: true,
       sortable: true,
@@ -525,7 +514,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Num New\nFBM Offers',
-      dataKey: 'num_new_fbm_offers',
+      dataKey: 'num_fbm_new_offers',
       type: 'number',
       show: true,
       sortable: true,
@@ -608,7 +597,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       stickyChartSelector,
       currentActiveColumn,
     } = this.props;
-    const { searchValue, productRanges, checkedRows, ColumnFilterBox } = this.state;
+    const { searchValue, checkedRows, ColumnFilterBox } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
     const featuresLock = isSubscriptionFree(subscriptionType);
 
@@ -656,9 +645,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               toggleColumnCheckbox={this.handleClick}
               columnFilterData={this.state.columnFilterData}
               middleScroll={true}
-              renderFilterSectionComponent={() => (
-                <ProfitFinderFilterSection productRanges={productRanges} />
-              )}
+              renderFilterSectionComponent={() => <ProfitFinderFilterSection />}
               showTableLock={showTableLock}
               featuresLock={featuresLock}
               handleColumnDrop={this.handleColumnDrop}

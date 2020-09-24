@@ -32,6 +32,8 @@ export default class Auth {
     const formData = new FormData();
     formData.append('email', this.userProfile.email);
     formData.append('name', `${this.userProfile.name}`);
+    formData.append('first_name', `${this.userProfile.first_name}`);
+    formData.append('last_name', `${this.userProfile.last_name}`);
     formData.append('auth0_user_id', this.userProfile.sub);
 
     Axios.post(AppConfig.BASE_URL_API + 'sellers', formData, { headers })
@@ -58,10 +60,12 @@ export default class Auth {
       });
   };
 
-  public getSellerID(data: any) {
+  public getSellerID(data: any, type = 'subscription') {
     const formData = new FormData();
     formData.append('email', data.email);
     formData.append('name', data.name);
+    formData.append('first_name', data.first_name);
+    formData.append('last_name', data.last_name);
 
     Axios.post(AppConfig.BASE_URL_API + 'sellers/register', formData)
       .then((response: any) => {
@@ -69,7 +73,8 @@ export default class Auth {
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
-
+        }
+        if (type === 'subscription') {
           history.push('/subscription/payment');
         }
       })

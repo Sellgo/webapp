@@ -43,7 +43,7 @@ class SidebarCollapsible extends Component<
         id: 2,
         label: 'Profit Finder',
         icon: 'fas fa-search-dollar',
-        path: '/synthesis',
+        path: '/profit-finder',
         notifyId: 1,
       },
       {
@@ -53,12 +53,18 @@ class SidebarCollapsible extends Component<
         path: '/product-tracker',
         notifyId: 2,
       },
-
-      { id: 4, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
-      { id: 5, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
-      { id: 6, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
       {
-        id: 7,
+        id: 4,
+        label: 'Leads Tracker',
+        icon: 'fas fa-user-ninja',
+        path: '/leads-tracker',
+        notifyId: 2,
+      },
+      { id: 5, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
+      { id: 6, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
+      { id: 7, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
+      {
+        id: 8,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -90,7 +96,7 @@ class SidebarCollapsible extends Component<
       <>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id <= 3) {
+            if (icon.id <= 4) {
               return (
                 <Tour
                   data={icon}
@@ -125,7 +131,7 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id === 4) {
+            if (icon.id === 5) {
               return (
                 <Tour
                   data={icon}
@@ -160,8 +166,8 @@ class SidebarCollapsible extends Component<
                       name={icon.icon}
                       active={links[icon.id - 1] === currentPath}
                       onClick={() => {
-                        icon.id === 5 && this.open();
-                        icon.id === 7 && visible && this.handleAnimationChange();
+                        icon.id === 6 && this.open();
+                        icon.id === 8 && visible && this.handleAnimationChange();
                       }}
                     >
                       <i

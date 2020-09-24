@@ -8,7 +8,7 @@ const ProductDescription = (props: any) => {
 
   return (
     <div className="inner-product-info">
-      <div className="product-tracker-description">
+      <div className="product-tracker-description" title={item.title}>
         <div className="product-image" style={{ backgroundImage: `url(${item.image_url})` }}>
           {' '}
         </div>

@@ -68,7 +68,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   renderName = (row: Supplier) => {
     const name =
       row.file_status === 'completed' ? (
-        <Link to={`/synthesis/${row.supplier_id}`} onClick={() => setLatestSupplier(row)}>
+        <Link to={`/profit-finder/${row.supplier_id}`} onClick={() => setLatestSupplier(row)}>
           {row.search}
         </Link>
       ) : (
@@ -172,7 +172,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         ]}
         onChange={(e, data) => {
           if (data.value === 'SYN') {
-            history.push(`/synthesis/${row.supplier_id}`);
+            history.push(`/profit-finder/${row.supplier_id}`);
           }
         }}
       />
