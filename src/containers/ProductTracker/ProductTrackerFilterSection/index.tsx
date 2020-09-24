@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Range } from '../../../interfaces/Generic';
 import get from 'lodash/get';
 import _ from 'lodash';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Popup } from 'semantic-ui-react';
 import { ProductTrackerFilterInterface } from '../../../interfaces/Filters';
 import ProductTrackerFilter from '../../../components/ProductTrackerFilter';
 import {
@@ -21,6 +21,7 @@ import {
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
+import PresetFilter from '../../../components/ProductTrackerFilter/PresetFilter';
 
 interface Props {
   setPageNumber: (pageNumber: number) => void;
@@ -61,6 +62,7 @@ function ProductTrackerFilterSection(props: Props) {
       : localStorage.filterSelectAllReviews
   );
 
+  const [openPresetFilter, togglePresetFilter] = React.useState(false);
   const [filterType, setFilterType] = useState('');
   const [isAllReviews, setAllReviews] = useState(selectAllStorage);
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
@@ -744,19 +746,40 @@ function ProductTrackerFilterSection(props: Props) {
             <span className="tracker-filter-section__header__all-container__button__name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
-          <Button
-            basic
-            icon
-            labelPosition="left"
-            className={`tracker-filter-section__header__all-container__button more-btn ${filterType ===
-              'more-filter' && 'active'}`}
-            onClick={() => handleFilterType('more-filter')}
-          >
-            <span className="tracker-filter-section__header__all-container__button__name">
-              More
-            </span>
-            <Icon name="angle down" />
-          </Button>
+          <Popup
+            on="click"
+            open={openPresetFilter}
+            onOpen={() => togglePresetFilter(true)}
+            onClose={() => togglePresetFilter(false)}
+            position="bottom left"
+            className="pt-preset-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="left"
+                className={`tracker-filter-section__header__all-container__button more-btn `}
+                onClick={() => togglePresetFilter(!openPresetFilter)}
+              >
+                <span className="tracker-filter-section__header__all-container__button__name">
+                  More
+                </span>
+                <Icon name="angle down" />
+              </Button>
+            }
+            content={
+              <PresetFilter
+                togglePresetFilter={togglePresetFilter}
+                filterState={filterState}
+                initialFilterState={initialFilterState}
+                filterData={filterDataState}
+                toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
+                resetPreset={resetPreset}
+                customizeFilterChange={customizeFilterChange}
+              />
+            }
+          />
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
@@ -792,14 +815,10 @@ function ProductTrackerFilterSection(props: Props) {
           filterData={filterDataState}
           handleCompleteChange={handleCompleteChange}
           filterState={filterState}
-          initialFilterState={filterInitialData}
           toggleSelectAllReviews={toggleSelectAllReviews}
           isAllReviews={isAllReviews}
           toggleReviewsCheckbox={toggleReviewsCheckbox}
-          toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
           toggleNegative={toggleNegative}
-          resetPreset={resetPreset}
-          customizeFilterChange={customizeFilterChange}
         />
       </>
     </div>
