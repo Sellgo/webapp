@@ -40,7 +40,6 @@ function Signup(props: Props, state: State) {
   const [isFocusPW, setFocusPassword] = useState(false);
   const [openTOS, setOpenTOS] = useState(false);
   const [openPP, setOpenPP] = useState(false);
-
   useEffect(() => {
     fetchTOS();
     fetchPP();
