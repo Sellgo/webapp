@@ -60,7 +60,7 @@ export default class Auth {
       });
   };
 
-  public getSellerID(data: any) {
+  public getSellerID(data: any, type = 'subscription') {
     const formData = new FormData();
     formData.append('email', data.email);
     formData.append('name', data.name);
@@ -73,7 +73,8 @@ export default class Auth {
         if (data) {
           localStorage.setItem('userId', data.id);
           localStorage.setItem('cDate', data.cdate);
-
+        }
+        if (type === 'subscription') {
           history.push('/subscription/payment');
         }
       })

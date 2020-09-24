@@ -5,6 +5,8 @@ import { Checkbox, Icon, Popup, Table } from 'semantic-ui-react';
 import SortIcon from '../../assets/images/sort-solid.svg';
 import ColumnFilterCard from '../../containers/ProductTracker/ProductTrackerTable/ColumnFilter';
 import ProductCheckBoxHeader from '../../containers/Synthesis/Supplier/ProductsTable/productCheckBoxHeader';
+import LeadsCheckBoxHeader from '../../containers/LeadsTracker/LeadsTrackerTable/productCheckBoxHeader';
+
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
 import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
@@ -42,6 +44,7 @@ interface Shared {
   resetColumnFilters?: (dataKey: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
+  resetPage: () => void;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -85,6 +88,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     resetColumnFilters,
     loadingFilters,
     filterValues,
+    resetPage,
   } = props;
   const {
     dataKey,
@@ -110,6 +114,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
+            resetPage();
           }
         : click
         ? click
@@ -289,8 +294,16 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
         {filter && searchIconPosition === 'right' && ColumnFilter}
 
-        {check && checkedRows && updateCheckedRows && (
+        {check && checkedRows && updateCheckedRows && type !== 'leads-tracker' && (
           <ProductCheckBoxHeader
+            currentPage={currentPage}
+            currentPageRows={rows}
+            checkedRows={checkedRows}
+            updateCheckedRows={updateCheckedRows}
+          />
+        )}
+        {check && checkedRows && updateCheckedRows && type === 'leads-tracker' && (
+          <LeadsCheckBoxHeader
             currentPage={currentPage}
             currentPageRows={rows}
             checkedRows={checkedRows}

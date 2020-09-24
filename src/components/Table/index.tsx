@@ -148,10 +148,10 @@ export const GenericTable = (props: GenericTableProps) => {
     resetColumnFilters,
     loadingFilters,
     filterValues,
+    count,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
-
   useEffect(() => {
     setLocalCurrentPage(initialPage);
   }, [currentPage]);
@@ -160,7 +160,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      return () => setPage(1); // reset on unmount
+      return () => setPage(name === 'leads-tracker' ? localCurrentPage : 1); // reset on unmount
     }
   }, [localCurrentPage]);
 
@@ -178,9 +178,6 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (onSort && sortClicked) {
       onSort(sortDirection);
-    }
-    if (['products', 'trackerTable'].includes(name)) {
-      setLocalCurrentPage(1);
     }
   }, [sortDirection]);
 
@@ -275,10 +272,13 @@ export const GenericTable = (props: GenericTableProps) => {
   }
 
   const sortedProducts = rows;
-  rows = rows.slice(
-    (localCurrentPage - 1) * singlePageItemsCount,
-    localCurrentPage * singlePageItemsCount
-  );
+  if (name !== 'leads-tracker') {
+    rows = rows.slice(
+      (localCurrentPage - 1) * singlePageItemsCount,
+      localCurrentPage * singlePageItemsCount
+    );
+  }
+
   rows = showTableLock ? rows.slice(0, 5) : rows;
 
   useEffect(() => {
@@ -310,7 +310,7 @@ export const GenericTable = (props: GenericTableProps) => {
     }
     setSearchValue(e.target.value);
   };
-  const totalItemsCount = data.length;
+  const totalItemsCount = name === 'leads-tracker' ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
 
@@ -318,6 +318,12 @@ export const GenericTable = (props: GenericTableProps) => {
     const scroll = document.querySelector('.pt-scroll-container');
     if (scroll) {
       scroll.scrollLeft = evt.target.scrollLeft;
+    }
+  };
+
+  const resetPage = () => {
+    if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
+      setLocalCurrentPage(1);
     }
   };
 
@@ -411,6 +417,7 @@ export const GenericTable = (props: GenericTableProps) => {
           resetColumnFilters={resetColumnFilters}
           loadingFilters={loadingFilters}
           filterValues={filterValues}
+          resetPage={resetPage}
         />
         <TableBody
           extendedInfo={extendedInfo}
