@@ -178,7 +178,7 @@ function Signup(props: any, state: State) {
               first_name: firstname,
               last_name: lastname,
             };
-            auth.getSellerID(data);
+            auth.getSellerID(data, null);
 
             localStorage.setItem('accountType', accountType);
             ReactPixel.init(AppConfig.PIXEL_ID);
