@@ -272,13 +272,11 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     const { currentActiveColumn } = this.props;
     await this.setState({ loading: false });
     const sortDirection = order === 'descending' ? 'desc' : 'asc';
-    if (currentActiveColumn) {
-      await this.fetchLeadsData({
-        sort: currentActiveColumn,
-        sort_direction: sortDirection,
-        loading: false,
-      });
-    }
+    await this.fetchLeadsData({
+      sort: currentActiveColumn,
+      sort_direction: sortDirection,
+      loading: false,
+    });
   };
 
   setActiveColumnFilters = (data: any) => {
