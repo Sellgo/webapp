@@ -268,12 +268,12 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     this.toggleColumn(column);
   };
 
-  onSort = async (order: string) => {
-    const { currentActiveColumn } = this.props;
+  onSort = async (order: string, dataKey: string) => {
+    // const { currentActiveColumn } = this.props;
     await this.setState({ loading: false });
     const sortDirection = order === 'descending' ? 'desc' : 'asc';
     await this.fetchLeadsData({
-      sort: currentActiveColumn,
+      sort: dataKey,
       sort_direction: sortDirection,
       loading: false,
     });
@@ -619,7 +619,9 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               name={'leads-tracker'}
               pageCount={totalPages}
               showFilter={true}
-              onSort={this.onSort}
+              onSort={(setSortDirection, dataKey) =>
+                this.onSort(setSortDirection, dataKey ? dataKey : '')
+              }
               checkedRows={checkedRows}
               updateCheckedRows={this.updateCheckedRows}
               toggleColumnCheckbox={this.handleClick}
