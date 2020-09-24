@@ -133,6 +133,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
             setActiveColumn(dataKey);
+            resetPage();
           }
         : undefined,
   };
