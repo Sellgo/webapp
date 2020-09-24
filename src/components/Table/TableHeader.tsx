@@ -210,12 +210,12 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           ) : sortable && sortedColumnKey === dataKey ? (
             sortDirection === 'ascending' ? (
               <span>
-                <Icon name="caret up" className="sort-icon" {...sorting} />
+                <Icon name="caret down" className="sort-icon" {...sorting} />
               </span>
             ) : (
               <span>
                 {' '}
-                <Icon name="caret down" className="sort-icon" {...sorting} />
+                <Icon name="caret up" className="sort-icon" {...sorting} />
               </span>
             )
           ) : null}
@@ -272,7 +272,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
           <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
         ) : sortable && sortedColumnKey === dataKey ? (
-          sortDirection === 'ascending' ? (
+          sortDirection === `${type !== 'leads-tracker' ? 'descending' : 'ascending'}` ? (
             <span>
               <Icon name="caret up" className="sort-icon" {...sorting} />
             </span>
