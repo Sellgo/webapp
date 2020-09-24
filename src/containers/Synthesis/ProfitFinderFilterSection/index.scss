@@ -281,6 +281,140 @@
   }
 }
 
+.ui.left.basic.popup.transition.visible.pf-preset-filter-popup {
+  max-width: 450px !important;
+  width: 100% !important;
+  height: 265px !important;
+  border-radius: 10px;
+
+  i.fas.fa-times {
+    font-size: 15px;
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    color: #98aeca;
+    cursor: pointer;
+  }
+
+  .ui.checkbox {
+    max-width: 295px;
+    margin-right: 20px;
+
+    &.customizable-checkbox {
+      max-width: 400px !important;
+      display: flex;
+      align-items: center;
+
+      .customizable-checkbox__label {
+        font-weight: 500;
+      }
+
+      .input {
+        max-width: 60px;
+        margin: 0;
+        color: #98aeca;
+        margin-right: 5px;
+
+        input {
+          padding: 3px 0 3px 5px;
+          border-radius: 5px;
+          border: 1px solid #98aeca;
+          font-size: 12px;
+          font-weight: 500;
+          font-family: 'Work sans', sans-serif;
+        }
+      }
+
+      .dropdown {
+        border: 1px solid #98aeca;
+        background: #fff;
+        border-radius: 5px;
+        padding: 1px 0 1px 5px;
+        margin: 0 5px;
+        font-size: 12px;
+        font-weight: 500;
+
+        .icon {
+          border: unset !important;
+          margin: 0;
+          height: 10px;
+          color: #98aeca;
+        }
+
+        .menu {
+          border-radius: 5px;
+          border: 1px solid #98aeca;
+
+          .item {
+            width: 15px;
+            padding: 5px 3px 4px 4px !important;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .presets-filter-content-wrapper {
+    &__header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+
+      &__options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__filter-name {
+          font-weight: 600;
+          color: #3b4557;
+          font-size: 16px;
+          line-height: 1;
+          margin-bottom: 5px;
+        }
+
+        &__close-btn {
+          font-size: 20px;
+          color: #98aeca;
+          font-weight: 600;
+          cursor: pointer;
+          font-family: 'Work sans', sans-serif;
+        }
+      }
+
+      &__preset-reset {
+        padding: 0 10px;
+
+        p {
+          cursor: pointer;
+          color: #349af8;
+          font-size: 12px;
+          display: contents;
+        }
+      }
+    }
+
+    &__content {
+      &__filter-name {
+        font-weight: 600;
+        color: #3b4557;
+        font-size: 16px;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      &__filter-item {
+        margin-bottom: 5px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px;
+    }
+  }
+}
+
 @media (max-width: 2560px) {
   .filter-section {
     &.sticky-chart-active {

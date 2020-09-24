@@ -21,6 +21,7 @@ import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
+import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -72,6 +73,7 @@ function ProfitFinderFilterSection(props: Props) {
   const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
   const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
+  const [openPresetFilter, togglePresetFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -1028,19 +1030,42 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
-          <Button
-            basic
-            icon
-            labelPosition="left"
-            className={`more-filter`}
-            onClick={() => {
-              handleFilterType('more-filter');
-              setFilterModalOpen(true);
-            }}
-          >
-            <span className="filter-name">More</span>
-            <Icon name="angle down" />
-          </Button>
+          <Popup
+            on="click"
+            open={openPresetFilter}
+            onOpen={() => togglePresetFilter(true)}
+            onClose={() => togglePresetFilter(false)}
+            position="bottom left"
+            className="pf-preset-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="left"
+                className={`more-filter`}
+                onClick={() => {
+                  togglePresetFilter(!openPresetFilter);
+                  // handleFilterType('more-filter');
+                  // setFilterModalOpen(true);
+                }}
+              >
+                <span className="filter-name">More</span>
+                <Icon name="angle down" />
+              </Button>
+            }
+            content={
+              <PresetFilter
+                togglePresetFilter={togglePresetFilter}
+                applyFilter={applyFilter}
+                filterState={filterState}
+                filterData={filterDataState}
+                filterInitialData={filterInitialData}
+                resetPreset={resetPreset}
+                customizeFilterChange={customizeFilterChange}
+              />
+            }
+          />
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
@@ -1093,15 +1118,12 @@ function ProfitFinderFilterSection(props: Props) {
             filterData={filterDataState}
             handleCompleteChange={handleCompleteChange}
             filterState={filterState}
-            filterInitialData={filterInitialData}
             toggleSelectAllCategories={toggleSelectAllCategories}
             isSelectAllCategories={isSelectAllCategories}
             selectAllCategories={selectAllCategories}
             toggleNegative={toggleNegative}
             toggleSelectAllSize={toggleSelectAllSize}
             isSelectAllSize={isSelectAllSize}
-            resetPreset={resetPreset}
-            customizeFilterChange={customizeFilterChange}
           />
         </Modal.Content>
       </Modal>

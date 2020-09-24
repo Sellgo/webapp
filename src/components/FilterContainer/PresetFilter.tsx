@@ -7,9 +7,10 @@ interface PresetFilterProps {
   applyFilter: (isPreset?: boolean) => void;
   filterData: SupplierFilter;
   filterState: FilterState;
-  filterInitialData: FilterState;
+  filterInitialData: any;
   resetPreset: () => void;
   customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
+  togglePresetFilter: (value: boolean) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
@@ -20,12 +21,23 @@ const PresetFilter = (props: PresetFilterProps) => {
     resetPreset,
     customizeFilterChange,
     filterInitialData,
+    togglePresetFilter,
   } = props;
 
   return (
     <div className={'presets-filter-content-wrapper'}>
       <div className="presets-filter-content-wrapper__header">
-        <span className="presets-filter-content-wrapper__header__filter-name">Quick Preset</span>
+        <div className="presets-filter-content-wrapper__header__options">
+          <span className="presets-filter-content-wrapper__header__options__filter-name">
+            Quick Preset
+          </span>
+          <span
+            className="presets-filter-content-wrapper__header__options__close-btn"
+            onClick={() => togglePresetFilter(false)}
+          >
+            x
+          </span>
+        </div>
         <div className="presets-filter-content-wrapper__header__preset-reset">
           <p
             onClick={() => {
