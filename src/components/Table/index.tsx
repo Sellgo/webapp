@@ -61,7 +61,7 @@ export interface GenericTableProps {
   featuresLock?: boolean;
   pagination?: boolean;
   handleColumnDrop?: (e: any, data: any) => void;
-  onSort?: (sort: any) => void;
+  onSort?: (sort: any, dataKey?: string) => void;
   defaultSort?: any;
   reorderColumns?: any;
   columnDnD?: boolean;
@@ -321,12 +321,13 @@ export const GenericTable = (props: GenericTableProps) => {
     }
   };
 
-  const resetPage = () => {
+  const resetPage = (sortDirection: string, dataKey: string) => {
     if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
       setLocalCurrentPage(1);
     }
+
     if (onSort && name === 'leads-tracker') {
-      onSort(sortDirection);
+      onSort(sortDirection, dataKey);
     }
   };
 
@@ -420,7 +421,7 @@ export const GenericTable = (props: GenericTableProps) => {
           resetColumnFilters={resetColumnFilters}
           loadingFilters={loadingFilters}
           filterValues={filterValues}
-          resetPage={resetPage}
+          resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
         />
         <TableBody
           extendedInfo={extendedInfo}
