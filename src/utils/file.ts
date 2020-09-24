@@ -23,13 +23,17 @@ export const getFileExtension = (file: File): string => {
  */
 export const guessPrimaryIdType = (fileStringArray: string[][]): string | null => {
   const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
-
   for (const item of PRODUCT_ID_TYPES) {
-    const found =
-      header.findIndex(headerCell =>
-        item.label.toLowerCase().includes(String(headerCell).toLowerCase())
-      ) !== -1;
-    if (found) return item.value;
+    const productLabel: any = item.label.split('/'); // considering ASIN/ISBN
+    for (const label of productLabel) {
+      const found =
+        header.findIndex(headerCell =>
+          String(headerCell)
+            .toLowerCase()
+            .includes(label.toLowerCase())
+        ) !== -1;
+      if (found) return item.value;
+    }
   }
 
   return null;
