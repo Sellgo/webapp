@@ -6,7 +6,6 @@ import { useInput } from '../../../hooks/useInput';
 import StepsInfo from '../../../components/StepsInfo/StepsInfo';
 import { Steps } from '../../../interfaces/StepsInfo';
 import StepsContent from '../StepsContent';
-
 import {
   passwordPolicy,
   strong,
