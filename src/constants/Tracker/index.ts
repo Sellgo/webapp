@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { FilterData } from '../../interfaces/Filters';
+import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
 export const SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT = 'SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT';
@@ -361,9 +362,11 @@ export const searchFilteredProduct = (products: any, value: string) => {
   const updatedFilterProducts = _.filter(products, product => {
     return (
       (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.ean && product.ean.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+      PRODUCT_ID_TYPES.map(
+        pidType =>
+          product[pidType.toLowerCase()] &&
+          product[pidType.toLowerCase()].toLowerCase().indexOf(value.toLowerCase()) !== -1
+      ).includes(true)
     );
   });
   return updatedFilterProducts;

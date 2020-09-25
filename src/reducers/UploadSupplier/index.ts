@@ -64,7 +64,7 @@ const initialState: UploadSupplierState = {
   fileString: null,
   fileDetails: null,
   columnMappings: [],
-  primaryIdType: PRODUCT_ID_TYPES[0].value, //UPC
+  primaryIdType: PRODUCT_ID_TYPES[0], //UPC
   rawFile: null,
   fileStringArray: [],
   resultErrorFile: null,
