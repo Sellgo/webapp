@@ -12,6 +12,7 @@ import {
   TOTAL_PAGES,
   FETCH_FILTERS,
   FETCH_FILTERS_SUCCESS,
+  LOADING_DATA,
 } from '../../constants/LeadsTracker';
 
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -38,6 +39,7 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
   } = payload;
 
   dispatch(setFetchingKpi(loading));
+  dispatch(setLoadingData(true));
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
@@ -57,6 +59,7 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
     dispatch(setTotalPages(response.data.num_pages));
   }
   dispatch(setFetchingKpi(false));
+  dispatch(setLoadingData(false));
 };
 
 export const fetchFilters = (payload: any) => async (dispatch: any) => {
@@ -128,4 +131,9 @@ export const setTotalPages = (totalPages: number) => ({
 export const setFilters = (data: any) => ({
   type: FETCH_FILTERS,
   payload: data,
+});
+
+export const setLoadingData = (loading: boolean) => ({
+  type: LOADING_DATA,
+  payload: loading,
 });

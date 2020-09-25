@@ -12,6 +12,7 @@ export const TOTAL_PAGES = 'TOTAL_PAGES';
 export const SET_FILTERS = 'SET_FILTERS';
 export const FETCH_FILTERS = 'FETCH_FILTERS';
 export const FETCH_FILTERS_SUCCESS = 'FETCH_FILTERS_SUCCESS';
+export const LOADING_DATA = 'LOADING_DATA';
 
 export const DEFAULT_PERIOD = 1;
 

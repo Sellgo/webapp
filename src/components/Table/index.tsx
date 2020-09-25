@@ -75,6 +75,7 @@ export interface GenericTableProps {
   resetColumnFilters?: (dataKey: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
+  loading?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -149,6 +150,7 @@ export const GenericTable = (props: GenericTableProps) => {
     loadingFilters,
     filterValues,
     count,
+    loading,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -160,7 +162,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      return () => setPage(name === 'leads-tracker' ? localCurrentPage : 1); // reset on unmount
+      return () => setPage(1); // reset on unmount
     }
   }, [localCurrentPage]);
 
@@ -462,6 +464,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
                       showPageSize={name !== 'supplier'}
+                      loading={!!loading}
                     />
                   </div>
                 </Table.HeaderCell>

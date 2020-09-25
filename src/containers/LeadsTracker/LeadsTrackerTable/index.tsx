@@ -57,6 +57,7 @@ export interface LeadsTrackerTableProps {
   totalRecords: number;
   totalPages: number;
   loadingFilters: boolean;
+  loading: boolean;
 }
 class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   constructor(props: LeadsTrackerTableProps) {
@@ -546,6 +547,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       filters,
       loadingFilters,
       totalRecords,
+      loading,
     } = this.props;
     const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
@@ -640,6 +642,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               applyColumnFilters={this.applyFilters}
               cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
               count={totalRecords}
+              loading={loading}
             />
           </React.Fragment>
         )}
@@ -660,6 +663,7 @@ const mapStateToProps = (state: {}) => ({
   period: get(state, 'leads.period'),
   totalRecords: get(state, 'leads.totalRecords'),
   totalPages: get(state, 'leads.totalPages'),
+  loading: get(state, 'leads.loading'),
   filters: filters(state),
   loadingFilters: loadingFilters(state),
 });
