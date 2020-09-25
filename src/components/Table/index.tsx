@@ -453,9 +453,14 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
                     <Pagination
-                      onPageSizeSelect={size =>
-                        setSinglePageItemsCount ? setSinglePageItemsCount(size) : {}
-                      }
+                      onPageSizeSelect={size => {
+                        if (setSinglePageItemsCount) {
+                          setSinglePageItemsCount(size);
+                        }
+                        if (name !== 'leads-tracker' && setPage) {
+                          setPage(1);
+                        }
+                      }}
                       onNextPage={setLocalCurrentPage}
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
