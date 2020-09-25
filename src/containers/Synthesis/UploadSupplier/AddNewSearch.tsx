@@ -13,17 +13,18 @@ const required = isRequired();
 const AddNewSearch = (props: any) => {
   const { fileDetails } = props;
   const [fileName, setFileName] = useState('');
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const name = fileDetails
       ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
       : '';
     setFileName(name);
     if (inputRef && inputRef.current && !!name) {
-      // @ts-ignore
       inputRef.current.focus();
       // @ts-ignore
-      setTimeout(() => inputRef.current.select(), 50);
+      const select = () => inputRef.current.select();
+      setTimeout(select, 50);
     }
   }, [fileDetails]);
 
