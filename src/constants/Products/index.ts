@@ -137,13 +137,13 @@ export const columnFilter = [
   {
     value: true,
     key: 'Num New FBA Offers',
-    dataKey: 'num_new_fba_offers',
+    dataKey: 'num_fba_new_offers',
     visible: true,
   },
   {
     value: true,
     key: 'Num New FBM Offers',
-    dataKey: 'num_new_fbm_offers',
+    dataKey: 'num_fbm_new_offers',
     visible: true,
   },
   {

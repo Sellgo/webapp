@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox, Icon, Menu, Popup } from 'semantic-ui-react';
 import { CheckedRowDictionary } from './index';
-import Thumb from '../../../../assets/images/fingerprint-4.svg';
-import SlashThumb from '../../../../assets/images/fingerprint-5.svg';
+import Thumb from '../../../assets/images/fingerprint-4.svg';
+import SlashThumb from '../../../assets/images/fingerprint-5.svg';
 import {
   requestProductBulkTracking,
   requestProductBulkUnTracking,
@@ -26,8 +26,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     currentPageRows,
     checkedRows,
     updateCheckedRows,
-    requestProductBulkTracking,
-    requestProductBulkUnTracking,
+    // requestProductBulkTracking,
+    // requestProductBulkUnTracking,
   } = props;
   const [checked, setChecked] = useState(false);
   const [openTrackingPopup, setOpenTrackingPopup] = useState(false);
@@ -51,20 +51,20 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
 
   const handleBulkClick = (type: string) => {
     const products: any[] = [];
-    currentPageRows.forEach(r => {
-      if (checkedRows[r.id]) products.push({ product_id: r.product_id });
-    });
+    // currentPageRows.forEach(r => {
+    //   if (checkedRows[r.id]) products.push({ product_id: r.product_id });
+    // });
     if (products.length === 0) return;
     if (type === 'track') {
-      requestProductBulkTracking(products);
+      // requestProductBulkTracking(products);
     } else if (type === 'untrack') {
-      requestProductBulkUnTracking(products);
+      // requestProductBulkUnTracking(products);
     } else {
       // logging error here
     }
-    updateCheckedRows({});
-    setChecked(false);
-    setOpenTrackingPopup(false);
+    // updateCheckedRows({});
+    // setChecked(false);
+    // setOpenTrackingPopup(false);
   };
 
   return (
@@ -90,14 +90,14 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
         <Menu fluid={true} vertical={true} className="header-checkbox-menu">
           <Menu.Item className="checkbox-menu-item">
             <img
-              className={`fingerprint-track ${(_.isEmpty(checkedRows) ||
+              className={`fingerprint-track disabled ${(_.isEmpty(checkedRows) ||
                 Object.values(checkedRows).indexOf(true) === -1) &&
                 'disabled'}`}
               src={Thumb}
               onClick={() => handleBulkClick('track')}
             />
             <img
-              className={`fingerprint-untrack ${(_.isEmpty(checkedRows) ||
+              className={`fingerprint-untrack disabled ${(_.isEmpty(checkedRows) ||
                 Object.values(checkedRows).indexOf(true) === -1) &&
                 'disabled'}`}
               src={SlashThumb}
