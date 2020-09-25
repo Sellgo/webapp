@@ -210,6 +210,7 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (result) {
+      // for keys with computation that doesn't exist in filter slider
       if (filter.dataKey === 'listing-monthly' && filter.active) {
         const generatesValue = product.price * product.sales_monthly;
         if (!filter.active) result = true;
@@ -235,6 +236,12 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
               filter.value
             );
           }
+        }
+      }
+      // for sliders with keys same with customize filter for ex. price
+      for (const keys of supplierDataKeys) {
+        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
+          result = Number(product[filter.dataKey]) === Number(filter.value);
         }
       }
     }

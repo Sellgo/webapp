@@ -300,17 +300,11 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
           }
         }
       }
-      if (filter.dataKey === 'customer_reviews' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          if (product.customer_reviews === null) result = true;
-          else {
-            result = customFilterOperation(
-              filter.operation,
-              product.customer_reviews,
-              filter.value
-            );
-          }
+
+      // for sliders with keys same with customize filter for ex. price
+      for (const keys of filterKeys) {
+        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
+          result = Number(product[filter.dataKey]) === Number(filter.value);
         }
       }
     }
