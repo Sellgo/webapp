@@ -635,7 +635,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               resetColumnFilters={(resetKey: string) => {
                 this.fetchLeadsData(this.getFilters(), resetKey);
               }}
-              setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page })}
+              setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page, page: 1 })}
               loadingFilters={loadingFilters}
               filterValues={filters}
               stickyChartSelector
