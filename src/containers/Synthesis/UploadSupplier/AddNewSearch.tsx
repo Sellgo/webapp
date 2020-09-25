@@ -19,9 +19,11 @@ const AddNewSearch = (props: any) => {
       ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
       : '';
     setFileName(name);
-    if (inputRef && inputRef.current) {
+    if (inputRef && inputRef.current && !!name) {
       // @ts-ignore
       inputRef.current.focus();
+      // @ts-ignore
+      setTimeout(() => inputRef.current.select(), 50);
     }
   }, [fileDetails]);
 
