@@ -124,7 +124,6 @@ export class Supplier extends React.Component<SupplierProps> {
           title={`Profit Finder of ${supplierDetails.search || 'Search'}`}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Search Management', to: '/synthesis' },
             { content: `Profit Finder${searchName} ` || 'Search' },
           ]}
           callToAction={<QuotaMeter />}
