@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import {
   FETCH_FILTERS,
   FETCH_FILTERS_SUCCESS,
+  LOADING_DATA,
   SET_FETCHING_KPI,
   SET_LEADS,
   SET_PAGE_NO,
@@ -27,6 +28,7 @@ const initialState = {
   totalRecords: 0,
   filters: [],
   fetchingFilters: false,
+  loading: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -53,6 +55,8 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'filters', action.payload);
     case FETCH_FILTERS_SUCCESS:
       return setIn(state, 'fetchingFilters', action.payload);
+    case LOADING_DATA:
+      return setIn(state, 'loading', action.payload);
     default:
       return state;
   }
