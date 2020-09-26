@@ -534,6 +534,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       query = this.parseFilters(filter);
     }
     this.fetchLeadsData({ query });
+    this.setState({ ColumnFilterBox: false });
   };
   render() {
     const {
@@ -634,6 +635,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               toggleColumnFilters={this.setActiveColumnFilters}
               resetColumnFilters={(resetKey: string) => {
                 this.fetchLeadsData(this.getFilters(), resetKey);
+                this.setState({ ColumnFilterBox: false });
               }}
               setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page, page: 1 })}
               loadingFilters={loadingFilters}
