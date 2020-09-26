@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.scss';
 import { Field } from 'redux-form';
@@ -13,12 +13,20 @@ const required = isRequired();
 const AddNewSearch = (props: any) => {
   const { fileDetails } = props;
   const [fileName, setFileName] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const name = fileDetails
       ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
       : '';
     setFileName(name);
+    if (inputRef && inputRef.current && !!name) {
+      inputRef.current.focus();
+      const select = () => {
+        if (inputRef && inputRef.current) inputRef.current.select();
+      };
+      setTimeout(select, 50);
+    }
   }, [fileDetails]);
 
   return (
@@ -38,6 +46,7 @@ const AddNewSearch = (props: any) => {
                 label="Search Name"
                 placeholder="Search Name"
                 maxLength="100"
+                setFieldToBeFocused={inputRef}
                 inputProps={{
                   value: fileName,
                   onChange: (e: any) => setFileName(e.target.value),
