@@ -22,8 +22,9 @@ const AddNewSearch = (props: any) => {
     setFileName(name);
     if (inputRef && inputRef.current && !!name) {
       inputRef.current.focus();
-      // @ts-ignore
-      const select = () => inputRef.current.select();
+      const select = () => {
+        if (inputRef && inputRef.current) inputRef.current.select();
+      };
       setTimeout(select, 50);
     }
   }, [fileDetails]);
