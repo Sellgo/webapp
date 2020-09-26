@@ -581,7 +581,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ columns });
   };
 
-  // change default UPC to the detected primary ID
+  // detect primary ID based on products
   detectAndUpdateProductId = () => {
     const { filteredProducts } = this.props;
 
@@ -589,34 +589,48 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       const actualPid = PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN').filter(
         pidType => filteredProducts[0][pidType.toLowerCase() as keyof Product]
       )[0];
-      if (actualPid) {
-        const columnPidIdx = this.state.columns.findIndex(
-          (element: any) => element.dataKey === 'upc'
-        );
-        const newColumns = _.cloneDeep(this.state.columns);
-        newColumns[columnPidIdx] = {
-          ...newColumns[columnPidIdx],
-          label: actualPid,
-          dataKey: actualPid.toLowerCase(),
-          render: (row: Product) => (
-            <p className="stat">
-              {showNAIfZeroOrNull(
-                row[actualPid.toLowerCase() as keyof Product],
-                row[actualPid.toLowerCase() as keyof Product]
-              )}
-            </p>
-          ),
-        };
+      const columnUpcIdx = this.state.columns.findIndex(
+        (element: any) => element.dataKey === 'upc'
+      );
+      const filterUpcIdx = this.state.columnFilterData.findIndex(
+        (element: any) => element.dataKey === 'upc'
+      );
 
-        const filterPidIdx = this.state.columnFilterData.findIndex(
-          (element: any) => element.dataKey === 'upc'
-        );
+      if (actualPid) {
+        // update columns & filter if non-asin product id is not the default UPC
+        if (actualPid !== 'UPC') {
+          const newColumns = _.cloneDeep(this.state.columns);
+          newColumns[columnUpcIdx] = {
+            ...newColumns[columnUpcIdx],
+            label: actualPid,
+            dataKey: actualPid.toLowerCase(),
+            render: (row: Product) => (
+              <p className="stat">
+                {showNAIfZeroOrNull(
+                  row[actualPid.toLowerCase() as keyof Product],
+                  row[actualPid.toLowerCase() as keyof Product]
+                )}
+              </p>
+            ),
+          };
+          const newColumnFilterData = _.cloneDeep(this.state.columnFilterData);
+          newColumnFilterData[filterUpcIdx] = {
+            ...newColumnFilterData[filterUpcIdx],
+            key: actualPid,
+            dataKey: actualPid.toLowerCase(),
+          };
+          this.setState({
+            columnFilterData: newColumnFilterData,
+            columns: newColumns,
+          });
+        }
+      } else {
+        // no other non-asin product ids => products are asin-based
+        // remove default UPC column & filter
+        const newColumns = _.cloneDeep(this.state.columns);
+        newColumns.splice(columnUpcIdx, 1);
         const newColumnFilterData = _.cloneDeep(this.state.columnFilterData);
-        newColumnFilterData[filterPidIdx] = {
-          ...newColumnFilterData[filterPidIdx],
-          key: actualPid,
-          dataKey: actualPid.toLowerCase(),
-        };
+        newColumnFilterData.splice(filterUpcIdx, 1);
         this.setState({
           columnFilterData: newColumnFilterData,
           columns: newColumns,
