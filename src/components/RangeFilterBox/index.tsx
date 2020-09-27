@@ -36,7 +36,7 @@ const RangeFilterBox = (props: any) => {
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
-        const checks = saved.value.split(',');
+        const checks = saved.value ? saved.value.split(',') : [];
         setLocalData(checks);
       }
       if (filterType === 'range') {
@@ -45,7 +45,8 @@ const RangeFilterBox = (props: any) => {
       }
     } else {
       if (filterType === 'checkbox') {
-        setLocalData([]);
+        const checks = values.map((c: any) => c.value);
+        setLocalData(checks);
       } else {
         setMinMax(value);
         setFilterRange(value);
@@ -56,11 +57,14 @@ const RangeFilterBox = (props: any) => {
   const resetFiltersValue = () => {
     if (filterType === 'checkbox') {
       setLocalData([]);
+      saveFilters({ dataKey, value: '' });
     } else {
       setFilterRange(minMax);
     }
     resetFilters(dataKey);
-    localStorage.removeItem(`${name}:${dataKey}`);
+    if (filterType !== 'checkbox') {
+      localStorage.removeItem(`${name}:${dataKey}`);
+    }
   };
 
   const setCheck = (value: any) => {
@@ -85,7 +89,9 @@ const RangeFilterBox = (props: any) => {
     }
     applyFilters(res);
 
-    if (Object.keys(res.value).length) {
+    if (Object.keys(res.value).length && filterType !== 'checkbox') {
+      saveFilters(res);
+    } else {
       saveFilters(res);
     }
   };

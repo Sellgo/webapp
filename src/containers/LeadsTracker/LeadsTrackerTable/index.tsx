@@ -57,6 +57,7 @@ export interface LeadsTrackerTableProps {
   totalRecords: number;
   totalPages: number;
   loadingFilters: boolean;
+  loading: boolean;
 }
 class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   constructor(props: LeadsTrackerTableProps) {
@@ -268,12 +269,12 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     this.toggleColumn(column);
   };
 
-  onSort = async (order: string) => {
-    const { currentActiveColumn } = this.props;
+  onSort = async (order: string, dataKey: string) => {
+    // const { currentActiveColumn } = this.props;
     await this.setState({ loading: false });
     const sortDirection = order === 'descending' ? 'desc' : 'asc';
     await this.fetchLeadsData({
-      sort: currentActiveColumn,
+      sort: dataKey,
       sort_direction: sortDirection,
       loading: false,
     });
@@ -533,6 +534,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       query = this.parseFilters(filter);
     }
     this.fetchLeadsData({ query });
+    this.setState({ ColumnFilterBox: false });
   };
   render() {
     const {
@@ -546,6 +548,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       filters,
       loadingFilters,
       totalRecords,
+      loading,
     } = this.props;
     const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
@@ -612,7 +615,9 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             name={'leads-tracker'}
             pageCount={totalPages}
             showFilter={true}
-            onSort={this.onSort}
+            onSort={(setSortDirection, dataKey) =>
+              this.onSort(setSortDirection, dataKey ? dataKey : '')
+            }
             checkedRows={checkedRows}
             updateCheckedRows={this.updateCheckedRows}
             toggleColumnCheckbox={this.handleClick}
@@ -623,14 +628,16 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             toggleColumnFilters={this.setActiveColumnFilters}
             resetColumnFilters={(resetKey: string) => {
               this.fetchLeadsData(this.getFilters(), resetKey);
+              this.setState({ ColumnFilterBox: false });
             }}
-            setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page })}
+            setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page, page: 1 })}
             loadingFilters={loadingFilters}
             filterValues={filters}
             stickyChartSelector
             applyColumnFilters={this.applyFilters}
             cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
             count={totalRecords}
+            loading={loading}
           />
         </React.Fragment>
       </div>
@@ -650,6 +657,7 @@ const mapStateToProps = (state: {}) => ({
   period: get(state, 'leads.period'),
   totalRecords: get(state, 'leads.totalRecords'),
   totalPages: get(state, 'leads.totalPages'),
+  loading: get(state, 'leads.loading'),
   filters: filters(state),
   loadingFilters: loadingFilters(state),
 });
