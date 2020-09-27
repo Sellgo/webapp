@@ -4,7 +4,7 @@ import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
-import { findMinMax } from '../../../constants/Suppliers';
+import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import {
@@ -671,8 +671,16 @@ function ProfitFinderFilterSection(props: Props) {
 
   const resetCustomizableFilter = () => {
     const filterData = filterState;
+    for (const key of supplierDataKeys) {
+      for (const filter of filterData.customizable) {
+        if (key === filter.dataKey && filter.active) {
+          filterState[key] = filteredRanges[key];
+        }
+      }
+    }
     filterData.customizable = filterInitialData.customizable;
     setFilterState(filterData);
+    applyFilter(true);
   };
 
   const customizableFilterWithSlider = (dataKey: string) => {
@@ -798,14 +806,16 @@ function ProfitFinderFilterSection(props: Props) {
     filterDetails[datakey] = range;
     setFilterState(filterDetails);
     setFilterRanges(data);
+    toggleOffCustomFilter(datakey);
   };
 
   const resetSingleFilter = (datakey: string) => {
+    console.log('resetSingleFilter: ', filteredRanges[datakey], rangeData[datakey]);
     const filterDetails = filterState;
     const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
-        filter.filterRange = filter.range;
-        filterDetails[datakey] = filter.range;
+        filter.filterRange = rangeData[datakey];
+        filterDetails[datakey] = rangeData[datakey];
         if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
           filterDetails.removeNegative.splice(filterDetails.removeNegative.indexOf(datakey), 1);
           filter.range = rangeData[datakey];
@@ -815,6 +825,7 @@ function ProfitFinderFilterSection(props: Props) {
       }
       return filter;
     });
+    toggleOffCustomFilter(datakey);
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
@@ -859,6 +870,9 @@ function ProfitFinderFilterSection(props: Props) {
       filterState.profitabilityFilter.active = false;
       toggleOffCustomFilter('profit');
     }
+    if (!isPreset) {
+      checkCustomizePresetChange();
+    }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
     if (!isPreset) {
@@ -867,7 +881,21 @@ function ProfitFinderFilterSection(props: Props) {
     }
   };
 
+  const checkCustomizePresetChange = () => {
+    for (const key of supplierDataKeys) {
+      for (const filter of filterRanges) {
+        if (
+          key === filter.dataKey &&
+          JSON.stringify(filter.range) !== JSON.stringify(filterState[key])
+        ) {
+          toggleOffCustomFilter(key);
+        }
+      }
+    }
+  };
+
   const resetFilter = () => {
+    checkCustomizePresetChange();
     const data = filterState;
     data.supplier_id = filterState.supplier_id;
     data.allFilter = [];
@@ -912,7 +940,6 @@ function ProfitFinderFilterSection(props: Props) {
           if (data.removeNegative.indexOf(datakey) !== -1) {
             //only toggle negative slider if change is from preset
             data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
-            filter.range = rangeData[datakey];
             filter.filterRange = rangeData[datakey];
           }
         } else {
