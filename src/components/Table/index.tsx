@@ -61,7 +61,7 @@ export interface GenericTableProps {
   featuresLock?: boolean;
   pagination?: boolean;
   handleColumnDrop?: (e: any, data: any) => void;
-  onSort?: (sort: any) => void;
+  onSort?: (sort: any, dataKey?: string) => void;
   defaultSort?: any;
   reorderColumns?: any;
   columnDnD?: boolean;
@@ -75,6 +75,7 @@ export interface GenericTableProps {
   resetColumnFilters?: (dataKey: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
+  loading?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -149,6 +150,7 @@ export const GenericTable = (props: GenericTableProps) => {
     loadingFilters,
     filterValues,
     count,
+    loading,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -160,7 +162,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      return () => setPage(name === 'leads-tracker' ? localCurrentPage : 1); // reset on unmount
+      return () => setPage(1); // reset on unmount
     }
   }, [localCurrentPage]);
 
@@ -321,12 +323,13 @@ export const GenericTable = (props: GenericTableProps) => {
     }
   };
 
-  const resetPage = () => {
+  const resetPage = (sortDirection: string, dataKey: string) => {
     if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
       setLocalCurrentPage(1);
     }
+
     if (onSort && name === 'leads-tracker') {
-      onSort(sortDirection);
+      onSort(sortDirection, dataKey);
     }
   };
 
@@ -420,7 +423,7 @@ export const GenericTable = (props: GenericTableProps) => {
           resetColumnFilters={resetColumnFilters}
           loadingFilters={loadingFilters}
           filterValues={filterValues}
-          resetPage={resetPage}
+          resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
         />
         <TableBody
           extendedInfo={extendedInfo}
@@ -450,9 +453,14 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
                     <Pagination
-                      onPageSizeSelect={size =>
-                        setSinglePageItemsCount ? setSinglePageItemsCount(size) : {}
-                      }
+                      onPageSizeSelect={size => {
+                        if (setSinglePageItemsCount) {
+                          setSinglePageItemsCount(size);
+                        }
+                        if (name !== 'leads-tracker' && setPage) {
+                          setPage(1);
+                        }
+                      }}
                       onNextPage={setLocalCurrentPage}
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
@@ -461,6 +469,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
                       showPageSize={name !== 'supplier'}
+                      loading={!!loading}
                     />
                   </div>
                 </Table.HeaderCell>

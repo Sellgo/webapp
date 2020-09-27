@@ -334,7 +334,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       render: this.renderPLRatio,
     },
     {
-      label: 'Rate',
+      label: 'Profitable',
       dataKey: 'rate',
       sortable: true,
       type: 'number',
