@@ -12,6 +12,7 @@ import {
   filterProductsByGroupId,
   DEFAULT_PERIOD,
   filterPeriods,
+  filterKeys,
 } from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
@@ -377,6 +378,7 @@ function ProductTrackerFilterSection(props: Props) {
     filterDetails[datakey] = range;
     setFilterState(filterDetails);
     setFilterRanges(data);
+    toggleOffCustomFilter(datakey);
   };
 
   const toggleSelectAllReviews = () => {
@@ -502,28 +504,21 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const resetSingleFilter = (datakey: string) => {
-    const ranges = findMinMax(groupProducts);
-    const filterDetails = _.cloneDeep(filterState);
-    const filterRangesData: any = _.cloneDeep(filterRanges);
-    const data = _.map(filterRangesData, filter => {
+    const filterDetails = filterState;
+    const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
+        filter.filterRange = rangeData[datakey];
+        filterDetails[datakey] = rangeData[datakey];
         if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
-          filter.range = ranges[datakey];
-          filter.filterRange = {
-            min: ranges[datakey].min < 0 ? 0 : ranges[datakey].min,
-            max: ranges[datakey].max < 0 ? 0 : ranges[datakey].max,
-          };
-          filterDetails[datakey] = {
-            min: ranges[datakey].min < 0 ? 0 : ranges[datakey].min,
-            max: ranges[datakey].max < 0 ? 0 : ranges[datakey].max,
-          };
-        } else {
-          filter.filterRange = ranges[datakey];
-          filterDetails[datakey] = ranges[datakey];
+          filterDetails.removeNegative.splice(filterDetails.removeNegative.indexOf(datakey), 1);
+          filter.range = rangeData[datakey];
+          filter.filterRange = rangeData[datakey];
+          filterDetails[datakey] = rangeData[datakey];
         }
       }
       return filter;
     });
+    toggleOffCustomFilter(datakey);
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
@@ -616,6 +611,9 @@ function ProductTrackerFilterSection(props: Props) {
     ) {
       filterState.profitabilityFilter.active = false;
     }
+    if (!isPreset) {
+      checkCustomizePresetChange();
+    }
 
     filterProducts(filterState, activeGroupId);
     localStorage.setItem('trackerFilter', JSON.stringify(filterState));
@@ -625,6 +623,7 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const resetFilter = (onClick?: boolean) => {
+    checkCustomizePresetChange();
     const ranges = findMinMax(groupProducts);
     const data = filterState;
     data.sellerID = sellerIDSelector();
@@ -677,8 +676,32 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  const resetCustomizableFilter = () => {
+    const filterData = filterState;
+    for (const key of filterKeys) {
+      for (const filter of filterData.customizable) {
+        if (key === filter.dataKey && filter.active) {
+          filterState[key] = filteredRanges[key];
+        }
+      }
+    }
+    filterData.customizable = filterInitialData.customizable;
+    setFilterState(filterData);
+    applyFilter(true);
+  };
+
+  const checkCustomizePresetChange = () => {
+    const filterStorage = _.cloneDeep(JSON.parse(localStorage.trackerFilter));
+    for (const key of filterKeys) {
+      if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
+        toggleOffCustomFilter(key);
+      }
+    }
+  };
+
   const resetPreset = () => {
     resetAmazonChoicePreset();
+    resetCustomizableFilter();
     applyFilter(true);
   };
 

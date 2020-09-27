@@ -810,7 +810,6 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const resetSingleFilter = (datakey: string) => {
-    console.log('resetSingleFilter: ', filteredRanges[datakey], rangeData[datakey]);
     const filterDetails = filterState;
     const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
@@ -882,14 +881,10 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const checkCustomizePresetChange = () => {
+    const filterStorage = _.cloneDeep(JSON.parse(localStorage.filterState));
     for (const key of supplierDataKeys) {
-      for (const filter of filterRanges) {
-        if (
-          key === filter.dataKey &&
-          JSON.stringify(filter.range) !== JSON.stringify(filterState[key])
-        ) {
-          toggleOffCustomFilter(key);
-        }
+      if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
+        toggleOffCustomFilter(key);
       }
     }
   };
