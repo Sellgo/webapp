@@ -692,7 +692,7 @@ function ProductTrackerFilterSection(props: Props) {
 
   const checkCustomizePresetChange = () => {
     const filterStorage =
-      typeof localStorage.filterState === 'undefined'
+      typeof localStorage.trackerFilter === 'undefined'
         ? null
         : _.cloneDeep(JSON.parse(localStorage.trackerFilter));
     if (filterStorage) {
