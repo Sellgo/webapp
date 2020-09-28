@@ -34,6 +34,7 @@ import {
 } from '../../../../selectors/Supplier';
 import { isSubscriptionFree } from '../../../../utils/subscriptions';
 import { Supplier } from '../../../../interfaces/Supplier';
+import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -565,6 +566,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       popUp: true,
     },
   ];
+
   handleClick = () => {
     const { ColumnFilterBox } = this.state;
     this.setState({
@@ -579,8 +581,72 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ columns });
   };
 
+  // detect primary ID based on products
+  detectAndUpdateProductId = () => {
+    const { filteredProducts } = this.props;
+
+    if (filteredProducts && filteredProducts.length > 0) {
+      const actualPid = PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN').filter(
+        pidType => filteredProducts[0][pidType.toLowerCase() as keyof Product]
+      )[0];
+      const columnUpcIdx = this.state.columns.findIndex(
+        (element: any) => element.dataKey === 'upc'
+      );
+      const filterUpcIdx = this.state.columnFilterData.findIndex(
+        (element: any) => element.dataKey === 'upc'
+      );
+
+      if (actualPid) {
+        // update columns & filter if non-asin product id is not the default UPC
+        if (actualPid !== 'UPC') {
+          const newColumns = _.cloneDeep(this.state.columns);
+          newColumns[columnUpcIdx] = {
+            ...newColumns[columnUpcIdx],
+            label: actualPid,
+            dataKey: actualPid.toLowerCase(),
+            render: (row: Product) => (
+              <p className="stat">
+                {showNAIfZeroOrNull(
+                  row[actualPid.toLowerCase() as keyof Product],
+                  row[actualPid.toLowerCase() as keyof Product]
+                )}
+              </p>
+            ),
+          };
+          const newColumnFilterData = _.cloneDeep(this.state.columnFilterData);
+          newColumnFilterData[filterUpcIdx] = {
+            ...newColumnFilterData[filterUpcIdx],
+            key: actualPid,
+            dataKey: actualPid.toLowerCase(),
+          };
+          this.setState({
+            columnFilterData: newColumnFilterData,
+            columns: newColumns,
+          });
+        }
+      } else {
+        // no other non-asin product ids => products are asin-based
+        // remove default UPC column & filter
+        const newColumns = _.cloneDeep(this.state.columns);
+        newColumns.splice(columnUpcIdx, 1);
+        const newColumnFilterData = _.cloneDeep(this.state.columnFilterData);
+        newColumnFilterData.splice(filterUpcIdx, 1);
+        this.setState({
+          columnFilterData: newColumnFilterData,
+          columns: newColumns,
+        });
+      }
+    }
+  };
+
   componentDidMount() {
     this.setState({ columns: this.columns });
+  }
+
+  componentDidUpdate(prevProps: ProductsTableProps) {
+    if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
+      this.detectAndUpdateProductId();
+    }
   }
 
   render() {
@@ -597,7 +663,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       stickyChartSelector,
       currentActiveColumn,
     } = this.props;
-    const { searchValue, checkedRows, ColumnFilterBox } = this.state;
+    const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
     const showTableLock = isSubscriptionFree(subscriptionType);
     const featuresLock = isSubscriptionFree(subscriptionType);
 
@@ -611,6 +677,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         product => !product.roi || Number(product.roi) <= 300
       );
     }
+
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -626,7 +693,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               stickyChartSelector={stickyChartSelector}
               scrollTopSelector={scrollTopSelector}
               tableKey={tableKeys.PRODUCTS}
-              columns={this.state.columns}
+              columns={columns}
               data={tempFilteredProducts}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
@@ -643,7 +710,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               updateCheckedRows={this.updateCheckedRows}
               handleColumnChange={this.handleColumnChange}
               toggleColumnCheckbox={this.handleClick}
-              columnFilterData={this.state.columnFilterData}
+              columnFilterData={columnFilterData}
               middleScroll={true}
               renderFilterSectionComponent={() => <ProfitFinderFilterSection />}
               showTableLock={showTableLock}

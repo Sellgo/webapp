@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { Icon, Loader, Segment } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { Column, GenericTable } from '../../../components/Table';
 import { tableKeys } from '../../../constants';
 import { supplierPageNumberSelector } from '../../../selectors/Supplier';
@@ -14,12 +14,7 @@ import {
 } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
-import {
-  filters,
-  isFetchingLeadsKPISelector,
-  leads,
-  loadingFilters,
-} from '../../../selectors/LeadsTracker';
+import { filters, leads, loadingFilters } from '../../../selectors/LeadsTracker';
 import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
@@ -47,7 +42,6 @@ export interface LeadsTrackerTableProps {
   pageNumber: number;
   leads: [any];
   filters: [any];
-  isFetchingLeadsKPI: boolean;
   currentActiveColumn: any;
   pageSize: number;
   pageNo: number;
@@ -542,7 +536,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       pageNo,
       pageSize,
       leads,
-      isFetchingLeadsKPI,
       totalPages,
       period,
       filters,
@@ -568,86 +561,78 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     }
 
     return (
-      <div className="leads-table">
-        {isFetchingLeadsKPI ? (
-          <Segment>
-            <Loader active={true} inline="centered" size="massive">
-              Loading
-            </Loader>
-          </Segment>
-        ) : (
-          <React.Fragment>
-            <div style={{ display: 'flex' }}>
-              {columns.slice(0, 5).map((c: any, i: any) => (
-                <div className={c.className} key={`left-${i}`} />
+      <div className={`leads-table ${loading && 'disabled'}`}>
+        <React.Fragment>
+          <div style={{ display: 'flex' }}>
+            {columns.slice(0, 5).map((c: any, i: any) => (
+              <div className={c.className} key={`left-${i}`} />
+            ))}
+            <div className="lt-toggle-button-container" onScroll={onScroll}>
+              {columns.slice(5, 9).map((c: any, i: any) => (
+                <div
+                  className={`${c.className.replace('active-column', '')} ${
+                    !!activeColumn && activeColumn.dataKey === c.dataKey
+                      ? 'toggle-column-active'
+                      : 'toggle-column'
+                  }`}
+                  key={`middle-${i}`}
+                  onClick={() => this.setActiveColumn(c)}
+                >
+                  <Icon name="pin" />
+                </div>
               ))}
-              <div className="lt-toggle-button-container" onScroll={onScroll}>
-                {columns.slice(5, 9).map((c: any, i: any) => (
-                  <div
-                    className={`${c.className.replace('active-column', '')} ${
-                      !!activeColumn && activeColumn.dataKey === c.dataKey
-                        ? 'toggle-column-active'
-                        : 'toggle-column'
-                    }`}
-                    key={`middle-${i}`}
-                    onClick={() => this.setActiveColumn(c)}
-                  >
-                    <Icon name="pin" />
-                  </div>
-                ))}
-              </div>
-              {columns.slice(9, columns.length - 2).map((c: any, i: any) => (
-                <div className={c.className} key={`left-${i}`} />
-              ))}
-              <div style={{ marginBottom: 5 }}>
-                <LeadsTrackerFilterSection
-                  defaultPeriod={period}
-                  onPeriodSelect={(period: any) => this.fetchLeadsData({ period })}
-                />
-              </div>
             </div>
-            <GenericTable
-              currentActiveColumn={currentActiveColumn}
-              scrollTopSelector={false}
-              tableKey={tableKeys.LEADS}
-              columns={columns}
-              data={leads}
-              singlePageItemsCount={pageSize}
-              currentPage={pageNo}
-              setPage={page => {
-                if (page !== pageNo) {
-                  this.fetchLeadsData({ page, loading: false });
-                }
-              }}
-              name={'leads-tracker'}
-              pageCount={totalPages}
-              showFilter={true}
-              onSort={(setSortDirection, dataKey) =>
-                this.onSort(setSortDirection, dataKey ? dataKey : '')
+            {columns.slice(9, columns.length - 2).map((c: any, i: any) => (
+              <div className={c.className} key={`left-${i}`} />
+            ))}
+            <div style={{ marginBottom: 5 }}>
+              <LeadsTrackerFilterSection
+                defaultPeriod={period}
+                onPeriodSelect={(period: any) => this.fetchLeadsData({ period })}
+              />
+            </div>
+          </div>
+          <GenericTable
+            currentActiveColumn={currentActiveColumn}
+            scrollTopSelector={false}
+            tableKey={tableKeys.LEADS}
+            columns={columns}
+            data={leads}
+            singlePageItemsCount={pageSize}
+            currentPage={pageNo}
+            setPage={page => {
+              if (page !== pageNo) {
+                this.fetchLeadsData({ page, loading: false });
               }
-              checkedRows={checkedRows}
-              updateCheckedRows={this.updateCheckedRows}
-              toggleColumnCheckbox={this.handleClick}
-              middleScroll={true}
-              columnFilterBox={ColumnFilterBox}
-              columnDnD={true}
-              activeColumnFilters={activeColumnFilters}
-              toggleColumnFilters={this.setActiveColumnFilters}
-              resetColumnFilters={(resetKey: string) => {
-                this.fetchLeadsData(this.getFilters(), resetKey);
-                this.setState({ ColumnFilterBox: false });
-              }}
-              setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page, page: 1 })}
-              loadingFilters={loadingFilters}
-              filterValues={filters}
-              stickyChartSelector
-              applyColumnFilters={this.applyFilters}
-              cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
-              count={totalRecords}
-              loading={loading}
-            />
-          </React.Fragment>
-        )}
+            }}
+            name={'leads-tracker'}
+            pageCount={totalPages}
+            showFilter={true}
+            onSort={(setSortDirection, dataKey) =>
+              this.onSort(setSortDirection, dataKey ? dataKey : '')
+            }
+            checkedRows={checkedRows}
+            updateCheckedRows={this.updateCheckedRows}
+            toggleColumnCheckbox={this.handleClick}
+            middleScroll={true}
+            columnFilterBox={ColumnFilterBox}
+            columnDnD={true}
+            activeColumnFilters={activeColumnFilters}
+            toggleColumnFilters={this.setActiveColumnFilters}
+            resetColumnFilters={(resetKey: string) => {
+              this.fetchLeadsData(this.getFilters(), resetKey);
+              this.setState({ ColumnFilterBox: false });
+            }}
+            setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page, page: 1 })}
+            loadingFilters={loadingFilters}
+            filterValues={filters}
+            stickyChartSelector
+            applyColumnFilters={this.applyFilters}
+            cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
+            count={totalRecords}
+            loading={loading}
+          />
+        </React.Fragment>
       </div>
     );
   }
@@ -656,7 +641,6 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   pageNumber: supplierPageNumberSelector(state),
   leads: leads(state),
-  isFetchingLeadsKPI: isFetchingLeadsKPISelector(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   pageSize: get(state, 'leads.pageSize'),
   pageNo: get(state, 'leads.pageNo'),

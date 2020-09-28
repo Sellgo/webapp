@@ -434,6 +434,7 @@ export const GenericTable = (props: GenericTableProps) => {
           expandedRows={expandedRows}
           middleScroll={middleScroll}
           rowExpander={rowExpander}
+          loading={loading}
         />
 
         {pagination && (

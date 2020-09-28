@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Loader, Checkbox, Icon } from 'semantic-ui-react';
+import { Checkbox, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -552,45 +552,38 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           />
         </div>
         <ProductTrackerFilterSection />
-        {!isLoadingTrackerProducts && productTrackerResult ? (
-          <GenericTable
-            currentActiveColumn={currentActiveColumn}
-            stickyChartSelector={stickyChartSelector}
-            scrollTopSelector={scrollTopSelector}
-            columnFilterBox={ColumnFilterBox}
-            tableKey={tableKeys.PRODUCTS}
-            data={filteredProducts}
-            columns={this.state.columns}
-            setPage={setPageNumber}
-            currentPage={productTrackerPageNo}
-            expandedRows={this.state.expandedRows}
-            extendedInfo={(product: any) => <ProductCharts product={product} />}
-            singlePageItemsCount={singlePageItemsCount}
-            setSinglePageItemsCount={setSinglePageItemsCount}
-            setPageNumber={setPageNumber}
-            name={'trackerTable'}
-            columnFilterData={this.state.columnFilterData}
-            handleColumnChange={this.handleColumnChange}
-            count={productTrackerResult}
-            productTrackerPageNo={this.props.productTrackerPageNo}
-            toggleColumnCheckbox={this.handleClick}
-            showFilter={true}
-            showTableLock={showTableLock}
-            handleColumnDrop={this.handleColumnDrop}
-            reorderColumns={this.reorderColumns}
-            columnDnD={true}
-            middleScroll={true}
-            rowExpander={this.renderDV}
-            defaultSort={this.state.defaultSort}
-            onSort={defaultSort => this.setState({ defaultSort })}
-          />
-        ) : (
-          <Segment className="product-tracker-loader">
-            <Loader active={true} inline="centered" size="massive">
-              Loading
-            </Loader>
-          </Segment>
-        )}
+        <GenericTable
+          loading={isLoadingTrackerProducts}
+          currentActiveColumn={currentActiveColumn}
+          stickyChartSelector={stickyChartSelector}
+          scrollTopSelector={scrollTopSelector}
+          columnFilterBox={ColumnFilterBox}
+          tableKey={tableKeys.PRODUCTS}
+          data={filteredProducts}
+          columns={this.state.columns}
+          setPage={setPageNumber}
+          currentPage={productTrackerPageNo}
+          expandedRows={this.state.expandedRows}
+          extendedInfo={(product: any) => <ProductCharts product={product} />}
+          singlePageItemsCount={singlePageItemsCount}
+          setSinglePageItemsCount={setSinglePageItemsCount}
+          setPageNumber={setPageNumber}
+          name={'trackerTable'}
+          columnFilterData={this.state.columnFilterData}
+          handleColumnChange={this.handleColumnChange}
+          count={productTrackerResult}
+          productTrackerPageNo={this.props.productTrackerPageNo}
+          toggleColumnCheckbox={this.handleClick}
+          showFilter={true}
+          showTableLock={showTableLock}
+          handleColumnDrop={this.handleColumnDrop}
+          reorderColumns={this.reorderColumns}
+          columnDnD={true}
+          middleScroll={true}
+          rowExpander={this.renderDV}
+          defaultSort={this.state.defaultSort}
+          onSort={defaultSort => this.setState({ defaultSort })}
+        />
       </div>
     );
   }
