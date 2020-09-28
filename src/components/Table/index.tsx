@@ -53,7 +53,6 @@ export interface GenericTableProps {
   updateCheckedRows?: (checkedRows: CheckedRowDictionary) => void;
   productRanges?: any;
   columnFilterBox?: boolean;
-  isLoadingTrackerProducts?: boolean;
   toggleColumnCheckbox?: () => void;
   setPage?: (pageNumber: number) => void;
   currentPage?: number;
@@ -108,7 +107,6 @@ export const getColumnClass = (column: any) => {
 // Handles pagination, filtering, and sorting client-side
 export const GenericTable = (props: GenericTableProps) => {
   const {
-    isLoadingTrackerProducts,
     currentPage,
     data,
     singlePageItemsCount = 10,
@@ -436,7 +434,7 @@ export const GenericTable = (props: GenericTableProps) => {
           expandedRows={expandedRows}
           middleScroll={middleScroll}
           rowExpander={rowExpander}
-          isLoadingTrackerProducts={isLoadingTrackerProducts}
+          loading={loading}
         />
 
         {pagination && (

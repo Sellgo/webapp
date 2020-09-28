@@ -553,7 +553,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         </div>
         <ProductTrackerFilterSection />
         <GenericTable
-          isLoadingTrackerProducts={isLoadingTrackerProducts}
+          loading={isLoadingTrackerProducts}
           currentActiveColumn={currentActiveColumn}
           stickyChartSelector={stickyChartSelector}
           scrollTopSelector={scrollTopSelector}
