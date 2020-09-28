@@ -691,10 +691,15 @@ function ProductTrackerFilterSection(props: Props) {
   };
 
   const checkCustomizePresetChange = () => {
-    const filterStorage = _.cloneDeep(JSON.parse(localStorage.trackerFilter));
-    for (const key of filterKeys) {
-      if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
-        toggleOffCustomFilter(key);
+    const filterStorage =
+      typeof localStorage.filterState === 'undefined'
+        ? null
+        : _.cloneDeep(JSON.parse(localStorage.trackerFilter));
+    if (filterStorage) {
+      for (const key of filterKeys) {
+        if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
+          toggleOffCustomFilter(key);
+        }
       }
     }
   };
