@@ -26,6 +26,8 @@ import DetailButtons from './detailButtons';
 import LeadsTrackerFilterSection from '../LeadsTrackerFilterSection';
 import { fetchFilters, FetchLeadsFilters, fetchLeadsKPIs } from '../../../actions/LeadsTracker';
 
+import ConstructionImage from '../../../components/ConstructionImage';
+
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -566,7 +568,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     if (middleHeader) {
       middleHeader.addEventListener('scroll', onScroll);
     }
-
     return (
       <div className="leads-table">
         {isFetchingLeadsKPI ? (
@@ -575,6 +576,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               Loading
             </Loader>
           </Segment>
+        ) : totalRecords < 1 ? (
+          <ConstructionImage />
         ) : (
           <React.Fragment>
             <div style={{ display: 'flex' }}>
@@ -652,6 +655,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     );
   }
 }
+
 const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   pageNumber: supplierPageNumberSelector(state),
