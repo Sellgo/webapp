@@ -549,11 +549,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderSizeTiers,
     },
     {
-      label: 'Tracking / Scoring',
+      label: 'Tracking',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,
-      sortable: true,
+      sortable: false,
       render: this.renderDetailButtons,
     },
     {
