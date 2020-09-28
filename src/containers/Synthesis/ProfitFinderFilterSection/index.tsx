@@ -881,10 +881,15 @@ function ProfitFinderFilterSection(props: Props) {
   };
 
   const checkCustomizePresetChange = () => {
-    const filterStorage = _.cloneDeep(JSON.parse(localStorage.filterState));
-    for (const key of supplierDataKeys) {
-      if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
-        toggleOffCustomFilter(key);
+    const filterStorage =
+      typeof localStorage.filterState === 'undefined'
+        ? null
+        : _.cloneDeep(JSON.parse(localStorage.filterState));
+    if (filterStorage) {
+      for (const key of supplierDataKeys) {
+        if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
+          toggleOffCustomFilter(key);
+        }
       }
     }
   };
