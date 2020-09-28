@@ -14,12 +14,7 @@ import {
 } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
-import {
-  filters,
-  isFetchingLeadsKPISelector,
-  leads,
-  loadingFilters,
-} from '../../../selectors/LeadsTracker';
+import { filters, leads, loadingFilters } from '../../../selectors/LeadsTracker';
 import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
@@ -47,7 +42,6 @@ export interface LeadsTrackerTableProps {
   pageNumber: number;
   leads: [any];
   filters: [any];
-  isFetchingLeadsKPI: boolean;
   currentActiveColumn: any;
   pageSize: number;
   pageNo: number;
@@ -542,7 +536,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       pageNo,
       pageSize,
       leads,
-      isFetchingLeadsKPI,
       totalPages,
       period,
       filters,
@@ -568,7 +561,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     }
 
     return (
-      <div className={`leads-table ${isFetchingLeadsKPI && 'disabled'}`}>
+      <div className={`leads-table ${loading && 'disabled'}`}>
         <React.Fragment>
           <div style={{ display: 'flex' }}>
             {columns.slice(0, 5).map((c: any, i: any) => (
@@ -648,7 +641,6 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   pageNumber: supplierPageNumberSelector(state),
   leads: leads(state),
-  isFetchingLeadsKPI: isFetchingLeadsKPISelector(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   pageSize: get(state, 'leads.pageSize'),
   pageNo: get(state, 'leads.pageNo'),
