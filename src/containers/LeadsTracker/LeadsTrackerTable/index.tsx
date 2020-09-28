@@ -270,7 +270,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   };
 
   onSort = async (order: string, dataKey: string) => {
-    // const { currentActiveColumn } = this.props;
     await this.setState({ loading: false });
     const sortDirection = order === 'descending' ? 'desc' : 'asc';
     await this.fetchLeadsData({
