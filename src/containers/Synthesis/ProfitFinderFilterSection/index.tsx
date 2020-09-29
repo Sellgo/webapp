@@ -79,7 +79,7 @@ function ProfitFinderFilterSection(props: Props) {
 
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData = {
-    supplier_id: supplierDetails.supplier_id,
+    supplierID: supplierDetails.supplier_id,
     allFilter: [],
     sizeTierFilter: [
       'Small standard-size',
@@ -1073,8 +1073,6 @@ function ProfitFinderFilterSection(props: Props) {
                 className={`more-filter`}
                 onClick={() => {
                   togglePresetFilter(!openPresetFilter);
-                  // handleFilterType('more-filter');
-                  // setFilterModalOpen(true);
                 }}
               >
                 <span className="filter-name">More</span>

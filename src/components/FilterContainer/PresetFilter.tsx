@@ -7,7 +7,7 @@ interface PresetFilterProps {
   applyFilter: (isPreset?: boolean) => void;
   filterData: SupplierFilter;
   filterState: FilterState;
-  filterInitialData: any;
+  filterInitialData: FilterState;
   resetPreset: () => void;
   customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
   togglePresetFilter: (value: boolean) => void;
