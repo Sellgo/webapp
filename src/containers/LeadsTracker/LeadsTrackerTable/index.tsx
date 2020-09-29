@@ -564,7 +564,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
 
     return (
       <div className={`leads-table ${loading && 'disabled'}`}>
-        {totalRecords < 1 ? (
+        {!loading && totalRecords < 1 ? (
           <ConstructionImage />
         ) : (
           <React.Fragment>
