@@ -377,6 +377,11 @@ $new_black: #3b4557;
     td p.lt-stat {
       color: #98aeca;
       text-align: center;
+      width: 115px !important;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis;
     }
 
     .mrgn-right {
