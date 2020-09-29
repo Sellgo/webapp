@@ -227,6 +227,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         (isYearly
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
+
       return (
         <Card
           key={subscription.id}
@@ -308,7 +309,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             )}
 
-            {!subscribedSubscription && (
+            {!subscribedSubscription && sellerSubscription.subscription_id !== 4 && (
               <Link to="/settings/#amazon-mws" className="free-trial-btn">
                 <Button className="basic-btn" fluid>
                   Free Trial
