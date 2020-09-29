@@ -16,9 +16,10 @@ const AddNewSearch = (props: any) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const name = fileDetails
-      ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
-      : '';
+    const name =
+      fileDetails && fileDetails.name
+        ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
+        : '';
     setFileName(name);
     if (inputRef && inputRef.current && !!name) {
       inputRef.current.focus();
