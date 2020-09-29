@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 
 export const SET_SUPPLIERS = 'SET_SUPPLIERS';
 export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
@@ -189,6 +190,74 @@ export const findFilterProducts = (products: any, filterRanges: any) => {
   return updatedFilterProducts;
 };
 
+export const customFilterOperation = (
+  operation: string,
+  prodValue: number,
+  filterValue: number
+) => {
+  switch (operation) {
+    case '≤':
+      return prodValue <= filterValue;
+    case '≥':
+      return prodValue >= filterValue;
+    case '=':
+      return Number(prodValue) === Number(filterValue);
+    default:
+      return false;
+  }
+};
+
+export const customizableFilter = (product: any, customizableFilter: any) => {
+  let result = true;
+  _.filter(customizableFilter, filter => {
+    if (result) {
+      // for keys with computation that doesn't exist in filter slider
+      if (filter.dataKey === 'listing-monthly' && filter.active) {
+        const generatesValue = product.price * product.sales_monthly;
+        if (!filter.active) result = true;
+        else {
+          result = customFilterOperation(filter.operation, generatesValue, filter.value);
+        }
+      }
+      if (filter.dataKey === 'profit-monthly' && filter.active) {
+        const profitMonthly = product.profit * product.sales_monthly;
+        if (!filter.active) result = true;
+        else {
+          result = customFilterOperation(filter.operation, profitMonthly, filter.value);
+        }
+      }
+      if (filter.dataKey === 'customer_reviews' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          if (product.customer_reviews === null) result = true;
+          else {
+            result = customFilterOperation(
+              filter.operation,
+              product.customer_reviews,
+              filter.value
+            );
+          }
+        }
+      }
+      // for sliders with keys same with customize filter for ex. price
+      for (const keys of supplierDataKeys) {
+        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
+          result = Number(product[filter.dataKey]) === Number(filter.value);
+        }
+      }
+    }
+  });
+  return result;
+};
+
+export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
+  if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
+    return true;
+  else {
+    return profitabilityFilter.value === 'Non-Profitable Products' && Number(product.profit) !== 0;
+  }
+};
+
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
@@ -204,6 +273,10 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
             //show product size tier is matched by one of size tiers
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
+          //customizable filters
+          customizableFilter(product, filterData.customizable) &&
+          //NonProfitable filters
+          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>
@@ -219,9 +292,11 @@ export const searchFilteredProduct = (products: any, value: string) => {
   const updatedFilterProducts = _.filter(products, product => {
     return (
       (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.ean && product.ean.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+      PRODUCT_ID_TYPES.map(
+        pidType =>
+          product[pidType.toLowerCase()] &&
+          product[pidType.toLowerCase()].toLowerCase().indexOf(value.toLowerCase()) !== -1
+      ).includes(true)
     );
   });
   return updatedFilterProducts;

@@ -15,7 +15,7 @@ interface AllFilterProps {
   toggleSelectAllReviews: () => void;
   filterData: ProductTrackerFilterInterface;
   handleCompleteChange: (dataKey: string, range: Range) => void;
-  initialFilterState: ProductTrackerFilterState;
+  filterState: ProductTrackerFilterState;
   isAllReviews: boolean;
   toggleReviewsCheckbox: (filterDataKey: string) => void;
   toggleNegative: (datakey: string) => void;
@@ -28,7 +28,7 @@ const AllFilter = (props: AllFilterProps) => {
     filterData,
     handleCompleteChange,
     resetSingleFilter,
-    initialFilterState,
+    filterState,
     toggleSelectAllReviews,
     isAllReviews,
     toggleReviewsCheckbox,
@@ -68,7 +68,7 @@ const AllFilter = (props: AllFilterProps) => {
                     onChange={() => {
                       toggleNegative(filter.dataKey);
                     }}
-                    checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
+                    checked={filterState.removeNegative.indexOf(filter.dataKey) !== -1}
                   />
                 </div>
               )}
@@ -98,7 +98,7 @@ const AllFilter = (props: AllFilterProps) => {
                 <div className="ui checkbox" key={dataKey}>
                   <input
                     id={filterData.label}
-                    checked={initialFilterState.reviews.indexOf(filterData.dataKey) !== -1}
+                    checked={filterState.reviews.indexOf(filterData.dataKey) !== -1}
                     onChange={() => {
                       toggleReviewsCheckbox(filterData.dataKey);
                     }}

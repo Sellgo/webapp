@@ -114,6 +114,8 @@ export class Supplier extends React.Component<SupplierProps> {
 
   render() {
     const { isLoadingSupplierProducts, supplierDetails, stickyChartSelector } = this.props;
+    const searchName =
+      supplierDetails && supplierDetails.search ? `: ${supplierDetails.search}` : '';
 
     return (
       <>
@@ -122,8 +124,7 @@ export class Supplier extends React.Component<SupplierProps> {
           title={`Profit Finder of ${supplierDetails.search || 'Search'}`}
           breadcrumb={[
             { content: 'Home', to: '/' },
-            { content: 'Search Management', to: '/synthesis' },
-            { content: `Profit Finder: ${supplierDetails.search} ` || 'Search' },
+            { content: `Profit Finder${searchName} ` || 'Search' },
           ]}
           callToAction={<QuotaMeter />}
         />

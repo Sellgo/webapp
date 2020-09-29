@@ -32,6 +32,7 @@ interface FieldProps {
   defaultChecked?: boolean;
   placeholder?: string;
   inputProps: object;
+  setFieldToBeFocused: (ref: any) => void;
 }
 
 export const InputField = ({
@@ -42,12 +43,19 @@ export const InputField = ({
   inline,
   meta: { touched, error },
   inputProps,
+  setFieldToBeFocused,
   ...rest
 }: FieldProps) => {
   return (
     <Form.Field error={!!(touched && error)} required={required} width={width} inline={inline}>
       {label && <label>{label}</label>}
-      <InputComponent required={required} {...input} {...rest} {...inputProps} />
+      <InputComponent
+        required={required}
+        {...input}
+        {...rest}
+        {...inputProps}
+        ref={setFieldToBeFocused}
+      />
       {touched && error ? (
         <Label basic={true} color="red" pointing={true}>
           {error}

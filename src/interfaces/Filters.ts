@@ -3,6 +3,8 @@ export interface FilterModel {
   dataKey: string;
   checked?: boolean;
   value?: number;
+  operation?: string;
+  targetValue?: string;
 }
 
 export interface RangeModel {
@@ -22,6 +24,12 @@ export interface RangeModel {
   sign?: string;
 }
 
+export interface CustomizableFilterModel {
+  dataKey: string;
+  operation: string;
+  value: number;
+  active: boolean;
+}
 //Supplier
 export interface FilterData {
   label: string;
@@ -34,6 +42,7 @@ export interface FilterData {
 export interface SupplierFilter {
   allFilter: FilterData[];
   filterRanges: RangeModel[];
+  presets: FilterData[];
 }
 
 export interface FilterState {
@@ -44,7 +53,6 @@ export interface FilterState {
     value: string;
     active: boolean;
   };
-  amazonChoice: string[];
   removeNegative: string[];
   sizeTierFilter: string[];
   price: {
@@ -71,6 +79,7 @@ export interface FilterState {
     min: number;
     max: number;
   };
+  customizable: CustomizableFilterModel[];
 }
 
 //Product Tracker
@@ -118,4 +127,5 @@ export interface ProductTrackerFilterState {
     min: number;
     max: number;
   };
+  customizable: CustomizableFilterModel[];
 }

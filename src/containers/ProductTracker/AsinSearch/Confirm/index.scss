@@ -95,11 +95,234 @@ $asin-font: 'Work sans', sans-serif !important;
   $asin-font: $asin-font;
 
   width: 580px;
-  height: 297px;
+
+  .header-container {
+    border: none !important;
+    font-size: 18px;
+    font-weight: 600;
+    color: #349af8;
+    padding: 40px 40px 15px 40px;
+    font-family: $asin-font;
+  }
 
   .content {
     background: transparent !important;
-    padding: 40px;
+    padding: 0 40px 40px 40px;
+
+    .multiple-asin-container {
+      margin-bottom: 10px;
+
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      &__title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #3b4557;
+        margin-bottom: 10px;
+
+        &.error {
+          color: red;
+        }
+      }
+
+      &__error-container {
+        margin: -10px 10px;
+        min-height: 14px;
+
+        &__message {
+          font-size: 10px;
+          color: red;
+        }
+      }
+
+      &__wrapper {
+        border: 1px #98aeca solid !important;
+        border-radius: 11px;
+        box-shadow: none !important;
+        padding: 10px;
+        padding-bottom: unset;
+
+        &.error-wrapper {
+          border: 1px #eb675e solid !important;
+        }
+
+        .align-items-center {
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          flex-wrap: wrap;
+
+          .col {
+            margin-bottom: 10px;
+          }
+
+          .p-2.col-auto {
+            margin-left: 5px;
+            margin-bottom: 10px;
+
+            div {
+              pointer-events: none;
+              border: 1px solid #98aeca;
+              border-radius: 6px !important;
+              background: #fff;
+              display: flex;
+              align-items: center;
+              font-size: 12px;
+              font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+              padding: 4px !important;
+              height: 24px;
+              color: #98aecacc;
+
+              svg {
+                background: #98aeca;
+                border-radius: 50%;
+                fill: #fff;
+                height: 13px;
+                width: 13px;
+                margin-left: 5px;
+                padding: 1px;
+                margin-top: -1px !important;
+                pointer-events: auto !important;
+
+                path {
+                  transform: scale(0.45);
+                  -webkit-transform: scale(0.45);
+                }
+              }
+            }
+
+            &.error div:first-child {
+              border: 1px solid #eb675e !important;
+              color: #eb675e;
+
+              svg {
+                background: #eb675e;
+              }
+            }
+          }
+        }
+
+        .custom-form-control {
+          border-bottom: 1px solid #98aeca;
+          margin-left: 5px;
+          padding: 2px 0;
+          width: 210px;
+
+          input {
+            border: none !important;
+            outline: none !important;
+            font-size: 12px;
+            font-family: $asin-font !important;
+            width: 100%;
+          }
+
+          input::placeholder {
+            color: #98aeca;
+          }
+        }
+      }
+    }
+
+    .added-asin-container {
+      border: 1px #98aeca solid !important;
+      border-radius: 11px;
+      box-shadow: none !important;
+      padding: 10px;
+
+      &::-webkit-scrollbar-track {
+        border-radius: 12px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #98aeca !important;
+      }
+
+      &__wrapper {
+        min-height: 133px;
+        max-height: 133px;
+        overflow-x: auto;
+
+        &__title {
+          font-size: 18px;
+          font-weight: 700;
+          color: #3b4557;
+          margin-bottom: 10px;
+        }
+
+        &__item {
+          display: flex;
+          height: 35px;
+          align-items: center;
+          margin-bottom: 10px;
+
+          &__image {
+            width: 34px;
+            padding: 0 5px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            height: 34px;
+          }
+
+          &__no-image {
+            width: 34px;
+            height: 34px;
+            text-align: center;
+            border: 1px solid #f7f7f7;
+            font-size: 8px;
+            font-weight: 600;
+            align-items: center;
+            display: flex;
+          }
+
+          &__descriptions {
+            margin-left: 5px;
+            max-width: 320px;
+
+            .is-tracked {
+              color: #f1c40f;
+            }
+
+            .error {
+              color: #eb675e !important;
+            }
+
+            &__title {
+              color: #5381db;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 16px;
+              overflow: hidden;
+              text-align: left;
+              text-overflow: ellipsis;
+              white-space: pre-wrap;
+              white-space: nowrap;
+              margin: 0;
+            }
+
+            &__asin {
+              color: #3b4557;
+              font-weight: 500;
+              font-size: 12px;
+              line-height: 16px;
+              margin-bottom: 2px;
+            }
+
+            &__already-tracked {
+              margin-left: 5px;
+              color: #f1c40f !important;
+              font-weight: 500;
+              font-size: 12px;
+              line-height: 16px;
+              margin-bottom: 2px;
+            }
+          }
+        }
+      }
+    }
 
     h4.ui.icon.header {
       @extend %asin-header;
@@ -109,7 +332,7 @@ $asin-font: 'Work sans', sans-serif !important;
 
     .two.column.row {
       display: flex;
-      margin: 20px 0;
+      margin: 20px 0 30px 0;
 
       .column {
         &:first-child {
@@ -125,7 +348,7 @@ $asin-font: 'Work sans', sans-serif !important;
           width: 70%;
 
           .ui.selection.dropdown {
-            width: 333px;
+            width: 100%;
             min-height: 35px !important;
             background: #fff 0% 0% no-repeat padding-box;
             border: 0.56px solid #a2a2a2;
@@ -156,10 +379,4 @@ $asin-font: 'Work sans', sans-serif !important;
       }
     }
   }
-}
-
-.ui.modal.transition.visible.active.Confirm__group {
-  @extend .ui.modal.transition.visible.active.Confirm__grouping-asin;
-
-  height: 228px;
 }

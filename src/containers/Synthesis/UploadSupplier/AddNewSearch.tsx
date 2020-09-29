@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.scss';
 import { Field } from 'redux-form';
 import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { marketPlace } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
+import { fileDetailsSelector } from '../../../selectors/UploadSupplier';
+import { connect } from 'react-redux';
 
 const required = isRequired();
 
-const AddNewSearch = () => {
+const AddNewSearch = (props: any) => {
+  const { fileDetails } = props;
+  const [fileName, setFileName] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const name = fileDetails
+      ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
+      : '';
+    setFileName(name);
+    if (inputRef && inputRef.current && !!name) {
+      inputRef.current.focus();
+      const select = () => {
+        if (inputRef && inputRef.current) inputRef.current.select();
+      };
+      setTimeout(select, 50);
+    }
+  }, [fileDetails]);
+
   return (
     <div className={`AddNewSearch__new-search ${styles['ouline-box']}`}>
       <Form className={`${styles['supply-container']} ${styles['form-size']}`}>
@@ -26,6 +46,11 @@ const AddNewSearch = () => {
                 label="Search Name"
                 placeholder="Search Name"
                 maxLength="100"
+                setFieldToBeFocused={inputRef}
+                inputProps={{
+                  value: fileName,
+                  onChange: (e: any) => setFileName(e.target.value),
+                }}
               />
               <div className={`field `} />
             </div>
@@ -49,4 +74,8 @@ const AddNewSearch = () => {
   );
 };
 
-export default AddNewSearch;
+const mapStateToProps = (state: {}) => ({
+  fileDetails: fileDetailsSelector(state),
+});
+
+export default connect(mapStateToProps)(AddNewSearch);

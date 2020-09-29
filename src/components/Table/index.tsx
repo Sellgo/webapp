@@ -14,6 +14,10 @@ export interface Column {
   dataKey?: string;
   label?: string;
   sortable?: boolean;
+  filter?: boolean;
+  filterType?: string;
+  filterSign?: string;
+  searchIconPosition?: string;
   show?: boolean;
   check?: any;
   icon?: any;
@@ -57,12 +61,21 @@ export interface GenericTableProps {
   featuresLock?: boolean;
   pagination?: boolean;
   handleColumnDrop?: (e: any, data: any) => void;
-  onSort?: (sort: any) => void;
+  onSort?: (sort: any, dataKey?: string) => void;
   defaultSort?: any;
   reorderColumns?: any;
   columnDnD?: boolean;
   middleScroll?: boolean;
   rowExpander?: any;
+  pageCount?: any;
+  toggleColumnFilters?: (data: any) => void;
+  activeColumnFilters?: any;
+  applyColumnFilters?: (data: any) => void;
+  cancelColumnFilters?: () => void;
+  resetColumnFilters?: (dataKey: string) => void;
+  loadingFilters?: boolean;
+  filterValues?: any;
+  loading?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -128,10 +141,19 @@ export const GenericTable = (props: GenericTableProps) => {
     currentActiveColumn,
     onSort,
     defaultSort,
+    pageCount,
+    toggleColumnFilters,
+    activeColumnFilters,
+    applyColumnFilters,
+    cancelColumnFilters,
+    resetColumnFilters,
+    loadingFilters,
+    filterValues,
+    count,
+    loading,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
-
   useEffect(() => {
     setLocalCurrentPage(initialPage);
   }, [currentPage]);
@@ -140,7 +162,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      return () => setPage(1); // reset on unmount
+      return () => setPage(name === 'leads-tracker' ? localCurrentPage : 1); // reset on unmount
     }
   }, [localCurrentPage]);
 
@@ -156,11 +178,8 @@ export const GenericTable = (props: GenericTableProps) => {
   let sortDirection = sortOrder;
 
   useEffect(() => {
-    if (onSort && sortClicked) {
+    if (onSort && sortClicked && name !== 'leads-tracker') {
       onSort(sortDirection);
-    }
-    if (['products', 'trackerTable'].includes(name)) {
-      setLocalCurrentPage(1);
     }
   }, [sortDirection]);
 
@@ -172,43 +191,44 @@ export const GenericTable = (props: GenericTableProps) => {
   const filteredColumns = columnFilterData
     ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
     : columns.map((c: any) => ({ ...c, value: c.show, key: c.label }));
-  let rows = checkSortedColumnExist.length
-    ? [...data].sort((a, b) => {
-        const sortedColumn = checkSortedColumnExist[0];
-        let aColumn;
-        let bColumn;
-        if (sortedColumn.type === 'number') {
-          aColumn = Number(a[sortedColumn.dataKey || '']);
-          bColumn = Number(b[sortedColumn.dataKey || '']);
-        } else if (sortedColumn.type === 'date') {
-          aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
-          bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
-        } else {
-          aColumn = a[sortedColumn.dataKey || ''] || '';
-          bColumn = b[sortedColumn.dataKey || ''] || '';
-        }
-        // make string-based sorting case-insensitive
-        if (sortedColumn.dataKey && sortedColumn.type === 'string') {
-          if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+  let rows =
+    checkSortedColumnExist.length && name !== 'leads-tracker'
+      ? [...data].sort((a, b) => {
+          const sortedColumn = checkSortedColumnExist[0];
+          let aColumn;
+          let bColumn;
+          if (sortedColumn.type === 'number') {
+            aColumn = Number(a[sortedColumn.dataKey || '']);
+            bColumn = Number(b[sortedColumn.dataKey || '']);
+          } else if (sortedColumn.type === 'date') {
+            aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
+            bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
+          } else {
+            aColumn = a[sortedColumn.dataKey || ''] || '';
+            bColumn = b[sortedColumn.dataKey || ''] || '';
+          }
+          // make string-based sorting case-insensitive
+          if (sortedColumn.dataKey && sortedColumn.type === 'string') {
+            if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+              return -1;
+            }
+            if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+              return 1;
+            }
+          } else {
+            if (aColumn < bColumn) {
+              return -1;
+            }
+            if (aColumn > bColumn) {
+              return 1;
+            }
+          }
+          if (aColumn === bColumn && sortDirection === 'descending') {
             return -1;
           }
-          if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
-            return 1;
-          }
-        } else {
-          if (aColumn < bColumn) {
-            return -1;
-          }
-          if (aColumn > bColumn) {
-            return 1;
-          }
-        }
-        if (aColumn === bColumn && sortDirection === 'descending') {
-          return -1;
-        }
-        return 0;
-      })
-    : data;
+          return 0;
+        })
+      : data;
 
   const [filterName, setFilterName] = useState('');
 
@@ -226,16 +246,19 @@ export const GenericTable = (props: GenericTableProps) => {
     : rows;
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
-  if (checkSortedColumnExist[0]) {
-    const key: any = checkSortedColumnExist[0].dataKey;
-    rows = rows.sort((a, b) => {
-      return a[key] - b[key];
-    });
+
+  if (name !== 'leads-tracker') {
+    if (checkSortedColumnExist[0]) {
+      const key: any = checkSortedColumnExist[0].dataKey;
+      rows = rows.sort((a, b) => {
+        return a[key] - b[key];
+      });
+    }
   }
 
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-  } else if (name !== 'trackerTable') {
+  } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
@@ -251,10 +274,13 @@ export const GenericTable = (props: GenericTableProps) => {
   }
 
   const sortedProducts = rows;
-  rows = rows.slice(
-    (localCurrentPage - 1) * singlePageItemsCount,
-    localCurrentPage * singlePageItemsCount
-  );
+  if (name !== 'leads-tracker') {
+    rows = rows.slice(
+      (localCurrentPage - 1) * singlePageItemsCount,
+      localCurrentPage * singlePageItemsCount
+    );
+  }
+
   rows = showTableLock ? rows.slice(0, 5) : rows;
 
   useEffect(() => {
@@ -286,7 +312,7 @@ export const GenericTable = (props: GenericTableProps) => {
     }
     setSearchValue(e.target.value);
   };
-  const totalItemsCount = data.length;
+  const totalItemsCount = name === 'leads-tracker' ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
 
@@ -297,9 +323,21 @@ export const GenericTable = (props: GenericTableProps) => {
     }
   };
 
+  const resetPage = (sortDirection: string, dataKey: string) => {
+    if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
+      setLocalCurrentPage(1);
+    }
+
+    if (onSort && name === 'leads-tracker') {
+      onSort(sortDirection, dataKey);
+    }
+  };
+
   return (
     <div
-      className={`generic-table scrollable ${name === 'products' ? 'pf-table' : ''}`}
+      className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
+        name === 'products' ? 'pf-table' : ''
+      }`}
       onScroll={handleScroll}
     >
       {showProductFinderSearch ? (
@@ -348,7 +386,11 @@ export const GenericTable = (props: GenericTableProps) => {
         textAlign="left"
         unstackable={true}
         className={`${
-          name === 'trackerTable' ? 'alter-table' : name === 'products' ? 'pf-table' : ''
+          name === 'trackerTable'
+            ? 'alter-table'
+            : name === 'products' || name === 'leads-tracker'
+            ? 'pf-table'
+            : ''
         }`}
       >
         <TableHeader
@@ -374,6 +416,14 @@ export const GenericTable = (props: GenericTableProps) => {
           handleColumnDrop={handleColumnDrop}
           reorderColumns={reorderColumns ? reorderColumns : null}
           columnDnD={columnDnD}
+          toggleColumnFilters={toggleColumnFilters}
+          activeColumnFilters={activeColumnFilters}
+          applyColumnFilters={applyColumnFilters}
+          cancelColumnFilters={cancelColumnFilters}
+          resetColumnFilters={resetColumnFilters}
+          loadingFilters={loadingFilters}
+          filterValues={filterValues}
+          resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
         />
         <TableBody
           extendedInfo={extendedInfo}
@@ -384,6 +434,7 @@ export const GenericTable = (props: GenericTableProps) => {
           expandedRows={expandedRows}
           middleScroll={middleScroll}
           rowExpander={rowExpander}
+          loading={loading}
         />
 
         {pagination && (
@@ -403,17 +454,23 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
                     <Pagination
-                      onPageSizeSelect={size =>
-                        setSinglePageItemsCount ? setSinglePageItemsCount(size) : {}
-                      }
+                      onPageSizeSelect={size => {
+                        if (setSinglePageItemsCount) {
+                          setSinglePageItemsCount(size);
+                        }
+                        if (name !== 'leads-tracker' && setPage) {
+                          setPage(1);
+                        }
+                      }}
                       onNextPage={setLocalCurrentPage}
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
                       currentPage={localCurrentPage || 1}
-                      totalPages={totalPages}
+                      totalPages={name === 'leads-tracker' ? pageCount : totalPages}
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
                       showPageSize={name !== 'supplier'}
+                      loading={!!loading}
                     />
                   </div>
                 </Table.HeaderCell>

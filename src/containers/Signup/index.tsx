@@ -172,6 +172,14 @@ function Signup(props: any, state: State) {
           if (err) {
             error(err);
           } else {
+            const data = {
+              email: email,
+              name: firstname + ' ' + lastname,
+              first_name: firstname,
+              last_name: lastname,
+            };
+            auth.getSellerID(data, null);
+
             localStorage.setItem('accountType', accountType);
             ReactPixel.init(AppConfig.PIXEL_ID);
             ReactPixel.track('CompleteRegistration');

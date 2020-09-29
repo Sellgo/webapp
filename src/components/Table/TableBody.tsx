@@ -11,6 +11,7 @@ interface TableBodyProps {
   columns: Column[];
   middleScroll?: boolean;
   rowExpander?: any;
+  loading?: boolean;
 }
 
 interface TableColumnCellProps {
@@ -57,18 +58,30 @@ export const TableBody = (props: TableBodyProps) => {
     type,
     middleScroll,
     rowExpander,
+    loading,
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
 
   if (middleScroll) {
-    const lowerBound = columns.slice(0, 2);
-    const middleBound = columns.slice(2, columns.length - 2);
-    const upperBound = columns.slice(columns.length - 2, columns.length - 1);
-
+    const isTypeProducts = type === 'products';
+    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
+    const middleBound = filteredColumns.slice(
+      isTypeProducts ? 2 : 5,
+      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
+    );
+    const upperBound = filteredColumns.slice(
+      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
+      filteredColumns.length
+    );
     const onBodyScroll = (evt: any) => {
+      const leadsHeader = document.querySelector('.leads-tracker-middle');
+
       const middleHeader = document.querySelector('.middle-header');
       const centerScroll = document.querySelector('.middle-scroll-cell');
 
+      if (leadsHeader) {
+        leadsHeader.scrollLeft = evt.target.scrollLeft;
+      }
       if (!!middleHeader && !!centerScroll) {
         middleHeader.scrollLeft = evt.target.scrollLeft;
         centerScroll.scrollLeft = evt.target.scrollLeft;
@@ -93,7 +106,7 @@ export const TableBody = (props: TableBodyProps) => {
     if (type === 'trackerTable') {
       const style = { height: '6em' };
       return (
-        <Table.Body className="tracker-body">
+        <Table.Body className={`tracker-body ${loading && 'disabled'}`}>
           {rows.length ? (
             rows.map((row: any, index) => (
               <React.Fragment key={`${index}-tb-fragment`}>
@@ -173,10 +186,12 @@ export const TableBody = (props: TableBodyProps) => {
               className = 'right-body-child-row';
             }
             if (cell.side === 'center') {
-              className = 'middle-body-child-row';
+              className = 'middle-body-child-row ';
               tableDataProps = {
                 ...tableDataProps,
-                className: 'middle-body',
+                className: `middle-body ${
+                  type === 'leads-tracker' ? 'lt-border leads-tracker-middle' : ''
+                }`,
                 onScroll: onBodyScroll,
               };
               if (filteredColumns.length === 4) {
@@ -195,7 +210,11 @@ export const TableBody = (props: TableBodyProps) => {
             }
             return (
               <td {...tableDataProps} key={`${cell.side}--td-cell`}>
-                <table className="body-inner-table">
+                <table
+                  className={`body-inner-table ${
+                    type === 'leads-tracker' ? `lt-border-${cell.side}` : ''
+                  }`}
+                >
                   <tbody className="inner-tbody">
                     {rows.length ? (
                       rows.map((row: any, index: any) => (

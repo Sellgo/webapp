@@ -19,7 +19,7 @@ interface Props {
   toggleNegative: (datakey: string) => void;
   filterData: SupplierFilter;
   handleCompleteChange: (dataKey: string, range: Range) => void;
-  initialFilterState: FilterState;
+  filterState: FilterState;
   isSelectAllCategories: boolean;
   isSelectAllSize: boolean;
 }
@@ -33,7 +33,7 @@ function FilterContainer(props: Props) {
     filterData,
     handleCompleteChange,
     resetSingleFilter,
-    initialFilterState,
+    filterState,
     toggleSelectAllCategories,
     toggleSelectAllSize,
     isSelectAllCategories,
@@ -91,7 +91,7 @@ function FilterContainer(props: Props) {
                     <div className="ui checkbox" key={dataKey}>
                       <input
                         id={filterData.dataKey}
-                        checked={initialFilterState.sizeTierFilter.indexOf(filterData.label) !== -1}
+                        checked={filterState.sizeTierFilter.indexOf(filterData.label) !== -1}
                         onChange={() => {
                           toggleSizeTierFilter(filterData.dataKey, filterData.label);
                         }}
@@ -105,7 +105,7 @@ function FilterContainer(props: Props) {
                     <div className={`ui checkbox ${dataKey > 3 ? 'more' : 'less'}`} key={dataKey}>
                       <input
                         id={filterData.dataKey}
-                        checked={initialFilterState.allFilter.indexOf(filterData.label) !== -1}
+                        checked={filterState.allFilter.indexOf(filterData.label) !== -1}
                         onChange={() => {
                           toggleCheckboxFilter(filterData.dataKey, filterData.label);
                         }}
@@ -152,7 +152,7 @@ function FilterContainer(props: Props) {
           filterData={filterData}
           handleCompleteChange={handleCompleteChange}
           resetSingleFilter={resetSingleFilter}
-          initialFilterState={initialFilterState}
+          filterState={filterState}
           toggleNegative={toggleNegative}
           filterCategory={filterCategory}
         />

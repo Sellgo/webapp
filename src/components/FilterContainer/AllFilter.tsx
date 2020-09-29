@@ -12,7 +12,7 @@ interface AllFilterProps {
   toggleNegative: (datakey: string) => void;
   filterData: SupplierFilter;
   handleCompleteChange: (dataKey: string, range: Range) => void;
-  initialFilterState: FilterState;
+  filterState: FilterState;
   filterCategory: any;
 }
 
@@ -23,7 +23,7 @@ const AllFilter = (props: AllFilterProps) => {
     filterData,
     handleCompleteChange,
     resetSingleFilter,
-    initialFilterState,
+    filterState,
     toggleNegative,
     filterCategory,
   } = props;
@@ -56,7 +56,7 @@ const AllFilter = (props: AllFilterProps) => {
                       onChange={() => {
                         toggleNegative(filter.dataKey);
                       }}
-                      checked={initialFilterState.removeNegative.indexOf(filter.dataKey) !== -1}
+                      checked={filterState.removeNegative.indexOf(filter.dataKey) !== -1}
                     />
                   </div>
                 )}

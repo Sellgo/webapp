@@ -40,7 +40,6 @@ function Signup(props: Props, state: State) {
   const [isFocusPW, setFocusPassword] = useState(false);
   const [openTOS, setOpenTOS] = useState(false);
   const [openPP, setOpenPP] = useState(false);
-
   useEffect(() => {
     fetchTOS();
     fetchPP();
@@ -153,6 +152,8 @@ function Signup(props: Props, state: State) {
             const data = {
               email: email,
               name: firstName + ' ' + lastName,
+              first_name: firstName,
+              last_name: lastName,
             };
             auth.getSellerID(data);
           }

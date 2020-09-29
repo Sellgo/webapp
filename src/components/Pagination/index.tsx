@@ -13,6 +13,7 @@ interface PaginationProps {
   onPrevPage: (currentPage: number) => void;
   onPageSizeSelect: (size: number) => void;
   onPageNumberUpdate: (currentPage: number) => void;
+  loading: boolean;
 }
 
 const Pagination = (props: PaginationProps) => {
@@ -26,6 +27,7 @@ const Pagination = (props: PaginationProps) => {
     onNextPage,
     onPrevPage,
     showPageSize,
+    loading,
   } = props;
 
   const [page, setPage] = React.useState(currentPage);
@@ -33,7 +35,7 @@ const Pagination = (props: PaginationProps) => {
   const onPageSizeChanges = (evt: any, data: any) => {
     evt.stopPropagation();
     const { value } = data;
-    onPageSizeSelect(value);
+    onPageSizeSelect(+value);
   };
 
   const onPageNumberChanges = (evt: any, data: any = {}) => {
@@ -122,7 +124,7 @@ const Pagination = (props: PaginationProps) => {
       </div>
       <div>
         <Button
-          disabled={+currentPage === totalPages}
+          disabled={+currentPage === totalPages || loading}
           className="page-next-nav"
           onClick={() => onNext()}
         >

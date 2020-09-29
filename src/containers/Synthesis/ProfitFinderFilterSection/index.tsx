@@ -4,7 +4,7 @@ import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
-import { findMinMax } from '../../../constants/Suppliers';
+import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import {
@@ -21,6 +21,7 @@ import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
+import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -28,7 +29,6 @@ interface Props {
   supplierDetails: any;
   products: Product[];
   filteredProducts: Product[];
-  productRanges: any;
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
@@ -42,7 +42,6 @@ interface Props {
 
 function ProfitFinderFilterSection(props: Props) {
   const {
-    productRanges,
     supplierDetails,
     filterProducts,
     filterSearch,
@@ -59,14 +58,14 @@ function ProfitFinderFilterSection(props: Props) {
   const selectAllCategoriesStorage = JSON.parse(
     typeof localStorage.filterSelectAllCategories === 'undefined' ||
       !filterStorage ||
-      filterStorage.supplier_id !== supplierDetails.supplier_id
+      filterStorage.supplierID !== supplierDetails.supplier_id
       ? true
       : localStorage.filterSelectAllCategories
   );
   const selectAllSizeStorage = JSON.parse(
     typeof localStorage.filterSelectAllSize === 'undefined' ||
       !filterStorage ||
-      filterStorage.supplier_id !== supplierDetails.supplier_id
+      filterStorage.supplierID !== supplierDetails.supplier_id
       ? true
       : localStorage.filterSelectAllSize
   );
@@ -74,12 +73,13 @@ function ProfitFinderFilterSection(props: Props) {
   const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
   const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
+  const [openPresetFilter, togglePresetFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
 
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData = {
-    supplier_id: supplierDetails.supplier_id,
+    supplierID: supplierDetails.supplier_id,
     allFilter: [],
     sizeTierFilter: [
       'Small standard-size',
@@ -142,9 +142,47 @@ function ProfitFinderFilterSection(props: Props) {
       'Toys & Games',
       'Video Games',
     ],
+    customizable: [
+      {
+        dataKey: 'listing-monthly',
+        operation: '≤',
+        value: 1200,
+        active: false,
+      },
+      {
+        dataKey: 'profit-monthly',
+        operation: '≤',
+        value: 250,
+        active: false,
+      },
+      {
+        dataKey: 'margin',
+        operation: '≤',
+        value: 15,
+        active: false,
+      },
+      {
+        dataKey: 'price',
+        operation: '≤',
+        value: 20,
+        active: false,
+      },
+      {
+        dataKey: 'sales_monthly',
+        operation: '≥',
+        value: 90,
+        active: false,
+      },
+      {
+        dataKey: 'customer_reviews',
+        operation: '≤',
+        value: 25,
+        active: false,
+      },
+    ],
   };
   const initialFilterState: any =
-    filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
+    filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
       ? filterStorage
       : filterInitialData;
 
@@ -163,6 +201,13 @@ function ProfitFinderFilterSection(props: Props) {
     }
     if (isSelectAllSize || !filterStorage) {
       selectAllSize(true);
+    }
+    if (filterState.customizable.length !== filterInitialData.customizable.length) {
+      filterState.customizable = _.map(filterInitialData.customizable, (item: any) => {
+        const item2 = _.findKey(filterState.customizable, { dataKey: item.dataKey });
+
+        return _.extend(item, item2);
+      });
     }
     filterProducts(filterSearch, filterState);
     setHasAllFilter(isFilterUse());
@@ -490,6 +535,45 @@ function ProfitFinderFilterSection(props: Props) {
         filterRange: filterState.rank,
       },
     ],
+    presets: [
+      {
+        label: 'Customizable',
+        dataKey: 'customizable-preset',
+        radio: false,
+        data: [
+          {
+            label: 'Listing generates',
+            dataKey: 'listing-monthly',
+            targetValue: '$/month',
+          },
+          {
+            label: 'Profit is',
+            dataKey: 'profit-monthly',
+            targetValue: '$/month',
+          },
+          {
+            label: 'Profit Margin is',
+            dataKey: 'margin',
+            targetValue: '%',
+          },
+          {
+            label: 'Amazon price is',
+            dataKey: 'price',
+            targetValue: '$',
+          },
+          {
+            label: 'Estimated Sales Volume is',
+            dataKey: 'sales_monthly',
+            targetValue: '/month',
+          },
+          {
+            label: 'Product review is',
+            dataKey: 'customer_reviews',
+            targetValue: 'reviews',
+          },
+        ],
+      },
+    ],
   };
 
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
@@ -550,6 +634,100 @@ function ProfitFinderFilterSection(props: Props) {
     });
     setAllFilter(allData);
   };
+
+  const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
+    _.map(filterState.customizable, customizableData => {
+      if (customizableData.dataKey === dataKey) {
+        if (type === 'operation') {
+          customizableData.operation = value;
+        } else if (type === 'filter-value') {
+          customizableData.value = value;
+        } else if (type === 'toggle') {
+          customizableData.active = !customizableData.active;
+          if (!customizableData.active && filterState[dataKey]) {
+            filterState[dataKey] = rangeData[dataKey];
+          }
+        }
+      }
+      return customizableData;
+    });
+    setFilterState(filterState);
+    customizableFilterWithSlider(dataKey);
+    //resets negative filter on slider based on custom filter key
+    toggleNegative(dataKey, true);
+    applyFilter(true);
+  };
+
+  const toggleOffCustomFilter = (dataKey: string) => {
+    const filterData = filterState;
+    _.map(filterData.customizable, filter => {
+      if (filter.dataKey === dataKey && filter.active) {
+        filter.active = false;
+      }
+      return filter;
+    });
+    setFilterState(filterData);
+  };
+
+  const resetCustomizableFilter = () => {
+    const filterData = filterState;
+    for (const key of supplierDataKeys) {
+      for (const filter of filterData.customizable) {
+        if (key === filter.dataKey && filter.active) {
+          filterState[key] = filteredRanges[key];
+        }
+      }
+    }
+    filterData.customizable = filterInitialData.customizable;
+    setFilterState(filterData);
+    applyFilter(true);
+  };
+
+  const customizableFilterWithSlider = (dataKey: string) => {
+    const filterData = filterState;
+    _.map(filterData.customizable, filter => {
+      if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
+        switch (filter.operation) {
+          case '≤':
+            filterData[dataKey].min = rangeData[dataKey].min;
+            filterData[dataKey].max =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            break;
+          case '≥':
+            filterData[dataKey].min =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            filterData[dataKey].max = rangeData[dataKey].max;
+            break;
+          case '=':
+            filterData[dataKey].min =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            filterData[dataKey].max =
+              Number(filter.value) < rangeData[dataKey].min
+                ? rangeData[dataKey].min
+                : Number(filter.value) > rangeData[dataKey].max
+                ? rangeData[dataKey].max
+                : Number(filter.value);
+            break;
+          default:
+            return null;
+        }
+      }
+    });
+    setFilterState(filterData);
+  };
+
   const selectAllCategories = (firstLoad?: boolean) => {
     if (!firstLoad) {
       localStorage.setItem('filterSelectAllCategories', JSON.stringify(true));
@@ -628,14 +806,15 @@ function ProfitFinderFilterSection(props: Props) {
     filterDetails[datakey] = range;
     setFilterState(filterDetails);
     setFilterRanges(data);
+    toggleOffCustomFilter(datakey);
   };
 
   const resetSingleFilter = (datakey: string) => {
     const filterDetails = filterState;
     const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
-        filter.filterRange = filter.range;
-        filterDetails[datakey] = filter.range;
+        filter.filterRange = rangeData[datakey];
+        filterDetails[datakey] = rangeData[datakey];
         if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
           filterDetails.removeNegative.splice(filterDetails.removeNegative.indexOf(datakey), 1);
           filter.range = rangeData[datakey];
@@ -645,9 +824,11 @@ function ProfitFinderFilterSection(props: Props) {
       }
       return filter;
     });
+    toggleOffCustomFilter(datakey);
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
+
   const setProfitability = (value?: any) => {
     const filterValue = filterState;
     const objData = {
@@ -670,6 +851,11 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  const resetPreset = () => {
+    resetCustomizableFilter();
+    applyFilter(true);
+  };
+
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasAllFilter(isFilterUse());
@@ -681,6 +867,10 @@ function ProfitFinderFilterSection(props: Props) {
       JSON.stringify(initialFilterState.profit) !== JSON.stringify(filterState.profit)
     ) {
       filterState.profitabilityFilter.active = false;
+      toggleOffCustomFilter('profit');
+    }
+    if (!isPreset) {
+      checkCustomizePresetChange();
     }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
@@ -690,20 +880,35 @@ function ProfitFinderFilterSection(props: Props) {
     }
   };
 
+  const checkCustomizePresetChange = () => {
+    const filterStorage =
+      typeof localStorage.filterState === 'undefined'
+        ? null
+        : _.cloneDeep(JSON.parse(localStorage.filterState));
+    if (filterStorage) {
+      for (const key of supplierDataKeys) {
+        if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
+          toggleOffCustomFilter(key);
+        }
+      }
+    }
+  };
+
   const resetFilter = () => {
+    checkCustomizePresetChange();
     const data = filterState;
-    data.supplier_id = filterState.supplier_id;
+    data.supplierID = filterState.supplierID;
     data.allFilter = [];
-    data.price = productRanges.price;
-    data.profit = productRanges.profit;
-    data.margin = productRanges.margin;
-    data.roi = productRanges.roi;
-    data.sales_monthly = productRanges.sales_monthly;
-    data.rank = productRanges.rank;
+    data.price = rangeData.price;
+    data.profit = rangeData.profit;
+    data.margin = rangeData.margin;
+    data.roi = rangeData.roi;
+    data.sales_monthly = rangeData.sales_monthly;
+    data.rank = rangeData.rank;
     data.removeNegative = [];
     selectAllCategories();
     selectAllSize();
-    const filterRangeKeys = Object.keys(productRanges);
+    const filterRangeKeys = Object.keys(rangeData);
     _.each(filterRangeKeys, key => {
       const filterRanges = _.map(filterDataState.filterRanges, filter => {
         if (filter.dataKey === key) {
@@ -727,33 +932,47 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterType(type);
   };
 
-  const toggleNegative = (datakey: string) => {
+  const toggleNegative = (datakey: string, isPreset?: boolean) => {
     const data = filterState;
     const filterDetails = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
-        if (data.removeNegative.indexOf(datakey) !== -1) {
-          data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
-          filter.range = rangeData[datakey];
-          filter.filterRange = rangeData[datakey];
-          data[datakey] = rangeData[datakey];
+        if (isPreset) {
+          if (data.removeNegative.indexOf(datakey) !== -1) {
+            //only toggle negative slider if change is from preset
+            data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+            filter.filterRange = rangeData[datakey];
+          }
         } else {
-          data.removeNegative.push(datakey);
-          filter.range = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
-          filter.filterRange = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
-          data[filter.dataKey] = {
-            min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
-            max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
-          };
+          if (data.removeNegative.indexOf(datakey) !== -1) {
+            data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
+            filter.range = rangeData[datakey];
+            filter.filterRange = rangeData[datakey];
+            data[datakey] = rangeData[datakey];
+          } else {
+            data.removeNegative.push(datakey);
+            filter.range = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+            filter.filterRange = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+            data[filter.dataKey] = {
+              min: rangeData[datakey].min < 0 ? 0 : rangeData[datakey].min,
+              max: rangeData[datakey].max < 0 ? 0 : rangeData[datakey].max,
+            };
+          }
         }
       }
       return filter;
     });
+
+    //resets custom filter based on slider
+    if (!isPreset) {
+      toggleOffCustomFilter(datakey);
+    }
+
     setFilterRanges(filterDetails);
     setFilterState(data);
   };
@@ -838,7 +1057,40 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
-
+          <Popup
+            on="click"
+            open={openPresetFilter}
+            onOpen={() => togglePresetFilter(true)}
+            onClose={() => togglePresetFilter(false)}
+            position="bottom left"
+            className="pf-preset-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="left"
+                className={`more-filter`}
+                onClick={() => {
+                  togglePresetFilter(!openPresetFilter);
+                }}
+              >
+                <span className="filter-name">More</span>
+                <Icon name="angle down" />
+              </Button>
+            }
+            content={
+              <PresetFilter
+                togglePresetFilter={togglePresetFilter}
+                applyFilter={applyFilter}
+                filterState={filterState}
+                filterData={filterDataState}
+                filterInitialData={filterInitialData}
+                resetPreset={resetPreset}
+                customizeFilterChange={customizeFilterChange}
+              />
+            }
+          />
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
@@ -873,7 +1125,13 @@ function ProfitFinderFilterSection(props: Props) {
           setFilterType('');
         }}
       >
-        <i className="fas fa-times" onClick={() => setFilterModalOpen(!isFilterModalOpen)} />
+        <i
+          className="fas fa-times"
+          onClick={() => {
+            setFilterModalOpen(!isFilterModalOpen);
+            setFilterType('');
+          }}
+        />
         <Modal.Content>
           <FilterContainer
             filterType={filterType}
@@ -884,7 +1142,7 @@ function ProfitFinderFilterSection(props: Props) {
             resetFilter={resetFilter}
             filterData={filterDataState}
             handleCompleteChange={handleCompleteChange}
-            initialFilterState={filterState}
+            filterState={filterState}
             toggleSelectAllCategories={toggleSelectAllCategories}
             isSelectAllCategories={isSelectAllCategories}
             selectAllCategories={selectAllCategories}

@@ -21,6 +21,7 @@ import Onboarding from '../Onboarding';
 import SubscriptionPage from '../Subscription';
 import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
+import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
 import { isSubscriptionFree, isTrialExpired } from '../../utils/subscriptions';
 
@@ -203,6 +204,12 @@ function App() {
             exact={true}
             path="/product-tracker"
             component={ProductTracker}
+            requireSubscription={true}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/leads-tracker"
+            component={LeadsTracker}
             requireSubscription={true}
           />
           <PrivateRoute
