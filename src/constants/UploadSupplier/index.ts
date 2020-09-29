@@ -31,7 +31,7 @@ export enum UploadSteps {
   Submit,
 }
 
-export const PRODUCT_ID_TYPES = ['UPC', 'ASIN', 'EAN'];
+export const PRODUCT_ID_TYPES = ['UPC', 'ASIN', 'EAN', 'ISBN'];
 
 export const FieldsToMap = [
   {

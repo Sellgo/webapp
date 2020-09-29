@@ -2,6 +2,7 @@ import React from 'react';
 import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import _ from 'lodash';
 import AMAZON_IMAGE from '../../../assets/images/amazon_choice.svg';
+import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
@@ -24,7 +25,9 @@ const ProductDescription = (props: any) => {
               <div className="asin-pid-wrapper">
                 <span className="asin-content">{item.asin}</span>
                 <span className="pid-content">
-                  {item.upc ? item.upc : item.ean ? item.ean : ''}
+                  {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
+                    .filter(pidType => pidType.toLowerCase() in item)
+                    .map(pidType => item[pidType.toLowerCase()])[0] || ''}
                 </span>
               </div>
               {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
