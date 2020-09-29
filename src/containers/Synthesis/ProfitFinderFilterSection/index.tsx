@@ -58,14 +58,14 @@ function ProfitFinderFilterSection(props: Props) {
   const selectAllCategoriesStorage = JSON.parse(
     typeof localStorage.filterSelectAllCategories === 'undefined' ||
       !filterStorage ||
-      filterStorage.supplier_id !== supplierDetails.supplier_id
+      filterStorage.supplierID !== supplierDetails.supplier_id
       ? true
       : localStorage.filterSelectAllCategories
   );
   const selectAllSizeStorage = JSON.parse(
     typeof localStorage.filterSelectAllSize === 'undefined' ||
       !filterStorage ||
-      filterStorage.supplier_id !== supplierDetails.supplier_id
+      filterStorage.supplierID !== supplierDetails.supplier_id
       ? true
       : localStorage.filterSelectAllSize
   );
@@ -182,7 +182,7 @@ function ProfitFinderFilterSection(props: Props) {
     ],
   };
   const initialFilterState: any =
-    filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
+    filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
       ? filterStorage
       : filterInitialData;
 
@@ -897,7 +897,7 @@ function ProfitFinderFilterSection(props: Props) {
   const resetFilter = () => {
     checkCustomizePresetChange();
     const data = filterState;
-    data.supplier_id = filterState.supplier_id;
+    data.supplierID = filterState.supplierID;
     data.allFilter = [];
     data.price = rangeData.price;
     data.profit = rangeData.profit;
