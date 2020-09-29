@@ -4,7 +4,7 @@ import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
-import { findMinMax } from '../../../constants/Suppliers';
+import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import {
@@ -21,6 +21,7 @@ import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
+import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -57,14 +58,14 @@ function ProfitFinderFilterSection(props: Props) {
   const selectAllCategoriesStorage = JSON.parse(
     typeof localStorage.filterSelectAllCategories === 'undefined' ||
       !filterStorage ||
-      filterStorage.supplier_id !== supplierDetails.supplier_id
+      filterStorage.supplierID !== supplierDetails.supplier_id
       ? true
       : localStorage.filterSelectAllCategories
   );
   const selectAllSizeStorage = JSON.parse(
     typeof localStorage.filterSelectAllSize === 'undefined' ||
       !filterStorage ||
-      filterStorage.supplier_id !== supplierDetails.supplier_id
+      filterStorage.supplierID !== supplierDetails.supplier_id
       ? true
       : localStorage.filterSelectAllSize
   );
@@ -72,12 +73,13 @@ function ProfitFinderFilterSection(props: Props) {
   const [isSelectAllCategories, setSelectCategories] = useState(selectAllCategoriesStorage);
   const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
+  const [openPresetFilter, togglePresetFilter] = React.useState(false);
 
   const filteredRanges = findMinMax(products);
 
   const rangeData: any = _.cloneDeep(filteredRanges);
   const filterInitialData = {
-    supplier_id: supplierDetails.supplier_id,
+    supplierID: supplierDetails.supplier_id,
     allFilter: [],
     sizeTierFilter: [
       'Small standard-size',
@@ -180,7 +182,7 @@ function ProfitFinderFilterSection(props: Props) {
     ],
   };
   const initialFilterState: any =
-    filterStorage && filterStorage.supplier_id === supplierDetails.supplier_id
+    filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
       ? filterStorage
       : filterInitialData;
 
@@ -669,8 +671,16 @@ function ProfitFinderFilterSection(props: Props) {
 
   const resetCustomizableFilter = () => {
     const filterData = filterState;
+    for (const key of supplierDataKeys) {
+      for (const filter of filterData.customizable) {
+        if (key === filter.dataKey && filter.active) {
+          filterState[key] = filteredRanges[key];
+        }
+      }
+    }
     filterData.customizable = filterInitialData.customizable;
     setFilterState(filterData);
+    applyFilter(true);
   };
 
   const customizableFilterWithSlider = (dataKey: string) => {
@@ -796,14 +806,15 @@ function ProfitFinderFilterSection(props: Props) {
     filterDetails[datakey] = range;
     setFilterState(filterDetails);
     setFilterRanges(data);
+    toggleOffCustomFilter(datakey);
   };
 
   const resetSingleFilter = (datakey: string) => {
     const filterDetails = filterState;
     const data = _.map(filterRanges, filter => {
       if (filter.dataKey === datakey) {
-        filter.filterRange = filter.range;
-        filterDetails[datakey] = filter.range;
+        filter.filterRange = rangeData[datakey];
+        filterDetails[datakey] = rangeData[datakey];
         if (filterDetails.removeNegative.indexOf(datakey) !== -1) {
           filterDetails.removeNegative.splice(filterDetails.removeNegative.indexOf(datakey), 1);
           filter.range = rangeData[datakey];
@@ -813,6 +824,7 @@ function ProfitFinderFilterSection(props: Props) {
       }
       return filter;
     });
+    toggleOffCustomFilter(datakey);
     setFilterRanges(data);
     setFilterState(filterDetails);
   };
@@ -857,6 +869,9 @@ function ProfitFinderFilterSection(props: Props) {
       filterState.profitabilityFilter.active = false;
       toggleOffCustomFilter('profit');
     }
+    if (!isPreset) {
+      checkCustomizePresetChange();
+    }
     filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
     if (!isPreset) {
@@ -865,9 +880,24 @@ function ProfitFinderFilterSection(props: Props) {
     }
   };
 
+  const checkCustomizePresetChange = () => {
+    const filterStorage =
+      typeof localStorage.filterState === 'undefined'
+        ? null
+        : _.cloneDeep(JSON.parse(localStorage.filterState));
+    if (filterStorage) {
+      for (const key of supplierDataKeys) {
+        if (JSON.stringify(filterStorage[key]) !== JSON.stringify(filterState[key])) {
+          toggleOffCustomFilter(key);
+        }
+      }
+    }
+  };
+
   const resetFilter = () => {
+    checkCustomizePresetChange();
     const data = filterState;
-    data.supplier_id = filterState.supplier_id;
+    data.supplierID = filterState.supplierID;
     data.allFilter = [];
     data.price = rangeData.price;
     data.profit = rangeData.profit;
@@ -910,7 +940,6 @@ function ProfitFinderFilterSection(props: Props) {
           if (data.removeNegative.indexOf(datakey) !== -1) {
             //only toggle negative slider if change is from preset
             data.removeNegative.splice(data.removeNegative.indexOf(datakey), 1);
-            filter.range = rangeData[datakey];
             filter.filterRange = rangeData[datakey];
           }
         } else {
@@ -1028,19 +1057,40 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
-          <Button
-            basic
-            icon
-            labelPosition="left"
-            className={`more-filter`}
-            onClick={() => {
-              handleFilterType('more-filter');
-              setFilterModalOpen(true);
-            }}
-          >
-            <span className="filter-name">More</span>
-            <Icon name="angle down" />
-          </Button>
+          <Popup
+            on="click"
+            open={openPresetFilter}
+            onOpen={() => togglePresetFilter(true)}
+            onClose={() => togglePresetFilter(false)}
+            position="bottom left"
+            className="pf-preset-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="left"
+                className={`more-filter`}
+                onClick={() => {
+                  togglePresetFilter(!openPresetFilter);
+                }}
+              >
+                <span className="filter-name">More</span>
+                <Icon name="angle down" />
+              </Button>
+            }
+            content={
+              <PresetFilter
+                togglePresetFilter={togglePresetFilter}
+                applyFilter={applyFilter}
+                filterState={filterState}
+                filterData={filterDataState}
+                filterInitialData={filterInitialData}
+                resetPreset={resetPreset}
+                customizeFilterChange={customizeFilterChange}
+              />
+            }
+          />
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
@@ -1093,15 +1143,12 @@ function ProfitFinderFilterSection(props: Props) {
             filterData={filterDataState}
             handleCompleteChange={handleCompleteChange}
             filterState={filterState}
-            filterInitialData={filterInitialData}
             toggleSelectAllCategories={toggleSelectAllCategories}
             isSelectAllCategories={isSelectAllCategories}
             selectAllCategories={selectAllCategories}
             toggleNegative={toggleNegative}
             toggleSelectAllSize={toggleSelectAllSize}
             isSelectAllSize={isSelectAllSize}
-            resetPreset={resetPreset}
-            customizeFilterChange={customizeFilterChange}
           />
         </Modal.Content>
       </Modal>

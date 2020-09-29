@@ -162,7 +162,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      return () => setPage(1); // reset on unmount
+      return () => setPage(name === 'leads-tracker' ? localCurrentPage : 1); // reset on unmount
     }
   }, [localCurrentPage]);
 
