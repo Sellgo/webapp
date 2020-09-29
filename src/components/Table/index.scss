@@ -14,6 +14,11 @@
     }
   }
 
+  .tracker-body.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
   .table-menu-header {
     display: flex;
     justify-content: space-between;

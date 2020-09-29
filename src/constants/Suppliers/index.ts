@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 
 export const SET_SUPPLIERS = 'SET_SUPPLIERS';
 export const RESET_SUPPLIERS = 'RESET_SUPPLIERS';
@@ -210,6 +211,7 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (result) {
+      // for keys with computation that doesn't exist in filter slider
       if (filter.dataKey === 'listing-monthly' && filter.active) {
         const generatesValue = product.price * product.sales_monthly;
         if (!filter.active) result = true;
@@ -235,6 +237,12 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
               filter.value
             );
           }
+        }
+      }
+      // for sliders with keys same with customize filter for ex. price
+      for (const keys of supplierDataKeys) {
+        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
+          result = Number(product[filter.dataKey]) === Number(filter.value);
         }
       }
     }
@@ -284,9 +292,11 @@ export const searchFilteredProduct = (products: any, value: string) => {
   const updatedFilterProducts = _.filter(products, product => {
     return (
       (product.title && product.title.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.asin && product.asin.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.upc && product.upc.toLowerCase().indexOf(value.toLowerCase()) !== -1) ||
-      (product.ean && product.ean.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+      PRODUCT_ID_TYPES.map(
+        pidType =>
+          product[pidType.toLowerCase()] &&
+          product[pidType.toLowerCase()].toLowerCase().indexOf(value.toLowerCase()) !== -1
+      ).includes(true)
     );
   });
   return updatedFilterProducts;

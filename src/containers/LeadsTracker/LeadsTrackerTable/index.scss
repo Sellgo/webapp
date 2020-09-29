@@ -12,6 +12,11 @@ $new_black: #3b4557;
   margin: 0 auto;
   max-width: 100%;
 
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
   h2 {
     font-weight: 300;
     font-size: 15px;
@@ -862,4 +867,16 @@ $new_black: #3b4557;
 
 .lt-avg:hover {
   @extend .remove-radius;
+}
+
+.lt-th-label {
+  height: 40px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.avg_price {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
