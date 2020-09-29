@@ -267,7 +267,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
         {filter && searchIconPosition === 'left' && ColumnFilter}
 
-        <span className="th-label" {...sorting}>
+        <span className={`th-label ${type === 'leads-tracker' ? 'lt-th-label' : ''}`} {...sorting}>
           {label}
         </span>
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (

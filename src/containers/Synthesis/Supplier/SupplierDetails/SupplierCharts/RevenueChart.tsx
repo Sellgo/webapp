@@ -25,6 +25,7 @@ class RevenueChart extends Component<RevenueChartProps> {
     const roi = products.map(e => parseFloat(e.roi));
     const upcs = products.map(e => e.upc);
     const eans = products.map(e => e.ean);
+    const isbns = products.map(e => e.isbn);
     const asins = products.map(e => e.asin);
     const margins = products.map(e => e.margin);
 
@@ -76,7 +77,13 @@ class RevenueChart extends Component<RevenueChartProps> {
               />
               <div style={styles.captionStyle}>ASIN: {showNAIfZeroOrNull(asins[x], asins[x])}</div>
               <div style={styles.captionStyle}>
-                {upcs[x] ? `UPC: ${upcs[x]}` : eans[x] ? `EAN: ${eans[x]}` : ''}
+                {upcs[x]
+                  ? `UPC: ${upcs[x]}`
+                  : eans[x]
+                  ? `EAN: ${eans[x]}`
+                  : isbns[x]
+                  ? `ISBN: ${isbns[x]}`
+                  : ''}
               </div>
             </Grid.Column>
             <Grid.Column style={styles.rightColumnStyle}>
