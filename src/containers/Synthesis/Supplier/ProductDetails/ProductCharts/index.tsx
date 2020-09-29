@@ -77,6 +77,15 @@ class ProductCharts extends Component<ProductChartsProps> {
     fetchProductDetailChartSellerInventory(product.product_id, period);
   }
 
+  componentDidUpdate(prevProps: any, prevState: any) {
+    const period =
+      (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
+      DEFAULT_PERIOD;
+    if (prevState.period !== period) {
+      this.setState({ period: period });
+    }
+  }
+
   renderNoDataMessage = () => {
     return <Grid centered>No data yet! Please come back after a day. </Grid>;
   };
