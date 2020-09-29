@@ -48,6 +48,7 @@ interface ProductChartsProps {
   isFetchingRating: boolean;
   isFetchingReview: boolean;
   isFetchingSellerInventory: boolean;
+  isLoadingTrackerProducts: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = {
@@ -332,6 +333,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingRating,
       isFetchingReview,
       isFetchingSellerInventory,
+      isLoadingTrackerProducts,
     } = this.props;
     return (
       <div className="product-detail-charts">
@@ -341,7 +343,8 @@ class ProductCharts extends Component<ProductChartsProps> {
         !isFetchingInventory &&
         !isFetchingRating &&
         !isFetchingReview &&
-        !isFetchingSellerInventory
+        !isFetchingSellerInventory &&
+        !isLoadingTrackerProducts
           ? this.renderProductCharts()
           : this.renderLoader()}
         <Form className="chart-end-form">
@@ -384,6 +387,7 @@ class ProductCharts extends Component<ProductChartsProps> {
 }
 
 const mapStateToProps = (state: {}) => ({
+  isLoadingTrackerProducts: get(state, 'productTracker.isLoadingTrackerProducts'),
   productDetailRank: get(state, 'product.detailRank'),
   productDetailPrice: get(state, 'product.detailPrice'),
   productDetailInventory: get(state, 'product.detailInventory'),
