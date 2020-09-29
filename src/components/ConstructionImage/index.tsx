@@ -6,7 +6,7 @@ import './index.scss';
 
 const ConstructionImage = () => {
   return (
-    <div className="construction__image">
+    <div className="construction-image">
       <img src={img} alt="Illustration showcasing a come back tomorrow message" />
     </div>
   );
