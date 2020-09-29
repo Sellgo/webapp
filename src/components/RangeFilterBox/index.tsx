@@ -147,11 +147,11 @@ const RangeFilterBox = (props: any) => {
           )}
 
           <div className="button-wrapper">
-            <Button basic className="apply-filter-btn" onClick={() => setFilters()}>
-              Apply
-            </Button>
             <Button basic className="cancel-filter-btn" onClick={() => cancelFilters()}>
               Cancel
+            </Button>
+            <Button basic className="apply-filter-btn" onClick={() => setFilters()}>
+              Apply
             </Button>
           </div>
         </React.Fragment>
