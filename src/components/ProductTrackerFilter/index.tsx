@@ -3,7 +3,6 @@ import './index.scss';
 import { ProductTrackerFilterInterface, ProductTrackerFilterState } from '../../interfaces/Filters';
 import { Range } from '../../interfaces/Generic';
 import AllFilter from './AllFilter';
-import PresetFilter from './PresetFilter';
 
 interface Props {
   filterType: string;
@@ -14,13 +13,9 @@ interface Props {
   filterData: ProductTrackerFilterInterface;
   handleCompleteChange: (dataKey: string, range: Range) => void;
   filterState: ProductTrackerFilterState;
-  initialFilterState: ProductTrackerFilterState;
   isAllReviews: boolean;
   toggleReviewsCheckbox: (filterDataKey: string) => void;
-  toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
   toggleNegative: (datakey: string) => void;
-  resetPreset: () => void;
-  customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
 }
 
 function ProductTrackerFilter(props: Props) {
@@ -31,14 +26,10 @@ function ProductTrackerFilter(props: Props) {
     filterData,
     handleCompleteChange,
     resetSingleFilter,
-    initialFilterState,
     toggleSelectAllReviews,
     isAllReviews,
     toggleReviewsCheckbox,
-    toggleAmazonPresetCheckbox,
     toggleNegative,
-    resetPreset,
-    customizeFilterChange,
     filterState,
   } = props;
 
@@ -56,16 +47,6 @@ function ProductTrackerFilter(props: Props) {
           resetFilter={resetFilter}
           handleCompleteChange={handleCompleteChange}
           resetSingleFilter={resetSingleFilter}
-        />
-      )}
-      {filterType === 'more-filter' && (
-        <PresetFilter
-          filterState={filterState}
-          initialFilterState={initialFilterState}
-          filterData={filterData}
-          toggleAmazonPresetCheckbox={toggleAmazonPresetCheckbox}
-          resetPreset={resetPreset}
-          customizeFilterChange={customizeFilterChange}
         />
       )}
     </div>

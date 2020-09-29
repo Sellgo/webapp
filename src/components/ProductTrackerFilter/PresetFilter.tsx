@@ -13,6 +13,7 @@ interface PresetFilterProps {
   resetPreset: () => void;
   toggleAmazonPresetCheckbox: (filterDataKey: string) => void;
   customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
+  togglePresetFilter: (value: boolean) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
@@ -23,12 +24,23 @@ const PresetFilter = (props: PresetFilterProps) => {
     toggleAmazonPresetCheckbox,
     customizeFilterChange,
     filterState,
+    togglePresetFilter,
   } = props;
 
   return (
     <div className={'pt-filter-content__preset-filter'}>
       <div className="pt-filter-content__preset-filter__header">
-        <span className="pt-filter-content__preset-filter__header__filter-name">Quick Preset</span>
+        <div className="pt-filter-content__preset-filter__header__options">
+          <span className="pt-filter-content__preset-filter__header__options__filter-name">
+            Quick Preset
+          </span>
+          <span
+            className="pt-filter-content__preset-filter__header__options__close-btn"
+            onClick={() => togglePresetFilter(false)}
+          >
+            x
+          </span>
+        </div>
         <div className="pt-filter-content__preset-filter__header__preset-reset">
           <p onClick={() => resetPreset()}>x Reset</p>
         </div>
