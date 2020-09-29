@@ -11,6 +11,7 @@ interface TableBodyProps {
   columns: Column[];
   middleScroll?: boolean;
   rowExpander?: any;
+  loading?: boolean;
 }
 
 interface TableColumnCellProps {
@@ -57,6 +58,7 @@ export const TableBody = (props: TableBodyProps) => {
     type,
     middleScroll,
     rowExpander,
+    loading,
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
 
@@ -104,7 +106,7 @@ export const TableBody = (props: TableBodyProps) => {
     if (type === 'trackerTable') {
       const style = { height: '6em' };
       return (
-        <Table.Body className="tracker-body">
+        <Table.Body className={`tracker-body ${loading && 'disabled'}`}>
           {rows.length ? (
             rows.map((row: any, index) => (
               <React.Fragment key={`${index}-tb-fragment`}>
