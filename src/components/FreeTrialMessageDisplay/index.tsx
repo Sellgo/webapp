@@ -55,7 +55,14 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
           </p>
         );
       } else {
-        return <p>{'To unlock features, pick a plan: '}</p>;
+        return (
+          <p>
+            {'Your free account has limited functionality: '}
+            <Link to="/settings/pricing" className="free-trial-btn">
+              <span>Pick a plan or start your free trial</span>
+            </Link>
+          </p>
+        );
       }
     }
   }

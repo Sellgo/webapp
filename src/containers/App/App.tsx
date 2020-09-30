@@ -23,7 +23,6 @@ import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
-import { isSubscriptionFree, isTrialExpired } from '../../utils/subscriptions';
 
 export const auth = new Auth();
 
@@ -53,7 +52,6 @@ const PrivateRoute = connect(
   // mapStateToProps
   (state: any) => ({
     sellerSubscription: state.subscription.sellerSubscription,
-    subscriptionType: state.subscription.subscriptionType,
   }),
   // mapDispatchToProps
   {
@@ -64,7 +62,6 @@ const PrivateRoute = connect(
     component: Component,
     requireSubscription,
     sellerSubscription,
-    subscriptionType,
     fetchSellerSubscription,
     location,
     ...rest
@@ -99,15 +96,6 @@ const PrivateRoute = connect(
           localStorage.setItem('accountType', '');
           history.push('/synthesis');
         }
-      }
-
-      // If user's free trial has expired, redirect user to pricing page.
-      if (
-        isSubscriptionFree(subscriptionType) &&
-        isTrialExpired(sellerSubscription) &&
-        window.location.pathname !== '/settings/pricing'
-      ) {
-        history.push('/settings/pricing');
       }
     }, [
       userIsAuthenticated,

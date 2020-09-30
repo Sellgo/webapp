@@ -32,7 +32,11 @@ import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
 import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
-import { isSubscriptionNotPaid, isTrialExpired } from '../../../utils/subscriptions';
+import {
+  isSubscriptionFree,
+  isSubscriptionNotPaid,
+  isTrialExpired,
+} from '../../../utils/subscriptions';
 import _ from 'lodash';
 
 interface SubscriptionProps {
@@ -45,6 +49,7 @@ interface SubscriptionProps {
   subscriptions: Subscription[];
   location: any;
   subscriptionType: string;
+  subscriptionPlan: string;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -202,7 +207,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   render() {
-    const { subscriptions, sellerSubscription, subscriptionType } = this.props;
+    const { subscriptions, sellerSubscription, subscriptionType, subscriptionPlan } = this.props;
     const {
       promptCancelSubscription,
       pendingSubscription,
@@ -308,13 +313,15 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             )}
 
-            {!subscribedSubscription && !isTrialExpired(sellerSubscription) && (
-              <Link to="/settings/#amazon-mws" className="free-trial-btn">
-                <Button className="basic-btn" fluid>
-                  Free Trial
-                </Button>
-              </Link>
-            )}
+            {!subscribedSubscription &&
+              isSubscriptionFree(subscriptionPlan) &&
+              !isTrialExpired(sellerSubscription) && (
+                <Link to="/settings/#amazon-mws" className="free-trial-btn">
+                  <Button className="basic-btn" fluid>
+                    Free Trial
+                  </Button>
+                </Link>
+              )}
 
             <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
               Contact Customer Service
@@ -574,6 +581,7 @@ const mapStateToProps = (state: any) => ({
   sellerSubscription: state.subscription.sellerSubscription,
   subscriptionType: state.subscription.subscriptionType,
   subscriptions: state.subscription.subscriptions,
+  subscriptionPlan: state.subscription.plan,
 });
 
 const mapDispatchToProps = {
