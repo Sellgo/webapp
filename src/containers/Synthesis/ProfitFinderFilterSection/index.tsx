@@ -19,9 +19,9 @@ import FilterContainer from '../../../components/FilterContainer';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
-import { isSubscriptionFree } from '../../../utils/subscriptions';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import PresetFilter from '../../../components/FilterContainer/PresetFilter';
+import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -997,8 +997,7 @@ function ProfitFinderFilterSection(props: Props) {
         className="export__list"
         trigger={
           <Button
-            className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
-              'disabled'}`}
+            className={`selection export-wrapper__dropdown`}
             content={<Image src={csvIcon} wrapped={true} />}
             icon="caret down"
           />
@@ -1019,7 +1018,6 @@ function ProfitFinderFilterSection(props: Props) {
             </List.Item>
           </List>
         }
-        disabled={isSubscriptionFree(subscriptionType)}
         position="bottom center"
         on="click"
         basic
@@ -1099,9 +1097,7 @@ function ProfitFinderFilterSection(props: Props) {
         </div>
 
         <div className="leads-export-wrapper">
-          <p className={`${!(sellerSubscription.subscription_id === 3) && 'hidden'}`}>
-            Leads Tracking
-          </p>
+          <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
           <LeadsTrackerToggle
             setLeadsTracker={props.setLeadsTracker}
             seller_id={props.supplierDetails.seller_id}

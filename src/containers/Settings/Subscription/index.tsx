@@ -34,6 +34,9 @@ import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 import {
   isSubscriptionFree,
+  isSubscriptionIdBasic,
+  isSubscriptionIdEnterprise,
+  isSubscriptionIdPro,
   isSubscriptionNotPaid,
   isTrialExpired,
 } from '../../../utils/subscriptions';
@@ -232,21 +235,25 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         (isYearly
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
+      const subscriptionId = Number(subscription.id);
+
       return (
         <Card
           key={subscription.id}
           className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'} ${isSubscribed &&
             'active-plan'} ${!isSubscribed &&
-            (Number(subscription.id) === 1
+            (isSubscriptionIdBasic(subscriptionId)
               ? 'basic-value-content'
-              : Number(subscription.id) === 2
+              : isSubscriptionIdPro(subscriptionId)
               ? 'best-value-content'
               : 'contact-us-content')}`}
         >
           <Card.Content className="card-container__header">
             <Card.Header>
               <Button
-                className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
+                className={`${isSubscriptionIdPro(subscriptionId) &&
+                  !isSubscribed &&
+                  'best-value'}`}
                 fluid
               >
                 Best Value
@@ -254,18 +261,18 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </Card.Header>
           </Card.Content>
           <Card.Content className="card-container__name">
-            <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
+            <Card.Header className={`${isSubscriptionIdPro(subscriptionId) && 'pro-plan'}`}>
               {subscription.name}
             </Card.Header>
             <Card.Meta>
               {trackTitle}
               <br />
-              {Number(subscription.id) === 1 || Number(subscription.id) === 2
+              {isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
                 ? subscription.track_limit + ' Product Tracker Limit'
                 : 'More than 100,000 Product Tracker Limit'}
             </Card.Meta>
           </Card.Content>
-          {isYearly && Number(subscription.id) !== 3 && (
+          {isYearly && !isSubscriptionIdEnterprise(subscriptionId) && (
             <Card.Content className="card-container__discount-details">
               <p className="card-container__discount-details__slash">
                 ${subscription.monthly_price * 12}
@@ -276,11 +283,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </Card.Content>
           )}
           <Card.Content
-            className={`card-container__details ${Number(subscription.id) === 3 && 'contact-us'}`}
+            className={`card-container__details ${isSubscriptionIdEnterprise(subscriptionId) &&
+              'contact-us'}`}
           >
             <Card.Header>
               <strong>$&nbsp;</strong>
-              {Number(subscription.id) === 3
+              {isSubscriptionIdEnterprise(subscriptionId)
                 ? 'Contact Us'
                 : isYearly
                 ? Number(subscription.yearly_price / 12).toFixed(2)
@@ -288,7 +296,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <strong>&nbsp;/mo</strong>
             </Card.Header>
             <Card.Description>
-              {Number(subscription.id) !== 3 && (isYearly ? 'Billed Annually' : 'Billed Monthly')}
+              {!isSubscriptionIdEnterprise(subscriptionId) &&
+                (isYearly ? 'Billed Annually' : 'Billed Monthly')}
             </Card.Description>
           </Card.Content>
           <Card.Content extra>

@@ -39,7 +39,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
       if (sellerSubscription.expiry_date !== null && expireDateMinutes > 0) {
         return (
           <p>
-            {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token `}
+            {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token. `}
             <Link to="/settings" className="free-trial-btn">
               <span>Click here to re-enter your MWS Token</span>
             </Link>
