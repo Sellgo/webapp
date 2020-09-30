@@ -525,9 +525,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   };
 
   applyFilters = (data: any) => {
-    const filter = Object.keys(data.value).length ? data : undefined;
+    let filter = data;
     let query = '';
-    if (filter) {
+    if (data.dataKey !== 'search') {
+      filter = Object.keys(data.value).length ? data : undefined;
+      if (filter) {
+        query = this.parseFilters(filter);
+      }
+    } else {
       query = this.parseFilters(filter);
     }
     this.fetchLeadsData({ query });
