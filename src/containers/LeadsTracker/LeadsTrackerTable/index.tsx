@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { Icon, Loader, Segment } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { Column, GenericTable } from '../../../components/Table';
 import { tableKeys } from '../../../constants';
 import { supplierPageNumberSelector } from '../../../selectors/Supplier';
@@ -14,12 +14,7 @@ import {
 } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
-import {
-  filters,
-  isFetchingLeadsKPISelector,
-  leads,
-  loadingFilters,
-} from '../../../selectors/LeadsTracker';
+import { filters, leads, loadingFilters } from '../../../selectors/LeadsTracker';
 import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
@@ -47,7 +42,6 @@ export interface LeadsTrackerTableProps {
   pageNumber: number;
   leads: [any];
   filters: [any];
-  isFetchingLeadsKPI: boolean;
   currentActiveColumn: any;
   pageSize: number;
   pageNo: number;
@@ -57,6 +51,7 @@ export interface LeadsTrackerTableProps {
   totalRecords: number;
   totalPages: number;
   loadingFilters: boolean;
+  loading: boolean;
 }
 class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   constructor(props: LeadsTrackerTableProps) {
@@ -269,9 +264,12 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   };
 
   onSort = async (order: string, dataKey: string) => {
-    // const { currentActiveColumn } = this.props;
+    const { currentActiveColumn } = this.props;
     await this.setState({ loading: false });
-    const sortDirection = order === 'descending' ? 'desc' : 'asc';
+    let sortDirection = order === 'descending' ? 'desc' : 'asc';
+    if (currentActiveColumn !== dataKey && order === 'descending') {
+      sortDirection = 'asc';
+    }
     await this.fetchLeadsData({
       sort: dataKey,
       sort_direction: sortDirection,
@@ -546,12 +544,12 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       pageNo,
       pageSize,
       leads,
-      isFetchingLeadsKPI,
       totalPages,
       period,
       filters,
       loadingFilters,
       totalRecords,
+      loading,
     } = this.props;
     const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
@@ -571,14 +569,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     }
 
     return (
-      <div className="leads-table">
-        {isFetchingLeadsKPI ? (
-          <Segment>
-            <Loader active={true} inline="centered" size="massive">
-              Loading
-            </Loader>
-          </Segment>
-        ) : (
+      <div className={`leads-table ${loading && 'disabled'}`}>
+        {!loading && (
           <React.Fragment>
             <div style={{ display: 'flex' }}>
               {columns.slice(0, 5).map((c: any, i: any) => (
@@ -640,13 +632,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
                 this.fetchLeadsData(this.getFilters(), resetKey);
                 this.setState({ ColumnFilterBox: false });
               }}
-              setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page })}
+              setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page, page: 1 })}
               loadingFilters={loadingFilters}
               filterValues={filters}
               stickyChartSelector
               applyColumnFilters={this.applyFilters}
               cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
               count={totalRecords}
+              loading={loading}
             />
           </React.Fragment>
         )}
@@ -658,7 +651,6 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   pageNumber: supplierPageNumberSelector(state),
   leads: leads(state),
-  isFetchingLeadsKPI: isFetchingLeadsKPISelector(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   pageSize: get(state, 'leads.pageSize'),
   pageNo: get(state, 'leads.pageNo'),
@@ -667,6 +659,7 @@ const mapStateToProps = (state: {}) => ({
   period: get(state, 'leads.period'),
   totalRecords: get(state, 'leads.totalRecords'),
   totalPages: get(state, 'leads.totalPages'),
+  loading: get(state, 'leads.loading'),
   filters: filters(state),
   loadingFilters: loadingFilters(state),
 });
