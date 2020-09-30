@@ -85,3 +85,6 @@ export const processCompletedSelector = (state: object): boolean =>
 
 export const isFirstRowHeaderSelector = (state: object): boolean =>
   get(state, 'uploadSupplier.isFirstRowHeader', false);
+
+export const fileNameSelector = (state: object): string =>
+  get(state, 'uploadSupplier.fileName', '');
