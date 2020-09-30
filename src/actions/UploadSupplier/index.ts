@@ -36,6 +36,7 @@ import {
   SET_ERROR_ROWS,
   SET_LOADING,
   SET_PRIMARY_ID_TYPE,
+  SET_FILE_NAME,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -226,7 +227,6 @@ export const handleRejectedFile = (rejectedFile?: File) => async () => {
 
 export const parseCsvArrayToFile = (fileStringArray: string[][], fileDetails?: File): File => {
   const fileName = fileDetails && fileDetails.name ? fileDetails.name : '';
-
   // escape commas
   fileStringArray = fileStringArray.map((row: string[]) =>
     row.map((cell: string) => {
@@ -298,6 +298,11 @@ export const setLoadingShow = (check: boolean) => ({
 export const setColumnMappingSetting = (checked: boolean) => ({
   type: SET_COLUMN_MAPPING_SETTING,
   payload: checked,
+});
+
+export const setFileName = (fileName: string) => ({
+  type: SET_FILE_NAME,
+  payload: fileName,
 });
 
 export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
@@ -402,3 +407,9 @@ export const finishUpload = () => ({
 export const toggleFirstRowHeader = () => ({
   type: TOGGLE_FIRST_ROW_HEADER,
 });
+
+export const updateFileName = (fileName: string) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  dispatch(setFileName(fileName));
+};

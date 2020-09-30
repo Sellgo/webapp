@@ -9,6 +9,8 @@ import { TableBody } from './TableBody';
 import TableHeader from './TableHeader';
 import Pagination from '../Pagination';
 
+import ConstructionImage from '../../components/ConstructionImage/';
+
 export interface Column {
   render?: (row: any) => string | JSX.Element;
   dataKey?: string;
@@ -425,17 +427,21 @@ export const GenericTable = (props: GenericTableProps) => {
           filterValues={filterValues}
           resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
         />
-        <TableBody
-          extendedInfo={extendedInfo}
-          columns={columns}
-          columnFilterData={filteredColumns}
-          type={name}
-          rows={rows}
-          expandedRows={expandedRows}
-          middleScroll={middleScroll}
-          rowExpander={rowExpander}
-          loading={loading}
-        />
+        {name === 'leads-tracker' && count < 1 ? (
+          <ConstructionImage />
+        ) : (
+          <TableBody
+            extendedInfo={extendedInfo}
+            columns={columns}
+            columnFilterData={filteredColumns}
+            type={name}
+            rows={rows}
+            expandedRows={expandedRows}
+            middleScroll={middleScroll}
+            rowExpander={rowExpander}
+            loading={loading}
+          />
+        )}
 
         {pagination && (
           <Table.Footer className={showTableLock ? 'lock-footer' : ''}>

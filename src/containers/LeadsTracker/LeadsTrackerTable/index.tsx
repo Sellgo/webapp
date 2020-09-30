@@ -21,8 +21,6 @@ import DetailButtons from './detailButtons';
 import LeadsTrackerFilterSection from '../LeadsTrackerFilterSection';
 import { fetchFilters, FetchLeadsFilters, fetchLeadsKPIs } from '../../../actions/LeadsTracker';
 
-import ConstructionImage from '../../../components/ConstructionImage';
-
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -527,9 +525,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   };
 
   applyFilters = (data: any) => {
-    const filter = Object.keys(data.value).length ? data : undefined;
+    let filter = data;
     let query = '';
-    if (filter) {
+    if (data.dataKey !== 'search') {
+      filter = Object.keys(data.value).length ? data : undefined;
+      if (filter) {
+        query = this.parseFilters(filter);
+      }
+    } else {
       query = this.parseFilters(filter);
     }
     this.fetchLeadsData({ query });
@@ -567,9 +570,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
 
     return (
       <div className={`leads-table ${loading && 'disabled'}`}>
-        {!loading && totalRecords < 1 ? (
-          <ConstructionImage />
-        ) : (
+        {!loading && (
           <React.Fragment>
             <div style={{ display: 'flex' }}>
               {columns.slice(0, 5).map((c: any, i: any) => (

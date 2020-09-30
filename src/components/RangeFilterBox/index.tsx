@@ -62,7 +62,7 @@ const RangeFilterBox = (props: any) => {
     } else {
       setFilterRange(minMax);
     }
-    resetFilters(dataKey);
+    resetFilters(filterType === 'checkbox' ? 'checkbox' : dataKey);
     if (filterType !== 'checkbox') {
       localStorage.removeItem(`${name}:${dataKey}`);
     }
@@ -84,25 +84,16 @@ const RangeFilterBox = (props: any) => {
   const setFilters = () => {
     let res: any;
     if (filterType === 'checkbox') {
-      res = { dataKey, value: localData.join(',') };
+      res = { dataKey, value: localData.length ? localData.join(',') : '' };
     } else {
       res = { ...filter, value: range, dataKey };
     }
+    saveFilters(res);
     applyFilters(res);
-
-    if (Object.keys(res.value).length && filterType !== 'checkbox') {
-      saveFilters(res);
-    } else {
-      saveFilters(res);
-    }
   };
 
   const saveFilters = (filter: any) => {
-    if (filterType === 'checkbox' && !localData.length) {
-      localStorage.setItem(`${name}:${dataKey}`, '');
-    } else {
-      localStorage.setItem(`${name}:${dataKey}`, JSON.stringify(filter));
-    }
+    localStorage.setItem(`${name}:${dataKey}`, JSON.stringify(filter));
   };
 
   const onRangeChange = (dataKey: string, value: any) => {
