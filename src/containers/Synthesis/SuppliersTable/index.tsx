@@ -60,6 +60,7 @@ interface SuppliersTableProps {
   setSpeed: any;
   handleUnauthorizedMwsAuth: any;
   currentActiveColumn: string;
+  supplierSearch?: string;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -395,6 +396,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
+      supplierSearch,
     } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
@@ -463,6 +465,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={sortedByCompletedData}
           columns={columns}
           name={'supplier'}
+          initialSearch={supplierSearch}
         />
         <Confirm
           content="Do you want to delete supplier?"

@@ -256,15 +256,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
       {' '}
       <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
-        {label === 'Search Name' && (
-          <span className="search-ic">
-            <Icon
-              className="filter search-filter"
-              onClick={(e: any) => onSetShowSearchFilter(e, label || '')}
-            />
-          </span>
-        )}
-
         {filter && searchIconPosition === 'left' && ColumnFilter}
 
         <span className={`th-label ${type === 'leads-tracker' ? 'lt-th-label' : ''}`} {...sorting}>
@@ -284,15 +275,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
-        {label === 'Search Name' && (
-          <span className="search-ic">
-            <Icon
-              className="filter search-filter"
-              onClick={(e: any) => onSetShowSearchFilter(e, label || '')}
-            />
-          </span>
-        )}
-
         {filter && searchIconPosition === 'right' && ColumnFilter}
 
         {check && checkedRows && updateCheckedRows && type !== 'leads-tracker' && (

@@ -26,6 +26,8 @@ import { setProgress } from '../../actions/Suppliers';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
 import { isSubscriptionFree } from '../../utils/subscriptions';
 
+import SearchFilter from '../../components/SearchFilter/';
+
 interface SynthesisProps {
   amazonMWSAuthorized: boolean;
   uploadSupplierModalOpen: boolean;
@@ -51,6 +53,7 @@ class Synthesis extends Component<SynthesisProps> {
   state = {
     exitConfirmation: false,
     isEditModal: false,
+    searchValue: '',
   };
   componentDidMount() {
     const { getAmazonMWSAuthorized } = this.props;
@@ -165,6 +168,12 @@ class Synthesis extends Component<SynthesisProps> {
     );
   };
 
+  setSearchChange = (e: any) => {
+    this.setState({
+      searchValue: e.target.value,
+    });
+  };
+
   render() {
     const { currentProgressShow } = this.props;
 
@@ -176,9 +185,12 @@ class Synthesis extends Component<SynthesisProps> {
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
           callToAction={this.renderAddNewSupplierModal()}
         />
-
+        <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
         <Segment basic={true}>
-          <SuppliersTable onEdit={this.openUpdateSupplierPopup} />
+          <SuppliersTable
+            onEdit={this.openUpdateSupplierPopup}
+            supplierSearch={this.state.searchValue}
+          />
           <Modal open={this.state.exitConfirmation} className="Actions__confirm-container">
             <Modal.Content>
               <div>
