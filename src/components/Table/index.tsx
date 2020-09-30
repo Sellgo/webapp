@@ -427,7 +427,7 @@ export const GenericTable = (props: GenericTableProps) => {
           filterValues={filterValues}
           resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
         />
-        {count < 1 ? (
+        {name === 'leads-tracker' && count < 1 ? (
           <ConstructionImage />
         ) : (
           <TableBody
