@@ -21,8 +21,6 @@ import DetailButtons from './detailButtons';
 import LeadsTrackerFilterSection from '../LeadsTrackerFilterSection';
 import { fetchFilters, FetchLeadsFilters, fetchLeadsKPIs } from '../../../actions/LeadsTracker';
 
-import ConstructionImage from '../../../components/ConstructionImage';
-
 export interface CheckedRowDictionary {
   [index: number]: boolean;
 }
@@ -567,9 +565,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
 
     return (
       <div className={`leads-table ${loading && 'disabled'}`}>
-        {!loading && totalRecords < 1 ? (
-          <ConstructionImage />
-        ) : (
+        {!loading && (
           <React.Fragment>
             <div style={{ display: 'flex' }}>
               {columns.slice(0, 5).map((c: any, i: any) => (
