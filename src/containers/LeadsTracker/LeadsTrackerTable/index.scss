@@ -126,6 +126,10 @@ $new_black: #3b4557;
       .track-wrap {
         background-color: #dfe8f3;
 
+        @media only screen and(min-width: 1500px) {
+          padding-right: 18px;
+        }
+
         span {
           color: #349af8;
           font-weight: 700 !important;
