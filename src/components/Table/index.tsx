@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Icon, Card, Input, Button } from 'semantic-ui-react';
+import { Table, Icon, Button } from 'semantic-ui-react';
 import './index.scss';
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
@@ -237,9 +237,9 @@ export const GenericTable = (props: GenericTableProps) => {
         })
       : data;
 
-  const [filterName, setFilterName] = useState('');
+  const [, setFilterName] = useState('');
   const [searchValue, setSearchValue] = useState(initialSearch);
-  const [showSearchFilter, setShowSearchFilter] = useState(false);
+  const [, setShowSearchFilter] = useState(false);
 
   useEffect(() => {
     if (setPage) {
@@ -319,15 +319,6 @@ export const GenericTable = (props: GenericTableProps) => {
     setSearchValue('');
   };
 
-  const onSearchChange = () => {
-    if (setPage) {
-      setPage(1);
-    } else {
-      setLocalCurrentPage(1);
-    }
-    setSearchValue(searchValue);
-  };
-
   const totalItemsCount = name === 'leads-tracker' ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
@@ -375,27 +366,6 @@ export const GenericTable = (props: GenericTableProps) => {
         ''
       )}
       {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
-      {showSearchFilter && (
-        <Card className="filter-card">
-          <Card.Header>
-            <span className="card-header">{filterName}</span>
-            <span className="card-header" />
-            <Icon
-              className="close icon close-icon"
-              onClick={onClearSearch}
-              style={{ float: 'right' }}
-            />
-          </Card.Header>
-          <Card.Content>
-            <Input
-              icon="search"
-              value={searchValue}
-              placeholder="Search..."
-              onChange={onSearchChange}
-            />
-          </Card.Content>
-        </Card>
-      )}
       <Table
         sortable={true}
         basic="very"
@@ -414,7 +384,6 @@ export const GenericTable = (props: GenericTableProps) => {
           sortedColumnKey={sortedColumnKey}
           setSort={setSort}
           onSetShowSearchFilter={onSetShowSearchFilter}
-          onSearchChange={onSearchChange}
           onClearSearch={onClearSearch}
           rows={rows}
           currentPage={localCurrentPage}

@@ -19,7 +19,6 @@ interface Shared {
   renderFilterSectionComponent?: () => void;
   toggleColumnCheckbox?: () => void;
   searchFilteredProduct?: (searchValue: string) => void;
-  onSearchChange: (e: any) => void;
   onClearSearch: (e: any) => void;
   rows: any;
   currentPage: number;
