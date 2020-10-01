@@ -78,6 +78,7 @@ export interface GenericTableProps {
   loadingFilters?: boolean;
   filterValues?: any;
   loading?: boolean;
+  initialSearch?: string;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -153,8 +154,11 @@ export const GenericTable = (props: GenericTableProps) => {
     filterValues,
     count,
     loading,
+    initialSearch,
   } = props;
+
   const initialPage = currentPage ? currentPage : 1;
+
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
   useEffect(() => {
     setLocalCurrentPage(initialPage);
@@ -169,6 +173,7 @@ export const GenericTable = (props: GenericTableProps) => {
   }, [localCurrentPage]);
 
   const showColumns = columns.filter(e => e.show);
+
   const {
     sortedColumnKey,
     sortDirection: sortOrder,
@@ -233,9 +238,17 @@ export const GenericTable = (props: GenericTableProps) => {
       : data;
 
   const [filterName, setFilterName] = useState('');
-
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(initialSearch);
   const [showSearchFilter, setShowSearchFilter] = useState(false);
+
+  useEffect(() => {
+    if (setPage) {
+      setPage(1);
+    } else {
+      setLocalCurrentPage(1);
+    }
+    setSearchValue(initialSearch);
+  }, [initialSearch]);
 
   rows = searchValue
     ? rows.filter(row => {
@@ -306,14 +319,15 @@ export const GenericTable = (props: GenericTableProps) => {
     setSearchValue('');
   };
 
-  const onSearchChange = (e: any) => {
+  const onSearchChange = () => {
     if (setPage) {
       setPage(1);
     } else {
       setLocalCurrentPage(1);
     }
-    setSearchValue(e.target.value);
+    setSearchValue(searchValue);
   };
+
   const totalItemsCount = name === 'leads-tracker' ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
