@@ -28,11 +28,17 @@ export interface FetchLeadsFilters {
 }
 export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: any) => {
   dispatch(setLoadingData(true));
-  const filtersResponse = await getFilters({ query: 'column_value=search&column_type=search' });
-  const search =
-    filtersResponse && filtersResponse.data
-      ? filtersResponse.data.map((s: any) => s.value).join(',')
-      : '';
+  const saved = localStorage.getItem('leads-tracker:search');
+  let search: any = '';
+  if (!saved) {
+    console.log('not saved');
+    const filtersResponse = await getFilters({ query: 'column_value=search&column_type=search' });
+    search =
+      filtersResponse && filtersResponse.data
+        ? filtersResponse.data.map((s: any) => s.value).join(',')
+        : '';
+  }
+
   const {
     period = 30,
     page = 1,
