@@ -31,7 +31,6 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
   const saved = localStorage.getItem('leads-tracker:search');
   let search: any = '';
   if (!saved) {
-    console.log('not saved');
     const filtersResponse = await getFilters({ query: 'column_value=search&column_type=search' });
     search =
       filtersResponse && filtersResponse.data
