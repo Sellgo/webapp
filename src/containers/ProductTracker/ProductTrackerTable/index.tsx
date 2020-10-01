@@ -78,6 +78,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     activeRow: null,
     columns: [],
     defaultSort: '',
+    scrollView: false,
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -239,6 +240,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       });
     }
   };
+
   renderDV = (row: ProductTrackerDetails) => {
     const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
     return (
@@ -246,7 +248,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
           <Icon
             className={iconCaretClass}
-            onClick={() => this.toggleExpandRow(row.id)}
+            onClick={() => {
+              this.toggleExpandRow(row.id);
+              this.setState({ scrollView: !this.state.scrollView });
+            }}
             size="tiny"
           />
         </span>
@@ -583,6 +588,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           rowExpander={this.renderDV}
           defaultSort={this.state.defaultSort}
           onSort={defaultSort => this.setState({ defaultSort })}
+          scrollToView={this.state.scrollView}
         />
       </div>
     );

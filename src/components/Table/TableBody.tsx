@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'semantic-ui-react';
 import { Column, getColumnClass, getColumnLabel, renderCell } from './index';
 
@@ -12,6 +12,7 @@ interface TableBodyProps {
   middleScroll?: boolean;
   rowExpander?: any;
   loading?: boolean;
+  scrollToView?: boolean;
 }
 
 interface TableColumnCellProps {
@@ -59,8 +60,20 @@ export const TableBody = (props: TableBodyProps) => {
     middleScroll,
     rowExpander,
     loading,
+    scrollToView,
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
+
+  useEffect(() => {
+    const scrollingContext = document.getElementsByClassName('product-detail-charts')[0];
+    if (
+      scrollingContext &&
+      scrollingContext.parentElement &&
+      scrollingContext.parentElement.parentElement
+    ) {
+      scrollingContext.parentElement.parentElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [scrollToView]);
 
   if (middleScroll) {
     const isTypeProducts = type === 'products';
@@ -158,7 +171,6 @@ export const TableBody = (props: TableBodyProps) => {
                         }
                       >
                         {''}
-
                         {expandedRows === row.id && extendedInfo(row)}
                       </Table.Cell>
                     </Table.Row>
