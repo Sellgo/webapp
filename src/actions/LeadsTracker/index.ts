@@ -27,19 +27,23 @@ export interface FetchLeadsFilters {
   loading: boolean;
 }
 export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: any) => {
-  // eslint-disable-next-line max-len
+  dispatch(setLoadingData(true));
+  const filtersResponse = await getFilters({ query: 'column_value=search&column_type=search' });
+  const search =
+    filtersResponse && filtersResponse.data
+      ? filtersResponse.data.map((s: any) => s.value).join(',')
+      : '';
   const {
     period = 30,
     page = 1,
     per_page = 10,
     sort = 'price',
     sort_direction = 'asc',
-    query = '',
+    query = `searches=${search}`,
     loading = true,
   } = payload;
 
   dispatch(setFetchingKpi(loading));
-  dispatch(setLoadingData(true));
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
@@ -64,7 +68,14 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
 
 export const fetchFilters = (payload: any) => async (dispatch: any) => {
   dispatch(setFetchingFilters(true));
-  // eslint-disable-next-line max-len
+  const response = await getFilters(payload);
+  if (response.data) {
+    dispatch(setFilters(response.data));
+  }
+  dispatch(setFetchingFilters(false));
+};
+
+const getFilters = async (payload: any) => {
   const { period = 30, page = 1, per_page = 50, query = '' } = payload;
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
@@ -72,10 +83,8 @@ export const fetchFilters = (payload: any) => async (dispatch: any) => {
       // eslint-disable-next-line max-len
       `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&${query}`
   );
-  if (response.data) {
-    dispatch(setFilters(response.data));
-  }
-  dispatch(setFetchingFilters(false));
+
+  return response;
 };
 
 export const setFetchingKpi = (isFetching: boolean) => ({
