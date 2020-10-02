@@ -53,7 +53,6 @@ export interface FilterState {
     value: string;
     active: boolean;
   };
-  amazonChoice: string[];
   removeNegative: string[];
   sizeTierFilter: string[];
   price: {

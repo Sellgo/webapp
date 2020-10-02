@@ -9,6 +9,8 @@ import { TableBody } from './TableBody';
 import TableHeader from './TableHeader';
 import Pagination from '../Pagination';
 
+import ConstructionImage from '../../components/ConstructionImage/';
+
 export interface Column {
   render?: (row: any) => string | JSX.Element;
   dataKey?: string;
@@ -75,6 +77,7 @@ export interface GenericTableProps {
   resetColumnFilters?: (dataKey: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
+  loading?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -149,6 +152,7 @@ export const GenericTable = (props: GenericTableProps) => {
     loadingFilters,
     filterValues,
     count,
+    loading,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -423,16 +427,21 @@ export const GenericTable = (props: GenericTableProps) => {
           filterValues={filterValues}
           resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
         />
-        <TableBody
-          extendedInfo={extendedInfo}
-          columns={columns}
-          columnFilterData={filteredColumns}
-          type={name}
-          rows={rows}
-          expandedRows={expandedRows}
-          middleScroll={middleScroll}
-          rowExpander={rowExpander}
-        />
+        {name === 'leads-tracker' && count < 1 && !loading ? (
+          <ConstructionImage />
+        ) : (
+          <TableBody
+            extendedInfo={extendedInfo}
+            columns={columns}
+            columnFilterData={filteredColumns}
+            type={name}
+            rows={rows}
+            expandedRows={expandedRows}
+            middleScroll={middleScroll}
+            rowExpander={rowExpander}
+            loading={loading}
+          />
+        )}
 
         {pagination && (
           <Table.Footer className={showTableLock ? 'lock-footer' : ''}>
@@ -451,9 +460,14 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
                     <Pagination
-                      onPageSizeSelect={size =>
-                        setSinglePageItemsCount ? setSinglePageItemsCount(size) : {}
-                      }
+                      onPageSizeSelect={size => {
+                        if (setSinglePageItemsCount) {
+                          setSinglePageItemsCount(size);
+                        }
+                        if (name !== 'leads-tracker' && setPage) {
+                          setPage(1);
+                        }
+                      }}
                       onNextPage={setLocalCurrentPage}
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
@@ -462,6 +476,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
                       showPageSize={name !== 'supplier'}
+                      loading={!!loading}
                     />
                   </div>
                 </Table.HeaderCell>

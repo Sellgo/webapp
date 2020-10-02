@@ -12,6 +12,7 @@ import {
   TOTAL_PAGES,
   FETCH_FILTERS,
   FETCH_FILTERS_SUCCESS,
+  LOADING_DATA,
 } from '../../constants/LeadsTracker';
 
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -26,14 +27,24 @@ export interface FetchLeadsFilters {
   loading: boolean;
 }
 export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: any) => {
-  // eslint-disable-next-line max-len
+  dispatch(setLoadingData(true));
+  const saved = localStorage.getItem('leads-tracker:search');
+  let search: any = '';
+  if (!saved) {
+    const filtersResponse = await getFilters({ query: 'column_value=search&column_type=search' });
+    search =
+      filtersResponse && filtersResponse.data
+        ? filtersResponse.data.map((s: any) => s.value).join(',')
+        : '';
+  }
+
   const {
     period = 30,
     page = 1,
     per_page = 10,
     sort = 'price',
     sort_direction = 'asc',
-    query = '',
+    query = `searches=${search}`,
     loading = true,
   } = payload;
 
@@ -57,11 +68,19 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
     dispatch(setTotalPages(response.data.num_pages));
   }
   dispatch(setFetchingKpi(false));
+  dispatch(setLoadingData(false));
 };
 
 export const fetchFilters = (payload: any) => async (dispatch: any) => {
   dispatch(setFetchingFilters(true));
-  // eslint-disable-next-line max-len
+  const response = await getFilters(payload);
+  if (response.data) {
+    dispatch(setFilters(response.data));
+  }
+  dispatch(setFetchingFilters(false));
+};
+
+const getFilters = async (payload: any) => {
   const { period = 30, page = 1, per_page = 50, query = '' } = payload;
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
@@ -69,10 +88,8 @@ export const fetchFilters = (payload: any) => async (dispatch: any) => {
       // eslint-disable-next-line max-len
       `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&${query}`
   );
-  if (response.data) {
-    dispatch(setFilters(response.data));
-  }
-  dispatch(setFetchingFilters(false));
+
+  return response;
 };
 
 export const setFetchingKpi = (isFetching: boolean) => ({
@@ -128,4 +145,9 @@ export const setTotalPages = (totalPages: number) => ({
 export const setFilters = (data: any) => ({
   type: FETCH_FILTERS,
   payload: data,
+});
+
+export const setLoadingData = (loading: boolean) => ({
+  type: LOADING_DATA,
+  payload: loading,
 });

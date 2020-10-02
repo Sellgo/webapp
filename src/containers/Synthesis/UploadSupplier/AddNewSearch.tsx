@@ -1,24 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form, Grid } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.scss';
 import { Field } from 'redux-form';
 import { InputField, SelectField } from '../../../components/ReduxFormFields';
 import { marketPlace } from '../../../constants/UploadSupplier';
 import isRequired from '../../../utils/validations/isRequired';
-import { fileDetailsSelector } from '../../../selectors/UploadSupplier';
+import { fileDetailsSelector, fileNameSelector } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
+import { updateFileName } from '../../../actions/UploadSupplier';
 
 const required = isRequired();
 
 const AddNewSearch = (props: any) => {
-  const { fileDetails } = props;
-  const [fileName, setFileName] = useState('');
+  const { fileDetails, setFileName, fileName } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const name = fileDetails
-      ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
-      : '';
-    setFileName(name);
+    const name =
+      fileDetails && fileDetails.name
+        ? fileDetails.name.substring(0, fileDetails.name.lastIndexOf('.'))
+        : '';
+    if (!fileName) {
+      setFileName(name);
+    }
+    if (inputRef && inputRef.current && !!name) {
+      inputRef.current.focus();
+      const select = () => {
+        if (inputRef && inputRef.current) inputRef.current.select();
+      };
+      setTimeout(select, 50);
+    }
   }, [fileDetails]);
 
   return (
@@ -38,6 +49,7 @@ const AddNewSearch = (props: any) => {
                 label="Search Name"
                 placeholder="Search Name"
                 maxLength="100"
+                setFieldToBeFocused={inputRef}
                 inputProps={{
                   value: fileName,
                   onChange: (e: any) => setFileName(e.target.value),
@@ -67,6 +79,11 @@ const AddNewSearch = (props: any) => {
 
 const mapStateToProps = (state: {}) => ({
   fileDetails: fileDetailsSelector(state),
+  fileName: fileNameSelector(state),
 });
 
-export default connect(mapStateToProps)(AddNewSearch);
+const mapDispatchToProps = (dispatch: any) => ({
+  setFileName: (fileName: string) => dispatch(updateFileName(fileName)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNewSearch);
