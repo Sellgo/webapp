@@ -42,7 +42,11 @@ const Pagination = (props: PaginationProps) => {
     evt.stopPropagation();
     if (data) {
       const { value } = data;
-      setPage(value);
+      if (value && value.split('.').length > 1) {
+        setPage(value.split('.')[0]);
+      } else {
+        setPage(value);
+      }
     }
 
     if (evt.key === 'Enter') {
