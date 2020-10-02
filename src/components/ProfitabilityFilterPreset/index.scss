@@ -15,8 +15,7 @@
     box-shadow: unset !important;
     border-top-left-radius: 100px !important;
     border-bottom-left-radius: 100px !important;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-right: 0 !important;
     font-weight: 600 !important;
     padding: 0 10px 0 15px;
   }
@@ -58,6 +57,14 @@
 
     .ui.dropdown {
       color: #3b4557 !important;
+
+      &.button {
+        border-left: 1px solid rgba(#98aeca, 0) !important;
+
+        &:hover {
+          border-left: 1px solid #98aeca !important;
+        }
+      }
     }
   }
 
