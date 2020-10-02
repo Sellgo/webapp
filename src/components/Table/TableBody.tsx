@@ -69,9 +69,24 @@ export const TableBody = (props: TableBodyProps) => {
     if (
       scrollingContext &&
       scrollingContext.parentElement &&
-      scrollingContext.parentElement.parentElement
+      scrollingContext.parentElement.parentElement &&
+      scrollingContext.parentElement.parentElement.previousElementSibling
     ) {
-      scrollingContext.parentElement.parentElement.scrollIntoView({ behavior: 'smooth' });
+      const possibleScrollView =
+        scrollingContext.parentElement.parentElement.previousElementSibling;
+      let isFirstChild = true;
+
+      if (
+        possibleScrollView &&
+        possibleScrollView.previousElementSibling &&
+        possibleScrollView.previousElementSibling.previousElementSibling
+      ) {
+        possibleScrollView.previousElementSibling.previousElementSibling.scrollIntoView(true);
+        isFirstChild = false;
+      }
+      if (isFirstChild && possibleScrollView && possibleScrollView.previousElementSibling) {
+        possibleScrollView.previousElementSibling.scrollIntoView(true);
+      }
     }
   }, [scrollToView]);
 
