@@ -81,11 +81,13 @@ export const TableBody = (props: TableBodyProps) => {
         possibleScrollView.previousElementSibling &&
         possibleScrollView.previousElementSibling.previousElementSibling
       ) {
-        possibleScrollView.previousElementSibling.previousElementSibling.scrollIntoView(true);
+        possibleScrollView.previousElementSibling.previousElementSibling.scrollIntoView({
+          behavior: 'smooth',
+        });
         isFirstChild = false;
       }
       if (isFirstChild && possibleScrollView && possibleScrollView.previousElementSibling) {
-        possibleScrollView.previousElementSibling.scrollIntoView(true);
+        possibleScrollView.previousElementSibling.scrollIntoView({ behavior: 'smooth' });
       }
     }
   }, [scrollToView]);
