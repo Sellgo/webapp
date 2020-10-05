@@ -465,7 +465,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={sortedByCompletedData}
           columns={columns}
           name={'supplier'}
-          initialSearch={supplierSearch}
+          searchValue={supplierSearch}
         />
         <Confirm
           content="Do you want to delete supplier?"

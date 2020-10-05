@@ -78,7 +78,7 @@ export interface GenericTableProps {
   loadingFilters?: boolean;
   filterValues?: any;
   loading?: boolean;
-  initialSearch?: string;
+  searchValue?: string;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -154,7 +154,7 @@ export const GenericTable = (props: GenericTableProps) => {
     filterValues,
     count,
     loading,
-    initialSearch,
+    searchValue,
   } = props;
 
   const initialPage = currentPage ? currentPage : 1;
@@ -237,9 +237,7 @@ export const GenericTable = (props: GenericTableProps) => {
         })
       : data;
 
-  const [, setFilterName] = useState('');
-  const [searchValue, setSearchValue] = useState(initialSearch);
-  const [, setShowSearchFilter] = useState(false);
+  const [localSearchValue, setLocalSearchValue] = useState(searchValue);
 
   useEffect(() => {
     if (setPage) {
@@ -247,15 +245,15 @@ export const GenericTable = (props: GenericTableProps) => {
     } else {
       setLocalCurrentPage(1);
     }
-    setSearchValue(initialSearch);
-  }, [initialSearch]);
+    setLocalSearchValue(searchValue);
+  }, [searchValue]);
 
-  rows = searchValue
+  rows = localSearchValue
     ? rows.filter(row => {
-        if ((row.search || '').toLowerCase().startsWith(searchValue.toLowerCase())) {
-          return (row.search || '').toLowerCase().startsWith(searchValue.toLowerCase());
+        if ((row.search || '').toLowerCase().startsWith(localSearchValue.toLowerCase())) {
+          return (row.search || '').toLowerCase().startsWith(localSearchValue.toLowerCase());
         } else {
-          return (row.search || '').toLowerCase().includes(searchValue.toLowerCase());
+          return (row.search || '').toLowerCase().includes(localSearchValue.toLowerCase());
         }
       })
     : rows;
@@ -307,16 +305,13 @@ export const GenericTable = (props: GenericTableProps) => {
     }
   });
 
-  const onSetShowSearchFilter = (e: any, key: any) => {
+  const onSetShowSearchFilter = (e: any) => {
     e.stopPropagation();
-    setShowSearchFilter(true);
-    setFilterName(key);
   };
 
   const onClearSearch = (e: any) => {
     e.stopPropagation();
-    setShowSearchFilter(false);
-    setSearchValue('');
+    setLocalSearchValue('');
   };
 
   const totalItemsCount = name === 'leads-tracker' ? count : data.length;
