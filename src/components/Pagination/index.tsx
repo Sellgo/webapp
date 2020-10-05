@@ -43,7 +43,8 @@ const Pagination = (props: PaginationProps) => {
     if (data) {
       const { value } = data;
       if (value && value.split('.').length > 1) {
-        setPage(value.split('.')[0]);
+        const santizedInput = value.replace(/[^0-9]/g, '');
+        setPage(santizedInput);
       } else {
         setPage(value);
       }
@@ -124,6 +125,7 @@ const Pagination = (props: PaginationProps) => {
           onChange={onPageNumberChanges}
           onKeyDown={onPageNumberChanges}
           onBlur={onBlur}
+          type={'number'}
         />
       </div>
       <div>
