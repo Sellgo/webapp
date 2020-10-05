@@ -37,7 +37,6 @@ interface Props {
   subscriptionType: string;
   isScrollSelector: boolean;
   scrollTop: boolean;
-  sellerSubscription: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -49,7 +48,6 @@ function ProfitFinderFilterSection(props: Props) {
     setPageNumber,
     subscriptionType,
     filteredProducts,
-    sellerSubscription,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -1162,7 +1160,6 @@ const mapStateToProps = (state: {}) => ({
   subscriptionType: get(state, 'subscription.subscriptionType'),
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
-  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {
