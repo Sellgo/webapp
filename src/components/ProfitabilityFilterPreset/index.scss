@@ -7,7 +7,7 @@
   border-bottom-left-radius: 100px !important;
   border-top-right-radius: 100px !important;
   border-bottom-right-radius: 100px !important;
-  margin:0px 5px 5px 5px !important;
+  margin: 0 5px 5px 5px !important;
 
   .profitability-preset-btn {
     color: #3b4557 !important;
@@ -18,7 +18,7 @@
     border-right: 0 !important;
     font-weight: 600 !important;
     padding: 0 10px 0 15px;
-    height:32px !important;
+    height: 32px !important;
   }
 
   .ui.dropdown {
@@ -58,24 +58,23 @@
 
     .ui.dropdown {
       color: #3b4557 !important;
-      border-left-color:none !important;
-      &::before{
-        content:'';
-        display:inline-block;
-        width:0px;
-        height: 0px;
-        background:#98aeca;
-        position:absolute;
-        top:0px;
-        left:0px;
+      border-left-color: none !important;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 0;
+        height: 0;
+        background: #98aeca;
+        position: absolute;
+        top: 0;
+        left: 0;
         box-sizing: border-box;
       }
 
-      &:hover{
-        &::before{
-          height: 100%;
-          width:1px;
-        }
+      &:hover::before {
+        height: 100%;
+        width: 1px;
       }
     }
   }
