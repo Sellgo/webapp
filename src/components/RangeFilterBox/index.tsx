@@ -108,7 +108,7 @@ const RangeFilterBox = (props: any) => {
         <p>X Reset</p>
       </div>
       {loading ? (
-        <Dimmer.Inner active={loading} inverted className={'curved'}>
+        <Dimmer.Inner active={loading} inverted className={'ltr-filter-popup curved'}>
           <Loader size="medium">Loading</Loader>
         </Dimmer.Inner>
       ) : (
