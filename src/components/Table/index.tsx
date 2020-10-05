@@ -467,6 +467,9 @@ export const GenericTable = (props: GenericTableProps) => {
                         if (name !== 'leads-tracker' && setPage) {
                           setPage(1);
                         }
+                        if (name === 'leads-tracker') {
+                          setLocalCurrentPage(1);
+                        }
                       }}
                       onNextPage={setLocalCurrentPage}
                       onPrevPage={setLocalCurrentPage}
