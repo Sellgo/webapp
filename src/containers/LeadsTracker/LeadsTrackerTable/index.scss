@@ -125,6 +125,7 @@ $new_black: #3b4557;
     &.is-tracking {
       .track-wrap {
         background-color: #dfe8f3;
+        padding-right: 18px;
 
         span {
           color: #349af8;
@@ -822,7 +823,6 @@ $new_black: #3b4557;
 @media only screen and (min-width: 1875px) and (max-width: 2559px) {
   .detail-buttons {
     width: 96px !important;
-    margin: auto;
   }
 }
 
@@ -884,4 +884,8 @@ $new_black: #3b4557;
 .avg_price {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+
+.lt-tracking {
+  margin: auto;
 }
