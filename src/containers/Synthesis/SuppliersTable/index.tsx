@@ -36,6 +36,8 @@ import { isSubscriptionFree } from '../../../utils/subscriptions';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import _ from 'lodash';
 
+import { formatCompletedDate } from '../../../utils/date';
+
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
@@ -252,7 +254,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (row.file_status !== 'completed') {
       return '';
     }
-    return new Date(row.udate).toLocaleString();
+    return formatCompletedDate(row.udate);
   };
 
   handlePieChartModalOpen = (supplier: any) => {
