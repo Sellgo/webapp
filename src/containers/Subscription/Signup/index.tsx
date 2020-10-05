@@ -150,7 +150,7 @@ function Signup(props: Props, state: State) {
             setErrorMessage(err.description);
           } else {
             const data = {
-              email: email,
+              email: email.trim(), // trim out white spaces to prevent 500
               name: firstName + ' ' + lastName,
               first_name: firstName,
               last_name: lastName,

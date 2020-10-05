@@ -78,6 +78,7 @@ export interface GenericTableProps {
   loadingFilters?: boolean;
   filterValues?: any;
   loading?: boolean;
+  scrollToView?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -153,6 +154,7 @@ export const GenericTable = (props: GenericTableProps) => {
     filterValues,
     count,
     loading,
+    scrollToView,
   } = props;
   const initialPage = currentPage ? currentPage : 1;
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
@@ -440,6 +442,7 @@ export const GenericTable = (props: GenericTableProps) => {
             middleScroll={middleScroll}
             rowExpander={rowExpander}
             loading={loading}
+            scrollToView={scrollToView}
           />
         )}
 
