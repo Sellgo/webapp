@@ -51,9 +51,8 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
     query = `searches=${search}`,
     loading = true,
   } = payload;
-  if (loading) {
-    dispatch(setFetchingKpi(loading));
-  }
+
+  dispatch(setFetchingKpi(loading));
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
