@@ -5,6 +5,7 @@ import { AnyAction } from 'redux';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
   IS_LOADING_TRACKER_PRODUCTS,
+  IS_TRACKER_FILTER_LOADING,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_MENU_ITEM,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
@@ -35,6 +36,7 @@ const initialState = {
     count: 0,
     results: [],
   },
+  loadingTrackerFilter: false,
   checkedProductsData: [],
   filteredProducts: [],
   filterRanges: undefined,
@@ -49,6 +51,9 @@ export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case IS_LOADING_TRACKER_PRODUCTS: {
       return setIn(state, 'isLoadingTrackerProducts', action.payload);
+    }
+    case IS_TRACKER_FILTER_LOADING: {
+      return setIn(state, 'loadingTrackerFilter', action.payload);
     }
     case VERIFYING_PRODUCT: {
       return setIn(state, 'verifyingProduct', action.payload);
@@ -170,8 +175,10 @@ export default (state = initialState, action: AnyAction) => {
       );
       const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
       const searchProducts = searchFilteredProduct(filteredProducts, state.filterSearch);
-      return setIn(newState, 'filteredProducts', searchProducts);
+      const newStateAfterFilter = setIn(newState, 'filteredProducts', searchProducts);
+      return setIn(newStateAfterFilter, 'loadingTrackerFilter', false);
     }
+
     case SET_FILTER_SEARCH: {
       return setIn(state, 'filterSearch', action.payload);
     }

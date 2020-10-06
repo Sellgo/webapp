@@ -29,8 +29,23 @@ import { columnFilter } from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
 import { isSubscriptionFree } from '../../../utils/subscriptions';
+import {
+  isFetchingInventorySelector,
+  isFetchingPriceSelector,
+  isFetchingRankSelector,
+  isFetchingRatingSelector,
+  isFetchingReviewSelector,
+  isFetchingSellerInventorySelector,
+} from '../../../selectors/Products';
 
 interface TrackerProps {
+  loadingTrackerFilter: boolean;
+  isFetchingRank: boolean;
+  isFetchingPrice: boolean;
+  isFetchingInventory: boolean;
+  isFetchingRating: boolean;
+  isFetchingReview: boolean;
+  isFetchingSellerInventory: boolean;
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
   subscriptionType: string;
@@ -515,6 +530,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
   render() {
     const {
+      loadingTrackerFilter,
+      isFetchingRank,
+      isFetchingPrice,
+      isFetchingInventory,
+      isFetchingRating,
+      isFetchingReview,
+      isFetchingSellerInventory,
       isLoadingTrackerProducts,
       productTrackerResult,
       filteredProducts,
@@ -558,7 +580,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         </div>
         <ProductTrackerFilterSection />
         <GenericTable
-          loading={isLoadingTrackerProducts}
+          loading={
+            isLoadingTrackerProducts ||
+            isFetchingRank ||
+            isFetchingPrice ||
+            isFetchingInventory ||
+            isFetchingRating ||
+            isFetchingReview ||
+            isFetchingSellerInventory ||
+            loadingTrackerFilter
+          }
           currentActiveColumn={currentActiveColumn}
           stickyChartSelector={stickyChartSelector}
           scrollTopSelector={scrollTopSelector}
@@ -608,6 +639,13 @@ const mapStateToProps = (state: any) => {
     scrollTopSelector: get(state, 'supplier.setScrollTop'),
     stickyChartSelector: get(state, 'supplier.setStickyChart'),
     currentActiveColumn: get(state, 'supplier.activeColumn'),
+    isFetchingRank: isFetchingRankSelector(state),
+    isFetchingPrice: isFetchingPriceSelector(state),
+    isFetchingInventory: isFetchingInventorySelector(state),
+    isFetchingRating: isFetchingRatingSelector(state),
+    isFetchingReview: isFetchingReviewSelector(state),
+    isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
+    loadingTrackerFilter: get(state, 'productTracker.loadingTrackerFilter'),
   };
 };
 
