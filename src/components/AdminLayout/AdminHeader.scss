@@ -5,278 +5,44 @@
 }
 
 .admin-header {
-  height: 64px;
-  position: relative;
+  min-height: 30px;
+  background-color: #f8faff !important;
+  position: fixed;
+  top: 0;
+  left: 50px;
+  z-index: 300 !important;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 100%;
+  max-width: 100%;
 
-  .top-menu {
-    position: absolute !important;
-    background-color: #3b4557 !important;
-    height: 64px;
-    padding-left: 59px;
-    padding-right: 59px;
-  }
-
-  .menu.main-menu {
-    span {
-      display: flex;
-      align-items: center;
-
-      img {
-        width: 18px;
-        margin-right: 10px;
-      }
-    }
-  }
-
-  .item.product-tracker-menu::before {
-    border-bottom: 8px solid transparent;
-    border-left: 10px solid aliceblue !important;
-    border-top: 8px solid transparent;
-    left: -17px;
-    position: relative;
-    top: 0;
-  }
-
-  .item.product-tracker-menu.active-menu::before {
-    border-bottom: 8px solid transparent;
-    border-left: 10px solid #3b4557 !important;
-    border-top: 8px solid transparent;
-    left: -17px;
-    position: relative;
-    top: 0;
-  }
-
-  .main-menu {
-    border: 1px solid #fff;
-    border-radius: 10px;
-    font-family: 'Work sans', sans-serif !important;
-    font-weight: bold;
-    margin-bottom: 12px !important;
-    margin-left: 103px !important;
-    margin-top: 12px !important;
-    overflow: hidden;
-
-    .header-values {
-      margin-left: 10px;
-    }
+  &__container {
+    width: 100%;
+    height: 100%;
+    padding-right: 125px !important;
+    margin-left: 38px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #f8faff !important;
 
     .item {
-      position: relative;
+      height: 70%;
+      padding: 8px 0 5px 10px;
 
-      .arrow.is-right.tracker {
-        position: absolute;
-        right: 9px;
-        -moz-transform: rotate(315deg);
-        -ms-transform: rotate(315deg);
-        -webkit-transform: rotate(315deg);
-        transform: rotate(315deg);
-        z-index: 99;
-
-        &::after {
-          border-color: transparent;
-          border-bottom-color: #3b4557;
-          border-style: solid;
-          border-width: 0 0 12px 12px;
-          content: '';
-          display: inline-block;
-          height: 12px;
-          height: 0;
-          left: 0;
-          position: absolute;
-          top: 0;
-          width: 12px;
-          width: 0;
-        }
+      i.setting-icon {
+        font-size: 18px !important;
+        color: #a2a2a2 !important;
       }
 
-      .arrow.is-right.light {
-        &::after {
-          border-bottom-color: #f0f8ff;
+      .ui.dropdown {
+        img {
+          width: 25px;
+          height: 25px;
+          margin: 0;
         }
       }
     }
-  }
-
-  .right-menu > .item {
-    padding-left: 26px;
-    padding-right: 26px;
-  }
-
-  .ui.menu .item {
-    font-weight: bold;
-  }
-
-  .mobile-menu {
-    display: none !important;
-  }
-
-  .sidebar-menu {
-    background: #3c4658 !important;
-    top: 64px !important;
-
-    .side-menu {
-      margin-top: 14px !important;
-    }
-
-    .header-values {
-      margin-left: 10px;
-    }
-
-    .active-item {
-      background: aliceblue !important;
-      border-bottom-right-radius: 0 !important;
-      border-top-right-radius: 0 !important;
-      color: #4b9af8 !important;
-      padding: 10px !important;
-    }
-  }
-
-  .ui .item.menu-link:first-child {
-    background: #dfe8f3;
-    border-radius: 10px !important;
-    color: #4685f4;
-    margin: 10px;
-  }
-
-  .divider {
-    align-self: center;
-    background-color: #a4a4a4;
-    height: 100%;
-    width: 1px;
-  }
-
-  .right-menu > .item > i {
-    font-size: 24px;
-    margin: 0 !important;
-  }
-
-  .username {
-    margin-left: 7px;
-  }
-
-  .active-menu {
-    background: aliceblue !important;
-    color: #4b9af8 !important;
-  }
-}
-
-@media screen and (min-width: 310px) and (max-width: 767px) {
-  .admin-header .top-menu {
-    padding-left: 59px;
-    padding-right: 59px;
-  }
-
-  .username {
-    display: none !important;
-  }
-
-  .admin-header .mobile-menu {
-    display: inherit !important;
-  }
-
-  .admin-header .main-menu {
-    border: none !important;
-    margin-left: 0 !important;
-
-    a {
-      display: none !important;
-    }
-  }
-
-  .admin-header .right-menu > .item {
-    padding-left: 0;
-    padding-right: 16px;
-  }
-
-  /* ========================== */
-  .page-header .ui.header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .ui.header .content {
-    margin-top: 10px;
-  }
-
-  .admin-header .divider {
-    display: none;
-  }
-
-  .ui.grid > .row > .column {
-    width: 100% !important;
-  }
-
-  .admin-layout.ui.segment {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .ui.header:last-child {
-    margin-bottom: inherit;
-  }
-
-  .setting .left-column {
-    width: 100% !important;
-  }
-}
-
-@media (max-width: 1366px) and (max-height: 768px) {
-  .ui.segment.setting {
-    padding: 0 1rem !important;
-  }
-}
-
-@media screen and (max-height: 900px) {
-  .admin-layout.ui.segment {
-    padding: 20px 55px 0 100px;
-  }
-
-  .page-header {
-    margin-bottom: 2.5rem !important;
-  }
-}
-
-@media screen and (max-height: 1440px) {
-  .admin-layout {
-    .setting {
-      padding-right: 4px;
-    }
-  }
-
-  .page-header {
-    margin-bottom: 2.5rem !important;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-  .admin-header .main-menu {
-    margin-left: 50px !important;
-  }
-
-  .mobile-menu {
-    display: none !important;
-  }
-
-  .admin-header .top-menu {
-    padding-left: 59px;
-    padding-right: 59px;
-  }
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1250px) {
-  .admin-header .top-menu {
-    padding-left: 59px;
-    padding-right: 59px;
-  }
-}
-
-@media screen and (min-width: 1251px) and (max-width: 1600px) {
-  .segment .setting .left-column {
-    padding-right: 60px !important;
-  }
-
-  .admin-header .top-menu {
-    padding-left: 59px;
-    padding-right: 59px;
   }
 }

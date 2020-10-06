@@ -1,6 +1,6 @@
 import React, { Component, ReactElement } from 'react';
 import { connect } from 'react-redux';
-import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
+import { Menu, Segment, Sidebar, Grid, Label, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Auth from '../Auth/Auth';
@@ -60,11 +60,9 @@ class SidebarCollapsible extends Component<
         path: '/leads-tracker',
         notifyId: 2,
       },
-      { id: 5, label: '', icon: 'fas fa-angle-right', path: '', notifyId: 6 },
-      { id: 6, label: 'Logout', icon: 'fas fa-sign-out-alt', path: '#', notifyId: 5 },
-      { id: 7, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
+      { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
       {
-        id: 8,
+        id: 6,
         label: 'Onboarding',
         icon: 'far fa-question-circle',
         path: '/onboarding',
@@ -95,6 +93,9 @@ class SidebarCollapsible extends Component<
     const sidebarMenu = (
       <>
         <Menu.Menu>
+          <Menu.Item as={Link} to="/">
+            <Icon name="setting" />
+          </Menu.Item>
           {this.state.sidebarIcon.map(icon => {
             if (icon.id <= 4) {
               return (
