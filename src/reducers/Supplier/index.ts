@@ -62,7 +62,8 @@ const initialState = {
     size_tier: '',
     weight: '',
   },
-  singlePageItemsCount: Number(selectItemsCountList[0].value),
+  singlePageItemsCount:
+    localStorage.getItem('supplierPageItemsCount') || Number(selectItemsCountList[0].value),
   pageNumber: 1,
   productsLoadingDataBuster: [],
 };
@@ -148,8 +149,10 @@ export default (state = initialState, action: AnyAction) => {
       const searchProducts = searchFilteredProduct(filteredProducts, value);
       return setIn(newState, 'filteredProducts', searchProducts);
     }
-    case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT:
+    case SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT: {
+      localStorage.setItem('supplierPageItemsCount', action.payload);
       return setIn(state, 'singlePageItemsCount', action.payload);
+    }
     case SET_SUPPLIER_PAGE_NUMBER: {
       return setIn(state, 'pageNumber', action.payload);
     }
