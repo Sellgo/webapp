@@ -3,42 +3,11 @@
   display: flex;
   justify-content: space-between;
   height: 10px;
-  margin-bottom: 2rem;
+  margin-bottom: 2.8rem;
   padding: 0 1em;
 
   @media (max-width: 767px) {
     display: block;
-  }
-
-  .ui.breadcrumb {
-    font-size: 1.1rem;
-    font-weight: bold !important;
-
-    .icon.divider {
-      color: #98aeca;
-      font-size: 16px;
-      margin: 0 8px;
-    }
-
-    @media screen and (max-width: 450px) {
-      width: unset;
-    }
-
-    @media screen and (max-width: 767px) {
-      font-size: 0.8rem !important;
-    }
-
-    .section {
-      color: #3b4557;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .active.section {
-      color: #5381db;
-      font-size: 16px;
-      font-weight: 600;
-    }
   }
 
   .header-right-wrap {
