@@ -6,6 +6,7 @@ import {
   LOADING_DATA,
   SET_FETCHING_KPI,
   SET_LEADS,
+  SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_PAGE_NO,
   SET_PAGE_SIZE,
   SET_PERIOD,
@@ -14,6 +15,8 @@ import {
   SET_TOTAL_RECORDS,
   TOTAL_PAGES,
 } from '../../constants/LeadsTracker';
+
+import { selectItemsCountList } from '../../constants';
 
 const initialState = {
   details: undefined,
@@ -29,6 +32,8 @@ const initialState = {
   filters: [],
   fetchingFilters: false,
   loading: false,
+  singlePageItemsCount:
+    localStorage.getItem('leadsTrackerPageItemsCount') || Number(selectItemsCountList[0].value),
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -57,6 +62,10 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'fetchingFilters', action.payload);
     case LOADING_DATA:
       return setIn(state, 'loading', action.payload);
+    case SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT: {
+      localStorage.setItem('leadsTrackerPageItemsCount', action.payload);
+      return setIn(state, 'singlePageItemsCount', action.payload);
+    }
     default:
       return state;
   }

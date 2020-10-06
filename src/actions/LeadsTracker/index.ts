@@ -13,6 +13,7 @@ import {
   FETCH_FILTERS,
   FETCH_FILTERS_SUCCESS,
   LOADING_DATA,
+  SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
 } from '../../constants/LeadsTracker';
 
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -150,4 +151,9 @@ export const setFilters = (data: any) => ({
 export const setLoadingData = (loading: boolean) => ({
   type: LOADING_DATA,
   payload: loading,
+});
+
+export const setLeadsTrackerSinglePageItemsCount = (itemsCount: number) => ({
+  type: SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
+  payload: itemsCount,
 });
