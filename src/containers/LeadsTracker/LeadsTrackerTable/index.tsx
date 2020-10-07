@@ -10,7 +10,7 @@ import get from 'lodash/get';
 import { setSupplierPageNumber, updateProductTrackingStatus } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
-import { filters, leads, loadingFilters } from '../../../selectors/LeadsTracker';
+import { filters, leads, loadingFilters, loadingLeads } from '../../../selectors/LeadsTracker';
 import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
@@ -53,6 +53,7 @@ export interface LeadsTrackerTableProps {
   totalPages: number;
   loadingFilters: boolean;
   loading: boolean;
+  loadingLeads: boolean;
 }
 class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   constructor(props: LeadsTrackerTableProps) {
@@ -552,6 +553,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       loading,
       singlePageItemsCount,
       setSinglePageItemsCount,
+      loadingLeads,
     } = this.props;
     const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
@@ -571,7 +573,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     }
 
     return (
-      <div className={`leads-table ${loading && 'disabled'}`}>
+      <div className={`leads-table ${loadingLeads && 'disabled'}`}>
         <React.Fragment>
           <div style={{ display: 'flex' }}>
             {columns.slice(0, 5).map((c: any, i: any) => (
@@ -665,6 +667,7 @@ const mapStateToProps = (state: {}) => ({
   loading: get(state, 'leads.loading'),
   filters: filters(state),
   loadingFilters: loadingFilters(state),
+  loadingLeads: loadingLeads(state),
 });
 
 const mapDispatchToProps = {
