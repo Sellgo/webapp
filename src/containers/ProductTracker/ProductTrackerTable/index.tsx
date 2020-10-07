@@ -370,6 +370,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         handleConfirmMessage={this.handleConfirmMessage}
         confirm={this.state.confirm}
         handleMoveGroup={handleMoveGroup}
+        handleEdit={data => console.log(data)}
       />
     );
   };

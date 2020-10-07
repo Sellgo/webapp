@@ -1,9 +1,21 @@
 import React from 'react';
-import { Icon, Popup, Confirm, Menu, Divider, Header, Segment } from 'semantic-ui-react';
+import {
+  Icon,
+  Popup,
+  Confirm,
+  Menu,
+  Divider,
+  Header,
+  Segment,
+  Modal,
+  Input,
+} from 'semantic-ui-react';
 import { clamp } from 'lodash';
 import Amazon from '../../../assets/images/link.svg';
 import Untrack from '../../../assets/images/untrack.svg';
 import Folder from '../../../assets/images/folder-plus.svg';
+import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
+import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
 
 interface OtherSortProps {
   row: any;
@@ -14,6 +26,7 @@ interface OtherSortProps {
   handleConfirmMessage: any;
   handleCancel: any;
   handleMoveGroup: any;
+  handleEdit: (row: any) => void;
 }
 class OtherSort extends React.Component<OtherSortProps> {
   state = {
@@ -101,6 +114,67 @@ class OtherSort extends React.Component<OtherSortProps> {
               <img src={Amazon} alt="Amazon" />
               {`View on Amazon`}
             </Menu.Item>
+
+            <Modal
+              trigger={
+                <Menu.Item className={'edit-cost'}>
+                  <Icon className="pencil" />
+                  {`Edit`}
+                </Menu.Item>
+              }
+              className="edit-cost-modal"
+              content={
+                <div className="edit-cost-container">
+                  <div className="product-description-details">
+                    <div className="product-image">
+                      <img src={row.image_url} alt={'product image'} />
+                    </div>
+                    <div>
+                      <div>
+                        <h3>{row.title}</h3>
+                      </div>
+                      <div className="details">
+                        <div>
+                          <img
+                            className="flag-img"
+                            src={COUNTRY_IMAGE}
+                            alt="product_img"
+                            style={{ width: 40 }}
+                          />
+                        </div>
+                        <div className="asin-details">
+                          <p className="asin-text">{row.asin}</p>
+                          <p className="asin-sub-text">
+                            {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
+                              .filter(pidType => pidType.toLowerCase() in row)
+                              .map(pidType => row[pidType.toLowerCase()])[0] || ''}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="edit-cost-fields">
+                    <div className="cost-labels">
+                      <div>
+                        <h5>{'Current cost of Good Sold'}</h5>
+                      </div>
+                      <div>
+                        <h5>{'New cost of Good Sold'}</h5>
+                      </div>
+                    </div>
+                    <div className="cost-values">
+                      <div className="cost-value">
+                        <p>Some Price</p>
+                      </div>
+                      <div className="cost-input">
+                        <Input focus />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            />
             <Menu.Item
               className="untrack-link"
               style={{ color: 'red' }}
