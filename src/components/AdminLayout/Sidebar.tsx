@@ -1,10 +1,10 @@
 import React, { Component, ReactElement } from 'react';
 import { connect } from 'react-redux';
-import { Menu, Segment, Sidebar, Grid, Label, Icon } from 'semantic-ui-react';
+import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import Auth from '../Auth/Auth';
-import LogoutConfirm from '../LogoutConfirm';
+
 import Tour from '../QuickTourMessage';
 import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
@@ -24,7 +24,7 @@ interface State {
 
 class SidebarCollapsible extends Component<
   {
-    auth: Auth;
+    auth?: Auth;
     currentNotifyId: number;
   },
   { visible: boolean; openConfirm: boolean },
@@ -60,7 +60,7 @@ class SidebarCollapsible extends Component<
         path: '/leads-tracker',
         notifyId: 2,
       },
-      { id: 5, label: 'Settings', icon: 'fas fa-user-cog', path: '/settings', notifyId: 4 },
+      { id: 5, label: 'Settings', icon: 'fas fa-cog', path: '/settings', notifyId: 4 },
       {
         id: 6,
         label: 'Onboarding',
@@ -74,13 +74,9 @@ class SidebarCollapsible extends Component<
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
-  open = () => {
-    this.setState({ openConfirm: true });
-  };
-  openConfirm = (text: boolean) => this.setState({ openConfirm: text });
   render() {
     const { visible, sidebarIcon } = this.state;
-    const { children, auth, currentNotifyId } = this.props;
+    const { children, currentNotifyId } = this.props;
     let supplier_id = '';
     const latest = getLatestSupplier();
     if (latest) {
@@ -93,11 +89,8 @@ class SidebarCollapsible extends Component<
     const sidebarMenu = (
       <>
         <Menu.Menu>
-          <Menu.Item as={Link} to="/">
-            <Icon name="setting" />
-          </Menu.Item>
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id <= 4) {
+            if (icon.id < 5) {
               return (
                 <Tour
                   data={icon}
@@ -132,49 +125,29 @@ class SidebarCollapsible extends Component<
         </Menu.Menu>
         <Menu.Menu className="sidebar-bottom-icon">
           {this.state.sidebarIcon.map(icon => {
-            if (icon.id === 5) {
+            if (icon.id > 4) {
               return (
                 <Tour
                   data={icon}
                   key={icon.id}
                   child={
                     <Menu.Item
-                      key={icon.id}
-                      name={icon.icon}
                       onClick={() => {
-                        this.handleAnimationChange();
+                        visible && this.handleAnimationChange();
                       }}
-                    >
-                      <i
-                        className={`fas ${
-                          !visible ? icon.icon : 'fa-angle-left'
-                        } ${currentNotifyId === icon.notifyId && 'forward'}`}
-                      />
-                    </Menu.Item>
-                  }
-                />
-              );
-            } else if (icon.id > 4) {
-              return (
-                <Tour
-                  data={icon}
-                  key={icon.id}
-                  child={
-                    <Menu.Item
-                      key={icon.id}
                       as={Link}
-                      to={icon.path}
+                      disabled={!!(icon.id === 2 && !supplier_id)}
+                      to={
+                        icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
+                      }
                       name={icon.icon}
                       active={links[icon.id - 1] === currentPath}
-                      onClick={() => {
-                        icon.id === 6 && this.open();
-                        icon.id === 8 && visible && this.handleAnimationChange();
-                      }}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'}`}
+                          'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
                       />
+
                       <Label> {icon.label} </Label>
                     </Menu.Item>
                   }
@@ -205,8 +178,6 @@ class SidebarCollapsible extends Component<
             <Grid className={`${currentNotifyId > 0 && 'Sidebar__pushable custom-dimmer'}`} />
             {sidebarMenu}
           </Sidebar>
-
-          <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
 
           <SidebarPusher
             dimmed={currentNotifyId > 0 ? true : visible}
