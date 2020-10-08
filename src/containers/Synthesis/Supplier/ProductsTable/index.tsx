@@ -35,6 +35,8 @@ import {
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 
+import { returnWithRenderMethod } from '../../../../utils/tableColumn';
+
 interface ProductsTableProps {
   currentActiveColumn: string;
   stickyChartSelector: boolean;
@@ -309,6 +311,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         return val;
       });
     }
+    localStorage.setItem('profitFinderFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
   searchFilteredProduct = (value: string) => {
@@ -573,10 +576,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   handleColumnDrop = (e: any, data: any) => {
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
   reorderColumns = (columns: Column[]) => {
-    this.setState({ columns });
+    const columnsWithRender = returnWithRenderMethod(this.columns, columns);
+    localStorage.setItem('profitFinderColumnState', JSON.stringify(columns));
+
+    const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
+    if (currentColumnState.length > 1) {
+      this.setState({ columns: columnsWithRender });
+    }
   };
 
   // detect primary ID based on products
@@ -638,7 +648,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   componentDidMount() {
-    this.setState({ columns: this.columns });
+    const currentFilterOrder = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
+
+    if (currentFilterOrder.length > 1) {
+      this.setState({ columnFilterData: currentFilterOrder });
+    }
+
+    if (currentColumnState.length > 1) {
+      const columnsWithRender = returnWithRenderMethod(this.columns, currentColumnState);
+      this.setState({ columns: columnsWithRender });
+    } else {
+      this.setState({ columns: this.columns });
+    }
   }
 
   componentDidUpdate(prevProps: ProductsTableProps) {
