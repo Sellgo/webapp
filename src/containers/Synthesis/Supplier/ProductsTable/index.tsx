@@ -34,6 +34,7 @@ import {
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
+import { formatCompletedDate } from '../../../../utils/date';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -157,6 +158,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
   renderSizeTiers = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
+  );
+  renderLastRun = (row: Product) => (
+    <p className="stat">{formatCompletedDate(new Date(row.last_syn))}</p>
   );
   renderFbaFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fba_fee, formatCurrency(row.fba_fee))}</p>
@@ -546,6 +550,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'xl-column',
       render: this.renderSizeTiers,
+    },
+    {
+      label: 'Last Run',
+      dataKey: 'last_run',
+      type: 'string',
+      show: true,
+      sortable: true,
+      // className: 'xl-column',
+      render: this.renderLastRun,
     },
     {
       label: 'Tracking',
