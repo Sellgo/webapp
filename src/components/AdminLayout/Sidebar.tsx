@@ -80,14 +80,12 @@ class SidebarCollapsible extends Component<
   componentDidMount() {
     const sidebarMenu = document.querySelector('.sidebar-menu');
     const menuItems = Array.from(document.querySelectorAll('.menu .item')).slice(2);
-    console.log(menuItems);
-
     menuItems.forEach(item => {
-      item.addEventListener('mouseover', () => {
+      item.addEventListener('mouseover', e => {
+        e.stopPropagation();
         const isVisible = this.state.visible;
         if (!isVisible) {
           this.handleAnimationChange();
-          console.log('Triggered!!');
         }
       });
     });
@@ -96,8 +94,7 @@ class SidebarCollapsible extends Component<
         e.stopPropagation();
         const isVisible = this.state.visible;
         if (isVisible) {
-          setTimeout(this.handleAnimationChange, 200);
-          console.log('Triggering mouse leave!!!');
+          setTimeout(this.handleAnimationChange, 350);
         }
       });
     }
