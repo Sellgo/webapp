@@ -10,6 +10,8 @@ import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
 
+import { LogoWithoutText } from '../Logo/index';
+
 interface IconD {
   id: number;
   icon: string;
@@ -74,6 +76,33 @@ class SidebarCollapsible extends Component<
   };
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
+
+  componentDidMount() {
+    const sidebarMenu = document.querySelector('.sidebar-menu');
+    const menuItems = Array.from(document.querySelectorAll('.menu .item')).slice(2);
+    console.log(menuItems);
+
+    menuItems.forEach(item => {
+      item.addEventListener('mouseover', () => {
+        const isVisible = this.state.visible;
+        if (!isVisible) {
+          this.handleAnimationChange();
+          console.log('Triggered!!');
+        }
+      });
+    });
+    if (sidebarMenu) {
+      sidebarMenu.addEventListener('mouseleave', e => {
+        e.stopPropagation();
+        const isVisible = this.state.visible;
+        if (isVisible) {
+          setTimeout(this.handleAnimationChange, 200);
+          console.log('Triggering mouse leave!!!');
+        }
+      });
+    }
+  }
+
   render() {
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId } = this.props;
@@ -88,6 +117,9 @@ class SidebarCollapsible extends Component<
     );
     const sidebarMenu = (
       <>
+        <Link to="/" className="sidebar-menu__logo">
+          <LogoWithoutText />
+        </Link>
         <Menu.Menu>
           {this.state.sidebarIcon.map(icon => {
             if (icon.id < 5) {
@@ -132,22 +164,16 @@ class SidebarCollapsible extends Component<
                   key={icon.id}
                   child={
                     <Menu.Item
-                      onClick={() => {
-                        visible && this.handleAnimationChange();
-                      }}
+                      key={icon.id}
                       as={Link}
-                      disabled={!!(icon.id === 2 && !supplier_id)}
-                      to={
-                        icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
-                      }
+                      to={icon.path}
                       name={icon.icon}
                       active={links[icon.id - 1] === currentPath}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
+                          'forward'}`}
                       />
-
                       <Label> {icon.label} </Label>
                     </Menu.Item>
                   }

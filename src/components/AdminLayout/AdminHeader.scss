@@ -9,8 +9,8 @@
   background-color: #f8faff !important;
   position: fixed;
   top: 0;
-  left: 250px;
-  z-index: 300 !important;
+  left: 246px;
+  z-index: 905 !important;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -26,6 +26,7 @@
     justify-content: flex-end;
     align-items: center;
     background-color: #f8faff !important;
+    z-index: 905 !important;
 
     .item {
       height: 70%;
