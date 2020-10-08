@@ -62,3 +62,40 @@
     font-size: 17px !important;
   }
 }
+
+.recent-files-container::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+.supplier-text:hover {
+  font-weight: 500;
+}
+
+.recent-files {
+  width: 300px;
+  padding: 10px;
+
+  .recent-files-header {
+    border-bottom: 1px solid #349af8;
+    padding-bottom: 5px;
+  }
+
+  .recent-files-container {
+    max-height: 300px;
+    overflow: hidden;
+    margin-top: 5px;
+
+    .supplier-text {
+      color: #349af8;
+      cursor: pointer;
+    }
+  }
+}
+
+.recent-files-container:hover {
+  overflow: auto !important;
+}
+
+.search-title {
+  cursor: pointer;
+}

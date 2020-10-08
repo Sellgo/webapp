@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -16,8 +16,9 @@ import {
   supplierProgress,
   setProductsLoadingDataBuster,
   pollDataBuster,
+  fetchSuppliers,
 } from '../../../actions/Suppliers';
-import { supplierProductsSelector } from '../../../selectors/Supplier';
+import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
@@ -40,23 +41,38 @@ interface SupplierProps {
   progress: any;
   setProductsLoadingDataBuster: typeof setProductsLoadingDataBuster;
   pollDataBuster: () => void;
+  reloadSuppliers: () => void;
+  suppliers: SupplierInterface[];
 }
-export class Supplier extends React.Component<SupplierProps> {
+export class Supplier extends React.Component<SupplierProps, any> {
+  constructor(props: SupplierProps) {
+    super(props);
+    this.state = {
+      openRecentFiles: false,
+    };
+  }
+
   async componentDidMount() {
+    const { match, reloadSuppliers } = this.props;
+
+    reloadSuppliers();
+    await this.initialData(match.params.supplierID);
+  }
+
+  initialData = async (supplierID: any) => {
     const {
       fetchSupplierDetails,
       fetchSupplierProducts,
-      match,
       supplierProgress,
       setProductsLoadingDataBuster,
       pollDataBuster,
     } = this.props;
 
-    supplierProgress(match.params.supplierID);
+    supplierProgress(supplierID);
 
     const results = await Promise.all([
-      fetchSupplierDetails(match.params.supplierID),
-      fetchSupplierProducts(match.params.supplierID),
+      fetchSupplierDetails(supplierID),
+      fetchSupplierProducts(supplierID),
     ]);
 
     const fetchedProducts: Product[] | undefined = results[1];
@@ -66,7 +82,7 @@ export class Supplier extends React.Component<SupplierProps> {
       );
     }
     pollDataBuster();
-  }
+  };
 
   componentWillUnmount() {
     const { resetSupplier, resetSupplierProducts } = this.props;
@@ -112,11 +128,55 @@ export class Supplier extends React.Component<SupplierProps> {
     );
   };
 
+  selectSupplier = async (supplierId: any) => {
+    this.setState({ openRecentFiles: false });
+    await this.initialData(supplierId);
+  };
+
   render() {
-    const { isLoadingSupplierProducts, supplierDetails, stickyChartSelector } = this.props;
+    const {
+      isLoadingSupplierProducts,
+      supplierDetails,
+      stickyChartSelector,
+      suppliers,
+    } = this.props;
     const searchName =
       supplierDetails && supplierDetails.search ? ` ${supplierDetails.search}` : '';
 
+    const renderSupplierPopup = () => (
+      <Popup
+        trigger={
+          <p className="search-title" onClick={() => this.setState({ openRecentFiles: true })}>
+            {' '}
+            {`${searchName} `}
+          </p>
+        }
+        on="click"
+        basic={true}
+        open={this.state.openRecentFiles}
+        content={
+          <div className="recent-files">
+            <div className="recent-files-header">
+              <p>{'Recent Files'}</p>
+            </div>
+            <div className="recent-files-container">
+              {suppliers &&
+                suppliers[0] !== undefined &&
+                suppliers.map((s: SupplierInterface) => (
+                  <p
+                    className="supplier-text"
+                    key={`supplier-${s.id}`}
+                    onClick={() => this.selectSupplier(s.supplier_id)}
+                  >
+                    {s.search}
+                  </p>
+                ))}
+            </div>
+          </div>
+        }
+        position="top center"
+      />
+    );
     return (
       <>
         <SubscriptionMessage />
@@ -125,7 +185,7 @@ export class Supplier extends React.Component<SupplierProps> {
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: `Profit Finder` },
-            { content: `${searchName} ` || 'Search' },
+            { content: renderSupplierPopup() || 'Search' },
           ]}
           callToAction={<QuotaMeter />}
         />
@@ -161,6 +221,7 @@ const mapStateToProps = (state: any) => ({
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   progress: get(state, 'supplier.quota'),
+  suppliers: suppliersSelector(state),
 });
 
 const mapDispatchToProps = {
@@ -172,6 +233,7 @@ const mapDispatchToProps = {
   supplierProgress: () => supplierProgress(),
   setProductsLoadingDataBuster,
   pollDataBuster,
+  reloadSuppliers: () => fetchSuppliers(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Supplier);
