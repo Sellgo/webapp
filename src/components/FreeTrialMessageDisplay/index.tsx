@@ -39,18 +39,27 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
       if (sellerSubscription.expiry_date !== null && expireDateMinutes > 0) {
         return (
           <p>
-            {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token `}
+            {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token. `}
             <Link to="/settings" className="free-trial-btn">
               <span>Click here to re-enter your MWS Token</span>
+            </Link>
+          </p>
+        );
+      } else if (sellerSubscription.expiry_date !== null && expireDateMinutes <= 0) {
+        return (
+          <p>
+            {`Your free trial has expired. Do you like our product? `}
+            <Link to="/settings/pricing" className="free-trial-btn">
+              <span>Click here to pick a plan</span>
             </Link>
           </p>
         );
       } else {
         return (
           <p>
-            {' Your free account can only view demo files. To unlock features . '}
+            {'Your free account has limited functionality: '}
             <Link to="/settings/pricing" className="free-trial-btn">
-              <span>Click here to pick a plan</span>
+              <span>Pick a plan or start your free trial</span>
             </Link>
           </p>
         );

@@ -13,9 +13,11 @@ import {
   FETCH_FILTERS,
   FETCH_FILTERS_SUCCESS,
   LOADING_DATA,
+  SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
 } from '../../constants/LeadsTracker';
 
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getPageSize } from '../../selectors/LeadsTracker';
 
 export interface FetchLeadsFilters {
   period: number;
@@ -26,20 +28,32 @@ export interface FetchLeadsFilters {
   query: string;
   loading: boolean;
 }
-export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: any) => {
-  // eslint-disable-next-line max-len
+export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
+  dispatch: any,
+  getState: () => any
+) => {
+  dispatch(setLoadingData(true));
+  const saved = localStorage.getItem('leads-tracker:search');
+  let search: any = '';
+  if (!saved) {
+    const filtersResponse = await getFilters({ query: 'column_value=search&column_type=search' });
+    search =
+      filtersResponse && filtersResponse.data
+        ? filtersResponse.data.map((s: any) => s.value).join(',')
+        : '';
+  }
+
   const {
     period = 30,
     page = 1,
     per_page = 10,
     sort = 'price',
     sort_direction = 'asc',
-    query = '',
+    query = `searches=${search}`,
     loading = true,
   } = payload;
 
   dispatch(setFetchingKpi(loading));
-  dispatch(setLoadingData(true));
   const sellerID = sellerIDSelector();
 
   const response = await Axios.get(
@@ -49,10 +63,11 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
   );
 
   if (response.data) {
+    const perPage = getPageSize(getState());
     dispatch(setLeads(response.data));
     dispatch(setSort(sort));
     dispatch(setSortDirection(sort_direction));
-    dispatch(setPageNo(page));
+    dispatch(setPageNo(perPage !== per_page ? 1 : page));
     dispatch(setPageSize(per_page));
     dispatch(setPeriod(period));
     dispatch(setTotalRecords(response.data.count));
@@ -64,7 +79,14 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
 
 export const fetchFilters = (payload: any) => async (dispatch: any) => {
   dispatch(setFetchingFilters(true));
-  // eslint-disable-next-line max-len
+  const response = await getFilters(payload);
+  if (response.data) {
+    dispatch(setFilters(response.data));
+  }
+  dispatch(setFetchingFilters(false));
+};
+
+const getFilters = async (payload: any) => {
   const { period = 30, page = 1, per_page = 50, query = '' } = payload;
   const sellerID = sellerIDSelector();
   const response = await Axios.get(
@@ -72,10 +94,8 @@ export const fetchFilters = (payload: any) => async (dispatch: any) => {
       // eslint-disable-next-line max-len
       `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&${query}`
   );
-  if (response.data) {
-    dispatch(setFilters(response.data));
-  }
-  dispatch(setFetchingFilters(false));
+
+  return response;
 };
 
 export const setFetchingKpi = (isFetching: boolean) => ({
@@ -136,4 +156,9 @@ export const setFilters = (data: any) => ({
 export const setLoadingData = (loading: boolean) => ({
   type: LOADING_DATA,
   payload: loading,
+});
+
+export const setLeadsTrackerSinglePageItemsCount = (itemsCount: number) => ({
+  type: SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
+  payload: itemsCount,
 });

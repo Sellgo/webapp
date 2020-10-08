@@ -25,24 +25,28 @@ class SelectColumns extends Component<SelectColumnsProps> {
     );
   };
   handleAllClick = () => {
-    const isAllChecked = this.props.columns.every(e => e.show || false);
-    const changeColumn = this.props.columns.reduce((a: any, c: Column) => {
+    const isAllChecked = this.getColumns().every(e => e.show || false);
+    const changeColumn = this.getColumns().reduce((a: any, c: Column) => {
       if (!a[c.dataKey || '']) a[c.dataKey || ''] = isAllChecked;
       return a;
     }, {});
     this.props.setColumn(changeColumn);
     localStorage.setItem('suppliersTableColumns', JSON.stringify(changeColumn));
   };
-  render() {
+
+  getColumns = () => {
     const { columns, subscriptionType } = this.props;
-
-    const filterOptions = columns.filter(column => {
+    return columns.filter(column => {
+      const skipColumns = ['other', 'action', 'search'];
       if (!isPlanEnterprise(subscriptionType)) {
-        return column.dataKey !== 'leads_tracking';
+        skipColumns.push('leads_tracking');
       }
-      return column;
+      return !skipColumns.includes(column.dataKey as string);
     });
+  };
 
+  render() {
+    const filterOptions = this.getColumns();
     const isAllChecked = filterOptions.every(e => e.show || false);
 
     return (

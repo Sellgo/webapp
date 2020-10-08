@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button, Label } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import FingerprintBlue from '../../../../assets/images/fingerprint-1.svg';
 import Fingerprint from '../../../../assets/images/fingerprint.svg';
-import { formatRating } from '../../../../utils/format';
 
 const DetailButtons = (props: any) => {
   const { score, onTrack, isTracking } = props;
@@ -17,7 +16,7 @@ const DetailButtons = (props: any) => {
 };
 
 function TrackButtonWithRating(props: any) {
-  const { isTracking, onTrack, score } = props;
+  const { isTracking, onTrack } = props;
   return (
     <Button
       as="div"
@@ -28,10 +27,6 @@ function TrackButtonWithRating(props: any) {
         <img src={isTracking ? FingerprintBlue : Fingerprint} alt="fingerprint" />
         <span>{isTracking ? 'Tracking' : 'Track Now'}</span>
       </Button>
-
-      <Label as="a" basic={true} pointing="left" className="btn-lbl">
-        <span className="rating-num">{formatRating(score)}</span>
-      </Label>
     </Button>
   );
 }

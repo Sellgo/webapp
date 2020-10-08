@@ -295,6 +295,11 @@ i.icon.filter::before {
 
   width: 95px;
   min-width: 95px;
+
+  &.udate {
+    white-space: pre-wrap;
+    min-width: 120px !important;
+  }
 }
 
 .small-column {
@@ -397,10 +402,6 @@ i.icon.filter::before {
     width: 100% !important;
 
     > .table-cell-container {
-      > .th-label {
-        margin-left: 68px;
-      }
-
       > .sort-arrow {
         margin: 0;
       }

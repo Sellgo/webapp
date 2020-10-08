@@ -32,7 +32,6 @@ import {
   supplierPageNumberSelector,
   supplierDetailsSelector,
 } from '../../../../selectors/Supplier';
-import { isSubscriptionFree } from '../../../../utils/subscriptions';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 
@@ -40,7 +39,6 @@ interface ProductsTableProps {
   currentActiveColumn: string;
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
-  subscriptionType: string;
   supplierID: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
@@ -550,11 +548,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderSizeTiers,
     },
     {
-      label: 'Tracking / Scoring',
+      label: 'Tracking',
       dataKey: 'sellgo_score',
       type: 'number',
       show: true,
-      sortable: true,
+      sortable: false,
       render: this.renderDetailButtons,
     },
     {
@@ -658,14 +656,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       updateProfitFinderProducts,
       pageNumber,
       setPageNumber,
-      subscriptionType,
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
     } = this.props;
     const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
-    const showTableLock = isSubscriptionFree(subscriptionType);
-    const featuresLock = isSubscriptionFree(subscriptionType);
 
     // NOTE: temporarily filter products with ROIs greater than 300%
     const userEmail = localStorage.getItem('userEmail') || '';
@@ -713,8 +708,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               columnFilterData={columnFilterData}
               middleScroll={true}
               renderFilterSectionComponent={() => <ProfitFinderFilterSection />}
-              showTableLock={showTableLock}
-              featuresLock={featuresLock}
               handleColumnDrop={this.handleColumnDrop}
               reorderColumns={this.reorderColumns}
               columnDnD={true}
@@ -733,7 +726,6 @@ const mapStateToProps = (state: {}) => ({
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filterData: get(state, 'supplier.filterData'),
-  subscriptionType: get(state, 'subscription.subscriptionType'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   pageNumber: supplierPageNumberSelector(state),
