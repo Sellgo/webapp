@@ -79,6 +79,7 @@ export interface GenericTableProps {
   filterValues?: any;
   loading?: boolean;
   searchValue?: string;
+  scrollToView?: boolean;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -132,8 +133,8 @@ export const GenericTable = (props: GenericTableProps) => {
     setPage,
     renderFilterSectionComponent,
     pagination = true,
-    showTableLock,
-    featuresLock,
+    showTableLock = false,
+    featuresLock = false,
     middleScroll = false,
     handleColumnDrop,
     reorderColumns,
@@ -155,6 +156,7 @@ export const GenericTable = (props: GenericTableProps) => {
     count,
     loading,
     searchValue,
+    scrollToView,
   } = props;
 
   const initialPage = currentPage ? currentPage : 1;
@@ -418,6 +420,7 @@ export const GenericTable = (props: GenericTableProps) => {
             middleScroll={middleScroll}
             rowExpander={rowExpander}
             loading={loading}
+            scrollToView={scrollToView}
           />
         )}
 
@@ -444,6 +447,9 @@ export const GenericTable = (props: GenericTableProps) => {
                         }
                         if (name !== 'leads-tracker' && setPage) {
                           setPage(1);
+                        }
+                        if (name === 'leads-tracker') {
+                          setLocalCurrentPage(1);
                         }
                       }}
                       onNextPage={setLocalCurrentPage}

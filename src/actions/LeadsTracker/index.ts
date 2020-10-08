@@ -13,9 +13,11 @@ import {
   FETCH_FILTERS,
   FETCH_FILTERS_SUCCESS,
   LOADING_DATA,
+  SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
 } from '../../constants/LeadsTracker';
 
 import { sellerIDSelector } from '../../selectors/Seller';
+import { getPageSize } from '../../selectors/LeadsTracker';
 
 export interface FetchLeadsFilters {
   period: number;
@@ -26,7 +28,10 @@ export interface FetchLeadsFilters {
   query: string;
   loading: boolean;
 }
-export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: any) => {
+export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
+  dispatch: any,
+  getState: () => any
+) => {
   dispatch(setLoadingData(true));
   const saved = localStorage.getItem('leads-tracker:search');
   let search: any = '';
@@ -58,10 +63,11 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (dispatch: a
   );
 
   if (response.data) {
+    const perPage = getPageSize(getState());
     dispatch(setLeads(response.data));
     dispatch(setSort(sort));
     dispatch(setSortDirection(sort_direction));
-    dispatch(setPageNo(page));
+    dispatch(setPageNo(perPage !== per_page ? 1 : page));
     dispatch(setPageSize(per_page));
     dispatch(setPeriod(period));
     dispatch(setTotalRecords(response.data.count));
@@ -150,4 +156,9 @@ export const setFilters = (data: any) => ({
 export const setLoadingData = (loading: boolean) => ({
   type: LOADING_DATA,
   payload: loading,
+});
+
+export const setLeadsTrackerSinglePageItemsCount = (itemsCount: number) => ({
+  type: SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
+  payload: itemsCount,
 });
