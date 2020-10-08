@@ -49,7 +49,11 @@ const Pagination = (props: PaginationProps) => {
             setPage(value);
           }
         } else {
-          setPage(parsedValue);
+          if (String(parsedValue).startsWith('-')) {
+            setPage(Number(String(parsedValue).replace('-', '')));
+          } else {
+            setPage(parsedValue);
+          }
         }
       } else {
         if (value === '') {
