@@ -9,6 +9,7 @@ import {
   Segment,
   Modal,
   Input,
+  Button,
 } from 'semantic-ui-react';
 import { clamp } from 'lodash';
 import Amazon from '../../../assets/images/link.svg';
@@ -126,12 +127,12 @@ class OtherSort extends React.Component<OtherSortProps> {
               content={
                 <div className="edit-cost-container">
                   <div className="product-description-details">
-                    <div className="product-image">
+                    <div className="product-details-image">
                       <img src={row.image_url} alt={'product image'} />
                     </div>
                     <div>
                       <div>
-                        <h3>{row.title}</h3>
+                        <h3 className="product-title">{row.title}</h3>
                       </div>
                       <div className="details">
                         <div>
@@ -157,18 +158,22 @@ class OtherSort extends React.Component<OtherSortProps> {
                   <div className="edit-cost-fields">
                     <div className="cost-labels">
                       <div>
-                        <h5>{'Current cost of Good Sold'}</h5>
+                        <h5 className="cost-input-label">{'Current cost of Good Sold'}</h5>
                       </div>
                       <div>
-                        <h5>{'New cost of Good Sold'}</h5>
+                        <h5 className="cost-input-value">{'New cost of Good Sold'}</h5>
                       </div>
                     </div>
                     <div className="cost-values">
                       <div className="cost-value">
-                        <p>Some Price</p>
+                        <p>${row.avg_price}</p>
                       </div>
                       <div className="cost-input">
                         <Input focus />
+                      </div>
+                      <div className="action-buttons">
+                        <Button content="Cancel" basic color="red" />
+                        <Button content="Save" primary />
                       </div>
                     </div>
                   </div>

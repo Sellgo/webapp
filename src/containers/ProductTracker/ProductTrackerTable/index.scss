@@ -1215,13 +1215,24 @@ $link-color: #349af8;
 }
 
 .edit-cost-modal {
-  width: 30% !important;
+  width: 32% !important;
+  border-radius: 10px !important;
 
   .edit-cost-container {
     padding: 40px;
 
     .product-description-details {
       display: flex;
+
+      .product-details-image {
+        width: 75px;
+        height: 75px;
+        margin-right: 10px;
+      }
+
+      .product-title {
+        color: #5381db;
+      }
 
       .details {
         display: flex;
@@ -1234,9 +1245,11 @@ $link-color: #349af8;
           .asin-text {
             margin: 0 !important;
             line-height: 0 !important;
+            font-weight: 500;
           }
 
           .asin-sub-text {
+            color: #3b4557;
             margin-top: 10px !important;
           }
         }
@@ -1250,11 +1263,25 @@ $link-color: #349af8;
     .cost-labels {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+
+      .cost-input-label {
+        color: #3b4557;
+        margin-top: 10px;
+      }
+
+      .cost-input-value {
+        color: #3b4557;
+        margin-top: 35px;
+      }
     }
 
     .cost-values {
+      width: 64%;
       margin-left: 10px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       .cost-value {
         margin-top: 10px;
@@ -1262,6 +1289,21 @@ $link-color: #349af8;
 
       .cost-input {
         margin-top: 10px;
+
+        > .input {
+          width: 98%;
+        }
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: space-between;
+
+        > button {
+          height: 32px !important;
+          width: 160px;
+          border-radius: 20px;
+        }
       }
     }
   }
