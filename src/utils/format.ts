@@ -18,3 +18,14 @@ export const showNAIfZeroOrNull = (expression: any, value: any) =>
   expression !== 0
     ? value
     : '-';
+
+
+export const formatDimensionForSorting=(dimension:string) :number =>{
+  return dimension.replace(/\"/g,"").split("x").reduce((acc,val)=>{
+    if(val==='' || val===' '){
+      // for null dimensions
+      return acc * -Infinity;
+    }
+    return acc * Number(val);
+  },1)
+}
