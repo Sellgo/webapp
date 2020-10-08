@@ -18,3 +18,15 @@ export const showNAIfZeroOrNull = (expression: any, value: any) =>
   expression !== 0
     ? value
     : '-';
+
+export const returnWithRenderMethod = (originalColumnState: any, localColumnState: any) => {
+  return localColumnState.map((localColumn: any) => {
+    const [findColumnWithRender] = originalColumnState.filter((column: any) => {
+      return column.dataKey === localColumn.dataKey;
+    });
+    return {
+      ...findColumnWithRender,
+      ...localColumn,
+    };
+  });
+};

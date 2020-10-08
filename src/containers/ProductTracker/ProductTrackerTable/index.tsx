@@ -7,7 +7,12 @@ import TrackerMenu from './TrackerMenu';
 import { GenericTable, Column } from '../../../components/Table';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
-import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils/format';
+import {
+  formatNumber,
+  formatCurrency,
+  showNAIfZeroOrNull,
+  returnWithRenderMethod,
+} from '../../../utils/format';
 import { tableKeys } from '../../../constants';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
@@ -78,10 +83,28 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     defaultSort: '',
     scrollView: false,
   };
+
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
     retrieveTrackGroup();
-    this.setState({ columns: this.columns });
+
+    const currentFilterOrder = JSON.parse(
+      localStorage.getItem('productTrackerFilterState') || '[]'
+    );
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('productTrackerColumnState') || '[]'
+    );
+
+    if (currentFilterOrder.length > 1) {
+      console.log('Triggered for maintaining state for filter order!!!');
+      this.setState({ columnFilterData: currentFilterOrder });
+    }
+
+    if (currentColumnState.length > 1) {
+      this.setState({ columns: currentColumnState });
+    } else {
+      this.setState({ columns: this.columns });
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -217,6 +240,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         return val;
       });
     }
+    localStorage.setItem('productTrackerFilterState', JSON.stringify([...checkedData]));
+    console.log('Handling Checkout of filter state!');
     this.setState({ columnFilterData: [...checkedData] });
   };
   renderCheckbox = () => {
@@ -505,12 +530,28 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       className: 'pt-actions',
     },
   ];
+
   handleColumnDrop = (e: any, data: any) => {
+    console.log('Re-ordering filter positions!!!!');
+    localStorage.setItem('productTrackerFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
+
   reorderColumns = (columns: Column[]) => {
-    this.setState({ columns });
+    console.log('Re-ordering Columns on change!!!');
+    const columnsWithRender = returnWithRenderMethod(this.columns, columns);
+
+    localStorage.setItem('productTrackerColumnState', JSON.stringify(columnsWithRender));
+
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('productTrackerColumnState') || '[]'
+    );
+    if (currentColumnState.length > 1) {
+      console.log('This is triggered!!!');
+      this.setState({ columns: currentColumnState });
+    }
   };
+
   render() {
     const {
       isLoadingTrackerProducts,
