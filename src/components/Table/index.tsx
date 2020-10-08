@@ -11,7 +11,7 @@ import Pagination from '../Pagination';
 
 import ConstructionImage from '../../components/ConstructionImage/';
 
-import {formatDimensionForSorting} from "../../utils/format";
+import { formatDimensionForSorting } from '../../utils/format';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -200,9 +200,9 @@ export const GenericTable = (props: GenericTableProps) => {
   let rows =
     checkSortedColumnExist.length && name !== 'leads-tracker'
       ? [...data].sort((a, b) => {
-        const sortedColumn = checkSortedColumnExist[0];
-        // console.log(sortedColumn);
-      
+          const sortedColumn = checkSortedColumnExist[0];
+          // console.log(sortedColumn);
+
           let aColumn;
           let bColumn;
           if (sortedColumn.type === 'number') {
@@ -224,8 +224,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 return -1;
               }
               return 1;
-            }
-            else{
+            } else {
               if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
                 return -1;
               }
@@ -233,7 +232,6 @@ export const GenericTable = (props: GenericTableProps) => {
                 return 1;
               }
             }
-            
           } else {
             if (aColumn < bColumn) {
               return -1;
