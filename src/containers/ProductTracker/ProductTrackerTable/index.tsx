@@ -28,12 +28,10 @@ import {
 import { columnFilter } from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
-import { isSubscriptionFree } from '../../../utils/subscriptions';
 
 interface TrackerProps {
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
-  subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
   filteredProducts: any;
@@ -78,6 +76,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     activeRow: null,
     columns: [],
     defaultSort: '',
+    scrollView: false,
   };
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
@@ -239,6 +238,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       });
     }
   };
+
   renderDV = (row: ProductTrackerDetails) => {
     const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
     return (
@@ -246,7 +246,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
           <Icon
             className={iconCaretClass}
-            onClick={() => this.toggleExpandRow(row.id)}
+            onClick={() => {
+              this.toggleExpandRow(row.id);
+              this.setState({ scrollView: !this.state.scrollView });
+            }}
             size="tiny"
           />
         </span>
@@ -519,13 +522,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       handleMenu,
       setPageNumber,
       productTrackerPageNo,
-      subscriptionType,
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
     } = this.props;
     const { ColumnFilterBox } = this.state;
-    const showTableLock = isSubscriptionFree(subscriptionType);
 
     return (
       <div className="tracker-table">
@@ -575,7 +576,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           productTrackerPageNo={this.props.productTrackerPageNo}
           toggleColumnCheckbox={this.handleClick}
           showFilter={true}
-          showTableLock={showTableLock}
           handleColumnDrop={this.handleColumnDrop}
           reorderColumns={this.reorderColumns}
           columnDnD={true}
@@ -583,6 +583,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           rowExpander={this.renderDV}
           defaultSort={this.state.defaultSort}
           onSort={defaultSort => this.setState({ defaultSort })}
+          scrollToView={this.state.scrollView}
         />
       </div>
     );
@@ -598,7 +599,6 @@ const mapStateToProps = (state: any) => {
     filteredProducts: get(state, 'productTracker.filteredProducts'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
-    subscriptionType: get(state, 'subscription.subscriptionType'),
     scrollTopSelector: get(state, 'supplier.setScrollTop'),
     stickyChartSelector: get(state, 'supplier.setStickyChart'),
     currentActiveColumn: get(state, 'supplier.activeColumn'),

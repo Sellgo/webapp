@@ -42,7 +42,12 @@ const Pagination = (props: PaginationProps) => {
     evt.stopPropagation();
     if (data) {
       const { value } = data;
-      setPage(value);
+      if (value && value.split('.').length > 1) {
+        const santizedInput = value.replace(/[^0-9]/g, '');
+        setPage(santizedInput);
+      } else {
+        setPage(value);
+      }
     }
 
     if (evt.key === 'Enter') {
@@ -120,6 +125,7 @@ const Pagination = (props: PaginationProps) => {
           onChange={onPageNumberChanges}
           onKeyDown={onPageNumberChanges}
           onBlur={onBlur}
+          type={'number'}
         />
       </div>
       <div>

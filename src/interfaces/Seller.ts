@@ -24,3 +24,15 @@ export interface Subscription {
   synthesis_limit: number;
   track_limit: number;
 }
+
+export interface SellerSubscription {
+  id: number;
+  cdate: string;
+  udate: string;
+  expiry_date: string | null;
+  payment_mode: string;
+  seller_id: number;
+  status: string;
+  stripe_subscription_id: string | null;
+  subscription_id: number;
+}
