@@ -146,13 +146,17 @@ export class Supplier extends React.Component<SupplierProps, any> {
     const renderSupplierPopup = () => (
       <Popup
         trigger={
-          <p className="search-title" onClick={() => this.setState({ openRecentFiles: true })}>
+          <p
+            className="search-title"
+            onClick={() => this.setState({ openRecentFiles: !this.state.openRecentFiles })}
+          >
             {' '}
-            {`${searchName} `}
+            {`${searchName} `} <Icon name="angle down" />
           </p>
         }
         on="click"
         basic={true}
+        onClose={() => this.setState({ openRecentFiles: false })}
         open={this.state.openRecentFiles}
         content={
           <div className="recent-files">
