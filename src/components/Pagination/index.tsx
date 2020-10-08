@@ -42,11 +42,19 @@ const Pagination = (props: PaginationProps) => {
     evt.stopPropagation();
     if (data) {
       const { value } = data;
-      if (value && value.split('.').length > 1) {
-        const santizedInput = value.replace(/[^0-9]/g, '');
-        setPage(santizedInput);
+      if (value) {
+        const parsedValue = parseInt(value, 10);
+        if (isNaN(parsedValue)) {
+          if (value === '' || value === ' ') {
+            setPage(value);
+          }
+        } else {
+          setPage(parsedValue);
+        }
       } else {
-        setPage(value);
+        if (value === '') {
+          setPage(value);
+        }
       }
     }
 
@@ -125,7 +133,7 @@ const Pagination = (props: PaginationProps) => {
           onChange={onPageNumberChanges}
           onKeyDown={onPageNumberChanges}
           onBlur={onBlur}
-          type={'number'}
+          type={'text'}
         />
       </div>
       <div>
