@@ -166,6 +166,12 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Last Run',
+    dataKey: 'last_run',
+    visible: true,
+  },
+  {
+    value: true,
     key: '',
     dataKey: 'actions',
     visible: false,
