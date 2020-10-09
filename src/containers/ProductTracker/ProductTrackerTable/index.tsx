@@ -85,7 +85,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     retrieveTrackGroup();
 
     const currentFilterOrder = JSON.parse(
-      localStorage.getItem('productTrackerFilterState') || '[]'
+      localStorage.getItem('productTrackerColumnFilterState') || '[]'
     );
     const currentColumnState = JSON.parse(
       localStorage.getItem('productTrackerColumnState') || '[]'
@@ -236,7 +236,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         return val;
       });
     }
-    localStorage.setItem('productTrackerFilterState', JSON.stringify([...checkedData]));
+    localStorage.setItem('productTrackerColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
   renderCheckbox = () => {
@@ -527,7 +527,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   ];
 
   handleColumnDrop = (e: any, data: any) => {
-    localStorage.setItem('productTrackerFilterState', JSON.stringify(data));
+    localStorage.setItem('productTrackerColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
 

@@ -311,7 +311,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         return val;
       });
     }
-    localStorage.setItem('profitFinderFilterState', JSON.stringify([...checkedData]));
+    localStorage.setItem('profitFinderColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
   searchFilteredProduct = (value: string) => {
@@ -576,7 +576,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   handleColumnDrop = (e: any, data: any) => {
-    localStorage.setItem('profitFinderFilterState', JSON.stringify(data));
+    localStorage.setItem('profitFinderColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
   reorderColumns = (columns: Column[]) => {
@@ -648,7 +648,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   componentDidMount() {
-    const currentFilterOrder = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const currentFilterOrder = JSON.parse(
+      localStorage.getItem('profitFinderColumnFilterState') || '[]'
+    );
     const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
 
     if (currentFilterOrder.length > 1) {
