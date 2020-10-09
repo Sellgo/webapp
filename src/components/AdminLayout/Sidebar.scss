@@ -28,7 +28,7 @@
     visibility: visible;
     transition: width 0.5s !important;
     width: 55px !important;
-    // display:none !important;
+    transition-delay: 500ms !important;
 
     &__logo {
       margin-bottom: 30px;

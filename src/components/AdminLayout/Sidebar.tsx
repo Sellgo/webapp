@@ -79,7 +79,8 @@ class SidebarCollapsible extends Component<
 
   componentDidMount() {
     const sidebarMenu = document.querySelector('.sidebar-menu');
-    const menuItems = Array.from(document.querySelectorAll('.menu .item')).slice(2);
+    const menuItems = Array.from(document.querySelectorAll('.sidebar-menu__items'));
+    console.log(menuItems);
     menuItems.forEach(item => {
       item.addEventListener('mouseover', e => {
         e.stopPropagation();
@@ -94,7 +95,7 @@ class SidebarCollapsible extends Component<
         e.stopPropagation();
         const isVisible = this.state.visible;
         if (isVisible) {
-          setTimeout(this.handleAnimationChange, 350);
+          this.handleAnimationChange();
         }
       });
     }
@@ -136,6 +137,7 @@ class SidebarCollapsible extends Component<
                       }
                       name={icon.icon}
                       active={links[icon.id - 1] === currentPath}
+                      className={'sidebar-menu__items'}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
@@ -166,10 +168,11 @@ class SidebarCollapsible extends Component<
                       to={icon.path}
                       name={icon.icon}
                       active={links[icon.id - 1] === currentPath}
+                      className={'sidebar-menu__items'}
                     >
                       <i
                         className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'}`}
+                          'forward'} `}
                       />
                       <Label> {icon.label} </Label>
                     </Menu.Item>
@@ -203,7 +206,7 @@ class SidebarCollapsible extends Component<
           </Sidebar>
 
           <SidebarPusher
-            dimmed={currentNotifyId > 0 ? true : visible}
+            dimmed={currentNotifyId > 0 ? true : false}
             handleAnimationChange={this.handleAnimationChange}
             visible={visible}
           >

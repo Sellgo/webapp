@@ -20,9 +20,6 @@ class AdminLayout extends React.Component<Props> {
 
     return (
       <React.Fragment>
-        <AdminHeader currentNotifyId={currentNotifyId} auth={auth}>
-          {this.props.children}
-        </AdminHeader>
         <Sidebar auth={auth}>
           <Segment
             className={`admin-layout ${
@@ -30,7 +27,10 @@ class AdminLayout extends React.Component<Props> {
             } `}
             basic={true}
           >
-            {children}
+            <>
+              <AdminHeader currentNotifyId={currentNotifyId} auth={auth} />
+              {children}
+            </>
           </Segment>
         </Sidebar>
       </React.Fragment>
