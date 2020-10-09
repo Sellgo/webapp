@@ -49,10 +49,10 @@ const TableCell = (props: TableColumnCellProps) => {
   return <Table.Cell {...cellProps}>{column ? renderCell(row, column) : null}</Table.Cell>;
 };
 
-class SupplierRow extends Component<any, any> {
+class TableRow extends Component<any, any> {
   shouldComponentUpdate(): boolean {
-    const { row } = this.props;
-    return row.file_status === 'pending';
+    const { row, type } = this.props;
+    return (type === 'supplier' && row.file_status === 'pending') || type !== 'supplier';
   }
 
   render() {
@@ -315,33 +315,13 @@ export const TableBody = (props: TableBodyProps) => {
       {rows.length ? (
         rows.map((row: any, index) => (
           <React.Fragment key={`${index}-tb-fragment`}>
-            {type !== 'supplier' && (
-              <Table.Row
-                key={`${Date.now() + index}--tb-row`}
-                style={type === 'trackerTable' ? { height: '8em' } : {}}
-              >
-                {columns.map(
-                  (column, colIndex) =>
-                    getColumnLabel(column.dataKey, columnFilterData) && (
-                      <TableCell
-                        type={type}
-                        column={column}
-                        row={row}
-                        key={`${Date.now() + colIndex}--tb-cell`}
-                      />
-                    )
-                )}
-              </Table.Row>
-            )}
-            {type === 'supplier' && (
-              <SupplierRow
-                index={index}
-                row={row}
-                type={type}
-                columns={columns}
-                columnFilterData={columnFilterData}
-              />
-            )}
+            <TableRow
+              index={index}
+              row={row}
+              type={type}
+              columns={columns}
+              columnFilterData={columnFilterData}
+            />
             {expandedRows && expandedRows === row.id && extendedInfo && (
               <Table.Row key={index + '-extended'}>
                 <Table.Cell colSpan={columns.length} className="default-column">
