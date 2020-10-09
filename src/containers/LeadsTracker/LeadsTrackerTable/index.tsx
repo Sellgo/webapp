@@ -553,7 +553,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       loading,
       singlePageItemsCount,
       setSinglePageItemsCount,
-      loadingLeads,
     } = this.props;
     const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
@@ -573,7 +572,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     }
 
     return (
-      <div className={`leads-table ${loadingLeads && 'disabled'}`}>
+      <div className={`leads-table ${loading && 'disabled'}`}>
         <React.Fragment>
           <div style={{ display: 'flex' }}>
             {columns.slice(0, 5).map((c: any, i: any) => (
