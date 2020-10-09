@@ -23,6 +23,8 @@ import { setProgressShow, setConfirmationShow } from '../../actions/UploadSuppli
 import { setProgress } from '../../actions/Suppliers';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
 
+import SearchFilter from '../../components/SearchFilter/';
+
 interface SynthesisProps {
   uploadSupplierModalOpen: boolean;
   userOnboardingModalOpen: boolean;
@@ -44,6 +46,7 @@ class Synthesis extends Component<SynthesisProps> {
   state = {
     exitConfirmation: false,
     isEditModal: false,
+    searchValue: '',
   };
 
   openUpdateSupplierPopup = (supplier: any): void => {
@@ -133,6 +136,12 @@ class Synthesis extends Component<SynthesisProps> {
     );
   };
 
+  setSearchChange = (e: any) => {
+    this.setState({
+      searchValue: e.target.value,
+    });
+  };
+
   render() {
     const { currentProgressShow } = this.props;
 
@@ -144,9 +153,12 @@ class Synthesis extends Component<SynthesisProps> {
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
           callToAction={this.renderAddNewSupplierModal()}
         />
-
+        <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
         <Segment basic={true}>
-          <SuppliersTable onEdit={this.openUpdateSupplierPopup} />
+          <SuppliersTable
+            onEdit={this.openUpdateSupplierPopup}
+            supplierSearch={this.state.searchValue}
+          />
           <Modal open={this.state.exitConfirmation} className="Actions__confirm-container">
             <Modal.Content>
               <div>
