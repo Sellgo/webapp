@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { Table, Icon, Card, Input, Button } from 'semantic-ui-react';
+import { Table, Icon, Button } from 'semantic-ui-react';
 import './index.scss';
 import ProductSearch from '../ProductSearch/productSearch';
 import { CheckedRowDictionary } from '../../containers/Synthesis/Supplier/ProductsTable';
@@ -78,6 +78,7 @@ export interface GenericTableProps {
   loadingFilters?: boolean;
   filterValues?: any;
   loading?: boolean;
+  searchValue?: string;
   scrollToView?: boolean;
 }
 
@@ -154,9 +155,12 @@ export const GenericTable = (props: GenericTableProps) => {
     filterValues,
     count,
     loading,
+    searchValue,
     scrollToView,
   } = props;
+
   const initialPage = currentPage ? currentPage : 1;
+
   const [localCurrentPage, setLocalCurrentPage] = useState(initialPage);
   useEffect(() => {
     setLocalCurrentPage(initialPage);
@@ -171,6 +175,7 @@ export const GenericTable = (props: GenericTableProps) => {
   }, [localCurrentPage]);
 
   const showColumns = columns.filter(e => e.show);
+
   const {
     sortedColumnKey,
     sortDirection: sortOrder,
@@ -234,17 +239,23 @@ export const GenericTable = (props: GenericTableProps) => {
         })
       : data;
 
-  const [filterName, setFilterName] = useState('');
+  const [localSearchValue, setLocalSearchValue] = useState(searchValue);
 
-  const [searchValue, setSearchValue] = useState('');
-  const [showSearchFilter, setShowSearchFilter] = useState(false);
+  useEffect(() => {
+    if (setPage) {
+      setPage(1);
+    } else {
+      setLocalCurrentPage(1);
+    }
+    setLocalSearchValue(searchValue);
+  }, [searchValue]);
 
-  rows = searchValue
+  rows = localSearchValue
     ? rows.filter(row => {
-        if ((row.search || '').toLowerCase().startsWith(searchValue.toLowerCase())) {
-          return (row.search || '').toLowerCase().startsWith(searchValue.toLowerCase());
+        if ((row.search || '').toLowerCase().startsWith(localSearchValue.toLowerCase())) {
+          return (row.search || '').toLowerCase().startsWith(localSearchValue.toLowerCase());
         } else {
-          return (row.search || '').toLowerCase().includes(searchValue.toLowerCase());
+          return (row.search || '').toLowerCase().includes(localSearchValue.toLowerCase());
         }
       })
     : rows;
@@ -296,26 +307,15 @@ export const GenericTable = (props: GenericTableProps) => {
     }
   });
 
-  const onSetShowSearchFilter = (e: any, key: any) => {
+  const onSetShowSearchFilter = (e: any) => {
     e.stopPropagation();
-    setShowSearchFilter(true);
-    setFilterName(key);
   };
 
   const onClearSearch = (e: any) => {
     e.stopPropagation();
-    setShowSearchFilter(false);
-    setSearchValue('');
+    setLocalSearchValue('');
   };
 
-  const onSearchChange = (e: any) => {
-    if (setPage) {
-      setPage(1);
-    } else {
-      setLocalCurrentPage(1);
-    }
-    setSearchValue(e.target.value);
-  };
   const totalItemsCount = name === 'leads-tracker' ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
@@ -363,27 +363,6 @@ export const GenericTable = (props: GenericTableProps) => {
         ''
       )}
       {showFilter && renderFilterSectionComponent && renderFilterSectionComponent()}
-      {showSearchFilter && (
-        <Card className="filter-card">
-          <Card.Header>
-            <span className="card-header">{filterName}</span>
-            <span className="card-header" />
-            <Icon
-              className="close icon close-icon"
-              onClick={onClearSearch}
-              style={{ float: 'right' }}
-            />
-          </Card.Header>
-          <Card.Content>
-            <Input
-              icon="search"
-              value={searchValue}
-              placeholder="Search..."
-              onChange={onSearchChange}
-            />
-          </Card.Content>
-        </Card>
-      )}
       <Table
         sortable={true}
         basic="very"
@@ -402,7 +381,6 @@ export const GenericTable = (props: GenericTableProps) => {
           sortedColumnKey={sortedColumnKey}
           setSort={setSort}
           onSetShowSearchFilter={onSetShowSearchFilter}
-          onSearchChange={onSearchChange}
           onClearSearch={onClearSearch}
           rows={rows}
           currentPage={localCurrentPage}
