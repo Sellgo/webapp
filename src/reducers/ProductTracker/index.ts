@@ -42,7 +42,8 @@ const initialState = {
   filterRanges: undefined,
   menuItem: null,
   productTrackerCurrentPageNo: 1,
-  singlePageItemsCount: Number(selectItemsCountList[0].value),
+  singlePageItemsCount:
+    localStorage.getItem('productTrackerPageItemsCount') || Number(selectItemsCountList[0].value),
   verifyingProduct: false,
   resettingFilter: false,
 };
@@ -66,8 +67,10 @@ export default (state = initialState, action: AnyAction) => {
       const newState = setIn(state, 'trackerDetails', data);
       return setIn(newState, 'filteredProducts', data.results);
     }
-    case SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT:
+    case SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT: {
+      localStorage.setItem('productTrackerPageItemsCount', action.payload);
       return setIn(state, 'singlePageItemsCount', action.payload);
+    }
     case SET_MENU_ITEM: {
       const groupId = action.payload;
       const newStateWithMenu = setIn(state, 'menuItem', groupId);
