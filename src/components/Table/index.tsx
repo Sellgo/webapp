@@ -11,6 +11,8 @@ import Pagination from '../Pagination';
 
 import ConstructionImage from '../../components/ConstructionImage/';
 
+import { formatDimensionForSorting } from '../../utils/format';
+
 export interface Column {
   render?: (row: any) => string | JSX.Element;
   dataKey?: string;
@@ -218,11 +220,20 @@ export const GenericTable = (props: GenericTableProps) => {
           }
           // make string-based sorting case-insensitive
           if (sortedColumn.dataKey && sortedColumn.type === 'string') {
-            if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
-              return -1;
-            }
-            if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+            if (sortedColumn.dataKey === 'dimension') {
+              const firstDimension = formatDimensionForSorting(aColumn);
+              const secondDimension = formatDimensionForSorting(bColumn);
+              if (firstDimension < secondDimension) {
+                return -1;
+              }
               return 1;
+            } else {
+              if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+                return -1;
+              }
+              if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+                return 1;
+              }
             }
           } else {
             if (aColumn < bColumn) {
