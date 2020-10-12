@@ -368,6 +368,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderUPC,
     },
     {
+      label: 'Last Run',
+      dataKey: 'last_run',
+      type: 'string',
+      show: true,
+      sortable: true,
+      className: 'xl-column',
+      render: this.renderLastRun,
+    },
+    {
       label: 'Reviews',
       dataKey: 'customer_reviews',
       type: 'number',
@@ -553,15 +562,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'xl-column',
       render: this.renderSizeTiers,
-    },
-    {
-      label: 'Last Run',
-      dataKey: 'last_run',
-      type: 'string',
-      show: true,
-      sortable: true,
-      // className: 'xl-column',
-      render: this.renderLastRun,
     },
     {
       label: 'Tracking',
