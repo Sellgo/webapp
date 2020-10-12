@@ -597,7 +597,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnState', JSON.stringify(columns));
 
     const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
-    if (currentColumnState.length > 1) {
+    if (currentColumnState.length >= 1) {
       this.setState({ columns: columnsWithRender });
     }
   };
@@ -666,11 +666,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
     const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
 
-    if (currentFilterOrder.length > 1) {
+    if (currentFilterOrder.length >= 1) {
       this.setState({ columnFilterData: currentFilterOrder });
     }
 
-    if (currentColumnState.length > 1) {
+    if (currentColumnState.length >= 1) {
       const columnsWithRender = returnWithRenderMethod(this.columns, currentColumnState);
       this.setState({ columns: columnsWithRender });
     } else {

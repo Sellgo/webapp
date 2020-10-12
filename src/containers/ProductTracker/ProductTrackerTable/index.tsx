@@ -91,11 +91,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       localStorage.getItem('productTrackerColumnState') || '[]'
     );
 
-    if (currentFilterOrder.length > 1) {
+    if (currentFilterOrder.length >= 1) {
       this.setState({ columnFilterData: currentFilterOrder });
     }
 
-    if (currentColumnState.length > 1) {
+    if (currentColumnState.length >= 1) {
       const columnsWithRender = returnWithRenderMethod(this.columns, currentColumnState);
       this.setState({ columns: columnsWithRender });
     } else {
@@ -538,7 +538,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const currentColumnState = JSON.parse(
       localStorage.getItem('productTrackerColumnState') || '[]'
     );
-    if (currentColumnState.length > 1) {
+    if (currentColumnState.length >= 1) {
       this.setState({ columns: columnsWithRender });
     }
   };
