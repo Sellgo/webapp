@@ -80,6 +80,16 @@
           padding: 1.29em 1em !important;
           border-color: #98aeca !important;
 
+          .text {
+            font-size: 18px;
+            font-family: inherit;
+
+            &.default {
+              color: #98aeca !important;
+              font-family: inherit;
+            }
+          }
+
           .menu > .item {
             font-size: 18px;
           }

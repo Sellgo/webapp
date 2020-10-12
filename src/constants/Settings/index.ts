@@ -78,3 +78,20 @@ export const countryList = [
   { name: 'Kingdom', code: 'GB', id: 'GB' },
   { name: 'United States', code: 'US', id: 'US' },
 ];
+
+interface CountryListType {
+  name: string;
+  code: string;
+  id: string;
+}
+
+export const countryListForDropDown = () => {
+  return countryList.map((country: CountryListType, index: number) => {
+    return {
+      ...country,
+      key: index,
+      text: country.name,
+      value: country.id,
+    };
+  });
+};

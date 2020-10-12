@@ -15,7 +15,7 @@ import {
   setStripeLoading,
 } from '../../../actions/Settings/Subscription';
 import { useInput } from '../../../hooks/useInput';
-import { countryList } from '../../../constants/Settings';
+import { countryListForDropDown } from '../../../constants/Settings';
 import cardIcons from '../../../assets/images/4_Card_color_horizontal.svg';
 import stripeIcon from '../../../assets/images/powered_by_stripe.svg';
 import { postalCode } from '../../../constants/Validators';
@@ -71,7 +71,6 @@ function CheckoutForm(props: MyProps) {
   const handleCountry = (data: any) => {
     setSelectedCountry(data);
   };
-  const trigger = <span className="country-label">{selectedCountry.name}</span>;
 
   const handleSubmit = async (event: any) => {
     // Block native form submission.
@@ -84,6 +83,7 @@ function CheckoutForm(props: MyProps) {
       handlePaymentError,
       setStripeLoad,
     } = props;
+
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make  sure to disable form submission until Stripe.js has loaded.
@@ -212,22 +212,15 @@ function CheckoutForm(props: MyProps) {
         <Form.Group className="payment-container__stripe-checkout-form__group-3">
           <Form.Field className="payment-container__stripe-checkout-form__group-3__country">
             <label htmlFor="Country">Country</label>
-            <Dropdown id="Country" className="selection" openOnFocus trigger={trigger}>
-              <Dropdown.Menu>
-                {countryList.map((option, key) => {
-                  return (
-                    <Dropdown.Item
-                      key={key}
-                      text={option.name}
-                      value={option.id}
-                      onClick={() => {
-                        handleCountry(option);
-                      }}
-                    />
-                  );
-                })}
-              </Dropdown.Menu>
-            </Dropdown>
+            <Dropdown
+              placeholder="Select Country"
+              search
+              selection
+              options={countryListForDropDown()}
+              onChange={(e: any, data: any) => {
+                handleCountry({ code: data.value });
+              }}
+            />
           </Form.Field>
           <Form.Input
             className={`payment-container__stripe-checkout-form__group-3__zipcode ${zipCodeError &&
