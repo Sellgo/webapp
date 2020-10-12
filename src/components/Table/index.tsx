@@ -343,6 +343,7 @@ export const GenericTable = (props: GenericTableProps) => {
         name === 'products' ? 'pf-table' : ''
       }`}
       onScroll={handleScroll}
+      style={{ paddingBottom: rows.length < 8 ? 150 : 100 }}
     >
       {showProductFinderSearch ? (
         <div
