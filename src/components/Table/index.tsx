@@ -206,8 +206,6 @@ export const GenericTable = (props: GenericTableProps) => {
     checkSortedColumnExist.length && name !== 'leads-tracker'
       ? [...data].sort((a, b) => {
           const sortedColumn = checkSortedColumnExist[0];
-          // console.log(sortedColumn);
-
           let aColumn;
           let bColumn;
           if (sortedColumn.type === 'number') {
