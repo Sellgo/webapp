@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component } from 'react';
+import React, { useEffect, Component } from 'react';
 import { Table } from 'semantic-ui-react';
 import { Column, getColumnClass, getColumnLabel, renderCell } from './index';
 
@@ -97,8 +97,6 @@ export const TableBody = (props: TableBodyProps) => {
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
 
-  const [localRows, setLocalRows] = useState(rows);
-
   useEffect(() => {
     const scrollingContext = document.getElementsByClassName('product-detail-charts')[0];
     if (
@@ -127,9 +125,6 @@ export const TableBody = (props: TableBodyProps) => {
     }
   }, [scrollToView]);
 
-  useEffect(() => {
-    setLocalRows(rows);
-  }, [rows]);
   if (middleScroll) {
     const isTypeProducts = type === 'products';
     const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
@@ -321,8 +316,8 @@ export const TableBody = (props: TableBodyProps) => {
 
   return (
     <Table.Body>
-      {localRows.length ? (
-        localRows.map((row: any, index) => (
+      {rows.length ? (
+        rows.map((row: any, index) => (
           <React.Fragment key={`${index}-tb-fragment`}>
             <TableRow
               index={index}
