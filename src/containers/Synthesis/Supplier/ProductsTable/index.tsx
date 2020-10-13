@@ -34,6 +34,9 @@ import {
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
+import { formatCompletedDate } from '../../../../utils/date';
+
+import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -157,6 +160,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
   renderSizeTiers = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
+  );
+  renderLastRun = (row: Product) => (
+    <p className="stat">{formatCompletedDate(new Date(row.last_syn))}</p>
   );
   renderFbaFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fba_fee, formatCurrency(row.fba_fee))}</p>
@@ -318,6 +324,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         return val;
       });
     }
+    localStorage.setItem('profitFinderColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
   searchFilteredProduct = (value: string) => {
@@ -368,6 +375,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'md-column',
       render: this.renderUPC,
+    },
+    {
+      label: 'Last Run',
+      dataKey: 'last_run',
+      type: 'string',
+      show: true,
+      sortable: true,
+      className: 'xl-column',
+      render: this.renderLastRun,
     },
     {
       label: 'Reviews',
@@ -590,10 +606,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   handleColumnDrop = (e: any, data: any) => {
+    localStorage.setItem('profitFinderColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
   reorderColumns = (columns: Column[]) => {
-    this.setState({ columns });
+    const columnsWithRender = returnWithRenderMethod(this.columns, columns);
+    localStorage.setItem('profitFinderColumnState', JSON.stringify(columns));
+
+    const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
+    if (currentColumnState.length >= 1) {
+      this.setState({ columns: columnsWithRender });
+    }
   };
 
   // detect primary ID based on products
@@ -655,7 +678,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   componentDidMount() {
-    this.setState({ columns: this.columns });
+    const currentFilterOrder = JSON.parse(
+      localStorage.getItem('profitFinderColumnFilterState') || '[]'
+    );
+    const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
+
+    if (currentFilterOrder.length >= 1) {
+      this.setState({ columnFilterData: currentFilterOrder });
+    }
+
+    if (currentColumnState.length >= 1) {
+      const columnsWithRender = returnWithRenderMethod(this.columns, currentColumnState);
+      this.setState({ columns: columnsWithRender });
+    } else {
+      this.setState({ columns: this.columns });
+    }
   }
 
   componentDidUpdate(prevProps: ProductsTableProps) {
