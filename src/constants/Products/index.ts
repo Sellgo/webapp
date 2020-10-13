@@ -40,6 +40,12 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Last Run',
+    dataKey: 'last_run',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Reviews',
     dataKey: 'customer_reviews',
     visible: true,

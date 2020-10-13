@@ -28,12 +28,11 @@ import {
 import { columnFilter } from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
-import { isSubscriptionFree } from '../../../utils/subscriptions';
+import { returnWithRenderMethod } from '../../../utils/tableColumn';
 
 interface TrackerProps {
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
-  subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
   filteredProducts: any;
@@ -80,10 +79,28 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     defaultSort: '',
     scrollView: false,
   };
+
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
     retrieveTrackGroup();
-    this.setState({ columns: this.columns });
+
+    const currentFilterOrder = JSON.parse(
+      localStorage.getItem('productTrackerColumnFilterState') || '[]'
+    );
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('productTrackerColumnState') || '[]'
+    );
+
+    if (currentFilterOrder.length >= 1) {
+      this.setState({ columnFilterData: currentFilterOrder });
+    }
+
+    if (currentColumnState.length >= 1) {
+      const columnsWithRender = returnWithRenderMethod(this.columns, currentColumnState);
+      this.setState({ columns: columnsWithRender });
+    } else {
+      this.setState({ columns: this.columns });
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -219,6 +236,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         return val;
       });
     }
+    localStorage.setItem('productTrackerColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
   renderCheckbox = () => {
@@ -507,12 +525,24 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       className: 'pt-actions',
     },
   ];
+
   handleColumnDrop = (e: any, data: any) => {
+    localStorage.setItem('productTrackerColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
+
   reorderColumns = (columns: Column[]) => {
-    this.setState({ columns });
+    const columnsWithRender = returnWithRenderMethod(this.columns, columns);
+    localStorage.setItem('productTrackerColumnState', JSON.stringify(columns));
+
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('productTrackerColumnState') || '[]'
+    );
+    if (currentColumnState.length >= 1) {
+      this.setState({ columns: columnsWithRender });
+    }
   };
+
   render() {
     const {
       isLoadingTrackerProducts,
@@ -524,13 +554,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       handleMenu,
       setPageNumber,
       productTrackerPageNo,
-      subscriptionType,
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
     } = this.props;
     const { ColumnFilterBox } = this.state;
-    const showTableLock = isSubscriptionFree(subscriptionType);
 
     return (
       <div className="tracker-table">
@@ -580,7 +608,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           productTrackerPageNo={this.props.productTrackerPageNo}
           toggleColumnCheckbox={this.handleClick}
           showFilter={true}
-          showTableLock={showTableLock}
           handleColumnDrop={this.handleColumnDrop}
           reorderColumns={this.reorderColumns}
           columnDnD={true}
@@ -604,7 +631,6 @@ const mapStateToProps = (state: any) => {
     filteredProducts: get(state, 'productTracker.filteredProducts'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
-    subscriptionType: get(state, 'subscription.subscriptionType'),
     scrollTopSelector: get(state, 'supplier.setScrollTop'),
     stickyChartSelector: get(state, 'supplier.setStickyChart'),
     currentActiveColumn: get(state, 'supplier.activeColumn'),

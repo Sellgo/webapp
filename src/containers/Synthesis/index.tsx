@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Segment, Icon, Popup, Modal, List, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.scss';
-import { getAmazonMWSAuthorized, handleUnauthorizedMwsAuth } from '../../actions/Settings';
 import UploadSupplier from './UploadSupplier';
 import {
   openUploadSupplierModal,
@@ -13,7 +12,6 @@ import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../UserOnboarding';
 import PageHeader from '../../components/PageHeader';
-import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
 import {
   currentSynthesisId,
   currentProgress,
@@ -26,11 +24,11 @@ import { setProgress } from '../../actions/Suppliers';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
 import { isSubscriptionFree } from '../../utils/subscriptions';
 
+import SearchFilter from '../../components/SearchFilter/';
+
 interface SynthesisProps {
-  amazonMWSAuthorized: boolean;
   uploadSupplierModalOpen: boolean;
   userOnboardingModalOpen: boolean;
-  getAmazonMWSAuthorized: () => void;
   openUserOnboardingModal: () => void;
   openUploadSupplierModal: (supplier?: any) => void;
   closeUploadSupplierModal: () => void;
@@ -43,7 +41,6 @@ interface SynthesisProps {
   currentProgress: any;
   setProgress: any;
   match: any;
-  handleUnauthorizedMwsAuth: any;
   subscriptionType: string;
 }
 
@@ -51,30 +48,19 @@ class Synthesis extends Component<SynthesisProps> {
   state = {
     exitConfirmation: false,
     isEditModal: false,
+    searchValue: '',
   };
-  componentDidMount() {
-    const { getAmazonMWSAuthorized } = this.props;
-    getAmazonMWSAuthorized();
-  }
 
   openUpdateSupplierPopup = (supplier: any): void => {
-    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
-    if (amazonMWSAuthorized) {
-      this.setState({ isEditModal: true });
-      openUploadSupplierModal(supplier);
-    } else {
-      handleUnauthorizedMwsAuth();
-    }
+    const { openUploadSupplierModal } = this.props;
+    this.setState({ isEditModal: true });
+    openUploadSupplierModal(supplier);
   };
 
   handleAddNewSupplierModalOpen = () => {
-    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
-    if (amazonMWSAuthorized) {
-      this.setState({ isEditModal: false });
-      openUploadSupplierModal();
-    } else {
-      handleUnauthorizedMwsAuth();
-    }
+    const { openUploadSupplierModal } = this.props;
+    this.setState({ isEditModal: false });
+    openUploadSupplierModal();
   };
 
   handleClose = () => {
@@ -167,6 +153,12 @@ class Synthesis extends Component<SynthesisProps> {
     );
   };
 
+  setSearchChange = (e: any) => {
+    this.setState({
+      searchValue: e.target.value,
+    });
+  };
+
   render() {
     const { currentProgressShow, match } = this.props;
 
@@ -179,9 +171,12 @@ class Synthesis extends Component<SynthesisProps> {
           callToAction={this.renderAddNewSupplierModal()}
           auth={match.params.auth}
         />
-
+        <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
         <Segment basic={true}>
-          <SuppliersTable onEdit={this.openUpdateSupplierPopup} />
+          <SuppliersTable
+            onEdit={this.openUpdateSupplierPopup}
+            supplierSearch={this.state.searchValue}
+          />
           <Modal open={this.state.exitConfirmation} className="Actions__confirm-container">
             <Modal.Content>
               <div>
@@ -218,7 +213,6 @@ class Synthesis extends Component<SynthesisProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-  amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
   userOnboardingModalOpen: get(state, 'modals.userOnboarding.open', false),
   currentProgress: currentProgress(state),
@@ -226,11 +220,9 @@ const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   currentProgressShow: currentProgressShow(state),
   currentConfirmationShow: currentConfirmationShow(state),
-  subscriptionType: get(state, 'subscription.subscriptionType', false),
 });
 
 const mapDispatchToProps = {
-  getAmazonMWSAuthorized,
   openUploadSupplierModal: (supplier?: any) =>
     openUploadSupplierModal(supplier ? supplier : undefined),
   closeUploadSupplierModal,
@@ -238,7 +230,6 @@ const mapDispatchToProps = {
   setProgressShow,
   setConfirmationShow,
   setProgress,
-  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synthesis);
