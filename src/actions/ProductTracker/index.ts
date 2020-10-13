@@ -7,6 +7,7 @@ import { ProductTrackerDetails } from '../../interfaces/Product';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
   IS_LOADING_TRACKER_PRODUCTS,
+  IS_TRACKER_FILTER_LOADING,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
   SET_RETRIEVE_PRODUCT_TRACK_GROUP,
@@ -28,6 +29,11 @@ import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
 
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
+  payload: value,
+});
+
+export const isTrackerFilterLoading = (value: boolean) => ({
+  type: IS_TRACKER_FILTER_LOADING,
   payload: value,
 });
 
