@@ -386,7 +386,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderRating,
     },
     {
-      label: 'Is Amazon Selling',
+      label: 'Is Amazon\nSelling',
       dataKey: 'is_amazon_selling',
       type: 'boolean',
       show: true,
