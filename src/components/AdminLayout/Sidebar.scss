@@ -26,9 +26,11 @@
     background-color: #3b4557 !important;
     border-radius: 0 !important;
     visibility: visible;
-    transition: width 0.5s !important;
     width: 55px !important;
-    transition-delay: 500ms !important;
+    transition-property: width !important;
+    transition-duration: 0.15s !important;
+    transition-delay: 350ms !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
     &__logo {
       margin-bottom: 30px;
