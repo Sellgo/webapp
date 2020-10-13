@@ -55,7 +55,7 @@ class TableRow extends Component<any, any> {
     return (
       (type === 'supplier' && row.file_status === 'pending') ||
       type !== 'supplier' ||
-      (type === 'supplier' && this.props.row !== nextProps.row)
+      (type === 'supplier' && row.supplier_id !== nextProps.row.supplier_id)
     );
   }
 
