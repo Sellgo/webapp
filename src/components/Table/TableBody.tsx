@@ -52,11 +52,10 @@ const TableCell = (props: TableColumnCellProps) => {
 class TableRow extends Component<any, any> {
   shouldComponentUpdate(nextProps: any): boolean {
     const { row, type } = this.props;
-    return (
-      (type === 'supplier' && row.file_status === 'pending') ||
-      type !== 'supplier' ||
-      (type === 'supplier' && row.supplier_id !== nextProps.row.supplier_id)
-    );
+    if (type === 'supplier') {
+      return JSON.stringify(row) !== JSON.stringify(nextProps.row);
+    }
+    return true;
   }
 
   render() {
