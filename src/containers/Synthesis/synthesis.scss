@@ -6,6 +6,12 @@
   max-width: 420px !important;
 }
 
+.ui.bottom.left.popup {
+  margin-left: 0;
+  z-index: 9999 !important;
+  top: 10px !important;
+}
+
 .add-supplier-popup ol.ui.list li::before {
   color: #fff !important;
 }

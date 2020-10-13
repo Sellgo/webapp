@@ -2,9 +2,22 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  height: 10px;
-  margin-bottom: 2.8rem;
-  padding: 0 1em;
+  padding-top: 2px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  width: 100%;
+  background: #f8faff !important;
+  min-height: max-content;
+  padding-right: 80px !important;
+  padding-left: 110px !important;
+
+  &__left {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
 
   @media (max-width: 767px) {
     display: block;
@@ -51,6 +64,7 @@
     // Override default top margin so less space between
     // breadcrumbs and header.
     margin-top: 1.2rem;
+    margin-right: 2rem;
   }
 
   @media screen and (min-width: 310px) and (max-width: 767px) {

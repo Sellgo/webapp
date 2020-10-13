@@ -34,6 +34,7 @@ interface ProductTrackerProps {
   filterRanges: any;
   activeGroupId: any;
   trackGroups: any;
+  match: any;
   filterProducts: (filterData: any, groupId: any) => void;
   setPageNumber: (itemsCount: any) => void;
   filterData: any;
@@ -163,6 +164,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
       activeGroupId,
       setPageNumber,
       subscriptionType,
+      match,
     } = this.props;
     const { searchValue } = this.state;
     const currentGroupName = activeGroupId
@@ -184,6 +186,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
             { content: `${currentGroupName}` },
           ]}
           callToAction={<QuotaMeter />}
+          auth={match.params.auth}
         />
         <Segment basic={true} className="tracker-setting">
           <Grid className="product-tracker">

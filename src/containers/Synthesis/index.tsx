@@ -133,6 +133,8 @@ class Synthesis extends Component<SynthesisProps> {
             trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
             position="top left"
             size="tiny"
+            positionFixed
+            on="hover"
           >
             <h4>{'Adding new Search'}</h4>
             To add a new search:
@@ -166,7 +168,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
-    const { currentProgressShow } = this.props;
+    const { currentProgressShow, match } = this.props;
 
     return (
       <>
@@ -175,6 +177,7 @@ class Synthesis extends Component<SynthesisProps> {
           title="Search Management"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
           callToAction={this.renderAddNewSupplierModal()}
+          auth={match.params.auth}
         />
 
         <Segment basic={true}>

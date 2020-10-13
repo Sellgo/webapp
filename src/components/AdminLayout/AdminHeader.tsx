@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { Icon, Image, Menu, Dropdown, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import LogoutConfirm from '../LogoutConfirm';
+
+import { notifyIdSelector } from '../../selectors/UserOnboarding';
 
 import './AdminHeader.scss';
 
 interface AdminProps {
   auth: any;
-  children?: any;
   currentNotifyId: number;
 }
 
-export class AdminHeader extends React.Component<AdminProps> {
+class AdminHeader extends React.Component<AdminProps> {
   userName = localStorage.getItem('userName');
   userPicture = localStorage.getItem('userPicture');
   state = {
@@ -65,3 +67,11 @@ export class AdminHeader extends React.Component<AdminProps> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    currentNotifyId: notifyIdSelector(state),
+  };
+};
+
+export default connect(mapStateToProps)(AdminHeader);
