@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Segment, Modal, Icon, Popup } from 'semantic-ui-react';
+import { Grid, Segment, Modal, Icon, Popup, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PageHeader from '../../../components/PageHeader';
 import QuotaMeter from '../../../components/QuotaMeter';
@@ -24,6 +24,7 @@ import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 import { Product } from '../../../interfaces/Product';
 import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
+import history from '../../../history';
 
 interface SupplierProps {
   stickyChartSelector: boolean;
@@ -129,6 +130,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
   };
 
   selectSupplier = async (supplierId: any) => {
+    history.push(`/profit-finder/${supplierId}`);
     this.setState({ openRecentFiles: false });
     await this.initialData(supplierId);
   };
@@ -139,6 +141,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
       supplierDetails,
       stickyChartSelector,
       suppliers,
+      match,
     } = this.props;
     const searchName =
       supplierDetails && supplierDetails.search ? ` ${supplierDetails.search}` : '';
@@ -161,14 +164,20 @@ export class Supplier extends React.Component<SupplierProps, any> {
         content={
           <div className="recent-files">
             <div className="recent-files-header">
-              <p>{'Recent Files'}</p>
+              <p>{'Recent searches'}</p>
             </div>
             <div className="recent-files-container">
+              <Loader active={suppliers[0] === undefined} />
+
               {suppliers &&
                 suppliers[0] !== undefined &&
                 suppliers.map((s: SupplierInterface) => (
                   <p
-                    className="supplier-text"
+                    className={`supplier-text ${
+                      s.supplier_id.toString() === match.params.supplierID
+                        ? 'supplier-text-active'
+                        : ''
+                    }`}
                     key={`supplier-${s.id}`}
                     onClick={() => this.selectSupplier(s.supplier_id)}
                   >

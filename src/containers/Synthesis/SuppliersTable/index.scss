@@ -68,7 +68,7 @@
 }
 
 .supplier-text:hover {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .recent-files {
@@ -82,12 +82,17 @@
 
   .recent-files-container {
     max-height: 300px;
+    min-height: 300px;
     overflow: hidden;
     margin-top: 5px;
 
     .supplier-text {
       color: #349af8;
       cursor: pointer;
+    }
+
+    .supplier-text-active {
+      font-weight: 600;
     }
   }
 }
