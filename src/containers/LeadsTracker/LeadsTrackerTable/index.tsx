@@ -7,11 +7,7 @@ import { tableKeys } from '../../../constants';
 import { supplierPageNumberSelector } from '../../../selectors/Supplier';
 import get from 'lodash/get';
 
-import {
-  setSupplierPageNumber,
-  setSupplierSinglePageItemsCount,
-  updateProductTrackingStatus,
-} from '../../../actions/Suppliers';
+import { setSupplierPageNumber, updateProductTrackingStatus } from '../../../actions/Suppliers';
 import { Product } from '../../../interfaces/Product';
 import ProductCheckBox from '../../Synthesis/Supplier/ProductsTable/productCheckBox';
 import { filters, leads, loadingFilters } from '../../../selectors/LeadsTracker';
@@ -19,7 +15,12 @@ import { formatCurrency, formatPercent, showNAIfZeroOrNull } from '../../../util
 import ProductDescription from '../ProductDescription';
 import DetailButtons from './detailButtons';
 import LeadsTrackerFilterSection from '../LeadsTrackerFilterSection';
-import { fetchFilters, FetchLeadsFilters, fetchLeadsKPIs } from '../../../actions/LeadsTracker';
+import {
+  fetchFilters,
+  FetchLeadsFilters,
+  fetchLeadsKPIs,
+  setLeadsTrackerSinglePageItemsCount,
+} from '../../../actions/LeadsTracker';
 
 export interface CheckedRowDictionary {
   [index: number]: boolean;
@@ -542,7 +543,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     const {
       currentActiveColumn,
       pageNo,
-      pageSize,
       leads,
       totalPages,
       period,
@@ -550,6 +550,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       loadingFilters,
       totalRecords,
       loading,
+      singlePageItemsCount,
+      setSinglePageItemsCount,
     } = this.props;
     const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
@@ -606,7 +608,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             tableKey={tableKeys.LEADS}
             columns={columns}
             data={leads}
-            singlePageItemsCount={pageSize}
+            singlePageItemsCount={singlePageItemsCount}
             currentPage={pageNo}
             setPage={page => {
               if (page !== pageNo) {
@@ -631,7 +633,10 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               this.fetchLeadsData(this.getFilters(), resetKey);
               this.setState({ ColumnFilterBox: false });
             }}
-            setSinglePageItemsCount={per_page => this.fetchLeadsData({ per_page, page: 1 })}
+            setSinglePageItemsCount={per_page => {
+              this.fetchLeadsData({ per_page, page: 1 });
+              setSinglePageItemsCount(per_page);
+            }}
             loadingFilters={loadingFilters}
             filterValues={filters}
             stickyChartSelector
@@ -646,7 +651,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   }
 }
 const mapStateToProps = (state: {}) => ({
-  singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  singlePageItemsCount: get(state, 'leads.singlePageItemsCount'),
   pageNumber: supplierPageNumberSelector(state),
   leads: leads(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
@@ -663,7 +668,7 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
+  setSinglePageItemsCount: (itemsCount: number) => setLeadsTrackerSinglePageItemsCount(itemsCount),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   fetchLeads: (payload: FetchLeadsFilters) => fetchLeadsKPIs(payload),
   fetchFilters: (payload: any) => fetchFilters(payload),

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment, Icon, Confirm, List, Header, Popup } from 'semantic-ui-react';
 import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
-import { isSubscriptionFree } from '../../utils/subscriptions';
+import { isFreeAccountWithoutHistory, isSubscriptionFree } from '../../utils/subscriptions';
 import { connect } from 'react-redux';
 import { AppConfig } from '../../config';
 
@@ -134,10 +134,6 @@ const SellerAmazonMWS = (props: any) => {
     return window.location.hash === '#amazon-mws';
   };
 
-  const isFreeAccountWithoutHistory = () => {
-    return isSubscriptionFree(subscriptionType) && sellerSubscription.expiry_date === null;
-  };
-
   return (
     <>
       <Grid.Column width={16} id="amazon-mws">
@@ -232,17 +228,19 @@ const SellerAmazonMWS = (props: any) => {
                   }}
                 >
                   Authenticate Your Seller Account
-                  {!amazonMWSLocal.token && isHashMWS() && isFreeAccountWithoutHistory() && (
-                    <div className="free-trial-popup">
-                      <Icon name="arrow left" />
-                      <p className="title">Start Your Free Trial</p>
-                      <p className="content">
-                        To finish setting up your account and start your free trial. Please enter
-                        your Amazon MWS Authorization. Click on “Authenticate Your Seller Account”
-                        for instructions.
-                      </p>
-                    </div>
-                  )}
+                  {!amazonMWSLocal.token &&
+                    isHashMWS() &&
+                    isFreeAccountWithoutHistory(sellerSubscription, subscriptionType) && (
+                      <div className="free-trial-popup">
+                        <Icon name="arrow left" />
+                        <p className="title">Start Your Free Trial</p>
+                        <p className="content">
+                          To finish setting up your account and start your free trial. Please enter
+                          your Amazon MWS Authorization. Click on “Authenticate Your Seller Account”
+                          for instructions.
+                        </p>
+                      </div>
+                    )}
                 </span>
                 <br />
               </>
