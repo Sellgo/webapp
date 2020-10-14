@@ -209,6 +209,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
+  renderIsAmazon = (row: Product) => (
+    <p className="stat">
+      {row.data_buster_status === 'completed'
+        ? row.is_amazon_selling
+          ? 'Yes'
+          : 'No'
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+    </p>
+  );
 
   renderDataBusterIcon = (productId: number, dataBusterStatus: string) => {
     const { productsLoadingDataBuster, bustData, supplierDetails } = this.props;
@@ -391,6 +400,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
+    },
+    {
+      label: 'Is Amazon\nSelling',
+      dataKey: 'is_amazon_selling',
+      type: 'boolean',
+      show: true,
+      sortable: true,
+      render: this.renderIsAmazon,
     },
     {
       label: 'Price',

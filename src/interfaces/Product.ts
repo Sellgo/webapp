@@ -39,6 +39,7 @@ export interface Product {
   rating: string;
   package_quantity: string;
   data_buster_status: string;
+  is_amazon_selling: boolean;
 }
 export interface ProductsTrackData {
   avg_price: string;
