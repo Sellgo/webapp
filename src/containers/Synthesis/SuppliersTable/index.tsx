@@ -57,6 +57,7 @@ interface SuppliersTableProps {
   setProgress: any;
   setSpeed: any;
   currentActiveColumn: string;
+  supplierSearch?: string;
   subscriptionPlan: string;
 }
 
@@ -360,6 +361,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
+      supplierSearch,
     } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
@@ -428,6 +430,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={sortedByCompletedData}
           columns={columns}
           name={'supplier'}
+          searchValue={supplierSearch}
         />
         <Confirm
           content="Do you want to delete supplier?"
