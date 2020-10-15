@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Icon, Input, Menu, Modal } from 'semantic-ui-react';
+import { Button, Checkbox, Icon, Input, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -672,12 +672,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
         {editCost && (
           <Modal
-            trigger={
-              <Menu.Item className={'edit-cost'}>
-                <Icon className="pencil" />
-                {`Edit`}
-              </Menu.Item>
-            }
             open={editCost}
             className="edit-cost-modal"
             content={
