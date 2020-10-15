@@ -25,6 +25,7 @@ import {
   CHECKED_PRODUCTS_DATA,
   VERIFYING_PRODUCT,
   RESET_FILTER,
+  SET_COST_DETAILS,
 } from '../../constants/Tracker';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -46,6 +47,7 @@ const initialState = {
     localStorage.getItem('productTrackerPageItemsCount') || Number(selectItemsCountList[0].value),
   verifyingProduct: false,
   resettingFilter: false,
+  costDetails: {},
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -187,6 +189,10 @@ export default (state = initialState, action: AnyAction) => {
     }
     case RESET_FILTER: {
       return setIn(state, 'resettingFilter', action.payload);
+    }
+
+    case SET_COST_DETAILS: {
+      return setIn(state, 'costDetails', action.payload);
     }
     default:
       return state;

@@ -1,22 +1,9 @@
 import React from 'react';
-import {
-  Icon,
-  Popup,
-  Confirm,
-  Menu,
-  Divider,
-  Header,
-  Segment,
-  Modal,
-  Input,
-  Button,
-} from 'semantic-ui-react';
+import { Icon, Popup, Confirm, Menu, Divider, Header, Segment } from 'semantic-ui-react';
 import { clamp } from 'lodash';
 import Amazon from '../../../assets/images/link.svg';
 import Untrack from '../../../assets/images/untrack.svg';
 import Folder from '../../../assets/images/folder-plus.svg';
-import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
-import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
 
 interface OtherSortProps {
   row: any;
@@ -28,6 +15,7 @@ interface OtherSortProps {
   handleCancel: any;
   handleMoveGroup: any;
   handleEdit: (row: any) => void;
+  onEditCost: () => void;
 }
 class OtherSort extends React.Component<OtherSortProps> {
   state = {
@@ -48,6 +36,7 @@ class OtherSort extends React.Component<OtherSortProps> {
       confirm,
       handleConfirmMessage,
       handleMoveGroup,
+      onEditCost,
     } = this.props;
     const { trackGroupsOpen, otherOptionsOpen } = this.state;
 
@@ -115,71 +104,10 @@ class OtherSort extends React.Component<OtherSortProps> {
               <img src={Amazon} alt="Amazon" />
               {`View on Amazon`}
             </Menu.Item>
-
-            <Modal
-              trigger={
-                <Menu.Item className={'edit-cost'}>
-                  <Icon className="pencil" />
-                  {`Edit`}
-                </Menu.Item>
-              }
-              className="edit-cost-modal"
-              content={
-                <div className="edit-cost-container">
-                  <div className="product-description-details">
-                    <div className="product-details-image">
-                      <img src={row.image_url} alt={'product image'} />
-                    </div>
-                    <div>
-                      <div>
-                        <h3 className="product-title">{row.title}</h3>
-                      </div>
-                      <div className="details">
-                        <div>
-                          <img
-                            className="flag-img"
-                            src={COUNTRY_IMAGE}
-                            alt="product_img"
-                            style={{ width: 40 }}
-                          />
-                        </div>
-                        <div className="asin-details">
-                          <p className="asin-text">{row.asin}</p>
-                          <p className="asin-sub-text">
-                            {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
-                              .filter(pidType => pidType.toLowerCase() in row)
-                              .map(pidType => row[pidType.toLowerCase()])[0] || ''}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="edit-cost-fields">
-                    <div className="cost-labels">
-                      <div>
-                        <h5 className="cost-input-label">{'Current cost of Good Sold'}</h5>
-                      </div>
-                      <div>
-                        <h5 className="cost-input-value">{'New cost of Good Sold'}</h5>
-                      </div>
-                    </div>
-                    <div className="cost-values">
-                      <div className="cost-value">
-                        <p>${row.avg_price}</p>
-                      </div>
-                      <div className="cost-input">
-                        <Input focus />
-                      </div>
-                      <div className="action-buttons">
-                        <Button content="Cancel" basic color="red" />
-                        <Button content="Save" primary />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              }
-            />
+            <Menu.Item className={'edit-cost'} onClick={() => onEditCost()}>
+              <Icon className="pencil" />
+              {`Edit`}
+            </Menu.Item>
             <Menu.Item
               className="untrack-link"
               style={{ color: 'red' }}
