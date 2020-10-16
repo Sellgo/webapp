@@ -252,23 +252,19 @@ export const GenericTable = (props: GenericTableProps) => {
         })
       : data;
 
-  const [localSearchValue, setLocalSearchValue] = useState(searchValue);
-
   useEffect(() => {
     if (setPage) {
       setPage(1);
     } else {
       setLocalCurrentPage(1);
     }
-    setLocalSearchValue(searchValue);
   }, [searchValue]);
-
-  rows = localSearchValue
+  rows = searchValue
     ? rows.filter(row => {
-        if ((row.search || '').toLowerCase().startsWith(localSearchValue.toLowerCase())) {
-          return (row.search || '').toLowerCase().startsWith(localSearchValue.toLowerCase());
+        if ((row.search || '').toLowerCase().startsWith(searchValue.toLowerCase())) {
+          return (row.search || '').toLowerCase().startsWith(searchValue.toLowerCase());
         } else {
-          return (row.search || '').toLowerCase().includes(localSearchValue.toLowerCase());
+          return (row.search || '').toLowerCase().includes(searchValue.toLowerCase());
         }
       })
     : rows;
@@ -326,7 +322,6 @@ export const GenericTable = (props: GenericTableProps) => {
 
   const onClearSearch = (e: any) => {
     e.stopPropagation();
-    setLocalSearchValue('');
   };
 
   const totalItemsCount = name === 'leads-tracker' ? count : data.length;
