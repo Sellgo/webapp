@@ -52,7 +52,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
   const handleBulkClick = (type: string) => {
     const products: any[] = [];
     currentPageRows.forEach(r => {
-      if (checkedRows[r.id]) products.push({ product_id: r.product_id });
+      if (checkedRows[r.id])
+        products.push({ product_id: r.product_id, supplier_id: r.supplier_id });
     });
     if (products.length === 0) return;
     if (type === 'track') {
