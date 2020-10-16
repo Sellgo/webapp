@@ -61,22 +61,24 @@ class TableRow extends Component<any, any> {
   render() {
     const { index, type, columns, row, columnFilterData } = this.props;
     return (
-      <Table.Row
-        key={`${Date.now() + index}--tb-row`}
-        style={type === 'trackerTable' ? { height: '8em' } : {}}
-      >
-        {columns.map(
-          (column: any, colIndex: number) =>
-            getColumnLabel(column.dataKey, columnFilterData) && (
-              <TableCell
-                type={type}
-                column={column}
-                row={row}
-                key={`${Date.now() + colIndex}--tb-cell`}
-              />
-            )
-        )}
-      </Table.Row>
+      <React.Fragment>
+        <Table.Row
+          key={`${Date.now() + index}--tb-row`}
+          style={type === 'trackerTable' ? { height: '8em' } : {}}
+        >
+          {columns.map(
+            (column: any, colIndex: number) =>
+              getColumnLabel(column.dataKey, columnFilterData) && (
+                <TableCell
+                  type={type}
+                  column={column}
+                  row={row}
+                  key={`${Date.now() + colIndex}--tb-cell`}
+                />
+              )
+          )}
+        </Table.Row>
+      </React.Fragment>
     );
   }
 }
