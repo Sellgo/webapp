@@ -35,6 +35,7 @@ import _ from 'lodash';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 import { formatCompletedDate } from '../../../utils/date';
+import no_cost_icon from '../../../assets/images/no-cost.svg';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
@@ -73,7 +74,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       ) : (
         row.search
       );
-    return <div className="supplier">{name}</div>;
+    return (
+      <div className="supplier">
+        {name}{' '}
+        {row.has_default_cost && <img src={no_cost_icon} alt={'icon'} style={{ float: 'right' }} />}
+      </div>
+    );
   };
 
   renderFileName = (row: Supplier) => {
