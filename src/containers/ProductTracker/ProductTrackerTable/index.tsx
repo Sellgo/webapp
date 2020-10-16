@@ -573,8 +573,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   onEditProductCost = (payload: any) => {
-    const { updateCost } = this.props;
-    updateCost(payload);
+    const { updateCost, periodValue } = this.props;
+    updateCost({ ...payload, period: periodValue });
     this.setState({ editCost: false });
   };
 

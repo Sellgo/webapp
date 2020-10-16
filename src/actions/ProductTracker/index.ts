@@ -286,7 +286,7 @@ export const setProductDetails = (payload: any) => (dispatch: any) => {
 };
 
 export const updateProductCost = (payload: any) => async (dispatch: any, getState: () => any) => {
-  const { supplier_id, product_id, product_cost } = payload;
+  const { supplier_id, product_id, product_cost, id, period, avg_price } = payload;
   const sellerID = sellerIDSelector();
   const products = trackerProductDetails(getState());
   const bodyFormData = new FormData();
@@ -295,13 +295,16 @@ export const updateProductCost = (payload: any) => async (dispatch: any, getStat
   }
   bodyFormData.set('product_id', product_id);
   bodyFormData.set('product_cost', product_cost);
+  bodyFormData.set('id', id);
+  bodyFormData.set('period', period);
+  bodyFormData.set('avg_price', avg_price);
 
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product/cost`, bodyFormData)
-    .then(() => {
+    .then(({ data }) => {
       success(`Product cost successfully updated!`);
       const updated = products.results.map((p: any) => {
-        if (p.id === payload.id) {
-          p.product_cost = product_cost;
+        if (p.id === id) {
+          p = { ...p, ...data };
         }
         return p;
       });
