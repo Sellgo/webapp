@@ -158,6 +158,9 @@ export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
         updateSupplier({ ...existingSupplier, ...{ leads_tracker_status: json.data.status } })
       );
       dispatch(fetchSupplierDetails(supplierId));
+      if (json.data.status === 'active') {
+        success('Your unprofitable products are now being tracked in the background.');
+      }
     })
     .catch(() => {
       // display error

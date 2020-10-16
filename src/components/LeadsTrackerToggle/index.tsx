@@ -9,15 +9,21 @@ interface Props {
 }
 
 const LeadsTrackerToggle = (props: any | Props) => {
-  const { setLeadsTracker, seller_id, supplier_id, isToggle, subscriptionPlan } = props;
-  const isEnterprise = !isPlanEnterprise(subscriptionPlan) && 'hidden';
-
+  const { setLeadsTracker, seller_id, supplier_id, isToggle, subscriptionPlan, disabled } = props;
+  let isEnterprise = !isPlanEnterprise(subscriptionPlan) && 'disabled';
+  if (disabled) {
+    isEnterprise = 'disabled';
+  }
   return (
-    <div className={`ToggleSwitch ToggleSwitch__rounded ${isEnterprise}`}>
+    <div className={`ToggleSwitch ToggleSwitch__rounded`}>
       <div className="ToggleSwitch__wrapper">
         <div
-          className={`Slider ${isToggle ? 'active' : ''}`}
-          onClick={() => setLeadsTracker(seller_id, supplier_id)}
+          className={`Slider ${isToggle ? 'active' : ''} ${isEnterprise}`}
+          onClick={() =>
+            !isPlanEnterprise(subscriptionPlan) || !disabled
+              ? setLeadsTracker(seller_id, supplier_id)
+              : undefined
+          }
         >
           <i className={`fas fa-user-ninja ${isToggle ? 'active' : ''}`} />
         </div>
