@@ -17,6 +17,7 @@ import {
   setProductsLoadingDataBuster,
   pollDataBuster,
   fetchSuppliers,
+  setLatestSupplier,
 } from '../../../actions/Suppliers';
 import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
 import './index.scss';
@@ -129,10 +130,11 @@ export class Supplier extends React.Component<SupplierProps, any> {
     );
   };
 
-  selectSupplier = async (supplierId: any) => {
-    history.push(`/profit-finder/${supplierId}`);
+  selectSupplier = async (supplier: any) => {
+    history.push(`/profit-finder/${supplier.supplier_id}`);
     this.setState({ openRecentFiles: false });
-    await this.initialData(supplierId);
+    setLatestSupplier(supplier);
+    await this.initialData(supplier.supplier_id);
   };
 
   render() {
@@ -164,7 +166,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
         content={
           <div className="recent-files">
             <div className="recent-files-header">
-              <p>{'Recent searches'}</p>
+              <p>{'Recent Searches'}</p>
             </div>
             <div className="recent-files-container">
               <Loader active={suppliers[0] === undefined} />
@@ -179,7 +181,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
                         : ''
                     }`}
                     key={`supplier-${s.id}`}
-                    onClick={() => this.selectSupplier(s.supplier_id)}
+                    onClick={() => this.selectSupplier(s)}
                   >
                     {s.search}
                   </p>
