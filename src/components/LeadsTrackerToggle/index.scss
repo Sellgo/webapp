@@ -49,6 +49,12 @@
         transition: justify-content 0.5s linear;
       }
 
+      &.disabled {
+        cursor: auto;
+        background: lightgray;
+        color: lightgray;
+      }
+
       i.fas.fa-user-ninja {
         margin-right: -0.5px;
         margin-left: -0.5px;
