@@ -255,7 +255,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   };
 
   componentDidMount() {
-    this.fetchLeadsData({ pageNo: 1 });
+    const { singlePageItemsCount } = this.props;
+    this.fetchLeadsData({ pageNo: 1, per_page: singlePageItemsCount });
     this.toggleColumn(this.state.activeColumn);
   }
 
