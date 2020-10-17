@@ -297,18 +297,22 @@ export const updateProductCost = (payload: any) => async (dispatch: any, getStat
   bodyFormData.set('product_cost', product_cost);
   bodyFormData.set('id', id);
   bodyFormData.set('period', period);
-  bodyFormData.set('avg_price', avg_price);
+  if (avg_price) {
+    bodyFormData.set('avg_price', avg_price);
+  }
 
   return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product/cost`, bodyFormData)
     .then(({ data }) => {
       success(`Product cost successfully updated!`);
-      const updated = products.results.map((p: any) => {
-        if (p.id === id) {
-          p = { ...p, ...data };
-        }
-        return p;
-      });
-      dispatch(setSupplierProductTrackerDetails({ ...products, results: updated }));
+      if (data) {
+        const updated = products.results.map((p: any) => {
+          if (p.id === id) {
+            p = { ...p, ...data };
+          }
+          return p;
+        });
+        dispatch(setSupplierProductTrackerDetails({ ...products, results: updated }));
+      }
     })
     .catch(() => {
       error(`Failed to update product cost`);
