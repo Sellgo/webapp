@@ -608,7 +608,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             scrollTopSelector={false}
             tableKey={tableKeys.LEADS}
             columns={columns}
-            data={leads}
+            data={leads || []}
             singlePageItemsCount={singlePageItemsCount}
             currentPage={pageNo}
             setPage={page => {

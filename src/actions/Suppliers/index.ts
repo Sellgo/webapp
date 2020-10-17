@@ -55,6 +55,8 @@ import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 import { UntrackSuccess } from '../../components/ToastMessages';
 import { timeout } from '../../utils/timeout';
+import { leads } from '../../selectors/LeadsTracker';
+import { setLeads } from '../LeadsTracker';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -487,19 +489,28 @@ export const updateProductTrackingStatus = (
 
 export const requestProductBulkTracking = (products: { product_id: number }[]) => (
   dispatch: any,
-  getState: any
+  getState: () => any
 ) => {
   const sellerID = sellerIDSelector();
-  const supplierDetails = supplierDetailsSelector(getState());
-  Axios.post(
-    AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/suppliers/${supplierDetails.supplier_id}/track/products`,
-    products
-  )
+  Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/bulk-track/products`, products)
     .then(json => {
       success('Request succeeded');
       dispatch(getSellerQuota());
       dispatch(updateSupplierProductTracks(json.data));
+      const leadsData = leads(getState());
+      if (leadsData) {
+        const results = leadsData.map((lead: any) => {
+          const p = json.data.find(
+            (r: any) => r.product_id === lead.product_id && r.supplier_id === lead.supplier_id
+          );
+          let data = lead;
+          if (p) {
+            data = { ...data, tracking_status: p.status };
+          }
+          return data;
+        });
+        dispatch(setLeads({ results }));
+      }
     })
     .catch(err => {
       console.log('err.response', err.response);
@@ -513,19 +524,28 @@ export const requestProductBulkTracking = (products: { product_id: number }[]) =
 
 export const requestProductBulkUnTracking = (products: { product_id: number }[]) => (
   dispatch: any,
-  getState: any
+  getState: () => any
 ) => {
   const sellerID = sellerIDSelector();
-  const supplierDetails = supplierDetailsSelector(getState());
-  Axios.post(
-    AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/suppliers/${supplierDetails.supplier_id}/untrack/products`,
-    products
-  )
+  Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/bulk-untrack/products`, products)
     .then(json => {
       success('Request succeeded');
       dispatch(getSellerQuota());
       dispatch(updateSupplierProductTracks(json.data));
+      const leadsData = leads(getState());
+      if (leadsData) {
+        const results = leadsData.map((lead: any) => {
+          const p = json.data.find(
+            (r: any) => r.product_id === lead.product_id && r.supplier_id === lead.supplier_id
+          );
+          let data = lead;
+          if (p) {
+            data = { ...data, tracking_status: p.status };
+          }
+          return data;
+        });
+        dispatch(setLeads({ results }));
+      }
     })
     .catch(err => {
       console.log('err.response', err.response);
