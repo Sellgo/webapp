@@ -32,7 +32,6 @@ import { tableKeys } from '../../../constants';
 import get from 'lodash/get';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import _ from 'lodash';
-import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 import { formatCompletedDate } from '../../../utils/date';
 import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
@@ -105,6 +104,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         seller_id={row.seller_id}
         supplier_id={row.supplier_id}
         isToggle={isToggle}
+        disabled={row.file_status !== 'completed'}
       />
     );
   };
@@ -330,7 +330,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Leads Tracking',
       dataKey: 'leads_tracking',
-      show: isPlanEnterprise(this.props.subscriptionPlan) ? true : false,
+      show: true,
       render: this.renderLeadsTracker,
     },
     {

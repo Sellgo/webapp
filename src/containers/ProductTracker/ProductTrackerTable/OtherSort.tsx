@@ -14,6 +14,8 @@ interface OtherSortProps {
   handleConfirmMessage: any;
   handleCancel: any;
   handleMoveGroup: any;
+  handleEdit: (row: any) => void;
+  onEditCost: () => void;
 }
 class OtherSort extends React.Component<OtherSortProps> {
   state = {
@@ -34,6 +36,7 @@ class OtherSort extends React.Component<OtherSortProps> {
       confirm,
       handleConfirmMessage,
       handleMoveGroup,
+      onEditCost,
     } = this.props;
     const { trackGroupsOpen, otherOptionsOpen } = this.state;
 
@@ -100,6 +103,10 @@ class OtherSort extends React.Component<OtherSortProps> {
             <Menu.Item className="amazon-link" as="a" href={row.amazon_url} target="_blank">
               <img src={Amazon} alt="Amazon" />
               {`View on Amazon`}
+            </Menu.Item>
+            <Menu.Item className={'edit-cost'} onClick={() => onEditCost()}>
+              <Icon className="pencil" />
+              {`Edit`}
             </Menu.Item>
             <Menu.Item
               className="untrack-link"

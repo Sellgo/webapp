@@ -255,7 +255,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   };
 
   componentDidMount() {
-    this.fetchLeadsData({ pageNo: 1 });
+    const { singlePageItemsCount } = this.props;
+    this.fetchLeadsData({ pageNo: 1, per_page: singlePageItemsCount });
     this.toggleColumn(this.state.activeColumn);
   }
 
@@ -607,7 +608,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             scrollTopSelector={false}
             tableKey={tableKeys.LEADS}
             columns={columns}
-            data={leads}
+            data={leads || []}
             singlePageItemsCount={singlePageItemsCount}
             currentPage={pageNo}
             setPage={page => {

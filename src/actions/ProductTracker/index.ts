@@ -23,9 +23,11 @@ import {
   CHECKED_PRODUCTS_DATA,
   VERIFYING_PRODUCT,
   RESET_FILTER,
+  SET_COST_DETAILS,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
+import { trackerProductDetails } from '../../selectors/ProductTracker';
 
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
@@ -267,5 +269,52 @@ export const retrieveProductTrackGroup = () => (dispatch: any) => {
     })
     .catch(() => {
       //display error
+    });
+};
+
+export const setCostDetails = (payload: any) => ({
+  type: SET_COST_DETAILS,
+  payload: payload,
+});
+
+export const setProductDetails = (payload: any) => (dispatch: any) => {
+  try {
+    dispatch(setCostDetails(payload));
+  } catch (e) {
+    //display error
+  }
+};
+
+export const updateProductCost = (payload: any) => async (dispatch: any, getState: () => any) => {
+  const { supplier_id, product_id, product_cost, id, period, avg_price } = payload;
+  const sellerID = sellerIDSelector();
+  const products = trackerProductDetails(getState());
+  const bodyFormData = new FormData();
+  if (supplier_id) {
+    bodyFormData.set('supplier_id', supplier_id);
+  }
+  bodyFormData.set('product_id', product_id);
+  bodyFormData.set('product_cost', product_cost);
+  bodyFormData.set('id', id);
+  bodyFormData.set('period', period);
+  if (avg_price) {
+    bodyFormData.set('avg_price', avg_price);
+  }
+
+  return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product/cost`, bodyFormData)
+    .then(({ data }) => {
+      success(`Product cost successfully updated!`);
+      if (data) {
+        const updated = products.results.map((p: any) => {
+          if (p.id === id) {
+            p = { ...p, ...data };
+          }
+          return p;
+        });
+        dispatch(setSupplierProductTrackerDetails({ ...products, results: updated }));
+      }
+    })
+    .catch(() => {
+      error(`Failed to update product cost`);
     });
 };
