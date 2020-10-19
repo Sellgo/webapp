@@ -126,7 +126,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderCost = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.product_cost, formatCurrency(row.product_cost))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.product_cost ? row.product_cost : row.default_cost,
+        formatCurrency(row.product_cost ? row.product_cost : row.default_cost)
+      )}
+    </p>
   );
 
   renderProfit = (row: Product) => (
