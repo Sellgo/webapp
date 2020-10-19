@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import _ from 'lodash';
+import { Supplier } from '../../../../interfaces/Supplier';
 
 interface ProductCheckBoxHeaderProps {
   currentPage: number;
@@ -18,6 +19,7 @@ interface ProductCheckBoxHeaderProps {
   updateCheckedRows: (checkedRows: CheckedRowDictionary) => void;
   requestProductBulkTracking: (products: { product_id: number }[]) => void;
   requestProductBulkUnTracking: (products: { product_id: number }[]) => void;
+  supplierDetails: Supplier;
 }
 
 const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
@@ -28,6 +30,7 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
     updateCheckedRows,
     requestProductBulkTracking,
     requestProductBulkUnTracking,
+    supplierDetails,
   } = props;
   const [checked, setChecked] = useState(false);
   const [openTrackingPopup, setOpenTrackingPopup] = useState(false);
@@ -62,7 +65,8 @@ const ProductCheckBoxHeader = (props: ProductCheckBoxHeaderProps) => {
   const handleBulkClick = (type: string) => {
     const products: any[] = [];
     currentPageRows.forEach(r => {
-      if (checkedRows[r.id]) products.push({ product_id: r.product_id });
+      if (checkedRows[r.id])
+        products.push({ product_id: r.product_id, supplier_id: supplierDetails.supplier_id });
     });
     if (products.length === 0) return;
     if (type === 'track') {
