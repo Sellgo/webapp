@@ -10,7 +10,7 @@ const ProductDescription = (props: any) => {
       <a href={item.amazon_url} target="_blank" rel="noopener noreferrer">
         <span className="description-text">{item.title}</span>
       </a>
-      {!!item.product_cost && <WithoutCostUpload />}
+      {!item.product_cost && <WithoutCostUpload />}
     </div>
   );
 };
