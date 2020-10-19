@@ -200,7 +200,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
           breadcrumb={[
             { content: 'Home', to: '/' },
             { content: `Profit Finder` },
-            { content: renderSupplierPopup() || 'Search' },
+            { content: isLoadingSupplierProducts ? '' : renderSupplierPopup() || 'Search' },
           ]}
           callToAction={<QuotaMeter />}
         />
