@@ -108,7 +108,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderCheckBox = (row: Product) => {
-    console.log('row: ', row);
     const { checkedRows } = this.state;
     let checked = false;
     if (checkedRows[row.id] !== undefined) {
