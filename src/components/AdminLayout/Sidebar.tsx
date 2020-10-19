@@ -106,7 +106,7 @@ class SidebarCollapsible extends Component<
                       onClick={() => {
                         visible && this.handleAnimationChange();
                       }}
-                      as={Link}
+                      as={icon.id === 2 && !supplier_id ? 'div' : Link}
                       disabled={!!(icon.id === 2 && !supplier_id)}
                       to={
                         icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
