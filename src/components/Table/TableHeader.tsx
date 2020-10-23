@@ -12,6 +12,7 @@ import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
 import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 import RangeFilterBox from '../RangeFilterBox';
+import { MiddleScrollHeader } from './TableLayouts/MiddleScroll';
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -381,6 +382,11 @@ const TableHeader = (props: TableHeaderProps) => {
       >
         {rest.type === 'trackerTable' && (
           <React.Fragment>
+            <MiddleScrollHeader
+              columns={filteredColumns}
+              rightFixedColumns={1}
+              leftFixedColumns={1}
+            />
             <Table.Row className="ptr-header-row">
               {filteredColumns.length === 2 && (
                 <th

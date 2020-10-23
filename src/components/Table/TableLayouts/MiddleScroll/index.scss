@@ -1,0 +1,15 @@
+.middle-scroll-layout {
+  .fixed-th-first {
+    position: sticky;
+    width: 100px;
+    z-index: 10;
+    left: 0;
+  }
+
+  .fixed-th-last {
+    position: sticky;
+    width: 100px;
+    z-index: 10;
+    right: 0;
+  }
+}
