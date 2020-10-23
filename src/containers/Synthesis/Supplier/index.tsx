@@ -148,11 +148,12 @@ export class Supplier extends React.Component<SupplierProps, any> {
     } = this.props;
     const searchName =
       supplierDetails && supplierDetails.search ? ` ${supplierDetails.search}` : '';
-    let sortedByCompletedData: SupplierInterface[] = [];
+    let suppliersSortedByUpdateDate: SupplierInterface[] = [];
     if (suppliers && suppliers[0] !== undefined) {
-      const all = suppliers.filter(supplier => supplier.status !== 'inactive');
-      const allData = all.filter(supplier => supplier.progress !== -1);
-      sortedByCompletedData = _.cloneDeep(allData).sort((a, b) =>
+      const all = suppliers.filter(
+        supplier => supplier.status !== 'inactive' && supplier.progress !== -1
+      );
+      suppliersSortedByUpdateDate = _.cloneDeep(all).sort((a, b) =>
         new Date(a.udate) > new Date(b.udate) ? -1 : 1
       );
     }
@@ -180,9 +181,9 @@ export class Supplier extends React.Component<SupplierProps, any> {
             <div className="recent-files-container">
               <Loader active={suppliers[0] === undefined} />
 
-              {suppliers &&
-                suppliers[0] !== undefined &&
-                sortedByCompletedData.map((s: SupplierInterface) => (
+              {suppliersSortedByUpdateDate &&
+                suppliersSortedByUpdateDate[0] !== undefined &&
+                suppliersSortedByUpdateDate.map((s: SupplierInterface) => (
                   <p
                     className={`supplier-text ${
                       s.supplier_id.toString() === match.params.supplierID
