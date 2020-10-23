@@ -26,6 +26,7 @@ import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 import { Product } from '../../../interfaces/Product';
 import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
 import history from '../../../history';
+import _ from 'lodash';
 
 interface SupplierProps {
   stickyChartSelector: boolean;
@@ -147,6 +148,14 @@ export class Supplier extends React.Component<SupplierProps, any> {
     } = this.props;
     const searchName =
       supplierDetails && supplierDetails.search ? ` ${supplierDetails.search}` : '';
+    let sortedByCompletedData: SupplierInterface[] = [];
+    if (suppliers && suppliers[0] !== undefined) {
+      const all = suppliers.filter(supplier => supplier.status !== 'inactive');
+      const allData = all.filter(supplier => supplier.progress !== -1);
+      sortedByCompletedData = _.cloneDeep(allData).sort((a, b) =>
+        new Date(a.udate) > new Date(b.udate) ? -1 : 1
+      );
+    }
 
     const renderSupplierPopup = () => (
       <Popup
@@ -173,7 +182,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
 
               {suppliers &&
                 suppliers[0] !== undefined &&
-                suppliers.map((s: SupplierInterface) => (
+                sortedByCompletedData.map((s: SupplierInterface) => (
                   <p
                     className={`supplier-text ${
                       s.supplier_id.toString() === match.params.supplierID
