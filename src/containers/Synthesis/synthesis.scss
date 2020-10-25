@@ -42,6 +42,10 @@
   font-family: 'Work sans', sans-serif !important;
   font-size: 14px !important;
   font-weight: 700 !important;
+  position: absolute;
+  right: 185px;
+  top: -70px;
+  z-index: 901;
 
   &.ui.disabled {
     color: #dfe8f3;
