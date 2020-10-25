@@ -113,6 +113,16 @@ class Synthesis extends Component<SynthesisProps> {
               <UploadSupplier {...this.state} />
             </Modal.Content>
           </Modal>
+        </>
+      );
+    }
+  };
+
+  renderCallToActionBtns = () => {
+    const { subscriptionType } = this.props;
+    if (!isSubscriptionFree(subscriptionType)) {
+      return (
+        <>
           <Popup
             basic
             className={'add-supplier-popup'}
@@ -168,10 +178,11 @@ class Synthesis extends Component<SynthesisProps> {
         <PageHeader
           title="Search Management"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
-          callToAction={this.renderAddNewSupplierModal()}
+          callToAction={this.renderCallToActionBtns()}
           auth={match.params.auth}
         />
         <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
+        {this.renderAddNewSupplierModal()}
         <Segment basic={true}>
           <SuppliersTable
             onEdit={this.openUpdateSupplierPopup}

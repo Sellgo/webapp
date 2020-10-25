@@ -5,6 +5,10 @@
 
   .add-new-supplier {
     background: #349af8;
+    position: absolute;
+    right: 200px;
+    top: -70px;
+    z-index: 2;
   }
 
   .ui.tiny.progress {

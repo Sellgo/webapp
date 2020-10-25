@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { notifyIdSelector } from '../../selectors/UserOnboarding';
-import Auth from '../Auth/Auth';
 
 import Tour from '../QuickTourMessage';
 import SidebarPusher from './SidebarPusher';
@@ -26,7 +25,6 @@ interface State {
 
 class SidebarCollapsible extends Component<
   {
-    auth?: Auth;
     currentNotifyId: number;
   },
   { visible: boolean; openConfirm: boolean },

@@ -2,22 +2,20 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
 import Sidebar from './Sidebar';
-import Auth from '../Auth/Auth';
 import './index.scss';
 import { isSubscriptionNotPaid } from '../../utils/subscriptions';
 
 interface Props {
-  auth: Auth;
   subscriptionType: string;
 }
 
 class AdminLayout extends React.Component<Props> {
   public render() {
-    const { children, auth, subscriptionType } = this.props;
+    const { children, subscriptionType } = this.props;
 
     return (
       <React.Fragment>
-        <Sidebar auth={auth}>
+        <Sidebar>
           <Segment
             className={`admin-layout ${
               isSubscriptionNotPaid(subscriptionType) ? 'message-active' : ''
