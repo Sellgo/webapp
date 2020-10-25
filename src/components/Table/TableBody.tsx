@@ -50,30 +50,35 @@ const TableCell = (props: TableColumnCellProps) => {
 };
 
 class TableRow extends Component<any, any> {
-  shouldComponentUpdate(): boolean {
+  shouldComponentUpdate(nextProps: any): boolean {
     const { row, type } = this.props;
-    return (type === 'supplier' && row.file_status === 'pending') || type !== 'supplier';
+    if (type === 'supplier') {
+      return JSON.stringify(row) !== JSON.stringify(nextProps.row);
+    }
+    return true;
   }
 
   render() {
     const { index, type, columns, row, columnFilterData } = this.props;
     return (
-      <Table.Row
-        key={`${Date.now() + index}--tb-row`}
-        style={type === 'trackerTable' ? { height: '8em' } : {}}
-      >
-        {columns.map(
-          (column: any, colIndex: number) =>
-            getColumnLabel(column.dataKey, columnFilterData) && (
-              <TableCell
-                type={type}
-                column={column}
-                row={row}
-                key={`${Date.now() + colIndex}--tb-cell`}
-              />
-            )
-        )}
-      </Table.Row>
+      <React.Fragment>
+        <Table.Row
+          key={`${Date.now() + index}--tb-row`}
+          style={type === 'trackerTable' ? { height: '8em' } : {}}
+        >
+          {columns.map(
+            (column: any, colIndex: number) =>
+              getColumnLabel(column.dataKey, columnFilterData) && (
+                <TableCell
+                  type={type}
+                  column={column}
+                  row={row}
+                  key={`${Date.now() + colIndex}--tb-cell`}
+                />
+              )
+          )}
+        </Table.Row>
+      </React.Fragment>
     );
   }
 }

@@ -32,9 +32,9 @@ import { tableKeys } from '../../../constants';
 import get from 'lodash/get';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import _ from 'lodash';
-import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 import { formatCompletedDate } from '../../../utils/date';
+import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
@@ -73,7 +73,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       ) : (
         row.search
       );
-    return <div className="supplier">{name}</div>;
+    return (
+      <div className="supplier">
+        {name} {row.has_default_cost && <WithoutCostUpload />}
+      </div>
+    );
   };
 
   renderFileName = (row: Supplier) => {
@@ -100,6 +104,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         seller_id={row.seller_id}
         supplier_id={row.supplier_id}
         isToggle={isToggle}
+        disabled={row.file_status !== 'completed'}
       />
     );
   };
@@ -174,7 +179,8 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       row.file_status !== 'inactive' &&
       row.file_status !== 'failed' &&
       row.file_status !== null &&
-      row.file_status !== undefined
+      row.file_status !== undefined &&
+      row.progress < 100
     ) {
       return '';
     }
@@ -324,7 +330,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Leads Tracking',
       dataKey: 'leads_tracking',
-      show: isPlanEnterprise(this.props.subscriptionPlan) ? true : false,
+      show: true,
       render: this.renderLeadsTracker,
     },
     {

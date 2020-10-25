@@ -365,7 +365,9 @@ export const validateAndUploadFile = () => async (
   const bodyFormData = new FormData();
   bodyFormData.set('seller_id', String(sellerID));
   bodyFormData.set('file', uploadFile);
-  bodyFormData.set('cost', reversedColumnMappings.cost);
+  if (reversedColumnMappings.cost) {
+    bodyFormData.set('cost', reversedColumnMappings.cost);
+  }
   bodyFormData.set('primary_id_type', primaryIdType);
   bodyFormData.set('primary_id', reversedColumnMappings.primary_id);
   if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');

@@ -126,7 +126,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderCost = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.product_cost, formatCurrency(row.product_cost))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(
+        row.product_cost ? row.product_cost : row.default_cost,
+        formatCurrency(row.product_cost ? row.product_cost : row.default_cost)
+      )}
+    </p>
   );
 
   renderProfit = (row: Product) => (
@@ -206,6 +211,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     <p className="stat">
       {row.data_buster_status === 'completed'
         ? showNAIfZeroOrNull(row.rating, row.rating)
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+    </p>
+  );
+  renderIsAmazon = (row: Product) => (
+    <p className="stat">
+      {row.data_buster_status === 'completed'
+        ? row.is_amazon_selling
+          ? 'Yes'
+          : 'No'
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
@@ -391,6 +405,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
+    },
+    {
+      label: 'Is Amazon\nSelling',
+      dataKey: 'is_amazon_selling',
+      type: 'boolean',
+      show: true,
+      sortable: true,
+      render: this.renderIsAmazon,
     },
     {
       label: 'Price',

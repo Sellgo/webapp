@@ -109,6 +109,7 @@ const Pagination = (props: PaginationProps) => {
               className="page-size-input"
               selection
               onChange={onPageSizeChanges}
+              selectOnBlur={false}
             />
           </div>
           <div className="page-count">
