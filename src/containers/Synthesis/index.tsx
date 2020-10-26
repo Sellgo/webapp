@@ -22,7 +22,6 @@ import {
 import { setProgressShow, setConfirmationShow } from '../../actions/UploadSupplier';
 import { setProgress } from '../../actions/Suppliers';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
-import { isSubscriptionFree } from '../../utils/subscriptions';
 
 import SearchFilter from '../../components/SearchFilter/';
 
@@ -73,49 +72,36 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   renderAddNewSupplierModal = () => {
-    const {
-      uploadSupplierModalOpen,
-      currentStep,
-      currentConfirmationShow,
-      subscriptionType,
-    } = this.props;
-    if (isSubscriptionFree(subscriptionType)) {
-      return (
-        <Button basic className="add-new-supplier disabled">
-          Add New Search
-        </Button>
-      );
-    } else {
-      return (
-        <>
-          <Modal
-            size={'large'}
-            open={uploadSupplierModalOpen}
-            onClose={() => {
-              currentStep === 0 && currentConfirmationShow === false
-                ? this.handleClose()
-                : this.setState({ exitConfirmation: true });
-            }}
-            closeIcon={true}
-            style={{ width: '90%' }}
-            className="new-supplier-modal"
-            trigger={
-              <Button
-                primary={true}
-                className="add-new-supplier"
-                onClick={this.handleAddNewSupplierModalOpen}
-              >
-                Add New Search
-              </Button>
-            }
-          >
-            <Modal.Content>
-              <UploadSupplier {...this.state} />
-            </Modal.Content>
-          </Modal>
-        </>
-      );
-    }
+    const { uploadSupplierModalOpen, currentStep, currentConfirmationShow } = this.props;
+    return (
+      <>
+        <Modal
+          size={'large'}
+          open={uploadSupplierModalOpen}
+          onClose={() => {
+            currentStep === 0 && currentConfirmationShow === false
+              ? this.handleClose()
+              : this.setState({ exitConfirmation: true });
+          }}
+          closeIcon={true}
+          style={{ width: '90%' }}
+          className="new-supplier-modal"
+          trigger={
+            <Button
+              primary={true}
+              className="add-new-supplier"
+              onClick={this.handleAddNewSupplierModalOpen}
+            >
+              Add New Search
+            </Button>
+          }
+        >
+          <Modal.Content>
+            <UploadSupplier {...this.state} />
+          </Modal.Content>
+        </Modal>
+      </>
+    );
   };
 
   UserOnboardingModal = () => {

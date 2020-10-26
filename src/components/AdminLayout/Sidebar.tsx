@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Menu, Segment, Sidebar, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { notifyIdSelector } from '../../selectors/UserOnboarding';
-
-import Tour from '../QuickTourMessage';
 import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
@@ -96,32 +94,24 @@ class SidebarCollapsible extends Component<
           {this.state.sidebarIcon.map(icon => {
             if (icon.id < 5) {
               return (
-                <Tour
-                  data={icon}
-                  key={icon.id}
-                  child={
-                    <Menu.Item
-                      onClick={() => {
-                        visible && this.handleAnimationChange();
-                      }}
-                      as={icon.id === 2 && !supplier_id ? 'div' : Link}
-                      disabled={!!(icon.id === 2 && !supplier_id)}
-                      to={
-                        icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path
-                      }
-                      name={icon.icon}
-                      active={links[icon.id - 1] === currentPath}
-                      className={'sidebar-menu__items'}
-                    >
-                      <i
-                        className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
-                      />
+                <Menu.Item
+                  onClick={() => {
+                    visible && this.handleAnimationChange();
+                  }}
+                  as={icon.id === 2 && !supplier_id ? 'div' : Link}
+                  disabled={!!(icon.id === 2 && !supplier_id)}
+                  to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
+                  name={icon.icon}
+                  active={links[icon.id - 1] === currentPath}
+                  className={'sidebar-menu__items'}
+                >
+                  <i
+                    className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
+                      'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
+                  />
 
-                      <Label> {icon.label} </Label>
-                    </Menu.Item>
-                  }
-                />
+                  <Label> {icon.label} </Label>
+                </Menu.Item>
               );
             } else {
               return null;
@@ -132,26 +122,20 @@ class SidebarCollapsible extends Component<
           {this.state.sidebarIcon.map(icon => {
             if (icon.id > 4) {
               return (
-                <Tour
-                  data={icon}
+                <Menu.Item
                   key={icon.id}
-                  child={
-                    <Menu.Item
-                      key={icon.id}
-                      as={Link}
-                      to={icon.path}
-                      name={icon.icon}
-                      active={links[icon.id - 1] === currentPath}
-                      className={'sidebar-menu__items'}
-                    >
-                      <i
-                        className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                          'forward'} `}
-                      />
-                      <Label> {icon.label} </Label>
-                    </Menu.Item>
-                  }
-                />
+                  as={Link}
+                  to={icon.path}
+                  name={icon.icon}
+                  active={links[icon.id - 1] === currentPath}
+                  className={'sidebar-menu__items'}
+                >
+                  <i
+                    className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
+                      'forward'} `}
+                  />
+                  <Label> {icon.label} </Label>
+                </Menu.Item>
               );
             } else {
               return null;
