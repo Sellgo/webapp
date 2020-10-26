@@ -527,7 +527,7 @@ i.icon.filter::before {
 }
 
 .popup {
-  z-index: 20 !important;
+  z-index: 900 !important;
 }
 
 .pagination-cell {
@@ -612,11 +612,11 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 366px;
+        top: 393px;
       }
 
       &.scroll-top.sticky-chart-active {
-        top: 382px;
+        top: 396px;
       }
     }
 
@@ -624,11 +624,11 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 455px;
+            top: 487px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 512px;
+            top: 529px;
           }
         }
       }
@@ -700,11 +700,11 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 252px;
+        top: 291px; //39
       }
 
       &.scroll-top.sticky-chart-active {
-        top: 267px;
+        top: 277px;
       }
     }
 
@@ -712,11 +712,11 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 330px;
+            top: 385px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 397px;
+            top: 409px;
           }
         }
       }
