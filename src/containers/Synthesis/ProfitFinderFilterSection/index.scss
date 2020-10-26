@@ -1,13 +1,13 @@
 .filter-section {
   position: sticky;
-  top: -38px;
+  top: 13px;
   background: #f8faff;
   z-index: 4;
   transition-property: top;
   transition-duration: 1s;
 
   &.scroll-top {
-    top: 24px;
+    top: 70px;
     transition-property: top;
     transition-duration: 1s;
   }
@@ -122,7 +122,6 @@
       display: flex;
       align-items: center;
       font-family: 'Work Sans', sans-serif !important;
-      //margin: 0 15px;
       position: relative;
       height: 32px;
       width: 107px;
@@ -436,11 +435,11 @@
 @media (max-width: 2560px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 580px;
+      top: 585px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 619px;
+      top: 608px;
     }
   }
 }
@@ -496,7 +495,7 @@
 @media (max-width: 1536px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 346px; //39
+      top: 346px;
     }
 
     &.scroll-top.sticky-chart-active {

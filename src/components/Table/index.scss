@@ -26,14 +26,14 @@
     padding-top: 20px !important;
     padding-bottom: 37px !important;
     position: sticky;
-    top: -100px;
+    top: -67px;
     z-index: 5;
     background: #f8faff;
     transition-property: top;
     transition-duration: 1s;
 
     &.scroll-top {
-      top: -70px;
+      top: -23px;
       transition-property: top;
       transition-duration: 1s;
     }
@@ -556,7 +556,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 494px;
+        top: 524px;
       }
 
       &.scroll-top.sticky-chart-active {
@@ -568,7 +568,7 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 588px;
+            top: 620px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
@@ -584,11 +584,11 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 399px;
+        top: 429px;
       }
 
       &.scroll-top.sticky-chart-active {
-        top: 378px;
+        top: 399px;
       }
     }
 
@@ -596,7 +596,7 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 470px;
+            top: 502px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
@@ -700,7 +700,7 @@ i.icon.filter::before {
   .generic-table {
     .table-menu-header {
       &.sticky-chart-active {
-        top: 291px; //39
+        top: 291px;
       }
 
       &.scroll-top.sticky-chart-active {

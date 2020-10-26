@@ -75,30 +75,6 @@ class SidebarCollapsible extends Component<
 
   handleAnimationChange = () => this.setState(prevState => ({ visible: !prevState.visible }));
 
-  componentDidMount() {
-    const sidebarMenu = document.querySelector('.sidebar-menu');
-    const menuItems = Array.from(document.querySelectorAll('.sidebar-menu__items'));
-    console.log(menuItems);
-    menuItems.forEach(item => {
-      item.addEventListener('mouseover', e => {
-        e.stopPropagation();
-        const isVisible = this.state.visible;
-        if (!isVisible) {
-          this.handleAnimationChange();
-        }
-      });
-    });
-    if (sidebarMenu) {
-      sidebarMenu.addEventListener('mouseleave', e => {
-        e.stopPropagation();
-        const isVisible = this.state.visible;
-        if (isVisible) {
-          this.handleAnimationChange();
-        }
-      });
-    }
-  }
-
   render() {
     const { visible, sidebarIcon } = this.state;
     const { children, currentNotifyId } = this.props;
