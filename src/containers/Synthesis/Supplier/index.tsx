@@ -33,7 +33,7 @@ interface SupplierProps {
   supplierDetails: any;
   isLoadingSupplierProducts: boolean;
   products: Product[];
-  match: { params: { supplierID: '' } };
+  match: any;
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
   fetchSupplierDetails: (supplierID: any) => Promise<SupplierInterface | undefined>;
@@ -213,6 +213,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
             { content: isLoadingSupplierProducts ? '' : renderSupplierPopup() || 'Search' },
           ]}
           callToAction={<QuotaMeter />}
+          auth={match.params.auth}
         />
 
         <Segment basic={true} className="setting">

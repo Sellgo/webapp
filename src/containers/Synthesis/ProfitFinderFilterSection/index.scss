@@ -1,13 +1,13 @@
 .filter-section {
   position: sticky;
-  top: -38px;
+  top: 13px;
   background: #f8faff;
   z-index: 4;
   transition-property: top;
   transition-duration: 1s;
 
   &.scroll-top {
-    top: 24px;
+    top: 70px;
     transition-property: top;
     transition-duration: 1s;
   }
@@ -122,7 +122,6 @@
       display: flex;
       align-items: center;
       font-family: 'Work Sans', sans-serif !important;
-      //margin: 0 15px;
       position: relative;
       height: 32px;
       width: 107px;
@@ -436,11 +435,11 @@
 @media (max-width: 2560px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 550px;
+      top: 585px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 609px;
+      top: 608px;
     }
   }
 }
@@ -448,11 +447,11 @@
 @media (max-width: 2550px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 432px;
+      top: 462px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 470px;
+      top: 480px;
     }
   }
 }
@@ -460,11 +459,11 @@
 @media (max-width: 1920px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 420px;
+      top: 450px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 476px;
+      top: 490px;
     }
   }
 }
@@ -472,11 +471,11 @@
 @media (max-width: 1680px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 310px;
+      top: 340px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 354px;
+      top: 364px;
     }
   }
 }
@@ -484,11 +483,11 @@
 @media (max-width: 1600px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 310px;
+      top: 349px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 354px;
+      top: 364px;
     }
   }
 }
@@ -496,11 +495,11 @@
 @media (max-width: 1536px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 307px;
+      top: 346px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 361px;
+      top: 371px;
     }
   }
 }
@@ -508,11 +507,11 @@
 @media (max-width: 1367px) {
   .filter-section {
     &.sticky-chart-active {
-      top: 404px;
+      top: 443px;
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 450px;
+      top: 460px;
     }
   }
 }

@@ -869,12 +869,6 @@ $new_black: #3b4557;
   border-top: unset !important;
 }
 
-.generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr:first-child th {
-  top: 10px;
-  transition-property: top;
-  transition-duration: 1s;
-}
-
 .lt-avg:hover {
   @extend .remove-radius;
 }

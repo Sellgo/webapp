@@ -3,8 +3,9 @@
 
   .ui.segment {
     position: fixed;
-    z-index: 99999;
+    z-index: 600;
     width: 100%;
+    top: 70px;
 
     .message {
       background: #feda83;
@@ -17,7 +18,7 @@
         color: #3b4557;
         font-size: 20px;
         font-weight: 600;
-        text-align: left;
+        text-align: center;
 
         span {
           color: #349af8 !important;
