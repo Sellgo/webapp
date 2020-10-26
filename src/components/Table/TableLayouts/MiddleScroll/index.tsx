@@ -6,29 +6,23 @@ interface Props {
   columns: Column[];
   rightFixedColumns: number;
   leftFixedColumns: number;
+  render: (column: Column) => any;
 }
 
 export const MiddleScrollHeader = (props: Props) => {
-  const { columns, leftFixedColumns, rightFixedColumns } = props;
+  const { columns, leftFixedColumns, rightFixedColumns, render } = props;
   const lowerBound = columns.slice(0, leftFixedColumns);
   const middleBound = columns.slice(leftFixedColumns, columns.length - rightFixedColumns);
   const upperBound = columns.slice(columns.length - rightFixedColumns, columns.length);
   return (
     <Table.Row className="middle-scroll-layout">
-      {lowerBound.map((c: Column) => (
-        <th key={c.dataKey} className="fixed-th-first">
-          {c.label}
-        </th>
-      ))}
-      {middleBound.map((c: Column) => (
-        <th key={c.dataKey}>{c.label}</th>
-      ))}
-
-      {upperBound.map((c: Column) => (
-        <th key={c.dataKey} className="fixed-th-last">
-          {c.label}
-        </th>
-      ))}
+      <th colSpan={leftFixedColumns} className="fixed-th-first">
+        <tr>{lowerBound.map((c: Column) => render(c))}</tr>
+      </th>
+      {middleBound.map((c: Column) => render(c))}
+      <th colSpan={rightFixedColumns} className="fixed-th-last">
+        <tr>{upperBound.map((c: Column) => render(c))}</tr>
+      </th>
     </Table.Row>
   );
 };
