@@ -14,16 +14,19 @@ const LeadsTrackerToggle = (props: any | Props) => {
   if (disabled) {
     isEnterprise = 'disabled';
   }
+  console.log(isPlanEnterprise(subscriptionPlan));
   return (
     <div className={`ToggleSwitch ToggleSwitch__rounded`}>
       <div className="ToggleSwitch__wrapper">
         <div
           className={`Slider ${isToggle ? 'active' : ''} ${isEnterprise}`}
-          onClick={() =>
-            !isPlanEnterprise(subscriptionPlan) || !disabled
-              ? setLeadsTracker(seller_id, supplier_id)
-              : undefined
-          }
+          onClick={() => {
+            if (isPlanEnterprise(subscriptionPlan)) {
+              if (!disabled) {
+                setLeadsTracker(seller_id, supplier_id);
+              }
+            }
+          }}
         >
           <i className={`fas fa-user-ninja ${isToggle ? 'active' : ''}`} />
         </div>
