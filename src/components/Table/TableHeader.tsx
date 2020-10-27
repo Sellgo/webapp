@@ -402,46 +402,6 @@ const TableHeader = (props: TableHeaderProps) => {
                 />
               )}
             />
-            {/*<Table.Row className="ptr-header-row">*/}
-            {/*  {filteredColumns.length === 2 && (*/}
-            {/*    <th*/}
-            {/*      key={`header-blank-row`}*/}
-            {/*      colSpan={columns.length - 2}*/}
-            {/*      style={{ height: '56px' }}*/}
-            {/*    />*/}
-            {/*  )}*/}
-            {/*  {filteredColumns.map((column, index) => {*/}
-            {/*    let className =*/}
-            {/*      index === 1 && filteredColumns.length > 2 ? 'ptr' : column.className;*/}
-            {/*    className =*/}
-            {/*      index === filteredColumns.length - 2 && index >= 2*/}
-            {/*        ? `${className} ptr-last-cell`*/}
-            {/*        : className;*/}
-            {/*    return (*/}
-            {/*      <TableHeaderCell*/}
-            {/*        columns={columns}*/}
-            {/*        column={{ ...column, className }}*/}
-            {/*        key={column.dataKey || index}*/}
-            {/*        {...rest}*/}
-            {/*      />*/}
-            {/*    );*/}
-            {/*  })}*/}
-            {/*</Table.Row>*/}
-            {/*<Table.Row className="pt-header">*/}
-            {/*  <td colSpan={filteredColumns.length - 2} className="pt-header-cell">*/}
-            {/*    <div className="pt-scroll-container" onScroll={onScrollTable}>*/}
-            {/*      {filteredColumns.map(c => (*/}
-            {/*        <div*/}
-            {/*          className={`${getColumnClass(c)} pt-scroll`}*/}
-            {/*          key={`${c.dataKey}--scroll-col`}*/}
-            {/*        >*/}
-            {/*          <p> &nbsp;</p>*/}
-            {/*        </div>*/}
-            {/*      ))}*/}
-            {/*    </div>*/}
-            {/*  </td>*/}
-            {/*</Table.Row>*/}
-            {/*<tr className="ptr-scroll-container" />*/}
           </React.Fragment>
         )}
 

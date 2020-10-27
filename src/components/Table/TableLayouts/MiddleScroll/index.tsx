@@ -8,15 +8,16 @@ interface Props {
   leftFixedColumns: number;
   render: (column: Column) => any;
   renderBlankRow: () => any;
+  className?: string;
 }
 
 export const MiddleScrollHeader = (props: Props) => {
-  const { columns, leftFixedColumns, rightFixedColumns, render, renderBlankRow } = props;
+  const { columns, leftFixedColumns, rightFixedColumns, render, renderBlankRow, className } = props;
   const lowerBound = columns.slice(0, leftFixedColumns);
   const middleBound = columns.slice(leftFixedColumns, columns.length - rightFixedColumns);
   const upperBound = columns.slice(columns.length - rightFixedColumns, columns.length);
   return (
-    <Table.Row className="middle-scroll-layout">
+    <Table.Row className={`middle-scroll-layout ${className} `}>
       <th colSpan={leftFixedColumns} className="fixed-th-first">
         <tr>{lowerBound.map((c: Column) => render(c))}</tr>
       </th>

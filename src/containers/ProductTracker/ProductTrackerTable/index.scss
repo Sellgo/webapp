@@ -1312,3 +1312,17 @@ $link-color: #349af8;
     }
   }
 }
+
+.generic-table .ui.table.pf-table {
+  margin-top: unset;
+}
+
+.generic-table .ui.table.pf-table thead.pf-header > tr:first-child > th {
+  border-top: unset !important;
+}
+
+.generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr:first-child th {
+  top: 10px;
+  transition-property: top;
+  transition-duration: 1s;
+}
