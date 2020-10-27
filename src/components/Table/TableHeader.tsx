@@ -336,13 +336,6 @@ const TableHeader = (props: TableHeaderProps) => {
     }
   };
 
-  // const onScrollTable = (evt: any) => {
-  //   const table = document.querySelector('.generic-table');
-  //   if (table) {
-  //     table.scrollLeft = evt.target.scrollLeft;
-  //   }
-  // };
-
   if (middleScroll) {
     const isTypeProducts = rest.type === 'products';
     const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
