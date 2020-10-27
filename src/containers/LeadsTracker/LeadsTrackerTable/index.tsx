@@ -74,6 +74,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       updateTracking: false,
       defaultSort: 'asc',
       sorting: false,
+      pageSizeChanged: {},
     };
   }
 
@@ -507,6 +508,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       payload = { ...payload, query };
     }
     fetchLeads(payload);
+    this.setPageSizeChanged(payload.per_page);
   };
 
   getColumn = (dataKey: string) => this.columns.find((c: Column) => c.dataKey === dataKey);
@@ -540,6 +542,9 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     this.fetchLeadsData({ query });
     this.setState({ ColumnFilterBox: false });
   };
+
+  setPageSizeChanged = (pageSizeChanged: any) => this.setState({ pageSizeChanged });
+
   render() {
     const {
       currentActiveColumn,
@@ -554,7 +559,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       singlePageItemsCount,
       setSinglePageItemsCount,
     } = this.props;
-    const { checkedRows, columns, ColumnFilterBox, activeColumn, activeColumnFilters } = this.state;
+    const {
+      checkedRows,
+      columns,
+      ColumnFilterBox,
+      activeColumn,
+      activeColumnFilters,
+      pageSizeChanged,
+    } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
 
     const onScroll = (evt: any) => {
@@ -613,7 +625,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             currentPage={pageNo}
             setPage={page => {
               if (page !== pageNo) {
-                this.fetchLeadsData({ page, loading: false });
+                this.fetchLeadsData({ page, loading: false, ...pageSizeChanged });
               }
             }}
             name={'leads-tracker'}
@@ -635,7 +647,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
               this.setState({ ColumnFilterBox: false });
             }}
             setSinglePageItemsCount={per_page => {
-              this.fetchLeadsData({ per_page, page: 1 });
+              this.setPageSizeChanged({ per_page, page: 1 });
+              // this.fetchLeadsData({ per_page, page: 1 });
               setSinglePageItemsCount(per_page);
             }}
             loadingFilters={loadingFilters}
