@@ -179,6 +179,7 @@ export const TableBody = (props: TableBodyProps) => {
                     {rowExpander(row)}
                   </td>
                 </tr>
+
                 <Table.Row
                   key={`${Date.now() + index}--tb-row`}
                   style={style}

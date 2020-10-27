@@ -26,3 +26,21 @@ export const MiddleScrollHeader = (props: Props) => {
     </Table.Row>
   );
 };
+
+export const MiddleScrollBody = (props: Props) => {
+  const { columns, leftFixedColumns, rightFixedColumns, render } = props;
+  const lowerBound = columns.slice(0, leftFixedColumns);
+  const middleBound = columns.slice(leftFixedColumns, columns.length - rightFixedColumns);
+  const upperBound = columns.slice(columns.length - rightFixedColumns, columns.length);
+  return (
+    <Table.Row className="middle-scroll-layout">
+      <td colSpan={leftFixedColumns} className="fixed-th-first">
+        <tr>{lowerBound.map((c: Column) => render(c))}</tr>
+      </td>
+      {middleBound.map((c: Column) => render(c))}
+      <td colSpan={rightFixedColumns} className="fixed-th-last">
+        <tr>{upperBound.map((c: Column) => render(c))}</tr>
+      </td>
+    </Table.Row>
+  );
+};
