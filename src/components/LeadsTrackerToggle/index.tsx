@@ -14,7 +14,6 @@ const LeadsTrackerToggle = (props: any | Props) => {
   if (disabled) {
     isEnterprise = 'disabled';
   }
-  console.log(isPlanEnterprise(subscriptionPlan));
   return (
     <div className={`ToggleSwitch ToggleSwitch__rounded`}>
       <div className="ToggleSwitch__wrapper">
