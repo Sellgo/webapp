@@ -648,7 +648,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             }}
             setSinglePageItemsCount={per_page => {
               this.setPageSizeChanged({ per_page, page: 1 });
-              // this.fetchLeadsData({ per_page, page: 1 });
               setSinglePageItemsCount(per_page);
             }}
             loadingFilters={loadingFilters}
