@@ -1,0 +1,24 @@
+.without-cost-upload {
+  z-index: 9999 !important;
+  background: #757575 0% 0% no-repeat padding-box !important;
+  border-radius: 4px !important;
+
+  .title {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.33px;
+    color: #fff;
+    margin: 0 !important;
+  }
+
+  .description {
+    font-size: 11px;
+    letter-spacing: 0.33px;
+    color: #fff;
+  }
+}
+
+.without-cost-upload.popup {
+  z-index: 9999 !important;
+  max-width: 350px !important;
+}

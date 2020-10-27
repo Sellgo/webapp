@@ -125,7 +125,7 @@ const PrivateRoute = connect(
           props.match.params.auth = auth;
 
           return (
-            <AdminLayout auth={auth}>
+            <AdminLayout>
               <Component {...props} />
             </AdminLayout>
           );

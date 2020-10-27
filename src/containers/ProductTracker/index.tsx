@@ -32,6 +32,7 @@ interface ProductTrackerProps {
   filterRanges: any;
   activeGroupId: any;
   trackGroups: any;
+  match: any;
   filterProducts: (filterData: any, groupId: any) => void;
   setPageNumber: (itemsCount: any) => void;
   filterData: any;
@@ -46,6 +47,7 @@ interface ProductTrackerProps {
     currentState?: any,
     type?: string
   ) => void;
+  subscriptionType: string;
 }
 
 const filterStorage = JSON.parse(
@@ -155,7 +157,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   render() {
-    const { productTrackerPageNo, trackGroups, activeGroupId, setPageNumber } = this.props;
+    const { productTrackerPageNo, trackGroups, activeGroupId, setPageNumber, match } = this.props;
+
     const { searchValue } = this.state;
     const currentGroupName = activeGroupId
       ? activeGroupId !== -1
@@ -176,6 +179,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
             { content: `${currentGroupName}` },
           ]}
           callToAction={<QuotaMeter />}
+          auth={match.params.auth}
         />
         <Segment basic={true} className="tracker-setting">
           <Grid className="product-tracker">
@@ -214,6 +218,7 @@ const mapStateToProps = (state: any) => {
     trackGroups: get(state, 'productTracker.trackerGroup'),
     filterData: get(state, 'productTracker.filterData'),
     filterSearch: get(state, 'productTracker.filterSearch'),
+    subscriptionType: state.subscription.subscriptionType,
   };
 };
 

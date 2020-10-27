@@ -21,6 +21,7 @@ export interface Product {
   rank: number;
   roi: string;
   product_cost: string;
+  default_cost: any;
   fees: string;
   upc: string;
   ean: string;

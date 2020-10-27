@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Segment, Icon, Popup, Modal, List, Header, Divider } from 'semantic-ui-react';
+import { Button, Segment, Modal, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.scss';
 import UploadSupplier from './UploadSupplier';
@@ -40,6 +40,7 @@ interface SynthesisProps {
   currentProgress: any;
   setProgress: any;
   match: any;
+  subscriptionType: string;
 }
 
 class Synthesis extends Component<SynthesisProps> {
@@ -99,28 +100,6 @@ class Synthesis extends Component<SynthesisProps> {
             <UploadSupplier {...this.state} />
           </Modal.Content>
         </Modal>
-        <Popup
-          basic
-          className={'add-supplier-popup'}
-          trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
-          position="top left"
-          size="tiny"
-        >
-          <h4>{'Adding new Search'}</h4>
-          To add a new search:
-          <List as={'ol'}>
-            <List.Item as="li">Click on Add New Search.</List.Item>
-            <List.Item as="li">In the popup enter the details of the search.</List.Item>
-            <List.Item as="li">Select your supplier file from your computer (.csv).</List.Item>
-            <List.Item as="li">
-              We will check your file for errors and you will have the option to fix it.
-            </List.Item>
-            <List.Item as="li">Click on upload.</List.Item>
-            <List.Item as="li">
-              You can close the popup and the upload progress will still run.
-            </List.Item>
-          </List>
-        </Popup>
       </>
     );
   };
@@ -143,7 +122,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
-    const { currentProgressShow } = this.props;
+    const { currentProgressShow, match } = this.props;
 
     return (
       <>
@@ -151,9 +130,10 @@ class Synthesis extends Component<SynthesisProps> {
         <PageHeader
           title="Search Management"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
-          callToAction={this.renderAddNewSupplierModal()}
+          auth={match.params.auth}
         />
         <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
+        {this.renderAddNewSupplierModal()}
         <Segment basic={true}>
           <SuppliersTable
             onEdit={this.openUpdateSupplierPopup}

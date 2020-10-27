@@ -32,6 +32,7 @@ interface SettingsProps {
   profile: Seller;
   amazonMWSAuth: AmazonMWS[];
   profileImage: any;
+  match: any;
 }
 
 class Settings extends React.Component<SettingsProps> {
@@ -52,6 +53,7 @@ class Settings extends React.Component<SettingsProps> {
       amazonMWSAuth,
       updateAmazonMWSAuth,
       deleteMWSAuth,
+      match,
     } = this.props;
     return (
       <>
@@ -59,6 +61,7 @@ class Settings extends React.Component<SettingsProps> {
         <PageHeader
           title="Settings"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }]}
+          auth={match.params.auth}
         />
         <Grid className="settings-container">
           <Grid.Row>
