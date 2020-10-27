@@ -6,6 +6,8 @@ import { notifyIdSelector } from '../../selectors/UserOnboarding';
 import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
+import get from 'lodash/get';
+import { isPlanEnterprise } from '../../utils/subscriptions';
 
 import { LogoWithoutText } from '../Logo/index';
 
@@ -24,6 +26,7 @@ interface State {
 class SidebarCollapsible extends Component<
   {
     currentNotifyId: number;
+    subscriptionPlan: any;
   },
   { visible: boolean; openConfirm: boolean },
   State
@@ -75,7 +78,7 @@ class SidebarCollapsible extends Component<
 
   render() {
     const { visible, sidebarIcon } = this.state;
-    const { children, currentNotifyId } = this.props;
+    const { children, currentNotifyId, subscriptionPlan } = this.props;
     let supplier_id = '';
     const latest = getLatestSupplier();
     if (latest) {
@@ -98,8 +101,16 @@ class SidebarCollapsible extends Component<
                   onClick={() => {
                     visible && this.handleAnimationChange();
                   }}
-                  as={icon.id === 2 && !supplier_id ? 'div' : Link}
-                  disabled={!!(icon.id === 2 && !supplier_id)}
+                  as={
+                    (icon.id === 2 && !supplier_id) ||
+                    (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
+                      ? 'div'
+                      : Link
+                  }
+                  disabled={
+                    !!(icon.id === 2 && !supplier_id) ||
+                    (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
+                  }
                   to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                   name={icon.icon}
                   active={links[icon.id - 1] === currentPath}
@@ -107,7 +118,12 @@ class SidebarCollapsible extends Component<
                 >
                   <i
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                      'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
+                      'forward'} ${
+                      (icon.id === 2 && !supplier_id) ||
+                      (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
+                        ? 'disabled-link'
+                        : ''
+                    }`}
                   />
 
                   <Label> {icon.label} </Label>
@@ -178,6 +194,7 @@ class SidebarCollapsible extends Component<
 
 const mapStateToProps = (state: any) => ({
   currentNotifyId: notifyIdSelector(state),
+  subscriptionPlan: get(state, 'subscription.plan'),
 });
 
 export default connect(mapStateToProps)(SidebarCollapsible);
