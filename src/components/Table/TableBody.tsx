@@ -51,9 +51,11 @@ const TableCell = (props: TableColumnCellProps) => {
 
 class TableRow extends Component<any, any> {
   shouldComponentUpdate(nextProps: any): boolean {
-    const { row, type } = this.props;
+    const { row, type, columnFilterData } = this.props;
+    const show = columnFilterData.filter((c: any) => c.show);
+    const hide = nextProps.columnFilterData.filter((c: any) => c.show);
     if (type === 'supplier') {
-      return JSON.stringify(row) !== JSON.stringify(nextProps.row);
+      return JSON.stringify(row) !== JSON.stringify(nextProps.row) || show.length !== hide.length;
     }
     return true;
   }
@@ -179,6 +181,7 @@ export const TableBody = (props: TableBodyProps) => {
                     {rowExpander(row)}
                   </td>
                 </tr>
+
                 <Table.Row
                   key={`${Date.now() + index}--tb-row`}
                   style={style}
