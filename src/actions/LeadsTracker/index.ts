@@ -61,6 +61,7 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
       // eslint-disable-next-line max-len
       `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&sort=${sort}&sort_direction=${sort_direction}&${query}`
   );
+  dispatch(setPageSize(per_page));
 
   if (response.data) {
     const perPage = getPageSize(getState());
@@ -68,7 +69,6 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
     dispatch(setSort(sort));
     dispatch(setSortDirection(sort_direction));
     dispatch(setPageNo(perPage !== per_page ? 1 : page));
-    dispatch(setPageSize(per_page));
     dispatch(setPeriod(period));
     dispatch(setTotalRecords(response.data.count));
     dispatch(setTotalPages(response.data.num_pages));
