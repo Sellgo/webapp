@@ -493,15 +493,19 @@ $link-color: #349af8;
       font-size: 14px !important;
 
       &:first-child {
-        border-bottom-left-radius: 10px !important;
+        border-bottom-left-radius: 0 !important;
         border-left: 1px solid rgba(34, 36, 38, 0.3);
-        border-top-left-radius: 10px !important;
+        border-top-left-radius: 0 !important;
         width: 200px;
       }
 
       &:nth-child(2) {
         border-top-left-radius: 10px !important;
         border-bottom-left-radius: 10px !important;
+
+        .stat {
+          margin-right: 20px;
+        }
       }
 
       &:last-child {
@@ -656,9 +660,9 @@ $link-color: #349af8;
         }
 
         th:first-child {
-          border-bottom-left-radius: 10px !important;
-          border-left: 1px solid rgba(34, 36, 38, 0.3);
-          border-top-left-radius: 10px !important;
+          border-bottom-left-radius: 0 !important;
+          border-left: 0 !important;
+          border-top-left-radius: 0 !important;
           padding-left: 40px;
         }
 

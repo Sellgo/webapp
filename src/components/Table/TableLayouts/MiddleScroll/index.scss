@@ -1,4 +1,12 @@
 .middle-scroll-layout {
+  th {
+    &:nth-child(2) {
+      .table-cell-container {
+        justify-content: flex-end !important;
+      }
+    }
+  }
+
   .fixed-th-first {
     position: sticky;
     z-index: 10;
@@ -10,10 +18,18 @@
       left: 0 !important;
       border: none !important;
     }
+
+    th {
+      &:last-child {
+        border-bottom-right-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        padding-left: 0 !important;
+      }
+    }
   }
 
   .fixed-th-last {
-    position: sticky;
+    position: absolute;
     z-index: 10;
     right: 0;
     border: none !important;
@@ -26,4 +42,8 @@
       border-top-left-radius: 0 !important;
     }
   }
+}
+
+.last-cell {
+  padding-right: 50px !important;
 }

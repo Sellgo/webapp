@@ -386,6 +386,13 @@ const TableHeader = (props: TableHeaderProps) => {
               columns={filteredColumns}
               rightFixedColumns={1}
               leftFixedColumns={1}
+              renderBlankRow={() => (
+                <th
+                  key={`header-blank-row`}
+                  colSpan={columns.length - 2}
+                  style={{ height: '56px', width: '154%' }}
+                />
+              )}
               render={column => (
                 <TableHeaderCell
                   columns={columns}
