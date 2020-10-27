@@ -53,6 +53,7 @@ interface SubscriptionProps {
   location: any;
   subscriptionType: string;
   subscriptionPlan: string;
+  match: any;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -210,7 +211,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   render() {
-    const { subscriptions, sellerSubscription, subscriptionType, subscriptionPlan } = this.props;
+    const {
+      subscriptions,
+      sellerSubscription,
+      subscriptionType,
+      subscriptionPlan,
+      match,
+    } = this.props;
     const {
       promptCancelSubscription,
       pendingSubscription,
@@ -351,6 +358,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             { content: 'Settings', to: '/settings' },
             { content: 'Pricing' },
           ]}
+          auth={match.params.auth}
         />
 
         <Confirm

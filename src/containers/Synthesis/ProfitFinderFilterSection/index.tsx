@@ -37,6 +37,7 @@ interface Props {
   subscriptionType: string;
   isScrollSelector: boolean;
   scrollTop: boolean;
+  subscriptionPlan: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -1096,12 +1097,14 @@ function ProfitFinderFilterSection(props: Props) {
 
         <div className="leads-export-wrapper">
           <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
-          <LeadsTrackerToggle
-            setLeadsTracker={props.setLeadsTracker}
-            seller_id={props.supplierDetails.seller_id}
-            supplier_id={props.supplierDetails.supplier_id}
-            isToggle={isToggle}
-          />
+          {isPlanEnterprise(props.subscriptionPlan) && (
+            <LeadsTrackerToggle
+              setLeadsTracker={props.setLeadsTracker}
+              seller_id={props.supplierDetails.seller_id}
+              supplier_id={props.supplierDetails.supplier_id}
+              isToggle={isToggle}
+            />
+          )}
           {renderExportButtons()}
         </div>
       </div>
@@ -1158,6 +1161,7 @@ const mapStateToProps = (state: {}) => ({
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  subscriptionPlan: get(state, 'subscription.plan'),
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
 });
