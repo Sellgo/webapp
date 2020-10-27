@@ -36,7 +36,7 @@ class AdminHeader extends React.Component<AdminProps> {
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
-        <Menu.Item as={Link} to="/settings/">
+        <Menu.Item as={Link} to="/settings">
           <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
         </Menu.Item>
 
