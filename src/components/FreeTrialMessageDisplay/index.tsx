@@ -13,6 +13,7 @@ import {
 interface SubscriptionMessageProps {
   sellerSubscription: any;
   subscriptionType: string;
+  page: string;
 }
 
 class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
@@ -66,11 +67,24 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
       }
     }
   }
+
+  isHighMessage() {
+    const { page } = this.props;
+    return page === 'search-management' || page === 'settings' || page === 'subscription'
+      ? 'high'
+      : '';
+  }
+
   render() {
     const { subscriptionType } = this.props;
     return (
       isSubscriptionNotPaid(subscriptionType) && (
-        <Rail className="free-trial-period" internal={true} position="left" key={subscriptionType}>
+        <Rail
+          className={`free-trial-period ${this.isHighMessage()}`}
+          internal={true}
+          position="left"
+          key={subscriptionType}
+        >
           <Segment>
             <Message success content={this.content()} />
           </Segment>

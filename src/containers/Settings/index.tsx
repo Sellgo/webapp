@@ -57,7 +57,7 @@ class Settings extends React.Component<SettingsProps> {
     } = this.props;
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'settings'} />
         <PageHeader
           title="Settings"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Settings' }]}
