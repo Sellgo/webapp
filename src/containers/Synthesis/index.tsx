@@ -126,7 +126,7 @@ class Synthesis extends Component<SynthesisProps> {
 
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'search-management'} />
         <PageHeader
           title="Search Management"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
