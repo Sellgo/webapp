@@ -2,6 +2,8 @@ import * as React from 'react';
 // eslint-disable-next-line import/named
 import { Image, SemanticSIZES } from 'semantic-ui-react';
 
+import smallLogo from '../../assets/images/logo-small.svg';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({ centered }) => (
   <Image
@@ -13,3 +15,7 @@ const Logo: React.SFC<{ size?: SemanticSIZES; centered?: boolean }> = ({ centere
 );
 
 export default Logo;
+
+export const LogoWithoutText = () => {
+  return <Image ui centered src={smallLogo} />;
+};

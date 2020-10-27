@@ -34,6 +34,7 @@ import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import _ from 'lodash';
 
 import { formatCompletedDate } from '../../../utils/date';
+import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
@@ -72,7 +73,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       ) : (
         row.search
       );
-    return <div className="supplier">{name}</div>;
+    return (
+      <div className="supplier">
+        {name} {row.has_default_cost && <WithoutCostUpload />}
+      </div>
+    );
   };
 
   renderFileName = (row: Supplier) => {
