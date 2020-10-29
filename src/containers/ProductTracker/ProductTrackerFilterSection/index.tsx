@@ -167,9 +167,8 @@ function ProductTrackerFilterSection(props: Props) {
         localStorage.setItem('trackerFilter', JSON.stringify(filterState));
       } else if (filterStorage) {
         if (resettingFilter) {
-          resetFilter();
           setTimeout(() => {
-            applyFilter();
+            resetFilter();
             filterReset(false);
           }, 500);
         } else {
@@ -621,7 +620,11 @@ function ProductTrackerFilterSection(props: Props) {
     }
 
     filterProducts(filterState, activeGroupId);
-    localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    if (!resettingFilter) {
+      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    } else {
+      localStorage.removeItem('trackerFilter');
+    }
     if (!isPreset) {
       setFilterType('');
     }
