@@ -13,6 +13,7 @@ import {
 interface SubscriptionMessageProps {
   sellerSubscription: any;
   subscriptionType: string;
+  page: string;
 }
 
 class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
@@ -58,19 +59,32 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
         return (
           <p>
             {'Your free account has limited functionality: '}
-            <Link to="/settings/pricing" className="free-trial-btn">
-              <span>Pick a plan or start your free trial</span>
+            <Link to="/settings#amazon-mws" className="free-trial-btn">
+              <span>Enter your MWS to start the trial</span>
             </Link>
           </p>
         );
       }
     }
   }
+
+  isHighMessage() {
+    const { page } = this.props;
+    return page === 'search-management' || page === 'settings' || page === 'subscription'
+      ? 'high'
+      : '';
+  }
+
   render() {
     const { subscriptionType } = this.props;
     return (
       isSubscriptionNotPaid(subscriptionType) && (
-        <Rail className="free-trial-period" internal={true} position="left" key={subscriptionType}>
+        <Rail
+          className={`free-trial-period ${this.isHighMessage()}`}
+          internal={true}
+          position="left"
+          key={subscriptionType}
+        >
           <Segment>
             <Message success content={this.content()} />
           </Segment>

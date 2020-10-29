@@ -350,7 +350,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'subscription'} />
         <PageHeader
           title={'Pricing Plans'}
           breadcrumb={[

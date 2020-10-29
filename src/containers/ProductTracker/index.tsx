@@ -170,7 +170,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
 
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'product-tracker'} />
         <PageHeader
           title={`Product Tracker - ${currentGroupName}`}
           breadcrumb={[
