@@ -59,8 +59,8 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
         return (
           <p>
             {'Your free account has limited functionality: '}
-            <Link to="/settings/pricing" className="free-trial-btn">
-              <span>Pick a plan or start your free trial</span>
+            <Link to="/settings#amazon-mws" className="free-trial-btn">
+              <span>Enter your MWS to start the trial</span>
             </Link>
           </p>
         );
