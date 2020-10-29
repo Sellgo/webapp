@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment, Icon, Confirm, List, Header, Popup } from 'semantic-ui-react';
 import { defaultMarketplaces } from '../../constants/Settings';
 import { error } from '../../utils/notifications';
-import { isFreeAccountWithoutHistory, isSubscriptionFree } from '../../utils/subscriptions';
 import { connect } from 'react-redux';
 import { AppConfig } from '../../config';
+import { isSubscriptionFree } from '../../utils/subscriptions';
 
 const marketplaceOptions = defaultMarketplaces.map(({ name, id, disabled }, key) => {
   return { key, text: name, value: id, disabled };
@@ -37,13 +37,7 @@ const defaultShowCredentials = {
 };
 
 const SellerAmazonMWS = (props: any) => {
-  const {
-    amazonMWSAuth,
-    updateAmazonMWSAuth,
-    deleteMWSAuth,
-    subscriptionType,
-    sellerSubscription,
-  } = props;
+  const { amazonMWSAuth, updateAmazonMWSAuth, deleteMWSAuth, subscriptionType } = props;
   const [marketplaceLocal, setmarketplaceLocal] = useState(defaultMarketplace);
   const [amazonMWSLocal, setamazonMWSLocal] = useState(defaultAmazonMWS);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -228,19 +222,6 @@ const SellerAmazonMWS = (props: any) => {
                   }}
                 >
                   Authenticate Your Seller Account
-                  {!amazonMWSLocal.token &&
-                    isHashMWS() &&
-                    isFreeAccountWithoutHistory(sellerSubscription, subscriptionType) && (
-                      <div className="free-trial-popup">
-                        <Icon name="arrow left" />
-                        <p className="title">Start Your Free Trial</p>
-                        <p className="content">
-                          To finish setting up your account and start your free trial. Please enter
-                          your Amazon MWS Authorization. Click on “Authenticate Your Seller Account”
-                          for instructions.
-                        </p>
-                      </div>
-                    )}
                 </span>
                 <br />
               </>
