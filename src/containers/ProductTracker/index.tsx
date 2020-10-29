@@ -20,10 +20,8 @@ import ProductSearch from '../../components/ProductSearch/productSearch';
 import AsinSearch from './AsinSearch';
 import { DEFAULT_PERIOD } from '../../constants/Tracker';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
-import { isSubscriptionFree } from '../../utils/subscriptions';
 
 interface ProductTrackerProps {
-  subscriptionType: string;
   setFilterSearch: (value: string) => void;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
   setSinglePageItemsCount: (itemsCount: any) => void;
@@ -34,6 +32,7 @@ interface ProductTrackerProps {
   filterRanges: any;
   activeGroupId: any;
   trackGroups: any;
+  match: any;
   filterProducts: (filterData: any, groupId: any) => void;
   setPageNumber: (itemsCount: any) => void;
   filterData: any;
@@ -48,6 +47,7 @@ interface ProductTrackerProps {
     currentState?: any,
     type?: string
   ) => void;
+  subscriptionType: string;
 }
 
 const filterStorage = JSON.parse(
@@ -157,13 +157,8 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
   };
 
   render() {
-    const {
-      productTrackerPageNo,
-      trackGroups,
-      activeGroupId,
-      setPageNumber,
-      subscriptionType,
-    } = this.props;
+    const { productTrackerPageNo, trackGroups, activeGroupId, setPageNumber, match } = this.props;
+
     const { searchValue } = this.state;
     const currentGroupName = activeGroupId
       ? activeGroupId !== -1
@@ -175,7 +170,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
 
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'product-tracker'} />
         <PageHeader
           title={`Product Tracker - ${currentGroupName}`}
           breadcrumb={[
@@ -184,15 +179,13 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
             { content: `${currentGroupName}` },
           ]}
           callToAction={<QuotaMeter />}
+          auth={match.params.auth}
         />
         <Segment basic={true} className="tracker-setting">
           <Grid className="product-tracker">
             <Grid.Row>
               <Grid.Column className="right-column">
-                <div
-                  className={`ProductTracker__search ${isSubscriptionFree(subscriptionType) &&
-                    'disabled'}`}
-                >
+                <div className={`ProductTracker__search`}>
                   <ProductSearch
                     searchFilteredProduct={this.searchTrackedProduct}
                     searchFilterValue={searchValue}
@@ -225,7 +218,7 @@ const mapStateToProps = (state: any) => {
     trackGroups: get(state, 'productTracker.trackerGroup'),
     filterData: get(state, 'productTracker.filterData'),
     filterSearch: get(state, 'productTracker.filterSearch'),
-    subscriptionType: get(state, 'subscription.subscriptionType'),
+    subscriptionType: state.subscription.subscriptionType,
   };
 };
 

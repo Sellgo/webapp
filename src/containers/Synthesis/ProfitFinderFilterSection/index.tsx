@@ -19,9 +19,9 @@ import FilterContainer from '../../../components/FilterContainer';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
-import { isSubscriptionFree } from '../../../utils/subscriptions';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import PresetFilter from '../../../components/FilterContainer/PresetFilter';
+import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -37,7 +37,7 @@ interface Props {
   subscriptionType: string;
   isScrollSelector: boolean;
   scrollTop: boolean;
-  sellerSubscription: any;
+  subscriptionPlan: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -49,7 +49,6 @@ function ProfitFinderFilterSection(props: Props) {
     setPageNumber,
     subscriptionType,
     filteredProducts,
-    sellerSubscription,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -997,8 +996,7 @@ function ProfitFinderFilterSection(props: Props) {
         className="export__list"
         trigger={
           <Button
-            className={`selection export-wrapper__dropdown ${isSubscriptionFree(subscriptionType) &&
-              'disabled'}`}
+            className={`selection export-wrapper__dropdown`}
             content={<Image src={csvIcon} wrapped={true} />}
             icon="caret down"
           />
@@ -1019,7 +1017,6 @@ function ProfitFinderFilterSection(props: Props) {
             </List.Item>
           </List>
         }
-        disabled={isSubscriptionFree(subscriptionType)}
         position="bottom center"
         on="click"
         basic
@@ -1099,15 +1096,15 @@ function ProfitFinderFilterSection(props: Props) {
         </div>
 
         <div className="leads-export-wrapper">
-          <p className={`${!(sellerSubscription.subscription_id === 3) && 'hidden'}`}>
-            Leads Tracking
-          </p>
-          <LeadsTrackerToggle
-            setLeadsTracker={props.setLeadsTracker}
-            seller_id={props.supplierDetails.seller_id}
-            supplier_id={props.supplierDetails.supplier_id}
-            isToggle={isToggle}
-          />
+          <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
+          {isPlanEnterprise(props.subscriptionPlan) && (
+            <LeadsTrackerToggle
+              setLeadsTracker={props.setLeadsTracker}
+              seller_id={props.supplierDetails.seller_id}
+              supplier_id={props.supplierDetails.supplier_id}
+              isToggle={isToggle}
+            />
+          )}
           {renderExportButtons()}
         </div>
       </div>
@@ -1164,9 +1161,9 @@ const mapStateToProps = (state: {}) => ({
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   subscriptionType: get(state, 'subscription.subscriptionType'),
+  subscriptionPlan: get(state, 'subscription.plan'),
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
-  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {

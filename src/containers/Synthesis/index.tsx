@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Segment, Icon, Popup, Modal, List, Header, Divider } from 'semantic-ui-react';
+import { Button, Segment, Modal, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.scss';
-import { getAmazonMWSAuthorized, handleUnauthorizedMwsAuth } from '../../actions/Settings';
 import UploadSupplier from './UploadSupplier';
 import {
   openUploadSupplierModal,
@@ -13,7 +12,6 @@ import get from 'lodash/get';
 import SuppliersTable from './SuppliersTable';
 import UserOnboarding from '../UserOnboarding';
 import PageHeader from '../../components/PageHeader';
-import { amazonMWSAuthorizedSelector } from '../../selectors/Settings';
 import {
   currentSynthesisId,
   currentProgress,
@@ -24,13 +22,12 @@ import {
 import { setProgressShow, setConfirmationShow } from '../../actions/UploadSupplier';
 import { setProgress } from '../../actions/Suppliers';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
-import { isSubscriptionFree } from '../../utils/subscriptions';
+
+import SearchFilter from '../../components/SearchFilter/';
 
 interface SynthesisProps {
-  amazonMWSAuthorized: boolean;
   uploadSupplierModalOpen: boolean;
   userOnboardingModalOpen: boolean;
-  getAmazonMWSAuthorized: () => void;
   openUserOnboardingModal: () => void;
   openUploadSupplierModal: (supplier?: any) => void;
   closeUploadSupplierModal: () => void;
@@ -43,7 +40,6 @@ interface SynthesisProps {
   currentProgress: any;
   setProgress: any;
   match: any;
-  handleUnauthorizedMwsAuth: any;
   subscriptionType: string;
 }
 
@@ -51,30 +47,19 @@ class Synthesis extends Component<SynthesisProps> {
   state = {
     exitConfirmation: false,
     isEditModal: false,
+    searchValue: '',
   };
-  componentDidMount() {
-    const { getAmazonMWSAuthorized } = this.props;
-    getAmazonMWSAuthorized();
-  }
 
   openUpdateSupplierPopup = (supplier: any): void => {
-    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
-    if (amazonMWSAuthorized) {
-      this.setState({ isEditModal: true });
-      openUploadSupplierModal(supplier);
-    } else {
-      handleUnauthorizedMwsAuth();
-    }
+    const { openUploadSupplierModal } = this.props;
+    this.setState({ isEditModal: true });
+    openUploadSupplierModal(supplier);
   };
 
   handleAddNewSupplierModalOpen = () => {
-    const { amazonMWSAuthorized, openUploadSupplierModal, handleUnauthorizedMwsAuth } = this.props;
-    if (amazonMWSAuthorized) {
-      this.setState({ isEditModal: false });
-      openUploadSupplierModal();
-    } else {
-      handleUnauthorizedMwsAuth();
-    }
+    const { openUploadSupplierModal } = this.props;
+    this.setState({ isEditModal: false });
+    openUploadSupplierModal();
   };
 
   handleClose = () => {
@@ -87,71 +72,36 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   renderAddNewSupplierModal = () => {
-    const {
-      uploadSupplierModalOpen,
-      currentStep,
-      currentConfirmationShow,
-      subscriptionType,
-    } = this.props;
-    if (isSubscriptionFree(subscriptionType)) {
-      return (
-        <Button basic className="add-new-supplier disabled">
-          Add New Search
-        </Button>
-      );
-    } else {
-      return (
-        <>
-          <Modal
-            size={'large'}
-            open={uploadSupplierModalOpen}
-            onClose={() => {
-              currentStep === 0 && currentConfirmationShow === false
-                ? this.handleClose()
-                : this.setState({ exitConfirmation: true });
-            }}
-            closeIcon={true}
-            style={{ width: '90%' }}
-            className="new-supplier-modal"
-            trigger={
-              <Button
-                primary={true}
-                className="add-new-supplier"
-                onClick={this.handleAddNewSupplierModalOpen}
-              >
-                Add New Search
-              </Button>
-            }
-          >
-            <Modal.Content>
-              <UploadSupplier {...this.state} />
-            </Modal.Content>
-          </Modal>
-          <Popup
-            basic
-            className={'add-supplier-popup'}
-            trigger={<Icon name="question circle" size={'small'} color={'grey'} />}
-            position="top left"
-            size="tiny"
-          >
-            <h4>{'Adding new Search'}</h4>
-            To add a new search:
-            <List as={'ol'}>
-              <List.Item as="li">Click on Add New Search.</List.Item>
-              <List.Item as="li">In the popup enter the details of the search.</List.Item>
-              <List.Item as="li">Select your supplier file from your computer (.csv).</List.Item>
-              <List.Item as="li">
-                We will check your file for errors and you will have the option to fix it.
-              </List.Item>
-              <List.Item as="li">Click on upload.</List.Item>
-              <List.Item as="li">
-                You can close the popup and the upload progress will still run.
-              </List.Item>
-            </List>
-          </Popup>
-        </>
-      );
-    }
+    const { uploadSupplierModalOpen, currentStep, currentConfirmationShow } = this.props;
+    return (
+      <>
+        <Modal
+          size={'large'}
+          open={uploadSupplierModalOpen}
+          onClose={() => {
+            currentStep === 0 && currentConfirmationShow === false
+              ? this.handleClose()
+              : this.setState({ exitConfirmation: true });
+          }}
+          closeIcon={true}
+          style={{ width: '90%' }}
+          className="new-supplier-modal"
+          trigger={
+            <Button
+              primary={true}
+              className="add-new-supplier"
+              onClick={this.handleAddNewSupplierModalOpen}
+            >
+              Add New Search
+            </Button>
+          }
+        >
+          <Modal.Content>
+            <UploadSupplier {...this.state} />
+          </Modal.Content>
+        </Modal>
+      </>
+    );
   };
 
   UserOnboardingModal = () => {
@@ -165,20 +115,30 @@ class Synthesis extends Component<SynthesisProps> {
     );
   };
 
+  setSearchChange = (e: any) => {
+    this.setState({
+      searchValue: e.target.value,
+    });
+  };
+
   render() {
-    const { currentProgressShow } = this.props;
+    const { currentProgressShow, match } = this.props;
 
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'search-management'} />
         <PageHeader
           title="Search Management"
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
-          callToAction={this.renderAddNewSupplierModal()}
+          auth={match.params.auth}
         />
-
+        <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
+        {this.renderAddNewSupplierModal()}
         <Segment basic={true}>
-          <SuppliersTable onEdit={this.openUpdateSupplierPopup} />
+          <SuppliersTable
+            onEdit={this.openUpdateSupplierPopup}
+            supplierSearch={this.state.searchValue}
+          />
           <Modal open={this.state.exitConfirmation} className="Actions__confirm-container">
             <Modal.Content>
               <div>
@@ -215,7 +175,6 @@ class Synthesis extends Component<SynthesisProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-  amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   uploadSupplierModalOpen: get(state, 'modals.uploadSupplier.open', false),
   userOnboardingModalOpen: get(state, 'modals.userOnboarding.open', false),
   currentProgress: currentProgress(state),
@@ -223,11 +182,9 @@ const mapStateToProps = (state: any) => ({
   currentStep: currentStepSelector(state),
   currentProgressShow: currentProgressShow(state),
   currentConfirmationShow: currentConfirmationShow(state),
-  subscriptionType: get(state, 'subscription.subscriptionType', false),
 });
 
 const mapDispatchToProps = {
-  getAmazonMWSAuthorized,
   openUploadSupplierModal: (supplier?: any) =>
     openUploadSupplierModal(supplier ? supplier : undefined),
   closeUploadSupplierModal,
@@ -235,7 +192,6 @@ const mapDispatchToProps = {
   setProgressShow,
   setConfirmationShow,
   setProgress,
-  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synthesis);

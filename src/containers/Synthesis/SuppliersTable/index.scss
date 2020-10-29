@@ -5,6 +5,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 250px;
+    display: flex;
+    justify-content: space-between;
   }
 
   .filename {
@@ -61,4 +63,46 @@
   .card-content h2 {
     font-size: 17px !important;
   }
+}
+
+.recent-files-container::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+.supplier-text:hover {
+  font-weight: 600;
+}
+
+.recent-files {
+  width: 300px;
+  padding: 10px;
+
+  .recent-files-header {
+    border-bottom: 1px solid #349af8;
+    padding-bottom: 5px;
+  }
+
+  .recent-files-container {
+    max-height: 300px;
+    min-height: 300px;
+    overflow: hidden;
+    margin-top: 5px;
+
+    .supplier-text {
+      color: #349af8;
+      cursor: pointer;
+    }
+
+    .supplier-text-active {
+      font-weight: 600;
+    }
+  }
+}
+
+.recent-files-container:hover {
+  overflow: auto !important;
+}
+
+.search-title {
+  cursor: pointer;
 }

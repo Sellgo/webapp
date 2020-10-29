@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, Component } from 'react';
 import { Table } from 'semantic-ui-react';
 import { Column, getColumnClass, getColumnLabel, renderCell } from './index';
 
@@ -12,6 +12,7 @@ interface TableBodyProps {
   middleScroll?: boolean;
   rowExpander?: any;
   loading?: boolean;
+  scrollToView?: boolean;
 }
 
 interface TableColumnCellProps {
@@ -48,6 +49,42 @@ const TableCell = (props: TableColumnCellProps) => {
   return <Table.Cell {...cellProps}>{column ? renderCell(row, column) : null}</Table.Cell>;
 };
 
+class TableRow extends Component<any, any> {
+  shouldComponentUpdate(nextProps: any): boolean {
+    const { row, type, columnFilterData } = this.props;
+    const show = columnFilterData.filter((c: any) => c.show);
+    const hide = nextProps.columnFilterData.filter((c: any) => c.show);
+    if (type === 'supplier') {
+      return JSON.stringify(row) !== JSON.stringify(nextProps.row) || show.length !== hide.length;
+    }
+    return true;
+  }
+
+  render() {
+    const { index, type, columns, row, columnFilterData } = this.props;
+    return (
+      <React.Fragment>
+        <Table.Row
+          key={`${Date.now() + index}--tb-row`}
+          style={type === 'trackerTable' ? { height: '8em' } : {}}
+        >
+          {columns.map(
+            (column: any, colIndex: number) =>
+              getColumnLabel(column.dataKey, columnFilterData) && (
+                <TableCell
+                  type={type}
+                  column={column}
+                  row={row}
+                  key={`${Date.now() + colIndex}--tb-cell`}
+                />
+              )
+          )}
+        </Table.Row>
+      </React.Fragment>
+    );
+  }
+}
+
 export const TableBody = (props: TableBodyProps) => {
   const {
     expandedRows,
@@ -59,8 +96,37 @@ export const TableBody = (props: TableBodyProps) => {
     middleScroll,
     rowExpander,
     loading,
+    scrollToView,
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
+
+  useEffect(() => {
+    const scrollingContext = document.getElementsByClassName('product-detail-charts')[0];
+    if (
+      scrollingContext &&
+      scrollingContext.parentElement &&
+      scrollingContext.parentElement.parentElement &&
+      scrollingContext.parentElement.parentElement.previousElementSibling
+    ) {
+      const possibleScrollView =
+        scrollingContext.parentElement.parentElement.previousElementSibling;
+      let isFirstChild = true;
+
+      if (
+        possibleScrollView &&
+        possibleScrollView.previousElementSibling &&
+        possibleScrollView.previousElementSibling.previousElementSibling
+      ) {
+        possibleScrollView.previousElementSibling.previousElementSibling.scrollIntoView({
+          behavior: 'smooth',
+        });
+        isFirstChild = false;
+      }
+      if (isFirstChild && possibleScrollView && possibleScrollView.previousElementSibling) {
+        possibleScrollView.previousElementSibling.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [scrollToView]);
 
   if (middleScroll) {
     const isTypeProducts = type === 'products';
@@ -115,6 +181,7 @@ export const TableBody = (props: TableBodyProps) => {
                     {rowExpander(row)}
                   </td>
                 </tr>
+
                 <Table.Row
                   key={`${Date.now() + index}--tb-row`}
                   style={style}
@@ -158,7 +225,6 @@ export const TableBody = (props: TableBodyProps) => {
                         }
                       >
                         {''}
-
                         {expandedRows === row.id && extendedInfo(row)}
                       </Table.Cell>
                     </Table.Row>
@@ -251,27 +317,19 @@ export const TableBody = (props: TableBodyProps) => {
       </Table.Body>
     );
   }
+
   return (
     <Table.Body>
       {rows.length ? (
         rows.map((row: any, index) => (
           <React.Fragment key={`${index}-tb-fragment`}>
-            <Table.Row
-              key={`${Date.now() + index}--tb-row`}
-              style={type === 'trackerTable' ? { height: '8em' } : {}}
-            >
-              {columns.map(
-                (column, colIndex) =>
-                  getColumnLabel(column.dataKey, columnFilterData) && (
-                    <TableCell
-                      type={type}
-                      column={column}
-                      row={row}
-                      key={`${Date.now() + colIndex}--tb-cell`}
-                    />
-                  )
-              )}
-            </Table.Row>
+            <TableRow
+              index={index}
+              row={row}
+              type={type}
+              columns={columns}
+              columnFilterData={columnFilterData}
+            />
             {expandedRows && expandedRows === row.id && extendedInfo && (
               <Table.Row key={index + '-extended'}>
                 <Table.Cell colSpan={columns.length} className="default-column">

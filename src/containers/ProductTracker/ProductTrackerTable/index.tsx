@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Icon } from 'semantic-ui-react';
+import { Button, Checkbox, Icon, Input, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -19,6 +19,8 @@ import {
   setProductTrackerPageNumber,
   patchProductTrackGroup,
   deleteProductTrackGroup,
+  setProductDetails,
+  updateProductCost,
 } from '../../../actions/ProductTracker';
 
 import {
@@ -28,12 +30,28 @@ import {
 import { columnFilter } from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
-import { isSubscriptionFree } from '../../../utils/subscriptions';
+import {
+  isFetchingInventorySelector,
+  isFetchingPriceSelector,
+  isFetchingRankSelector,
+  isFetchingRatingSelector,
+  isFetchingReviewSelector,
+  isFetchingSellerInventorySelector,
+} from '../../../selectors/Products';
+import { returnWithRenderMethod } from '../../../utils/tableColumn';
+import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
+import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
 
 interface TrackerProps {
+  loadingTrackerFilter: boolean;
+  isFetchingRank: boolean;
+  isFetchingPrice: boolean;
+  isFetchingInventory: boolean;
+  isFetchingRating: boolean;
+  isFetchingReview: boolean;
+  isFetchingSellerInventory: boolean;
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
-  subscriptionType: string;
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
   filteredProducts: any;
@@ -62,6 +80,9 @@ interface TrackerProps {
     type?: string
   ) => void;
   productTrackerPageNo: number;
+  costDetails: any;
+  setProductEditDetails: (payload: any) => void;
+  updateCost: (payload: any) => void;
 }
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
@@ -78,11 +99,32 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     activeRow: null,
     columns: [],
     defaultSort: '',
+    scrollView: false,
+    editCost: false,
+    product_cost: 0,
   };
+
   componentDidMount() {
     const { retrieveTrackGroup } = this.props;
     retrieveTrackGroup();
-    this.setState({ columns: this.columns });
+
+    const currentFilterOrder = JSON.parse(
+      localStorage.getItem('productTrackerColumnFilterState') || '[]'
+    );
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('productTrackerColumnState') || '[]'
+    );
+
+    if (currentFilterOrder.length >= 1) {
+      this.setState({ columnFilterData: currentFilterOrder });
+    }
+
+    if (currentColumnState.length >= 1) {
+      const columnsWithRender = returnWithRenderMethod(this.columns, currentColumnState);
+      this.setState({ columns: columnsWithRender });
+    } else {
+      this.setState({ columns: this.columns });
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
@@ -218,6 +260,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         return val;
       });
     }
+    localStorage.setItem('productTrackerColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
   renderCheckbox = () => {
@@ -239,6 +282,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       });
     }
   };
+
   renderDV = (row: ProductTrackerDetails) => {
     const iconCaretClass = this.state.expandedRows === row.id ? 'caret up' : 'caret down';
     return (
@@ -246,7 +290,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         <span className="caret-icon" style={{ cursor: 'pointer' }}>
           <Icon
             className={iconCaretClass}
-            onClick={() => this.toggleExpandRow(row.id)}
+            onClick={() => {
+              this.toggleExpandRow(row.id);
+              this.setState({ scrollView: !this.state.scrollView });
+            }}
             size="tiny"
           />
         </span>
@@ -351,10 +398,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     );
   };
   renderIsAmazonSelling = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.avg_amazon_inventory ? 'Yes' : 'No'}</p>;
+    return <p className="stat">{row.is_amazon_selling ? 'Yes' : 'No'}</p>;
   };
   renderIcons = (row: ProductTrackerDetails) => {
-    const { trackGroups, handleMoveGroup } = this.props;
+    const { trackGroups, handleMoveGroup, setProductEditDetails } = this.props;
     return (
       <OtherSort
         row={row}
@@ -365,6 +412,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         handleConfirmMessage={this.handleConfirmMessage}
         confirm={this.state.confirm}
         handleMoveGroup={handleMoveGroup}
+        handleEdit={data => console.log(data)}
+        onEditCost={() => {
+          this.setState({ editCost: true });
+          setProductEditDetails(row);
+        }}
       />
     );
   };
@@ -502,14 +554,39 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       className: 'pt-actions',
     },
   ];
+
   handleColumnDrop = (e: any, data: any) => {
+    localStorage.setItem('productTrackerColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
+
   reorderColumns = (columns: Column[]) => {
-    this.setState({ columns });
+    const columnsWithRender = returnWithRenderMethod(this.columns, columns);
+    localStorage.setItem('productTrackerColumnState', JSON.stringify(columns));
+
+    const currentColumnState = JSON.parse(
+      localStorage.getItem('productTrackerColumnState') || '[]'
+    );
+    if (currentColumnState.length >= 1) {
+      this.setState({ columns: columnsWithRender });
+    }
   };
+
+  onEditProductCost = (payload: any) => {
+    const { updateCost, periodValue } = this.props;
+    updateCost({ ...payload, period: periodValue });
+    this.setState({ editCost: false });
+  };
+
   render() {
     const {
+      loadingTrackerFilter,
+      isFetchingRank,
+      isFetchingPrice,
+      isFetchingInventory,
+      isFetchingRating,
+      isFetchingReview,
+      isFetchingSellerInventory,
       isLoadingTrackerProducts,
       productTrackerResult,
       filteredProducts,
@@ -519,13 +596,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       handleMenu,
       setPageNumber,
       productTrackerPageNo,
-      subscriptionType,
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
+      costDetails,
     } = this.props;
-    const { ColumnFilterBox } = this.state;
-    const showTableLock = isSubscriptionFree(subscriptionType);
+    const { ColumnFilterBox, editCost, product_cost } = this.state;
 
     return (
       <div className="tracker-table">
@@ -553,7 +629,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         </div>
         <ProductTrackerFilterSection />
         <GenericTable
-          loading={isLoadingTrackerProducts}
+          loading={
+            isLoadingTrackerProducts ||
+            isFetchingRank ||
+            isFetchingPrice ||
+            isFetchingInventory ||
+            isFetchingRating ||
+            isFetchingReview ||
+            isFetchingSellerInventory ||
+            loadingTrackerFilter
+          }
           currentActiveColumn={currentActiveColumn}
           stickyChartSelector={stickyChartSelector}
           scrollTopSelector={scrollTopSelector}
@@ -575,7 +660,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           productTrackerPageNo={this.props.productTrackerPageNo}
           toggleColumnCheckbox={this.handleClick}
           showFilter={true}
-          showTableLock={showTableLock}
           handleColumnDrop={this.handleColumnDrop}
           reorderColumns={this.reorderColumns}
           columnDnD={true}
@@ -583,7 +667,88 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           rowExpander={this.renderDV}
           defaultSort={this.state.defaultSort}
           onSort={defaultSort => this.setState({ defaultSort })}
+          scrollToView={this.state.scrollView}
         />
+
+        {editCost && (
+          <Modal
+            open={editCost}
+            className="edit-cost-modal"
+            content={
+              <div className="edit-cost-container">
+                <div className="product-description-details">
+                  <div className="product-details-image">
+                    <img src={costDetails.image_url} alt={'product image'} />
+                  </div>
+                  <div>
+                    <div>
+                      <h3 className="product-title">{costDetails.title}</h3>
+                    </div>
+                    <div className="details">
+                      <div>
+                        <img
+                          className="flag-img"
+                          src={COUNTRY_IMAGE}
+                          alt="product_img"
+                          style={{ width: 40 }}
+                        />
+                      </div>
+                      <div className="asin-details">
+                        <p className="asin-text">{costDetails.asin}</p>
+                        <p className="asin-sub-text">
+                          {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
+                            .filter(pidType => pidType.toLowerCase() in costDetails)
+                            .map(pidType => costDetails[pidType.toLowerCase()])[0] || ''}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="edit-cost-fields">
+                  <div className="cost-labels">
+                    <div>
+                      <h5 className="cost-input-label">{'Current cost of Good Sold'}</h5>
+                    </div>
+                    <div>
+                      <h5 className="cost-input-value">{'New cost of Good Sold'}</h5>
+                    </div>
+                  </div>
+                  <div className="cost-values">
+                    <div className="cost-value">
+                      <p>${costDetails.product_cost}</p>
+                    </div>
+                    <div className="cost-input">
+                      <Input
+                        focus
+                        onChange={(evt: any) =>
+                          this.setState({ product_cost: parseFloat(evt.target.value) })
+                        }
+                        icon="dollar sign"
+                        iconPosition="left"
+                      />
+                    </div>
+                    <div className="action-buttons">
+                      <Button
+                        content="Cancel"
+                        basic
+                        color="red"
+                        onClick={() => this.setState({ editCost: false })}
+                      />
+                      <Button
+                        content="Save"
+                        primary
+                        onClick={() =>
+                          this.onEditProductCost({ ...costDetails, product_cost: product_cost })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          />
+        )}
       </div>
     );
   }
@@ -598,10 +763,17 @@ const mapStateToProps = (state: any) => {
     filteredProducts: get(state, 'productTracker.filteredProducts'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
-    subscriptionType: get(state, 'subscription.subscriptionType'),
     scrollTopSelector: get(state, 'supplier.setScrollTop'),
     stickyChartSelector: get(state, 'supplier.setStickyChart'),
     currentActiveColumn: get(state, 'supplier.activeColumn'),
+    isFetchingRank: isFetchingRankSelector(state),
+    isFetchingPrice: isFetchingPriceSelector(state),
+    isFetchingInventory: isFetchingInventorySelector(state),
+    isFetchingRating: isFetchingRatingSelector(state),
+    isFetchingReview: isFetchingReviewSelector(state),
+    isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
+    loadingTrackerFilter: get(state, 'productTracker.loadingTrackerFilter'),
+    costDetails: get(state, 'productTracker.costDetails'),
   };
 };
 
@@ -624,5 +796,7 @@ const mapDispatchToProps = {
     type?: string
   ) =>
     updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, type),
+  setProductEditDetails: (payload: any) => setProductDetails(payload),
+  updateCost: (payload: any) => updateProductCost(payload),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

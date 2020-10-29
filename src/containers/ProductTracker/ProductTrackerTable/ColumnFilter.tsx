@@ -10,6 +10,7 @@ const ColumnFilterCard = (props: any) => {
     columns,
     columnDnD,
   } = props;
+
   const [selectAll] = columnFilterData.filter((c: any) => c.key === 'Select All');
   const filters = columnFilterData.filter((c: any) => c.key !== 'Select All' && !!c.key);
 

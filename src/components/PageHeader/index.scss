@@ -2,43 +2,25 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  height: 10px;
-  margin-bottom: 2rem;
-  padding: 0 1em;
+  padding-top: 2px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  width: 100%;
+  background: #f8faff !important;
+  min-height: max-content;
+  padding-right: 45px !important;
+  padding-left: 80px !important;
+
+  &__left {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
 
   @media (max-width: 767px) {
     display: block;
-  }
-
-  .ui.breadcrumb {
-    font-size: 1.1rem;
-    font-weight: bold !important;
-
-    .icon.divider {
-      color: #98aeca;
-      font-size: 16px;
-      margin: 0 8px;
-    }
-
-    @media screen and (max-width: 450px) {
-      width: unset;
-    }
-
-    @media screen and (max-width: 767px) {
-      font-size: 0.8rem !important;
-    }
-
-    .section {
-      color: #3b4557;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .active.section {
-      color: #5381db;
-      font-size: 16px;
-      font-weight: 600;
-    }
   }
 
   .header-right-wrap {
@@ -82,6 +64,7 @@
     // Override default top margin so less space between
     // breadcrumbs and header.
     margin-top: 1.2rem;
+    margin-right: 2rem;
   }
 
   @media screen and (min-width: 310px) and (max-width: 767px) {

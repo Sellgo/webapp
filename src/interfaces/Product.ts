@@ -21,6 +21,7 @@ export interface Product {
   rank: number;
   roi: string;
   product_cost: string;
+  default_cost: any;
   fees: string;
   upc: string;
   ean: string;
@@ -39,6 +40,7 @@ export interface Product {
   rating: string;
   package_quantity: string;
   data_buster_status: string;
+  is_amazon_selling: boolean;
 }
 export interface ProductsTrackData {
   avg_price: string;

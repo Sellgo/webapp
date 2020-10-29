@@ -13,6 +13,7 @@ import {
 interface SubscriptionMessageProps {
   sellerSubscription: any;
   subscriptionType: string;
+  page: string;
 }
 
 class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
@@ -39,29 +40,51 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
       if (sellerSubscription.expiry_date !== null && expireDateMinutes > 0) {
         return (
           <p>
-            {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token `}
+            {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token. `}
             <Link to="/settings" className="free-trial-btn">
               <span>Click here to re-enter your MWS Token</span>
+            </Link>
+          </p>
+        );
+      } else if (sellerSubscription.expiry_date !== null && expireDateMinutes <= 0) {
+        return (
+          <p>
+            {`Your free trial has expired. Do you like our product? `}
+            <Link to="/settings/pricing" className="free-trial-btn">
+              <span>Click here to pick a plan</span>
             </Link>
           </p>
         );
       } else {
         return (
           <p>
-            {' Your free account can only view demo files. To unlock features . '}
-            <Link to="/settings/pricing" className="free-trial-btn">
-              <span>Click here to pick a plan</span>
+            {'Your free account has limited functionality: '}
+            <Link to="/settings#amazon-mws" className="free-trial-btn">
+              <span>Enter your MWS to start the trial</span>
             </Link>
           </p>
         );
       }
     }
   }
+
+  isHighMessage() {
+    const { page } = this.props;
+    return page === 'search-management' || page === 'settings' || page === 'subscription'
+      ? 'high'
+      : '';
+  }
+
   render() {
     const { subscriptionType } = this.props;
     return (
       isSubscriptionNotPaid(subscriptionType) && (
-        <Rail className="free-trial-period" internal={true} position="left" key={subscriptionType}>
+        <Rail
+          className={`free-trial-period ${this.isHighMessage()}`}
+          internal={true}
+          position="left"
+          key={subscriptionType}
+        >
           <Segment>
             <Message success content={this.content()} />
           </Segment>

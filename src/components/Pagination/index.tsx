@@ -42,7 +42,24 @@ const Pagination = (props: PaginationProps) => {
     evt.stopPropagation();
     if (data) {
       const { value } = data;
-      setPage(value);
+      if (value) {
+        const parsedValue = parseInt(value, 10);
+        if (isNaN(parsedValue)) {
+          if (value === '' || value === ' ') {
+            setPage(value);
+          }
+        } else {
+          if (String(parsedValue).startsWith('-')) {
+            setPage(Number(String(parsedValue).replace('-', '')));
+          } else {
+            setPage(parsedValue);
+          }
+        }
+      } else {
+        if (value === '') {
+          setPage(value);
+        }
+      }
     }
 
     if (evt.key === 'Enter') {
@@ -92,6 +109,7 @@ const Pagination = (props: PaginationProps) => {
               className="page-size-input"
               selection
               onChange={onPageSizeChanges}
+              selectOnBlur={false}
             />
           </div>
           <div className="page-count">
@@ -120,6 +138,7 @@ const Pagination = (props: PaginationProps) => {
           onChange={onPageNumberChanges}
           onKeyDown={onPageNumberChanges}
           onBlur={onBlur}
+          type={'text'}
         />
       </div>
       <div>

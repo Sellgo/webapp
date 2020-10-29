@@ -19,6 +19,7 @@ import {
   fetchAllSupplierProductTrackerDetails,
   resetFilter,
   setProductTrackerPageNumber,
+  isTrackerFilterLoading,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
@@ -32,6 +33,7 @@ interface Props {
   activeGroupId: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
   filterReset: (data: boolean) => void;
+  isTrackerFilterLoading: (data: boolean) => void;
   isLoadingTrackerProducts: boolean;
 }
 
@@ -41,10 +43,11 @@ function ProductTrackerFilterSection(props: Props) {
     trackerDetails,
     activeGroupId,
     fetchAllTrackedProductDetails,
-    isLoadingTrackerProducts,
     resettingFilter,
     filterReset,
     setPageNumber,
+    isLoadingTrackerProducts,
+    isTrackerFilterLoading,
   } = props;
   const sellerID = sellerIDSelector();
 
@@ -154,6 +157,7 @@ function ProductTrackerFilterSection(props: Props) {
       });
     }
     if (!_.isEmpty(groupProducts)) {
+      isTrackerFilterLoading(true);
       if (filterStorage && filterStorage.activeGroupId !== activeGroupId) {
         setFilterType('');
         const filterValue = filterState;
@@ -163,9 +167,8 @@ function ProductTrackerFilterSection(props: Props) {
         localStorage.setItem('trackerFilter', JSON.stringify(filterState));
       } else if (filterStorage) {
         if (resettingFilter) {
-          resetFilter();
           setTimeout(() => {
-            applyFilter();
+            resetFilter();
             filterReset(false);
           }, 500);
         } else {
@@ -184,7 +187,7 @@ function ProductTrackerFilterSection(props: Props) {
 
       setHasAllFilter(isAllFilterUse());
     }
-  }, [filterState, activeGroupId, filterType, isLoadingTrackerProducts, groupProducts]);
+  }, [filterState, activeGroupId, isLoadingTrackerProducts, groupProducts]);
 
   const filterDataState: ProductTrackerFilterInterface = {
     all: {
@@ -450,6 +453,7 @@ function ProductTrackerFilterSection(props: Props) {
     applyFilter(true);
   };
   const setPeriod = (value: number) => {
+    isTrackerFilterLoading(true);
     fetchAllTrackedProductDetails(value);
     const filterValue = filterState;
     filterValue.period = value;
@@ -616,7 +620,11 @@ function ProductTrackerFilterSection(props: Props) {
     }
 
     filterProducts(filterState, activeGroupId);
-    localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    if (!resettingFilter) {
+      localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+    } else {
+      localStorage.removeItem('trackerFilter');
+    }
     if (!isPreset) {
       setFilterType('');
     }
@@ -863,6 +871,7 @@ const mapStateToProps = (state: {}) => ({
 const mapDispatchToProps = {
   filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
   filterReset: (data: boolean) => resetFilter(data),
+  isTrackerFilterLoading: (data: boolean) => isTrackerFilterLoading(data),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   setPageNumber: (pageNumber: number) => setProductTrackerPageNumber(pageNumber),

@@ -140,9 +140,6 @@ $new_black: #3b4557;
     }
 
     &.with-rating button {
-      border-top-right-radius: 0 !important;
-      border-bottom-right-radius: 0 !important;
-
       span {
         margin-right: 0;
       }
@@ -444,7 +441,7 @@ $new_black: #3b4557;
 
     .description-text {
       display: inline-block;
-      width: 226px;
+      width: 220px;
       white-space: nowrap;
       overflow: hidden !important;
       text-overflow: ellipsis;
@@ -704,4 +701,9 @@ $new_black: #3b4557;
   .table-scroll-divider {
     display: none !important;
   }
+}
+
+.last_run {
+  width: 153px !important;
+  min-width: 153px !important;
 }

@@ -108,9 +108,9 @@ const RangeFilterBox = (props: any) => {
         <p>X Reset</p>
       </div>
       {loading ? (
-        <Dimmer active={loading} inverted>
+        <Dimmer.Inner active={loading} inverted className={'ltr-filter-popup curved'}>
           <Loader size="medium">Loading</Loader>
-        </Dimmer>
+        </Dimmer.Inner>
       ) : (
         <React.Fragment>
           {filterType === 'range' && (
@@ -143,11 +143,11 @@ const RangeFilterBox = (props: any) => {
           )}
 
           <div className="button-wrapper">
-            <Button basic className="apply-filter-btn" onClick={() => setFilters()}>
-              Apply
-            </Button>
             <Button basic className="cancel-filter-btn" onClick={() => cancelFilters()}>
               Cancel
+            </Button>
+            <Button basic className="apply-filter-btn" onClick={() => setFilters()}>
+              Apply
             </Button>
           </div>
         </React.Fragment>

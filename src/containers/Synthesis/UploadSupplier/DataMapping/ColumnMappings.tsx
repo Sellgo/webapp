@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { mapColumn, setPrimaryIdType, setColumnMappings } from '../../../../actions/UploadSupplier';
 import isNil from 'lodash/isNil';
 import { guessColumnMappings } from '../../../../utils/file';
+import { WithoutCostUpload } from '../../../../components/WithoutCostUpload';
 
 interface ColumnMappingsProps {
   availableFields: string[];
@@ -64,7 +65,12 @@ const ColumnMappings = ({
                     options={productIdOptions}
                   />
                 ) : (
-                  <label className={styles.block}>{label}</label>
+                  <label className={styles.block}>
+                    {label}
+                    {isNil(reversedColumnMappings[key]) && label === 'Product Cost' && (
+                      <WithoutCostUpload />
+                    )}
+                  </label>
                 )}
                 <Select
                   className={styles['dropdwn-wdth']}

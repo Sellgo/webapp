@@ -5,6 +5,7 @@ import { AnyAction } from 'redux';
 import {
   SET_PRODUCT_TRACKER_DETAILS,
   IS_LOADING_TRACKER_PRODUCTS,
+  IS_TRACKER_FILTER_LOADING,
   SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT,
   SET_MENU_ITEM,
   SET_PRODUCT_TRACKER_PAGE_NUMBER,
@@ -24,6 +25,7 @@ import {
   CHECKED_PRODUCTS_DATA,
   VERIFYING_PRODUCT,
   RESET_FILTER,
+  SET_COST_DETAILS,
 } from '../../constants/Tracker';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -35,20 +37,26 @@ const initialState = {
     count: 0,
     results: [],
   },
+  loadingTrackerFilter: false,
   checkedProductsData: [],
   filteredProducts: [],
   filterRanges: undefined,
   menuItem: null,
   productTrackerCurrentPageNo: 1,
-  singlePageItemsCount: Number(selectItemsCountList[0].value),
+  singlePageItemsCount:
+    localStorage.getItem('productTrackerPageItemsCount') || Number(selectItemsCountList[0].value),
   verifyingProduct: false,
   resettingFilter: false,
+  costDetails: {},
 };
 
 export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case IS_LOADING_TRACKER_PRODUCTS: {
       return setIn(state, 'isLoadingTrackerProducts', action.payload);
+    }
+    case IS_TRACKER_FILTER_LOADING: {
+      return setIn(state, 'loadingTrackerFilter', action.payload);
     }
     case VERIFYING_PRODUCT: {
       return setIn(state, 'verifyingProduct', action.payload);
@@ -61,8 +69,10 @@ export default (state = initialState, action: AnyAction) => {
       const newState = setIn(state, 'trackerDetails', data);
       return setIn(newState, 'filteredProducts', data.results);
     }
-    case SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT:
+    case SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT: {
+      localStorage.setItem('productTrackerPageItemsCount', action.payload);
       return setIn(state, 'singlePageItemsCount', action.payload);
+    }
     case SET_MENU_ITEM: {
       const groupId = action.payload;
       const newStateWithMenu = setIn(state, 'menuItem', groupId);
@@ -170,13 +180,19 @@ export default (state = initialState, action: AnyAction) => {
       );
       const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
       const searchProducts = searchFilteredProduct(filteredProducts, state.filterSearch);
-      return setIn(newState, 'filteredProducts', searchProducts);
+      const newStateAfterFilter = setIn(newState, 'filteredProducts', searchProducts);
+      return setIn(newStateAfterFilter, 'loadingTrackerFilter', false);
     }
+
     case SET_FILTER_SEARCH: {
       return setIn(state, 'filterSearch', action.payload);
     }
     case RESET_FILTER: {
       return setIn(state, 'resettingFilter', action.payload);
+    }
+
+    case SET_COST_DETAILS: {
+      return setIn(state, 'costDetails', action.payload);
     }
     default:
       return state;

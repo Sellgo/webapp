@@ -32,7 +32,14 @@ import Setcard from '../../../assets/images/4_Card_color_horizontal.svg';
 import Stripe from '../../../assets/images/powered_by_stripe.svg';
 import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
-import { isSubscriptionNotPaid } from '../../../utils/subscriptions';
+import {
+  isSubscriptionFree,
+  isSubscriptionIdBasic,
+  isSubscriptionIdEnterprise,
+  isSubscriptionIdPro,
+  isSubscriptionNotPaid,
+  isTrialExpired,
+} from '../../../utils/subscriptions';
 import _ from 'lodash';
 
 interface SubscriptionProps {
@@ -45,6 +52,8 @@ interface SubscriptionProps {
   subscriptions: Subscription[];
   location: any;
   subscriptionType: string;
+  subscriptionPlan: string;
+  match: any;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -202,7 +211,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
   }
 
   render() {
-    const { subscriptions, sellerSubscription, subscriptionType } = this.props;
+    const {
+      subscriptions,
+      sellerSubscription,
+      subscriptionType,
+      subscriptionPlan,
+      match,
+    } = this.props;
     const {
       promptCancelSubscription,
       pendingSubscription,
@@ -227,21 +242,25 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         (isYearly
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
+      const subscriptionId = Number(subscription.id);
+
       return (
         <Card
           key={subscription.id}
           className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'} ${isSubscribed &&
             'active-plan'} ${!isSubscribed &&
-            (Number(subscription.id) === 1
+            (isSubscriptionIdBasic(subscriptionId)
               ? 'basic-value-content'
-              : Number(subscription.id) === 2
+              : isSubscriptionIdPro(subscriptionId)
               ? 'best-value-content'
               : 'contact-us-content')}`}
         >
           <Card.Content className="card-container__header">
             <Card.Header>
               <Button
-                className={`${Number(subscription.id) === 2 && !isSubscribed && 'best-value'}`}
+                className={`${isSubscriptionIdPro(subscriptionId) &&
+                  !isSubscribed &&
+                  'best-value'}`}
                 fluid
               >
                 Best Value
@@ -249,18 +268,18 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </Card.Header>
           </Card.Content>
           <Card.Content className="card-container__name">
-            <Card.Header className={`${Number(subscription.id) === 2 && 'pro-plan'}`}>
+            <Card.Header className={`${isSubscriptionIdPro(subscriptionId) && 'pro-plan'}`}>
               {subscription.name}
             </Card.Header>
             <Card.Meta>
               {trackTitle}
               <br />
-              {Number(subscription.id) === 1 || Number(subscription.id) === 2
+              {isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
                 ? subscription.track_limit + ' Product Tracker Limit'
                 : 'More than 100,000 Product Tracker Limit'}
             </Card.Meta>
           </Card.Content>
-          {isYearly && Number(subscription.id) !== 3 && (
+          {isYearly && !isSubscriptionIdEnterprise(subscriptionId) && (
             <Card.Content className="card-container__discount-details">
               <p className="card-container__discount-details__slash">
                 ${subscription.monthly_price * 12}
@@ -271,11 +290,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </Card.Content>
           )}
           <Card.Content
-            className={`card-container__details ${Number(subscription.id) === 3 && 'contact-us'}`}
+            className={`card-container__details ${isSubscriptionIdEnterprise(subscriptionId) &&
+              'contact-us'}`}
           >
             <Card.Header>
               <strong>$&nbsp;</strong>
-              {Number(subscription.id) === 3
+              {isSubscriptionIdEnterprise(subscriptionId)
                 ? 'Contact Us'
                 : isYearly
                 ? Number(subscription.yearly_price / 12).toFixed(2)
@@ -283,7 +303,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               <strong>&nbsp;/mo</strong>
             </Card.Header>
             <Card.Description>
-              {Number(subscription.id) !== 3 && (isYearly ? 'Billed Annually' : 'Billed Monthly')}
+              {!isSubscriptionIdEnterprise(subscriptionId) &&
+                (isYearly ? 'Billed Annually' : 'Billed Monthly')}
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
@@ -308,13 +329,15 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             )}
 
-            {!subscribedSubscription && (
-              <Link to="/settings/#amazon-mws" className="free-trial-btn">
-                <Button className="basic-btn" fluid>
-                  Free Trial
-                </Button>
-              </Link>
-            )}
+            {!subscribedSubscription &&
+              isSubscriptionFree(subscriptionPlan) &&
+              !isTrialExpired(sellerSubscription) && (
+                <Link to="/settings/#amazon-mws" className="free-trial-btn">
+                  <Button className="basic-btn" fluid>
+                    Free Trial
+                  </Button>
+                </Link>
+              )}
 
             <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
               Contact Customer Service
@@ -327,7 +350,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'subscription'} />
         <PageHeader
           title={'Pricing Plans'}
           breadcrumb={[
@@ -335,6 +358,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             { content: 'Settings', to: '/settings' },
             { content: 'Pricing' },
           ]}
+          auth={match.params.auth}
         />
 
         <Confirm
@@ -574,6 +598,7 @@ const mapStateToProps = (state: any) => ({
   sellerSubscription: state.subscription.sellerSubscription,
   subscriptionType: state.subscription.subscriptionType,
   subscriptions: state.subscription.subscriptions,
+  subscriptionPlan: state.subscription.plan,
 });
 
 const mapDispatchToProps = {

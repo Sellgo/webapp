@@ -27,19 +27,18 @@ import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
 import SelectColumns from './SelectColumns';
 import { Supplier } from '../../../interfaces/Supplier';
-import { amazonMWSAuthorizedSelector } from '../../../selectors/Settings';
 import './index.scss';
 import { tableKeys } from '../../../constants';
-import { handleUnauthorizedMwsAuth } from '../../../actions/Settings';
 import get from 'lodash/get';
-import { isSubscriptionFree } from '../../../utils/subscriptions';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import _ from 'lodash';
+
+import { formatCompletedDate } from '../../../utils/date';
+import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
-  subscriptionType: string;
   sellerSubscription: any;
   suppliers: Supplier[];
   onEdit: any;
@@ -54,12 +53,12 @@ interface SuppliersTableProps {
   setLeadsTracker: (sellerId: number, supplierId: number) => void;
   showTab: string;
   showColumns: any;
-  amazonMWSAuthorized: boolean;
   currentSynthesisId: any;
   setProgress: any;
   setSpeed: any;
-  handleUnauthorizedMwsAuth: any;
   currentActiveColumn: string;
+  supplierSearch?: string;
+  subscriptionPlan: string;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -74,21 +73,21 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       ) : (
         row.search
       );
-    return <div className="supplier">{name}</div>;
+    return (
+      <div className="supplier">
+        {name} {row.has_default_cost && <WithoutCostUpload />}
+      </div>
+    );
   };
 
   renderFileName = (row: Supplier) => {
-    const { subscriptionType } = this.props;
     return (
       <div className="filename">
-        {row.file_status &&
-          (!isSubscriptionFree(subscriptionType) ? (
-            <a href={row.file_url} download={true}>
-              {row.file_name}
-            </a>
-          ) : (
-            row.file_name
-          ))}
+        {row.file_status && (
+          <a href={row.file_url} download={true}>
+            {row.file_name}
+          </a>
+        )}
       </div>
     );
   };
@@ -105,12 +104,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         seller_id={row.seller_id}
         supplier_id={row.supplier_id}
         isToggle={isToggle}
+        disabled={row.file_status !== 'completed'}
       />
     );
   };
 
   renderActions = (row: Supplier) => {
-    const { amazonMWSAuthorized, handleUnauthorizedMwsAuth, subscriptionType } = this.props;
     return (
       <Dropdown
         className={'syn-dropdown-link syn-dropdown-label'}
@@ -128,20 +127,17 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           },
           {
             key: '1',
-            text: isSubscriptionFree(subscriptionType) ? (
-              <Dropdown.Item icon="cart arrow down" text=" Download Search File" />
-            ) : (
+            text: (
               <a href={row.file_url} download={true}>
                 <Dropdown.Item icon="cart arrow down" text=" Download Search File" />
               </a>
             ),
             value: 'dwn_sp_file',
-            disabled: isSubscriptionFree(subscriptionType),
           },
           {
             key: '2',
             text:
-              row.report_url === null || isSubscriptionFree(subscriptionType) ? (
+              row.report_url === null ? (
                 <Dropdown.Item icon="download" text=" Download Result File" />
               ) : (
                 <a href={row.report_url} download={true}>
@@ -149,25 +145,13 @@ class SuppliersTable extends Component<SuppliersTableProps> {
                 </a>
               ),
             value: 'dwn_res',
-            disabled:
-              row.report_url === null ? true : false || isSubscriptionFree(subscriptionType),
+            disabled: row.report_url === null ? true : false,
           },
           {
             key: '3',
             text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
             value: 'rerun',
-            disabled: !amazonMWSAuthorized || isSubscriptionFree(subscriptionType),
-            onClick: e => {
-              if (isSubscriptionFree(subscriptionType)) {
-                e.stopPropagation();
-                return;
-              }
-              if (amazonMWSAuthorized) {
-                this.props.reRun(row);
-              } else {
-                handleUnauthorizedMwsAuth();
-              }
-            },
+            onClick: () => this.props.reRun(row),
           },
         ]}
         onChange={(e, data) => {
@@ -195,38 +179,26 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       row.file_status !== 'inactive' &&
       row.file_status !== 'failed' &&
       row.file_status !== null &&
-      row.file_status !== undefined
+      row.file_status !== undefined &&
+      row.progress < 100
     ) {
       return '';
     }
-    const { favourite, unFavourite, subscriptionType } = this.props;
+    const { favourite, unFavourite } = this.props;
     return (
       <div className="operations">
         <Icon
-          disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs up"
           onClick={() => favourite(row.id, row.tag === 'like' ? '' : 'like')}
-          style={
-            !isSubscriptionFree(subscriptionType) && row.tag === 'like'
-              ? { color: '#349AF8' }
-              : { color: '#DEDEDF' }
-          }
+          style={row.tag === 'like' ? { color: '#349AF8' } : { color: '#DEDEDF' }}
         />
         <Icon
-          disabled={isSubscriptionFree(subscriptionType)}
           name="thumbs down"
           onClick={() => unFavourite(row.id, row.tag === 'dislike' ? '' : 'dislike')}
           style={row.tag === 'dislike' ? { color: '#A2A2A2' } : { color: '#DEDEDF' }}
         />
+        <Icon name="pencil" style={{ color: '#DEDEDF' }} onClick={() => this.props.onEdit(row)} />
         <Icon
-          disabled={isSubscriptionFree(subscriptionType)}
-          name="pencil"
-          style={{ color: '#DEDEDF' }}
-          onClick={() => this.props.onEdit(row)}
-        />
-        <Icon
-          disabled={isSubscriptionFree(subscriptionType)}
-          className={isSubscriptionFree(subscriptionType) ? `disabled` : ''}
           name="trash alternate"
           style={{ color: '#DEDEDF' }}
           onClick={() => this.setState({ supplier: row, showDeleteConfirm: true })}
@@ -251,7 +223,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (row.file_status !== 'completed') {
       return '';
     }
-    return new Date(row.udate).toLocaleString();
+    return formatCompletedDate(row.udate);
   };
 
   handlePieChartModalOpen = (supplier: any) => {
@@ -358,7 +330,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     {
       label: 'Leads Tracking',
       dataKey: 'leads_tracking',
-      show: this.props.sellerSubscription.subscription_id === 3 ? true : false,
+      show: true,
       render: this.renderLeadsTracker,
     },
     {
@@ -395,6 +367,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
+      supplierSearch,
     } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
@@ -463,6 +436,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={sortedByCompletedData}
           columns={columns}
           name={'supplier'}
+          searchValue={supplierSearch}
         />
         <Confirm
           content="Do you want to delete supplier?"
@@ -484,13 +458,12 @@ const mapStateToProps = (state: {}) => ({
   suppliers: suppliersSelector(state),
   showTab: suppliersTableTabSelector(state),
   showColumns: suppliersTableColumnsSelector(state),
-  amazonMWSAuthorized: amazonMWSAuthorizedSelector(state),
   currentSynthesisId: currentSynthesisId(state),
-  subscriptionType: get(state, 'subscription.subscriptionType'),
   sellerSubscription: get(state, 'subscription.sellerSubscription'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
+  subscriptionPlan: get(state, 'subscription.plan'),
 });
 
 const mapDispatchToProps = {
@@ -505,7 +478,6 @@ const mapDispatchToProps = {
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setProgress,
   setSpeed,
-  handleUnauthorizedMwsAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

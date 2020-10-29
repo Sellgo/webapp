@@ -50,7 +50,6 @@ export const FieldsToMap = [
   {
     key: 'cost',
     label: 'Product Cost',
-    required: true,
   },
   {
     key: 'msrp',
