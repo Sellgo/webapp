@@ -19,6 +19,7 @@ export interface Column {
   label?: string;
   sortable?: boolean;
   filter?: boolean;
+  filterLabel?: string;
   filterType?: string;
   filterSign?: string;
   searchIconPosition?: string;

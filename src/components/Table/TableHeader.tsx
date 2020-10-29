@@ -102,13 +102,14 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filter = false,
     searchIconPosition = 'right',
     filterSign,
+    filterLabel,
   } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
   const columnClass = type !== 'leads-tracker' ? getColumnClass(column) : '';
   otherProps = {
     onClick:
-      sortable && type !== 'leads-tracker'
+      sortable && !['leads-tracker', 'products'].includes(type ? type : '')
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -127,7 +128,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   const sorting = {
     onClick:
-      type === 'leads-tracker' && sortable
+      ['leads-tracker', 'products'].includes(type ? type : '') && sortable
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -177,6 +178,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         <RangeFilterBox
           label={label}
           dataKey={dataKey}
+          filterLabel={filterLabel}
           labelSign={filterSign}
           filterType={filterType}
           resetFilters={resetColumnFilters}
@@ -295,7 +297,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         {icon && popUp ? (
           <Popup
             on="click"
-            open={columnFilterBox}
+            open={columnFilterBox && activeColumnFilters === dataKey}
             onClose={toggleColumnCheckbox}
             onOpen={toggleColumnCheckbox}
             position="bottom right"

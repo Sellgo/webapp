@@ -23,7 +23,6 @@ import {
   showNAIfZeroOrNull,
 } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
 import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
@@ -37,6 +36,8 @@ import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
 
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
+import FilterSection from '../../FilterSection';
+import { findMinMax } from '../../../../constants/Suppliers';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -80,6 +81,8 @@ interface ProductsTableState {
   ColumnFilterBox: boolean;
   columns: Column[];
   updateTracking: boolean;
+  activeColumnFilters: any;
+  activeColumnFilterValue: any;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -91,6 +94,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     ColumnFilterBox: false,
     columns: [],
     updateTracking: false,
+    activeColumnFilters: {},
+    activeColumnFilterValue: {},
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -421,6 +426,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Buy Box Price',
+      filterSign: '',
+      filterType: 'range',
       render: this.renderPrice,
     },
     {
@@ -603,13 +612,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
   ];
 
-  handleClick = () => {
-    const { ColumnFilterBox } = this.state;
-    this.setState({
-      ColumnFilterBox: !ColumnFilterBox,
-    });
-  };
-
   handleColumnDrop = (e: any, data: any) => {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
@@ -701,10 +703,43 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   }
 
   componentDidUpdate(prevProps: ProductsTableProps) {
+    console.log('aw');
     if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
       this.detectAndUpdateProductId();
+      console.log('aw2');
+    }
+    if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
+      this.getFilteredRanges();
+      console.log('aw3');
     }
   }
+
+  getFilteredRanges = () => {
+    const { products } = this.props;
+    const filteredRanges = findMinMax(products);
+    this.setState({ filteredRanges });
+  };
+
+  setActiveColumnFilters = (data: any) => {
+    console.log('filteredRanges: ', this.state.filteredRanges);
+    console.log('setActiveColumnFilters: ', data, this.state.filteredRanges[data]);
+    this.setState({
+      activeColumnFilterValue: this.state.filteredRanges[data],
+    });
+    this.setState({ activeColumnFilters: data });
+  };
+
+  handleFilterBoxClick = () => {
+    const { ColumnFilterBox } = this.state;
+    this.setState({
+      ColumnFilterBox: !ColumnFilterBox,
+    });
+  };
+
+  applyFilters = (data: any) => {
+    console.log('data: ', data);
+    this.setState({ ColumnFilterBox: false });
+  };
 
   render() {
     const {
@@ -719,7 +754,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       stickyChartSelector,
       currentActiveColumn,
     } = this.props;
-    const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
+    const {
+      searchValue,
+      checkedRows,
+      ColumnFilterBox,
+      columns,
+      columnFilterData,
+      activeColumnFilters,
+      activeColumnFilterValue,
+    } = this.state;
 
     // NOTE: temporarily filter products with ROIs greater than 300%
     const userEmail = localStorage.getItem('userEmail') || '';
@@ -763,13 +806,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               checkedRows={checkedRows}
               updateCheckedRows={this.updateCheckedRows}
               handleColumnChange={this.handleColumnChange}
-              toggleColumnCheckbox={this.handleClick}
               columnFilterData={columnFilterData}
               middleScroll={true}
-              renderFilterSectionComponent={() => <ProfitFinderFilterSection />}
+              renderFilterSectionComponent={() => <FilterSection />}
               handleColumnDrop={this.handleColumnDrop}
               reorderColumns={this.reorderColumns}
               columnDnD={true}
+              activeColumnFilters={activeColumnFilters}
+              toggleColumnFilters={this.setActiveColumnFilters}
+              toggleColumnCheckbox={this.handleFilterBoxClick}
+              filterValues={activeColumnFilterValue}
+              resetColumnFilters={() => {
+                this.setState({ ColumnFilterBox: false });
+              }}
+              cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
+              applyColumnFilters={this.applyFilters}
             />
           </>
         )}

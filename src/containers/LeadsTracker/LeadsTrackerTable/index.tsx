@@ -568,7 +568,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       pageSizeChanged,
     } = this.state;
     const middleHeader = document.querySelector('.leads-tracker-middle');
-
+    console.log('filters: ', filters);
     const onScroll = (evt: any) => {
       const middleBody = document.querySelector('.lt-toggle-button-container');
       const innerBody = document.querySelector('.middle-body');

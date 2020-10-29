@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import FilterSliderInput from '../FilterSliderInput';
 import { Button, Form, Checkbox, Loader, Dimmer } from 'semantic-ui-react';
 import './index.scss';
+import _ from 'lodash';
 
 const RangeFilterBox = (props: any) => {
   const {
@@ -14,6 +15,7 @@ const RangeFilterBox = (props: any) => {
     name,
     values = [],
     loading,
+    filterLabel,
     ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
@@ -32,7 +34,7 @@ const RangeFilterBox = (props: any) => {
 
   useEffect(() => {
     let saved: any = localStorage.getItem(`${name}:${dataKey}`);
-    const value = getMinMax();
+    const value = name !== 'leads-tracker' ? _.cloneDeep(values) : getMinMax();
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
@@ -103,7 +105,7 @@ const RangeFilterBox = (props: any) => {
 
   return (
     <div className="column-range-filter">
-      <p className="filter-label">{`${props.label} ${labelSign}`}</p>
+      <p className="filter-label">{`${filterLabel || props.label} ${labelSign}`}</p>
       <div className="reset-filters" onClick={() => resetFiltersValue()}>
         <p>X Reset</p>
       </div>
