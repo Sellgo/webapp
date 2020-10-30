@@ -1045,6 +1045,14 @@ $link-color: #349af8;
   background: #ebedf2 !important;
 }
 
+.pt-source {
+  > p {
+    line-height: 1em;
+    text-align: left;
+    width: 7.9em;
+  }
+}
+
 .ptr {
   padding-left: 406px !important;
 }

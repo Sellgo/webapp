@@ -128,4 +128,5 @@ export interface ProductTrackerDetails {
   avg_inventory: number;
   avg_amazon_inventory: number;
   is_amazon_selling: boolean;
+  source: string;
 }
