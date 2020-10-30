@@ -423,16 +423,10 @@ export const updateProductTrackingStatus = (
   type?: any
 ) => (dispatch: any, getState: any) => {
   const {
-    productTracker: { menuItem, trackerGroup },
+    productTracker: { menuItem },
   } = getState();
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  const groupName =
-    name === 'tracker' && type === 'move-group'
-      ? productTrackerGroupID === -1
-        ? 'Ungrouped'
-        : trackerGroup.find((group: any) => group.id === productTrackerGroupID).name
-      : '';
 
   bodyFormData.set('seller_id', sellerID || '');
   bodyFormData.set('status', status);
@@ -453,7 +447,8 @@ export const updateProductTrackingStatus = (
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(updateSupplierProductTrack(json.data));
+          success(json.data.message);
+          dispatch(updateSupplierProductTrack(json.data.object));
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
@@ -468,14 +463,15 @@ export const updateProductTrackingStatus = (
           if (name === 'tracker') {
             if (type === 'untrack') {
               success(UntrackSuccess);
-              dispatch(removeTrackedProduct(json.data.id));
+              dispatch(removeTrackedProduct(json.data.object.id));
             } else if (type === 'move-group') {
-              success(`Product is moved to ${groupName}`);
-              dispatch(updateTrackedProduct(json.data));
+              success(json.data.message);
+              dispatch(updateTrackedProduct(json.data.object));
               dispatch(setMenuItem(menuItem));
             }
           } else {
-            dispatch(updateSupplierProductTrack(json.data));
+            success(json.data.message);
+            dispatch(updateSupplierProductTrack(json.data.object));
           }
         })
         .catch(err => {
