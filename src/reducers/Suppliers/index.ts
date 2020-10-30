@@ -9,7 +9,6 @@ import {
   SET_SUPPLIERS_TABLE_TAB,
   SET_TIME_EFFICIENCY,
   SET_SUPPLIER_NAME,
-  SET_NEW_SEARCH,
 } from '../../constants/Suppliers';
 import { Suppliers } from '../../actions/Suppliers';
 import keyBy from 'lodash/keyBy';
@@ -95,9 +94,6 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
 
     case SET_SUPPLIER_NAME:
       return setIn(state, 'newSupplier', action.payload.id);
-
-    case SET_NEW_SEARCH:
-      return setIn(state, 'newSearchName', action.payload.id);
 
     default:
       return state;

@@ -12,7 +12,7 @@ import { AnyAction } from 'redux';
 import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
-import { saveSupplierDetails, updateSupplierDetails, updateSearch } from '../Suppliers';
+import { saveSupplierDetails, updateSupplierDetails } from '../Suppliers';
 import { fetchColumnMappings, setColumnMappings, setPrimaryIdType } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
@@ -114,7 +114,6 @@ export class AddNewSearchStep extends Step {
           }
         }
         await this.dispatch(updateSupplierDetails(existingSupplier.id, other));
-        await this.dispatch(updateSearch(existingSupplier.id, other));
       }
     } catch (error) {
       throw error;
