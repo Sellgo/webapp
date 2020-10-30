@@ -204,7 +204,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
     );
     return (
       <>
-        <SubscriptionMessage />
+        <SubscriptionMessage page={'profit-finder'} />
         <PageHeader
           title={`Profit Finder of ${supplierDetails.search || 'Search'}`}
           breadcrumb={[
