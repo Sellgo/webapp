@@ -615,29 +615,6 @@ export const postProductTrackGroupId = (supplierID: string, name: string) => () 
     });
 };
 
-export const saveSearch = (other: any) => (dispatch: any) => {
-  return new Promise(resolve => {
-    const sellerID = sellerIDSelector();
-    const bodyFormData = new FormData();
-
-    for (const param in other) {
-      bodyFormData.set(param, other[param]);
-    }
-
-    return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
-      .then(json => {
-        dispatch(addSupplier(json.data));
-        dispatch(setSearch(json.data));
-        resolve(json.data);
-      })
-      .catch(err => {
-        for (const er in err.response.data) {
-          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
-        }
-      });
-  });
-};
-
 export const saveSupplierDetails = (details: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();

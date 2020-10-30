@@ -12,7 +12,7 @@ import { AnyAction } from 'redux';
 import { isValid, submit, getFormValues } from 'redux-form';
 
 import { error } from '../../utils/notifications';
-import { saveSupplierDetails, updateSupplierDetails, updateSearch, saveSearch } from '../Suppliers';
+import { saveSupplierDetails, updateSupplierDetails, updateSearch } from '../Suppliers';
 import { fetchColumnMappings, setColumnMappings, setPrimaryIdType } from '.';
 import isNil from 'lodash/isNil';
 import validator from 'validator';
@@ -104,10 +104,9 @@ export class AddNewSearchStep extends Step {
 
       if (!existingSupplier) {
         // add other form values
-        const data: any = await this.dispatch(saveSearch(other));
         const supplierDetails: any = await this.dispatch(saveSupplierDetails(other));
 
-        this.dispatch(openUploadSupplierModal({ ...data, ...supplierDetails }));
+        this.dispatch(openUploadSupplierModal({ ...supplierDetails }));
       } else {
         for (const param in existingSupplier) {
           if (existingSupplier[param] === other[param]) {
