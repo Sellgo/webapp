@@ -12,6 +12,7 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
   triggerDataBuster,
+  filterSupplierProducts,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -38,6 +39,7 @@ import { formatCompletedDate } from '../../../../utils/date';
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import FilterSection from '../../FilterSection';
 import { findMinMax } from '../../../../constants/Suppliers';
+import { NewFilterModel } from '../../../../interfaces/Filters';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -67,6 +69,8 @@ interface ProductsTableProps {
   supplierDetails: Supplier;
   productsLoadingDataBuster: number[];
   bustData: (synthesisFileID: number, productIDs: number[]) => void;
+  filterSearch: string;
+  filterProducts: (value: string, filterData: any) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -83,6 +87,7 @@ interface ProductsTableState {
   updateTracking: boolean;
   activeColumnFilters: any;
   activeColumnFilterValue: any;
+  filterData: NewFilterModel[];
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -96,6 +101,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     updateTracking: false,
     activeColumnFilters: {},
     activeColumnFilterValue: {},
+    filterData: [
+      {
+        label: 'price',
+        dataKey: 'price',
+        type: 'range',
+        isActive: false,
+        range: {
+          min: 0,
+          max: 200,
+        },
+        dateModified: Date.now(),
+      },
+    ],
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -428,7 +446,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       className: 'sm-column',
       filter: true,
       filterLabel: 'Buy Box Price',
-      filterSign: '',
+      filterSign: '$',
       filterType: 'range',
       render: this.renderPrice,
     },
@@ -439,6 +457,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Low New FBA Price',
+      filterSign: '$',
+      filterType: 'range',
       render: this.renderLowNewFbaPrice,
     },
     {
@@ -703,14 +725,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   }
 
   componentDidUpdate(prevProps: ProductsTableProps) {
-    console.log('aw');
     if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
       this.detectAndUpdateProductId();
-      console.log('aw2');
     }
     if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
       this.getFilteredRanges();
-      console.log('aw3');
+      console.log('products: ', this.props.products);
     }
   }
 
@@ -736,8 +756,53 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     });
   };
 
-  applyFilters = (data: any) => {
-    console.log('data: ', data);
+  saveFilter = (data: any) => {
+    const { filterData } = this.state;
+    const { filterSearch, filterProducts } = this.props;
+    const localFilterData = _.cloneDeep(filterData);
+    console.log('before: ', localFilterData);
+
+    const isSaved =
+      localFilterData.findIndex((filter: any) => filter.dataKey === data.dataKey) !== -1;
+    if (isSaved) {
+      const updatedFilterData = _.map(localFilterData, filter => {
+        if (filter.dataKey === data.dataKey) {
+          filter.range = data.value;
+          filter.isActive = data.isActive;
+          filter.dateModified = Date.now();
+        }
+        return filter;
+      });
+      console.log('after1: ', updatedFilterData);
+      this.setState({ filterData: updatedFilterData });
+      filterProducts(filterSearch, updatedFilterData);
+      localStorage.setItem('filterState', JSON.stringify(updatedFilterData));
+    } else {
+      const newFilter: NewFilterModel = { ...data, range: data.value };
+      localFilterData.push(newFilter);
+      console.log('after2: ', localFilterData);
+      this.setState({ filterData: localFilterData });
+      filterProducts(filterSearch, localFilterData);
+      localStorage.setItem('filterState', JSON.stringify(localFilterData));
+    }
+  };
+
+  applyActiveFilter = (data: any) => {
+    this.saveFilter(data);
+    this.setState({ ColumnFilterBox: false });
+  };
+
+  resetActiveColumnFilter = (dataKey: any) => {
+    const { filterData } = this.state;
+    const { filterSearch, filterProducts } = this.props;
+    const localFilterData = _.cloneDeep(filterData);
+    const index = localFilterData.findIndex((filter: any) => filter.dataKey === dataKey);
+    if (index !== -1) {
+      localFilterData.splice(index, 1);
+      this.setState({ filterData: localFilterData });
+    }
+    filterProducts(filterSearch, localFilterData);
+    console.log('resetActiveColumnFilter: ', localFilterData);
     this.setState({ ColumnFilterBox: false });
   };
 
@@ -816,11 +881,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               toggleColumnFilters={this.setActiveColumnFilters}
               toggleColumnCheckbox={this.handleFilterBoxClick}
               filterValues={activeColumnFilterValue}
-              resetColumnFilters={() => {
+              resetColumnFilters={this.resetActiveColumnFilter}
+              cancelColumnFilters={() => {
+                console.log('resetActiveColumnFilter: ', this.state.filterData);
                 this.setState({ ColumnFilterBox: false });
               }}
-              cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
-              applyColumnFilters={this.applyFilters}
+              applyColumnFilters={this.applyActiveFilter}
             />
           </>
         )}
@@ -842,6 +908,7 @@ const mapStateToProps = (state: {}) => ({
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   supplierDetails: supplierDetailsSelector(state),
   productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
+  filterSearch: get(state, 'supplier.filterSearch'),
 });
 
 const mapDispatchToProps = {
@@ -868,6 +935,7 @@ const mapDispatchToProps = {
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
   bustData: (synthesisFileID: number, productIDs: number[]) =>
     triggerDataBuster(synthesisFileID, productIDs),
+  filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

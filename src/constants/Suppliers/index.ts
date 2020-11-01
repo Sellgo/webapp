@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { NewFilterModel } from '../../interfaces/Filters';
 import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 
 export const SET_SUPPLIERS = 'SET_SUPPLIERS';
@@ -48,7 +49,15 @@ export const dataKeys: any = [
   // 'roi_inventory',
 ];
 
-export const supplierDataKeys: any = ['price', 'profit', 'roi', 'sales_monthly', 'margin', 'rank'];
+export const supplierDataKeys: any = [
+  'price',
+  'profit',
+  'low_new_fba_price',
+  'roi',
+  'sales_monthly',
+  'margin',
+  'rank',
+];
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -258,35 +267,72 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
   }
 };
 
-export const findFilteredProducts = (products: any, filterData: any) => {
-  const updatedFilterProducts = _.filter(products, product => {
-    return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
-      ? // show if product's category matched one of filter's categories
-        (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
-          //show if product's category is empty & other's filter is active
-          (_.isEmpty(product.amazon_category_name) &&
-            filterData.allFilter.indexOf('Others') !== -1) ||
-          //show if product's category doesn't exist in filter's categories if other's filter is active
-          (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
-            filterData.allFilter.indexOf('Others') !== -1)) &&
-          //show product size tier is empty and others is checked
-          ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
-            //show product size tier is matched by one of size tiers
-            filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
-          //customizable filters
-          customizableFilter(product, filterData.customizable) &&
-          //NonProfitable filters
-          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-          //Product's Min and Max must be valid from filter's min & max
-          supplierDataKeys.every(
-            (dataKey: any) =>
-              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-              Number(product[dataKey]) <= Number(filterData[dataKey].max)
-          )
-      : null;
-  });
-  return updatedFilterProducts;
+// export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
+//   const filteredProducts = _.filter(products, (product: any) => {
+//     for (const filter of filterData) {
+//       if (filter.type === 'range') {
+//         if (
+//           filter.isActive &&
+//           filter.range !== undefined &&
+//           Number(product[filter.dataKey]) >= Number(filter.range.min) &&
+//           Number(product[filter.dataKey]) <= Number(filter.range.max)
+//         ) {
+//           return true;
+//         }else{
+//           return false;
+//         }
+//       }
+//     }
+//   });
+
+export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
+  console.log('filterData: ', filterData);
+  if (_.isEmpty(filterData)) return products;
+  else {
+    const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
+    const filteredProducts = _.filter(products, (product: any) => {
+      return rangeFilter.every(
+        (filter: any) =>
+          filter.range !== undefined &&
+          Number(product[filter.dataKey]) >= Number(filter.range.min) &&
+          Number(product[filter.dataKey]) <= Number(filter.range.max)
+      );
+    });
+
+    console.log('findFilteredProducts: ', filteredProducts);
+    // console.log('result findFilteredProducts: ', updatedProducts);
+    return filteredProducts;
+  }
 };
+// export const findFilteredProducts = (products: any, filterData: any) => {
+//   const updatedFilterProducts = _.filter(products, product => {
+//     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
+//       ? // show if product's category matched one of filter's categories
+//         (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
+//           //show if product's category is empty & other's filter is active
+//           (_.isEmpty(product.amazon_category_name) &&
+//             filterData.allFilter.indexOf('Others') !== -1) ||
+//           //show if product's category doesn't exist in filter's categories if other's filter is active
+//           (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
+//             filterData.allFilter.indexOf('Others') !== -1)) &&
+//           //show product size tier is empty and others is checked
+//           ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
+//             //show product size tier is matched by one of size tiers
+//             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
+//           //customizable filters
+//           customizableFilter(product, filterData.customizable) &&
+//           //NonProfitable filters
+//           findNonProfitableProducts(product, filterData.profitabilityFilter) &&
+//           //Product's Min and Max must be valid from filter's min & max
+//           supplierDataKeys.every(
+//             (dataKey: any) =>
+//               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
+//               Number(product[dataKey]) <= Number(filterData[dataKey].max)
+//           )
+//       : null;
+//   });
+//   return updatedFilterProducts;
+// };
 
 export const searchFilteredProduct = (products: any, value: string) => {
   const updatedFilterProducts = _.filter(products, product => {

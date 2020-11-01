@@ -88,7 +88,15 @@ const RangeFilterBox = (props: any) => {
     if (filterType === 'checkbox') {
       res = { dataKey, value: localData.length ? localData.join(',') : '' };
     } else {
-      res = { ...filter, value: range, dataKey };
+      res = {
+        ...filter,
+        value: range,
+        dataKey,
+        label: filterLabel,
+        isActive: true,
+        type: filterType,
+        dateModified: Date.now(),
+      };
     }
     saveFilters(res);
     applyFilters(res);

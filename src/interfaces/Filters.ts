@@ -129,3 +129,22 @@ export interface ProductTrackerFilterState {
   };
   customizable: CustomizableFilterModel[];
 }
+
+export interface NewFilterModel {
+  label: string;
+  dataKey: string;
+  type: string;
+  isActive: boolean;
+  dateModified: any;
+  checked?: boolean;
+  value?: number;
+  operation?: string;
+  targetValue?: string;
+  minPlaceholder?: string;
+  maxPlaceholder?: string;
+  range?: {
+    min: number;
+    max: number;
+  };
+  sign?: string;
+}
