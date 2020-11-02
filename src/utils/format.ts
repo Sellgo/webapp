@@ -20,7 +20,7 @@ export const showNAIfZeroOrNull = (expression: any, value: any) =>
     : '-';
 
 export const truncateString = (text: string, maxLength: number, trailing = '…') =>
-  text.length > maxLength ? text.substring(0, maxLength) + trailing : text;
+  text && text.length > maxLength ? text.substring(0, maxLength) + trailing : text;
 
 export const formatDimensionForSorting = (dimension: string): number => {
   return dimension
