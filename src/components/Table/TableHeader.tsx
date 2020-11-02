@@ -103,6 +103,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     searchIconPosition = 'right',
     filterSign,
     filterLabel,
+    filterNegativeCheckbox,
   } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
@@ -187,6 +188,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           loading={loadingFilters}
           values={filterValues}
           name={type}
+          filterNegativeCheckbox={filterNegativeCheckbox}
         />
       }
     />
@@ -216,7 +218,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
               </span>
             ) : (
               <span>
-                {' '}
                 <Icon name="caret up" className="sort-icon" {...sorting} />
               </span>
             )
@@ -255,7 +256,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   }
   return (
     <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
-      {' '}
       <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
         {filter && searchIconPosition === 'left' && ColumnFilter}
 
@@ -271,7 +271,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           ) : (
             <span>
-              {' '}
               <Icon name="caret up" className="sort-icon" {...sorting} />
             </span>
           )
@@ -297,13 +296,18 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         {icon && popUp ? (
           <Popup
             on="click"
-            open={columnFilterBox && activeColumnFilters === dataKey}
+            open={columnFilterBox && activeColumnFilters === 'ellipsis horizontal'}
             onClose={toggleColumnCheckbox}
             onOpen={toggleColumnCheckbox}
             position="bottom right"
             className="column-swap-popup"
             basic={true}
-            trigger={<Icon className={`${icon} popup-ic`} />}
+            trigger={
+              <Icon
+                className={`${icon} popup-ic`}
+                onClick={() => (toggleColumnFilters ? toggleColumnFilters(dataKey) : undefined)}
+              />
+            }
             content={
               <ColumnFilterCard
                 columnFilterData={columnFilterData}

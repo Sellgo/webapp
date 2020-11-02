@@ -22,6 +22,7 @@ export interface Column {
   filterLabel?: string;
   filterType?: string;
   filterSign?: string;
+  filterNegativeCheckbox?: boolean;
   searchIconPosition?: string;
   show?: boolean;
   check?: any;

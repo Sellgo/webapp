@@ -448,6 +448,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Buy Box Price',
       filterSign: '$',
       filterType: 'range',
+      filterNegativeCheckbox: true,
       render: this.renderPrice,
     },
     {
@@ -479,6 +480,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Cost',
+      filterSign: '$',
+      filterType: 'range',
       render: this.renderCost,
     },
     {
@@ -524,6 +529,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Profit',
+      filterSign: '$',
+      filterType: 'range',
+      filterNegativeCheckbox: true,
       render: this.renderProfit,
     },
     {
@@ -533,6 +543,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Margin',
+      filterSign: '%',
+      filterType: 'range',
+      filterNegativeCheckbox: true,
       render: this.renderMargin,
     },
     {
@@ -741,8 +756,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   setActiveColumnFilters = (data: any) => {
-    console.log('filteredRanges: ', this.state.filteredRanges);
-    console.log('setActiveColumnFilters: ', data, this.state.filteredRanges[data]);
+    console.log('data: ', data);
     this.setState({
       activeColumnFilterValue: this.state.filteredRanges[data],
     });

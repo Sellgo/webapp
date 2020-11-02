@@ -16,12 +16,14 @@ const RangeFilterBox = (props: any) => {
     values = [],
     loading,
     filterLabel,
+    filterNegativeCheckbox,
     ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
   const [minMax, setMinMax] = React.useState({});
   const [localData, setLocalData] = React.useState([]);
   const [range, setFilterRange] = React.useState({});
+  const [isNegative, setNegative] = React.useState(false);
 
   const getMinMax = () => {
     let value = {};
@@ -35,6 +37,7 @@ const RangeFilterBox = (props: any) => {
   useEffect(() => {
     let saved: any = localStorage.getItem(`${name}:${dataKey}`);
     const value = name !== 'leads-tracker' ? _.cloneDeep(values) : getMinMax();
+    console.log('value: ', value);
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
@@ -42,8 +45,21 @@ const RangeFilterBox = (props: any) => {
         setLocalData(checks);
       }
       if (filterType === 'range') {
-        setMinMax(value);
-        setFilterRange(saved.value);
+        if (filterNegativeCheckbox && saved.isNegative) {
+          if (saved.isNegative) {
+            let tmpValue = {};
+            tmpValue = {
+              min: value.min < 0 ? 0 : value.min,
+              max: value.max < 0 ? 0 : value.max,
+            };
+            setMinMax(tmpValue);
+            setFilterRange(saved.value);
+            setNegative(saved.isNegative);
+          }
+        } else {
+          setMinMax(value);
+          setFilterRange(saved.value);
+        }
       }
     } else {
       if (filterType === 'checkbox') {
@@ -83,6 +99,26 @@ const RangeFilterBox = (props: any) => {
   // @ts-ignore
   const hasChecked = (value: any) => localData.includes(value);
 
+  const negativeChecked = () => {
+    return isNegative;
+  };
+
+  const toggleNegative = () => {
+    const temptMinMax: any = _.cloneDeep(minMax);
+    if (!isNegative) {
+      let value = {};
+      value = {
+        min: temptMinMax.min < 0 ? 0 : temptMinMax.min,
+        max: temptMinMax.max < 0 ? 0 : temptMinMax.max,
+      };
+      setMinMax(value);
+      setFilterRange(temptMinMax);
+    } else {
+      setFilterRange(temptMinMax);
+    }
+    setNegative(!isNegative);
+  };
+
   const setFilters = () => {
     let res: any;
     if (filterType === 'checkbox') {
@@ -96,6 +132,7 @@ const RangeFilterBox = (props: any) => {
         isActive: true,
         type: filterType,
         dateModified: Date.now(),
+        isNegative,
       };
     }
     saveFilters(res);
@@ -124,16 +161,32 @@ const RangeFilterBox = (props: any) => {
       ) : (
         <React.Fragment>
           {filterType === 'range' && (
-            <FilterSliderInput
-              filterRange={range}
-              dataKey={dataKey}
-              range={minMax}
-              {...rest}
-              minLabel={'Min'}
-              labelSign={labelSign}
-              maxLabel={'Max'}
-              handleCompleteChange={onRangeChange}
-            />
+            <>
+              <FilterSliderInput
+                filterRange={range}
+                dataKey={dataKey}
+                range={minMax}
+                {...rest}
+                minLabel={'Min'}
+                labelSign={labelSign}
+                maxLabel={'Max'}
+                handleCompleteChange={onRangeChange}
+              />
+              {filterNegativeCheckbox && (
+                <>
+                  <div className="remove-negative-content">
+                    <Checkbox
+                      label="Remove Negative Values"
+                      key={dataKey}
+                      onChange={() => {
+                        toggleNegative();
+                      }}
+                      checked={negativeChecked()}
+                    />
+                  </div>
+                </>
+              )}
+            </>
           )}
           {filterType === 'checkbox' && (
             <div className="checkbox-filters-list">

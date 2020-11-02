@@ -267,23 +267,14 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
   }
 };
 
-// export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
-//   const filteredProducts = _.filter(products, (product: any) => {
-//     for (const filter of filterData) {
-//       if (filter.type === 'range') {
-//         if (
-//           filter.isActive &&
-//           filter.range !== undefined &&
-//           Number(product[filter.dataKey]) >= Number(filter.range.min) &&
-//           Number(product[filter.dataKey]) <= Number(filter.range.max)
-//         ) {
-//           return true;
-//         }else{
-//           return false;
-//         }
-//       }
-//     }
-//   });
+const getRangedFilteredProducts = (product: any, rangeFilter: any) => {
+  return rangeFilter.every(
+    (filter: any) =>
+      filter.range !== undefined &&
+      Number(product[filter.dataKey]) >= Number(filter.range.min) &&
+      Number(product[filter.dataKey]) <= Number(filter.range.max)
+  );
+};
 
 export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
   console.log('filterData: ', filterData);
@@ -291,12 +282,8 @@ export const findFilteredProducts = (products: any, filterData: NewFilterModel[]
   else {
     const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
     const filteredProducts = _.filter(products, (product: any) => {
-      return rangeFilter.every(
-        (filter: any) =>
-          filter.range !== undefined &&
-          Number(product[filter.dataKey]) >= Number(filter.range.min) &&
-          Number(product[filter.dataKey]) <= Number(filter.range.max)
-      );
+      console.log('filter.range: ', getRangedFilteredProducts(product, rangeFilter));
+      return getRangedFilteredProducts(product, rangeFilter);
     });
 
     console.log('findFilteredProducts: ', filteredProducts);
