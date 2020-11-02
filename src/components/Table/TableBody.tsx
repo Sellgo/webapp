@@ -139,18 +139,26 @@ export const TableBody = (props: TableBodyProps) => {
       isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
       filteredColumns.length
     );
+    const leadsHeader = document.querySelector('.leads-tracker-middle');
+
+    const middleHeader = document.querySelector('.middle-header');
+    const centerScroll = document.querySelector('.middle-scroll-cell');
+    const bottomScroll = document.querySelector('.bottom-scrollbar');
+    let timer: NodeJS.Timeout | undefined = undefined;
     const onBodyScroll = (evt: any) => {
-      const leadsHeader = document.querySelector('.leads-tracker-middle');
-
-      const middleHeader = document.querySelector('.middle-header');
-      const centerScroll = document.querySelector('.middle-scroll-cell');
-
       if (leadsHeader) {
         leadsHeader.scrollLeft = evt.target.scrollLeft;
       }
-      if (!!middleHeader && !!centerScroll) {
+      if (!!middleHeader && !!centerScroll && bottomScroll) {
         middleHeader.scrollLeft = evt.target.scrollLeft;
         centerScroll.scrollLeft = evt.target.scrollLeft;
+        bottomScroll.scrollLeft = evt.target.scrollLeft;
+        bottomScroll.classList.add('bottom-scrollbar-visible');
+        // @ts-ignore
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          bottomScroll.classList.remove('bottom-scrollbar-visible');
+        }, 3000);
       }
     };
 

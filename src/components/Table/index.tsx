@@ -12,6 +12,7 @@ import Pagination from '../Pagination';
 import ConstructionImage from '../../components/ConstructionImage/';
 
 import { formatDimensionForSorting } from '../../utils/format';
+import BottomScroll from '../BottomScrollbar';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -448,6 +449,8 @@ export const GenericTable = (props: GenericTableProps) => {
                 </div>
               ) : (
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
+                  {name === 'products' && <BottomScroll columns={columns} />}
+
                   <div className="pagination-container">
                     <Pagination
                       onPageSizeSelect={size => {

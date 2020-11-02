@@ -1,0 +1,21 @@
+.bottom-scrollbar {
+  height: 10px;
+  display: none;
+  max-width: 80%;
+  overflow-x: auto;
+  margin-left: 12%;
+  position: absolute;
+  bottom: 45px;
+
+  .bottom-cell {
+    height: 10px !important;
+  }
+}
+
+.bottom-scrollbar-visible {
+  display: flex;
+}
+
+.bottom-scrollbar::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
