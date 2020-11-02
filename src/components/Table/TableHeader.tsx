@@ -335,7 +335,12 @@ const TableHeader = (props: TableHeaderProps) => {
       middleHeader.scrollLeft = evt.target.scrollLeft;
     }
   };
-
+  const onScrollTable = (evt: any) => {
+    const table = document.querySelector('.generic-table');
+    if (table) {
+      table.scrollLeft = evt.target.scrollLeft;
+    }
+  };
   if (middleScroll) {
     const isTypeProducts = rest.type === 'products';
     const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
@@ -379,6 +384,7 @@ const TableHeader = (props: TableHeaderProps) => {
               columns={filteredColumns}
               rightFixedColumns={1}
               leftFixedColumns={1}
+              className={'ptr-header-row'}
               renderBlankRow={() => (
                 <th
                   key={`header-blank-row`}
@@ -395,6 +401,22 @@ const TableHeader = (props: TableHeaderProps) => {
                 />
               )}
             />
+
+            <Table.Row className="pt-header">
+              <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
+                <div className="pt-scroll-container" onScroll={onScrollTable}>
+                  {filteredColumns.map(c => (
+                    <div
+                      className={`${getColumnClass(c)} pt-scroll`}
+                      key={`${c.dataKey}--scroll-col`}
+                    >
+                      <p> &nbsp;</p>
+                    </div>
+                  ))}
+                </div>
+              </td>
+            </Table.Row>
+            <tr className="ptr-scroll-container" />
           </React.Fragment>
         )}
 
