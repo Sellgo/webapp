@@ -51,12 +51,13 @@ export const dataKeys: any = [
 
 export const supplierDataKeys: any = [
   'price',
+  'product_cost',
   'profit',
-  'low_new_fba_price',
-  'roi',
-  'sales_monthly',
   'margin',
+  'monthly_revenue',
+  'roi',
   'rank',
+  'sales_monthly',
 ];
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {

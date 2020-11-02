@@ -13,6 +13,7 @@ import {
   setSupplierPageNumber,
   triggerDataBuster,
   filterSupplierProducts,
+  getLatestSupplier,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -38,7 +39,7 @@ import { formatCompletedDate } from '../../../../utils/date';
 
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import FilterSection from '../../FilterSection';
-import { findMinMax } from '../../../../constants/Suppliers';
+import { findMinMax, supplierDataKeys } from '../../../../constants/Suppliers';
 import { NewFilterModel } from '../../../../interfaces/Filters';
 
 interface ProductsTableProps {
@@ -102,17 +103,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     activeColumnFilters: {},
     activeColumnFilterValue: {},
     filterData: [
-      {
-        label: 'price',
-        dataKey: 'price',
-        type: 'range',
-        isActive: false,
-        range: {
-          min: 0,
-          max: 200,
-        },
-        dateModified: Date.now(),
-      },
+      // {
+      //   label: 'price',
+      //   dataKey: 'price',
+      //   type: 'range',
+      //   isActive: false,
+      //   range: {
+      //     min: 0,
+      //     max: 200,
+      //   },
+      //   dateModified: Date.now(),
+      // },
     ],
   };
 
@@ -458,10 +459,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'Low New FBA Price',
-      filterSign: '$',
-      filterType: 'range',
       render: this.renderLowNewFbaPrice,
     },
     {
@@ -544,7 +541,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       className: 'sm-column',
       filter: true,
-      filterLabel: 'Margin',
+      filterLabel: 'Profit Margin',
       filterSign: '%',
       filterType: 'range',
       filterNegativeCheckbox: true,
@@ -557,6 +554,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Monthly Revenue',
+      filterSign: '$',
+      filterType: 'range',
       render: this.renderMonthlyRevenue,
     },
     {
@@ -566,6 +567,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'ROI/Return on Investment',
+      filterSign: '%',
+      filterType: 'range',
       render: this.renderRoi,
     },
     {
@@ -575,6 +580,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Rank',
+      filterSign: '',
+      filterType: 'range',
       render: this.renderRank,
     },
     {
@@ -584,6 +593,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'md-column',
+      filter: true,
+      filterLabel: 'Monthly Sales Estimation',
+      filterSign: '',
+      filterType: 'range',
       render: this.renderMonthlySalesEst,
     },
     {
@@ -722,6 +735,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   componentDidMount() {
+    const profitFinderFilterState = JSON.parse(
+      localStorage.getItem('profitFinderFilterState') || '[]'
+    );
+    console.log('profitFinderFilterState: ', profitFinderFilterState);
+    if (profitFinderFilterState.length >= 1 && this.props.supplierID === getLatestSupplier().id) {
+      this.setState({ filterData: profitFinderFilterState });
+    } else {
+      this.resetFilters();
+    }
+
     const currentFilterOrder = JSON.parse(
       localStorage.getItem('profitFinderColumnFilterState') || '[]'
     );
@@ -790,14 +813,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       console.log('after1: ', updatedFilterData);
       this.setState({ filterData: updatedFilterData });
       filterProducts(filterSearch, updatedFilterData);
-      localStorage.setItem('filterState', JSON.stringify(updatedFilterData));
+      localStorage.setItem('profitFinderFilterState', JSON.stringify(updatedFilterData));
     } else {
       const newFilter: NewFilterModel = { ...data, range: data.value };
       localFilterData.push(newFilter);
       console.log('after2: ', localFilterData);
       this.setState({ filterData: localFilterData });
       filterProducts(filterSearch, localFilterData);
-      localStorage.setItem('filterState', JSON.stringify(localFilterData));
+      localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilterData));
     }
   };
 
@@ -818,6 +841,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     filterProducts(filterSearch, localFilterData);
     console.log('resetActiveColumnFilter: ', localFilterData);
     this.setState({ ColumnFilterBox: false });
+  };
+
+  resetFilters = () => {
+    localStorage.removeItem('profitFinderFilterState');
+    for (const supplierKey of supplierDataKeys) {
+      localStorage.removeItem(`products:${supplierKey}`);
+    }
   };
 
   render() {

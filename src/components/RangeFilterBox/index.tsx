@@ -104,16 +104,17 @@ const RangeFilterBox = (props: any) => {
   };
 
   const toggleNegative = () => {
-    const temptMinMax: any = _.cloneDeep(minMax);
+    const temptMinMax: any = _.cloneDeep(values);
     if (!isNegative) {
       let value = {};
       value = {
-        min: temptMinMax.min < 0 ? 0 : temptMinMax.min,
-        max: temptMinMax.max < 0 ? 0 : temptMinMax.max,
+        min: Number(temptMinMax.min) < 0 ? 0 : Number(temptMinMax.min),
+        max: Number(temptMinMax.max) < 0 ? 0 : Number(temptMinMax.max),
       };
       setMinMax(value);
-      setFilterRange(temptMinMax);
+      setFilterRange(value);
     } else {
+      setMinMax(temptMinMax);
       setFilterRange(temptMinMax);
     }
     setNegative(!isNegative);
