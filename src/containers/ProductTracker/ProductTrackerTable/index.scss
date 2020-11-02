@@ -210,10 +210,6 @@ $link-color: #349af8;
   width: 100%;
   margin-top: 18px;
 
-  .generic-table.scrollable {
-    //margin-left: 10px;
-  }
-
   .add-product {
     display: flex;
     margin-top: 30px;
@@ -663,7 +659,7 @@ $link-color: #349af8;
           border-bottom-left-radius: 0 !important;
           border-left: 0 !important;
           border-top-left-radius: 0 !important;
-          padding-left: 40px;
+          padding-left: 0 !important;
         }
 
         th:nth-child(2) {
@@ -1039,7 +1035,7 @@ $link-color: #349af8;
 .pt-actions {
   position: absolute !important;
   min-width: 56px !important;
-  right: 0 !important;
+  right: 7px !important;
   background: #fff !important;
   display: flex;
   align-items: center;
