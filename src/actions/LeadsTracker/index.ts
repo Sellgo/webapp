@@ -55,11 +55,20 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
 
   dispatch(setFetchingKpi(loading));
   const sellerID = sellerIDSelector();
+  const searches = new URLSearchParams(query).get('searches');
 
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
-      `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&sort=${sort}&sort_direction=${sort_direction}&${query}`
+      `sellers/${sellerID}/leads-tracker-products?period=${period}&page=${page}&per_page=${per_page}&sort=${sort}&sort_direction=${sort_direction}&${query.replace(
+        `searches=${searches}`,
+        ''
+      )}`,
+    {
+      params: {
+        searches,
+      },
+    }
   );
   dispatch(setPageSize(per_page));
 
