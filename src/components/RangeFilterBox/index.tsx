@@ -17,6 +17,7 @@ const RangeFilterBox = (props: any) => {
     loading,
     filterLabel,
     filterNegativeCheckbox,
+    filterCheckboxWithSelectAll,
     ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
@@ -24,6 +25,7 @@ const RangeFilterBox = (props: any) => {
   const [localData, setLocalData] = React.useState([]);
   const [range, setFilterRange] = React.useState({});
   const [isNegative, setNegative] = React.useState(false);
+  const [isSelectAll, setSelectAll] = React.useState(true);
 
   const getMinMax = () => {
     let value = {};
@@ -37,12 +39,18 @@ const RangeFilterBox = (props: any) => {
   useEffect(() => {
     let saved: any = localStorage.getItem(`${name}:${dataKey}`);
     const value = name !== 'leads-tracker' ? _.cloneDeep(values) : getMinMax();
-    console.log('value: ', value);
+
+    console.log('values: ', values);
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
-        const checks = saved.value ? saved.value.split(',') : [];
-        setLocalData(checks);
+        if (name !== 'leads-tracker') {
+          const checks = saved.value ? saved.value.split('|') : [];
+          setLocalData(checks);
+        } else {
+          const checks = saved.value ? saved.value.split(',') : [];
+          setLocalData(checks);
+        }
       }
       if (filterType === 'range') {
         if (filterNegativeCheckbox && saved.isNegative) {
@@ -64,6 +72,7 @@ const RangeFilterBox = (props: any) => {
     } else {
       if (filterType === 'checkbox') {
         const checks = values.map((c: any) => c.value);
+        console.log('checks: ', checks);
         setLocalData(checks);
       } else {
         setMinMax(value);
@@ -72,6 +81,15 @@ const RangeFilterBox = (props: any) => {
     }
   }, [values]);
 
+  useEffect(() => {
+    if (filterCheckboxWithSelectAll) {
+      if (localData.length === values.length) {
+        setSelectAll(true);
+      } else {
+        setSelectAll(false);
+      }
+    }
+  }, [localData]);
   const resetFiltersValue = () => {
     if (filterType === 'checkbox') {
       const checks = values.map((c: any) => c.value);
@@ -80,9 +98,14 @@ const RangeFilterBox = (props: any) => {
     } else {
       setFilterRange(minMax);
     }
-    resetFilters(filterType === 'checkbox' ? 'checkbox' : dataKey);
-    if (filterType !== 'checkbox') {
+    if (name !== 'leads-tracker') {
+      resetFilters(dataKey);
       localStorage.removeItem(`${name}:${dataKey}`);
+    } else {
+      resetFilters(filterType === 'checkbox' ? 'checkbox' : dataKey);
+      if (filterType !== 'checkbox') {
+        localStorage.removeItem(`${name}:${dataKey}`);
+      }
     }
   };
 
@@ -98,7 +121,9 @@ const RangeFilterBox = (props: any) => {
 
   // @ts-ignore
   const hasChecked = (value: any) => localData.includes(value);
-
+  const isSelectAllChecked = () => {
+    return isSelectAll;
+  };
   const negativeChecked = () => {
     return isNegative;
   };
@@ -120,10 +145,47 @@ const RangeFilterBox = (props: any) => {
     setNegative(!isNegative);
   };
 
+  const toggleSelectAll = () => {
+    const checks = values.map((c: any) => c.value);
+    if (!isSelectAll) {
+      setLocalData(checks);
+    } else {
+      setLocalData([]);
+    }
+    setSelectAll(!isSelectAll);
+  };
+
   const setFilters = () => {
     let res: any;
+
+    //for pf and pt filters
+    let result2: any;
     if (filterType === 'checkbox') {
-      res = { dataKey, value: localData.length ? localData.join(',') : '' };
+      if (name !== 'leads-tracker') {
+        console.log('saveFilters: ', localData);
+        result2 = {
+          dataKey,
+          value: localData.length ? localData.join('|') : '',
+          label: filterLabel,
+          isActive: true,
+          type: filterType,
+          dateModified: Date.now(),
+        };
+        console.log('result2: ', result2);
+        saveFilters(result2);
+        applyFilters(result2);
+      } else {
+        res = {
+          dataKey,
+          value: localData.length ? localData.join(',') : '',
+          label: filterLabel,
+          isActive: true,
+          type: filterType,
+          dateModified: Date.now(),
+        };
+        saveFilters(res);
+        applyFilters(res);
+      }
     } else {
       res = {
         ...filter,
@@ -135,12 +197,13 @@ const RangeFilterBox = (props: any) => {
         dateModified: Date.now(),
         isNegative,
       };
+      saveFilters(res);
+      applyFilters(res);
     }
-    saveFilters(res);
-    applyFilters(res);
   };
 
   const saveFilters = (filter: any) => {
+    console.log('save local: ', filter);
     localStorage.setItem(`${name}:${dataKey}`, JSON.stringify(filter));
   };
 
@@ -150,7 +213,7 @@ const RangeFilterBox = (props: any) => {
   };
 
   return (
-    <div className="column-range-filter">
+    <div className={`column-range-filter ${name}`}>
       <p className="filter-label">{`${filterLabel || props.label} ${labelSign}`}</p>
       <div className="reset-filters" onClick={() => resetFiltersValue()}>
         <p>X Reset</p>
@@ -189,9 +252,31 @@ const RangeFilterBox = (props: any) => {
               )}
             </>
           )}
-          {filterType === 'checkbox' && (
+          {filterType === 'checkbox' && !filterCheckboxWithSelectAll && (
             <div className="checkbox-filters-list">
               <Form>
+                {values.map((check: any) => (
+                  <Form.Field key={check.value}>
+                    <Checkbox
+                      label={check.value}
+                      className="checkbox-filter"
+                      checked={hasChecked(check.value)}
+                      onClick={() => setCheck(check.value)}
+                    />
+                  </Form.Field>
+                ))}
+              </Form>
+            </div>
+          )}
+          {filterType === 'checkbox' && filterCheckboxWithSelectAll && (
+            <div className="checkbox-filters-list">
+              <Form>
+                <Checkbox
+                  label="Select All"
+                  className="checkbox-filter select-all"
+                  checked={isSelectAllChecked()}
+                  onClick={() => toggleSelectAll()}
+                />
                 {values.map((check: any) => (
                   <Form.Field key={check.value}>
                     <Checkbox

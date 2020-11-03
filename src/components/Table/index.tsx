@@ -23,6 +23,7 @@ export interface Column {
   filterType?: string;
   filterSign?: string;
   filterNegativeCheckbox?: boolean;
+  filterCheckboxWithSelectAll?: boolean;
   searchIconPosition?: string;
   show?: boolean;
   check?: any;

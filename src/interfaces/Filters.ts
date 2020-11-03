@@ -137,7 +137,7 @@ export interface NewFilterModel {
   isActive: boolean;
   dateModified: any;
   checked?: boolean;
-  value?: number;
+  value?: any;
   operation?: string;
   targetValue?: string;
   minPlaceholder?: string;

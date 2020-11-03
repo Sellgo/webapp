@@ -165,10 +165,7 @@
   border: 1px solid #98aeca;
 }
 
-.new-supplier-modal
-  .rc-steps-item-custom.rc-steps-item-process
-  .rc-steps-item-icon
-  > .rc-steps-icon {
+.new-supplier-modal .rc-steps-item-custom.rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
   color: #349af8;
   border: 2px solid #349af8;
   background: #fff 0% 0% no-repeat padding-box;
@@ -621,11 +618,7 @@ div.new-supplier-cont > div:nth-child(2) {
   max-width: 113px;
 }
 
-.new-supplier-modal
-  .ui.form
-  .column:nth-child(2)
-  .AddNewSearch__second-column.field
-  .field:last-child {
+.new-supplier-modal .ui.form .column:nth-child(2) .AddNewSearch__second-column.field .field:last-child {
   max-width: 100%;
 }
 
@@ -653,15 +646,7 @@ div.new-supplier-cont > div:nth-child(2) {
   font-family: 'Work sans', sans-serif !important;
 }
 
-.new-supplier-modal
-  .upload-section
-  .mapping-container
-  > .row:nth-child(1)
-  > .column
-  > h3
-  .ui.checkbox
-  input.hidden
-  + label {
+.new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) > .column > h3 .ui.checkbox input.hidden + label {
   font-size: 14px !important;
   color: #000c !important;
   font-family: 'Work sans', sans-serif !important;
@@ -910,11 +895,7 @@ div.new-supplier-cont > div:nth-child(2) {
   margin-right: 0 !important;
 }
 
-.new-supplier-modal
-  .UploadSteps__disable
-  .rc-steps-item-finish
-  .rc-steps-item-icon
-  > .rc-steps-icon {
+.new-supplier-modal .UploadSteps__disable .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon {
   background: #fff 0% 0% no-repeat padding-box !important;
   border: 1px solid #dfe8f3 !important;
   color: #dfe8f3 !important;

@@ -105,4 +105,26 @@
   .ui.dimmer.ltr-filter-popup.curved {
     border-radius: 20px;
   }
+
+  &.products {
+    width: 700px;
+    height: 645px;
+    overflow: hidden;
+    padding: 30px 20px;
+
+    .ui.form {
+      .select-all,
+      .field {
+        min-width: 240px;
+        max-width: 289px;
+        display: inline-block;
+        margin-right: 50px;
+        margin-bottom: 5px;
+      }
+
+      .checkbox-filter label {
+        font-size: 14px;
+      }
+    }
+  }
 }

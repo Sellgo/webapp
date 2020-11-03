@@ -39,7 +39,7 @@ import { formatCompletedDate } from '../../../../utils/date';
 
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import FilterSection from '../../FilterSection';
-import { findMinMax, supplierDataKeys } from '../../../../constants/Suppliers';
+import { findMinMax, productCategories, supplierDataKeys } from '../../../../constants/Suppliers';
 import { NewFilterModel } from '../../../../interfaces/Filters';
 
 interface ProductsTableProps {
@@ -633,6 +633,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'lg-column',
+      filter: true,
+      filterLabel: 'Product Category',
+      filterSign: '',
+      filterType: 'checkbox',
+      filterCheckboxWithSelectAll: true,
       render: this.renderCategory,
     },
     {
@@ -780,10 +785,25 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   setActiveColumnFilters = (data: any) => {
     console.log('data: ', data);
+
     this.setState({
-      activeColumnFilterValue: this.state.filteredRanges[data],
+      activeColumnFilterValue: this.getFilterValues(data),
     });
     this.setState({ activeColumnFilters: data });
+  };
+
+  getFilterValues = (data: any) => {
+    if (data === 'amazon_category_name') {
+      const filterCategories = _.map(productCategories, category => {
+        const obj: any = {};
+        obj.value = category;
+        return obj;
+      });
+      console.log('filterCategories: ', filterCategories);
+      return filterCategories;
+    } else {
+      return this.state.filteredRanges[data];
+    }
   };
 
   handleFilterBoxClick = () => {
@@ -797,14 +817,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { filterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
     const localFilterData = _.cloneDeep(filterData);
+    console.log('saveFilter data: ', data);
     console.log('before: ', localFilterData);
-
+    /*
+      Edit saved filter
+    */
     const isSaved =
       localFilterData.findIndex((filter: any) => filter.dataKey === data.dataKey) !== -1;
     if (isSaved) {
       const updatedFilterData = _.map(localFilterData, filter => {
         if (filter.dataKey === data.dataKey) {
-          filter.range = data.value;
+          if (filter.type === 'range') {
+            filter.range = data.value;
+          } else if (filter.type === 'checkbox') {
+            filter.value = data.value;
+          }
           filter.isActive = data.isActive;
           filter.dateModified = Date.now();
         }
@@ -815,7 +842,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterProducts(filterSearch, updatedFilterData);
       localStorage.setItem('profitFinderFilterState', JSON.stringify(updatedFilterData));
     } else {
-      const newFilter: NewFilterModel = { ...data, range: data.value };
+      /*
+        New added filter
+      */
+      const newFilter: NewFilterModel = { ...data };
+      if (data.type === 'range') {
+        newFilter.range = data.value;
+      } else if (data.type === 'checkbox') {
+        newFilter.value = data.value;
+      }
       localFilterData.push(newFilter);
       console.log('after2: ', localFilterData);
       this.setState({ filterData: localFilterData });
@@ -830,6 +865,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   resetActiveColumnFilter = (dataKey: any) => {
+    console.log('resetActiveColumnFilter: ', dataKey);
     const { filterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
     const localFilterData = _.cloneDeep(filterData);
@@ -839,7 +875,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       this.setState({ filterData: localFilterData });
     }
     filterProducts(filterSearch, localFilterData);
-    console.log('resetActiveColumnFilter: ', localFilterData);
     this.setState({ ColumnFilterBox: false });
   };
 

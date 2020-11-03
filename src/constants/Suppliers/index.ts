@@ -37,6 +37,49 @@ export const SET_SORT_COLUMN = 'SET_SORT_COLUMN';
 export const SET_PRODUCTS_LOADING_DATA_BUSTER = 'SET_PRODUCTS_LOADING_DATA_BUSTER';
 export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 
+export const productCategories: any = [
+  'Amazon Launchpad',
+  'Appliances',
+  'Apps & Games',
+  'Arts,Crafts & Sewing',
+  'Audio & Video Connectors & Adapters',
+  'Automotive',
+  'Baby',
+  'Beauty & Personal Care',
+  'Books',
+  'Camera & Photo',
+  'CDs & Vinyl',
+  'Cell Phones & Accessories',
+  'Clothing,Shoes & Jewelry',
+  'Collectible & Fine Arts',
+  'Computers & Accessories',
+  'Earbud & In-Ear Headphones',
+  'Electronics',
+  'Grocery & Gourmet Food',
+  'Handmade Products',
+  'Health & Household',
+  'Home & Kitchen',
+  'Industrial & Scientific',
+  'Kindle store',
+  'Kitchen & Dining',
+  'Lock Picking & Theft Devices',
+  'Luggage & Travel',
+  'Magazine Subscription',
+  'Medical Devices & Accessories',
+  'Movies & TV',
+  'Musical Instruments',
+  'Office Products',
+  'Outdoors',
+  'Patio,Lawn & Garden',
+  'Pet Supplies',
+  'Software',
+  'Sports & Outdoors',
+  'Tools & Home Improvement',
+  'Toys & Games',
+  'Video Games',
+  'Others',
+];
+
 export const dataKeys: any = [
   // Basic KPI
   'profit',
@@ -277,14 +320,36 @@ const getRangedFilteredProducts = (product: any, rangeFilter: any) => {
   );
 };
 
+const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
+  return checkboxFilter.every(
+    (filter: any) =>
+      filter.value.includes(product[filter.dataKey]) ||
+      (_.isEmpty(product.amazon_category_name) && filter.value.includes('Others')) ||
+      (productCategories.indexOf(product.amazon_category_name) === -1 &&
+        filter.value.includes('Others'))
+  );
+};
+
 export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
   console.log('filterData: ', filterData);
   if (_.isEmpty(filterData)) return products;
   else {
     const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
+    const checkboxFilter = _.filter(
+      filterData,
+      filter => filter.isActive && filter.type === 'checkbox'
+    );
+    console.log(
+      'checkboxFilter: ',
+      checkboxFilter[0].value,
+      checkboxFilter[0].value.includes('Others')
+    );
     const filteredProducts = _.filter(products, (product: any) => {
       console.log('filter.range: ', getRangedFilteredProducts(product, rangeFilter));
-      return getRangedFilteredProducts(product, rangeFilter);
+      return (
+        getRangedFilteredProducts(product, rangeFilter) &&
+        getCheckboxFilteredProducts(product, checkboxFilter)
+      );
     });
 
     console.log('findFilteredProducts: ', filteredProducts);
