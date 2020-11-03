@@ -5,6 +5,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 250px;
+    display: flex;
+    justify-content: space-between;
   }
 
   .filename {
