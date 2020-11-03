@@ -19,17 +19,17 @@ const ProductDescription = (props: any) => {
             <a href={item.amazon_url} target="_blank" rel="noopener noreferrer">
               <h2>{item.title}</h2>
             </a>
-            {!item.product_cost && (
-              <span className="no-cost-icon">
-                <WithoutCostUpload />
-              </span>
-            )}
           </div>
           <div className="wrap-prod-information">
             <div className="information">
               <img className="flag-img" src={COUNTRY_IMAGE} alt="product_img" />
               <div className="asin-pid-wrapper">
                 <span className="asin-content">{item.asin}</span>
+                {!item.product_cost && (
+                  <span className="no-cost-icon">
+                    <WithoutCostUpload />
+                  </span>
+                )}
                 <span className="pid-content">
                   {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
                     .filter(pidType => pidType.toLowerCase() in item)
