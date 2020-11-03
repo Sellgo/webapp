@@ -39,7 +39,12 @@ import { formatCompletedDate } from '../../../../utils/date';
 
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import FilterSection from '../../FilterSection';
-import { findMinMax, productCategories, supplierDataKeys } from '../../../../constants/Suppliers';
+import {
+  findMinMax,
+  productCategories,
+  sizeTiers,
+  supplierDataKeys,
+} from '../../../../constants/Suppliers';
 import { NewFilterModel } from '../../../../interfaces/Filters';
 
 interface ProductsTableProps {
@@ -647,6 +652,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'xl-column',
+      filter: true,
+      filterLabel: 'Product Size Tiers',
+      filterSign: '',
+      filterType: 'checkbox',
       render: this.renderSizeTiers,
     },
     {
@@ -801,6 +810,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       });
       console.log('filterCategories: ', filterCategories);
       return filterCategories;
+    } else if (data === 'size_tier') {
+      const productTiers = _.map(sizeTiers, tier => {
+        const obj: any = {};
+        obj.value = tier;
+        return obj;
+      });
+      console.log('productTiers: ', productTiers);
+      return productTiers;
     } else {
       return this.state.filteredRanges[data];
     }

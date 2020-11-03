@@ -80,6 +80,15 @@ export const productCategories: any = [
   'Others',
 ];
 
+export const sizeTiers: any = [
+  'Small standard-size',
+  'Large standard-size',
+  'Small oversize',
+  'Medium oversize',
+  'Over oversize',
+  'Others',
+];
+
 export const dataKeys: any = [
   // Basic KPI
   'profit',
@@ -324,8 +333,10 @@ const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
   return checkboxFilter.every(
     (filter: any) =>
       filter.value.includes(product[filter.dataKey]) ||
-      (_.isEmpty(product.amazon_category_name) && filter.value.includes('Others')) ||
-      (productCategories.indexOf(product.amazon_category_name) === -1 &&
+      (_.isEmpty(product[filter.dataKey]) && filter.value.includes('Others')) ||
+      //only for amazon-category checkbox filter
+      (filter.dataKey === 'amazon_category_name' &&
+        productCategories.indexOf(product.amazon_category_name) === -1 &&
         filter.value.includes('Others'))
   );
 };
