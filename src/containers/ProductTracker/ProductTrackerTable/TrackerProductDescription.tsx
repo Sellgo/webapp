@@ -3,6 +3,7 @@ import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import _ from 'lodash';
 import AMAZON_IMAGE from '../../../assets/images/amazon_choice.svg';
 import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
+import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
@@ -24,6 +25,11 @@ const ProductDescription = (props: any) => {
               <img className="flag-img" src={COUNTRY_IMAGE} alt="product_img" />
               <div className="asin-pid-wrapper">
                 <span className="asin-content">{item.asin}</span>
+                {!item.product_cost && (
+                  <span className="no-cost-icon">
+                    <WithoutCostUpload />
+                  </span>
+                )}
                 <span className="pid-content">
                   {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
                     .filter(pidType => pidType.toLowerCase() in item)

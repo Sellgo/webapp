@@ -1,3 +1,8 @@
+.checkbox-filters-list::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+
 .column-range-filter {
   width: 289px;
   padding: 34px;
@@ -23,10 +28,17 @@
   }
 
   .checkbox-filters-list {
+    max-height: 350px;
+    overflow-y: hidden;
+
     .checkbox-filter {
       > label {
         color: #3b4557;
         font-size: 17px;
+        white-space: nowrap;
+        width: 214px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -104,5 +116,11 @@
 
   .ui.dimmer.ltr-filter-popup.curved {
     border-radius: 20px;
+  }
+}
+
+.column-range-filter:hover {
+  .checkbox-filters-list {
+    overflow-y: auto !important;
   }
 }
