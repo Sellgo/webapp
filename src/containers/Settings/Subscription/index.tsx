@@ -504,19 +504,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell>Maximum monthly Uploads</Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Supplier Management</Table.Cell>
+                    <Table.Cell>Search Management</Table.Cell>
                     <Table.Cell>
                       <p>
                         <i className="fa fa-check" />
@@ -533,6 +521,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       </p>
                     </Table.Cell>
                   </Table.Row>
+
                   <Table.Row>
                     <Table.Cell>Filter and Sort</Table.Cell>
                     <Table.Cell>
@@ -552,6 +541,37 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
+                    <Table.Cell>Daily Inventory Tracking</Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Maximum Monthly Uploads</Table.Cell>
+                    <Table.Cell>
+                      <p>Unlimited</p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>Unlimited</p>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <p>Unlimited</p>
+                    </Table.Cell>
+                  </Table.Row>
+
+                  <Table.Row>
                     <Table.Cell>Product Tracking</Table.Cell>
                     {_.map(subscriptionsSorted, (data, index) => {
                       if (data.name !== 'Enterprise') {
@@ -570,17 +590,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     })}
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell>Track Inventory Daily</Table.Cell>
+                    <Table.Cell>Leads Tracker</Table.Cell>
+                    <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
+                      <p>Inquiry based</p>
                     </Table.Cell>
                   </Table.Row>
                 </Table.Body>
