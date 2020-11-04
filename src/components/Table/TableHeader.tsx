@@ -12,6 +12,7 @@ import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
 import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 import RangeFilterBox from '../RangeFilterBox';
+import { MiddleScrollHeader } from './TableLayouts/MiddleScroll';
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -334,14 +335,12 @@ const TableHeader = (props: TableHeaderProps) => {
       middleHeader.scrollLeft = evt.target.scrollLeft;
     }
   };
-
   const onScrollTable = (evt: any) => {
     const table = document.querySelector('.generic-table');
     if (table) {
       table.scrollLeft = evt.target.scrollLeft;
     }
   };
-
   if (middleScroll) {
     const isTypeProducts = rest.type === 'products';
     const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
@@ -381,31 +380,28 @@ const TableHeader = (props: TableHeaderProps) => {
       >
         {rest.type === 'trackerTable' && (
           <React.Fragment>
-            <Table.Row className="ptr-header-row">
-              {filteredColumns.length === 2 && (
+            <MiddleScrollHeader
+              columns={filteredColumns}
+              rightFixedColumns={1}
+              leftFixedColumns={1}
+              className={'ptr-header-row'}
+              renderBlankRow={() => (
                 <th
                   key={`header-blank-row`}
                   colSpan={columns.length - 2}
-                  style={{ height: '56px' }}
+                  style={{ height: '56px', width: '154%' }}
                 />
               )}
-              {filteredColumns.map((column, index) => {
-                let className =
-                  index === 1 && filteredColumns.length > 2 ? 'ptr' : column.className;
-                className =
-                  index === filteredColumns.length - 2 && index >= 2
-                    ? `${className} ptr-last-cell`
-                    : className;
-                return (
-                  <TableHeaderCell
-                    columns={columns}
-                    column={{ ...column, className }}
-                    key={column.dataKey || index}
-                    {...rest}
-                  />
-                );
-              })}
-            </Table.Row>
+              render={column => (
+                <TableHeaderCell
+                  columns={columns}
+                  column={{ ...column, className: column.className }}
+                  key={column.dataKey}
+                  {...rest}
+                />
+              )}
+            />
+
             <Table.Row className="pt-header">
               <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
                 <div className="pt-scroll-container" onScroll={onScrollTable}>
