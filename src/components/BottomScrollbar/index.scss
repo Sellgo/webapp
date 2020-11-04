@@ -10,6 +10,58 @@
   .bottom-cell {
     height: 10px !important;
   }
+
+  .ptr-scrollbar {
+    max-width: 290px;
+  }
+
+  @media only screen and (min-width: 1024px) and (max-width: 1279px) {
+    .ptr-scrollbar {
+      max-width: 290px !important;
+    }
+
+    .default-column {
+      min-width: 127px !important;
+    }
+  }
+
+  @media only screen and (min-width: 1280px) and (max-width: 1365px) {
+    .ptr-scrollbar {
+      max-width: 290px !important;
+    }
+
+    .default-column {
+      min-width: 124px !important;
+    }
+  }
+
+  @media only screen and (min-width: 1366px) and (max-width: 1441px) {
+    .ptr-scrollbar {
+      max-width: 630px !important;
+    }
+
+    .default-column {
+      min-width: 122px !important;
+    }
+  }
+
+  @media only screen and (min-width: 1440px) and (max-width: 1681px) {
+    .ptr-scrollbar {
+      min-width: 116px !important;
+    }
+  }
+
+  @media only screen and (min-width: 1536px) {
+    .ptr-scrollbar {
+      min-width: 114px !important;
+    }
+  }
+
+  @media only screen and (min-width: 1920px) and (max-width: 2559px) {
+    .ptr-scrollbar {
+      min-width: 110px !important;
+    }
+  }
 }
 
 .bottom-scrollbar-visible {
