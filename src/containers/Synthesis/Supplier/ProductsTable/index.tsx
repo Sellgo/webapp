@@ -642,6 +642,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Product Category',
       filterSign: '',
       filterType: 'checkbox',
+      filterBoxSize: 'lg',
       filterCheckboxWithSelectAll: true,
       render: this.renderCategory,
     },

@@ -106,6 +106,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filterLabel,
     filterNegativeCheckbox,
     filterCheckboxWithSelectAll,
+    filterBoxSize,
   } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
@@ -168,7 +169,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       key={dataKey}
       onClose={toggleColumnCheckbox}
       onOpen={toggleColumnCheckbox}
-      position={filterCheckboxWithSelectAll ? 'top left' : 'bottom right'}
+      position={filterBoxSize === 'lg' ? 'top left' : 'bottom right'}
       className="range-filters"
       basic={true}
       trigger={
@@ -192,6 +193,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           name={type}
           filterNegativeCheckbox={filterNegativeCheckbox}
           filterCheckboxWithSelectAll={filterCheckboxWithSelectAll}
+          filterBoxSize={filterBoxSize}
         />
       }
     />

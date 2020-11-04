@@ -24,6 +24,7 @@ export interface Column {
   filterSign?: string;
   filterNegativeCheckbox?: boolean;
   filterCheckboxWithSelectAll?: boolean;
+  filterBoxSize?: string;
   searchIconPosition?: string;
   show?: boolean;
   check?: any;

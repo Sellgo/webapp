@@ -11,6 +11,49 @@
   box-shadow: 3px 3px 6px #0000004b;
   padding-bottom: 20px;
 
+  .ui {
+    &.radio {
+      margin: 5px 0;
+
+      input:checked ~ .box::before,
+      input:checked ~ label::before {
+        background-color: #fff !important;
+        border: 1px solid #d4d4d5;
+      }
+
+      input:checked ~ .box::after,
+      input:checked ~ label::after {
+        background-color: #349af8 !important;
+      }
+    }
+
+    &.checkbox {
+      margin: 5px 0;
+
+      label {
+        color: #3b4557;
+        font-size: 14px;
+        display: unset !important;
+        cursor: pointer;
+      }
+
+      &.select-all {
+        font-weight: 500;
+      }
+
+      input:checked ~ .box::before,
+      input:checked ~ label::before {
+        background-color: #349af8;
+        border: 1px solid #d4d4d5;
+      }
+
+      input:checked ~ .box::after,
+      input:checked ~ label::after {
+        color: #fff;
+      }
+    }
+  }
+
   .filter-label {
     line-height: 0;
     font-size: 16px;
@@ -30,6 +73,10 @@
   .checkbox-filters-list {
     max-height: 350px;
     overflow-y: hidden;
+
+    .field {
+      margin-bottom: 5px !important;
+    }
 
     .checkbox-filter {
       > label {
@@ -118,9 +165,8 @@
     border-radius: 20px;
   }
 
-  &.products {
+  &.lg {
     width: 700px;
-    height: 645px;
     overflow: hidden;
     padding: 30px 20px;
 
