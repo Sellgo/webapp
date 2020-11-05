@@ -21,7 +21,7 @@ interface FilterSectionProps {
   applyPresetFilter: (data: any) => void;
   localFilterData: any;
   resetPreset: () => void;
-  resetSingleFilter: (data: any) => void;
+  resetSingleFilter: (data: any, type: any) => void;
 }
 export class FilterSection extends React.Component<FilterSectionProps, any> {
   constructor(props: FilterSectionProps) {

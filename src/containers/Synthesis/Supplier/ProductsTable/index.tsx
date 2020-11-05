@@ -850,15 +850,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     /*
       Edit saved filter
     */
-    const isSaved = localFilters.findIndex((filter: any) => filter.dataKey === data.dataKey) !== -1;
+    const isSaved =
+      localFilters.findIndex(
+        (filter: any) => filter.dataKey === data.dataKey && filter.type === data.type
+      ) !== -1;
+    console.log('isSaved: ', isSaved, data.dataKey, data.type);
     if (isSaved) {
       const updatedFilterData = _.map(localFilters, filter => {
-        if (filter.dataKey === data.dataKey) {
-          if (filter.type === 'range') {
+        if (filter.dataKey === data.dataKey && filter.type === data.type) {
+          if (data.type === 'range') {
             filter.range = data.value;
-          } else if (filter.type === 'checkbox') {
+          } else if (data.type === 'checkbox') {
             filter.value = data.value;
-          } else if (filter.type === 'preset') {
+          } else if (data.type === 'preset') {
             filter.operation = data.operation;
             filter.value = data.value;
           }
@@ -867,6 +871,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         }
         return filter;
       });
+      if (data.type === 'range') {
+        const index = updatedFilterData.findIndex(
+          (filter: any) => filter.type === 'preset' && filter.dataKey === data.dataKey
+        );
+        console.log('index: ', index);
+        if (index !== -1) {
+          updatedFilterData.splice(index, 1);
+        }
+      } else if (data.type === 'preset') {
+        this.syncPresetAndRange(data);
+      }
       console.log('after1: ', updatedFilterData);
       this.setState({ localFilterData: updatedFilterData });
       filterProducts(filterSearch, updatedFilterData);
@@ -878,8 +893,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       const newFilter: NewFilterModel = { ...data };
       if (data.type === 'range') {
         newFilter.range = data.value;
+        const index = localFilters.findIndex(
+          (filter: any) => filter.type === 'preset' && filter.dataKey === data.dataKey
+        );
+        if (index !== -1) {
+          localFilters.splice(index, 1);
+        }
       } else if (data.type === 'checkbox') {
         newFilter.value = data.value;
+      } else if (data.type === 'preset') {
+        const syncData = this.syncPresetAndRange(data);
+        localFilters.map(filter => {
+          if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+            filter.range = syncData.value;
+          }
+          return filter;
+        });
       }
       localFilters.push(newFilter);
       console.log('after2: ', localFilters);
@@ -894,18 +923,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ ColumnFilterBox: false });
   };
 
-  resetSingleFilter = (dataKey: any) => {
-    console.log('resetFilter: ', dataKey);
+  resetSingleFilter = (dataKey: any, type: string) => {
+    console.log('resetFilter: ', dataKey, type);
     const { localFilterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
     const localFilters = _.cloneDeep(localFilterData);
-    const index = localFilters.findIndex((filter: any) => filter.dataKey === dataKey);
-    if (index !== -1) {
-      localFilters.splice(index, 1);
-      this.setState({ localFilterData: localFilters });
-    }
-    filterProducts(filterSearch, localFilters);
-    localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+    const result = localFilters.filter((filter: any) => filter.dataKey !== dataKey);
+    this.setState({ localFilterData: result });
+    filterProducts(filterSearch, result);
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(result));
     this.setState({ ColumnFilterBox: false });
   };
 
@@ -919,10 +945,82 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderFilterState', JSON.stringify(results));
   };
 
+  resetSinglePreset = (dataKey: any) => {
+    console.log('resetSinglePreset: ', dataKey);
+    const { filterSearch, filterProducts } = this.props;
+    const { localFilterData } = this.state;
+    const localFilters = _.cloneDeep(localFilterData);
+    const index = localFilters.findIndex(
+      (filter: any) => filter.type === 'preset' && filter.dataKey === dataKey
+    );
+    console.log('resetSinglePreset index: ', index);
+    if (index !== -1) {
+      localFilters.splice(index, 1);
+      this.setState({ localFilterData: localFilters });
+      filterProducts(filterSearch, localFilters);
+      localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+    }
+  };
+
   resetFilters = () => {
     localStorage.removeItem('profitFinderFilterState');
     for (const supplierKey of supplierDataKeys) {
       localStorage.removeItem(`products:${supplierKey}`);
+    }
+  };
+
+  syncPresetAndRange = (data: any) => {
+    console.log('data.dataKeydata.dataKey: ', supplierDataKeys.includes(data.dataKey));
+    if (supplierDataKeys.includes(data.dataKey)) {
+      const { localFilterData, filteredRanges } = this.state;
+      const localFilters = _.cloneDeep(localFilterData);
+      const result = localFilters.filter(
+        (filter: any) => filter.type === 'range' && filter.dataKey === data.dataKey
+      );
+      const filter: any =
+        result.length >= 1
+          ? result[0]
+          : { dataKey: data.dataKey, value: _.cloneDeep(filteredRanges[data.dataKey]) };
+      console.log('data: ', data, filter);
+      switch (data.operation) {
+        case '≤':
+          filter.value.min = filteredRanges[data.dataKey].min;
+          filter.value.max =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        case '≥':
+          filter.value.min =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.value.max = filteredRanges[data.dataKey].max;
+          localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        case '=':
+          filter.value.min =
+            Number(filter.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.value.max =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        default:
+          return null;
+      }
     }
   };
 

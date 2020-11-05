@@ -9,7 +9,7 @@ interface PresetFilterProps {
   filterData: any;
   resetPreset: () => void;
   togglePresetFilter: (value: boolean) => void;
-  resetSingleFilter: (dataKey: any) => void;
+  resetSingleFilter: (dataKey: any, type: any) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
@@ -24,17 +24,22 @@ const PresetFilter = (props: PresetFilterProps) => {
 
   useEffect(() => {
     const data = filterData.filter((filter: any) => filter.type === 'preset');
-    const result = localValues.map((filter: any) => {
-      for (const filter2 of data) {
-        if (filter.dataKey === filter2.dataKey) {
-          filter.value = filter2.value;
-          filter.operation = filter2.operation;
-          filter.isActive = filter2.isActive;
+    console.log('preset data: ', data);
+    if (data.length <= 0) {
+      reset();
+    } else {
+      const result = localValues.map((filter: any) => {
+        for (const filter2 of data) {
+          if (filter.dataKey === filter2.dataKey) {
+            filter.value = filter2.value;
+            filter.operation = filter2.operation;
+            filter.isActive = filter2.isActive;
+          }
         }
-      }
-      return filter;
-    });
-    setLocalValues(result);
+        return filter;
+      });
+      setLocalValues(result);
+    }
   }, [filterData]);
 
   const reset = () => {
@@ -54,7 +59,8 @@ const PresetFilter = (props: PresetFilterProps) => {
   };
 
   const setLocalData = (dataKey: string, type: string, value?: any) => {
-    const filters: NewFilterModel[] = localValues;
+    const filters: NewFilterModel[] = _.cloneDeep(localValues);
+    console.log('setLocalData filters: ', filters);
     const filterMap = _.map(filters, data => {
       if (data.dataKey === dataKey) {
         if (type === 'operation') {
@@ -63,10 +69,12 @@ const PresetFilter = (props: PresetFilterProps) => {
           data.value = data.value !== undefined || data.value !== '' ? value : 0;
         } else if (type === 'toggle') {
           if (data.isActive) {
+            console.log('setLocalData data: ', data, data.isActive);
             data.isActive = false;
-            resetSingleFilter(dataKey);
+            resetSingleFilter(dataKey, 'preset');
           } else {
             data.value = data.value || data.defaultValue;
+            data.operation = data.operation || data.defaultOperation;
             data.isActive = true;
             applyFilter(data);
           }

@@ -80,7 +80,7 @@ export interface GenericTableProps {
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
-  resetColumnFilters?: (dataKey: string) => void;
+  resetColumnFilters?: (dataKey: string, type?: any) => void;
   loadingFilters?: boolean;
   filterValues?: any;
   loading?: boolean;
