@@ -88,6 +88,65 @@ export const sizeTiers: any = [
   'Others',
 ];
 
+export const customizablePresetData: any = [
+  {
+    label: 'Listing generates',
+    dataKey: 'listing-monthly',
+    defaultOperation: '≥', //≤
+    currency: '$',
+    defaultValue: 1300,
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Profit is',
+    dataKey: 'profit-monthly',
+    defaultOperation: '≥',
+    defaultValue: 300,
+    currency: '$',
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Profit Margin is',
+    dataKey: 'margin',
+    defaultOperation: '≥',
+    defaultValue: 15,
+    targetValue: '%',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Amazon price is',
+    dataKey: 'price',
+    defaultOperation: '≥',
+    defaultValue: 25,
+    currency: '$',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Estimated Sales Volume is',
+    dataKey: 'sales_monthly',
+    defaultOperation: '≥',
+    defaultValue: 100,
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Product review is',
+    dataKey: 'customer_reviews',
+    defaultOperation: '≥',
+    defaultValue: 20,
+    targetValue: 'reviews',
+    isActive: false,
+    type: 'preset',
+  },
+];
+
 export const dataKeys: any = [
   // Basic KPI
   'profit',
@@ -349,13 +408,7 @@ export const findFilteredProducts = (products: any, filterData: NewFilterModel[]
       filterData,
       filter => filter.isActive && filter.type === 'checkbox'
     );
-    console.log(
-      'checkboxFilter: ',
-      checkboxFilter[0].value,
-      checkboxFilter[0].value.includes('Others')
-    );
     const filteredProducts = _.filter(products, (product: any) => {
-      console.log('filter.range: ', getRangedFilteredProducts(product, rangeFilter));
       return (
         getRangedFilteredProducts(product, rangeFilter) &&
         getCheckboxFilteredProducts(product, checkboxFilter)

@@ -4,11 +4,12 @@ import get from 'lodash/get';
 import { filterSupplierProducts, setLeadsTracker } from '../../../actions/Suppliers';
 import './index.scss';
 import _ from 'lodash';
-import { Button, List, Image, Popup } from 'semantic-ui-react';
+import { Button, List, Image, Popup, Icon } from 'semantic-ui-react';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 import csvIcon from '../../../assets/images/csv.svg';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
+import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 
 interface FilterSectionProps {
   stickyChartSelector: boolean;
@@ -17,6 +18,10 @@ interface FilterSectionProps {
   supplierDetails: any;
   subscriptionPlan: any;
   setLeadsTracker: (sellerId: number, supplierId: number) => void;
+  applyPresetFilter: (data: any) => void;
+  localFilterData: any;
+  resetPreset: () => void;
+  resetSingleFilter: (data: any) => void;
 }
 export class FilterSection extends React.Component<FilterSectionProps, any> {
   constructor(props: FilterSectionProps) {
@@ -68,7 +73,7 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
     );
   };
   render() {
-    // const { openPresetFilter } = this.state;
+    const { openPresetFilter } = this.state;
     const {
       stickyChartSelector,
       scrollTopSelector,
@@ -76,6 +81,10 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
       subscriptionPlan,
       setLeadsTracker,
       supplierDetails,
+      applyPresetFilter,
+      resetPreset,
+      localFilterData,
+      resetSingleFilter,
     } = this.props;
     const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
     const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
@@ -87,7 +96,41 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
     return (
       <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
         <div className="filter-header">
-          <div className="filter-header__options" />
+          {' '}
+          <div className="filter-header__options">
+            <Popup
+              on="click"
+              open={openPresetFilter}
+              onOpen={() => this.togglePresetFilter(true)}
+              onClose={() => this.togglePresetFilter(false)}
+              position="bottom left"
+              className="pf-preset-filter-popup"
+              basic={true}
+              trigger={
+                <Button
+                  basic
+                  icon
+                  labelPosition="left"
+                  className={`more-filter`}
+                  onClick={() => {
+                    this.togglePresetFilter(!openPresetFilter);
+                  }}
+                >
+                  <span className="filter-name">More</span>
+                  <Icon name="angle down" />
+                </Button>
+              }
+              content={
+                <PresetFilter
+                  togglePresetFilter={this.togglePresetFilter}
+                  applyFilter={applyPresetFilter}
+                  filterData={localFilterData}
+                  resetPreset={resetPreset}
+                  resetSingleFilter={resetSingleFilter}
+                />
+              }
+            />
+          </div>
           <div className="leads-export-wrapper">
             <p className={`${!isPlanEnterprise(subscriptionType) && 'hidden'}`}>Leads Tracking</p>
             {isPlanEnterprise(subscriptionPlan) && (

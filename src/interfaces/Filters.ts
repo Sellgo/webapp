@@ -138,7 +138,10 @@ export interface NewFilterModel {
   dateModified: any;
   checked?: boolean;
   value?: any;
+  currency?: string;
   operation?: string;
+  defaultValue?: any;
+  defaultOperation?: any;
   targetValue?: string;
   minPlaceholder?: string;
   maxPlaceholder?: string;

@@ -93,7 +93,7 @@ interface ProductsTableState {
   updateTracking: boolean;
   activeColumnFilters: any;
   activeColumnFilterValue: any;
-  filterData: NewFilterModel[];
+  localFilterData: NewFilterModel[];
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -107,7 +107,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     updateTracking: false,
     activeColumnFilters: {},
     activeColumnFilterValue: {},
-    filterData: [
+    localFilterData: [
       // {
       //   label: 'price',
       //   dataKey: 'price',
@@ -361,6 +361,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
+
   searchFilteredProduct = (value: string) => {
     const {
       searchProducts,
@@ -753,9 +754,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const profitFinderFilterState = JSON.parse(
       localStorage.getItem('profitFinderFilterState') || '[]'
     );
-    console.log('profitFinderFilterState: ', profitFinderFilterState);
-    if (profitFinderFilterState.length >= 1 && this.props.supplierID === getLatestSupplier().id) {
-      this.setState({ filterData: profitFinderFilterState });
+    if (
+      profitFinderFilterState.length >= 1 &&
+      this.props.supplierID === getLatestSupplier().id.toString()
+    ) {
+      this.setState({ localFilterData: profitFinderFilterState });
     } else {
       this.resetFilters();
     }
@@ -778,12 +781,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   }
 
   componentDidUpdate(prevProps: ProductsTableProps) {
+    const { filterSearch, filterProducts } = this.props;
+    const profitFinderFilterState = JSON.parse(
+      localStorage.getItem('profitFinderFilterState') || '[]'
+    );
     if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
       this.detectAndUpdateProductId();
+      if (
+        profitFinderFilterState.length >= 1 &&
+        this.props.supplierID === getLatestSupplier().id.toString()
+      ) {
+        filterProducts(filterSearch, profitFinderFilterState);
+      }
     }
     if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
       this.getFilteredRanges();
-      console.log('products: ', this.props.products);
     }
   }
 
@@ -832,22 +844,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   saveFilter = (data: any) => {
-    const { filterData } = this.state;
+    const { localFilterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
-    const localFilterData = _.cloneDeep(filterData);
+    const localFilters = _.cloneDeep(localFilterData);
     console.log('saveFilter data: ', data);
-    console.log('before: ', localFilterData);
+    console.log('before: ', localFilters);
     /*
       Edit saved filter
     */
-    const isSaved =
-      localFilterData.findIndex((filter: any) => filter.dataKey === data.dataKey) !== -1;
+    const isSaved = localFilters.findIndex((filter: any) => filter.dataKey === data.dataKey) !== -1;
     if (isSaved) {
-      const updatedFilterData = _.map(localFilterData, filter => {
+      const updatedFilterData = _.map(localFilters, filter => {
         if (filter.dataKey === data.dataKey) {
           if (filter.type === 'range') {
             filter.range = data.value;
           } else if (filter.type === 'checkbox') {
+            filter.value = data.value;
+          } else if (filter.type === 'preset') {
+            filter.operation = data.operation;
             filter.value = data.value;
           }
           filter.isActive = data.isActive;
@@ -856,7 +870,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         return filter;
       });
       console.log('after1: ', updatedFilterData);
-      this.setState({ filterData: updatedFilterData });
+      this.setState({ localFilterData: updatedFilterData });
       filterProducts(filterSearch, updatedFilterData);
       localStorage.setItem('profitFinderFilterState', JSON.stringify(updatedFilterData));
     } else {
@@ -869,11 +883,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       } else if (data.type === 'checkbox') {
         newFilter.value = data.value;
       }
-      localFilterData.push(newFilter);
-      console.log('after2: ', localFilterData);
-      this.setState({ filterData: localFilterData });
-      filterProducts(filterSearch, localFilterData);
-      localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilterData));
+      localFilters.push(newFilter);
+      console.log('after2: ', localFilters);
+      this.setState({ localFilterData: localFilters });
+      filterProducts(filterSearch, localFilters);
+      localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
     }
   };
 
@@ -882,18 +896,29 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ ColumnFilterBox: false });
   };
 
-  resetActiveColumnFilter = (dataKey: any) => {
-    console.log('resetActiveColumnFilter: ', dataKey);
-    const { filterData } = this.state;
+  resetSingleFilter = (dataKey: any) => {
+    console.log('resetFilter: ', dataKey);
+    const { localFilterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
-    const localFilterData = _.cloneDeep(filterData);
-    const index = localFilterData.findIndex((filter: any) => filter.dataKey === dataKey);
+    const localFilters = _.cloneDeep(localFilterData);
+    const index = localFilters.findIndex((filter: any) => filter.dataKey === dataKey);
     if (index !== -1) {
-      localFilterData.splice(index, 1);
-      this.setState({ filterData: localFilterData });
+      localFilters.splice(index, 1);
+      this.setState({ localFilterData: localFilters });
     }
-    filterProducts(filterSearch, localFilterData);
+    filterProducts(filterSearch, localFilters);
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
     this.setState({ ColumnFilterBox: false });
+  };
+
+  resetPreset = () => {
+    const { localFilterData } = this.state;
+    const { filterSearch, filterProducts } = this.props;
+    const localFilters = _.cloneDeep(localFilterData);
+    const results = localFilters.filter((filter: any) => filter.type !== 'preset');
+    this.setState({ localFilterData: results });
+    filterProducts(filterSearch, results);
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(results));
   };
 
   resetFilters = () => {
@@ -924,6 +949,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       columnFilterData,
       activeColumnFilters,
       activeColumnFilterValue,
+      localFilterData,
     } = this.state;
 
     // NOTE: temporarily filter products with ROIs greater than 300%
@@ -970,7 +996,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               handleColumnChange={this.handleColumnChange}
               columnFilterData={columnFilterData}
               middleScroll={true}
-              renderFilterSectionComponent={() => <FilterSection />}
+              renderFilterSectionComponent={() => (
+                <FilterSection
+                  localFilterData={localFilterData}
+                  applyPresetFilter={this.saveFilter}
+                  resetPreset={this.resetPreset}
+                  resetSingleFilter={this.resetSingleFilter}
+                />
+              )}
               handleColumnDrop={this.handleColumnDrop}
               reorderColumns={this.reorderColumns}
               columnDnD={true}
@@ -978,9 +1011,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               toggleColumnFilters={this.setActiveColumnFilters}
               toggleColumnCheckbox={this.handleFilterBoxClick}
               filterValues={activeColumnFilterValue}
-              resetColumnFilters={this.resetActiveColumnFilter}
+              resetColumnFilters={this.resetSingleFilter}
               cancelColumnFilters={() => {
-                console.log('resetActiveColumnFilter: ', this.state.filterData);
                 this.setState({ ColumnFilterBox: false });
               }}
               applyColumnFilters={this.applyActiveFilter}

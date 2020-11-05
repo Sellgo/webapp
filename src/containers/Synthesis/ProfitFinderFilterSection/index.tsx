@@ -20,7 +20,6 @@ import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
-import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 interface Props {
@@ -634,29 +633,6 @@ function ProfitFinderFilterSection(props: Props) {
     setAllFilter(allData);
   };
 
-  const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
-    _.map(filterState.customizable, customizableData => {
-      if (customizableData.dataKey === dataKey) {
-        if (type === 'operation') {
-          customizableData.operation = value;
-        } else if (type === 'filter-value') {
-          customizableData.value = value;
-        } else if (type === 'toggle') {
-          customizableData.active = !customizableData.active;
-          if (!customizableData.active && filterState[dataKey]) {
-            filterState[dataKey] = rangeData[dataKey];
-          }
-        }
-      }
-      return customizableData;
-    });
-    setFilterState(filterState);
-    customizableFilterWithSlider(dataKey);
-    //resets negative filter on slider based on custom filter key
-    toggleNegative(dataKey, true);
-    applyFilter(true);
-  };
-
   const toggleOffCustomFilter = (dataKey: string) => {
     const filterData = filterState;
     _.map(filterData.customizable, filter => {
@@ -667,66 +643,6 @@ function ProfitFinderFilterSection(props: Props) {
     });
     setFilterState(filterData);
   };
-
-  const resetCustomizableFilter = () => {
-    const filterData = filterState;
-    for (const key of supplierDataKeys) {
-      for (const filter of filterData.customizable) {
-        if (key === filter.dataKey && filter.active) {
-          filterState[key] = filteredRanges[key];
-        }
-      }
-    }
-    filterData.customizable = filterInitialData.customizable;
-    setFilterState(filterData);
-    applyFilter(true);
-  };
-
-  const customizableFilterWithSlider = (dataKey: string) => {
-    const filterData = filterState;
-    _.map(filterData.customizable, filter => {
-      if (filter.dataKey === dataKey && filter.active && filterData[dataKey] !== undefined) {
-        switch (filter.operation) {
-          case '≤':
-            filterData[dataKey].min = rangeData[dataKey].min;
-            filterData[dataKey].max =
-              Number(filter.value) < rangeData[dataKey].min
-                ? rangeData[dataKey].min
-                : Number(filter.value) > rangeData[dataKey].max
-                ? rangeData[dataKey].max
-                : Number(filter.value);
-            break;
-          case '≥':
-            filterData[dataKey].min =
-              Number(filter.value) < rangeData[dataKey].min
-                ? rangeData[dataKey].min
-                : Number(filter.value) > rangeData[dataKey].max
-                ? rangeData[dataKey].max
-                : Number(filter.value);
-            filterData[dataKey].max = rangeData[dataKey].max;
-            break;
-          case '=':
-            filterData[dataKey].min =
-              Number(filter.value) < rangeData[dataKey].min
-                ? rangeData[dataKey].min
-                : Number(filter.value) > rangeData[dataKey].max
-                ? rangeData[dataKey].max
-                : Number(filter.value);
-            filterData[dataKey].max =
-              Number(filter.value) < rangeData[dataKey].min
-                ? rangeData[dataKey].min
-                : Number(filter.value) > rangeData[dataKey].max
-                ? rangeData[dataKey].max
-                : Number(filter.value);
-            break;
-          default:
-            return null;
-        }
-      }
-    });
-    setFilterState(filterData);
-  };
-
   const selectAllCategories = (firstLoad?: boolean) => {
     if (!firstLoad) {
       localStorage.setItem('filterSelectAllCategories', JSON.stringify(true));
@@ -848,11 +764,6 @@ function ProfitFinderFilterSection(props: Props) {
       filterValue.profit = rangeData.profit;
     }
     setFilterState(filterValue);
-  };
-
-  const resetPreset = () => {
-    resetCustomizableFilter();
-    applyFilter(true);
   };
 
   const applyFilter = (isPreset?: boolean) => {
@@ -1076,17 +987,7 @@ function ProfitFinderFilterSection(props: Props) {
                 <Icon name="angle down" />
               </Button>
             }
-            content={
-              <PresetFilter
-                togglePresetFilter={togglePresetFilter}
-                applyFilter={applyFilter}
-                filterState={filterState}
-                filterData={filterDataState}
-                filterInitialData={filterInitialData}
-                resetPreset={resetPreset}
-                customizeFilterChange={customizeFilterChange}
-              />
-            }
+            content={<></>}
           />
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
