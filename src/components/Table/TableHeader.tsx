@@ -37,7 +37,7 @@ interface Shared {
   className?: string;
   setActiveColumn: (value?: string) => void;
   setSortColumn: (value?: string) => void;
-  toggleColumnFilters?: (data: any) => void;
+  toggleColumnFilters?: (data: any, type?: any) => void;
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
@@ -175,7 +175,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       trigger={
         <Icon
           className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
-          onClick={() => (toggleColumnFilters ? toggleColumnFilters(dataKey) : undefined)}
+          onClick={() =>
+            toggleColumnFilters ? toggleColumnFilters(dataKey, filterType) : undefined
+          }
         />
       }
       content={

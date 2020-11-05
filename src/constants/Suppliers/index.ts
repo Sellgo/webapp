@@ -147,6 +147,14 @@ export const customizablePresetData: any = [
   },
 ];
 
+export const getProfitFinderCheckBoxData = (dk: any) => {
+  if (dk === 'amazon_category_name') {
+    return productCategories;
+  } else if (dk === 'size_tier') {
+    return sizeTiers;
+  }
+};
+
 export const dataKeys: any = [
   // Basic KPI
   'profit',
@@ -168,6 +176,7 @@ export const supplierDataKeys: any = [
   'roi',
   'rank',
   'sales_monthly',
+  'customer_reviews',
 ];
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
@@ -327,42 +336,36 @@ export const customFilterOperation = (
   }
 };
 
-export const customizableFilter = (product: any, customizableFilter: any) => {
+export const getCustomizableFilteredProducts = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (result) {
       // for keys with computation that doesn't exist in filter slider
-      if (filter.dataKey === 'listing-monthly' && filter.active) {
+      if (filter.dataKey === 'listing-monthly') {
         const generatesValue = product.price * product.sales_monthly;
-        if (!filter.active) result = true;
+        if (!filter.isActive) result = true;
         else {
           result = customFilterOperation(filter.operation, generatesValue, filter.value);
         }
       }
-      if (filter.dataKey === 'profit-monthly' && filter.active) {
+      if (filter.dataKey === 'profit-monthly') {
         const profitMonthly = product.profit * product.sales_monthly;
-        if (!filter.active) result = true;
+        if (!filter.isActive) result = true;
         else {
           result = customFilterOperation(filter.operation, profitMonthly, filter.value);
         }
       }
-      if (filter.dataKey === 'customer_reviews' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          if (product.customer_reviews === null) result = true;
-          else {
-            result = customFilterOperation(
-              filter.operation,
-              product.customer_reviews,
-              filter.value
-            );
-          }
-        }
-      }
+
       // for sliders with keys same with customize filter for ex. price
-      for (const keys of supplierDataKeys) {
-        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
-          result = Number(product[filter.dataKey]) === Number(filter.value);
+      for (const key of supplierDataKeys) {
+        if (filter.dataKey === key) {
+          if (!filter.isActive) result = true;
+          else {
+            if (product[key] === null) result = true;
+            else {
+              result = customFilterOperation(filter.operation, product[key], filter.value);
+            }
+          }
         }
       }
     }
@@ -408,10 +411,12 @@ export const findFilteredProducts = (products: any, filterData: NewFilterModel[]
       filterData,
       filter => filter.isActive && filter.type === 'checkbox'
     );
+    const presetFilter = _.filter(filterData, filter => filter.type === 'preset');
     const filteredProducts = _.filter(products, (product: any) => {
       return (
         getRangedFilteredProducts(product, rangeFilter) &&
-        getCheckboxFilteredProducts(product, checkboxFilter)
+        getCheckboxFilteredProducts(product, checkboxFilter) &&
+        getCustomizableFilteredProducts(product, presetFilter)
       );
     });
 

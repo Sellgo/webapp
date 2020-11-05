@@ -76,7 +76,7 @@ export interface GenericTableProps {
   middleScroll?: boolean;
   rowExpander?: any;
   pageCount?: any;
-  toggleColumnFilters?: (data: any) => void;
+  toggleColumnFilters?: (data: any, type?: any) => void;
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;

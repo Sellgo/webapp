@@ -41,8 +41,7 @@ import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import FilterSection from '../../FilterSection';
 import {
   findMinMax,
-  productCategories,
-  sizeTiers,
+  getProfitFinderCheckBoxData,
   supplierDataKeys,
 } from '../../../../constants/Suppliers';
 import { NewFilterModel } from '../../../../interfaces/Filters';
@@ -426,6 +425,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      filter: true,
+      filterLabel: 'Customer Reviews',
+      filterSign: '',
+      filterType: 'range',
       render: this.renderReviews,
     },
     {
@@ -785,7 +788,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const profitFinderFilterState = JSON.parse(
       localStorage.getItem('profitFinderFilterState') || '[]'
     );
-    if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
+    if (
+      prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts ||
+      prevProps.productsLoadingDataBuster !== this.props.productsLoadingDataBuster
+    ) {
       this.detectAndUpdateProductId();
       if (
         profitFinderFilterState.length >= 1 &&
@@ -805,34 +811,26 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ filteredRanges });
   };
 
-  setActiveColumnFilters = (data: any) => {
+  setActiveColumnFilters = (data: any, type: any) => {
     console.log('data: ', data);
 
     this.setState({
-      activeColumnFilterValue: this.getFilterValues(data),
+      activeColumnFilterValue: this.getFilterValues(data, type),
     });
     this.setState({ activeColumnFilters: data });
   };
 
-  getFilterValues = (data: any) => {
-    if (data === 'amazon_category_name') {
-      const filterCategories = _.map(productCategories, category => {
-        const obj: any = {};
-        obj.value = category;
-        return obj;
-      });
-      console.log('filterCategories: ', filterCategories);
-      return filterCategories;
-    } else if (data === 'size_tier') {
-      const productTiers = _.map(sizeTiers, tier => {
-        const obj: any = {};
-        obj.value = tier;
-        return obj;
-      });
-      console.log('productTiers: ', productTiers);
-      return productTiers;
-    } else {
+  getFilterValues = (data: any, type: any) => {
+    if (type === 'range') {
       return this.state.filteredRanges[data];
+    } else if (type === 'checkbox') {
+      const checkboxData = getProfitFinderCheckBoxData(data);
+      const filterCheckboxes = _.map(checkboxData, data => {
+        const obj: any = {};
+        obj.value = data;
+        return obj;
+      });
+      return filterCheckboxes;
     }
   };
 
