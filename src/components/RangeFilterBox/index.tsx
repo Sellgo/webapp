@@ -170,6 +170,7 @@ const RangeFilterBox = (props: any) => {
           label: filterLabel,
           isActive: true,
           type: filterType,
+          defaultValues: minMax,
           dateModified: Date.now(),
         };
         console.log('result2: ', result2);
@@ -182,6 +183,7 @@ const RangeFilterBox = (props: any) => {
           label: filterLabel,
           isActive: true,
           type: filterType,
+          defaultValues: minMax,
           dateModified: Date.now(),
         };
         saveFilters(res);

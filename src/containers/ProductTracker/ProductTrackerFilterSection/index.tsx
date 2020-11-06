@@ -22,7 +22,6 @@ import {
   isTrackerFilterLoading,
 } from '../../../actions/ProductTracker';
 import { sellerIDSelector } from '../../../selectors/Seller';
-import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import PresetFilter from '../../../components/ProductTrackerFilter/PresetFilter';
 
 interface Props {
@@ -718,27 +717,27 @@ function ProductTrackerFilterSection(props: Props) {
     applyFilter(true);
   };
 
-  const setProfitability = (value?: any) => {
-    const filterValue = _.cloneDeep(filterState);
-    const objData = {
-      value: value ? value : filterValue.profitabilityFilter.value,
-      active: value ? true : !filterValue.profitabilityFilter.active,
-    };
-    filterValue.profitabilityFilter = objData;
+  // const setProfitability = (value?: any) => {
+  //   const filterValue = _.cloneDeep(filterState);
+  //   const objData = {
+  //     value: value ? value : filterValue.profitabilityFilter.value,
+  //     active: value ? true : !filterValue.profitabilityFilter.active,
+  //   };
+  //   filterValue.profitabilityFilter = objData;
 
-    if (filterValue.profitabilityFilter.active) {
-      if (filterValue.profitabilityFilter.value === 'Profitable') {
-        filterValue.avg_profit.min = 0.01;
-        filterValue.avg_profit.max = rangeData.avg_profit.max;
-      } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
-        filterValue.avg_profit.min = rangeData.avg_profit.min;
-        filterValue.avg_profit.max = 0;
-      }
-    } else {
-      filterValue.avg_profit = rangeData.avg_profit;
-    }
-    setFilterState(filterValue);
-  };
+  //   if (filterValue.profitabilityFilter.active) {
+  //     if (filterValue.profitabilityFilter.value === 'Profitable') {
+  //       filterValue.avg_profit.min = 0.01;
+  //       filterValue.avg_profit.max = rangeData.avg_profit.max;
+  //     } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
+  //       filterValue.avg_profit.min = rangeData.avg_profit.min;
+  //       filterValue.avg_profit.max = 0;
+  //     }
+  //   } else {
+  //     filterValue.avg_profit = rangeData.avg_profit;
+  //   }
+  //   setFilterState(filterValue);
+  // };
 
   const handleFilterType = (type: string) => {
     if (filterType === type) {
@@ -816,11 +815,11 @@ function ProductTrackerFilterSection(props: Props) {
               />
             }
           />
-          <ProfitabilityFilterPreset
+          {/* <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
             filterState={filterState}
-          />
+          /> */}
         </div>
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {

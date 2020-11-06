@@ -10,6 +10,7 @@ import { isPlanEnterprise } from '../../../utils/subscriptions';
 import csvIcon from '../../../assets/images/csv.svg';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import PresetFilter from '../../../components/FilterContainer/PresetFilter';
+import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 
 interface FilterSectionProps {
   stickyChartSelector: boolean;
@@ -22,6 +23,8 @@ interface FilterSectionProps {
   localFilterData: any;
   resetPreset: () => void;
   resetSingleFilter: (data: any, type: any) => void;
+  setProfitability: (data: any) => void;
+  filteredRanges: any;
 }
 export class FilterSection extends React.Component<FilterSectionProps, any> {
   constructor(props: FilterSectionProps) {
@@ -85,6 +88,8 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
       resetPreset,
       localFilterData,
       resetSingleFilter,
+      setProfitability,
+      filteredRanges,
     } = this.props;
     const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
     const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
@@ -129,6 +134,12 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
                   resetSingleFilter={resetSingleFilter}
                 />
               }
+            />
+
+            <ProfitabilityFilterPreset
+              setProfitability={setProfitability}
+              filterData={localFilterData}
+              filteredRanges={filteredRanges}
             />
           </div>
           <div className="leads-export-wrapper">

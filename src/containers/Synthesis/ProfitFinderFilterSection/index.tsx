@@ -19,7 +19,6 @@ import FilterContainer from '../../../components/FilterContainer';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import msExcelIcon from '../../../assets/images/microsoft-excel.png';
 import csvIcon from '../../../assets/images/csv.svg';
-import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 
 interface Props {
@@ -744,27 +743,27 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterDetails);
   };
 
-  const setProfitability = (value?: any) => {
-    const filterValue = filterState;
-    const objData = {
-      value: value ? value : filterValue.profitabilityFilter.value,
-      active: value ? true : !filterValue.profitabilityFilter.active,
-    };
-    filterValue.profitabilityFilter = objData;
+  // const setProfitability = (value?: any) => {
+  //   const filterValue = filterState;
+  //   const objData = {
+  //     value: value ? value : filterValue.profitabilityFilter.value,
+  //     active: value ? true : !filterValue.profitabilityFilter.active,
+  //   };
+  //   filterValue.profitabilityFilter = objData;
 
-    if (filterValue.profitabilityFilter.active) {
-      if (filterValue.profitabilityFilter.value === 'Profitable') {
-        filterValue.profit.min = 0.01;
-        filterValue.profit.max = rangeData.profit.max;
-      } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
-        filterValue.profit.min = rangeData.profit.min;
-        filterValue.profit.max = 0;
-      }
-    } else {
-      filterValue.profit = rangeData.profit;
-    }
-    setFilterState(filterValue);
-  };
+  //   if (filterValue.profitabilityFilter.active) {
+  //     if (filterValue.profitabilityFilter.value === 'Profitable') {
+  //       filterValue.profit.min = 0.01;
+  //       filterValue.profit.max = rangeData.profit.max;
+  //     } else if (filterValue.profitabilityFilter.value === 'Non-Profitable Products') {
+  //       filterValue.profit.min = rangeData.profit.min;
+  //       filterValue.profit.max = 0;
+  //     }
+  //   } else {
+  //     filterValue.profit = rangeData.profit;
+  //   }
+  //   setFilterState(filterValue);
+  // };
 
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
@@ -989,11 +988,11 @@ function ProfitFinderFilterSection(props: Props) {
             }
             content={<></>}
           />
-          <ProfitabilityFilterPreset
+          {/* <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
             filterState={filterState}
-          />
+          /> */}
         </div>
 
         <div className="leads-export-wrapper">
