@@ -24,7 +24,6 @@ const ProfitabilityFilterPreset = (props: Props) => {
   const [currentData, setData] = React.useState('Profitable');
 
   useEffect(() => {
-    console.log('ProfitabilityFilterPreset: ', filterData);
     if (isActive) {
       setData(currentData);
       handleSet(currentData);
@@ -32,14 +31,11 @@ const ProfitabilityFilterPreset = (props: Props) => {
   }, [currentData]);
 
   useEffect(() => {
-    console.log('ProfitabilityFilterPreset2: ', filterData);
     if (!_.isEmpty(filteredRanges)) {
       if (!_.isEmpty(filterData)) {
         const index = filterData.findIndex((filter: any) => filter.type === 'probability-preset');
-        console.log('ProfitabilityFilterPreset index: ', index);
         if (index !== -1) {
           const data = filterData.filter((filter: any) => filter.type === 'probability-preset')[0];
-          console.log('ProfitabilityFilterPreset index: ', data);
           if (!isActivated()) {
             setData(data.value);
             handleSet(data.value);
@@ -60,7 +56,6 @@ const ProfitabilityFilterPreset = (props: Props) => {
 
   const handleClick = () => {
     setActive(!isActive);
-    console.log('handleClick: ', currentData);
     if (isActivated()) {
       setProfitability('');
     } else {
@@ -69,7 +64,6 @@ const ProfitabilityFilterPreset = (props: Props) => {
   };
 
   const handleSet = (data: any) => {
-    console.log('handleSet: ', data);
     if (data === '') setProfitability('');
     else {
       const objData = {

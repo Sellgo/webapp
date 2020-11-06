@@ -420,40 +420,10 @@ export const findFilteredProducts = (products: any, filterData: NewFilterModel[]
       );
     });
 
-    console.log('findFilteredProducts: ', filteredProducts);
-    // console.log('result findFilteredProducts: ', updatedProducts);
+    localStorage.setItem('profitFinderFilterStateActive', 'true');
     return filteredProducts;
   }
 };
-// export const findFilteredProducts = (products: any, filterData: any) => {
-//   const updatedFilterProducts = _.filter(products, product => {
-//     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
-//       ? // show if product's category matched one of filter's categories
-//         (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
-//           //show if product's category is empty & other's filter is active
-//           (_.isEmpty(product.amazon_category_name) &&
-//             filterData.allFilter.indexOf('Others') !== -1) ||
-//           //show if product's category doesn't exist in filter's categories if other's filter is active
-//           (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
-//             filterData.allFilter.indexOf('Others') !== -1)) &&
-//           //show product size tier is empty and others is checked
-//           ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
-//             //show product size tier is matched by one of size tiers
-//             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
-//           //customizable filters
-//           customizableFilter(product, filterData.customizable) &&
-//           //NonProfitable filters
-//           findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-//           //Product's Min and Max must be valid from filter's min & max
-//           supplierDataKeys.every(
-//             (dataKey: any) =>
-//               Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-//               Number(product[dataKey]) <= Number(filterData[dataKey].max)
-//           )
-//       : null;
-//   });
-//   return updatedFilterProducts;
-// };
 
 export const searchFilteredProduct = (products: any, value: string) => {
   const updatedFilterProducts = _.filter(products, product => {

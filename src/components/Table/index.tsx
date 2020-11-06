@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { TableBody } from './TableBody';
 import TableHeader from './TableHeader';
 import Pagination from '../Pagination';
+import ActiveFilters from '../ActiveFilters';
 
 import ConstructionImage from '../../components/ConstructionImage/';
 
@@ -226,18 +227,31 @@ export const GenericTable = (props: GenericTableProps) => {
           }
           // make string-based sorting case-insensitive
           if (sortedColumn.dataKey && sortedColumn.type === 'string') {
-            if (sortedColumn.dataKey === 'dimension') {
-              const firstDimension = formatDimensionForSorting(aColumn);
-              const secondDimension = formatDimensionForSorting(bColumn);
-              if (firstDimension < secondDimension) {
-                return -1;
+            if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+              return -1;
+            }
+            // make string-based sorting case-insensitive
+            if (sortedColumn.dataKey && sortedColumn.type === 'string') {
+              if (sortedColumn.dataKey === 'dimension') {
+                const firstDimension = formatDimensionForSorting(aColumn);
+                const secondDimension = formatDimensionForSorting(bColumn);
+                if (firstDimension < secondDimension) {
+                  return -1;
+                }
+                return 1;
+              } else {
+                if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+                  return -1;
+                }
+                if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+                  return 1;
+                }
               }
-              return 1;
             } else {
-              if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+              if (aColumn < bColumn) {
                 return -1;
               }
-              if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+              if (aColumn > bColumn) {
                 return 1;
               }
             }
@@ -453,6 +467,7 @@ export const GenericTable = (props: GenericTableProps) => {
               ) : (
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
+                    <ActiveFilters tableType={name} />
                     <Pagination
                       onPageSizeSelect={size => {
                         if (setSinglePageItemsCount) {
