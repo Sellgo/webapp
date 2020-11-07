@@ -87,6 +87,8 @@ export interface GenericTableProps {
   loading?: boolean;
   searchValue?: string;
   scrollToView?: boolean;
+  filterData?: any;
+  toggleActiveFilter?: (data: any) => void;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -164,6 +166,8 @@ export const GenericTable = (props: GenericTableProps) => {
     loading,
     searchValue,
     scrollToView,
+    filterData,
+    toggleActiveFilter,
   } = props;
 
   const initialPage = currentPage ? currentPage : 1;
@@ -467,7 +471,7 @@ export const GenericTable = (props: GenericTableProps) => {
               ) : (
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
-                    <ActiveFilters tableType={name} />
+                    <ActiveFilters filterData={filterData} toggleFilter={toggleActiveFilter} />
                     <Pagination
                       onPageSizeSelect={size => {
                         if (setSinglePageItemsCount) {

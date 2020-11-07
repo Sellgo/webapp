@@ -968,6 +968,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
     }
 
+    // remove sync sliders if preset is off
+    if (type === 'preset') {
+      localStorage.removeItem(`products:${dataKey}`);
+    }
+
     this.setState({ localFilterData: result });
     filterProducts(filterSearch, result);
     localStorage.setItem('profitFinderFilterState', JSON.stringify(result));
@@ -978,6 +983,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { localFilterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
     const localFilters = _.cloneDeep(localFilterData);
+    const removedPresets = localFilters.filter((filter: any) => filter.type === 'preset');
+    if (removedPresets.length >= 1) {
+      this.removeSlidersFiltersWithPreset(removedPresets);
+    }
     const results = localFilters.filter((filter: any) => filter.type !== 'preset');
     this.setState({ localFilterData: results });
     filterProducts(filterSearch, results);
@@ -988,6 +997,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.removeItem('profitFinderFilterState');
     for (const supplierKey of supplierDataKeys) {
       localStorage.removeItem(`products:${supplierKey}`);
+    }
+  };
+
+  removeSlidersFiltersWithPreset = (presets: any) => {
+    for (const filter of presets) {
+      for (const supplierKey of supplierDataKeys) {
+        if (filter.dataKey === supplierKey) {
+          localStorage.removeItem(`products:${supplierKey}`);
+        }
+      }
     }
   };
 
@@ -1003,7 +1022,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         result.length >= 1
           ? result[0]
           : { dataKey: data.dataKey, value: _.cloneDeep(filteredRanges[data.dataKey]) };
-      console.log('data: ', data, filter);
       switch (data.operation) {
         case '≤':
           filter.value.min = filteredRanges[data.dataKey].min;
@@ -1221,6 +1239,36 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.removeItem(`products:profit`);
   };
 
+  syncFilterSlider = (sliderFilters: any) => {
+    console.log('syncFilterSlider: ', sliderFilters);
+    for (const sliderFilter of sliderFilters) {
+      this.syncPresetAndRange(sliderFilter);
+    }
+  };
+  toggleActiveFilter = (isActive: any) => {
+    console.log('toggleActiveFilter state: ', isActive);
+    const { filterSearch, filterProducts } = this.props;
+    if (isActive) {
+      const profitFinderFilterState = JSON.parse(
+        localStorage.getItem('profitFinderFilterState') || '[]'
+      );
+      const results = profitFinderFilterState.filter((filter: any) => filter.type === 'preset');
+      console.log('res: ', results);
+      if (results.length >= 1) {
+        this.syncFilterSlider(results);
+      }
+      this.setState({ localFilterData: profitFinderFilterState });
+      filterProducts(filterSearch, profitFinderFilterState);
+    } else {
+      for (const supplierKey of supplierDataKeys) {
+        localStorage.removeItem(`products:${supplierKey}`);
+      }
+      this.setState({ localFilterData: [] });
+      filterProducts(filterSearch, []);
+      localStorage.setItem('profitFinderFilterStateActive', 'false');
+    }
+  };
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -1312,6 +1360,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 this.setState({ ColumnFilterBox: false });
               }}
               applyColumnFilters={this.applyActiveFilter}
+              filterData={localFilterData}
+              toggleActiveFilter={this.toggleActiveFilter}
             />
           </>
         )}
