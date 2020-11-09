@@ -6,7 +6,8 @@ import './index.scss';
 const ActiveFilters = (props: any) => {
   const { filterData, toggleFilter } = props;
 
-  const activeState = JSON.parse(localStorage.getItem('profitFinderFilterStateActive') || '[]');
+  const activeState = JSON.parse(localStorage.getItem('profitFinderFilterStateActive') || 'false');
+  console.log('activeState: ', activeState);
   const [filterIsActive, setFilterActive] = React.useState(activeState);
 
   useEffect(() => {

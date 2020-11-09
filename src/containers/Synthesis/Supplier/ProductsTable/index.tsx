@@ -995,6 +995,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   resetFilters = () => {
     localStorage.removeItem('profitFinderFilterState');
+    localStorage.removeItem('profitFinderFilterStateActive');
     for (const supplierKey of supplierDataKeys) {
       localStorage.removeItem(`products:${supplierKey}`);
     }
@@ -1260,6 +1261,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       this.setState({ localFilterData: profitFinderFilterState });
       filterProducts(filterSearch, profitFinderFilterState);
     } else {
+      console.log('isActive: ', isActive);
       for (const supplierKey of supplierDataKeys) {
         localStorage.removeItem(`products:${supplierKey}`);
       }
