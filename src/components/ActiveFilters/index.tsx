@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Checkbox, Icon } from 'semantic-ui-react';
 import './index.scss';
 
 const ActiveFilters = (props: any) => {
@@ -22,17 +23,21 @@ const ActiveFilters = (props: any) => {
   };
 
   return (
-    <div className={`active-filters-wrapper `}>
+    <div className="active-filters-wrapper">
       {filterData ? (
         <>
-          <input
-            key={`active-filter-toggle ${filterIsActive}`}
+          <Checkbox
+            id="active-filters-toggle"
+            className="active-filters-wrapper__toggle"
             checked={filterIsActive}
             onChange={() => {
               activeFilterToggle();
             }}
-            type="checkbox"
           />
+          <label htmlFor="active-filters-toggle">
+            <Icon className="active-filters-wrapper__icon" name="filter" />
+            <span>Active Filters:</span>
+          </label>
 
           <div className="active-filters-wrapper__items-wrapper">
             <div className="active-filters-wrapper__items-wrapper__item">

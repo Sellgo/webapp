@@ -1,3 +1,53 @@
 .active-filters-wrapper {
   margin-left: 80px;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    color: #98aeca;
+    margin: 0 10px !important;
+  }
+
+  &__label,
+  span {
+    color: #98aeca;
+  }
+
+  &__items-wrapper {
+    margin: 0 5px;
+
+    &__item {
+      color: #98aeca;
+      border: 1px solid #98aeca;
+      border-radius: 5px;
+      padding: 2px;
+      font-size: 12px;
+
+      span {
+        margin: 0 2px;
+      }
+    }
+  }
+
+  .ui {
+    &.checkbox {
+      span {
+        color: #98aeca;
+      }
+
+      input:checked ~ .box::before,
+      input:checked ~ label::before {
+        background-color: #98aeca;
+        border: 1px solid #d4d4d5;
+        color: #98aeca !important;
+      }
+
+      input:checked ~ .box::after,
+      input:checked ~ label::after {
+        font-size: 12px;
+        font-weight: 400;
+        color: #fff;
+      }
+    }
+  }
 }
