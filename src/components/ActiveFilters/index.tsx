@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import get from 'lodash/get';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -5,10 +6,9 @@ import { Checkbox, Icon } from 'semantic-ui-react';
 import './index.scss';
 
 const ActiveFilters = (props: any) => {
-  const { filterData, toggleFilter } = props;
+  const { sortedFiltersData, toggleFilter, resetSingleFilter } = props;
 
   const activeState = JSON.parse(localStorage.getItem('profitFinderFilterStateActive') || 'false');
-  console.log('activeState: ', activeState);
   const [filterIsActive, setFilterActive] = React.useState(activeState);
 
   useEffect(() => {
@@ -16,6 +16,12 @@ const ActiveFilters = (props: any) => {
       setFilterActive(activeState);
     }
   }, [activeState]);
+  useEffect(() => {
+    if (_.isEmpty(sortedFiltersData)) {
+      setFilterActive(false);
+      localStorage.removeItem('profitFinderFilterStateActive');
+    }
+  }, [sortedFiltersData]);
 
   const activeFilterToggle = () => {
     setFilterActive(!filterIsActive);
@@ -24,7 +30,7 @@ const ActiveFilters = (props: any) => {
 
   return (
     <div className="active-filters-wrapper">
-      {filterData ? (
+      {sortedFiltersData ? (
         <>
           <Checkbox
             id="active-filters-toggle"
@@ -40,14 +46,33 @@ const ActiveFilters = (props: any) => {
           </label>
 
           <div className="active-filters-wrapper__items-wrapper">
-            <div className="active-filters-wrapper__items-wrapper__item">
-              <p>
-                <span className="active-filters-wrapper__items-wrapper__item__title">ROI</span>
-                <span className="active-filters-wrapper__items-wrapper__item__min">20%</span>
-                <span className="active-filters-wrapper__items-wrapper__item__to">to</span>
-                <span className="active-filters-wrapper__items-wrapper__item__max">50%</span>
-              </p>
-            </div>
+            {_.map(sortedFiltersData, (filter: any, index: any) => {
+              if (filter.type === 'range') {
+                return (
+                  <div className="active-filters-wrapper__items-wrapper__item" key={index}>
+                    <p>
+                      <span className="active-filters-wrapper__items-wrapper__item__title">
+                        {filter.label}
+                      </span>
+                      <span className="active-filters-wrapper__items-wrapper__item__min">
+                        {filter.range.min}
+                      </span>
+                      <span className="active-filters-wrapper__items-wrapper__item__to">to</span>
+                      <span className="active-filters-wrapper__items-wrapper__item__max">
+                        {filter.range.max}
+                      </span>
+                      <Icon
+                        className="active-filters-wrapper__items-wrapper__item__icon"
+                        name="times circle"
+                        onClick={() => {
+                          resetSingleFilter(filter.dataKey, filter.type);
+                        }}
+                      />
+                    </p>
+                  </div>
+                );
+              }
+            })}
           </div>
         </>
       ) : null}

@@ -15,16 +15,29 @@
 
   &__items-wrapper {
     margin: 0 5px;
+    display: flex;
 
     &__item {
       color: #98aeca;
       border: 1px solid #98aeca;
       border-radius: 5px;
-      padding: 2px;
+      padding: 2px 5px 0;
       font-size: 12px;
+      margin: 0 5px;
+
+      p {
+        display: flex;
+      }
 
       span {
         margin: 0 2px;
+      }
+
+      &__icon {
+        color: #98aeca;
+        margin: 0 !important;
+        cursor: pointer;
+        font-size: 13px !important;
       }
     }
   }

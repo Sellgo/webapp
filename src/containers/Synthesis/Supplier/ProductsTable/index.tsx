@@ -812,8 +812,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   setActiveColumnFilters = (data: any, type: any) => {
-    console.log('data: ', data);
-
     this.setState({
       activeColumnFilterValue: this.getFilterValues(data, type),
     });
@@ -842,11 +840,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   saveFilter = (data: any) => {
-    const { localFilterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
+    const localFilterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
     const localFilters = _.cloneDeep(localFilterData);
-    console.log('saveFilter data: ', data);
-    console.log('before: ', localFilters);
+
+    // apply status of existing filters
+    const presetFilters = localFilters.filter((filter: any) => filter.type === 'preset');
+    const rangeFilters = localFilters.filter((filter: any) => filter.type === 'range');
+    if (presetFilters.length >= 1) {
+      for (const sliderFilter of presetFilters) {
+        this.syncPresetAndRange(sliderFilter);
+      }
+    }
+    if (rangeFilters.length >= 1) {
+      for (const rangeFilter of rangeFilters) {
+        this.syncFilterSlider(rangeFilter);
+      }
+    }
+
     /*
       Edit saved filter
     */
@@ -854,7 +865,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       localFilters.findIndex(
         (filter: any) => filter.dataKey === data.dataKey && filter.type === data.type
       ) !== -1;
-    console.log('isSaved: ', isSaved, data.dataKey, data.type);
     if (isSaved) {
       const updatedFilterData = _.map(localFilters, filter => {
         if (filter.dataKey === data.dataKey && filter.type === data.type) {
@@ -877,7 +887,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         const probabilityIndex = updatedFilterData.findIndex(
           (filter: any) => filter.type === 'probability-preset'
         );
-        console.log('index: ', probabilityIndex);
         if (probabilityIndex !== -1) {
           updatedFilterData.splice(probabilityIndex, 1);
         }
@@ -902,7 +911,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         this.syncPresetAndRange(data);
       }
 
-      console.log('after1: ', updatedFilterData);
       this.setState({ localFilterData: updatedFilterData });
       filterProducts(filterSearch, updatedFilterData);
       localStorage.setItem('profitFinderFilterState', JSON.stringify(updatedFilterData));
@@ -930,7 +938,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           apply preset filter and remove existing range filter with same datakey
         */
         const syncData = this.syncPresetAndRange(data);
-        localFilters.map(filter => {
+        localFilters.map((filter: any) => {
           if (filter.type === 'range' && filter.dataKey === data.dataKey) {
             filter.range = syncData.value;
           }
@@ -938,7 +946,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         });
       }
       localFilters.push(newFilter);
-      console.log('after2: ', localFilters);
       this.setState({ localFilterData: localFilters });
       filterProducts(filterSearch, localFilters);
       localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
@@ -951,9 +958,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   resetSingleFilter = (dataKey: any, type: string) => {
-    console.log('resetFilter: ', dataKey, type);
-    const { localFilterData } = this.state;
     const { filterSearch, filterProducts } = this.props;
+    const localFilterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
     const localFilters = _.cloneDeep(localFilterData);
     const result = localFilters.filter((filter: any) => filter.dataKey !== dataKey);
 
@@ -962,14 +968,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       const probabilityIndex = result.findIndex(
         (filter: any) => filter.type === 'probability-preset'
       );
-      console.log('index: ', probabilityIndex);
       if (probabilityIndex !== -1) {
         result.splice(probabilityIndex, 1);
       }
     }
 
-    // remove sync sliders if preset is off
-    if (type === 'preset') {
+    if (type === 'preset' || type === 'range') {
       localStorage.removeItem(`products:${dataKey}`);
     }
 
@@ -1012,7 +1016,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   syncPresetAndRange = (data: any) => {
-    console.log('data.dataKeydata.dataKey: ', supplierDataKeys.includes(data.dataKey));
     if (supplierDataKeys.includes(data.dataKey)) {
       const { localFilterData, filteredRanges } = this.state;
       const localFilters = _.cloneDeep(localFilterData);
@@ -1066,9 +1069,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   setProfitability = (data: any) => {
-    console.log('setProfitability dattat: ', data, data !== '');
     const { localFilterData, filteredRanges } = this.state;
-    console.log('setProfitability filteredRanges: ', filteredRanges);
     const { filterSearch, filterProducts } = this.props;
     const localFilters: any = _.cloneDeep(localFilterData);
     const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
@@ -1140,7 +1141,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           }
           localFilters.push(newFilter);
           this.setState({ localFilterData: localFilters });
-          console.log('new: ', localFilters);
           filterProducts(filterSearch, localFilters);
           localStorage.setItem(`products:profit`, JSON.stringify(newFilter));
           localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
@@ -1212,7 +1212,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         localFilters.push(newFilter);
         localFilters.push(probabilityData);
         this.setState({ localFilterData: localFilters });
-        console.log('new: ', localFilters);
         filterProducts(filterSearch, localFilters);
         localStorage.setItem(`products:profit`, JSON.stringify(newFilter));
         localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
@@ -1240,28 +1239,37 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.removeItem(`products:profit`);
   };
 
-  syncFilterSlider = (sliderFilters: any) => {
-    console.log('syncFilterSlider: ', sliderFilters);
-    for (const sliderFilter of sliderFilters) {
-      this.syncPresetAndRange(sliderFilter);
+  syncFilterSlider = (filter: any) => {
+    for (const supplierKey of supplierDataKeys) {
+      if (filter.dataKey === supplierKey) {
+        localStorage.setItem(`products:${filter.dataKey}`, JSON.stringify(filter));
+      }
     }
   };
+
   toggleActiveFilter = (isActive: any) => {
-    console.log('toggleActiveFilter state: ', isActive);
     const { filterSearch, filterProducts } = this.props;
     if (isActive) {
       const profitFinderFilterState = JSON.parse(
         localStorage.getItem('profitFinderFilterState') || '[]'
       );
-      const results = profitFinderFilterState.filter((filter: any) => filter.type === 'preset');
-      console.log('res: ', results);
-      if (results.length >= 1) {
-        this.syncFilterSlider(results);
+      const presetFilters = profitFinderFilterState.filter(
+        (filter: any) => filter.type === 'preset'
+      );
+      const rangeFilters = profitFinderFilterState.filter((filter: any) => filter.type === 'range');
+      if (presetFilters.length >= 1) {
+        for (const sliderFilter of presetFilters) {
+          this.syncPresetAndRange(sliderFilter);
+        }
+      }
+      if (rangeFilters.length >= 1) {
+        for (const rangeFilter of rangeFilters) {
+          this.syncFilterSlider(rangeFilter);
+        }
       }
       this.setState({ localFilterData: profitFinderFilterState });
       filterProducts(filterSearch, profitFinderFilterState);
     } else {
-      console.log('isActive: ', isActive);
       for (const supplierKey of supplierDataKeys) {
         localStorage.removeItem(`products:${supplierKey}`);
       }
@@ -1269,6 +1277,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterProducts(filterSearch, []);
       localStorage.setItem('profitFinderFilterStateActive', 'false');
     }
+  };
+
+  getSortedActiveFilters = () => {
+    const filterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    filterData.sort(function(a: any, b: any) {
+      return parseFloat(a.dateModified) - parseFloat(b.dateModified);
+    });
+    return filterData;
   };
 
   render() {
@@ -1362,8 +1378,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 this.setState({ ColumnFilterBox: false });
               }}
               applyColumnFilters={this.applyActiveFilter}
-              filterData={localFilterData}
+              sortedFiltersData={this.getSortedActiveFilters()}
               toggleActiveFilter={this.toggleActiveFilter}
+              resetSingleFilter={this.resetSingleFilter}
             />
           </>
         )}

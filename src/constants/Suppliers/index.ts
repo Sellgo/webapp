@@ -403,7 +403,6 @@ const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
 };
 
 export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
-  console.log('filter data: ', filterData);
   if (_.isEmpty(filterData)) return products;
   else {
     const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
