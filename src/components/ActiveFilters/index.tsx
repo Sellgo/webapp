@@ -33,6 +33,17 @@ const ActiveFilters = (props: any) => {
             }}
             type="checkbox"
           />
+
+          <div className="active-filters-wrapper__items-wrapper">
+            <div className="active-filters-wrapper__items-wrapper__item">
+              <p>
+                <span className="active-filters-wrapper__items-wrapper__item__title">ROI</span>
+                <span className="active-filters-wrapper__items-wrapper__item__min">20%</span>
+                <span className="active-filters-wrapper__items-wrapper__item__to">to</span>
+                <span className="active-filters-wrapper__items-wrapper__item__max">50%</span>
+              </p>
+            </div>
+          </div>
         </>
       ) : null}
     </div>
