@@ -7,7 +7,6 @@ import Auth from '../../components/Auth/Auth';
 import { useInput } from '../../hooks/useInput';
 import { v4 as uuid } from 'uuid';
 import history from '../../history';
-import Axios from 'axios';
 import '../Signup/index.scss';
 import { AppConfig } from '../../config';
 import { connect } from 'react-redux';
@@ -183,11 +182,6 @@ function Signup(props: any, state: State) {
             localStorage.setItem('accountType', accountType);
             ReactPixel.init(AppConfig.PIXEL_ID);
             ReactPixel.track('CompleteRegistration');
-            Axios.post(`${AppConfig.BASE_URL_API}newsletter/subscribe`, {
-              email,
-              firstname,
-              lastname,
-            }).catch(err => console.log(err));
 
             history.push({
               pathname: '/',
