@@ -56,10 +56,12 @@ const ActiveFilters = (props: any) => {
                       </span>
                       <span className="active-filters-wrapper__items-wrapper__item__min">
                         {filter.range.min}
+                        {filter.sign}
                       </span>
                       <span className="active-filters-wrapper__items-wrapper__item__to">to</span>
                       <span className="active-filters-wrapper__items-wrapper__item__max">
                         {filter.range.max}
+                        {filter.sign}
                       </span>
                       <Icon
                         className="active-filters-wrapper__items-wrapper__item__icon"
