@@ -1,7 +1,11 @@
 .active-filters-wrapper {
-  margin-left: 80px;
+  margin-left: 85px;
   display: flex;
   align-items: center;
+
+  label {
+    padding-left: 10px;
+  }
 
   &__icon {
     color: #98aeca;

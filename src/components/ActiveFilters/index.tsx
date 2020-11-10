@@ -41,7 +41,6 @@ const ActiveFilters = (props: any) => {
             }}
           />
           <label htmlFor="active-filters-toggle">
-            <Icon className="active-filters-wrapper__icon" name="filter" />
             <span>Active Filters:</span>
           </label>
 
@@ -55,13 +54,13 @@ const ActiveFilters = (props: any) => {
                         {filter.label}
                       </span>
                       <span className="active-filters-wrapper__items-wrapper__item__min">
-                        {filter.range.min}
                         {filter.sign}
+                        {filter.range.min}
                       </span>
                       <span className="active-filters-wrapper__items-wrapper__item__to">to</span>
                       <span className="active-filters-wrapper__items-wrapper__item__max">
-                        {filter.range.max}
                         {filter.sign}
+                        {filter.range.max}
                       </span>
                       <Icon
                         className="active-filters-wrapper__items-wrapper__item__icon"
