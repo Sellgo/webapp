@@ -2,9 +2,27 @@
   margin-left: 85px;
   display: flex;
   align-items: center;
+  width: 75%;
+  padding: 10px 0;
+
+  &.shadow {
+    border-right: 1px solid #b7b7b7;
+    box-shadow: inset -25px 0 5px -25px #9e9898;
+  }
+
+  .scroll-container {
+    display: flex;
+    overflow-x: scroll !important;
+  }
 
   label {
-    padding-left: 10px;
+    width: 111px;
+    display: flex;
+    margin-left: 5px;
+  }
+
+  &__toggle {
+    width: 2%;
   }
 
   &__icon {
@@ -18,8 +36,13 @@
   }
 
   &__items-wrapper {
-    margin: 0 5px;
+    margin: 0 0 0 5px;
     display: flex;
+    width: 90%;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &__item {
       color: #98aeca;
@@ -28,13 +51,19 @@
       padding: 2px 5px 0;
       font-size: 12px;
       margin: 0 5px;
+      width: 100%;
+      justify-content: start;
+      align-items: center;
+      flex-direction: row;
+      display: flex;
 
       p {
-        display: flex;
+        margin: 0 2px;
       }
 
-      span {
-        margin: 0 2px;
+      &__title {
+        display: inline-block;
+        white-space: pre;
       }
 
       &__icon {
@@ -42,6 +71,7 @@
         margin: 0 0 0 5px !important;
         cursor: pointer;
         font-size: 13px !important;
+        line-height: 1;
       }
     }
   }

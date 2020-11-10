@@ -1378,7 +1378,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 this.setState({ ColumnFilterBox: false });
               }}
               applyColumnFilters={this.applyActiveFilter}
-              sortedFiltersData={profitFinderFilterState}
+              filtersData={profitFinderFilterState}
               toggleActiveFilter={this.toggleActiveFilter}
               resetSingleFilter={this.resetSingleFilter}
             />

@@ -87,7 +87,7 @@ export interface GenericTableProps {
   loading?: boolean;
   searchValue?: string;
   scrollToView?: boolean;
-  sortedFiltersData?: any;
+  filtersData?: any;
   toggleActiveFilter?: (data: any) => void;
   resetSingleFilter?: (dataKey: any, type: any) => void;
 }
@@ -167,7 +167,7 @@ export const GenericTable = (props: GenericTableProps) => {
     loading,
     searchValue,
     scrollToView,
-    sortedFiltersData,
+    filtersData,
     toggleActiveFilter,
     resetSingleFilter,
   } = props;
@@ -474,7 +474,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
                     <ActiveFilters
-                      sortedFiltersData={sortedFiltersData}
+                      filtersData={filtersData}
                       toggleFilter={toggleActiveFilter}
                       resetSingleFilter={resetSingleFilter}
                     />

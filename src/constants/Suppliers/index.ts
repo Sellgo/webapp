@@ -217,7 +217,7 @@ export const supplierDataKeysMapping: any = {
   },
   roi: {
     filter: true,
-    filterLabel: 'ROI/Return on Investment',
+    filterLabel: 'ROI',
     filterSign: '%',
     filterType: 'range',
   },
@@ -229,7 +229,7 @@ export const supplierDataKeysMapping: any = {
   },
   sales_monthly: {
     filter: true,
-    filterLabel: 'Monthly Sales Estimation',
+    filterLabel: 'Monthly Sales Estimate',
     filterSign: '',
     filterType: 'range',
   },
