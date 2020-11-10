@@ -43,6 +43,7 @@ import {
   findMinMax,
   getProfitFinderCheckBoxData,
   supplierDataKeys,
+  supplierDataKeysMapping,
 } from '../../../../constants/Suppliers';
 import { NewFilterModel } from '../../../../interfaces/Filters';
 
@@ -425,10 +426,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
-      filter: true,
-      filterLabel: 'Customer Reviews',
-      filterSign: '',
-      filterType: 'range',
+      ...supplierDataKeysMapping.customer_reviews,
       render: this.renderReviews,
     },
     {
@@ -454,11 +452,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'Buy Box Price',
-      filterSign: '$',
-      filterType: 'range',
-      filterNegativeCheckbox: true,
+      ...supplierDataKeysMapping.price,
       render: this.renderPrice,
     },
     {
@@ -486,10 +480,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'Cost',
-      filterSign: '$',
-      filterType: 'range',
+      ...supplierDataKeysMapping.cost,
       render: this.renderCost,
     },
     {
@@ -535,11 +526,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'Profit',
-      filterSign: '$',
-      filterType: 'range',
-      filterNegativeCheckbox: true,
+      ...supplierDataKeysMapping.profit,
       render: this.renderProfit,
     },
     {
@@ -549,11 +536,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'Profit Margin',
-      filterSign: '%',
-      filterType: 'range',
-      filterNegativeCheckbox: true,
+      ...supplierDataKeysMapping.margin,
       render: this.renderMargin,
     },
     {
@@ -563,10 +546,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'Monthly Revenue',
-      filterSign: '$',
-      filterType: 'range',
+      ...supplierDataKeysMapping.monthly_revenue,
       render: this.renderMonthlyRevenue,
     },
     {
@@ -576,10 +556,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'ROI/Return on Investment',
-      filterSign: '%',
-      filterType: 'range',
+      ...supplierDataKeysMapping.roi,
       render: this.renderRoi,
     },
     {
@@ -589,10 +566,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
-      filter: true,
-      filterLabel: 'Rank',
-      filterSign: '',
-      filterType: 'range',
+      ...supplierDataKeysMapping.rank,
       render: this.renderRank,
     },
     {
@@ -602,10 +576,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'md-column',
-      filter: true,
-      filterLabel: 'Monthly Sales Estimation',
-      filterSign: '',
-      filterType: 'range',
+      ...supplierDataKeysMapping.sales_monthly,
       render: this.renderMonthlySalesEst,
     },
     {
@@ -642,12 +613,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'lg-column',
-      filter: true,
-      filterLabel: 'Product Category',
-      filterSign: '',
-      filterType: 'checkbox',
-      filterBoxSize: 'lg',
-      filterCheckboxWithSelectAll: true,
+      ...supplierDataKeysMapping.amazon_category_name,
       render: this.renderCategory,
     },
     {
@@ -657,10 +623,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'xl-column',
-      filter: true,
-      filterLabel: 'Product Size Tiers',
-      filterSign: '',
-      filterType: 'checkbox',
+      ...supplierDataKeysMapping.size_tier,
       render: this.renderSizeTiers,
     },
     {
@@ -798,6 +761,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         this.props.supplierID === getLatestSupplier().id.toString()
       ) {
         filterProducts(filterSearch, profitFinderFilterState);
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
       }
     }
     if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
@@ -845,13 +809,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const localFilters = _.cloneDeep(localFilterData);
 
     // apply status of existing filters
-    const presetFilters = localFilters.filter((filter: any) => filter.type === 'preset');
     const rangeFilters = localFilters.filter((filter: any) => filter.type === 'range');
-    if (presetFilters.length >= 1) {
-      for (const sliderFilter of presetFilters) {
-        this.syncPresetAndRange(sliderFilter);
-      }
-    }
+
     if (rangeFilters.length >= 1) {
       for (const rangeFilter of rangeFilters) {
         this.syncFilterSlider(rangeFilter);
@@ -908,12 +867,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         /*
           apply preset filter and remove existing range filter with same datakey
         */
-        this.syncPresetAndRange(data);
+        const NewRangeFilter = this.syncPresetAndRange(data);
+        if (NewRangeFilter !== undefined) {
+          localFilters.map((filter: any) => {
+            if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+              filter.range = NewRangeFilter.value;
+              filter.dateModified = NewRangeFilter.dateModified;
+            }
+            return filter;
+          });
+        }
       }
 
       this.setState({ localFilterData: updatedFilterData });
       filterProducts(filterSearch, updatedFilterData);
       localStorage.setItem('profitFinderFilterState', JSON.stringify(updatedFilterData));
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
     } else {
       /*
         New added filter
@@ -935,20 +904,33 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         newFilter.value = data.value;
       } else if (data.type === 'preset') {
         /*
-          apply preset filter and remove existing range filter with same datakey
+          apply preset filter and creatte range filter or sync range filter
         */
-        const syncData = this.syncPresetAndRange(data);
-        localFilters.map((filter: any) => {
-          if (filter.type === 'range' && filter.dataKey === data.dataKey) {
-            filter.range = syncData.value;
+        const isRangeFilterExist =
+          localFilters.findIndex(
+            (filter: any) => filter.type === 'range' && filter.dataKey === data.dataKey
+          ) !== -1;
+        const NewRangeFilter = this.syncPresetAndRange(data);
+        if (NewRangeFilter !== undefined) {
+          if (isRangeFilterExist) {
+            localFilters.map((filter: any) => {
+              if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+                filter.range = NewRangeFilter.value;
+                filter.dateModified = NewRangeFilter.dateModified;
+              }
+              return filter;
+            });
+          } else {
+            localFilters.push(NewRangeFilter);
           }
-          return filter;
-        });
+        }
       }
       localFilters.push(newFilter);
+      console.log('save filter: ', localFilters);
       this.setState({ localFilterData: localFilters });
       filterProducts(filterSearch, localFilters);
       localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
     }
   };
 
@@ -960,6 +942,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   resetSingleFilter = (dataKey: any, type: string) => {
     const { filterSearch, filterProducts } = this.props;
     const localFilterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const filterActive = JSON.parse(
+      localStorage.getItem('profitFinderFilterStateActive') || 'false'
+    );
     const localFilters = _.cloneDeep(localFilterData);
     const result = localFilters.filter((filter: any) => filter.dataKey !== dataKey);
 
@@ -977,8 +962,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       localStorage.removeItem(`products:${dataKey}`);
     }
 
-    this.setState({ localFilterData: result });
-    filterProducts(filterSearch, result);
+    if (filterActive) {
+      this.setState({ localFilterData: result });
+      filterProducts(filterSearch, result);
+    }
+
     localStorage.setItem('profitFinderFilterState', JSON.stringify(result));
     this.setState({ ColumnFilterBox: false });
   };
@@ -990,11 +978,20 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const removedPresets = localFilters.filter((filter: any) => filter.type === 'preset');
     if (removedPresets.length >= 1) {
       this.removeSlidersFiltersWithPreset(removedPresets);
+      for (const preset of removedPresets) {
+        const rangeIndex = localFilters.findIndex(
+          (filter: any) => filter.type === 'range' && filter.dataKey === preset.dataKey
+        );
+        if (rangeIndex !== -1) {
+          localFilters.splice(rangeIndex, 1);
+        }
+      }
     }
     const results = localFilters.filter((filter: any) => filter.type !== 'preset');
     this.setState({ localFilterData: results });
     filterProducts(filterSearch, results);
     localStorage.setItem('profitFinderFilterState', JSON.stringify(results));
+    localStorage.setItem('profitFinderFilterStateActive', 'true');
   };
 
   resetFilters = () => {
@@ -1016,6 +1013,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   syncPresetAndRange = (data: any) => {
+    console.log('syncPresetAndRange: ', data);
     if (supplierDataKeys.includes(data.dataKey)) {
       const { localFilterData, filteredRanges } = this.state;
       const localFilters = _.cloneDeep(localFilterData);
@@ -1025,7 +1023,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       const filter: any =
         result.length >= 1
           ? result[0]
-          : { dataKey: data.dataKey, value: _.cloneDeep(filteredRanges[data.dataKey]) };
+          : {
+              dataKey: data.dataKey,
+              label: supplierDataKeysMapping[data.dataKey].filterLabel,
+              type: 'range',
+              isActive: true,
+              value: _.cloneDeep(filteredRanges[data.dataKey]),
+              range: _.cloneDeep(filteredRanges[data.dataKey]),
+              dateModified: Date.now(),
+            };
       switch (data.operation) {
         case '≤':
           filter.value.min = filteredRanges[data.dataKey].min;
@@ -1035,6 +1041,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               : Number(data.value) > filteredRanges[data.dataKey].max
               ? filteredRanges[data.dataKey].max
               : Number(data.value);
+          filter.range = filter.value;
           localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
           return filter;
         case '≥':
@@ -1045,6 +1052,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               ? filteredRanges[data.dataKey].max
               : Number(data.value);
           filter.value.max = filteredRanges[data.dataKey].max;
+          filter.range = filter.value;
           localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
           return filter;
         case '=':
@@ -1060,6 +1068,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               : Number(data.value) > filteredRanges[data.dataKey].max
               ? filteredRanges[data.dataKey].max
               : Number(data.value);
+          filter.range = filter.value;
           localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
           return filter;
         default:
@@ -1108,6 +1117,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           this.setState({ localFilterData: localFilters });
           filterProducts(filterSearch, localFilters);
           localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('profitFinderFilterStateActive', 'true');
         } else {
           const newFilter: any = {
             label: 'Profit',
@@ -1144,6 +1154,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           filterProducts(filterSearch, localFilters);
           localStorage.setItem(`products:profit`, JSON.stringify(newFilter));
           localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('profitFinderFilterStateActive', 'true');
         }
       } else {
         this.resetProfitablePreset();
@@ -1177,6 +1188,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         this.setState({ localFilterData: localFilters });
         filterProducts(filterSearch, localFilters);
         localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
       } else {
         const newFilter: any = {
           label: 'Profit',
@@ -1215,6 +1227,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         filterProducts(filterSearch, localFilters);
         localStorage.setItem(`products:profit`, JSON.stringify(newFilter));
         localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
       }
     }
   };
@@ -1237,6 +1250,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     filterProducts(filterSearch, localFilters);
     localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
     localStorage.removeItem(`products:profit`);
+    localStorage.setItem('profitFinderFilterStateActive', 'true');
   };
 
   syncFilterSlider = (filter: any) => {
@@ -1253,15 +1267,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       const profitFinderFilterState = JSON.parse(
         localStorage.getItem('profitFinderFilterState') || '[]'
       );
-      const presetFilters = profitFinderFilterState.filter(
-        (filter: any) => filter.type === 'preset'
-      );
       const rangeFilters = profitFinderFilterState.filter((filter: any) => filter.type === 'range');
-      if (presetFilters.length >= 1) {
-        for (const sliderFilter of presetFilters) {
-          this.syncPresetAndRange(sliderFilter);
-        }
-      }
       if (rangeFilters.length >= 1) {
         for (const rangeFilter of rangeFilters) {
           this.syncFilterSlider(rangeFilter);
@@ -1269,6 +1275,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
       this.setState({ localFilterData: profitFinderFilterState });
       filterProducts(filterSearch, profitFinderFilterState);
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
     } else {
       for (const supplierKey of supplierDataKeys) {
         localStorage.removeItem(`products:${supplierKey}`);
@@ -1279,15 +1286,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
   };
 
-  getSortedActiveFilters = () => {
-    const filterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
-    filterData.sort(function(a: any, b: any) {
-      return parseFloat(a.dateModified) - parseFloat(b.dateModified);
-    });
-    return filterData;
-  };
-
   render() {
+    const profitFinderFilterState = JSON.parse(
+      localStorage.getItem('profitFinderFilterState') || '[]'
+    );
     const {
       isLoadingSupplierProducts,
       filteredProducts,
@@ -1378,7 +1380,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 this.setState({ ColumnFilterBox: false });
               }}
               applyColumnFilters={this.applyActiveFilter}
-              sortedFiltersData={this.getSortedActiveFilters()}
+              sortedFiltersData={profitFinderFilterState}
               toggleActiveFilter={this.toggleActiveFilter}
               resetSingleFilter={this.resetSingleFilter}
             />

@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Checkbox, Icon } from 'semantic-ui-react';
+import { formatCurrency, formatNumber } from '../../utils/format';
 import './index.scss';
 
 const ActiveFilters = (props: any) => {
@@ -55,12 +56,20 @@ const ActiveFilters = (props: any) => {
                       </span>
                       <span className="active-filters-wrapper__items-wrapper__item__min">
                         {filter.sign}
-                        {filter.range.min}
+                        {filter.sign === '$'
+                          ? formatNumber(filter.range.min)
+                          : filter.sign === '%'
+                          ? formatCurrency(filter.range.min)
+                          : filter.range.min}
                       </span>
                       <span className="active-filters-wrapper__items-wrapper__item__to">to</span>
                       <span className="active-filters-wrapper__items-wrapper__item__max">
                         {filter.sign}
-                        {filter.range.max}
+                        {filter.sign === '$'
+                          ? formatNumber(filter.range.max)
+                          : filter.sign === '%'
+                          ? formatCurrency(filter.range.max)
+                          : filter.range.max}
                       </span>
                       <Icon
                         className="active-filters-wrapper__items-wrapper__item__icon"

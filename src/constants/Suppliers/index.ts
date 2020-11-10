@@ -178,6 +178,83 @@ export const supplierDataKeys: any = [
   'sales_monthly',
   'customer_reviews',
 ];
+
+// Meta data for each dataKeys above used for filers
+export const supplierDataKeysMapping: any = {
+  // Basic KPI
+  price: {
+    filter: true,
+    filterLabel: 'Buy Box Price',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  cost: {
+    filter: true,
+    filterLabel: 'Cost',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  profit: {
+    filter: true,
+    filterLabel: 'Profit',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  margin: {
+    filter: true,
+    filterLabel: 'Profit Margin',
+    filterSign: '%',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  monthly_revenue: {
+    filter: true,
+    filterLabel: 'Monthly Revenue',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  roi: {
+    filter: true,
+    filterLabel: 'ROI/Return on Investment',
+    filterSign: '%',
+    filterType: 'range',
+  },
+  rank: {
+    filter: true,
+    filterLabel: 'Rank',
+    filterSign: '',
+    filterType: 'range',
+  },
+  sales_monthly: {
+    filter: true,
+    filterLabel: 'Monthly Sales Estimation',
+    filterSign: '',
+    filterType: 'range',
+  },
+  amazon_category_name: {
+    filter: true,
+    filterLabel: 'Product Category',
+    filterSign: '',
+    filterType: 'checkbox',
+    filterBoxSize: 'lg',
+    filterCheckboxWithSelectAll: true,
+  },
+  size_tier: {
+    filter: true,
+    filterLabel: 'Product Size Tiers',
+    filterSign: '',
+    filterType: 'checkbox',
+  },
+  customer_reviews: {
+    filter: true,
+    filterLabel: 'Customer Reviews',
+    filterSign: '',
+    filterType: 'range',
+  },
+};
+
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -418,8 +495,6 @@ export const findFilteredProducts = (products: any, filterData: NewFilterModel[]
         getCustomizableFilteredProducts(product, presetFilter)
       );
     });
-
-    localStorage.setItem('profitFinderFilterStateActive', 'true');
     return filteredProducts;
   }
 };
