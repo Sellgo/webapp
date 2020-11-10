@@ -91,7 +91,7 @@ export const sizeTiers: any = [
 export const customizablePresetData: any = [
   {
     label: 'Listing generates',
-    dataKey: 'listing-monthly',
+    dataKey: 'monthly_revenue',
     defaultOperation: '≥', //≤
     currency: '$',
     defaultValue: 1300,
@@ -418,13 +418,6 @@ export const getCustomizableFilteredProducts = (product: any, customizableFilter
   _.filter(customizableFilter, filter => {
     if (result) {
       // for keys with computation that doesn't exist in filter slider
-      if (filter.dataKey === 'listing-monthly') {
-        const generatesValue = product.price * product.sales_monthly;
-        if (!filter.isActive) result = true;
-        else {
-          result = customFilterOperation(filter.operation, generatesValue, filter.value);
-        }
-      }
       if (filter.dataKey === 'profit-monthly') {
         const profitMonthly = product.profit * product.sales_monthly;
         if (!filter.isActive) result = true;

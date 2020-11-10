@@ -926,7 +926,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         }
       }
       localFilters.push(newFilter);
-      console.log('save filter: ', localFilters);
       this.setState({ localFilterData: localFilters });
       filterProducts(filterSearch, localFilters);
       localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
@@ -1013,7 +1012,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   syncPresetAndRange = (data: any) => {
-    console.log('syncPresetAndRange: ', data);
     if (supplierDataKeys.includes(data.dataKey)) {
       const { localFilterData, filteredRanges } = this.state;
       const localFilters = _.cloneDeep(localFilterData);

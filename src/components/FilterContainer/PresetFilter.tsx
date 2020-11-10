@@ -24,7 +24,6 @@ const PresetFilter = (props: PresetFilterProps) => {
 
   useEffect(() => {
     const data = filterData.filter((filter: any) => filter.type === 'preset');
-    console.log('preset data: ', data);
     if (data.length <= 0) {
       reset();
     } else {
