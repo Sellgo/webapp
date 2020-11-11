@@ -98,3 +98,39 @@
     }
   }
 }
+
+@media only screen and (max-width: 1660px) {
+  .active-filters-wrapper {
+    width: 68%;
+
+    &__toggle {
+      width: 3%;
+    }
+
+    &__items-wrapper {
+      width: 87% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .active-filters-wrapper {
+    width: 65%;
+
+    &__toggle {
+      width: 3%;
+    }
+
+    label {
+      width: 95px;
+    }
+
+    &__items-wrapper {
+      width: 85% !important;
+    }
+  }
+
+  .sellgo-pagination {
+    width: 27%;
+  }
+}
