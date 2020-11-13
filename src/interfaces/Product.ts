@@ -38,9 +38,10 @@ export interface Product {
   low_new_fbm_price: string;
   customer_reviews: number;
   rating: string;
-  package_quantity: string;
   data_buster_status: string;
   is_amazon_selling: boolean;
+  multipack_quantity: number;
+  multipack_flag: boolean;
 }
 export interface ProductsTrackData {
   avg_price: string;
