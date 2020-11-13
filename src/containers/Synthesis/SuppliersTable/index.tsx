@@ -439,7 +439,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           searchValue={supplierSearch}
         />
         <Confirm
-          content="Do you want to delete supplier?"
+          content="Do you want to delete search?"
           open={this.state.showDeleteConfirm}
           onCancel={this.handleCancelDelete}
           onConfirm={this.handleConfirmDelete}

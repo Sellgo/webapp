@@ -141,6 +141,7 @@ $new_black: #3b4557;
     &.with-rating button {
       span {
         margin-right: 0;
+        margin-left: 10px !important;
       }
     }
 
@@ -150,6 +151,7 @@ $new_black: #3b4557;
 
         span {
           color: #349af8;
+          margin-left: 13px !important;
           font-weight: 700 !important;
         }
       }
