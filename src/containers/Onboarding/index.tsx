@@ -1,11 +1,18 @@
 import * as React from 'react';
 import { VideoDetails, VideoList, VideoSlider } from './Playlist';
 import { onboardingVideos } from '../../constants/UserOnboarding';
-import { Header, Grid } from 'semantic-ui-react';
+import { Header, Grid, Segment } from 'semantic-ui-react';
 import { Videos } from './Interfaces';
 import './index.scss';
+import PageHeader from '../../components/PageHeader';
+import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
+import QuotaMeter from '../../components/QuotaMeter';
 
-class Onboarding extends React.Component {
+interface OnboardingProps {
+  match: any;
+}
+
+class Onboarding extends React.Component<OnboardingProps> {
   state = {
     selectedVideo: [],
     screenWidth: 0,
@@ -59,7 +66,7 @@ class Onboarding extends React.Component {
 
   render() {
     const { selectedVideo, videos, category, screenWidth } = this.state;
-
+    const { match } = this.props;
     const listOfVideos = onboardingVideos.map((list, index) => {
       return (
         <Grid.Row className="Slider__container" key={index}>
@@ -73,51 +80,62 @@ class Onboarding extends React.Component {
         </Grid.Row>
       );
     });
-
-    if (Object.keys(selectedVideo).length) {
-      return (
-        <Grid className="Onboarding__container">
-          <Header
-            onClick={() => this.removeInitial()}
-            className="Onboarding__playlist back"
-            as="h1"
-          >
-            <i className="fas fa-chevron-left" /> Back to Tutorial Videos
-          </Header>
-          <Grid.Row columns={2}>
-            <Grid.Row>
-              <Header className="Onboarding__playlist title" as="h1">
-                {category}
+    return (
+      <>
+        <SubscriptionMessage page={'onboarding'} />
+        <PageHeader
+          title={`Onboarding`}
+          breadcrumb={[
+            { content: 'Home', to: '/' },
+            { content: 'Onboarding', to: '/onboarding' },
+          ]}
+          callToAction={<QuotaMeter />}
+          auth={match.params.auth}
+        />
+        <Segment>
+          {Object.keys(selectedVideo).length ? (
+            <Grid className="Onboarding__container">
+              <Header
+                onClick={() => this.removeInitial()}
+                className="Onboarding__playlist back"
+                as="h1"
+              >
+                <i className="fas fa-chevron-left" /> Back to Tutorial Videos
               </Header>
-            </Grid.Row>
-            <Grid.Row className="Onboarding__player container">
-              <Grid.Column className="Onboarding__player">
-                <VideoDetails video={selectedVideo} />
-              </Grid.Column>
-              <Grid.Column className="Onboarding__playlist upnext">
-                <Header className="Onboarding__playlist related" as="h1">
-                  Up next:
-                </Header>
-                <VideoList
-                  onVideoSelect={this.onVideoSelect}
-                  selectCategory={this.selectCategory}
-                  videos={videos}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid.Row>
-        </Grid>
-      );
-    } else {
-      return (
-        <Grid className="Onboarding__page">
-          <Header className="Onboarding__tutorial" as="h1">
-            Tutorial Videos
-          </Header>
-          {listOfVideos}
-        </Grid>
-      );
-    }
+              <Grid.Row columns={2}>
+                <Grid.Row>
+                  <Header className="Onboarding__playlist title" as="h1">
+                    {category}
+                  </Header>
+                </Grid.Row>
+                <Grid.Row className="Onboarding__player container">
+                  <Grid.Column className="Onboarding__player">
+                    <VideoDetails video={selectedVideo} />
+                  </Grid.Column>
+                  <Grid.Column className="Onboarding__playlist upnext">
+                    <Header className="Onboarding__playlist related" as="h1">
+                      Up next:
+                    </Header>
+                    <VideoList
+                      onVideoSelect={this.onVideoSelect}
+                      selectCategory={this.selectCategory}
+                      videos={videos}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid.Row>
+            </Grid>
+          ) : (
+            <Grid className="Onboarding__page">
+              <Header className="Onboarding__tutorial" as="h1">
+                Tutorial Videos
+              </Header>
+              {listOfVideos}
+            </Grid>
+          )}
+        </Segment>
+      </>
+    );
   }
 }
 
