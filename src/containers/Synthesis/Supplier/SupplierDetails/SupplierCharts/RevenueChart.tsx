@@ -16,7 +16,7 @@ class RevenueChart extends Component<RevenueChartProps> {
   render() {
     const { products, profitFinderChartOptions, chartComponentRef } = this.props;
 
-    const productSKUs = products.map(e => e.title);
+    const product_titles = products.map(e => e.title);
     const profit = products.map(e => parseFloat(e.profit));
     const product_cost = products.map(e => parseFloat(e.product_cost));
     const prices = products.map(e => parseFloat(e.price));
@@ -118,7 +118,7 @@ class RevenueChart extends Component<RevenueChartProps> {
         animation: false,
       },
       xAxis: {
-        categories: productSKUs,
+        categories: product_titles,
         labels: false,
       },
       yAxis: {

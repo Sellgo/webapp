@@ -170,7 +170,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
           <Form className="chart-end-form">
             <Form.Group>
               <Form.Radio
-                label="Hit/Miss vs Profitable SKUs"
+                label="Hit/Miss vs Profitable ASINs"
                 value="chart0"
                 checked={this.state.showChart === 'chart0'}
                 onChange={(e, { value }) => this.handleSwitchChart(e, value)}
