@@ -40,7 +40,7 @@ export interface Product {
   rating: string;
   data_buster_status: string;
   is_amazon_selling: boolean;
-  multipack_quantity: number;
+  multipack_quantity: string;
   multipack_flag: boolean;
 }
 export interface ProductsTrackData {
