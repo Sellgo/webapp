@@ -7,7 +7,12 @@ import TrackerMenu from './TrackerMenu';
 import { GenericTable, Column } from '../../../components/Table';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
-import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils/format';
+import {
+  formatNumber,
+  formatCurrency,
+  showNAIfZeroOrNull,
+  truncateString,
+} from '../../../utils/format';
 import { tableKeys } from '../../../constants';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
@@ -420,6 +425,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       />
     );
   };
+  renderSource = (row: ProductTrackerDetails) => {
+    return <p>{truncateString(row.source, 53)}</p>;
+  };
 
   columns: Column[] = [
     {
@@ -430,6 +438,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderProductInfo,
       className: 'pt-product-info',
+    },
+    {
+      label: 'Source',
+      dataKey: 'source',
+      type: 'string',
+      sortable: true,
+      show: true,
+      render: this.renderSource,
+      className: 'pt-source',
     },
     {
       label: 'Avg\nPrice',
