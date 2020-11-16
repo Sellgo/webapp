@@ -158,7 +158,7 @@ export const TableBody = (props: TableBodyProps) => {
         clearTimeout(timer);
         timer = setTimeout(() => {
           bottomScroll.classList.remove('bottom-scrollbar-visible');
-        }, 3000);
+        }, 500);
       }
     };
 

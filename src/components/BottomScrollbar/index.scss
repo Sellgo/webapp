@@ -1,6 +1,7 @@
 .bottom-scrollbar {
   height: 10px;
   display: none;
+  overflow-y: hidden;
   max-width: 80%;
   overflow-x: auto;
   margin-left: 12%;
