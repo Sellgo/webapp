@@ -160,8 +160,8 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'Package Quantity',
-    dataKey: 'package_quantity',
+    key: 'Multipack Qty',
+    dataKey: 'multipack_quantity',
     visible: true,
   },
   {

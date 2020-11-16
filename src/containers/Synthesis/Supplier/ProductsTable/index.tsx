@@ -160,8 +160,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderCategory = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.amazon_category_name, row.amazon_category_name)}</p>
   );
-  renderPackageQuantity = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.package_quantity, row.package_quantity)}</p>
+  renderMultipackQuantity = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.multipack_quantity, row.multipack_quantity)}</p>
   );
   renderSizeTiers = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.size_tier, row.size_tier)}</p>
@@ -559,13 +559,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderNumFbmNewOffers,
     },
     {
-      label: 'Package\nQuantity',
-      dataKey: 'package_quantity',
+      label: 'Multipack\nQty',
+      dataKey: 'multipack_quantity',
       type: 'number',
       show: true,
       sortable: true,
       className: 'sm-column',
-      render: this.renderPackageQuantity,
+      render: this.renderMultipackQuantity,
     },
     {
       label: 'Category',

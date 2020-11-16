@@ -122,7 +122,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
   handleSupplierLoading = (loadTime: number) => {
     return (
       <div className="notif-content">
-        <p className="header">Processing SKUs</p>
+        <p className="header">Processing ASINs</p>
         <p className="label">
           <Icon className="clock" />
           {loadTime}s Estimated Processing time
