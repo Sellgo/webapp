@@ -167,7 +167,9 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
 
   renderChange = (row: any) => {
     const value = row[`change_${this.getActiveColumn()}_perc`];
-    const columnClass = `stat ${value < 0 ? 'change-low' : value > 0 ? 'change-high' : ''}`;
+    const change = row[`change_${this.getActiveColumn()}`];
+
+    const columnClass = `stat ${change < 0 ? 'change-low' : change > 0 ? 'change-high' : ''}`;
     return (
       <p className={columnClass}>
         {value !== 0 && <Icon name={'arrow down'} />}
