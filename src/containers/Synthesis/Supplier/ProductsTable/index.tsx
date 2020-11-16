@@ -38,7 +38,7 @@ import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
 
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
-import FilterSection from '../../FilterSection';
+import FilterSection from '../FilterSection';
 import {
   findMinMax,
   getProfitFinderCheckBoxData,
@@ -1076,9 +1076,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   setProfitability = (data: any) => {
-    const { localFilterData, filteredRanges } = this.state;
+    const { filteredRanges } = this.state;
     const { filterSearch, filterProducts } = this.props;
-    const localFilters: any = _.cloneDeep(localFilterData);
+    const localFilters: any = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
     const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
     const hasProfit = localFilters.findIndex((filter: any) => filter.dataKey === 'profit') !== -1;
 

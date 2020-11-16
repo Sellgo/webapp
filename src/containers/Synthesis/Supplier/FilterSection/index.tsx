@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { filterSupplierProducts, setLeadsTracker } from '../../../actions/Suppliers';
+import { filterSupplierProducts, setLeadsTracker } from '../../../../actions/Suppliers';
 import './index.scss';
 import _ from 'lodash';
 import { Button, List, Image, Popup, Icon } from 'semantic-ui-react';
-import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
-import { isPlanEnterprise } from '../../../utils/subscriptions';
-import csvIcon from '../../../assets/images/csv.svg';
-import msExcelIcon from '../../../assets/images/microsoft-excel.png';
-import PresetFilter from '../../../components/FilterContainer/PresetFilter';
-import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
+import LeadsTrackerToggle from '../../../../components/LeadsTrackerToggle';
+import { isPlanEnterprise } from '../../../../utils/subscriptions';
+import csvIcon from '../../../../assets/images/csv.svg';
+import msExcelIcon from '../../../../assets/images/microsoft-excel.png';
+import PresetFilter from '../../../../components/FilterContainer/PresetFilter';
+import ProfitabilityFilterPreset from '../../../../components/ProfitabilityFilterPreset';
 
 interface FilterSectionProps {
   stickyChartSelector: boolean;
