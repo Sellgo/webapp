@@ -175,7 +175,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
         {value !== 0 && <Icon name={'arrow down'} />}
         {showNAIfZeroOrNull(
           row[`change_${this.getActiveColumn()}`],
-          row[`change_${this.getActiveColumn()}`]
+          formatPercent(row[`change_${this.getActiveColumn()}`])
         )}
       </p>
     );
