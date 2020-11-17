@@ -168,16 +168,15 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   renderChange = (row: any) => {
     const value = row[`change_${this.getActiveColumn()}_perc`];
     const change = row[`change_${this.getActiveColumn()}`];
+    const perc = value < 0 ? value * -1 : value;
+    const updated = change < 0 ? change * -1 : change;
 
     const columnClass = `stat ${change < 0 ? 'change-low' : change > 0 ? 'change-high' : ''}`;
     return (
       <p className={columnClass}>
         {value !== 0 && <Icon name={'arrow down'} />}
-        {showNAIfZeroOrNull(
-          row[`change_${this.getActiveColumn()}`],
-          row[`change_${this.getActiveColumn()}`]
-        )}
-        {value !== 0 && `(${row[`change_${this.getActiveColumn()}_perc`]}%)`}
+        {showNAIfZeroOrNull(updated, updated)}
+        {perc !== 0 && `(${perc}%)`}
       </p>
     );
   };
