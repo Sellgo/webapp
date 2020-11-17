@@ -135,10 +135,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderProfit = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
+    </p>
   );
   renderMargin = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_margin, formatPercent(row.multipack_margin))}
+    </p>
   );
   renderFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
@@ -149,7 +153,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     </p>
   );
   renderRoi = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_roi, formatPercent(row.multipack_roi))}
+    </p>
   );
   renderRank = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
@@ -401,7 +407,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Profit',
-      dataKey: 'profit',
+      dataKey: 'multipack_profit',
       type: 'number',
       sortable: true,
       show: true,
@@ -410,7 +416,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Margin',
-      dataKey: 'margin',
+      dataKey: 'multipack_margin',
       type: 'number',
       sortable: true,
       show: true,
@@ -419,7 +425,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'ROI',
-      dataKey: 'roi',
+      dataKey: 'multipack_roi',
       type: 'number',
       sortable: true,
       show: true,
