@@ -152,7 +152,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     <p className="stat">
       {showNAIfZeroOrNull(
         row[`avg_${this.getActiveColumn()}`],
-        formatCurrency(row[`avg_${this.getActiveColumn()}`])
+        formatPercent(row[`avg_${this.getActiveColumn()}`])
       )}
     </p>
   );
@@ -177,7 +177,6 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
           row[`change_${this.getActiveColumn()}`],
           row[`change_${this.getActiveColumn()}`]
         )}
-        {value !== 0 && `(${row[`change_${this.getActiveColumn()}_perc`]}%)`}
       </p>
     );
   };
