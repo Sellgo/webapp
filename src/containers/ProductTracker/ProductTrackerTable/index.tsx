@@ -619,7 +619,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       costDetails,
     } = this.props;
     const { ColumnFilterBox, editCost, product_cost } = this.state;
-
     return (
       <div className="tracker-table">
         <div className="tracker-menu">
@@ -755,6 +754,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                       <Button
                         content="Save"
                         primary
+                        disabled={parseFloat(costDetails.avg_price) * 150 < product_cost}
                         onClick={() =>
                           this.onEditProductCost({ ...costDetails, product_cost: product_cost })
                         }
