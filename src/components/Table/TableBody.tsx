@@ -206,7 +206,11 @@ export const TableBody = (props: TableBodyProps) => {
                           row={row}
                           key={`${Date.now() + colIndex}--tb-cell`}
                           className={
-                            expandedRows && expandedRows === row.id ? 'remove-bottom-border' : ''
+                            expandedRows && expandedRows === row.id
+                              ? 'remove-bottom-border'
+                              : filteredColumns.length === 3 && colIndex === 1
+                              ? 'ptr-left-cell'
+                              : ''
                           }
                         />
                       )
