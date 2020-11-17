@@ -34,50 +34,8 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'UPC',
-    dataKey: 'upc',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Last Run',
-    dataKey: 'last_run',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Reviews',
-    dataKey: 'customer_reviews',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Rating',
-    dataKey: 'rating',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Is Amazon Selling',
-    dataKey: 'is_amazon_selling',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Price',
     dataKey: 'price',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Low New FBA Price',
-    dataKey: 'low_new_fba_price',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Low New FBM Price',
-    dataKey: 'low_new_fbm_price',
     visible: true,
   },
   {
@@ -94,24 +52,6 @@ export const columnFilter = [
   },
   {
     value: true,
-    key: 'FBA Fee',
-    dataKey: 'fba_fee',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Referral Fee',
-    dataKey: 'referral_fee',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Variable Closing Fee',
-    dataKey: 'variable_closing_fee',
-    visible: true,
-  },
-  {
-    value: true,
     key: 'Profit',
     dataKey: 'profit',
     visible: true,
@@ -120,12 +60,6 @@ export const columnFilter = [
     value: true,
     key: 'Margin',
     dataKey: 'margin',
-    visible: true,
-  },
-  {
-    value: true,
-    key: 'Monthly Revenue',
-    dataKey: 'monthly_revenue',
     visible: true,
   },
   {
@@ -148,6 +82,48 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Monthly Revenue',
+    dataKey: 'monthly_revenue',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'FBA Fee',
+    dataKey: 'fba_fee',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Referral Fee',
+    dataKey: 'referral_fee',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Variable Closing Fee',
+    dataKey: 'variable_closing_fee',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Is Amazon Selling',
+    dataKey: 'is_amazon_selling',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Reviews',
+    dataKey: 'customer_reviews',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Rating',
+    dataKey: 'rating',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Num New FBA Offers',
     dataKey: 'num_fba_new_offers',
     visible: true,
@@ -156,6 +132,18 @@ export const columnFilter = [
     value: true,
     key: 'Num New FBM Offers',
     dataKey: 'num_fbm_new_offers',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Low New FBA Price',
+    dataKey: 'low_new_fba_price',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Low New FBM Price',
+    dataKey: 'low_new_fbm_price',
     visible: true,
   },
   {
@@ -174,6 +162,18 @@ export const columnFilter = [
     value: true,
     key: 'Size Tier',
     dataKey: 'size_tier',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'UPC',
+    dataKey: 'upc',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Last Run',
+    dataKey: 'last_run',
     visible: true,
   },
   {
