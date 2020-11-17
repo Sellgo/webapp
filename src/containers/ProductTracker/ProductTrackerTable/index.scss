@@ -1112,6 +1112,10 @@ $link-color: #349af8;
   .pt-scroll-container {
     max-width: 50% !important;
   }
+
+  .bottom-cell {
+    min-width: 10px !important;
+  }
 }
 
 @media only screen and (min-width: 1280px) and (max-width: 1365px) {
@@ -1125,6 +1129,10 @@ $link-color: #349af8;
 
   .pt-scroll {
     min-width: 96px !important;
+  }
+
+  .bottom-cell {
+    min-width: 10px !important;
   }
 }
 
@@ -1140,6 +1148,10 @@ $link-color: #349af8;
   .pt-scroll {
     min-width: 96px !important;
   }
+
+  .bottom-cell {
+    min-width: 107px !important;
+  }
 }
 
 @media only screen and (min-width: 1440px) and (max-width: 1599px) {
@@ -1150,6 +1162,10 @@ $link-color: #349af8;
   .pt-scroll {
     min-width: 100px !important;
   }
+
+  .bottom-cell {
+    min-width: 107px !important;
+  }
 }
 
 @media only screen and (min-width: 1600px) and (max-width: 1680px) {
@@ -1159,6 +1175,10 @@ $link-color: #349af8;
 
   .pt-scroll {
     min-width: 97px !important;
+  }
+
+  .bottom-cell {
+    min-width: 108px !important;
   }
 }
 
