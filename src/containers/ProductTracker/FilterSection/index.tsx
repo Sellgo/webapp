@@ -2,6 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import './index.scss';
+import { DEFAULT_PERIOD, filterPeriods } from '../../../constants/Tracker';
+import _ from 'lodash';
 
 interface FilterSectionProps {
   subscriptionPlan: any;
@@ -10,7 +12,9 @@ interface FilterSectionProps {
   resetPreset: () => void;
   resetSingleFilter: (data: any, type: any) => void;
   setProfitability: (data: any) => void;
+  setPeriod: (data: any) => void;
   filteredRanges: any;
+  periodValue: any;
 }
 export class FilterSection extends React.Component<FilterSectionProps, any> {
   constructor(props: FilterSectionProps) {
@@ -27,6 +31,9 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
   };
 
   render() {
+    const { setPeriod } = this.props;
+
+    const periodValue = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
     return (
       <div className="tracker-filter-section">
         <div className="tracker-filter-section__header">
@@ -69,6 +76,25 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
               filterData={localFilterData}
               filteredRanges={filteredRanges}
             /> */}
+          </div>
+          <div className="tracker-filter-section__header__period-container">
+            {_.map(filterPeriods.data, period => {
+              return (
+                <div
+                  className={`tracker-filter-section__header__period-container__period-items ${period.value ===
+                    periodValue && 'active'}`}
+                  key={period.dataKey}
+                >
+                  <span
+                    onClick={() => {
+                      setPeriod(period.value);
+                    }}
+                  >
+                    {period.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

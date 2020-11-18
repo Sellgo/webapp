@@ -27,6 +27,8 @@ import {
   setProductDetails,
   updateProductCost,
   filterTrackedProducts,
+  fetchAllSupplierProductTrackerDetails,
+  isTrackerFilterLoading,
 } from '../../../actions/ProductTracker';
 
 import {
@@ -47,6 +49,7 @@ import { returnWithRenderMethod } from '../../../utils/tableColumn';
 import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
 import { NewFilterModel } from '../../../interfaces/Filters';
+import FilterSection from '../FilterSection';
 
 interface TrackerProps {
   loadingTrackerFilter: boolean;
@@ -92,6 +95,8 @@ interface TrackerProps {
   filterProducts: (filterData: any, groupId: any) => void;
   activeGroupId: any;
   filterRanges: any;
+  fetchAllTrackedProductDetails: (periodValue: any) => void;
+  isTrackerFilterLoading: (data: boolean) => void;
 }
 
 interface TrackerState {
@@ -161,6 +166,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ columns: this.columns });
     }
   }
+
+  fetchProducts = (value: any) => {
+    const { filterProducts, activeGroupId } = this.props;
+    const { localFilterData } = this.state;
+    const { fetchAllTrackedProductDetails, isTrackerFilterLoading } = this.props;
+    isTrackerFilterLoading(true);
+    fetchAllTrackedProductDetails(value);
+    filterProducts(localFilterData, activeGroupId);
+    localStorage.setItem('trackerPeriod', JSON.stringify(value));
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { trackGroups } = this.props;
@@ -722,7 +737,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const result = localFilters.filter((filter: any) => filter.dataKey !== dataKey);
 
     //profitability preset disable when profit slider change
-    if (dataKey === 'profit' && type === 'range') {
+    if (dataKey === 'avg_profit' && type === 'range') {
       const probabilityIndex = result.findIndex(
         (filter: any) => filter.type === 'probability-preset'
       );
@@ -776,6 +791,215 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
   };
 
+  setProfitability = (data: any) => {
+    const { filterProducts, filterRanges, activeGroupId } = this.props;
+    const localFilters: any = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const hasProfit =
+      localFilters.findIndex((filter: any) => filter.dataKey === 'avg_profit') !== -1;
+
+    if (index !== -1) {
+      if (data !== '') {
+        if (hasProfit) {
+          localFilters.map((filter: any) => {
+            if (filter.type === 'range' && filter.dataKey === 'avg_profit') {
+              if (data.value === 'Profitable') {
+                filter.range.min = 0.01;
+                filter.range.max = filterRanges.avg_profit.max;
+                filter.value.min = 0.01;
+                filter.value.max = filterRanges.avg_profit.max;
+                filter.isNegative = false;
+              } else if (data.value === 'Non-Profitable Products') {
+                filter.range.min = filterRanges.avg_profit.min;
+                filter.range.max = 0;
+                filter.value.min = filterRanges.avg_profit.min;
+                filter.value.max = 0;
+                filter.isNegative = false;
+              } else {
+                filter.range = filterRanges.avg_profit;
+                filter.value = filter.range;
+                filter.isNegative = false;
+              }
+              localStorage.setItem(`products:avg_profit`, JSON.stringify(filter));
+            }
+            if (filter.type === 'probability-preset' && data.value !== '') {
+              filter.value = data.value;
+              filter.dateModified = Date.now();
+            }
+            return filter;
+          });
+          this.setState({ localFilterData: localFilters });
+          filterProducts(localFilters, activeGroupId);
+          localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('profitFinderFilterStateActive', 'true');
+        } else {
+          const newFilter: any = {
+            label: 'Profit',
+            dataKey: 'avg_profit',
+            isActive: true,
+            type: 'range',
+            value: {
+              min: 0,
+              max: 0,
+            },
+            range: {
+              min: 0,
+              max: 0,
+            },
+            isNegative: false,
+            defaultValues: filterRanges.avg_profit,
+          };
+          if (data.value === 'Profitable') {
+            newFilter.range.min = 0.01;
+            newFilter.range.max = filterRanges.avg_profit.max;
+            newFilter.value.min = 0.01;
+            newFilter.value.max = filterRanges.avg_profit.max;
+          } else if (data.value === 'Non-Profitable Products') {
+            newFilter.range.min = filterRanges.avg_profit.min;
+            newFilter.range.max = 0;
+            newFilter.value.min = filterRanges.avg_profit.min;
+            newFilter.value.max = 0;
+          } else {
+            newFilter.range = filterRanges.avg_profit;
+            newFilter.value = newFilter.range;
+          }
+          localFilters.push(newFilter);
+          this.setState({ localFilterData: localFilters });
+          filterProducts(localFilters, activeGroupId);
+          localStorage.setItem(`products:avg_profit`, JSON.stringify(newFilter));
+          localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('profitFinderFilterStateActive', 'true');
+        }
+      } else {
+        this.resetProfitablePreset();
+      }
+    } else {
+      if (hasProfit) {
+        localFilters.map((filter: any) => {
+          if (filter.type === 'range' && filter.dataKey === 'avg_profit') {
+            if (data.value === 'Profitable') {
+              filter.range.min = 0.01;
+              filter.range.max = filterRanges.avg_profit.max;
+              filter.value.min = 0.01;
+              filter.value.max = filterRanges.avg_profit.max;
+              filter.isNegative = false;
+            } else if (data.value === 'Non-Profitable Products') {
+              filter.range.min = filterRanges.avg_profit.min;
+              filter.range.max = 0;
+              filter.value.min = filterRanges.avg_profit.min;
+              filter.value.max = 0;
+              filter.isNegative = false;
+            } else {
+              filter.range = filterRanges.avg_profit;
+              filter.isNegative = false;
+            }
+            localStorage.setItem(`products:avg_profit`, JSON.stringify(filter));
+          }
+          return filter;
+        });
+        const probabilityData: NewFilterModel = { ...data };
+        localFilters.push(probabilityData);
+        this.setState({ localFilterData: localFilters });
+        filterProducts(localFilters, activeGroupId);
+        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
+      } else {
+        const newFilter: any = {
+          label: 'Profit',
+          dataKey: 'avg_profit',
+          isActive: true,
+          type: 'range',
+          isNegative: false,
+          value: {
+            min: 0,
+            max: 0,
+          },
+          range: {
+            min: 0,
+            max: 0,
+          },
+          defaultValues: filterRanges.avg_profit,
+        };
+        const probabilityData: NewFilterModel = { ...data };
+        if (data.value === 'Profitable') {
+          newFilter.range.min = 0.01;
+          newFilter.range.max = filterRanges.avg_profit.max;
+          newFilter.value.min = 0.01;
+          newFilter.value.max = filterRanges.avg_profit.max;
+        } else if (data.value === 'Non-Profitable Products') {
+          newFilter.range.min = filterRanges.avg_profit.min;
+          newFilter.range.max = 0;
+          newFilter.value.min = filterRanges.avg_profit.min;
+          newFilter.value.max = 0;
+        } else {
+          newFilter.range = filterRanges.avg_profit;
+          newFilter.value = newFilter.range;
+        }
+        localFilters.push(newFilter);
+        localFilters.push(probabilityData);
+        this.setState({ localFilterData: localFilters });
+        filterProducts(localFilters, activeGroupId);
+        localStorage.setItem(`products:avg_profit`, JSON.stringify(newFilter));
+        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
+      }
+    }
+  };
+
+  resetProfitablePreset = () => {
+    const { localFilterData } = this.state;
+    const { filterProducts, activeGroupId } = this.props;
+    const localFilters: any = _.cloneDeep(localFilterData);
+    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const profitRangeIndex = localFilters.findIndex(
+      (filter: any) => filter.type === 'range' && filter.dataKey === 'avg_profit'
+    );
+    if (index !== -1) {
+      localFilters.splice(index, 1);
+    }
+    if (profitRangeIndex !== -1) {
+      localFilters.splice(profitRangeIndex, 1);
+    }
+    this.setState({ localFilterData: localFilters });
+    filterProducts(localFilters, activeGroupId);
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+    localStorage.removeItem(`products:avg_profit`);
+    localStorage.setItem('profitFinderFilterStateActive', 'true');
+  };
+
+  removeSlidersFiltersWithPreset = (presets: any) => {
+    for (const filter of presets) {
+      for (const trackerKey of filterKeys) {
+        if (filter.dataKey === trackerKey) {
+          localStorage.removeItem(`products:${trackerKey}`);
+        }
+      }
+    }
+  };
+
+  resetPreset = () => {
+    const { localFilterData } = this.state;
+    const { filterProducts, activeGroupId } = this.props;
+    const localFilters = _.cloneDeep(localFilterData);
+    const removedPresets = localFilters.filter((filter: any) => filter.type === 'preset');
+    if (removedPresets.length >= 1) {
+      this.removeSlidersFiltersWithPreset(removedPresets);
+      for (const preset of removedPresets) {
+        const rangeIndex = localFilters.findIndex(
+          (filter: any) => filter.type === 'range' && filter.dataKey === preset.dataKey
+        );
+        if (rangeIndex !== -1) {
+          localFilters.splice(rangeIndex, 1);
+        }
+      }
+    }
+    const results = localFilters.filter((filter: any) => filter.type !== 'preset');
+    this.setState({ localFilterData: results });
+    filterProducts(results, activeGroupId);
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(results));
+    localStorage.setItem('profitFinderFilterStateActive', 'true');
+  };
+
   saveFilter = (data: any) => {
     const { filterProducts, activeGroupId } = this.props;
     const localFilterData = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
@@ -808,7 +1032,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       });
 
       //profitability preset disable when profit slider change
-      if (data.dataKey === 'profit') {
+      if (data.dataKey === 'avg_profit') {
         const probabilityIndex = updatedFilterData.findIndex(
           (filter: any) => filter.type === 'probability-preset'
         );
@@ -928,6 +1152,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       stickyChartSelector,
       currentActiveColumn,
       costDetails,
+      periodValue,
+      filterRanges,
     } = this.props;
     const {
       ColumnFilterBox,
@@ -935,6 +1161,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       product_cost,
       activeColumnFilters,
       activeColumnFilterValue,
+      localFilterData,
     } = this.state;
 
     return (
@@ -961,7 +1188,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
         </div>
-        {/* <ProductTrackerFilterSection /> */}
+        <FilterSection
+          periodValue={periodValue}
+          localFilterData={localFilterData}
+          applyPresetFilter={this.saveFilter}
+          resetPreset={this.resetPreset}
+          resetSingleFilter={this.resetSingleFilter}
+          setProfitability={this.setProfitability}
+          filteredRanges={filterRanges}
+          setPeriod={this.fetchProducts}
+        />
         <GenericTable
           loading={
             isLoadingTrackerProducts ||
@@ -1146,5 +1382,8 @@ const mapDispatchToProps = {
   setProductEditDetails: (payload: any) => setProductDetails(payload),
   updateCost: (payload: any) => updateProductCost(payload),
   filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
+  fetchAllTrackedProductDetails: (periodValue: any) =>
+    fetchAllSupplierProductTrackerDetails(periodValue),
+  isTrackerFilterLoading: (data: boolean) => isTrackerFilterLoading(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

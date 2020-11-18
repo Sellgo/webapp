@@ -66,10 +66,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     fetchAllTrackedProductDetails(periodValue);
   }
 
-  componentWillUnmount() {
-    localStorage.setItem('openPeriod', JSON.stringify(false));
-  }
-
   handlePeriodDrop = (data: any) => {
     this.setState({ periodValue: data.value }, () => {
       this.props.getSellerQuota();
@@ -81,8 +77,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     const { setPageNumber } = this.props;
     setPageNumber(1);
 
-    //close period filter
-    localStorage.setItem('openPeriod', JSON.stringify(false));
     if (id !== null) {
       this.setState({ productTrackID: id }, () => {
         this.props.setMenuItem(this.state.productTrackID);
