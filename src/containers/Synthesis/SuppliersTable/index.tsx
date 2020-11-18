@@ -66,7 +66,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderName = (row: Supplier) => {
     const name =
-      row.file_status === 'completed' ? (
+      row.file_status === 'completed' && row.progress !== -1 ? (
         <Link to={`/profit-finder/${row.supplier_id}`} onClick={() => setLatestSupplier(row)}>
           {row.search}
         </Link>
@@ -400,7 +400,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         ? shortlistedData
         : showTab === 'archived'
         ? archivedData
-        : draftData;
+        : draftData.reverse();
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
