@@ -721,17 +721,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     } = this.props;
     const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
 
-    // NOTE: temporarily filter products with ROIs greater than 300%
-    const userEmail = localStorage.getItem('userEmail') || '';
-    let tempFilteredProducts;
-    if (['dev@sellgo.com', 'demo@sellgo.com', 'apobee.mcdonald@sellgo.com'].includes(userEmail)) {
-      tempFilteredProducts = filteredProducts;
-    } else {
-      tempFilteredProducts = filteredProducts.filter(
-        product => !product.roi || Number(product.roi) <= 300
-      );
-    }
-
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -748,7 +737,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               scrollTopSelector={scrollTopSelector}
               tableKey={tableKeys.PRODUCTS}
               columns={columns}
-              data={tempFilteredProducts}
+              data={filteredProducts}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}
