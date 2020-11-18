@@ -135,10 +135,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderProfit = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
+    </p>
   );
   renderMargin = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_margin, formatPercent(row.multipack_margin))}
+    </p>
   );
   renderFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
@@ -149,7 +153,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     </p>
   );
   renderRoi = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_roi, formatPercent(row.multipack_roi))}
+    </p>
   );
   renderRank = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
@@ -373,48 +379,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderASIN,
     },
     {
-      label: 'UPC',
-      dataKey: 'upc',
-      type: 'string',
-      show: true,
-      sortable: true,
-      className: 'md-column',
-      render: this.renderUPC,
-    },
-    {
-      label: 'Last Run',
-      dataKey: 'last_run',
-      type: 'string',
-      show: true,
-      sortable: true,
-      className: 'xl-column',
-      render: this.renderLastRun,
-    },
-    {
-      label: 'Reviews',
-      dataKey: 'customer_reviews',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderReviews,
-    },
-    {
-      label: 'Rating',
-      dataKey: 'rating',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderRating,
-    },
-    {
-      label: 'Is Amazon\nSelling',
-      dataKey: 'is_amazon_selling',
-      type: 'boolean',
-      show: true,
-      sortable: true,
-      render: this.renderIsAmazon,
-    },
-    {
       label: 'Price',
       dataKey: 'price',
       type: 'number',
@@ -422,24 +386,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       className: 'sm-column',
       render: this.renderPrice,
-    },
-    {
-      label: 'Low New\nFBA Price',
-      dataKey: 'low_new_fba_price',
-      type: 'number',
-      show: true,
-      sortable: true,
-      className: 'sm-column',
-      render: this.renderLowNewFbaPrice,
-    },
-    {
-      label: 'Low New\nFBM Price',
-      dataKey: 'low_new_fbm_price',
-      type: 'number',
-      show: true,
-      sortable: true,
-      className: 'sm-column',
-      render: this.renderLowNewFbmPrice,
     },
     {
       label: 'Cost',
@@ -458,6 +404,60 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       className: 'sm-column',
       render: this.renderFee,
+    },
+    {
+      label: 'Profit',
+      dataKey: 'multipack_profit',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderProfit,
+    },
+    {
+      label: 'Margin',
+      dataKey: 'multipack_margin',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderMargin,
+    },
+    {
+      label: 'ROI',
+      dataKey: 'multipack_roi',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderRoi,
+    },
+    {
+      label: 'Rank',
+      dataKey: 'rank',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderRank,
+    },
+    {
+      label: 'Monthly \nSales Est',
+      dataKey: 'sales_monthly',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'md-column',
+      render: this.renderMonthlySalesEst,
+    },
+    {
+      label: 'Monthly\nRevenue',
+      dataKey: 'monthly_revenue',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderMonthlyRevenue,
     },
     {
       label: 'FBA Fee',
@@ -487,58 +487,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderVariableClosingFee,
     },
     {
-      label: 'Profit',
-      dataKey: 'profit',
-      type: 'number',
-      sortable: true,
+      label: 'Is Amazon\nSelling',
+      dataKey: 'is_amazon_selling',
+      type: 'boolean',
       show: true,
-      className: 'sm-column',
-      render: this.renderProfit,
+      sortable: true,
+      render: this.renderIsAmazon,
     },
     {
-      label: 'Margin',
-      dataKey: 'margin',
+      label: 'Reviews',
+      dataKey: 'customer_reviews',
       type: 'number',
-      sortable: true,
       show: true,
-      className: 'sm-column',
-      render: this.renderMargin,
+      sortable: true,
+      render: this.renderReviews,
     },
     {
-      label: 'Monthly\nRevenue',
-      dataKey: 'monthly_revenue',
+      label: 'Rating',
+      dataKey: 'rating',
       type: 'number',
-      sortable: true,
       show: true,
-      className: 'sm-column',
-      render: this.renderMonthlyRevenue,
-    },
-    {
-      label: 'ROI',
-      dataKey: 'roi',
-      type: 'number',
       sortable: true,
-      show: true,
-      className: 'sm-column',
-      render: this.renderRoi,
-    },
-    {
-      label: 'Rank',
-      dataKey: 'rank',
-      type: 'number',
-      sortable: true,
-      show: true,
-      className: 'sm-column',
-      render: this.renderRank,
-    },
-    {
-      label: 'Monthly \nSales Est',
-      dataKey: 'sales_monthly',
-      type: 'number',
-      sortable: true,
-      show: true,
-      className: 'md-column',
-      render: this.renderMonthlySalesEst,
+      render: this.renderRating,
     },
     {
       label: 'Num New\nFBA Offers',
@@ -557,6 +527,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'md-column',
       render: this.renderNumFbmNewOffers,
+    },
+    {
+      label: 'Low New\nFBA Price',
+      dataKey: 'low_new_fba_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'sm-column',
+      render: this.renderLowNewFbaPrice,
+    },
+    {
+      label: 'Low New\nFBM Price',
+      dataKey: 'low_new_fbm_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'sm-column',
+      render: this.renderLowNewFbmPrice,
     },
     {
       label: 'Multipack\nQty',
@@ -584,6 +572,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'xl-column',
       render: this.renderSizeTiers,
+    },
+    {
+      label: 'UPC',
+      dataKey: 'upc',
+      type: 'string',
+      show: true,
+      sortable: true,
+      className: 'md-column',
+      render: this.renderUPC,
+    },
+    {
+      label: 'Last Run',
+      dataKey: 'last_run',
+      type: 'string',
+      show: true,
+      sortable: true,
+      className: 'xl-column',
+      render: this.renderLastRun,
     },
     {
       label: 'Tracking',
@@ -721,17 +727,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     } = this.props;
     const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
 
-    // NOTE: temporarily filter products with ROIs greater than 300%
-    const userEmail = localStorage.getItem('userEmail') || '';
-    let tempFilteredProducts;
-    if (['dev@sellgo.com', 'demo@sellgo.com', 'apobee.mcdonald@sellgo.com'].includes(userEmail)) {
-      tempFilteredProducts = filteredProducts;
-    } else {
-      tempFilteredProducts = filteredProducts.filter(
-        product => !product.roi || Number(product.roi) <= 300
-      );
-    }
-
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -748,7 +743,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               scrollTopSelector={scrollTopSelector}
               tableKey={tableKeys.PRODUCTS}
               columns={columns}
-              data={tempFilteredProducts}
+              data={filteredProducts}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}
