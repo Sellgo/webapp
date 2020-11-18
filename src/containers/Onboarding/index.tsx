@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { VideoDetails, VideoList, VideoSlider } from './Playlist';
 import { onboardingVideos } from '../../constants/UserOnboarding';
-import { Header, Grid, Segment } from 'semantic-ui-react';
+import { Header, Grid } from 'semantic-ui-react';
 import { Videos } from './Interfaces';
 import './index.scss';
 import PageHeader from '../../components/PageHeader';
@@ -92,7 +92,7 @@ class Onboarding extends React.Component<OnboardingProps> {
           callToAction={<QuotaMeter />}
           auth={match.params.auth}
         />
-        <Segment>
+        <>
           {Object.keys(selectedVideo).length ? (
             <Grid className="Onboarding__container">
               <Header
@@ -133,7 +133,7 @@ class Onboarding extends React.Component<OnboardingProps> {
               {listOfVideos}
             </Grid>
           )}
-        </Segment>
+        </>
       </>
     );
   }
