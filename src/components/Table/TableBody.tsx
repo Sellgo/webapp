@@ -130,9 +130,9 @@ export const TableBody = (props: TableBodyProps) => {
 
   if (middleScroll) {
     const isTypeProducts = type === 'products';
-    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
+    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 2);
     const middleBound = filteredColumns.slice(
-      isTypeProducts ? 2 : 5,
+      isTypeProducts ? 2 : 2,
       isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
     );
     const upperBound = filteredColumns.slice(
