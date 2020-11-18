@@ -42,7 +42,11 @@ export interface Product {
   is_amazon_selling: boolean;
   multipack_quantity: string;
   multipack_flag: boolean;
+  multipack_profit: number;
+  multipack_margin: number;
+  multipack_roi: number;
 }
+
 export interface ProductsTrackData {
   avg_price: string;
   daily_rank: number;

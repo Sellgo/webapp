@@ -22,6 +22,8 @@ export interface Column {
   filter?: boolean;
   filterType?: string;
   filterSign?: string;
+  filterDataKey?: string;
+  filterLabel?: string;
   searchIconPosition?: string;
   show?: boolean;
   check?: any;
