@@ -107,6 +107,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filterNegativeCheckbox,
     filterCheckboxWithSelectAll,
     filterBoxSize,
+    filterDataKey,
   } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
@@ -145,12 +146,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   if (dataKey === 'sellgo_score') {
     otherProps = { ...otherProps, className: `${otherProps.className} remove-left-border` };
   }
+  const columnDataKey = filterDataKey ? filterDataKey : dataKey;
   if (sortedColumnKey === dataKey) {
     otherProps = { ...otherProps, sorted: sortDirection };
   }
 
   const isFilterActive = () => {
-    const localFilterData = localStorage.getItem(`${type}:${dataKey}`);
+    const localFilterData = localStorage.getItem(`${type}:${columnDataKey}`);
     let parsed: any;
     if (localFilterData) {
       parsed = JSON.parse(localFilterData);
@@ -166,7 +168,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   const ColumnFilter = (
     <Popup
       on="click"
-      open={columnFilterBox && activeColumnFilters === dataKey}
+      open={columnFilterBox && activeColumnFilters === columnDataKey}
       key={dataKey}
       onClose={toggleColumnCheckbox}
       onOpen={toggleColumnCheckbox}
@@ -177,14 +179,14 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         <Icon
           className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
           onClick={() =>
-            toggleColumnFilters ? toggleColumnFilters(dataKey, filterType) : undefined
+            toggleColumnFilters ? toggleColumnFilters(columnDataKey, filterType) : undefined
           }
         />
       }
       content={
         <RangeFilterBox
-          label={label}
-          dataKey={dataKey}
+          label={filterLabel ? filterLabel : label}
+          dataKey={columnDataKey}
           filterLabel={filterLabel}
           labelSign={filterSign}
           filterType={filterType}
@@ -244,7 +246,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
               trigger={
                 <Icon
                   className={`${icon}`}
-                  onClick={() => (toggleColumnFilters ? toggleColumnFilters(dataKey) : undefined)}
+                  onClick={() =>
+                    toggleColumnFilters ? toggleColumnFilters(dataKey, filterType) : undefined
+                  }
                 />
               }
               content={
@@ -362,9 +366,9 @@ const TableHeader = (props: TableHeaderProps) => {
   };
   if (middleScroll) {
     const isTypeProducts = rest.type === 'products';
-    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
+    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 2);
     const middleBound = filteredColumns.slice(
-      isTypeProducts ? 2 : 5,
+      isTypeProducts ? 2 : 2,
       isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
     );
     // eslint-disable-next-line max-len
@@ -408,7 +412,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <th
                   key={`header-blank-row`}
                   colSpan={columns.length - 2}
-                  style={{ height: '56px', width: '154%' }}
+                  style={{ height: '56px' }}
                 />
               )}
               render={column => (

@@ -130,9 +130,9 @@ export const TableBody = (props: TableBodyProps) => {
 
   if (middleScroll) {
     const isTypeProducts = type === 'products';
-    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
+    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 2);
     const middleBound = filteredColumns.slice(
-      isTypeProducts ? 2 : 5,
+      isTypeProducts ? 2 : 2,
       isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
     );
     const upperBound = filteredColumns.slice(
@@ -206,7 +206,11 @@ export const TableBody = (props: TableBodyProps) => {
                           row={row}
                           key={`${Date.now() + colIndex}--tb-cell`}
                           className={
-                            expandedRows && expandedRows === row.id ? 'remove-bottom-border' : ''
+                            expandedRows && expandedRows === row.id
+                              ? 'remove-bottom-border'
+                              : filteredColumns.length === 3 && colIndex === 1
+                              ? 'ptr-left-cell'
+                              : ''
                           }
                         />
                       )

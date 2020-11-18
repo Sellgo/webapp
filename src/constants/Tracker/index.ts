@@ -174,7 +174,12 @@ export const columnFilter = [
     key: 'Select All',
     visible: true,
   },
-
+  {
+    value: true,
+    key: 'Source',
+    dataKey: 'source',
+    visible: true,
+  },
   {
     value: true,
     key: 'Avg Price',

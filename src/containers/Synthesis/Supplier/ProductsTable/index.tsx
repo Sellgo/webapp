@@ -152,10 +152,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderProfit = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.profit, formatCurrency(row.profit))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
+    </p>
   );
   renderMargin = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.margin, formatPercent(row.margin))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_margin, formatPercent(row.multipack_margin))}
+    </p>
   );
   renderFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
@@ -166,7 +170,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     </p>
   );
   renderRoi = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}</p>
+    <p className="stat">
+      {showNAIfZeroOrNull(row.multipack_roi, formatPercent(row.multipack_roi))}
+    </p>
   );
   renderRank = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.rank, '#' + formatNumber(row.rank))}</p>
@@ -391,49 +397,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderASIN,
     },
     {
-      label: 'UPC',
-      dataKey: 'upc',
-      type: 'string',
-      show: true,
-      sortable: true,
-      className: 'md-column',
-      render: this.renderUPC,
-    },
-    {
-      label: 'Last Run',
-      dataKey: 'last_run',
-      type: 'string',
-      show: true,
-      sortable: true,
-      className: 'xl-column',
-      render: this.renderLastRun,
-    },
-    {
-      label: 'Reviews',
-      dataKey: 'customer_reviews',
-      type: 'number',
-      show: true,
-      sortable: true,
-      ...supplierDataKeysMapping.customer_reviews,
-      render: this.renderReviews,
-    },
-    {
-      label: 'Rating',
-      dataKey: 'rating',
-      type: 'number',
-      show: true,
-      sortable: true,
-      render: this.renderRating,
-    },
-    {
-      label: 'Is Amazon\nSelling',
-      dataKey: 'is_amazon_selling',
-      type: 'boolean',
-      show: true,
-      sortable: true,
-      render: this.renderIsAmazon,
-    },
-    {
       label: 'Price',
       dataKey: 'price',
       type: 'number',
@@ -444,31 +407,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderPrice,
     },
     {
-      label: 'Low New\nFBA Price',
-      dataKey: 'low_new_fba_price',
-      type: 'number',
-      show: true,
-      sortable: true,
-      className: 'sm-column',
-      render: this.renderLowNewFbaPrice,
-    },
-    {
-      label: 'Low New\nFBM Price',
-      dataKey: 'low_new_fbm_price',
-      type: 'number',
-      show: true,
-      sortable: true,
-      className: 'sm-column',
-      render: this.renderLowNewFbmPrice,
-    },
-    {
       label: 'Cost',
       dataKey: 'product_cost',
       type: 'number',
       sortable: true,
       show: true,
       className: 'sm-column',
-      ...supplierDataKeysMapping.cost,
+      ...supplierDataKeysMapping.product_cost,
       render: this.renderCost,
     },
     {
@@ -479,6 +424,65 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       className: 'sm-column',
       render: this.renderFee,
+    },
+    {
+      label: 'Profit',
+      dataKey: 'multipack_profit',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_profit,
+      render: this.renderProfit,
+    },
+    {
+      label: 'Margin',
+      dataKey: 'multipack_margin',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_margin,
+      render: this.renderMargin,
+    },
+    {
+      label: 'ROI',
+      dataKey: 'multipack_roi',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_roi,
+      render: this.renderRoi,
+    },
+    {
+      label: 'Rank',
+      dataKey: 'rank',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      render: this.renderRank,
+    },
+    {
+      label: 'Monthly \nSales Est',
+      dataKey: 'sales_monthly',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'md-column',
+      ...supplierDataKeysMapping.sales_monthly,
+      render: this.renderMonthlySalesEst,
+    },
+    {
+      label: 'Monthly\nRevenue',
+      dataKey: 'monthly_revenue',
+      type: 'number',
+      sortable: true,
+      show: true,
+      className: 'sm-column',
+      ...supplierDataKeysMapping.monthly_revenue,
+      render: this.renderMonthlyRevenue,
     },
     {
       label: 'FBA Fee',
@@ -508,64 +512,29 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderVariableClosingFee,
     },
     {
-      label: 'Profit',
-      dataKey: 'profit',
-      type: 'number',
-      sortable: true,
+      label: 'Is Amazon\nSelling',
+      dataKey: 'is_amazon_selling',
+      type: 'boolean',
       show: true,
-      className: 'sm-column',
-      ...supplierDataKeysMapping.profit,
-      render: this.renderProfit,
+      sortable: true,
+      render: this.renderIsAmazon,
     },
     {
-      label: 'Margin',
-      dataKey: 'margin',
+      label: 'Reviews',
+      dataKey: 'customer_reviews',
       type: 'number',
-      sortable: true,
       show: true,
-      className: 'sm-column',
-      ...supplierDataKeysMapping.margin,
-      render: this.renderMargin,
+      sortable: true,
+      ...supplierDataKeysMapping.customer_reviews,
+      render: this.renderReviews,
     },
     {
-      label: 'Monthly\nRevenue',
-      dataKey: 'monthly_revenue',
+      label: 'Rating',
+      dataKey: 'rating',
       type: 'number',
-      sortable: true,
       show: true,
-      className: 'sm-column',
-      ...supplierDataKeysMapping.monthly_revenue,
-      render: this.renderMonthlyRevenue,
-    },
-    {
-      label: 'ROI',
-      dataKey: 'roi',
-      type: 'number',
       sortable: true,
-      show: true,
-      className: 'sm-column',
-      ...supplierDataKeysMapping.roi,
-      render: this.renderRoi,
-    },
-    {
-      label: 'Rank',
-      dataKey: 'rank',
-      type: 'number',
-      sortable: true,
-      show: true,
-      className: 'sm-column',
-      ...supplierDataKeysMapping.rank,
-      render: this.renderRank,
-    },
-    {
-      label: 'Monthly \nSales Est',
-      dataKey: 'sales_monthly',
-      type: 'number',
-      sortable: true,
-      show: true,
-      className: 'md-column',
-      ...supplierDataKeysMapping.sales_monthly,
-      render: this.renderMonthlySalesEst,
+      render: this.renderRating,
     },
     {
       label: 'Num New\nFBA Offers',
@@ -584,6 +553,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'md-column',
       render: this.renderNumFbmNewOffers,
+    },
+    {
+      label: 'Low New\nFBA Price',
+      dataKey: 'low_new_fba_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'sm-column',
+      render: this.renderLowNewFbaPrice,
+    },
+    {
+      label: 'Low New\nFBM Price',
+      dataKey: 'low_new_fbm_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      className: 'sm-column',
+      render: this.renderLowNewFbmPrice,
     },
     {
       label: 'Multipack\nQty',
@@ -613,6 +600,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       className: 'xl-column',
       ...supplierDataKeysMapping.size_tier,
       render: this.renderSizeTiers,
+    },
+    {
+      label: 'UPC',
+      dataKey: 'upc',
+      type: 'string',
+      show: true,
+      sortable: true,
+      className: 'md-column',
+      render: this.renderUPC,
+    },
+    {
+      label: 'Last Run',
+      dataKey: 'last_run',
+      type: 'string',
+      show: true,
+      sortable: true,
+      className: 'xl-column',
+      render: this.renderLastRun,
     },
     {
       label: 'Tracking',
@@ -753,6 +758,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
     }
     if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
+      console.log('products: ', this.props.products);
       this.getFilteredRanges();
     }
   }
@@ -767,6 +773,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({
       activeColumnFilterValue: this.getFilterValues(data, type),
     });
+    console.log('setActiveColumnFilters: ', data, type);
     this.setState({ activeColumnFilters: data });
   };
 
@@ -821,7 +828,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       });
 
       //profitability preset disable when profit slider change
-      if (data.dataKey === 'profit') {
+      if (data.dataKey === 'multipack_profit') {
         const probabilityIndex = updatedFilterData.findIndex(
           (filter: any) => filter.type === 'probability-preset'
         );
@@ -927,7 +934,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const result = localFilters.filter((filter: any) => filter.dataKey !== dataKey);
 
     //profitability preset disable when profit slider change
-    if (dataKey === 'profit' && type === 'range') {
+    if (dataKey === 'multipack_profit' && type === 'range') {
       const probabilityIndex = result.findIndex(
         (filter: any) => filter.type === 'probability-preset'
       );
@@ -1059,31 +1066,32 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { filterSearch, filterProducts } = this.props;
     const localFilters: any = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
     const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
-    const hasProfit = localFilters.findIndex((filter: any) => filter.dataKey === 'profit') !== -1;
+    const hasProfit =
+      localFilters.findIndex((filter: any) => filter.dataKey === 'multipack_profit') !== -1;
 
     if (index !== -1) {
       if (data !== '') {
         if (hasProfit) {
           localFilters.map((filter: any) => {
-            if (filter.type === 'range' && filter.dataKey === 'profit') {
+            if (filter.type === 'range' && filter.dataKey === 'multipack_profit') {
               if (data.value === 'Profitable') {
                 filter.range.min = 0.01;
-                filter.range.max = filteredRanges.profit.max;
+                filter.range.max = filteredRanges.multipack_profit.max;
                 filter.value.min = 0.01;
-                filter.value.max = filteredRanges.profit.max;
+                filter.value.max = filteredRanges.multipack_profit.max;
                 filter.isNegative = false;
               } else if (data.value === 'Non-Profitable Products') {
-                filter.range.min = filteredRanges.profit.min;
+                filter.range.min = filteredRanges.multipack_profit.min;
                 filter.range.max = 0;
-                filter.value.min = filteredRanges.profit.min;
+                filter.value.min = filteredRanges.multipack_profit.min;
                 filter.value.max = 0;
                 filter.isNegative = false;
               } else {
-                filter.range = filteredRanges.profit;
+                filter.range = filteredRanges.multipack_profit;
                 filter.value = filter.range;
                 filter.isNegative = false;
               }
-              localStorage.setItem(`products:profit`, JSON.stringify(filter));
+              localStorage.setItem(`products:multipack_profit`, JSON.stringify(filter));
             }
             if (filter.type === 'probability-preset' && data.value !== '') {
               filter.value = data.value;
@@ -1098,7 +1106,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         } else {
           const newFilter: any = {
             label: 'Profit',
-            dataKey: 'profit',
+            dataKey: 'multipack_profit',
             isActive: true,
             type: 'range',
             value: {
@@ -1110,26 +1118,26 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               max: 0,
             },
             isNegative: false,
-            defaultValues: filteredRanges.profit,
+            defaultValues: filteredRanges.multipack_profit,
           };
           if (data.value === 'Profitable') {
             newFilter.range.min = 0.01;
-            newFilter.range.max = filteredRanges.profit.max;
+            newFilter.range.max = filteredRanges.multipack_profit.max;
             newFilter.value.min = 0.01;
-            newFilter.value.max = filteredRanges.profit.max;
+            newFilter.value.max = filteredRanges.multipack_profit.max;
           } else if (data.value === 'Non-Profitable Products') {
-            newFilter.range.min = filteredRanges.profit.min;
+            newFilter.range.min = filteredRanges.multipack_profit.min;
             newFilter.range.max = 0;
-            newFilter.value.min = filteredRanges.profit.min;
+            newFilter.value.min = filteredRanges.multipack_profit.min;
             newFilter.value.max = 0;
           } else {
-            newFilter.range = filteredRanges.profit;
+            newFilter.range = filteredRanges.multipack_profit;
             newFilter.value = newFilter.range;
           }
           localFilters.push(newFilter);
           this.setState({ localFilterData: localFilters });
           filterProducts(filterSearch, localFilters);
-          localStorage.setItem(`products:profit`, JSON.stringify(newFilter));
+          localStorage.setItem(`products:multipack_profit`, JSON.stringify(newFilter));
           localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
           localStorage.setItem('profitFinderFilterStateActive', 'true');
         }
@@ -1139,24 +1147,24 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     } else {
       if (hasProfit) {
         localFilters.map((filter: any) => {
-          if (filter.type === 'range' && filter.dataKey === 'profit') {
+          if (filter.type === 'range' && filter.dataKey === 'multipack_profit') {
             if (data.value === 'Profitable') {
               filter.range.min = 0.01;
-              filter.range.max = filteredRanges.profit.max;
+              filter.range.max = filteredRanges.multipack_profit.max;
               filter.value.min = 0.01;
-              filter.value.max = filteredRanges.profit.max;
+              filter.value.max = filteredRanges.multipack_profit.max;
               filter.isNegative = false;
             } else if (data.value === 'Non-Profitable Products') {
-              filter.range.min = filteredRanges.profit.min;
+              filter.range.min = filteredRanges.multipack_profit.min;
               filter.range.max = 0;
-              filter.value.min = filteredRanges.profit.min;
+              filter.value.min = filteredRanges.multipack_profit.min;
               filter.value.max = 0;
               filter.isNegative = false;
             } else {
-              filter.range = filteredRanges.profit;
+              filter.range = filteredRanges.multipack_profit;
               filter.isNegative = false;
             }
-            localStorage.setItem(`products:profit`, JSON.stringify(filter));
+            localStorage.setItem(`products:multipack_profit`, JSON.stringify(filter));
           }
           return filter;
         });
@@ -1169,7 +1177,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       } else {
         const newFilter: any = {
           label: 'Profit',
-          dataKey: 'profit',
+          dataKey: 'multipack_profit',
           isActive: true,
           type: 'range',
           isNegative: false,
@@ -1181,28 +1189,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             min: 0,
             max: 0,
           },
-          defaultValues: filteredRanges.profit,
+          defaultValues: filteredRanges.multipack_profit,
         };
         const probabilityData: NewFilterModel = { ...data };
         if (data.value === 'Profitable') {
           newFilter.range.min = 0.01;
-          newFilter.range.max = filteredRanges.profit.max;
+          newFilter.range.max = filteredRanges.multipack_profit.max;
           newFilter.value.min = 0.01;
-          newFilter.value.max = filteredRanges.profit.max;
+          newFilter.value.max = filteredRanges.multipack_profit.max;
         } else if (data.value === 'Non-Profitable Products') {
-          newFilter.range.min = filteredRanges.profit.min;
+          newFilter.range.min = filteredRanges.multipack_profit.min;
           newFilter.range.max = 0;
-          newFilter.value.min = filteredRanges.profit.min;
+          newFilter.value.min = filteredRanges.multipack_profit.min;
           newFilter.value.max = 0;
         } else {
-          newFilter.range = filteredRanges.profit;
+          newFilter.range = filteredRanges.multipack_profit;
           newFilter.value = newFilter.range;
         }
         localFilters.push(newFilter);
         localFilters.push(probabilityData);
         this.setState({ localFilterData: localFilters });
         filterProducts(filterSearch, localFilters);
-        localStorage.setItem(`products:profit`, JSON.stringify(newFilter));
+        localStorage.setItem(`products:multipack_profit`, JSON.stringify(newFilter));
         localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
         localStorage.setItem('profitFinderFilterStateActive', 'true');
       }
@@ -1215,7 +1223,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const localFilters: any = _.cloneDeep(localFilterData);
     const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
     const profitRangeIndex = localFilters.findIndex(
-      (filter: any) => filter.type === 'range' && filter.dataKey === 'profit'
+      (filter: any) => filter.type === 'range' && filter.dataKey === 'multipack_profit'
     );
     if (index !== -1) {
       localFilters.splice(index, 1);
@@ -1226,7 +1234,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ localFilterData: localFilters });
     filterProducts(filterSearch, localFilters);
     localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
-    localStorage.removeItem(`products:profit`);
+    localStorage.removeItem(`products:multipack_profit`);
     localStorage.setItem('profitFinderFilterStateActive', 'true');
   };
 
@@ -1291,17 +1299,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filteredRanges,
     } = this.state;
 
-    // NOTE: temporarily filter products with ROIs greater than 300%
-    const userEmail = localStorage.getItem('userEmail') || '';
-    let tempFilteredProducts;
-    if (['dev@sellgo.com', 'demo@sellgo.com', 'apobee.mcdonald@sellgo.com'].includes(userEmail)) {
-      tempFilteredProducts = filteredProducts;
-    } else {
-      tempFilteredProducts = filteredProducts.filter(
-        product => !product.roi || Number(product.roi) <= 300
-      );
-    }
-
     return (
       <div className="products-table">
         {isLoadingSupplierProducts ? (
@@ -1318,7 +1315,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               scrollTopSelector={scrollTopSelector}
               tableKey={tableKeys.PRODUCTS}
               columns={columns}
-              data={tempFilteredProducts}
+              data={filteredProducts}
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}

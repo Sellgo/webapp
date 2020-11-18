@@ -171,10 +171,10 @@ export const dataKeys: any = [
 export const supplierDataKeys: any = [
   'price',
   'product_cost',
-  'profit',
-  'margin',
+  'multipack_profit',
+  'multipack_margin',
   'monthly_revenue',
-  'roi',
+  'multipack_roi',
   'rank',
   'sales_monthly',
   'customer_reviews',
@@ -190,20 +190,20 @@ export const supplierDataKeysMapping: any = {
     filterType: 'range',
     filterNegativeCheckbox: true,
   },
-  cost: {
+  product_cost: {
     filter: true,
     filterLabel: 'Cost',
     filterSign: '$',
     filterType: 'range',
   },
-  profit: {
+  multipack_profit: {
     filter: true,
     filterLabel: 'Profit',
     filterSign: '$',
     filterType: 'range',
     filterNegativeCheckbox: true,
   },
-  margin: {
+  multipack_margin: {
     filter: true,
     filterLabel: 'Profit Margin',
     filterSign: '%',
@@ -216,7 +216,7 @@ export const supplierDataKeysMapping: any = {
     filterSign: '$',
     filterType: 'range',
   },
-  roi: {
+  multipack_roi: {
     filter: true,
     filterLabel: 'ROI',
     filterSign: '%',
