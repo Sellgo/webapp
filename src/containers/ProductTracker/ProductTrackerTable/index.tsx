@@ -619,6 +619,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       costDetails,
     } = this.props;
     const { ColumnFilterBox, editCost, product_cost } = this.state;
+
     return (
       <div className="tracker-table">
         <div className="tracker-menu">
