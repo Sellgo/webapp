@@ -342,7 +342,7 @@ export const GenericTable = (props: GenericTableProps) => {
       clearTimeout(timer);
       timer = setTimeout(() => {
         bottomScroll.classList.remove('bottom-scrollbar-visible');
-      }, 3000);
+      }, 500);
     }
   };
 
