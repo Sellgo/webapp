@@ -392,7 +392,7 @@ const TableHeader = (props: TableHeaderProps) => {
                 <th
                   key={`header-blank-row`}
                   colSpan={columns.length - 2}
-                  style={{ height: '56px', width: '154%' }}
+                  style={{ height: '56px' }}
                 />
               )}
               render={column => (

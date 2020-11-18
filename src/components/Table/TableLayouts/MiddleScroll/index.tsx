@@ -16,9 +16,10 @@ export const MiddleScrollHeader = (props: Props) => {
   const lowerBound = columns.slice(0, leftFixedColumns);
   const middleBound = columns.slice(leftFixedColumns, columns.length - rightFixedColumns);
   const upperBound = columns.slice(columns.length - rightFixedColumns, columns.length);
+  const style = !middleBound.length ? { width: '1%' } : {};
   return (
     <Table.Row className={`middle-scroll-layout ${className} `}>
-      <th colSpan={leftFixedColumns} className="fixed-th-first">
+      <th colSpan={leftFixedColumns} className="fixed-th-first" style={style}>
         <tr>{lowerBound.map((c: Column) => render(c))}</tr>
       </th>
       {middleBound.map((c: Column, index: number) =>
