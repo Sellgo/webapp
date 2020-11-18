@@ -192,6 +192,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
                   <AsinSearch />
                 </div>
                 <ProductTrackerTable
+                  activeGroupId={activeGroupId}
                   handleMenu={(id: any) => this.handleMenu(id)}
                   periodValue={this.state.periodValue}
                   handleUntrack={(id: any, trackId: any) => this.handleUntrack(id, trackId)}

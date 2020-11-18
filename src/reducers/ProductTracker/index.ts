@@ -68,7 +68,9 @@ export default (state = initialState, action: AnyAction) => {
     case SET_PRODUCT_TRACKER_DETAILS: {
       const data = action.payload;
       const newState = setIn(state, 'trackerDetails', data);
-      return setIn(newState, 'trackerProducts', data.results);
+      const newFilterRanges = findMinMax(data.results);
+      const newStateWithFilterRanges = setIn(newState, 'filterRanges', newFilterRanges);
+      return setIn(newStateWithFilterRanges, 'filteredProducts', data.results);
     }
     case SET_TRACKER_SINGLE_PAGE_ITEMS_COUNT: {
       localStorage.setItem('productTrackerPageItemsCount', action.payload);
