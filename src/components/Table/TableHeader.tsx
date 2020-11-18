@@ -111,9 +111,10 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
   const columnClass = type !== 'leads-tracker' ? getColumnClass(column) : '';
+  console.log('type: ', type);
   otherProps = {
     onClick:
-      sortable && !['leads-tracker', 'products'].includes(type ? type : '')
+      sortable && !['leads-tracker', 'products', 'trackerTable'].includes(type ? type : '')
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -132,7 +133,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   const sorting = {
     onClick:
-      ['leads-tracker', 'products'].includes(type ? type : '') && sortable
+      ['leads-tracker', 'products', 'trackerTable'].includes(type ? type : '') && sortable
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -229,17 +230,23 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
               </span>
             )
           ) : null}
+          {filter && searchIconPosition === 'right' && ColumnFilter}
           {check && <Checkbox value={check} />}
           {icon && popUp ? (
             <Popup
               on="click"
-              open={columnFilterBox}
+              open={columnFilterBox && activeColumnFilters === 'ellipsis horizontal'}
               onClose={toggleColumnCheckbox}
               onOpen={toggleColumnCheckbox}
               position="bottom right"
               className="column-swap-popup"
               basic={true}
-              trigger={<Icon className={`${icon}`} />}
+              trigger={
+                <Icon
+                  className={`${icon}`}
+                  onClick={() => (toggleColumnFilters ? toggleColumnFilters(dataKey) : undefined)}
+                />
+              }
               content={
                 <ColumnFilterCard
                   columnFilterData={columnFilterData}

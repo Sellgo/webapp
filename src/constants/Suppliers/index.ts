@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { NewFilterModel } from '../../interfaces/Filters';
+import { filterKeys } from '../Tracker';
 import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 
 export const SET_SUPPLIERS = 'SET_SUPPLIERS';
@@ -427,7 +428,7 @@ export const getCustomizableFilteredProducts = (product: any, customizableFilter
       }
 
       // for sliders with keys same with customize filter for ex. price
-      for (const key of supplierDataKeys) {
+      for (const key of filterKeys) {
         if (filter.dataKey === key) {
           if (!filter.isActive) result = true;
           else {

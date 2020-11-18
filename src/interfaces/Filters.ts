@@ -89,7 +89,7 @@ export interface ProductTrackerFilterInterface {
     filterRanges: RangeModel[];
     reviews: FilterData;
   };
-  period: FilterData;
+  period?: FilterData;
   presets: FilterData[];
 }
 

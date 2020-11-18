@@ -50,13 +50,11 @@ interface ProductTrackerProps {
   subscriptionType: string;
 }
 
-const filterStorage = JSON.parse(
-  typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
-);
+const trackerPeriod = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
     searchValue: '',
-    periodValue: filterStorage ? filterStorage.period : DEFAULT_PERIOD,
+    periodValue: trackerPeriod,
     productTrackID: null,
   };
 

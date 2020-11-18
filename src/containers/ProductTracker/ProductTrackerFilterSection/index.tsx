@@ -11,7 +11,6 @@ import {
   findMinMax,
   filterProductsByGroupId,
   DEFAULT_PERIOD,
-  filterPeriods,
   filterKeys,
 } from '../../../constants/Tracker';
 import {
@@ -41,7 +40,7 @@ function ProductTrackerFilterSection(props: Props) {
     filterProducts,
     trackerDetails,
     activeGroupId,
-    fetchAllTrackedProductDetails,
+    // fetchAllTrackedProductDetails,
     resettingFilter,
     filterReset,
     setPageNumber,
@@ -306,7 +305,6 @@ function ProductTrackerFilterSection(props: Props) {
         ],
       },
     },
-    period: filterPeriods,
     presets: [
       {
         label: 'Amazon',
@@ -451,14 +449,14 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
     applyFilter(true);
   };
-  const setPeriod = (value: number) => {
-    isTrackerFilterLoading(true);
-    fetchAllTrackedProductDetails(value);
-    const filterValue = filterState;
-    filterValue.period = value;
-    setFilterState(filterValue);
-    localStorage.setItem('trackerFilter', JSON.stringify(filterState));
-  };
+  // const setPeriod = (value: number) => {
+  //   isTrackerFilterLoading(true);
+  //   fetchAllTrackedProductDetails(value);
+  //   const filterValue = filterState;
+  //   filterValue.period = value;
+  //   setFilterState(filterValue);
+  //   localStorage.setItem('trackerFilter', JSON.stringify(filterState));
+  // };
 
   const toggleNegative = (datakey: string, isPreset?: boolean) => {
     const data = filterState;
@@ -821,7 +819,7 @@ function ProductTrackerFilterSection(props: Props) {
             filterState={filterState}
           /> */}
         </div>
-        <div className="tracker-filter-section__header__period-container">
+        {/* <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {
             return (
               <div
@@ -839,7 +837,7 @@ function ProductTrackerFilterSection(props: Props) {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
       <>
         <ProductTrackerFilter

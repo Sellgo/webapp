@@ -107,19 +107,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     updateTracking: false,
     activeColumnFilters: {},
     activeColumnFilterValue: {},
-    localFilterData: [
-      // {
-      //   label: 'price',
-      //   dataKey: 'price',
-      //   type: 'range',
-      //   isActive: false,
-      //   range: {
-      //     min: 0,
-      //     max: 200,
-      //   },
-      //   dateModified: Date.now(),
-      // },
-    ],
+    localFilterData: [],
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -807,15 +795,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { filterSearch, filterProducts } = this.props;
     const localFilterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
     const localFilters = _.cloneDeep(localFilterData);
-
-    // apply status of existing filters
-    const rangeFilters = localFilters.filter((filter: any) => filter.type === 'range');
-
-    if (rangeFilters.length >= 1) {
-      for (const rangeFilter of rangeFilters) {
-        this.syncFilterSlider(rangeFilter);
-      }
-    }
 
     /*
       Edit saved filter

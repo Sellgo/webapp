@@ -26,14 +26,19 @@ import {
   deleteProductTrackGroup,
   setProductDetails,
   updateProductCost,
+  filterTrackedProducts,
 } from '../../../actions/ProductTracker';
 
 import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
-import { columnFilter } from '../../../constants/Tracker';
-import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
+import {
+  columnFilter,
+  filterKeys,
+  findMinMax,
+  trackerDataKeysMapping,
+} from '../../../constants/Tracker';
 import _ from 'lodash';
 import {
   isFetchingInventorySelector,
@@ -46,6 +51,7 @@ import {
 import { returnWithRenderMethod } from '../../../utils/tableColumn';
 import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
+import { NewFilterModel } from '../../../interfaces/Filters';
 
 interface TrackerProps {
   loadingTrackerFilter: boolean;
@@ -60,6 +66,7 @@ interface TrackerProps {
   productTrackerResult: ProductsPaginated[];
   productDetailRating: any;
   filteredProducts: any;
+  trackerProducts: any;
   productDetailReview: any;
   isLoadingTrackerProducts: boolean;
   singlePageItemsCount: number;
@@ -88,9 +95,35 @@ interface TrackerProps {
   costDetails: any;
   setProductEditDetails: (payload: any) => void;
   updateCost: (payload: any) => void;
+  filterProducts: (filterData: any, groupId: any) => void;
+  activeGroupId: any;
 }
+
+interface TrackerState {
+  expandedRows: any;
+  ColumnFilterBox: boolean;
+  name: string;
+  confirm: boolean;
+  open: boolean;
+  error: boolean;
+  editGroup: boolean;
+  deleteGroup: boolean;
+  columnFilterData: any;
+  groupError: boolean;
+  activeRow: any;
+  columns: any;
+  defaultSort: string;
+  scrollView: boolean;
+  editCost: boolean;
+  product_cost: any;
+  activeColumnFilters: any;
+  activeColumnFilterValue: any;
+  localFilterData: any;
+  filteredRanges: any;
+}
+
 class ProductTrackerTable extends React.Component<TrackerProps> {
-  state = {
+  state: TrackerState = {
     expandedRows: null,
     ColumnFilterBox: false,
     name: '',
@@ -107,6 +140,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     scrollView: false,
     editCost: false,
     product_cost: 0,
+    activeColumnFilters: {},
+    activeColumnFilterValue: {},
+    localFilterData: [],
+    filteredRanges: [],
   };
 
   componentDidMount() {
@@ -129,6 +166,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ columns: columnsWithRender });
     } else {
       this.setState({ columns: this.columns });
+    }
+  }
+
+  componentDidUpdate(prevProps: TrackerProps) {
+    if (
+      prevProps.trackerProducts !== this.props.trackerProducts &&
+      !_.isEmpty(this.props.trackerProducts)
+    ) {
+      this.getFilteredRanges();
     }
   }
 
@@ -227,7 +273,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
-  handleClick = () => {
+  handleFilterBoxClick = () => {
     const { ColumnFilterBox } = this.state;
     this.setState({
       ColumnFilterBox: !ColumnFilterBox,
@@ -455,6 +501,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgPrice,
+      ...trackerDataKeysMapping.avg_price,
       className: 'pt-price',
     },
     {
@@ -464,6 +511,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgProfit,
+      ...trackerDataKeysMapping.avg_profit,
     },
     {
       label: 'Avg\nMargin',
@@ -472,6 +520,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgMargin,
+      ...trackerDataKeysMapping.avg_margin,
     },
     {
       label: 'Avg Daily\nUnit Sold',
@@ -480,6 +529,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgUnitSold,
+      ...trackerDataKeysMapping.avg_daily_sales,
     },
     {
       label: 'Avg Daily\nRevenue',
@@ -496,6 +546,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgROI,
+      ...trackerDataKeysMapping.avg_roi,
     },
     {
       label: 'Avg Daily\nRank',
@@ -504,6 +555,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgRank,
+      ...trackerDataKeysMapping.avg_rank,
     },
     {
       label: 'Dimensions',
@@ -528,6 +580,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderCustomerReviews,
+      ...trackerDataKeysMapping.customer_reviews,
     },
     {
       label: 'Rating',
@@ -595,7 +648,285 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ editCost: false });
   };
 
+  getFilteredRanges = () => {
+    const { trackerProducts } = this.props;
+    const filteredRanges = findMinMax(trackerProducts);
+    this.setState({ filteredRanges });
+  };
+
+  setActiveColumnFilters = (data: any, type: any) => {
+    this.setState({
+      activeColumnFilterValue: this.getFilterValues(data, type),
+    });
+    console.log('activeColumnFilterValue: ', data, this.getFilterValues(data, type));
+    this.setState({ activeColumnFilters: data });
+  };
+
+  getFilterValues = (data: any, type: any) => {
+    if (type === 'range') {
+      return this.state.filteredRanges[data];
+    }
+  };
+
+  syncPresetAndRange = (data: any) => {
+    if (trackerDataKeysMapping.includes(data.dataKey)) {
+      const { localFilterData, filteredRanges } = this.state;
+      const localFilters = _.cloneDeep(localFilterData);
+      const result = localFilters.filter(
+        (filter: any) => filter.type === 'range' && filter.dataKey === data.dataKey
+      );
+      const filter: any =
+        result.length >= 1
+          ? result[0]
+          : {
+              dataKey: data.dataKey,
+              label: trackerDataKeysMapping[data.dataKey].filterLabel,
+              type: 'range',
+              isActive: true,
+              value: _.cloneDeep(filteredRanges[data.dataKey]),
+              range: _.cloneDeep(filteredRanges[data.dataKey]),
+              dateModified: Date.now(),
+            };
+      switch (data.operation) {
+        case '≤':
+          filter.value.min = filteredRanges[data.dataKey].min;
+          filter.value.max =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.range = filter.value;
+          // localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        case '≥':
+          filter.value.min =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.value.max = filteredRanges[data.dataKey].max;
+          filter.range = filter.value;
+          // localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        case '=':
+          filter.value.min =
+            Number(filter.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.value.max =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.range = filter.value;
+          // localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        default:
+          return null;
+      }
+    }
+  };
+
+  resetSingleFilter = (dataKey: any, type: string) => {
+    const { filterProducts, activeGroupId } = this.props;
+    const localFilterData = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
+    const filterActive = JSON.parse(
+      localStorage.getItem('productTrackerFilterStateActive') || 'false'
+    );
+    const localFilters = _.cloneDeep(localFilterData);
+    const result = localFilters.filter((filter: any) => filter.dataKey !== dataKey);
+
+    //profitability preset disable when profit slider change
+    if (dataKey === 'profit' && type === 'range') {
+      const probabilityIndex = result.findIndex(
+        (filter: any) => filter.type === 'probability-preset'
+      );
+      if (probabilityIndex !== -1) {
+        result.splice(probabilityIndex, 1);
+      }
+    }
+
+    if (type === 'preset' || type === 'range') {
+      localStorage.removeItem(`tracker:${dataKey}`);
+    }
+
+    if (filterActive) {
+      this.setState({ localFilterData: result });
+      filterProducts(result, activeGroupId);
+    }
+
+    localStorage.setItem('productTrackerFilterState', JSON.stringify(result));
+    this.setState({ ColumnFilterBox: false });
+  };
+
+  syncFilterSlider = (filter: any) => {
+    for (const trackerKey of filterKeys) {
+      if (filter.dataKey === trackerKey) {
+        localStorage.setItem(`trackerTable:${filter.dataKey}`, JSON.stringify(filter));
+      }
+    }
+  };
+  toggleActiveFilter = (isActive: any) => {
+    const { filterProducts, activeGroupId } = this.props;
+    if (isActive) {
+      const productTrackerFilter = JSON.parse(
+        localStorage.getItem('productTrackerFilterState') || '[]'
+      );
+      const rangeFilters = productTrackerFilter.filter((filter: any) => filter.type === 'range');
+      if (rangeFilters.length >= 1) {
+        for (const rangeFilter of rangeFilters) {
+          this.syncFilterSlider(rangeFilter);
+        }
+      }
+      this.setState({ localFilterData: productTrackerFilter });
+      filterProducts(productTrackerFilter, activeGroupId);
+      localStorage.setItem('productTrackerFilterStateActive', 'true');
+    } else {
+      for (const trackerKey of filterKeys) {
+        localStorage.removeItem(`trackerTable:${trackerKey}`);
+      }
+      this.setState({ localFilterData: [] });
+      filterProducts([], activeGroupId);
+      localStorage.setItem('productTrackerFilterStateActive', 'false');
+    }
+  };
+
+  saveFilter = (data: any) => {
+    const { filterProducts, activeGroupId } = this.props;
+    const localFilterData = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
+    const localFilters = _.cloneDeep(localFilterData);
+
+    /*
+      Edit saved filter
+    */
+    const isSaved =
+      localFilters.findIndex(
+        (filter: any) => filter.dataKey === data.dataKey && filter.type === data.type
+      ) !== -1;
+    if (isSaved) {
+      console.log('saveFilter saved: ', isSaved);
+      const updatedFilterData = _.map(localFilters, filter => {
+        if (filter.dataKey === data.dataKey && filter.type === data.type) {
+          if (data.type === 'range') {
+            filter.range = data.value;
+            filter.value = data.value;
+          } else if (data.type === 'checkbox') {
+            filter.value = data.value;
+          } else if (data.type === 'preset') {
+            filter.operation = data.operation;
+            filter.value = data.value;
+          }
+          filter.isActive = data.isActive;
+          filter.dateModified = Date.now();
+        }
+        return filter;
+      });
+
+      //profitability preset disable when profit slider change
+      if (data.dataKey === 'profit') {
+        const probabilityIndex = updatedFilterData.findIndex(
+          (filter: any) => filter.type === 'probability-preset'
+        );
+        if (probabilityIndex !== -1) {
+          updatedFilterData.splice(probabilityIndex, 1);
+        }
+      }
+      /*
+        Preset and Range sync logic
+      */
+      if (data.type === 'range') {
+        /*
+          apply range filter and remove existing preset filter with same datakey
+        */
+        const index = updatedFilterData.findIndex(
+          (filter: any) => filter.type === 'preset' && filter.dataKey === data.dataKey
+        );
+        if (index !== -1) {
+          updatedFilterData.splice(index, 1);
+        }
+      } else if (data.type === 'preset') {
+        /*
+          apply preset filter and remove existing range filter with same datakey
+        */
+        const NewRangeFilter = this.syncPresetAndRange(data);
+        if (NewRangeFilter !== undefined) {
+          localFilters.map((filter: any) => {
+            if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+              filter.range = NewRangeFilter.value;
+              filter.dateModified = NewRangeFilter.dateModified;
+            }
+            return filter;
+          });
+        }
+      }
+
+      this.setState({ localFilterData: updatedFilterData });
+      filterProducts(updatedFilterData, activeGroupId);
+      localStorage.setItem('productTrackerFilterState', JSON.stringify(updatedFilterData));
+      localStorage.setItem('productTrackerFilterStateActive', 'true');
+    } else {
+      /*
+        New added filter
+      */
+      const newFilter: NewFilterModel = { ...data };
+      if (data.type === 'range') {
+        newFilter.range = data.value;
+
+        /*
+          apply range filter and remove existing preset with same datakey
+        */
+        const index = localFilters.findIndex(
+          (filter: any) => filter.type === 'preset' && filter.dataKey === data.dataKey
+        );
+        if (index !== -1) {
+          localFilters.splice(index, 1);
+        }
+      } else if (data.type === 'checkbox') {
+        newFilter.value = data.value;
+      } else if (data.type === 'preset') {
+        /*
+          apply preset filter and creatte range filter or sync range filter
+        */
+        const isRangeFilterExist =
+          localFilters.findIndex(
+            (filter: any) => filter.type === 'range' && filter.dataKey === data.dataKey
+          ) !== -1;
+        const NewRangeFilter = this.syncPresetAndRange(data);
+        if (NewRangeFilter !== undefined) {
+          if (isRangeFilterExist) {
+            localFilters.map((filter: any) => {
+              if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+                filter.range = NewRangeFilter.value;
+                filter.dateModified = NewRangeFilter.dateModified;
+              }
+              return filter;
+            });
+          } else {
+            localFilters.push(NewRangeFilter);
+          }
+        }
+      }
+      localFilters.push(newFilter);
+      this.setState({ localFilterData: localFilters });
+      filterProducts(localFilters, activeGroupId);
+      localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
+      localStorage.setItem('productTrackerFilterStateActive', 'true');
+    }
+  };
+
+  applyActiveFilter = (data: any) => {
+    this.saveFilter(data);
+    this.setState({ ColumnFilterBox: false });
+  };
   render() {
+    const productTrackerFilterState = JSON.parse(
+      localStorage.getItem('productTrackerFilterState') || '[]'
+    );
     const {
       loadingTrackerFilter,
       isFetchingRank,
@@ -617,8 +948,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       stickyChartSelector,
       currentActiveColumn,
       costDetails,
+      trackerProducts,
     } = this.props;
-    const { ColumnFilterBox, editCost, product_cost } = this.state;
+    const {
+      ColumnFilterBox,
+      editCost,
+      product_cost,
+      activeColumnFilters,
+      activeColumnFilterValue,
+    } = this.state;
 
     return (
       <div className="tracker-table">
@@ -644,7 +982,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupSubmit={this.handleEditGroupSubmit}
           />
         </div>
-        <ProductTrackerFilterSection />
+        {/* <ProductTrackerFilterSection /> */}
         <GenericTable
           loading={
             isLoadingTrackerProducts ||
@@ -661,7 +999,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           scrollTopSelector={scrollTopSelector}
           columnFilterBox={ColumnFilterBox}
           tableKey={tableKeys.PRODUCTS}
-          data={filteredProducts}
+          data={filteredProducts.length < 1 ? trackerProducts : filteredProducts}
           columns={this.state.columns}
           setPage={setPageNumber}
           currentPage={productTrackerPageNo}
@@ -675,7 +1013,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           handleColumnChange={this.handleColumnChange}
           count={productTrackerResult}
           productTrackerPageNo={this.props.productTrackerPageNo}
-          toggleColumnCheckbox={this.handleClick}
           showFilter={true}
           handleColumnDrop={this.handleColumnDrop}
           reorderColumns={this.reorderColumns}
@@ -685,6 +1022,18 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           defaultSort={this.state.defaultSort}
           onSort={defaultSort => this.setState({ defaultSort })}
           scrollToView={this.state.scrollView}
+          activeColumnFilters={activeColumnFilters}
+          toggleColumnFilters={this.setActiveColumnFilters}
+          toggleColumnCheckbox={this.handleFilterBoxClick}
+          filterValues={activeColumnFilterValue}
+          resetColumnFilters={this.resetSingleFilter}
+          cancelColumnFilters={() => {
+            this.setState({ ColumnFilterBox: false });
+          }}
+          applyColumnFilters={this.applyActiveFilter}
+          filtersData={productTrackerFilterState}
+          toggleActiveFilter={this.toggleActiveFilter}
+          resetSingleFilter={this.resetSingleFilter}
         />
 
         {editCost && (
@@ -778,6 +1127,7 @@ const mapStateToProps = (state: any) => {
     productDetailRating: get(state, 'product.detailRating'),
     productDetailReview: get(state, 'product.detailReview'),
     filteredProducts: get(state, 'productTracker.filteredProducts'),
+    trackerProducts: get(state, 'productTracker.trackerProducts'),
     singlePageItemsCount: get(state, 'productTracker.singlePageItemsCount'),
     trackGroups: get(state, 'productTracker.trackerGroup'),
     scrollTopSelector: get(state, 'supplier.setScrollTop'),
@@ -791,6 +1141,7 @@ const mapStateToProps = (state: any) => {
     isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
     loadingTrackerFilter: get(state, 'productTracker.loadingTrackerFilter'),
     costDetails: get(state, 'productTracker.costDetails'),
+    activeGroupId: get(state, 'productTracker.menuItem'),
   };
 };
 
@@ -815,5 +1166,6 @@ const mapDispatchToProps = {
     updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, type),
   setProductEditDetails: (payload: any) => setProductDetails(payload),
   updateCost: (payload: any) => updateProductCost(payload),
+  filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

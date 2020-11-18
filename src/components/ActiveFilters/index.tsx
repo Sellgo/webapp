@@ -1,16 +1,19 @@
 import _ from 'lodash';
-import get from 'lodash/get';
 import React, { useEffect, useRef } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
-import { connect } from 'react-redux';
 import { Checkbox, Icon } from 'semantic-ui-react';
 import { formatNumber, formatPercent } from '../../utils/format';
 import './index.scss';
 
 const ActiveFilters = (props: any) => {
-  const { filtersData, toggleFilter, resetSingleFilter } = props;
+  const { filtersData, toggleFilter, resetSingleFilter, name } = props;
 
-  const activeState = JSON.parse(localStorage.getItem('profitFinderFilterStateActive') || 'false');
+  const activeState =
+    name === 'products'
+      ? JSON.parse(localStorage.getItem('profitFinderFilterStateActive') || 'false')
+      : name === 'trackerTable'
+      ? JSON.parse(localStorage.getItem('productTrackerFilterStateActive') || 'false')
+      : false;
   const [isShadow, setShadow] = React.useState(false);
   const [filterIsActive, setFilterActive] = React.useState(activeState);
 
@@ -24,7 +27,11 @@ const ActiveFilters = (props: any) => {
   useEffect(() => {
     if (_.isEmpty(filtersData)) {
       setFilterActive(false);
-      localStorage.removeItem('profitFinderFilterStateActive');
+      if (name === 'products') {
+        localStorage.removeItem('profitFinderFilterStateActive');
+      } else if (name === 'trackerTable') {
+        localStorage.removeItem('profitFinderFilterStateActive');
+      }
     }
     handleShadow();
   }, [filtersData]);
@@ -116,8 +123,4 @@ const ActiveFilters = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: {}) => ({
-  filterSearch: get(state, 'supplier.filterSearch'),
-});
-
-export default connect(mapStateToProps)(ActiveFilters);
+export default ActiveFilters;

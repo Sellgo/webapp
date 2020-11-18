@@ -474,6 +474,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <div className="pagination-container">
                     <ActiveFilters
+                      name={name}
                       filtersData={filtersData}
                       toggleFilter={toggleActiveFilter}
                       resetSingleFilter={resetSingleFilter}

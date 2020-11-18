@@ -41,7 +41,9 @@ const RangeFilterBox = (props: any) => {
     let saved: any = localStorage.getItem(`${name}:${dataKey}`);
     const value = name !== 'leads-tracker' ? _.cloneDeep(values) : getMinMax();
 
+    console.log('saved: ', JSON.parse(saved));
     console.log('values: ', values);
+    console.log('value: ', value);
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
@@ -203,6 +205,7 @@ const RangeFilterBox = (props: any) => {
         dateModified: Date.now(),
         isNegative,
       };
+      console.log('applied: ', res);
       saveFilters(res);
       applyFilters(res);
     }

@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { FilterData } from '../../interfaces/Filters';
+import { NewFilterModel } from '../../interfaces/Filters';
+import { dataKeys } from '../Suppliers';
 import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
@@ -33,10 +34,9 @@ export const SET_COST_DETAILS = 'SET_COST_DETAILS';
 */
 export const DEFAULT_PERIOD = 30;
 
-export const filterPeriods: FilterData = {
+export const filterPeriods = {
   label: 'Period Reference',
   dataKey: 'period-reference',
-  radio: true,
   data: [
     {
       label: '7D',
@@ -71,6 +71,55 @@ export const filterKeys: any = [
   'avg_rank',
   'customer_reviews',
 ];
+// Meta data for each dataKeys above used for filers
+export const trackerDataKeysMapping: any = {
+  // Basic KPI
+  avg_price: {
+    filter: true,
+    filterLabel: 'Buy Box Price',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  avg_profit: {
+    filter: true,
+    filterLabel: 'Profit',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  avg_margin: {
+    filter: true,
+    filterLabel: 'Profit Margin',
+    filterSign: '%',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  avg_daily_sales: {
+    filter: true,
+    filterLabel: 'Avg Daily Unit Sold',
+    filterSign: '',
+    filterType: 'range',
+  },
+  avg_roi: {
+    filter: true,
+    filterLabel: 'ROI',
+    filterSign: '%',
+    filterType: 'range',
+  },
+  avg_rank: {
+    filter: true,
+    filterLabel: 'Rank',
+    filterSign: '',
+    filterType: 'range',
+  },
+  customer_reviews: {
+    filter: true,
+    filterLabel: 'Customer Reviews',
+    filterSign: '',
+    filterType: 'range',
+  },
+};
 
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -269,45 +318,38 @@ export const customFilterOperation = (operation: string, prodValue: any, filterV
   }
 };
 
-export const customizableFilter = (product: any, customizableFilter: any) => {
+const getRangedFilteredProducts = (product: any, rangeFilter: any) => {
+  return rangeFilter.every(
+    (filter: any) =>
+      filter.range !== undefined &&
+      Number(product[filter.dataKey]) >= Number(filter.range.min) &&
+      Number(product[filter.dataKey]) <= Number(filter.range.max)
+  );
+};
+
+export const getCustomizableFilteredProducts = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (result) {
-      if (filter.dataKey === 'listing-monthly' && filter.active) {
-        const generatesValue = (
-          Number(product.avg_price) *
-          (Math.round(product.avg_daily_sales) * 30)
-        ).toFixed(2);
-        if (!filter.active) result = true;
-        else {
-          result = customFilterOperation(filter.operation, generatesValue, filter.value);
-        }
-      }
-      if (filter.dataKey === 'profit-monthly' && filter.active) {
-        const profitMonthly = (
-          Number(product.avg_profit) *
-          (Math.round(product.avg_daily_sales) * 30)
-        ).toFixed(2);
-        if (!filter.active) result = true;
+      // for keys with computation that doesn't exist in filter slider
+      if (filter.dataKey === 'profit-monthly') {
+        const profitMonthly = product.avg_profit * product.avg_sales_monthly;
+        if (!filter.isActive) result = true;
         else {
           result = customFilterOperation(filter.operation, profitMonthly, filter.value);
         }
       }
-      if (filter.dataKey === 'avg_monthly_sales' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          if (product.customer_reviews === null) result = true;
-          else {
-            const monthlySales = (Math.round(product.avg_daily_sales) * 30).toFixed(2);
-            result = customFilterOperation(filter.operation, monthlySales, filter.value);
-          }
-        }
-      }
 
       // for sliders with keys same with customize filter for ex. price
-      for (const keys of filterKeys) {
-        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
-          result = Number(product[filter.dataKey]) === Number(filter.value);
+      for (const key of dataKeys) {
+        if (filter.dataKey === key) {
+          if (!filter.isActive) result = true;
+          else {
+            if (product[key] === null) result = true;
+            else {
+              result = customFilterOperation(filter.operation, product[key], filter.value);
+            }
+          }
         }
       }
     }
@@ -315,43 +357,33 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   return result;
 };
 
-export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
-  if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
-    return true;
+export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
+  if (_.isEmpty(filterData)) return products;
   else {
-    return (
-      profitabilityFilter.value === 'Non-Profitable Products' && Number(product.avg_profit) !== 0
-    );
+    const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
+    const presetFilter = _.filter(filterData, filter => filter.type === 'preset');
+    const filteredProducts = _.filter(products, (product: any) => {
+      return (
+        //    /*
+        //   show amazon choice products if checked, if not, show all
+        // */
+        // (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
+        //   (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
+        //     !_.isEmpty(product.amazon_choice))) &&
+        //   /*
+        //   show NOT selling products if checked, if not, show all
+        // */
+        //   (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
+        //     (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
+        //       !product.is_amazon_selling)) &&
+        //   (filterData.reviews.length === 5 ||
+        //     filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+        getRangedFilteredProducts(product, rangeFilter) &&
+        getCustomizableFilteredProducts(product, presetFilter)
+      );
+    });
+    return filteredProducts;
   }
-};
-
-export const findFilteredProducts = (products: any, filterData: any) => {
-  const updatedFilterProducts = _.filter(products, product => {
-    return filterData !== undefined
-      ? /*
-          show amazon choice products if checked, if not, show all
-        */
-        (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
-          (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
-            !_.isEmpty(product.amazon_choice))) &&
-          /*
-          show NOT selling products if checked, if not, show all
-        */
-          (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
-            (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
-              !product.is_amazon_selling)) &&
-          (filterData.reviews.length === 5 ||
-            filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
-          customizableFilter(product, filterData.customizable) &&
-          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-          filterKeys.every(
-            (dataKey: any) =>
-              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-              Number(product[dataKey]) <= Number(filterData[dataKey].max)
-          )
-      : products;
-  });
-  return updatedFilterProducts;
 };
 
 export const searchFilteredProduct = (products: any, value: string) => {
