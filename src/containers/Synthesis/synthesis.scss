@@ -243,6 +243,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
+
+  .inverted {
+    min-width: 7%;
+  }
 }
 
 .new-supplier-modal .ui.grid.Actions__progress-bar .ui.active.progress .bar {
