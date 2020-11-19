@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { NewFilterModel } from '../../interfaces/Filters';
-import { dataKeys } from '../Suppliers';
 import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
@@ -67,6 +66,7 @@ export const filterKeys: any = [
   'avg_profit',
   'avg_margin',
   'avg_daily_sales',
+  'avg_monthly_sales',
   'avg_roi',
   'avg_rank',
   'customer_reviews',
@@ -98,6 +98,12 @@ export const trackerDataKeysMapping: any = {
   avg_daily_sales: {
     filter: true,
     filterLabel: 'Avg Daily Unit Sold',
+    filterSign: '',
+    filterType: 'range',
+  },
+  avg_monthly_sales: {
+    filter: true,
+    filterLabel: 'Avg Monthly Sales',
     filterSign: '',
     filterType: 'range',
   },
@@ -150,6 +156,89 @@ export const dataKeyMapping: any = {
     showSlider: true,
     showInputs: true,
     groupId: 'basic',
+  },
+};
+
+export const presetsFilterData: any = {
+  amazon: {
+    label: 'Amazon',
+    dataKey: 'amazon-choice-preset',
+    data: [
+      {
+        label: 'Amazon Choice Products',
+        dataKey: 'amazon-choice-products',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Amazon is NOT a seller',
+        dataKey: 'not-amazon-products',
+        isActive: false,
+        type: 'preset',
+      },
+    ],
+  },
+  customizable: {
+    label: 'Customizable',
+    dataKey: 'customizable-preset',
+    data: [
+      {
+        label: 'Listing generates',
+        dataKey: 'avg_monthly_revenue',
+        defaultOperation: '≥', //≤
+        currency: '$',
+        defaultValue: 1300,
+        targetValue: '/month',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Profit is',
+        dataKey: 'profit-monthly',
+        defaultOperation: '≥',
+        defaultValue: 300,
+        currency: '$',
+        targetValue: '/month',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Profit Margin is',
+        dataKey: 'avg_margin',
+        defaultOperation: '≥',
+        defaultValue: 15,
+        targetValue: '%',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Amazon price is',
+        dataKey: 'avg_price',
+        defaultOperation: '≥',
+        defaultValue: 25,
+        currency: '$',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Estimated Sales Volume is',
+        dataKey: 'avg_monthly_sales',
+        defaultOperation: '≥',
+        defaultValue: 100,
+        targetValue: '/month',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Product review is',
+        dataKey: 'customer_reviews',
+        defaultOperation: '≥',
+        defaultValue: 20,
+        targetValue: 'reviews',
+        isActive: false,
+        type: 'preset',
+      },
+    ],
   },
 };
 
@@ -336,9 +425,29 @@ export const getCustomizableFilteredProducts = (product: any, customizableFilter
   let result = true;
   _.filter(customizableFilter, filter => {
     if (result) {
+      /*
+      show amazon choice products if checked, if not, show all
+      */
+      if (filter.dataKey === 'amazon-choice-products') {
+        result = !_.isEmpty(product.amazon_choice);
+      }
+      /*
+      show NOT selling products if checked, if not, show all
+      */
+      if (filter.dataKey === 'not-amazon-products') {
+        result = !product.is_amazon_selling;
+      }
+
       // for keys with computation that doesn't exist in filter slider
+      if (filter.dataKey === 'avg_monthly_revenue') {
+        const monthly_revenue = product.avg_daily_revenue * 30;
+        if (!filter.isActive) result = true;
+        else {
+          result = customFilterOperation(filter.operation, monthly_revenue, filter.value);
+        }
+      }
       if (filter.dataKey === 'profit-monthly') {
-        const profitMonthly = product.avg_profit * product.avg_sales_monthly;
+        const profitMonthly = product.avg_profit * product.avg_monthly_sales;
         if (!filter.isActive) result = true;
         else {
           result = customFilterOperation(filter.operation, profitMonthly, filter.value);
@@ -346,7 +455,7 @@ export const getCustomizableFilteredProducts = (product: any, customizableFilter
       }
 
       // for sliders with keys same with customize filter for ex. price
-      for (const key of dataKeys) {
+      for (const key of filterKeys) {
         if (filter.dataKey === key) {
           if (!filter.isActive) result = true;
           else {
@@ -369,18 +478,6 @@ export const findFilteredProducts = (products: any, filterData: NewFilterModel[]
     const presetFilter = _.filter(filterData, filter => filter.type === 'preset');
     const filteredProducts = _.filter(products, (product: any) => {
       return (
-        //    /*
-        //   show amazon choice products if checked, if not, show all
-        // */
-        // (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
-        //   (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
-        //     !_.isEmpty(product.amazon_choice))) &&
-        //   /*
-        //   show NOT selling products if checked, if not, show all
-        // */
-        //   (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
-        //     (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
-        //       !product.is_amazon_selling)) &&
         //   (filterData.reviews.length === 5 ||
         //     filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
         getRangedFilteredProducts(product, rangeFilter) &&

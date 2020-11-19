@@ -182,6 +182,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     if (nextProps && nextProps.trackGroups !== trackGroups) {
       this.setState({ open: false });
     }
+    console.log('filteredProducts: ', this.props.filteredProducts);
   }
 
   handleSubmit = (e: any) => {
@@ -663,7 +664,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   syncPresetAndRange = (data: any) => {
-    if (trackerDataKeysMapping.includes(data.dataKey)) {
+    console.log('syncPresetAndRange data: ', filterKeys.includes(data.dataKey));
+    if (filterKeys.includes(data.dataKey)) {
       const { localFilterData } = this.state;
       const { filterRanges } = this.props;
       const localFilters = _.cloneDeep(localFilterData);
@@ -793,7 +795,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
   setProfitability = (data: any) => {
     const { filterProducts, filterRanges, activeGroupId } = this.props;
-    const localFilters: any = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const localFilters: any = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
     const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
     const hasProfit =
       localFilters.findIndex((filter: any) => filter.dataKey === 'avg_profit') !== -1;
@@ -830,8 +832,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           });
           this.setState({ localFilterData: localFilters });
           filterProducts(localFilters, activeGroupId);
-          localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
-          localStorage.setItem('profitFinderFilterStateActive', 'true');
+          localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('productTrackerFilterStateActive', 'true');
         } else {
           const newFilter: any = {
             label: 'Profit',
@@ -867,8 +869,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           this.setState({ localFilterData: localFilters });
           filterProducts(localFilters, activeGroupId);
           localStorage.setItem(`products:avg_profit`, JSON.stringify(newFilter));
-          localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
-          localStorage.setItem('profitFinderFilterStateActive', 'true');
+          localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('productTrackerFilterStateActive', 'true');
         }
       } else {
         this.resetProfitablePreset();
@@ -901,8 +903,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         localFilters.push(probabilityData);
         this.setState({ localFilterData: localFilters });
         filterProducts(localFilters, activeGroupId);
-        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
-        localStorage.setItem('profitFinderFilterStateActive', 'true');
+        localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('productTrackerFilterStateActive', 'true');
       } else {
         const newFilter: any = {
           label: 'Profit',
@@ -940,8 +942,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         this.setState({ localFilterData: localFilters });
         filterProducts(localFilters, activeGroupId);
         localStorage.setItem(`products:avg_profit`, JSON.stringify(newFilter));
-        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
-        localStorage.setItem('profitFinderFilterStateActive', 'true');
+        localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('productTrackerFilterStateActive', 'true');
       }
     }
   };
@@ -962,9 +964,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
     this.setState({ localFilterData: localFilters });
     filterProducts(localFilters, activeGroupId);
-    localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+    localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
     localStorage.removeItem(`products:avg_profit`);
-    localStorage.setItem('profitFinderFilterStateActive', 'true');
+    localStorage.setItem('productTrackerFilterStateActive', 'true');
   };
 
   removeSlidersFiltersWithPreset = (presets: any) => {
@@ -996,11 +998,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const results = localFilters.filter((filter: any) => filter.type !== 'preset');
     this.setState({ localFilterData: results });
     filterProducts(results, activeGroupId);
-    localStorage.setItem('profitFinderFilterState', JSON.stringify(results));
-    localStorage.setItem('profitFinderFilterStateActive', 'true');
+    localStorage.setItem('productTrackerFilterState', JSON.stringify(results));
+    localStorage.setItem('productTrackerFilterStateActive', 'true');
   };
 
   saveFilter = (data: any) => {
+    console.log('saveFilterdata: ', data);
     const { filterProducts, activeGroupId } = this.props;
     const localFilterData = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
     const localFilters = _.cloneDeep(localFilterData);
@@ -1057,15 +1060,17 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         /*
           apply preset filter and remove existing range filter with same datakey
         */
-        const NewRangeFilter = this.syncPresetAndRange(data);
-        if (NewRangeFilter !== undefined) {
-          localFilters.map((filter: any) => {
-            if (filter.type === 'range' && filter.dataKey === data.dataKey) {
-              filter.range = NewRangeFilter.value;
-              filter.dateModified = NewRangeFilter.dateModified;
-            }
-            return filter;
-          });
+        if (data.defaultOperation !== null) {
+          const NewRangeFilter = this.syncPresetAndRange(data);
+          if (NewRangeFilter !== undefined) {
+            localFilters.map((filter: any) => {
+              if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+                filter.range = NewRangeFilter.value;
+                filter.dateModified = NewRangeFilter.dateModified;
+              }
+              return filter;
+            });
+          }
         }
       }
 
@@ -1100,18 +1105,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           localFilters.findIndex(
             (filter: any) => filter.type === 'range' && filter.dataKey === data.dataKey
           ) !== -1;
-        const NewRangeFilter = this.syncPresetAndRange(data);
-        if (NewRangeFilter !== undefined) {
-          if (isRangeFilterExist) {
-            localFilters.map((filter: any) => {
-              if (filter.type === 'range' && filter.dataKey === data.dataKey) {
-                filter.range = NewRangeFilter.value;
-                filter.dateModified = NewRangeFilter.dateModified;
-              }
-              return filter;
-            });
-          } else {
-            localFilters.push(NewRangeFilter);
+
+        if (data.defaultOperation !== null) {
+          const NewRangeFilter = this.syncPresetAndRange(data);
+          if (NewRangeFilter !== undefined) {
+            if (isRangeFilterExist) {
+              localFilters.map((filter: any) => {
+                if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+                  filter.range = NewRangeFilter.value;
+                  filter.dateModified = NewRangeFilter.dateModified;
+                }
+                return filter;
+              });
+            } else {
+              localFilters.push(NewRangeFilter);
+            }
           }
         }
       }

@@ -27,11 +27,6 @@ const ActiveFilters = (props: any) => {
   useEffect(() => {
     if (_.isEmpty(filtersData)) {
       setFilterActive(false);
-      if (name === 'products') {
-        localStorage.removeItem('profitFinderFilterStateActive');
-      } else if (name === 'trackerTable') {
-        localStorage.removeItem('profitFinderFilterStateActive');
-      }
     }
     handleShadow();
   }, [filtersData]);

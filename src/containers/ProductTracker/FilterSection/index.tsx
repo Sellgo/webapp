@@ -4,6 +4,8 @@ import get from 'lodash/get';
 import './index.scss';
 import { DEFAULT_PERIOD, filterPeriods } from '../../../constants/Tracker';
 import _ from 'lodash';
+import { Button, Icon, Popup } from 'semantic-ui-react';
+import PresetFilter from '../../../components/ProductTrackerFilter/PresetFilter';
 
 interface FilterSectionProps {
   subscriptionPlan: any;
@@ -31,45 +33,54 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
   };
 
   render() {
-    const { setPeriod } = this.props;
+    const { openPresetFilter } = this.state;
+    const {
+      setPeriod,
+      applyPresetFilter,
+      resetPreset,
+      localFilterData,
+      resetSingleFilter,
+    } = this.props;
 
     const periodValue = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
     return (
       <div className="tracker-filter-section">
         <div className="tracker-filter-section__header">
           <div className="tracker-filter-section__header__all-container">
-            {`` /* <Popup
-              on="click"
-              open={openPresetFilter}
-              onOpen={() => this.togglePresetFilter(true)}
-              onClose={() => this.togglePresetFilter(false)}
-              position="bottom left"
-              className="pf-preset-filter-popup"
-              basic={true}
-              trigger={
-                <Button
-                  basic
-                  icon
-                  labelPosition="left"
-                  className={`more-filter`}
-                  onClick={() => {
-                    this.togglePresetFilter(!openPresetFilter);
-                  }}
-                >
-                  <span className="filter-name">More</span>
-                  <Icon name="angle down" />
-                </Button>
-              }
-              content={
-                <PresetFilter
-                  togglePresetFilter={this.togglePresetFilter}
-                  applyFilter={applyPresetFilter}
-                  filterData={localFilterData}
-                  resetPreset={resetPreset}
-                  resetSingleFilter={resetSingleFilter}
-                />
-              }
-            /> */}
+            {
+              <Popup
+                on="click"
+                open={openPresetFilter}
+                onOpen={() => this.togglePresetFilter(true)}
+                onClose={() => this.togglePresetFilter(false)}
+                position="bottom left"
+                className="pf-preset-filter-popup"
+                basic={true}
+                trigger={
+                  <Button
+                    basic
+                    icon
+                    labelPosition="left"
+                    className={`more-filter`}
+                    onClick={() => {
+                      this.togglePresetFilter(!openPresetFilter);
+                    }}
+                  >
+                    <span className="filter-name">More</span>
+                    <Icon name="angle down" />
+                  </Button>
+                }
+                content={
+                  <PresetFilter
+                    togglePresetFilter={this.togglePresetFilter}
+                    applyFilter={applyPresetFilter}
+                    filterData={localFilterData}
+                    resetPreset={resetPreset}
+                    resetSingleFilter={resetSingleFilter}
+                  />
+                }
+              />
+            }
 
             {/* <ProfitabilityFilterPreset
               setProfitability={setProfitability}

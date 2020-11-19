@@ -145,6 +145,7 @@ export interface NewFilterModel {
   targetValue?: string;
   minPlaceholder?: string;
   maxPlaceholder?: string;
+  presetKey?: string;
   range?: {
     min: number;
     max: number;
