@@ -338,7 +338,7 @@ export const GenericTable = (props: GenericTableProps) => {
     if (bottomScroll) {
       bottomScroll.classList.add('bottom-scrollbar-visible');
       bottomScroll.scrollLeft = evt.target.scrollLeft;
-      //@ts-ignore
+      // @ts-ignore
       clearTimeout(timer);
       timer = setTimeout(() => {
         bottomScroll.classList.remove('bottom-scrollbar-visible');
