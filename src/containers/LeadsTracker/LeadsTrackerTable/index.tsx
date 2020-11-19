@@ -178,7 +178,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
         {value !== 0 && <Icon name={'arrow right'} />}
         {showNAIfZeroOrNull(updated, updated)}
         {!['profit', 'price'].includes(activeColumn) && '%'}
-        {perc !== 0 && ['profit', 'price'].includes(activeColumn) && `(${perc})`}
+        {perc !== 0 && ['profit', 'price'].includes(activeColumn) && `(${perc})%`}
       </p>
     );
   };
