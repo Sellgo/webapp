@@ -402,6 +402,9 @@ i.icon.filter::before {
     width: 100% !important;
 
     > .table-cell-container {
+      justify-content: flex-end !important;
+      margin-right: 2px;
+
       > .sort-arrow {
         margin: 0;
       }
