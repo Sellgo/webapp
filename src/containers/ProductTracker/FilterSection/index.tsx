@@ -6,6 +6,7 @@ import { DEFAULT_PERIOD, filterPeriods } from '../../../constants/Tracker';
 import _ from 'lodash';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import PresetFilter from '../../../components/ProductTrackerFilter/PresetFilter';
+import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 
 interface FilterSectionProps {
   subscriptionPlan: any;
@@ -40,6 +41,8 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
       resetPreset,
       localFilterData,
       resetSingleFilter,
+      setProfitability,
+      filteredRanges,
     } = this.props;
 
     const periodValue = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
@@ -82,11 +85,11 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
               />
             }
 
-            {/* <ProfitabilityFilterPreset
+            <ProfitabilityFilterPreset
               setProfitability={setProfitability}
               filterData={localFilterData}
               filteredRanges={filteredRanges}
-            /> */}
+            />
           </div>
           <div className="tracker-filter-section__header__period-container">
             {_.map(filterPeriods.data, period => {
