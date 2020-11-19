@@ -175,7 +175,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
     const columnClass = `stat ${change < 0 ? 'change-low' : change > 0 ? 'change-high' : ''}`;
     return (
       <p className={columnClass}>
-        {value !== 0 && <Icon name={'arrow down'} />}
+        {value !== 0 && <Icon name={'arrow right'} />}
         {showNAIfZeroOrNull(updated, updated)}
         {!['profit', 'price'].includes(activeColumn) && '%'}
         {perc !== 0 && ['profit', 'price'].includes(activeColumn) && `(${perc})`}
