@@ -1,10 +1,11 @@
 .bottom-scrollbar {
   height: 100px;
-  width: 100%;
+  max-width: 80%;
   overflow-y: hidden;
   overflow-x: hidden;
   position: absolute;
   bottom: 45px;
+  display: flex;
 
   .bottom-cell {
     height: 10px !important;
@@ -64,10 +65,8 @@
 }
 
 .bottom-scrollbar-visible {
-  display: flex;
   overflow-x: auto;
   margin-left: 12%;
-  max-width: 80%;
 }
 
 .bottom-scrollbar::-webkit-scrollbar-track {
@@ -75,8 +74,6 @@
 }
 
 .bottom-scrollbar:hover {
-  display: flex;
   overflow-x: auto;
   margin-left: 12%;
-  max-width: 80%;
 }
