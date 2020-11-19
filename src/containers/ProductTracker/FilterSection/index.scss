@@ -1,4 +1,4 @@
-.filter-section {
+.tracker-filter-section {
   position: sticky;
   top: 13px;
   background: #f8faff;
@@ -280,10 +280,10 @@
   }
 }
 
-.ui.left.basic.popup.transition.visible.pf-preset-filter-popup {
+.ui.left.basic.popup.transition.visible.pt-preset-filter-popup {
   max-width: 450px !important;
   width: 100% !important;
-  height: 265px !important;
+  height: 320px !important;
   border-radius: 10px;
 
   i.fas.fa-times {

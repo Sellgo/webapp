@@ -167,6 +167,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
   }
 
+  componentDidUpdate(prevProps: TrackerProps) {
+    const { filterProducts, activeGroupId, filterRanges } = this.props;
+    const productTrackerFilterState = JSON.parse(
+      localStorage.getItem('productTrackerFilterState') || '[]'
+    );
+    if (
+      prevProps.filterRanges !== filterRanges &&
+      !_.isEmpty(filterRanges) &&
+      productTrackerFilterState.length >= 1
+    ) {
+      filterProducts(productTrackerFilterState, activeGroupId);
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
+    }
+  }
+
   fetchProducts = (value: any) => {
     const { filterProducts, activeGroupId } = this.props;
     const { localFilterData } = this.state;
@@ -182,7 +197,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     if (nextProps && nextProps.trackGroups !== trackGroups) {
       this.setState({ open: false });
     }
-    console.log('filteredProducts: ', this.props.filteredProducts);
   }
 
   handleSubmit = (e: any) => {
@@ -694,7 +708,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
               ? filterRanges[data.dataKey].max
               : Number(data.value);
           filter.range = filter.value;
-          // localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
+          localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
           return filter;
         case '≥':
           filter.value.min =
@@ -705,7 +719,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
               : Number(data.value);
           filter.value.max = filterRanges[data.dataKey].max;
           filter.range = filter.value;
-          // localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
+          localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
           return filter;
         case '=':
           filter.value.min =
@@ -721,7 +735,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
               ? filterRanges[data.dataKey].max
               : Number(data.value);
           filter.range = filter.value;
-          // localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
+          localStorage.setItem(`trackerTable:${data.dataKey}`, JSON.stringify(filter));
           return filter;
         default:
           return null;
@@ -822,7 +836,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                 filter.value = filter.range;
                 filter.isNegative = false;
               }
-              localStorage.setItem(`products:avg_profit`, JSON.stringify(filter));
+              localStorage.setItem(`trackerTable:avg_profit`, JSON.stringify(filter));
             }
             if (filter.type === 'probability-preset' && data.value !== '') {
               filter.value = data.value;
@@ -868,7 +882,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           localFilters.push(newFilter);
           this.setState({ localFilterData: localFilters });
           filterProducts(localFilters, activeGroupId);
-          localStorage.setItem(`products:avg_profit`, JSON.stringify(newFilter));
+          localStorage.setItem(`trackerTable:avg_profit`, JSON.stringify(newFilter));
           localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
           localStorage.setItem('productTrackerFilterStateActive', 'true');
         }
@@ -895,7 +909,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
               filter.range = filterRanges.avg_profit;
               filter.isNegative = false;
             }
-            localStorage.setItem(`products:avg_profit`, JSON.stringify(filter));
+            localStorage.setItem(`trackerTable:avg_profit`, JSON.stringify(filter));
           }
           return filter;
         });
@@ -941,7 +955,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         localFilters.push(probabilityData);
         this.setState({ localFilterData: localFilters });
         filterProducts(localFilters, activeGroupId);
-        localStorage.setItem(`products:avg_profit`, JSON.stringify(newFilter));
+        localStorage.setItem(`trackerTable:avg_profit`, JSON.stringify(newFilter));
         localStorage.setItem('productTrackerFilterState', JSON.stringify(localFilters));
         localStorage.setItem('productTrackerFilterStateActive', 'true');
       }

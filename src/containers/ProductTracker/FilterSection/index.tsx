@@ -46,7 +46,7 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
     return (
       <div className="tracker-filter-section">
         <div className="tracker-filter-section__header">
-          <div className="tracker-filter-section__header__all-container">
+          <div className="tracker-filter-section__header__filters-container">
             {
               <Popup
                 on="click"
@@ -54,7 +54,7 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
                 onOpen={() => this.togglePresetFilter(true)}
                 onClose={() => this.togglePresetFilter(false)}
                 position="bottom left"
-                className="pf-preset-filter-popup"
+                className="pt-preset-filter-popup"
                 basic={true}
                 trigger={
                   <Button
