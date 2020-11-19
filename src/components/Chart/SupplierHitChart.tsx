@@ -3,12 +3,10 @@ import Chart from './Chart';
 import _ from 'lodash';
 
 export default ({ supplier, profitFinderChartOptions, chartComponentRef }: any) => {
-  const sum_input_misses_and_products_found =
-    supplier.item_total_count - supplier.item_active_count + supplier.inventory;
   const profitable_rate = parseFloat(supplier.rate);
-  const unprofitable_rate =
-    (100 * supplier.inventory) / sum_input_misses_and_products_found - profitable_rate;
-  const miss_rate = 100 - profitable_rate - unprofitable_rate;
+  const miss_rate =
+    (100 * (supplier.item_total_count - supplier.item_active_count)) / supplier.inventory;
+  const unprofitable_rate = 100 - profitable_rate - miss_rate;
   const data = [
     {
       name: 'Profitable ASINs',
