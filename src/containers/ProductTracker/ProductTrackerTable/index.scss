@@ -1336,3 +1336,11 @@ $link-color: #349af8;
   transition-property: top;
   transition-duration: 1s;
 }
+
+.ptr-left-cell {
+  > p {
+    width: 100%;
+    text-align: right;
+    padding-right: 45px;
+  }
+}

@@ -168,16 +168,15 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   renderChange = (row: any) => {
     const value = row[`change_${this.getActiveColumn()}_perc`];
     const change = row[`change_${this.getActiveColumn()}`];
+    const perc = value < 0 ? value * -1 : value;
+    const updated = change < 0 ? change * -1 : change;
 
     const columnClass = `stat ${change < 0 ? 'change-low' : change > 0 ? 'change-high' : ''}`;
     return (
       <p className={columnClass}>
-        {value !== 0 && <Icon name={'arrow down'} />}
-        {showNAIfZeroOrNull(
-          row[`change_${this.getActiveColumn()}`],
-          row[`change_${this.getActiveColumn()}`]
-        )}
-        {value !== 0 && `(${row[`change_${this.getActiveColumn()}_perc`]}%)`}
+        {value !== 0 && <Icon name={'arrow right'} />}
+        {showNAIfZeroOrNull(updated, updated)}
+        {perc !== 0 && `(${perc}%)`}
       </p>
     );
   };
@@ -305,39 +304,13 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'string',
       filterType: 'checkbox',
       searchIconPosition: 'left',
+      filter: true,
+      filterLabel: 'Search',
+      filterDataKey: 'search',
+      filterSign: '',
       show: true,
       className: 'lt-lg-col',
       render: this.renderProductInfo,
-    },
-    {
-      label: 'Search File',
-      dataKey: 'search',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: 'lt-md-col',
-      filter: true,
-      filterSign: '',
-      filterType: 'checkbox',
-      render: this.renderSearch,
-    },
-    {
-      label: 'Product ID',
-      dataKey: 'identifier',
-      type: 'number',
-      sortable: true,
-      show: true,
-      className: 'lt-md-col',
-      render: this.renderProductID,
-    },
-    {
-      label: 'ASIN',
-      dataKey: 'asin',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: 'lt-md-col',
-      render: this.renderASIN,
     },
     {
       label: 'Price',
@@ -589,11 +562,11 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       <div className={`leads-table ${loading && 'disabled'}`}>
         <React.Fragment>
           <div style={{ display: 'flex' }}>
-            {columns.slice(0, 5).map((c: any, i: any) => (
+            {columns.slice(0, 2).map((c: any, i: any) => (
               <div className={c.className} key={`left-${i}`} />
             ))}
             <div className="lt-toggle-button-container" onScroll={onScroll}>
-              {columns.slice(5, 9).map((c: any, i: any) => (
+              {columns.slice(2, 6).map((c: any, i: any) => (
                 <div
                   className={`${c.className.replace('active-column', '')} ${
                     !!activeColumn && activeColumn.dataKey === c.dataKey
@@ -607,7 +580,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
                 </div>
               ))}
             </div>
-            {columns.slice(9, columns.length - 2).map((c: any, i: any) => (
+            {columns.slice(6, columns.length - 2).map((c: any, i: any) => (
               <div className={c.className} key={`left-${i}`} />
             ))}
             <div style={{ marginBottom: 5 }}>

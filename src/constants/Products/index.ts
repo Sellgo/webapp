@@ -53,19 +53,19 @@ export const columnFilter = [
   {
     value: true,
     key: 'Profit',
-    dataKey: 'profit',
+    dataKey: 'multipack_profit',
     visible: true,
   },
   {
     value: true,
     key: 'Margin',
-    dataKey: 'margin',
+    dataKey: 'multipack_margin',
     visible: true,
   },
   {
     value: true,
     key: 'ROI',
-    dataKey: 'roi',
+    dataKey: 'multipack_roi',
     visible: true,
   },
   {
