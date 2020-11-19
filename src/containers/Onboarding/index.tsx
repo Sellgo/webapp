@@ -6,7 +6,6 @@ import { Videos } from './Interfaces';
 import './index.scss';
 import PageHeader from '../../components/PageHeader';
 import SubscriptionMessage from '../../components/FreeTrialMessageDisplay';
-import QuotaMeter from '../../components/QuotaMeter';
 
 interface OnboardingProps {
   match: any;
@@ -89,7 +88,6 @@ class Onboarding extends React.Component<OnboardingProps> {
             { content: 'Home', to: '/' },
             { content: 'Onboarding', to: '/onboarding' },
           ]}
-          callToAction={<QuotaMeter />}
           auth={match.params.auth}
         />
         <>
