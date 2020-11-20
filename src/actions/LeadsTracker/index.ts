@@ -90,7 +90,6 @@ export const fetchFilters = (payload: any) => async (dispatch: any) => {
   dispatch(setFetchingFilters(true));
   const response = await getFilters(payload);
   if (response.data) {
-    console.log('response.data: ', response.data);
     dispatch(setFilters(response.data));
   }
   dispatch(setFetchingFilters(false));

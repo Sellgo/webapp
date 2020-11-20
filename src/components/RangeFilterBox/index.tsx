@@ -40,10 +40,6 @@ const RangeFilterBox = (props: any) => {
   useEffect(() => {
     let saved: any = localStorage.getItem(`${name}:${dataKey}`);
     const value = name !== 'leads-tracker' ? _.cloneDeep(values) : getMinMax();
-
-    console.log('saved: ', JSON.parse(saved));
-    console.log('values: ', values);
-    console.log('value: ', value);
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
@@ -75,7 +71,6 @@ const RangeFilterBox = (props: any) => {
     } else {
       if (filterType === 'checkbox') {
         const checks = values.map((c: any) => c.value);
-        console.log('checks: ', checks);
         setLocalData(checks);
       } else {
         setMinMax(value);
@@ -165,7 +160,6 @@ const RangeFilterBox = (props: any) => {
     let result2: any;
     if (filterType === 'checkbox') {
       if (name !== 'leads-tracker') {
-        console.log('saveFilters: ', localData);
         result2 = {
           dataKey,
           value: localData.length ? localData.join('|') : '',
@@ -176,7 +170,6 @@ const RangeFilterBox = (props: any) => {
           defaultValues: minMax,
           dateModified: Date.now(),
         };
-        console.log('result2: ', result2);
         saveFilters(result2);
         applyFilters(result2);
       } else {
@@ -205,14 +198,12 @@ const RangeFilterBox = (props: any) => {
         dateModified: Date.now(),
         isNegative,
       };
-      console.log('applied: ', res);
       saveFilters(res);
       applyFilters(res);
     }
   };
 
   const saveFilters = (filter: any) => {
-    console.log('save local: ', filter);
     localStorage.setItem(`${name}:${dataKey}`, JSON.stringify(filter));
   };
 

@@ -31,8 +31,6 @@ const ProfitabilityFilterPreset = (props: Props) => {
   }, [currentData]);
 
   useEffect(() => {
-    console.log('filterData: ', filterData);
-    console.log('filteredRanges: ', filteredRanges);
     if (!_.isEmpty(filteredRanges)) {
       if (!_.isEmpty(filterData)) {
         const index = filterData.findIndex((filter: any) => filter.type === 'probability-preset');
