@@ -667,7 +667,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({
       activeColumnFilterValue: this.getFilterValues(data, type),
     });
-    console.log('activeColumnFilterValue: ', data, this.getFilterValues(data, type));
     this.setState({ activeColumnFilters: data });
   };
 
@@ -678,7 +677,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   syncPresetAndRange = (data: any) => {
-    console.log('syncPresetAndRange data: ', filterKeys.includes(data.dataKey));
     if (filterKeys.includes(data.dataKey)) {
       const { localFilterData } = this.state;
       const { filterRanges } = this.props;
@@ -1017,7 +1015,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   saveFilter = (data: any) => {
-    console.log('saveFilterdata: ', data);
     const { filterProducts, activeGroupId } = this.props;
     const localFilterData = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
     const localFilters = _.cloneDeep(localFilterData);
@@ -1030,7 +1027,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         (filter: any) => filter.dataKey === data.dataKey && filter.type === data.type
       ) !== -1;
     if (isSaved) {
-      console.log('saveFilter saved: ', isSaved);
       const updatedFilterData = _.map(localFilters, filter => {
         if (filter.dataKey === data.dataKey && filter.type === data.type) {
           if (data.type === 'range') {

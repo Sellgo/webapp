@@ -59,7 +59,6 @@ const PresetFilter = (props: PresetFilterProps) => {
 
   const setLocalData = (dataKey: string, type: string, value?: any) => {
     const filters: NewFilterModel[] = _.cloneDeep(localValues);
-    console.log('setLocalData filters: ', filters);
     const filterMap = _.map(filters, data => {
       if (data.dataKey === dataKey) {
         if (type === 'operation') {
@@ -68,7 +67,6 @@ const PresetFilter = (props: PresetFilterProps) => {
           data.value = data.value !== undefined || data.value !== '' ? value : 0;
         } else if (type === 'toggle') {
           if (data.isActive) {
-            console.log('setLocalData data: ', data, data.isActive);
             data.isActive = false;
             resetSingleFilter(dataKey, 'preset');
           } else {
