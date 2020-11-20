@@ -165,6 +165,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     } else {
       this.setState({ columns: this.columns });
     }
+
+    const productTrackerFilterState = JSON.parse(
+      localStorage.getItem('productTrackerFilterState') || '[]'
+    );
+    if (productTrackerFilterState.length >= 1) {
+      this.setState({ localFilterData: productTrackerFilterState });
+    } else {
+      this.resetFilters();
+    }
   }
 
   componentDidUpdate(prevProps: TrackerProps) {
@@ -178,7 +187,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       productTrackerFilterState.length >= 1
     ) {
       filterProducts(productTrackerFilterState, activeGroupId);
-      localStorage.setItem('profitFinderFilterStateActive', 'true');
+      localStorage.setItem('productTrackerFilterStateActive', 'true');
     }
   }
 
@@ -761,7 +770,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
 
     if (type === 'preset' || type === 'range') {
-      localStorage.removeItem(`tracker:${dataKey}`);
+      localStorage.removeItem(`trackerTable:${dataKey}`);
     }
 
     if (filterActive) {
@@ -981,11 +990,19 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     localStorage.setItem('productTrackerFilterStateActive', 'true');
   };
 
+  resetFilters = () => {
+    localStorage.removeItem('productTrackerFilterState');
+    localStorage.removeItem('productTrackerFilterStateActive');
+    for (const trackerKey of filterKeys) {
+      localStorage.removeItem(`trackerTable:${trackerKey}`);
+    }
+  };
+
   removeSlidersFiltersWithPreset = (presets: any) => {
     for (const filter of presets) {
       for (const trackerKey of filterKeys) {
         if (filter.dataKey === trackerKey) {
-          localStorage.removeItem(`products:${trackerKey}`);
+          localStorage.removeItem(`trackerTable:${trackerKey}`);
         }
       }
     }

@@ -164,7 +164,7 @@ const PresetFilter = (props: PresetFilterProps) => {
 
           {_.map(amazonValues, (filter, dataKey) => {
             return (
-              <div className={`ui checkbox`} key={dataKey}>
+              <div className={`ui checkbox normal-checkbox`} key={dataKey}>
                 <input
                   id={filter.dataKey}
                   checked={isPresetChecked(filter.dataKey)}
