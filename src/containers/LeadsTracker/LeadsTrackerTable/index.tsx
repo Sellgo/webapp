@@ -180,6 +180,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
         <span className="light-font">
           {hasValue && changeValue}
           {hasValue && !['profit', 'price'].includes(activeColumn) && '%'}
+          {'\n'}
+
           {updated !== 0 && hasValue && ['profit', 'price'].includes(activeColumn) && ` (${perc}%)`}
         </span>
         {!hasValue && '-'}
@@ -392,7 +394,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       filter: true,
       filterSign: '$',
       show: true,
-      className: 'lt-md-col',
+      className: 'lt-md-col ltr-change',
       render: this.renderChange,
     },
     {

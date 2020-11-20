@@ -997,4 +997,10 @@ $new_black: #3b4557;
 .light-font {
   font-weight: unset !important;
   margin: 0 !important;
+  white-space: pre !important;
+}
+
+.ltr-change {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
