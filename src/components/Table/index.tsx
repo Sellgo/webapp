@@ -13,6 +13,7 @@ import ActiveFilters from '../ActiveFilters';
 import ConstructionImage from '../../components/ConstructionImage/';
 
 import { formatDimensionForSorting } from '../../utils/format';
+import BottomScroll from '../BottomScrollbar';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -352,11 +353,19 @@ export const GenericTable = (props: GenericTableProps) => {
   const totalItemsCount = name === 'leads-tracker' ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
+  let timer: NodeJS.Timeout | undefined = undefined;
 
   const handleScroll = (evt: any) => {
-    const scroll = document.querySelector('.pt-scroll-container');
-    if (scroll) {
-      scroll.scrollLeft = evt.target.scrollLeft;
+    const bottomScroll = document.querySelector('.bottom-scrollbar');
+
+    if (bottomScroll) {
+      bottomScroll.classList.add('bottom-scrollbar-visible');
+      bottomScroll.scrollLeft = evt.target.scrollLeft;
+      // @ts-ignore
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        bottomScroll.classList.remove('bottom-scrollbar-visible');
+      }, 500);
     }
   };
 
@@ -473,6 +482,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 </div>
               ) : (
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
+                  <BottomScroll columns={columns} name={name} />
                   <div className="pagination-container">
                     <ActiveFilters
                       name={name}

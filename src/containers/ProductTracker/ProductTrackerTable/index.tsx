@@ -1368,7 +1368,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                       <Button
                         content="Save"
                         primary
-                        disabled={parseFloat(costDetails.avg_price) * 1.5 < product_cost}
+                        disabled={product_cost > (parseFloat(costDetails.avg_price) / 100) * 150}
                         onClick={() =>
                           this.onEditProductCost({ ...costDetails, product_cost: product_cost })
                         }
