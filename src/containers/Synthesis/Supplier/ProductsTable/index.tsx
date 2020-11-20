@@ -268,6 +268,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { updateTracking } = this.state;
     return (
       <DetailButtons
+        disabled={!row.product_id}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={async () => {
