@@ -35,7 +35,12 @@ import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
-import { columnFilter, filterKeys, trackerDataKeysMapping } from '../../../constants/Tracker';
+import {
+  columnFilter,
+  filterKeys,
+  getProductTrackerCheckBoxData,
+  trackerDataKeysMapping,
+} from '../../../constants/Tracker';
 import _ from 'lodash';
 import {
   isFetchingInventorySelector,
@@ -612,6 +617,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'string',
       show: true,
       sortable: true,
+      ...trackerDataKeysMapping.rating,
       render: this.renderRating,
     },
     {
@@ -682,6 +688,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   getFilterValues = (data: any, type: any) => {
     if (type === 'range') {
       return this.props.filterRanges[data];
+    } else if (type === 'checkbox') {
+      const checkboxData = getProductTrackerCheckBoxData(data);
+      const filterCheckboxes = _.map(checkboxData, data => {
+        const obj: any = {};
+        obj.value = data;
+        return obj;
+      });
+      return filterCheckboxes;
     }
   };
 

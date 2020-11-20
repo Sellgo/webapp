@@ -125,6 +125,13 @@ export const trackerDataKeysMapping: any = {
     filterSign: '',
     filterType: 'range',
   },
+  rating: {
+    filter: true,
+    filterLabel: 'Rating',
+    filterSign: '',
+    filterType: 'checkbox',
+    filterCheckboxWithSelectAll: true,
+  },
 };
 
 export const dataKeyMapping: any = {
@@ -240,6 +247,14 @@ export const presetsFilterData: any = {
       },
     ],
   },
+};
+
+export const ratingDataMapping: any = ['1-star', '2-star', '3-star', '4-star', '5-star'];
+
+export const getProductTrackerCheckBoxData = (dk: any) => {
+  if (dk === 'rating') {
+    return ratingDataMapping;
+  }
 };
 
 export const groupKeyMapping: any = {
@@ -471,15 +486,29 @@ export const getCustomizableFilteredProducts = (product: any, customizableFilter
   return result;
 };
 
+const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
+  return checkboxFilter.every(
+    (filter: any) =>
+      filter.value.includes(product[filter.dataKey]) ||
+      (_.isEmpty(product[filter.dataKey]) && filter.value.includes('Others')) ||
+      //only for rating checkbox filter
+      (filter.dataKey === 'rating' &&
+        filter.value.includes(JSON.stringify(Math.trunc(product.rating))))
+  );
+};
+
 export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
   if (_.isEmpty(filterData)) return products;
   else {
     const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
     const presetFilter = _.filter(filterData, filter => filter.type === 'preset');
+    const checkboxFilter = _.filter(
+      filterData,
+      filter => filter.isActive && filter.type === 'checkbox'
+    );
     const filteredProducts = _.filter(products, (product: any) => {
       return (
-        //   (filterData.reviews.length === 5 ||
-        //     filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+        getCheckboxFilteredProducts(product, checkboxFilter) &&
         getRangedFilteredProducts(product, rangeFilter) &&
         getCustomizableFilteredProducts(product, presetFilter)
       );
