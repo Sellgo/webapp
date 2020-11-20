@@ -135,9 +135,10 @@ export const TableBody = (props: TableBodyProps) => {
       isTypeProducts ? 2 : 2,
       isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
     );
+    const bound = isTypeProducts ? filteredColumns.length - 1 : filteredColumns.length;
     const upperBound = filteredColumns.slice(
       isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
-      filteredColumns.length
+      bound
     );
     let timer: NodeJS.Timeout | undefined = undefined;
     const onBodyScroll = (evt: any) => {

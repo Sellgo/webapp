@@ -53,13 +53,7 @@ export default function Login(props: Props) {
       <StepsContent contentType={'login'} loggedIn={true} />
       <Header as="h3">Login</Header>
       <Form className="login-container__form" onSubmit={handleSubmit}>
-        <Form.Input
-          size="huge"
-          label="Username"
-          type="mail"
-          placeholder="Email"
-          {...bindUserName}
-        />
+        <Form.Input size="huge" label="Email" type="mail" placeholder="Email" {...bindUserName} />
         <Form.Input
           size="huge"
           label="Password"
