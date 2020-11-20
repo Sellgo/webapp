@@ -148,14 +148,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       {showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}
     </p>
   );
-  renderAverage = (row: any) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(
-        row[`avg_${this.getActiveColumn()}`],
-        formatCurrency(row[`avg_${this.getActiveColumn()}`])
-      )}
-    </p>
-  );
+  renderAverage = (row: any) => {
+    const activeColumn = this.getActiveColumn();
+    const value = row[`avg_${activeColumn}`];
+    const updated = ['profit', 'price'].includes(activeColumn)
+      ? formatCurrency(value)
+      : formatPercent(value);
+    return <p className="stat">{showNAIfZeroOrNull(value, updated)}</p>;
+  };
   renderIndex = (row: any) => (
     <p className="stat">
       {showNAIfZeroOrNull(
@@ -166,17 +166,25 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   );
 
   renderChange = (row: any) => {
-    const value = row[`change_${this.getActiveColumn()}_perc`];
-    const change = row[`change_${this.getActiveColumn()}`];
+    const activeColumn = this.getActiveColumn();
+    const value = row[`change_${activeColumn}_perc`];
+    const change = row[`change_${activeColumn}`];
     const perc = value < 0 ? value * -1 : value;
     const updated = change < 0 ? change * -1 : change;
-
+    const changeValue = showNAIfZeroOrNull(updated, updated);
     const columnClass = `stat ${change < 0 ? 'change-low' : change > 0 ? 'change-high' : ''}`;
+    const hasValue = !['0.00', '-0.00', '0', '-'].includes(changeValue);
     return (
       <p className={columnClass}>
-        {value !== 0 && <Icon name={'arrow right'} />}
-        {showNAIfZeroOrNull(updated, updated)}
-        {perc !== 0 && `(${perc}%)`}
+        {value !== 0 && hasValue && <Icon name={'arrow right'} />}
+        <span className="light-font">
+          {hasValue && changeValue}
+          {hasValue && !['profit', 'price'].includes(activeColumn) && '%'}
+          {hasValue && '\n'}
+
+          {updated !== 0 && hasValue && ['profit', 'price'].includes(activeColumn) && ` (${perc}%)`}
+        </span>
+        {!hasValue && '-'}
       </p>
     );
   };
@@ -386,7 +394,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       filter: true,
       filterSign: '$',
       show: true,
-      className: 'lt-md-col',
+      className: 'lt-md-col ltr-change',
       render: this.renderChange,
     },
     {

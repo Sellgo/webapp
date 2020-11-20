@@ -680,7 +680,7 @@ $new_black: #3b4557;
   align-items: center;
 
   .icon {
-    transform: rotate(225deg);
+    transform: rotate(315deg);
   }
 }
 
@@ -691,7 +691,7 @@ $new_black: #3b4557;
   align-items: center;
 
   .icon {
-    transform: rotate(-45deg);
+    transform: rotate(35deg);
   }
 }
 
@@ -991,5 +991,24 @@ $new_black: #3b4557;
     font-size: 14px !important;
     color: #3b4557;
     font-weight: 500;
+  }
+}
+
+.light-font {
+  font-weight: unset !important;
+  margin: 0 !important;
+  white-space: pre !important;
+}
+
+.ltr-change {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.roi {
+  .stat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
