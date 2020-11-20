@@ -1004,3 +1004,11 @@ $new_black: #3b4557;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+
+.roi {
+  .stat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
