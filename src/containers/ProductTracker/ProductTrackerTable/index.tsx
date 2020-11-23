@@ -478,7 +478,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     );
   };
   renderIsAmazonSelling = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.is_amazon_selling ? 'Yes' : 'No'}</p>;
+    return (
+      <p className="stat">
+        {row.is_amazon_selling === null ? '-' : row.is_amazon_selling ? 'Yes' : 'No'}
+      </p>
+    );
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup, setProductEditDetails } = this.props;
