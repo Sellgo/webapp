@@ -765,6 +765,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               handleColumnDrop={this.handleColumnDrop}
               reorderColumns={this.reorderColumns}
               columnDnD={true}
+              leftFixedColumns={2}
+              rightFixedColumns={2}
             />
           </>
         )}
