@@ -223,7 +223,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderIsAmazon = (row: Product) => (
     <p className="stat">
       {row.data_buster_status === 'completed'
-        ? row.is_amazon_selling
+        ? row.is_amazon_selling === null
+          ? '-'
+          : row.is_amazon_selling
           ? 'Yes'
           : 'No'
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
@@ -268,6 +270,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { updateTracking } = this.state;
     return (
       <DetailButtons
+        disabled={!row.product_id}
         score={row.sellgo_score}
         isTracking={row.tracking_status === 'active'}
         onTrack={async () => {

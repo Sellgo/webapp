@@ -4,11 +4,16 @@ import FingerprintBlue from '../../../../assets/images/fingerprint-1.svg';
 import Fingerprint from '../../../../assets/images/fingerprint.svg';
 
 const DetailButtons = (props: any) => {
-  const { score, onTrack, isTracking } = props;
+  const { score, onTrack, isTracking, disabled } = props;
   return (
     <div className="detail-buttons">
       <div>
-        <TrackButtonWithRating isTracking={isTracking} onTrack={onTrack} score={score} />
+        <TrackButtonWithRating
+          isTracking={isTracking}
+          onTrack={onTrack}
+          score={score}
+          disabled={disabled}
+        />
       </div>
       <div />
     </div>
@@ -16,12 +21,13 @@ const DetailButtons = (props: any) => {
 };
 
 function TrackButtonWithRating(props: any) {
-  const { isTracking, onTrack } = props;
+  const { isTracking, onTrack, disabled } = props;
   return (
     <Button
       as="div"
       labelPosition="right"
       className={'track-btn with-rating' + (isTracking ? ' is-tracking' : '')}
+      disabled={disabled}
     >
       <Button icon={true} className="track-wrap" onClick={onTrack}>
         <img src={isTracking ? FingerprintBlue : Fingerprint} alt="fingerprint" />
