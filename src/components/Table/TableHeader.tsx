@@ -12,7 +12,6 @@ import './index.scss';
 import { Column, getColumnLabel, getColumnClass } from './index';
 import { setActiveColumn, setSortColumn } from '../../actions/Suppliers';
 import RangeFilterBox from '../RangeFilterBox';
-import { MiddleScrollHeader } from './TableLayouts/MiddleScroll';
 interface Shared {
   setSort: (e: any, clickedColumn: string) => void;
   onClick?: (e: any) => void;
@@ -45,6 +44,8 @@ interface Shared {
   loadingFilters?: boolean;
   filterValues?: any;
   resetPage: (sortDirection: string, dataKey: string) => void;
+  leftFixedColumns?: number;
+  rightFixedColumns?: number;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -328,7 +329,15 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   );
 };
 const TableHeader = (props: TableHeaderProps) => {
-  const { columns, stickyChartSelector, scrollTopSelector, middleScroll, ...rest } = props;
+  const {
+    columns,
+    stickyChartSelector,
+    scrollTopSelector,
+    middleScroll,
+    leftFixedColumns,
+    rightFixedColumns,
+    ...rest
+  } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
   const onScroll = (evt: any) => {
     const middleHeader = document.querySelector('.middle-header');
@@ -341,17 +350,15 @@ const TableHeader = (props: TableHeaderProps) => {
   };
 
   if (middleScroll) {
-    const isTypeProducts = rest.type === 'products';
-    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 2);
-    const middleBound = filteredColumns.slice(
-      isTypeProducts ? 2 : 2,
-      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
-    );
-    // eslint-disable-next-line max-len
+    const leftBound = leftFixedColumns ? leftFixedColumns : 0;
+    const rightBound = rightFixedColumns ? rightFixedColumns : 0;
+    const lowerBound = filteredColumns.slice(0, leftBound);
+    const middleBound = filteredColumns.slice(leftBound, filteredColumns.length - rightBound);
     const upperBound = filteredColumns.slice(
-      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
+      filteredColumns.length - rightBound,
       filteredColumns.length
     );
+
     const scrollRows: any = [
       {
         side: 'right',
@@ -368,7 +375,7 @@ const TableHeader = (props: TableHeaderProps) => {
     ];
 
     const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
-    const isProfitFinder = rest.type !== 'trackerTable' ? 'pf-header' : '';
+    const isProfitFinder = 'pf-header';
 
     // @ts-ignore
     return (
@@ -377,93 +384,73 @@ const TableHeader = (props: TableHeaderProps) => {
           stickyChartSelector ? 'sticky-chart-active' : ''
         }`}
       >
-        {rest.type === 'trackerTable' && (
-          <React.Fragment>
-            <MiddleScrollHeader
-              columns={filteredColumns}
-              rightFixedColumns={1}
-              leftFixedColumns={1}
-              className={'ptr-header-row'}
-              renderBlankRow={() => (
-                <th
-                  key={`header-blank-row`}
-                  colSpan={columns.length - 2}
-                  style={{ height: '56px' }}
-                />
-              )}
-              render={column => (
-                <TableHeaderCell
-                  columns={columns}
-                  column={{ ...column, className: column.className }}
-                  key={column.dataKey}
-                  {...rest}
-                />
-              )}
-            />
-          </React.Fragment>
-        )}
-
-        {rest.type !== 'trackerTable' && (
-          <tr
-            className={`parent-header-column ${
-              rest.type === 'leads-tracker' ? 'lead-tracker-header' : ''
-            }`}
-          >
-            {scrollRows.map((cell: any, cellIndex: any) => {
-              let headerCellProps: any = {};
-              if (cell.side === 'center') {
-                headerCellProps.className = 'middle-header table-header-scroll';
-                headerCellProps.onScroll = onScroll;
-                if (!cell.rows.length) {
-                  headerCellProps = {
-                    ...headerCellProps,
-                    colSpan: columns.length - 3,
-                    style: { background: '#fff' },
-                  };
-                }
+        <tr
+          className={`parent-header-column ${
+            rest.type === 'leads-tracker' ? 'lead-tracker-header' : ''
+          } ${rest.type}`}
+        >
+          {scrollRows.map((cell: any, cellIndex: any) => {
+            let headerCellProps: any = {};
+            if (cell.side === 'center') {
+              headerCellProps.className = 'middle-header table-header-scroll';
+              headerCellProps.onScroll = onScroll;
+              if (!cell.rows.length) {
+                headerCellProps = {
+                  ...headerCellProps,
+                  colSpan: columns.length - 3,
+                  style: { background: '#fff' },
+                };
               }
-              if (cell.side === 'right') {
-                headerCellProps.className = `left-fixed-header-column ${
-                  rest.type === 'leads-tracker' ? 'lt-border-right' : ''
-                }`;
-                if (filteredColumns.length === 4) {
-                  headerCellProps = { ...headerCellProps, style: { width: '1em' } };
-                }
-              }
-              if (cell.side === 'center' && rest.type === 'leads-tracker') {
-                headerCellProps.className = ' leads-tracker-middle';
-                headerCellProps = { ...headerCellProps };
-              }
-              if (cell.side === 'left') {
-                headerCellProps.className = `left-most ${
-                  rest.type === 'leads-tracker' ? 'lt-border-left' : ''
-                }`;
+            }
+            if (cell.side === 'right') {
+              headerCellProps.className = `${
+                rest.type === 'trackerTable'
+                  ? 'left-fixed-header-column-ptr'
+                  : 'left-fixed-header-column'
+              } ${rest.type === 'leads-tracker' ? 'lt-border-right' : ''}`;
+              if (filteredColumns.length === 4) {
                 headerCellProps = { ...headerCellProps, style: { width: '1em' } };
               }
+            }
+            if (cell.side === 'center' && rest.type === 'leads-tracker') {
+              headerCellProps.className = ' leads-tracker-middle';
+              headerCellProps = { ...headerCellProps };
+            }
+            if (cell.side === 'left') {
+              headerCellProps.className = `left-most ${
+                rest.type === 'leads-tracker' ? 'lt-border-left' : ''
+              }`;
+              headerCellProps = { ...headerCellProps, style: { width: '1em' } };
+            }
 
-              return (
-                <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
-                  <table className="header-inner-table">
-                    <thead className="inner-tbody">
-                      <Table.Row style={!cell.rows.length ? { height: '47px' } : {}}>
-                        {cell.rows.map((column: any, index: any) => {
-                          return (
-                            <TableHeaderCell
-                              column={column}
-                              columns={columns}
-                              key={column.dataKey || index}
-                              {...rest}
-                            />
-                          );
-                        })}
-                      </Table.Row>
-                    </thead>
-                  </table>
-                </Table.HeaderCell>
-              );
-            })}
-          </tr>
-        )}
+            return (
+              <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
+                <table className="header-inner-table">
+                  <thead className="inner-tbody">
+                    <Table.Row
+                      style={
+                        !cell.rows.length
+                          ? { height: rest.type === 'trackerTable' ? '56px' : '47px' }
+                          : {}
+                      }
+                    >
+                      {cell.rows.map((column: any, index: any) => {
+                        return (
+                          <TableHeaderCell
+                            column={column}
+                            columns={columns}
+                            key={column.dataKey || index}
+                            {...rest}
+                          />
+                        );
+                      })}
+                    </Table.Row>
+                  </thead>
+                </table>
+              </Table.HeaderCell>
+            );
+          })}
+        </tr>
       </Table.Header>
     );
   }

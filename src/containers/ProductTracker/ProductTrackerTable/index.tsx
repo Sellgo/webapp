@@ -689,6 +689,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           defaultSort={this.state.defaultSort}
           onSort={defaultSort => this.setState({ defaultSort })}
           scrollToView={this.state.scrollView}
+          leftFixedColumns={1}
+          rightFixedColumns={1}
         />
 
         {editCost && (
