@@ -85,7 +85,8 @@ function ProfitFinderFilterSection(props: Props) {
       'Large standard-size',
       'Small oversize',
       'Medium oversize',
-      'Over oversize',
+      'Large oversize',
+      'Special oversize',
       'Others',
     ],
     profitability: 'All Products',
@@ -447,8 +448,13 @@ function ProfitFinderFilterSection(props: Props) {
             checked: true,
           },
           {
-            label: 'Over oversize',
-            dataKey: 'over-oversize',
+            label: 'Large oversize',
+            dataKey: 'large-oversize',
+            checked: true,
+          },
+          {
+            label: 'Special oversize',
+            dataKey: 'special-oversize',
             checked: true,
           },
           {
