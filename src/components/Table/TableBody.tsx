@@ -214,7 +214,6 @@ export const TableBody = (props: TableBodyProps) => {
                 tableDataProps = { ...tableDataProps, style: { width: '1em' }, colSpan: 2 };
               }
             }
-            console.log(filteredColumns.length);
             return (
               <td {...tableDataProps} key={`${cell.side}--td-cell`}>
                 <table
