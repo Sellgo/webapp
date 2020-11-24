@@ -579,6 +579,14 @@ export const setSupplierSinglePageItemsCount = (itemsCount: number) => ({
   payload: itemsCount,
 });
 
+export const updateSupplierSinglePageItemsCount = () => {
+  const count = localStorage.getItem('supplierPageItemsCount');
+  return {
+    type: SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
+    payload: count ? parseInt(count) : 50,
+  };
+};
+
 export const setSupplierPageNumber = (pageNumber: number) => ({
   type: SET_SUPPLIER_PAGE_NUMBER,
   payload: pageNumber,
