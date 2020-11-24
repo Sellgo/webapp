@@ -495,9 +495,6 @@ $link-color: #349af8;
       }
 
       &:nth-child(2) {
-        //border-top-left-radius: 10px !important;
-        //border-bottom-left-radius: 10px !important;
-
         .stat {
           margin-right: 20px;
         }
@@ -653,18 +650,6 @@ $link-color: #349af8;
           color: #3b4557;
           text-align: left;
         }
-
-        //th:first-child {
-        //  border-bottom-left-radius: 0 !important;
-        //  border-left: 0 !important;
-        //  border-top-left-radius: 0 !important;
-        //  padding-left: 0 !important;
-        //}
-
-        //th:nth-child(2) {
-        //  border-top-left-radius: 10px !important;
-        //  border-bottom-left-radius: 10px !important;
-        //}
 
         th:last-child {
           border-bottom-right-radius: 10px;
@@ -1006,10 +991,7 @@ $link-color: #349af8;
 }
 
 .pt-product-info {
-  //position: absolute !important;
   width: 29em !important;
-  //left: 1em !important;
-  //margin-left: 0px;
   background: #fff !important;
   border-bottom-left-radius: 10px !important;
   border-top-left-radius: 10px !important;
@@ -1038,9 +1020,6 @@ $link-color: #349af8;
 }
 
 .pt-actions {
-  //position: absolute !important;
-  //min-width: 56px !important;
-  //right: 7px !important;
   background: #fff !important;
   display: flex !important;
   align-items: center !important;
@@ -1324,7 +1303,7 @@ $link-color: #349af8;
 }
 
 .generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr:first-child th {
-  top: 10px;
+  top: 55px;
   transition-property: top;
   transition-duration: 1s;
 }

@@ -350,7 +350,6 @@ const TableHeader = (props: TableHeaderProps) => {
   };
 
   if (middleScroll) {
-    // const isTypeProducts = rest.type === 'products';
     const leftBound = leftFixedColumns ? leftFixedColumns : 0;
     const rightBound = rightFixedColumns ? rightFixedColumns : 0;
     const lowerBound = filteredColumns.slice(0, leftBound);
@@ -360,16 +359,6 @@ const TableHeader = (props: TableHeaderProps) => {
       filteredColumns.length
     );
 
-    // const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 2);
-    // const middleBound = filteredColumns.slice(
-    //     isTypeProducts ? 2 : 2,
-    //     isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
-    // );
-    // // eslint-disable-next-line max-len
-    // const upperBound = filteredColumns.slice(
-    //     isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
-    //     filteredColumns.length
-    // );
     const scrollRows: any = [
       {
         side: 'right',
@@ -395,33 +384,6 @@ const TableHeader = (props: TableHeaderProps) => {
           stickyChartSelector ? 'sticky-chart-active' : ''
         }`}
       >
-        {/*{rest.type === 'trackerTable' && (*/}
-        {/*  <React.Fragment>*/}
-        {/*    <MiddleScrollHeader*/}
-        {/*      columns={filteredColumns}*/}
-        {/*      rightFixedColumns={1}*/}
-        {/*      leftFixedColumns={1}*/}
-        {/*      className={'ptr-header-row'}*/}
-        {/*      renderBlankRow={() => (*/}
-        {/*        <th*/}
-        {/*          key={`header-blank-row`}*/}
-        {/*          colSpan={columns.length - 2}*/}
-        {/*          style={{ height: '56px' }}*/}
-        {/*        />*/}
-        {/*      )}*/}
-        {/*      render={column => (*/}
-        {/*        <TableHeaderCell*/}
-        {/*          columns={columns}*/}
-        {/*          column={{ ...column, className: column.className }}*/}
-        {/*          key={column.dataKey}*/}
-        {/*          {...rest}*/}
-        {/*        />*/}
-        {/*      )}*/}
-        {/*    />*/}
-        {/*  </React.Fragment>*/}
-        {/*)}*/}
-
-        {/*{rest.type !== 'trackerTable' && (*/}
         <tr
           className={`parent-header-column ${
             rest.type === 'leads-tracker' ? 'lead-tracker-header' : ''

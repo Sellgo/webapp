@@ -363,7 +363,7 @@ export const GenericTable = (props: GenericTableProps) => {
   return (
     <div
       className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
-        name === 'products' ? 'pf-table' : 'pf-table'
+        ['products', 'trackerTable'].includes(name) ? 'pf-table' : ''
       }`}
       onScroll={handleScroll}
       style={{ paddingBottom: rows.length < 8 ? 150 : 10 }}
@@ -397,7 +397,7 @@ export const GenericTable = (props: GenericTableProps) => {
             ? 'alter-table pf-table'
             : name === 'products' || name === 'leads-tracker'
             ? 'pf-table'
-            : 'pf-table'
+            : ''
         }`}
       >
         <TableHeader
