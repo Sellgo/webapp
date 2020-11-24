@@ -178,7 +178,7 @@ export const TableBody = (props: TableBodyProps) => {
         rows: upperBound,
       },
     ];
-
+    const style = type === 'trackerTable' ? { width: '100%' } : {};
     return (
       <Table.Body
         className={type === 'trackerTable' ? `tracker-body ${loading && 'disabled'}` : ''}
@@ -198,6 +198,7 @@ export const TableBody = (props: TableBodyProps) => {
                   type === 'leads-tracker' ? 'lt-border leads-tracker-middle' : ''
                 }`,
                 onScroll: onBodyScroll,
+                style: style,
               };
               if (filteredColumns.length === 4) {
                 tableDataProps = {
@@ -213,6 +214,7 @@ export const TableBody = (props: TableBodyProps) => {
                 tableDataProps = { ...tableDataProps, style: { width: '1em' }, colSpan: 2 };
               }
             }
+            console.log(filteredColumns.length);
             return (
               <td {...tableDataProps} key={`${cell.side}--td-cell`}>
                 <table
@@ -233,10 +235,24 @@ export const TableBody = (props: TableBodyProps) => {
                           )}
                           <Table.Row
                             className={className}
-                            style={filteredColumns.length === 4 ? { height: '46px' } : {}}
+                            style={
+                              filteredColumns.length === 4
+                                ? { height: '46px' }
+                                : filteredColumns.length === 2
+                                ? { height: '56px' }
+                                : {}
+                            }
                           >
                             {filteredColumns.length === 4 && cell.side === 'center' && (
                               <td colSpan={columns.length - 3}>&nbsp;</td>
+                            )}
+                            {filteredColumns.length === 2 && cell.side === 'center' && (
+                              <td
+                                colSpan={columns.length - 2}
+                                className={'ptr-cell ptr-blank-cell'}
+                              >
+                                &nbsp;
+                              </td>
                             )}
                             {cell.rows.map(
                               (column: any, colIndex: any) =>

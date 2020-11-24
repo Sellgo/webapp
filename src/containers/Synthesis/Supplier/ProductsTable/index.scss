@@ -232,6 +232,7 @@ $new_black: #3b4557;
 
     td p {
       font-size: 14px;
+      text-align: center !important;
     }
 
     tfoot {
@@ -692,6 +693,10 @@ $new_black: #3b4557;
   .detail-buttons {
     width: 93% !important;
   }
+
+  .last_run {
+    min-width: 158px !important;
+  }
 }
 
 @media screen and (min-width: 1921px) {
@@ -706,5 +711,5 @@ $new_black: #3b4557;
 
 .last_run {
   width: 153px !important;
-  min-width: 153px !important;
+  min-width: 160px !important;
 }

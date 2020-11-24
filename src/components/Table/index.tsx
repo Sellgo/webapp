@@ -366,7 +366,7 @@ export const GenericTable = (props: GenericTableProps) => {
         ['products', 'trackerTable'].includes(name) ? 'pf-table' : ''
       }`}
       onScroll={handleScroll}
-      style={{ paddingBottom: rows.length < 8 ? 150 : 10 }}
+      style={{ paddingBottom: rows.length < 8 ? 150 : 70 }}
     >
       {showProductFinderSearch ? (
         <div

@@ -1119,13 +1119,23 @@ $link-color: #349af8;
   }
 }
 
-@media only screen and (min-width: 1440px) and (max-width: 1599px) {
+@media only screen and (min-width: 1440px) and (max-width: 1535px) {
   .pt-scroll {
     min-width: 100px !important;
   }
 
   .bottom-cell {
-    min-width: 5px !important;
+    min-width: 105px !important;
+  }
+}
+
+@media only screen and (min-width: 1536px) and (max-width: 1599px) {
+  .bottom-cell {
+    min-width: 103px !important;
+  }
+
+  .ptr-scrollbar {
+    min-width: 103px !important;
   }
 }
 
@@ -1155,7 +1165,7 @@ $link-color: #349af8;
   }
 
   .bottom-cell {
-    min-width: 146px !important;
+    min-width: 107px !important;
   }
 }
 
@@ -1321,4 +1331,8 @@ $link-color: #349af8;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+}
+
+.ptr-blank-cell {
+  height: 85px !important;
 }
