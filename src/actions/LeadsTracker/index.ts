@@ -34,7 +34,12 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
 ) => {
   dispatch(setLoadingData(true));
   const saved = localStorage.getItem('leads-tracker:search');
+
   let search: any = '';
+  if (saved) {
+    const state = JSON.parse(saved);
+    search = state.value;
+  }
   if (!saved) {
     const filtersResponse = await getFilters({ query: 'column_value=search&column_type=search' });
     search =
@@ -52,11 +57,9 @@ export const fetchLeadsKPIs = (payload: FetchLeadsFilters) => async (
     query = `searches=${search}`,
     loading = true,
   } = payload;
-
   dispatch(setFetchingKpi(loading));
   const sellerID = sellerIDSelector();
-  const searches = new URLSearchParams(query).get('searches');
-
+  const searches = search;
   const response = await Axios.get(
     AppConfig.BASE_URL_API +
       // eslint-disable-next-line max-len
