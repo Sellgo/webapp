@@ -842,6 +842,16 @@ $link-color: #349af8;
       overflow-x: auto;
     }
   }
+
+  .generic-table .ui.table.pf-table {
+    margin-top: unset;
+  }
+
+  .generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr:first-child th {
+    top: 55px;
+    transition-property: top;
+    transition-duration: 1s;
+  }
 }
 
 .product-tracker-loader {
@@ -1303,20 +1313,6 @@ $link-color: #349af8;
   //top: 15px;
   position: absolute;
   left: 55%;
-}
-
-.generic-table .ui.table.pf-table {
-  margin-top: unset;
-}
-
-.generic-table .ui.table.pf-table thead.pf-header > tr:first-child > th {
-  border-top: unset !important;
-}
-
-.generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr:first-child th {
-  top: 55px;
-  transition-property: top;
-  transition-duration: 1s;
 }
 
 .ptr-left-cell {

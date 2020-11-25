@@ -540,6 +540,14 @@ $new_black: #3b4557;
       width: 100%;
     }
   }
+
+  .generic-table .ui.table.pf-table {
+    margin-top: unset;
+  }
+
+  .generic-table .ui.table.pf-table thead.pf-header > tr:first-child > th {
+    border-top: unset !important;
+  }
 }
 
 .lt-cell {
@@ -956,14 +964,6 @@ $new_black: #3b4557;
 
 .lt-table {
   margin-bottom: 100px !important;
-}
-
-.generic-table .ui.table.pf-table {
-  margin-top: unset;
-}
-
-.generic-table .ui.table.pf-table thead.pf-header > tr:first-child > th {
-  border-top: unset !important;
 }
 
 .lt-avg:hover {
