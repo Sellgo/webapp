@@ -263,7 +263,7 @@ const mapDispatchToProps = {
   setProductsLoadingDataBuster,
   pollDataBuster,
   reloadSuppliers: () => fetchSuppliers(),
-  updateSupplierSinglePageItemsCount: () => updateSupplierSinglePageItemsCount(),
+  updateSupplierSinglePageItemsCount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Supplier);
