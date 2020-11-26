@@ -66,7 +66,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderName = (row: Supplier) => {
     const name =
-      row.file_status === 'completed' ? (
+      row.file_status === 'completed' && row.progress !== -1 ? (
         <Link to={`/profit-finder/${row.supplier_id}`} onClick={() => setLatestSupplier(row)}>
           {row.search}
         </Link>
@@ -211,7 +211,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     if (row.file_status !== 'completed') {
       return '';
     }
-    return row.item_total_count;
+    return row.inventory;
   };
   renderSpeed = (row: Supplier) => (row.speed !== -1 ? `${row.speed}/min` : '');
 
@@ -277,7 +277,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       label: 'Inventory',
       sortable: true,
       type: 'number',
-      dataKey: 'item_total_count',
+      dataKey: 'inventory',
       show: true,
       render: this.renderInventory,
     },
@@ -400,7 +400,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         ? shortlistedData
         : showTab === 'archived'
         ? archivedData
-        : draftData;
+        : draftData.reverse();
     const columns = this.columns.map(e =>
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
@@ -439,7 +439,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           searchValue={supplierSearch}
         />
         <Confirm
-          content="Do you want to delete supplier?"
+          content="Do you want to delete search?"
           open={this.state.showDeleteConfirm}
           onCancel={this.handleCancelDelete}
           onConfirm={this.handleConfirmDelete}

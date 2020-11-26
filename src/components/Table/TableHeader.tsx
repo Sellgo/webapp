@@ -44,6 +44,8 @@ interface Shared {
   loadingFilters?: boolean;
   filterValues?: any;
   resetPage: (sortDirection: string, dataKey: string) => void;
+  leftFixedColumns?: number;
+  rightFixedColumns?: number;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -102,6 +104,8 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filter = false,
     searchIconPosition = 'right',
     filterSign,
+    filterDataKey,
+    filterLabel,
   } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
@@ -139,12 +143,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   if (dataKey === 'sellgo_score') {
     otherProps = { ...otherProps, className: `${otherProps.className} remove-left-border` };
   }
+  const columnDataKey = filterDataKey ? filterDataKey : dataKey;
   if (sortedColumnKey === dataKey) {
     otherProps = { ...otherProps, sorted: sortDirection };
   }
 
   const isFilterActive = () => {
-    const localFilterData = localStorage.getItem(`${type}:${dataKey}`);
+    const localFilterData = localStorage.getItem(`${type}:${columnDataKey}`);
     let parsed: any;
     if (localFilterData) {
       parsed = JSON.parse(localFilterData);
@@ -160,7 +165,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   const ColumnFilter = (
     <Popup
       on="click"
-      open={columnFilterBox && activeColumnFilters === dataKey}
+      open={columnFilterBox && activeColumnFilters === columnDataKey}
       key={dataKey}
       onClose={toggleColumnCheckbox}
       onOpen={toggleColumnCheckbox}
@@ -170,13 +175,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       trigger={
         <Icon
           className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
-          onClick={() => (toggleColumnFilters ? toggleColumnFilters(dataKey) : undefined)}
+          onClick={() => (toggleColumnFilters ? toggleColumnFilters(columnDataKey) : undefined)}
         />
       }
       content={
         <RangeFilterBox
-          label={label}
-          dataKey={dataKey}
+          label={filterLabel ? filterLabel : label}
+          dataKey={columnDataKey}
           labelSign={filterSign}
           filterType={filterType}
           resetFilters={resetColumnFilters}
@@ -324,36 +329,36 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   );
 };
 const TableHeader = (props: TableHeaderProps) => {
-  const { columns, stickyChartSelector, scrollTopSelector, middleScroll, ...rest } = props;
+  const {
+    columns,
+    stickyChartSelector,
+    scrollTopSelector,
+    middleScroll,
+    leftFixedColumns,
+    rightFixedColumns,
+    ...rest
+  } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
   const onScroll = (evt: any) => {
     const middleHeader = document.querySelector('.middle-header');
     const middleBody = document.querySelector('.middle-body');
+
     if (!!middleBody && middleHeader) {
       middleBody.scrollLeft = evt.target.scrollLeft;
       middleHeader.scrollLeft = evt.target.scrollLeft;
     }
   };
 
-  const onScrollTable = (evt: any) => {
-    const table = document.querySelector('.generic-table');
-    if (table) {
-      table.scrollLeft = evt.target.scrollLeft;
-    }
-  };
-
   if (middleScroll) {
-    const isTypeProducts = rest.type === 'products';
-    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 5);
-    const middleBound = filteredColumns.slice(
-      isTypeProducts ? 2 : 5,
-      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
-    );
-    // eslint-disable-next-line max-len
+    const leftBound = leftFixedColumns ? leftFixedColumns : 0;
+    const rightBound = rightFixedColumns ? rightFixedColumns : 0;
+    const lowerBound = filteredColumns.slice(0, leftBound);
+    const middleBound = filteredColumns.slice(leftBound, filteredColumns.length - rightBound);
     const upperBound = filteredColumns.slice(
-      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
+      filteredColumns.length - rightBound,
       filteredColumns.length
     );
+
     const scrollRows: any = [
       {
         side: 'right',
@@ -370,7 +375,7 @@ const TableHeader = (props: TableHeaderProps) => {
     ];
 
     const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
-    const isProfitFinder = rest.type !== 'trackerTable' ? 'pf-header' : '';
+    const isProfitFinder = 'pf-header';
 
     // @ts-ignore
     return (
@@ -379,152 +384,73 @@ const TableHeader = (props: TableHeaderProps) => {
           stickyChartSelector ? 'sticky-chart-active' : ''
         }`}
       >
-        {rest.type === 'trackerTable' && (
-          <React.Fragment>
-            <Table.Row className="ptr-header-row">
-              {filteredColumns.length === 2 && (
-                <th
-                  key={`header-blank-row`}
-                  colSpan={columns.length - 2}
-                  style={{ height: '56px' }}
-                />
-              )}
-              {filteredColumns.map((column, index) => {
-                let className =
-                  index === 1 && filteredColumns.length > 2 ? 'ptr' : column.className;
-                className =
-                  index === filteredColumns.length - 2 && index >= 2
-                    ? `${className} ptr-last-cell`
-                    : className;
-                return (
-                  <TableHeaderCell
-                    columns={columns}
-                    column={{ ...column, className }}
-                    key={column.dataKey || index}
-                    {...rest}
-                  />
-                );
-              })}
-            </Table.Row>
-            <Table.Row className="pt-header">
-              <td colSpan={filteredColumns.length - 2} className="pt-header-cell">
-                <div className="pt-scroll-container" onScroll={onScrollTable}>
-                  {filteredColumns.map(c => (
-                    <div
-                      className={`${getColumnClass(c)} pt-scroll`}
-                      key={`${c.dataKey}--scroll-col`}
-                    >
-                      <p> &nbsp;</p>
-                    </div>
-                  ))}
-                </div>
-              </td>
-            </Table.Row>
-            <tr className="ptr-scroll-container" />
-          </React.Fragment>
-        )}
-
-        {rest.type !== 'trackerTable' && (
-          <tr
-            className={`parent-header-column ${
-              rest.type === 'leads-tracker' ? 'lead-tracker-header' : ''
-            }`}
-          >
-            {scrollRows.map((cell: any, cellIndex: any) => {
-              let headerCellProps: any = {};
-              if (cell.side === 'center') {
-                headerCellProps.className = 'middle-header table-header-scroll';
-                headerCellProps.onScroll = onScroll;
-                if (!cell.rows.length) {
-                  headerCellProps = {
-                    ...headerCellProps,
-                    colSpan: columns.length - 3,
-                    style: { background: '#fff' },
-                  };
-                }
+        <tr
+          className={`parent-header-column ${
+            rest.type === 'leads-tracker' ? 'lead-tracker-header' : ''
+          } ${rest.type}`}
+        >
+          {scrollRows.map((cell: any, cellIndex: any) => {
+            let headerCellProps: any = {};
+            if (cell.side === 'center') {
+              headerCellProps.className = 'middle-header table-header-scroll';
+              headerCellProps.onScroll = onScroll;
+              if (!cell.rows.length) {
+                headerCellProps = {
+                  ...headerCellProps,
+                  colSpan: columns.length - 3,
+                  style: { background: '#fff' },
+                };
               }
-              if (cell.side === 'right') {
-                headerCellProps.className = `left-fixed-header-column ${
-                  rest.type === 'leads-tracker' ? 'lt-border-right' : ''
-                }`;
-                if (filteredColumns.length === 4) {
-                  headerCellProps = { ...headerCellProps, style: { width: '1em' } };
-                }
-              }
-              if (cell.side === 'center' && rest.type === 'leads-tracker') {
-                headerCellProps.className = ' leads-tracker-middle';
-                headerCellProps = { ...headerCellProps };
-              }
-              if (cell.side === 'left') {
-                headerCellProps.className = `left-most ${
-                  rest.type === 'leads-tracker' ? 'lt-border-left' : ''
-                }`;
+            }
+            if (cell.side === 'right') {
+              headerCellProps.className = `${
+                rest.type === 'trackerTable'
+                  ? 'left-fixed-header-column-ptr'
+                  : 'left-fixed-header-column'
+              } ${rest.type === 'leads-tracker' ? 'lt-border-right' : ''}`;
+              if (filteredColumns.length === 4) {
                 headerCellProps = { ...headerCellProps, style: { width: '1em' } };
               }
+            }
+            if (cell.side === 'center' && rest.type === 'leads-tracker') {
+              headerCellProps.className = ' leads-tracker-middle';
+              headerCellProps = { ...headerCellProps };
+            }
+            if (cell.side === 'left') {
+              headerCellProps.className = `left-most ${
+                rest.type === 'leads-tracker' ? 'lt-border-left' : ''
+              }`;
+              headerCellProps = { ...headerCellProps, style: { width: '1em' } };
+            }
 
-              return (
-                <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
-                  <table className="header-inner-table">
-                    <thead className="inner-tbody">
-                      <Table.Row style={!cell.rows.length ? { height: '47px' } : {}}>
-                        {cell.rows.map((column: any, index: any) => {
-                          return (
-                            <TableHeaderCell
-                              column={column}
-                              columns={columns}
-                              key={column.dataKey || index}
-                              {...rest}
-                            />
-                          );
-                        })}
-                      </Table.Row>
-                    </thead>
-                  </table>
-                </Table.HeaderCell>
-              );
-            })}
-          </tr>
-        )}
-        {!['trackerTable', 'leads-tracker'].includes(rest.type ? rest.type : '') && (
-          <React.Fragment>
-            <tr className="table-scroll-divider" />
-
-            <Table.Row className={'pf-middle-scroll'}>
-              {scrollRows.map((cell: any, cellIndex: any) => {
-                const headerCellProps: any = {};
-                if (cell.side === 'center') {
-                  headerCellProps.className = 'middle-scroll-cell header-scroll';
-                  headerCellProps.onScroll = onScroll;
-                } else {
-                  headerCellProps.className = `middle-scroll-cell-disabled`;
-                }
-                return (
-                  <Table.HeaderCell {...headerCellProps} key={`${cell.side}---scroll-${cellIndex}`}>
-                    <table>
-                      <thead className="center-scrolling">
-                        <Table.Row className="pf-middle-scroll">
-                          {cell.rows.map((column: any, index: any) => {
-                            const className = `middle-scroll-cell ${getColumnClass(column)}`;
-                            const className2 = `middle-scroll-cell-disabled ${getColumnClass(
-                              column
-                            )}`;
-
-                            return ['left', 'right'].includes(cell.side) ? (
-                              <td key={column.dataKey || index} className={className2} />
-                            ) : (
-                              <td className={className} key={column.dataKey + cell.side || index} />
-                            );
-                          })}
-                        </Table.Row>
-                      </thead>
-                    </table>
-                  </Table.HeaderCell>
-                );
-              })}
-            </Table.Row>
-            <tr className="table-scroll-divider" />
-          </React.Fragment>
-        )}
+            return (
+              <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
+                <table className="header-inner-table">
+                  <thead className="inner-tbody">
+                    <Table.Row
+                      style={
+                        !cell.rows.length
+                          ? { height: rest.type === 'trackerTable' ? '56px' : '47px' }
+                          : {}
+                      }
+                    >
+                      {cell.rows.map((column: any, index: any) => {
+                        return (
+                          <TableHeaderCell
+                            column={column}
+                            columns={columns}
+                            key={column.dataKey || index}
+                            {...rest}
+                          />
+                        );
+                      })}
+                    </Table.Row>
+                  </thead>
+                </table>
+              </Table.HeaderCell>
+            );
+          })}
+        </tr>
       </Table.Header>
     );
   }

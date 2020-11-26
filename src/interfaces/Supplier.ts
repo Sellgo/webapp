@@ -31,4 +31,5 @@ export interface Supplier {
   leads_tracker_status?: string;
   has_default_cost: boolean;
   default_cost: any;
+  inventory: any;
 }

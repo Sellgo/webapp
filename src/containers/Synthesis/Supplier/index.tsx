@@ -96,7 +96,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
 
   componentDidUpdate() {
     if (this.props.supplierDetails && this.props.supplierDetails.item_total_count) {
-      const loadTime = this.getLoadingTime(this.props.supplierDetails.item_total_count);
+      const loadTime = this.getLoadingTime(this.props.supplierDetails.inventory);
       if (this.props.isLoadingSupplierProducts) {
         info(() => this.handleSupplierLoading(loadTime), {
           toastId: 'supplierLoading',
@@ -122,7 +122,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
   handleSupplierLoading = (loadTime: number) => {
     return (
       <div className="notif-content">
-        <p className="header">Processing SKUs</p>
+        <p className="header">Processing ASINs</p>
         <p className="label">
           <Icon className="clock" />
           {loadTime}s Estimated Processing time

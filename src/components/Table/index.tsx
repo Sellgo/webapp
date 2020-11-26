@@ -12,6 +12,7 @@ import Pagination from '../Pagination';
 import ConstructionImage from '../../components/ConstructionImage/';
 
 import { formatDimensionForSorting } from '../../utils/format';
+import BottomScroll from '../BottomScrollbar';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -21,6 +22,8 @@ export interface Column {
   filter?: boolean;
   filterType?: string;
   filterSign?: string;
+  filterDataKey?: string;
+  filterLabel?: string;
   searchIconPosition?: string;
   show?: boolean;
   check?: any;
@@ -82,6 +85,8 @@ export interface GenericTableProps {
   loading?: boolean;
   searchValue?: string;
   scrollToView?: boolean;
+  leftFixedColumns?: number;
+  rightFixedColumns?: number;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -159,6 +164,8 @@ export const GenericTable = (props: GenericTableProps) => {
     loading,
     searchValue,
     scrollToView,
+    leftFixedColumns,
+    rightFixedColumns,
   } = props;
 
   const initialPage = currentPage ? currentPage : 1;
@@ -327,11 +334,19 @@ export const GenericTable = (props: GenericTableProps) => {
   const totalItemsCount = name === 'leads-tracker' ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
+  let timer: NodeJS.Timeout | undefined = undefined;
 
   const handleScroll = (evt: any) => {
-    const scroll = document.querySelector('.pt-scroll-container');
-    if (scroll) {
-      scroll.scrollLeft = evt.target.scrollLeft;
+    const bottomScroll = document.querySelector('.bottom-scrollbar');
+
+    if (bottomScroll) {
+      bottomScroll.classList.add('bottom-scrollbar-visible');
+      bottomScroll.scrollLeft = evt.target.scrollLeft;
+      // @ts-ignore
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        bottomScroll.classList.remove('bottom-scrollbar-visible');
+      }, 500);
     }
   };
 
@@ -348,10 +363,10 @@ export const GenericTable = (props: GenericTableProps) => {
   return (
     <div
       className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
-        name === 'products' ? 'pf-table' : ''
+        ['products', 'trackerTable'].includes(name) ? 'pf-table' : ''
       }`}
       onScroll={handleScroll}
-      style={{ paddingBottom: rows.length < 8 ? 150 : 100 }}
+      style={{ paddingBottom: rows.length < 8 ? 150 : 70 }}
     >
       {showProductFinderSearch ? (
         <div
@@ -379,7 +394,7 @@ export const GenericTable = (props: GenericTableProps) => {
         unstackable={true}
         className={`${
           name === 'trackerTable'
-            ? 'alter-table'
+            ? 'alter-table pf-table'
             : name === 'products' || name === 'leads-tracker'
             ? 'pf-table'
             : ''
@@ -415,6 +430,8 @@ export const GenericTable = (props: GenericTableProps) => {
           loadingFilters={loadingFilters}
           filterValues={filterValues}
           resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
+          leftFixedColumns={leftFixedColumns ? leftFixedColumns : 0}
+          rightFixedColumns={rightFixedColumns ? rightFixedColumns : 0}
         />
         {name === 'leads-tracker' && count < 1 && !loading ? (
           <ConstructionImage />
@@ -430,6 +447,8 @@ export const GenericTable = (props: GenericTableProps) => {
             rowExpander={rowExpander}
             loading={loading}
             scrollToView={scrollToView}
+            leftFixedColumns={leftFixedColumns ? leftFixedColumns : 0}
+            rightFixedColumns={rightFixedColumns ? rightFixedColumns : 0}
           />
         )}
 
@@ -448,6 +467,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 </div>
               ) : (
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
+                  <BottomScroll columns={columns} name={name} />
                   <div className="pagination-container">
                     <Pagination
                       onPageSizeSelect={size => {

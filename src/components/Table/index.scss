@@ -1,7 +1,7 @@
 .generic-table {
   &.scrollable {
     overflow-x: auto;
-    padding-bottom: 100px;
+    margin-bottom: 100px !important;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* Internet Explorer 10+ */
   }
@@ -402,6 +402,9 @@ i.icon.filter::before {
     width: 100% !important;
 
     > .table-cell-container {
+      justify-content: flex-end !important;
+      margin-right: 2px;
+
       > .sort-arrow {
         margin: 0;
       }
@@ -457,7 +460,7 @@ i.icon.filter::before {
     width: 100% !important;
 
     > .detail-buttons {
-      width: 213px !important;
+      width: 100% !important;
     }
   }
 }
@@ -493,6 +496,12 @@ i.icon.filter::before {
 
 .left-fixed-header-column {
   width: 18% !important;
+}
+
+.left-fixed-header-column-ptr {
+  @extend .left-fixed-header-column;
+
+  border: none !important;
 }
 
 .table-scroll-divider {
@@ -862,8 +871,8 @@ i.icon.filter::before {
   }
 
   .default-column {
-    width: 150px !important;
-    min-width: 150px !important;
+    width: 100px !important;
+    min-width: 100px !important;
   }
 
   .product-description {
@@ -922,7 +931,7 @@ i.icon.filter::before {
 }
 
 .scrollable::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
 }
 
 .range-filters {

@@ -22,7 +22,6 @@ import {
   SET_SUPPLIERS_TABLE_COLUMNS,
   SET_SUPPLIERS_TABLE_TAB,
   SET_SUPPLIER_NAME,
-  SET_NEW_SEARCH,
   SET_TIME_EFFICIENCY,
   SET_SUPPLIER_DETAILS,
   IS_LOADING_SUPPLIER_PRODUCTS,
@@ -423,16 +422,10 @@ export const updateProductTrackingStatus = (
   type?: any
 ) => (dispatch: any, getState: any) => {
   const {
-    productTracker: { menuItem, trackerGroup },
+    productTracker: { menuItem },
   } = getState();
   const sellerID = sellerIDSelector();
   const bodyFormData = new FormData();
-  const groupName =
-    name === 'tracker' && type === 'move-group'
-      ? productTrackerGroupID === -1
-        ? 'Ungrouped'
-        : trackerGroup.find((group: any) => group.id === productTrackerGroupID).name
-      : '';
 
   bodyFormData.set('seller_id', sellerID || '');
   bodyFormData.set('status', status);
@@ -453,7 +446,8 @@ export const updateProductTrackingStatus = (
     ? Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/track/product`, bodyFormData)
         .then(json => {
           dispatch(getSellerQuota());
-          dispatch(updateSupplierProductTrack(json.data));
+          success(json.data.message);
+          dispatch(updateSupplierProductTrack(json.data.object));
         })
         .catch(err => {
           if (err.response && err.response.status === 401) {
@@ -468,14 +462,15 @@ export const updateProductTrackingStatus = (
           if (name === 'tracker') {
             if (type === 'untrack') {
               success(UntrackSuccess);
-              dispatch(removeTrackedProduct(json.data.id));
+              dispatch(removeTrackedProduct(json.data.object.id));
             } else if (type === 'move-group') {
-              success(`Product is moved to ${groupName}`);
-              dispatch(updateTrackedProduct(json.data));
+              success(json.data.message);
+              dispatch(updateTrackedProduct(json.data.object));
               dispatch(setMenuItem(menuItem));
             }
           } else {
-            dispatch(updateSupplierProductTrack(json.data));
+            success(json.data.message);
+            dispatch(updateSupplierProductTrack(json.data.object));
           }
         })
         .catch(err => {
@@ -615,29 +610,6 @@ export const postProductTrackGroupId = (supplierID: string, name: string) => () 
     });
 };
 
-export const saveSearch = (other: any) => (dispatch: any) => {
-  return new Promise(resolve => {
-    const sellerID = sellerIDSelector();
-    const bodyFormData = new FormData();
-
-    for (const param in other) {
-      bodyFormData.set(param, other[param]);
-    }
-
-    return Axios.post(AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers`, bodyFormData)
-      .then(json => {
-        dispatch(addSupplier(json.data));
-        dispatch(setSearch(json.data));
-        resolve(json.data);
-      })
-      .catch(err => {
-        for (const er in err.response.data) {
-          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
-        }
-      });
-  });
-};
-
 export const saveSupplierDetails = (details: any) => (dispatch: any) => {
   return new Promise(resolve => {
     const sellerID = sellerIDSelector();
@@ -684,31 +656,6 @@ export const updateSupplierDetails = (supplierID: string, details: any) => (disp
   });
 };
 
-export const updateSearch = (supplierID: string, other: any) => (dispatch: any) => {
-  return new Promise(resolve => {
-    const sellerID = sellerIDSelector();
-    const bodyFormData = new FormData();
-    bodyFormData.set('id', supplierID);
-    for (const param in other) {
-      bodyFormData.set(param, other[param]);
-    }
-    return Axios.patch(
-      AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}`,
-      bodyFormData
-    )
-      .then(json => {
-        dispatch(updateSupplier(json.data));
-        dispatch(setSearch(json.data));
-        resolve(json.data);
-      })
-      .catch(err => {
-        for (const er in err.response.data) {
-          error(err.response.data[er].length ? err.response.data[er][0] : err.response.data[er]);
-        }
-      });
-  });
-};
-
 export const setTimeEfficiency = (data: {}) => ({
   type: SET_TIME_EFFICIENCY,
   payload: data,
@@ -733,11 +680,6 @@ export const searchSupplierProducts = (value: string, filterData: any) => ({
     value: value,
     filterData: filterData,
   },
-});
-
-export const setSearch = (data: {}) => ({
-  type: SET_NEW_SEARCH,
-  payload: data,
 });
 
 export const setProgress = (value: number) => ({

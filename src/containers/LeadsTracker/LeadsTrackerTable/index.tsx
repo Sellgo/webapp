@@ -148,14 +148,14 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       {showNAIfZeroOrNull(row.roi, formatPercent(row.roi))}
     </p>
   );
-  renderAverage = (row: any) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(
-        row[`avg_${this.getActiveColumn()}`],
-        formatCurrency(row[`avg_${this.getActiveColumn()}`])
-      )}
-    </p>
-  );
+  renderAverage = (row: any) => {
+    const activeColumn = this.getActiveColumn();
+    const value = row[`avg_${activeColumn}`];
+    const updated = ['profit', 'price'].includes(activeColumn)
+      ? formatCurrency(value)
+      : formatPercent(value);
+    return <p className="stat">{showNAIfZeroOrNull(value, updated)}</p>;
+  };
   renderIndex = (row: any) => (
     <p className="stat">
       {showNAIfZeroOrNull(
@@ -166,16 +166,25 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
   );
 
   renderChange = (row: any) => {
-    const value = row[`change_${this.getActiveColumn()}_perc`];
-    const columnClass = `stat ${value < 0 ? 'change-low' : value > 0 ? 'change-high' : ''}`;
+    const activeColumn = this.getActiveColumn();
+    const value = row[`change_${activeColumn}_perc`];
+    const change = row[`change_${activeColumn}`];
+    const perc = value < 0 ? value * -1 : value;
+    const updated = change < 0 ? change * -1 : change;
+    const changeValue = showNAIfZeroOrNull(updated, updated);
+    const columnClass = `stat ${change < 0 ? 'change-low' : change > 0 ? 'change-high' : ''}`;
+    const hasValue = !['0.00', '-0.00', '0', '-'].includes(changeValue);
     return (
       <p className={columnClass}>
-        {value !== 0 && <Icon name={'arrow down'} />}
-        {showNAIfZeroOrNull(
-          row[`change_${this.getActiveColumn()}`],
-          row[`change_${this.getActiveColumn()}`]
-        )}
-        {value !== 0 && `(${row[`change_${this.getActiveColumn()}_perc`]}%)`}
+        {value !== 0 && hasValue && <Icon name={'arrow right'} />}
+        <span className="light-font">
+          {hasValue && changeValue}
+          {hasValue && !['profit', 'price'].includes(activeColumn) && '%'}
+          {hasValue && '\n'}
+
+          {updated !== 0 && hasValue && ['profit', 'price'].includes(activeColumn) && ` (${perc}%)`}
+        </span>
+        {!hasValue && '-'}
       </p>
     );
   };
@@ -303,39 +312,13 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       type: 'string',
       filterType: 'checkbox',
       searchIconPosition: 'left',
+      filter: true,
+      filterLabel: 'Search',
+      filterDataKey: 'search',
+      filterSign: '',
       show: true,
       className: 'lt-lg-col',
       render: this.renderProductInfo,
-    },
-    {
-      label: 'Search File',
-      dataKey: 'search',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: 'lt-md-col',
-      filter: true,
-      filterSign: '',
-      filterType: 'checkbox',
-      render: this.renderSearch,
-    },
-    {
-      label: 'Product ID',
-      dataKey: 'identifier',
-      type: 'number',
-      sortable: true,
-      show: true,
-      className: 'lt-md-col',
-      render: this.renderProductID,
-    },
-    {
-      label: 'ASIN',
-      dataKey: 'asin',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: 'lt-md-col',
-      render: this.renderASIN,
     },
     {
       label: 'Price',
@@ -411,7 +394,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       filter: true,
       filterSign: '$',
       show: true,
-      className: 'lt-md-col',
+      className: 'lt-md-col ltr-change',
       render: this.renderChange,
     },
     {
@@ -587,11 +570,11 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       <div className={`leads-table ${loading && 'disabled'}`}>
         <React.Fragment>
           <div style={{ display: 'flex' }}>
-            {columns.slice(0, 5).map((c: any, i: any) => (
+            {columns.slice(0, 2).map((c: any, i: any) => (
               <div className={c.className} key={`left-${i}`} />
             ))}
             <div className="lt-toggle-button-container" onScroll={onScroll}>
-              {columns.slice(5, 9).map((c: any, i: any) => (
+              {columns.slice(2, 6).map((c: any, i: any) => (
                 <div
                   className={`${c.className.replace('active-column', '')} ${
                     !!activeColumn && activeColumn.dataKey === c.dataKey
@@ -605,7 +588,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
                 </div>
               ))}
             </div>
-            {columns.slice(9, columns.length - 2).map((c: any, i: any) => (
+            {columns.slice(6, columns.length - 2).map((c: any, i: any) => (
               <div className={c.className} key={`left-${i}`} />
             ))}
             <div style={{ marginBottom: 5 }}>
@@ -660,6 +643,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
             count={totalRecords}
             loading={loading}
+            leftFixedColumns={2}
+            rightFixedColumns={6}
           />
         </React.Fragment>
       </div>

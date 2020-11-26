@@ -7,7 +7,12 @@ import TrackerMenu from './TrackerMenu';
 import { GenericTable, Column } from '../../../components/Table';
 import get from 'lodash/get';
 import ProductDescription from './TrackerProductDescription';
-import { formatNumber, formatCurrency, showNAIfZeroOrNull } from '../../../utils/format';
+import {
+  formatNumber,
+  formatCurrency,
+  showNAIfZeroOrNull,
+  truncateString,
+} from '../../../utils/format';
 import { tableKeys } from '../../../constants';
 import OtherSort from './OtherSort';
 import ProductCharts from '../../Synthesis/Supplier/ProductDetails/ProductCharts';
@@ -398,7 +403,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     );
   };
   renderIsAmazonSelling = (row: ProductTrackerDetails) => {
-    return <p className="stat">{row.is_amazon_selling ? 'Yes' : 'No'}</p>;
+    return (
+      <p className="stat">
+        {row.is_amazon_selling === null ? '-' : row.is_amazon_selling ? 'Yes' : 'No'}
+      </p>
+    );
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup, setProductEditDetails } = this.props;
@@ -420,6 +429,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       />
     );
   };
+  renderSource = (row: ProductTrackerDetails) => {
+    return <p>{truncateString(row.source, 53)}</p>;
+  };
 
   columns: Column[] = [
     {
@@ -430,6 +442,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderProductInfo,
       className: 'pt-product-info',
+    },
+    {
+      label: 'Source',
+      dataKey: 'source',
+      type: 'string',
+      sortable: true,
+      show: true,
+      render: this.renderSource,
+      className: 'pt-source',
     },
     {
       label: 'Avg\nPrice',
@@ -668,6 +689,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           defaultSort={this.state.defaultSort}
           onSort={defaultSort => this.setState({ defaultSort })}
           scrollToView={this.state.scrollView}
+          leftFixedColumns={1}
+          rightFixedColumns={1}
         />
 
         {editCost && (
@@ -738,6 +761,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                       <Button
                         content="Save"
                         primary
+                        disabled={product_cost > (parseFloat(costDetails.avg_price) / 100) * 150}
                         onClick={() =>
                           this.onEditProductCost({ ...costDetails, product_cost: product_cost })
                         }
