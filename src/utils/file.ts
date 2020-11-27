@@ -1,10 +1,12 @@
 import { PRODUCT_ID_TYPES, FieldsToMap } from '../constants/UploadSupplier';
 
-export const csvExtensions: any = ['.csv'];
+export const csvExtensions = ['.csv'];
 
-export const excelExtensions: any = ['.xlsx'];
+export const excelExtensions = ['.xlsx'];
 
-export const extensions: any = [...csvExtensions, ...excelExtensions];
+export const extensions = [...csvExtensions, ...excelExtensions];
+
+const NUM_DATA_ROWS_TO_GUESS_MAPPINGS = 5;
 
 export const getFileExtension = (file: File): string => {
   if (file && file.name.split('.').length > 1) {
@@ -23,19 +25,41 @@ export const getFileExtension = (file: File): string => {
  */
 export const guessPrimaryIdType = (fileStringArray: string[][]): string | null => {
   const header = fileStringArray.length ? fileStringArray[0] : []; // assume first row is header
+  // start at index 1 and end index+1 because of header row.
+  const firstFewDataRows =
+    fileStringArray.length && fileStringArray.length < NUM_DATA_ROWS_TO_GUESS_MAPPINGS + 1
+      ? fileStringArray.slice(1, fileStringArray.length)
+      : fileStringArray.slice(1, NUM_DATA_ROWS_TO_GUESS_MAPPINGS + 1);
+
+  let primaryId: string | null = null;
+  let headerIdIndex = -1;
 
   for (const idType of PRODUCT_ID_TYPES) {
-    const found =
-      header.findIndex(headerCell =>
-        String(headerCell)
-          .toLowerCase()
-          .includes(idType.toLowerCase())
-      ) !== -1;
-
-    if (found) return idType;
+    // find keyword in header cell.
+    headerIdIndex = header.findIndex(headerCell =>
+      String(headerCell)
+        .toLowerCase()
+        .includes(idType.toLowerCase())
+    );
+    if (headerIdIndex !== -1) {
+      primaryId = idType;
+      break;
+    }
   }
 
-  return null;
+  // If type UPC is found, do a specific check:
+  // If the length of more than half the values in the first few rows is 13,
+  // then we can coerce to EAN instead, since UPC is a subset of EAN.
+  if (primaryId === 'UPC' && headerIdIndex !== -1) {
+    let score = 0;
+    firstFewDataRows.forEach(row => {
+      const cell = row[headerIdIndex];
+      if (String(cell).length === 13) score++;
+    });
+    if (score > NUM_DATA_ROWS_TO_GUESS_MAPPINGS / 2) primaryId = 'EAN';
+  }
+
+  return primaryId;
 };
 
 /**
@@ -60,10 +84,23 @@ export const guessColumnMappings = (
     if (headerCell) {
       const keyIndex = mappingKeys.findIndex((key: string) => {
         if (key === 'primary_id' && primaryIdType) {
+          // accept UPCs for EAN primary id type
+          if (primaryIdType === 'EAN') {
+            return (
+              String(headerCell)
+                .toLowerCase()
+                .includes('ean') ||
+              String(headerCell)
+                .toLowerCase()
+                .includes('upc')
+            );
+          }
+
           return String(headerCell)
             .toLowerCase()
             .includes(primaryIdType.toLowerCase());
         }
+
         return String(headerCell)
           .toLowerCase()
           .includes(key.toLowerCase()); // find keyword in header cell

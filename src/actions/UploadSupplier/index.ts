@@ -163,7 +163,7 @@ export const parseExcel = (readOptions: any) => (
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
-      const data: string[][] = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: '' });
+      const data: string[][] = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' });
       dispatch(setFileStringArray(data));
     } catch {
       error('File does not appear to be a valid Excel file.');
