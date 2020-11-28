@@ -47,16 +47,32 @@ export const guessPrimaryIdType = (fileStringArray: string[][]): string | null =
     }
   }
 
-  // If type UPC is found, do a specific check:
-  // If the length of more than half the values in the first few rows is 13,
-  // then we can coerce to EAN instead, since UPC is a subset of EAN.
-  if (primaryId === 'UPC' && headerIdIndex !== -1) {
+  const _coerceBetweenUpcAndEan = (
+    initialPrimaryId: string,
+    headerIdIndex: number,
+    firstFewDataRows: string[][]
+  ) => {
+    if (!['UPC', 'EAN'].includes(initialPrimaryId)) {
+      return initialPrimaryId;
+    }
+
+    // If type UPC, check if >half of first few rows is 13 characters long, then coerce to EAN.
+    // If type EAN, check if >half of first few rows is 12 characters long, then coerce to UPC.
+    const checkLength = initialPrimaryId === 'UPC' ? 13 : 12;
     let score = 0;
     firstFewDataRows.forEach(row => {
       const cell = row[headerIdIndex];
-      if (String(cell).length === 13) score++;
+      if (String(cell).length === checkLength) score++;
     });
-    if (score > NUM_DATA_ROWS_TO_GUESS_MAPPINGS / 2) primaryId = 'EAN';
+    if (score > NUM_DATA_ROWS_TO_GUESS_MAPPINGS / 2) {
+      return initialPrimaryId === 'UPC' ? 'EAN' : 'UPC';
+    } else {
+      return initialPrimaryId;
+    }
+  };
+
+  if (primaryId) {
+    primaryId = _coerceBetweenUpcAndEan(primaryId, headerIdIndex, firstFewDataRows);
   }
 
   return primaryId;
@@ -84,8 +100,8 @@ export const guessColumnMappings = (
     if (headerCell) {
       const keyIndex = mappingKeys.findIndex((key: string) => {
         if (key === 'primary_id' && primaryIdType) {
-          // accept UPCs for EAN primary id type
           if (primaryIdType === 'EAN') {
+            // accept secondary header keyword 'upc' for EAN primary id type,
             return (
               String(headerCell)
                 .toLowerCase()
@@ -93,6 +109,16 @@ export const guessColumnMappings = (
               String(headerCell)
                 .toLowerCase()
                 .includes('upc')
+            );
+          } else if (primaryIdType === 'UPC') {
+            // and secondary header keyword 'ean' for UPC primary id type.
+            return (
+              String(headerCell)
+                .toLowerCase()
+                .includes('upc') ||
+              String(headerCell)
+                .toLowerCase()
+                .includes('ean')
             );
           }
 
