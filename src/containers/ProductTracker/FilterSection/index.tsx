@@ -13,7 +13,7 @@ interface FilterSectionProps {
   applyPresetFilter: (data: any) => void;
   localFilterData: any;
   resetPreset: () => void;
-  resetSingleFilter: (data: any, type: any) => void;
+  resetSingleFilter: (data: any, type: string) => void;
   setProfitability: (data: any) => void;
   setPeriod: (data: any) => void;
   filteredRanges: any;

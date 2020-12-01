@@ -43,13 +43,9 @@ const RangeFilterBox = (props: any) => {
     if (saved) {
       saved = JSON.parse(saved);
       if (filterType === 'checkbox') {
-        if (name !== 'leads-tracker') {
-          const checks = saved.value ? saved.value.split('|') : [];
-          setLocalData(checks);
-        } else {
-          const checks = saved.value ? saved.value.split(',') : [];
-          setLocalData(checks);
-        }
+        const delimiter = name !== 'leads-tracker' ? '|' : ',';
+        const checks = saved.value ? saved.value.split(delimiter) : [];
+        setLocalData(checks);
       }
       if (filterType === 'range') {
         if (filterNegativeCheckbox && saved.isNegative) {
@@ -119,12 +115,8 @@ const RangeFilterBox = (props: any) => {
 
   // @ts-ignore
   const hasChecked = (value: any) => localData.includes(value);
-  const isSelectAllChecked = () => {
-    return isSelectAll;
-  };
-  const negativeChecked = () => {
-    return isNegative;
-  };
+  const isSelectAllChecked = () => isSelectAll;
+  const negativeChecked = () => isNegative;
 
   const toggleNegative = () => {
     const temptMinMax: any = _.cloneDeep(values);

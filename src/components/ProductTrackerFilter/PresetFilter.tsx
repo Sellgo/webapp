@@ -9,7 +9,7 @@ interface PresetFilterProps {
   filterData: any;
   resetPreset: () => void;
   togglePresetFilter: (value: boolean) => void;
-  resetSingleFilter: (dataKey: any, type: any) => void;
+  resetSingleFilter: (dataKey: any, type: string) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
@@ -189,9 +189,7 @@ const PresetFilter = (props: PresetFilterProps) => {
                   <input
                     id={filter.dataKey}
                     checked={isPresetChecked(filter.dataKey)}
-                    onChange={() => {
-                      setCustomizableValuesData(filter.dataKey, 'toggle');
-                    }}
+                    onChange={() => setCustomizableValuesData(filter.dataKey, 'toggle')}
                     type="checkbox"
                   />
                   <label className="customizable-checkbox__label" htmlFor={filter.dataKey}>
@@ -201,21 +199,15 @@ const PresetFilter = (props: PresetFilterProps) => {
                     <Dropdown.Menu>
                       <Dropdown.Item
                         text="≤"
-                        onClick={() => {
-                          setCustomizableValuesData(filter.dataKey, 'operation', '≤');
-                        }}
+                        onClick={() => setCustomizableValuesData(filter.dataKey, 'operation', '≤')}
                       />
                       <Dropdown.Item
                         text="="
-                        onClick={() => {
-                          setCustomizableValuesData(filter.dataKey, 'operation', '=');
-                        }}
+                        onClick={() => setCustomizableValuesData(filter.dataKey, 'operation', '=')}
                       />
                       <Dropdown.Item
                         text="≥"
-                        onClick={() => {
-                          setCustomizableValuesData(filter.dataKey, 'operation', '≥');
-                        }}
+                        onClick={() => setCustomizableValuesData(filter.dataKey, 'operation', '≥')}
                       />
                     </Dropdown.Menu>
                   </Dropdown>
@@ -235,9 +227,9 @@ const PresetFilter = (props: PresetFilterProps) => {
                           }
                         }
                       }}
-                      onChange={evt => {
-                        setCustomizableValuesData(filter.dataKey, 'filter-value', evt.target.value);
-                      }}
+                      onChange={evt =>
+                        setCustomizableValuesData(filter.dataKey, 'filter-value', evt.target.value)
+                      }
                     />
                   </div>
                   {filter.targetValue !== undefined && filter.targetValue}

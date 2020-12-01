@@ -87,7 +87,6 @@ const ProfitabilityFilterPreset = (props: Props) => {
       className={`profitability-preset ${isActivated() ? 'blue' : 'basic'}`}
       onClick={() => {
         handleClick();
-        // applyFilter(true);
       }}
     >
       <Button className="profitability-preset-btn">

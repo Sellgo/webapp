@@ -79,11 +79,11 @@ export interface GenericTableProps {
   middleScroll?: boolean;
   rowExpander?: any;
   pageCount?: any;
-  toggleColumnFilters?: (data: any, type?: any) => void;
+  toggleColumnFilters?: (data: any, type?: string) => void;
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
-  resetColumnFilters?: (dataKey: string, type?: any) => void;
+  resetColumnFilters?: (dataKey: string, type: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
   loading?: boolean;

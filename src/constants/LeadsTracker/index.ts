@@ -1,5 +1,3 @@
-import { FilterData } from '../../interfaces/Filters';
-
 export const SET_LEADS = 'SET_LEADS';
 export const SET_FETCHING_KPI = 'SET_FETCHING_KPI';
 export const SET_PAGE_NO = 'SET_PAGE_NO';
@@ -18,7 +16,7 @@ export const SET_LEADS_TRACKER_SINGLE_PAGE_ITEMS_COUNT =
 
 export const DEFAULT_PERIOD = 1;
 
-export const filterPeriods: FilterData = {
+export const filterPeriods = {
   label: 'Period Reference',
   dataKey: 'period-reference',
   radio: true,

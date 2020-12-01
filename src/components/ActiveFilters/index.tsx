@@ -69,12 +69,7 @@ const ActiveFilters = (props: any) => {
           </label>
 
           <div className={`active-filters-wrapper__items-wrapper `}>
-            <ScrollContainer
-              ref={activeFilterRef}
-              className="scroll-container"
-              vertical={false}
-              // ignoreElements={'.custom-form-control'}
-            >
+            <ScrollContainer ref={activeFilterRef} className="scroll-container" vertical={false}>
               {_.map(filtersData, (filter: any, index: any) => {
                 if (filter.type === 'range') {
                   return (

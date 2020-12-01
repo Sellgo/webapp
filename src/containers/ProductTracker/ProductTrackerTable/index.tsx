@@ -97,7 +97,7 @@ interface TrackerProps {
   costDetails: any;
   setProductEditDetails: (payload: any) => void;
   updateCost: (payload: any) => void;
-  filterProducts: (filterData: any, groupId: any) => void;
+  filterProducts: (filterData: NewFilterModel[], groupId: any) => void;
   activeGroupId: any;
   filterRanges: any;
   fetchAllTrackedProductDetails: (periodValue: any) => void;
@@ -773,7 +773,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
   };
 
-  resetSingleFilter = (dataKey: any, type: string) => {
+  resetSingleFilter = (dataKey: any, type?: string) => {
     const { filterProducts, activeGroupId } = this.props;
     const localFilterData = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
     const filterActive = JSON.parse(
@@ -1441,7 +1441,8 @@ const mapDispatchToProps = {
     updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, type),
   setProductEditDetails: (payload: any) => setProductDetails(payload),
   updateCost: (payload: any) => updateProductCost(payload),
-  filterProducts: (filterData: any, groupId: any) => filterTrackedProducts(filterData, groupId),
+  filterProducts: (filterData: NewFilterModel[], groupId: any) =>
+    filterTrackedProducts(filterData, groupId),
   fetchAllTrackedProductDetails: (periodValue: any) =>
     fetchAllSupplierProductTrackerDetails(periodValue),
   isTrackerFilterLoading: (data: boolean) => isTrackerFilterLoading(data),

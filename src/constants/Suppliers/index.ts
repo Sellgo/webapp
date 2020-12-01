@@ -85,7 +85,8 @@ export const sizeTiers: any = [
   'Large standard-size',
   'Small oversize',
   'Medium oversize',
-  'Over oversize',
+  'Large oversize',
+  'Special oversize',
   'Others',
 ];
 

@@ -132,21 +132,15 @@ const PresetFilter = (props: PresetFilterProps) => {
                   <Dropdown.Menu>
                     <Dropdown.Item
                       text="≤"
-                      onClick={() => {
-                        setLocalData(filter.dataKey, 'operation', '≤');
-                      }}
+                      onClick={() => setLocalData(filter.dataKey, 'operation', '≤')}
                     />
                     <Dropdown.Item
                       text="="
-                      onClick={() => {
-                        setLocalData(filter.dataKey, 'operation', '=');
-                      }}
+                      onClick={() => setLocalData(filter.dataKey, 'operation', '=')}
                     />
                     <Dropdown.Item
                       text="≥"
-                      onClick={() => {
-                        setLocalData(filter.dataKey, 'operation', '≥');
-                      }}
+                      onClick={() => setLocalData(filter.dataKey, 'operation', '≥')}
                     />
                   </Dropdown.Menu>
                 </Dropdown>
@@ -162,9 +156,7 @@ const PresetFilter = (props: PresetFilterProps) => {
                         }
                       }
                     }}
-                    onChange={evt => {
-                      setLocalData(filter.dataKey, 'filter-value', evt.target.value);
-                    }}
+                    onChange={evt => setLocalData(filter.dataKey, 'filter-value', evt.target.value)}
                   />
                 </div>
                 {filter.targetValue !== undefined && filter.targetValue}
