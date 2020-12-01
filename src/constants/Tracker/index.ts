@@ -70,6 +70,10 @@ export const filterKeys: any = [
   'avg_roi',
   'avg_rank',
   'customer_reviews',
+  'weight',
+  'avg_daily_revenue',
+  'avg_inventory',
+  'avg_amazon_inventory',
 ];
 // Meta data for each dataKeys above used for filers
 export const trackerDataKeysMapping: any = {
@@ -107,6 +111,12 @@ export const trackerDataKeysMapping: any = {
     filterSign: '',
     filterType: 'range',
   },
+  avg_daily_revenue: {
+    filter: true,
+    filterLabel: 'Avg Daily Revenue',
+    filterSign: '',
+    filterType: 'range',
+  },
   avg_roi: {
     filter: true,
     filterLabel: 'ROI',
@@ -114,6 +124,12 @@ export const trackerDataKeysMapping: any = {
     filterType: 'range',
   },
   avg_rank: {
+    filter: true,
+    filterLabel: 'Rank',
+    filterSign: '',
+    filterType: 'range',
+  },
+  weight: {
     filter: true,
     filterLabel: 'Rank',
     filterSign: '',
@@ -131,6 +147,24 @@ export const trackerDataKeysMapping: any = {
     filterSign: '',
     filterType: 'checkbox',
     filterCheckboxWithSelectAll: true,
+  },
+  avg_inventory: {
+    filter: true,
+    filterLabel: 'Avg Inventory',
+    filterSign: '',
+    filterType: 'range',
+  },
+  avg_amazon_inventory: {
+    filter: true,
+    filterLabel: 'Avg Amazon Inventory',
+    filterSign: '',
+    filterType: 'range',
+  },
+  is_amazon_selling: {
+    filter: true,
+    filterLabel: 'Is Amazon Selling',
+    filterSign: '',
+    filterType: 'checkbox',
   },
 };
 
@@ -251,9 +285,13 @@ export const presetsFilterData: any = {
 
 export const ratingDataMapping: any = ['1-star', '2-star', '3-star', '4-star', '5-star'];
 
+export const amazonSelling: any = ['True', 'False'];
+
 export const getProductTrackerCheckBoxData = (dk: any) => {
   if (dk === 'rating') {
     return ratingDataMapping;
+  } else if (dk === 'is_amazon_selling') {
+    return amazonSelling;
   }
 };
 
@@ -491,6 +529,8 @@ const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
     (filter: any) =>
       filter.value.includes(product[filter.dataKey]) ||
       (_.isEmpty(product[filter.dataKey]) && filter.value.includes('Others')) ||
+      //only for is amazon selling checkbox filter
+      filter.value.toLowerCase().includes(product[filter.dataKey]) ||
       //only for rating checkbox filter
       (filter.dataKey === 'rating' &&
         filter.value.includes(JSON.stringify(Math.trunc(product.rating))))

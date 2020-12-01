@@ -571,6 +571,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderDailyRevenue,
+      ...trackerDataKeysMapping.avg_daily_revenue,
     },
     {
       label: 'Avg\nROI',
@@ -605,6 +606,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderWeight,
+      ...trackerDataKeysMapping.weight,
     },
     {
       label: 'Reviews',
@@ -631,6 +633,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgInventory,
+      ...trackerDataKeysMapping.avg_inventory,
     },
     {
       label: 'Is Amazon\nSelling',
@@ -638,6 +641,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       type: 'boolean',
       show: true,
       sortable: true,
+      ...trackerDataKeysMapping.is_amazon_selling,
       render: this.renderIsAmazonSelling,
     },
     {
@@ -647,6 +651,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgAmazonInventory,
+      ...trackerDataKeysMapping.avg_amazon_inventory,
       className: 'pt-avg_amazon_inventory',
     },
     {
