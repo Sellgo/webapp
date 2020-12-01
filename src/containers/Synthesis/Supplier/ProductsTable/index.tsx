@@ -524,6 +524,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'boolean',
       show: true,
       sortable: true,
+      ...supplierDataKeysMapping.is_amazon_selling,
       render: this.renderIsAmazon,
     },
     {
