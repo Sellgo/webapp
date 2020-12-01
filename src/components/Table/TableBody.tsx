@@ -13,6 +13,8 @@ interface TableBodyProps {
   rowExpander?: any;
   loading?: boolean;
   scrollToView?: boolean;
+  leftFixedColumns: number;
+  rightFixedColumns: number;
 }
 
 interface TableColumnCellProps {
@@ -97,6 +99,8 @@ export const TableBody = (props: TableBodyProps) => {
     rowExpander,
     loading,
     scrollToView,
+    leftFixedColumns,
+    rightFixedColumns,
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, columnFilterData));
 
@@ -130,16 +134,13 @@ export const TableBody = (props: TableBodyProps) => {
 
   if (middleScroll) {
     const isTypeProducts = type === 'products';
-    const lowerBound = filteredColumns.slice(0, isTypeProducts ? 2 : 2);
-    const middleBound = filteredColumns.slice(
-      isTypeProducts ? 2 : 2,
-      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6
-    );
+    const leftBound = leftFixedColumns ? leftFixedColumns : 0;
+    const rightBound = rightFixedColumns ? rightFixedColumns : 0;
     const bound = isTypeProducts ? filteredColumns.length - 1 : filteredColumns.length;
-    const upperBound = filteredColumns.slice(
-      isTypeProducts ? filteredColumns.length - 2 : filteredColumns.length - 6,
-      bound
-    );
+    const lowerBound = filteredColumns.slice(0, leftBound);
+    const middleBound = filteredColumns.slice(leftBound, filteredColumns.length - rightBound);
+    const upperBound = filteredColumns.slice(filteredColumns.length - rightBound, bound);
+
     let timer: NodeJS.Timeout | undefined = undefined;
     const onBodyScroll = (evt: any) => {
       const leadsHeader = document.querySelector('.leads-tracker-middle');
@@ -177,86 +178,11 @@ export const TableBody = (props: TableBodyProps) => {
         rows: upperBound,
       },
     ];
-
-    if (type === 'trackerTable') {
-      const style = { height: '6em' };
-      return (
-        <Table.Body className={`tracker-body ${loading && 'disabled'}`}>
-          {rows.length ? (
-            rows.map((row: any, index) => (
-              <React.Fragment key={`${index}-tb-fragment`}>
-                <tr>
-                  <td colSpan={columns.length} className="hidden-arrow-row">
-                    {rowExpander(row)}
-                  </td>
-                </tr>
-
-                <Table.Row
-                  key={`${Date.now() + index}--tb-row`}
-                  style={style}
-                  className={filteredColumns.length > 2 ? 'ptr-row' : ''}
-                >
-                  {filteredColumns.length === 2 && (
-                    <td
-                      colSpan={columns.length - 2}
-                      key={`${index}-blank-row`}
-                      style={{ height: '6.05em' }}
-                      className={
-                        expandedRows && expandedRows === row.id ? 'remove-bottom-border' : ''
-                      }
-                    />
-                  )}
-                  {columns.map(
-                    (column, colIndex) =>
-                      getColumnLabel(column.dataKey, columnFilterData) && (
-                        <TableCell
-                          type={type}
-                          column={column}
-                          row={row}
-                          key={`${Date.now() + colIndex}--tb-cell`}
-                          className={
-                            expandedRows && expandedRows === row.id
-                              ? 'remove-bottom-border'
-                              : filteredColumns.length === 3 && colIndex === 1
-                              ? 'ptr-left-cell'
-                              : ''
-                          }
-                        />
-                      )
-                  )}
-                </Table.Row>
-
-                {expandedRows && expandedRows === row.id && extendedInfo && (
-                  <React.Fragment>
-                    <Table.Row key={index + '-extended'}>
-                      <Table.Cell
-                        colSpan={columns.length - 1}
-                        className={
-                          expandedRows && expandedRows === row.id
-                            ? 'remove-top-border'
-                            : 'graph-view'
-                        }
-                      >
-                        {''}
-                        {expandedRows === row.id && extendedInfo(row)}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row key={index + '-extended' + row.id}>
-                      <Table.Cell colSpan={columns.length - 1} className="graph-view-container " />
-                    </Table.Row>
-                    <tr style={{ height: '8px' }} />
-                  </React.Fragment>
-                )}
-              </React.Fragment>
-            ))
-          ) : (
-            <tr />
-          )}
-        </Table.Body>
-      );
-    }
+    const style = type === 'trackerTable' ? { width: '100%' } : {};
     return (
-      <Table.Body>
+      <Table.Body
+        className={type === 'trackerTable' ? `tracker-body ${loading && 'disabled'}` : ''}
+      >
         <Table.Row className="middle-body-column">
           {scrollRows.map((cell: any) => {
             let className = '';
@@ -272,6 +198,7 @@ export const TableBody = (props: TableBodyProps) => {
                   type === 'leads-tracker' ? 'lt-border leads-tracker-middle' : ''
                 }`,
                 onScroll: onBodyScroll,
+                style: style,
               };
               if (filteredColumns.length === 4) {
                 tableDataProps = {
@@ -297,26 +224,79 @@ export const TableBody = (props: TableBodyProps) => {
                   <tbody className="inner-tbody">
                     {rows.length ? (
                       rows.map((row: any, index: any) => (
-                        <Table.Row
-                          className={className}
-                          key={`--tb-row--${cell.side}-inner-row--${index}`}
-                          style={filteredColumns.length === 4 ? { height: '46px' } : {}}
-                        >
-                          {filteredColumns.length === 4 && cell.side === 'center' && (
-                            <td colSpan={columns.length - 3}>&nbsp;</td>
+                        <React.Fragment key={`--tb-row--${cell.side}-inner-row--${index}`}>
+                          {type === 'trackerTable' && (
+                            <tr>
+                              <td colSpan={3} className="hidden-arrow-row">
+                                {cell.side === 'center' && rowExpander(row)}
+                              </td>
+                            </tr>
                           )}
-                          {cell.rows.map(
-                            (column: any, colIndex: any) =>
-                              getColumnLabel(column.dataKey, columnFilterData) && (
-                                <TableCell
-                                  type={type}
-                                  column={column}
-                                  row={row}
-                                  key={`${colIndex}--tb-cell--${cell.side}`}
-                                />
-                              )
-                          )}
-                        </Table.Row>
+                          <Table.Row
+                            className={className}
+                            style={
+                              filteredColumns.length === 4
+                                ? { height: '46px' }
+                                : filteredColumns.length === 2
+                                ? { height: '56px' }
+                                : {}
+                            }
+                          >
+                            {filteredColumns.length === 4 && cell.side === 'center' && (
+                              <td colSpan={columns.length - 3}>&nbsp;</td>
+                            )}
+                            {filteredColumns.length === 2 && cell.side === 'center' && (
+                              <td
+                                colSpan={columns.length - 2}
+                                className={'ptr-cell ptr-blank-cell'}
+                              >
+                                &nbsp;
+                              </td>
+                            )}
+                            {cell.rows.map(
+                              (column: any, colIndex: any) =>
+                                getColumnLabel(column.dataKey, columnFilterData) && (
+                                  <React.Fragment>
+                                    <TableCell
+                                      type={type}
+                                      column={column}
+                                      row={row}
+                                      key={`${colIndex}--tb-cell--${cell.side}`}
+                                      className={
+                                        expandedRows && expandedRows === row.id
+                                          ? 'remove-bottom-border'
+                                          : ''
+                                      }
+                                    />
+                                  </React.Fragment>
+                                )
+                            )}
+                          </Table.Row>
+                          {expandedRows &&
+                            expandedRows === row.id &&
+                            extendedInfo &&
+                            type === 'trackerTable' && (
+                              <React.Fragment>
+                                <Table.Row key={index + '-extended'}>
+                                  <Table.Cell
+                                    colSpan={3}
+                                    className={
+                                      expandedRows && expandedRows === row.id
+                                        ? 'remove-top-border'
+                                        : 'graph-view'
+                                    }
+                                  >
+                                    {''}
+                                    {expandedRows === row.id && extendedInfo(row)}
+                                  </Table.Cell>
+                                </Table.Row>
+                                <Table.Row key={index + '-extended' + row.id}>
+                                  <Table.Cell colSpan={3} className="graph-view-container " />
+                                </Table.Row>
+                                <tr style={{ height: '8px' }} />
+                              </React.Fragment>
+                            )}
+                        </React.Fragment>
                       ))
                     ) : (
                       <tr />

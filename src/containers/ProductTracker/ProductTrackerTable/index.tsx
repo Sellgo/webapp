@@ -1302,6 +1302,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           filtersData={productTrackerFilterState}
           toggleActiveFilter={this.toggleActiveFilter}
           resetSingleFilter={this.resetSingleFilter}
+          leftFixedColumns={1}
+          rightFixedColumns={1}
         />
 
         {editCost && (

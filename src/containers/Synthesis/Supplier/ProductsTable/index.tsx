@@ -1360,6 +1360,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               filtersData={profitFinderFilterState}
               toggleActiveFilter={this.toggleActiveFilter}
               resetSingleFilter={this.resetSingleFilter}
+              leftFixedColumns={2}
+              rightFixedColumns={2}
             />
           </>
         )}

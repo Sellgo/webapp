@@ -498,6 +498,12 @@ i.icon.filter::before {
   width: 18% !important;
 }
 
+.left-fixed-header-column-ptr {
+  @extend .left-fixed-header-column;
+
+  border: none !important;
+}
+
 .table-scroll-divider {
   height: 3px;
 }
@@ -865,8 +871,8 @@ i.icon.filter::before {
   }
 
   .default-column {
-    width: 150px !important;
-    min-width: 150px !important;
+    width: 100px !important;
+    min-width: 100px !important;
   }
 
   .product-description {

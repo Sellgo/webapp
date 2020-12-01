@@ -642,6 +642,8 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
             cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
             count={totalRecords}
             loading={loading}
+            leftFixedColumns={2}
+            rightFixedColumns={6}
           />
         </React.Fragment>
       </div>

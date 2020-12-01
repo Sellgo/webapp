@@ -92,6 +92,8 @@ export interface GenericTableProps {
   filtersData?: any;
   toggleActiveFilter?: (data: any) => void;
   resetSingleFilter?: (dataKey: any, type: any) => void;
+  leftFixedColumns?: number;
+  rightFixedColumns?: number;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -172,6 +174,8 @@ export const GenericTable = (props: GenericTableProps) => {
     filtersData,
     toggleActiveFilter,
     resetSingleFilter,
+    leftFixedColumns,
+    rightFixedColumns,
   } = props;
 
   const initialPage = currentPage ? currentPage : 1;
@@ -382,10 +386,10 @@ export const GenericTable = (props: GenericTableProps) => {
   return (
     <div
       className={`generic-table ${name !== 'leads-tracker' ? 'scrollable' : 'lt-table'}  ${
-        name === 'products' ? 'pf-table' : ''
+        ['products', 'trackerTable'].includes(name) ? 'pf-table' : ''
       }`}
       onScroll={handleScroll}
-      style={{ paddingBottom: rows.length < 8 ? 150 : 10 }}
+      style={{ paddingBottom: rows.length < 8 ? 150 : 70 }}
     >
       {showProductFinderSearch ? (
         <div
@@ -413,7 +417,7 @@ export const GenericTable = (props: GenericTableProps) => {
         unstackable={true}
         className={`${
           name === 'trackerTable'
-            ? 'alter-table'
+            ? 'alter-table pf-table'
             : name === 'products' || name === 'leads-tracker'
             ? 'pf-table'
             : ''
@@ -449,6 +453,8 @@ export const GenericTable = (props: GenericTableProps) => {
           loadingFilters={loadingFilters}
           filterValues={filterValues}
           resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
+          leftFixedColumns={leftFixedColumns ? leftFixedColumns : 0}
+          rightFixedColumns={rightFixedColumns ? rightFixedColumns : 0}
         />
         {name === 'leads-tracker' && count < 1 && !loading ? (
           <ConstructionImage />
@@ -464,6 +470,8 @@ export const GenericTable = (props: GenericTableProps) => {
             rowExpander={rowExpander}
             loading={loading}
             scrollToView={scrollToView}
+            leftFixedColumns={leftFixedColumns ? leftFixedColumns : 0}
+            rightFixedColumns={rightFixedColumns ? rightFixedColumns : 0}
           />
         )}
 
