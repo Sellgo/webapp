@@ -1,0 +1,35 @@
+.export-result-as {
+  width: 342px !important;
+  padding: 10px;
+  color: #3b4557;
+  border-radius: 1.285714rem !important;
+
+  .export-format {
+    margin: 15px 0 0 !important;
+  }
+
+  .export-data {
+    margin: 15px 0 0 !important;
+  }
+
+  .export-input {
+    width: 100% !important;
+    border: 1px solid #98aeca !important;
+    border-radius: 8px !important;
+  }
+
+  .export-btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 25px;
+
+    > button {
+      border: 1px solid #707070;
+      border-radius: 16px !important;
+      height: 32px;
+      width: 120px;
+      line-height: 0 !important;
+    }
+  }
+}

@@ -233,3 +233,16 @@ export const setSupplierProductDetailChartKPI = (data: any) => ({
 export const resetSupplierProductDetails = () => ({
   type: RESET_SUPPLIER_PRODUCT_DETAILS,
 });
+
+export const exportResults = async (payload: any) => {
+  try {
+    console.log(payload);
+    const res = await Axios.post(
+      AppConfig.BASE_URL_API + 'sellers/1000000001/suppliers/2000000001/synthesis/export',
+      payload
+    );
+    return res.data;
+  } catch (e) {
+    console.log('error', e);
+  }
+};

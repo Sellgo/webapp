@@ -325,3 +325,6 @@ export const addTempDataToProducts = (products: any) => {
     };
   });
 };
+
+export const EXPORT_FORMATS = [{ key: 'csv', value: 'csv', text: 'CSV' }];
+export const EXPORT_DATA = [{ key: 'filtered', value: 'filtered', text: 'Filtered Results' }];

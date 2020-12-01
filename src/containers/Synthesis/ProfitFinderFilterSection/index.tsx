@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { Button, Icon, Image, Modal, Popup, List } from 'semantic-ui-react';
+import { Button, Icon, Modal, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
@@ -17,11 +17,12 @@ import { Range } from '../../../interfaces/Generic';
 import _ from 'lodash';
 import FilterContainer from '../../../components/FilterContainer';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
-import msExcelIcon from '../../../assets/images/microsoft-excel.png';
-import csvIcon from '../../../assets/images/csv.svg';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
 import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
+import ExportResultAs from '../../../components/ExportResultAs';
+import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
+import { exportResults } from '../../../actions/Products';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -583,6 +584,7 @@ function ProfitFinderFilterSection(props: Props) {
 
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
+  const [exportResult, setExportResult] = React.useState(false);
 
   const toggleSizeTierFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
@@ -998,37 +1000,35 @@ function ProfitFinderFilterSection(props: Props) {
 
   const renderExportButtons = () => {
     return (
-      <Popup
-        className="export__list"
-        trigger={
-          <Button
-            className={`selection export-wrapper__dropdown`}
-            content={<Image src={csvIcon} wrapped={true} />}
-            icon="caret down"
-          />
-        }
-        content={
-          <List divided>
-            <List.Item disabled={_.isEmpty(supplierDetails.report_url_csv)}>
-              <a href={supplierDetails.report_url_csv}>
-                <Image src={csvIcon} wrapped={true} />
-                <span>{`.CSV`}</span>
-              </a>
-            </List.Item>
-            <List.Item disabled={_.isEmpty(supplierDetails.report_url)}>
-              <a href={supplierDetails.report_url}>
-                <Image src={msExcelIcon} wrapped={true} />
-                <span>{`.XSLS`}</span>
-              </a>
-            </List.Item>
-          </List>
-        }
-        position="bottom center"
-        on="click"
-        basic
-        hideOnScroll
-      />
+      <Button basic color="blue" onClick={() => setExportResult(true)}>
+        Export As
+      </Button>
     );
+  };
+
+  const onExportResults = async (value: any) => {
+    try {
+      const { filteredProducts, supplierDetails, products } = props;
+      const psd_ids =
+        value.data === 'filtered'
+          ? filteredProducts.map((p: Product) => p.id)
+          : products.map((p: Product) => p.id);
+      const file_format = value.format;
+      const synthesis_file_id = supplierDetails.synthesis_file_id;
+
+      const blob = await exportResults({ psd_ids, file_format, synthesis_file_id });
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = `${value.data}-${Date.now()}.${value.format}`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      await setExportResult(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const isScrollTop = props.scrollTopSelector ? 'scroll-top' : '';
@@ -1155,6 +1155,13 @@ function ProfitFinderFilterSection(props: Props) {
           />
         </Modal.Content>
       </Modal>
+      <ExportResultAs
+        open={exportResult}
+        formats={EXPORT_FORMATS}
+        data={EXPORT_DATA}
+        onClose={() => setExportResult(false)}
+        onExport={onExportResults}
+      />
     </div>
   );
 }
