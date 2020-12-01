@@ -426,6 +426,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.fees,
       render: this.renderFee,
     },
     {
@@ -494,6 +495,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.fba_fee,
       render: this.renderFbaFee,
     },
     {
@@ -503,6 +505,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.referral_fee,
       render: this.renderReferralFee,
     },
     {
@@ -512,6 +515,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      ...supplierDataKeysMapping.variable_closing_fee,
       render: this.renderVariableClosingFee,
     },
     {
@@ -537,6 +541,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      ...supplierDataKeysMapping.rating,
       render: this.renderRating,
     },
     {
@@ -546,6 +551,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      ...supplierDataKeysMapping.num_fba_new_offers,
       render: this.renderNumFbaNewOffers,
     },
     {
@@ -555,6 +561,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      ...supplierDataKeysMapping.num_fbm_new_offers,
       render: this.renderNumFbmNewOffers,
     },
     {
@@ -564,6 +571,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.low_new_fba_price,
       render: this.renderLowNewFbaPrice,
     },
     {
@@ -573,6 +581,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.low_new_fbm_price,
       render: this.renderLowNewFbmPrice,
     },
     {
@@ -582,6 +591,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_quantity,
       render: this.renderMultipackQuantity,
     },
     {

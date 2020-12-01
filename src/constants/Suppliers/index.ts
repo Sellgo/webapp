@@ -89,6 +89,18 @@ export const sizeTiers: any = [
   'Others',
 ];
 
+export const ratings: any = ['1-star', '2-star', '3-star', '4-star', '5-star'];
+
+export const getProfitFinderCheckBoxData = (dk: any) => {
+  if (dk === 'amazon_category_name') {
+    return productCategories;
+  } else if (dk === 'size_tier') {
+    return sizeTiers;
+  } else if (dk === 'rating') {
+    return ratings;
+  }
+};
+
 export const customizablePresetData: any = [
   {
     label: 'Listing generates',
@@ -148,14 +160,6 @@ export const customizablePresetData: any = [
   },
 ];
 
-export const getProfitFinderCheckBoxData = (dk: any) => {
-  if (dk === 'amazon_category_name') {
-    return productCategories;
-  } else if (dk === 'size_tier') {
-    return sizeTiers;
-  }
-};
-
 export const dataKeys: any = [
   // Basic KPI
   'profit',
@@ -171,9 +175,17 @@ export const dataKeys: any = [
 export const supplierDataKeys: any = [
   'price',
   'product_cost',
+  'fees',
   'multipack_profit',
   'multipack_margin',
   'monthly_revenue',
+  'fba_fee',
+  'referral_fee',
+  'variable_closing_fee',
+  'num_fba_new_offers',
+  'num_fbm_new_offers',
+  'low_new_fba_price',
+  'low_new_fbm_price',
   'multipack_roi',
   'rank',
   'sales_monthly',
@@ -196,6 +208,12 @@ export const supplierDataKeysMapping: any = {
     filterSign: '$',
     filterType: 'range',
   },
+  fees: {
+    filter: true,
+    filterLabel: 'Total Fees',
+    filterSign: '$',
+    filterType: 'range',
+  },
   multipack_profit: {
     filter: true,
     filterLabel: 'Profit',
@@ -214,6 +232,54 @@ export const supplierDataKeysMapping: any = {
     filter: true,
     filterLabel: 'Monthly Revenue',
     filterSign: '$',
+    filterType: 'range',
+  },
+  fba_fee: {
+    filter: true,
+    filterLabel: 'FBA fee',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  referral_fee: {
+    filter: true,
+    filterLabel: 'Referral fee',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  variable_closing_fee: {
+    filter: true,
+    filterLabel: 'Variable Closing Fee',
+    filterSign: '',
+    filterType: 'range',
+  },
+  num_fba_new_offers: {
+    filter: true,
+    filterLabel: 'Num New FBA Offers',
+    filterSign: '',
+    filterType: 'range',
+  },
+  num_fbm_new_offers: {
+    filter: true,
+    filterLabel: 'Num New FBM Offers',
+    filterSign: '',
+    filterType: 'range',
+  },
+  low_new_fba_price: {
+    filter: true,
+    filterLabel: 'Low New FBA Offers',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  low_new_fbm_price: {
+    filter: true,
+    filterLabel: 'Low New FBM Offers',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  multipack_quantity: {
+    filter: true,
+    filterLabel: 'Package Quantity',
+    filterSign: '',
     filterType: 'range',
   },
   multipack_roi: {
@@ -253,6 +319,13 @@ export const supplierDataKeysMapping: any = {
     filterLabel: 'Customer Reviews',
     filterSign: '',
     filterType: 'range',
+  },
+  rating: {
+    filter: true,
+    filterLabel: 'Rating',
+    filterSign: '',
+    filterType: 'checkbox',
+    filterCheckboxWithSelectAll: true,
   },
 };
 
@@ -469,7 +542,10 @@ const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
       //only for amazon-category checkbox filter
       (filter.dataKey === 'amazon_category_name' &&
         productCategories.indexOf(product.amazon_category_name) === -1 &&
-        filter.value.includes('Others'))
+        filter.value.includes('Others')) ||
+      //only for rating checkbox filter
+      (filter.dataKey === 'rating' &&
+        filter.value.includes(JSON.stringify(Math.trunc(product.rating))))
   );
 };
 
