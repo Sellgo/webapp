@@ -1016,7 +1016,10 @@ function ProfitFinderFilterSection(props: Props) {
       const file_format = value.format;
       const synthesis_file_id = supplierDetails.synthesis_file_id;
 
-      const blob = await exportResults({ psd_ids, file_format, synthesis_file_id });
+      const blob = await exportResults(
+        { psd_ids, file_format, synthesis_file_id },
+        supplierDetails.supplier_id
+      );
       const url = window.URL.createObjectURL(new Blob([blob]));
       const a = document.createElement('a');
       a.style.display = 'none';

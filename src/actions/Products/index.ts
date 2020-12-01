@@ -234,11 +234,12 @@ export const resetSupplierProductDetails = () => ({
   type: RESET_SUPPLIER_PRODUCT_DETAILS,
 });
 
-export const exportResults = async (payload: any) => {
+export const exportResults = async (payload: any, supplierID: any) => {
   try {
-    console.log(payload);
+    const sellerID = sellerIDSelector();
+
     const res = await Axios.post(
-      AppConfig.BASE_URL_API + 'sellers/1000000001/suppliers/2000000001/synthesis/export',
+      AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis/export`,
       payload
     );
     return res.data;
