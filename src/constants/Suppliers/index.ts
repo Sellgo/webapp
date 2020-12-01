@@ -112,7 +112,7 @@ export const customizablePresetData: any = [
   },
   {
     label: 'Profit Margin is',
-    dataKey: 'margin',
+    dataKey: 'multipack_margin',
     defaultOperation: '≥',
     defaultValue: 15,
     targetValue: '%',
@@ -266,7 +266,7 @@ export const dataKeyMapping: any = {
     showInputs: true,
     groupId: 'basic',
   },
-  margin: {
+  multipack_margin: {
     text: 'Profit Margin (%)',
     presetText: 'Max Profit Margin (%)',
     showSlider: true,
