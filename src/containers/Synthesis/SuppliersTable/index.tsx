@@ -70,6 +70,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     showDeleteConfirm: false,
     exportResult: {
       report_url: undefined,
+      file_name: '',
     },
   };
 
@@ -465,12 +466,13 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           open={this.state.exportResult.report_url !== undefined}
           data={EXPORT_DATA}
           formats={EXPORT_FORMATS}
+          format={this.state.exportResult.file_name.split('.').pop()}
           url={this.state.exportResult.report_url}
           onExport={() => {
-            this.setState({ exportResult: { report_url: undefined } });
+            this.setState({ exportResult: { report_url: undefined, file_name: '' } });
           }}
           onClose={() => {
-            this.setState({ exportResult: { report_url: undefined } });
+            this.setState({ exportResult: { report_url: undefined, file_name: '' } });
           }}
         />
       </div>

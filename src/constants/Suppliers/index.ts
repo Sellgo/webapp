@@ -326,5 +326,8 @@ export const addTempDataToProducts = (products: any) => {
   });
 };
 
-export const EXPORT_FORMATS = [{ key: 'csv', value: 'csv', text: 'CSV' }];
-export const EXPORT_DATA = [{ key: 'filtered', value: 'filtered', text: 'Filtered Results' }];
+export const EXPORT_FORMATS = [
+  { key: 'csv', value: 'csv', text: '.CSV' },
+  { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
+];
+export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];

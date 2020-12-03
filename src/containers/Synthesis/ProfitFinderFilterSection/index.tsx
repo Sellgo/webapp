@@ -1161,6 +1161,7 @@ function ProfitFinderFilterSection(props: Props) {
         onClose={() => setExportResult(false)}
         loading={exportResultLoading}
         onExport={onExportResults}
+        format={'csv'}
       />
     </div>
   );

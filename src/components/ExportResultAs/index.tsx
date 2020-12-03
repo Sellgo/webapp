@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { Button, Modal, Select } from 'semantic-ui-react';
 import DOWNLOAD_IMAGE from '../../assets/images/download-solid.svg';
 import './index.scss';
@@ -10,13 +10,17 @@ interface Props {
   url?: string;
   onClose: () => void;
   loading?: boolean;
+  format?: string;
 }
 
 const ExportResultAs = (props: Props) => {
-  const { open, formats, data, onExport, url, onClose, loading } = props;
-  const [exportFormat, setExportFormat] = React.useState('csv');
-  const [exportData, setExportData] = React.useState('filtered');
+  const { open, formats, data, onExport, url, onClose, loading, format } = props;
 
+  const [exportFormat, setExportFormat] = React.useState(format);
+  const [exportData, setExportData] = React.useState('all');
+  useEffect(() => {
+    setExportFormat(format);
+  }, [format]);
   return (
     <Modal
       onClose={onClose}
