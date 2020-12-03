@@ -240,7 +240,10 @@ export const exportResults = async (payload: any, supplierID: any) => {
 
     const res = await Axios.post(
       AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis/export`,
-      payload
+      payload,
+      {
+        responseType: 'blob',
+      }
     );
     return res.data;
   } catch (e) {

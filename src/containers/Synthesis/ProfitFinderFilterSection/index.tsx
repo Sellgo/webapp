@@ -23,6 +23,8 @@ import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults } from '../../../actions/Products';
+import { saveAs } from 'file-saver';
+
 interface Props {
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
@@ -1020,15 +1022,7 @@ function ProfitFinderFilterSection(props: Props) {
         { psd_ids, file_format, synthesis_file_id },
         supplierDetails.supplier_id
       );
-      const url = window.URL.createObjectURL(new Blob([blob]));
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href = url;
-      a.download = `${supplierDetails.search}-${value.data}.${value.format}`;
-
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
+      saveAs(new Blob([blob]), `${supplierDetails.search}-${value.data}.${value.format}`);
       setExportResultLoading(false);
       await setExportResult(false);
     } catch (e) {
