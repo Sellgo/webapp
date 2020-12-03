@@ -71,7 +71,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     exportResult: {
       report_url: undefined,
       file_name: '',
+      report_url_csv: undefined,
     },
+    exportFormat: 'csv',
   };
 
   renderName = (row: Supplier) => {
@@ -418,7 +420,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     );
 
     const sortedByCompletedData = _.cloneDeep(data).sort((a, b) => (a.udate > b.udate ? 1 : -1));
-
+    const fileUrl =
+      this.state.exportFormat === 'csv'
+        ? this.state.exportResult.report_url_csv
+        : this.state.exportResult.report_url;
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -467,7 +472,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           data={EXPORT_DATA}
           formats={EXPORT_FORMATS}
           format={this.state.exportResult.file_name.split('.').pop()}
-          url={this.state.exportResult.report_url}
+          url={fileUrl}
+          onFormatChange={(format: string) => {
+            this.setState({ exportFormat: format });
+          }}
           onExport={() => {
             this.setState({ exportResult: { report_url: undefined, file_name: '' } });
           }}

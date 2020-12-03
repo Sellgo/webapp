@@ -11,10 +11,11 @@ interface Props {
   onClose: () => void;
   loading?: boolean;
   format?: string;
+  onFormatChange?: (format: string) => void;
 }
 
 const ExportResultAs = (props: Props) => {
-  const { open, formats, data, onExport, url, onClose, loading, format } = props;
+  const { open, formats, data, onExport, url, onClose, loading, format, onFormatChange } = props;
 
   const [exportFormat, setExportFormat] = React.useState(format);
   const [exportData, setExportData] = React.useState('all');
@@ -38,6 +39,9 @@ const ExportResultAs = (props: Props) => {
             onChange={(event: SyntheticEvent, selected: any) => {
               event.stopPropagation();
               setExportFormat(selected.value);
+              if (onFormatChange) {
+                onFormatChange(selected.value);
+              }
             }}
           />
           <p className="export-data">Data</p>
