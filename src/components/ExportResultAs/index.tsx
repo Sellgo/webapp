@@ -9,10 +9,11 @@ interface Props {
   onExport?: (value: any) => void;
   url?: string;
   onClose: () => void;
+  loading?: boolean;
 }
 
 const ExportResultAs = (props: Props) => {
-  const { open, formats, data, onExport, url, onClose } = props;
+  const { open, formats, data, onExport, url, onClose, loading } = props;
   const [exportFormat, setExportFormat] = React.useState('csv');
   const [exportData, setExportData] = React.useState('filtered');
 
@@ -48,6 +49,7 @@ const ExportResultAs = (props: Props) => {
           />
           <div className="export-btn">
             <Button
+              loading={loading}
               content="Export"
               basic
               onClick={() => {

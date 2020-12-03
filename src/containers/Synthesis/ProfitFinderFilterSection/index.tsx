@@ -23,7 +23,6 @@ import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults } from '../../../actions/Products';
-
 interface Props {
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
@@ -585,6 +584,7 @@ function ProfitFinderFilterSection(props: Props) {
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
   const [exportResult, setExportResult] = React.useState(false);
+  const [exportResultLoading, setExportResultLoading] = React.useState(false);
 
   const toggleSizeTierFilter = (filterDataKey: string, label: string) => {
     const data = filterState;
@@ -1015,7 +1015,7 @@ function ProfitFinderFilterSection(props: Props) {
           : products.map((p: Product) => p.id);
       const file_format = value.format;
       const synthesis_file_id = supplierDetails.synthesis_file_id;
-
+      setExportResultLoading(true);
       const blob = await exportResults(
         { psd_ids, file_format, synthesis_file_id },
         supplierDetails.supplier_id
@@ -1024,10 +1024,12 @@ function ProfitFinderFilterSection(props: Props) {
       const a = document.createElement('a');
       a.style.display = 'none';
       a.href = url;
-      a.download = `${value.data}-${Date.now()}.${value.format}`;
+      a.download = `${supplierDetails.search}-${value.data}.${value.format}`;
+
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
+      setExportResultLoading(false);
       await setExportResult(false);
     } catch (e) {
       console.log(e);
@@ -1163,6 +1165,7 @@ function ProfitFinderFilterSection(props: Props) {
         formats={EXPORT_FORMATS}
         data={EXPORT_DATA}
         onClose={() => setExportResult(false)}
+        loading={exportResultLoading}
         onExport={onExportResults}
       />
     </div>
