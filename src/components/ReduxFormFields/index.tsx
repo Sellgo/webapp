@@ -126,3 +126,23 @@ export const TextAreaField = ({
     </Form.Field>
   );
 };
+
+export const ToggleField = ({
+  input,
+  meta: { touched, error },
+  width,
+  inline,
+  ...rest
+}: FieldProps) => {
+  return (
+    <Form.Checkbox
+      toggle
+      {...input}
+      {...rest}
+      error={!!(touched && error)}
+      width={width}
+      inline={inline}
+      onChange={(e, { checked }) => input.onChange(checked)}
+    />
+  );
+};

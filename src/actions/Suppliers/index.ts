@@ -56,6 +56,7 @@ import { UntrackSuccess } from '../../components/ToastMessages';
 import { timeout } from '../../utils/timeout';
 import { leads } from '../../selectors/LeadsTracker';
 import { setLeads } from '../LeadsTracker';
+import { variationsSelector } from '../../selectors/UploadSupplier';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -209,8 +210,10 @@ export const postSynthesisRun = (synthesisId: string) => async (
   const sellerID = sellerIDSelector();
   const supplierID = newSupplierIdSelector(getState());
   const existingSupplier = suppliersByIdSelector(getState())[supplierID];
+  const get_variations = variationsSelector(getState());
 
   const bodyFormData = new FormData();
+  bodyFormData.set('get_variations', get_variations ? 'True' : 'False');
   bodyFormData.set('synthesis_file_id', String(synthesisId));
   return Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis/run`,
