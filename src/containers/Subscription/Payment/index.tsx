@@ -76,7 +76,7 @@ const Payment = (props: PaymentProps) => {
           </div>
         </Grid.Column>
         <Grid.Column width={11} className="subscription-page__content">
-          <Summary planType={accountType} paymentMode={paymentMode} />
+          <Summary planType={accountType} paymentMode={paymentMode} showCoupon={true} />
           <Container text className="payment-container">
             <StepsContent contentType={'payment'} loggedIn={loggedIn} />
             {!successPayment && isSubscriptionNotPaid(subscriptionType) && paymentError && (
