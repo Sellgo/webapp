@@ -785,7 +785,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     //profitability preset disable when profit slider change
     if (dataKey === 'avg_profit' && type === 'range') {
       const probabilityIndex = result.findIndex(
-        (filter: any) => filter.type === 'probability-preset'
+        (filter: any) => filter.type === 'profitability-preset'
       );
       if (probabilityIndex !== -1) {
         result.splice(probabilityIndex, 1);
@@ -840,7 +840,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   setProfitability = (data: any) => {
     const { filterProducts, filterRanges, activeGroupId } = this.props;
     const localFilters: any = JSON.parse(localStorage.getItem('productTrackerFilterState') || '[]');
-    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const index = localFilters.findIndex((filter: any) => filter.type === 'profitability-preset');
     const hasProfit =
       localFilters.findIndex((filter: any) => filter.dataKey === 'avg_profit') !== -1;
 
@@ -868,7 +868,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
               }
               localStorage.setItem(`trackerTable:avg_profit`, JSON.stringify(filter));
             }
-            if (filter.type === 'probability-preset' && data.value !== '') {
+            if (filter.type === 'profitability-preset' && data.value !== '') {
               filter.value = data.value;
               filter.dateModified = Date.now();
             }
@@ -996,7 +996,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const { localFilterData } = this.state;
     const { filterProducts, activeGroupId } = this.props;
     const localFilters: any = _.cloneDeep(localFilterData);
-    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const index = localFilters.findIndex((filter: any) => filter.type === 'profitability-preset');
     const profitRangeIndex = localFilters.findIndex(
       (filter: any) => filter.type === 'range' && filter.dataKey === 'avg_profit'
     );
@@ -1087,7 +1087,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       //profitability preset disable when profit slider change
       if (data.dataKey === 'avg_profit') {
         const probabilityIndex = updatedFilterData.findIndex(
-          (filter: any) => filter.type === 'probability-preset'
+          (filter: any) => filter.type === 'profitability-preset'
         );
         if (probabilityIndex !== -1) {
           updatedFilterData.splice(probabilityIndex, 1);

@@ -844,7 +844,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       //profitability preset disable when profit slider change
       if (data.dataKey === 'multipack_profit') {
         const probabilityIndex = updatedFilterData.findIndex(
-          (filter: any) => filter.type === 'probability-preset'
+          (filter: any) => filter.type === 'profitability-preset'
         );
         if (probabilityIndex !== -1) {
           updatedFilterData.splice(probabilityIndex, 1);
@@ -950,7 +950,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     //profitability preset disable when profit slider change
     if (dataKey === 'multipack_profit' && type === 'range') {
       const probabilityIndex = result.findIndex(
-        (filter: any) => filter.type === 'probability-preset'
+        (filter: any) => filter.type === 'profitability-preset'
       );
       if (probabilityIndex !== -1) {
         result.splice(probabilityIndex, 1);
@@ -1076,15 +1076,116 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   setProfitability = (data: any) => {
+    console.log('data: ', data);
     const { filteredRanges } = this.state;
     const { filterSearch, filterProducts } = this.props;
     const localFilters: any = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
-    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const index = localFilters.findIndex((filter: any) => filter.type === 'profitability-preset');
     const hasProfit =
       localFilters.findIndex((filter: any) => filter.dataKey === 'multipack_profit') !== -1;
 
-    if (index !== -1) {
-      if (data !== '') {
+    if (data.value === 'Not found on Amazon') {
+      const profitRangeIndex = localFilters.findIndex(
+        (filter: any) => filter.type === 'range' && filter.dataKey === 'multipack_profit'
+      );
+      if (index !== -1) {
+        localFilters.splice(index, 1);
+      }
+      if (profitRangeIndex !== -1) {
+        localFilters.splice(profitRangeIndex, 1);
+      }
+      const newFilter: NewFilterModel = { ...data };
+      localFilters.push(newFilter);
+      this.setState({ localFilterData: localFilters });
+      filterProducts(filterSearch, localFilters);
+      localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+      localStorage.removeItem(`products:multipack_profit`);
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
+    } else {
+      if (index !== -1) {
+        if (data !== '') {
+          if (hasProfit) {
+            localFilters.map((filter: any) => {
+              if (filter.type === 'range' && filter.dataKey === 'multipack_profit') {
+                if (data.value === 'Profitable') {
+                  filter.range.min = 0.01;
+                  filter.range.max = filteredRanges.multipack_profit.max;
+                  filter.value.min = 0.01;
+                  filter.value.max = filteredRanges.multipack_profit.max;
+                  filter.isNegative = false;
+                } else if (data.value === 'Non-Profitable Products') {
+                  filter.range.min = filteredRanges.multipack_profit.min;
+                  filter.range.max = 0;
+                  filter.value.min = filteredRanges.multipack_profit.min;
+                  filter.value.max = 0;
+                  filter.isNegative = false;
+                } else {
+                  filter.range = filteredRanges.multipack_profit;
+                  filter.value = filter.range;
+                  filter.isNegative = false;
+                }
+                localStorage.setItem(`products:multipack_profit`, JSON.stringify(filter));
+              }
+              if (filter.type === 'profitability-preset' && data.value !== '') {
+                filter.value = data.value;
+                filter.dateModified = Date.now();
+              }
+              return filter;
+            });
+            this.setState({ localFilterData: localFilters });
+            filterProducts(filterSearch, localFilters);
+            localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+            localStorage.setItem('profitFinderFilterStateActive', 'true');
+          } else {
+            const newFilter: any = {
+              label: 'Profit',
+              dataKey: 'multipack_profit',
+              isActive: true,
+              type: 'range',
+              value: {
+                min: 0,
+                max: 0,
+              },
+              range: {
+                min: 0,
+                max: 0,
+              },
+              isNegative: false,
+              defaultValues: filteredRanges.multipack_profit,
+            };
+            if (data.value === 'Profitable') {
+              newFilter.range.min = 0.01;
+              newFilter.range.max = filteredRanges.multipack_profit.max;
+              newFilter.value.min = 0.01;
+              newFilter.value.max = filteredRanges.multipack_profit.max;
+            } else if (data.value === 'Non-Profitable Products') {
+              newFilter.range.min = filteredRanges.multipack_profit.min;
+              newFilter.range.max = 0;
+              newFilter.value.min = filteredRanges.multipack_profit.min;
+              newFilter.value.max = 0;
+            } else {
+              newFilter.range = filteredRanges.multipack_profit;
+              newFilter.value = newFilter.range;
+            }
+
+            localFilters.map((filter: any) => {
+              if (filter.type === 'profitability-preset' && data.value !== '') {
+                filter.value = data.value;
+                filter.dateModified = Date.now();
+              }
+              return filter;
+            });
+            localFilters.push(newFilter);
+            this.setState({ localFilterData: localFilters });
+            filterProducts(filterSearch, localFilters);
+            localStorage.setItem(`products:multipack_profit`, JSON.stringify(newFilter));
+            localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+            localStorage.setItem('profitFinderFilterStateActive', 'true');
+          }
+        } else {
+          this.resetProfitablePreset();
+        }
+      } else {
         if (hasProfit) {
           localFilters.map((filter: any) => {
             if (filter.type === 'range' && filter.dataKey === 'multipack_profit') {
@@ -1102,17 +1203,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 filter.isNegative = false;
               } else {
                 filter.range = filteredRanges.multipack_profit;
-                filter.value = filter.range;
                 filter.isNegative = false;
               }
               localStorage.setItem(`products:multipack_profit`, JSON.stringify(filter));
             }
-            if (filter.type === 'probability-preset' && data.value !== '') {
-              filter.value = data.value;
-              filter.dateModified = Date.now();
-            }
             return filter;
           });
+          const probabilityData: NewFilterModel = { ...data };
+          localFilters.push(probabilityData);
           this.setState({ localFilterData: localFilters });
           filterProducts(filterSearch, localFilters);
           localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
@@ -1123,6 +1221,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             dataKey: 'multipack_profit',
             isActive: true,
             type: 'range',
+            isNegative: false,
             value: {
               min: 0,
               max: 0,
@@ -1131,9 +1230,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               min: 0,
               max: 0,
             },
-            isNegative: false,
             defaultValues: filteredRanges.multipack_profit,
           };
+          const probabilityData: NewFilterModel = { ...data };
           if (data.value === 'Profitable') {
             newFilter.range.min = 0.01;
             newFilter.range.max = filteredRanges.multipack_profit.max;
@@ -1149,84 +1248,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             newFilter.value = newFilter.range;
           }
           localFilters.push(newFilter);
+          localFilters.push(probabilityData);
           this.setState({ localFilterData: localFilters });
           filterProducts(filterSearch, localFilters);
           localStorage.setItem(`products:multipack_profit`, JSON.stringify(newFilter));
           localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
           localStorage.setItem('profitFinderFilterStateActive', 'true');
         }
-      } else {
-        this.resetProfitablePreset();
-      }
-    } else {
-      if (hasProfit) {
-        localFilters.map((filter: any) => {
-          if (filter.type === 'range' && filter.dataKey === 'multipack_profit') {
-            if (data.value === 'Profitable') {
-              filter.range.min = 0.01;
-              filter.range.max = filteredRanges.multipack_profit.max;
-              filter.value.min = 0.01;
-              filter.value.max = filteredRanges.multipack_profit.max;
-              filter.isNegative = false;
-            } else if (data.value === 'Non-Profitable Products') {
-              filter.range.min = filteredRanges.multipack_profit.min;
-              filter.range.max = 0;
-              filter.value.min = filteredRanges.multipack_profit.min;
-              filter.value.max = 0;
-              filter.isNegative = false;
-            } else {
-              filter.range = filteredRanges.multipack_profit;
-              filter.isNegative = false;
-            }
-            localStorage.setItem(`products:multipack_profit`, JSON.stringify(filter));
-          }
-          return filter;
-        });
-        const probabilityData: NewFilterModel = { ...data };
-        localFilters.push(probabilityData);
-        this.setState({ localFilterData: localFilters });
-        filterProducts(filterSearch, localFilters);
-        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
-        localStorage.setItem('profitFinderFilterStateActive', 'true');
-      } else {
-        const newFilter: any = {
-          label: 'Profit',
-          dataKey: 'multipack_profit',
-          isActive: true,
-          type: 'range',
-          isNegative: false,
-          value: {
-            min: 0,
-            max: 0,
-          },
-          range: {
-            min: 0,
-            max: 0,
-          },
-          defaultValues: filteredRanges.multipack_profit,
-        };
-        const probabilityData: NewFilterModel = { ...data };
-        if (data.value === 'Profitable') {
-          newFilter.range.min = 0.01;
-          newFilter.range.max = filteredRanges.multipack_profit.max;
-          newFilter.value.min = 0.01;
-          newFilter.value.max = filteredRanges.multipack_profit.max;
-        } else if (data.value === 'Non-Profitable Products') {
-          newFilter.range.min = filteredRanges.multipack_profit.min;
-          newFilter.range.max = 0;
-          newFilter.value.min = filteredRanges.multipack_profit.min;
-          newFilter.value.max = 0;
-        } else {
-          newFilter.range = filteredRanges.multipack_profit;
-          newFilter.value = newFilter.range;
-        }
-        localFilters.push(newFilter);
-        localFilters.push(probabilityData);
-        this.setState({ localFilterData: localFilters });
-        filterProducts(filterSearch, localFilters);
-        localStorage.setItem(`products:multipack_profit`, JSON.stringify(newFilter));
-        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
-        localStorage.setItem('profitFinderFilterStateActive', 'true');
       }
     }
   };
@@ -1235,7 +1263,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { localFilterData } = this.state;
     const { filterProducts, filterSearch } = this.props;
     const localFilters: any = _.cloneDeep(localFilterData);
-    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const index = localFilters.findIndex((filter: any) => filter.type === 'profitability-preset');
     const profitRangeIndex = localFilters.findIndex(
       (filter: any) => filter.type === 'range' && filter.dataKey === 'multipack_profit'
     );

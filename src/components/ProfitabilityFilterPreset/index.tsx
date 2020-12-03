@@ -18,6 +18,11 @@ const ProfitabilityFilterPreset = (props: Props) => {
       text: 'Non-Profitable Products',
       value: 'Non-Profitable Products',
     },
+    {
+      key: 'not-found-on-amazon',
+      text: 'Not found on Amazon',
+      value: 'Not found on Amazon',
+    },
   ];
 
   const [isActive, setActive] = React.useState(false);
@@ -33,9 +38,11 @@ const ProfitabilityFilterPreset = (props: Props) => {
   useEffect(() => {
     if (!_.isEmpty(filteredRanges)) {
       if (!_.isEmpty(filterData)) {
-        const index = filterData.findIndex((filter: any) => filter.type === 'probability-preset');
+        const index = filterData.findIndex((filter: any) => filter.type === 'profitability-preset');
         if (index !== -1) {
-          const data = filterData.filter((filter: any) => filter.type === 'probability-preset')[0];
+          const data = filterData.filter(
+            (filter: any) => filter.type === 'profitability-preset'
+          )[0];
           if (!isActivated()) {
             setData(data.value);
             handleSet(data.value);
@@ -68,8 +75,8 @@ const ProfitabilityFilterPreset = (props: Props) => {
     else {
       const objData = {
         value: data || data.value,
-        dataKey: 'probability-preset',
-        type: 'probability-preset',
+        dataKey: 'profitability-preset',
+        type: 'profitability-preset',
         isActive: true,
         dateModified: Date.now(),
       };
@@ -89,9 +96,7 @@ const ProfitabilityFilterPreset = (props: Props) => {
         handleClick();
       }}
     >
-      <Button className="profitability-preset-btn">
-        {currentData === 'Profitable' ? 'Profitable' : 'Non-Profitable'}
-      </Button>
+      <Button className="profitability-preset-btn">{currentData}</Button>
       <Dropdown
         className="button"
         icon="angle down"

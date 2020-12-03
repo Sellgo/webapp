@@ -563,6 +563,14 @@ const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
   );
 };
 
+const getNotFoundOnAmazon = (product: any, notFoundOnAmazonFilter: any) => {
+  if (!_.isEmpty(notFoundOnAmazonFilter)) {
+    return notFoundOnAmazonFilter[0].value === product.title;
+  } else {
+    return true;
+  }
+};
+
 export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
   if (_.isEmpty(filterData)) return products;
   else {
@@ -572,8 +580,13 @@ export const findFilteredProducts = (products: any, filterData: NewFilterModel[]
       filter => filter.isActive && filter.type === 'checkbox'
     );
     const presetFilter = _.filter(filterData, filter => filter.type === 'preset');
+    const notFoundOnAmazonFilter = _.filter(
+      filterData,
+      filter => filter.type === 'profitability-preset' && filter.value === 'Not found on Amazon'
+    );
     const filteredProducts = _.filter(products, (product: any) => {
       return (
+        getNotFoundOnAmazon(product, notFoundOnAmazonFilter) &&
         getRangedFilteredProducts(product, rangeFilter) &&
         getCheckboxFilteredProducts(product, checkboxFilter) &&
         getCustomizableFilteredProducts(product, presetFilter)
