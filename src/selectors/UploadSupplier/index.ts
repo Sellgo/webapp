@@ -88,3 +88,6 @@ export const isFirstRowHeaderSelector = (state: object): boolean =>
 
 export const fileNameSelector = (state: object): string =>
   get(state, 'uploadSupplier.fileName', '');
+
+export const variationsSelector = (state: object): boolean =>
+  get(state, 'uploadSupplier.variations', false);

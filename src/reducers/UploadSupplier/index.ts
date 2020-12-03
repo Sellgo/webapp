@@ -23,6 +23,7 @@ import {
   SET_PRIMARY_ID_TYPE,
   PRODUCT_ID_TYPES,
   SET_FILE_NAME,
+  SET_VARIATIONS,
 } from '../../constants/UploadSupplier';
 import { setIn } from '../../utils/immutablity';
 import { AnyAction } from 'redux';
@@ -51,6 +52,7 @@ interface UploadSupplierState {
   readonly resultError: string | null;
   readonly synthesisId: string | null;
   readonly fileName: string | null;
+  readonly variations: boolean | false;
 }
 
 const initialState: UploadSupplierState = {
@@ -75,6 +77,7 @@ const initialState: UploadSupplierState = {
   resultVal: null,
   resultError: null,
   fileName: null,
+  variations: false,
 };
 
 export default (
@@ -180,6 +183,10 @@ export default (
 
     case SET_FILE_NAME: {
       return setIn(state, 'fileName', action.payload);
+    }
+
+    case SET_VARIATIONS: {
+      return setIn(state, 'variations', action.payload);
     }
 
     default:

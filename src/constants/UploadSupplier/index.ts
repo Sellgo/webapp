@@ -23,6 +23,7 @@ export const SET_ERROR_ROWS = 'SET_ERROR_ROWS';
 export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_FILE_NAME = 'SET_FILE_NAME';
+export const SET_VARIATIONS = 'SET_VARIATIONS';
 
 export const MAX_FILE_SIZE_BYTES = 30000000; // 30MB
 
