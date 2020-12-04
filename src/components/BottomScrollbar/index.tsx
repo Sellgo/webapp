@@ -13,12 +13,19 @@ const BottomScroll = (props: Props) => {
     if (name === 'products') {
       const middleHeader = document.querySelector('.middle-header');
       const middleBody = document.querySelector('.middle-body');
+
       if (!!middleBody && middleHeader) {
         middleBody.scrollLeft = evt.target.scrollLeft;
         middleHeader.scrollLeft = evt.target.scrollLeft;
       }
     } else {
       const table = document.querySelector('.generic-table');
+      // const scrollingHeader = document.querySelector('.table-header-scroll');
+      const middleHeader = document.querySelector('.middle-header');
+
+      if (middleHeader) {
+        middleHeader.scrollLeft = evt.target.scrollLeft;
+      }
       if (table) {
         table.scrollLeft = evt.target.scrollLeft;
       }

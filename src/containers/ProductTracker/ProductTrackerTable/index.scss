@@ -1118,6 +1118,10 @@ $link-color: #349af8;
   .bottom-cell {
     min-width: 5px !important;
   }
+
+  .ptr-cell {
+    min-width: 92px;
+  }
 }
 
 @media only screen and (min-width: 1440px) and (max-width: 1535px) {
@@ -1127,6 +1131,10 @@ $link-color: #349af8;
 
   .bottom-cell {
     min-width: 105px !important;
+  }
+
+  .ptr-cell {
+    min-width: 92px;
   }
 }
 
@@ -1138,6 +1146,10 @@ $link-color: #349af8;
   .ptr-scrollbar {
     min-width: 103px !important;
   }
+
+  .ptr-cell {
+    min-width: 92px;
+  }
 }
 
 @media only screen and (min-width: 1600px) and (max-width: 1680px) {
@@ -1147,6 +1159,10 @@ $link-color: #349af8;
 
   .bottom-cell {
     min-width: 104px !important;
+  }
+
+  .ptr-cell {
+    min-width: 92px;
   }
 }
 
@@ -1158,6 +1174,10 @@ $link-color: #349af8;
   .bottom-cell {
     min-width: 103px !important;
   }
+
+  .ptr-cell {
+    min-width: 92px;
+  }
 }
 
 @media only screen and (min-width: 1920px) and (max-width: 2558px) {
@@ -1167,6 +1187,10 @@ $link-color: #349af8;
 
   .bottom-cell {
     min-width: 107px !important;
+  }
+
+  .ptr-cell {
+    min-width: 92px;
   }
 }
 
