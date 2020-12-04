@@ -1031,10 +1031,11 @@ $link-color: #349af8;
 }
 
 .pt-source {
+  width: 130px !important;
+
   > p {
     line-height: 1em;
     text-align: left;
-    width: 7.9em;
     word-break: break-all;
   }
 }
@@ -1090,6 +1091,14 @@ $link-color: #349af8;
   .bottom-cell {
     min-width: 1px !important;
   }
+
+  .pt-source {
+    min-width: 95px !important;
+  }
+
+  .ptr-cell {
+    min-width: 98.5px;
+  }
 }
 
 @media only screen and (min-width: 1280px) and (max-width: 1365px) {
@@ -1103,6 +1112,14 @@ $link-color: #349af8;
 
   .bottom-cell {
     min-width: 5px !important;
+  }
+
+  .pt-source {
+    min-width: 95px !important;
+  }
+
+  .ptr-cell {
+    min-width: 98.5px;
   }
 }
 
@@ -1119,8 +1136,12 @@ $link-color: #349af8;
     min-width: 5px !important;
   }
 
+  .pt-source {
+    min-width: 95px !important;
+  }
+
   .ptr-cell {
-    min-width: 92px;
+    min-width: 98.5px;
   }
 }
 
@@ -1133,8 +1154,12 @@ $link-color: #349af8;
     min-width: 105px !important;
   }
 
+  .pt-source {
+    min-width: 95px !important;
+  }
+
   .ptr-cell {
-    min-width: 92px;
+    min-width: 98.5px;
   }
 }
 
@@ -1148,7 +1173,7 @@ $link-color: #349af8;
   }
 
   .ptr-cell {
-    min-width: 92px;
+    min-width: 97.8px;
   }
 }
 
@@ -1161,8 +1186,12 @@ $link-color: #349af8;
     min-width: 104px !important;
   }
 
+  .pt-source {
+    min-width: 95px !important;
+  }
+
   .ptr-cell {
-    min-width: 92px;
+    min-width: 98.5px;
   }
 }
 
@@ -1175,8 +1204,12 @@ $link-color: #349af8;
     min-width: 103px !important;
   }
 
+  .pt-source {
+    min-width: 95px !important;
+  }
+
   .ptr-cell {
-    min-width: 92px;
+    min-width: 98.5px;
   }
 }
 
@@ -1189,8 +1222,12 @@ $link-color: #349af8;
     min-width: 107px !important;
   }
 
+  .pt-source {
+    min-width: 95px !important;
+  }
+
   .ptr-cell {
-    min-width: 92px;
+    min-width: 97.8px;
   }
 }
 
