@@ -2,6 +2,16 @@ import PasswordValidator from 'password-validator';
 import { isPostalCode, isEmail } from 'validator';
 import { tldExists } from 'tldjs';
 
+export const Name = new PasswordValidator()
+  .has()
+  .letters()
+  .has()
+  .not()
+  .digits()
+  .has()
+  .not()
+  .symbols();
+
 export const passwordPolicy = new PasswordValidator()
   .is()
   .min(8)

@@ -14,6 +14,7 @@ import {
   specialCharacters,
   Length,
   validateEmail,
+  Name,
 } from '../../../constants/Validators';
 import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
 import get from 'lodash/get';
@@ -32,7 +33,10 @@ interface State {
 }
 function Signup(props: Props, state: State) {
   const { auth, setLogin, termsOfService, privacyPolicy, fetchTOS, fetchPP } = props;
-  const [verifyEmailError, setVerifyEmailError] = useState(false);
+  const [verifySignupError, setVerifySignupError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [fnameError, setFnameError] = useState(false);
+  const [lnameError, setLnameError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { value: email, bind: bindEmail } = useInput('');
   const { value: firstName, bind: bindFirstName } = useInput('');
@@ -134,12 +138,24 @@ function Signup(props: Props, state: State) {
     );
   };
   const handleSubmit = () => {
+    setEmailError(false);
+    setFnameError(false);
+    setLnameError(false);
     localStorage.removeItem('userId');
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
-      setVerifyEmailError(true);
+      setVerifySignupError(true);
       setErrorMessage('Email is invalid');
+      setEmailError(true);
+    } else if (!Name.validate(firstName)) {
+      setErrorMessage('First Name must all be letters.');
+      setVerifySignupError(true);
+      setFnameError(true);
+    } else if (!Name.validate(lastName)) {
+      setErrorMessage('Last Name must all be letters.');
+      setVerifySignupError(true);
+      setLnameError(true);
     } else {
       auth.webAuth.signup(
         {
@@ -150,7 +166,7 @@ function Signup(props: Props, state: State) {
         },
         (err: any) => {
           if (err) {
-            setVerifyEmailError(true);
+            setVerifySignupError(true);
             setErrorMessage(err.description);
           } else {
             const data = {
@@ -171,7 +187,14 @@ function Signup(props: Props, state: State) {
       <StepsContent contentType={'register'} />
       <Header as="h3">Register Here</Header>
       <Form className="signup-container__form" onSubmit={handleSubmit}>
-        <Form.Input size="huge" label="Email" type="mail" placeholder="Email" {...bindEmail} />
+        <Form.Input
+          size="huge"
+          label="Email"
+          type="mail"
+          placeholder="Email"
+          {...bindEmail}
+          error={emailError}
+        />
         <Form.Group className="signup-container__form__fullname-group">
           <Form.Input
             size="huge"
@@ -180,6 +203,7 @@ function Signup(props: Props, state: State) {
             placeholder="First Name"
             required
             {...bindFirstName}
+            error={fnameError}
           />
           <Form.Input
             size="huge"
@@ -188,6 +212,7 @@ function Signup(props: Props, state: State) {
             placeholder="Last Name"
             required
             {...bindLastName}
+            error={lnameError}
           />
         </Form.Group>
         <Form.Field className="payment-container__stripe-checkout-form__password-field">
@@ -204,7 +229,7 @@ function Signup(props: Props, state: State) {
         </Form.Field>
 
         <div className="signup-container__form__error">
-          {verifyEmailError ? <span>{errorMessage}</span> : <span />}
+          {verifySignupError ? <span>{errorMessage}</span> : <span />}
         </div>
         <Form.Field
           size="huge"
