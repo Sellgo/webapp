@@ -5,6 +5,7 @@ import Auth from '../../components/Auth/Auth';
 import { useInput } from '../../hooks/useInput';
 import ResetPasswordBase from '../../components/ResetPasswordBase';
 import { v4 as uuid } from 'uuid';
+import { validateEmail } from '../../constants/Validators';
 
 interface Props {
   auth: Auth;
@@ -12,8 +13,9 @@ interface Props {
 
 export default function ResetPassword(props: Props) {
   const { auth } = props;
-  const [isAccess] = useState(false);
+  const [isAccess, setAccess] = useState(false);
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [messageDetails, setMessageDetails] = React.useState({
     key: '',
     header: '',
@@ -24,20 +26,25 @@ export default function ResetPassword(props: Props) {
   });
 
   const handleSubmit = () => {
-    auth.webAuth.changePassword(
-      {
-        connection: 'Username-Password-Authentication',
-        email: email,
-      },
-      err => {
-        if (err) {
-          error(err);
-        } else {
-          resetEmail();
-          success();
+    if (!validateEmail(email)) {
+      setAccess(true);
+      setErrorMessage('Email is invalid');
+    } else {
+      auth.webAuth.changePassword(
+        {
+          connection: 'Username-Password-Authentication',
+          email: email,
+        },
+        err => {
+          if (err) {
+            error(err);
+          } else {
+            resetEmail();
+            success();
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   function error(err: any) {
@@ -75,7 +82,7 @@ export default function ResetPassword(props: Props) {
           {...bindEmail}
           required
         />
-        {isAccess ? <span>Email not found!</span> : <span />}
+        {isAccess ? <span>{errorMessage}</span> : <span />}
         <Form.Field control={Button} fluid={true} primary={true} value="Submit">
           Reset Password
         </Form.Field>

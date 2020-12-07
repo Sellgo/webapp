@@ -13,6 +13,7 @@ import {
   alphanumeric,
   specialCharacters,
   Length,
+  validateEmail,
 } from '../../../constants/Validators';
 import { fetchTOS, fetchPP } from '../../../actions/UserOnboarding';
 import get from 'lodash/get';
@@ -136,6 +137,9 @@ function Signup(props: Props, state: State) {
     localStorage.removeItem('userId');
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
+    } else if (!validateEmail(email)) {
+      setVerifyEmailError(true);
+      setErrorMessage('Email is invalid');
     } else {
       auth.webAuth.signup(
         {

@@ -20,6 +20,7 @@ import {
   specialCharacters,
   Length,
   passwordPolicy,
+  validateEmail,
 } from '../../constants/Validators';
 
 interface Props {
@@ -159,6 +160,8 @@ function Signup(props: any, state: State) {
     const accountType = window.location.search === '?type=trial' ? 'trial' : 'free';
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
+    } else if (!validateEmail(email)) {
+      error('Email is invalid');
     } else {
       auth.webAuth.signup(
         {
