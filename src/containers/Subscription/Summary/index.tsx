@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { Subscription } from '../../../interfaces/Seller';
 import { connect } from 'react-redux';
 import { fetchSubscriptions } from '../../../actions/Settings/Subscription';
+import { redeemCoupon } from '../../../utils/subscriptions';
 
 interface SummaryProps {
   planType: string;
@@ -44,8 +45,10 @@ function Summary(props: SummaryProps) {
     setCouponValue(e.target.value);
   };
 
-  const redeemCoupon = () => {
-    console.log('Coupon: ', couponValue);
+  const redeem = () => {
+    const sellerID = localStorage.getItem('userId');
+    console.log('Coupon: ', couponValue, sellerID);
+    redeemCoupon(couponValue, sellerID);
   };
 
   return (
@@ -80,7 +83,7 @@ function Summary(props: SummaryProps) {
                 <Button
                   basic
                   className="summary-container__content__wrapper__right__input-content__coupon-btn"
-                  onClick={() => redeemCoupon()}
+                  onClick={() => redeem()}
                 >
                   Redeem
                 </Button>

@@ -1,5 +1,8 @@
 import { SellerSubscription } from '../interfaces/Seller';
 import moment from 'moment';
+import { error, success } from './notifications';
+import Axios from 'axios';
+import { AppConfig } from '../config';
 
 export const isSubscriptionFree = (type: string) => type === 'free';
 
@@ -46,4 +49,23 @@ export const isTrialExpired = (sellerSubscription: SellerSubscription) => {
   const expireDateMinutes = moment(exp).diff(today, 'minutes');
 
   return expireDateMinutes <= 0;
+};
+
+export const redeemCoupon = (coupon: any, id: any) => {
+  const bodyFormData = new FormData();
+
+  if (coupon) bodyFormData.append('coupon', coupon);
+  else {
+    error('Coupon field is empty.');
+    return;
+  }
+
+  Axios.post(AppConfig.BASE_URL_API + `sellers/${id}/subscription/redeem-coupon`, bodyFormData)
+    .then(response => {
+      success(`${response.data.message}`);
+    })
+    .catch((err: any) => {
+      console.log('err: ', err.response.data);
+      error(`${err.response.data.message}`);
+    });
 };

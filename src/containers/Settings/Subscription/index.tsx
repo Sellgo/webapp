@@ -39,6 +39,7 @@ import {
   isSubscriptionIdPro,
   isSubscriptionNotPaid,
   isTrialExpired,
+  redeemCoupon,
 } from '../../../utils/subscriptions';
 import _ from 'lodash';
 
@@ -187,27 +188,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     return typeof window.Rewardful !== 'undefined' && window.Rewardful.referral;
   }
 
-  redeemCoupon() {
+  redeem() {
     const { couponVal } = this.state;
     const { profile } = this.props;
-    const bodyFormData = new FormData();
-
-    if (couponVal) bodyFormData.append('coupon', couponVal);
-    else {
-      error('Coupon field is empty.');
-      return;
-    }
-
-    Axios.post(
-      AppConfig.BASE_URL_API + `sellers/${profile.id}/subscription/redeem-coupon`,
-      bodyFormData
-    )
-      .then(response => {
-        success(`${response.data.message}`);
-      })
-      .catch((err: any) => {
-        error(`${err.response.data.message}`);
-      });
+    redeemCoupon(couponVal, profile.id);
   }
 
   render() {
@@ -441,7 +425,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     value={this.state.couponVal}
                     onChange={e => this.setState({ couponVal: e.target.value })}
                     onKeyPress={(e: KeyboardEvent) => {
-                      if (e.key === 'Enter') this.redeemCoupon();
+                      if (e.key === 'Enter') this.redeem();
                     }}
                     placeholder="Enter Coupon Here"
                     type="text"
@@ -455,7 +439,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       width: '180px',
                     }}
                     color="grey"
-                    onClick={() => this.redeemCoupon()}
+                    onClick={() => this.redeem()}
                   >
                     {'Redeem'}
                   </Button>
