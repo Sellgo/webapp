@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Modal, Button, Form } from 'semantic-ui-react';
+import { Modal, Button, Form, Label } from 'semantic-ui-react';
 
 interface EditGroupModalProps {
   open: boolean;
   activeGroup: any;
   handleCancel: any;
   handleSubmit: any;
+  error: boolean;
 }
 
 class EditGroupModal extends Component<EditGroupModalProps> {
@@ -24,7 +25,7 @@ class EditGroupModal extends Component<EditGroupModalProps> {
   };
 
   render() {
-    const { open, handleCancel, handleSubmit, activeGroup } = this.props;
+    const { open, handleCancel, handleSubmit, activeGroup, error } = this.props;
     return (
       <div className="edit-group-modal">
         <Modal
@@ -45,7 +46,13 @@ class EditGroupModal extends Component<EditGroupModalProps> {
               value={this.state.name}
               onChange={e => this.handleNameChange(e)}
               required={true}
+              error={error}
             />
+            {error && (
+              <Label pointing="above" basic={true} color="red">
+                Please enter a name
+              </Label>
+            )}
           </Modal.Content>
           <Modal.Actions>
             <Button className="cancel-btn" type="button" onClick={handleCancel}>
