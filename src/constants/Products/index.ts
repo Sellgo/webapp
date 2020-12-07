@@ -189,7 +189,4 @@ export const EXPORT_FORMATS = [
   { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
 ];
 
-export const EXPORT_DATA = [
-  { key: 'filtered', value: 'filtered', text: 'Filtered Results' },
-  { key: 'all', value: 'all', text: 'All Results' },
-];
+export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
