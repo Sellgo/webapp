@@ -290,7 +290,16 @@ export const GenericTable = (props: GenericTableProps) => {
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
-    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+    if (name === 'products') {
+      const MATCH = 'Not found on Amazon';
+      let filtered = rows.filter(row => row.title !== MATCH);
+      filtered = sortDirection === 'ascending' ? filtered.slice().reverse() : filtered;
+      let matched = rows.filter(row => row.title === MATCH);
+      matched = sortDirection === 'ascending' ? matched.slice().reverse() : matched;
+      rows = [...filtered, ...matched];
+    } else {
+      rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+    }
   }
 
   // keep the unbusted data buster columns in PF at end of sort
