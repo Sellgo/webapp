@@ -37,6 +37,7 @@ import {
   SET_LOADING,
   SET_PRIMARY_ID_TYPE,
   SET_FILE_NAME,
+  SET_VARIATIONS,
 } from '../../constants/UploadSupplier';
 import { getStepSpecification, Step } from './StepSpecifications';
 import { sellerIDSelector } from '../../selectors/Seller';
@@ -305,6 +306,11 @@ export const setFileName = (fileName: string) => ({
   payload: fileName,
 });
 
+export const setVariations = (variations: boolean) => ({
+  type: SET_VARIATIONS,
+  payload: variations,
+});
+
 export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   const sellerID = sellerIDSelector();
 
@@ -336,6 +342,7 @@ export const validateAndUploadFile = () => async (
   const columnMappingSetting = columnMappingSettingSelector(getState());
   const primaryIdType = primaryIdTypeSelector(getState());
   const file = fileDetailsSelector(getState());
+
   let uploadFile;
   if (csvExtensions.includes(getFileExtension(file))) {
     uploadFile = parseCsvArrayToFile(
@@ -370,6 +377,7 @@ export const validateAndUploadFile = () => async (
   }
   bodyFormData.set('primary_id_type', primaryIdType);
   bodyFormData.set('primary_id', reversedColumnMappings.primary_id);
+
   if (columnMappingSetting) bodyFormData.set('save_data_mapping', 'True');
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'title'))
     bodyFormData.set('title', reversedColumnMappings.title);
@@ -414,4 +422,10 @@ export const updateFileName = (fileName: string) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   dispatch(setFileName(fileName));
+};
+
+export const getVariations = (variations: boolean) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  dispatch(setVariations(variations));
 };

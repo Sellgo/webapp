@@ -18,6 +18,7 @@ import {
   pollDataBuster,
   fetchSuppliers,
   setLatestSupplier,
+  updateSupplierSinglePageItemsCount,
 } from '../../../actions/Suppliers';
 import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
 import './index.scss';
@@ -46,6 +47,7 @@ interface SupplierProps {
   pollDataBuster: () => void;
   reloadSuppliers: () => void;
   suppliers: SupplierInterface[];
+  updateSupplierSinglePageItemsCount: () => void;
 }
 export class Supplier extends React.Component<SupplierProps, any> {
   constructor(props: SupplierProps) {
@@ -56,9 +58,10 @@ export class Supplier extends React.Component<SupplierProps, any> {
   }
 
   async componentDidMount() {
-    const { match, reloadSuppliers } = this.props;
+    const { match, reloadSuppliers, updateSupplierSinglePageItemsCount } = this.props;
 
     reloadSuppliers();
+    updateSupplierSinglePageItemsCount();
     await this.initialData(match.params.supplierID);
   }
 
@@ -260,6 +263,7 @@ const mapDispatchToProps = {
   setProductsLoadingDataBuster,
   pollDataBuster,
   reloadSuppliers: () => fetchSuppliers(),
+  updateSupplierSinglePageItemsCount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Supplier);
