@@ -1,5 +1,6 @@
 import PasswordValidator from 'password-validator';
 import { isPostalCode, isEmail } from 'validator';
+import { tldExists } from 'tldjs';
 
 export const passwordPolicy = new PasswordValidator()
   .is()
@@ -46,5 +47,5 @@ export const postalCode = (code: string, country: any) => {
 };
 
 export const validateEmail = (email: string) => {
-  return isEmail(email);
+  return isEmail(email) && tldExists(email);
 };

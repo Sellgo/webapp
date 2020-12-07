@@ -101,12 +101,11 @@ function Signup(props: any, state: State) {
     time: 0,
   });
 
-  function error(err: any) {
-    console.log('error: ', err);
+  function error(errorMessage: any) {
     setMessageDetails({
       key: uuid(),
       header: 'Signup Failed',
-      content: `${err.description}`,
+      content: `${errorMessage}`,
       isSuccess: false,
       isError: true,
       time: 5000,
@@ -172,7 +171,7 @@ function Signup(props: any, state: State) {
         },
         (err: any) => {
           if (err) {
-            error(err);
+            error(err.description);
           } else {
             const data = {
               email: email,
