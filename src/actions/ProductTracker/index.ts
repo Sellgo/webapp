@@ -28,6 +28,7 @@ import {
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
 import { trackerProductDetails } from '../../selectors/ProductTracker';
+import { NewFilterModel } from '../../interfaces/Filters';
 
 export const isLoadingTrackerProducts = (value: boolean) => ({
   type: IS_LOADING_TRACKER_PRODUCTS,
@@ -248,7 +249,7 @@ export const deleteProductTrackGroup = (groupId: any) => (dispatch: any) => {
     });
 };
 
-export const filterTrackedProducts = (filterData: any, groupId: any) => ({
+export const filterTrackedProducts = (filterData: NewFilterModel[], groupId: any) => ({
   type: FILTER_TRACKED_PRODUCTS,
   payload: {
     filterData: filterData,

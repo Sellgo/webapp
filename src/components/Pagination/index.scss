@@ -1,6 +1,8 @@
 .sellgo-pagination {
   display: flex;
   align-items: center;
+  width: 25%;
+  justify-content: flex-end;
 
   .page-prev-nav {
     width: 21px;
@@ -124,5 +126,11 @@
       text-align: center;
       padding: 1px !important;
     }
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .sellgo-pagination {
+    width: 27%;
   }
 }

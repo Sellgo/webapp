@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FilterData } from '../../interfaces/Filters';
+import { NewFilterModel } from '../../interfaces/Filters';
 import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 export const SET_PRODUCT_TRACKER_DETAILS = 'SET_PRODUCT_TRACKER_DETAILS';
 export const IS_LOADING_TRACKER_PRODUCTS = 'IS_LOADING_TRACKER_PRODUCTS';
@@ -33,10 +33,9 @@ export const SET_COST_DETAILS = 'SET_COST_DETAILS';
 */
 export const DEFAULT_PERIOD = 30;
 
-export const filterPeriods: FilterData = {
+export const filterPeriods = {
   label: 'Period Reference',
   dataKey: 'period-reference',
-  radio: true,
   data: [
     {
       label: '7D',
@@ -67,10 +66,107 @@ export const filterKeys: any = [
   'avg_profit',
   'avg_margin',
   'avg_daily_sales',
+  'avg_monthly_sales',
   'avg_roi',
   'avg_rank',
   'customer_reviews',
+  'weight',
+  'avg_daily_revenue',
+  'avg_inventory',
+  'avg_amazon_inventory',
 ];
+// Meta data for each dataKeys above used for filers
+export const trackerDataKeysMapping: any = {
+  // Basic KPI
+  avg_price: {
+    filter: true,
+    filterLabel: 'Buy Box Price',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  avg_profit: {
+    filter: true,
+    filterLabel: 'Profit',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  avg_margin: {
+    filter: true,
+    filterLabel: 'Profit Margin',
+    filterSign: '%',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  avg_daily_sales: {
+    filter: true,
+    filterLabel: 'Avg Daily Unit Sold',
+    filterSign: '',
+    filterType: 'range',
+  },
+  avg_monthly_sales: {
+    filter: true,
+    filterLabel: 'Avg Monthly Sales',
+    filterSign: '',
+    filterType: 'range',
+  },
+  avg_daily_revenue: {
+    filter: true,
+    filterLabel: 'Avg Daily Revenue',
+    filterSign: '',
+    filterType: 'range',
+  },
+  avg_roi: {
+    filter: true,
+    filterLabel: 'ROI',
+    filterSign: '%',
+    filterType: 'range',
+  },
+  avg_rank: {
+    filter: true,
+    filterLabel: 'Rank',
+    filterSign: '',
+    filterType: 'range',
+  },
+  weight: {
+    filter: true,
+    filterLabel: 'Rank',
+    filterSign: '',
+    filterType: 'range',
+  },
+  customer_reviews: {
+    filter: true,
+    filterLabel: 'Customer Reviews',
+    filterSign: '',
+    filterType: 'range',
+  },
+  rating: {
+    filter: true,
+    filterLabel: 'Rating',
+    filterSign: '',
+    filterType: 'checkbox',
+    filterCheckboxWithSelectAll: true,
+  },
+  avg_inventory: {
+    filter: true,
+    filterLabel: 'Avg Inventory',
+    filterSign: '',
+    filterType: 'range',
+  },
+  avg_amazon_inventory: {
+    filter: true,
+    filterLabel: 'Avg Amazon Inventory',
+    filterSign: '',
+    filterType: 'range',
+  },
+  is_amazon_selling: {
+    filter: true,
+    filterLabel: 'Is Amazon Selling',
+    filterSign: '',
+    filterType: 'checkbox',
+  },
+};
 
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -102,6 +198,101 @@ export const dataKeyMapping: any = {
     showInputs: true,
     groupId: 'basic',
   },
+};
+
+export const presetsFilterData: any = {
+  amazon: {
+    label: 'Amazon',
+    dataKey: 'amazon-choice-preset',
+    data: [
+      {
+        label: 'Amazon Choice Products',
+        dataKey: 'amazon-choice-products',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Amazon is NOT a seller',
+        dataKey: 'not-amazon-products',
+        isActive: false,
+        type: 'preset',
+      },
+    ],
+  },
+  customizable: {
+    label: 'Customizable',
+    dataKey: 'customizable-preset',
+    data: [
+      {
+        label: 'Listing generates',
+        dataKey: 'avg_monthly_revenue',
+        defaultOperation: '≥', //≤
+        currency: '$',
+        defaultValue: 1300,
+        targetValue: '/month',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Profit is',
+        dataKey: 'profit-monthly',
+        defaultOperation: '≥',
+        defaultValue: 300,
+        currency: '$',
+        targetValue: '/month',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Profit Margin is',
+        dataKey: 'avg_margin',
+        defaultOperation: '≥',
+        defaultValue: 15,
+        targetValue: '%',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Amazon price is',
+        dataKey: 'avg_price',
+        defaultOperation: '≥',
+        defaultValue: 25,
+        currency: '$',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Estimated Sales Volume is',
+        dataKey: 'avg_monthly_sales',
+        defaultOperation: '≥',
+        defaultValue: 100,
+        targetValue: '/month',
+        isActive: false,
+        type: 'preset',
+      },
+      {
+        label: 'Product review is',
+        dataKey: 'customer_reviews',
+        defaultOperation: '≥',
+        defaultValue: 20,
+        targetValue: 'reviews',
+        isActive: false,
+        type: 'preset',
+      },
+    ],
+  },
+};
+
+export const ratingDataMapping: any = ['1-star', '2-star', '3-star', '4-star', '5-star'];
+
+export const amazonSelling: any = ['True', 'False'];
+
+export const getProductTrackerCheckBoxData = (dk: any) => {
+  if (dk === 'rating') {
+    return ratingDataMapping;
+  } else if (dk === 'is_amazon_selling') {
+    return amazonSelling;
+  }
 };
 
 export const groupKeyMapping: any = {
@@ -274,45 +465,58 @@ export const customFilterOperation = (operation: string, prodValue: any, filterV
   }
 };
 
-export const customizableFilter = (product: any, customizableFilter: any) => {
+const getRangedFilteredProducts = (product: any, rangeFilter: any) => {
+  return rangeFilter.every(
+    (filter: any) =>
+      filter.range !== undefined &&
+      Number(product[filter.dataKey]) >= Number(filter.range.min) &&
+      Number(product[filter.dataKey]) <= Number(filter.range.max)
+  );
+};
+
+export const getCustomizableFilteredProducts = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (result) {
-      if (filter.dataKey === 'listing-monthly' && filter.active) {
-        const generatesValue = (
-          Number(product.avg_price) *
-          (Math.round(product.avg_daily_sales) * 30)
-        ).toFixed(2);
-        if (!filter.active) result = true;
+      /*
+      show amazon choice products if checked, if not, show all
+      */
+      if (filter.dataKey === 'amazon-choice-products') {
+        result = !_.isEmpty(product.amazon_choice);
+      }
+      /*
+      show NOT selling products if checked, if not, show all
+      */
+      if (filter.dataKey === 'not-amazon-products') {
+        result = !product.is_amazon_selling;
+      }
+
+      // for keys with computation that doesn't exist in filter slider
+      if (filter.dataKey === 'avg_monthly_revenue') {
+        const monthly_revenue = product.avg_daily_revenue * 30;
+        if (!filter.isActive) result = true;
         else {
-          result = customFilterOperation(filter.operation, generatesValue, filter.value);
+          result = customFilterOperation(filter.operation, monthly_revenue, filter.value);
         }
       }
-      if (filter.dataKey === 'profit-monthly' && filter.active) {
-        const profitMonthly = (
-          Number(product.avg_profit) *
-          (Math.round(product.avg_daily_sales) * 30)
-        ).toFixed(2);
-        if (!filter.active) result = true;
+      if (filter.dataKey === 'profit-monthly') {
+        const profitMonthly = product.avg_profit * product.avg_monthly_sales;
+        if (!filter.isActive) result = true;
         else {
           result = customFilterOperation(filter.operation, profitMonthly, filter.value);
         }
       }
-      if (filter.dataKey === 'avg_monthly_sales' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          if (product.customer_reviews === null) result = true;
-          else {
-            const monthlySales = (Math.round(product.avg_daily_sales) * 30).toFixed(2);
-            result = customFilterOperation(filter.operation, monthlySales, filter.value);
-          }
-        }
-      }
 
       // for sliders with keys same with customize filter for ex. price
-      for (const keys of filterKeys) {
-        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
-          result = Number(product[filter.dataKey]) === Number(filter.value);
+      for (const key of filterKeys) {
+        if (filter.dataKey === key) {
+          if (!filter.isActive) result = true;
+          else {
+            if (product[key] === null) result = true;
+            else {
+              result = customFilterOperation(filter.operation, product[key], filter.value);
+            }
+          }
         }
       }
     }
@@ -320,43 +524,37 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   return result;
 };
 
-export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
-  if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
-    return true;
-  else {
-    return (
-      profitabilityFilter.value === 'Non-Profitable Products' && Number(product.avg_profit) !== 0
-    );
-  }
+const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
+  return checkboxFilter.every(
+    (filter: any) =>
+      filter.value.includes(product[filter.dataKey]) ||
+      (_.isEmpty(product[filter.dataKey]) && filter.value.includes('Others')) ||
+      //only for is amazon selling checkbox filter
+      filter.value.toLowerCase().includes(product[filter.dataKey]) ||
+      //only for rating checkbox filter
+      (filter.dataKey === 'rating' &&
+        filter.value.includes(JSON.stringify(Math.trunc(product.rating))))
+  );
 };
 
-export const findFilteredProducts = (products: any, filterData: any) => {
-  const updatedFilterProducts = _.filter(products, product => {
-    return filterData !== undefined
-      ? /*
-          show amazon choice products if checked, if not, show all
-        */
-        (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
-          (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
-            !_.isEmpty(product.amazon_choice))) &&
-          /*
-          show NOT selling products if checked, if not, show all
-        */
-          (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
-            (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
-              !product.is_amazon_selling)) &&
-          (filterData.reviews.length === 5 ||
-            filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
-          customizableFilter(product, filterData.customizable) &&
-          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-          filterKeys.every(
-            (dataKey: any) =>
-              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-              Number(product[dataKey]) <= Number(filterData[dataKey].max)
-          )
-      : products;
-  });
-  return updatedFilterProducts;
+export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
+  if (_.isEmpty(filterData)) return products;
+  else {
+    const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
+    const presetFilter = _.filter(filterData, filter => filter.type === 'preset');
+    const checkboxFilter = _.filter(
+      filterData,
+      filter => filter.isActive && filter.type === 'checkbox'
+    );
+    const filteredProducts = _.filter(products, (product: any) => {
+      return (
+        getCheckboxFilteredProducts(product, checkboxFilter) &&
+        getRangedFilteredProducts(product, rangeFilter) &&
+        getCustomizableFilteredProducts(product, presetFilter)
+      );
+    });
+    return filteredProducts;
+  }
 };
 
 export const searchFilteredProduct = (products: any, value: string) => {

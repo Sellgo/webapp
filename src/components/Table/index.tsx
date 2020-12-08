@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { TableBody } from './TableBody';
 import TableHeader from './TableHeader';
 import Pagination from '../Pagination';
+import ActiveFilters from '../ActiveFilters';
 
 import ConstructionImage from '../../components/ConstructionImage/';
 
@@ -20,11 +21,14 @@ export interface Column {
   label?: string;
   sortable?: boolean;
   filter?: boolean;
+  filterLabel?: string;
   filterType?: string;
   filterSign?: string;
-  filterDataKey?: string;
-  filterLabel?: string;
+  filterNegativeCheckbox?: boolean;
+  filterCheckboxWithSelectAll?: boolean;
+  filterBoxSize?: string;
   searchIconPosition?: string;
+  filterDataKey?: string;
   show?: boolean;
   check?: any;
   icon?: any;
@@ -75,16 +79,19 @@ export interface GenericTableProps {
   middleScroll?: boolean;
   rowExpander?: any;
   pageCount?: any;
-  toggleColumnFilters?: (data: any) => void;
+  toggleColumnFilters?: (data: any, type?: string) => void;
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
-  resetColumnFilters?: (dataKey: string) => void;
+  resetColumnFilters?: (dataKey: string, type: string) => void;
   loadingFilters?: boolean;
   filterValues?: any;
   loading?: boolean;
   searchValue?: string;
   scrollToView?: boolean;
+  filtersData?: any;
+  toggleActiveFilter?: (data: any) => void;
+  resetSingleFilter?: (dataKey: any, type: any) => void;
   leftFixedColumns?: number;
   rightFixedColumns?: number;
 }
@@ -164,6 +171,9 @@ export const GenericTable = (props: GenericTableProps) => {
     loading,
     searchValue,
     scrollToView,
+    filtersData,
+    toggleActiveFilter,
+    resetSingleFilter,
     leftFixedColumns,
     rightFixedColumns,
   } = props;
@@ -229,18 +239,31 @@ export const GenericTable = (props: GenericTableProps) => {
           }
           // make string-based sorting case-insensitive
           if (sortedColumn.dataKey && sortedColumn.type === 'string') {
-            if (sortedColumn.dataKey === 'dimension') {
-              const firstDimension = formatDimensionForSorting(aColumn);
-              const secondDimension = formatDimensionForSorting(bColumn);
-              if (firstDimension < secondDimension) {
-                return -1;
+            if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+              return -1;
+            }
+            // make string-based sorting case-insensitive
+            if (sortedColumn.dataKey && sortedColumn.type === 'string') {
+              if (sortedColumn.dataKey === 'dimension') {
+                const firstDimension = formatDimensionForSorting(aColumn);
+                const secondDimension = formatDimensionForSorting(bColumn);
+                if (firstDimension < secondDimension) {
+                  return -1;
+                }
+                return 1;
+              } else {
+                if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+                  return -1;
+                }
+                if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+                  return 1;
+                }
               }
-              return 1;
             } else {
-              if (aColumn.toLowerCase().trim() < bColumn.toLowerCase().trim()) {
+              if (aColumn < bColumn) {
                 return -1;
               }
-              if (aColumn.toLowerCase().trim() > bColumn.toLowerCase().trim()) {
+              if (aColumn > bColumn) {
                 return 1;
               }
             }
@@ -469,6 +492,12 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <BottomScroll columns={columns} name={name} />
                   <div className="pagination-container">
+                    <ActiveFilters
+                      name={name}
+                      filtersData={filtersData}
+                      toggleFilter={toggleActiveFilter}
+                      resetSingleFilter={resetSingleFilter}
+                    />
                     <Pagination
                       onPageSizeSelect={size => {
                         if (setSinglePageItemsCount) {

@@ -36,11 +36,11 @@ interface Shared {
   className?: string;
   setActiveColumn: (value?: string) => void;
   setSortColumn: (value?: string) => void;
-  toggleColumnFilters?: (data: any) => void;
+  toggleColumnFilters?: (data: any, type?: any) => void;
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
-  resetColumnFilters?: (dataKey: string) => void;
+  resetColumnFilters?: (dataKey: string, type?: any) => void;
   loadingFilters?: boolean;
   filterValues?: any;
   resetPage: (sortDirection: string, dataKey: string) => void;
@@ -104,15 +104,18 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filter = false,
     searchIconPosition = 'right',
     filterSign,
-    filterDataKey,
     filterLabel,
+    filterNegativeCheckbox,
+    filterCheckboxWithSelectAll,
+    filterBoxSize,
+    filterDataKey,
   } = column;
   const style = label === 'Supplier' ? { minWidth: '120px' } : { padding: 0, height: 46 };
   let otherProps: any;
   const columnClass = type !== 'leads-tracker' ? getColumnClass(column) : '';
   otherProps = {
     onClick:
-      sortable && type !== 'leads-tracker'
+      sortable && !['leads-tracker', 'products', 'trackerTable'].includes(type ? type : '')
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -131,7 +134,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   const sorting = {
     onClick:
-      type === 'leads-tracker' && sortable
+      ['leads-tracker', 'products', 'trackerTable'].includes(type ? type : '') && sortable
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -169,19 +172,22 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       key={dataKey}
       onClose={toggleColumnCheckbox}
       onOpen={toggleColumnCheckbox}
-      position="bottom right"
+      position={filterBoxSize === 'lg' ? 'top left' : 'bottom right'}
       className="range-filters"
       basic={true}
       trigger={
         <Icon
           className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
-          onClick={() => (toggleColumnFilters ? toggleColumnFilters(columnDataKey) : undefined)}
+          onClick={() =>
+            toggleColumnFilters ? toggleColumnFilters(columnDataKey, filterType) : undefined
+          }
         />
       }
       content={
         <RangeFilterBox
           label={filterLabel ? filterLabel : label}
           dataKey={columnDataKey}
+          filterLabel={filterLabel}
           labelSign={filterSign}
           filterType={filterType}
           resetFilters={resetColumnFilters}
@@ -190,6 +196,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           loading={loadingFilters}
           values={filterValues}
           name={type}
+          filterNegativeCheckbox={filterNegativeCheckbox}
+          filterCheckboxWithSelectAll={filterCheckboxWithSelectAll}
+          filterBoxSize={filterBoxSize}
         />
       }
     />
@@ -219,22 +228,29 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
               </span>
             ) : (
               <span>
-                {' '}
                 <Icon name="caret up" className="sort-icon" {...sorting} />
               </span>
             )
           ) : null}
+          {filter && searchIconPosition === 'right' && ColumnFilter}
           {check && <Checkbox value={check} />}
           {icon && popUp ? (
             <Popup
               on="click"
-              open={columnFilterBox}
+              open={columnFilterBox && activeColumnFilters === 'ellipsis horizontal'}
               onClose={toggleColumnCheckbox}
               onOpen={toggleColumnCheckbox}
               position="bottom right"
               className="column-swap-popup"
               basic={true}
-              trigger={<Icon className={`${icon}`} />}
+              trigger={
+                <Icon
+                  className={`${icon}`}
+                  onClick={() =>
+                    toggleColumnFilters ? toggleColumnFilters(dataKey, filterType) : undefined
+                  }
+                />
+              }
               content={
                 <ColumnFilterCard
                   columnFilterData={columnFilterData}
@@ -258,7 +274,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   }
   return (
     <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
-      {' '}
       <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
         {filter && searchIconPosition === 'left' && ColumnFilter}
 
@@ -274,7 +289,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           ) : (
             <span>
-              {' '}
               <Icon name="caret up" className="sort-icon" {...sorting} />
             </span>
           )
@@ -300,13 +314,18 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         {icon && popUp ? (
           <Popup
             on="click"
-            open={columnFilterBox}
+            open={columnFilterBox && activeColumnFilters === 'ellipsis horizontal'}
             onClose={toggleColumnCheckbox}
             onOpen={toggleColumnCheckbox}
             position="bottom right"
             className="column-swap-popup"
             basic={true}
-            trigger={<Icon className={`${icon} popup-ic`} />}
+            trigger={
+              <Icon
+                className={`${icon} popup-ic`}
+                onClick={() => (toggleColumnFilters ? toggleColumnFilters(dataKey) : undefined)}
+              />
+            }
             content={
               <ColumnFilterCard
                 columnFilterData={columnFilterData}

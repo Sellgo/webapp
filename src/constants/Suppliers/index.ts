@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { NewFilterModel } from '../../interfaces/Filters';
+import { filterKeys } from '../Tracker';
 import { PRODUCT_ID_TYPES } from '../UploadSupplier';
 
 export const SET_SUPPLIERS = 'SET_SUPPLIERS';
@@ -35,6 +37,134 @@ export const SET_SORT_COLUMN = 'SET_SORT_COLUMN';
 export const SET_PRODUCTS_LOADING_DATA_BUSTER = 'SET_PRODUCTS_LOADING_DATA_BUSTER';
 export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 
+export const productCategories: any = [
+  'Amazon Launchpad',
+  'Appliances',
+  'Apps & Games',
+  'Arts,Crafts & Sewing',
+  'Audio & Video Connectors & Adapters',
+  'Automotive',
+  'Baby',
+  'Beauty & Personal Care',
+  'Books',
+  'Camera & Photo',
+  'CDs & Vinyl',
+  'Cell Phones & Accessories',
+  'Clothing,Shoes & Jewelry',
+  'Collectible & Fine Arts',
+  'Computers & Accessories',
+  'Earbud & In-Ear Headphones',
+  'Electronics',
+  'Grocery & Gourmet Food',
+  'Handmade Products',
+  'Health & Household',
+  'Home & Kitchen',
+  'Industrial & Scientific',
+  'Kindle store',
+  'Kitchen & Dining',
+  'Lock Picking & Theft Devices',
+  'Luggage & Travel',
+  'Magazine Subscription',
+  'Medical Devices & Accessories',
+  'Movies & TV',
+  'Musical Instruments',
+  'Office Products',
+  'Outdoors',
+  'Patio,Lawn & Garden',
+  'Pet Supplies',
+  'Software',
+  'Sports & Outdoors',
+  'Tools & Home Improvement',
+  'Toys & Games',
+  'Video Games',
+  'Others',
+];
+
+export const sizeTiers: any = [
+  'Small standard-size',
+  'Large standard-size',
+  'Small oversize',
+  'Medium oversize',
+  'Large oversize',
+  'Special oversize',
+  'Others',
+];
+
+export const ratings: any = ['1-star', '2-star', '3-star', '4-star', '5-star'];
+
+export const amazonSelling: any = ['True', 'False'];
+
+export const getProfitFinderCheckBoxData = (dk: any) => {
+  if (dk === 'amazon_category_name') {
+    return productCategories;
+  } else if (dk === 'size_tier') {
+    return sizeTiers;
+  } else if (dk === 'rating') {
+    return ratings;
+  } else if (dk === 'is_amazon_selling') {
+    return amazonSelling;
+  }
+};
+
+export const customizablePresetData: any = [
+  {
+    label: 'Listing generates',
+    dataKey: 'monthly_revenue',
+    defaultOperation: '≥', //≤
+    currency: '$',
+    defaultValue: 1300,
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Profit is',
+    dataKey: 'profit-monthly',
+    defaultOperation: '≥',
+    defaultValue: 300,
+    currency: '$',
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Profit Margin is',
+    dataKey: 'multipack_margin',
+    defaultOperation: '≥',
+    defaultValue: 15,
+    targetValue: '%',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Amazon price is',
+    dataKey: 'price',
+    defaultOperation: '≥',
+    defaultValue: 25,
+    currency: '$',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Estimated Sales Volume is',
+    dataKey: 'sales_monthly',
+    defaultOperation: '≥',
+    defaultValue: 100,
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Product review is',
+    dataKey: 'customer_reviews',
+    defaultOperation: '≥',
+    defaultValue: 20,
+    targetValue: 'reviews',
+    isActive: false,
+    type: 'preset',
+  },
+];
+
 export const dataKeys: any = [
   // Basic KPI
   'profit',
@@ -47,7 +177,169 @@ export const dataKeys: any = [
   // 'roi_inventory',
 ];
 
-export const supplierDataKeys: any = ['price', 'profit', 'roi', 'sales_monthly', 'margin', 'rank'];
+export const supplierDataKeys: any = [
+  'price',
+  'product_cost',
+  'fees',
+  'multipack_profit',
+  'multipack_margin',
+  'monthly_revenue',
+  'fba_fee',
+  'referral_fee',
+  'variable_closing_fee',
+  'num_fba_new_offers',
+  'num_fbm_new_offers',
+  'low_new_fba_price',
+  'low_new_fbm_price',
+  'multipack_roi',
+  'rank',
+  'sales_monthly',
+  'customer_reviews',
+];
+
+// Meta data for each dataKeys above used for filers
+export const supplierDataKeysMapping: any = {
+  // Basic KPI
+  price: {
+    filter: true,
+    filterLabel: 'Buy Box Price',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  product_cost: {
+    filter: true,
+    filterLabel: 'Cost',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  fees: {
+    filter: true,
+    filterLabel: 'Total Fees',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  multipack_profit: {
+    filter: true,
+    filterLabel: 'Profit',
+    filterSign: '$',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  multipack_margin: {
+    filter: true,
+    filterLabel: 'Profit Margin',
+    filterSign: '%',
+    filterType: 'range',
+    filterNegativeCheckbox: true,
+  },
+  monthly_revenue: {
+    filter: true,
+    filterLabel: 'Monthly Revenue',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  fba_fee: {
+    filter: true,
+    filterLabel: 'FBA fee',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  referral_fee: {
+    filter: true,
+    filterLabel: 'Referral fee',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  variable_closing_fee: {
+    filter: true,
+    filterLabel: 'Variable Closing Fee',
+    filterSign: '',
+    filterType: 'range',
+  },
+  num_fba_new_offers: {
+    filter: true,
+    filterLabel: 'Num New FBA Offers',
+    filterSign: '',
+    filterType: 'range',
+  },
+  num_fbm_new_offers: {
+    filter: true,
+    filterLabel: 'Num New FBM Offers',
+    filterSign: '',
+    filterType: 'range',
+  },
+  low_new_fba_price: {
+    filter: true,
+    filterLabel: 'Low New FBA Offers',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  low_new_fbm_price: {
+    filter: true,
+    filterLabel: 'Low New FBM Offers',
+    filterSign: '$',
+    filterType: 'range',
+  },
+  multipack_quantity: {
+    filter: true,
+    filterLabel: 'Package Quantity',
+    filterSign: '',
+    filterType: 'range',
+  },
+  multipack_roi: {
+    filter: true,
+    filterLabel: 'ROI',
+    filterSign: '%',
+    filterType: 'range',
+  },
+  rank: {
+    filter: true,
+    filterLabel: 'Rank',
+    filterSign: '',
+    filterType: 'range',
+  },
+  sales_monthly: {
+    filter: true,
+    filterLabel: 'Monthly Sales Estimate',
+    filterSign: '',
+    filterType: 'range',
+  },
+  amazon_category_name: {
+    filter: true,
+    filterLabel: 'Product Category',
+    filterSign: '',
+    filterType: 'checkbox',
+    filterBoxSize: 'lg',
+    filterCheckboxWithSelectAll: true,
+  },
+  size_tier: {
+    filter: true,
+    filterLabel: 'Product Size Tiers',
+    filterSign: '',
+    filterType: 'checkbox',
+  },
+  customer_reviews: {
+    filter: true,
+    filterLabel: 'Customer Reviews',
+    filterSign: '',
+    filterType: 'range',
+  },
+  rating: {
+    filter: true,
+    filterLabel: 'Rating',
+    filterSign: '',
+    filterType: 'checkbox',
+    filterCheckboxWithSelectAll: true,
+  },
+  is_amazon_selling: {
+    filter: true,
+    filterLabel: 'Is Amazon Selling',
+    filterSign: '',
+    filterType: 'checkbox',
+  },
+};
+
 // Meta data for each dataKeys above
 export const dataKeyMapping: any = {
   // Basic KPI
@@ -58,7 +350,7 @@ export const dataKeyMapping: any = {
     showInputs: true,
     groupId: 'basic',
   },
-  margin: {
+  multipack_margin: {
     text: 'Profit Margin (%)',
     presetText: 'Max Profit Margin (%)',
     showSlider: true,
@@ -206,42 +498,29 @@ export const customFilterOperation = (
   }
 };
 
-export const customizableFilter = (product: any, customizableFilter: any) => {
+export const getCustomizableFilteredProducts = (product: any, customizableFilter: any) => {
   let result = true;
   _.filter(customizableFilter, filter => {
     if (result) {
       // for keys with computation that doesn't exist in filter slider
-      if (filter.dataKey === 'listing-monthly' && filter.active) {
-        const generatesValue = product.price * product.sales_monthly;
-        if (!filter.active) result = true;
-        else {
-          result = customFilterOperation(filter.operation, generatesValue, filter.value);
-        }
-      }
-      if (filter.dataKey === 'profit-monthly' && filter.active) {
+      if (filter.dataKey === 'profit-monthly') {
         const profitMonthly = product.profit * product.sales_monthly;
-        if (!filter.active) result = true;
+        if (!filter.isActive) result = true;
         else {
           result = customFilterOperation(filter.operation, profitMonthly, filter.value);
         }
       }
-      if (filter.dataKey === 'customer_reviews' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          if (product.customer_reviews === null) result = true;
-          else {
-            result = customFilterOperation(
-              filter.operation,
-              product.customer_reviews,
-              filter.value
-            );
-          }
-        }
-      }
+
       // for sliders with keys same with customize filter for ex. price
-      for (const keys of supplierDataKeys) {
-        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
-          result = Number(product[filter.dataKey]) === Number(filter.value);
+      for (const key of filterKeys) {
+        if (filter.dataKey === key) {
+          if (!filter.isActive) result = true;
+          else {
+            if (product[key] === null) result = true;
+            else {
+              result = customFilterOperation(filter.operation, product[key], filter.value);
+            }
+          }
         }
       }
     }
@@ -257,34 +536,51 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
   }
 };
 
-export const findFilteredProducts = (products: any, filterData: any) => {
-  const updatedFilterProducts = _.filter(products, product => {
-    return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
-      ? // show if product's category matched one of filter's categories
-        (filterData.allFilter.indexOf(product.amazon_category_name) !== -1 ||
-          //show if product's category is empty & other's filter is active
-          (_.isEmpty(product.amazon_category_name) &&
-            filterData.allFilter.indexOf('Others') !== -1) ||
-          //show if product's category doesn't exist in filter's categories if other's filter is active
-          (filterData.categories.indexOf(product.amazon_category_name) === -1 &&
-            filterData.allFilter.indexOf('Others') !== -1)) &&
-          //show product size tier is empty and others is checked
-          ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
-            //show product size tier is matched by one of size tiers
-            filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
-          //customizable filters
-          customizableFilter(product, filterData.customizable) &&
-          //NonProfitable filters
-          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-          //Product's Min and Max must be valid from filter's min & max
-          supplierDataKeys.every(
-            (dataKey: any) =>
-              Number(product[dataKey]) >= Number(filterData[dataKey].min) &&
-              Number(product[dataKey]) <= Number(filterData[dataKey].max)
-          )
-      : null;
-  });
-  return updatedFilterProducts;
+const getRangedFilteredProducts = (product: any, rangeFilter: any) => {
+  return rangeFilter.every(
+    (filter: any) =>
+      filter.range !== undefined &&
+      Number(product[filter.dataKey]) >= Number(filter.range.min) &&
+      Number(product[filter.dataKey]) <= Number(filter.range.max)
+  );
+};
+
+const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
+  return checkboxFilter.every(
+    (filter: any) =>
+      // Default checkbox filter like size tier
+      filter.value.includes(product[filter.dataKey]) ||
+      (_.isEmpty(product[filter.dataKey]) && filter.value.includes('Others')) ||
+      //only for is amazon selling checkbox filter
+      filter.value.toLowerCase().includes(product[filter.dataKey]) ||
+      //only for amazon-category checkbox filter
+      (filter.dataKey === 'amazon_category_name' &&
+        productCategories.indexOf(product.amazon_category_name) === -1 &&
+        filter.value.includes('Others')) ||
+      //only for rating checkbox filter
+      (filter.dataKey === 'rating' &&
+        filter.value.includes(JSON.stringify(Math.trunc(product.rating))))
+  );
+};
+
+export const findFilteredProducts = (products: any, filterData: NewFilterModel[]) => {
+  if (_.isEmpty(filterData)) return products;
+  else {
+    const rangeFilter = _.filter(filterData, filter => filter.isActive && filter.type === 'range');
+    const checkboxFilter = _.filter(
+      filterData,
+      filter => filter.isActive && filter.type === 'checkbox'
+    );
+    const presetFilter = _.filter(filterData, filter => filter.type === 'preset');
+    const filteredProducts = _.filter(products, (product: any) => {
+      return (
+        getRangedFilteredProducts(product, rangeFilter) &&
+        getCheckboxFilteredProducts(product, checkboxFilter) &&
+        getCustomizableFilteredProducts(product, presetFilter)
+      );
+    });
+    return filteredProducts;
+  }
 };
 
 export const searchFilteredProduct = (products: any, value: string) => {

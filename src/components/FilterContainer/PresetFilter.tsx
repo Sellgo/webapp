@@ -1,28 +1,90 @@
-import React from 'react';
-import { FilterState, SupplierFilter } from '../../interfaces/Filters';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { Dropdown } from 'semantic-ui-react';
+import { customizablePresetData } from '../../constants/Suppliers';
+import { NewFilterModel } from '../../interfaces/Filters';
 
 interface PresetFilterProps {
-  applyFilter: (isPreset?: boolean) => void;
-  filterData: SupplierFilter;
-  filterState: FilterState;
-  filterInitialData: FilterState;
+  applyFilter: (data?: any) => void;
+  filterData: any;
   resetPreset: () => void;
-  customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
   togglePresetFilter: (value: boolean) => void;
+  resetSingleFilter: (dataKey: any, type: any) => void;
 }
 
 const PresetFilter = (props: PresetFilterProps) => {
   const {
     applyFilter,
-    filterData,
-    filterState,
+    filterData = [],
     resetPreset,
-    customizeFilterChange,
-    filterInitialData,
     togglePresetFilter,
+    resetSingleFilter,
   } = props;
+  const [localValues, setLocalValues] = React.useState(customizablePresetData);
+
+  useEffect(() => {
+    const data = filterData.filter((filter: any) => filter.type === 'preset');
+    if (data.length <= 0) {
+      reset();
+    } else {
+      const result = localValues.map((filter: any) => {
+        for (const filter2 of data) {
+          if (filter.dataKey === filter2.dataKey) {
+            filter.value = filter2.value;
+            filter.operation = filter2.operation;
+            filter.isActive = filter2.isActive;
+          }
+        }
+        return filter;
+      });
+      setLocalValues(result);
+    }
+  }, [filterData]);
+
+  const reset = () => {
+    const result = localValues.map((filter: any) => {
+      filter.value = filter.defaultValue;
+      filter.operation = filter.defaultOperation;
+      filter.isActive = false;
+      return filter;
+    });
+    setLocalValues(result);
+  };
+
+  const isPresetChecked = (dataKey: any) => {
+    const data = filterData.filter((filter: any) => filter.type === 'preset');
+    const index = data.findIndex((filter: any) => filter.dataKey === dataKey && filter.isActive);
+    return index !== -1 ? true : false;
+  };
+
+  const setLocalData = (dataKey: string, type: string, value?: any) => {
+    const filters: NewFilterModel[] = _.cloneDeep(localValues);
+    const filterMap = _.map(filters, data => {
+      if (data.dataKey === dataKey) {
+        if (type === 'operation') {
+          data.operation = value;
+        } else if (type === 'filter-value') {
+          data.value = data.value !== undefined || data.value !== '' ? value : 0;
+        } else if (type === 'toggle') {
+          if (data.isActive) {
+            data.isActive = false;
+            resetSingleFilter(dataKey, 'preset');
+          } else {
+            data.value = data.value || data.defaultValue;
+            data.operation = data.operation || data.defaultOperation;
+            data.isActive = true;
+            applyFilter(data);
+          }
+        }
+
+        if (data.isActive && type !== 'toggle') {
+          applyFilter(data);
+        }
+      }
+      return data;
+    });
+    setLocalValues(filterMap);
+  };
 
   return (
     <div className={'presets-filter-content-wrapper'}>
@@ -42,108 +104,67 @@ const PresetFilter = (props: PresetFilterProps) => {
           <p
             onClick={() => {
               resetPreset();
-              applyFilter();
+              reset();
             }}
           >
             x Reset
           </p>
         </div>
       </div>
-      {_.map(filterData.presets, (filter, key) => {
-        return (
-          <div className={`presets-filter-content-wrapper__content ${filter.dataKey}`} key={key}>
-            {filter.dataKey === 'customizable-preset' && (
-              <>
-                <span className="presets-filter-content-wrapper__content__filter-name">
+      <div className={`presets-filter-content-wrapper__content `}>
+        <span className="presets-filter-content-wrapper__content__filter-name">Customizable</span>
+        {_.map(localValues, (filter, index) => {
+          return (
+            <div className="presets-filter-content-wrapper__content__filter-item" key={index}>
+              <div className={`ui checkbox customizable-checkbox`} key={index}>
+                <input
+                  id={filter.dataKey}
+                  checked={isPresetChecked(filter.dataKey)}
+                  onChange={() => {
+                    setLocalData(filter.dataKey, 'toggle');
+                  }}
+                  type="checkbox"
+                />
+                <label className="customizable-checkbox__label" htmlFor={filter.dataKey}>
                   {filter.label}
-                </span>
-                {_.map(filter.data, (filterData, index) => {
-                  return (
-                    <div
-                      className="presets-filter-content-wrapper__content__filter-item"
-                      key={index}
-                    >
-                      <div className={`ui checkbox customizable-checkbox`} key={index}>
-                        <input
-                          id={filterData.dataKey}
-                          checked={
-                            filterState.customizable[index] &&
-                            filterState.customizable[index].active
-                          }
-                          onChange={() => {
-                            customizeFilterChange(filterData.dataKey, 'toggle');
-                          }}
-                          type="checkbox"
-                        />
-                        <label
-                          className="customizable-checkbox__label"
-                          htmlFor={filterData.dataKey}
-                        >
-                          {filterData.label}
-                        </label>
-                        <Dropdown
-                          text={
-                            filterState.customizable[index] &&
-                            filterState.customizable[index].operation
-                          }
-                          icon={'caret down'}
-                        >
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              text="≤"
-                              onClick={() =>
-                                customizeFilterChange(filterData.dataKey, 'operation', '≤')
-                              }
-                            />
-                            <Dropdown.Item
-                              text="="
-                              onClick={() =>
-                                customizeFilterChange(filterData.dataKey, 'operation', '=')
-                              }
-                            />
-                            <Dropdown.Item
-                              text="≥"
-                              onClick={() =>
-                                customizeFilterChange(filterData.dataKey, 'operation', '≥')
-                              }
-                            />
-                          </Dropdown.Menu>
-                        </Dropdown>
-                        <div className="ui input">
-                          <input
-                            type="number"
-                            value={
-                              filterState.customizable[index] &&
-                              filterState.customizable[index].value
-                            }
-                            onBlur={evt => {
-                              if (!evt.target.value) {
-                                customizeFilterChange(
-                                  filterData.dataKey,
-                                  'filter-value',
-                                  filterInitialData.customizable[index].value
-                                );
-                              }
-                            }}
-                            onChange={evt =>
-                              customizeFilterChange(
-                                filterData.dataKey,
-                                'filter-value',
-                                evt.target.value
-                              )
-                            }
-                          />
-                        </div>
-                        {filterData.targetValue}
-                      </div>
-                    </div>
-                  );
-                })}
-              </>
-            )}
-          </div>
-        );
-      })}
+                </label>
+                <Dropdown text={filter.operation || filter.defaultOperation} icon={'caret down'}>
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      text="≤"
+                      onClick={() => setLocalData(filter.dataKey, 'operation', '≤')}
+                    />
+                    <Dropdown.Item
+                      text="="
+                      onClick={() => setLocalData(filter.dataKey, 'operation', '=')}
+                    />
+                    <Dropdown.Item
+                      text="≥"
+                      onClick={() => setLocalData(filter.dataKey, 'operation', '≥')}
+                    />
+                  </Dropdown.Menu>
+                </Dropdown>
+                {filter.currency !== undefined && filter.currency}
+                <div className="ui input">
+                  <input
+                    type="number"
+                    value={filter.value === undefined ? filter.defaultValue : filter.value}
+                    onBlur={evt => {
+                      if (!evt.target.value) {
+                        {
+                          setLocalData(filter.dataKey, 'filter-value', filter.defaultValue);
+                        }
+                      }
+                    }}
+                    onChange={evt => setLocalData(filter.dataKey, 'filter-value', evt.target.value)}
+                  />
+                </div>
+                {filter.targetValue !== undefined && filter.targetValue}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

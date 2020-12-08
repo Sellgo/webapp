@@ -50,13 +50,11 @@ interface ProductTrackerProps {
   subscriptionType: string;
 }
 
-const filterStorage = JSON.parse(
-  typeof localStorage.trackerFilter === 'undefined' ? null : localStorage.trackerFilter
-);
+const trackerPeriod = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
 class ProductTracker extends React.Component<ProductTrackerProps> {
   state = {
     searchValue: '',
-    periodValue: filterStorage ? filterStorage.period : DEFAULT_PERIOD,
+    periodValue: trackerPeriod,
     productTrackID: null,
   };
 
@@ -66,10 +64,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     setFilterSearch('');
     this.props.setMenuItem(this.state.productTrackID);
     fetchAllTrackedProductDetails(periodValue);
-  }
-
-  componentWillUnmount() {
-    localStorage.setItem('openPeriod', JSON.stringify(false));
   }
 
   handlePeriodDrop = (data: any) => {
@@ -83,8 +77,6 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
     const { setPageNumber } = this.props;
     setPageNumber(1);
 
-    //close period filter
-    localStorage.setItem('openPeriod', JSON.stringify(false));
     if (id !== null) {
       this.setState({ productTrackID: id }, () => {
         this.props.setMenuItem(this.state.productTrackID);
@@ -194,6 +186,7 @@ class ProductTracker extends React.Component<ProductTrackerProps> {
                   <AsinSearch />
                 </div>
                 <ProductTrackerTable
+                  activeGroupId={activeGroupId}
                   handleMenu={(id: any) => this.handleMenu(id)}
                   periodValue={this.state.periodValue}
                   handleUntrack={(id: any, trackId: any) => this.handleUntrack(id, trackId)}

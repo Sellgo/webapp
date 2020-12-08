@@ -65,9 +65,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       fetchProductDetailChartReview,
       fetchProductDetailChartSellerInventory,
     } = this.props;
-    const period =
-      (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
-      DEFAULT_PERIOD;
+    const period = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
     this.setState({ period: period });
     fetchProductDetailChartRank(product.product_id, period);
     fetchProductDetailChartPrice(product.product_id, period);
@@ -78,9 +76,7 @@ class ProductCharts extends Component<ProductChartsProps> {
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    const period =
-      (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
-      DEFAULT_PERIOD;
+    const period = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
     if (prevState.period !== period) {
       this.setState({ period: period });
     }

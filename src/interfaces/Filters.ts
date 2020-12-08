@@ -1,12 +1,3 @@
-export interface FilterModel {
-  label: string;
-  dataKey: string;
-  checked?: boolean;
-  value?: number;
-  operation?: string;
-  targetValue?: string;
-}
-
 export interface RangeModel {
   label: string;
   dataKey: string;
@@ -30,102 +21,26 @@ export interface CustomizableFilterModel {
   value: number;
   active: boolean;
 }
-//Supplier
-export interface FilterData {
+
+export interface NewFilterModel {
   label: string;
   dataKey: string;
-  checkedValue?: string;
-  radio: boolean;
-  data: FilterModel[];
-}
-
-export interface SupplierFilter {
-  allFilter: FilterData[];
-  filterRanges: RangeModel[];
-  presets: FilterData[];
-}
-
-export interface FilterState {
-  supplierID: string;
-  allFilter: string[];
-  profitability: string;
-  profitabilityFilter: {
-    value: string;
-    active: boolean;
-  };
-  removeNegative: string[];
-  sizeTierFilter: string[];
-  price: {
+  type: string;
+  isActive: boolean;
+  dateModified: any;
+  checked?: boolean;
+  value?: any;
+  currency?: string;
+  operation?: string;
+  defaultValue?: any;
+  defaultOperation?: any;
+  targetValue?: string;
+  minPlaceholder?: string;
+  maxPlaceholder?: string;
+  presetKey?: string;
+  range?: {
     min: number;
     max: number;
   };
-  profit: {
-    min: number;
-    max: number;
-  };
-  margin: {
-    min: number;
-    max: number;
-  };
-  roi: {
-    min: number;
-    max: number;
-  };
-  sales_monthly: {
-    min: number;
-    max: number;
-  };
-  rank: {
-    min: number;
-    max: number;
-  };
-  customizable: CustomizableFilterModel[];
-}
-
-//Product Tracker
-
-export interface ProductTrackerFilterInterface {
-  all: {
-    filterRanges: RangeModel[];
-    reviews: FilterData;
-  };
-  period: FilterData;
-  presets: FilterData[];
-}
-
-export interface ProductTrackerFilterState {
-  supplierID: string;
-  removeNegative: string[];
-  reviews: string[];
-  amazonChoice: string[];
-  period: number;
-  profitabilityFilter: {
-    value: string;
-    active: boolean;
-  };
-  price: {
-    min: number;
-    max: number;
-  };
-  profit: {
-    min: number;
-    max: number;
-  };
-  margin: {
-    min: number;
-    max: number;
-  };
-  roi: {
-    min: number;
-    max: number;
-  };
-  sales_monthly: {
-    min: number;
-    max: number;
-  };
-  rank: {
-    min: number;
-    max: number;
-  };
-  customizable: CustomizableFilterModel[];
+  sign?: string;
 }

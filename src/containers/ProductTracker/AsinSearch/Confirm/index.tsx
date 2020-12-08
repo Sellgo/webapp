@@ -31,7 +31,6 @@ interface Props {
   asinData: any;
   trackGroups: any;
   selectedMarketPlace: any;
-  filterData: any;
   setMenuItem: (item: any) => void;
   checkProduct: (asin: string) => void;
   checkedProductsData: any;
@@ -46,7 +45,6 @@ const Confirm = (props: Props) => {
     trackGroups,
     confirmTrackProduct,
     selectedMarketPlace,
-    filterData,
     checkProduct,
     verifyingProduct,
     checkedProductsData,
@@ -127,7 +125,7 @@ const Confirm = (props: Props) => {
 
   const trackProduct = () => {
     const validProducts = getValidProducts();
-    const period = _.isEmpty(filterData) ? DEFAULT_PERIOD : filterData.period;
+    const period = JSON.parse(localStorage.getItem('trackerPeriod') || `${DEFAULT_PERIOD}`);
     confirmTrackProduct(validProducts, selectedMarketPlace.value, period, selectedGroup);
     openModal(false);
     emptyData();
@@ -343,7 +341,6 @@ const Confirm = (props: Props) => {
 
 const mapStateToProps = (state: {}) => ({
   trackGroups: get(state, 'productTracker.trackerGroup'),
-  filterData: get(state, 'productTracker.filterData'),
   verifyingProduct: get(state, 'productTracker.verifyingProduct'),
   checkedProductsData: get(state, 'productTracker.checkedProductsData'),
 });

@@ -1,0 +1,136 @@
+.active-filters-wrapper {
+  margin-left: 85px;
+  display: flex;
+  align-items: center;
+  width: 75%;
+  padding: 10px 0;
+
+  &.shadow {
+    border-right: 1px solid #b7b7b7;
+    box-shadow: inset -25px 0 5px -25px #9e9898;
+  }
+
+  .scroll-container {
+    display: flex;
+    overflow-x: scroll !important;
+  }
+
+  label {
+    width: 111px;
+    display: flex;
+    margin-left: 5px;
+  }
+
+  &__toggle {
+    width: 2%;
+  }
+
+  &__icon {
+    color: #98aeca;
+    margin: 0 10px !important;
+  }
+
+  &__label,
+  span {
+    color: #98aeca;
+  }
+
+  &__items-wrapper {
+    margin: 0 0 0 5px;
+    display: flex;
+    width: 90%;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__item {
+      color: #98aeca;
+      border: 1px solid #98aeca;
+      border-radius: 5px;
+      padding: 2px 5px 0;
+      font-size: 12px;
+      margin: 0 5px;
+      width: 100%;
+      justify-content: start;
+      align-items: center;
+      flex-direction: row;
+      display: flex;
+
+      p {
+        margin: 0 2px;
+      }
+
+      &__title {
+        display: inline-block;
+        white-space: pre;
+      }
+
+      &__icon {
+        color: #98aeca;
+        margin: 0 0 0 5px !important;
+        cursor: pointer;
+        font-size: 13px !important;
+        line-height: 1;
+      }
+    }
+  }
+
+  .ui {
+    &.checkbox {
+      span {
+        color: #98aeca;
+      }
+
+      input:checked ~ .box::before,
+      input:checked ~ label::before {
+        background-color: #98aeca;
+        border: 1px solid #d4d4d5;
+        color: #98aeca !important;
+      }
+
+      input:checked ~ .box::after,
+      input:checked ~ label::after {
+        font-size: 12px;
+        font-weight: 400;
+        color: #fff;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1660px) {
+  .active-filters-wrapper {
+    width: 68%;
+
+    &__toggle {
+      width: 3%;
+    }
+
+    &__items-wrapper {
+      width: 87% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .active-filters-wrapper {
+    width: 65%;
+
+    &__toggle {
+      width: 3%;
+    }
+
+    label {
+      width: 95px;
+    }
+
+    &__items-wrapper {
+      width: 85% !important;
+    }
+  }
+
+  .sellgo-pagination {
+    width: 27%;
+  }
+}

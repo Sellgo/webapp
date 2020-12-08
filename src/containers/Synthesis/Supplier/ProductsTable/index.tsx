@@ -12,6 +12,8 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
   triggerDataBuster,
+  filterSupplierProducts,
+  getLatestSupplier,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -23,7 +25,6 @@ import {
   showNAIfZeroOrNull,
 } from '../../../../utils/format';
 import { tableKeys } from '../../../../constants';
-import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
 import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
@@ -37,6 +38,14 @@ import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
 
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
+import FilterSection from '../FilterSection';
+import {
+  findMinMax,
+  getProfitFinderCheckBoxData,
+  supplierDataKeys,
+  supplierDataKeysMapping,
+} from '../../../../constants/Suppliers';
+import { NewFilterModel } from '../../../../interfaces/Filters';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -66,6 +75,8 @@ interface ProductsTableProps {
   supplierDetails: Supplier;
   productsLoadingDataBuster: number[];
   bustData: (synthesisFileID: number, productIDs: number[]) => void;
+  filterSearch: string;
+  filterProducts: (value: string, filterData: any) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -80,6 +91,9 @@ interface ProductsTableState {
   ColumnFilterBox: boolean;
   columns: Column[];
   updateTracking: boolean;
+  activeColumnFilters: any;
+  activeColumnFilterValue: any;
+  localFilterData: NewFilterModel[];
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -91,6 +105,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     ColumnFilterBox: false,
     columns: [],
     updateTracking: false,
+    activeColumnFilters: {},
+    activeColumnFilterValue: {},
+    localFilterData: [],
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -341,6 +358,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
+
   searchFilteredProduct = (value: string) => {
     const {
       searchProducts,
@@ -388,6 +406,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.price,
       render: this.renderPrice,
     },
     {
@@ -397,6 +416,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.product_cost,
       render: this.renderCost,
     },
     {
@@ -406,6 +426,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.fees,
       render: this.renderFee,
     },
     {
@@ -415,6 +436,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_profit,
       render: this.renderProfit,
     },
     {
@@ -424,6 +446,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_margin,
       render: this.renderMargin,
     },
     {
@@ -433,6 +456,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_roi,
       render: this.renderRoi,
     },
     {
@@ -451,6 +475,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'md-column',
+      ...supplierDataKeysMapping.sales_monthly,
       render: this.renderMonthlySalesEst,
     },
     {
@@ -460,6 +485,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.monthly_revenue,
       render: this.renderMonthlyRevenue,
     },
     {
@@ -469,6 +495,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.fba_fee,
       render: this.renderFbaFee,
     },
     {
@@ -478,6 +505,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.referral_fee,
       render: this.renderReferralFee,
     },
     {
@@ -487,6 +515,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      ...supplierDataKeysMapping.variable_closing_fee,
       render: this.renderVariableClosingFee,
     },
     {
@@ -495,6 +524,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'boolean',
       show: true,
       sortable: true,
+      ...supplierDataKeysMapping.is_amazon_selling,
       render: this.renderIsAmazon,
     },
     {
@@ -503,6 +533,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      ...supplierDataKeysMapping.customer_reviews,
       render: this.renderReviews,
     },
     {
@@ -511,6 +542,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      ...supplierDataKeysMapping.rating,
       render: this.renderRating,
     },
     {
@@ -520,6 +552,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      ...supplierDataKeysMapping.num_fba_new_offers,
       render: this.renderNumFbaNewOffers,
     },
     {
@@ -529,6 +562,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      ...supplierDataKeysMapping.num_fbm_new_offers,
       render: this.renderNumFbmNewOffers,
     },
     {
@@ -538,6 +572,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.low_new_fba_price,
       render: this.renderLowNewFbaPrice,
     },
     {
@@ -547,6 +582,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.low_new_fbm_price,
       render: this.renderLowNewFbmPrice,
     },
     {
@@ -556,6 +592,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      ...supplierDataKeysMapping.multipack_quantity,
       render: this.renderMultipackQuantity,
     },
     {
@@ -565,6 +602,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'lg-column',
+      ...supplierDataKeysMapping.amazon_category_name,
       render: this.renderCategory,
     },
     {
@@ -574,6 +612,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'xl-column',
+      ...supplierDataKeysMapping.size_tier,
       render: this.renderSizeTiers,
     },
     {
@@ -611,13 +650,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       popUp: true,
     },
   ];
-
-  handleClick = () => {
-    const { ColumnFilterBox } = this.state;
-    this.setState({
-      ColumnFilterBox: !ColumnFilterBox,
-    });
-  };
 
   handleColumnDrop = (e: any, data: any) => {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify(data));
@@ -692,6 +724,18 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   componentDidMount() {
+    const profitFinderFilterState = JSON.parse(
+      localStorage.getItem('profitFinderFilterState') || '[]'
+    );
+    if (
+      profitFinderFilterState.length >= 1 &&
+      this.props.supplierID === getLatestSupplier().id.toString()
+    ) {
+      this.setState({ localFilterData: profitFinderFilterState });
+    } else {
+      this.resetFilters();
+    }
+
     const currentFilterOrder = JSON.parse(
       localStorage.getItem('profitFinderColumnFilterState') || '[]'
     );
@@ -710,12 +754,541 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   }
 
   componentDidUpdate(prevProps: ProductsTableProps) {
-    if (prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts) {
+    const { filterSearch, filterProducts } = this.props;
+    const profitFinderFilterState = JSON.parse(
+      localStorage.getItem('profitFinderFilterState') || '[]'
+    );
+    if (
+      prevProps.isLoadingSupplierProducts !== this.props.isLoadingSupplierProducts ||
+      prevProps.productsLoadingDataBuster !== this.props.productsLoadingDataBuster
+    ) {
       this.detectAndUpdateProductId();
+      if (
+        profitFinderFilterState.length >= 1 &&
+        this.props.supplierID === getLatestSupplier().id.toString()
+      ) {
+        filterProducts(filterSearch, profitFinderFilterState);
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
+      }
+    }
+    if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
+      console.log('products: ', this.props.products);
+      this.getFilteredRanges();
     }
   }
 
+  getFilteredRanges = () => {
+    const { products } = this.props;
+    const filteredRanges = findMinMax(products);
+    this.setState({ filteredRanges });
+  };
+
+  setActiveColumnFilters = (data: any, type: any) => {
+    this.setState({
+      activeColumnFilterValue: this.getFilterValues(data, type),
+    });
+    console.log('setActiveColumnFilters: ', data, type);
+    this.setState({ activeColumnFilters: data });
+  };
+
+  getFilterValues = (data: any, type: any) => {
+    if (type === 'range') {
+      return this.state.filteredRanges[data];
+    } else if (type === 'checkbox') {
+      const checkboxData = getProfitFinderCheckBoxData(data);
+      const filterCheckboxes = _.map(checkboxData, data => {
+        const obj: any = {};
+        obj.value = data;
+        return obj;
+      });
+      return filterCheckboxes;
+    }
+  };
+
+  handleFilterBoxClick = () => {
+    const { ColumnFilterBox } = this.state;
+    this.setState({
+      ColumnFilterBox: !ColumnFilterBox,
+    });
+  };
+
+  saveFilter = (data: any) => {
+    const { filterSearch, filterProducts } = this.props;
+    const localFilterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const localFilters = _.cloneDeep(localFilterData);
+
+    /*
+      Edit saved filter
+    */
+    const isSaved =
+      localFilters.findIndex(
+        (filter: any) => filter.dataKey === data.dataKey && filter.type === data.type
+      ) !== -1;
+    if (isSaved) {
+      const updatedFilterData = _.map(localFilters, filter => {
+        if (filter.dataKey === data.dataKey && filter.type === data.type) {
+          if (data.type === 'range') {
+            filter.range = data.value;
+          } else if (data.type === 'checkbox') {
+            filter.value = data.value;
+          } else if (data.type === 'preset') {
+            filter.operation = data.operation;
+            filter.value = data.value;
+          }
+          filter.isActive = data.isActive;
+          filter.dateModified = Date.now();
+        }
+        return filter;
+      });
+
+      //profitability preset disable when profit slider change
+      if (data.dataKey === 'multipack_profit') {
+        const probabilityIndex = updatedFilterData.findIndex(
+          (filter: any) => filter.type === 'probability-preset'
+        );
+        if (probabilityIndex !== -1) {
+          updatedFilterData.splice(probabilityIndex, 1);
+        }
+      }
+      /*
+        Preset and Range sync logic
+      */
+      if (data.type === 'range') {
+        /*
+          apply range filter and remove existing preset filter with same datakey
+        */
+        const index = updatedFilterData.findIndex(
+          (filter: any) => filter.type === 'preset' && filter.dataKey === data.dataKey
+        );
+        if (index !== -1) {
+          updatedFilterData.splice(index, 1);
+        }
+      } else if (data.type === 'preset') {
+        /*
+          apply preset filter and remove existing range filter with same datakey
+        */
+        const NewRangeFilter = this.syncPresetAndRange(data);
+        if (NewRangeFilter !== undefined) {
+          localFilters.map((filter: any) => {
+            if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+              filter.range = NewRangeFilter.value;
+              filter.dateModified = NewRangeFilter.dateModified;
+            }
+            return filter;
+          });
+        }
+      }
+
+      this.setState({ localFilterData: updatedFilterData });
+      filterProducts(filterSearch, updatedFilterData);
+      localStorage.setItem('profitFinderFilterState', JSON.stringify(updatedFilterData));
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
+    } else {
+      /*
+        New added filter
+      */
+      const newFilter: NewFilterModel = { ...data };
+      if (data.type === 'range') {
+        newFilter.range = data.value;
+
+        /*
+          apply range filter and remove existing preset with same datakey
+        */
+        const index = localFilters.findIndex(
+          (filter: any) => filter.type === 'preset' && filter.dataKey === data.dataKey
+        );
+        if (index !== -1) {
+          localFilters.splice(index, 1);
+        }
+      } else if (data.type === 'checkbox') {
+        newFilter.value = data.value;
+      } else if (data.type === 'preset') {
+        /*
+          apply preset filter and creatte range filter or sync range filter
+        */
+        const isRangeFilterExist =
+          localFilters.findIndex(
+            (filter: any) => filter.type === 'range' && filter.dataKey === data.dataKey
+          ) !== -1;
+        const NewRangeFilter = this.syncPresetAndRange(data);
+        if (NewRangeFilter !== undefined) {
+          if (isRangeFilterExist) {
+            localFilters.map((filter: any) => {
+              if (filter.type === 'range' && filter.dataKey === data.dataKey) {
+                filter.range = NewRangeFilter.value;
+                filter.dateModified = NewRangeFilter.dateModified;
+              }
+              return filter;
+            });
+          } else {
+            localFilters.push(NewRangeFilter);
+          }
+        }
+      }
+      localFilters.push(newFilter);
+      this.setState({ localFilterData: localFilters });
+      filterProducts(filterSearch, localFilters);
+      localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
+    }
+  };
+
+  applyActiveFilter = (data: any) => {
+    this.saveFilter(data);
+    this.setState({ ColumnFilterBox: false });
+  };
+
+  resetSingleFilter = (dataKey: any, type: string) => {
+    const { filterSearch, filterProducts } = this.props;
+    const localFilterData = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const filterActive = JSON.parse(
+      localStorage.getItem('profitFinderFilterStateActive') || 'false'
+    );
+    const localFilters = _.cloneDeep(localFilterData);
+    const result = localFilters.filter((filter: any) => filter.dataKey !== dataKey);
+
+    //profitability preset disable when profit slider change
+    if (dataKey === 'multipack_profit' && type === 'range') {
+      const probabilityIndex = result.findIndex(
+        (filter: any) => filter.type === 'probability-preset'
+      );
+      if (probabilityIndex !== -1) {
+        result.splice(probabilityIndex, 1);
+      }
+    }
+
+    if (type === 'preset' || type === 'range') {
+      localStorage.removeItem(`products:${dataKey}`);
+    }
+
+    if (filterActive) {
+      this.setState({ localFilterData: result });
+      filterProducts(filterSearch, result);
+    }
+
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(result));
+    this.setState({ ColumnFilterBox: false });
+  };
+
+  resetPreset = () => {
+    const { localFilterData } = this.state;
+    const { filterSearch, filterProducts } = this.props;
+    const localFilters = _.cloneDeep(localFilterData);
+    const removedPresets = localFilters.filter((filter: any) => filter.type === 'preset');
+    if (removedPresets.length >= 1) {
+      this.removeSlidersFiltersWithPreset(removedPresets);
+      for (const preset of removedPresets) {
+        const rangeIndex = localFilters.findIndex(
+          (filter: any) => filter.type === 'range' && filter.dataKey === preset.dataKey
+        );
+        if (rangeIndex !== -1) {
+          localFilters.splice(rangeIndex, 1);
+        }
+      }
+    }
+    const results = localFilters.filter((filter: any) => filter.type !== 'preset');
+    this.setState({ localFilterData: results });
+    filterProducts(filterSearch, results);
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(results));
+    localStorage.setItem('profitFinderFilterStateActive', 'true');
+  };
+
+  resetFilters = () => {
+    localStorage.removeItem('profitFinderFilterState');
+    localStorage.removeItem('profitFinderFilterStateActive');
+    for (const supplierKey of supplierDataKeys) {
+      localStorage.removeItem(`products:${supplierKey}`);
+    }
+  };
+
+  removeSlidersFiltersWithPreset = (presets: any) => {
+    for (const filter of presets) {
+      for (const supplierKey of supplierDataKeys) {
+        if (filter.dataKey === supplierKey) {
+          localStorage.removeItem(`products:${supplierKey}`);
+        }
+      }
+    }
+  };
+
+  syncPresetAndRange = (data: any) => {
+    if (supplierDataKeys.includes(data.dataKey)) {
+      const { localFilterData, filteredRanges } = this.state;
+      const localFilters = _.cloneDeep(localFilterData);
+      const result = localFilters.filter(
+        (filter: any) => filter.type === 'range' && filter.dataKey === data.dataKey
+      );
+      const filter: any =
+        result.length >= 1
+          ? result[0]
+          : {
+              dataKey: data.dataKey,
+              label: supplierDataKeysMapping[data.dataKey].filterLabel,
+              type: 'range',
+              isActive: true,
+              value: _.cloneDeep(filteredRanges[data.dataKey]),
+              range: _.cloneDeep(filteredRanges[data.dataKey]),
+              dateModified: Date.now(),
+            };
+      switch (data.operation) {
+        case '≤':
+          filter.value.min = filteredRanges[data.dataKey].min;
+          filter.value.max =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.range = filter.value;
+          localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        case '≥':
+          filter.value.min =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.value.max = filteredRanges[data.dataKey].max;
+          filter.range = filter.value;
+          localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        case '=':
+          filter.value.min =
+            Number(filter.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.value.max =
+            Number(data.value) < filteredRanges[data.dataKey].min
+              ? filteredRanges[data.dataKey].min
+              : Number(data.value) > filteredRanges[data.dataKey].max
+              ? filteredRanges[data.dataKey].max
+              : Number(data.value);
+          filter.range = filter.value;
+          localStorage.setItem(`products:${data.dataKey}`, JSON.stringify(filter));
+          return filter;
+        default:
+          return null;
+      }
+    }
+  };
+
+  setProfitability = (data: any) => {
+    const { filteredRanges } = this.state;
+    const { filterSearch, filterProducts } = this.props;
+    const localFilters: any = JSON.parse(localStorage.getItem('profitFinderFilterState') || '[]');
+    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const hasProfit =
+      localFilters.findIndex((filter: any) => filter.dataKey === 'multipack_profit') !== -1;
+
+    if (index !== -1) {
+      if (data !== '') {
+        if (hasProfit) {
+          localFilters.map((filter: any) => {
+            if (filter.type === 'range' && filter.dataKey === 'multipack_profit') {
+              if (data.value === 'Profitable') {
+                filter.range.min = 0.01;
+                filter.range.max = filteredRanges.multipack_profit.max;
+                filter.value.min = 0.01;
+                filter.value.max = filteredRanges.multipack_profit.max;
+                filter.isNegative = false;
+              } else if (data.value === 'Non-Profitable Products') {
+                filter.range.min = filteredRanges.multipack_profit.min;
+                filter.range.max = 0;
+                filter.value.min = filteredRanges.multipack_profit.min;
+                filter.value.max = 0;
+                filter.isNegative = false;
+              } else {
+                filter.range = filteredRanges.multipack_profit;
+                filter.value = filter.range;
+                filter.isNegative = false;
+              }
+              localStorage.setItem(`products:multipack_profit`, JSON.stringify(filter));
+            }
+            if (filter.type === 'probability-preset' && data.value !== '') {
+              filter.value = data.value;
+              filter.dateModified = Date.now();
+            }
+            return filter;
+          });
+          this.setState({ localFilterData: localFilters });
+          filterProducts(filterSearch, localFilters);
+          localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('profitFinderFilterStateActive', 'true');
+        } else {
+          const newFilter: any = {
+            label: 'Profit',
+            dataKey: 'multipack_profit',
+            isActive: true,
+            type: 'range',
+            value: {
+              min: 0,
+              max: 0,
+            },
+            range: {
+              min: 0,
+              max: 0,
+            },
+            isNegative: false,
+            defaultValues: filteredRanges.multipack_profit,
+          };
+          if (data.value === 'Profitable') {
+            newFilter.range.min = 0.01;
+            newFilter.range.max = filteredRanges.multipack_profit.max;
+            newFilter.value.min = 0.01;
+            newFilter.value.max = filteredRanges.multipack_profit.max;
+          } else if (data.value === 'Non-Profitable Products') {
+            newFilter.range.min = filteredRanges.multipack_profit.min;
+            newFilter.range.max = 0;
+            newFilter.value.min = filteredRanges.multipack_profit.min;
+            newFilter.value.max = 0;
+          } else {
+            newFilter.range = filteredRanges.multipack_profit;
+            newFilter.value = newFilter.range;
+          }
+          localFilters.push(newFilter);
+          this.setState({ localFilterData: localFilters });
+          filterProducts(filterSearch, localFilters);
+          localStorage.setItem(`products:multipack_profit`, JSON.stringify(newFilter));
+          localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+          localStorage.setItem('profitFinderFilterStateActive', 'true');
+        }
+      } else {
+        this.resetProfitablePreset();
+      }
+    } else {
+      if (hasProfit) {
+        localFilters.map((filter: any) => {
+          if (filter.type === 'range' && filter.dataKey === 'multipack_profit') {
+            if (data.value === 'Profitable') {
+              filter.range.min = 0.01;
+              filter.range.max = filteredRanges.multipack_profit.max;
+              filter.value.min = 0.01;
+              filter.value.max = filteredRanges.multipack_profit.max;
+              filter.isNegative = false;
+            } else if (data.value === 'Non-Profitable Products') {
+              filter.range.min = filteredRanges.multipack_profit.min;
+              filter.range.max = 0;
+              filter.value.min = filteredRanges.multipack_profit.min;
+              filter.value.max = 0;
+              filter.isNegative = false;
+            } else {
+              filter.range = filteredRanges.multipack_profit;
+              filter.isNegative = false;
+            }
+            localStorage.setItem(`products:multipack_profit`, JSON.stringify(filter));
+          }
+          return filter;
+        });
+        const probabilityData: NewFilterModel = { ...data };
+        localFilters.push(probabilityData);
+        this.setState({ localFilterData: localFilters });
+        filterProducts(filterSearch, localFilters);
+        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
+      } else {
+        const newFilter: any = {
+          label: 'Profit',
+          dataKey: 'multipack_profit',
+          isActive: true,
+          type: 'range',
+          isNegative: false,
+          value: {
+            min: 0,
+            max: 0,
+          },
+          range: {
+            min: 0,
+            max: 0,
+          },
+          defaultValues: filteredRanges.multipack_profit,
+        };
+        const probabilityData: NewFilterModel = { ...data };
+        if (data.value === 'Profitable') {
+          newFilter.range.min = 0.01;
+          newFilter.range.max = filteredRanges.multipack_profit.max;
+          newFilter.value.min = 0.01;
+          newFilter.value.max = filteredRanges.multipack_profit.max;
+        } else if (data.value === 'Non-Profitable Products') {
+          newFilter.range.min = filteredRanges.multipack_profit.min;
+          newFilter.range.max = 0;
+          newFilter.value.min = filteredRanges.multipack_profit.min;
+          newFilter.value.max = 0;
+        } else {
+          newFilter.range = filteredRanges.multipack_profit;
+          newFilter.value = newFilter.range;
+        }
+        localFilters.push(newFilter);
+        localFilters.push(probabilityData);
+        this.setState({ localFilterData: localFilters });
+        filterProducts(filterSearch, localFilters);
+        localStorage.setItem(`products:multipack_profit`, JSON.stringify(newFilter));
+        localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+        localStorage.setItem('profitFinderFilterStateActive', 'true');
+      }
+    }
+  };
+
+  resetProfitablePreset = () => {
+    const { localFilterData } = this.state;
+    const { filterProducts, filterSearch } = this.props;
+    const localFilters: any = _.cloneDeep(localFilterData);
+    const index = localFilters.findIndex((filter: any) => filter.type === 'probability-preset');
+    const profitRangeIndex = localFilters.findIndex(
+      (filter: any) => filter.type === 'range' && filter.dataKey === 'multipack_profit'
+    );
+    if (index !== -1) {
+      localFilters.splice(index, 1);
+    }
+    if (profitRangeIndex !== -1) {
+      localFilters.splice(profitRangeIndex, 1);
+    }
+    this.setState({ localFilterData: localFilters });
+    filterProducts(filterSearch, localFilters);
+    localStorage.setItem('profitFinderFilterState', JSON.stringify(localFilters));
+    localStorage.removeItem(`products:multipack_profit`);
+    localStorage.setItem('profitFinderFilterStateActive', 'true');
+  };
+
+  syncFilterSlider = (filter: any) => {
+    for (const supplierKey of supplierDataKeys) {
+      if (filter.dataKey === supplierKey) {
+        localStorage.setItem(`products:${filter.dataKey}`, JSON.stringify(filter));
+      }
+    }
+  };
+
+  toggleActiveFilter = (isActive: any) => {
+    const { filterSearch, filterProducts } = this.props;
+    if (isActive) {
+      const profitFinderFilterState = JSON.parse(
+        localStorage.getItem('profitFinderFilterState') || '[]'
+      );
+      const rangeFilters = profitFinderFilterState.filter((filter: any) => filter.type === 'range');
+      if (rangeFilters.length >= 1) {
+        for (const rangeFilter of rangeFilters) {
+          this.syncFilterSlider(rangeFilter);
+        }
+      }
+      this.setState({ localFilterData: profitFinderFilterState });
+      filterProducts(filterSearch, profitFinderFilterState);
+      localStorage.setItem('profitFinderFilterStateActive', 'true');
+    } else {
+      for (const supplierKey of supplierDataKeys) {
+        localStorage.removeItem(`products:${supplierKey}`);
+      }
+      this.setState({ localFilterData: [] });
+      filterProducts(filterSearch, []);
+      localStorage.setItem('profitFinderFilterStateActive', 'false');
+    }
+  };
+
   render() {
+    const profitFinderFilterState = JSON.parse(
+      localStorage.getItem('profitFinderFilterState') || '[]'
+    );
     const {
       isLoadingSupplierProducts,
       filteredProducts,
@@ -728,7 +1301,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       stickyChartSelector,
       currentActiveColumn,
     } = this.props;
-    const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
+    const {
+      searchValue,
+      checkedRows,
+      ColumnFilterBox,
+      columns,
+      columnFilterData,
+      activeColumnFilters,
+      activeColumnFilterValue,
+      localFilterData,
+      filteredRanges,
+    } = this.state;
 
     return (
       <div className="products-table">
@@ -761,13 +1344,33 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               checkedRows={checkedRows}
               updateCheckedRows={this.updateCheckedRows}
               handleColumnChange={this.handleColumnChange}
-              toggleColumnCheckbox={this.handleClick}
               columnFilterData={columnFilterData}
               middleScroll={true}
-              renderFilterSectionComponent={() => <ProfitFinderFilterSection />}
+              renderFilterSectionComponent={() => (
+                <FilterSection
+                  localFilterData={localFilterData}
+                  applyPresetFilter={this.saveFilter}
+                  resetPreset={this.resetPreset}
+                  resetSingleFilter={this.resetSingleFilter}
+                  setProfitability={this.setProfitability}
+                  filteredRanges={filteredRanges}
+                />
+              )}
               handleColumnDrop={this.handleColumnDrop}
               reorderColumns={this.reorderColumns}
               columnDnD={true}
+              activeColumnFilters={activeColumnFilters}
+              toggleColumnFilters={this.setActiveColumnFilters}
+              toggleColumnCheckbox={this.handleFilterBoxClick}
+              filterValues={activeColumnFilterValue}
+              resetColumnFilters={this.resetSingleFilter}
+              cancelColumnFilters={() => {
+                this.setState({ ColumnFilterBox: false });
+              }}
+              applyColumnFilters={this.applyActiveFilter}
+              filtersData={profitFinderFilterState}
+              toggleActiveFilter={this.toggleActiveFilter}
+              resetSingleFilter={this.resetSingleFilter}
               leftFixedColumns={2}
               rightFixedColumns={2}
             />
@@ -791,6 +1394,7 @@ const mapStateToProps = (state: {}) => ({
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   supplierDetails: supplierDetailsSelector(state),
   productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
+  filterSearch: get(state, 'supplier.filterSearch'),
 });
 
 const mapDispatchToProps = {
@@ -817,6 +1421,7 @@ const mapDispatchToProps = {
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
   bustData: (synthesisFileID: number, productIDs: number[]) =>
     triggerDataBuster(synthesisFileID, productIDs),
+  filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
