@@ -24,96 +24,6 @@
     transition-duration: 1s;
   }
 
-  .filter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .export-wrapper__dropdown {
-      background: #fff;
-      box-shadow: none;
-      border: 1px solid rgba(34, 36, 38, 0.15);
-      border-radius: 0.28571429rem;
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: space-between;
-      align-items: center;
-
-      i {
-        margin: 0 !important;
-      }
-
-      &.active {
-        border-color: rgba(34, 36, 38, 0.35);
-      }
-
-      min-width: 70px !important;
-      padding: 5px 10px !important;
-
-      .dropdown.icon {
-        font-size: 12px;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-      }
-
-      .menu {
-        overflow: hidden;
-
-        .item {
-          padding: 8px !important;
-          display: flex;
-          align-items: center;
-          font-size: 12px;
-          height: 37px;
-
-          .image {
-            margin: 0 5px 0 0 !important;
-            width: 24px;
-            height: 26px;
-
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
-        }
-      }
-    }
-
-    &__options {
-      display: flex;
-      width: 100%;
-    }
-
-    .leads-export-wrapper {
-      display: flex;
-      width: 100%;
-      justify-content: flex-end;
-      align-items: center;
-      padding-right: 5px;
-
-      .ToggleSwitch {
-        width: 55px;
-        margin-right: 20px;
-        margin-left: 10px;
-      }
-
-      p {
-        font-weight: 600;
-        color: #3b4557;
-        font-size: 14px;
-        margin: inherit;
-
-        &.hidden {
-          display: none;
-        }
-      }
-    }
-  }
-
   .ui.basic {
     &.button {
       border-radius: 100px;
@@ -209,6 +119,51 @@
 
       &.active {
         background: white !important;
+      }
+    }
+  }
+
+  .filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__options {
+      display: flex;
+      width: 100%;
+    }
+
+    .leads-export-wrapper {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 5px;
+
+      .ToggleSwitch {
+        width: 55px;
+        margin-right: 20px;
+        margin-left: 10px;
+      }
+
+      p {
+        font-weight: 600;
+        color: #3b4557;
+        font-size: 14px;
+        margin: inherit;
+
+        &.hidden {
+          display: none;
+        }
+      }
+
+      .ui.basic.button {
+        box-shadow: inset 0 2px 1px #dbe0e457, 0 1px 1px rgba(0, 0, 0, 0.1) !important;
+        background: 0 0 !important;
+
+        &:hover {
+          background: white !important;
+        }
       }
     }
   }
