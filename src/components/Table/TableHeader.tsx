@@ -283,7 +283,12 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           {label}
         </span>
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
-          <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
+          <img
+            src={SortIcon}
+            className={`sort-arrow ${filter && 'less'}`}
+            alt="sort arrow"
+            {...sorting}
+          />
         ) : sortable && sortedColumnKey === dataKey ? (
           sortDirection === 'ascending' ? (
             <span>

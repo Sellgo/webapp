@@ -188,6 +188,10 @@
   margin: 0 3px -2px 12px;
   max-height: 13px;
   max-width: 10px;
+
+  &.less {
+    margin: 0 3px -2px 3px !important;
+  }
 }
 
 .search-filter {
