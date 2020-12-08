@@ -291,12 +291,7 @@ export const GenericTable = (props: GenericTableProps) => {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
     if (name === 'products') {
-      const MATCH = 'Not found on Amazon';
-      let filtered = rows.filter(row => row.title !== MATCH);
-      filtered = sortDirection === 'ascending' ? filtered.slice().reverse() : filtered;
-      let matched = rows.filter(row => row.title === MATCH);
-      matched = sortDirection === 'ascending' ? matched.slice().reverse() : matched;
-      rows = [...filtered, ...matched];
+      rows = rows.sort((a, b) => a.id - b.id);
     } else {
       rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
     }
