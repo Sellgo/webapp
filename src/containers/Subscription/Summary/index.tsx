@@ -91,7 +91,9 @@ function Summary(props: SummaryProps) {
                 />
                 <Button
                   basic
-                  className="summary-container__content__wrapper__right__input-content__coupon-btn"
+                  className={`summary-container__content__wrapper__right__input-content__coupon-btn${
+                    isCouponApplied ? '-redeemed' : ''
+                  }`}
                   onClick={() => redeem()}
                 >
                   {isCouponApplied ? 'Applied' : 'Redeem'}
