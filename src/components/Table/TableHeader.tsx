@@ -58,6 +58,7 @@ export interface TableHeaderProps extends Shared {
 export interface TableHeaderCellProps extends Shared {
   column: Column;
   columns: Column[];
+  scrollTopSelector: boolean;
 }
 
 const TableHeaderCell = (props: TableHeaderCellProps) => {
@@ -90,6 +91,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     loadingFilters,
     filterValues,
     resetPage,
+    scrollTopSelector,
   } = props;
   const {
     dataKey,
@@ -172,7 +174,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       key={dataKey}
       onClose={toggleColumnCheckbox}
       onOpen={toggleColumnCheckbox}
-      position={filterBoxSize === 'lg' ? 'top left' : 'bottom right'}
+      position={scrollTopSelector ? 'top left' : 'bottom right'}
       className="range-filters"
       basic={true}
       trigger={
@@ -459,6 +461,7 @@ const TableHeader = (props: TableHeaderProps) => {
                             column={column}
                             columns={columns}
                             key={column.dataKey || index}
+                            scrollTopSelector={scrollTopSelector}
                             {...rest}
                           />
                         );
@@ -483,6 +486,7 @@ const TableHeader = (props: TableHeaderProps) => {
               columns={columns}
               column={column}
               key={column.dataKey || index}
+              scrollTopSelector={scrollTopSelector}
               {...rest}
             />
           );
