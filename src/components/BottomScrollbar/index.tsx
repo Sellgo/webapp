@@ -20,7 +20,6 @@ const BottomScroll = (props: Props) => {
       }
     } else {
       const table = document.querySelector('.generic-table');
-      // const scrollingHeader = document.querySelector('.table-header-scroll');
       const middleHeader = document.querySelector('.middle-header');
 
       if (middleHeader) {
