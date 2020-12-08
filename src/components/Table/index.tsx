@@ -291,7 +291,11 @@ export const GenericTable = (props: GenericTableProps) => {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
     if (name === 'products') {
-      rows = sortDirection === 'ascending' ? rows.sort((a, b) => a.id - b.id) : rows;
+      if (!sortClicked && !sortedColumnKey) {
+        rows = rows.sort((a, b) => a.id - b.id);
+      } else {
+        rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
+      }
     } else {
       rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
     }
