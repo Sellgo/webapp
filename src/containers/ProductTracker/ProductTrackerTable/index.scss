@@ -518,6 +518,42 @@ $link-color: #349af8;
         }
       }
 
+      .avg_roi {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_rank {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .customer_reviews {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .rating {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_inventory {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_amazon_inventory {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
       &:nth-child(2) {
         .stat {
           margin-right: 2px;
