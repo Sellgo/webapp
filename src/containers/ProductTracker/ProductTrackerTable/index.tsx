@@ -210,7 +210,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
   handleEditGroupSubmit = (group: any) => {
-    console.log('group: ', group);
     if (!_.isEmpty(group.name.trim())) {
       this.props.updateProductTrackGroup(group);
       this.setState({
