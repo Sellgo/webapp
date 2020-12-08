@@ -16,6 +16,7 @@ import queryString from 'query-string';
 import {
   fetchSellerSubscription,
   fetchSubscriptions,
+  redeemCoupon,
   setSellerSubscription,
 } from '../../../actions/Settings/Subscription';
 import { getSellerInfo } from '../../../actions/Settings';
@@ -39,7 +40,6 @@ import {
   isSubscriptionIdPro,
   isSubscriptionNotPaid,
   isTrialExpired,
-  redeemCoupon,
 } from '../../../utils/subscriptions';
 import _ from 'lodash';
 

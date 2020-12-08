@@ -4,8 +4,7 @@ import { Button, Container, Header, Input } from 'semantic-ui-react';
 import _ from 'lodash';
 import { Subscription } from '../../../interfaces/Seller';
 import { connect } from 'react-redux';
-import { fetchSubscriptions } from '../../../actions/Settings/Subscription';
-import { redeemCoupon } from '../../../utils/subscriptions';
+import { fetchSubscriptions, redeemCoupon } from '../../../actions/Settings/Subscription';
 
 interface SummaryProps {
   planType: string;
@@ -13,10 +12,21 @@ interface SummaryProps {
   subscriptions: Subscription[];
   fetchSubscriptions: () => void;
   showCoupon?: boolean;
+  isCouponApplied: boolean;
+  redeemCoupon: (couponValue: any, sellerID: any) => void;
 }
 function Summary(props: SummaryProps) {
-  const { planType, paymentMode, subscriptions, fetchSubscriptions, showCoupon } = props;
+  const {
+    planType,
+    paymentMode,
+    subscriptions,
+    fetchSubscriptions,
+    showCoupon,
+    isCouponApplied,
+    redeemCoupon,
+  } = props;
   const [couponValue, setCouponValue] = useState('');
+
   useEffect(() => {
     fetchSubscriptions();
   }, []);
@@ -47,7 +57,6 @@ function Summary(props: SummaryProps) {
 
   const redeem = () => {
     const sellerID = localStorage.getItem('userId');
-    console.log('Coupon: ', couponValue, sellerID);
     redeemCoupon(couponValue, sellerID);
   };
 
@@ -85,7 +94,7 @@ function Summary(props: SummaryProps) {
                   className="summary-container__content__wrapper__right__input-content__coupon-btn"
                   onClick={() => redeem()}
                 >
-                  Redeem
+                  {isCouponApplied ? 'Applied' : 'Redeem'}
                 </Button>
               </div>
             </div>
@@ -107,10 +116,12 @@ function Summary(props: SummaryProps) {
 
 const mapStateToProps = (state: any) => ({
   subscriptions: state.subscription.subscriptions,
+  isCouponApplied: state.subscription.isCouponApplied,
 });
 
 const mapDispatchToProps = {
   fetchSubscriptions: () => fetchSubscriptions(),
+  redeemCoupon: (couponValue: any, sellerID: any) => redeemCoupon(couponValue, sellerID),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Summary);
