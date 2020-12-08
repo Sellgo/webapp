@@ -92,7 +92,7 @@ export const sizeTiers: any = [
 
 export const ratings: any = ['1-star', '2-star', '3-star', '4-star', '5-star'];
 
-export const amazonSelling: any = ['True', 'False'];
+export const amazonSelling: any = ['Yes', 'No'];
 
 export const getProfitFinderCheckBoxData = (dk: any) => {
   if (dk === 'amazon_category_name') {
@@ -546,6 +546,7 @@ const getRangedFilteredProducts = (product: any, rangeFilter: any) => {
 };
 
 const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
+  console.log('2: ', !product.is_amazon_selling && checkboxFilter[0].value.includes('No'));
   return checkboxFilter.every(
     (filter: any) =>
       // Default checkbox filter like size tier
@@ -559,7 +560,13 @@ const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
         filter.value.includes('Others')) ||
       //only for rating checkbox filter
       (filter.dataKey === 'rating' &&
-        filter.value.includes(JSON.stringify(Math.trunc(product.rating))))
+        filter.value.includes(JSON.stringify(Math.trunc(product.rating)))) ||
+      //only for is amazon checkbox filter
+      (filter.dataKey === 'is_amazon_selling' &&
+        filter.value.indexOf(
+          product.is_amazon_selling ? 'Yes' : product.is_amazon_selling === false ? 'No' : ''
+        ) !== -1 &&
+        _.isEmpty(product.is_amazon_selling))
   );
 };
 

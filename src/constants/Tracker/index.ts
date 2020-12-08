@@ -285,7 +285,7 @@ export const presetsFilterData: any = {
 
 export const ratingDataMapping: any = ['1-star', '2-star', '3-star', '4-star', '5-star'];
 
-export const amazonSelling: any = ['True', 'False'];
+export const amazonSelling: any = ['Yes', 'No'];
 
 export const getProductTrackerCheckBoxData = (dk: any) => {
   if (dk === 'rating') {
@@ -533,7 +533,13 @@ const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
       filter.value.toLowerCase().includes(product[filter.dataKey]) ||
       //only for rating checkbox filter
       (filter.dataKey === 'rating' &&
-        filter.value.includes(JSON.stringify(Math.trunc(product.rating))))
+        filter.value.includes(JSON.stringify(Math.trunc(product.rating)))) ||
+      //only for is amazon checkbox filter
+      (filter.dataKey === 'is_amazon_selling' &&
+        filter.value.indexOf(
+          product.is_amazon_selling ? 'Yes' : product.is_amazon_selling === false ? 'No' : ''
+        ) !== -1 &&
+        _.isEmpty(product.is_amazon_selling))
   );
 };
 
