@@ -18,6 +18,22 @@
   .card-content {
     width: 'auto';
   }
+
+  .inventory {
+    text-align: right !important;
+  }
+
+  .progress {
+    text-align: right !important;
+  }
+
+  .p2l_ratio {
+    text-align: right !important;
+  }
+
+  .rate {
+    text-align: right !important;
+  }
 }
 
 @media screen and (min-width: 310px) and (max-width: 767px) {

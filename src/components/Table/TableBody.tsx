@@ -40,7 +40,7 @@ const TableCell = (props: TableColumnCellProps) => {
     cellProps = { ...cellProps, as };
   }
   if (type === 'trackerTable') {
-    className = `${customClass} ${columnClass} ptr-cell`;
+    className = `${customClass} ${columnClass} ptr-cell ${column.dataKey}`;
     cellProps = {
       ...cellProps,
       className: className.trim(),

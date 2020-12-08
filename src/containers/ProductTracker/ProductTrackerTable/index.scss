@@ -494,9 +494,33 @@ $link-color: #349af8;
         width: 100px;
       }
 
+      .avg_price {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_margin {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_daily_sales {
+        .stat {
+          text-align: right;
+        }
+      }
+
+      .avg_daily_revenue {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
       &:nth-child(2) {
         .stat {
-          margin-right: 20px;
+          margin-right: 2px;
         }
       }
 
