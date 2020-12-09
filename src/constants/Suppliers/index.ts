@@ -546,7 +546,6 @@ const getRangedFilteredProducts = (product: any, rangeFilter: any) => {
 };
 
 const getCheckboxFilteredProducts = (product: any, checkboxFilter: any) => {
-  console.log('2: ', !product.is_amazon_selling && checkboxFilter[0].value.includes('No'));
   return checkboxFilter.every(
     (filter: any) =>
       // Default checkbox filter like size tier

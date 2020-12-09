@@ -772,7 +772,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
     }
     if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
-      console.log('products: ', this.props.products);
       this.getFilteredRanges();
     }
   }
@@ -787,7 +786,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({
       activeColumnFilterValue: this.getFilterValues(data, type),
     });
-    console.log('setActiveColumnFilters: ', data, type);
     this.setState({ activeColumnFilters: data });
   };
 
