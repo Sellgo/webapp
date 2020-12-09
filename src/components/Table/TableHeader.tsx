@@ -174,7 +174,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       key={dataKey}
       onClose={toggleColumnCheckbox}
       onOpen={toggleColumnCheckbox}
-      position={scrollTopSelector ? 'top left' : 'bottom right'}
+      position={scrollTopSelector ? 'bottom left' : 'bottom right'}
       className="range-filters"
       basic={true}
       trigger={
