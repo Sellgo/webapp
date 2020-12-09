@@ -463,6 +463,7 @@ export const GenericTable = (props: GenericTableProps) => {
           resetPage={(sortDirection: string, dataKey: string) => resetPage(sortDirection, dataKey)}
           leftFixedColumns={leftFixedColumns ? leftFixedColumns : 0}
           rightFixedColumns={rightFixedColumns ? rightFixedColumns : 0}
+          totalItemsCount={totalItemsCount}
         />
         {name === 'leads-tracker' && count < 1 && !loading ? (
           <ConstructionImage />

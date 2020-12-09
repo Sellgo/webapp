@@ -46,6 +46,7 @@ interface Shared {
   resetPage: (sortDirection: string, dataKey: string) => void;
   leftFixedColumns?: number;
   rightFixedColumns?: number;
+  totalItemsCount: number;
 }
 
 export interface TableHeaderProps extends Shared {
@@ -53,12 +54,14 @@ export interface TableHeaderProps extends Shared {
   middleScroll?: boolean;
   stickyChartSelector: boolean;
   scrollTopSelector: boolean;
+  totalItemsCount: number;
 }
 
 export interface TableHeaderCellProps extends Shared {
   column: Column;
   columns: Column[];
   scrollTopSelector: boolean;
+  totalItemsCount: number;
 }
 
 const TableHeaderCell = (props: TableHeaderCellProps) => {
@@ -92,6 +95,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     filterValues,
     resetPage,
     scrollTopSelector,
+    totalItemsCount,
   } = props;
   const {
     dataKey,
@@ -174,7 +178,13 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       key={dataKey}
       onClose={toggleColumnCheckbox}
       onOpen={toggleColumnCheckbox}
-      position={scrollTopSelector ? 'bottom left' : 'bottom right'}
+      position={
+        totalItemsCount < 10 && filterBoxSize === 'lg'
+          ? 'top left'
+          : scrollTopSelector
+          ? 'bottom right'
+          : 'bottom left'
+      }
       className="range-filters"
       basic={true}
       trigger={
@@ -362,6 +372,7 @@ const TableHeader = (props: TableHeaderProps) => {
     middleScroll,
     leftFixedColumns,
     rightFixedColumns,
+    totalItemsCount,
     ...rest
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
@@ -467,6 +478,7 @@ const TableHeader = (props: TableHeaderProps) => {
                             columns={columns}
                             key={column.dataKey || index}
                             scrollTopSelector={scrollTopSelector}
+                            totalItemsCount={totalItemsCount}
                             {...rest}
                           />
                         );
@@ -492,6 +504,7 @@ const TableHeader = (props: TableHeaderProps) => {
               column={column}
               key={column.dataKey || index}
               scrollTopSelector={scrollTopSelector}
+              totalItemsCount={totalItemsCount}
               {...rest}
             />
           );
