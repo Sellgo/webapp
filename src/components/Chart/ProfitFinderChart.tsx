@@ -6,7 +6,14 @@ const ProfitFinderChart = (props: any) => {
   const windowSize = useWindowSize();
   const profitFinderChartOptions = {
     chart: {
-      height: 260,
+      height:
+        windowSize.width && windowSize.width >= 2560
+          ? 483
+          : windowSize.width && windowSize.width >= 1920
+          ? 363
+          : windowSize.width && windowSize.width >= 1368
+          ? 260
+          : null,
     },
   };
 

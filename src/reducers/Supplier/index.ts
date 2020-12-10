@@ -188,6 +188,7 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(nextState, 'filteredProducts', filteredProducts);
     }
     case SET_ACTIVE_PROFITABILITY_CHART: {
+      console.log('SET_ACTIVE_PROFITABILITY_CHART: ', action.payload);
       return setIn(state, 'activeProfitabilityChart', action.payload);
     }
     default:

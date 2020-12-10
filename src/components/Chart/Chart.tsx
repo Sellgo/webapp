@@ -76,7 +76,7 @@ const Chart = (props: ChartProps) => {
     plotOptions: {
       series: {
         events: {
-          click: e => handleChartClick(e.point.name),
+          click: e => handleChartClick(e.point.name, activeProfitabilityChart),
         },
         // general options for all series
       },
@@ -103,12 +103,19 @@ const Chart = (props: ChartProps) => {
       ],
     },
   };
-  const handleChartClick = (name: string) => {
-    console.log('name: ', name);
-    console.log('chartOptions: ', chartOptions);
-    setActiveProfitabilityChart(activeProfitabilityChart === name ? '' : name);
+
+  const handleChartClick = (data: string, activeData: string) => {
+    const convertedData =
+      data === 'Profitable ASINs'
+        ? 'Profitable'
+        : data === 'Non-Profitable ASINs'
+        ? 'Non-Profitable Products'
+        : '';
+    const name = activeData !== convertedData ? convertedData : '';
+    setActiveProfitabilityChart(name);
   };
-  const options = _.merge(defaultOptions, chartOptions);
+
+  const options = _.merge(_.cloneDeep(defaultOptions), _.cloneDeep(chartOptions));
   if (chartOptions === undefined) {
     return (
       <Segment>
@@ -133,11 +140,11 @@ const Chart = (props: ChartProps) => {
   );
 };
 
-// export default Chart;
-const mapStateToProps = (state: {}) => ({
-  activeProfitabilityChart: get(state, 'supplier.activeProfitabilityChart'),
-});
-
+const mapStateToProps = (state: any) => {
+  return {
+    activeProfitabilityChart: get(state, 'supplier.activeProfitabilityChart'),
+  };
+};
 const mapDispatchToProps = {
   setActiveProfitabilityChart: (value: string) => setActiveProfitabilityChart(value),
 };

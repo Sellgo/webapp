@@ -1,16 +1,19 @@
-import _ from 'lodash';
 import React, { useEffect } from 'react';
 import { Button, Dropdown } from 'semantic-ui-react';
 import './index.scss';
+import get from 'lodash/get';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
 interface Props {
   setProfitability: (data?: any) => void;
   filterData: any;
   filteredRanges: any;
+  activeProfitabilityChart: string;
 }
 
 const ProfitabilityFilterPreset = (props: Props) => {
-  const { filterData, setProfitability, filteredRanges } = props;
+  const { filterData, setProfitability, filteredRanges, activeProfitabilityChart } = props;
   const profitablePresetOptions = [
     { key: 'profitability', text: 'Profitable Products', value: 'Profitable' },
     {
@@ -49,6 +52,20 @@ const ProfitabilityFilterPreset = (props: Props) => {
       }
     }
   }, [filterData, filteredRanges]);
+
+  useEffect(() => {
+    if (activeProfitabilityChart) {
+      setActive(true);
+      setData(activeProfitabilityChart);
+      if (isActivated()) {
+        setProfitability('');
+      } else {
+        handleSet(activeProfitabilityChart);
+      }
+    } else {
+      setActive(false);
+    }
+  }, [activeProfitabilityChart]);
 
   const isActivated = () => {
     return isActive;
@@ -107,4 +124,7 @@ const ProfitabilityFilterPreset = (props: Props) => {
   );
 };
 
-export default ProfitabilityFilterPreset;
+const mapStateToProps = (state: any) => ({
+  activeProfitabilityChart: get(state, 'supplier.activeProfitabilityChart'),
+});
+export default connect(mapStateToProps)(ProfitabilityFilterPreset);
