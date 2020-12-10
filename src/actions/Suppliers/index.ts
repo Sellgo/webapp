@@ -47,6 +47,7 @@ import {
   SET_SORT_COLUMN,
   SET_PRODUCTS_LOADING_DATA_BUSTER,
   UPDATE_SUPPLIER_PRODUCT,
+  SET_ACTIVE_PROFITABILITY_CHART,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product } from '../../interfaces/Product';
@@ -802,5 +803,10 @@ export const setProductsLoadingDataBuster = (value: number[]) => ({
 
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
+  payload: data,
+});
+
+export const setActiveProfitabilityChart = (data: any) => ({
+  type: SET_ACTIVE_PROFITABILITY_CHART,
   payload: data,
 });

@@ -77,6 +77,7 @@ interface ProductsTableProps {
   bustData: (synthesisFileID: number, productIDs: number[]) => void;
   filterSearch: string;
   filterProducts: (value: string, filterData: any) => void;
+  activeProfitabilityChart: string;
 }
 
 export interface CheckedRowDictionary {
@@ -774,6 +775,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (prevProps.products !== this.props.products && !_.isEmpty(this.props.products)) {
       this.getFilteredRanges();
     }
+    if (prevProps.activeProfitabilityChart !== this.props.activeProfitabilityChart) {
+      console.log('activeProfitabilityChart: ', this.props.activeProfitabilityChart);
+    }
   }
 
   getFilteredRanges = () => {
@@ -1393,6 +1397,7 @@ const mapStateToProps = (state: {}) => ({
   supplierDetails: supplierDetailsSelector(state),
   productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
   filterSearch: get(state, 'supplier.filterSearch'),
+  activeProfitabilityChart: get(state, 'supplier.activeProfitabilityChart'),
 });
 
 const mapDispatchToProps = {

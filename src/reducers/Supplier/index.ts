@@ -29,6 +29,7 @@ import {
   SET_ACTIVE_COLUMN,
   SET_SORT_COLUMN,
   UPDATE_SUPPLIER_PRODUCT,
+  SET_ACTIVE_PROFITABILITY_CHART,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -66,6 +67,7 @@ const initialState = {
     localStorage.getItem('supplierPageItemsCount') || Number(selectItemsCountList[0].value),
   pageNumber: 1,
   productsLoadingDataBuster: [],
+  activeProfitabilityChart: '',
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -184,6 +186,9 @@ export default (state = initialState, action: AnyAction) => {
         return product.product_id === updateProduct.product_id ? updateProduct : product;
       });
       return setIn(nextState, 'filteredProducts', filteredProducts);
+    }
+    case SET_ACTIVE_PROFITABILITY_CHART: {
+      return setIn(state, 'activeProfitabilityChart', action.payload);
     }
     default:
       return state;
