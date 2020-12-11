@@ -471,7 +471,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           open={this.state.exportResult.report_url !== undefined}
           data={EXPORT_DATA}
           formats={EXPORT_FORMATS}
-          format={this.state.exportResult.file_name.split('.').pop()}
+          format={'csv'}
           url={fileUrl}
           onFormatChange={(format: string) => {
             this.setState({ exportFormat: format });
