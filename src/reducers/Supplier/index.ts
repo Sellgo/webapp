@@ -189,7 +189,9 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_ACTIVE_PROFITABILITY_CHART: {
       console.log('SET_ACTIVE_PROFITABILITY_CHART: ', action.payload);
-      return setIn(state, 'activeProfitabilityChart', action.payload);
+      const name = state.activeProfitabilityChart !== action.payload ? action.payload : '';
+      console.log('name: ', name);
+      return setIn(state, 'activeProfitabilityChart', name);
     }
     default:
       return state;

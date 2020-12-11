@@ -7,9 +7,6 @@ import BrokenAxis from 'highcharts/modules/broken-axis';
 import { Segment, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
 import { PercentAlign, LegendTooltip } from '../../utils/highchartExtensions';
-import { connect } from 'react-redux';
-import { setActiveProfitabilityChart } from '../../actions/Suppliers';
-import get from 'lodash/get';
 
 export const defaultButtonTheme: any = {
   theme: {
@@ -47,75 +44,51 @@ Highcharts.setOptions({
     enabled: false,
   },
 });
+const defaultOptions: Highcharts.Options = {
+  chart: {
+    spacing: [5, 5, 5, 5],
+    style: {
+      fontFamily: 'Work Sans',
+    },
+    resetZoomButton: defaultButtonTheme,
+  },
+  plotOptions: {
+    series: {
+      // general options for all series
+    },
+    line: {
+      // shared options for all line series
+    },
+  },
+  responsive: {
+    rules: [
+      {
+        condition: {
+          maxWidth: 500,
+        },
+        chartOptions: {
+          plotOptions: {
+            pie: {
+              dataLabels: {
+                alignTo: 'connectors',
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
+};
 
 export interface ChartProps {
   chartOptions?: any;
   componentRef?: any;
   containerProps?: any;
-  setActiveProfitabilityChart: (value: string) => void;
-  activeProfitabilityChart: string;
 }
 
 const Chart = (props: ChartProps) => {
-  const {
-    chartOptions,
-    componentRef,
-    containerProps,
-    setActiveProfitabilityChart,
-    activeProfitabilityChart,
-  } = props;
-
-  const defaultOptions: Highcharts.Options = {
-    chart: {
-      spacing: [5, 5, 5, 5],
-      style: {
-        fontFamily: 'Work Sans',
-      },
-      resetZoomButton: defaultButtonTheme,
-    },
-    plotOptions: {
-      series: {
-        events: {
-          click: e => handleChartClick(e.point.name, activeProfitabilityChart),
-        },
-        // general options for all series
-      },
-      line: {
-        // shared options for all line series
-      },
-    },
-    responsive: {
-      rules: [
-        {
-          condition: {
-            maxWidth: 500,
-          },
-          chartOptions: {
-            plotOptions: {
-              pie: {
-                dataLabels: {
-                  alignTo: 'connectors',
-                },
-              },
-            },
-          },
-        },
-      ],
-    },
-  };
-
-  const handleChartClick = (data: string, activeData: string) => {
-    const convertedData =
-      data === 'Profitable ASINs'
-        ? 'Profitable'
-        : data === 'Non-Profitable ASINs'
-        ? 'Non-Profitable Products'
-        : '';
-    const name = activeData !== convertedData ? convertedData : '';
-    setActiveProfitabilityChart(name);
-  };
-
-  const options = _.merge(_.cloneDeep(defaultOptions), _.cloneDeep(chartOptions));
+  const { chartOptions, componentRef, containerProps } = props;
+  const options = _.merge(_.cloneDeep(defaultOptions), chartOptions);
   if (chartOptions === undefined) {
     return (
       <Segment>
@@ -140,13 +113,4 @@ const Chart = (props: ChartProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    activeProfitabilityChart: get(state, 'supplier.activeProfitabilityChart'),
-  };
-};
-const mapDispatchToProps = {
-  setActiveProfitabilityChart: (value: string) => setActiveProfitabilityChart(value),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Chart);
+export default Chart;

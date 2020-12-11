@@ -4,16 +4,24 @@ import './index.scss';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { setActiveProfitabilityChart } from '../../actions/Suppliers';
 
 interface Props {
   setProfitability: (data?: any) => void;
   filterData: any;
   filteredRanges: any;
   activeProfitabilityChart: string;
+  setActiveProfitabilityChart: (data: string) => void;
 }
 
 const ProfitabilityFilterPreset = (props: Props) => {
-  const { filterData, setProfitability, filteredRanges, activeProfitabilityChart } = props;
+  const {
+    filterData,
+    setProfitability,
+    filteredRanges,
+    activeProfitabilityChart,
+    setActiveProfitabilityChart,
+  } = props;
   const profitablePresetOptions = [
     { key: 'profitability', text: 'Profitable Products', value: 'Profitable' },
     {
@@ -54,13 +62,20 @@ const ProfitabilityFilterPreset = (props: Props) => {
   }, [filterData, filteredRanges]);
 
   useEffect(() => {
+    console.log('activeProfitabilityChart: ', activeProfitabilityChart);
     if (activeProfitabilityChart) {
+      const convertedData =
+        activeProfitabilityChart === 'Profitable ASINs'
+          ? 'Profitable'
+          : activeProfitabilityChart === 'Non-Profitable ASINs'
+          ? 'Non-Profitable Products'
+          : '';
       setActive(true);
-      setData(activeProfitabilityChart);
+      setData(convertedData);
       if (isActivated()) {
         setProfitability('');
       } else {
-        handleSet(activeProfitabilityChart);
+        handleSet(convertedData);
       }
     } else {
       setActive(false);
@@ -75,8 +90,16 @@ const ProfitabilityFilterPreset = (props: Props) => {
     setActive(!isActive);
     if (isActivated()) {
       setProfitability('');
+      setActiveProfitabilityChart('');
     } else {
       handleSet(currentData);
+      const name =
+        currentData === 'Profitable'
+          ? 'Profitable ASINs'
+          : currentData === 'Non-Profitable Products'
+          ? 'Non-Profitable ASINs'
+          : '';
+      setActiveProfitabilityChart(name);
     }
   };
 
@@ -127,4 +150,7 @@ const ProfitabilityFilterPreset = (props: Props) => {
 const mapStateToProps = (state: any) => ({
   activeProfitabilityChart: get(state, 'supplier.activeProfitabilityChart'),
 });
-export default connect(mapStateToProps)(ProfitabilityFilterPreset);
+const mapDispatchToProps = {
+  setActiveProfitabilityChart: (value: string) => setActiveProfitabilityChart(value),
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ProfitabilityFilterPreset);
