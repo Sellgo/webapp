@@ -35,6 +35,8 @@ import _ from 'lodash';
 
 import { formatCompletedDate } from '../../../utils/date';
 import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
+import ExportResultAs from '../../../components/ExportResultAs';
+import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
@@ -62,7 +64,17 @@ interface SuppliersTableProps {
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
-  state = { showPieChartModalOpen: false, supplier: undefined, showDeleteConfirm: false };
+  state = {
+    showPieChartModalOpen: false,
+    supplier: undefined,
+    showDeleteConfirm: false,
+    exportResult: {
+      report_url: undefined,
+      file_name: '',
+      report_url_csv: undefined,
+    },
+    exportFormat: 'csv',
+  };
 
   renderName = (row: Supplier) => {
     const name =
@@ -138,11 +150,13 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             key: '2',
             text:
               row.report_url === null ? (
-                <Dropdown.Item icon="download" text=" Download Result File" />
+                <Dropdown.Item icon="download" text="Export As" />
               ) : (
-                <a href={row.report_url} download={true}>
-                  <Dropdown.Item icon="download" text=" Download Result File" />
-                </a>
+                <Dropdown.Item
+                  icon="download"
+                  text="Export As"
+                  onClick={() => this.setState({ exportResult: row })}
+                />
               ),
             value: 'dwn_res',
             disabled: row.report_url === null ? true : false,
@@ -406,7 +420,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     );
 
     const sortedByCompletedData = _.cloneDeep(data).sort((a, b) => (a.udate > b.udate ? 1 : -1));
-
+    const fileUrl =
+      this.state.exportFormat === 'csv'
+        ? this.state.exportResult.report_url_csv
+        : this.state.exportResult.report_url;
     return (
       <div className="suppliers-table">
         <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
@@ -448,6 +465,23 @@ class SuppliersTable extends Component<SuppliersTableProps> {
           supplier={this.state.supplier}
           showPieChartModalOpen={this.state.showPieChartModalOpen}
           handleClose={this.handleClose}
+        />
+
+        <ExportResultAs
+          open={this.state.exportResult.report_url !== undefined}
+          data={EXPORT_DATA}
+          formats={EXPORT_FORMATS}
+          format={'csv'}
+          url={fileUrl}
+          onFormatChange={(format: string) => {
+            this.setState({ exportFormat: format });
+          }}
+          onExport={() => {
+            this.setState({ exportResult: { report_url: undefined, file_name: '' } });
+          }}
+          onClose={() => {
+            this.setState({ exportResult: { report_url: undefined, file_name: '' } });
+          }}
         />
       </div>
     );

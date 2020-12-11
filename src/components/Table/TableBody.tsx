@@ -146,14 +146,23 @@ export const TableBody = (props: TableBodyProps) => {
       const leadsHeader = document.querySelector('.leads-tracker-middle');
 
       const middleHeader = document.querySelector('.middle-header');
+      const scrollingHeader = document.querySelector('.table-header-scroll');
+
       const centerScroll = document.querySelector('.middle-scroll-cell');
       const bottomScroll = document.querySelector('.bottom-scrollbar');
       if (leadsHeader) {
         leadsHeader.scrollLeft = evt.target.scrollLeft;
       }
-      if (!!middleHeader && !!centerScroll && bottomScroll) {
+      if (middleHeader) {
         middleHeader.scrollLeft = evt.target.scrollLeft;
+      }
+      if (centerScroll) {
         centerScroll.scrollLeft = evt.target.scrollLeft;
+      }
+      if (scrollingHeader) {
+        scrollingHeader.scrollLeft = evt.target.scrollLeft;
+      }
+      if (bottomScroll && scrollingHeader) {
         bottomScroll.scrollLeft = evt.target.scrollLeft;
         bottomScroll.classList.add('bottom-scrollbar-visible');
         // @ts-ignore

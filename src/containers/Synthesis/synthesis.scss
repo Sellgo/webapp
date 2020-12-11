@@ -24,14 +24,14 @@
 .ui.basic.primary.button:hover,
 .ui.basic.blue.button .button:hover,
 .ui.basic.primary.buttons .button:hover {
-  border: 1px solid #4285f4 !important;
+  border: 1px solid #349af8 !important;
   box-shadow: none !important;
-  color: #4285f4 !important;
+  color: #349af8 !important;
 }
 
 .add-new-supplier {
-  border: 1px solid #4b9af8 !important;
-  background-color: #4b9af8 !important;
+  border: 1px solid #349af8 !important;
+  background-color: #349af8 !important;
   border-radius: 100px !important;
   font-family: 'Work sans', sans-serif !important;
   font-size: 14px !important;
@@ -1082,4 +1082,10 @@ div.new-supplier-cont .ui.button {
 .new-search-container {
   border: 1px solid #98aeca;
   border-radius: 15px;
+}
+
+.AddNewSearch__checkbox {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
 }
