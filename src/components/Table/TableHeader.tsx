@@ -265,65 +265,67 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         <span className={`th-label ${type === 'leads-tracker' ? 'lt-th-label' : ''}`} {...sorting}>
           {label}
         </span>
-        {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
-          <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
-        ) : sortable && sortedColumnKey === dataKey ? (
-          sortDirection === 'ascending' ? (
-            <span>
-              <Icon name="caret down" className="sort-icon" {...sorting} />
-            </span>
-          ) : (
-            <span>
-              {' '}
-              <Icon name="caret up" className="sort-icon" {...sorting} />
-            </span>
-          )
-        ) : null}
-        {filter && searchIconPosition === 'right' && ColumnFilter}
+        <div className="th-icons">
+          {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
+            <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
+          ) : sortable && sortedColumnKey === dataKey ? (
+            sortDirection === 'ascending' ? (
+              <span>
+                <Icon name="caret down" className="sort-icon" {...sorting} />
+              </span>
+            ) : (
+              <span>
+                {' '}
+                <Icon name="caret up" className="sort-icon" {...sorting} />
+              </span>
+            )
+          ) : null}
+          {filter && searchIconPosition === 'right' && ColumnFilter}
 
-        {check && checkedRows && updateCheckedRows && type !== 'leads-tracker' && (
-          <ProductCheckBoxHeader
-            currentPage={currentPage}
-            currentPageRows={rows}
-            checkedRows={checkedRows}
-            updateCheckedRows={updateCheckedRows}
-          />
-        )}
-        {check && checkedRows && updateCheckedRows && type === 'leads-tracker' && (
-          <LeadsCheckBoxHeader
-            currentPage={currentPage}
-            currentPageRows={rows}
-            checkedRows={checkedRows}
-            updateCheckedRows={updateCheckedRows}
-          />
-        )}
-        {icon && popUp ? (
-          <Popup
-            on="click"
-            open={columnFilterBox}
-            onClose={toggleColumnCheckbox}
-            onOpen={toggleColumnCheckbox}
-            position="bottom right"
-            className="column-swap-popup"
-            basic={true}
-            trigger={<Icon className={`${icon} popup-ic`} />}
-            content={
-              <ColumnFilterCard
-                columnFilterData={columnFilterData}
-                handleColumnChange={handleColumnChange}
-                handleColumnDrop={handleColumnDrop}
-                reorderColumns={reorderColumns}
-                columns={columns}
-                columnDnD={columnDnD}
-              />
-            }
-          />
-        ) : (
-          <Icon
-            className={icon}
-            style={{ display: label === 'Search' || !icon ? 'none' : 'inline-block' }}
-          />
-        )}
+          {check && checkedRows && updateCheckedRows && type !== 'leads-tracker' && (
+            <ProductCheckBoxHeader
+              currentPage={currentPage}
+              currentPageRows={rows}
+              checkedRows={checkedRows}
+              updateCheckedRows={updateCheckedRows}
+            />
+          )}
+          {check && checkedRows && updateCheckedRows && type === 'leads-tracker' && (
+            <LeadsCheckBoxHeader
+              currentPage={currentPage}
+              currentPageRows={rows}
+              checkedRows={checkedRows}
+              updateCheckedRows={updateCheckedRows}
+            />
+          )}
+          {icon && popUp ? (
+            <Popup
+              on="click"
+              open={columnFilterBox}
+              onClose={toggleColumnCheckbox}
+              onOpen={toggleColumnCheckbox}
+              position="bottom right"
+              className="column-swap-popup"
+              basic={true}
+              trigger={<Icon className={`${icon} popup-ic`} />}
+              content={
+                <ColumnFilterCard
+                  columnFilterData={columnFilterData}
+                  handleColumnChange={handleColumnChange}
+                  handleColumnDrop={handleColumnDrop}
+                  reorderColumns={reorderColumns}
+                  columns={columns}
+                  columnDnD={columnDnD}
+                />
+              }
+            />
+          ) : (
+            <Icon
+              className={icon}
+              style={{ display: label === 'Search' || !icon ? 'none' : 'inline-block' }}
+            />
+          )}
+        </div>
       </div>
     </Table.HeaderCell>
   );

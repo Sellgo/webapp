@@ -433,6 +433,10 @@ $new_black: #3b4557;
           border-bottom-right-radius: 10px;
         }
       }
+
+      .table-cell-container {
+        padding: 0 5px !important;
+      }
     }
 
     tbody {
