@@ -1,0 +1,13 @@
+.notifications {
+  min-width: 428px !important;
+
+  .title {
+    border-bottom: 1px solid #349af8;
+
+    > p {
+      font-size: 14px;
+      color: #3b4557;
+      padding-bottom: 5px;
+    }
+  }
+}
