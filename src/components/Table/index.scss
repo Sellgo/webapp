@@ -185,7 +185,7 @@
 }
 
 .sort-arrow {
-  margin: 0 3px -2px 12px;
+  margin: 0 3px -2px 2px;
   max-height: 13px;
   max-width: 10px;
 }
@@ -261,7 +261,6 @@ i.icon.filter::before {
 .table-cell-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0 5px;
 }
 
