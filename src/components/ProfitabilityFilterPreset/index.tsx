@@ -62,7 +62,6 @@ const ProfitabilityFilterPreset = (props: Props) => {
   }, [filterData, filteredRanges]);
 
   useEffect(() => {
-    console.log('activeProfitabilityChart: ', activeProfitabilityChart);
     if (activeProfitabilityChart) {
       const convertedData =
         activeProfitabilityChart === 'Profitable ASINs'
@@ -72,11 +71,6 @@ const ProfitabilityFilterPreset = (props: Props) => {
           : '';
       setActive(true);
       setData(convertedData);
-      if (isActivated()) {
-        setProfitability('');
-      } else {
-        handleSet(convertedData);
-      }
     } else {
       setActive(false);
     }
@@ -120,6 +114,13 @@ const ProfitabilityFilterPreset = (props: Props) => {
   const handleOnChange = (data: any) => {
     setData(data);
     setActive(true);
+    const name =
+      data === 'Profitable'
+        ? 'Profitable ASINs'
+        : data === 'Non-Profitable Products'
+        ? 'Non-Profitable ASINs'
+        : '';
+    setActiveProfitabilityChart(name);
   };
 
   return (
