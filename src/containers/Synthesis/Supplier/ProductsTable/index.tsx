@@ -731,7 +731,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
 
     return (
-      <div className="products-table">
+      <div className={`products-table ${isLoadingSupplierProducts && 'loading'}`}>
         {isLoadingSupplierProducts ? (
           <PageLoader pageLoading={true} />
         ) : (
