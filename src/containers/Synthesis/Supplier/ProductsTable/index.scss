@@ -234,9 +234,106 @@ $new_black: #3b4557;
       }
     }
 
-    td p {
-      font-size: 14px;
-      text-align: center !important;
+    .price {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .product_cost {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .fees {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .multipack_profit {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .multipack_margin {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .multipack_roi {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .rank {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .sales_monthly {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .monthly_revenue {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .fba_fee {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .referral_fee {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .variable_closing_fee {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .num_fba_new_offers {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .num_fbm_new_offers {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .low_new_fba_price {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .low_new_fbm_price {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .multipack_quantity {
+      .stat {
+        text-align: right !important;
+      }
     }
 
     tfoot {
@@ -339,6 +436,10 @@ $new_black: #3b4557;
           border-top-right-radius: 10px;
           border-bottom-right-radius: 10px;
         }
+      }
+
+      .table-cell-container {
+        padding: 0 5px !important;
       }
     }
 

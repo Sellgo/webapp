@@ -383,7 +383,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       show: true,
       filter: true,
       filterSign: '$',
-      className: 'lt-md-col',
+      className: 'lt-md-col lt-index',
       render: this.renderIndex,
     },
     {
@@ -405,7 +405,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       sortable: true,
       filter: true,
       filterSign: '$',
-      className: 'lt-sm-col',
+      className: 'lt-sm-col lt-max',
       render: this.renderHighs,
     },
     {
@@ -416,7 +416,7 @@ class LeadsTracker extends React.Component<LeadsTrackerTableProps, any> {
       sortable: true,
       filter: true,
       filterSign: '$',
-      className: 'lt-sm-col',
+      className: 'lt-sm-col lt-low',
       render: this.renderLows,
     },
     {
