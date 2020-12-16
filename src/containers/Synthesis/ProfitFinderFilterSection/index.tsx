@@ -1023,6 +1023,8 @@ function ProfitFinderFilterSection(props: Props) {
           { psd_ids, file_format, synthesis_file_id },
           supplierDetails.supplier_id
         );
+        await setExportResult(false);
+
         saveAs(new Blob([blob]), `${supplierDetails.search}-${value.data}.${value.format}`);
         setExportResultLoading(false);
       } else {
@@ -1035,7 +1037,6 @@ function ProfitFinderFilterSection(props: Props) {
         a.click();
         window.URL.revokeObjectURL(url);
       }
-      await setExportResult(false);
     } catch (e) {
       console.log(e);
     }

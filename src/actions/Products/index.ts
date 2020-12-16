@@ -22,6 +22,8 @@ import {
   SET_FETCHING_KPI,
   SET_FETCHING_SELLER_INVENTORY,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY,
+  SET_ACTIVE_EXPORT_FILES,
+  FETCHING_ACTIVE_EXPORTS,
 } from '../../constants/Products';
 
 export const setSupplierProductDetails = (product: Product) => ({
@@ -250,3 +252,25 @@ export const exportResults = async (payload: any, supplierID: any) => {
     console.log('error', e);
   }
 };
+
+export const fetchActiveExportFiles = () => async (dispatch: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+    dispatch(setFetchingActiveExports(true));
+    const res = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`);
+    dispatch(setActiveExportFiles(res.data));
+    dispatch(setFetchingActiveExports(false));
+  } catch (e) {
+    console.log('error', e);
+  }
+};
+
+export const setActiveExportFiles = (data: any) => ({
+  type: SET_ACTIVE_EXPORT_FILES,
+  payload: data,
+});
+
+export const setFetchingActiveExports = (loading: boolean) => ({
+  type: FETCHING_ACTIVE_EXPORTS,
+  payload: loading,
+});

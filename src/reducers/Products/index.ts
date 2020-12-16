@@ -18,6 +18,8 @@ import {
   SET_FETCHING_REVIEW,
   SET_FETCHING_SELLER_INVENTORY,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY,
+  SET_ACTIVE_EXPORT_FILES,
+  FETCHING_ACTIVE_EXPORTS,
 } from '../../constants/Products';
 
 const initialState = {
@@ -37,6 +39,8 @@ const initialState = {
   isFetchingReview: false,
   isFetchingKPI: false,
   isFetchingSellerInventory: false,
+  activeExportFiles: [],
+  fetchingActiveExports: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -75,6 +79,10 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'isFetchingKPI', action.payload);
     case RESET_SUPPLIER_PRODUCT_DETAILS:
       return initialState;
+    case SET_ACTIVE_EXPORT_FILES:
+      return setIn(state, 'activeExportFiles', action.payload);
+    case FETCHING_ACTIVE_EXPORTS:
+      return setIn(state, 'fetchingActiveExports', action.payload);
     default:
       return state;
   }
