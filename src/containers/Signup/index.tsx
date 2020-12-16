@@ -105,11 +105,14 @@ function Signup(props: any, state: State) {
     time: 0,
   });
 
-  function error(errorMessage: any) {
+  function error(err: any) {
+    const errHeader =
+      err.code === 'user_exists' ? `Another account is using ${email}` : 'Signup Failed';
+    const errContent = err.code === 'user_exists' ? `Please try to login.` : err.description;
     setMessageDetails({
       key: uuid(),
-      header: 'Signup Failed',
-      content: `${errorMessage}`,
+      header: errHeader,
+      content: errContent,
       isSuccess: false,
       isError: true,
       time: 5000,
@@ -167,13 +170,13 @@ function Signup(props: any, state: State) {
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
-      error('Email is invalid');
+      error({ description: 'Email is invalid' });
       setEmailError(true);
     } else if (!Name.validate(firstname)) {
-      error('First Name must all be letters.');
+      error({ description: 'First Name must all be letters.' });
       setFnameError(true);
     } else if (!Name.validate(lastname)) {
-      error('Last Name must all be letters.');
+      error({ description: 'Last Name must all be letters.' });
       setLnameError(true);
     } else {
       auth.webAuth.signup(
@@ -185,7 +188,7 @@ function Signup(props: any, state: State) {
         },
         (err: any) => {
           if (err) {
-            error(err.description);
+            error({ description: err.description });
           } else {
             const data = {
               email: email,

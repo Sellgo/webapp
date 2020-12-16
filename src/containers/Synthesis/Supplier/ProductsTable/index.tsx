@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Loader, Icon, Popup } from 'semantic-ui-react';
+import { Icon, Popup } from 'semantic-ui-react';
 import './index.scss';
 import { Product } from '../../../../interfaces/Product';
 import get from 'lodash/get';
@@ -35,8 +35,8 @@ import {
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
-
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
+import PageLoader from '../../../../components/PageLoader';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -731,13 +731,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
 
     return (
-      <div className="products-table">
+      <div className={`products-table ${isLoadingSupplierProducts && 'loading'}`}>
         {isLoadingSupplierProducts ? (
-          <Segment>
-            <Loader active={true} inline="centered" size="massive">
-              Loading
-            </Loader>
-          </Segment>
+          <PageLoader pageLoading={true} />
         ) : (
           <>
             <GenericTable
