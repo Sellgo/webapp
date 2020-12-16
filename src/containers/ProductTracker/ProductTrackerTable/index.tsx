@@ -97,6 +97,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     confirm: false,
     open: false,
     error: false,
+    editError: false,
     editGroup: false,
     deleteGroup: false,
     columnFilterData: columnFilter,
@@ -187,7 +188,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   handleAddGroupSubmit = () => {
     const { name } = this.state;
     const { postCreateProductTrackGroup } = this.props;
-    postCreateProductTrackGroup(name);
+    if (!_.isEmpty(name.trim())) {
+      postCreateProductTrackGroup(name);
+      this.setState({ error: false });
+    } else {
+      this.setState({ error: true });
+    }
   };
   handleAddGroupNameChange = (e: any) => {
     this.setState({ name: e.target.value });
@@ -204,10 +210,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
   handleEditGroupSubmit = (group: any) => {
-    this.props.updateProductTrackGroup(group);
-    this.setState({
-      editGroup: false,
-    });
+    if (!_.isEmpty(group.name.trim())) {
+      this.props.updateProductTrackGroup(group);
+      this.setState({
+        editGroup: false,
+        editError: false,
+      });
+    } else {
+      this.setState({ editError: true });
+    }
   };
 
   handleDeleteGroup = () => {
@@ -646,6 +657,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroup={this.handleEditGroup}
             handleEditGroupCancel={this.handleEditGroupCancel}
             handleEditGroupSubmit={this.handleEditGroupSubmit}
+            editError={this.state.editError}
           />
         </div>
         <ProductTrackerFilterSection />
