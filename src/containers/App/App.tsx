@@ -112,7 +112,7 @@ const PrivateRoute = connect(
 
     // Render loader. Fetching of subscription will be handled in above effect.
     if (sellerSubscription === undefined) {
-      return <PageLoader />;
+      return <PageLoader pageLoading={true} />;
     }
 
     return (
@@ -151,7 +151,7 @@ function App() {
             path="/callback"
             render={renderProps => {
               handleAuthentication(renderProps.location);
-              return <PageLoader />;
+              return <PageLoader pageLoading={true} />;
             }}
           />
           <Route
