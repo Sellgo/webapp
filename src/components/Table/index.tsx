@@ -499,7 +499,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 </div>
               ) : (
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
-                  <BottomScroll columns={columns} name={name} filteredColumns={filteredColumns} />
+                  <BottomScroll columns={columns} name={name} totalItemsCount={totalItemsCount} />
                   <div className="pagination-container">
                     <ActiveFilters
                       name={name}

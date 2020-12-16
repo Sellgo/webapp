@@ -6,11 +6,11 @@ import { useEffect, useRef } from 'react';
 interface Props {
   columns: Column[];
   name: string;
-  filteredColumns?: any;
+  totalItemsCount?: any;
 }
 
 const BottomScroll = (props: Props) => {
-  const { columns, name, filteredColumns } = props;
+  const { columns, name, totalItemsCount } = props;
   const bottomScrollContent = useRef(null);
   const onScroll = (evt: any) => {
     if (name === 'products') {
@@ -41,7 +41,7 @@ const BottomScroll = (props: Props) => {
       middleBody.scrollLeft = table.scrollLeft;
       middleHeader.scrollLeft = table.scrollLeft;
     }
-  }, [filteredColumns]);
+  }, [totalItemsCount]);
 
   return (
     <div className={'bottom-scrollbar'} onScroll={onScroll} ref={bottomScrollContent}>
