@@ -1104,6 +1104,40 @@ function ProfitFinderFilterSection(props: Props) {
               />
             }
           />
+          <Popup
+            on="click"
+            open={openPresetFilter}
+            onOpen={() => togglePresetFilter(true)}
+            onClose={() => togglePresetFilter(false)}
+            position="bottom left"
+            className="pf-preset-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="left"
+                className={`charges-filter`}
+                onClick={() => {
+                  togglePresetFilter(!openPresetFilter);
+                }}
+              >
+                <span className="filter-name">Charges</span>
+                <Icon name="angle down" />
+              </Button>
+            }
+            content={
+              <PresetFilter
+                togglePresetFilter={togglePresetFilter}
+                applyFilter={applyFilter}
+                filterState={filterState}
+                filterData={filterDataState}
+                filterInitialData={filterInitialData}
+                resetPreset={resetPreset}
+                customizeFilterChange={customizeFilterChange}
+              />
+            }
+          />
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
