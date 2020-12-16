@@ -222,15 +222,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       <Table.HeaderCell key={dataKey || Date.now()} {...otherProps}>
         {' '}
         <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
-          <span className="th-label">{label}</span>
-          {label === 'Supplier' && (
-            <span>
-              <Icon
-                className="filter search-filter"
-                onClick={(e: any) => onSetShowSearchFilter(e, label)}
-              />
-            </span>
-          )}
           {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
             <img src={SortIcon} className="sort-arrow" alt="sort arrow" {...sorting} />
           ) : sortable && sortedColumnKey === dataKey ? (
@@ -245,6 +236,17 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             )
           ) : null}
           {filter && searchIconPosition === 'right' && ColumnFilter}
+
+          <span className="th-label">{label}</span>
+          {label === 'Supplier' && (
+            <span>
+              <Icon
+                className="filter search-filter"
+                onClick={(e: any) => onSetShowSearchFilter(e, label)}
+              />
+            </span>
+          )}
+
           {check && <Checkbox value={check} />}
           {icon && popUp ? (
             <Popup
@@ -289,9 +291,6 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       <div className={`table-cell-container ${(icon && popUp) || check ? 'popup-cell' : ''}`}>
         {filter && searchIconPosition === 'left' && ColumnFilter}
 
-        <span className={`th-label ${type === 'leads-tracker' ? 'lt-th-label' : ''}`} {...sorting}>
-          {label}
-        </span>
         {sortable && (!sortedColumnKey || sortedColumnKey !== dataKey) ? (
           <img
             src={SortIcon}
@@ -310,6 +309,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
             </span>
           )
         ) : null}
+        <span className={`th-label ${type === 'leads-tracker' ? 'lt-th-label' : ''}`} {...sorting}>
+          {label}
+        </span>
         {filter && searchIconPosition === 'right' && ColumnFilter}
 
         {check && checkedRows && updateCheckedRows && type !== 'leads-tracker' && (

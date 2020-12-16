@@ -13,12 +13,12 @@ import PresetFilter from '../../../../components/FilterContainer/PresetFilter';
 import ProfitabilityFilterPreset from '../../../../components/ProfitabilityFilterPreset';
 
 interface FilterSectionProps {
-  stickyChartSelector: boolean;
-  scrollTopSelector: boolean;
-  subscriptionType: string;
+  stickyChartSelector?: boolean;
+  scrollTopSelector?: boolean;
+  subscriptionType?: any;
   supplierDetails: any;
-  subscriptionPlan: any;
-  setLeadsTracker: (sellerId: number, supplierId: number) => void;
+  subscriptionPlan?: any;
+  setLeadsTracker?: (sellerId: number, supplierId: number) => void;
   applyPresetFilter: (data: any) => void;
   localFilterData: any;
   resetPreset: () => void;
@@ -91,13 +91,13 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
       setProfitability,
       filteredRanges,
     } = this.props;
+    console.log('supplierDetails: ', supplierDetails);
     const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
     const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
     const leadsStatus =
       supplierDetails.leads_tracker_status === null ||
       supplierDetails.leads_tracker_status === 'inactive';
     const isToggle = leadsStatus ? false : true;
-
     return (
       <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
         <div className="filter-header">
@@ -161,7 +161,6 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
 }
 
 const mapStateToProps = (state: {}) => ({
-  supplierDetails: get(state, 'supplier.details'),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Segment, Modal, Header, Divider } from 'semantic-ui-react';
+import { Button, Modal, Header, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './synthesis.scss';
 import UploadSupplier from './UploadSupplier';
@@ -134,7 +134,7 @@ class Synthesis extends Component<SynthesisProps> {
         />
         <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
         {this.renderAddNewSupplierModal()}
-        <Segment basic={true}>
+        <div className="search-management-content">
           <SuppliersTable
             onEdit={this.openUpdateSupplierPopup}
             supplierSearch={this.state.searchValue}
@@ -168,7 +168,7 @@ class Synthesis extends Component<SynthesisProps> {
           </Modal>
 
           <this.UserOnboardingModal />
-        </Segment>
+        </div>
       </>
     );
   }
