@@ -28,6 +28,7 @@ interface TrackerMenuProps {
   error: boolean;
   groupError: boolean;
   items: any;
+  editError: boolean;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
@@ -51,6 +52,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleDeleteGroup,
       handleDeleteGroupCancel,
       handleDeleteGroupSubmit,
+      editError,
     } = this.props;
     const activeGroup =
       this.props.groups && this.props.activeGroupId
@@ -156,6 +158,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           activeGroup={activeGroup}
           handleCancel={handleEditGroupCancel}
           handleSubmit={handleEditGroupSubmit}
+          error={editError}
         />
         <DeleteGroupModal
           open={deleteGroup}

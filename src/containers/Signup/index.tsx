@@ -101,11 +101,14 @@ function Signup(props: any, state: State) {
     time: 0,
   });
 
-  function error(errorMessage: any) {
+  function error(err: any) {
+    const errHeader =
+      err.code === 'user_exists' ? `Another account is using ${email}` : 'Signup Failed';
+    const errContent = err.code === 'user_exists' ? `Please try to login.` : err.description;
     setMessageDetails({
       key: uuid(),
-      header: 'Signup Failed',
-      content: `${errorMessage}`,
+      header: errHeader,
+      content: errContent,
       isSuccess: false,
       isError: true,
       time: 5000,
