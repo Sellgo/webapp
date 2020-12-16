@@ -1089,3 +1089,11 @@ div.new-supplier-cont .ui.button {
   justify-content: center;
   margin-top: 5px;
 }
+
+.search-management-content {
+  height: 100%;
+
+  .page-loader {
+    height: 70%;
+  }
+}

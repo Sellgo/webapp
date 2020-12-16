@@ -31,6 +31,10 @@ $new_black: #3b4557;
   margin: 0 auto;
   max-width: 100%;
 
+  &.loading {
+    height: 70vh;
+  }
+
   h2 {
     font-weight: 300;
     font-size: 15px;
