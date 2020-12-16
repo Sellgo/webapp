@@ -1,19 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.scss';
-import { Container, Header } from 'semantic-ui-react';
+import { Button, Container, Header, Input } from 'semantic-ui-react';
 import _ from 'lodash';
 import { Subscription } from '../../../interfaces/Seller';
 import { connect } from 'react-redux';
-import { fetchSubscriptions } from '../../../actions/Settings/Subscription';
+import { fetchSubscriptions, redeemCoupon } from '../../../actions/Settings/Subscription';
 
 interface SummaryProps {
   planType: string;
   paymentMode: string;
   subscriptions: Subscription[];
   fetchSubscriptions: () => void;
+  showCoupon?: boolean;
+  isCouponApplied: boolean;
+  redeemCoupon: (couponValue: any, sellerID: any) => void;
 }
 function Summary(props: SummaryProps) {
-  const { planType, paymentMode, subscriptions, fetchSubscriptions } = props;
+  const {
+    planType,
+    paymentMode,
+    subscriptions,
+    fetchSubscriptions,
+    showCoupon,
+    isCouponApplied,
+    redeemCoupon,
+  } = props;
+  const [couponValue, setCouponValue] = useState('');
+
   useEffect(() => {
     fetchSubscriptions();
   }, []);
@@ -38,15 +51,57 @@ function Summary(props: SummaryProps) {
     ],
   };
 
+  const handleCouponChange = (e: any) => {
+    setCouponValue(e.target.value);
+  };
+
+  const redeem = () => {
+    const sellerID = localStorage.getItem('userId');
+    redeemCoupon(couponValue, sellerID);
+  };
+
   return (
     <Container text className="summary-container">
       <Header as="h3">Subscription Summary</Header>
       <div className="summary-container__content">
-        <p>
-          <span className="summary-container__content__plan-title">{plan.name}</span>
-          <span className="summary-container__content__plan-value">{plan.description}</span>
-        </p>
-        <p className="summary-container__content__moneyback-guarantee">{plan.subDescription}</p>
+        <div className="summary-container__content__wrapper">
+          <div className="summary-container__content__wrapper__left">
+            <p>
+              <span className="summary-container__content__wrapper__left__plan-title">
+                {plan.name}
+              </span>
+              <span className="summary-container__content__wrapper__left__plan-value">
+                {plan.description}
+              </span>
+            </p>
+            <p className="summary-container__content__wrapper__left__moneyback-guarantee">
+              {plan.subDescription}
+            </p>
+          </div>
+          {showCoupon && (
+            <div className="summary-container__content__wrapper__right">
+              <span className="summary-container__content__wrapper__right__coupon-title">
+                Redeem Coupon
+              </span>
+              <div className="summary-container__content__wrapper__right__input-content">
+                <Input
+                  className="summary-container__content__wrapper__right__input-content__coupon-input"
+                  onChange={handleCouponChange}
+                  placeholder="Coupon Code"
+                />
+                <Button
+                  basic
+                  className={`summary-container__content__wrapper__right__input-content__coupon-btn${
+                    isCouponApplied ? '-redeemed' : ''
+                  }`}
+                  onClick={() => redeem()}
+                >
+                  {isCouponApplied ? 'Applied' : 'Redeem'}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
         <div className="summary-container__content__benefits-content">
           {_.map(plan.benefits, (item, key) => {
             return (
@@ -63,10 +118,12 @@ function Summary(props: SummaryProps) {
 
 const mapStateToProps = (state: any) => ({
   subscriptions: state.subscription.subscriptions,
+  isCouponApplied: state.subscription.isCouponApplied,
 });
 
 const mapDispatchToProps = {
   fetchSubscriptions: () => fetchSubscriptions(),
+  redeemCoupon: (couponValue: any, sellerID: any) => redeemCoupon(couponValue, sellerID),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Summary);
