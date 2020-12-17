@@ -163,7 +163,7 @@ function Signup(props: any, state: State) {
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
-      error('Email is invalid');
+      error({ description: 'Email is invalid' });
     } else {
       auth.webAuth.signup(
         {
@@ -174,7 +174,7 @@ function Signup(props: any, state: State) {
         },
         (err: any) => {
           if (err) {
-            error(err.description);
+            error(err);
           } else {
             const data = {
               email: email,
