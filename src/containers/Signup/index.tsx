@@ -188,7 +188,7 @@ function Signup(props: any, state: State) {
         },
         (err: any) => {
           if (err) {
-            error({ description: err.description });
+            error(err);
           } else {
             const data = {
               email: email,
