@@ -21,6 +21,7 @@ import {
   Length,
   passwordPolicy,
   validateEmail,
+  Name,
 } from '../../constants/Validators';
 
 interface Props {
@@ -37,6 +38,9 @@ function Signup(props: any, state: State) {
   const { value: firstname, bind: bindFirstName } = useInput('');
   const { value: lastname, bind: bindLastName } = useInput('');
   const { value: password, bind: bindPassword } = useInput('');
+  const [emailError, setEmailError] = useState(false);
+  const [fnameError, setFnameError] = useState(false);
+  const [lnameError, setLnameError] = useState(false);
 
   const [isFocusPW, setFocusPassword] = useState(false);
   const [openTOS, setOpenTOS] = useState(false);
@@ -159,11 +163,21 @@ function Signup(props: any, state: State) {
     );
   };
   function handleSubmit() {
+    setEmailError(false);
+    setFnameError(false);
+    setLnameError(false);
     const accountType = window.location.search === '?type=trial' ? 'trial' : 'free';
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
       error({ description: 'Email is invalid' });
+      setEmailError(true);
+    } else if (!Name.validate(firstname)) {
+      error({ description: 'First Name must all be letters.' });
+      setFnameError(true);
+    } else if (!Name.validate(lastname)) {
+      error({ description: 'Last Name must all be letters.' });
+      setLnameError(true);
     } else {
       auth.webAuth.signup(
         {
@@ -202,9 +216,21 @@ function Signup(props: any, state: State) {
     <SignupBase messageDetails={messageDetails}>
       <Form className="signup-form" onSubmit={handleSubmit}>
         <Header size="huge"> Register Here </Header>
-        <Form.Input required type="email" placeholder="Email" {...bindEmail} />
-        <Form.Input required type="text" placeholder="First Name" {...bindFirstName} />
-        <Form.Input required type="text" placeholder="Last Name" {...bindLastName} />
+        <Form.Input required type="email" placeholder="Email" {...bindEmail} error={emailError} />
+        <Form.Input
+          required
+          type="text"
+          placeholder="First Name"
+          {...bindFirstName}
+          error={fnameError}
+        />
+        <Form.Input
+          required
+          type="text"
+          placeholder="Last Name"
+          {...bindLastName}
+          error={lnameError}
+        />
         <StepsInfo
           isFocusPW={isFocusPW}
           focusInput={onFocus}
