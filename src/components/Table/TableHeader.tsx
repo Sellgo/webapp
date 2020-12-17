@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Checkbox, Icon, Popup, Table } from 'semantic-ui-react';
@@ -62,6 +62,7 @@ export interface TableHeaderCellProps extends Shared {
   columns: Column[];
   scrollTopSelector: boolean;
   totalItemsCount: number;
+  setHeaderHovered: (boo: boolean) => void;
 }
 
 const TableHeaderCell = (props: TableHeaderCellProps) => {
@@ -96,6 +97,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     resetPage,
     scrollTopSelector,
     totalItemsCount,
+    setHeaderHovered,
   } = props;
   const {
     dataKey,
@@ -211,6 +213,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
           filterNegativeCheckbox={filterNegativeCheckbox}
           filterCheckboxWithSelectAll={filterCheckboxWithSelectAll}
           filterBoxSize={filterBoxSize}
+          setHeaderHovered={setHeaderHovered}
         />
       }
     />
@@ -378,11 +381,13 @@ const TableHeader = (props: TableHeaderProps) => {
     ...rest
   } = props;
   const filteredColumns = columns.filter(c => getColumnLabel(c.dataKey, rest.columnFilterData));
+  const [isHeaderHovered, setHeaderHovered] = useState(false);
   const onScroll = (evt: any) => {
+    evt.stopPropagation();
+    console.log('onScroll1 ', isHeaderHovered);
     const middleHeader = document.querySelector('.middle-header');
     const middleBody = document.querySelector('.middle-body');
-
-    if (!!middleBody && middleHeader) {
+    if (!!middleBody && middleHeader && isHeaderHovered) {
       middleBody.scrollLeft = evt.target.scrollLeft;
       middleHeader.scrollLeft = evt.target.scrollLeft;
     }
@@ -419,6 +424,8 @@ const TableHeader = (props: TableHeaderProps) => {
     // @ts-ignore
     return (
       <Table.Header
+        onMouseEnter={() => setHeaderHovered(true)}
+        onMouseLeave={() => setHeaderHovered(true)}
         className={`${isProfitFinder} ${isScrollTop} ${
           stickyChartSelector ? 'sticky-chart-active' : ''
         }`}
@@ -463,7 +470,12 @@ const TableHeader = (props: TableHeaderProps) => {
             }
 
             return (
-              <Table.HeaderCell {...headerCellProps} key={`${cell.side}---cell-${cellIndex}`}>
+              <Table.HeaderCell
+                {...headerCellProps}
+                key={`${cell.side}---cell-${cellIndex}`}
+                onMouseEnter={() => setHeaderHovered(true)}
+                onMouseLeave={() => setHeaderHovered(true)}
+              >
                 <table className="header-inner-table">
                   <thead className="inner-tbody">
                     <Table.Row
@@ -481,6 +493,7 @@ const TableHeader = (props: TableHeaderProps) => {
                             key={column.dataKey || index}
                             scrollTopSelector={scrollTopSelector}
                             totalItemsCount={totalItemsCount}
+                            setHeaderHovered={setHeaderHovered}
                             {...rest}
                           />
                         );
@@ -507,6 +520,7 @@ const TableHeader = (props: TableHeaderProps) => {
               key={column.dataKey || index}
               scrollTopSelector={scrollTopSelector}
               totalItemsCount={totalItemsCount}
+              setHeaderHovered={setHeaderHovered}
               {...rest}
             />
           );

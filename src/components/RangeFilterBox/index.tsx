@@ -19,6 +19,7 @@ const RangeFilterBox = (props: any) => {
     filterNegativeCheckbox,
     filterCheckboxWithSelectAll,
     filterBoxSize = '',
+    setHeaderHovered,
     ...rest
   } = props;
   const [filter, setFilter] = React.useState({});
@@ -205,7 +206,10 @@ const RangeFilterBox = (props: any) => {
   };
 
   return (
-    <div className={`column-range-filter ${filterBoxSize}`}>
+    <div
+      className={`column-range-filter ${filterBoxSize}`}
+      onMouseEnter={() => setHeaderHovered(false)}
+    >
       <p className="filter-label">{`${filterLabel || props.label} ${labelSign}`}</p>
       <div className="reset-filters" onClick={() => resetFiltersValue()}>
         <p>X Reset</p>

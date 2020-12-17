@@ -13,6 +13,7 @@ const BottomScroll = (props: Props) => {
   const { columns, name, totalItemsCount } = props;
   const bottomScrollContent = useRef(null);
   const onScroll = (evt: any) => {
+    evt.stopPropagation();
     if (name === 'products') {
       const middleHeader = document.querySelector('.middle-header');
       const middleBody = document.querySelector('.middle-body');
@@ -34,6 +35,7 @@ const BottomScroll = (props: Props) => {
   };
 
   useEffect(() => {
+    console.log('totalItems: ', totalItemsCount);
     const table = document.querySelector('.generic-table');
     const middleHeader = document.querySelector('.middle-header');
     const middleBody = document.querySelector('.middle-body');

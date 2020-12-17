@@ -91,7 +91,6 @@ export class FilterSection extends React.Component<FilterSectionProps, any> {
       setProfitability,
       filteredRanges,
     } = this.props;
-    console.log('supplierDetails: ', supplierDetails);
     const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
     const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
     const leadsStatus =
