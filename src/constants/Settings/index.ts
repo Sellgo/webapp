@@ -11,6 +11,7 @@ export const SET_STRIPE_LOADING = 'SET_STRIPE_LOADING';
 export const SET_SELLER_SUBSCRIPTION = 'SET_SELLER_SUBSCRIPTION';
 export const SET_AMAZON_MWS_AUTHORIZED = 'SET_AMAZON_MWS_AUTHORIZED';
 export const SET_SELLER_QUOTA = 'SET_SELLER_QUOTA';
+export const SET_COUPON_APPLIED = 'SET_COUPON_APPLIED';
 
 export const defaultMarketplaces = [
   { name: 'US', code: 'US', link: 'amazon.com', id: 'ATVPDKIKX0DER', disabled: false },
