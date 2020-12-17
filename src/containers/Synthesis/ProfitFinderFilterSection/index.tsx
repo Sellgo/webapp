@@ -22,7 +22,7 @@ import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
-import { exportResults } from '../../../actions/Products';
+import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
 import { saveAs } from 'file-saver';
 
 interface Props {
@@ -40,6 +40,7 @@ interface Props {
   isScrollSelector: boolean;
   scrollTop: boolean;
   subscriptionPlan: any;
+  fetchActiveExportFiles: () => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -1010,7 +1011,7 @@ function ProfitFinderFilterSection(props: Props) {
 
   const onExportResults = async (value: any) => {
     try {
-      const { filteredProducts, supplierDetails, products } = props;
+      const { filteredProducts, supplierDetails, products, fetchActiveExportFiles } = props;
       if (value.data === 'filtered') {
         const psd_ids =
           value.data === 'filtered'
@@ -1024,7 +1025,7 @@ function ProfitFinderFilterSection(props: Props) {
           supplierDetails.supplier_id
         );
         await setExportResult(false);
-
+        await fetchActiveExportFiles();
         saveAs(new Blob([blob]), `${supplierDetails.search}-${value.data}.${value.format}`);
         setExportResultLoading(false);
       } else {
@@ -1197,6 +1198,7 @@ const mapDispatchToProps = {
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setIsScroll: (value: boolean) => setIsScroll(value),
+  fetchActiveExportFiles,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

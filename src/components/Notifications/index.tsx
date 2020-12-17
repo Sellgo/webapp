@@ -32,6 +32,9 @@ interface FileExport {
 
 const Notifications = (props: Props) => {
   const { activeExportFiles, fetchActiveExportFiles, fetchingActiveExports } = props;
+  const processingCount = activeExportFiles.filter(
+    (file: FileExport) => file.export_status === 'processing'
+  ).length;
   const getFileImage = (file: string) => {
     const ext = file.split('.').pop();
     return ext === 'csv' ? CSV_IMAGE : XLSX_IMAGE;
@@ -94,6 +97,11 @@ const Notifications = (props: Props) => {
       trigger={
         <Menu.Item onClick={() => fetchActiveExportFiles()}>
           <img src={BELL_IMAGE} className="bell-icon" />
+          {!!processingCount && (
+            <span onClick={() => fetchActiveExportFiles()} className="badge-count">
+              {processingCount}
+            </span>
+          )}
         </Menu.Item>
       }
     />
