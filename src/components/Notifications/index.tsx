@@ -36,7 +36,8 @@ const Notifications = (props: Props) => {
     (file: FileExport) => file.export_status === 'processing'
   ).length;
   const getFileImage = (file: string) => {
-    const ext = file.split('.').pop();
+    const fileName = file ? file : '';
+    const ext = fileName.split('.').pop();
     return ext === 'csv' ? CSV_IMAGE : XLSX_IMAGE;
   };
 
