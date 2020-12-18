@@ -35,6 +35,14 @@ const Notifications = (props: Props) => {
   const processingCount = activeExportFiles.filter(
     (file: FileExport) => file.export_status === 'processing'
   ).length;
+
+  const getFileName = (file: string) => {
+    let fileName: string | undefined = '';
+    if (file) {
+      fileName = file.split('/').pop();
+    }
+    return fileName;
+  };
   const getFileImage = (file: string) => {
     const fileName = file ? file : '';
     const ext = fileName.split('.').pop();
@@ -74,7 +82,7 @@ const Notifications = (props: Props) => {
                         file.export_status === 'completed' ? 'file-name' : 'in-progress-file'
                       }`}
                     >
-                      {file.report_path_filtered.split('/').pop()}
+                      {getFileName(file.report_path_filtered)}
                     </p>
                     {file.export_status !== 'completed' && (
                       <p className="file-status">Export in progress: might take a few mins...</p>
