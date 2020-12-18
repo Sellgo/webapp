@@ -23,7 +23,7 @@ import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
-import { saveAs } from 'file-saver';
+import { info } from '../../../utils/notifications';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -1020,14 +1020,14 @@ function ProfitFinderFilterSection(props: Props) {
         const file_format = value.format;
         const synthesis_file_id = supplierDetails.synthesis_file_id;
         setExportResultLoading(true);
-        const blob = await exportResults(
+        await exportResults(
           { psd_ids, file_format, synthesis_file_id },
           supplierDetails.supplier_id
         );
         await setExportResult(false);
         await setExportResultLoading(false);
         await fetchActiveExportFiles();
-        saveAs(new Blob([blob]), `${supplierDetails.search}-${value.data}.${value.format}`);
+        info('Please check notifications for export file download.');
       } else {
         const url =
           value.format === 'csv' ? supplierDetails.report_url_csv : supplierDetails.report_url;
