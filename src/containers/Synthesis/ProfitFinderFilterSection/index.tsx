@@ -1025,9 +1025,9 @@ function ProfitFinderFilterSection(props: Props) {
           supplierDetails.supplier_id
         );
         await setExportResult(false);
+        await setExportResultLoading(false);
         await fetchActiveExportFiles();
         saveAs(new Blob([blob]), `${supplierDetails.search}-${value.data}.${value.format}`);
-        setExportResultLoading(false);
       } else {
         const url =
           value.format === 'csv' ? supplierDetails.report_url_csv : supplierDetails.report_url;
