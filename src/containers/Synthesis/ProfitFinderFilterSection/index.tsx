@@ -22,8 +22,8 @@ import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
-import { exportResults } from '../../../actions/Products';
-import { saveAs } from 'file-saver';
+import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
+import { info } from '../../../utils/notifications';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -40,6 +40,7 @@ interface Props {
   isScrollSelector: boolean;
   scrollTop: boolean;
   subscriptionPlan: any;
+  fetchActiveExportFiles: () => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -1010,7 +1011,7 @@ function ProfitFinderFilterSection(props: Props) {
 
   const onExportResults = async (value: any) => {
     try {
-      const { filteredProducts, supplierDetails, products } = props;
+      const { filteredProducts, supplierDetails, products, fetchActiveExportFiles } = props;
       if (value.data === 'filtered') {
         const psd_ids =
           value.data === 'filtered'
@@ -1019,12 +1020,14 @@ function ProfitFinderFilterSection(props: Props) {
         const file_format = value.format;
         const synthesis_file_id = supplierDetails.synthesis_file_id;
         setExportResultLoading(true);
-        const blob = await exportResults(
+        await exportResults(
           { psd_ids, file_format, synthesis_file_id },
           supplierDetails.supplier_id
         );
-        saveAs(new Blob([blob]), `${supplierDetails.search}-${value.data}.${value.format}`);
-        setExportResultLoading(false);
+        await setExportResult(false);
+        await setExportResultLoading(false);
+        await fetchActiveExportFiles();
+        info('Please check notifications for export file download.');
       } else {
         const url =
           value.format === 'csv' ? supplierDetails.report_url_csv : supplierDetails.report_url;
@@ -1035,7 +1038,6 @@ function ProfitFinderFilterSection(props: Props) {
         a.click();
         window.URL.revokeObjectURL(url);
       }
-      await setExportResult(false);
     } catch (e) {
       console.log(e);
     }
@@ -1196,6 +1198,7 @@ const mapDispatchToProps = {
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setIsScroll: (value: boolean) => setIsScroll(value),
+  fetchActiveExportFiles,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

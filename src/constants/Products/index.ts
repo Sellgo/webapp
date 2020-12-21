@@ -18,6 +18,8 @@ export const SET_FETCHING_RATING = 'SET_FETCHING_RATING';
 export const SET_FETCHING_REVIEW = 'SET_FETCHING_REVIEW';
 export const SET_FETCHING_SELLER_INVENTORY = 'SET_FETCHING_SELLER_INVENTORY';
 export const SET_FETCHING_KPI = 'SET_FETCHING_KPI';
+export const SET_ACTIVE_EXPORT_FILES = 'SET_ACTIVE_EXPORT_FILES';
+export const FETCHING_ACTIVE_EXPORTS = 'FETCHING_ACTIVE_EXPORTS';
 
 export const columnFilter = [
   {
@@ -189,4 +191,7 @@ export const EXPORT_FORMATS = [
   { key: 'xlsx', value: 'xlsx', text: '.XLSX' },
 ];
 
-export const EXPORT_DATA = [{ key: 'all', value: 'all', text: 'All Results' }];
+export const EXPORT_DATA = [
+  { key: 'all', value: 'all', text: 'All Results' },
+  { key: 'filtered', value: 'filtered', text: 'Filtered Results' },
+];
