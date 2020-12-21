@@ -254,10 +254,12 @@ export const exportResults = async (payload: any, supplierID: any) => {
   }
 };
 
-export const fetchActiveExportFiles = () => async (dispatch: any) => {
+export const fetchActiveExportFiles = (isLoading = true) => async (dispatch: any) => {
   try {
     const sellerID = sellerIDSelector();
-    dispatch(setFetchingActiveExports(true));
+    if (isLoading) {
+      dispatch(setFetchingActiveExports(true));
+    }
     const res = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`);
     dispatch(setActiveExportFiles(res.data));
     dispatch(setFetchingActiveExports(false));

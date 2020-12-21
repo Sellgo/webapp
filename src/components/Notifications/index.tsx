@@ -13,7 +13,7 @@ import moment from 'moment';
 
 interface Props {
   activeExportFiles: FileExport[];
-  fetchActiveExportFiles: () => void;
+  fetchActiveExportFiles: (isLoading: boolean) => void;
   fetchingActiveExports: boolean;
   setFileDownloaded: (payload: any) => void;
 }
@@ -53,10 +53,11 @@ const Notifications = (props: Props) => {
   const updateCount = async (payload: any) => {
     const { setFileDownloaded } = props;
     await setFileDownloaded(payload);
+    await fetchActiveExportFiles(false);
   };
 
   useEffect(() => {
-    fetchActiveExportFiles();
+    fetchActiveExportFiles(true);
   }, []);
   return (
     <Popup
@@ -113,10 +114,10 @@ const Notifications = (props: Props) => {
       className="notifications"
       basic
       trigger={
-        <Menu.Item onClick={() => fetchActiveExportFiles()}>
+        <Menu.Item onClick={() => fetchActiveExportFiles(true)}>
           <img src={BELL_IMAGE} className="bell-icon" />
           {!!processingCount && (
-            <span onClick={() => fetchActiveExportFiles()} className="badge-count">
+            <span onClick={() => fetchActiveExportFiles(true)} className="badge-count">
               {processingCount}
             </span>
           )}
@@ -131,7 +132,7 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  fetchActiveExportFiles,
+  fetchActiveExportFiles: (isLoading: boolean) => fetchActiveExportFiles(isLoading),
   setFileDownloaded,
 };
 
