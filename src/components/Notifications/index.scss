@@ -32,6 +32,10 @@
       margin: 0 2px !important;
     }
 
+    .downloaded {
+      font-weight: bold;
+    }
+
     .in-progress-file {
       @extend .file-name;
 

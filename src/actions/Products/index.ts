@@ -25,6 +25,7 @@ import {
   SET_ACTIVE_EXPORT_FILES,
   FETCHING_ACTIVE_EXPORTS,
 } from '../../constants/Products';
+import { activeExportFiles } from '../../selectors/Products';
 
 export const setSupplierProductDetails = (product: Product) => ({
   type: SET_SUPPLIER_PRODUCT_DETAILS,
@@ -260,6 +261,27 @@ export const fetchActiveExportFiles = () => async (dispatch: any) => {
     const res = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`);
     dispatch(setActiveExportFiles(res.data));
     dispatch(setFetchingActiveExports(false));
+  } catch (e) {
+    console.log('error', e);
+  }
+};
+
+export const setFileDownloaded = (payload: any) => async (dispatch: any, state: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+    const formData = new FormData();
+    formData.set('synthesis_file_id', payload.id);
+    formData.set('is_downloaded', 'True');
+    await Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`, formData);
+
+    let files = activeExportFiles(state);
+    files = files.map((f: any) => {
+      if (f.id === payload.id) {
+        f.is_downloaded = true;
+      }
+      return f;
+    });
+    dispatch(setActiveExportFiles(files));
   } catch (e) {
     console.log('error', e);
   }

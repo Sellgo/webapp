@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Loader, Menu, Popup } from 'semantic-ui-react';
 import './index.scss';
-import { fetchActiveExportFiles } from '../../actions/Products';
+import { fetchActiveExportFiles, setFileDownloaded } from '../../actions/Products';
 import { connect } from 'react-redux';
 import { activeExportFiles, isFetchingActiveExports } from '../../selectors/Products';
 import BELL_IMAGE from '../../assets/images/bell.svg';
@@ -15,6 +15,7 @@ interface Props {
   activeExportFiles: FileExport[];
   fetchActiveExportFiles: () => void;
   fetchingActiveExports: boolean;
+  setFileDownloaded: (payload: any) => void;
 }
 
 interface FileExport {
@@ -28,13 +29,13 @@ interface FileExport {
   export_status: string;
   report_url_filtered: string;
   udate: string;
+  is_downloaded: boolean;
 }
 
 const Notifications = (props: Props) => {
   const { activeExportFiles, fetchActiveExportFiles, fetchingActiveExports } = props;
-  const processingCount = activeExportFiles.filter(
-    (file: FileExport) => file.export_status === 'processing'
-  ).length;
+  const processingCount = activeExportFiles.filter((file: FileExport) => !file.is_downloaded)
+    .length;
 
   const getFileName = (file: string) => {
     let fileName: string | undefined = '';
@@ -49,6 +50,14 @@ const Notifications = (props: Props) => {
     return ext === 'csv' ? CSV_IMAGE : XLSX_IMAGE;
   };
 
+  const updateCount = async (payload: any) => {
+    const { setFileDownloaded } = props;
+    await setFileDownloaded(payload);
+  };
+
+  useEffect(() => {
+    fetchActiveExportFiles();
+  }, []);
   return (
     <Popup
       content={
@@ -64,7 +73,7 @@ const Notifications = (props: Props) => {
               </React.Fragment>
             )}
             {activeExportFiles.map((file: any) => (
-              <a key={file.id} href={file.report_url_filtered}>
+              <a key={file.id} href={file.report_url_filtered} onClick={() => updateCount(file)}>
                 <div className="notification">
                   <div>
                     <img
@@ -80,7 +89,7 @@ const Notifications = (props: Props) => {
                     <p
                       className={`${
                         file.export_status === 'completed' ? 'file-name' : 'in-progress-file'
-                      }`}
+                      } ${!file.is_downloaded ? 'downloaded' : ''}`}
                     >
                       {getFileName(file.report_path_filtered)}
                     </p>
@@ -123,6 +132,7 @@ const mapStateToProps = (state: {}) => ({
 
 const mapDispatchToProps = {
   fetchActiveExportFiles,
+  setFileDownloaded,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
