@@ -16,13 +16,23 @@
     margin: 5px 0;
     display: flex;
 
-    .file-image {
-      margin-right: 5px;
-    }
+    .file-image-container {
+      display: flex;
+      align-items: center;
 
-    .progressing {
-      width: 35px;
-      height: 35px;
+      .file-image {
+        margin-right: 5px;
+      }
+
+      .progressing {
+        width: 35px;
+        height: 35px;
+      }
+
+      .failed {
+        color: red !important;
+        font-size: 32px;
+      }
     }
 
     .file-name {
@@ -49,6 +59,12 @@
     .file-status {
       font-size: 10px;
       color: #98aeca;
+      margin: 0 2px !important;
+    }
+
+    .failed-text {
+      font-size: 10px;
+      color: red;
       margin: 0 2px !important;
     }
   }
