@@ -92,7 +92,7 @@ const Notifications = (props: Props) => {
                         file.export_status === 'completed' ? 'file-name' : 'in-progress-file'
                       } ${!file.is_downloaded ? 'downloaded' : ''}`}
                     >
-                      {getFileName(file.report_path_filtered)}
+                      {getFileName(file.report_path)}
                     </p>
                     {file.export_status !== 'completed' && (
                       <p className="file-status">Export in progress: might take a few mins...</p>

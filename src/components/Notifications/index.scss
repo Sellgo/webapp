@@ -28,8 +28,12 @@
     .file-name {
       font-size: 14px;
       color: #349af8;
-      padding: 5px 0x;
+      padding: 5px 0;
       margin: 0 2px !important;
+      white-space: nowrap;
+      width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .downloaded {
