@@ -170,7 +170,7 @@ function Signup(props: any, state: State) {
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
-      error({ description: 'Email is invalid' });
+      error({ description: `error in email - email format validation failed: ${email}` });
       setEmailError(true);
     } else if (!Name.validate(firstname)) {
       error({ description: 'First Name must all be letters.' });
