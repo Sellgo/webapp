@@ -5,9 +5,10 @@ import {
   SET_SUCCESS_PAYMENT,
   SET_STRIPE_ERROR,
   SET_STRIPE_LOADING,
+  SET_COUPON_APPLIED,
 } from '../../../constants/Settings';
 import { AppConfig } from '../../../config';
-import { warn } from '../../../utils/notifications';
+import { error, success, warn } from '../../../utils/notifications';
 import { auth } from '../../../containers/App/App';
 import _ from 'lodash';
 import moment from 'moment';
@@ -238,3 +239,28 @@ export const setSellerSubscription = (data: any) => ({
   type: SET_SELLER_SUBSCRIPTION,
   payload: data,
 });
+
+export const setCouponApplied = (data: boolean) => ({
+  type: SET_COUPON_APPLIED,
+  payload: data,
+});
+
+export const redeemCoupon = (coupon: any, id: any) => (dispatch: any) => {
+  const bodyFormData = new FormData();
+
+  if (coupon) bodyFormData.append('coupon', coupon);
+  else {
+    error('Coupon field is empty.');
+    return;
+  }
+
+  Axios.post(AppConfig.BASE_URL_API + `sellers/${id}/subscription/redeem-coupon`, bodyFormData)
+    .then(response => {
+      success(`${response.data.message}`);
+      dispatch(setCouponApplied(true));
+    })
+    .catch((err: any) => {
+      error(`${err.response.data.message}`);
+      dispatch(setCouponApplied(false));
+    });
+};

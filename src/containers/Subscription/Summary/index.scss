@@ -34,21 +34,85 @@
       line-height: 1;
     }
 
-    &__plan-title {
-      font-weight: 600;
-      font-size: 20px;
-      color: #2e3b4a;
-      margin-right: 15px;
-    }
+    &__wrapper {
+      display: flex;
 
-    &__plan-value {
-      font-size: 20px;
-      color: #349af8;
-    }
+      &__left {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    &__moneyback-guarantee {
-      font-size: 20px;
-      color: #98aeca;
+        &__plan-title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #2e3b4a;
+          margin-right: 15px;
+        }
+
+        &__plan-value {
+          font-size: 20px;
+          color: #349af8;
+        }
+
+        &__moneyback-guarantee {
+          font-size: 20px;
+          color: #98aeca;
+        }
+      }
+
+      &__right {
+        width: 50%;
+
+        &__coupon-title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #2e3b4a;
+          margin-right: 15px;
+        }
+
+        &__input-content {
+          display: flex;
+          height: 36px;
+
+          &__coupon-input {
+            input {
+              width: 400px !important;
+              border: 1px solid #98aeca !important;
+              border-radius: 20px !important;
+              color: #3b4557 !important;
+              font-weight: 500 !important;
+              font-size: 14px;
+              box-shadow: none !important;
+            }
+
+            margin-right: 12px;
+          }
+        }
+
+        .ui.button {
+          &.summary-container__content__wrapper__right__input-content__coupon-btn,
+          &.summary-container__content__wrapper__right__input-content__coupon-btn-redeemed {
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            font-family: 'Work Sans', sans-serif !important;
+            box-shadow: none !important;
+          }
+
+          &.summary-container__content__wrapper__right__input-content__coupon-btn {
+            color: #349af8 !important;
+            border: 1px solid #349af8;
+            background: #fff !important;
+          }
+
+          &.summary-container__content__wrapper__right__input-content__coupon-btn-redeemed {
+            background: #98aeca !important;
+            border: 1px solid #98aeca;
+            color: #fff !important;
+          }
+        }
+      }
     }
 
     &__benefits-content {
