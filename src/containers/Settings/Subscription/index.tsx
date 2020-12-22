@@ -55,6 +55,7 @@ interface SubscriptionProps {
   subscriptionType: string;
   subscriptionPlan: string;
   match: any;
+  redeemCoupon: (value: any, id: any) => void;
 }
 
 class SubscriptionPricing extends React.Component<SubscriptionProps> {
@@ -190,7 +191,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
   redeem() {
     const { couponVal } = this.state;
-    const { profile } = this.props;
+    const { profile, redeemCoupon } = this.props;
     redeemCoupon(couponVal, profile.id);
   }
 
@@ -604,6 +605,7 @@ const mapDispatchToProps = {
   fetchSubscriptions: () => fetchSubscriptions(),
   fetchSellerSubscription: () => fetchSellerSubscription(),
   setSellerSubscription: (data: any) => setSellerSubscription(data),
+  redeemCoupon: (value: any, id: any) => redeemCoupon(value, id),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionPricing);
