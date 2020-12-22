@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Loader, Menu, Popup } from 'semantic-ui-react';
+import { Icon, Loader, Menu, Popup } from 'semantic-ui-react';
 import './index.scss';
 import { fetchActiveExportFiles, setFileDownloaded } from '../../actions/Products';
 import { connect } from 'react-redux';
@@ -44,10 +44,19 @@ const Notifications = (props: Props) => {
     }
     return fileName;
   };
-  const getFileImage = (file: string) => {
+  const getFileImage = (file: string, status: string) => {
     const fileName = file ? file : '';
-    const ext = fileName.split('.').pop();
-    return ext === 'csv' ? CSV_IMAGE : XLSX_IMAGE;
+    let image = '';
+    if (status === 'completed') {
+      const ext = fileName.split('.').pop();
+      image = ext === 'csv' ? CSV_IMAGE : XLSX_IMAGE;
+    }
+
+    if (status === 'processing') {
+      image = PROGRESSING;
+    }
+
+    return image;
   };
 
   const updateCount = async (payload: any) => {
@@ -76,15 +85,16 @@ const Notifications = (props: Props) => {
             {activeExportFiles.map((file: any) => (
               <a key={file.id} href={file.report_url_filtered} onClick={() => updateCount(file)}>
                 <div className="notification">
-                  <div>
-                    <img
-                      src={
-                        file.export_status !== 'completed'
-                          ? PROGRESSING
-                          : getFileImage(file.report_path_filtered)
-                      }
-                      className="file-image progressing"
-                    />
+                  <div className="file-image-container">
+                    {file.export_status !== 'failed' && (
+                      <img
+                        src={getFileImage(file.report_path_filtered, file.export_status)}
+                        className="file-image progressing"
+                      />
+                    )}
+                    {file.export_status === 'failed' && (
+                      <Icon name={'ban'} size={'large'} className={'failed'} />
+                    )}
                   </div>
                   <div>
                     <p
@@ -92,9 +102,9 @@ const Notifications = (props: Props) => {
                         file.export_status === 'completed' ? 'file-name' : 'in-progress-file'
                       } ${!file.is_downloaded ? 'downloaded' : ''}`}
                     >
-                      {getFileName(file.report_path_filtered)}
+                      {getFileName(file.report_path)}
                     </p>
-                    {file.export_status !== 'completed' && (
+                    {file.export_status === 'processing' && (
                       <p className="file-status">Export in progress: might take a few mins...</p>
                     )}
 
@@ -102,6 +112,9 @@ const Notifications = (props: Props) => {
                       <p className="file-status">
                         {moment(file.udate).format('dddd, MMMM Do YYYY, h:mm:ss a')}
                       </p>
+                    )}
+                    {file.export_status === 'failed' && (
+                      <p className="failed-text">Export Failed.</p>
                     )}
                   </div>
                 </div>

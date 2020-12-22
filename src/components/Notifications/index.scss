@@ -16,20 +16,34 @@
     margin: 5px 0;
     display: flex;
 
-    .file-image {
-      margin-right: 5px;
-    }
+    .file-image-container {
+      display: flex;
+      align-items: center;
 
-    .progressing {
-      width: 35px;
-      height: 35px;
+      .file-image {
+        margin-right: 5px;
+      }
+
+      .progressing {
+        width: 35px;
+        height: 35px;
+      }
+
+      .failed {
+        color: red !important;
+        font-size: 32px;
+      }
     }
 
     .file-name {
       font-size: 14px;
       color: #349af8;
-      padding: 5px 0x;
+      padding: 5px 0;
       margin: 0 2px !important;
+      white-space: nowrap;
+      width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .downloaded {
@@ -45,6 +59,12 @@
     .file-status {
       font-size: 10px;
       color: #98aeca;
+      margin: 0 2px !important;
+    }
+
+    .failed-text {
+      font-size: 10px;
+      color: red;
       margin: 0 2px !important;
     }
   }
