@@ -146,7 +146,7 @@ function Signup(props: Props, state: State) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
       setVerifySignupError(true);
-      setErrorMessage('Email is invalid');
+      setErrorMessage(`error in email - email format validation failed: ${email}`);
       setEmailError(true);
     } else if (!Name.validate(firstName)) {
       setErrorMessage('First Name must all be letters.');
