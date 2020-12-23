@@ -61,8 +61,10 @@ const Notifications = (props: Props) => {
 
   const updateCount = async (payload: any) => {
     const { setFileDownloaded } = props;
-    await setFileDownloaded(payload);
-    await fetchActiveExportFiles(false);
+    if (payload.export_status === 'completed') {
+      await setFileDownloaded(payload);
+      await fetchActiveExportFiles(false);
+    }
   };
 
   useEffect(() => {
