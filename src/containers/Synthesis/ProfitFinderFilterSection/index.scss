@@ -7,7 +7,7 @@
   transition-duration: 1s;
 
   &.scroll-top {
-    top: 70px;
+    top: 71px;
     transition-property: top;
     transition-duration: 1s;
   }
@@ -442,7 +442,7 @@
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 364px;
+      top: 364px; //381px
     }
   }
 }
@@ -454,13 +454,17 @@
     }
 
     &.scroll-top.sticky-chart-active {
-      top: 371px;
+      top: 385px;
     }
   }
 }
 
 @media (max-width: 1367px) {
   .filter-section {
+    &.scroll-top {
+      top: 70px;
+    }
+
     &.sticky-chart-active {
       top: 443px;
     }

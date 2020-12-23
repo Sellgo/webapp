@@ -162,15 +162,23 @@
         }
 
         &.scroll-top > tr:first-child th {
-          top: 60px;
+          top: 70px;
           transition-property: top;
           transition-duration: 1s;
+
+          @media only screen and(min-width: 1599px) {
+            top: 105px !important;
+          }
         }
 
         &.sticky-chart-active.scroll-top > tr:first-child th {
           top: 417px;
           transition-property: top;
           transition-duration: 1s;
+
+          @media only screen and(min-width: 1599px) {
+            top: 410px !important;
+          }
         }
       }
     }
@@ -665,9 +673,10 @@ i.icon.filter::before {
             top: 340px;
           }
 
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 384px;
-          }
+          // &.sticky-chart-active.scroll-top > tr:first-child th {
+          //   top: 384px;
+
+          // }
         }
       }
     }
@@ -722,11 +731,11 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 385px;
+            top: 380px;
           }
 
           &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 409px;
+            top: 415px;
           }
         }
       }
