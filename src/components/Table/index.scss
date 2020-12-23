@@ -2,8 +2,8 @@
   &.scrollable {
     overflow-x: auto;
     margin-bottom: 100px !important;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   &.pf-table {
@@ -504,15 +504,15 @@ i.icon.filter::before {
 .table-header-scroll {
   max-width: 358px !important;
   overflow-x: auto !important;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .middle-body {
   max-width: 670px !important;
   overflow: auto !important;
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .left-fixed-header-column {
@@ -916,11 +916,11 @@ i.icon.filter::before {
 }
 
 .middle-body::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
 }
 
 .table-header-scroll::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
 }
 
 .scrollable::-webkit-scrollbar {
