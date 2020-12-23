@@ -9,6 +9,14 @@
     border-bottom-left-radius: 10px !important;
   }
 
+  .cancel-icon {
+    position: absolute;
+    top: 50% !important;
+    right: 45px !important;
+    font-size: 10px !important;
+    transform: translateY(-50%);
+  }
+
   button {
     border-left: none !important;
     border-right: 1px solid #349af8 !important;
@@ -29,6 +37,15 @@
     border: 1px solid #98aeca !important;
     border-top-left-radius: 10px !important;
     border-bottom-left-radius: 10px !important;
+    font-family: 'Work sans', sans-serif !important;
+  }
+
+  .cancel-icon {
+    position: absolute;
+    top: 50% !important;
+    right: 45px !important;
+    font-size: 10px !important;
+    transform: translateY(-50%);
   }
 
   button {
