@@ -162,15 +162,35 @@
         }
 
         &.scroll-top > tr:first-child th {
-          top: 60px;
+          top: 105px !important;
           transition-property: top;
           transition-duration: 1s;
+
+          @media only screen and(min-width: 1599px) {
+            top: 105px !important;
+          }
         }
 
         &.sticky-chart-active.scroll-top > tr:first-child th {
           top: 417px;
           transition-property: top;
           transition-duration: 1s;
+
+          @media only screen and(min-width: 1367px) {
+            top: 417px !important;
+          }
+
+          @media only screen and(min-width: 1599px) {
+            top: 410px !important;
+          }
+
+          @media only screen and(min-width: 1919px) {
+            top: 520px !important;
+          }
+
+          @media only screen and(min-width: 2559px) {
+            top: 635px !important;
+          }
         }
       }
     }
@@ -580,10 +600,6 @@ i.icon.filter::before {
           &.sticky-chart-active > tr:first-child th {
             top: 620px;
           }
-
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 640px;
-          }
         }
       }
     }
@@ -607,10 +623,6 @@ i.icon.filter::before {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
             top: 502px;
-          }
-
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 500px;
           }
         }
       }
@@ -636,10 +648,6 @@ i.icon.filter::before {
           &.sticky-chart-active > tr:first-child th {
             top: 487px;
           }
-
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 529px;
-          }
         }
       }
     }
@@ -664,10 +672,6 @@ i.icon.filter::before {
           &.sticky-chart-active > tr:first-child th {
             top: 340px;
           }
-
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 384px;
-          }
         }
       }
     }
@@ -691,10 +695,6 @@ i.icon.filter::before {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
             top: 340px;
-          }
-
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 384px;
           }
         }
       }
@@ -722,11 +722,7 @@ i.icon.filter::before {
       &.pf-table {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
-            top: 385px;
-          }
-
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 409px;
+            top: 380px;
           }
         }
       }
@@ -751,10 +747,6 @@ i.icon.filter::before {
         thead.pf-header {
           &.sticky-chart-active > tr:first-child th {
             top: 434px;
-          }
-
-          &.sticky-chart-active.scroll-top > tr:first-child th {
-            top: 483px;
           }
         }
       }
