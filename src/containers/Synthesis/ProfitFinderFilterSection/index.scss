@@ -7,7 +7,7 @@
   transition-duration: 1s;
 
   &.scroll-top {
-    top: 71px;
+    top: 72px !important;
     transition-property: top;
     transition-duration: 1s;
   }
@@ -16,12 +16,56 @@
     top: 285px;
     transition-property: top;
     transition-duration: 1s;
+
+    @media only screen and(max-width: 2560px) {
+      top: 585px;
+    }
+
+    @media only screen and(max-width: 2550px) {
+      top: 462px;
+    }
+
+    @media only screen and(max-width: 1920px) {
+      top: 450px;
+    }
+
+    @media only screen and(max-width: 1680px) {
+      top: 340px;
+    }
+
+    @media only screen and(max-width: 1600px) {
+      top: 349px;
+    }
+
+    @media only screen and (max-width: 1536px) {
+      top: 346px;
+    }
+
+    @media only screen and (max-width: 1367px) {
+      top: 443px;
+    }
   }
 
   &.scroll-top.sticky-chart-active {
     top: 364px;
     transition-property: top;
     transition-duration: 1s;
+
+    @media only screen and(min-width: 1367px) {
+      top: 383px !important;
+    }
+
+    @media only screen and(min-width: 1599px) {
+      top: 381px !important;
+    }
+
+    @media only screen and(min-width: 1919px) {
+      top: 490px !important;
+    }
+
+    @media only screen and(min-width: 2559px) {
+      top: 605px !important;
+    }
   }
 
   .ui.basic {
@@ -383,94 +427,6 @@
       input:checked ~ label::after {
         color: #fff;
       }
-    }
-  }
-}
-
-@media (max-width: 2560px) {
-  .filter-section {
-    &.sticky-chart-active {
-      top: 585px;
-    }
-
-    &.scroll-top.sticky-chart-active {
-      top: 608px;
-    }
-  }
-}
-
-@media (max-width: 2550px) {
-  .filter-section {
-    &.sticky-chart-active {
-      top: 462px;
-    }
-
-    &.scroll-top.sticky-chart-active {
-      top: 480px;
-    }
-  }
-}
-
-@media (max-width: 1920px) {
-  .filter-section {
-    &.sticky-chart-active {
-      top: 450px;
-    }
-
-    &.scroll-top.sticky-chart-active {
-      top: 490px;
-    }
-  }
-}
-
-@media (max-width: 1680px) {
-  .filter-section {
-    &.sticky-chart-active {
-      top: 340px;
-    }
-
-    &.scroll-top.sticky-chart-active {
-      top: 364px;
-    }
-  }
-}
-
-@media (max-width: 1600px) {
-  .filter-section {
-    &.sticky-chart-active {
-      top: 349px;
-    }
-
-    &.scroll-top.sticky-chart-active {
-      top: 364px; //381px
-    }
-  }
-}
-
-@media (max-width: 1536px) {
-  .filter-section {
-    &.sticky-chart-active {
-      top: 346px;
-    }
-
-    &.scroll-top.sticky-chart-active {
-      top: 385px;
-    }
-  }
-}
-
-@media (max-width: 1367px) {
-  .filter-section {
-    &.scroll-top {
-      top: 70px;
-    }
-
-    &.sticky-chart-active {
-      top: 443px;
-    }
-
-    &.scroll-top.sticky-chart-active {
-      top: 460px;
     }
   }
 }
