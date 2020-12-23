@@ -611,6 +611,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ editCost: false });
   };
 
+  updateCostValue = (value: any) => {
+    if (isNaN(value) || parseFloat(value) < 0) {
+      this.setState({ isValidCostValue: false });
+    } else {
+      this.setState({ isValidCostValue: true });
+      this.setState({ product_cost: parseFloat(value) });
+    }
+  };
+
   render() {
     const {
       loadingTrackerFilter,
@@ -758,13 +767,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                       <Input
                         focus
                         onChange={(evt: any, data: any) => {
-                          const { value } = data;
-                          if (isNaN(value) || parseFloat(value) < 0) {
-                            this.setState({ isValidCostValue: false });
-                          } else {
-                            this.setState({ isValidCostValue: true });
-                            this.setState({ product_cost: parseFloat(value) });
-                          }
+                          this.updateCostValue(data.value);
                         }}
                         icon="dollar sign"
                         iconPosition="left"
