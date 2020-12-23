@@ -3,6 +3,14 @@
   width: 480px;
   margin-left: 1rem;
 
+  .cancel-icon {
+    position: absolute;
+    top: 50% !important;
+    right: 45px !important;
+    font-size: 10px !important;
+    transform: translateY(-50%);
+  }
+
   input {
     font-family: 'Work sans', sans-serif !important;
     border: 1px solid #98aeca !important;
@@ -31,6 +39,15 @@
     border: 1px solid #98aeca !important;
     border-top-left-radius: 10px !important;
     border-bottom-left-radius: 10px !important;
+    font-family: 'Work sans', sans-serif !important;
+  }
+
+  .cancel-icon {
+    position: absolute;
+    top: 50% !important;
+    right: 45px !important;
+    font-size: 10px !important;
+    transform: translateY(-50%);
   }
 
   button {
