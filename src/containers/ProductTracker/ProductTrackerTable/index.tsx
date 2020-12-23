@@ -108,6 +108,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     scrollView: false,
     editCost: false,
     product_cost: 0,
+    isValidCostValue: false,
   };
 
   componentDidMount() {
@@ -756,9 +757,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                     <div className="cost-input">
                       <Input
                         focus
-                        onChange={(evt: any) =>
-                          this.setState({ product_cost: parseFloat(evt.target.value) })
-                        }
+                        onChange={(evt: any, data: any) => {
+                          const { value } = data;
+                          if (isNaN(value) || parseFloat(value) < 0) {
+                            this.setState({ isValidCostValue: false });
+                          } else {
+                            this.setState({ isValidCostValue: true });
+                            this.setState({ product_cost: parseFloat(value) });
+                          }
+                        }}
                         icon="dollar sign"
                         iconPosition="left"
                       />
@@ -773,7 +780,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                       <Button
                         content="Save"
                         primary
-                        disabled={product_cost > (parseFloat(costDetails.avg_price) / 100) * 150}
+                        disabled={
+                          product_cost > (parseFloat(costDetails.avg_price) / 100) * 150 ||
+                          !this.state.isValidCostValue
+                        }
                         onClick={() =>
                           this.onEditProductCost({ ...costDetails, product_cost: product_cost })
                         }
