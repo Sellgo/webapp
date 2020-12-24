@@ -23,6 +23,7 @@ import Subscription from '../Settings/Subscription';
 import Payment from '../Subscription/Payment';
 import LeadsTracker from '../LeadsTracker';
 import UserPilotReload from '../../components/UserPilotReload';
+import TableDemo from '../TableDemo';
 
 export const auth = new Auth();
 
@@ -159,6 +160,7 @@ function App() {
             path="/signup"
             render={renderProps => <Signup auth={auth} {...renderProps} />}
           />
+          <Route exact={true} path="/table-demo" render={() => <TableDemo />} />
           <Route
             exact={true}
             path="/reset-password"
