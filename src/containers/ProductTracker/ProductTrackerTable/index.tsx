@@ -26,6 +26,7 @@ import {
   deleteProductTrackGroup,
   setProductDetails,
   updateProductCost,
+  removeProductTrackGroup,
 } from '../../../actions/ProductTracker';
 
 import {
@@ -88,6 +89,7 @@ interface TrackerProps {
   costDetails: any;
   setProductEditDetails: (payload: any) => void;
   updateCost: (payload: any) => void;
+  removeProductTrackGroup: (payload: any) => void;
 }
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
@@ -620,6 +622,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
   };
 
+  handleKeepTracking = (groupID: any) => {
+    this.props.removeProductTrackGroup(groupID);
+    this.setState({
+      deleteGroup: false,
+    });
+  };
+
   render() {
     const {
       loadingTrackerFilter,
@@ -662,7 +671,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleAddGroupCancel={this.handleAddGroupCancel}
             handleAddGroupNameChange={this.handleAddGroupNameChange}
             handleDeleteGroup={this.handleDeleteGroup}
-            handleDeleteGroupCancel={this.handleDeleteGroupCancel}
+            handleDeleteGroupCancel={this.handleKeepTracking}
             handleDeleteGroupSubmit={this.handleDeleteGroupSubmit}
             handleEditGroup={this.handleEditGroup}
             handleEditGroupCancel={this.handleEditGroupCancel}
@@ -847,5 +856,6 @@ const mapDispatchToProps = {
     updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, type),
   setProductEditDetails: (payload: any) => setProductDetails(payload),
   updateCost: (payload: any) => updateProductCost(payload),
+  removeProductTrackGroup: (payload: any) => removeProductTrackGroup(payload),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

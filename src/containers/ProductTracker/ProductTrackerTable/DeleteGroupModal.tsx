@@ -5,15 +5,15 @@ import './DeleteGroupModal.scss';
 
 interface DeleteGroupModalProps {
   open: boolean;
-  handleCancel: any;
-  handleSubmit: any;
+  handleUntrack: any;
+  handleKeepTracking: any;
   groupId: any;
   activeGroup: any;
 }
 
 class DeleteGroupModal extends Component<DeleteGroupModalProps> {
   render() {
-    const { open, handleCancel, handleSubmit, groupId, activeGroup } = this.props;
+    const { open, handleUntrack, handleKeepTracking, groupId, activeGroup } = this.props;
 
     return (
       <Modal
@@ -33,10 +33,15 @@ class DeleteGroupModal extends Component<DeleteGroupModalProps> {
         </Modal.Content>
 
         <Modal.Actions>
-          <Button className="cancel-btn" onClick={handleCancel}>
+          <Button className="cancel-btn" onClick={() => handleUntrack(groupId)}>
             Untrack
           </Button>
-          <Button className="delete-btn" onClick={() => handleSubmit(groupId)}>
+          <Button
+            className="delete-btn"
+            onClick={() => {
+              handleKeepTracking(groupId);
+            }}
+          >
             Keep Tracking
           </Button>
         </Modal.Actions>

@@ -164,8 +164,8 @@ class TrackerMenu extends Component<TrackerMenuProps> {
         <DeleteGroupModal
           open={deleteGroup}
           groupId={this.props.activeGroupId}
-          handleCancel={handleDeleteGroupCancel}
-          handleSubmit={handleDeleteGroupSubmit}
+          handleUntrack={handleDeleteGroupSubmit}
+          handleKeepTracking={handleDeleteGroupCancel}
           activeGroup={activeGroup}
         />
         {/* Magic to make scrollbar disappear */}
