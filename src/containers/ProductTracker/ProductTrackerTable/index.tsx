@@ -441,7 +441,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     );
   };
   renderSource = (row: ProductTrackerDetails) => {
-    return <p>{truncateString(row.source, 35)}</p>;
+    return <p>{truncateString(row.source, 25)}</p>;
   };
 
   columns: Column[] = [
