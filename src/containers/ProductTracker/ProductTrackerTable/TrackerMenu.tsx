@@ -54,6 +54,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleDeleteGroupSubmit,
       editError,
     } = this.props;
+
     const activeGroup =
       this.props.groups && this.props.activeGroupId
         ? this.props.groups.find((data: any) => data.id === this.props.activeGroupId)
@@ -165,6 +166,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           groupId={this.props.activeGroupId}
           handleCancel={handleDeleteGroupCancel}
           handleSubmit={handleDeleteGroupSubmit}
+          activeGroup={activeGroup}
         />
         {/* Magic to make scrollbar disappear */}
         <div className="cover-bar" />
