@@ -31,6 +31,7 @@ class CreateGroup extends Component<CreateGroupProps> {
                 onChange={e => handleGroupChange(e)}
                 error={error}
                 required={true}
+                autoFocus
               />
               {error && (
                 <Label pointing="above" basic={true} color="red">
