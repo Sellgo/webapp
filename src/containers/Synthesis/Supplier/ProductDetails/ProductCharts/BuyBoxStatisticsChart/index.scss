@@ -12,14 +12,8 @@
     margin: 0 auto;
   }
 
-  &__pie-chart {
-    flex: 0 0 40%;
-    min-width: 40%;
-  }
-
   &__table {
-    flex: 0 0 55%;
-    min-width: 55%;
+    flex: 1;
   }
 }
 
@@ -51,6 +45,7 @@
 
   span {
     margin-right: 5px;
+    font-size: 20px;
   }
 
   &:first-child {
