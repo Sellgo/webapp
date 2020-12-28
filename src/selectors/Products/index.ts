@@ -10,3 +10,4 @@ export const isFetchingSellerInventorySelector = (state: {}) =>
 export const isFetchingKPISelector = (state: {}) => get(state, 'product.isFetchingKPI');
 export const activeExportFiles = (state: {}) => get(state, 'product.activeExportFiles');
 export const isFetchingActiveExports = (state: {}) => get(state, 'product.fetchingActiveExports');
+export const isfetchingBuyBoxStatistics = (state: {}) => get(state, 'isFetchingBuyBoxStatistics');

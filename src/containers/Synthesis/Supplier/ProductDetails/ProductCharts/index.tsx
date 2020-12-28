@@ -19,6 +19,7 @@ import {
   isFetchingRatingSelector,
   isFetchingReviewSelector,
   isFetchingSellerInventorySelector,
+  isfetchingBuyBoxStatistics,
 } from '../../../../../selectors/Products';
 import './index.scss';
 import ProductPriceChart from './ProductPriceChart';
@@ -39,18 +40,25 @@ interface ProductChartsProps {
   productDetailRating: any;
   productDetailReview: any;
   productDetailSellerInventory: any;
+  productBuyBoxStatistics: any;
+
   fetchProductDetailChartRank: (productID: any, period?: number) => void;
   fetchProductDetailChartPrice: (productID: any, period?: number) => void;
   fetchProductDetailChartInventory: (productID: any, period?: number) => void;
   fetchProductDetailChartRating: (productID: any, period?: number) => void;
   fetchProductDetailChartReview: (productID: any, period?: number) => void;
   fetchProductDetailChartSellerInventory: (productID: any, period?: number) => void;
+  fetchBuyBoxStatistics: (productID: any, period?: number) => void;
+
   isFetchingRank: boolean;
   isFetchingPrice: boolean;
   isFetchingInventory: boolean;
   isFetchingRating: boolean;
   isFetchingReview: boolean;
   isFetchingSellerInventory: boolean;
+
+  isFetchingBuyBoxStatistics?: boolean;
+
   isLoadingTrackerProducts: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
@@ -67,6 +75,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       fetchProductDetailChartRating,
       fetchProductDetailChartReview,
       fetchProductDetailChartSellerInventory,
+      fetchBuyBoxStatistics,
     } = this.props;
     const period =
       (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
@@ -78,6 +87,7 @@ class ProductCharts extends Component<ProductChartsProps> {
     fetchProductDetailChartRating(product.product_id, period);
     fetchProductDetailChartReview(product.product_id, period);
     fetchProductDetailChartSellerInventory(product.product_id, period);
+    fetchBuyBoxStatistics(product.product_id, period);
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
@@ -233,6 +243,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailRating,
       productDetailReview,
       productDetailSellerInventory,
+      productBuyBoxStatistics,
       product,
     } = this.props;
     const { period } = this.state;
@@ -333,7 +344,14 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart4': {
-        return <BuyBoxStatisticsChart period={period} product={product} />;
+        return (
+          <BuyBoxStatisticsChart
+            period={period}
+            product={product}
+            buyBoxStats={productBuyBoxStatistics}
+            renderNoDataMessage={this.renderNoDataMessage}
+          />
+        );
       }
 
       default:
@@ -350,6 +368,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingReview,
       isFetchingSellerInventory,
       isLoadingTrackerProducts,
+      isFetchingBuyBoxStatistics,
     } = this.props;
     return (
       <div className="product-detail-charts">
@@ -360,6 +379,7 @@ class ProductCharts extends Component<ProductChartsProps> {
         !isFetchingRating &&
         !isFetchingReview &&
         !isFetchingSellerInventory &&
+        !isFetchingBuyBoxStatistics &&
         !isLoadingTrackerProducts
           ? this.renderProductCharts()
           : this.renderLoader()}
@@ -421,12 +441,17 @@ const mapStateToProps = (state: {}) => ({
   productDetailRating: get(state, 'product.detailRating'),
   productDetailReview: get(state, 'product.detailReview'),
   productDetailSellerInventory: get(state, 'product.detailSellerInventory'),
+
+  productBuyBoxStatistics: get(state, 'product.detailsBuyBoxStatistics'),
+
   isFetchingRank: isFetchingRankSelector(state),
   isFetchingPrice: isFetchingPriceSelector(state),
   isFetchingInventory: isFetchingInventorySelector(state),
   isFetchingRating: isFetchingRatingSelector(state),
   isFetchingReview: isFetchingReviewSelector(state),
   isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
+
+  isfetchingBuyBoxStatistics: isfetchingBuyBoxStatistics(state),
 });
 
 const mapDispatchToProps = {

@@ -8,6 +8,8 @@ import './index.scss';
 interface BuyBoxStatisticsProps {
   period?: any;
   product: any;
+  buyBoxStats: any;
+  renderNoDataMessage: () => void;
 }
 
 const response: any = [
@@ -29,7 +31,13 @@ const response: any = [
 ];
 
 const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
-  const { period, product } = props;
+  const { period, product, buyBoxStats, renderNoDataMessage } = props;
+
+  console.log({
+    1: buyBoxStats.percentage,
+    2: product.avg_daily_revenue,
+    3: product.avg_monthly_sales,
+  });
 
   return (
     <div className="buy-box-statistics">
@@ -46,13 +54,14 @@ const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
             <th>Est. Share of Sales/mo</th>
           </tr>
 
-          {response.map((row: any) => {
+          {buyBoxStats.map((stat: any) => {
+            const { merchant_id, merchant_name, percentage } = stat;
             return (
-              <tr key={row.merchant_id}>
-                <td>{row.merchant_name}</td>
-                <td>{row.percentage * 100}</td>
-                <td>{'$92.90'}</td>
-                <td>99</td>
+              <tr key={merchant_id}>
+                <td>{merchant_name}</td>
+                <td>{Math.floor(percentage)}%</td>
+                <td>${Math.floor(percentage * Number(product.avg_daily_revenue) * 30)}</td>
+                <td>{Math.floor(percentage * Number(product.avg_monthly_sales))}</td>
               </tr>
             );
           })}

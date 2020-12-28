@@ -20,6 +20,8 @@ import {
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY,
   SET_ACTIVE_EXPORT_FILES,
   FETCHING_ACTIVE_EXPORTS,
+  SET_FETCHING_BUY_BOX_STATISTICS,
+  SET_BUY_BOX_STATISTICS,
 } from '../../constants/Products';
 
 const initialState = {
@@ -30,6 +32,7 @@ const initialState = {
   detailRating: [],
   detailReview: [],
   detailSellerInventory: [],
+  detailsBuyBoxStatistics: [],
   detailKPI: [],
   trackerKPI: [],
   isFetchingRank: false,
@@ -39,6 +42,7 @@ const initialState = {
   isFetchingReview: false,
   isFetchingKPI: false,
   isFetchingSellerInventory: false,
+  isFetchingBuyBoxStatistics: false,
   activeExportFiles: [],
   fetchingActiveExports: false,
 };
@@ -77,12 +81,20 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'isFetchingSellerInventory', action.payload);
     case SET_FETCHING_KPI:
       return setIn(state, 'isFetchingKPI', action.payload);
+
+    case SET_FETCHING_BUY_BOX_STATISTICS:
+      return setIn(state, 'isFetchingBuyBoxStatistics', action.payload);
+
     case RESET_SUPPLIER_PRODUCT_DETAILS:
       return initialState;
     case SET_ACTIVE_EXPORT_FILES:
       return setIn(state, 'activeExportFiles', action.payload);
     case FETCHING_ACTIVE_EXPORTS:
       return setIn(state, 'fetchingActiveExports', action.payload);
+
+    case SET_BUY_BOX_STATISTICS:
+      return setIn(state, 'detailsBuyBoxStatistics', action.payload);
+
     default:
       return state;
   }
