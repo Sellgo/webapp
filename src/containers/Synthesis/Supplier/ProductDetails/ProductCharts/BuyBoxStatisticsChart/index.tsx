@@ -1,72 +1,72 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-
 import React from 'react';
-
+import { Icon } from 'semantic-ui-react';
+import BuyBoxStatsPieChart from './BuyBoxStatsPieChart';
+import { graphColors } from '../../../../../../utils/colors';
 import './index.scss';
 
 interface BuyBoxStatisticsProps {
   period?: any;
   product: any;
   buyBoxStats: any;
-  renderNoDataMessage: () => void;
 }
 
-const response: any = [
-  {
-    merchant_id: 'ATVPDKIKX0DER',
-    merchant_name: 'Amazon.com',
-    percentage: 99.73438137505516,
-  },
-  {
-    merchant_id: 'A2IXQ1BFDAX23W',
-    merchant_name: 'STL PRO, Inc.',
-    percentage: 0.10907849488330267,
-  },
-  {
-    merchant_id: 'A36XPB0BO3IUWG',
-    merchant_name: 'Roney Innovations',
-    percentage: 0.054122917308508954,
-  },
-];
-
 const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
-  const { period, product, buyBoxStats, renderNoDataMessage } = props;
-
-  console.log({
-    1: buyBoxStats.percentage,
-    2: product.avg_daily_revenue,
-    3: product.avg_monthly_sales,
-  });
+  const { product, buyBoxStats } = props;
 
   return (
     <div className="buy-box-statistics">
-      <div className="buy-box-statistics__pie-chart">
-        <p>This will be pie chart</p>
-      </div>
+      {buyBoxStats.length === 0 ? (
+        <h1 className="no-data-message">No data yet! Please come back after a day.</h1>
+      ) : (
+        <>
+          <div className="buy-box-statistics__pie-chart">
+            <BuyBoxStatsPieChart pieData={buyBoxStats} />
+          </div>
 
-      <div className="buy-box-statistics__table">
-        <table id="buy-box-table">
-          <tr>
-            <th>Name</th>
-            <th>% won</th>
-            <th>Est. Share of Rev/mo</th>
-            <th>Est. Share of Sales/mo</th>
-          </tr>
-
-          {buyBoxStats.map((stat: any) => {
-            const { merchant_id, merchant_name, percentage } = stat;
-            return (
-              <tr key={merchant_id}>
-                <td>{merchant_name}</td>
-                <td>{Math.floor(percentage)}%</td>
-                <td>${Math.floor(percentage * Number(product.avg_daily_revenue) * 30)}</td>
-                <td>{Math.floor(percentage * Number(product.avg_monthly_sales))}</td>
+          <div className="buy-box-statistics__table">
+            <table id="buy-box-table">
+              <tr>
+                <th>
+                  Name
+                  <Icon name="caret up" classsName="arrow" />
+                  <Icon name="caret down" className="arrow" />
+                </th>
+                <th>
+                  % won
+                  <Icon name="caret up" classsName="arrow" />
+                  <Icon name="caret down" className="arrow" />
+                </th>
+                <th>
+                  Est. Share of Rev/mo
+                  <Icon name="caret up" classsName="arrow" />
+                  <Icon name="caret down" className="arrow" />
+                </th>
+                <th>
+                  Est. Share of Sales/mo
+                  <Icon name="caret up" classsName="arrow" />
+                  <Icon name="caret down" className="arrow" />
+                </th>
               </tr>
-            );
-          })}
-        </table>
-      </div>
+
+              {buyBoxStats.map((stat: any, index: number) => {
+                const { merchant_id, merchant_name, percentage } = stat;
+                return (
+                  <tr key={merchant_id}>
+                    <td>
+                      {' '}
+                      <span style={{ color: graphColors[index] }}>●</span>
+                      {merchant_name}
+                    </td>
+                    <td>{Math.floor(percentage)}%</td>
+                    <td>${Math.floor(percentage * Number(product.avg_daily_revenue) * 30)}</td>
+                    <td>{Math.floor(percentage * Number(product.avg_monthly_sales))}</td>
+                  </tr>
+                );
+              })}
+            </table>
+          </div>
+        </>
+      )}
     </div>
   );
 };

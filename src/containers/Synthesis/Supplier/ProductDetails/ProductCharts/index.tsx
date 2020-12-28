@@ -344,14 +344,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart4': {
-        return (
-          <BuyBoxStatisticsChart
-            period={period}
-            product={product}
-            buyBoxStats={productBuyBoxStatistics}
-            renderNoDataMessage={this.renderNoDataMessage}
-          />
-        );
+        return <BuyBoxStatisticsChart product={product} buyBoxStats={productBuyBoxStatistics} />;
       }
 
       default:

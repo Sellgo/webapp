@@ -135,7 +135,6 @@ export const fetchBuyBoxStatistics = (productID: string, period?: number) => asy
   );
   dispatch(setFetchingBuyBoxStatistics(false));
   dispatch(setBuyBoxStatistics(response.data));
-  console.log('Buy Box Stats 🧨>>>', response.data);
 };
 
 export const fetchSupplierProductDetailChartSellerInventory = (
