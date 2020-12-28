@@ -34,7 +34,6 @@ const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
                 <th>
                   % won
                   <Icon name="caret up" classsName="arrow" />
-                  <Icon name="caret down" className="arrow" />
                 </th>
                 <th>
                   Est. Share of Rev/mo

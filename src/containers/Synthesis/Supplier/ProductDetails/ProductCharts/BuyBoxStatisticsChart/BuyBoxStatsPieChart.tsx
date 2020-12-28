@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import Chart from '../../../../../../components/Chart/Chart';
 import { graphColors } from '../../../../../../utils/colors';
@@ -11,19 +11,19 @@ const chartOptions = {
   lang: {
     noData: 'No Statistics',
   },
+  title: {
+    style: { fontSize: '15px' },
+    align: 'center',
+    percentAlign: 0,
+    verticalAlign: 'middle',
+    text: '',
+  },
   chart: {
     plotBackgroundColor: null,
     plotBorderWidth: null,
     plotShadow: false,
     type: 'pie',
-    height: 372, // 400 - seller-inventory-charts__title's height
-  },
-  title: {
-    style: { fontSize: '20px' },
-    align: 'center',
-    verticalAlign: 'middle',
-    text: '',
-    percentAlign: 15,
+    height: 372,
   },
   tooltip: {
     headerFormat:
@@ -41,10 +41,10 @@ const chartOptions = {
   plotOptions: {
     pie: {
       center: ['50%', '50%'],
-      // showInLegend: true,
       dataLabels: {
         enabled: false,
       },
+      animation: false,
     },
     series: {
       innerSize: '50%',
@@ -54,13 +54,35 @@ const chartOptions = {
     },
   },
 };
-
 const BuyBoxStatsPieChart: React.FC<PieChartProps> = props => {
   const { pieData } = props;
 
-  // Transform the data to display to piechart
+  const [currentMerchant, setCurrentMerchant] = useState<string>(pieData[0].merchant_name);
 
+  const [activeMerchant] = pieData
+    ? pieData.filter((data: any) => data.merchant_name === currentMerchant)
+    : undefined;
+
+  // Transform the data to display to piechart
   const pieChartOptions = _.merge(chartOptions, {
+    title: {
+      text:
+        activeMerchant.merchant_name.length === 0
+          ? ' '
+          : `<b>${activeMerchant.merchant_name}<b> <br>${Math.floor(activeMerchant.percentage)}%`,
+    },
+    plotOptions: {
+      pie: {
+        events: {
+          click: function(e: any) {
+            if (e.point.options.name) {
+              setCurrentMerchant(e.point.options.name);
+            }
+            e.preventDefault();
+          },
+        },
+      },
+    },
     series: {
       data:
         pieData &&
