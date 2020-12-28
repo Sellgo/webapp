@@ -8,6 +8,7 @@ import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
   fetchSupplierProductDetailChartSellerInventory,
+  fetchBuyBoxStatistics,
 } from '../../../../../actions/Products';
 import { Loader, Form, Divider, Grid } from 'semantic-ui-react';
 import { DEFAULT_PERIOD } from '../../../../../constants/Tracker';
@@ -24,6 +25,8 @@ import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
 import InventoryInsightsChart from './InventoryInsightsChart';
+import BuyBoxStatisticsChart from './BuyBoxStatisticsChart/';
+
 import { MILLISECONDS_IN_A_DAY, MILLISECONDS_IN_A_MINUTE } from '../../../../../utils/date';
 import BetaLabel from '../../../../../components/BetaLabel';
 import _ from 'lodash';
@@ -52,7 +55,7 @@ interface ProductChartsProps {
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = {
-    showProductChart: 'chart0',
+    showProductChart: 'chart4',
     period: DEFAULT_PERIOD,
   };
   componentDidMount() {
@@ -329,6 +332,10 @@ class ProductCharts extends Component<ProductChartsProps> {
         );
       }
 
+      case 'chart4': {
+        return <BuyBoxStatisticsChart period={period} product={product} />;
+      }
+
       default:
         return <div />;
     }
@@ -388,6 +395,17 @@ class ProductCharts extends Component<ProductChartsProps> {
               checked={this.state.showProductChart === 'chart3'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
+            <Form.Radio
+              label={
+                <label>
+                  Buy Box Statistics
+                  <BetaLabel />
+                </label>
+              }
+              value="chart4"
+              checked={this.state.showProductChart === 'chart4'}
+              onChange={(e, { value }) => this.handleProductChartChange(e, value)}
+            />
           </Form.Group>
         </Form>
       </div>
@@ -424,6 +442,8 @@ const mapDispatchToProps = {
     fetchSupplierProductDetailChartReview(productID, period),
   fetchProductDetailChartSellerInventory: (productID: any, period?: number) =>
     fetchSupplierProductDetailChartSellerInventory(productID, period),
+  fetchBuyBoxStatistics: (productId: string, period?: number) =>
+    fetchBuyBoxStatistics(productId, period),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCharts);

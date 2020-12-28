@@ -1,0 +1,41 @@
+.buy-box-statistics {
+  min-height: 55vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__pie-chart {
+    flex: 0 0 40%;
+    min-width: 40%;
+  }
+
+  &__table {
+    flex: 0 0 55%;
+    min-width: 55%;
+  }
+}
+
+#buy-box-table {
+  font-family: 'Work Sans', sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border: 0;
+}
+
+#buy-box-table th {
+  padding: 10px 0;
+  text-align: center;
+  color: #3b4557;
+  background-color: #f8faff;
+}
+
+#buy-box-table td {
+  border-bottom: 1px solid #98aeca;
+  padding: 8px;
+  color: #3b4557;
+  text-align: center;
+
+  &:first-child {
+    width: 200px;
+  }
+}
