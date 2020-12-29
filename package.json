@@ -79,7 +79,6 @@
     "@types/auth0-js": "^9.12.4",
     "@types/auth0-lock": "^11.4.12",
     "@types/jest": "24.0.12",
-    "@types/jszip": "^3.4.1",
     "@types/lodash": "^4.14.149",
     "@types/node": "^12.12.28",
     "@types/pako": "^1.0.1",
