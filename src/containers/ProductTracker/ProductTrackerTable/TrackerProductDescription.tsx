@@ -32,13 +32,13 @@ const ProductDescription = (props: any) => {
                     .map(pidType => item[pidType.toLowerCase()])[0] || ''}
                 </span>
               </div>
-              {!item.product_cost && (
-                <span className="no-cost-icon">
-                  <WithoutCostUpload />
-                </span>
-              )}
               {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
             </div>
+            {!item.product_cost && (
+              <span className="no-cost-icon">
+                <WithoutCostUpload />
+              </span>
+            )}
           </div>
         </div>
       </div>
