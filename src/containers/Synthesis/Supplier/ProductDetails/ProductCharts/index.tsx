@@ -63,7 +63,7 @@ interface ProductChartsProps {
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = {
-    showProductChart: 'chart4',
+    showProductChart: 'chart0',
     period: DEFAULT_PERIOD,
   };
   componentDidMount() {
@@ -89,13 +89,16 @@ class ProductCharts extends Component<ProductChartsProps> {
     fetchProductDetailChartSellerInventory(product.product_id, period);
     fetchBuyBoxStatistics(product.product_id, period);
   }
-
   componentDidUpdate(prevProps: any, prevState: any) {
     const period =
       (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
       DEFAULT_PERIOD;
     if (prevState.period !== period) {
       this.setState({ period: period });
+    }
+
+    if (prevState.showProductChart !== this.state.showProductChart) {
+      this.setState({ showProductChart: this.state.showProductChart });
     }
   }
 
