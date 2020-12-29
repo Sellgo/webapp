@@ -4,6 +4,8 @@ import csvParse from 'csv-parse/lib/es5';
 import Axios from 'axios';
 import XLSX from 'xlsx';
 import reduce from 'lodash/reduce';
+import pako from 'pako';
+
 import {
   columnMappingSettingSelector,
   currentStepSelector,
@@ -152,14 +154,19 @@ export const parseExcel = (readOptions: any) => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
-  const rawFileString = rawFileSelector(getState());
-  if (!rawFileString) {
+  const rawEncodedFileString = rawFileSelector(getState());
+  if (!rawEncodedFileString) {
     return;
   }
 
+  // Decoding the file string here
+  const restoredFileString = JSON.parse(
+    pako.inflate(JSON.parse(rawEncodedFileString), { to: 'string' })
+  );
+
   Promise.resolve().then(() => {
     try {
-      const wb = XLSX.read(rawFileString, readOptions);
+      const wb = XLSX.read(restoredFileString, readOptions);
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
@@ -198,10 +205,13 @@ export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {
   reader.onloadend = () => {
     const fileString = reader.result;
 
+    // Deflating the file string here
+    const compressedFileString = pako.deflate(JSON.stringify(fileString));
+
     if (!fileString || reader.error) {
       error('Error occurred while uploading file.');
     } else {
-      dispatch(setRawFile(fileString, file));
+      dispatch(setRawFile(JSON.stringify(compressedFileString), file));
       dispatch(parseFile());
     }
   };
