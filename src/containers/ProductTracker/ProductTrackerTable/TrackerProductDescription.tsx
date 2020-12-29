@@ -35,7 +35,7 @@ const ProductDescription = (props: any) => {
               {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
             </div>
             {!item.product_cost && (
-              <span className="no-cost-icon">
+              <span>
                 <WithoutCostUpload />
               </span>
             )}

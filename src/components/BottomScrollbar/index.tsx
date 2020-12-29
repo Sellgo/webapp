@@ -21,6 +21,11 @@ const BottomScroll = (props: Props) => {
     } else {
       const table = document.querySelector('.generic-table');
       const middleHeader = document.querySelector('.middle-header');
+      const middleBody = document.querySelector('.middle-body');
+
+      if (middleBody) {
+        middleBody.scrollLeft = evt.target.scrollLeft;
+      }
 
       if (middleHeader) {
         middleHeader.scrollLeft = evt.target.scrollLeft;
