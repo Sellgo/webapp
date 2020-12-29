@@ -25,17 +25,18 @@ const ProductDescription = (props: any) => {
               <img className="flag-img" src={COUNTRY_IMAGE} alt="product_img" />
               <div className="asin-pid-wrapper">
                 <span className="asin-content">{item.asin}</span>
-                {!item.product_cost && (
-                  <span className="no-cost-icon">
-                    <WithoutCostUpload />
-                  </span>
-                )}
+
                 <span className="pid-content">
                   {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
                     .filter(pidType => pidType.toLowerCase() in item)
                     .map(pidType => item[pidType.toLowerCase()])[0] || ''}
                 </span>
               </div>
+              {!item.product_cost && (
+                <span className="no-cost-icon">
+                  <WithoutCostUpload />
+                </span>
+              )}
               {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
             </div>
           </div>
