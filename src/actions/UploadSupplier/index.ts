@@ -120,8 +120,8 @@ export const parseCsv = () => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
-  const rawFileString = rawFileSelector(getState());
-  if (!rawFileString) {
+  const rawEncodedFileString = rawFileSelector(getState());
+  if (!rawEncodedFileString) {
     return;
   }
 
@@ -145,7 +145,10 @@ export const parseCsv = () => (
 
   // to ensure loader is visible delay execution by placing parse in async queue
   Promise.resolve().then(() => {
-    csvParse(rawFileString, parseOption, getParsedCsv);
+    const restoredFileString = JSON.parse(
+      pako.inflate(JSON.parse(rawEncodedFileString), { to: 'string' })
+    );
+    csvParse(restoredFileString, parseOption, getParsedCsv);
   });
 };
 
