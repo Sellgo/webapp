@@ -3,7 +3,6 @@
   // that has a set width and needs overflow hidden and ellipsis.
   .supplier {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 
     > .name {
