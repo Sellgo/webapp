@@ -506,6 +506,12 @@ $link-color: #349af8;
         }
       }
 
+      .avg_profit {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
       .avg_margin {
         .stat {
           text-align: right !important;
@@ -1293,7 +1299,7 @@ $link-color: #349af8;
   }
 
   .ptr-cell {
-    min-width: 97.8px;
+    min-width: 100px;
   }
 }
 
@@ -1457,4 +1463,16 @@ $link-color: #349af8;
 
 .ptr-blank-cell {
   height: 85px !important;
+}
+
+@media only screen and(min-width: 1440px) {
+  .ptr-cell {
+    &.dimension {
+      min-width: 175px;
+    }
+
+    &.avg_rank {
+      min-width: 120px;
+    }
+  }
 }

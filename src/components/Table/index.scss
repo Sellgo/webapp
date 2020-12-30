@@ -274,8 +274,16 @@ i.icon.filter::before {
 
 .table-header {
   height: 46px;
-  min-width: 95px;
+  min-width: 100px;
   padding: 0 5px !important;
+
+  &.dimension {
+    min-width: 175px !important;
+  }
+
+  &.avg_rank {
+    min-width: 120px !important;
+  }
 }
 
 .table-cell-container {
