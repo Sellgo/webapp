@@ -46,11 +46,6 @@ $new_black: #3b4557;
     // white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    @media only screen and (max-width: 1200px) {
-      font-size: 0.5rem;
-      color: red;
-    }
   }
 
   .dsp-flex {
