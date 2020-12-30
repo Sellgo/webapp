@@ -284,12 +284,10 @@ i.icon.filter::before {
   padding: 0 5px;
   justify-content: center;
 
-  // Changes font size of header
   @media only screen and(max-width: 1450px) {
     font-size: 11px !important;
     padding: 0 !important;
 
-    // Changes size of the arrow icons on header
     img {
       @media only screen and(max-width: 1450px) {
         width: 10px;
@@ -343,6 +341,12 @@ i.icon.filter::before {
 
   width: 46px;
   min-width: 46px;
+
+  @media only screen and(max-width: 1440px) {
+    max-width: 60px !important;
+    width: 20px !important;
+    min-width: 36px;
+  }
 }
 
 .medium-column {
@@ -779,7 +783,6 @@ i.icon.filter::before {
 
 .sm-column {
   min-width: 96px !important;
-  background-color: orange !important;
 
   @media only screen and(max-width: 1450px) {
     min-width: 77px !important;
@@ -789,7 +792,6 @@ i.icon.filter::before {
 
 .md-column {
   min-width: 110px !important;
-  background-color: red !important;
 
   @media only screen and(max-width: 1450px) {
     min-width: 90px !important;
@@ -799,7 +801,6 @@ i.icon.filter::before {
 
 .lg-column {
   min-width: 142px !important;
-  background-color: yellow !important;
 
   @media only screen and(max-width: 1450px) {
     min-width: 100px !important;
@@ -809,7 +810,6 @@ i.icon.filter::before {
 
 .xl-column {
   min-width: 195px !important;
-  background-color: pink !important;
 
   @media only screen and(max-width: 1450px) {
     min-width: 150px !important;
@@ -994,7 +994,6 @@ i.icon.filter::before {
     }
   }
 
-  // Changes the text size of cell values like stat
   .inner-tbody .middle-body-child-row .sm-column,
   .inner-tbody .middle-body-child-row .md-column,
   .inner-tbody .middle-body-child-row .lg-column,
@@ -1011,7 +1010,6 @@ i.icon.filter::before {
     }
   }
 
-  // Changes the title text size
   .inner-tbody .right-body-child-row {
     .title a span {
       font-size: 12px !important;
@@ -1038,4 +1036,12 @@ i.icon.filter::before {
       font-size: 12px;
     }
   }
+}
+
+.products-table .ui.table .variable_closing_fee .stat {
+  text-align: center !important;
+}
+
+.inner-tbody .pf-header-cell .small-column {
+  background-color: pink !important;
 }
