@@ -2,11 +2,15 @@
   // TODO: Consider a generic table class that can be added to any content
   // that has a set width and needs overflow hidden and ellipsis.
   .supplier {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 250px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
+    > .name {
+      width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .filename {
