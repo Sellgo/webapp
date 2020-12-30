@@ -336,7 +336,7 @@ $link-color: #349af8;
     line-height: 16px;
     margin-bottom: 7px;
     overflow: hidden;
-    text-align: left;
+    text-align: center;
     text-overflow: ellipsis;
     white-space: pre-wrap;
     white-space: nowrap;
@@ -502,67 +502,67 @@ $link-color: #349af8;
 
       .avg_price {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .avg_margin {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .avg_daily_sales {
         .stat {
-          text-align: right;
+          text-align: center !important;
         }
       }
 
       .avg_daily_revenue {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .avg_roi {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .avg_rank {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .customer_reviews {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .rating {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .avg_inventory {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       .avg_amazon_inventory {
         .stat {
-          text-align: right !important;
+          text-align: center !important;
         }
       }
 
       &:nth-child(2) {
         .stat {
-          margin-right: 2px;
+          margin-right: 0;
         }
       }
 
@@ -603,7 +603,7 @@ $link-color: #349af8;
       text-align: left;
 
       .product-image {
-        width: 72px;
+        width: 50px;
         padding: 0 5px;
         background-repeat: no-repeat;
         background-size: contain;
@@ -993,6 +993,7 @@ $link-color: #349af8;
   border-bottom-left-radius: 10px !important;
   border-top: 1px solid rgba(34, 36, 38, 0.3) !important;
   border-bottom: 1px solid rgba(34, 36, 38, 0.3) !important;
+  width: 100% !important;
 }
 
 .remove-bottom-border {
@@ -1298,7 +1299,7 @@ $link-color: #349af8;
 }
 
 .ptr-last-cell {
-  padding-right: 30px !important;
+  padding-right: 0 !important;
 }
 
 .opacity-ghost {
@@ -1457,4 +1458,21 @@ $link-color: #349af8;
 
 .ptr-blank-cell {
   height: 85px !important;
+}
+
+@media only screen and(min-width: 1450px) {
+  .inner-tbody .middle-body-child-row {
+    p {
+      font-size: 12px !important;
+      text-align: center !important;
+    }
+
+    .ptr-cell {
+      min-width: 100px !important;
+
+      &.dimensions {
+        min-width: 120px !important;
+      }
+    }
+  }
 }

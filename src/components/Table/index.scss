@@ -274,8 +274,12 @@ i.icon.filter::before {
 
 .table-header {
   height: 46px;
-  min-width: 95px;
-  padding: 0 5px !important;
+  min-width: 100px;
+  padding: 0 0 !important;
+
+  &.dimension {
+    min-width: 140px !important;
+  }
 }
 
 .table-cell-container {
