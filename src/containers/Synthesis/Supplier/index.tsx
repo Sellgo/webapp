@@ -28,6 +28,7 @@ import { Product } from '../../../interfaces/Product';
 import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
 import history from '../../../history';
 import _ from 'lodash';
+import { ProfitFinderFilters } from '../../../interfaces/Filters';
 
 interface SupplierProps {
   stickyChartSelector: boolean;
@@ -39,7 +40,7 @@ interface SupplierProps {
   closeProductDetailModal: () => void;
   fetchSupplierDetails: (supplierID: any) => Promise<SupplierInterface | undefined>;
   resetSupplier: () => void;
-  fetchSupplierProducts: (supplierID: any) => Promise<Product[] | undefined>;
+  fetchSupplierProducts: (payload: ProfitFinderFilters) => Promise<Product[] | undefined>;
   resetSupplierProducts: typeof resetSupplierProducts;
   supplierProgress: (supplierID: any) => void;
   progress: any;
@@ -78,7 +79,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
 
     const results = await Promise.all([
       fetchSupplierDetails(supplierID),
-      fetchSupplierProducts(supplierID),
+      fetchSupplierProducts({ supplierID, page: 1, per_page: 10 }),
     ]);
 
     const fetchedProducts: Product[] | undefined = results[1];
@@ -257,7 +258,7 @@ const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
   fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),
   resetSupplier: () => resetSupplier(),
-  fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
+  fetchSupplierProducts: (payload: ProfitFinderFilters) => fetchSupplierProducts(payload),
   resetSupplierProducts: () => resetSupplierProducts(),
   supplierProgress: () => supplierProgress(),
   setProductsLoadingDataBuster,

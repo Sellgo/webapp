@@ -129,3 +129,9 @@ export interface ProductTrackerFilterState {
   };
   customizable: CustomizableFilterModel[];
 }
+
+export interface ProfitFinderFilters {
+  page: number;
+  per_page: number;
+  supplierID: any;
+}

@@ -135,3 +135,13 @@ export interface ProductTrackerDetails {
   is_amazon_selling: boolean;
   source: string;
 }
+
+export interface ProductsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Product[];
+}
+export interface ProfitFinderResponse {
+  data: ProductsResponse;
+}

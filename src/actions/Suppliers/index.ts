@@ -49,7 +49,7 @@ import {
   UPDATE_SUPPLIER_PRODUCT,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
-import { Product } from '../../interfaces/Product';
+import { Product, ProfitFinderResponse } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 import { UntrackSuccess } from '../../components/ToastMessages';
@@ -57,6 +57,7 @@ import { timeout } from '../../utils/timeout';
 import { leads } from '../../selectors/LeadsTracker';
 import { setLeads } from '../LeadsTracker';
 import { variationsSelector } from '../../selectors/UploadSupplier';
+import { ProfitFinderFilters } from '../../interfaces/Filters';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -338,18 +339,19 @@ export const setSupplierProducts = (products: Product[]) => ({
 
 export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
 
-export const fetchSupplierProducts = (supplierID: any) => async (
+export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
   dispatch(isLoadingSupplierProducts(true));
 
   const sellerID = sellerIDSelector();
-  const response = await Axios.get(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data`
+  const pagination = `?page=${payload.page}&per_page=${payload.per_page}`;
+  const response: ProfitFinderResponse = await Axios.get(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data${pagination}`
   );
-
-  if (response.data.length) {
-    const products: Product[] = response.data;
+  if (response.data && response.data.results.length) {
+    const products: Product[] = response.data.results;
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
     dispatch(isLoadingSupplierProducts(false));
