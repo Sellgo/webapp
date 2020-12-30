@@ -282,6 +282,21 @@ i.icon.filter::before {
   display: flex;
   align-items: center;
   padding: 0 5px;
+  justify-content: center;
+
+  // Changes font size of header
+  @media only screen and(max-width: 1450px) {
+    font-size: 11px !important;
+    padding: 0 !important;
+
+    // Changes size of the arrow icons on header
+    img {
+      @media only screen and(max-width: 1450px) {
+        width: 10px;
+        height: 10px;
+      }
+    }
+  }
 }
 
 .th-label {
@@ -764,18 +779,42 @@ i.icon.filter::before {
 
 .sm-column {
   min-width: 96px !important;
+  background-color: orange !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 77px !important;
+    text-align: center;
+  }
 }
 
 .md-column {
   min-width: 110px !important;
+  background-color: red !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 90px !important;
+    text-align: center;
+  }
 }
 
 .lg-column {
   min-width: 142px !important;
+  background-color: yellow !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 100px !important;
+    text-align: center !important;
+  }
 }
 
 .xl-column {
   min-width: 195px !important;
+  background-color: pink !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 150px !important;
+    text-align: center;
+  }
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1279px) {
@@ -945,4 +984,58 @@ i.icon.filter::before {
 .th-icons {
   display: flex;
   align-items: center;
+}
+
+@media only screen and(max-width: 1450px) {
+  // Changes the text size of small columns
+  .inner-tbody .middle-body-child-row {
+    .sm-column {
+      font-size: 11px !important;
+    }
+  }
+
+  // Changes the text size of cell values like stat
+  .inner-tbody .middle-body-child-row .sm-column,
+  .inner-tbody .middle-body-child-row .md-column,
+  .inner-tbody .middle-body-child-row .lg-column,
+  .inner-tbody .middle-body-child-row .xl-column {
+    p {
+      font-size: 12px !important;
+      text-align: center !important;
+
+      &.stat {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  // Changes the title text size
+  .inner-tbody .right-body-child-row {
+    .title a span {
+      font-size: 12px !important;
+    }
+
+    .checkboxes {
+      padding: 0 !important;
+
+      .product-checkbox {
+        min-width: 15px !important;
+        width: 15px !important;
+        height: 15px !important;
+
+        input {
+          width: 15px !important;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  .inner-tbody .left-body-child-row {
+    span {
+      font-size: 12px;
+    }
+  }
 }
