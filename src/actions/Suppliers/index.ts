@@ -47,6 +47,9 @@ import {
   SET_SORT_COLUMN,
   SET_PRODUCTS_LOADING_DATA_BUSTER,
   UPDATE_SUPPLIER_PRODUCT,
+  SET_PF_PAGE_NO,
+  SET_PF_PAGE_SIZE,
+  SET_PF_PAGE_COUNT,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product, ProfitFinderResponse } from '../../interfaces/Product';
@@ -342,7 +345,7 @@ export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
 export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
-  dispatch(isLoadingSupplierProducts(true));
+  dispatch(isLoadingSupplierProducts(payload.page === 1 && payload.per_page === 50));
 
   const sellerID = sellerIDSelector();
   const pagination = `?page=${payload.page}&per_page=${payload.per_page}`;
@@ -350,10 +353,14 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     AppConfig.BASE_URL_API +
       `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data${pagination}`
   );
-  if (response.data && response.data.results.length) {
-    const products: Product[] = response.data.results;
+  const data = response.data;
+  if (data && data.results.length) {
+    const products: Product[] = data.results;
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
+    dispatch(setProfitFinderPageNo(data.current_page));
+    dispatch(setProfitFinderPageSize(data.per_page));
+    dispatch(setProfitFinderPageCount(data.total_pages));
     dispatch(isLoadingSupplierProducts(false));
     return products;
   } else {
@@ -805,4 +812,19 @@ export const setProductsLoadingDataBuster = (value: number[]) => ({
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
   payload: data,
+});
+
+const setProfitFinderPageNo = (pageNo: number) => ({
+  type: SET_PF_PAGE_NO,
+  payload: pageNo,
+});
+
+const setProfitFinderPageSize = (pageSize: number) => ({
+  type: SET_PF_PAGE_SIZE,
+  payload: pageSize,
+});
+
+const setProfitFinderPageCount = (pageCount: number) => ({
+  type: SET_PF_PAGE_COUNT,
+  payload: pageCount,
 });

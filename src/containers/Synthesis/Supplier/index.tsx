@@ -20,7 +20,12 @@ import {
   setLatestSupplier,
   updateSupplierSinglePageItemsCount,
 } from '../../../actions/Suppliers';
-import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
+import {
+  profitFinderPageNumber,
+  profitFinderPageSize,
+  supplierProductsSelector,
+  suppliersSelector,
+} from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
@@ -49,6 +54,8 @@ interface SupplierProps {
   reloadSuppliers: () => void;
   suppliers: SupplierInterface[];
   updateSupplierSinglePageItemsCount: () => void;
+  singlePageItemsCount: number;
+  pageNumber: number;
 }
 export class Supplier extends React.Component<SupplierProps, any> {
   constructor(props: SupplierProps) {
@@ -73,13 +80,15 @@ export class Supplier extends React.Component<SupplierProps, any> {
       supplierProgress,
       setProductsLoadingDataBuster,
       pollDataBuster,
+      pageNumber,
+      singlePageItemsCount,
     } = this.props;
 
     supplierProgress(supplierID);
 
     const results = await Promise.all([
       fetchSupplierDetails(supplierID),
-      fetchSupplierProducts({ supplierID, page: 1, per_page: 10 }),
+      fetchSupplierProducts({ supplierID, page: pageNumber, per_page: singlePageItemsCount }),
     ]);
 
     const fetchedProducts: Product[] | undefined = results[1];
@@ -252,6 +261,8 @@ const mapStateToProps = (state: any) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   progress: get(state, 'supplier.quota'),
   suppliers: suppliersSelector(state),
+  pageNumber: profitFinderPageNumber(state),
+  singlePageItemsCount: profitFinderPageSize(state),
 });
 
 const mapDispatchToProps = {

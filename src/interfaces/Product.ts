@@ -141,6 +141,9 @@ export interface ProductsResponse {
   next: string | null;
   previous: string | null;
   results: Product[];
+  current_page: number;
+  total_pages: number;
+  per_page: number;
 }
 export interface ProfitFinderResponse {
   data: ProductsResponse;
