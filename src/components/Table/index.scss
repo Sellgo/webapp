@@ -1021,3 +1021,9 @@ i.icon.filter::before {
     font-size: 11px !important;
   }
 }
+
+/* Extra Media Query for Sticking Tracker Table Header  */
+.generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr.trackerTable:first-child th {
+  top: 55px !important;
+  transition: none !important;
+}
