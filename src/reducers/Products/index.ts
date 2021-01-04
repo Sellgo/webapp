@@ -81,20 +81,16 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'isFetchingSellerInventory', action.payload);
     case SET_FETCHING_KPI:
       return setIn(state, 'isFetchingKPI', action.payload);
-
     case SET_FETCHING_BUY_BOX_STATISTICS:
       return setIn(state, 'isFetchingBuyBoxStatistics', action.payload);
-
     case RESET_SUPPLIER_PRODUCT_DETAILS:
       return initialState;
     case SET_ACTIVE_EXPORT_FILES:
       return setIn(state, 'activeExportFiles', action.payload);
     case FETCHING_ACTIVE_EXPORTS:
       return setIn(state, 'fetchingActiveExports', action.payload);
-
     case SET_BUY_BOX_STATISTICS:
       return setIn(state, 'detailsBuyBoxStatistics', action.payload);
-
     default:
       return state;
   }
