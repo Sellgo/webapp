@@ -946,3 +946,10 @@ i.icon.filter::before {
   display: flex;
   align-items: center;
 }
+
+/* Extra Media Query for Sticking Tracker Table Header  */
+.generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr.trackerTable:first-child th {
+  top: 50px !important;
+  transition-property: top;
+  transition-duration: 1s;
+}
