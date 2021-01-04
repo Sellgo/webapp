@@ -88,7 +88,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       );
     return (
       <div className="supplier">
-        {name} {row.has_default_cost && <WithoutCostUpload />}
+        <div className="name">{name} </div>
+        {row.has_default_cost && (
+          <span>
+            <WithoutCostUpload />
+          </span>
+        )}
       </div>
     );
   };
