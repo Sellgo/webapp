@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import { fetchBuyBoxStatistics } from '../../../../../../actions/Products';
+
 import BuyBoxStatsPieChart from './BuyBoxStatsPieChart';
 import { graphColors } from '../../../../../../utils/colors';
+
 import './index.scss';
 
 interface BuyBoxStatisticsProps {
-  period?: any;
+  period: any;
   product: any;
-  buyBoxStats: any;
+  productBuyBoxStatistics: any;
+  fetchBuyBoxStatistics: (productID: any, period?: number) => void;
 }
 
 const chartOptions = {
@@ -58,17 +64,26 @@ const chartOptions = {
     },
   },
 };
+
 const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
-  const { product, buyBoxStats } = props;
+  const { product, productBuyBoxStatistics, period, fetchBuyBoxStatistics } = props;
+
+  useEffect(() => {
+    fetchBuyBoxStatistics(product.product_id, period);
+  }, []);
+
+  useEffect(() => {
+    fetchBuyBoxStatistics(product.product_id, period);
+  }, [period]);
 
   return (
     <div className="buy-box-statistics">
-      {buyBoxStats.length === 0 ? (
-        <h1 className="no-data-message">No data yet! Please come back after a day.</h1>
+      {productBuyBoxStatistics.length === 0 ? (
+        <h3 className="no-data-message">No data yet! Please come back after a day.</h3>
       ) : (
         <>
           <div className="buy-box-statistics__pie-chart">
-            <BuyBoxStatsPieChart pieData={buyBoxStats} chartOptions={chartOptions} />
+            <BuyBoxStatsPieChart pieData={productBuyBoxStatistics} chartOptions={chartOptions} />
           </div>
 
           <div className="buy-box-statistics__table">
@@ -80,7 +95,7 @@ const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
                 <th>Est. Share of Sales/mo</th>
               </tr>
 
-              {buyBoxStats.map((stat: any, index: number) => {
+              {productBuyBoxStatistics.map((stat: any, index: number) => {
                 const { merchant_id, merchant_name, percentage } = stat;
                 return (
                   <tr key={merchant_id}>
@@ -103,4 +118,13 @@ const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
   );
 };
 
-export default BuyBoxStatisticsChart;
+const mapStateToProps = (state: {}) => ({
+  productBuyBoxStatistics: get(state, 'product.detailsBuyBoxStatistics'),
+});
+
+const mapDispatchToProps = {
+  fetchBuyBoxStatistics: (productId: string, period?: number) =>
+    fetchBuyBoxStatistics(productId, period),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuyBoxStatisticsChart);

@@ -8,7 +8,6 @@ import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
   fetchSupplierProductDetailChartSellerInventory,
-  fetchBuyBoxStatistics,
 } from '../../../../../actions/Products';
 import { Loader, Form, Divider, Grid } from 'semantic-ui-react';
 import { DEFAULT_PERIOD } from '../../../../../constants/Tracker';
@@ -40,26 +39,20 @@ interface ProductChartsProps {
   productDetailRating: any;
   productDetailReview: any;
   productDetailSellerInventory: any;
-  productBuyBoxStatistics: any;
-
   fetchProductDetailChartRank: (productID: any, period?: number) => void;
   fetchProductDetailChartPrice: (productID: any, period?: number) => void;
   fetchProductDetailChartInventory: (productID: any, period?: number) => void;
   fetchProductDetailChartRating: (productID: any, period?: number) => void;
   fetchProductDetailChartReview: (productID: any, period?: number) => void;
   fetchProductDetailChartSellerInventory: (productID: any, period?: number) => void;
-  fetchBuyBoxStatistics: (productID: any, period?: number) => void;
-
   isFetchingRank: boolean;
   isFetchingPrice: boolean;
   isFetchingInventory: boolean;
   isFetchingRating: boolean;
   isFetchingReview: boolean;
   isFetchingSellerInventory: boolean;
-
-  isFetchingBuyBoxStatistics?: boolean;
-
   isLoadingTrackerProducts: boolean;
+  isFetchingBuyBoxStatistics?: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = {
@@ -75,7 +68,6 @@ class ProductCharts extends Component<ProductChartsProps> {
       fetchProductDetailChartRating,
       fetchProductDetailChartReview,
       fetchProductDetailChartSellerInventory,
-      fetchBuyBoxStatistics,
     } = this.props;
     const period =
       (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
@@ -87,7 +79,6 @@ class ProductCharts extends Component<ProductChartsProps> {
     fetchProductDetailChartRating(product.product_id, period);
     fetchProductDetailChartReview(product.product_id, period);
     fetchProductDetailChartSellerInventory(product.product_id, period);
-    fetchBuyBoxStatistics(product.product_id, period);
   }
   componentDidUpdate(prevProps: any, prevState: any) {
     const period =
@@ -95,10 +86,6 @@ class ProductCharts extends Component<ProductChartsProps> {
       DEFAULT_PERIOD;
     if (prevState.period !== period) {
       this.setState({ period: period });
-    }
-
-    if (prevState.showProductChart !== this.state.showProductChart) {
-      this.setState({ showProductChart: this.state.showProductChart });
     }
   }
 
@@ -246,7 +233,6 @@ class ProductCharts extends Component<ProductChartsProps> {
       productDetailRating,
       productDetailReview,
       productDetailSellerInventory,
-      productBuyBoxStatistics,
       product,
     } = this.props;
     const { period } = this.state;
@@ -347,7 +333,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       }
 
       case 'chart4': {
-        return <BuyBoxStatisticsChart product={product} buyBoxStats={productBuyBoxStatistics} />;
+        return <BuyBoxStatisticsChart product={product} period={period} />;
       }
 
       default:
@@ -437,16 +423,12 @@ const mapStateToProps = (state: {}) => ({
   productDetailRating: get(state, 'product.detailRating'),
   productDetailReview: get(state, 'product.detailReview'),
   productDetailSellerInventory: get(state, 'product.detailSellerInventory'),
-
-  productBuyBoxStatistics: get(state, 'product.detailsBuyBoxStatistics'),
-
   isFetchingRank: isFetchingRankSelector(state),
   isFetchingPrice: isFetchingPriceSelector(state),
   isFetchingInventory: isFetchingInventorySelector(state),
   isFetchingRating: isFetchingRatingSelector(state),
   isFetchingReview: isFetchingReviewSelector(state),
   isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
-
   isfetchingBuyBoxStatistics: isfetchingBuyBoxStatistics(state),
 });
 
@@ -463,8 +445,6 @@ const mapDispatchToProps = {
     fetchSupplierProductDetailChartReview(productID, period),
   fetchProductDetailChartSellerInventory: (productID: any, period?: number) =>
     fetchSupplierProductDetailChartSellerInventory(productID, period),
-  fetchBuyBoxStatistics: (productId: string, period?: number) =>
-    fetchBuyBoxStatistics(productId, period),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCharts);
