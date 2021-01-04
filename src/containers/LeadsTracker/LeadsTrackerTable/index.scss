@@ -890,7 +890,7 @@ $new_black: #3b4557;
   }
 
   .lt-avg {
-    min-width: 144px !important;
+    min-width: 143px !important;
   }
 
   .lt-toggle-button-container {
@@ -990,6 +990,10 @@ $new_black: #3b4557;
 @media only screen and (min-width: 1875px) and (max-width: 2559px) {
   .detail-buttons {
     width: 96px !important;
+  }
+
+  .lt-avg {
+    min-width: 119.5px !important;
   }
 
   .lt-toggle-button-container {
