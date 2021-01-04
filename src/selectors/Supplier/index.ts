@@ -30,3 +30,5 @@ export const productsLoadingDataBusterSelector = (state: {}): number[] =>
 export const profitFinderPageNumber = (state: {}) => get(state, 'supplier.profitFinderPageNumber');
 export const profitFinderPageSize = (state: {}) => get(state, 'supplier.profitFinderPageSize');
 export const profitFinderPageCount = (state: {}) => get(state, 'supplier.profitFinderPageCount');
+export const profitFinderPageLoading = (state: {}) =>
+  get(state, 'supplier.profitFinderPageLoading');

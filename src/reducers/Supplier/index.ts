@@ -32,6 +32,7 @@ import {
   SET_PF_PAGE_COUNT,
   SET_PF_PAGE_NO,
   SET_PF_PAGE_SIZE,
+  SET_PF_PAGE_LOADING,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -72,6 +73,7 @@ const initialState = {
   profitFinderPageNumber: 1,
   profitFinderPageSize: 50,
   profitFinderPageCount: 0,
+  profitFinderPageLoading: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -201,6 +203,10 @@ export default (state = initialState, action: AnyAction) => {
 
     case SET_PF_PAGE_COUNT: {
       return setIn(state, 'profitFinderPageCount', action.payload);
+    }
+
+    case SET_PF_PAGE_LOADING: {
+      return setIn(state, 'profitFinderPageLoading', action.payload);
     }
     default:
       return state;

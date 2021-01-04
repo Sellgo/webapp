@@ -50,6 +50,7 @@ import {
   SET_PF_PAGE_NO,
   SET_PF_PAGE_SIZE,
   SET_PF_PAGE_COUNT,
+  SET_PF_PAGE_LOADING,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product, ProfitFinderResponse } from '../../interfaces/Product';
@@ -345,8 +346,11 @@ export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
 export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
-  dispatch(isLoadingSupplierProducts(payload.page === 1 && payload.per_page === 50));
+  if (!payload.pagination) {
+    dispatch(isLoadingSupplierProducts(true));
+  }
 
+  dispatch(setProfitFinderPageLoading(true));
   const sellerID = sellerIDSelector();
   const pagination = `?page=${payload.page}&per_page=${payload.per_page}`;
   const response: ProfitFinderResponse = await Axios.get(
@@ -362,9 +366,13 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     dispatch(setProfitFinderPageSize(data.per_page));
     dispatch(setProfitFinderPageCount(data.total_pages));
     dispatch(isLoadingSupplierProducts(false));
+    dispatch(setProfitFinderPageLoading(false));
+
     return products;
   } else {
     dispatch(isLoadingSupplierProducts(false));
+    dispatch(setProfitFinderPageLoading(false));
+
     error('Data not found');
   }
 };
@@ -827,4 +835,9 @@ const setProfitFinderPageSize = (pageSize: number) => ({
 const setProfitFinderPageCount = (pageCount: number) => ({
   type: SET_PF_PAGE_COUNT,
   payload: pageCount,
+});
+
+const setProfitFinderPageLoading = (loading: boolean) => ({
+  type: SET_PF_PAGE_LOADING,
+  payload: loading,
 });

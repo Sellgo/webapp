@@ -38,6 +38,7 @@ export const GET_ACTIVE_EXPORT_FILES = 'GET_ACTIVE_EXPORT_FILES';
 export const SET_PF_PAGE_NO = 'SET_PF_PAGE_NO';
 export const SET_PF_PAGE_SIZE = 'SET_PF_PAGE_SIZE';
 export const SET_PF_PAGE_COUNT = 'SET_PF_PAGE_COUNT';
+export const SET_PF_PAGE_LOADING = 'SET_PF_PAGE_LOADING';
 
 export const dataKeys: any = [
   // Basic KPI

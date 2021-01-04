@@ -15,7 +15,6 @@ import {
   fetchSupplierProducts,
   setProductsLoadingDataBuster,
   pollDataBuster,
-  fetchSupplierDetails,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -37,8 +36,9 @@ import {
   profitFinderPageNumber,
   profitFinderPageSize,
   profitFinderPageCount,
+  profitFinderPageLoading,
 } from '../../../../selectors/Supplier';
-import { Supplier as SupplierInterface, Supplier } from '../../../../interfaces/Supplier';
+import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
@@ -77,7 +77,7 @@ interface ProductsTableProps {
   totalPages: number;
   setProductsLoadingDataBuster: typeof setProductsLoadingDataBuster;
   pollDataBuster: () => void;
-  fetchSupplierDetails: (supplierID: any) => Promise<SupplierInterface | undefined>;
+  loading: boolean;
 }
 
 export interface CheckedRowDictionary {
@@ -732,10 +732,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       supplierID,
       setProductsLoadingDataBuster,
       pollDataBuster,
-      fetchSupplierDetails,
     } = this.props;
-    await fetchSupplierDetails(supplierID);
-    const products = await fetchSupplierProducts({ page, per_page, supplierID });
+    const products = await fetchSupplierProducts({ page, per_page, supplierID, pagination: true });
     if (products) {
       setProductsLoadingDataBuster(
         products.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
@@ -755,10 +753,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       stickyChartSelector,
       currentActiveColumn,
       totalPages,
+      loading,
     } = this.props;
     const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
     return (
-      <div className={`products-table ${isLoadingSupplierProducts && 'loading'}`}>
+      <div
+        className={`products-table ${isLoadingSupplierProducts && 'loading'} ${loading &&
+          'disabled'}`}
+      >
         {isLoadingSupplierProducts ? (
           <PageLoader pageLoading={true} />
         ) : (
@@ -801,6 +803,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               columnDnD={true}
               leftFixedColumns={2}
               rightFixedColumns={2}
+              loading={loading}
             />
           </>
         )}
@@ -823,6 +826,7 @@ const mapStateToProps = (state: {}) => ({
   supplierDetails: supplierDetailsSelector(state),
   productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
   totalPages: profitFinderPageCount(state),
+  loading: profitFinderPageLoading(state),
 });
 
 const mapDispatchToProps = {
@@ -852,7 +856,6 @@ const mapDispatchToProps = {
   fetchSupplierProducts: (payload: ProfitFinderFilters) => fetchSupplierProducts(payload),
   setProductsLoadingDataBuster,
   pollDataBuster,
-  fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
