@@ -220,6 +220,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
+  renderBestSeller = (row: Product) => {
+    return <p className="stat">{row.best_seller ? 'Yes' : 'No'}</p>;
+  };
+  renderSubscribeSave = (row: Product) => {
+    return <p className="stat">{row.subscribe_save ? 'Yes' : 'No'}</p>;
+  };
   renderIsAmazon = (row: Product) => (
     <p className="stat">
       {row.data_buster_status === 'completed'
@@ -512,6 +518,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
+    },
+    {
+      label: 'Best Seller',
+      dataKey: 'best_seller',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderBestSeller,
+    },
+    {
+      label: 'Subscribe\n & Save',
+      dataKey: 'subscribe_save',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderSubscribeSave,
     },
     {
       label: 'Num New\nFBA Offers',

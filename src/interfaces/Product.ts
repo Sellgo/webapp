@@ -45,6 +45,8 @@ export interface Product {
   multipack_profit: number;
   multipack_margin: number;
   multipack_roi: number;
+  best_seller: boolean;
+  subscribe_save: boolean;
 }
 
 export interface ProductsTrackData {
