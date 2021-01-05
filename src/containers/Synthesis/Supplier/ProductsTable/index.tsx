@@ -391,6 +391,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      filter: true,
+      filterLabel: 'Search',
+      filterDataKey: 'search',
+      filterSign: '',
       render: this.renderASIN,
     },
     {
