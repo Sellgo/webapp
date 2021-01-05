@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
 import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
-import { SupplierFilter } from '../../../interfaces/Filters';
+import { SupplierFilter, ChargesInputFilterDataType } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
 import {
   filterSupplierProducts,
@@ -588,6 +588,63 @@ function ProfitFinderFilterSection(props: Props) {
     ],
   };
 
+  const chargesInputFilterDataState: Array<ChargesInputFilterDataType> = [
+    {
+      label: 'Inbound Shipping Per Item',
+      key: 'inBoundShipping',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Outbound Shipping Per Item',
+      key: 'outBoundShipping',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Prep Fee per Item',
+      key: 'prepFee',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Tax % on Sourcing',
+      key: 'taxPercent',
+      type: 'text',
+      icon: 'percent',
+    },
+    {
+      label: 'VAT Registered',
+      key: 'vatRegistered',
+      type: 'checkbox',
+      icon: '',
+    },
+    {
+      label: 'VAT % deducted from Sell Price',
+      key: 'vatPercent',
+      type: 'text',
+      icon: 'percent',
+    },
+    {
+      label: 'Calculate Multi Pack',
+      key: 'multiPack',
+      type: 'checkbox',
+      icon: '',
+    },
+    {
+      label: 'Custom Change',
+      key: 'customChange',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Custom Discount',
+      key: 'customDiscount',
+      type: 'text',
+      icon: 'percent',
+    },
+  ];
+
   const [allFilter, setAllFilter] = React.useState(filterDataState.allFilter);
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
   const [exportResult, setExportResult] = React.useState(false);
@@ -1077,7 +1134,6 @@ function ProfitFinderFilterSection(props: Props) {
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
 
-          {/* Preset Filter UI */}
           <Popup
             on="click"
             open={openPresetFilter}
@@ -1113,7 +1169,6 @@ function ProfitFinderFilterSection(props: Props) {
             }
           />
 
-          {/* Charges Filter UI */}
           <Popup
             on="click"
             open={showChargesFilter}
@@ -1140,11 +1195,11 @@ function ProfitFinderFilterSection(props: Props) {
               <ChargesInputFilter
                 closeFilter={() => setShowChargesFilter(false)}
                 applyFilter={() => console.log('Applied Filter')}
+                filterDataState={chargesInputFilterDataState}
               />
             }
           />
 
-          {/* Profitability Filter */}
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}

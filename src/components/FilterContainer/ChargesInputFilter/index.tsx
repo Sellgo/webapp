@@ -1,30 +1,19 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import React, { useState } from 'react';
 import { Button, Input } from 'semantic-ui-react';
+import { ChargesInputFilterDataType } from '../../../interfaces/Filters';
 
 import './index.scss';
-
-type ChargesFilterInput = {
-  inBoundShipping: string;
-  outBoundShipping: string;
-  taxPercent: string;
-  multiPack: boolean;
-};
 
 interface Props {
   applyFilter: () => void;
   closeFilter: () => void;
+  filterDataState: Array<ChargesInputFilterDataType>;
 }
 
 const ChargesInputFilter: React.FC<Props> = props => {
-  const { applyFilter, closeFilter } = props;
+  const { applyFilter, closeFilter, filterDataState } = props;
 
-  const [chargesFilter, setChargesFilter] = useState<ChargesFilterInput>({
-    inBoundShipping: '',
-    outBoundShipping: '',
-    taxPercent: '',
-    multiPack: false,
-  });
+  const [chargesFilter, setChargesFilter] = useState<any>({});
 
   const handleInputChange = (e: any, data: any) => {
     const { id, value, type, checked } = data;
@@ -48,62 +37,46 @@ const ChargesInputFilter: React.FC<Props> = props => {
     }
   };
 
-  const { inBoundShipping, outBoundShipping, taxPercent, multiPack } = chargesFilter;
   return (
     <div className="charges-input-filter">
       <div className="charges-input-filter__content">
-        <div className="filter-input-wrapper">
-          <label htmlFor="inboundShipping" className="filterLabel">
-            Inbound Shipping Per Item :
-          </label>
-          <Input
-            icon="dollar"
-            id="inBoundShipping"
-            className="filterInput"
-            value={inBoundShipping}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="filter-input-wrapper">
-          <label htmlFor="outBoundShipping" className="filterLabel">
-            Outbound Shipping Per Item :
-          </label>
-          <Input
-            icon="dollar"
-            id="outBoundShipping"
-            className="filterInput"
-            value={outBoundShipping}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="filter-input-wrapper">
-          <label htmlFor="taxPercent" className="filterLabel">
-            Tax % on sourcing :
-          </label>
-          <Input
-            icon="percent"
-            id="taxPercent"
-            className="filterInput"
-            onChange={handleInputChange}
-            value={taxPercent}
-          />
-        </div>
-
-        {/* Checbox */}
-        <div className="filter-input-wrapper">
-          <label htmlFor="multiPack" className="filterLabel">
-            Calculate Multi Pack :
-          </label>
-          <Input
-            id="multiPack"
-            type="checkbox"
-            className="filterCheckbox"
-            checked={multiPack}
-            onChange={handleInputChange}
-          />
-        </div>
+        {filterDataState.map((filter: ChargesInputFilterDataType) => {
+          const { label, type, key, icon } = filter;
+          let element = undefined;
+          if (type === 'text') {
+            element = (
+              <div className="filter-input-wrapper">
+                <label htmlFor={key} className="filterLabel">
+                  {label}
+                </label>
+                <Input
+                  icon={icon.length > 0 ? icon : ''}
+                  id={key}
+                  className={'filterInput'}
+                  value={chargesFilter[key]}
+                  onChange={handleInputChange}
+                />
+              </div>
+            );
+          }
+          if (type === 'checkbox') {
+            element = (
+              <div className="filter-input-wrapper">
+                <label htmlFor={key} className="filterLabel">
+                  {label}
+                </label>
+                <Input
+                  id={key}
+                  type="checkbox"
+                  className="filterCheckbox"
+                  checked={chargesFilter[key]}
+                  onChange={handleInputChange}
+                />
+              </div>
+            );
+          }
+          return element;
+        })}
       </div>
 
       <div className="charges-input-filter__btnContainer">
