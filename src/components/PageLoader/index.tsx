@@ -1,9 +1,14 @@
 import React from 'react';
-import loading from './loading.svg';
 import './index.scss';
+import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
 
-export default () => (
-  <div className="page-loader">
-    <img src={loading} alt="loading" />
-  </div>
-);
+const PageLoader = (props: any) => {
+  const { pageLoading } = props;
+  return (
+    <div className={`page-loader ${pageLoading && 'full'}`}>
+      <img src={loadingAnimation} alt="loading" />
+    </div>
+  );
+};
+
+export default PageLoader;

@@ -4,6 +4,12 @@ $link-color: #349af8;
   margin-left: 1rem;
 }
 
+.table-cell-container {
+  .icon {
+    display: none;
+  }
+}
+
 .untrack-popup {
   padding: 1.33em 1.33em 0.33em 0.9em;
 
@@ -494,9 +500,69 @@ $link-color: #349af8;
         width: 100px;
       }
 
+      .avg_price {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_margin {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_daily_sales {
+        .stat {
+          text-align: right;
+        }
+      }
+
+      .avg_daily_revenue {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_roi {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_rank {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .customer_reviews {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .rating {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_inventory {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
+      .avg_amazon_inventory {
+        .stat {
+          text-align: right !important;
+        }
+      }
+
       &:nth-child(2) {
         .stat {
-          margin-right: 20px;
+          margin-right: 2px;
         }
       }
 
@@ -1358,12 +1424,6 @@ $link-color: #349af8;
       }
     }
   }
-}
-
-.no-cost-icon {
-  //top: 15px;
-  position: absolute;
-  left: 55%;
 }
 
 .generic-table .ui.table.pf-table {

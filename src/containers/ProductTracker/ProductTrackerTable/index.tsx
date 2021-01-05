@@ -97,6 +97,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     confirm: false,
     open: false,
     error: false,
+    editError: false,
     editGroup: false,
     deleteGroup: false,
     columnFilterData: columnFilter,
@@ -107,6 +108,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     scrollView: false,
     editCost: false,
     product_cost: 0,
+    isValidCostValue: false,
   };
 
   componentDidMount() {
@@ -187,7 +189,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   handleAddGroupSubmit = () => {
     const { name } = this.state;
     const { postCreateProductTrackGroup } = this.props;
-    postCreateProductTrackGroup(name);
+    if (!_.isEmpty(name.trim())) {
+      postCreateProductTrackGroup(name);
+      this.setState({ error: false });
+    } else {
+      this.setState({ error: true });
+    }
   };
   handleAddGroupNameChange = (e: any) => {
     this.setState({ name: e.target.value });
@@ -204,10 +211,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
   handleEditGroupSubmit = (group: any) => {
-    this.props.updateProductTrackGroup(group);
-    this.setState({
-      editGroup: false,
-    });
+    if (!_.isEmpty(group.name.trim())) {
+      this.props.updateProductTrackGroup(group);
+      this.setState({
+        editGroup: false,
+        editError: false,
+      });
+    } else {
+      this.setState({ editError: true });
+    }
   };
 
   handleDeleteGroup = () => {
@@ -430,7 +442,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     );
   };
   renderSource = (row: ProductTrackerDetails) => {
-    return <p>{truncateString(row.source, 53)}</p>;
+    return <p>{truncateString(row.source, 25)}</p>;
   };
 
   columns: Column[] = [
@@ -599,6 +611,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ editCost: false });
   };
 
+  updateCostValue = (value: any) => {
+    if (isNaN(value) || parseFloat(value) < 0) {
+      this.setState({ isValidCostValue: false });
+    } else {
+      this.setState({ isValidCostValue: true });
+      this.setState({ product_cost: parseFloat(value) });
+    }
+  };
+
   render() {
     const {
       loadingTrackerFilter,
@@ -646,6 +667,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroup={this.handleEditGroup}
             handleEditGroupCancel={this.handleEditGroupCancel}
             handleEditGroupSubmit={this.handleEditGroupSubmit}
+            editError={this.state.editError}
           />
         </div>
         <ProductTrackerFilterSection />
@@ -744,9 +766,9 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                     <div className="cost-input">
                       <Input
                         focus
-                        onChange={(evt: any) =>
-                          this.setState({ product_cost: parseFloat(evt.target.value) })
-                        }
+                        onChange={(evt: any, data: any) => {
+                          this.updateCostValue(data.value);
+                        }}
                         icon="dollar sign"
                         iconPosition="left"
                       />
@@ -761,7 +783,10 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
                       <Button
                         content="Save"
                         primary
-                        disabled={product_cost > (parseFloat(costDetails.avg_price) / 100) * 150}
+                        disabled={
+                          product_cost > (parseFloat(costDetails.avg_price) / 100) * 150 ||
+                          !this.state.isValidCostValue
+                        }
                         onClick={() =>
                           this.onEditProductCost({ ...costDetails, product_cost: product_cost })
                         }

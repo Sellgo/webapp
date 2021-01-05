@@ -1,0 +1,91 @@
+.notifications {
+  min-width: 428px !important;
+
+  .title {
+    border-bottom: 1px solid #349af8;
+
+    > p {
+      font-size: 14px;
+      color: #3b4557;
+      padding-bottom: 5px;
+      margin: 0 5px !important;
+    }
+  }
+
+  .notification {
+    margin: 5px 0;
+    display: flex;
+
+    .file-image-container {
+      display: flex;
+      align-items: center;
+
+      .file-image {
+        margin-right: 5px;
+      }
+
+      .progressing {
+        width: 35px;
+        height: 35px;
+      }
+
+      .failed {
+        color: red !important;
+        font-size: 32px;
+      }
+    }
+
+    .file-name {
+      font-size: 14px;
+      color: #349af8;
+      padding: 5px 0;
+      margin: 0 2px !important;
+      white-space: nowrap;
+      width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .downloaded {
+      font-weight: bold;
+    }
+
+    .in-progress-file {
+      @extend .file-name;
+
+      color: #4c5566 !important;
+    }
+
+    .file-status {
+      font-size: 10px;
+      color: #98aeca;
+      margin: 0 2px !important;
+    }
+
+    .failed-text {
+      font-size: 10px;
+      color: red;
+      margin: 0 2px !important;
+    }
+  }
+}
+
+.bell-icon {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.badge-count {
+  background: #349af8;
+  color: #f8faff;
+  width: 15px;
+  height: 15px;
+  border-radius: 11px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 4px;
+  position: relative;
+  top: -11px;
+  right: 9px;
+  cursor: pointer;
+}

@@ -14,7 +14,7 @@ import {
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
-import { Dropdown, Icon, Confirm, Segment, Loader, Grid } from 'semantic-ui-react';
+import { Dropdown, Icon, Confirm, Segment, Grid } from 'semantic-ui-react';
 import { GenericTable, Column } from '../../../components/Table';
 import { Link } from 'react-router-dom';
 import history from '../../../history';
@@ -37,6 +37,7 @@ import { formatCompletedDate } from '../../../utils/date';
 import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
+import PageLoader from '../../../components/PageLoader';
 
 interface SuppliersTableProps {
   stickyChartSelector: boolean;
@@ -87,7 +88,12 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       );
     return (
       <div className="supplier">
-        {name} {row.has_default_cost && <WithoutCostUpload />}
+        <div className="name">{name} </div>
+        {row.has_default_cost && (
+          <span>
+            <WithoutCostUpload />
+          </span>
+        )}
       </div>
     );
   };
@@ -385,18 +391,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
-      return (
-        <Segment>
-          <Loader
-            hidden={suppliers.length === 1 && suppliers[0] === undefined ? false : true}
-            active={true}
-            inline="centered"
-            size="massive"
-          >
-            Loading
-          </Loader>
-        </Segment>
-      );
+      return <PageLoader />;
     }
 
     const all = suppliers.filter(supplier => supplier.status !== 'inactive');
@@ -425,65 +420,67 @@ class SuppliersTable extends Component<SuppliersTableProps> {
         ? this.state.exportResult.report_url_csv
         : this.state.exportResult.report_url;
     return (
-      <div className="suppliers-table">
-        <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
-          <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>
-            <SupplierMenu
-              activeTab={showTab}
-              allCount={allData.length}
-              shortlistedCount={shortlistedData.length}
-              archivedCount={archivedData.length}
-              draftCount={draftData.length}
-            />
-          </Grid.Column>
-          <Grid.Column
-            floated="right"
-            className={'wdt100 ipad-wdth100'}
-            style={{ flex: '0 0 auto', width: 'auto' }}
-          >
-            <SelectColumns columns={columns} />
-          </Grid.Column>
-        </Grid>
-        <GenericTable
-          currentActiveColumn={currentActiveColumn}
-          stickyChartSelector={stickyChartSelector}
-          scrollTopSelector={scrollTopSelector}
-          key={`Suppliers-${showTab}`}
-          tableKey={tableKeys.SUPPLIERS}
-          data={sortedByCompletedData}
-          columns={columns}
-          name={'supplier'}
-          searchValue={supplierSearch}
-        />
-        <Confirm
-          content="Do you want to delete search?"
-          open={this.state.showDeleteConfirm}
-          onCancel={this.handleCancelDelete}
-          onConfirm={this.handleConfirmDelete}
-        />
-        <PieChartModal
-          supplier={this.state.supplier}
-          showPieChartModalOpen={this.state.showPieChartModalOpen}
-          handleClose={this.handleClose}
-        />
+      <Segment basic={true}>
+        <div className="suppliers-table">
+          <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
+            <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>
+              <SupplierMenu
+                activeTab={showTab}
+                allCount={allData.length}
+                shortlistedCount={shortlistedData.length}
+                archivedCount={archivedData.length}
+                draftCount={draftData.length}
+              />
+            </Grid.Column>
+            <Grid.Column
+              floated="right"
+              className={'wdt100 ipad-wdth100'}
+              style={{ flex: '0 0 auto', width: 'auto' }}
+            >
+              <SelectColumns columns={columns} />
+            </Grid.Column>
+          </Grid>
+          <GenericTable
+            currentActiveColumn={currentActiveColumn}
+            stickyChartSelector={stickyChartSelector}
+            scrollTopSelector={scrollTopSelector}
+            key={`Suppliers-${showTab}`}
+            tableKey={tableKeys.SUPPLIERS}
+            data={sortedByCompletedData}
+            columns={columns}
+            name={'supplier'}
+            searchValue={supplierSearch}
+          />
+          <Confirm
+            content="Do you want to delete search?"
+            open={this.state.showDeleteConfirm}
+            onCancel={this.handleCancelDelete}
+            onConfirm={this.handleConfirmDelete}
+          />
+          <PieChartModal
+            supplier={this.state.supplier}
+            showPieChartModalOpen={this.state.showPieChartModalOpen}
+            handleClose={this.handleClose}
+          />
 
-        <ExportResultAs
-          open={this.state.exportResult.report_url !== undefined}
-          data={EXPORT_DATA}
-          formats={EXPORT_FORMATS}
-          format={'csv'}
-          url={fileUrl}
-          onFormatChange={(format: string) => {
-            this.setState({ exportFormat: format });
-          }}
-          onExport={() => {
-            this.setState({ exportResult: { report_url: undefined, file_name: '' } });
-          }}
-          onClose={() => {
-            this.setState({ exportResult: { report_url: undefined, file_name: '' } });
-          }}
-        />
-      </div>
+          <ExportResultAs
+            open={this.state.exportResult.report_url !== undefined}
+            data={EXPORT_DATA}
+            formats={EXPORT_FORMATS}
+            format={'csv'}
+            url={fileUrl}
+            onFormatChange={(format: string) => {
+              this.setState({ exportFormat: format });
+            }}
+            onExport={() => {
+              this.setState({ exportResult: { report_url: undefined, file_name: '' } });
+            }}
+            onClose={() => {
+              this.setState({ exportResult: { report_url: undefined, file_name: '' } });
+            }}
+          />
+        </div>
+      </Segment>
     );
   }
 }

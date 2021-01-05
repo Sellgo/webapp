@@ -22,7 +22,10 @@ import {
   SET_FETCHING_KPI,
   SET_FETCHING_SELLER_INVENTORY,
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY,
+  SET_ACTIVE_EXPORT_FILES,
+  FETCHING_ACTIVE_EXPORTS,
 } from '../../constants/Products';
+import { activeExportFiles } from '../../selectors/Products';
 
 export const setSupplierProductDetails = (product: Product) => ({
   type: SET_SUPPLIER_PRODUCT_DETAILS,
@@ -250,3 +253,48 @@ export const exportResults = async (payload: any, supplierID: any) => {
     console.log('error', e);
   }
 };
+
+export const fetchActiveExportFiles = (isLoading = true) => async (dispatch: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+    if (isLoading) {
+      dispatch(setFetchingActiveExports(true));
+    }
+    const res = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`);
+    dispatch(setActiveExportFiles(res.data));
+    dispatch(setFetchingActiveExports(false));
+  } catch (e) {
+    console.log('error', e);
+  }
+};
+
+export const setFileDownloaded = (payload: any) => async (dispatch: any, state: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+    const formData = new FormData();
+    formData.set('synthesis_file_id', payload.id);
+    formData.set('is_downloaded', 'True');
+    await Axios.patch(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`, formData);
+
+    let files = activeExportFiles(state);
+    files = files.map((f: any) => {
+      if (f.id === payload.id) {
+        f.is_downloaded = true;
+      }
+      return f;
+    });
+    dispatch(setActiveExportFiles(files));
+  } catch (e) {
+    console.log('error', e);
+  }
+};
+
+export const setActiveExportFiles = (data: any) => ({
+  type: SET_ACTIVE_EXPORT_FILES,
+  payload: data,
+});
+
+export const setFetchingActiveExports = (loading: boolean) => ({
+  type: FETCHING_ACTIVE_EXPORTS,
+  payload: loading,
+});

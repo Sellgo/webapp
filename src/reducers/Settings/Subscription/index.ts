@@ -4,6 +4,7 @@ import {
   SET_SUCCESS_PAYMENT,
   SET_STRIPE_ERROR,
   SET_STRIPE_LOADING,
+  SET_COUPON_APPLIED,
 } from '../../../constants/Settings';
 import { AnyAction } from 'redux';
 import { setIn } from '../../../utils/immutablity';
@@ -15,6 +16,7 @@ const initialState = {
   subscriptions: [],
   stripeErrorMessage: undefined,
   stripeLoading: false,
+  isCouponApplied: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -55,6 +57,9 @@ export default (state = initialState, action: AnyAction) => {
     }
     case SET_STRIPE_ERROR: {
       return setIn(state, 'stripeErrorMessage', action.payload);
+    }
+    case SET_COUPON_APPLIED: {
+      return setIn(state, 'isCouponApplied', action.payload);
     }
     default:
       return state;
