@@ -35,6 +35,14 @@ $new_black: #3b4557;
     height: 70vh;
   }
 
+  &.disabled {
+    thead,
+    tbody {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+
   h2 {
     font-weight: 300;
     font-size: 15px;

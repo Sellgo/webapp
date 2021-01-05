@@ -27,3 +27,8 @@ export const supplierProductsSelector = (state: {}) => get(state, 'supplier.prod
 export const supplierPageNumberSelector = (state: {}) => get(state, 'supplier.pageNumber');
 export const productsLoadingDataBusterSelector = (state: {}): number[] =>
   get(state, 'supplier.productsLoadingDataBuster');
+export const profitFinderPageNumber = (state: {}) => get(state, 'supplier.profitFinderPageNumber');
+export const profitFinderPageSize = (state: {}) => get(state, 'supplier.profitFinderPageSize');
+export const profitFinderPageCount = (state: {}) => get(state, 'supplier.profitFinderPageCount');
+export const profitFinderPageLoading = (state: {}) =>
+  get(state, 'supplier.profitFinderPageLoading');

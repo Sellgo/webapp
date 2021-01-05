@@ -12,6 +12,9 @@ import {
   updateProfitFinderProducts,
   setSupplierPageNumber,
   triggerDataBuster,
+  fetchSupplierProducts,
+  setProductsLoadingDataBuster,
+  pollDataBuster,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -29,14 +32,18 @@ import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
 
 import {
-  supplierPageNumberSelector,
   supplierDetailsSelector,
+  profitFinderPageNumber,
+  profitFinderPageSize,
+  profitFinderPageCount,
+  profitFinderPageLoading,
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import PageLoader from '../../../../components/PageLoader';
+import { ProfitFinderFilters } from '../../../../interfaces/Filters';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -66,6 +73,11 @@ interface ProductsTableProps {
   supplierDetails: Supplier;
   productsLoadingDataBuster: number[];
   bustData: (synthesisFileID: number, productIDs: number[]) => void;
+  fetchSupplierProducts: (payload: ProfitFinderFilters) => Promise<Product[] | undefined>;
+  totalPages: number;
+  setProductsLoadingDataBuster: typeof setProductsLoadingDataBuster;
+  pollDataBuster: () => void;
+  loading: boolean;
 }
 
 export interface CheckedRowDictionary {
@@ -690,7 +702,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
     }
   };
-
   componentDidMount() {
     const currentFilterOrder = JSON.parse(
       localStorage.getItem('profitFinderColumnFilterState') || '[]'
@@ -714,7 +725,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       this.detectAndUpdateProductId();
     }
   }
-
+  fetchSupplierProducts = async (payload: any) => {
+    const { page, per_page } = payload;
+    const {
+      fetchSupplierProducts,
+      supplierID,
+      setProductsLoadingDataBuster,
+      pollDataBuster,
+    } = this.props;
+    const products = await fetchSupplierProducts({ page, per_page, supplierID, pagination: true });
+    if (products) {
+      setProductsLoadingDataBuster(
+        products.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
+      );
+    }
+    pollDataBuster();
+  };
   render() {
     const {
       isLoadingSupplierProducts,
@@ -723,15 +749,18 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setSinglePageItemsCount,
       updateProfitFinderProducts,
       pageNumber,
-      setPageNumber,
       scrollTopSelector,
       stickyChartSelector,
       currentActiveColumn,
+      totalPages,
+      loading,
     } = this.props;
     const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
-
     return (
-      <div className={`products-table ${isLoadingSupplierProducts && 'loading'}`}>
+      <div
+        className={`products-table ${isLoadingSupplierProducts && 'loading'} ${loading &&
+          'disabled'}`}
+      >
         {isLoadingSupplierProducts ? (
           <PageLoader pageLoading={true} />
         ) : (
@@ -748,9 +777,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               searchFilteredProduct={this.searchFilteredProduct}
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
-              setSinglePageItemsCount={setSinglePageItemsCount}
+              setSinglePageItemsCount={async per_page => {
+                await this.fetchSupplierProducts({ page: pageNumber, per_page });
+                setSinglePageItemsCount(per_page);
+              }}
               currentPage={pageNumber}
-              setPage={setPageNumber}
+              pageCount={totalPages}
+              setPage={async page => {
+                if (page !== pageNumber) {
+                  await this.fetchSupplierProducts({ page, per_page: singlePageItemsCount });
+                }
+              }}
               name={'products'}
               showFilter={true}
               columnFilterBox={ColumnFilterBox}
@@ -766,6 +803,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               columnDnD={true}
               leftFixedColumns={2}
               rightFixedColumns={2}
+              loading={loading}
             />
           </>
         )}
@@ -779,14 +817,16 @@ const mapStateToProps = (state: {}) => ({
   products: get(state, 'supplier.products'),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   productTrackerGroup: get(state, 'supplier.productTrackerGroup'),
-  singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
+  singlePageItemsCount: profitFinderPageSize(state),
   filterData: get(state, 'supplier.filterData'),
   scrollTopSelector: get(state, 'supplier.setScrollTop'),
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
-  pageNumber: supplierPageNumberSelector(state),
+  pageNumber: profitFinderPageNumber(state),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   supplierDetails: supplierDetailsSelector(state),
   productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
+  totalPages: profitFinderPageCount(state),
+  loading: profitFinderPageLoading(state),
 });
 
 const mapDispatchToProps = {
@@ -813,6 +853,9 @@ const mapDispatchToProps = {
   updateProfitFinderProducts: (data: any) => updateProfitFinderProducts(data),
   bustData: (synthesisFileID: number, productIDs: number[]) =>
     triggerDataBuster(synthesisFileID, productIDs),
+  fetchSupplierProducts: (payload: ProfitFinderFilters) => fetchSupplierProducts(payload),
+  setProductsLoadingDataBuster,
+  pollDataBuster,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

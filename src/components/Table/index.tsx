@@ -179,7 +179,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      if (name !== 'leads-tracker') {
+      if (!['leads-tracker', 'products'].includes(name)) {
         return () => setPage(1); // reset on unmount
       }
     }
@@ -313,7 +313,7 @@ export const GenericTable = (props: GenericTableProps) => {
   }
 
   const sortedProducts = rows;
-  if (name !== 'leads-tracker') {
+  if (!['leads-tracker', 'products'].includes(name)) {
     rows = rows.slice(
       (localCurrentPage - 1) * singlePageItemsCount,
       localCurrentPage * singlePageItemsCount
@@ -359,7 +359,7 @@ export const GenericTable = (props: GenericTableProps) => {
   };
 
   const resetPage = (sortDirection: string, dataKey: string) => {
-    if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
+    if (['trackerTable'].includes(name) && currentPage !== 1) {
       setLocalCurrentPage(1);
     }
 
@@ -482,10 +482,10 @@ export const GenericTable = (props: GenericTableProps) => {
                         if (setSinglePageItemsCount) {
                           setSinglePageItemsCount(size);
                         }
-                        if (name !== 'leads-tracker' && setPage) {
+                        if (!['leads-tracker', 'products'].includes(name) && setPage) {
                           setPage(1);
                         }
-                        if (name === 'leads-tracker') {
+                        if (['leads-tracker', 'products'].includes(name)) {
                           setLocalCurrentPage(1);
                         }
                       }}
@@ -493,7 +493,9 @@ export const GenericTable = (props: GenericTableProps) => {
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
                       currentPage={localCurrentPage || 1}
-                      totalPages={name === 'leads-tracker' ? pageCount : totalPages}
+                      totalPages={
+                        ['leads-tracker', 'products'].includes(name) ? pageCount : totalPages
+                      }
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
                       showPageSize={name !== 'supplier'}

@@ -29,6 +29,10 @@ import {
   SET_ACTIVE_COLUMN,
   SET_SORT_COLUMN,
   UPDATE_SUPPLIER_PRODUCT,
+  SET_PF_PAGE_COUNT,
+  SET_PF_PAGE_NO,
+  SET_PF_PAGE_SIZE,
+  SET_PF_PAGE_LOADING,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -66,6 +70,10 @@ const initialState = {
     localStorage.getItem('supplierPageItemsCount') || Number(selectItemsCountList[0].value),
   pageNumber: 1,
   productsLoadingDataBuster: [],
+  profitFinderPageNumber: 1,
+  profitFinderPageSize: 50,
+  profitFinderPageCount: 0,
+  profitFinderPageLoading: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -184,6 +192,21 @@ export default (state = initialState, action: AnyAction) => {
         return product.product_id === updateProduct.product_id ? updateProduct : product;
       });
       return setIn(nextState, 'filteredProducts', filteredProducts);
+    }
+    case SET_PF_PAGE_NO: {
+      return setIn(state, 'profitFinderPageNumber', action.payload);
+    }
+
+    case SET_PF_PAGE_SIZE: {
+      return setIn(state, 'profitFinderPageSize', action.payload);
+    }
+
+    case SET_PF_PAGE_COUNT: {
+      return setIn(state, 'profitFinderPageCount', action.payload);
+    }
+
+    case SET_PF_PAGE_LOADING: {
+      return setIn(state, 'profitFinderPageLoading', action.payload);
     }
     default:
       return state;
