@@ -24,6 +24,7 @@ import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
 import { info } from '../../../utils/notifications';
+import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -76,6 +77,9 @@ function ProfitFinderFilterSection(props: Props) {
   const [isSelectAllSize, setSelectAllSize] = useState(selectAllSizeStorage);
   const [hasAllFilter, setHasAllFilter] = React.useState(false);
   const [openPresetFilter, togglePresetFilter] = React.useState(false);
+
+  /* State for toggle charges filter popup */
+  const [showChargesFilter, setShowChargesFilter] = React.useState<boolean>(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -1072,6 +1076,8 @@ function ProfitFinderFilterSection(props: Props) {
             <span className="filter-name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
+
+          {/* Preset Filter UI */}
           <Popup
             on="click"
             open={openPresetFilter}
@@ -1106,6 +1112,39 @@ function ProfitFinderFilterSection(props: Props) {
               />
             }
           />
+
+          {/* Charges Filter UI */}
+          <Popup
+            on="click"
+            open={showChargesFilter}
+            onOpen={() => setShowChargesFilter(true)}
+            onClose={() => setShowChargesFilter(false)}
+            position="bottom left"
+            className="charges-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="right"
+                className={`charges-filter-btn`}
+                onClick={() => {
+                  setShowChargesFilter(!showChargesFilter);
+                }}
+              >
+                <Icon className="slider" name="sliders horizontal" />
+                <span>Charges</span>
+              </Button>
+            }
+            content={
+              <ChargesInputFilter
+                closeFilter={() => setShowChargesFilter(false)}
+                applyFilter={() => console.log('Applied Filter')}
+              />
+            }
+          />
+
+          {/* Profitability Filter */}
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
