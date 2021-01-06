@@ -15,6 +15,7 @@ import {
   fetchSupplierProducts,
   setProductsLoadingDataBuster,
   pollDataBuster,
+  fetchProfitFinderFilters,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -37,6 +38,8 @@ import {
   profitFinderPageSize,
   profitFinderPageCount,
   profitFinderPageLoading,
+  profitFinderFilters,
+  loadingProfitFinderFilters,
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
@@ -78,6 +81,9 @@ interface ProductsTableProps {
   setProductsLoadingDataBuster: typeof setProductsLoadingDataBuster;
   pollDataBuster: () => void;
   loading: boolean;
+  fetchProfitFinderFilters: (payload: any) => void;
+  filters: any[];
+  loadingFilters: boolean;
 }
 
 export interface CheckedRowDictionary {
@@ -92,6 +98,10 @@ interface ProductsTableState {
   ColumnFilterBox: boolean;
   columns: Column[];
   updateTracking: boolean;
+  activeColumnFilters: {
+    column_type: string;
+    column_value: string;
+  };
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -103,6 +113,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     ColumnFilterBox: false,
     columns: [],
     updateTracking: false,
+    activeColumnFilters: {
+      column_type: 'slider',
+      column_value: 'price',
+    },
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -391,10 +405,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
-      filter: true,
-      filterLabel: 'Search',
-      filterDataKey: 'search',
-      filterSign: '',
       render: this.renderASIN,
     },
     {
@@ -404,6 +414,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Price',
+      filterDataKey: 'price',
+      filterSign: '$',
       render: this.renderPrice,
     },
     {
@@ -431,6 +445,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Profit',
+      filterDataKey: 'profit',
+      filterSign: '$',
       render: this.renderProfit,
     },
     {
@@ -440,6 +458,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Margin',
+      filterDataKey: 'margin',
+      filterSign: '$',
       render: this.renderMargin,
     },
     {
@@ -449,6 +471,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Roi',
+      filterDataKey: 'roi',
+      filterSign: '$',
       render: this.renderRoi,
     },
     {
@@ -458,6 +484,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Rank',
+      filterDataKey: 'rank',
+      filterSign: '',
       render: this.renderRank,
     },
     {
@@ -467,6 +497,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'md-column',
+      filter: true,
+      filterLabel: 'Monthly Sales Est',
+      filterDataKey: 'sales_monthly',
+      filterSign: '$',
       render: this.renderMonthlySalesEst,
     },
     {
@@ -476,6 +510,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Monthly Revenue',
+      filterDataKey: 'monthly_revenue',
+      filterSign: '$',
       render: this.renderMonthlyRevenue,
     },
     {
@@ -519,6 +557,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      filter: true,
+      filterLabel: 'Reviews',
+      filterDataKey: 'customer_reviews',
+      filterSign: '',
       render: this.renderReviews,
     },
     {
@@ -580,6 +622,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'string',
       sortable: true,
       show: true,
+      filter: true,
+      filterLabel: 'Category',
+      filterDataKey: 'amazon_category_name',
+      filterSign: '',
+      filterType: 'checkbox',
       className: 'lg-column',
       render: this.renderCategory,
     },
@@ -745,6 +792,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
     pollDataBuster();
   };
+
+  setActiveColumnFilters = (data: any, column_type: any) => {
+    const { fetchProfitFinderFilters, supplierID } = this.props;
+    const query = `column_value=${data}&column_type=${column_type}`;
+
+    fetchProfitFinderFilters({ supplierID, query });
+    this.setState({ activeColumnFilters: data });
+  };
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -758,8 +814,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       currentActiveColumn,
       totalPages,
       loading,
+      filters,
+      loadingFilters,
     } = this.props;
-    const { searchValue, checkedRows, ColumnFilterBox, columns, columnFilterData } = this.state;
+    const {
+      searchValue,
+      checkedRows,
+      ColumnFilterBox,
+      columns,
+      columnFilterData,
+      activeColumnFilters,
+    } = this.state;
     return (
       <div
         className={`products-table ${isLoadingSupplierProducts && 'loading'} ${loading &&
@@ -779,6 +844,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               searchFilterValue={searchValue}
               showProductFinderSearch={true}
               searchFilteredProduct={this.searchFilteredProduct}
+              toggleColumnFilters={this.setActiveColumnFilters}
+              activeColumnFilters={activeColumnFilters}
+              loadingFilters={loadingFilters}
+              filterValues={filters}
               updateProfitFinderProducts={updateProfitFinderProducts}
               singlePageItemsCount={singlePageItemsCount}
               setSinglePageItemsCount={async per_page => {
@@ -808,6 +877,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               leftFixedColumns={2}
               rightFixedColumns={2}
               loading={loading}
+              applyColumnFilters={data => console.log(data)}
+              cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
+              onSort={(order, data) => {
+                console.log(order, data);
+              }}
             />
           </>
         )}
@@ -831,6 +905,8 @@ const mapStateToProps = (state: {}) => ({
   productsLoadingDataBuster: get(state, 'supplier.productsLoadingDataBuster'),
   totalPages: profitFinderPageCount(state),
   loading: profitFinderPageLoading(state),
+  filters: profitFinderFilters(state),
+  loadingFilters: loadingProfitFinderFilters(state),
 });
 
 const mapDispatchToProps = {
@@ -860,6 +936,7 @@ const mapDispatchToProps = {
   fetchSupplierProducts: (payload: ProfitFinderFilters) => fetchSupplierProducts(payload),
   setProductsLoadingDataBuster,
   pollDataBuster,
+  fetchProfitFinderFilters,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

@@ -51,6 +51,8 @@ import {
   SET_PF_PAGE_SIZE,
   SET_PF_PAGE_COUNT,
   SET_PF_PAGE_LOADING,
+  FETCH_PF_FILTERS,
+  LOADING_PF_FILTERS,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product, ProfitFinderResponse } from '../../interfaces/Product';
@@ -374,6 +376,33 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     dispatch(setProfitFinderPageLoading(false));
 
     error('Data not found');
+  }
+};
+
+export const fetchProfitFinderFilters = (payload: any) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  try {
+    dispatch(setFetchingProfitFinderFilters(true));
+    const response = await getFilters(payload);
+    if (!!response && response.status === 200) {
+      dispatch(setProfitFinderFilters(response.data));
+      dispatch(setFetchingProfitFinderFilters(false));
+    }
+  } catch (e) {
+    dispatch(setFetchingProfitFinderFilters(false));
+  }
+};
+
+const getFilters = async (payload: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+    return await Axios.get(
+      AppConfig.BASE_URL_API +
+        `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data?${payload.query}`
+    );
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -839,5 +868,15 @@ const setProfitFinderPageCount = (pageCount: number) => ({
 
 const setProfitFinderPageLoading = (loading: boolean) => ({
   type: SET_PF_PAGE_LOADING,
+  payload: loading,
+});
+
+const setProfitFinderFilters = (filters: any) => ({
+  type: FETCH_PF_FILTERS,
+  payload: filters,
+});
+
+const setFetchingProfitFinderFilters = (loading: boolean) => ({
+  type: LOADING_PF_FILTERS,
   payload: loading,
 });

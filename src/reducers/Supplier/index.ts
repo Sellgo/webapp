@@ -33,6 +33,8 @@ import {
   SET_PF_PAGE_NO,
   SET_PF_PAGE_SIZE,
   SET_PF_PAGE_LOADING,
+  FETCH_PF_FILTERS,
+  LOADING_PF_FILTERS,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -74,6 +76,8 @@ const initialState = {
   profitFinderPageSize: 50,
   profitFinderPageCount: 0,
   profitFinderPageLoading: false,
+  filters: [],
+  fetchingFilters: false,
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -207,6 +211,14 @@ export default (state = initialState, action: AnyAction) => {
 
     case SET_PF_PAGE_LOADING: {
       return setIn(state, 'profitFinderPageLoading', action.payload);
+    }
+
+    case FETCH_PF_FILTERS: {
+      return setIn(state, 'filters', action.payload);
+    }
+
+    case LOADING_PF_FILTERS: {
+      return setIn(state, 'fetchingFilters', action.payload);
     }
     default:
       return state;

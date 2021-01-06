@@ -35,7 +35,7 @@ const RangeFilterBox = (props: any) => {
     const value = getMinMax();
     if (saved) {
       saved = JSON.parse(saved);
-      if (filterType === 'checkbox') {
+      if (['checkbox', 'list'].includes(filterType)) {
         const checks = saved.value ? saved.value.split(',') : [];
         setLocalData(checks);
       }
