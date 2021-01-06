@@ -37,6 +37,7 @@ import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import PageLoader from '../../../../components/PageLoader';
+import ChargesInputSummary from '../../../../components/FilterContainer/ChargesInputFilter/ChargesInputSummary';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -135,9 +136,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
 
   renderProfit = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
-    </p>
+    <>
+      <p className="stat">
+        {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
+      </p>
+      <ChargesInputSummary />
+    </>
   );
   renderMargin = (row: Product) => (
     <p className="stat">
