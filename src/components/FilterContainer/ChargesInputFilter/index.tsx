@@ -62,15 +62,17 @@ const ChargesInputFilter: React.FC<Props> = props => {
           if (type === 'checkbox') {
             element = (
               <div className="filter-input-wrapper">
-                <label htmlFor={key} className="filterLabel">
-                  {label}
-                </label>
                 <Input
                   id={key}
                   type="checkbox"
                   className="filterCheckbox"
                   checked={chargesFilter[key]}
                   onChange={handleInputChange}
+                  label={
+                    <label htmlFor={key} className="filterLabel">
+                      {label}
+                    </label>
+                  }
                 />
               </div>
             );

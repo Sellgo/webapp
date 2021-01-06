@@ -8,7 +8,7 @@
   width: 100%;
   height: 100%;
   min-height: 350px;
-  min-width: 320px;
+  min-width: 340px;
 
   &__content {
     width: 100%;
@@ -16,7 +16,7 @@
 
   &__btnContainer {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 20px;
     width: 100%;
@@ -33,7 +33,6 @@
       color: #98aeca !important;
       text-align: center;
       padding: 0 !important;
-      margin: 0 5px;
 
       &:active,
       &:focus,
@@ -54,7 +53,6 @@
       color: #349af8 !important;
       text-align: center;
       padding: 0 !important;
-      margin: 0 5px;
 
       &:active,
       &:focus,
@@ -74,13 +72,13 @@
   position: relative;
 
   label.filterLabel {
-    width: max-content;
     font-size: 14px;
     color: #3b4557;
     margin-right: 10px;
     font-weight: 500;
     align-self: center;
     text-align: left !important;
+    width: 200px;
   }
 
   .ui.input.filterCheckbox {
@@ -91,6 +89,11 @@
     input[type='checkbox'] {
       width: 100%;
       height: 100%;
+      margin-left: 10px !important;
+    }
+
+    label {
+      max-width: max-content !important;
     }
   }
 
@@ -129,16 +132,28 @@
       }
     }
 
-    i.dollar.icon {
-      position: absolute;
-      left: -8px;
-      color: #98aeca !important;
-      font-size: 12px !important;
-    }
-
     i.percent.icon {
       position: absolute;
       right: -4px;
+      color: #98aeca !important;
+      font-size: 10px !important;
+    }
+
+    // special edge case
+    #customDiscount {
+      margin-left: 55px !important;
+
+      + i.percent.icon {
+        position: absolute;
+        right: -60px;
+        color: #98aeca !important;
+        font-size: 10px !important;
+      }
+    }
+
+    i.dollar.icon {
+      position: absolute;
+      left: -8px;
       color: #98aeca !important;
       font-size: 12px !important;
     }
