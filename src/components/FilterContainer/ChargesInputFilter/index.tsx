@@ -84,7 +84,6 @@ const ChargesInputFilter: React.FC<Props> = props => {
           basic
           className="apply-charges-filter-btn"
           onClick={() => {
-            console.log(chargesFilter);
             applyFilter();
             closeFilter();
           }}
