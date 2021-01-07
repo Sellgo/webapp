@@ -1,6 +1,6 @@
 .products-table .ui.table .multipack_profit .input-charges-summary {
   position: absolute;
-  z-index: 100;
+  z-index: 9999999 !important;
   top: 0;
   left: 100px;
   box-shadow: 0 3px 6px #00000029;
