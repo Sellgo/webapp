@@ -88,6 +88,7 @@ interface ProductsTableProps {
   loadingFilters: boolean;
   sort: string;
   sortDirection: string;
+  onFetch: (payload: any) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -381,18 +382,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
-  searchFilteredProduct = (value: string) => {
-    const {
-      searchProducts,
-      setSinglePageItemsCount,
-      singlePageItemsCount,
-      filterData,
-    } = this.props;
+  searchFilteredProduct = async (search: string) => {
+    const { singlePageItemsCount } = this.props;
     this.setState({
-      searchValue: value,
+      searchValue: search,
     });
-    searchProducts(value, filterData);
-    setSinglePageItemsCount(singlePageItemsCount);
+    await this.fetchSupplierProducts({ pageNo: 1, per_page: singlePageItemsCount, search });
   };
 
   columns: Column[] = [
@@ -901,6 +896,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   fetchSupplierProducts = async (filter: any = {}, resetKey?: string) => {
+    const { onFetch } = this.props;
     let payload: any = this.getFilters();
     if (filter) payload = { ...payload, ...filter };
     const { queryParams, queryString } = this.getSavedFilters(resetKey);
@@ -920,11 +916,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       setProductsLoadingDataBuster,
       pollDataBuster,
     } = this.props;
-    const products = await fetchSupplierProducts({
+    const req = {
       ...payload,
       supplierID,
       pagination: true,
-    });
+    };
+    const products = await fetchSupplierProducts(req);
+    onFetch(req);
     if (products) {
       setProductsLoadingDataBuster(
         products.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)

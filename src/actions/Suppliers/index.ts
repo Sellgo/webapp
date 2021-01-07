@@ -363,19 +363,26 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     params = {},
     sort = 'price',
     sortDirection = 'asc',
+    search,
   } = payload;
+
   const pagination = `?page=${page}&per_page=${per_page}`;
   let sorting = '';
+  let searching = '';
   if (sort) {
     sorting = `&sort=${sort}&sort_direction=${sortDirection}`;
   }
+  if (search) {
+    searching = `search=${search}`;
+  }
+
   const response: ProfitFinderResponse = await Axios.get(
     AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data${pagination}${query}${sorting}`,
+      `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data${pagination}${query}${sorting}&${searching}`,
     { params }
   );
   const data = response.data;
-  if (data && data.results.length) {
+  if (data && data.results) {
     const products: Product[] = data.results;
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));

@@ -139,4 +139,5 @@ export interface ProfitFinderFilters {
   params?: any;
   sort?: string;
   sortDirection?: string;
+  search?: string;
 }

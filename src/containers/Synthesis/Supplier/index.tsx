@@ -62,6 +62,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
     super(props);
     this.state = {
       openRecentFiles: false,
+      payload: {},
     };
   }
 
@@ -138,6 +139,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
       stickyChartSelector,
       suppliers,
       match,
+      fetchSupplierProducts,
     } = this.props;
     const searchName =
       supplierDetails && supplierDetails.search ? ` ${supplierDetails.search}` : '';
@@ -212,10 +214,19 @@ export class Supplier extends React.Component<SupplierProps, any> {
         <Segment basic={true} className="setting">
           <Grid className={`product-chart ${stickyChartSelector ? 'sticky-chart-active' : ''}`}>
             <Grid.Row className="right-column">
-              {!isLoadingSupplierProducts && <SupplierDetails />}
+              {!isLoadingSupplierProducts && (
+                <SupplierDetails
+                  onPageChange={(page: number) =>
+                    fetchSupplierProducts({ ...this.state.payload, page })
+                  }
+                />
+              )}
             </Grid.Row>
           </Grid>
-          <ProductsTable supplierID={this.props.match.params.supplierID} />
+          <ProductsTable
+            supplierID={this.props.match.params.supplierID}
+            onFetch={payload => this.setState({ payload })}
+          />
 
           <Modal
             size={'large'}

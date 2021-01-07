@@ -2,7 +2,7 @@ import React from 'react';
 import { Feed, Grid, Card } from 'semantic-ui-react';
 import SupplierCharts from './SupplierCharts';
 
-const SupplierDetails = () => {
+const SupplierDetails = (props: any) => {
   const [isStickyChartActive, setStickyChartActive] = React.useState(false);
   return (
     <>
@@ -25,6 +25,7 @@ const SupplierDetails = () => {
                         <SupplierCharts
                           isStickyChartActive={isStickyChartActive}
                           setStickyChartActive={setStickyChartActive}
+                          onPageChange={props.onPageChange}
                         />
                       </Feed.Summary>
                     </Feed.Content>
