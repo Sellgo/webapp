@@ -9,7 +9,7 @@ const RangeFilterBox = (props: any) => {
     applyFilters,
     resetFilters,
     filterType,
-    labelSign,
+    labelSign = '',
     dataKey,
     name,
     values = [],
