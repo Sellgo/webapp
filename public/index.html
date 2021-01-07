@@ -61,17 +61,25 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <!-- Start UserPilot Code -->
-    <script>window.userpilotSettings = {token: "19hj64h1"}</script>
-    <script src = "https://js.userpilot.io/sdk/latest.js"></script>
     <script>
-      var user_traits = (localStorage.getItem("__user_traits") !== null ? localStorage.getItem('__user_traits') : null);
+      window.userpilotSettings = { token: '19hj64h1' };
+    </script>
+    <script src="https://js.userpilot.io/sdk/latest.js"></script>
+    <script>
+      var user_traits =
+        localStorage.getItem('__user_traits') !== null
+          ? localStorage.getItem('__user_traits')
+          : null;
       user_traits = JSON.parse(user_traits);
-      var userName  = localStorage.getItem('userName');
-      var userEmail = (user_traits != null && user_traits.email != '' && typeof user_traits.email !== 'undefined' ? user_traits.email : '');
+      var userName = localStorage.getItem('userName');
+      var userEmail =
+        user_traits != null && user_traits.email != '' && typeof user_traits.email !== 'undefined'
+          ? user_traits.email
+          : '';
       var __user_id = localStorage.getItem('__user_id');
-      var time      = Math.round(Date.now() / 1000);
+      var time = Math.round(Date.now() / 1000);
       userpilot.identify(
-        __user_id, // Used to identify users 
+        __user_id, // Used to identify users
         {
           name: userName, // Full name
           email: userEmail, // Email address
@@ -80,5 +88,18 @@
       );
     </script>
     <!-- End UserPilot Code -->
+
+    <!--  Possible code for chrome extension -->
+    <script>
+      console.log('Chrome work is doing on...');
+      const chromeID = 'eghepplelknleieeeiogjofmaneaadab';
+      chrome.runtime.sendMessage(
+        chromeID,
+        { dataFromWeb: window.localStorage.isLoggedIn },
+        function(response) {
+          console.log('Response Web App>>>', response);
+        }
+      );
+    </script>
   </body>
 </html>
