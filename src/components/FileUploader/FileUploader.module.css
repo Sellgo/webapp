@@ -20,18 +20,14 @@
   color: #8888;
 }
 
-@media screen and (min-width: 310px) and (max-width: 767px) {
-  b.filename {
-    display: inline-block !important;
-    max-width: 251px !important;
-    word-break: break-all !important;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-  b.filename {
-    display: inline-block !important;
-    max-width: 767px !important;
-    word-break: break-all !important;
-  }
+p.filename {
+  width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: red;
+  display: inline-block;
+  margin: 0 auto;
+  font-size: 14px;
+  font-weight: 500;
 }
