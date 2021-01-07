@@ -47,6 +47,7 @@ export interface Product {
   multipack_roi: number;
   best_seller: boolean;
   subscribe_save: boolean;
+  upcs: string;
 }
 
 export interface ProductsTrackData {

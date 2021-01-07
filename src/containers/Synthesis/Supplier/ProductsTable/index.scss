@@ -336,6 +336,50 @@ $new_black: #3b4557;
       }
     }
 
+    .other_upc {
+      position: relative;
+
+      .stat + .other-upcs-card {
+        min-width: 400px;
+        min-height: max-content;
+        background: #fff;
+        position: absolute;
+        z-index: 999999 !important;
+        top: 0;
+        left: 90px;
+        display: none;
+        box-shadow: 0 3px 6px #00000029;
+        border-radius: 10px;
+        background-color: #fff !important;
+        padding: 10px 20px;
+        max-width: 400px;
+
+        h5 {
+          text-align: left;
+          font-size: 14px;
+        }
+
+        p {
+          text-align: left;
+          font-size: 14px;
+        }
+      }
+
+      .stat {
+        text-align: left !important;
+        font-weight: 500;
+        margin-bottom: 0 !important;
+
+        &--blue {
+          color: #0e6fcf;
+        }
+
+        &:hover + .other-upcs-card {
+          display: block;
+        }
+      }
+    }
+
     tfoot {
       th {
         border-top: none;

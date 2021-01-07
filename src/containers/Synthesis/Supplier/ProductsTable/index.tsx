@@ -226,6 +226,25 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderSubscribeSave = (row: Product) => {
     return <p className="stat">{row.subscribe_save ? 'Yes' : 'No'}</p>;
   };
+
+  renderOtherUPCS = (row: Product) => {
+    if (!row.upcs) {
+      return <p className="stat">-</p>;
+    }
+    const upcs = row.upcs.split(' ');
+    return (
+      <>
+        <p className="stat stat--blue">{upcs[0]}</p>
+        {upcs.length > 0 ? (
+          <div className="other-upcs-card">
+            <h5>Other UPCs (This product has multiple UPC's) </h5>
+            <p>{upcs.join(' ')}</p>
+          </div>
+        ) : null}
+      </>
+    );
+  };
+
   renderIsAmazon = (row: Product) => (
     <p className="stat">
       {row.data_buster_status === 'completed'
@@ -386,6 +405,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'md-column',
       render: this.renderASIN,
+    },
+    {
+      label: 'Other UPC',
+      dataKey: 'other_upc',
+      type: 'string',
+      sortable: true,
+      className: 'md-column',
+      render: this.renderOtherUPCS,
     },
     {
       label: 'Price',
