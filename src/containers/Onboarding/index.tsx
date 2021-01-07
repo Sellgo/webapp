@@ -111,9 +111,12 @@ class Onboarding extends React.Component<OnboardingProps> {
                     <VideoDetails video={selectedVideo} />
                   </Grid.Column>
                   <Grid.Column className="Onboarding__playlist upnext">
-                    <Header className="Onboarding__playlist related" as="h1">
-                      Up next:
-                    </Header>
+                    {this.state.videos.length > 0 ? (
+                      <Header className="Onboarding__playlist related" as="h1">
+                        Up next:
+                      </Header>
+                    ) : null}
+
                     <VideoList
                       onVideoSelect={this.onVideoSelect}
                       selectCategory={this.selectCategory}
