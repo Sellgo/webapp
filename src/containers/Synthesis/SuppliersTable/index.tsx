@@ -129,59 +129,57 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
   renderActions = (row: Supplier) => {
     return (
-      <React.Fragment>
-        <Dropdown
-          className={'syn-dropdown-link syn-dropdown-label'}
-          text="Profit Finder"
-          floating={true}
-          selectOnBlur={false}
-          fluid={true}
-          selection={true}
-          disabled={row.file_status !== 'completed' ? true : false}
-          options={[
-            {
-              key: '0',
-              text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
-              value: 'SYN',
-            },
-            {
-              key: '1',
-              text: (
-                <a href={row.file_url} download={true}>
-                  <Dropdown.Item icon="cart arrow down" text=" Download Search File" />
-                </a>
+      <Dropdown
+        className={'syn-dropdown-link syn-dropdown-label'}
+        text="Profit Finder"
+        floating={true}
+        selectOnBlur={false}
+        fluid={true}
+        selection={true}
+        disabled={row.file_status !== 'completed' ? true : false}
+        options={[
+          {
+            key: '0',
+            text: <Dropdown.Item icon="spinner" text=" Profit Finder" />,
+            value: 'SYN',
+          },
+          {
+            key: '1',
+            text: (
+              <a href={row.file_url} download={true}>
+                <Dropdown.Item icon="cart arrow down" text=" Download Search File" />
+              </a>
+            ),
+            value: 'dwn_sp_file',
+          },
+          {
+            key: '2',
+            text:
+              row.report_url === null ? (
+                <Dropdown.Item icon="download" text="Export As" />
+              ) : (
+                <Dropdown.Item
+                  icon="download"
+                  text="Export As"
+                  onClick={() => this.setState({ exportResult: row })}
+                />
               ),
-              value: 'dwn_sp_file',
-            },
-            {
-              key: '2',
-              text:
-                row.report_url === null ? (
-                  <Dropdown.Item icon="download" text="Export As" />
-                ) : (
-                  <Dropdown.Item
-                    icon="download"
-                    text="Export As"
-                    onClick={() => this.setState({ exportResult: row })}
-                  />
-                ),
-              value: 'dwn_res',
-              disabled: row.report_url === null ? true : false,
-            },
-            {
-              key: '3',
-              text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
-              value: 'rerun',
-              onClick: () => this.props.reRun(row),
-            },
-          ]}
-          onChange={(e, data) => {
-            if (data.value === 'SYN') {
-              history.push(`/profit-finder/${row.supplier_id}`);
-            }
-          }}
-        />
-      </React.Fragment>
+            value: 'dwn_res',
+            disabled: row.report_url === null ? true : false,
+          },
+          {
+            key: '3',
+            text: <Dropdown.Item icon="sync alternate" text=" Re-run" />,
+            value: 'rerun',
+            onClick: () => this.props.reRun(row),
+          },
+        ]}
+        onChange={(e, data) => {
+          if (data.value === 'SYN') {
+            history.push(`/profit-finder/${row.supplier_id}`);
+          }
+        }}
+      />
     );
   };
 
