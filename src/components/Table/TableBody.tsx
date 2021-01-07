@@ -265,12 +265,11 @@ export const TableBody = (props: TableBodyProps) => {
                             {cell.rows.map(
                               (column: any, colIndex: any) =>
                                 getColumnLabel(column.dataKey, columnFilterData) && (
-                                  <React.Fragment>
+                                  <React.Fragment key={`${colIndex}--tb-cell--${cell.side}`}>
                                     <TableCell
                                       type={type}
                                       column={column}
                                       row={row}
-                                      key={`${colIndex}--tb-cell--${cell.side}`}
                                       className={
                                         expandedRows && expandedRows === row.id
                                           ? 'remove-bottom-border'

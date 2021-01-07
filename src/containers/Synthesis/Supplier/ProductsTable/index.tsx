@@ -40,6 +40,8 @@ import {
   profitFinderPageLoading,
   profitFinderFilters,
   loadingProfitFinderFilters,
+  profitFinderSort,
+  profitFinderSortDirection,
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
@@ -84,6 +86,8 @@ interface ProductsTableProps {
   fetchProfitFinderFilters: (payload: any) => void;
   filters: any[];
   loadingFilters: boolean;
+  sort: string;
+  sortDirection: string;
 }
 
 export interface CheckedRowDictionary {
@@ -102,6 +106,7 @@ interface ProductsTableState {
     column_type: string;
     column_value: string;
   };
+  activeColumn: Column;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -116,6 +121,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     activeColumnFilters: {
       column_type: 'slider',
       column_value: 'price',
+    },
+    activeColumn: {
+      label: 'Price',
+      dataKey: 'price',
+      type: 'number',
+      sortable: true,
+      filter: true,
+      filterSign: '$',
+      show: true,
     },
   };
 
@@ -436,6 +450,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Total Fees',
+      filterDataKey: 'fees',
+      filterSign: '$',
       render: this.renderFee,
     },
     {
@@ -487,6 +505,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filter: true,
       filterLabel: 'Rank',
       filterDataKey: 'rank',
+      filterType: 'slider',
       filterSign: '',
       render: this.renderRank,
     },
@@ -523,6 +542,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'FBA Fee',
+      filterDataKey: 'fba_fee',
+      filterSign: '$',
       render: this.renderFbaFee,
     },
     {
@@ -532,6 +555,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Referral Fee',
+      filterDataKey: 'referral_fee',
+      filterSign: '$',
       render: this.renderReferralFee,
     },
     {
@@ -541,6 +568,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      filter: true,
+      filterLabel: 'Variable Closing Fee',
+      filterDataKey: 'variable_closing_fee',
+      filterSign: '$',
       render: this.renderVariableClosingFee,
     },
     {
@@ -549,6 +580,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'boolean',
       show: true,
       sortable: true,
+      filter: true,
+      filterLabel: 'Is Amazon Selling',
+      filterDataKey: 'is_amazon_selling',
+      filterType: 'list',
       render: this.renderIsAmazon,
     },
     {
@@ -569,6 +604,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
+      filter: true,
+      filterLabel: 'Rating',
+      filterDataKey: 'rating',
+      filterType: 'list',
       render: this.renderRating,
     },
     {
@@ -578,6 +617,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      filter: true,
+      filterLabel: 'Num New FBA Offers',
+      filterDataKey: 'num_fba_new_offers',
+      filterSign: '',
       render: this.renderNumFbaNewOffers,
     },
     {
@@ -587,6 +630,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'md-column',
+      filter: true,
+      filterLabel: 'Num New FBM Offers',
+      filterDataKey: 'num_fbm_new_offers',
+      filterSign: '',
       render: this.renderNumFbmNewOffers,
     },
     {
@@ -596,6 +643,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Low New FBA Offers',
+      filterDataKey: 'low_new_fba_price',
+      filterSign: '',
       render: this.renderLowNewFbaPrice,
     },
     {
@@ -605,6 +656,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Low New FBM Offers',
+      filterDataKey: 'low_new_fbm_price',
+      filterSign: '',
       render: this.renderLowNewFbmPrice,
     },
     {
@@ -626,7 +681,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Category',
       filterDataKey: 'amazon_category_name',
       filterSign: '',
-      filterType: 'checkbox',
+      filterType: 'list',
       className: 'lg-column',
       render: this.renderCategory,
     },
@@ -753,7 +808,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
     }
   };
-  componentDidMount() {
+  async componentDidMount() {
+    const { singlePageItemsCount } = this.props;
+
     const currentFilterOrder = JSON.parse(
       localStorage.getItem('profitFinderColumnFilterState') || '[]'
     );
@@ -769,6 +826,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     } else {
       this.setState({ columns: this.columns });
     }
+    await this.fetchSupplierProducts({ pageNo: 1, per_page: singlePageItemsCount });
   }
 
   componentDidUpdate(prevProps: ProductsTableProps) {
@@ -776,15 +834,97 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       this.detectAndUpdateProductId();
     }
   }
-  fetchSupplierProducts = async (payload: any) => {
-    const { page, per_page } = payload;
+  getActiveColumn = () => !!this.state.activeColumn && this.state.activeColumn.dataKey;
+
+  getFilterValue = (dataKey: string, filterType: string): any => {
+    const localFilters = localStorage.getItem(`products:${dataKey}`);
+    let parsed: any;
+    if (localFilters) {
+      parsed = JSON.parse(localFilters);
+      if (filterType === 'list') {
+        parsed = parsed.value.length ? parsed : undefined;
+      } else {
+        parsed = Object.keys(parsed.value).length ? parsed : undefined;
+      }
+    }
+    return parsed ? parsed : undefined;
+  };
+
+  getFilters = () => {
+    const { pageNumber: page, singlePageItemsCount: per_page, sort, sortDirection } = this.props;
+    return { page, per_page, sort, sortDirection };
+  };
+
+  getListFilters = (): (string | undefined)[] => {
+    const { columns } = this.state;
+    return columns.filter((c: Column) => c.filterType === 'list').map((c: Column) => c.dataKey);
+  };
+
+  parseFilters = (filter: any): { query: string; params: any } => {
+    const { dataKey, value, filterType } = filter;
+    let query = '';
+    let params = {};
+    if (value) {
+      if (filterType === 'list') {
+        params = { [dataKey]: value };
+      } else {
+        query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
+      }
+    }
+    this.setState({ ColumnFilterBox: false });
+    return { query, params };
+  };
+
+  getSavedFilters = (resetKey = ''): { queryString: string; queryParams: any } => {
+    let queryString = '';
+    let queryParams: any = {};
+    this.columns.forEach((c: any) => {
+      if (resetKey !== c.filterDataKey && c.filterDataKey) {
+        const saved: any = this.getFilterValue(c.filterDataKey, c.filterType);
+
+        if (saved && !!saved.value) {
+          const { query, params } = this.parseFilters(saved);
+          if (params) {
+            queryParams = { ...queryParams, ...params };
+          }
+          if (query) {
+            queryString = `&${queryString}&${query}`;
+          }
+          // queryString = !query.includes('undefined')
+          //   ? `${query}&${this.parseFilters(saved).query}&`
+          //   : query;
+        }
+      }
+    });
+    queryString = queryString.replace('&&', '&');
+    return { queryString, queryParams };
+  };
+
+  fetchSupplierProducts = async (filter: any = {}, resetKey?: string) => {
+    let payload: any = this.getFilters();
+    if (filter) payload = { ...payload, ...filter };
+    const { queryParams, queryString } = this.getSavedFilters(resetKey);
+    let query = queryString;
+    if (filter.query && filter.query.length && !query.includes(filter.query)) {
+      query = `${query}&${filter.query}`;
+    }
+    if (query) {
+      payload = { ...payload, query };
+    }
+    if (queryParams) {
+      payload = { ...payload, params: queryParams };
+    }
     const {
       fetchSupplierProducts,
       supplierID,
       setProductsLoadingDataBuster,
       pollDataBuster,
     } = this.props;
-    const products = await fetchSupplierProducts({ page, per_page, supplierID, pagination: true });
+    const products = await fetchSupplierProducts({
+      ...payload,
+      supplierID,
+      pagination: true,
+    });
     if (products) {
       setProductsLoadingDataBuster(
         products.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
@@ -799,6 +939,35 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
     fetchProfitFinderFilters({ supplierID, query });
     this.setState({ activeColumnFilters: data });
+  };
+
+  applyFilters = async (data: any) => {
+    let filter = data;
+    let query = '';
+    let params = {};
+    if (data.filterType !== 'list') {
+      filter = Object.keys(data.value).length ? data : undefined;
+      if (filter) {
+        query = this.parseFilters(filter).query;
+      }
+    } else {
+      params = this.parseFilters(filter).params;
+    }
+    await this.fetchSupplierProducts({ query, params });
+    this.setState({ ColumnFilterBox: false });
+  };
+
+  onSort = async (order: string, dataKey: string) => {
+    const { currentActiveColumn } = this.props;
+    let sortDirection = order === 'descending' ? 'desc' : 'asc';
+    console.log('ACTIVE Col', dataKey, order);
+    if (currentActiveColumn !== dataKey && order === 'descending') {
+      sortDirection = 'asc';
+    }
+    await this.fetchSupplierProducts({
+      sort: dataKey,
+      sortDirection,
+    });
   };
 
   render() {
@@ -877,11 +1046,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               leftFixedColumns={2}
               rightFixedColumns={2}
               loading={loading}
-              applyColumnFilters={data => console.log(data)}
               cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
-              onSort={(order, data) => {
-                console.log(order, data);
+              onSort={(setSortDirection, dataKey) => {
+                this.onSort(setSortDirection, dataKey ? dataKey : '');
               }}
+              resetColumnFilters={(resetKey: string) => {
+                this.fetchSupplierProducts(this.getFilters(), resetKey).then(() => {
+                  this.setState({ ColumnFilterBox: false });
+                });
+              }}
+              applyColumnFilters={this.applyFilters}
             />
           </>
         )}
@@ -907,6 +1081,8 @@ const mapStateToProps = (state: {}) => ({
   loading: profitFinderPageLoading(state),
   filters: profitFinderFilters(state),
   loadingFilters: loadingProfitFinderFilters(state),
+  sort: profitFinderSort(state),
+  sortDirection: profitFinderSortDirection(state),
 });
 
 const mapDispatchToProps = {

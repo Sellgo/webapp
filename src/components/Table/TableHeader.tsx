@@ -100,7 +100,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
     popUp,
     icon,
     className = '',
-    filterType = 'checkbox',
+    filterType = 'range',
     filter = false,
     searchIconPosition = 'right',
     filterSign,

@@ -135,4 +135,8 @@ export interface ProfitFinderFilters {
   per_page: number;
   supplierID: any;
   pagination?: boolean;
+  query?: string;
+  params?: any;
+  sort?: string;
+  sortDirection?: string;
 }

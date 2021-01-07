@@ -74,30 +74,10 @@ export class Supplier extends React.Component<SupplierProps, any> {
   }
 
   initialData = async (supplierID: any) => {
-    const {
-      fetchSupplierDetails,
-      fetchSupplierProducts,
-      supplierProgress,
-      setProductsLoadingDataBuster,
-      pollDataBuster,
-      pageNumber,
-      singlePageItemsCount,
-    } = this.props;
+    const { fetchSupplierDetails, supplierProgress } = this.props;
 
     supplierProgress(supplierID);
-
-    const results = await Promise.all([
-      fetchSupplierDetails(supplierID),
-      fetchSupplierProducts({ supplierID, page: pageNumber, per_page: singlePageItemsCount }),
-    ]);
-
-    const fetchedProducts: Product[] | undefined = results[1];
-    if (fetchedProducts) {
-      setProductsLoadingDataBuster(
-        fetchedProducts.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
-      );
-    }
-    pollDataBuster();
+    await fetchSupplierDetails(supplierID);
   };
 
   componentWillUnmount() {

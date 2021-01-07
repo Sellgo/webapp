@@ -35,6 +35,8 @@ import {
   SET_PF_PAGE_LOADING,
   FETCH_PF_FILTERS,
   LOADING_PF_FILTERS,
+  SET_PF_SORT,
+  SET_PF_SORT_DIRECTION,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -78,6 +80,8 @@ const initialState = {
   profitFinderPageLoading: false,
   filters: [],
   fetchingFilters: false,
+  sort: 'price',
+  sortDirection: 'asc',
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -219,6 +223,14 @@ export default (state = initialState, action: AnyAction) => {
 
     case LOADING_PF_FILTERS: {
       return setIn(state, 'fetchingFilters', action.payload);
+    }
+
+    case SET_PF_SORT: {
+      return setIn(state, 'sort', action.payload);
+    }
+
+    case SET_PF_SORT_DIRECTION: {
+      return setIn(state, 'sortDirection', action.payload);
     }
     default:
       return state;
