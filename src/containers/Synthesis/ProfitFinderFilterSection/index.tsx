@@ -39,6 +39,7 @@ interface Props {
   scrollTop: boolean;
   subscriptionPlan: any;
   fetchActiveExportFiles: () => void;
+  exportFilters: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -514,13 +515,17 @@ function ProfitFinderFilterSection(props: Props) {
 
   const onExportResults = async (value: any) => {
     try {
-      const { supplierDetails, fetchActiveExportFiles } = props;
+      const { supplierDetails, fetchActiveExportFiles, exportFilters } = props;
       if (value.data === 'filtered') {
+        // const psd_ids =
+        //   value.data === 'filtered'
+        //     ? filteredProducts.map((p: Product) => p.id)
+        //     : products.map((p: Product) => p.id);
         const file_format = value.format;
         const synthesis_file_id = supplierDetails.synthesis_file_id;
         setExportResultLoading(true);
         await exportResults(
-          { psd_ids: [], file_format, synthesis_file_id },
+          { filters: exportFilters, file_format, synthesis_file_id },
           supplierDetails.supplier_id
         );
         await setExportResult(false);
