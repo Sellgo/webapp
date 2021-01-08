@@ -101,6 +101,17 @@ const RangeFilterBox = (props: any) => {
     setFilterRange(value);
   };
 
+  const getCheckLabel = (value: any): string => {
+    let v = value;
+    if (value === false) {
+      v = 'No';
+    }
+    if (value === null) {
+      v = '(Blanks)';
+    }
+    return v;
+  };
+
   return (
     <div className="column-range-filter">
       <p className="filter-label">{`${props.label} ${labelSign}`}</p>
@@ -131,7 +142,7 @@ const RangeFilterBox = (props: any) => {
                 {values.map((check: any) => (
                   <Form.Field key={check.value}>
                     <Checkbox
-                      label={check.value}
+                      label={getCheckLabel(check.value)}
                       className="checkbox-filter"
                       checked={hasChecked(check.value)}
                       onClick={() => setCheck(check.value)}

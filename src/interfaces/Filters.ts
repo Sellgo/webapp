@@ -40,7 +40,6 @@ export interface FilterData {
 }
 
 export interface SupplierFilter {
-  allFilter: FilterData[];
   filterRanges: RangeModel[];
   presets: FilterData[];
 }

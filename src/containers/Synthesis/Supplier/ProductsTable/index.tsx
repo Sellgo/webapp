@@ -437,6 +437,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       className: 'sm-column',
+      filter: true,
+      filterLabel: 'Cost',
+      filterDataKey: 'product_cost',
+      filterSign: '$',
+      filterType: 'slider',
       render: this.renderCost,
     },
     {
@@ -973,12 +978,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   onSort = async (order: string, dataKey: string) => {
     const { currentActiveColumn } = this.props;
     let sortDirection = order === 'descending' ? 'desc' : 'asc';
-    console.log('ACTIVE Col', dataKey, order);
     if (currentActiveColumn !== dataKey && order === 'descending') {
       sortDirection = 'asc';
     }
+    let sort = dataKey;
+    if (dataKey === 'last_run') {
+      sort = 'last_syn';
+    }
     await this.fetchSupplierProducts({
-      sort: dataKey,
+      sort,
       sortDirection,
     });
   };
