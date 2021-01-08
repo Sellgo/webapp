@@ -427,6 +427,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Price',
       filterDataKey: 'price',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderPrice,
     },
     {
@@ -449,6 +450,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Total Fees',
       filterDataKey: 'fees',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderFee,
     },
     {
@@ -462,6 +464,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Profit',
       filterDataKey: 'profit',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderProfit,
     },
     {
@@ -475,6 +478,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Margin',
       filterDataKey: 'margin',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderMargin,
     },
     {
@@ -488,6 +492,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Roi',
       filterDataKey: 'roi',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderRoi,
     },
     {
@@ -515,6 +520,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Monthly Sales Est',
       filterDataKey: 'sales_monthly',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderMonthlySalesEst,
     },
     {
@@ -528,6 +534,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Monthly Revenue',
       filterDataKey: 'monthly_revenue',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderMonthlyRevenue,
     },
     {
@@ -541,6 +548,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'FBA Fee',
       filterDataKey: 'fba_fee',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderFbaFee,
     },
     {
@@ -554,6 +562,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Referral Fee',
       filterDataKey: 'referral_fee',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderReferralFee,
     },
     {
@@ -567,6 +576,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Variable Closing Fee',
       filterDataKey: 'variable_closing_fee',
       filterSign: '$',
+      filterType: 'slider',
       render: this.renderVariableClosingFee,
     },
     {
@@ -591,6 +601,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Reviews',
       filterDataKey: 'customer_reviews',
       filterSign: '',
+      filterType: 'slider',
       render: this.renderReviews,
     },
     {
@@ -616,6 +627,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Num New FBA Offers',
       filterDataKey: 'num_fba_new_offers',
       filterSign: '',
+      filterType: 'slider',
       render: this.renderNumFbaNewOffers,
     },
     {
@@ -629,6 +641,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Num New FBM Offers',
       filterDataKey: 'num_fbm_new_offers',
       filterSign: '',
+      filterType: 'slider',
       render: this.renderNumFbmNewOffers,
     },
     {
@@ -642,6 +655,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Low New FBA Offers',
       filterDataKey: 'low_new_fba_price',
       filterSign: '',
+      filterType: 'slider',
       render: this.renderLowNewFbaPrice,
     },
     {
@@ -655,6 +669,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterLabel: 'Low New FBM Offers',
       filterDataKey: 'low_new_fbm_price',
       filterSign: '',
+      filterType: 'slider',
       render: this.renderLowNewFbmPrice,
     },
     {
