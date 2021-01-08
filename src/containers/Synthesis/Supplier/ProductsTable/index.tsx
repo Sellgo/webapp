@@ -970,7 +970,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     this.setState({ ColumnFilterBox: false });
   };
 
-  onSort = async (order: string, dataKey: string) => {
+  onSort = async (order: string, dataKey = '') => {
     const { currentActiveColumn } = this.props;
     let sortDirection = order === 'descending' ? 'desc' : 'asc';
     if (currentActiveColumn !== dataKey && order === 'descending') {
@@ -1062,9 +1062,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               rightFixedColumns={2}
               loading={loading}
               cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
-              onSort={(setSortDirection, dataKey) => {
-                this.onSort(setSortDirection, dataKey ? dataKey : '');
-              }}
+              onSort={this.onSort}
               resetColumnFilters={(resetKey: string) => {
                 this.fetchSupplierProducts(this.getFilters(), resetKey).then(() => {
                   this.setState({ ColumnFilterBox: false });
