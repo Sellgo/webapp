@@ -24,6 +24,8 @@ import {
   SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY,
   SET_ACTIVE_EXPORT_FILES,
   FETCHING_ACTIVE_EXPORTS,
+  SET_FETCHING_BUY_BOX_STATISTICS,
+  SET_BUY_BOX_STATISTICS,
 } from '../../constants/Products';
 import { activeExportFiles } from '../../selectors/Products';
 
@@ -119,6 +121,21 @@ export const fetchSupplierProductDetailChartReview = (productID: string, period?
   dispatch(setSupplierProductDetailChartReview(response.data));
 };
 
+export const fetchBuyBoxStatistics = (productID: string, period?: number) => async (
+  dispatch: any
+) => {
+  let queryString = '?';
+  if (period) {
+    queryString += 'period=' + period;
+  }
+  dispatch(setFetchingBuyBoxStatistics(true));
+  const response = await Axios.get(
+    AppConfig.BASE_URL_API + `products/${productID}/buy-box-stats${queryString}`
+  );
+  dispatch(setFetchingBuyBoxStatistics(false));
+  dispatch(setBuyBoxStatistics(response.data));
+};
+
 export const fetchSupplierProductDetailChartSellerInventory = (
   productID: string,
   period?: number
@@ -193,6 +210,13 @@ export const setFetchingKpi = (isFetching: boolean) => ({
   payload: isFetching,
 });
 
+export const setFetchingBuyBoxStatistics = (isFetching: boolean) => {
+  return {
+    type: SET_FETCHING_BUY_BOX_STATISTICS,
+    payload: isFetching,
+  };
+};
+
 export const setSupplierProductDetailChartRank = (data: any) => ({
   type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_RANK,
   payload: data,
@@ -213,6 +237,12 @@ export const setSupplierProductDetailChartRating = (data: any) => ({
   payload: data,
 });
 
+export const setBuyBoxStatistics = (data: any) => {
+  return {
+    type: SET_BUY_BOX_STATISTICS,
+    payload: data,
+  };
+};
 export const setSupplierProductDetailChartReview = (data: any) => ({
   type: SET_SUPPLIER_PRODUCT_DETAIL_CHART_REVIEW,
   payload: data,
