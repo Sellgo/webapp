@@ -29,6 +29,7 @@ interface TrackerMenuProps {
   groupError: boolean;
   items: any;
   editError: boolean;
+  filteredProducts: any;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
@@ -53,6 +54,7 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleDeleteGroupCancel,
       handleDeleteGroupSubmit,
       editError,
+      filteredProducts,
     } = this.props;
 
     const activeGroup =
@@ -135,7 +137,15 @@ class TrackerMenu extends Component<TrackerMenuProps> {
                       {isActiveGroup && (
                         <div style={{ padding: '5px' }}>
                           <Icon name="pencil" link={true} onClick={() => handleEditGroup(data)} />
-                          <Icon name="trash alternate" link={true} onClick={handleDeleteGroup} />
+                          <Icon
+                            name="trash alternate"
+                            link={true}
+                            onClick={() => {
+                              filteredProducts.length > 0
+                                ? handleDeleteGroup()
+                                : handleDeleteGroupSubmit(this.props.activeGroupId);
+                            }}
+                          />
                         </div>
                       )}
                     </Menu.Item>
