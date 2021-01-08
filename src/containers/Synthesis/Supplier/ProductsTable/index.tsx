@@ -234,12 +234,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const upcs = row.upcs.split(' ');
     return (
       <>
-        <p className="stat stat--blue">{upcs[0]}</p>
         {upcs.length > 0 ? (
-          <div className="other-upcs-card">
-            <h5>Other UPCs (This product has multiple UPC's) </h5>
-            <p>{upcs.join(' ')}</p>
-          </div>
+          <Popup
+            className="other-upcs-popup"
+            size="large"
+            position="top left"
+            content={
+              <div className="other-upcs-card">
+                <h5>Other UPCs (This product has multiple UPC's) </h5>
+                <p>{upcs.join(' ')}</p>
+              </div>
+            }
+            on={'click'}
+            trigger={
+              <p className={`${upcs.length > 0 ? 'stat stat--blue' : 'stat '}`}>{upcs[0]}</p>
+            }
+          />
         ) : null}
       </>
     );

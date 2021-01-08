@@ -337,34 +337,6 @@ $new_black: #3b4557;
     }
 
     .other_upc {
-      position: relative;
-
-      .stat + .other-upcs-card {
-        min-width: 400px;
-        min-height: max-content;
-        background: #fff;
-        position: absolute;
-        z-index: 999999 !important;
-        top: 0;
-        left: 90px;
-        display: none;
-        box-shadow: 0 3px 6px #00000029;
-        border-radius: 10px;
-        background-color: #fff !important;
-        padding: 10px 20px;
-        max-width: 400px;
-
-        h5 {
-          text-align: left;
-          font-size: 14px;
-        }
-
-        p {
-          text-align: left;
-          font-size: 14px;
-        }
-      }
-
       .stat {
         text-align: left !important;
         font-weight: 500;
@@ -372,10 +344,7 @@ $new_black: #3b4557;
 
         &--blue {
           color: #0e6fcf;
-        }
-
-        &:hover + .other-upcs-card {
-          display: block;
+          cursor: pointer;
         }
       }
     }
@@ -861,4 +830,38 @@ $new_black: #3b4557;
 .last_run {
   width: 153px !important;
   min-width: 160px !important;
+}
+
+/* Pop Up Card for Other UPC's */
+
+.ui.popup.large.other-upcs-popup {
+  min-width: 400px !important;
+  max-width: 400px !important;
+
+  + .other-upcs-card {
+    min-width: 400px;
+    min-height: max-content;
+    width: 500px !important;
+    background: #fff;
+    position: absolute;
+    z-index: 999999 !important;
+    top: 0;
+    left: 90px;
+    display: none;
+    box-shadow: 0 3px 6px #00000029;
+    border-radius: 10px;
+    background-color: #fff !important;
+    padding: 10px 20px;
+    max-width: 400px;
+
+    h5 {
+      text-align: left;
+      font-size: 14px;
+    }
+
+    p {
+      text-align: left;
+      font-size: 14px;
+    }
+  }
 }
