@@ -62,6 +62,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
     super(props);
     this.state = {
       openRecentFiles: false,
+      payload: {},
     };
   }
 
@@ -74,30 +75,10 @@ export class Supplier extends React.Component<SupplierProps, any> {
   }
 
   initialData = async (supplierID: any) => {
-    const {
-      fetchSupplierDetails,
-      fetchSupplierProducts,
-      supplierProgress,
-      setProductsLoadingDataBuster,
-      pollDataBuster,
-      pageNumber,
-      singlePageItemsCount,
-    } = this.props;
+    const { fetchSupplierDetails, supplierProgress } = this.props;
 
     supplierProgress(supplierID);
-
-    const results = await Promise.all([
-      fetchSupplierDetails(supplierID),
-      fetchSupplierProducts({ supplierID, page: pageNumber, per_page: singlePageItemsCount }),
-    ]);
-
-    const fetchedProducts: Product[] | undefined = results[1];
-    if (fetchedProducts) {
-      setProductsLoadingDataBuster(
-        fetchedProducts.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
-      );
-    }
-    pollDataBuster();
+    await fetchSupplierDetails(supplierID);
   };
 
   componentWillUnmount() {
@@ -158,6 +139,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
       stickyChartSelector,
       suppliers,
       match,
+      fetchSupplierProducts,
     } = this.props;
     const searchName =
       supplierDetails && supplierDetails.search ? ` ${supplierDetails.search}` : '';
@@ -232,10 +214,19 @@ export class Supplier extends React.Component<SupplierProps, any> {
         <Segment basic={true} className="setting">
           <Grid className={`product-chart ${stickyChartSelector ? 'sticky-chart-active' : ''}`}>
             <Grid.Row className="right-column">
-              {!isLoadingSupplierProducts && <SupplierDetails />}
+              {!isLoadingSupplierProducts && (
+                <SupplierDetails
+                  onPageChange={(page: number) =>
+                    fetchSupplierProducts({ ...this.state.payload, page })
+                  }
+                />
+              )}
             </Grid.Row>
           </Grid>
-          <ProductsTable supplierID={this.props.match.params.supplierID} />
+          <ProductsTable
+            supplierID={this.props.match.params.supplierID}
+            onFetch={payload => this.setState({ payload })}
+          />
 
           <Modal
             size={'large'}

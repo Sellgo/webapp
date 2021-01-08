@@ -14,21 +14,22 @@ import SupplierHitChart from '../../../../../components/Chart/SupplierHitChart';
 import RevenueChart from './RevenueChart';
 import { useWindowSize } from '../../../../../hooks/useWindowSize';
 import ProfitFinderChart from '../../../../../components/Chart/ProfitFinderChart';
-import { setSupplierPageNumber, setStickyChart } from '../../../../../actions/Suppliers';
-import { supplierPageNumberSelector } from '../../../../../selectors/Supplier';
+import { setStickyChart } from '../../../../../actions/Suppliers';
+import { profitFinderPageCount, profitFinderPageNumber } from '../../../../../selectors/Supplier';
 
 interface SupplierChartsProps {
   supplierDetails: Supplier;
   filteredProducts: Product[];
   singlePageItemsCount: number;
   pageNumber: number;
-  setPageNumber: (pageNumber: number) => void;
   openProductDetailModal: (product?: Product) => void;
   productDetailsModalOpen: false;
   closeProductDetailModal: () => void;
   setStickyChart: (value: boolean) => void;
   isStickyChartActive: boolean;
   setStickyChartActive: Function;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 function ChartContainerHeightProvider({ children }: any) {
@@ -51,15 +52,16 @@ class SupplierCharts extends Component<SupplierChartsProps> {
 
   handleSwitchChart = (e: any, showChart: any) => this.setState({ showChart });
   handleLeftArrowClick = (minPageNumber: number) => {
-    const { pageNumber, setPageNumber } = this.props;
+    const { pageNumber, onPageChange } = this.props;
     if (pageNumber > minPageNumber) {
-      setPageNumber(pageNumber - minPageNumber);
+      onPageChange(pageNumber - minPageNumber);
     }
   };
   handleRightArrowClick = (maxPageNumber: number) => {
-    const { pageNumber, setPageNumber } = this.props;
+    const { pageNumber, onPageChange } = this.props;
+    console.log(pageNumber, maxPageNumber);
     if (pageNumber < maxPageNumber) {
-      setPageNumber(pageNumber + 1);
+      onPageChange(pageNumber + 1);
     }
   };
 
@@ -114,15 +116,15 @@ class SupplierCharts extends Component<SupplierChartsProps> {
       supplierDetails,
       isStickyChartActive,
       setStickyChartActive,
-      singlePageItemsCount,
       pageNumber,
       setStickyChart,
+      totalPages,
     } = this.props;
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
     const minPageNumber = 1;
-    const maxPageNumber = Math.ceil(filteredProducts.length / singlePageItemsCount);
+    const maxPageNumber = totalPages;
 
     return (
       <div className="supplier-charts">
@@ -212,13 +214,13 @@ const mapStateToProps = (state: {}) => ({
   singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
   filteredProducts: get(state, 'supplier.filteredProducts'),
   productDetailsModalOpen: get(state, 'modals.supplierProductDetail.open', false),
-  pageNumber: supplierPageNumberSelector(state),
+  pageNumber: profitFinderPageNumber(state),
+  totalPages: profitFinderPageCount(state),
 });
 
 const mapDispatchToProps = {
   openProductDetailModal: (product?: Product) => openSupplierProductDetailModal(product),
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
-  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   setStickyChart: (value: boolean) => setStickyChart(value),
 };
 

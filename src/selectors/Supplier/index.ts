@@ -32,3 +32,7 @@ export const profitFinderPageSize = (state: {}) => get(state, 'supplier.profitFi
 export const profitFinderPageCount = (state: {}) => get(state, 'supplier.profitFinderPageCount');
 export const profitFinderPageLoading = (state: {}) =>
   get(state, 'supplier.profitFinderPageLoading');
+export const profitFinderFilters = (state: {}) => get(state, 'supplier.filters');
+export const loadingProfitFinderFilters = (state: {}) => get(state, 'supplier.fetchingFilters');
+export const profitFinderSort = (state: {}) => get(state, 'supplier.sort');
+export const profitFinderSortDirection = (state: {}) => get(state, 'supplier.sortDirection');

@@ -39,6 +39,10 @@ export const SET_PF_PAGE_NO = 'SET_PF_PAGE_NO';
 export const SET_PF_PAGE_SIZE = 'SET_PF_PAGE_SIZE';
 export const SET_PF_PAGE_COUNT = 'SET_PF_PAGE_COUNT';
 export const SET_PF_PAGE_LOADING = 'SET_PF_PAGE_LOADING';
+export const FETCH_PF_FILTERS = 'FETCH_PF_FILTERS';
+export const LOADING_PF_FILTERS = 'LOADING_PF_FILTERS';
+export const SET_PF_SORT = 'SET_PF_SORT';
+export const SET_PF_SORT_DIRECTION = 'SET_PF_SORT_DIRECTION';
 
 export const dataKeys: any = [
   // Basic KPI

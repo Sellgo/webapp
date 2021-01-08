@@ -36,7 +36,7 @@ interface Shared {
   className?: string;
   setActiveColumn: (value?: string) => void;
   setSortColumn: (value?: string) => void;
-  toggleColumnFilters?: (data: any) => void;
+  toggleColumnFilters?: (data: any, filterType: string) => void;
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
@@ -112,7 +112,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
   const columnClass = type !== 'leads-tracker' ? getColumnClass(column) : '';
   otherProps = {
     onClick:
-      sortable && type !== 'leads-tracker'
+      sortable && type && !['leads-tracker', 'products'].includes(type)
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -131,7 +131,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   const sorting = {
     onClick:
-      type === 'leads-tracker' && sortable
+      type && ['leads-tracker', 'products'].includes(type) && sortable
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
@@ -175,7 +175,9 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
       trigger={
         <Icon
           className={`filter ${isFilterActive() ? 'column-filter-ic-active' : 'column-filter-ic'} `}
-          onClick={() => (toggleColumnFilters ? toggleColumnFilters(columnDataKey) : undefined)}
+          onClick={() =>
+            toggleColumnFilters ? toggleColumnFilters(columnDataKey, filterType) : undefined
+          }
         />
       }
       content={
@@ -302,13 +304,20 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
         {icon && popUp ? (
           <Popup
             on="click"
-            open={columnFilterBox}
+            open={columnFilterBox && activeColumnFilters === 'ellipsis horizontal'}
             onClose={toggleColumnCheckbox}
             onOpen={toggleColumnCheckbox}
             position="bottom right"
             className="column-swap-popup"
             basic={true}
-            trigger={<Icon className={`${icon} popup-ic`} />}
+            trigger={
+              <Icon
+                className={`${icon} popup-ic`}
+                onClick={() =>
+                  toggleColumnFilters ? toggleColumnFilters(dataKey, filterType) : undefined
+                }
+              />
+            }
             content={
               <ColumnFilterCard
                 columnFilterData={columnFilterData}
