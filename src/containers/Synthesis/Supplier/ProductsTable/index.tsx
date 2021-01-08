@@ -108,6 +108,7 @@ interface ProductsTableState {
     column_value: string;
   };
   activeColumn: Column;
+  exportFilters: any;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -132,6 +133,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterSign: '$',
       show: true,
     },
+    exportFilters: {},
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -854,44 +856,57 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return columns.filter((c: Column) => c.filterType === 'list').map((c: Column) => c.dataKey);
   };
 
-  parseFilters = (filter: any): { query: string; params: any } => {
+  parseFilters = (filter: any): { query: string; params: any; values: any } => {
     const { dataKey, value, filterType } = filter;
     let query = '';
     let params = {};
+    let values = {};
     if (value) {
       if (filterType === 'list') {
         params = { [dataKey]: value };
+        values = params;
       } else {
+        values = { [`${dataKey}_min`]: value.min, [`${dataKey}_max`]: value.max };
         query = `${dataKey}_min=${value.min}&${dataKey}_max=${value.max}`;
       }
     }
-    this.setState({ ColumnFilterBox: false });
-    return { query, params };
+    return { query, params, values };
+  };
+  getExportFilters = (): any => {
+    const { filters } = this.getSavedFilters('', true);
+    return filters;
   };
 
-  getSavedFilters = (resetKey = ''): { queryString: string; queryParams: any } => {
+  getSavedFilters = (
+    resetKey = '',
+    values = false
+  ): { queryString: string; queryParams: any; filters: any } => {
     let queryString = '';
     let queryParams: any = {};
+    let filters = {};
     this.columns.forEach((c: any) => {
       if (resetKey !== c.filterDataKey && c.filterDataKey) {
         const saved: any = this.getFilterValue(c.filterDataKey, c.filterType);
 
         if (saved && !!saved.value) {
-          const { query, params } = this.parseFilters(saved);
+          const { query, params, values } = this.parseFilters(saved);
+          if (values) {
+            filters = { ...filters, ...values };
+          }
           if (params) {
             queryParams = { ...queryParams, ...params };
           }
           if (query) {
             queryString = `&${queryString}&${query}`;
           }
-          // queryString = !query.includes('undefined')
-          //   ? `${query}&${this.parseFilters(saved).query}&`
-          //   : query;
         }
       }
     });
+    if (!values) {
+      this.setState({ ColumnFilterBox: false });
+    }
     queryString = queryString.replace('&&', '&');
-    return { queryString, queryParams };
+    return { queryString, queryParams, filters };
   };
 
   fetchSupplierProducts = async (filter: any = {}, resetKey?: string) => {
@@ -921,6 +936,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       pagination: true,
     };
     const products = await fetchSupplierProducts(req);
+    this.setState({ exportFilters: this.getExportFilters() });
     onFetch(req);
     if (products) {
       setProductsLoadingDataBuster(
@@ -957,7 +973,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   onSort = async (order: string, dataKey: string) => {
     const { currentActiveColumn } = this.props;
     let sortDirection = order === 'descending' ? 'desc' : 'asc';
-    console.log('ACTIVE Col', dataKey, order);
     if (currentActiveColumn !== dataKey && order === 'descending') {
       sortDirection = 'asc';
     }
@@ -990,6 +1005,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       columns,
       columnFilterData,
       activeColumnFilters,
+      exportFilters,
     } = this.state;
     return (
       <div
@@ -1036,7 +1052,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               toggleColumnCheckbox={this.handleClick}
               columnFilterData={columnFilterData}
               middleScroll={true}
-              renderFilterSectionComponent={() => <ProfitFinderFilterSection />}
+              renderFilterSectionComponent={() => (
+                <ProfitFinderFilterSection exportFilters={exportFilters} />
+              )}
               handleColumnDrop={this.handleColumnDrop}
               reorderColumns={this.reorderColumns}
               columnDnD={true}
