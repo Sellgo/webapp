@@ -479,6 +479,13 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               this.setState({ exportResult: { report_url: undefined, file_name: '' } });
             }}
           />
+          {!!fileUrl && (
+            <input
+              value={fileUrl}
+              className={'hidden-url'}
+              id={this.state.exportResult.file_name}
+            />
+          )}
         </div>
       </Segment>
     );

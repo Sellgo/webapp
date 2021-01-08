@@ -48,6 +48,7 @@ export interface Product {
   best_seller: boolean;
   subscribe_save: boolean;
   upcs: string;
+  is_variation: boolean;
 }
 
 export interface ProductsTrackData {

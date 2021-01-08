@@ -243,6 +243,10 @@ $new_black: #3b4557;
     .product_cost {
       .stat {
         text-align: right !important;
+
+        &--red {
+          color: red !important;
+        }
       }
     }
 

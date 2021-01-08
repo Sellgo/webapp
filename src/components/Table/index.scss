@@ -952,3 +952,9 @@ i.icon.filter::before {
   top: 55px !important;
   transition: none !important;
 }
+
+/* Extra Media Query for Sticking Leads Tracker Table Header  */
+.generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr.leads-tracker:first-child th {
+  top: 55px !important;
+  transition: none !important;
+}
