@@ -137,14 +137,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     <p className="stat">{showNAIfZeroOrNull(row.price, formatCurrency(row.price))}</p>
   );
 
-  renderCost = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(
-        row.product_cost ? row.product_cost : row.default_cost,
-        formatCurrency(row.product_cost ? row.product_cost : row.default_cost)
-      )}
-    </p>
-  );
+  renderCost = (row: Product) => {
+    const costToPrint = showNAIfZeroOrNull(
+      row.product_cost ? row.product_cost : row.default_cost,
+      formatCurrency(row.product_cost ? row.product_cost : row.default_cost)
+    );
+    return <p className={`stat ${row.is_variation ? 'stat--red' : ''}`}>{costToPrint}</p>;
+  };
 
   renderProfit = (row: Product) => (
     <p className="stat">

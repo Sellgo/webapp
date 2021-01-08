@@ -45,6 +45,7 @@ export interface Product {
   multipack_profit: number;
   multipack_margin: number;
   multipack_roi: number;
+  is_variation: boolean;
 }
 
 export interface ProductsTrackData {

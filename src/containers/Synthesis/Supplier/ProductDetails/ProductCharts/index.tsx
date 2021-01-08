@@ -18,12 +18,15 @@ import {
   isFetchingRatingSelector,
   isFetchingReviewSelector,
   isFetchingSellerInventorySelector,
+  isfetchingBuyBoxStatistics,
 } from '../../../../../selectors/Products';
 import './index.scss';
 import ProductPriceChart from './ProductPriceChart';
 import ProductRatingChart from './ProductRatingChart';
 import ProductReviewChart from './ProductReviewChart';
 import InventoryInsightsChart from './InventoryInsightsChart';
+import BuyBoxStatisticsChart from './BuyBoxStatisticsChart/';
+
 import { MILLISECONDS_IN_A_DAY, MILLISECONDS_IN_A_MINUTE } from '../../../../../utils/date';
 import BetaLabel from '../../../../../components/BetaLabel';
 import _ from 'lodash';
@@ -49,6 +52,7 @@ interface ProductChartsProps {
   isFetchingReview: boolean;
   isFetchingSellerInventory: boolean;
   isLoadingTrackerProducts: boolean;
+  isFetchingBuyBoxStatistics?: boolean;
 }
 class ProductCharts extends Component<ProductChartsProps> {
   state = {
@@ -76,7 +80,6 @@ class ProductCharts extends Component<ProductChartsProps> {
     fetchProductDetailChartReview(product.product_id, period);
     fetchProductDetailChartSellerInventory(product.product_id, period);
   }
-
   componentDidUpdate(prevProps: any, prevState: any) {
     const period =
       (localStorage.trackerFilter && JSON.parse(localStorage.trackerFilter).period) ||
@@ -329,6 +332,10 @@ class ProductCharts extends Component<ProductChartsProps> {
         );
       }
 
+      case 'chart4': {
+        return <BuyBoxStatisticsChart product={product} period={period} />;
+      }
+
       default:
         return <div />;
     }
@@ -343,6 +350,7 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingReview,
       isFetchingSellerInventory,
       isLoadingTrackerProducts,
+      isFetchingBuyBoxStatistics,
     } = this.props;
     return (
       <div className="product-detail-charts">
@@ -353,6 +361,7 @@ class ProductCharts extends Component<ProductChartsProps> {
         !isFetchingRating &&
         !isFetchingReview &&
         !isFetchingSellerInventory &&
+        !isFetchingBuyBoxStatistics &&
         !isLoadingTrackerProducts
           ? this.renderProductCharts()
           : this.renderLoader()}
@@ -388,6 +397,17 @@ class ProductCharts extends Component<ProductChartsProps> {
               checked={this.state.showProductChart === 'chart3'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
+            <Form.Radio
+              label={
+                <label>
+                  Buy Box Statistics
+                  <BetaLabel />
+                </label>
+              }
+              value="chart4"
+              checked={this.state.showProductChart === 'chart4'}
+              onChange={(e, { value }) => this.handleProductChartChange(e, value)}
+            />
           </Form.Group>
         </Form>
       </div>
@@ -409,6 +429,7 @@ const mapStateToProps = (state: {}) => ({
   isFetchingRating: isFetchingRatingSelector(state),
   isFetchingReview: isFetchingReviewSelector(state),
   isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
+  isfetchingBuyBoxStatistics: isfetchingBuyBoxStatistics(state),
 });
 
 const mapDispatchToProps = {
