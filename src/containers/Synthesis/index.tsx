@@ -72,14 +72,21 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   renderAddNewSupplierModal = () => {
-    const { uploadSupplierModalOpen, currentStep, currentConfirmationShow } = this.props;
+    const {
+      uploadSupplierModalOpen,
+      currentStep,
+      currentConfirmationShow,
+      currentProgressShow,
+      currentProgress,
+    } = this.props;
     return (
       <>
         <Modal
           size={'large'}
           open={uploadSupplierModalOpen}
           onClose={() => {
-            currentStep === 0 && currentConfirmationShow === false
+            (currentStep === 0 && currentConfirmationShow === false) ||
+            (currentProgressShow && currentStep === 2 && currentProgress >= 100)
               ? this.handleClose()
               : this.setState({ exitConfirmation: true });
           }}
@@ -122,7 +129,7 @@ class Synthesis extends Component<SynthesisProps> {
   };
 
   render() {
-    const { currentProgressShow, match } = this.props;
+    const { currentProgressShow, currentProgress, currentStep, match } = this.props;
 
     return (
       <>
@@ -139,33 +146,38 @@ class Synthesis extends Component<SynthesisProps> {
             onEdit={this.openUpdateSupplierPopup}
             supplierSearch={this.state.searchValue}
           />
-          <Modal open={this.state.exitConfirmation} className="Actions__confirm-container">
-            <Modal.Content>
-              <div>
-                <Header as="h4" icon>
-                  {currentProgressShow === true ? 'Do you want to exit?' : 'Exit before uploading?'}
-                  {currentProgressShow === false && (
-                    <Header.Subheader>
-                      The current process will be saved into the "drafts" tab but will not be
-                      processed
-                    </Header.Subheader>
-                  )}
-                  <Header.Subheader />
-                </Header>
-                <Divider clearing />
+
+          {currentProgressShow && currentStep === 2 && currentProgress >= 100 ? null : (
+            <Modal open={this.state.exitConfirmation} className="Actions__confirm-container">
+              <Modal.Content>
+                <div>
+                  <Header as="h4" icon>
+                    {currentProgressShow === true
+                      ? 'Do you want to exit?'
+                      : 'Exit before uploading?'}
+                    {currentProgressShow === false && (
+                      <Header.Subheader>
+                        The current process will be saved into the "drafts" tab but will not be
+                        processed
+                      </Header.Subheader>
+                    )}
+                    <Header.Subheader />
+                  </Header>
+                  <Divider clearing />
+                </div>
+              </Modal.Content>
+              <div className="Actions__btn">
+                <Button content="No" onClick={() => this.setState({ exitConfirmation: false })} />
+                <Button
+                  content="Yes"
+                  onClick={() => {
+                    this.setState({ exitConfirmation: false });
+                    this.handleClose();
+                  }}
+                />
               </div>
-            </Modal.Content>
-            <div className="Actions__btn">
-              <Button content="No" onClick={() => this.setState({ exitConfirmation: false })} />
-              <Button
-                content="Yes"
-                onClick={() => {
-                  this.setState({ exitConfirmation: false });
-                  this.handleClose();
-                }}
-              />
-            </div>
-          </Modal>
+            </Modal>
+          )}
 
           <this.UserOnboardingModal />
         </div>
