@@ -25,9 +25,8 @@ p.filename {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: red;
   display: inline-block;
   margin: 0 auto;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
 }
