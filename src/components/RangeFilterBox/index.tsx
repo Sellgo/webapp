@@ -70,6 +70,7 @@ const RangeFilterBox = (props: any) => {
 
   const setCheck = (value: any) => {
     let check: any = localData;
+    console.log('Value', value);
     if (hasChecked(value)) {
       check = check.filter((c: any) => c !== value);
     } else {
@@ -106,6 +107,10 @@ const RangeFilterBox = (props: any) => {
     if (value === false) {
       v = 'No';
     }
+    if (value === true) {
+      v = 'Yes';
+    }
+
     if (value === null) {
       v = '(Blanks)';
     }
