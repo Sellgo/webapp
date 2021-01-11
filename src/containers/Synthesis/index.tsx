@@ -130,6 +130,12 @@ class Synthesis extends Component<SynthesisProps> {
     });
   };
 
+  setClearSearchValue = () => {
+    this.setState({
+      searchValue: '',
+    });
+  };
+
   render() {
     const { currentProgressShow, currentProgress, currentStep, match } = this.props;
 
@@ -141,7 +147,11 @@ class Synthesis extends Component<SynthesisProps> {
           breadcrumb={[{ content: 'Home', to: '/' }, { content: 'Search Management' }]}
           auth={match.params.auth}
         />
-        <SearchFilter handleChange={this.setSearchChange} filterValue={this.state.searchValue} />
+        <SearchFilter
+          handleChange={this.setSearchChange}
+          filterValue={this.state.searchValue}
+          clearSearch={this.setClearSearchValue}
+        />
         {this.renderAddNewSupplierModal()}
         <div className="search-management-content">
           <SuppliersTable

@@ -282,6 +282,13 @@ i.icon.filter::before {
   display: flex;
   align-items: center;
   padding: 0 5px;
+
+  img {
+    @media only screen and(max-width: 1450px) {
+      width: 10px;
+      height: 10px;
+    }
+  }
 }
 
 .th-label {
@@ -764,18 +771,34 @@ i.icon.filter::before {
 
 .sm-column {
   min-width: 96px !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 77px !important;
+  }
 }
 
 .md-column {
   min-width: 110px !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 90px !important;
+  }
 }
 
 .lg-column {
   min-width: 142px !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 100px !important;
+  }
 }
 
 .xl-column {
   min-width: 195px !important;
+
+  @media only screen and(max-width: 1450px) {
+    min-width: 150px !important;
+  }
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1279px) {
@@ -945,6 +968,58 @@ i.icon.filter::before {
 .th-icons {
   display: flex;
   align-items: center;
+}
+
+// Media queries for PF Table responsiveness in smaller screens.
+@media only screen and(max-width: 1450px) {
+  // Changes the text size of small columns
+  .inner-tbody .middle-body-child-row {
+    .sm-column {
+      font-size: 11px !important;
+    }
+  }
+
+  .inner-tbody .middle-body-child-row .default-column,
+  .inner-tbody .middle-body-child-row .sm-column,
+  .inner-tbody .middle-body-child-row .md-column,
+  .inner-tbody .middle-body-child-row .lg-column,
+  .inner-tbody .middle-body-child-row .xl-column {
+    p {
+      font-size: 11px !important;
+      text-align: center !important;
+    }
+  }
+
+  .inner-tbody .right-body-child-row {
+    .title a span {
+      font-size: 11px !important;
+    }
+
+    .checkboxes {
+      padding: 0 !important;
+
+      .product-checkbox {
+        min-width: 15px !important;
+        width: 15px !important;
+        height: 15px !important;
+
+        input {
+          width: 15px !important;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  .inner-tbody .left-body-child-row {
+    span {
+      font-size: 11px;
+    }
+  }
+
+  .inner-tbody .pf-header-cell > .table-cell-container {
+    font-size: 11px !important;
+  }
 }
 
 /* Extra Media Query for Sticking Tracker Table Header  */

@@ -47,6 +47,7 @@ class EditGroupModal extends Component<EditGroupModalProps> {
               onChange={e => this.handleNameChange(e)}
               required={true}
               error={error}
+              autoFocus
             />
             {error && (
               <Label pointing="above" basic={true} color="red">
