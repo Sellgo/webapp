@@ -5,10 +5,17 @@
     margin-top: 6rem;
     min-height: 100vh;
     padding: 0 25px 0 100px;
-    transition: width 0.8s, padding 0.8s;
+
+    @media only screen and (max-width: 1450px) {
+      padding: 0 25px 0 70px;
+    }
 
     &.message-active {
       padding: 45px 25px 0 100px !important;
+
+      @media only screen and (max-width: 1450px) {
+        padding: 45 25px 0 70px;
+      }
     }
   }
 }
