@@ -88,23 +88,5 @@
       );
     </script>
     <!-- End UserPilot Code -->
-
-    <!--  Possible code for chrome extension -->
-    <script>
-      console.log('Chrome work is doing on...');
-      const chromeID = 'eghepplelknleieeeiogjofmaneaadab';
-
-      if (!localStorage.getItem('isLoggedIn')) {
-        chrome.runtime.sendMessage(chromeID, { status: 'inactive', payload: {} });
-      } else {
-        const userData = {
-          email: localStorage.getItem('userEmail'),
-          name: localStorage.getItem('userName'),
-          id_token: localStorage.getItem('idToken'),
-        };
-
-        chrome.runtime.sendMessage(chromeID, { status: 'active', payload: userData });
-      }
-    </script>
   </body>
 </html>

@@ -41,6 +41,8 @@ interface SynthesisProps {
   setProgress: any;
   match: any;
   subscriptionType: string;
+  history: any;
+  location: any;
 }
 
 class Synthesis extends Component<SynthesisProps> {

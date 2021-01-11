@@ -92,5 +92,4 @@ function getAppConfig() {
 
   return local;
 }
-
 export const AppConfig = getAppConfig();

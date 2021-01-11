@@ -1,9 +1,16 @@
+/* global chrome */
+
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
 import analytics from '../../analytics';
 import Axios from 'axios';
 import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
+
+const chromeID =
+  process.env.REACT_APP_ENV === 'production'
+    ? 'gldmigoakdolonchebfnmcfbjihelcec'
+    : 'eghepplelknleieeeiogjofmaneaadab';
 
 export default class Auth {
   accessToken: any;
@@ -133,6 +140,16 @@ export default class Auth {
     this.getProfile(() => {
       this.registerSeller();
     });
+    const userData = {
+      email: authResult.idTokenPayload.email,
+      name: authResult.idTokenPayload.name,
+      id_token: this.idToken,
+      expiresAt: this.expiresAt,
+    };
+    chrome.runtime.sendMessage(chromeID, {
+      status: 'login',
+      payload: userData,
+    });
   };
 
   getProfile(cb: any) {
@@ -178,8 +195,10 @@ export default class Auth {
       returnTo: window.location.origin,
     });
 
-    // navigate to the home route
-    // history.replace('/');
+    chrome.runtime.sendMessage(chromeID, {
+      status: 'logout',
+      payload: {},
+    });
   };
 
   public isAuthenticated = () => {
