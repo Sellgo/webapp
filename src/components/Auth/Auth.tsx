@@ -7,11 +7,12 @@ import Axios from 'axios';
 import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
 import { isURL } from 'validator';
+import chromeIDConfig from '../../constants/ChromeExtension';
 
 const chromeID =
   process.env.REACT_APP_ENV === 'production'
-    ? 'gldmigoakdolonchebfnmcfbjihelcec'
-    : 'eghepplelknleieeeiogjofmaneaadab';
+    ? chromeIDConfig.PROD_CHROME_ID
+    : chromeIDConfig.DEV_CHROME_ID;
 
 export default class Auth {
   accessToken: any;
