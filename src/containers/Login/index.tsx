@@ -10,13 +10,13 @@ interface Props {
   auth: Auth;
   location: any;
 }
-const Login: React.FC<Props> = props => {
+export default function Login(props: Props) {
   const [isAccess, setAccess] = useState(false);
   const { auth, location } = props;
   const { value: username, bind: bindUserName } = useInput('');
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput('');
 
-  const [messageDetails, setMessageDetails] = useState({
+  const [messageDetails, setMessageDetails] = React.useState({
     key: '',
     header: '',
     content: ``,
@@ -104,6 +104,4 @@ const Login: React.FC<Props> = props => {
       </Form>
     </LoginBase>
   );
-};
-
-export default Login;
+}
