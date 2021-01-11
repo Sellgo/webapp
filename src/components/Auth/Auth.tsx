@@ -6,6 +6,7 @@ import analytics from '../../analytics';
 import Axios from 'axios';
 import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
+import { isURL } from 'validator';
 
 const chromeID =
   process.env.REACT_APP_ENV === 'production'
@@ -37,6 +38,10 @@ export default class Auth {
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
     const formData = new FormData();
+
+    const chromeRedirectURL = localStorage.getItem('chromeRedirectURL') || '';
+    const decodedRedirectURL = atob(chromeRedirectURL);
+
     formData.append('email', this.userProfile.email);
     formData.append('name', `${this.userProfile.name}`);
     formData.append('first_name', `${this.userProfile.first_name}`);
@@ -58,6 +63,20 @@ export default class Auth {
             email: data.email,
           });
 
+          // if chrome extesnion redirect then
+          if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
+            const userData = {
+              name: this.userProfile.name,
+              email: this.userProfile.email,
+              id_token: localStorage.getItem('idToken'),
+              expiresAt: localStorage.getItem('idTokenExpires'),
+            };
+            chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
+            window.location.href = decodedRedirectURL;
+            return;
+          }
+
+          // normal app workflow
           history.replace('/');
         }
       })
@@ -139,16 +158,6 @@ export default class Auth {
     this.removeFilters();
     this.getProfile(() => {
       this.registerSeller();
-    });
-    const userData = {
-      email: authResult.idTokenPayload.email,
-      name: authResult.idTokenPayload.name,
-      id_token: this.idToken,
-      expiresAt: this.expiresAt,
-    };
-    chrome.runtime.sendMessage(chromeID, {
-      status: 'login',
-      payload: userData,
     });
   };
 
