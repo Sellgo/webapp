@@ -250,6 +250,41 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   return result;
 };
 
+export const showOnlyFilter = (product: any, showFilter: any) => {
+  let result = true;
+  _.filter(showFilter, filter => {
+    if (result) {
+      // for keys with computation that doesn't exist in filter slider
+      if (filter.dataKey === 'original-upc' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          result = product.is_variation === null;
+        }
+      }
+      if (filter.dataKey === 'variations' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          result = product.is_variation === true;
+        }
+      }
+      if (filter.dataKey === 'multipack' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          result = product.multipack_quantity > 1;
+        }
+      }
+
+      if (filter.dataKey === 'not-found' && filter.active) {
+        if (!filter.active) result = true;
+        else {
+          result = product.product_id === null;
+        }
+      }
+    }
+  });
+  return result;
+};
+
 export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
   if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
     return true;
@@ -275,6 +310,8 @@ export const findFilteredProducts = (products: any, filterData: any) => {
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
           //customizable filters
           customizableFilter(product, filterData.customizable) &&
+          //show only filters
+          showOnlyFilter(product, filterData.showOnly) &&
           //NonProfitable filters
           findNonProfitableProducts(product, filterData.profitabilityFilter) &&
           //Product's Min and Max must be valid from filter's min & max

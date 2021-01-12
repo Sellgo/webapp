@@ -30,6 +30,11 @@ export interface CustomizableFilterModel {
   value: number;
   active: boolean;
 }
+
+export interface ShowOnlyFilterModel {
+  dataKey: string;
+  active: boolean;
+}
 //Supplier
 export interface FilterData {
   label: string;
@@ -80,6 +85,7 @@ export interface FilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
+  showOnly: ShowOnlyFilterModel[];
 }
 
 //Product Tracker
@@ -128,4 +134,5 @@ export interface ProductTrackerFilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
+  showOnly: ShowOnlyFilterModel[];
 }

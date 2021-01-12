@@ -10,6 +10,8 @@ interface PresetFilterProps {
   filterInitialData: FilterState;
   resetPreset: () => void;
   customizeFilterChange: (dataKey: string, type: string, value?: any) => void;
+  showOnlyFilterChange: (dataKey: string, type: string, value?: any) => void;
+
   togglePresetFilter: (value: boolean) => void;
 }
 
@@ -22,8 +24,8 @@ const PresetFilter = (props: PresetFilterProps) => {
     customizeFilterChange,
     filterInitialData,
     togglePresetFilter,
+    showOnlyFilterChange,
   } = props;
-
   return (
     <div className={'presets-filter-content-wrapper'}>
       <div className="presets-filter-content-wrapper__header">
@@ -52,6 +54,40 @@ const PresetFilter = (props: PresetFilterProps) => {
       {_.map(filterData.presets, (filter, key) => {
         return (
           <div className={`presets-filter-content-wrapper__content ${filter.dataKey}`} key={key}>
+            {filter.dataKey === 'show-only-preset' && (
+              <>
+                <span className="presets-filter-content-wrapper__content__filter-name">
+                  {filter.label}
+                </span>
+                {_.map(filter.data, (filterData, index) => {
+                  return (
+                    <div
+                      className="presets-filter-content-wrapper__content__filter-item"
+                      key={index}
+                    >
+                      <div className={`ui checkbox customizable-checkbox`} key={index}>
+                        <input
+                          id={filterData.dataKey}
+                          checked={
+                            filterState.showOnly[index] && filterState.showOnly[index].active
+                          }
+                          onChange={() => {
+                            showOnlyFilterChange(filterData.dataKey, 'toggle');
+                          }}
+                          type="checkbox"
+                        />
+                        <label
+                          className="customizable-checkbox__label"
+                          htmlFor={filterData.dataKey}
+                        >
+                          {filterData.label}
+                        </label>
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
+            )}
             {filter.dataKey === 'customizable-preset' && (
               <>
                 <span className="presets-filter-content-wrapper__content__filter-name">
