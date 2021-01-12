@@ -378,7 +378,7 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
 
   const response: ProfitFinderResponse = await Axios.get(
     AppConfig.BASE_URL_API +
-      `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data${pagination}${query}${sorting}&${searching}`,
+      `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data${pagination}${query}${sorting}${searching}`,
     { params }
   );
   const data = response.data;
