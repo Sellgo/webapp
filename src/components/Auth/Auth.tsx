@@ -71,6 +71,7 @@ export default class Auth {
               email: this.userProfile.email,
               id_token: localStorage.getItem('idToken'),
               expiresAt: localStorage.getItem('idTokenExpires'),
+              sellerID: localStorage.getItem('userId'),
             };
             chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
             window.location.href = decodedRedirectURL;
