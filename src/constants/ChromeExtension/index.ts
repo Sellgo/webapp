@@ -1,5 +1,5 @@
 const PROD_CHROME_ID = 'gldmigoakdolonchebfnmcfbjihelcec';
-const DEV_CHROME_ID = 'eghepplelknleieeeiogjofmaneaadab';
+const DEV_CHROME_ID = 'ckflgolkljenmgphflppbmbfdaoocdik';
 
 const chromeIDConfig = {
   PROD_CHROME_ID,
