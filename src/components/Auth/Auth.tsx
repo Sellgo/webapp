@@ -1,4 +1,4 @@
-/* global chrome */
+/*global chrome*/
 
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
