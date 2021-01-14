@@ -64,16 +64,17 @@ export default class Auth {
             email: data.email,
           });
 
+          const userData = {
+            name: this.userProfile.name,
+            email: this.userProfile.email,
+            id_token: localStorage.getItem('idToken'),
+            expiresAt: localStorage.getItem('idTokenExpires'),
+            sellerID: localStorage.getItem('userId'),
+          };
+          chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
+
           // if chrome extesnion redirect then
           if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
-            const userData = {
-              name: this.userProfile.name,
-              email: this.userProfile.email,
-              id_token: localStorage.getItem('idToken'),
-              expiresAt: localStorage.getItem('idTokenExpires'),
-              sellerID: localStorage.getItem('userId'),
-            };
-            chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
             window.location.href = decodedRedirectURL;
             return;
           }
@@ -89,11 +90,13 @@ export default class Auth {
   };
 
   public getSellerID(data: any, type = 'subscription') {
+    const origin = localStorage.getItem('origin') || '';
     const formData = new FormData();
     formData.append('email', data.email);
     formData.append('name', data.name);
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
+    formData.append('origin', origin);
 
     Axios.post(AppConfig.BASE_URL_API + 'sellers/register', formData)
       .then((response: any) => {
