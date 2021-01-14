@@ -266,8 +266,8 @@ export const multipackPreset = (product: any, filter: any) => {
       else {
         result = product.is_variation === true;
       }
-      console.log('VAIATIONS', result);
     }
+
     if (filter.value === 'Multipack') {
       if (!filter.active) result = true;
       else {

@@ -23,6 +23,7 @@ const PresetFilter = (props: PresetFilterProps) => {
     filterInitialData,
     togglePresetFilter,
   } = props;
+
   return (
     <div className={'presets-filter-content-wrapper'}>
       <div className="presets-filter-content-wrapper__header">
