@@ -59,19 +59,13 @@ class SupplierCharts extends Component<SupplierChartsProps> {
   };
   handleRightArrowClick = (maxPageNumber: number) => {
     const { pageNumber, onPageChange } = this.props;
-    console.log(pageNumber, maxPageNumber);
     if (pageNumber < maxPageNumber) {
       onPageChange(pageNumber + 1);
     }
   };
 
   renderCharts = () => {
-    const { supplierDetails, singlePageItemsCount, filteredProducts, pageNumber } = this.props;
-
-    const showProducts = filteredProducts.slice(
-      (pageNumber - 1) * singlePageItemsCount,
-      pageNumber * singlePageItemsCount
-    );
+    const { supplierDetails, filteredProducts } = this.props;
 
     switch (this.state.showChart) {
       case 'chart0':
@@ -83,13 +77,13 @@ class SupplierCharts extends Component<SupplierChartsProps> {
         ) : null;
 
       case 'chart1': {
-        return showProducts.length ? (
+        return filteredProducts.length ? (
           <ProfitFinderChart
             render={(props: any) => <RevenueChart {...props} />}
-            products={showProducts}
+            products={filteredProducts}
           />
         ) : (
-          this.renderLoader(showProducts)
+          this.renderLoader(filteredProducts)
         );
       }
       default:
@@ -123,6 +117,7 @@ class SupplierCharts extends Component<SupplierChartsProps> {
     if (filteredProducts.length === 0 && supplierDetails === null) {
       return null;
     }
+
     const minPageNumber = 1;
     const maxPageNumber = totalPages;
 

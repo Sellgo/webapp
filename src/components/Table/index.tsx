@@ -212,7 +212,7 @@ export const GenericTable = (props: GenericTableProps) => {
     ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
     : columns.map((c: any) => ({ ...c, value: c.show, key: c.label }));
   let rows =
-    checkSortedColumnExist.length && name !== 'leads-tracker'
+    checkSortedColumnExist.length && !['leads-tracker', 'products'].includes(name)
       ? [...data].sort((a, b) => {
           const sortedColumn = checkSortedColumnExist[0];
           let aColumn;
@@ -278,7 +278,7 @@ export const GenericTable = (props: GenericTableProps) => {
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
 
-  if (name !== 'leads-tracker') {
+  if (!['leads-tracker', 'products'].includes(name)) {
     if (checkSortedColumnExist[0]) {
       const key: any = checkSortedColumnExist[0].dataKey;
       rows = rows.sort((a, b) => {
@@ -290,10 +290,8 @@ export const GenericTable = (props: GenericTableProps) => {
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
-    if (name === 'products') {
+    if (name !== 'products') {
       if (!sortClicked && !sortedColumnKey) {
-        rows = rows.sort((a, b) => a.id - b.id);
-      } else {
         rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
       }
     } else {
