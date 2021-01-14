@@ -289,25 +289,8 @@ export const GenericTable = (props: GenericTableProps) => {
 
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-  } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
-    if (name !== 'products') {
-      if (!sortClicked && !sortedColumnKey) {
-        rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-      }
-    } else {
-      rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-    }
-  }
-
-  // keep the unbusted data buster columns in PF at end of sort
-  if (
-    name === 'products' &&
-    (sortedColumnKey === 'rating' || sortedColumnKey === 'customer_reviews')
-  ) {
-    rows = [
-      ...rows.filter(r => r.data_buster_status === 'completed'),
-      ...rows.filter(r => r.data_buster_status !== 'completed').reverse(),
-    ];
+  } else if (!['trackerTable', 'leads-tracker', 'products'].includes(name)) {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
   const sortedProducts = rows;
