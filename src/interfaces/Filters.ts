@@ -31,10 +31,6 @@ export interface CustomizableFilterModel {
   active: boolean;
 }
 
-export interface ShowOnlyFilterModel {
-  dataKey: string;
-  active: boolean;
-}
 //Supplier
 export interface FilterData {
   label: string;
@@ -55,6 +51,10 @@ export interface FilterState {
   allFilter: string[];
   profitability: string;
   profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
+  multipackPreset: {
     value: string;
     active: boolean;
   };
@@ -85,7 +85,6 @@ export interface FilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
-  showOnly: ShowOnlyFilterModel[];
 }
 
 //Product Tracker
@@ -106,6 +105,10 @@ export interface ProductTrackerFilterState {
   amazonChoice: string[];
   period: number;
   profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
+  multipackPreset: {
     value: string;
     active: boolean;
   };
@@ -134,5 +137,4 @@ export interface ProductTrackerFilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
-  showOnly: ShowOnlyFilterModel[];
 }

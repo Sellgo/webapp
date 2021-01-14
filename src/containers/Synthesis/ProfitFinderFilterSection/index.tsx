@@ -24,6 +24,7 @@ import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
 import { info } from '../../../utils/notifications';
+import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -183,24 +184,10 @@ function ProfitFinderFilterSection(props: Props) {
         active: false,
       },
     ],
-    showOnly: [
-      {
-        dataKey: 'original-upc',
-        active: false,
-      },
-      {
-        dataKey: 'variations',
-        active: false,
-      },
-      {
-        dataKey: 'multipack',
-        active: false,
-      },
-      {
-        dataKey: 'not-found',
-        active: false,
-      },
-    ],
+    multipackPreset: {
+      value: 'variations',
+      active: false,
+    },
   };
   const initialFilterState: any =
     filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
@@ -216,6 +203,9 @@ function ProfitFinderFilterSection(props: Props) {
   if (filterState.profitabilityFilter === undefined) {
     filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
   }
+  if (filterState.multipackPreset === undefined) {
+    filterState.multipackPreset = filterInitialData.multipackPreset;
+  }
   useEffect(() => {
     if (isSelectAllCategories || !filterStorage) {
       selectAllCategories(true);
@@ -226,13 +216,6 @@ function ProfitFinderFilterSection(props: Props) {
     if (filterState.customizable.length !== filterInitialData.customizable.length) {
       filterState.customizable = _.map(filterInitialData.customizable, (item: any) => {
         const item2 = _.findKey(filterState.customizable, { dataKey: item.dataKey });
-
-        return _.extend(item, item2);
-      });
-    }
-    if (filterState.showOnly.length !== filterInitialData.showOnly.length) {
-      filterState.showOnly = _.map(filterInitialData.showOnly, (item: any) => {
-        const item2 = _.findKey(filterState.showOnly, { dataKey: item.dataKey });
 
         return _.extend(item, item2);
       });
@@ -570,29 +553,6 @@ function ProfitFinderFilterSection(props: Props) {
     ],
     presets: [
       {
-        label: 'Show Only',
-        dataKey: 'show-only-preset',
-        radio: false,
-        data: [
-          {
-            label: 'Original UPC',
-            dataKey: 'original-upc',
-          },
-          {
-            label: 'Variations',
-            dataKey: 'variations',
-          },
-          {
-            label: 'Multipack',
-            dataKey: 'multipack',
-          },
-          {
-            label: 'Not Found',
-            dataKey: 'not-found',
-          },
-        ],
-      },
-      {
         label: 'Customizable',
         dataKey: 'customizable-preset',
         radio: false,
@@ -716,22 +676,6 @@ function ProfitFinderFilterSection(props: Props) {
     applyFilter(true);
   };
 
-  const showOnlyFilterChange = (dataKey: string, type: string) => {
-    _.map(filterState.showOnly, showOnlyData => {
-      if (showOnlyData.dataKey === dataKey) {
-        if (type === 'toggle') {
-          showOnlyData.active = !showOnlyData.active;
-          if (!showOnlyData.active && filterState[dataKey]) {
-            filterState[dataKey] = rangeData[dataKey];
-          }
-        }
-      }
-      return showOnlyData;
-    });
-    setFilterState(filterState);
-    applyFilter(true);
-  };
-
   const toggleOffCustomFilter = (dataKey: string) => {
     const filterData = filterState;
     _.map(filterData.customizable, filter => {
@@ -753,20 +697,6 @@ function ProfitFinderFilterSection(props: Props) {
       }
     }
     filterData.customizable = filterInitialData.customizable;
-    setFilterState(filterData);
-    applyFilter(true);
-  };
-
-  const resetshowOnlyFilter = () => {
-    const filterData = filterState;
-    for (const key of supplierDataKeys) {
-      for (const filter of filterData.showOnly) {
-        if (key === filter.dataKey && filter.active) {
-          filterState[key] = filteredRanges[key];
-        }
-      }
-    }
-    filterData.showOnly = filterInitialData.showOnly;
     setFilterState(filterData);
     applyFilter(true);
   };
@@ -939,9 +869,18 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  const setMultipack = (value?: any) => {
+    const filterValue = filterState;
+    const objData = {
+      value: value ? value : filterValue.multipackPreset.value,
+      active: value ? true : !filterValue.multipackPreset.active,
+    };
+    filterValue.multipackPreset = objData;
+    setFilterState(filterValue);
+  };
+
   const resetPreset = () => {
     resetCustomizableFilter();
-    resetshowOnlyFilter();
     applyFilter(true);
   };
 
@@ -1182,7 +1121,6 @@ function ProfitFinderFilterSection(props: Props) {
                 filterInitialData={filterInitialData}
                 resetPreset={resetPreset}
                 customizeFilterChange={customizeFilterChange}
-                showOnlyFilterChange={showOnlyFilterChange}
               />
             }
           />
@@ -1190,6 +1128,11 @@ function ProfitFinderFilterSection(props: Props) {
             setProfitability={setProfitability}
             applyFilter={applyFilter}
             filterState={filterState}
+          />
+          <MultipackVariationsFilterPreset
+            setPreset={setMultipack}
+            filterState={filterState}
+            applyFilter={applyFilter}
           />
         </div>
 

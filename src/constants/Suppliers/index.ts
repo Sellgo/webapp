@@ -250,38 +250,38 @@ export const customizableFilter = (product: any, customizableFilter: any) => {
   return result;
 };
 
-export const showOnlyFilter = (product: any, showFilter: any) => {
+export const multipackPreset = (product: any, filter: any) => {
   let result = true;
-  _.filter(showFilter, filter => {
-    if (result) {
-      // for keys with computation that doesn't exist in filter slider
-      if (filter.dataKey === 'original-upc' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          result = product.is_variation === null;
-        }
-      }
-      if (filter.dataKey === 'variations' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          result = product.is_variation === true;
-        }
-      }
-      if (filter.dataKey === 'multipack' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          result = product.multipack_quantity > 1;
-        }
-      }
-
-      if (filter.dataKey === 'not-found' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          result = product.product_id === null;
-        }
+  if (result) {
+    // for keys with computation that doesn't exist in filter slider
+    if (filter.value === 'Original UPC' && filter.active) {
+      if (!filter.active) result = true;
+      else {
+        result = product.is_variation === null;
       }
     }
-  });
+
+    if (filter.value === 'Variation' && filter.active) {
+      if (!filter.active) result = true;
+      else {
+        result = product.is_variation === true;
+      }
+      console.log('VAIATIONS', result);
+    }
+    if (filter.value === 'Multipack') {
+      if (!filter.active) result = true;
+      else {
+        result = product.multipack_quantity > 1;
+      }
+    }
+
+    if (filter.value === 'Not Found') {
+      if (!filter.active) result = true;
+      else {
+        result = product.product_id === null;
+      }
+    }
+  }
   return result;
 };
 
@@ -310,10 +310,10 @@ export const findFilteredProducts = (products: any, filterData: any) => {
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
           //customizable filters
           customizableFilter(product, filterData.customizable) &&
-          //show only filters
-          showOnlyFilter(product, filterData.showOnly) &&
           //NonProfitable filters
           findNonProfitableProducts(product, filterData.profitabilityFilter) &&
+          //multipack filters
+          multipackPreset(product, filterData.multipackPreset) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>
@@ -322,6 +322,7 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           )
       : null;
   });
+
   return updatedFilterProducts;
 };
 
