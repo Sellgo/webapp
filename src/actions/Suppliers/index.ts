@@ -373,7 +373,7 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     sorting = `&sort=${sort}&sort_direction=${sortDirection}`;
   }
   if (search) {
-    searching = `search=${search}`;
+    searching = `&search=${search}`;
   }
 
   const response: ProfitFinderResponse = await Axios.get(
