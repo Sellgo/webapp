@@ -1045,7 +1045,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         filters = { ...filters, profitable: true };
       }
       if (profitabilityFilter.value === 'Non-Profitable Products') {
-        filters = { ...filters, profitable: false };
+        filters = { ...filters, non_profitable: true };
       }
     }
 
