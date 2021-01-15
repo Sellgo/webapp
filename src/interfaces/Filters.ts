@@ -41,7 +41,6 @@ export interface FilterData {
 }
 
 export interface SupplierFilter {
-  allFilter: FilterData[];
   filterRanges: RangeModel[];
   presets: FilterData[];
 }
@@ -137,4 +136,16 @@ export interface ProductTrackerFilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
+}
+
+export interface ProfitFinderFilters {
+  page: number;
+  per_page: number;
+  supplierID: any;
+  pagination?: boolean;
+  query?: string;
+  params?: any;
+  sort?: string;
+  sortDirection?: string;
+  search?: string;
 }

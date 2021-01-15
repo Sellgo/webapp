@@ -9,7 +9,7 @@ const RangeFilterBox = (props: any) => {
     applyFilters,
     resetFilters,
     filterType,
-    labelSign,
+    labelSign = '',
     dataKey,
     name,
     values = [],
@@ -35,16 +35,16 @@ const RangeFilterBox = (props: any) => {
     const value = getMinMax();
     if (saved) {
       saved = JSON.parse(saved);
-      if (filterType === 'checkbox') {
+      if (['checkbox', 'list'].includes(filterType)) {
         const checks = saved.value ? saved.value.split(',') : [];
         setLocalData(checks);
       }
-      if (filterType === 'range') {
+      if (['range', 'slider'].includes(filterType)) {
         setMinMax(value);
         setFilterRange(saved.value);
       }
     } else {
-      if (filterType === 'checkbox') {
+      if (['checkbox', 'list'].includes(filterType)) {
         const checks = values.map((c: any) => c.value);
         setLocalData(checks);
       } else {
@@ -55,15 +55,15 @@ const RangeFilterBox = (props: any) => {
   }, [values]);
 
   const resetFiltersValue = () => {
-    if (filterType === 'checkbox') {
+    if (['checkbox', 'list'].includes(filterType)) {
       const checks = values.map((c: any) => c.value);
       setLocalData(checks);
       saveFilters({ dataKey, value: checks.join(',') });
     } else {
       setFilterRange(minMax);
     }
-    resetFilters(filterType === 'checkbox' ? 'checkbox' : dataKey);
-    if (filterType !== 'checkbox') {
+    resetFilters(['checkbox', 'list'].includes(filterType) ? 'checkbox' : dataKey);
+    if (filterType !== ['checkbox', 'list']) {
       localStorage.removeItem(`${name}:${dataKey}`);
     }
   };
@@ -83,10 +83,10 @@ const RangeFilterBox = (props: any) => {
 
   const setFilters = () => {
     let res: any;
-    if (filterType === 'checkbox') {
-      res = { dataKey, value: localData.length ? localData.join(',') : '' };
+    if (['checkbox', 'list'].includes(filterType)) {
+      res = { dataKey, value: localData.length ? localData.join(',') : '', filterType };
     } else {
-      res = { ...filter, value: range, dataKey };
+      res = { ...filter, value: range, dataKey, filterType };
     }
     saveFilters(res);
     applyFilters(res);
@@ -97,8 +97,23 @@ const RangeFilterBox = (props: any) => {
   };
 
   const onRangeChange = (dataKey: string, value: any) => {
-    setFilter({ dataKey, value });
+    setFilter({ dataKey, value, filterType });
     setFilterRange(value);
+  };
+
+  const getCheckLabel = (value: any): string => {
+    let v = value;
+    if (value === 'False') {
+      v = 'No';
+    }
+    if (value === 'True') {
+      v = 'Yes';
+    }
+
+    if (value === 'None') {
+      v = '(Blanks)';
+    }
+    return v;
   };
 
   return (
@@ -113,7 +128,7 @@ const RangeFilterBox = (props: any) => {
         </Dimmer.Inner>
       ) : (
         <React.Fragment>
-          {filterType === 'range' && (
+          {['range', 'slider'].includes(filterType) && (
             <FilterSliderInput
               filterRange={range}
               dataKey={dataKey}
@@ -125,13 +140,13 @@ const RangeFilterBox = (props: any) => {
               handleCompleteChange={onRangeChange}
             />
           )}
-          {filterType === 'checkbox' && (
+          {['checkbox', 'list'].includes(filterType) && (
             <div className="checkbox-filters-list">
               <Form>
                 {values.map((check: any) => (
                   <Form.Field key={check.value}>
                     <Checkbox
-                      label={check.value}
+                      label={getCheckLabel(check.value)}
                       className="checkbox-filter"
                       checked={hasChecked(check.value)}
                       onClick={() => setCheck(check.value)}

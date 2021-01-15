@@ -29,6 +29,14 @@ import {
   SET_ACTIVE_COLUMN,
   SET_SORT_COLUMN,
   UPDATE_SUPPLIER_PRODUCT,
+  SET_PF_PAGE_COUNT,
+  SET_PF_PAGE_NO,
+  SET_PF_PAGE_SIZE,
+  SET_PF_PAGE_LOADING,
+  FETCH_PF_FILTERS,
+  LOADING_PF_FILTERS,
+  SET_PF_SORT,
+  SET_PF_SORT_DIRECTION,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -66,6 +74,14 @@ const initialState = {
     localStorage.getItem('supplierPageItemsCount') || Number(selectItemsCountList[0].value),
   pageNumber: 1,
   productsLoadingDataBuster: [],
+  profitFinderPageNumber: 1,
+  profitFinderPageSize: 50,
+  profitFinderPageCount: 0,
+  profitFinderPageLoading: false,
+  filters: [],
+  fetchingFilters: false,
+  sort: 'price',
+  sortDirection: 'asc',
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -184,6 +200,37 @@ export default (state = initialState, action: AnyAction) => {
         return product.product_id === updateProduct.product_id ? updateProduct : product;
       });
       return setIn(nextState, 'filteredProducts', filteredProducts);
+    }
+    case SET_PF_PAGE_NO: {
+      return setIn(state, 'profitFinderPageNumber', action.payload);
+    }
+
+    case SET_PF_PAGE_SIZE: {
+      return setIn(state, 'profitFinderPageSize', action.payload);
+    }
+
+    case SET_PF_PAGE_COUNT: {
+      return setIn(state, 'profitFinderPageCount', action.payload);
+    }
+
+    case SET_PF_PAGE_LOADING: {
+      return setIn(state, 'profitFinderPageLoading', action.payload);
+    }
+
+    case FETCH_PF_FILTERS: {
+      return setIn(state, 'filters', action.payload);
+    }
+
+    case LOADING_PF_FILTERS: {
+      return setIn(state, 'fetchingFilters', action.payload);
+    }
+
+    case SET_PF_SORT: {
+      return setIn(state, 'sort', action.payload);
+    }
+
+    case SET_PF_SORT_DIRECTION: {
+      return setIn(state, 'sortDirection', action.payload);
     }
     default:
       return state;
