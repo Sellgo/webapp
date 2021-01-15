@@ -522,10 +522,6 @@ function ProfitFinderFilterSection(props: Props) {
     try {
       const { supplierDetails, fetchActiveExportFiles, exportFilters } = props;
       if (value.data === 'filtered') {
-        // const psd_ids =
-        //   value.data === 'filtered'
-        //     ? filteredProducts.map((p: Product) => p.id)
-        //     : products.map((p: Product) => p.id);
         const file_format = value.format;
         const synthesis_file_id = supplierDetails.synthesis_file_id;
         setExportResultLoading(true);
