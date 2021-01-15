@@ -130,7 +130,6 @@ export const GenericTable = (props: GenericTableProps) => {
     handleColumnChange,
     showProductFinderSearch,
     searchFilteredProduct: searchProfitFinderProduct,
-    updateProfitFinderProducts,
     searchFilterValue,
     showFilter,
     checkedRows,
@@ -187,13 +186,9 @@ export const GenericTable = (props: GenericTableProps) => {
 
   const showColumns = columns.filter(e => e.show);
 
-  const {
-    sortedColumnKey,
-    sortDirection: sortOrder,
-    setSort,
-    sortClicked,
-    setSortClicked,
-  } = useSort(currentActiveColumn);
+  const { sortedColumnKey, sortDirection: sortOrder, setSort, sortClicked } = useSort(
+    currentActiveColumn
+  );
 
   let sortDirection = sortOrder;
 
@@ -293,7 +288,6 @@ export const GenericTable = (props: GenericTableProps) => {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
-  const sortedProducts = rows;
   if (!['leads-tracker', 'products'].includes(name)) {
     rows = rows.slice(
       (localCurrentPage - 1) * singlePageItemsCount,
@@ -302,15 +296,6 @@ export const GenericTable = (props: GenericTableProps) => {
   }
 
   rows = showTableLock ? rows.slice(0, 5) : rows;
-
-  useEffect(() => {
-    if (name === 'products' && sortClicked) {
-      if (updateProfitFinderProducts) {
-        updateProfitFinderProducts(sortedProducts);
-      }
-      setSortClicked(false);
-    }
-  });
 
   const onSetShowSearchFilter = (e: any) => {
     e.stopPropagation();
