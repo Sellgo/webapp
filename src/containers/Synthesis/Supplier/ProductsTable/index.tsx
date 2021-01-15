@@ -1025,7 +1025,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   parsePresetFilters = (filterState: any): any => {
-    const { customizable, profitabilityFilter } = filterState;
+    const { customizable = [], profitabilityFilter } = filterState;
     let filters = {};
     customizable.forEach((filter: any) => {
       if (filter.active) {
