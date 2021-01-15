@@ -954,6 +954,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (queryParams) {
       payload = { ...payload, params: queryParams };
     }
+
+    const presetFilters = this.getSavedPresetFilters();
+    if (presetFilters) {
+      let params = payload.params;
+      params = { ...params, ...presetFilters };
+      payload = { ...payload, params };
+    }
+
     const {
       fetchSupplierProducts,
       supplierID,
@@ -1014,6 +1022,46 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sort,
       sortDirection,
     });
+  };
+
+  parsePresetFilters = (filterState: any): any => {
+    const { customizable, profitabilityFilter } = filterState;
+    let filters = {};
+    customizable.forEach((filter: any) => {
+      if (filter.active) {
+        let dataKey = filter.dataKey;
+        if (filter.operation === '≤') {
+          dataKey = `max_${dataKey}`;
+        }
+        if (filter.operation === '≥') {
+          dataKey = `min_${dataKey}`;
+        }
+        filters = { ...filters, [dataKey]: filter.value };
+      }
+    });
+
+    if (profitabilityFilter && profitabilityFilter.active) {
+      if (profitabilityFilter.value === 'Profitable') {
+        filters = { ...filters, profitable: true };
+      }
+      if (profitabilityFilter.value === 'Non-Profitable Products') {
+        filters = { ...filters, profitable: false };
+      }
+    }
+
+    return filters;
+  };
+
+  getSavedPresetFilters = () => {
+    const local = localStorage.getItem('filterState');
+    let saved: any = {};
+    if (local) {
+      saved = JSON.parse(local);
+    }
+    if (saved) {
+      saved = this.parsePresetFilters(saved);
+    }
+    return saved;
   };
 
   render() {
@@ -1087,7 +1135,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               columnFilterData={columnFilterData}
               middleScroll={true}
               renderFilterSectionComponent={() => (
-                <ProfitFinderFilterSection exportFilters={exportFilters} />
+                <ProfitFinderFilterSection
+                  exportFilters={exportFilters}
+                  onFilterChange={(filterState: any) =>
+                    this.fetchSupplierProducts(this.parsePresetFilters(filterState))
+                  }
+                />
               )}
               handleColumnDrop={this.handleColumnDrop}
               reorderColumns={this.reorderColumns}

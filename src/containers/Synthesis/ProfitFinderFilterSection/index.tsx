@@ -7,12 +7,7 @@ import { Product } from '../../../interfaces/Product';
 import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
 import { supplierProductsSelector } from '../../../selectors/Supplier';
-import {
-  filterSupplierProducts,
-  setSupplierPageNumber,
-  setLeadsTracker,
-  setIsScroll,
-} from '../../../actions/Suppliers';
+import { setSupplierPageNumber, setLeadsTracker, setIsScroll } from '../../../actions/Suppliers';
 import _ from 'lodash';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import ProfitabilityFilterPreset from '../../../components/ProfitabilityFilterPreset';
@@ -31,7 +26,6 @@ interface Props {
   products: Product[];
   filteredProducts: Product[];
   filterSearch: string;
-  filterProducts: (value: string, filterData: any) => void;
   setPageNumber: (pageNumber: number) => void;
   setLeadsTracker: (sellerId: number, supplierId: number) => void;
   setIsScroll: (value: boolean) => void;
@@ -41,17 +35,11 @@ interface Props {
   subscriptionPlan: any;
   fetchActiveExportFiles: () => void;
   exportFilters: any;
+  onFilterChange: (filterState: any) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
-  const {
-    supplierDetails,
-    filterProducts,
-    filterSearch,
-    products,
-    setPageNumber,
-    subscriptionType,
-  } = props;
+  const { supplierDetails, products, setPageNumber, subscriptionType, onFilterChange } = props;
 
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
@@ -128,19 +116,19 @@ function ProfitFinderFilterSection(props: Props) {
     ],
     customizable: [
       {
-        dataKey: 'listing-monthly',
+        dataKey: 'monthly_revenue',
         operation: '≤',
         value: 1200,
         active: false,
       },
       {
-        dataKey: 'profit-monthly',
+        dataKey: 'multipack_profit',
         operation: '≤',
         value: 250,
         active: false,
       },
       {
-        dataKey: 'margin',
+        dataKey: 'multipack_margin',
         operation: '≤',
         value: 15,
         active: false,
@@ -194,7 +182,6 @@ function ProfitFinderFilterSection(props: Props) {
         return _.extend(item, item2);
       });
     }
-    filterProducts(filterSearch, filterState);
   }, [filterState]);
 
   const filterDataState: SupplierFilter = {
@@ -281,17 +268,17 @@ function ProfitFinderFilterSection(props: Props) {
         data: [
           {
             label: 'Listing generates',
-            dataKey: 'listing-monthly',
+            dataKey: 'monthly_revenue',
             targetValue: '$/month',
           },
           {
             label: 'Profit is',
-            dataKey: 'profit-monthly',
+            dataKey: 'multipack_profit',
             targetValue: '$/month',
           },
           {
             label: 'Profit Margin is',
-            dataKey: 'margin',
+            dataKey: 'multipack_margin',
             targetValue: '%',
           },
           {
@@ -460,8 +447,8 @@ function ProfitFinderFilterSection(props: Props) {
     if (!isPreset) {
       checkCustomizePresetChange();
     }
-    filterProducts(filterSearch, filterState);
     localStorage.setItem('filterState', JSON.stringify(filterState));
+    onFilterChange(filterState);
   };
 
   const checkCustomizePresetChange = () => {
@@ -662,7 +649,6 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  filterProducts: (value: string, filterData: any) => filterSupplierProducts(value, filterData),
   setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setIsScroll: (value: boolean) => setIsScroll(value),
