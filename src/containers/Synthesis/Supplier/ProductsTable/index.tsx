@@ -1025,16 +1025,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   parsePresetFilters = (filterState: any): any => {
-    const { customizable = [], profitabilityFilter } = filterState;
+    const { customizable = [], profitabilityFilter, multipackPreset } = filterState;
     let filters = {};
     customizable.forEach((filter: any) => {
       if (filter.active) {
         let dataKey = filter.dataKey;
         if (filter.operation === '≤') {
-          dataKey = `max_${dataKey}`;
+          dataKey = `${dataKey}_max`;
         }
         if (filter.operation === '≥') {
-          dataKey = `min_${dataKey}`;
+          dataKey = `${dataKey}_min`;
         }
         filters = { ...filters, [dataKey]: filter.value };
       }
@@ -1046,6 +1046,23 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
       if (profitabilityFilter.value === 'Non-Profitable Products') {
         filters = { ...filters, profitable: false };
+      }
+    }
+
+    if (multipackPreset && multipackPreset.active) {
+      if (multipackPreset.value === 'Original UPC') {
+        filters = { ...filters, original: true };
+      }
+      if (multipackPreset.value === 'Not Found') {
+        filters = { ...filters, not_found: true };
+      }
+
+      if (multipackPreset.value === 'Multipack') {
+        filters = { ...filters, multipack: true };
+      }
+
+      if (multipackPreset.value === 'Variation') {
+        filters = { ...filters, variation: true };
       }
     }
 
