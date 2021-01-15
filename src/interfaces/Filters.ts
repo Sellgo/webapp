@@ -30,6 +30,7 @@ export interface CustomizableFilterModel {
   value: number;
   active: boolean;
 }
+
 //Supplier
 export interface FilterData {
   label: string;
@@ -50,6 +51,10 @@ export interface FilterState {
   allFilter: string[];
   profitability: string;
   profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
+  multipackPreset: {
     value: string;
     active: boolean;
   };
@@ -100,6 +105,10 @@ export interface ProductTrackerFilterState {
   amazonChoice: string[];
   period: number;
   profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
+  multipackPreset: {
     value: string;
     active: boolean;
   };
