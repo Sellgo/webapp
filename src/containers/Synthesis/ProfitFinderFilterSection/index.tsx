@@ -22,6 +22,7 @@ import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
 import { info } from '../../../utils/notifications';
+import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -163,6 +164,10 @@ function ProfitFinderFilterSection(props: Props) {
         active: false,
       },
     ],
+    multipackPreset: {
+      value: 'Variations',
+      active: false,
+    },
   };
   const initialFilterState: any =
     filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
@@ -177,6 +182,9 @@ function ProfitFinderFilterSection(props: Props) {
 
   if (filterState.profitabilityFilter === undefined) {
     filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
+  }
+  if (filterState.multipackPreset === undefined) {
+    filterState.multipackPreset = filterInitialData.multipackPreset;
   }
   useEffect(() => {
     if (filterState.customizable.length !== filterInitialData.customizable.length) {
@@ -425,6 +433,16 @@ function ProfitFinderFilterSection(props: Props) {
     setFilterState(filterValue);
   };
 
+  const setMultipack = (value?: any) => {
+    const filterValue = filterState;
+    const objData = {
+      value: value ? value : filterValue.multipackPreset.value,
+      active: value ? true : !filterValue.multipackPreset.active,
+    };
+    filterValue.multipackPreset = objData;
+    setFilterState(filterValue);
+  };
+
   const resetPreset = () => {
     resetCustomizableFilter();
     applyFilter(true);
@@ -596,6 +614,11 @@ function ProfitFinderFilterSection(props: Props) {
             setProfitability={setProfitability}
             applyFilter={applyFilter}
             filterState={filterState}
+          />
+          <MultipackVariationsFilterPreset
+            setPreset={setMultipack}
+            filterState={filterState}
+            applyFilter={applyFilter}
           />
         </div>
 
