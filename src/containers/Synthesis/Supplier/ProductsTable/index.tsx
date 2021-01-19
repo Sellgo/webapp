@@ -263,15 +263,29 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     </p>
   );
   renderBestSeller = (row: Product) => {
-    return <p className="stat">{row.best_seller ? 'Yes' : 'No'}</p>;
+    return (
+      <p className="stat">
+        {row.best_seller
+          ? 'Yes'
+          : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+      </p>
+    );
   };
   renderSubscribeSave = (row: Product) => {
-    return <p className="stat">{row.subscribe_save ? 'Yes' : 'No'}</p>;
+    return (
+      <p className="stat">
+        {row.subscribe_save
+          ? 'Yes'
+          : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+      </p>
+    );
   };
 
   renderOtherUPCS = (row: Product) => {
     if (!row.upcs) {
-      return <p className="stat">-</p>;
+      return (
+        <p className="stat">{this.renderDataBusterIcon(row.product_id, row.data_buster_status)}</p>
+      );
     }
     const upcs = row.upcs.split(' ');
     return (
@@ -389,12 +403,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderAmazonPrice = (row: Product) => (
-    <p className="stat">{showNAIfZeroOrNull(row.amazon_price, formatCurrency(row.amazon_price))}</p>
+    <p className="stat">
+      {row.data_buster_status === 'completed'
+        ? showNAIfZeroOrNull(row.amazon_price, formatCurrency(row.amazon_price))
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+    </p>
   );
-
   renderNoOfSellers = (row: Product) => (
     <p className="stat">
-      {showNAIfZeroOrNull(row.number_of_sellers, formatNumber(row.number_of_sellers))}
+      {row.data_buster_status === 'completed'
+        ? showNAIfZeroOrNull(row.number_of_sellers, row.number_of_sellers)
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
 
@@ -461,19 +480,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       className: 'md-column',
       render: this.renderASIN,
-    },
-    {
-      label: 'Other UPC',
-      dataKey: 'upcs',
-      type: 'string',
-      sortable: true,
-      filter: true,
-      filterLabel: 'Other UPC',
-      filterDataKey: 'upcs',
-      filterSign: '',
-      filterType: 'list',
-      className: 'md-column',
-      render: this.renderOtherUPCS,
     },
     {
       label: 'Price',
@@ -642,6 +648,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterSign: '$',
       filterType: 'slider',
       render: this.renderVariableClosingFee,
+    },
+    {
+      label: 'Other UPC',
+      dataKey: 'upcs',
+      type: 'string',
+      sortable: true,
+      filter: true,
+      filterLabel: 'Other UPC',
+      filterDataKey: 'upcs',
+      filterSign: '',
+      filterType: 'list',
+      className: 'md-column',
+      render: this.renderOtherUPCS,
     },
     {
       label: 'Is Amazon\nSelling',
