@@ -80,7 +80,8 @@ const local = {
   ...DEV_KEYS,
   ...DEV_ANALYTICS,
   ...DEV_MWS,
-  callbackUrl: 'http://localhost:3000/callback',
+  // callbackUrl: 'http://localhost:3000/callback',
+  callbackUrl: 'http://3.210.205.60:5001/callback',
 };
 
 function getAppConfig() {
