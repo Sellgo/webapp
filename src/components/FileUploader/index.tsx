@@ -40,7 +40,7 @@ function FileUploader(props: FileUploaderProps) {
         </span>
         <br />
         <br />
-        <b className={styles.filename}>{fileDetails !== null ? fileDetails.name : ' '}</b>
+        <p className={styles.filename}>{fileDetails !== null ? fileDetails.name : ' '}</p>
       </p>
     </button>
   );

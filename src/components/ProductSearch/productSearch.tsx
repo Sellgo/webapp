@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Input } from 'semantic-ui-react';
+import { Input, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import { useInput } from '../../hooks';
 import './index.scss';
@@ -8,6 +8,11 @@ import { PRODUCT_ID_TYPES } from '../../constants/UploadSupplier';
 const ProductSearch = (props: any) => {
   const { searchFilteredProduct, searchFilterValue, setCurrentPage } = props;
   const { value: searchValue, bind: bindSearch, setValue: setSearch } = useInput(searchFilterValue);
+
+  /* Clear Product Search Value */
+  const clearSearchValue = () => {
+    setSearch('');
+  };
 
   useEffect(() => {
     setSearch(searchFilterValue);
@@ -31,6 +36,17 @@ const ProductSearch = (props: any) => {
       }}
       {...bindSearch}
       placeholder={'Search Product Name/' + PRODUCT_ID_TYPES.join('/')}
+      icon={
+        <Icon
+          name="cancel"
+          circular
+          fitted
+          inverted
+          link
+          className="cancel-icon"
+          onClick={clearSearchValue}
+        />
+      }
     />
   );
 };

@@ -30,6 +30,7 @@ export interface CustomizableFilterModel {
   value: number;
   active: boolean;
 }
+
 //Supplier
 export interface FilterData {
   label: string;
@@ -40,7 +41,6 @@ export interface FilterData {
 }
 
 export interface SupplierFilter {
-  allFilter: FilterData[];
   filterRanges: RangeModel[];
   presets: FilterData[];
 }
@@ -50,6 +50,10 @@ export interface FilterState {
   allFilter: string[];
   profitability: string;
   profitabilityFilter: {
+    value: string;
+    active: boolean;
+  };
+  multipackPreset: {
     value: string;
     active: boolean;
   };
@@ -103,6 +107,10 @@ export interface ProductTrackerFilterState {
     value: string;
     active: boolean;
   };
+  multipackPreset: {
+    value: string;
+    active: boolean;
+  };
   price: {
     min: number;
     max: number;
@@ -128,4 +136,16 @@ export interface ProductTrackerFilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
+}
+
+export interface ProfitFinderFilters {
+  page: number;
+  per_page: number;
+  supplierID: any;
+  pagination?: boolean;
+  query?: string;
+  params?: any;
+  sort?: string;
+  sortDirection?: string;
+  search?: string;
 }
