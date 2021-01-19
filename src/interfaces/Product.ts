@@ -49,6 +49,8 @@ export interface Product {
   subscribe_save: boolean;
   upcs: string;
   is_variation: boolean;
+  amazon_price: number;
+  number_of_sellers: number;
 }
 
 export interface ProductsTrackData {

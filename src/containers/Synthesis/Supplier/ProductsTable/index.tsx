@@ -388,6 +388,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
   };
 
+  renderAmazonPrice = (row: Product) => (
+    <p className="stat">{showNAIfZeroOrNull(row.amazon_price, formatCurrency(row.amazon_price))}</p>
+  );
+
+  renderNoOfSellers = (row: Product) => (
+    <p className="stat">
+      {showNAIfZeroOrNull(row.number_of_sellers, formatNumber(row.number_of_sellers))}
+    </p>
+  );
+
   handleColumnChange = (e: any, data: any) => {
     e.stopPropagation();
     setTimeout(() => {
@@ -454,9 +464,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     },
     {
       label: 'Other UPC',
-      dataKey: 'other_upc',
+      dataKey: 'upcs',
       type: 'string',
       sortable: true,
+      filter: true,
+      filterLabel: 'Other UPC',
+      filterDataKey: 'upcs',
+      filterSign: '',
+      filterType: 'list',
       className: 'md-column',
       render: this.renderOtherUPCS,
     },
@@ -641,6 +656,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderIsAmazon,
     },
     {
+      label: 'Amazon Price',
+      dataKey: 'amazon_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      filter: true,
+      filterLabel: 'Amazon Price',
+      filterDataKey: 'amazon_price',
+      filterSign: '',
+      filterType: 'slider',
+      render: this.renderAmazonPrice,
+    },
+    {
       label: 'Reviews',
       dataKey: 'customer_reviews',
       type: 'number',
@@ -671,6 +699,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'string',
       show: true,
       sortable: true,
+      filter: true,
+      filterLabel: 'Best Seller',
+      filterDataKey: 'best_seller',
+      filterSign: '',
+      filterType: 'list',
       render: this.renderBestSeller,
     },
     {
@@ -679,7 +712,25 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'string',
       show: true,
       sortable: true,
+      filter: true,
+      filterLabel: 'Subscribe & Save',
+      filterDataKey: 'subscribe_save',
+      filterSign: '',
+      filterType: 'list',
       render: this.renderSubscribeSave,
+    },
+    {
+      label: 'Number\nOf Seller',
+      dataKey: 'number_of_sellers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      filter: true,
+      filterLabel: 'Number Of Seller',
+      filterDataKey: 'number_of_sellers',
+      filterSign: '',
+      filterType: 'slider',
+      render: this.renderNoOfSellers,
     },
     {
       label: 'Num New\nFBA Offers',
