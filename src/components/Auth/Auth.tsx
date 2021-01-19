@@ -73,7 +73,7 @@ export default class Auth {
           };
           chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
 
-          // if chrome extesnion redirect then
+          // if chrome extension redirect then
           if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
             window.location.href = decodedRedirectURL;
             return;
