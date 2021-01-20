@@ -126,10 +126,17 @@ export class Supplier extends React.Component<SupplierProps, any> {
   };
 
   selectSupplier = async (supplier: any) => {
+    const { fetchSupplierProducts, singlePageItemsCount } = this.props;
     history.push(`/profit-finder/${supplier.supplier_id}`);
     this.setState({ openRecentFiles: false });
     setLatestSupplier(supplier);
     await this.initialData(supplier.supplier_id);
+    await fetchSupplierProducts({
+      page: 1,
+      per_page: singlePageItemsCount,
+      supplierID: supplier.supplier_id,
+      pagination: true,
+    });
   };
 
   render() {
