@@ -300,7 +300,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           <Popup
             className="other-upcs-popup"
             size="large"
-            position="top left"
+            position="bottom left"
             content={
               <div className="other-upcs-card">
                 <h5>Other UPCs (This product has multiple UPC's) </h5>
