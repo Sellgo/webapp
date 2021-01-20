@@ -262,6 +262,62 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
+  renderBestSeller = (row: Product) => {
+    if (!row.best_seller) {
+      return <p className="stat">{'-'}</p>;
+    }
+    return (
+      <p className="stat">
+        {row.best_seller
+          ? 'Yes'
+          : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+      </p>
+    );
+  };
+  renderSubscribeSave = (row: Product) => {
+    if (!row.subscribe_save) {
+      return <p className="stat">{'-'}</p>;
+    }
+    return (
+      <p className="stat">
+        {row.subscribe_save
+          ? 'Yes'
+          : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+      </p>
+    );
+  };
+
+  renderOtherUPCS = (row: Product) => {
+    if (!row.upcs) {
+      return (
+        <p className="stat">{this.renderDataBusterIcon(row.product_id, row.data_buster_status)}</p>
+      );
+    }
+    const upcs = row.upcs.split(' ');
+    return (
+      <>
+        {upcs.length > 0 ? (
+          <Popup
+            className="other-upcs-popup"
+            size="large"
+            position="bottom left"
+            basic
+            content={
+              <div className="other-upcs-card">
+                <h5>Other UPCs (This product has multiple UPC's) </h5>
+                <p>{upcs.join(' ')}</p>
+              </div>
+            }
+            on={'click'}
+            trigger={
+              <p className={`${upcs.length > 0 ? 'stat stat--blue' : 'stat '}`}>{upcs[0]}</p>
+            }
+          />
+        ) : null}
+      </>
+    );
+  };
+
   renderIsAmazon = (row: Product) => (
     <p className="stat">
       {row.data_buster_status === 'completed'
@@ -352,6 +408,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       </div>
     );
   };
+
+  renderAmazonPrice = (row: Product) => (
+    <p className="stat">
+      {row.data_buster_status === 'completed'
+        ? showNAIfZeroOrNull(row.amazon_price, formatCurrency(row.amazon_price))
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+    </p>
+  );
+  renderNoOfSellers = (row: Product) => (
+    <p className="stat">
+      {row.data_buster_status === 'completed'
+        ? showNAIfZeroOrNull(row.number_of_sellers, row.number_of_sellers)
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+    </p>
+  );
 
   handleColumnChange = (e: any, data: any) => {
     e.stopPropagation();
@@ -586,6 +657,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       render: this.renderVariableClosingFee,
     },
     {
+      label: 'Other UPC',
+      dataKey: 'upcs',
+      type: 'string',
+      sortable: true,
+      filter: true,
+      filterLabel: 'Other UPC',
+      filterDataKey: 'upcs',
+      filterSign: '',
+      filterType: 'list',
+      className: 'md-column',
+      render: this.renderOtherUPCS,
+    },
+    {
       label: 'Is Amazon\nSelling',
       dataKey: 'is_amazon_selling',
       type: 'boolean',
@@ -596,6 +680,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterDataKey: 'is_amazon_selling',
       filterType: 'list',
       render: this.renderIsAmazon,
+    },
+    {
+      label: 'Amazon Price',
+      dataKey: 'amazon_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      filter: true,
+      filterLabel: 'Amazon Price',
+      filterDataKey: 'amazon_price',
+      filterSign: '',
+      filterType: 'slider',
+      render: this.renderAmazonPrice,
     },
     {
       label: 'Reviews',
@@ -621,6 +718,45 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterDataKey: 'rating',
       filterType: 'slider',
       render: this.renderRating,
+    },
+    {
+      label: 'Best Seller',
+      dataKey: 'best_seller',
+      type: 'string',
+      show: true,
+      sortable: true,
+      filter: true,
+      filterLabel: 'Best Seller',
+      filterDataKey: 'best_seller',
+      filterSign: '',
+      filterType: 'list',
+      render: this.renderBestSeller,
+    },
+    {
+      label: 'Subscribe\n & Save',
+      dataKey: 'subscribe_save',
+      type: 'string',
+      show: true,
+      sortable: true,
+      filter: true,
+      filterLabel: 'Subscribe & Save',
+      filterDataKey: 'subscribe_save',
+      filterSign: '',
+      filterType: 'list',
+      render: this.renderSubscribeSave,
+    },
+    {
+      label: 'Number\nOf Seller',
+      dataKey: 'number_of_sellers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      filter: true,
+      filterLabel: 'Number Of Seller',
+      filterDataKey: 'number_of_sellers',
+      filterSign: '',
+      filterType: 'slider',
+      render: this.renderNoOfSellers,
     },
     {
       label: 'Num New\nFBA Offers',
