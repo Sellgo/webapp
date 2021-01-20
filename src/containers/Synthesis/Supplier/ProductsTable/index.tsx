@@ -939,7 +939,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return { queryString, queryParams, filters };
   };
 
-  public fetchSupplierProducts = async (filter: any = {}, resetKey?: string) => {
+  fetchSupplierProducts = async (filter: any = {}, resetKey?: string) => {
     const { onFetch } = this.props;
     let payload: any = this.getFilters();
     if (filter) payload = { ...payload, ...filter };
