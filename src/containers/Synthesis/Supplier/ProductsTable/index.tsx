@@ -42,6 +42,7 @@ import {
   loadingProfitFinderFilters,
   profitFinderSort,
   profitFinderSortDirection,
+  profitFinderTotalRecords,
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
@@ -89,6 +90,7 @@ interface ProductsTableProps {
   sort: string;
   sortDirection: string;
   onFetch: (payload: any) => void;
+  totalRecords: number;
 }
 
 export interface CheckedRowDictionary {
@@ -1232,6 +1234,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       loading,
       filters,
       loadingFilters,
+      totalRecords,
     } = this.props;
     const {
       searchValue,
@@ -1309,6 +1312,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 });
               }}
               applyColumnFilters={this.applyFilters}
+              count={totalRecords}
             />
           </>
         )}
@@ -1336,6 +1340,7 @@ const mapStateToProps = (state: {}) => ({
   loadingFilters: loadingProfitFinderFilters(state),
   sort: profitFinderSort(state),
   sortDirection: profitFinderSortDirection(state),
+  totalRecords: profitFinderTotalRecords(state),
 });
 
 const mapDispatchToProps = {

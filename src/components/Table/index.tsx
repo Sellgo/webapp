@@ -305,7 +305,7 @@ export const GenericTable = (props: GenericTableProps) => {
     e.stopPropagation();
   };
 
-  const totalItemsCount = name === 'leads-tracker' ? count : data.length;
+  const totalItemsCount = ['leads-tracker', 'products'].includes(name) ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
   let timer: NodeJS.Timeout | undefined = undefined;
