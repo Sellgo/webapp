@@ -263,6 +263,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     </p>
   );
   renderBestSeller = (row: Product) => {
+    if (!row.best_seller) {
+      return <p className="stat">{'-'}</p>;
+    }
     return (
       <p className="stat">
         {row.best_seller
@@ -272,6 +275,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     );
   };
   renderSubscribeSave = (row: Product) => {
+    if (!row.subscribe_save) {
+      return <p className="stat">{'-'}</p>;
+    }
     return (
       <p className="stat">
         {row.subscribe_save
