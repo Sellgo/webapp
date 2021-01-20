@@ -109,6 +109,12 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Other UPC',
+    dataKey: 'upcs',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Is Amazon Selling',
     dataKey: 'is_amazon_selling',
     visible: true,
@@ -196,3 +202,9 @@ export const EXPORT_DATA = [
   { key: 'all', value: 'all', text: 'All Results' },
   { key: 'filtered', value: 'filtered', text: 'Filtered Results' },
 ];
+
+export const removeProfitFinderFilters = () => {
+  columnFilter.forEach(column => {
+    localStorage.removeItem(`products:${column.dataKey}`);
+  });
+};

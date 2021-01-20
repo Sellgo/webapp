@@ -34,6 +34,7 @@ import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
 import history from '../../../history';
 import _ from 'lodash';
 import { ProfitFinderFilters } from '../../../interfaces/Filters';
+import { removeProfitFinderFilters } from '../../../constants/Products';
 
 interface SupplierProps {
   stickyChartSelector: boolean;
@@ -131,6 +132,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
     this.setState({ openRecentFiles: false });
     setLatestSupplier(supplier);
     await this.initialData(supplier.supplier_id);
+    await removeProfitFinderFilters();
     await fetchSupplierProducts({
       page: 1,
       per_page: singlePageItemsCount,
