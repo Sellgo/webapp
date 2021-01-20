@@ -55,6 +55,7 @@ import {
   LOADING_PF_FILTERS,
   SET_PF_SORT,
   SET_PF_SORT_DIRECTION,
+  SET_PF_COUNT,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product, ProfitFinderResponse } from '../../interfaces/Product';
@@ -391,6 +392,7 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     dispatch(setProfitFinderPageCount(data.total_pages));
     dispatch(setProfitFinderSort(sort));
     dispatch(setProfitFinderSortDirection(sortDirection));
+    dispatch(setProfitFinderTotalRecords(data.count));
     dispatch(isLoadingSupplierProducts(false));
     dispatch(setProfitFinderPageLoading(false));
 
@@ -913,4 +915,9 @@ const setProfitFinderSort = (sort: string) => ({
 const setProfitFinderSortDirection = (sortDirection: string) => ({
   type: SET_PF_SORT_DIRECTION,
   payload: sortDirection,
+});
+
+const setProfitFinderTotalRecords = (count: number) => ({
+  type: SET_PF_COUNT,
+  payload: count,
 });
