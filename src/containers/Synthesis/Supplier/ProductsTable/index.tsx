@@ -296,30 +296,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const upcs = row.upcs ? row.upcs.split(' ') : [];
     return (
       <>
-        {upcs.length > 0 ? (
-          <Popup
-            className="other-upcs-popup"
-            size="large"
-            position="bottom left"
-            basic
-            content={
-              <div className="other-upcs-card">
-                <h5>Other UPCs (This product has multiple UPC's) </h5>
-                <p>{upcs.join(' ')}</p>
-              </div>
-            }
-            on={'click'}
-            trigger={
-              <p className={`${upcs.length > 0 ? 'stat stat--blue' : 'stat '}`}>
-                {row.data_buster_status === 'completed'
-                  ? row.upcs === null
-                    ? '-'
-                    : upcs[0]
-                  : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
-              </p>
-            }
-          />
-        ) : null}
+        <Popup
+          className="other-upcs-popup"
+          size="large"
+          position="bottom left"
+          basic
+          content={
+            <div className="other-upcs-card">
+              <h5>Other UPCs (This product has multiple UPC's) </h5>
+              <p>{upcs.join(' ')}</p>
+            </div>
+          }
+          on={'click'}
+          trigger={
+            <p className={`stat`}>
+              {row.data_buster_status === 'completed'
+                ? row.upcs === null
+                  ? '-'
+                  : upcs[0]
+                : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+            </p>
+          }
+        />
       </>
     );
   };
