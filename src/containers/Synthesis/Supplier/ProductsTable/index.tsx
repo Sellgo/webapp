@@ -686,6 +686,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterDataKey: 'is_amazon_selling',
       filterType: 'list',
       render: this.renderIsAmazon,
+      className: 'sm-column',
     },
     {
       label: 'Amazon Price',
@@ -699,6 +700,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterSign: '',
       filterType: 'slider',
       render: this.renderAmazonPrice,
+      className: 'sm-column',
     },
     {
       label: 'Reviews',
@@ -712,6 +714,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterSign: '',
       filterType: 'slider',
       render: this.renderReviews,
+      className: 'sm-column',
     },
     {
       label: 'Rating',
@@ -724,6 +727,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterDataKey: 'rating',
       filterType: 'slider',
       render: this.renderRating,
+      className: 'sm-column',
     },
     {
       label: 'Best Seller',
@@ -737,6 +741,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterSign: '',
       filterType: 'list',
       render: this.renderBestSeller,
+      className: 'sm-column',
     },
     {
       label: 'Subscribe\n & Save',
@@ -750,6 +755,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterSign: '',
       filterType: 'list',
       render: this.renderSubscribeSave,
+      className: 'sm-column',
     },
     {
       label: 'Number\nOf Seller',
@@ -763,6 +769,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filterSign: '',
       filterType: 'slider',
       render: this.renderNoOfSellers,
+      className: 'sm-column',
     },
     {
       label: 'Num New\nFBA Offers',
@@ -798,7 +805,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
-      className: 'sm-column',
+      className: 'md-column',
       filter: true,
       filterLabel: 'Low New FBA Offers',
       filterDataKey: 'low_new_fba_price',
@@ -812,7 +819,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       type: 'number',
       show: true,
       sortable: true,
-      className: 'sm-column',
+      className: 'md-column',
       filter: true,
       filterLabel: 'Low New FBM Offers',
       filterDataKey: 'low_new_fbm_price',
