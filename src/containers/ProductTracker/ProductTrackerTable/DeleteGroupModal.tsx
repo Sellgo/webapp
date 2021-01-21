@@ -1,33 +1,48 @@
 import React, { Component } from 'react';
-import { Modal, Button, Form } from 'semantic-ui-react';
+import { Modal, Button, Icon } from 'semantic-ui-react';
+
+import './DeleteGroupModal.scss';
 
 interface DeleteGroupModalProps {
   open: boolean;
-  handleCancel: any;
-  handleSubmit: any;
+  handleUntrack: any;
+  handleKeepTracking: any;
   groupId: any;
+  activeGroup: any;
 }
 
 class DeleteGroupModal extends Component<DeleteGroupModalProps> {
   render() {
-    const { open, handleCancel, handleSubmit, groupId } = this.props;
+    const { open, handleUntrack, handleKeepTracking, groupId, activeGroup } = this.props;
+
     return (
       <Modal
-        as={Form}
-        onSubmit={() => handleSubmit(groupId)}
         open={open}
+        centered
+        closeOnDocumentClick={true}
+        size={'small'}
         className="delete-group-modal"
       >
-        <Modal.Header>Delete Group - Are you sure?</Modal.Header>
+        <Modal.Header>
+          <Icon name="trash alternate" className="delete-modal-trash-icon" />
+          Deleting {activeGroup && activeGroup.name ? activeGroup.name : 'Group'}
+        </Modal.Header>
+
         <Modal.Content>
-          Warning: The tracker group and all tracked products in the group will be removed.
+          <p className="content-text">Do you want to keep the items in the group tracked?</p>
         </Modal.Content>
+
         <Modal.Actions>
-          <Button className="cancel-btn" type="button" onClick={handleCancel}>
-            Cancel
+          <Button className="cancel-btn" onClick={() => handleUntrack(groupId)}>
+            Untrack
           </Button>
-          <Button className="delete-btn" negative={true} type="submit">
-            Confirm
+          <Button
+            className="delete-btn"
+            onClick={() => {
+              handleKeepTracking(groupId);
+            }}
+          >
+            Keep Tracking
           </Button>
         </Modal.Actions>
       </Modal>

@@ -75,7 +75,7 @@ export interface GenericTableProps {
   middleScroll?: boolean;
   rowExpander?: any;
   pageCount?: any;
-  toggleColumnFilters?: (data: any) => void;
+  toggleColumnFilters?: (data: any, filterType?: any) => void;
   activeColumnFilters?: any;
   applyColumnFilters?: (data: any) => void;
   cancelColumnFilters?: () => void;
@@ -130,7 +130,6 @@ export const GenericTable = (props: GenericTableProps) => {
     handleColumnChange,
     showProductFinderSearch,
     searchFilteredProduct: searchProfitFinderProduct,
-    updateProfitFinderProducts,
     searchFilterValue,
     showFilter,
     checkedRows,
@@ -179,7 +178,7 @@ export const GenericTable = (props: GenericTableProps) => {
   useEffect(() => {
     if (setPage) {
       setPage(localCurrentPage);
-      if (name !== 'leads-tracker') {
+      if (!['leads-tracker', 'products'].includes(name)) {
         return () => setPage(1); // reset on unmount
       }
     }
@@ -187,18 +186,14 @@ export const GenericTable = (props: GenericTableProps) => {
 
   const showColumns = columns.filter(e => e.show);
 
-  const {
-    sortedColumnKey,
-    sortDirection: sortOrder,
-    setSort,
-    sortClicked,
-    setSortClicked,
-  } = useSort(currentActiveColumn);
+  const { sortedColumnKey, sortDirection: sortOrder, setSort, sortClicked } = useSort(
+    currentActiveColumn
+  );
 
   let sortDirection = sortOrder;
 
   useEffect(() => {
-    if (onSort && sortClicked && name !== 'leads-tracker') {
+    if (onSort && sortClicked && !['leads-tracker', 'products'].includes(name)) {
       onSort(sortDirection);
     }
   }, [sortDirection]);
@@ -212,7 +207,7 @@ export const GenericTable = (props: GenericTableProps) => {
     ? columnFilterData.map((cf: any) => ({ ...cf, label: cf.key }))
     : columns.map((c: any) => ({ ...c, value: c.show, key: c.label }));
   let rows =
-    checkSortedColumnExist.length && name !== 'leads-tracker'
+    checkSortedColumnExist.length && !['leads-tracker', 'products'].includes(name)
       ? [...data].sort((a, b) => {
           const sortedColumn = checkSortedColumnExist[0];
           let aColumn;
@@ -278,7 +273,7 @@ export const GenericTable = (props: GenericTableProps) => {
 
   const totalPages = Math.ceil(rows.length / singlePageItemsCount);
 
-  if (name !== 'leads-tracker') {
+  if (!['leads-tracker', 'products'].includes(name)) {
     if (checkSortedColumnExist[0]) {
       const key: any = checkSortedColumnExist[0].dataKey;
       rows = rows.sort((a, b) => {
@@ -289,31 +284,11 @@ export const GenericTable = (props: GenericTableProps) => {
 
   if (name === 'trackerTable' && sortClicked) {
     rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-  } else if (!['trackerTable', 'leads-tracker'].includes(name)) {
-    if (name === 'products') {
-      if (!sortClicked && !sortedColumnKey) {
-        rows = rows.sort((a, b) => a.id - b.id);
-      } else {
-        rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-      }
-    } else {
-      rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
-    }
+  } else if (!['trackerTable', 'leads-tracker', 'products'].includes(name)) {
+    rows = sortDirection === 'ascending' ? rows.slice().reverse() : rows;
   }
 
-  // keep the unbusted data buster columns in PF at end of sort
-  if (
-    name === 'products' &&
-    (sortedColumnKey === 'rating' || sortedColumnKey === 'customer_reviews')
-  ) {
-    rows = [
-      ...rows.filter(r => r.data_buster_status === 'completed'),
-      ...rows.filter(r => r.data_buster_status !== 'completed').reverse(),
-    ];
-  }
-
-  const sortedProducts = rows;
-  if (name !== 'leads-tracker') {
+  if (!['leads-tracker', 'products'].includes(name)) {
     rows = rows.slice(
       (localCurrentPage - 1) * singlePageItemsCount,
       localCurrentPage * singlePageItemsCount
@@ -321,15 +296,6 @@ export const GenericTable = (props: GenericTableProps) => {
   }
 
   rows = showTableLock ? rows.slice(0, 5) : rows;
-
-  useEffect(() => {
-    if (name === 'products' && sortClicked) {
-      if (updateProfitFinderProducts) {
-        updateProfitFinderProducts(sortedProducts);
-      }
-      setSortClicked(false);
-    }
-  });
 
   const onSetShowSearchFilter = (e: any) => {
     e.stopPropagation();
@@ -339,7 +305,7 @@ export const GenericTable = (props: GenericTableProps) => {
     e.stopPropagation();
   };
 
-  const totalItemsCount = name === 'leads-tracker' ? count : data.length;
+  const totalItemsCount = ['leads-tracker', 'products'].includes(name) ? count : data.length;
   const isScrollTop = scrollTopSelector ? 'scroll-top' : '';
   const isStickyChartActive = stickyChartSelector ? 'sticky-chart-active' : '';
   let timer: NodeJS.Timeout | undefined = undefined;
@@ -359,11 +325,11 @@ export const GenericTable = (props: GenericTableProps) => {
   };
 
   const resetPage = (sortDirection: string, dataKey: string) => {
-    if (['products', 'trackerTable'].includes(name) && currentPage !== 1) {
+    if (['trackerTable'].includes(name) && currentPage !== 1) {
       setLocalCurrentPage(1);
     }
 
-    if (onSort && name === 'leads-tracker') {
+    if (onSort && ['leads-tracker', 'products'].includes(name)) {
       onSort(sortDirection, dataKey);
     }
   };
@@ -482,10 +448,10 @@ export const GenericTable = (props: GenericTableProps) => {
                         if (setSinglePageItemsCount) {
                           setSinglePageItemsCount(size);
                         }
-                        if (name !== 'leads-tracker' && setPage) {
+                        if (!['leads-tracker', 'products'].includes(name) && setPage) {
                           setPage(1);
                         }
-                        if (name === 'leads-tracker') {
+                        if (['leads-tracker', 'products'].includes(name)) {
                           setLocalCurrentPage(1);
                         }
                       }}
@@ -493,7 +459,9 @@ export const GenericTable = (props: GenericTableProps) => {
                       onPrevPage={setLocalCurrentPage}
                       onPageNumberUpdate={setLocalCurrentPage}
                       currentPage={localCurrentPage || 1}
-                      totalPages={name === 'leads-tracker' ? pageCount : totalPages}
+                      totalPages={
+                        ['leads-tracker', 'products'].includes(name) ? pageCount : totalPages
+                      }
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
                       showPageSize={name !== 'supplier'}

@@ -4,6 +4,7 @@ import analytics from '../../analytics';
 import Axios from 'axios';
 import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
+import { removeProfitFinderFilters } from '../../constants/Products';
 
 export default class Auth {
   accessToken: any;
@@ -156,6 +157,7 @@ export default class Auth {
     localStorage.removeItem('userName');
     localStorage.removeItem('userPicture');
     localStorage.setItem('loginRedirectPath', '/');
+    removeProfitFinderFilters();
   };
 
   public removeFilters = () => {

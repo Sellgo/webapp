@@ -35,6 +35,14 @@ $new_black: #3b4557;
     height: 70vh;
   }
 
+  &.disabled {
+    thead,
+    tbody {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+
   h2 {
     font-weight: 300;
     font-size: 15px;
@@ -243,6 +251,10 @@ $new_black: #3b4557;
     .product_cost {
       .stat {
         text-align: right !important;
+
+        &--red {
+          color: red !important;
+        }
       }
     }
 
@@ -333,6 +345,19 @@ $new_black: #3b4557;
     .multipack_quantity {
       .stat {
         text-align: right !important;
+      }
+    }
+
+    .other_upc {
+      .stat {
+        text-align: left !important;
+        font-weight: 500;
+        margin-bottom: 0 !important;
+
+        &--blue {
+          color: #0e6fcf;
+          cursor: pointer;
+        }
       }
     }
 
@@ -440,6 +465,15 @@ $new_black: #3b4557;
 
       .table-cell-container {
         padding: 0 5px !important;
+
+        .icon {
+          display: block;
+          margin-top: -15px !important;
+
+          &.ellipsis {
+            margin: 0 !important;
+          }
+        }
       }
     }
 
@@ -817,4 +851,38 @@ $new_black: #3b4557;
 .last_run {
   width: 153px !important;
   min-width: 160px !important;
+}
+
+/* Pop Up Card for Other UPC's */
+
+.ui.popup.large.other-upcs-popup {
+  min-width: 400px !important;
+  max-width: 400px !important;
+
+  + .other-upcs-card {
+    min-width: 400px;
+    min-height: max-content;
+    width: 500px !important;
+    background: #fff;
+    position: absolute;
+    z-index: 999999 !important;
+    top: 0;
+    left: 90px;
+    display: none;
+    box-shadow: 0 3px 6px #00000029;
+    border-radius: 10px;
+    background-color: #fff !important;
+    padding: 10px 20px;
+    max-width: 400px;
+
+    h5 {
+      text-align: left;
+      font-size: 14px;
+    }
+
+    p {
+      text-align: left;
+      font-size: 14px;
+    }
+  }
 }
