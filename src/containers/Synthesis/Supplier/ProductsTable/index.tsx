@@ -294,6 +294,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   renderOtherUPCS = (row: Product) => {
     const upcs = row.upcs ? row.upcs.split(' ') : [];
+    const dataBuster =
+      row.data_buster_status === 'completed'
+        ? row.upcs === null
+          ? '-'
+          : upcs[0]
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status);
     return (
       <>
         {upcs.length > 0 ? (
@@ -309,24 +315,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               </div>
             }
             on={'click'}
-            trigger={
-              <p className={`stat`}>
-                {row.data_buster_status === 'completed'
-                  ? row.upcs === null
-                    ? '-'
-                    : upcs[0]
-                  : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
-              </p>
-            }
+            trigger={<p className={`stat`}>{dataBuster}</p>}
           />
-        ) : row.data_buster_status === 'completed' ? (
-          row.upcs === null ? (
-            '-'
-          ) : (
-            upcs[0]
-          )
         ) : (
-          this.renderDataBusterIcon(row.product_id, row.data_buster_status)
+          dataBuster
         )}
       </>
     );
