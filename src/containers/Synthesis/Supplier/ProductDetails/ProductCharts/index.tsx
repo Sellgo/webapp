@@ -18,7 +18,6 @@ import {
   isFetchingRatingSelector,
   isFetchingReviewSelector,
   isFetchingSellerInventorySelector,
-  isfetchingBuyBoxStatistics,
 } from '../../../../../selectors/Products';
 import './index.scss';
 import ProductPriceChart from './ProductPriceChart';
@@ -350,7 +349,6 @@ class ProductCharts extends Component<ProductChartsProps> {
       isFetchingReview,
       isFetchingSellerInventory,
       isLoadingTrackerProducts,
-      isFetchingBuyBoxStatistics,
     } = this.props;
     return (
       <div className="product-detail-charts">
@@ -361,7 +359,6 @@ class ProductCharts extends Component<ProductChartsProps> {
         !isFetchingRating &&
         !isFetchingReview &&
         !isFetchingSellerInventory &&
-        !isFetchingBuyBoxStatistics &&
         !isLoadingTrackerProducts
           ? this.renderProductCharts()
           : this.renderLoader()}
@@ -429,7 +426,6 @@ const mapStateToProps = (state: {}) => ({
   isFetchingRating: isFetchingRatingSelector(state),
   isFetchingReview: isFetchingReviewSelector(state),
   isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
-  isfetchingBuyBoxStatistics: isfetchingBuyBoxStatistics(state),
 });
 
 const mapDispatchToProps = {
