@@ -265,37 +265,41 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     </p>
   );
   renderBestSeller = (row: Product) => {
-    if (!row.best_seller) {
-      return <p className="stat">{'-'}</p>;
-    }
     return (
       <p className="stat">
-        {row.best_seller
-          ? 'Yes'
+        {row.data_buster_status === 'completed'
+          ? row.best_seller === null
+            ? '-'
+            : row.best_seller
+            ? 'Yes'
+            : 'No'
           : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
       </p>
     );
   };
+
   renderSubscribeSave = (row: Product) => {
-    if (!row.subscribe_save) {
-      return <p className="stat">{'-'}</p>;
-    }
     return (
       <p className="stat">
-        {row.subscribe_save
-          ? 'Yes'
+        {row.data_buster_status === 'completed'
+          ? row.subscribe_save === null
+            ? '-'
+            : row.subscribe_save
+            ? 'Yes'
+            : 'No'
           : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
       </p>
     );
   };
 
   renderOtherUPCS = (row: Product) => {
-    if (!row.upcs) {
-      return (
-        <p className="stat">{this.renderDataBusterIcon(row.product_id, row.data_buster_status)}</p>
-      );
-    }
-    const upcs = row.upcs.split(' ');
+    const upcs = row.upcs ? row.upcs.split(' ') : [];
+    const dataBuster =
+      row.data_buster_status === 'completed'
+        ? row.upcs === null
+          ? '-'
+          : upcs[0]
+        : this.renderDataBusterIcon(row.product_id, row.data_buster_status);
     return (
       <>
         {upcs.length > 0 ? (
@@ -311,11 +315,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               </div>
             }
             on={'click'}
-            trigger={
-              <p className={`${upcs.length > 0 ? 'stat stat--blue' : 'stat '}`}>{upcs[0]}</p>
-            }
+            trigger={<p className={`stat`}>{dataBuster}</p>}
           />
-        ) : null}
+        ) : (
+          dataBuster
+        )}
       </>
     );
   };
@@ -421,7 +425,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   renderNoOfSellers = (row: Product) => (
     <p className="stat">
       {row.data_buster_status === 'completed'
-        ? showNAIfZeroOrNull(row.number_of_sellers, row.number_of_sellers)
+        ? showNAIfZeroOrNull(row.number_of_sellers, formatNumber(row.number_of_sellers))
         : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
     </p>
   );
