@@ -469,6 +469,10 @@ $new_black: #3b4557;
         .icon {
           display: block;
           margin-top: -15px !important;
+
+          &.ellipsis {
+            margin: 0 !important;
+          }
         }
       }
     }
