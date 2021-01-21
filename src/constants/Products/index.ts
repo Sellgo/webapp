@@ -121,6 +121,12 @@ export const columnFilter = [
   },
   {
     value: true,
+    dataKey: 'amazon_price',
+    key: 'Amazon Price',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Reviews',
     dataKey: 'customer_reviews',
     visible: true,
@@ -129,6 +135,24 @@ export const columnFilter = [
     value: true,
     key: 'Rating',
     dataKey: 'rating',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Best Seller',
+    dataKey: 'best_seller',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Subscribe & Save',
+    dataKey: 'subscribe_save',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Number Of Seller',
+    dataKey: 'number_of_sellers',
     visible: true,
   },
   {
