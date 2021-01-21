@@ -319,6 +319,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               </p>
             }
           />
+        ) : row.data_buster_status === 'completed' ? (
+          row.upcs === null ? (
+            '-'
+          ) : (
+            upcs[0]
+          )
         ) : (
           this.renderDataBusterIcon(row.product_id, row.data_buster_status)
         )}
