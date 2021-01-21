@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import Chart from '../../../../../../components/Chart/Chart';
 import { graphColors } from '../../../../../../utils/colors';
@@ -15,6 +15,11 @@ const BuyBoxStatsPieChart: React.FC<PieChartProps> = props => {
   const [activeMerchantWinPercent, setActiveMerchantWinPercent] = useState<number>(
     pieData[0].percentage
   );
+
+  useEffect(() => {
+    setActiveMerchantName(pieData[0].merchant_name);
+    setActiveMerchantWinPercent(pieData[0].percentage);
+  }, [pieData]);
 
   // Transform the data to display to piechart
   const pieChartOptions = _.merge(_.cloneDeep(chartOptions), {
