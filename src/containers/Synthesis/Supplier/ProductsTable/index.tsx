@@ -227,9 +227,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   );
   renderVariableClosingFee = (row: Product) => (
     <p className="stat">
-      {row.data_buster_status === 'completed'
-        ? showNAIfZeroOrNull(row.variable_closing_fee, formatNumber(row.variable_closing_fee))
-        : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
+      {showNAIfZeroOrNull(row.variable_closing_fee, formatCurrency(row.variable_closing_fee))}
     </p>
   );
   renderNumFbaNewOffers = (row: Product) => (
@@ -270,7 +268,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return (
       <p className="stat">
         {row.data_buster_status === 'completed'
-          ? row.best_seller
+          ? row.best_seller === null
+            ? '-'
+            : row.best_seller
             ? 'Yes'
             : 'No'
           : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
@@ -279,13 +279,12 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderSubscribeSave = (row: Product) => {
-    if (!row.subscribe_save) {
-      return <p className="stat">{'-'}</p>;
-    }
     return (
       <p className="stat">
         {row.data_buster_status === 'completed'
-          ? row.subscribe_save
+          ? row.subscribe_save === null
+            ? '-'
+            : row.subscribe_save
             ? 'Yes'
             : 'No'
           : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
@@ -294,11 +293,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderOtherUPCS = (row: Product) => {
-    if (!row.upcs || !row.upcs.length) {
-      return <p className={`'stat`}>{'-'}</p>;
-    }
-
-    const upcs = row.upcs.split(' ');
+    const upcs = row.upcs ? row.upcs.split(' ') : [];
     return (
       <>
         {upcs.length > 0 ? (
@@ -317,7 +312,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             trigger={
               <p className={`${upcs.length > 0 ? 'stat stat--blue' : 'stat '}`}>
                 {row.data_buster_status === 'completed'
-                  ? upcs[0]
+                  ? row.upcs === null
+                    ? '-'
+                    : upcs[0]
                   : this.renderDataBusterIcon(row.product_id, row.data_buster_status)}
               </p>
             }
