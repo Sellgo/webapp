@@ -1,10 +1,10 @@
 .bottom-scrollbar {
-  height: 100px;
+  height: max-content !important;
   max-width: 80%;
   overflow-y: hidden;
   overflow-x: hidden;
   position: absolute;
-  bottom: 45px;
+  bottom: 40px;
   display: flex;
 
   .bottom-cell {
