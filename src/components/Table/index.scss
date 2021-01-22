@@ -289,6 +289,25 @@ i.icon.filter::before {
       height: 10px;
     }
   }
+
+  .upcs {
+    min-width: 130px !important;
+  }
+
+  .is_amazon_selling {
+    min-width: 120px !important;
+  }
+
+  .subscribe_save {
+    min-width: 100px !important;
+  }
+
+  .num_fba_new_offers,
+  .num_fbm_new_offers,
+  .low_new_fbm_price,
+  .low_new_fba_price {
+    min-width: 130px !important;
+  }
 }
 
 .th-label {

@@ -1,10 +1,10 @@
 .bottom-scrollbar {
-  height: 50px;
+  height: max-content;
   max-width: 80%;
   overflow-y: hidden;
   overflow-x: hidden;
   position: absolute;
-  bottom: 45px;
+  bottom: 40px;
   display: flex;
 
   .bottom-cell {
@@ -82,4 +82,20 @@
 .bottom-scrollbar:hover {
   overflow-x: auto;
   margin-left: 12%;
+}
+
+@media only screen and (min-width: 1320px) {
+  .pf-table tfoot .bottom-scrollbar {
+    .bottom-cell {
+      min-width: 109px !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .pf-table tfoot .bottom-scrollbar {
+    .bottom-cell {
+      min-width: 112px !important;
+    }
+  }
 }
