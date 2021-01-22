@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Icon, Input, Modal } from 'semantic-ui-react';
+import { Checkbox, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -45,8 +45,7 @@ import {
   isFetchingSellerInventorySelector,
 } from '../../../selectors/Products';
 import { returnWithRenderMethod } from '../../../utils/tableColumn';
-import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
-import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
+import EditCostModal from '../../../components/EditCostModal';
 
 interface TrackerProps {
   loadingTrackerFilter: boolean;
@@ -726,86 +725,17 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
         />
 
         {editCost && (
-          <Modal
+          <EditCostModal
             open={editCost}
-            className="edit-cost-modal"
-            content={
-              <div className="edit-cost-container">
-                <div className="product-description-details">
-                  <div className="product-details-image">
-                    <img src={costDetails.image_url} alt={'product image'} />
-                  </div>
-                  <div>
-                    <div>
-                      <h3 className="product-title">{costDetails.title}</h3>
-                    </div>
-                    <div className="details">
-                      <div>
-                        <img
-                          className="flag-img"
-                          src={COUNTRY_IMAGE}
-                          alt="product_img"
-                          style={{ width: 40 }}
-                        />
-                      </div>
-                      <div className="asin-details">
-                        <p className="asin-text">{costDetails.asin}</p>
-                        <p className="asin-sub-text">
-                          {PRODUCT_ID_TYPES.filter(pidType => pidType !== 'ASIN')
-                            .filter(pidType => pidType.toLowerCase() in costDetails)
-                            .map(pidType => costDetails[pidType.toLowerCase()])[0] || ''}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="edit-cost-fields">
-                  <div className="cost-labels">
-                    <div>
-                      <h5 className="cost-input-label">{'Current cost of Good Sold'}</h5>
-                    </div>
-                    <div>
-                      <h5 className="cost-input-value">{'New cost of Good Sold'}</h5>
-                    </div>
-                  </div>
-                  <div className="cost-values">
-                    <div className="cost-value">
-                      <p>${costDetails.product_cost}</p>
-                    </div>
-                    <div className="cost-input">
-                      <Input
-                        focus
-                        onChange={(evt: any, data: any) => {
-                          this.updateCostValue(data.value);
-                        }}
-                        icon="dollar sign"
-                        iconPosition="left"
-                      />
-                    </div>
-                    <div className="action-buttons">
-                      <Button
-                        content="Cancel"
-                        basic
-                        color="red"
-                        onClick={() => this.setState({ editCost: false })}
-                      />
-                      <Button
-                        content="Save"
-                        primary
-                        disabled={
-                          product_cost > (parseFloat(costDetails.avg_price) / 100) * 150 ||
-                          !this.state.isValidCostValue
-                        }
-                        onClick={() =>
-                          this.onEditProductCost({ ...costDetails, product_cost: product_cost })
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+            product={costDetails}
+            onCancel={() => this.setState({ editCost: false })}
+            onEdit={payload => this.onEditProductCost(payload)}
+            cost={product_cost}
+            disabled={
+              product_cost > (parseFloat(costDetails.avg_price) / 100) * 150 ||
+              !this.state.isValidCostValue
             }
+            onChange={value => this.updateCostValue(value)}
           />
         )}
       </div>

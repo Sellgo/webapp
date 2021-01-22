@@ -11,6 +11,7 @@ import {
   suppliersByIdSelector,
   supplierDetailsSelector,
   productsLoadingDataBusterSelector,
+  supplierProductsSelector,
 } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -347,6 +348,38 @@ export const setSupplierProducts = (products: Product[]) => ({
 });
 
 export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
+
+export const updateProductCost = (payload: any) => async (dispatch: any, getState: () => any) => {
+  const { product_id, product_cost, id, product_track_id, supplierID } = payload;
+  const sellerID = sellerIDSelector();
+  const products = supplierProductsSelector(getState());
+  const bodyFormData = new FormData();
+  bodyFormData.set('product_id', product_id);
+  bodyFormData.set('product_cost', product_cost);
+  bodyFormData.set('psd_id', id);
+  bodyFormData.set('product_track_id', product_track_id);
+
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/product/cost`,
+    bodyFormData
+  )
+    .then(({ data }) => {
+      success(`Product cost successfully updated!`);
+      if (data) {
+        const updated = products.map((p: any) => {
+          if (p.id === id) {
+            p = { ...p, ...data };
+          }
+          return p;
+        });
+
+        dispatch(updateProfitFinderProducts(updated));
+      }
+    })
+    .catch(() => {
+      error(`Failed to update product cost`);
+    });
+};
 
 export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
