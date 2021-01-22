@@ -83,3 +83,19 @@
   overflow-x: auto;
   margin-left: 12%;
 }
+
+@media only screen and (min-width: 1320px) {
+  .pf-table tfoot .bottom-scrollbar {
+    .bottom-cell {
+      min-width: 109px !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .pf-table tfoot .bottom-scrollbar {
+    .bottom-cell {
+      min-width: 112px !important;
+    }
+  }
+}

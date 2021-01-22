@@ -2,17 +2,20 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { fetchBuyBoxStatistics } from '../../../../../../actions/Products';
+import { Loader } from 'semantic-ui-react';
 
 import BuyBoxStatsPieChart from './BuyBoxStatsPieChart';
 import { graphColors } from '../../../../../../utils/colors';
 
 import './index.scss';
+import { isfetchingBuyBoxStatistics } from '../../../../../../selectors/Products';
 
 interface BuyBoxStatisticsProps {
   period: any;
   product: any;
   productBuyBoxStatistics: any;
   fetchBuyBoxStatistics: (productID: any, period?: number) => void;
+  isfetchingBuyBoxStatistics: boolean;
 }
 
 const chartOptions = {
@@ -65,8 +68,22 @@ const chartOptions = {
   },
 };
 
+const renderLoader = () => {
+  return (
+    <Loader active={true} inline="centered" className="popup-loader" size="massive">
+      Loading
+    </Loader>
+  );
+};
+
 const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
-  const { product, productBuyBoxStatistics, period, fetchBuyBoxStatistics } = props;
+  const {
+    product,
+    productBuyBoxStatistics,
+    period,
+    fetchBuyBoxStatistics,
+    isfetchingBuyBoxStatistics,
+  } = props;
 
   useEffect(() => {
     fetchBuyBoxStatistics(product.product_id, period);
@@ -78,7 +95,9 @@ const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
 
   return (
     <div className="buy-box-statistics">
-      {productBuyBoxStatistics.length === 0 ? (
+      {isfetchingBuyBoxStatistics ? (
+        renderLoader()
+      ) : productBuyBoxStatistics.length === 0 ? (
         <h3 className="no-data-message">No data yet! Please come back after a day.</h3>
       ) : (
         <>
@@ -120,6 +139,7 @@ const BuyBoxStatisticsChart: React.FC<BuyBoxStatisticsProps> = props => {
 
 const mapStateToProps = (state: {}) => ({
   productBuyBoxStatistics: get(state, 'product.detailsBuyBoxStatistics'),
+  isfetchingBuyBoxStatistics: isfetchingBuyBoxStatistics(state),
 });
 
 const mapDispatchToProps = {

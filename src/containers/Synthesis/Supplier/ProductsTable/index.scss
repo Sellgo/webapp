@@ -361,6 +361,34 @@ $new_black: #3b4557;
       }
     }
 
+    .upcs,
+    .amazon_price,
+    .customer_reviews,
+    .rating {
+      .stat {
+        text-align: right !important;
+      }
+    }
+
+    .upcs {
+      min-width: 130px !important;
+    }
+
+    .is_amazon_selling {
+      min-width: 120px !important;
+    }
+
+    .subscribe_save {
+      min-width: 100px !important;
+    }
+
+    .num_fba_new_offers,
+    .num_fbm_new_offers,
+    .low_new_fbm_price,
+    .low_new_fba_price {
+      min-width: 130px !important;
+    }
+
     tfoot {
       th {
         border-top: none;
