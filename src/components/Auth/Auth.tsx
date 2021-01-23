@@ -6,6 +6,7 @@ import analytics from '../../analytics';
 import Axios from 'axios';
 import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
+import { removeProfitFinderFilters } from '../../constants/Products';
 import { isURL } from 'validator';
 import chromeIDConfig from '../../constants/ChromeExtension';
 
