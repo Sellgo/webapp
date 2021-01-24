@@ -58,7 +58,7 @@ export const FieldsToMap = [
   },
   {
     key: 'wholesale_quantity',
-    label: 'Wholesale Value',
+    label: 'Wholesale Qty',
   },
 ];
 

@@ -6,7 +6,7 @@ export const excelExtensions = ['.xlsx'];
 
 export const extensions = [...csvExtensions, ...excelExtensions];
 
-const NUM_DATA_ROWS_TO_GUESS_MAPPINGS = 6;
+const NUM_DATA_ROWS_TO_GUESS_MAPPINGS = 5;
 
 export const getFileExtension = (file: File): string => {
   if (file && file.name.split('.').length > 1) {
