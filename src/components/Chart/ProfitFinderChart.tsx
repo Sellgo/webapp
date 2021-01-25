@@ -22,7 +22,7 @@ const ProfitFinderChart = (props: any) => {
           : null;
       chartComponentRef.current.chart.setSize(undefined, chartHeight);
     }
-  });
+  }, [windowSize]);
 
   const nextProps = { ...props, profitFinderChartOptions, chartComponentRef };
   return props.render(nextProps);
