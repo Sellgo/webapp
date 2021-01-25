@@ -56,6 +56,10 @@ export const FieldsToMap = [
     key: 'msrp',
     label: 'MSRP',
   },
+  {
+    key: 'quantity',
+    label: 'Wholesale Qty',
+  },
 ];
 
 export const terms = [
