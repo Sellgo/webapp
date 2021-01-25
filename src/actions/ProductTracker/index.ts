@@ -324,9 +324,13 @@ export const updateProductCost = (payload: any) => async (dispatch: any, getStat
 export const fetchOOS90 = (payload: any) => async (dispatch: any, getState: () => any) => {
   const { product_id, id } = payload;
   const products = trackerProductDetails(getState());
+  const sellerID = sellerIDSelector();
+
   dispatch(setOOS90Loading(true));
   dispatch(setOOS90(payload));
-  return Axios.get(AppConfig.BASE_URL_API + `products/${product_id}/oos-stats`)
+  return Axios.get(
+    AppConfig.BASE_URL_API + `products/${product_id}/oos-stats?seller_id=${sellerID}`
+  )
     .then(({ data }) => {
       dispatch(setOOS90Loading(false));
       if (data) {
