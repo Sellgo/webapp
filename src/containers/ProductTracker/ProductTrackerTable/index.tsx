@@ -383,7 +383,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             loading={loadingOOS90 && OOS90.id === row.id}
             disabled={loadingOOS90 && OOS90.id !== row.id}
             name="refresh"
-            color="blue"
+            color="grey"
             onClick={() => {
               if (!loadingOOS90) {
                 fetchOOS90(row);
