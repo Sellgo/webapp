@@ -165,6 +165,12 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Out of Stock',
+    dataKey: 'amazon_oos_90',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Avg ROI',
     dataKey: 'avg_roi',
     visible: true,
