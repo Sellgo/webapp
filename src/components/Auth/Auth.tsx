@@ -72,7 +72,10 @@ export default class Auth {
             expiresAt: localStorage.getItem('idTokenExpires'),
             sellerID: localStorage.getItem('userId'),
           };
-          chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
+
+          if (chrome && chrome.runtime) {
+            chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
+          }
 
           // if chrome extension redirect then
           if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
@@ -211,10 +214,12 @@ export default class Auth {
       returnTo: window.location.origin,
     });
 
-    chrome.runtime.sendMessage(chromeID, {
-      status: 'logout',
-      payload: {},
-    });
+    if (chrome && chrome.runtime) {
+      chrome.runtime.sendMessage(chromeID, {
+        status: 'logout',
+        payload: {},
+      });
+    }
   };
 
   public isAuthenticated = () => {
