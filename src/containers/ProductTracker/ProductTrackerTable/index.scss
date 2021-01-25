@@ -500,6 +500,20 @@ $link-color: #349af8;
         width: 100px;
       }
 
+      .amazon_oos_90 {
+        min-width: 98.4px !important;
+
+        .stat {
+          display: flex;
+          justify-content: space-around;
+          line-height: 1.5em !important;
+
+          .icon {
+            cursor: pointer;
+          }
+        }
+      }
+
       .avg_price {
         min-width: 95px !important;
 

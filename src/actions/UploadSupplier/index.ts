@@ -331,7 +331,15 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/csv-column-mapping`
   );
   if (response.data) {
-    const { primary_id_type, primary_id, product_cost, sku, title, msrp } = response.data;
+    const {
+      primary_id_type,
+      primary_id,
+      product_cost,
+      sku,
+      title,
+      msrp,
+      wholesale_quantity,
+    } = response.data;
     const columnMappings = [];
     if (primary_id_type !== null) columnMappings[primary_id_type] = 'primary_id_type';
     if (primary_id !== null) columnMappings[primary_id] = 'primary_id';
@@ -339,6 +347,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (sku !== null) columnMappings[sku] = 'sku';
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
+    if (wholesale_quantity !== null) columnMappings[wholesale_quantity] = 'wholesale_quantity';
     dispatch(setColumnMappings(columnMappings));
   } else {
     dispatch(removeColumnMappings());
@@ -398,6 +407,8 @@ export const validateAndUploadFile = () => async (
     bodyFormData.set('sku', reversedColumnMappings.sku);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'msrp'))
     bodyFormData.set('msrp', reversedColumnMappings.msrp);
+  if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'quantity'))
+    bodyFormData.set('wholesale_quantity', reversedColumnMappings.quantity);
 
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,

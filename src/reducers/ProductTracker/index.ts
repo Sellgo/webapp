@@ -26,6 +26,8 @@ import {
   VERIFYING_PRODUCT,
   RESET_FILTER,
   SET_COST_DETAILS,
+  FETCH_OOS_90,
+  SET_CURRENT_OOS90_ROW,
 } from '../../constants/Tracker';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -48,6 +50,8 @@ const initialState = {
   verifyingProduct: false,
   resettingFilter: false,
   costDetails: {},
+  loadingOOS90: false,
+  OOS90: {},
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -193,6 +197,14 @@ export default (state = initialState, action: AnyAction) => {
 
     case SET_COST_DETAILS: {
       return setIn(state, 'costDetails', action.payload);
+    }
+
+    case FETCH_OOS_90: {
+      return setIn(state, 'loadingOOS90', action.payload);
+    }
+
+    case SET_CURRENT_OOS90_ROW: {
+      return setIn(state, 'OOS90', action.payload);
     }
     default:
       return state;
