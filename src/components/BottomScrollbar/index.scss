@@ -99,3 +99,19 @@
     }
   }
 }
+
+@media only screen and(min-width: 1320px) {
+  .pf-table tfoot .bottom-scrollbar {
+    .trackerTable.bottom-cell {
+      min-width: 110px !important;
+    }
+  }
+}
+
+@media only screen and(min-width: 1600px) {
+  .pf-table tfoot .bottom-scrollbar {
+    .trackerTable.bottom-cell {
+      min-width: 106px !important;
+    }
+  }
+}
