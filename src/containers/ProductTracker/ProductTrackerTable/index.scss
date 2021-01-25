@@ -506,7 +506,7 @@ $link-color: #349af8;
         .stat {
           display: flex;
           justify-content: space-around;
-          line-height: unset;
+          line-height: 1.5em !important;
 
           .icon {
             cursor: pointer;
