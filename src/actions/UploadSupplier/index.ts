@@ -407,8 +407,8 @@ export const validateAndUploadFile = () => async (
     bodyFormData.set('sku', reversedColumnMappings.sku);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'msrp'))
     bodyFormData.set('msrp', reversedColumnMappings.msrp);
-  if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'wholesale_quantity'))
-    bodyFormData.set('wholesale_quantity', reversedColumnMappings.wholesale_quantity);
+  if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'quantity'))
+    bodyFormData.set('wholesale_quantity', reversedColumnMappings.quantity);
 
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,
