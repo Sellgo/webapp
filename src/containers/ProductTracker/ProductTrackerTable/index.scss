@@ -501,60 +501,104 @@ $link-color: #349af8;
       }
 
       .avg_price {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
+      .avg_profit {
+        min-width: 95px !important;
+
+        .stat {
+          text-align: left;
+        }
+      }
+
       .avg_margin {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
       .avg_daily_sales {
+        min-width: 95px !important;
+
         .stat {
           text-align: left;
         }
       }
 
       .avg_daily_revenue {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
       .avg_roi {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
       .avg_rank {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
+      .weight {
+        min-width: 95px !important;
+
+        .stat {
+          text-align: left;
+        }
+      }
+
       .customer_reviews {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
       .rating {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
       .avg_inventory {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }
       }
 
       .avg_amazon_inventory {
+        min-width: 108px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .is_amazon_selling {
+        min-width: 95px !important;
+
         .stat {
           text-align: left !important;
         }

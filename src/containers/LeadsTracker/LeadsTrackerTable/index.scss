@@ -433,34 +433,34 @@ $new_black: #3b4557;
 
     .price {
       .stat {
-        text-align: right;
+        text-align: left !important;
       }
     }
 
     .profit {
       .stat {
-        text-align: right;
+        text-align: left !important;
       }
     }
 
     .margin {
       .stat {
-        text-align: right;
+        text-align: left !important;
       }
     }
 
     .roi {
       .stat {
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: center;
-        text-align: right;
+        text-align: left !important;
       }
     }
 
     .lt-avg {
       .stat {
-        text-align: right;
+        text-align: left !important;
       }
     }
 
@@ -470,19 +470,25 @@ $new_black: #3b4557;
 
     .lt-index {
       .stat {
-        text-align: right;
+        text-align: left !important;
       }
     }
 
     .lt-max {
       .stat {
-        text-align: right;
+        text-align: left !important;
       }
     }
 
     .lt-low {
       .stat {
-        text-align: right;
+        text-align: left !important;
+      }
+    }
+
+    .change_price {
+      .stat {
+        text-align: left !important;
       }
     }
 
