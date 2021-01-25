@@ -541,20 +541,20 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderDailyRevenue,
     },
     {
-      label: 'Out Of\nStock %',
-      dataKey: 'amazon_oos_90',
-      type: 'string',
-      show: true,
-      sortable: true,
-      render: this.renderOOS,
-    },
-    {
       label: 'Avg\nROI',
       dataKey: 'avg_roi',
       type: 'string',
       show: true,
       sortable: true,
       render: this.renderAvgROI,
+    },
+    {
+      label: 'Out Of\nStock %',
+      dataKey: 'amazon_oos_90',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderOOS,
     },
     {
       label: 'Avg Daily\nRank',
