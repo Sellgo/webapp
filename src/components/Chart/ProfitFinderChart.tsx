@@ -39,7 +39,6 @@ const ProfitFinderChart = (props: any) => {
   }, [windowSize]);
 
   const nextProps = { ...props, profitFinderChartOptions, chartComponentRef };
-  console.log('Triggered');
   return props.render(nextProps);
 };
 
