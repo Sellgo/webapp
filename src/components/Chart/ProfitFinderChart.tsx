@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import { useWindowSize } from '../../hooks/useWindowSize';
 
 const ProfitFinderChart = (props: any) => {
@@ -22,24 +22,10 @@ const ProfitFinderChart = (props: any) => {
           : null;
       chartComponentRef.current.chart.setSize(undefined, chartHeight);
     }
-  }, []);
-
-  useEffect(() => {
-    if (chartComponentRef && chartComponentRef.current && chartComponentRef.current.chart) {
-      const chartHeight =
-        windowSize.width && windowSize.width >= 2560
-          ? 483
-          : windowSize.width && windowSize.width >= 1920
-          ? 363
-          : windowSize.width && windowSize.width >= 1368
-          ? 260
-          : null;
-      chartComponentRef.current.chart.setSize(undefined, chartHeight);
-    }
-  }, [windowSize]);
+  });
 
   const nextProps = { ...props, profitFinderChartOptions, chartComponentRef };
-  return props.render(nextProps);
+  return props.supplier || props.products.length > 0 ? props.render(nextProps) : null;
 };
 
-export default ProfitFinderChart;
+export default memo(ProfitFinderChart);

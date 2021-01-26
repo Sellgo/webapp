@@ -1,6 +1,5 @@
 import React from 'react';
 import Chart from './Chart';
-import _ from 'lodash';
 
 export default ({ supplier, profitFinderChartOptions, chartComponentRef }: any) => {
   const profitable_rate = parseFloat(supplier.rate);
@@ -49,7 +48,7 @@ export default ({ supplier, profitFinderChartOptions, chartComponentRef }: any) 
     },
   };
 
-  const chartOptions = _.merge(_.cloneDeep(supplierHitChartOptions), profitFinderChartOptions);
+  const chartOptions = { ...supplierHitChartOptions, profitFinderChartOptions };
 
   return (
     <div className="individual-pie-chart">
