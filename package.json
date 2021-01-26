@@ -15,7 +15,7 @@
     "axios": "^0.18.0",
     "csv-parse": "^4.8.6",
     "file-saver": "^2.0.5",
-    "highcharts": "^8.0.4",
+    "highcharts": "^8.2.2",
     "highcharts-react-official": "^3.0.0",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
