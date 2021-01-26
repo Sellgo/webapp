@@ -215,6 +215,17 @@ export const GenericTable = (props: GenericTableProps) => {
           if (sortedColumn.type === 'number') {
             aColumn = Number(a[sortedColumn.dataKey || '']);
             bColumn = Number(b[sortedColumn.dataKey || '']);
+
+            if (sortedColumn.dataKey === 'amazon_oos_90') {
+              aColumn = a[sortedColumn.dataKey];
+              bColumn = b[sortedColumn.dataKey];
+              if (aColumn === null || aColumn === undefined) {
+                aColumn = -Infinity;
+              }
+              if (bColumn === null || bColumn === undefined) {
+                bColumn = -Infinity;
+              }
+            }
           } else if (sortedColumn.type === 'date') {
             aColumn = new Date(a[sortedColumn.dataKey || ''] || null);
             bColumn = new Date(b[sortedColumn.dataKey || ''] || null);
