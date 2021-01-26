@@ -372,12 +372,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const { fetchOOS90, loadingOOS90, OOS90 } = this.props;
     return (
       <p className="stat">
-        <span>
-          {showNAIfZeroOrNull(
-            row.amazon_oos_90 && row.amazon_oos_90 !== '0.00',
-            `${row.amazon_oos_90} %`
-          )}
-        </span>
+        <span>{isNaN(parseFloat(row.amazon_oos_90)) ? '-' : `${row.amazon_oos_90}%`}</span>
         <span>
           <Icon
             loading={loadingOOS90 && OOS90.id === row.id}
