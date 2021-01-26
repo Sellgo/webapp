@@ -546,7 +546,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Out Of\nStock %',
       dataKey: 'amazon_oos_90',
-      type: 'string',
+      type: 'number',
       show: true,
       sortable: true,
       render: this.renderOOS,
