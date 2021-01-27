@@ -276,6 +276,10 @@ i.icon.filter::before {
   height: 46px;
   min-width: 95px;
   padding: 0 5px !important;
+
+  &.dimension {
+    min-width: 152px !important;
+  }
 }
 
 .table-cell-container {
