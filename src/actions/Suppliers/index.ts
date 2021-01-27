@@ -357,7 +357,9 @@ export const updateProductCost = (payload: any) => async (dispatch: any, getStat
   bodyFormData.set('product_id', product_id);
   bodyFormData.set('product_cost', product_cost);
   bodyFormData.set('psd_id', id);
-  bodyFormData.set('product_track_id', product_track_id);
+  if (product_track_id) {
+    bodyFormData.set('product_track_id', product_track_id);
+  }
 
   return Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/product/cost`,
