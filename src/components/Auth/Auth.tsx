@@ -1,3 +1,5 @@
+/*global chrome*/
+
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
 import analytics from '../../analytics';
@@ -5,6 +7,13 @@ import Axios from 'axios';
 import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
 import { removeProfitFinderFilters } from '../../constants/Products';
+import { isURL } from 'validator';
+import chromeIDConfig from '../../constants/ChromeExtension';
+
+const chromeID =
+  process.env.REACT_APP_ENV === 'production'
+    ? chromeIDConfig.PROD_CHROME_ID
+    : chromeIDConfig.DEV_CHROME_ID;
 
 export default class Auth {
   accessToken: any;
@@ -31,6 +40,10 @@ export default class Auth {
   registerSeller = () => {
     const headers = { Authorization: `Bearer ${this.idToken}`, 'Content-Type': 'application/json' };
     const formData = new FormData();
+
+    const chromeRedirectURL = localStorage.getItem('chromeRedirectURL') || '';
+    const decodedRedirectURL = atob(chromeRedirectURL);
+
     formData.append('email', this.userProfile.email);
     formData.append('name', `${this.userProfile.name}`);
     formData.append('first_name', `${this.userProfile.first_name}`);
@@ -52,6 +65,25 @@ export default class Auth {
             email: data.email,
           });
 
+          const userData = {
+            name: this.userProfile.name,
+            email: this.userProfile.email,
+            id_token: localStorage.getItem('idToken'),
+            expiresAt: localStorage.getItem('idTokenExpires'),
+            sellerID: localStorage.getItem('userId'),
+          };
+
+          if (chrome && chrome.runtime) {
+            chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
+          }
+
+          // if chrome extension redirect then
+          if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
+            window.location.href = decodedRedirectURL;
+            return;
+          }
+
+          // normal app workflow
           history.replace('/');
         }
       })
@@ -62,11 +94,13 @@ export default class Auth {
   };
 
   public getSellerID(data: any, type = 'subscription') {
+    const origin = localStorage.getItem('origin') || '';
     const formData = new FormData();
     formData.append('email', data.email);
     formData.append('name', data.name);
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
+    formData.append('origin', origin);
 
     Axios.post(AppConfig.BASE_URL_API + 'sellers/register', formData)
       .then((response: any) => {
@@ -180,8 +214,12 @@ export default class Auth {
       returnTo: window.location.origin,
     });
 
-    // navigate to the home route
-    // history.replace('/');
+    if (chrome && chrome.runtime) {
+      chrome.runtime.sendMessage(chromeID, {
+        status: 'logout',
+        payload: {},
+      });
+    }
   };
 
   public isAuthenticated = () => {

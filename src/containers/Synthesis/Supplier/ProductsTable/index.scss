@@ -259,6 +259,8 @@ $new_black: #3b4557;
     }
 
     .fees {
+      min-width: 92px !important;
+
       .stat {
         text-align: right !important;
       }
@@ -313,6 +315,8 @@ $new_black: #3b4557;
     }
 
     .variable_closing_fee {
+      min-width: 117px !important;
+
       .stat {
         text-align: right !important;
       }
@@ -343,6 +347,8 @@ $new_black: #3b4557;
     }
 
     .multipack_quantity {
+      min-width: 108px !important;
+
       .stat {
         text-align: right !important;
       }
@@ -379,7 +385,19 @@ $new_black: #3b4557;
     }
 
     .subscribe_save {
-      min-width: 100px !important;
+      min-width: 108px !important;
+    }
+
+    .best_seller {
+      min-width: 114px !important;
+    }
+
+    .amazon_price {
+      min-width: 133px !important;
+    }
+
+    .number_of_sellers {
+      min-width: 99px !important;
     }
 
     .num_fba_new_offers,

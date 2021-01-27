@@ -140,6 +140,7 @@ export interface ProductTrackerDetails {
   avg_amazon_inventory: number;
   is_amazon_selling: boolean;
   source: string;
+  amazon_oos_90: string;
 }
 
 export interface ProductsResponse {

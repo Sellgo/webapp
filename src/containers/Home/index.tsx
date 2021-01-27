@@ -8,6 +8,11 @@ export default class Home extends React.Component<any> {
   componentDidMount() {
     const { location } = this.props;
     let redirectPath = localStorage.getItem('loginRedirectPath');
+    if (location.search.includes('?res=')) {
+      localStorage.setItem('chromeRedirectURL', location.search.split('?res=')[1]);
+    } else {
+      localStorage.setItem('chromeRedirectURL', '');
+    }
     if (redirectPath && redirectPath !== '/') {
       history.replace(redirectPath);
     } else if (localStorage.getItem('isLoggedIn') === 'true') {

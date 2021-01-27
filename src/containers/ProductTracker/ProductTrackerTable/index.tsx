@@ -27,6 +27,7 @@ import {
   setProductDetails,
   updateProductCost,
   removeProductTrackGroup,
+  fetchOOS90,
 } from '../../../actions/ProductTracker';
 
 import {
@@ -46,6 +47,7 @@ import {
 } from '../../../selectors/Products';
 import { returnWithRenderMethod } from '../../../utils/tableColumn';
 import EditCostModal from '../../../components/EditCostModal';
+import { getOOS90, loadingOOS90 } from '../../../selectors/ProductTracker';
 
 interface TrackerProps {
   loadingTrackerFilter: boolean;
@@ -89,6 +91,9 @@ interface TrackerProps {
   setProductEditDetails: (payload: any) => void;
   updateCost: (payload: any) => void;
   removeProductTrackGroup: (payload: any) => void;
+  fetchOOS90: (payload: any) => void;
+  loadingOOS90: boolean;
+  OOS90: any;
 }
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
@@ -361,6 +366,29 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
+  renderOOS = (row: ProductTrackerDetails) => {
+    const { fetchOOS90, loadingOOS90, OOS90 } = this.props;
+    return (
+      <p className="stat">
+        <span>{isNaN(parseFloat(row.amazon_oos_90)) ? '-' : `${row.amazon_oos_90}%`}</span>
+        <span>
+          <Icon
+            loading={loadingOOS90 && OOS90.id === row.id}
+            disabled={loadingOOS90 && OOS90.id !== row.id}
+            name="refresh"
+            color="grey"
+            onClick={() => {
+              if (!loadingOOS90) {
+                fetchOOS90(row);
+              }
+            }}
+          />
+        </span>
+      </p>
+    );
+  };
+
   renderAvgROI = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -513,6 +541,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgROI,
+    },
+    {
+      label: 'Out Of\nStock %',
+      dataKey: 'amazon_oos_90',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderOOS,
     },
     {
       label: 'Avg Daily\nRank',
@@ -763,6 +799,8 @@ const mapStateToProps = (state: any) => {
     isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
     loadingTrackerFilter: get(state, 'productTracker.loadingTrackerFilter'),
     costDetails: get(state, 'productTracker.costDetails'),
+    loadingOOS90: loadingOOS90(state),
+    OOS90: getOOS90(state),
   };
 };
 
@@ -788,5 +826,6 @@ const mapDispatchToProps = {
   setProductEditDetails: (payload: any) => setProductDetails(payload),
   updateCost: (payload: any) => updateProductCost(payload),
   removeProductTrackGroup: (payload: any) => removeProductTrackGroup(payload),
+  fetchOOS90,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);
