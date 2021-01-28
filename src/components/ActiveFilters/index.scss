@@ -1,0 +1,25 @@
+.active-filters {
+  display: flex;
+
+  .label {
+    width: 200px;
+  }
+
+  .ui.label {
+    border: 2px solid #a3b7d0;
+    background: #fff;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 5px;
+
+    .filter-name {
+      color: #a3b7d0;
+    }
+  }
+
+  a.ui.label:hover,
+  a.ui.labels .label:hover {
+    background: #fff;
+  }
+}

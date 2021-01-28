@@ -13,6 +13,7 @@ import ConstructionImage from '../../components/ConstructionImage/';
 
 import { formatDimensionForSorting } from '../../utils/format';
 import BottomScroll from '../BottomScrollbar';
+import ActiveFilters from '../ActiveFilters';
 
 export interface Column {
   render?: (row: any) => string | JSX.Element;
@@ -454,6 +455,7 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <BottomScroll columns={columns} name={name} />
                   <div className="pagination-container">
+                    <ActiveFilters />
                     <Pagination
                       onPageSizeSelect={size => {
                         if (setSinglePageItemsCount) {
