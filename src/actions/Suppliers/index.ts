@@ -539,7 +539,9 @@ export const updateProductTrackingStatus = (
               success(UntrackSuccess);
               dispatch(removeTrackedProduct(json.data.object.id));
             } else if (type === 'move-group') {
-              success(json.data.message);
+              if (json.data.message.length > 0) {
+                success(json.data.message);
+              }
               dispatch(updateTrackedProduct(json.data.object));
               dispatch(setMenuItem(menuItem));
             }
