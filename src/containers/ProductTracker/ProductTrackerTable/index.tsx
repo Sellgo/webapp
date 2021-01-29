@@ -714,6 +714,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleEditGroupSubmit={this.handleEditGroupSubmit}
             editError={this.state.editError}
             filteredProducts={filteredProducts}
+            handleMoveGroup={this.props.handleMoveGroup}
           />
         </div>
         <ProductTrackerFilterSection />
