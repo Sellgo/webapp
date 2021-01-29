@@ -214,7 +214,6 @@ export const confirmTrackProduct = (
 };
 
 export const patchProductTrackGroup = (group: any) => (dispatch: any) => {
-  console.log('Information is here', group);
   const bodyFormData = new FormData();
   bodyFormData.set('id', group.id);
   bodyFormData.set('name', group.name);
