@@ -16,3 +16,19 @@ export function hexToRgbA(hex: string, opacity: number) {
   }
   throw new Error('Bad Hex');
 }
+
+export const graphColors = [
+  '#55D8FD',
+  '#A3A0FB',
+  '#FEDA83',
+  '#FD8373',
+  '#5EE2A0',
+  '#3B4557',
+  '#607EFA',
+  '#FDA373',
+  '#55D8FD',
+  '#A0F1FB',
+  '#FEDA83',
+  '#F9FE83',
+  '#4BB480',
+];

@@ -35,6 +35,15 @@ export const SET_SORT_COLUMN = 'SET_SORT_COLUMN';
 export const SET_PRODUCTS_LOADING_DATA_BUSTER = 'SET_PRODUCTS_LOADING_DATA_BUSTER';
 export const UPDATE_SUPPLIER_PRODUCT = 'UPDATE_SUPPLIER_PRODUCT';
 export const GET_ACTIVE_EXPORT_FILES = 'GET_ACTIVE_EXPORT_FILES';
+export const SET_PF_PAGE_NO = 'SET_PF_PAGE_NO';
+export const SET_PF_PAGE_SIZE = 'SET_PF_PAGE_SIZE';
+export const SET_PF_PAGE_COUNT = 'SET_PF_PAGE_COUNT';
+export const SET_PF_PAGE_LOADING = 'SET_PF_PAGE_LOADING';
+export const FETCH_PF_FILTERS = 'FETCH_PF_FILTERS';
+export const LOADING_PF_FILTERS = 'LOADING_PF_FILTERS';
+export const SET_PF_SORT = 'SET_PF_SORT';
+export const SET_PF_SORT_DIRECTION = 'SET_PF_SORT_DIRECTION';
+export const SET_PF_COUNT = 'SET_PF_COUNT';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -207,92 +216,6 @@ export const customFilterOperation = (
   }
 };
 
-export const customizableFilter = (product: any, customizableFilter: any) => {
-  let result = true;
-  _.filter(customizableFilter, filter => {
-    if (result) {
-      // for keys with computation that doesn't exist in filter slider
-      if (filter.dataKey === 'listing-monthly' && filter.active) {
-        const generatesValue = product.price * product.sales_monthly;
-        if (!filter.active) result = true;
-        else {
-          result = customFilterOperation(filter.operation, generatesValue, filter.value);
-        }
-      }
-      if (filter.dataKey === 'profit-monthly' && filter.active) {
-        const profitMonthly = product.profit * product.sales_monthly;
-        if (!filter.active) result = true;
-        else {
-          result = customFilterOperation(filter.operation, profitMonthly, filter.value);
-        }
-      }
-      if (filter.dataKey === 'customer_reviews' && filter.active) {
-        if (!filter.active) result = true;
-        else {
-          if (product.customer_reviews === null) result = true;
-          else {
-            result = customFilterOperation(
-              filter.operation,
-              product.customer_reviews,
-              filter.value
-            );
-          }
-        }
-      }
-      // for sliders with keys same with customize filter for ex. price
-      for (const keys of supplierDataKeys) {
-        if (keys === filter.dataKey && filter.active && filter.operation === '=') {
-          result = Number(product[filter.dataKey]) === Number(filter.value);
-        }
-      }
-    }
-  });
-  return result;
-};
-
-export const multipackPreset = (product: any, filter: any) => {
-  let result = true;
-  if (result) {
-    // for keys with computation that doesn't exist in filter slider
-    if (filter.value === 'Original UPC' && filter.active) {
-      if (!filter.active) result = true;
-      else {
-        result = product.is_variation === null;
-      }
-    }
-
-    if (filter.value === 'Variation' && filter.active) {
-      if (!filter.active) result = true;
-      else {
-        result = product.is_variation === true;
-      }
-    }
-
-    if (filter.value === 'Multipack') {
-      if (!filter.active) result = true;
-      else {
-        result = product.multipack_quantity > 1;
-      }
-    }
-
-    if (filter.value === 'Not Found') {
-      if (!filter.active) result = true;
-      else {
-        result = product.product_id === null;
-      }
-    }
-  }
-  return result;
-};
-
-export const findNonProfitableProducts = (product: any, profitabilityFilter: any) => {
-  if (!profitabilityFilter.active || profitabilityFilter.value !== 'Non-Profitable Products')
-    return true;
-  else {
-    return profitabilityFilter.value === 'Non-Profitable Products' && Number(product.profit) !== 0;
-  }
-};
-
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return !_.isEmpty(filterData) || !_.isEmpty(filterData.allFilter)
@@ -308,12 +231,6 @@ export const findFilteredProducts = (products: any, filterData: any) => {
           ((_.isEmpty(product.size_tier) && filterData.sizeTierFilter.indexOf('Others') !== -1) ||
             //show product size tier is matched by one of size tiers
             filterData.sizeTierFilter.indexOf(product.size_tier) !== -1) &&
-          //customizable filters
-          customizableFilter(product, filterData.customizable) &&
-          //NonProfitable filters
-          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-          //multipack filters
-          multipackPreset(product, filterData.multipackPreset) &&
           //Product's Min and Max must be valid from filter's min & max
           supplierDataKeys.every(
             (dataKey: any) =>

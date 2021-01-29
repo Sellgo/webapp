@@ -24,6 +24,8 @@ import {
   VERIFYING_PRODUCT,
   RESET_FILTER,
   SET_COST_DETAILS,
+  FETCH_OOS_90,
+  SET_CURRENT_OOS90_ROW,
 } from '../../constants/Tracker';
 import { error, success } from '../../utils/notifications';
 import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
@@ -318,3 +320,42 @@ export const updateProductCost = (payload: any) => async (dispatch: any, getStat
       error(`Failed to update product cost`);
     });
 };
+
+export const fetchOOS90 = (payload: any) => async (dispatch: any, getState: () => any) => {
+  const { product_id, id } = payload;
+  const products = trackerProductDetails(getState());
+  const sellerID = sellerIDSelector();
+
+  dispatch(setOOS90Loading(true));
+  dispatch(setOOS90(payload));
+  return Axios.get(
+    AppConfig.BASE_URL_API + `products/${product_id}/oos-stats?seller_id=${sellerID}`
+  )
+    .then(({ data }) => {
+      dispatch(setOOS90Loading(false));
+      if (data) {
+        dispatch(setOOS90({}));
+
+        const updated = products.results.map((p: any) => {
+          if (p.id === id) {
+            p = { ...p, ...data };
+          }
+          return p;
+        });
+        dispatch(setSupplierProductTrackerDetails({ ...products, results: updated }));
+      }
+    })
+    .catch(() => {
+      error(`Failed to update product cost`);
+    });
+};
+
+export const setOOS90Loading = (loading: boolean) => ({
+  type: FETCH_OOS_90,
+  payload: loading,
+});
+
+export const setOOS90 = (data: any) => ({
+  type: SET_CURRENT_OOS90_ROW,
+  payload: data,
+});

@@ -20,6 +20,8 @@ export const CHECKED_PRODUCTS_DATA = 'CHECKED_PRODUCTS_DATA';
 export const VERIFYING_PRODUCT = 'VERIFYING_PRODUCT';
 export const RESET_FILTER = 'RESET_FILTER';
 export const SET_COST_DETAILS = 'SET_COST_DETAILS';
+export const FETCH_OOS_90 = 'FETCH_OOS_90';
+export const SET_CURRENT_OOS90_ROW = 'SET_CURRENT_OOS90_ROW';
 
 /*
   IMPORTANT: USE ONLY THE GIVEN VALUE BELOW IF CHANGING DEFAULT PERIOD 
@@ -159,6 +161,12 @@ export const columnFilter = [
     value: true,
     key: 'Avg Daily Revenue',
     dataKey: 'avg_daily_revenue',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Out of Stock',
+    dataKey: 'amazon_oos_90',
     visible: true,
   },
   {
