@@ -38,6 +38,7 @@ import {
   SET_PF_SORT,
   SET_PF_SORT_DIRECTION,
   SET_PF_COUNT,
+  SET_PF_ACTIVE_FILTERS,
 } from '../../constants/Suppliers';
 import _ from 'lodash';
 import { selectItemsCountList } from '../../constants';
@@ -84,6 +85,7 @@ const initialState = {
   sort: 'price',
   sortDirection: 'asc',
   totalRecords: 0,
+  activeFilters: [],
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -237,6 +239,10 @@ export default (state = initialState, action: AnyAction) => {
 
     case SET_PF_COUNT: {
       return setIn(state, 'totalRecords', action.payload);
+    }
+
+    case SET_PF_ACTIVE_FILTERS: {
+      return setIn(state, 'activeFilters', action.payload);
     }
     default:
       return state;

@@ -43,6 +43,7 @@ import {
   profitFinderSort,
   profitFinderSortDirection,
   profitFinderTotalRecords,
+  profitFinderActiveFilters,
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
@@ -91,6 +92,7 @@ interface ProductsTableProps {
   sortDirection: string;
   onFetch: (payload: any) => void;
   totalRecords: number;
+  activeFilters: any[];
 }
 
 export interface CheckedRowDictionary {
@@ -1059,15 +1061,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   getSavedFilters = (
     resetKey = '',
     values = false
-  ): { queryString: string; queryParams: any; filters: any } => {
+  ): { queryString: string; queryParams: any; filters: any; list: any[] } => {
     let queryString = '';
     let queryParams: any = {};
     let filters = {};
+    const list: any[] = [];
     this.columns.forEach((c: any) => {
       if (resetKey !== c.filterDataKey && c.filterDataKey) {
         const saved: any = this.getFilterValue(c.filterDataKey, c.filterType);
 
         if (saved && !!saved.value) {
+          list.push({ ...saved, label: c.label });
           const { query, params, values } = this.parseFilters(saved);
           if (values) {
             filters = { ...filters, ...values };
@@ -1085,14 +1089,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       this.setState({ ColumnFilterBox: false });
     }
     queryString = queryString.replace('&&', '&');
-    return { queryString, queryParams, filters };
+    return { queryString, queryParams, filters, list };
   };
 
   fetchSupplierProducts = async (filter: any = {}, resetKey?: string) => {
     const { onFetch } = this.props;
     let payload: any = this.getFilters();
     if (filter) payload = { ...payload, ...filter };
-    const { queryParams, queryString } = this.getSavedFilters(resetKey);
+    const { queryParams, queryString, list } = this.getSavedFilters(resetKey);
     let query = queryString;
     if (filter.query && filter.query.length && !query.includes(filter.query)) {
       query = `${query}&${filter.query}`;
@@ -1121,6 +1125,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       ...payload,
       supplierID,
       pagination: true,
+      activeFilters: list,
     };
     const products = await fetchSupplierProducts(req);
     this.setState({ exportFilters: this.getExportFilters() });
@@ -1230,6 +1235,21 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return saved;
   };
 
+  resetActiveFilters = async (dataKey: string) => {
+    await localStorage.removeItem(`tracker:${dataKey}`);
+    await this.fetchSupplierProducts(this.getFilters(), dataKey);
+  };
+
+  removeFilters = async () => {
+    const { fetchSupplierProducts, singlePageItemsCount, supplierID } = this.props;
+    await fetchSupplierProducts({
+      page: 1,
+      per_page: singlePageItemsCount,
+      pagination: true,
+      supplierID,
+    });
+  };
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -1246,6 +1266,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filters,
       loadingFilters,
       totalRecords,
+      activeFilters,
     } = this.props;
     const {
       searchValue,
@@ -1324,6 +1345,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               }}
               applyColumnFilters={this.applyFilters}
               count={totalRecords}
+              activeFilters={activeFilters}
+              onActiveFilterReset={this.resetActiveFilters}
+              onCheckedActiveFilters={() => this.fetchSupplierProducts()}
+              onUncheckedActiveFilters={this.removeFilters}
             />
           </>
         )}
@@ -1352,6 +1377,7 @@ const mapStateToProps = (state: {}) => ({
   sort: profitFinderSort(state),
   sortDirection: profitFinderSortDirection(state),
   totalRecords: profitFinderTotalRecords(state),
+  activeFilters: profitFinderActiveFilters(state),
 });
 
 const mapDispatchToProps = {

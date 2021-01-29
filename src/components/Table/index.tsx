@@ -88,6 +88,10 @@ export interface GenericTableProps {
   scrollToView?: boolean;
   leftFixedColumns?: number;
   rightFixedColumns?: number;
+  activeFilters?: any[];
+  onActiveFilterReset?: (dataKey: string) => void;
+  onCheckedActiveFilters?: () => void;
+  onUncheckedActiveFilters?: () => void;
 }
 
 export const getColumnLabel = (dataKey: any, columnFilterData: any) => {
@@ -166,6 +170,10 @@ export const GenericTable = (props: GenericTableProps) => {
     scrollToView,
     leftFixedColumns,
     rightFixedColumns,
+    activeFilters,
+    onActiveFilterReset,
+    onCheckedActiveFilters,
+    onUncheckedActiveFilters,
   } = props;
 
   const initialPage = currentPage ? currentPage : 1;
@@ -455,7 +463,12 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <BottomScroll columns={columns} name={name} />
                   <div className="pagination-container">
-                    <ActiveFilters />
+                    <ActiveFilters
+                      filers={activeFilters ? activeFilters : []}
+                      onChecked={onCheckedActiveFilters}
+                      onUnchecked={onUncheckedActiveFilters}
+                      resetActiveFilter={onActiveFilterReset}
+                    />
                     <Pagination
                       onPageSizeSelect={size => {
                         if (setSinglePageItemsCount) {
