@@ -1,0 +1,67 @@
+.active-filters {
+  display: flex;
+  align-items: center;
+}
+
+.active-filters .icon {
+  color: #a3b7d0;
+  cursor: pointer;
+}
+
+.active-filters .label {
+  width: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #a3b7d0;
+  cursor: pointer;
+}
+
+.active-filters .checkbox {
+  font-size: 22px;
+  line-height: 1 !important;
+  margin: 0 1rem 0 0;
+}
+
+.active-filters .filter {
+  color: #a3b7d0;
+  font-size: 26px !important;
+  cursor: pointer;
+  line-height: 0.5 !important;
+  margin: 0 0.8rem 0 0;
+}
+
+.active-filters a.ui.label:hover,
+.active-filters a.ui.labels .label:hover {
+  background: #fff;
+  border: 2px solid #a3b7d0;
+}
+
+.filter-box {
+  min-width: 300px !important;
+}
+
+.filter-box .ui.label {
+  border: 2px solid #a3b7d0;
+  background: #fff;
+  margin-bottom: 2px !important;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5px !important;
+  border-radius: 10px;
+  width: fit-content !important;
+}
+
+.filter-box .ui.label .filter-name {
+  color: #a3b7d0;
+  margin-right: 5px;
+}
+
+.filter-box .ui.label .icon {
+  margin: 0;
+  color: #a3b7d0;
+}
+
+.filter-box .ui.label .icon:hover {
+  margin: 0;
+  color: #66798f;
+}
