@@ -47,9 +47,18 @@ import {
   SET_SORT_COLUMN,
   SET_PRODUCTS_LOADING_DATA_BUSTER,
   UPDATE_SUPPLIER_PRODUCT,
+  SET_PF_PAGE_NO,
+  SET_PF_PAGE_SIZE,
+  SET_PF_PAGE_COUNT,
+  SET_PF_PAGE_LOADING,
+  FETCH_PF_FILTERS,
+  LOADING_PF_FILTERS,
+  SET_PF_SORT,
+  SET_PF_SORT_DIRECTION,
+  SET_PF_COUNT,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
-import { Product } from '../../interfaces/Product';
+import { Product, ProfitFinderResponse } from '../../interfaces/Product';
 import { success, error } from '../../utils/notifications';
 import { updateTrackedProduct, setMenuItem, removeTrackedProduct } from './../ProductTracker';
 import { UntrackSuccess } from '../../components/ToastMessages';
@@ -57,6 +66,7 @@ import { timeout } from '../../utils/timeout';
 import { leads } from '../../selectors/LeadsTracker';
 import { setLeads } from '../LeadsTracker';
 import { variationsSelector } from '../../selectors/UploadSupplier';
+import { ProfitFinderFilters } from '../../interfaces/Filters';
 
 export interface Suppliers {
   supplierIds: number[];
@@ -338,25 +348,87 @@ export const setSupplierProducts = (products: Product[]) => ({
 
 export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
 
-export const fetchSupplierProducts = (supplierID: any) => async (
+export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
-  dispatch(isLoadingSupplierProducts(true));
+  if (!payload.pagination) {
+    dispatch(isLoadingSupplierProducts(true));
+  }
 
+  dispatch(setProfitFinderPageLoading(true));
   const sellerID = sellerIDSelector();
-  const response = await Axios.get(
-    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/synthesis-data`
-  );
+  const {
+    per_page = 50,
+    page = 1,
+    query = '',
+    params = {},
+    sort = 'price',
+    sortDirection = 'asc',
+    search,
+  } = payload;
 
-  if (response.data.length) {
-    const products: Product[] = response.data;
+  const pagination = `?page=${page}&per_page=${per_page}`;
+  let sorting = '';
+  let searching = '';
+  if (sort) {
+    sorting = `&sort=${sort}&sort_direction=${sortDirection}`;
+  }
+  if (search) {
+    searching = `&search=${search}`;
+  }
+
+  const response: ProfitFinderResponse = await Axios.get(
+    AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data${pagination}${query}${sorting}${searching}`,
+    { params }
+  );
+  const data = response.data;
+  if (data && data.results) {
+    const products: Product[] = data.results;
     dispatch(setSupplierProducts(products));
     dispatch(updateSupplierFilterRanges(findMinMaxRange(products)));
+    dispatch(setProfitFinderPageNo(data.current_page));
+    dispatch(setProfitFinderPageSize(data.per_page));
+    dispatch(setProfitFinderPageCount(data.total_pages));
+    dispatch(setProfitFinderSort(sort));
+    dispatch(setProfitFinderSortDirection(sortDirection));
+    dispatch(setProfitFinderTotalRecords(data.count));
     dispatch(isLoadingSupplierProducts(false));
+    dispatch(setProfitFinderPageLoading(false));
+
     return products;
   } else {
     dispatch(isLoadingSupplierProducts(false));
+    dispatch(setProfitFinderPageLoading(false));
+
     error('Data not found');
+  }
+};
+
+export const fetchProfitFinderFilters = (payload: any) => async (
+  dispatch: ThunkDispatch<{}, {}, AnyAction>
+) => {
+  try {
+    dispatch(setFetchingProfitFinderFilters(true));
+    const response = await getFilters(payload);
+    if (!!response && response.status === 200) {
+      dispatch(setProfitFinderFilters(response.data));
+      dispatch(setFetchingProfitFinderFilters(false));
+    }
+  } catch (e) {
+    dispatch(setFetchingProfitFinderFilters(false));
+  }
+};
+
+const getFilters = async (payload: any) => {
+  try {
+    const sellerID = sellerIDSelector();
+    return await Axios.get(
+      AppConfig.BASE_URL_API +
+        `sellers/${sellerID}/suppliers/${payload.supplierID}/synthesis-data?${payload.query}`
+    );
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -467,7 +539,9 @@ export const updateProductTrackingStatus = (
               success(UntrackSuccess);
               dispatch(removeTrackedProduct(json.data.object.id));
             } else if (type === 'move-group') {
-              success(json.data.message);
+              if (json.data.message.length > 0) {
+                success(json.data.message);
+              }
               dispatch(updateTrackedProduct(json.data.object));
               dispatch(setMenuItem(menuItem));
             }
@@ -803,4 +877,49 @@ export const setProductsLoadingDataBuster = (value: number[]) => ({
 export const updateSupplierProduct = (data: any) => ({
   type: UPDATE_SUPPLIER_PRODUCT,
   payload: data,
+});
+
+const setProfitFinderPageNo = (pageNo: number) => ({
+  type: SET_PF_PAGE_NO,
+  payload: pageNo,
+});
+
+const setProfitFinderPageSize = (pageSize: number) => ({
+  type: SET_PF_PAGE_SIZE,
+  payload: pageSize,
+});
+
+const setProfitFinderPageCount = (pageCount: number) => ({
+  type: SET_PF_PAGE_COUNT,
+  payload: pageCount,
+});
+
+const setProfitFinderPageLoading = (loading: boolean) => ({
+  type: SET_PF_PAGE_LOADING,
+  payload: loading,
+});
+
+const setProfitFinderFilters = (filters: any) => ({
+  type: FETCH_PF_FILTERS,
+  payload: filters,
+});
+
+const setFetchingProfitFinderFilters = (loading: boolean) => ({
+  type: LOADING_PF_FILTERS,
+  payload: loading,
+});
+
+const setProfitFinderSort = (sort: string) => ({
+  type: SET_PF_SORT,
+  payload: sort,
+});
+
+const setProfitFinderSortDirection = (sortDirection: string) => ({
+  type: SET_PF_SORT_DIRECTION,
+  payload: sortDirection,
+});
+
+const setProfitFinderTotalRecords = (count: number) => ({
+  type: SET_PF_COUNT,
+  payload: count,
 });

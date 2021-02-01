@@ -40,8 +40,8 @@ const BottomScroll = (props: Props) => {
     <div className={'bottom-scrollbar'} onScroll={onScroll}>
       {columns.map((c: Column) => (
         <div
-          className={`${
-            name === 'products' ? 'middle-scroll-cell' : 'ptr-scrollbar'
+          className={`${name === 'products' ? 'middle-scroll-cell' : 'ptr-scrollbar'} ${
+            name === 'trackerTable' ? 'trackerTable' : ''
           } ${getColumnClass(c)} bottom-cell`}
           key={`bs-${c.dataKey}`}
         />

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import { useWindowSize } from '../../hooks/useWindowSize';
 
 const ProfitFinderChart = (props: any) => {
@@ -25,7 +25,7 @@ const ProfitFinderChart = (props: any) => {
   });
 
   const nextProps = { ...props, profitFinderChartOptions, chartComponentRef };
-  return props.render(nextProps);
+  return props.supplier || props.products.length > 0 ? props.render(nextProps) : null;
 };
 
-export default ProfitFinderChart;
+export default memo(ProfitFinderChart);

@@ -10,7 +10,7 @@ export const SET_SUPPLIER_PRODUCT_DETAIL_CHART_SELLER_INVENTORY =
 export const SET_PRODUCT_DETAIL_KPI = 'SET_PRODUCT_DETAIL_KPI';
 export const SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI = 'SET_SUPPLIER_PRODUCT_DETAIL_CHART_KPI';
 export const RESET_SUPPLIER_PRODUCT_DETAILS = 'RESET_SUPPLIER_PRODUCT_DETAILS';
-
+export const SET_BUY_BOX_STATISTICS = 'SET_BUY_BOX_STATISTICS';
 export const SET_FETCHING_RANK = 'SET_FETCHING_RANK';
 export const SET_FETCHING_PRICE = 'SET_FETCHING_PRICE';
 export const SET_FETCHING_INVENTORY = 'SET_FETCHING_INVENTORY';
@@ -20,6 +20,7 @@ export const SET_FETCHING_SELLER_INVENTORY = 'SET_FETCHING_SELLER_INVENTORY';
 export const SET_FETCHING_KPI = 'SET_FETCHING_KPI';
 export const SET_ACTIVE_EXPORT_FILES = 'SET_ACTIVE_EXPORT_FILES';
 export const FETCHING_ACTIVE_EXPORTS = 'FETCHING_ACTIVE_EXPORTS';
+export const SET_FETCHING_BUY_BOX_STATISTICS = 'SET_FETCHING_BUY_BOX_STATISTICS';
 
 export const columnFilter = [
   {
@@ -108,8 +109,20 @@ export const columnFilter = [
   },
   {
     value: true,
+    key: 'Other UPC',
+    dataKey: 'upcs',
+    visible: true,
+  },
+  {
+    value: true,
     key: 'Is Amazon Selling',
     dataKey: 'is_amazon_selling',
+    visible: true,
+  },
+  {
+    value: true,
+    dataKey: 'amazon_price',
+    key: 'Amazon Price',
     visible: true,
   },
   {
@@ -122,6 +135,24 @@ export const columnFilter = [
     value: true,
     key: 'Rating',
     dataKey: 'rating',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Best Seller',
+    dataKey: 'best_seller',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Subscribe & Save',
+    dataKey: 'subscribe_save',
+    visible: true,
+  },
+  {
+    value: true,
+    key: 'Number Of Seller',
+    dataKey: 'number_of_sellers',
     visible: true,
   },
   {
@@ -195,3 +226,9 @@ export const EXPORT_DATA = [
   { key: 'all', value: 'all', text: 'All Results' },
   { key: 'filtered', value: 'filtered', text: 'Filtered Results' },
 ];
+
+export const removeProfitFinderFilters = () => {
+  columnFilter.forEach(column => {
+    localStorage.removeItem(`products:${column.dataKey}`);
+  });
+};

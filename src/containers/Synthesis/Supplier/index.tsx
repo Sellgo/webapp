@@ -20,7 +20,12 @@ import {
   setLatestSupplier,
   updateSupplierSinglePageItemsCount,
 } from '../../../actions/Suppliers';
-import { supplierProductsSelector, suppliersSelector } from '../../../selectors/Supplier';
+import {
+  profitFinderPageNumber,
+  profitFinderPageSize,
+  supplierProductsSelector,
+  suppliersSelector,
+} from '../../../selectors/Supplier';
 import './index.scss';
 import { dismiss, info } from '../../../utils/notifications';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
@@ -28,6 +33,8 @@ import { Product } from '../../../interfaces/Product';
 import { Supplier as SupplierInterface } from '../../../interfaces/Supplier';
 import history from '../../../history';
 import _ from 'lodash';
+import { ProfitFinderFilters } from '../../../interfaces/Filters';
+import { removeProfitFinderFilters } from '../../../constants/Products';
 
 interface SupplierProps {
   stickyChartSelector: boolean;
@@ -39,7 +46,7 @@ interface SupplierProps {
   closeProductDetailModal: () => void;
   fetchSupplierDetails: (supplierID: any) => Promise<SupplierInterface | undefined>;
   resetSupplier: () => void;
-  fetchSupplierProducts: (supplierID: any) => Promise<Product[] | undefined>;
+  fetchSupplierProducts: (payload: ProfitFinderFilters) => Promise<Product[] | undefined>;
   resetSupplierProducts: typeof resetSupplierProducts;
   supplierProgress: (supplierID: any) => void;
   progress: any;
@@ -48,12 +55,15 @@ interface SupplierProps {
   reloadSuppliers: () => void;
   suppliers: SupplierInterface[];
   updateSupplierSinglePageItemsCount: () => void;
+  singlePageItemsCount: number;
+  pageNumber: number;
 }
 export class Supplier extends React.Component<SupplierProps, any> {
   constructor(props: SupplierProps) {
     super(props);
     this.state = {
       openRecentFiles: false,
+      payload: {},
     };
   }
 
@@ -66,28 +76,10 @@ export class Supplier extends React.Component<SupplierProps, any> {
   }
 
   initialData = async (supplierID: any) => {
-    const {
-      fetchSupplierDetails,
-      fetchSupplierProducts,
-      supplierProgress,
-      setProductsLoadingDataBuster,
-      pollDataBuster,
-    } = this.props;
+    const { fetchSupplierDetails, supplierProgress } = this.props;
 
     supplierProgress(supplierID);
-
-    const results = await Promise.all([
-      fetchSupplierDetails(supplierID),
-      fetchSupplierProducts(supplierID),
-    ]);
-
-    const fetchedProducts: Product[] | undefined = results[1];
-    if (fetchedProducts) {
-      setProductsLoadingDataBuster(
-        fetchedProducts.filter(p => p.data_buster_status === 'processing').map(p => p.product_id)
-      );
-    }
-    pollDataBuster();
+    await fetchSupplierDetails(supplierID);
   };
 
   componentWillUnmount() {
@@ -135,10 +127,18 @@ export class Supplier extends React.Component<SupplierProps, any> {
   };
 
   selectSupplier = async (supplier: any) => {
+    const { fetchSupplierProducts, singlePageItemsCount } = this.props;
     history.push(`/profit-finder/${supplier.supplier_id}`);
     this.setState({ openRecentFiles: false });
     setLatestSupplier(supplier);
     await this.initialData(supplier.supplier_id);
+    await removeProfitFinderFilters();
+    await fetchSupplierProducts({
+      page: 1,
+      per_page: singlePageItemsCount,
+      supplierID: supplier.supplier_id,
+      pagination: true,
+    });
   };
 
   render() {
@@ -148,6 +148,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
       stickyChartSelector,
       suppliers,
       match,
+      fetchSupplierProducts,
     } = this.props;
     const searchName =
       supplierDetails && supplierDetails.search ? ` ${supplierDetails.search}` : '';
@@ -222,10 +223,19 @@ export class Supplier extends React.Component<SupplierProps, any> {
         <Segment basic={true} className="setting">
           <Grid className={`product-chart ${stickyChartSelector ? 'sticky-chart-active' : ''}`}>
             <Grid.Row className="right-column">
-              {!isLoadingSupplierProducts && <SupplierDetails />}
+              {!isLoadingSupplierProducts && (
+                <SupplierDetails
+                  onPageChange={(page: number) =>
+                    fetchSupplierProducts({ ...this.state.payload, page })
+                  }
+                />
+              )}
             </Grid.Row>
           </Grid>
-          <ProductsTable supplierID={this.props.match.params.supplierID} />
+          <ProductsTable
+            supplierID={this.props.match.params.supplierID}
+            onFetch={payload => this.setState({ payload })}
+          />
 
           <Modal
             size={'large'}
@@ -251,13 +261,15 @@ const mapStateToProps = (state: any) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   progress: get(state, 'supplier.quota'),
   suppliers: suppliersSelector(state),
+  pageNumber: profitFinderPageNumber(state),
+  singlePageItemsCount: profitFinderPageSize(state),
 });
 
 const mapDispatchToProps = {
   closeProductDetailModal: () => closeSupplierProductDetailModal(),
   fetchSupplierDetails: (supplierID: any) => fetchSupplierDetails(supplierID),
   resetSupplier: () => resetSupplier(),
-  fetchSupplierProducts: (supplierID: any) => fetchSupplierProducts(supplierID),
+  fetchSupplierProducts: (payload: ProfitFinderFilters) => fetchSupplierProducts(payload),
   resetSupplierProducts: () => resetSupplierProducts(),
   supplierProgress: () => supplierProgress(),
   setProductsLoadingDataBuster,

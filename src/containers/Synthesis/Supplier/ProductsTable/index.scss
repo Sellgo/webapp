@@ -35,6 +35,14 @@ $new_black: #3b4557;
     height: 70vh;
   }
 
+  &.disabled {
+    thead,
+    tbody {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+
   h2 {
     font-weight: 300;
     font-size: 15px;
@@ -236,19 +244,25 @@ $new_black: #3b4557;
 
     .price {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .product_cost {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
+
+        &--red {
+          color: red !important;
+        }
       }
     }
 
     .fees {
+      min-width: 92px !important;
+
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
@@ -256,87 +270,161 @@ $new_black: #3b4557;
       position: relative;
 
       .stat {
-        text-align: right !important;
         margin-bottom: 0 !important;
+        text-align: left !important;
       }
     }
 
     .multipack_margin {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .multipack_roi {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .rank {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .sales_monthly {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .monthly_revenue {
+      @media only screen and(max-width: 1540px) {
+        min-width: 98px !important;
+      }
+
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .fba_fee {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .referral_fee {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .variable_closing_fee {
+      min-width: 117px !important;
+
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .num_fba_new_offers {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .num_fbm_new_offers {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .low_new_fba_price {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .low_new_fbm_price {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .multipack_quantity {
+      min-width: 108px !important;
+
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
+    }
+
+    .other_upc {
+      .stat {
+        text-align: left !important;
+        font-weight: 500;
+        margin-bottom: 0 !important;
+
+        &--blue {
+          color: #0e6fcf;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .upcs,
+    .amazon_price,
+    .customer_reviews,
+    .rating {
+      .stat {
+        text-align: left !important;
+      }
+    }
+
+    .upcs {
+      min-width: 130px !important;
+      text-align: left !important;
+    }
+
+    .is_amazon_selling {
+      min-width: 120px !important;
+    }
+
+    .subscribe_save {
+      min-width: 108px !important;
+    }
+
+    .best_seller {
+      min-width: 114px !important;
+
+      @media only screen and(max-width: 1540px) {
+        min-width: 115px !important;
+      }
+
+      .stat {
+        text-align: left !important;
+      }
+    }
+
+    .amazon_price {
+      min-width: 133px !important;
+
+      @media only screen and(max-width: 1540px) {
+        min-width: 134px !important;
+      }
+    }
+
+    .number_of_sellers {
+      min-width: 99px !important;
+    }
+
+    .num_fba_new_offers,
+    .num_fbm_new_offers,
+    .low_new_fbm_price,
+    .low_new_fba_price {
+      min-width: 130px !important;
     }
 
     tfoot {
@@ -443,6 +531,15 @@ $new_black: #3b4557;
 
       .table-cell-container {
         padding: 0 5px !important;
+
+        .icon {
+          display: block;
+          margin-top: -15px !important;
+
+          &.ellipsis {
+            margin: 0 !important;
+          }
+        }
       }
     }
 
@@ -820,4 +917,38 @@ $new_black: #3b4557;
 .last_run {
   width: 153px !important;
   min-width: 160px !important;
+}
+
+/* Pop Up Card for Other UPC's */
+
+.ui.popup.large.other-upcs-popup {
+  min-width: 400px !important;
+  max-width: 400px !important;
+
+  + .other-upcs-card {
+    min-width: 400px;
+    min-height: max-content;
+    width: 500px !important;
+    background: #fff;
+    position: absolute;
+    z-index: 999999 !important;
+    top: 0;
+    left: 90px;
+    display: none;
+    box-shadow: 0 3px 6px #00000029;
+    border-radius: 10px;
+    background-color: #fff !important;
+    padding: 10px 20px;
+    max-width: 400px;
+
+    h5 {
+      text-align: left;
+      font-size: 14px;
+    }
+
+    p {
+      text-align: left;
+      font-size: 14px;
+    }
+  }
 }

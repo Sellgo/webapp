@@ -1,0 +1,94 @@
+.profitability-preset {
+  border: none !important;
+  box-shadow: unset !important;
+  background: white;
+  color: #3b4557 !important;
+  border-top-left-radius: 100px !important;
+  border-bottom-left-radius: 100px !important;
+  border-top-right-radius: 100px !important;
+  border-bottom-right-radius: 100px !important;
+  margin: 0 5px 5px 5px !important;
+
+  .multipack-variation-preset-btn {
+    color: #3b4557 !important;
+    border: 1px solid #98aeca !important;
+    box-shadow: unset !important;
+    border-top-left-radius: 100px !important;
+    border-bottom-left-radius: 100px !important;
+    border-right: 0 !important;
+    font-weight: 600 !important;
+    padding: 0 10px 0 15px;
+    height: 32px !important;
+  }
+
+  .ui.dropdown {
+    color: #3b4557 !important;
+    border: 1px solid #98aeca !important;
+    box-shadow: unset !important;
+    border-left: none !important;
+    border-top-right-radius: 100px !important;
+    border-bottom-right-radius: 100px !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-weight: 600 !important;
+    padding: 10px 5px;
+    height: 32px;
+
+    .menu {
+      padding: 15px 0;
+      border-radius: 15px !important;
+      width: 204px;
+
+      .item:hover {
+        background-color: #98aeca !important;
+      }
+    }
+
+    .angle.down {
+      margin: 0 0.1em 0 -0.114286em;
+    }
+  }
+
+  &.basic {
+    .multipack-variation-preset-btn {
+      &.ui.button {
+        color: #3b4557 !important;
+      }
+    }
+
+    .ui.dropdown {
+      color: #3b4557 !important;
+      border-left-color: none !important;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 0;
+        height: 0;
+        background: #98aeca;
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+      }
+
+      &:hover::before {
+        height: 100%;
+        width: 1px;
+      }
+    }
+  }
+
+  &.blue {
+    .multipack-variation-preset-btn {
+      color: #fff !important;
+      background-color: #349af8 !important;
+      border-right: 1px solid #4285f461 !important;
+    }
+
+    .ui.dropdown {
+      color: #fff !important;
+      background-color: #349af8 !important;
+    }
+  }
+}

@@ -47,6 +47,14 @@ function Signup(props: any, state: State) {
   const [openPP, setOpenPP] = useState(false);
 
   useEffect(() => {
+    if (window.location.search.includes('?res=')) {
+      localStorage.setItem('origin', 'chrome-ext');
+    } else {
+      localStorage.setItem('origin', 'webapp');
+    }
+  }, []);
+
+  useEffect(() => {
     fetchTOS();
     fetchPP();
   }, [fetchTOS, fetchPP]);
@@ -167,6 +175,7 @@ function Signup(props: any, state: State) {
     setFnameError(false);
     setLnameError(false);
     const accountType = window.location.search === '?type=trial' ? 'trial' : 'free';
+    const origin = localStorage.getItem('origin');
     if (!passwordPolicy.validate(password)) {
       setFocusPassword(true);
     } else if (!validateEmail(email)) {
@@ -184,7 +193,7 @@ function Signup(props: any, state: State) {
           connection: 'Username-Password-Authentication',
           email: email,
           password: password,
-          userMetadata: { first_name: firstname, last_name: lastname },
+          userMetadata: { first_name: firstname, last_name: lastname, origin: origin },
         },
         (err: any) => {
           if (err) {

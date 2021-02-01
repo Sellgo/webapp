@@ -4,6 +4,8 @@ import csvParse from 'csv-parse/lib/es5';
 import Axios from 'axios';
 import XLSX from 'xlsx';
 import reduce from 'lodash/reduce';
+import pako from 'pako';
+
 import {
   columnMappingSettingSelector,
   currentStepSelector,
@@ -118,8 +120,8 @@ export const parseCsv = () => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
-  const rawFileString = rawFileSelector(getState());
-  if (!rawFileString) {
+  const rawEncodedFileString = rawFileSelector(getState());
+  if (!rawEncodedFileString) {
     return;
   }
 
@@ -143,7 +145,10 @@ export const parseCsv = () => (
 
   // to ensure loader is visible delay execution by placing parse in async queue
   Promise.resolve().then(() => {
-    csvParse(rawFileString, parseOption, getParsedCsv);
+    const restoredFileString = JSON.parse(
+      pako.inflate(JSON.parse(rawEncodedFileString), { to: 'string' })
+    );
+    csvParse(restoredFileString, parseOption, getParsedCsv);
   });
 };
 
@@ -152,14 +157,19 @@ export const parseExcel = (readOptions: any) => (
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
   getState: () => any
 ): void => {
-  const rawFileString = rawFileSelector(getState());
-  if (!rawFileString) {
+  const rawEncodedFileString = rawFileSelector(getState());
+  if (!rawEncodedFileString) {
     return;
   }
 
+  // Decoding the file string here
+  const restoredFileString = JSON.parse(
+    pako.inflate(JSON.parse(rawEncodedFileString), { to: 'string' })
+  );
+
   Promise.resolve().then(() => {
     try {
-      const wb = XLSX.read(rawFileString, readOptions);
+      const wb = XLSX.read(restoredFileString, readOptions);
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
@@ -198,10 +208,13 @@ export const prepareFile = (file?: File) => async (dispatch: ThunkDispatch<{}, {
   reader.onloadend = () => {
     const fileString = reader.result;
 
+    // Deflating the file string here
+    const compressedFileString = pako.deflate(JSON.stringify(fileString));
+
     if (!fileString || reader.error) {
       error('Error occurred while uploading file.');
     } else {
-      dispatch(setRawFile(fileString, file));
+      dispatch(setRawFile(JSON.stringify(compressedFileString), file));
       dispatch(parseFile());
     }
   };
@@ -318,7 +331,15 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     `${AppConfig.BASE_URL_API}sellers/${String(sellerID)}/csv-column-mapping`
   );
   if (response.data) {
-    const { primary_id_type, primary_id, product_cost, sku, title, msrp } = response.data;
+    const {
+      primary_id_type,
+      primary_id,
+      product_cost,
+      sku,
+      title,
+      msrp,
+      wholesale_quantity,
+    } = response.data;
     const columnMappings = [];
     if (primary_id_type !== null) columnMappings[primary_id_type] = 'primary_id_type';
     if (primary_id !== null) columnMappings[primary_id] = 'primary_id';
@@ -326,6 +347,7 @@ export const fetchColumnMappings = () => async (dispatch: ThunkDispatch<{}, {}, 
     if (sku !== null) columnMappings[sku] = 'sku';
     if (title !== null) columnMappings[title] = 'title';
     if (msrp !== null) columnMappings[msrp] = 'msrp';
+    if (wholesale_quantity !== null) columnMappings[wholesale_quantity] = 'wholesale_quantity';
     dispatch(setColumnMappings(columnMappings));
   } else {
     dispatch(removeColumnMappings());
@@ -385,6 +407,8 @@ export const validateAndUploadFile = () => async (
     bodyFormData.set('sku', reversedColumnMappings.sku);
   if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'msrp'))
     bodyFormData.set('msrp', reversedColumnMappings.msrp);
+  if (Object.prototype.hasOwnProperty.call(reversedColumnMappings, 'quantity'))
+    bodyFormData.set('wholesale_quantity', reversedColumnMappings.quantity);
 
   const response = await Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${String(supplierID)}/synthesis/upload`,

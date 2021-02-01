@@ -26,6 +26,8 @@ import {
   deleteProductTrackGroup,
   setProductDetails,
   updateProductCost,
+  removeProductTrackGroup,
+  fetchOOS90,
 } from '../../../actions/ProductTracker';
 
 import {
@@ -46,6 +48,7 @@ import {
 import { returnWithRenderMethod } from '../../../utils/tableColumn';
 import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
+import { getOOS90, loadingOOS90 } from '../../../selectors/ProductTracker';
 
 interface TrackerProps {
   loadingTrackerFilter: boolean;
@@ -88,6 +91,10 @@ interface TrackerProps {
   costDetails: any;
   setProductEditDetails: (payload: any) => void;
   updateCost: (payload: any) => void;
+  removeProductTrackGroup: (payload: any) => void;
+  fetchOOS90: (payload: any) => void;
+  loadingOOS90: boolean;
+  OOS90: any;
 }
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
@@ -360,6 +367,29 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
+  renderOOS = (row: ProductTrackerDetails) => {
+    const { fetchOOS90, loadingOOS90, OOS90 } = this.props;
+    return (
+      <p className="stat">
+        <span>{isNaN(parseFloat(row.amazon_oos_90)) ? '-' : `${row.amazon_oos_90}%`}</span>
+        <span>
+          <Icon
+            loading={loadingOOS90 && OOS90.id === row.id}
+            disabled={loadingOOS90 && OOS90.id !== row.id}
+            name="refresh"
+            color="grey"
+            onClick={() => {
+              if (!loadingOOS90) {
+                fetchOOS90(row);
+              }
+            }}
+          />
+        </span>
+      </p>
+    );
+  };
+
   renderAvgROI = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -514,6 +544,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgROI,
     },
     {
+      label: 'Out Of\nStock %',
+      dataKey: 'amazon_oos_90',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderOOS,
+    },
+    {
       label: 'Avg Daily\nRank',
       dataKey: 'avg_rank',
       type: 'number',
@@ -620,6 +658,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
   };
 
+  handleKeepTracking = (groupID: any) => {
+    this.props.removeProductTrackGroup(groupID);
+    this.setState({
+      deleteGroup: false,
+    });
+  };
+
   render() {
     const {
       loadingTrackerFilter,
@@ -662,12 +707,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
             handleAddGroupCancel={this.handleAddGroupCancel}
             handleAddGroupNameChange={this.handleAddGroupNameChange}
             handleDeleteGroup={this.handleDeleteGroup}
-            handleDeleteGroupCancel={this.handleDeleteGroupCancel}
+            handleDeleteGroupCancel={this.handleKeepTracking}
             handleDeleteGroupSubmit={this.handleDeleteGroupSubmit}
             handleEditGroup={this.handleEditGroup}
             handleEditGroupCancel={this.handleEditGroupCancel}
             handleEditGroupSubmit={this.handleEditGroupSubmit}
             editError={this.state.editError}
+            filteredProducts={filteredProducts}
+            handleMoveGroup={this.props.handleMoveGroup}
           />
         </div>
         <ProductTrackerFilterSection />
@@ -823,6 +870,8 @@ const mapStateToProps = (state: any) => {
     isFetchingSellerInventory: isFetchingSellerInventorySelector(state),
     loadingTrackerFilter: get(state, 'productTracker.loadingTrackerFilter'),
     costDetails: get(state, 'productTracker.costDetails'),
+    loadingOOS90: loadingOOS90(state),
+    OOS90: getOOS90(state),
   };
 };
 
@@ -847,5 +896,7 @@ const mapDispatchToProps = {
     updateProductTrackingStatus(status, productID, productTrackerID, productTrackerGroupID, type),
   setProductEditDetails: (payload: any) => setProductDetails(payload),
   updateCost: (payload: any) => updateProductCost(payload),
+  removeProductTrackGroup: (payload: any) => removeProductTrackGroup(payload),
+  fetchOOS90,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);
