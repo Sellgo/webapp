@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { Icon, Label } from 'semantic-ui-react';
+import { Icon, Label, Popup } from 'semantic-ui-react';
 interface Props {
   filers: any[];
   resetActiveFilter?: (dataKey: string) => void;
@@ -31,24 +31,33 @@ const ActiveFilters = (props: Props) => {
           }}
         />
       )}
-      {/*<Icon name={'filter'} size={'large'} />*/}
-      <span className="label">Active Filters: </span>
-      {filers.map((filter: any) => {
-        if (filter.filterType === 'slider') {
-          return (
-            <Label as="a" key={filter.dataKey}>
-              <div className="filter-name">
-                {filter.label} {filter.value.min} to {filter.value.max}
-              </div>
-              <Icon
-                name="times circle"
-                onClick={() => resetActiveFilter && resetActiveFilter(filter.dataKey)}
-              />
-            </Label>
-          );
+      <Popup
+        className="filter-box"
+        basic
+        content={
+          <>
+            {filers.map((filter: any) => {
+              if (filter.filterType === 'slider') {
+                return (
+                  <Label as="a" key={filter.dataKey}>
+                    <div className="filter-name">
+                      {filter.label} {filter.value.min} to {filter.value.max}
+                    </div>
+                    <Icon
+                      name="times circle"
+                      onClick={() => resetActiveFilter && resetActiveFilter(filter.dataKey)}
+                    />
+                  </Label>
+                );
+              }
+              return <p key={filter.dataKey} />;
+            })}
+          </>
         }
-        return <p key={filter.dataKey} />;
-      })}
+        on="click"
+        positionFixed
+        trigger={<span className="label">Active Filters: </span>}
+      />
     </div>
   );
 };

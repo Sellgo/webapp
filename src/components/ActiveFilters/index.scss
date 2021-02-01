@@ -12,6 +12,7 @@
     font-size: 14px;
     font-weight: 500;
     color: #a3b7d0;
+    cursor: pointer;
   }
 
   .checkbox {
@@ -28,10 +29,20 @@
     margin: 0 0.8rem 0 0;
   }
 
+  a.ui.label:hover,
+  a.ui.labels .label:hover {
+    background: #fff;
+    border: 2px solid #a3b7d0;
+  }
+}
+
+.filter-box {
+  min-width: 300px !important;
+
   .ui.label {
     border: 2px solid #a3b7d0;
     background: #fff;
-    margin-bottom: 0 !important;
+    margin-bottom: 2px !important;
     display: flex;
     justify-content: space-between;
     padding-left: 5px !important;
@@ -52,11 +63,5 @@
       margin: 0;
       color: #66798f;
     }
-  }
-
-  a.ui.label:hover,
-  a.ui.labels .label:hover {
-    background: #fff;
-    border: 2px solid #a3b7d0;
   }
 }
