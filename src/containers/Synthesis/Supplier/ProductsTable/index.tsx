@@ -1053,7 +1053,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
   getExportFilters = (): any => {
     const { filters } = this.getSavedFilters('', true);
-    return filters;
+    return { ...filters, ...this.getSavedPresetFilters() };
   };
 
   getSavedFilters = (
@@ -1227,6 +1227,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (saved) {
       saved = this.parsePresetFilters(saved);
     }
+
     return saved;
   };
 
