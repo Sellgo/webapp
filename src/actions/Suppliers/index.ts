@@ -255,7 +255,8 @@ export const fetchSynthesisProgressUpdates = () => async (
       supplier.file_status &&
       supplier.file_status !== null &&
       supplier.file_status !== 'completed' &&
-      supplier.file_status !== 'inactive'
+      supplier.file_status !== 'inactive' &&
+      supplier.file_status !== 'failed'
   );
 
   const handleUpdateSupplier = (response: any, index: any) => {
