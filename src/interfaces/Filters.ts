@@ -29,6 +29,7 @@ export interface CustomizableFilterModel {
   operation: string;
   value: number;
   active: boolean;
+  label: string;
 }
 
 //Supplier

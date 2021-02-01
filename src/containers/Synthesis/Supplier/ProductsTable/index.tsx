@@ -1178,18 +1178,27 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     });
   };
 
-  parsePresetFilters = (filterState: any): any => {
+  parsePresetFilters = (filterState: any): { filters: any; list: any[] } => {
     const { customizable = [], profitabilityFilter, multipackPreset } = filterState;
     let filters = {};
+    const list = [];
     customizable.forEach((filter: any) => {
       if (filter.active) {
+        let opeartion = '';
         let dataKey = filter.dataKey;
         if (filter.operation === '≤') {
           dataKey = `${dataKey}_max`;
+          opeartion = 'Max';
         }
         if (filter.operation === '≥') {
           dataKey = `${dataKey}_min`;
+          opeartion = 'Min';
         }
+        list.push({
+          dataKey: dataKey,
+          filterType: 'SingleValue',
+          label: `${filter.label} :${opeartion} ${filter.value}`,
+        });
         filters = { ...filters, [dataKey]: filter.value };
       }
     });
@@ -1197,30 +1206,60 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (profitabilityFilter && profitabilityFilter.active) {
       if (profitabilityFilter.value === 'Profitable') {
         filters = { ...filters, profitable: true };
+        list.push({
+          dataKey: 'profitable',
+          filterType: 'SingleValue',
+          label: profitabilityFilter.value,
+        });
       }
       if (profitabilityFilter.value === 'Non-Profitable Products') {
         filters = { ...filters, non_profitable: true };
+        list.push({
+          dataKey: 'non_profitable',
+          filterType: 'SingleValue',
+          label: profitabilityFilter.value,
+        });
       }
     }
 
     if (multipackPreset && multipackPreset.active) {
       if (multipackPreset.value === 'Original UPC') {
         filters = { ...filters, original: true };
+        list.push({
+          dataKey: 'original',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
       if (multipackPreset.value === 'Not Found') {
         filters = { ...filters, not_found: true };
+        list.push({
+          dataKey: 'original',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
 
       if (multipackPreset.value === 'Multipack') {
         filters = { ...filters, multipack: true };
+        list.push({
+          dataKey: 'multipack',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
 
       if (multipackPreset.value === 'Variation') {
         filters = { ...filters, variation: true };
+        list.push({
+          dataKey: 'variation',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
     }
 
-    return filters;
+    return { filters, list };
   };
 
   getSavedPresetFilters = () => {
@@ -1230,13 +1269,29 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       saved = JSON.parse(local);
     }
     if (saved) {
-      saved = this.parsePresetFilters(saved);
+      saved = this.parsePresetFilters(saved).filters;
     }
     return saved;
   };
 
-  resetActiveFilters = async (dataKey: string) => {
-    await localStorage.removeItem(`tracker:${dataKey}`);
+  getSavedPresetFiltersList = () => {
+    const local = localStorage.getItem('filterState');
+    let saved: any = [];
+    if (local) {
+      saved = JSON.parse(local);
+    }
+    if (saved) {
+      saved = this.parsePresetFilters(saved).list;
+    }
+    return saved;
+  };
+
+  resetActiveFilters = async (dataKey: string, type?: string): Promise<any> => {
+    if (type === 'SingleValue') {
+      await this.resetPresetFilter(dataKey);
+    } else {
+      await localStorage.removeItem(`products:${dataKey}`);
+    }
     await this.fetchSupplierProducts(this.getFilters(), dataKey);
   };
 
@@ -1248,6 +1303,30 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       pagination: true,
       supplierID,
     });
+  };
+
+  resetPresetFilter = async (dataKey: string) => {
+    const local = localStorage.getItem('filterState');
+    let saved: any = [];
+    if (local) {
+      saved = JSON.parse(local);
+    }
+    let { customizable = [], profitabilityFilter, multipackPreset } = saved;
+    customizable = customizable.map((f: any) => {
+      if (f.dataKey === dataKey) {
+        f.active = false;
+      }
+      return f;
+    });
+    if (profitabilityFilter && profitabilityFilter.active) {
+      profitabilityFilter = { ...profitabilityFilter, active: false };
+    }
+    if (multipackPreset && multipackPreset.active) {
+      multipackPreset = { ...multipackPreset, active: false };
+    }
+
+    saved = { ...saved, customizable, profitabilityFilter, multipackPreset };
+    localStorage.setItem('filterState', JSON.stringify(saved));
   };
 
   render() {
@@ -1345,7 +1424,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               }}
               applyColumnFilters={this.applyFilters}
               count={totalRecords}
-              activeFilters={activeFilters}
+              activeFilters={[...activeFilters, ...this.getSavedPresetFiltersList()]}
               onActiveFilterReset={this.resetActiveFilters}
               onCheckedActiveFilters={() => this.fetchSupplierProducts()}
               onUncheckedActiveFilters={this.removeFilters}

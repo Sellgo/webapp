@@ -89,7 +89,7 @@ export interface GenericTableProps {
   leftFixedColumns?: number;
   rightFixedColumns?: number;
   activeFilters?: any[];
-  onActiveFilterReset?: (dataKey: string) => void;
+  onActiveFilterReset?: (dataKey: string, type?: any) => Promise<any>;
   onCheckedActiveFilters?: () => void;
   onUncheckedActiveFilters?: () => void;
 }

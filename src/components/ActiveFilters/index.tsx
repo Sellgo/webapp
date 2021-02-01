@@ -3,7 +3,7 @@ import './index.scss';
 import { Icon, Label, Popup } from 'semantic-ui-react';
 interface Props {
   filers: any[];
-  resetActiveFilter?: (dataKey: string) => void;
+  resetActiveFilter?: (dataKey: string, type?: string) => Promise<any>;
   onChecked?: () => void;
   onUnchecked?: () => void;
 }
@@ -37,20 +37,21 @@ const ActiveFilters = (props: Props) => {
         content={
           <>
             {filers.map((filter: any) => {
-              if (filter.filterType === 'slider') {
-                return (
-                  <Label as="a" key={filter.dataKey}>
-                    <div className="filter-name">
-                      {filter.label} {filter.value.min} to {filter.value.max}
-                    </div>
-                    <Icon
-                      name="times circle"
-                      onClick={() => resetActiveFilter && resetActiveFilter(filter.dataKey)}
-                    />
-                  </Label>
-                );
-              }
-              return <p key={filter.dataKey} />;
+              return (
+                <Label as="a" key={filter.dataKey}>
+                  <div className="filter-name">
+                    {filter.filterType === 'slider' &&
+                      `${filter.label} ${filter.value.min} to ${filter.value.max} `}
+                    {filter.filterType === 'SingleValue' && `${filter.label}`}
+                  </div>
+                  <Icon
+                    name="times circle"
+                    onClick={() =>
+                      resetActiveFilter && resetActiveFilter(filter.dataKey, filter.filterType)
+                    }
+                  />
+                </Label>
+              );
             })}
           </>
         }
