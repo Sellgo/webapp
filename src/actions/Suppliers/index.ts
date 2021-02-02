@@ -174,8 +174,12 @@ export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
         success('Your unprofitable products are now being tracked in the background.');
       }
     })
-    .catch(() => {
+    .catch(err => {
       // display error
+      const { data, status } = err.response;
+      if (status === 400 && data) {
+        error(data);
+      }
     });
 };
 
