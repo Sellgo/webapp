@@ -176,8 +176,9 @@ export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
     })
     .catch(err => {
       // display error
-      if (err.message === 'Request failed with status code 400') {
-        error('Leads tracker limit exceeded');
+      const { data, status } = err.response;
+      if (status === 400 && data) {
+        error(data);
       }
     });
 };
