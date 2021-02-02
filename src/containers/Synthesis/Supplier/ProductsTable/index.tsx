@@ -1227,7 +1227,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (saved) {
       saved = this.parsePresetFilters(saved);
     }
-
     return saved;
   };
 
