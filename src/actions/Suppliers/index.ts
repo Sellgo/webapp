@@ -174,8 +174,11 @@ export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
         success('Your unprofitable products are now being tracked in the background.');
       }
     })
-    .catch(() => {
+    .catch(err => {
       // display error
+      if (err.message === 'Request failed with status code 400') {
+        error('Leads tracker limit exceeded');
+      }
     });
 };
 
