@@ -57,6 +57,7 @@ import {
   SET_PF_SORT_DIRECTION,
   SET_PF_COUNT,
   SET_PF_ACTIVE_FILTERS,
+  SET_PF_PRESET_FILTERS,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product, ProfitFinderResponse } from '../../interfaces/Product';
@@ -928,4 +929,13 @@ const setProfitFinderTotalRecords = (count: number) => ({
 const setProfitFinderActiveFilters = (filters: any[]) => ({
   type: SET_PF_ACTIVE_FILTERS,
   payload: filters,
+});
+
+export const setPresetFilters = (filterState: any) => async (dispatch: any) => {
+  dispatch(setPresetFiltersState(filterState));
+};
+
+const setPresetFiltersState = (state: any) => ({
+  type: SET_PF_PRESET_FILTERS,
+  payload: state,
 });

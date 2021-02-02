@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
 import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
 import { SupplierFilter } from '../../../interfaces/Filters';
-import { supplierProductsSelector } from '../../../selectors/Supplier';
+import { presetFiltersState, supplierProductsSelector } from '../../../selectors/Supplier';
 import { setSupplierPageNumber, setLeadsTracker, setIsScroll } from '../../../actions/Suppliers';
 import _ from 'lodash';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
@@ -36,10 +36,18 @@ interface Props {
   fetchActiveExportFiles: () => void;
   exportFilters: any;
   onFilterChange: (filterState: any) => void;
+  presetFilterState: any;
 }
 
 function ProfitFinderFilterSection(props: Props) {
-  const { supplierDetails, products, setPageNumber, subscriptionType, onFilterChange } = props;
+  const {
+    supplierDetails,
+    products,
+    setPageNumber,
+    subscriptionType,
+    onFilterChange,
+    presetFilterState,
+  } = props;
 
   const filterStorage = JSON.parse(
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
@@ -173,6 +181,12 @@ function ProfitFinderFilterSection(props: Props) {
   }
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
+
+  useEffect(() => {
+    if (presetFilterState) {
+      setFilterState(initialFilterState);
+    }
+  }, [presetFilterState]);
 
   if (filterState.profitabilityFilter === undefined) {
     filterState.profitabilityFilter = filterInitialData.profitabilityFilter;
@@ -648,6 +662,7 @@ const mapStateToProps = (state: {}) => ({
   subscriptionPlan: get(state, 'subscription.plan'),
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
+  presetFilterState: presetFiltersState(state),
 });
 
 const mapDispatchToProps = {

@@ -10,6 +10,7 @@ interface Props {
 const ActiveFilters = (props: Props) => {
   const { filers, onChecked, onUnchecked, resetActiveFilter } = props;
   const [checked, setChecked] = useState(true);
+  const [visible, setVisible] = useState(false);
   return (
     <div className="active-filters">
       {checked ? (
@@ -34,6 +35,7 @@ const ActiveFilters = (props: Props) => {
       <Popup
         className="filter-box"
         basic
+        open={visible && !!filers.length}
         content={
           <>
             {filers.map((filter: any) => {
@@ -43,6 +45,8 @@ const ActiveFilters = (props: Props) => {
                     {filter.filterType === 'slider' &&
                       `${filter.label} ${filter.value.min} to ${filter.value.max} `}
                     {filter.filterType === 'SingleValue' && `${filter.label}`}
+                    {filter.filterType === 'list' &&
+                      `${filter.label} : (click on column header to view.)`}
                   </div>
                   <Icon
                     name="times circle"
@@ -56,8 +60,11 @@ const ActiveFilters = (props: Props) => {
           </>
         }
         on="click"
-        positionFixed
-        trigger={<span className="label">Active Filters: </span>}
+        trigger={
+          <span className="label" onClick={() => setVisible(true)}>
+            Active Filters
+          </span>
+        }
       />
     </div>
   );

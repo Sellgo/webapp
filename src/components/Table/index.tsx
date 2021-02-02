@@ -463,12 +463,14 @@ export const GenericTable = (props: GenericTableProps) => {
                 <Table.HeaderCell colSpan={columns.length} className="pagination-cell">
                   <BottomScroll columns={columns} name={name} />
                   <div className="pagination-container">
-                    <ActiveFilters
-                      filers={activeFilters ? activeFilters : []}
-                      onChecked={onCheckedActiveFilters}
-                      onUnchecked={onUncheckedActiveFilters}
-                      resetActiveFilter={onActiveFilterReset}
-                    />
+                    {name === 'products' && (
+                      <ActiveFilters
+                        filers={activeFilters ? activeFilters : []}
+                        onChecked={onCheckedActiveFilters}
+                        onUnchecked={onUncheckedActiveFilters}
+                        resetActiveFilter={onActiveFilterReset}
+                      />
+                    )}
                     <Pagination
                       onPageSizeSelect={size => {
                         if (setSinglePageItemsCount) {
