@@ -10,7 +10,6 @@ interface Props {
 const ActiveFilters = (props: Props) => {
   const { filers, onChecked, onUnchecked, resetActiveFilter } = props;
   const [checked, setChecked] = useState(true);
-  const [visible, setVisible] = useState(false);
   return (
     <div className="active-filters">
       {checked ? (
@@ -35,7 +34,6 @@ const ActiveFilters = (props: Props) => {
       <Popup
         className="filter-box"
         basic
-        open={visible && !!filers.length}
         content={
           <>
             {checked &&
@@ -61,11 +59,7 @@ const ActiveFilters = (props: Props) => {
           </>
         }
         on="click"
-        trigger={
-          <span className="label" onClick={() => setVisible(true)}>
-            Active Filters
-          </span>
-        }
+        trigger={<span className="label">Active Filters</span>}
       />
     </div>
   );
