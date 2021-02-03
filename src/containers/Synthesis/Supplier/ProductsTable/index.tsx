@@ -1251,7 +1251,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         });
       }
 
-      if (multipackPreset.value === 'Variations') {
+      if (multipackPreset.value === 'Variation') {
         filters = { ...filters, variation: true };
         list.push({
           dataKey: 'variation',

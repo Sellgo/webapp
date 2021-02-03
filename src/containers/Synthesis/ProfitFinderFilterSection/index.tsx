@@ -167,7 +167,7 @@ function ProfitFinderFilterSection(props: Props) {
       },
     ],
     multipackPreset: {
-      value: 'Variations',
+      value: 'Variation',
       active: false,
     },
   };
