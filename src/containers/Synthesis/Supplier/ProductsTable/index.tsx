@@ -1325,7 +1325,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (
       profitabilityFilter &&
       profitabilityFilter.active &&
-      ['profitable', 'non-profitable'].includes(dataKey)
+      ['profitable', 'non_profitable'].includes(dataKey)
     ) {
       profitabilityFilter = { ...profitabilityFilter, active: false };
     }

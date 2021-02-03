@@ -38,25 +38,26 @@ const ActiveFilters = (props: Props) => {
         open={visible && !!filers.length}
         content={
           <>
-            {filers.map((filter: any) => {
-              return (
-                <Label as="a" key={filter.dataKey}>
-                  <div className="filter-name">
-                    {filter.filterType === 'slider' &&
-                      `${filter.label} ${filter.value.min} to ${filter.value.max} `}
-                    {filter.filterType === 'SingleValue' && `${filter.label}`}
-                    {filter.filterType === 'list' &&
-                      `${filter.label} : (click on column header to view.)`}
-                  </div>
-                  <Icon
-                    name="times circle"
-                    onClick={() =>
-                      resetActiveFilter && resetActiveFilter(filter.dataKey, filter.filterType)
-                    }
-                  />
-                </Label>
-              );
-            })}
+            {checked &&
+              filers.map((filter: any) => {
+                return (
+                  <Label as="a" key={filter.dataKey}>
+                    <div className="filter-name">
+                      {filter.filterType === 'slider' &&
+                        `${filter.label} ${filter.value.min} to ${filter.value.max} `}
+                      {filter.filterType === 'SingleValue' && `${filter.label}`}
+                      {filter.filterType === 'list' &&
+                        `${filter.label} : (click on column header to view.)`}
+                    </div>
+                    <Icon
+                      name="times circle"
+                      onClick={() =>
+                        resetActiveFilter && resetActiveFilter(filter.dataKey, filter.filterType)
+                      }
+                    />
+                  </Label>
+                );
+              })}
           </>
         }
         on="click"

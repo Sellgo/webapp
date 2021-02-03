@@ -38,6 +38,7 @@
 
 .filter-box {
   min-width: 300px !important;
+  min-height: 50px;
 }
 
 .filter-box .ui.label {
