@@ -11,7 +11,7 @@ import {
   suppliersByIdSelector,
   supplierDetailsSelector,
   productsLoadingDataBusterSelector,
-  supplierProductsSelector,
+  profitFinderProducts,
 } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -357,7 +357,7 @@ export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
 export const updateProductCost = (payload: any) => async (dispatch: any, getState: () => any) => {
   const { product_id, product_cost, id, product_track_id, supplierID } = payload;
   const sellerID = sellerIDSelector();
-  const products = supplierProductsSelector(getState());
+  const products = profitFinderProducts(getState());
   const bodyFormData = new FormData();
   bodyFormData.set('product_id', product_id);
   bodyFormData.set('product_cost', product_cost);
