@@ -796,34 +796,18 @@ i.icon.filter::before {
 
 .sm-column {
   min-width: 96px !important;
-
-  @media only screen and(max-width: 1450px) {
-    min-width: 77px !important;
-  }
 }
 
 .md-column {
   min-width: 110px !important;
-
-  @media only screen and(max-width: 1450px) {
-    min-width: 90px !important;
-  }
 }
 
 .lg-column {
   min-width: 142px !important;
-
-  @media only screen and(max-width: 1450px) {
-    min-width: 100px !important;
-  }
 }
 
 .xl-column {
   min-width: 195px !important;
-
-  @media only screen and(max-width: 1450px) {
-    min-width: 150px !important;
-  }
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1279px) {
@@ -998,24 +982,52 @@ i.icon.filter::before {
 // Media queries for PF Table responsiveness in smaller screens.
 @media only screen and(max-width: 1450px) {
   // Changes the text size of small columns
-  .inner-tbody .middle-body-child-row {
+  .pf-table .inner-tbody .middle-body-child-row {
     .sm-column {
       font-size: 11px !important;
     }
   }
 
-  .inner-tbody .middle-body-child-row .default-column,
-  .inner-tbody .middle-body-child-row .sm-column,
-  .inner-tbody .middle-body-child-row .md-column,
-  .inner-tbody .middle-body-child-row .lg-column,
-  .inner-tbody .middle-body-child-row .xl-column {
-    p {
-      font-size: 11px !important;
-      text-align: center !important;
+  .upcs {
+    i.blue.info.circle.icon {
+      @media only screen and(max-width: 1450px) {
+        font-size: 11px !important;
+      }
     }
   }
 
-  .inner-tbody .right-body-child-row {
+  .multipack_margin {
+    min-width: 82px !important;
+  }
+
+  .sales_monthly {
+    min-width: 96px !important;
+  }
+
+  .fba_fee {
+    min-width: 89px !important;
+  }
+
+  .referral_fee {
+    min-width: 89px !important;
+  }
+
+  .customer_reviews {
+    min-width: 90px !important;
+  }
+
+  .pf-table .inner-tbody .middle-body-child-row .default-column,
+  .pf-table .inner-tbody .middle-body-child-row .sm-column,
+  .pf-table .inner-tbody .middle-body-child-row .md-column,
+  .pf-table .inner-tbody .middle-body-child-row .lg-column,
+  .pf-table .inner-tbody .middle-body-child-row .xl-column {
+    p {
+      font-size: 11px !important;
+      text-align: left !important;
+    }
+  }
+
+  .pf-table .inner-tbody .right-body-child-row {
     .title a span {
       font-size: 11px !important;
     }
@@ -1036,13 +1048,13 @@ i.icon.filter::before {
     }
   }
 
-  .inner-tbody .left-body-child-row {
+  .pf-table .inner-tbody .left-body-child-row {
     span {
       font-size: 11px;
     }
   }
 
-  .inner-tbody .pf-header-cell > .table-cell-container {
+  .pf-table .inner-tbody .pf-header-cell > .table-cell-container {
     font-size: 11px !important;
   }
 }

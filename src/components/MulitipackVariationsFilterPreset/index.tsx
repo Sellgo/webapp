@@ -38,7 +38,9 @@ const MultipackVariationsFilterPreset = (props: Props) => {
         applyFilter(true);
       }}
     >
-      <Button className="profitability-preset-btn">{filterState.multipackPreset.value}</Button>
+      <Button className="multipack-variation-preset-btn">
+        {filterState.multipackPreset.value}
+      </Button>
       <Dropdown
         className="button"
         icon="angle down"

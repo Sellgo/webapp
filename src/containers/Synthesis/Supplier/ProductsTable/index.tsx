@@ -17,6 +17,7 @@ import {
   pollDataBuster,
   fetchProfitFinderFilters,
   setPresetFilters,
+  updateProductCost,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
@@ -52,6 +53,7 @@ import { formatCompletedDate } from '../../../../utils/date';
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import PageLoader from '../../../../components/PageLoader';
 import { ProfitFinderFilters } from '../../../../interfaces/Filters';
+import EditCostModal from '../../../../components/EditCostModal';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -95,6 +97,7 @@ interface ProductsTableProps {
   totalRecords: number;
   activeFilters: any[];
   setPresetFilterState: (state: any) => void;
+  updateProductCost: (payload: any) => void;
 }
 
 export interface CheckedRowDictionary {
@@ -115,6 +118,10 @@ interface ProductsTableState {
   };
   activeColumn: Column;
   exportFilters: any;
+  isValidCostValue: boolean;
+  product_cost: any;
+  editCost: boolean;
+  productDetails: any;
 }
 
 class ProductsTable extends React.Component<ProductsTableProps> {
@@ -140,6 +147,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
     },
     exportFilters: {},
+    editCost: false,
+    isValidCostValue: false,
+    product_cost: 0,
+    productDetails: {},
   };
 
   updateCheckedRows = (checkedRows: CheckedRowDictionary) => {
@@ -179,7 +190,11 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       row.product_cost ? row.product_cost : row.default_cost,
       formatCurrency(row.product_cost ? row.product_cost : row.default_cost)
     );
-    return <p className={`stat ${row.is_variation ? 'stat--red' : ''}`}>{costToPrint}</p>;
+    return (
+      <p className={`stat ${row.is_variation ? 'stat--red' : ''}`}>
+        {costToPrint} <Icon className="pencil edit-cost" onClick={() => this.editCostValue(row)} />
+      </p>
+    );
   };
 
   renderProfit = (row: Product) => (
@@ -1057,7 +1072,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
   getExportFilters = (): any => {
     const { filters } = this.getSavedFilters('', true);
-    return filters;
+    return { ...filters, ...this.getSavedPresetFilters() };
   };
 
   getSavedFilters = (
@@ -1289,6 +1304,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return saved;
   };
 
+  editCostValue = (product: any) => {
+    this.setState({
+      editCost: true,
+      productDetails: product,
+    });
+  };
+
+  updateCostValue = (value: any) => {
+    if (isNaN(value) || parseFloat(value) < 0) {
+      this.setState({ isValidCostValue: false });
+    } else {
+      this.setState({ isValidCostValue: true });
+      this.setState({ product_cost: parseFloat(value) });
+    }
+  };
+
+  updateProductCostValue = async (payload: any) => {
+    const { updateProductCost, supplierID } = this.props;
+    await updateProductCost({ ...payload, supplierID });
+    await this.setState({ editCost: false });
+  };
+
   resetActiveFilters = async (dataKey: string, type?: string): Promise<any> => {
     if (type === 'SingleValue') {
       await this.resetPresetFilter(dataKey);
@@ -1367,6 +1404,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       columnFilterData,
       activeColumnFilters,
       exportFilters,
+      editCost,
+      productDetails,
+      product_cost,
+      isValidCostValue,
     } = this.state;
 
     return (
@@ -1442,6 +1483,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               onCheckedActiveFilters={() => this.fetchSupplierProducts()}
               onUncheckedActiveFilters={this.removeFilters}
             />
+            {editCost && (
+              <EditCostModal
+                open={editCost}
+                product={productDetails}
+                onCancel={() => this.setState({ editCost: false })}
+                onEdit={this.updateProductCostValue}
+                disabled={
+                  product_cost > (parseFloat(productDetails.price) / 100) * 150 || !isValidCostValue
+                }
+                onChange={value => this.updateCostValue(value)}
+                cost={product_cost}
+              />
+            )}
           </>
         )}
       </div>
@@ -1501,6 +1555,7 @@ const mapDispatchToProps = {
   pollDataBuster,
   fetchProfitFinderFilters,
   setPresetFilterState: (state: any) => setPresetFilters(state),
+  updateProductCost,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);

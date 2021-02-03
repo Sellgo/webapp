@@ -39,3 +39,4 @@ export const profitFinderSort = (state: {}) => get(state, 'supplier.sort');
 export const profitFinderSortDirection = (state: {}) => get(state, 'supplier.sortDirection');
 export const profitFinderTotalRecords = (state: {}) => get(state, 'supplier.totalRecords');
 export const profitFinderActiveFilters = (state: {}) => get(state, 'supplier.activeFilters');
+export const profitFinderProducts = (state: {}) => get(state, 'supplier.filteredProducts');

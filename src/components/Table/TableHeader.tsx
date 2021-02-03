@@ -408,11 +408,17 @@ const TableHeader = (props: TableHeaderProps) => {
               if (!cell.rows.length) {
                 headerCellProps = {
                   ...headerCellProps,
-                  colSpan: columns.length - 3,
                   style: { background: '#fff' },
                 };
+                if (rest.type !== 'trackerTable') {
+                  headerCellProps = {
+                    ...headerCellProps,
+                    colSpan: columns.length - 3,
+                  };
+                }
               }
             }
+
             if (cell.side === 'right') {
               headerCellProps.className = `${
                 rest.type === 'trackerTable'
