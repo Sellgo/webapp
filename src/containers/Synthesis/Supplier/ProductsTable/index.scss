@@ -244,13 +244,13 @@ $new_black: #3b4557;
 
     .price {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .product_cost {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
 
         &--red {
           color: red !important;
@@ -262,55 +262,59 @@ $new_black: #3b4557;
       min-width: 92px !important;
 
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .multipack_profit {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .multipack_margin {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .multipack_roi {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .rank {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .sales_monthly {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .monthly_revenue {
+      @media only screen and(max-width: 1540px) {
+        min-width: 98px !important;
+      }
+
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .fba_fee {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .referral_fee {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
@@ -318,31 +322,31 @@ $new_black: #3b4557;
       min-width: 117px !important;
 
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .num_fba_new_offers {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .num_fbm_new_offers {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .low_new_fba_price {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .low_new_fbm_price {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
@@ -350,7 +354,7 @@ $new_black: #3b4557;
       min-width: 108px !important;
 
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
@@ -372,12 +376,13 @@ $new_black: #3b4557;
     .customer_reviews,
     .rating {
       .stat {
-        text-align: right !important;
+        text-align: left !important;
       }
     }
 
     .upcs {
       min-width: 130px !important;
+      text-align: left !important;
     }
 
     .is_amazon_selling {
@@ -390,10 +395,22 @@ $new_black: #3b4557;
 
     .best_seller {
       min-width: 114px !important;
+
+      @media only screen and(max-width: 1540px) {
+        min-width: 115px !important;
+      }
+
+      .stat {
+        text-align: left !important;
+      }
     }
 
     .amazon_price {
       min-width: 133px !important;
+
+      @media only screen and(max-width: 1540px) {
+        min-width: 134px !important;
+      }
     }
 
     .number_of_sellers {

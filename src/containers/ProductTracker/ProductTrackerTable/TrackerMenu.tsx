@@ -30,6 +30,7 @@ interface TrackerMenuProps {
   items: any;
   editError: boolean;
   filteredProducts: any;
+  handleMoveGroup: any;
 }
 
 class TrackerMenu extends Component<TrackerMenuProps> {
@@ -51,10 +52,10 @@ class TrackerMenu extends Component<TrackerMenuProps> {
       handleEditGroupCancel,
       handleEditGroupSubmit,
       handleDeleteGroup,
-      handleDeleteGroupCancel,
       handleDeleteGroupSubmit,
       editError,
       filteredProducts,
+      handleMoveGroup,
     } = this.props;
 
     const activeGroup =
@@ -175,8 +176,9 @@ class TrackerMenu extends Component<TrackerMenuProps> {
           open={deleteGroup}
           groupId={this.props.activeGroupId}
           handleUntrack={handleDeleteGroupSubmit}
-          handleKeepTracking={handleDeleteGroupCancel}
           activeGroup={activeGroup}
+          filteredProducts={filteredProducts}
+          handleMoveGroup={handleMoveGroup}
         />
         {/* Magic to make scrollbar disappear */}
         <div className="cover-bar" />

@@ -175,8 +175,12 @@ export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
         success('Your unprofitable products are now being tracked in the background.');
       }
     })
-    .catch(() => {
+    .catch(err => {
       // display error
+      const { data, status } = err.response;
+      if (status === 400 && data) {
+        error(data);
+      }
     });
 };
 
@@ -256,7 +260,8 @@ export const fetchSynthesisProgressUpdates = () => async (
       supplier.file_status &&
       supplier.file_status !== null &&
       supplier.file_status !== 'completed' &&
-      supplier.file_status !== 'inactive'
+      supplier.file_status !== 'inactive' &&
+      supplier.file_status !== 'failed'
   );
 
   const handleUpdateSupplier = (response: any, index: any) => {
@@ -574,7 +579,9 @@ export const updateProductTrackingStatus = (
               success(UntrackSuccess);
               dispatch(removeTrackedProduct(json.data.object.id));
             } else if (type === 'move-group') {
-              success(json.data.message);
+              if (json.data.message.length > 0) {
+                success(json.data.message);
+              }
               dispatch(updateTrackedProduct(json.data.object));
               dispatch(setMenuItem(menuItem));
             }
