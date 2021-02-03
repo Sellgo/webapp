@@ -16,6 +16,7 @@ import {
   setProductsLoadingDataBuster,
   pollDataBuster,
   fetchProfitFinderFilters,
+  setPresetFilters,
   updateProductCost,
 } from '../../../../actions/Suppliers';
 import { GenericTable, Column } from '../../../../components/Table';
@@ -44,6 +45,7 @@ import {
   profitFinderSort,
   profitFinderSortDirection,
   profitFinderTotalRecords,
+  profitFinderActiveFilters,
 } from '../../../../selectors/Supplier';
 import { Supplier } from '../../../../interfaces/Supplier';
 import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
@@ -93,6 +95,8 @@ interface ProductsTableProps {
   sortDirection: string;
   onFetch: (payload: any) => void;
   totalRecords: number;
+  activeFilters: any[];
+  setPresetFilterState: (state: any) => void;
   updateProductCost: (payload: any) => void;
 }
 
@@ -1074,15 +1078,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   getSavedFilters = (
     resetKey = '',
     values = false
-  ): { queryString: string; queryParams: any; filters: any } => {
+  ): { queryString: string; queryParams: any; filters: any; list: any[] } => {
     let queryString = '';
     let queryParams: any = {};
     let filters = {};
+    const list: any[] = [];
     this.columns.forEach((c: any) => {
       if (resetKey !== c.filterDataKey && c.filterDataKey) {
         const saved: any = this.getFilterValue(c.filterDataKey, c.filterType);
 
         if (saved && !!saved.value) {
+          list.push({ ...saved, label: c.label });
           const { query, params, values } = this.parseFilters(saved);
           if (values) {
             filters = { ...filters, ...values };
@@ -1100,14 +1106,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       this.setState({ ColumnFilterBox: false });
     }
     queryString = queryString.replace('&&', '&');
-    return { queryString, queryParams, filters };
+    return { queryString, queryParams, filters, list };
   };
 
   fetchSupplierProducts = async (filter: any = {}, resetKey?: string) => {
     const { onFetch } = this.props;
     let payload: any = this.getFilters();
     if (filter) payload = { ...payload, ...filter };
-    const { queryParams, queryString } = this.getSavedFilters(resetKey);
+    const { queryParams, queryString, list } = this.getSavedFilters(resetKey);
     let query = queryString;
     if (filter.query && filter.query.length && !query.includes(filter.query)) {
       query = `${query}&${filter.query}`;
@@ -1136,6 +1142,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       ...payload,
       supplierID,
       pagination: true,
+      activeFilters: list,
     };
     const products = await fetchSupplierProducts(req);
     this.setState({ exportFilters: this.getExportFilters() });
@@ -1188,18 +1195,27 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     });
   };
 
-  parsePresetFilters = (filterState: any): any => {
+  parsePresetFilters = (filterState: any): { filters: any; list: any[] } => {
     const { customizable = [], profitabilityFilter, multipackPreset } = filterState;
     let filters = {};
+    const list = [];
     customizable.forEach((filter: any) => {
       if (filter.active) {
+        let opeartion = '';
         let dataKey = filter.dataKey;
         if (filter.operation === '≤') {
           dataKey = `${dataKey}_max`;
+          opeartion = 'Max';
         }
         if (filter.operation === '≥') {
           dataKey = `${dataKey}_min`;
+          opeartion = 'Min';
         }
+        list.push({
+          dataKey: filter.dataKey,
+          filterType: 'SingleValue',
+          label: `${filter.label} :${opeartion} ${filter.value}`,
+        });
         filters = { ...filters, [dataKey]: filter.value };
       }
     });
@@ -1207,30 +1223,60 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (profitabilityFilter && profitabilityFilter.active) {
       if (profitabilityFilter.value === 'Profitable') {
         filters = { ...filters, profitable: true };
+        list.push({
+          dataKey: 'profitable',
+          filterType: 'SingleValue',
+          label: profitabilityFilter.value,
+        });
       }
       if (profitabilityFilter.value === 'Non-Profitable Products') {
         filters = { ...filters, non_profitable: true };
+        list.push({
+          dataKey: 'non_profitable',
+          filterType: 'SingleValue',
+          label: profitabilityFilter.value,
+        });
       }
     }
 
     if (multipackPreset && multipackPreset.active) {
       if (multipackPreset.value === 'Original UPC') {
         filters = { ...filters, original: true };
+        list.push({
+          dataKey: 'original',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
       if (multipackPreset.value === 'Not Found') {
         filters = { ...filters, not_found: true };
+        list.push({
+          dataKey: 'not-found',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
 
       if (multipackPreset.value === 'Multipack') {
         filters = { ...filters, multipack: true };
+        list.push({
+          dataKey: 'multipack',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
 
       if (multipackPreset.value === 'Variation') {
         filters = { ...filters, variation: true };
+        list.push({
+          dataKey: 'variation',
+          filterType: 'SingleValue',
+          label: multipackPreset.value,
+        });
       }
     }
 
-    return filters;
+    return { filters, list };
   };
 
   getSavedPresetFilters = () => {
@@ -1240,7 +1286,20 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       saved = JSON.parse(local);
     }
     if (saved) {
-      saved = this.parsePresetFilters(saved);
+      saved = this.parsePresetFilters(saved).filters;
+    }
+    return saved;
+  };
+
+  getSavedPresetFiltersList = () => {
+    const local = localStorage.getItem('filterState');
+    let saved: any = [];
+    if (local) {
+      saved = JSON.parse(local);
+    }
+
+    if (saved) {
+      saved = this.parsePresetFilters(saved).list;
     }
     return saved;
   };
@@ -1267,6 +1326,58 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     await this.setState({ editCost: false });
   };
 
+  resetActiveFilters = async (dataKey: string, type?: string): Promise<any> => {
+    if (type === 'SingleValue') {
+      await this.resetPresetFilter(dataKey);
+    } else {
+      await localStorage.removeItem(`products:${dataKey}`);
+    }
+    await this.fetchSupplierProducts(this.getFilters(), dataKey);
+  };
+
+  removeFilters = async () => {
+    const { fetchSupplierProducts, singlePageItemsCount, supplierID } = this.props;
+    await fetchSupplierProducts({
+      page: 1,
+      per_page: singlePageItemsCount,
+      pagination: true,
+      supplierID,
+    });
+  };
+
+  resetPresetFilter = async (dataKey: string) => {
+    const { setPresetFilterState } = this.props;
+    const local = localStorage.getItem('filterState');
+    let saved: any = [];
+    if (local) {
+      saved = JSON.parse(local);
+    }
+    let { customizable = [], profitabilityFilter, multipackPreset } = saved;
+    customizable = customizable.map((f: any) => {
+      if (f.dataKey === dataKey) {
+        f.active = false;
+      }
+      return f;
+    });
+    if (
+      profitabilityFilter &&
+      profitabilityFilter.active &&
+      ['profitable', 'non_profitable'].includes(dataKey)
+    ) {
+      profitabilityFilter = { ...profitabilityFilter, active: false };
+    }
+    if (
+      multipackPreset &&
+      multipackPreset.active && ['original', 'not-found', 'multipack', 'variation']
+    ) {
+      multipackPreset = { ...multipackPreset, active: false };
+    }
+
+    saved = { ...saved, customizable, profitabilityFilter, multipackPreset };
+    localStorage.setItem('filterState', JSON.stringify(saved));
+    setPresetFilterState(saved);
+  };
+
   render() {
     const {
       isLoadingSupplierProducts,
@@ -1283,6 +1394,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       filters,
       loadingFilters,
       totalRecords,
+      activeFilters,
     } = this.props;
     const {
       searchValue,
@@ -1297,6 +1409,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       product_cost,
       isValidCostValue,
     } = this.state;
+
     return (
       <div
         className={`products-table ${isLoadingSupplierProducts && 'loading'} ${loading &&
@@ -1365,6 +1478,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               }}
               applyColumnFilters={this.applyFilters}
               count={totalRecords}
+              activeFilters={[...activeFilters, ...this.getSavedPresetFiltersList()]}
+              onActiveFilterReset={this.resetActiveFilters}
+              onCheckedActiveFilters={() => this.fetchSupplierProducts()}
+              onUncheckedActiveFilters={this.removeFilters}
             />
             {editCost && (
               <EditCostModal
@@ -1406,6 +1523,7 @@ const mapStateToProps = (state: {}) => ({
   sort: profitFinderSort(state),
   sortDirection: profitFinderSortDirection(state),
   totalRecords: profitFinderTotalRecords(state),
+  activeFilters: profitFinderActiveFilters(state),
 });
 
 const mapDispatchToProps = {
@@ -1436,6 +1554,7 @@ const mapDispatchToProps = {
   setProductsLoadingDataBuster,
   pollDataBuster,
   fetchProfitFinderFilters,
+  setPresetFilterState: (state: any) => setPresetFilters(state),
   updateProductCost,
 };
 

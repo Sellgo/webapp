@@ -57,6 +57,8 @@ import {
   SET_PF_SORT,
   SET_PF_SORT_DIRECTION,
   SET_PF_COUNT,
+  SET_PF_ACTIVE_FILTERS,
+  SET_PF_PRESET_FILTERS,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product, ProfitFinderResponse } from '../../interfaces/Product';
@@ -405,6 +407,7 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     sort = 'price',
     sortDirection = 'asc',
     search,
+    activeFilters = [],
   } = payload;
 
   const pagination = `?page=${page}&per_page=${per_page}`;
@@ -433,6 +436,7 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     dispatch(setProfitFinderSort(sort));
     dispatch(setProfitFinderSortDirection(sortDirection));
     dispatch(setProfitFinderTotalRecords(data.count));
+    dispatch(setProfitFinderActiveFilters(activeFilters));
     dispatch(isLoadingSupplierProducts(false));
     dispatch(setProfitFinderPageLoading(false));
 
@@ -962,4 +966,18 @@ const setProfitFinderSortDirection = (sortDirection: string) => ({
 const setProfitFinderTotalRecords = (count: number) => ({
   type: SET_PF_COUNT,
   payload: count,
+});
+
+const setProfitFinderActiveFilters = (filters: any[]) => ({
+  type: SET_PF_ACTIVE_FILTERS,
+  payload: filters,
+});
+
+export const setPresetFilters = (filterState: any) => async (dispatch: any) => {
+  dispatch(setPresetFiltersState(filterState));
+};
+
+const setPresetFiltersState = (state: any) => ({
+  type: SET_PF_PRESET_FILTERS,
+  payload: state,
 });

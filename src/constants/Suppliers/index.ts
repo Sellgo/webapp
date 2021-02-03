@@ -44,6 +44,8 @@ export const LOADING_PF_FILTERS = 'LOADING_PF_FILTERS';
 export const SET_PF_SORT = 'SET_PF_SORT';
 export const SET_PF_SORT_DIRECTION = 'SET_PF_SORT_DIRECTION';
 export const SET_PF_COUNT = 'SET_PF_COUNT';
+export const SET_PF_ACTIVE_FILTERS = 'SET_PF_ACTIVE_FILTERS';
+export const SET_PF_PRESET_FILTERS = 'SET_PF_PRESET_FILTERS';
 
 export const dataKeys: any = [
   // Basic KPI

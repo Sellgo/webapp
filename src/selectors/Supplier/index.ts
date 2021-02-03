@@ -22,6 +22,7 @@ export const supplierSelector = (state: {}) => get(state, 'suppliers.supplier');
 export const newSupplierIdSelector = (state: {}) => get(state, 'suppliers.newSupplier');
 export const getSynthesisId = (state: {}) => get(state, 'uploadSupplier.synthesisId');
 export const supplierMetricsSelector = (state: {}) => get(state, 'suppliers.timeEfficiency');
+export const presetFiltersState = (state: {}) => get(state, 'suppliers.presetFiltersState');
 
 export const supplierProductsSelector = (state: {}) => get(state, 'supplier.products');
 export const supplierPageNumberSelector = (state: {}) => get(state, 'supplier.pageNumber');
@@ -37,4 +38,5 @@ export const loadingProfitFinderFilters = (state: {}) => get(state, 'supplier.fe
 export const profitFinderSort = (state: {}) => get(state, 'supplier.sort');
 export const profitFinderSortDirection = (state: {}) => get(state, 'supplier.sortDirection');
 export const profitFinderTotalRecords = (state: {}) => get(state, 'supplier.totalRecords');
+export const profitFinderActiveFilters = (state: {}) => get(state, 'supplier.activeFilters');
 export const profitFinderProducts = (state: {}) => get(state, 'supplier.filteredProducts');

@@ -29,6 +29,7 @@ export interface CustomizableFilterModel {
   operation: string;
   value: number;
   active: boolean;
+  label: string;
 }
 
 //Supplier
@@ -148,4 +149,5 @@ export interface ProfitFinderFilters {
   sort?: string;
   sortDirection?: string;
   search?: string;
+  activeFilters?: any[];
 }
