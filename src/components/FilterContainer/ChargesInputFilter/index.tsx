@@ -5,15 +5,16 @@ import { ChargesInputFilterDataType } from '../../../interfaces/Filters';
 import './index.scss';
 
 interface Props {
-  applyFilter: () => void;
+  applyFilter: (value: any) => void;
   closeFilter: () => void;
   filterDataState: Array<ChargesInputFilterDataType>;
+  values: any;
 }
 
 const ChargesInputFilter: React.FC<Props> = props => {
-  const { applyFilter, closeFilter, filterDataState } = props;
+  const { applyFilter, closeFilter, filterDataState, values } = props;
 
-  const [chargesFilter, setChargesFilter] = useState<any>({});
+  const [chargesFilter, setChargesFilter] = useState<any>(values);
 
   const handleInputChange = (e: any, data: any) => {
     const { id, value, type, checked } = data;
@@ -45,7 +46,7 @@ const ChargesInputFilter: React.FC<Props> = props => {
           let element = undefined;
           if (type === 'text') {
             element = (
-              <div className="filter-input-wrapper">
+              <div className="filter-input-wrapper" key={key}>
                 <label htmlFor={key} className="filterLabel">
                   {label}
                 </label>
@@ -61,7 +62,7 @@ const ChargesInputFilter: React.FC<Props> = props => {
           }
           if (type === 'checkbox') {
             element = (
-              <div className="filter-input-wrapper">
+              <div className="filter-input-wrapper" key={key}>
                 <Input
                   id={key}
                   type="checkbox"
@@ -86,7 +87,7 @@ const ChargesInputFilter: React.FC<Props> = props => {
           basic
           className="apply-charges-filter-btn"
           onClick={() => {
-            applyFilter();
+            applyFilter(chargesFilter);
             closeFilter();
           }}
         >

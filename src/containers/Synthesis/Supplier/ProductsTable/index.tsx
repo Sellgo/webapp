@@ -1200,7 +1200,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   parsePresetFilters = (filterState: any): { filters: any; list: any[] } => {
-    const { customizable = [], profitabilityFilter, multipackPreset } = filterState;
+    const { customizable = [], profitabilityFilter, multipackPreset, charges } = filterState;
     let filters = {};
     const list = [];
     customizable.forEach((filter: any) => {
@@ -1279,7 +1279,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         });
       }
     }
-
+    if (charges && charges.length) {
+      charges.forEach((f: any) => {
+        filters = { ...filters, [f.key]: f.value };
+        list.push({
+          dataKey: f.key,
+          filterType: 'SingleValue',
+          label: `${f.label}: ${f.value}`,
+        });
+      });
+    }
     return { filters, list };
   };
 
@@ -1356,7 +1365,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (local) {
       saved = JSON.parse(local);
     }
-    let { customizable = [], profitabilityFilter, multipackPreset } = saved;
+    let { customizable = [], profitabilityFilter, multipackPreset, charges } = saved;
     customizable = customizable.map((f: any) => {
       if (f.dataKey === dataKey) {
         f.active = false;
@@ -1376,8 +1385,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     ) {
       multipackPreset = { ...multipackPreset, active: false };
     }
-
-    saved = { ...saved, customizable, profitabilityFilter, multipackPreset };
+    charges = charges.filter((f: any) => f.key !== dataKey);
+    saved = { ...saved, customizable, profitabilityFilter, multipackPreset, charges };
     localStorage.setItem('filterState', JSON.stringify(saved));
     setPresetFilterState(saved);
   };

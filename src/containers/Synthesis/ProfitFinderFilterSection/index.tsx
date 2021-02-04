@@ -174,6 +174,7 @@ function ProfitFinderFilterSection(props: Props) {
       value: 'Variation',
       active: false,
     },
+    charges: [],
   };
   const initialFilterState: any =
     filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
@@ -323,60 +324,61 @@ function ProfitFinderFilterSection(props: Props) {
         ],
       },
     ],
+    charges: [],
   };
 
   const chargesInputFilterDataState: Array<ChargesInputFilterDataType> = [
     {
       label: 'Inbound Shipping Per Item',
-      key: 'inBoundShipping',
+      key: 'inbound_shipping',
       type: 'text',
       icon: 'dollar',
     },
     {
       label: 'Outbound Shipping Per Item',
-      key: 'outBoundShipping',
+      key: 'outbound_shipping ',
       type: 'text',
       icon: 'dollar',
     },
     {
       label: 'Prep Fee per Item',
-      key: 'prepFee',
+      key: 'prep_fee',
       type: 'text',
       icon: 'dollar',
     },
     {
       label: 'Tax % on Sourcing',
-      key: 'taxPercent',
+      key: 'sourcing_tax',
       type: 'text',
       icon: 'percent',
     },
     {
       label: 'VAT Registered',
-      key: 'vatRegistered',
+      key: 'vat_registered',
       type: 'checkbox',
       icon: '',
     },
     {
       label: 'VAT % deducted from Sell Price',
-      key: 'vatPercent',
+      key: 'vat_perc',
       type: 'text',
       icon: 'percent',
     },
     {
       label: 'Calculate Multi Pack',
-      key: 'multiPack',
+      key: 'multipack',
       type: 'checkbox',
       icon: '',
     },
     {
       label: 'Custom Change',
-      key: 'customChange',
+      key: 'custom_charge',
       type: 'text',
       icon: 'dollar',
     },
     {
       label: 'Custom Discount',
-      key: 'customDiscount',
+      key: 'custom_discount',
       type: 'text',
       icon: 'percent',
     },
@@ -532,6 +534,23 @@ function ProfitFinderFilterSection(props: Props) {
     onFilterChange(filterState);
   };
 
+  const applyChargesFilters = async (charges: any) => {
+    setPageNumber(1);
+
+    const filterValues = chargesInputFilterDataState
+      .filter((f: ChargesInputFilterDataType) => !!charges[f.key])
+      .map((f: ChargesInputFilterDataType) => ({
+        ...f,
+        value: charges[f.key],
+        [f.key]: charges[f.key],
+      }));
+
+    const filters = { ...filterState, charges: filterValues };
+    localStorage.setItem('filterState', JSON.stringify(filters));
+    await setFilterState(filters);
+    onFilterChange(filters);
+  };
+
   const checkCustomizePresetChange = () => {
     const filterStorage =
       typeof localStorage.filterState === 'undefined'
@@ -635,6 +654,10 @@ function ProfitFinderFilterSection(props: Props) {
     props.supplierDetails.leads_tracker_status === null ||
     props.supplierDetails.leads_tracker_status === 'inactive';
   const isToggle = leadsStatus ? false : true;
+  let chargesValues = {};
+  filterState.charges.forEach((f: any) => {
+    chargesValues = { ...chargesValues, [f.key]: f.value };
+  });
 
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
@@ -700,7 +723,8 @@ function ProfitFinderFilterSection(props: Props) {
             content={
               <ChargesInputFilter
                 closeFilter={() => setShowChargesFilter(false)}
-                applyFilter={() => console.log('Applied Filter')}
+                applyFilter={applyChargesFilters}
+                values={chargesValues}
                 filterDataState={chargesInputFilterDataState}
               />
             }
