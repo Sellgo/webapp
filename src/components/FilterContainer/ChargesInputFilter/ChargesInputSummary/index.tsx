@@ -33,14 +33,14 @@ const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
         Outbound Shipping Per Item:<span>-${filters.outbound_shipping || 0}</span>
       </p>
       <p>
-        Prep Fee Per Item:<span>-{filters.prep_fee || 0}%</span>
+        Prep Fee Per Item:<span>-${filters.prep_fee || 0}</span>
       </p>
       <p>
         Tax % on Sourcing:<span>{filters.sourcing_tax || 0}%</span>
       </p>
       <p>VAT registered:{filters.vat_registered ? <span> &#10003;</span> : <span>{''}</span>}</p>
       <p>
-        VAT % deducted from Sell Price:<span>{filters.vat_perc || 0}%</span>
+        VAT % deducted from Sell Price:<span>-{filters.vat_perc || 0}%</span>
       </p>
       <p>
         Custom Charge:<span>-${filters.custom_charge || 0}</span>
