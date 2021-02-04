@@ -5,43 +5,51 @@ interface Props {
   summaryDetails?: any;
 }
 
-const InputChargesSummary: React.FC<Props> = () => {
+const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
+  let filters = {
+    custom_charge: '0.0',
+    custom_discount: '0.0',
+    inbound_shipping: '0.0',
+    outbound_shipping: '0.0',
+    prep_fee: '0.0',
+    sourcing_tax: '0.0',
+    vat_perc: '0.0',
+    vat_registered: false,
+  };
+  if (summaryDetails.filers) {
+    filters = summaryDetails.filers;
+  }
   return (
     <div className="input-charges-summary">
       <h2>Profit Calculation</h2>
       <p>
-        Selling Price:<span>$50</span>
+        Selling Price:<span>-${summaryDetails.price}</span>
       </p>
       <p>
-        Inbound Shipping Per Item:<span>-$4</span>
+        Inbound Shipping Per Item:<span>-${filters.inbound_shipping}</span>
       </p>
       <p>
-        Outbound Shipping Per Item:<span>-$3</span>
+        Outbound Shipping Per Item:<span>-${filters.outbound_shipping}</span>
       </p>
       <p>
-        Prep Fee Per Item:<span>-$6</span>
+        Prep Fee Per Item:<span>-{filters.prep_fee}%</span>
       </p>
       <p>
-        Tax % on Sourcing:<span>-$5 (10%)</span>
+        Tax % on Sourcing:<span>{filters.sourcing_tax}%</span>
+      </p>
+      <p>VAT registered:{filters.vat_registered ? <span> &#10003;</span> : <span>{''}</span>}</p>
+      <p>
+        VAT % deducted from Sell Price:<span>${filters.vat_perc}</span>
       </p>
       <p>
-        VAT registered:<span>&#10003;</span>
+        Custom Charge:<span>-${filters.custom_charge}</span>
       </p>
       <p>
-        VAT % deducted from Sell Price:<span>-$10</span>
-      </p>
-      <p>
-        Calculate Multi Packs:<span>&#10003;</span>
-      </p>
-      <p>
-        Custom Charge:<span>-$10</span>
-      </p>
-      <p>
-        Custom Discount:<span>-$3 (6%)</span>
+        Custom Discount:<span>${filters.custom_discount}</span>
       </p>
       <div className="divider" />
       <p>
-        Profit:<span>$50</span>
+        Profit:<span>${summaryDetails.profit}</span>
       </p>
     </div>
   );

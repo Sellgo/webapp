@@ -203,7 +203,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       <p className="stat">
         {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
       </p>
-      <ChargesInputSummary />
+      <ChargesInputSummary summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }} />
     </>
   );
   renderMargin = (row: Product) => (
