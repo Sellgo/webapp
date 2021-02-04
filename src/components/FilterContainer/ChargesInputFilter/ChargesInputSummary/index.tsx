@@ -6,19 +6,20 @@ interface Props {
 }
 
 const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
-  let filters = {
-    custom_charge: '0.0',
-    custom_discount: '0.0',
-    inbound_shipping: '0.0',
-    outbound_shipping: '0.0',
-    prep_fee: '0.0',
-    sourcing_tax: '0.0',
-    vat_perc: '0.0',
-    vat_registered: false,
-  };
-  if (summaryDetails.filers) {
-    filters = summaryDetails.filers;
-  }
+  console.log(summaryDetails);
+  const {
+    filters = {
+      custom_charge: '0.0',
+      custom_discount: '0.0',
+      inbound_shipping: '0.0',
+      outbound_shipping: '0.0',
+      prep_fee: '0.0',
+      sourcing_tax: '0.0',
+      vat_perc: '0.0',
+      vat_registered: false,
+    },
+  } = summaryDetails;
+
   return (
     <div className="input-charges-summary">
       <h2>Profit Calculation</h2>

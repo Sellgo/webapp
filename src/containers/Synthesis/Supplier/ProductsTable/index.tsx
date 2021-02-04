@@ -1292,7 +1292,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     return { filters, list };
   };
 
-  getSavedPresetFilters = () => {
+  getSavedPresetFilters = (): any => {
     const local = localStorage.getItem('filterState');
     let saved: any = {};
     if (local) {
