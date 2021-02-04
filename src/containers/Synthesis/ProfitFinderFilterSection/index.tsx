@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
 import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
-import { SupplierFilter } from '../../../interfaces/Filters';
-import { presetFiltersState, supplierProductsSelector } from '../../../selectors/Supplier';
+import { SupplierFilter, ChargesInputFilterDataType } from '../../../interfaces/Filters';
+import { supplierProductsSelector, presetFiltersState } from '../../../selectors/Supplier';
 import { setSupplierPageNumber, setLeadsTracker, setIsScroll } from '../../../actions/Suppliers';
 import _ from 'lodash';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
@@ -17,6 +17,7 @@ import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
 import { info } from '../../../utils/notifications';
+import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
 
 interface Props {
@@ -53,6 +54,9 @@ function ProfitFinderFilterSection(props: Props) {
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
   const [openPresetFilter, togglePresetFilter] = React.useState(false);
+
+  /* State for toggle charges filter popup */
+  const [showChargesFilter, setShowChargesFilter] = React.useState<boolean>(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -320,6 +324,63 @@ function ProfitFinderFilterSection(props: Props) {
       },
     ],
   };
+
+  const chargesInputFilterDataState: Array<ChargesInputFilterDataType> = [
+    {
+      label: 'Inbound Shipping Per Item',
+      key: 'inBoundShipping',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Outbound Shipping Per Item',
+      key: 'outBoundShipping',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Prep Fee per Item',
+      key: 'prepFee',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Tax % on Sourcing',
+      key: 'taxPercent',
+      type: 'text',
+      icon: 'percent',
+    },
+    {
+      label: 'VAT Registered',
+      key: 'vatRegistered',
+      type: 'checkbox',
+      icon: '',
+    },
+    {
+      label: 'VAT % deducted from Sell Price',
+      key: 'vatPercent',
+      type: 'text',
+      icon: 'percent',
+    },
+    {
+      label: 'Calculate Multi Pack',
+      key: 'multiPack',
+      type: 'checkbox',
+      icon: '',
+    },
+    {
+      label: 'Custom Change',
+      key: 'customChange',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Custom Discount',
+      key: 'customDiscount',
+      type: 'text',
+      icon: 'percent',
+    },
+  ];
 
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
   const [exportResult, setExportResult] = React.useState(false);
@@ -613,6 +674,38 @@ function ProfitFinderFilterSection(props: Props) {
               />
             }
           />
+
+          <Popup
+            on="click"
+            open={showChargesFilter}
+            onOpen={() => setShowChargesFilter(true)}
+            onClose={() => setShowChargesFilter(false)}
+            position="bottom left"
+            className="charges-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="right"
+                className={`charges-filter-btn`}
+                onClick={() => {
+                  setShowChargesFilter(!showChargesFilter);
+                }}
+              >
+                <Icon className="slider" name="sliders horizontal" />
+                <span>Charges</span>
+              </Button>
+            }
+            content={
+              <ChargesInputFilter
+                closeFilter={() => setShowChargesFilter(false)}
+                applyFilter={() => console.log('Applied Filter')}
+                filterDataState={chargesInputFilterDataState}
+              />
+            }
+          />
+
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}

@@ -267,7 +267,10 @@ $new_black: #3b4557;
     }
 
     .multipack_profit {
+      position: relative;
+
       .stat {
+        margin-bottom: 0 !important;
         text-align: left !important;
       }
     }

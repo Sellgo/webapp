@@ -139,6 +139,13 @@ export interface ProductTrackerFilterState {
   customizable: CustomizableFilterModel[];
 }
 
+export interface ChargesInputFilterDataType {
+  label: string;
+  key: string;
+  icon: string;
+  type: string;
+}
+
 export interface ProfitFinderFilters {
   page: number;
   per_page: number;
