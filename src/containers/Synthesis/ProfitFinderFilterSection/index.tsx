@@ -19,6 +19,7 @@ import { exportResults, fetchActiveExportFiles } from '../../../actions/Products
 import { info } from '../../../utils/notifications';
 import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
+import FILTER_IMAGE from '../../../assets/images/sliders-v-square-solid.svg';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -363,12 +364,6 @@ function ProfitFinderFilterSection(props: Props) {
       key: 'vat_perc',
       type: 'text',
       icon: 'percent',
-    },
-    {
-      label: 'Calculate Multi Pack',
-      key: 'multipack',
-      type: 'checkbox',
-      icon: '',
     },
     {
       label: 'Custom Change',
@@ -716,7 +711,7 @@ function ProfitFinderFilterSection(props: Props) {
                   setShowChargesFilter(!showChargesFilter);
                 }}
               >
-                <Icon className="slider" name="sliders horizontal" />
+                <img src={FILTER_IMAGE} alt={'charges filters'} />
                 <span>Charges</span>
               </Button>
             }
@@ -724,7 +719,7 @@ function ProfitFinderFilterSection(props: Props) {
               <ChargesInputFilter
                 closeFilter={() => setShowChargesFilter(false)}
                 applyFilter={applyChargesFilters}
-                values={chargesValues}
+                values={chargesValues || []}
                 filterDataState={chargesInputFilterDataState}
               />
             }

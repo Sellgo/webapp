@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Input } from 'semantic-ui-react';
 import { ChargesInputFilterDataType } from '../../../interfaces/Filters';
-
 import './index.scss';
 
 interface Props {
