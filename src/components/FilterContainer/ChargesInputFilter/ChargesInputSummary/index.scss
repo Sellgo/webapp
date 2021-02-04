@@ -42,4 +42,5 @@
 
 .products-table .ui.table .multipack_profit .stat:hover + .input-charges-summary {
   display: block !important;
+  z-index: 9999 !important;
 }

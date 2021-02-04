@@ -27,26 +27,26 @@ const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
         Selling Price:<span>-${summaryDetails.price}</span>
       </p>
       <p>
-        Inbound Shipping Per Item:<span>-${filters.inbound_shipping}</span>
+        Inbound Shipping Per Item:<span>-${filters.inbound_shipping || 0}</span>
       </p>
       <p>
-        Outbound Shipping Per Item:<span>-${filters.outbound_shipping}</span>
+        Outbound Shipping Per Item:<span>-${filters.outbound_shipping || 0}</span>
       </p>
       <p>
-        Prep Fee Per Item:<span>-{filters.prep_fee}%</span>
+        Prep Fee Per Item:<span>-{filters.prep_fee || 0}%</span>
       </p>
       <p>
-        Tax % on Sourcing:<span>{filters.sourcing_tax}%</span>
+        Tax % on Sourcing:<span>{filters.sourcing_tax || 0}%</span>
       </p>
       <p>VAT registered:{filters.vat_registered ? <span> &#10003;</span> : <span>{''}</span>}</p>
       <p>
-        VAT % deducted from Sell Price:<span>${filters.vat_perc}</span>
+        VAT % deducted from Sell Price:<span>{filters.vat_perc || 0}%</span>
       </p>
       <p>
-        Custom Charge:<span>-${filters.custom_charge}</span>
+        Custom Charge:<span>-${filters.custom_charge || 0}</span>
       </p>
       <p>
-        Custom Discount:<span>${filters.custom_discount}</span>
+        Custom Discount:<span>-{filters.custom_discount || 0}%</span>
       </p>
       <div className="divider" />
       <p>
