@@ -50,7 +50,7 @@ const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
       </p>
       <div className="divider" />
       <p>
-        Profit:<span>${summaryDetails.profit}</span>
+        Profit:<span>${summaryDetails.multipack_profit}</span>
       </p>
     </div>
   );
