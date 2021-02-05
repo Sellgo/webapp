@@ -1,15 +1,19 @@
-.products-table .ui.table .multipack_profit .input-charges-summary {
-  position: absolute;
-  z-index: 9999999 !important;
-  top: 0;
-  left: 100px;
+.ui.popup.charges-input-popup-container {
+  padding: 0 !important;
+
+  &::before {
+    display: none;
+  }
+}
+
+.input-charges-summary {
   box-shadow: 0 3px 6px #00000029;
   border-radius: 10px;
   background-color: #fff !important;
   padding: 20px;
-  display: none;
   min-height: 300px;
   min-width: 300px;
+  width: 100%;
 
   h2 {
     color: #3b4557;
@@ -38,9 +42,4 @@
     width: 100%;
     margin-bottom: 10px;
   }
-}
-
-.products-table .ui.table .multipack_profit .stat:hover + .input-charges-summary {
-  display: block !important;
-  z-index: 9999 !important;
 }

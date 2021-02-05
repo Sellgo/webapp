@@ -6,7 +6,6 @@ interface Props {
 }
 
 const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
-  console.log(summaryDetails);
   const {
     filters = {
       custom_charge: '0.0',

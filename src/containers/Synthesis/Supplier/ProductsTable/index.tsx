@@ -200,10 +200,19 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   renderProfit = (row: Product) => (
     <>
-      <p className="stat">
-        {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
-      </p>
-      <ChargesInputSummary summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }} />
+      <Popup
+        trigger={
+          <p className="stat">
+            {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
+          </p>
+        }
+        on={'click'}
+        className="charges-input-popup-container"
+        position="top left"
+        content={
+          <ChargesInputSummary summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }} />
+        }
+      />
     </>
   );
   renderMargin = (row: Product) => (
