@@ -650,10 +650,13 @@ function ProfitFinderFilterSection(props: Props) {
     props.supplierDetails.leads_tracker_status === 'inactive';
   const isToggle = leadsStatus ? false : true;
   let chargesValues = {};
-  filterState.charges.forEach((f: any) => {
+  const values =
+    filterStorage && filterStorage.charges && !!filterStorage.charges.length
+      ? filterStorage.charges
+      : filterState.charges;
+  values.forEach((f: any) => {
     chargesValues = { ...chargesValues, [f.key]: f.value };
   });
-
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
