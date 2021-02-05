@@ -19,7 +19,7 @@ import {
   setPresetFilters,
   updateProductCost,
 } from '../../../../actions/Suppliers';
-import { GenericTable, Column } from '../../../../components/Table';
+import { Column } from '../../../../components/Table';
 import ProductDescription from './productDescription';
 import DetailButtons from './detailButtons';
 import {
@@ -28,8 +28,8 @@ import {
   formatPercent,
   showNAIfZeroOrNull,
 } from '../../../../utils/format';
-import { tableKeys } from '../../../../constants';
-import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
+// import { tableKeys } from '../../../../constants';
+// import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
 import { columnFilter } from '../../../../constants/Products';
 import _ from 'lodash';
@@ -54,6 +54,7 @@ import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import PageLoader from '../../../../components/PageLoader';
 import { ProfitFinderFilters } from '../../../../interfaces/Filters';
 import EditCostModal from '../../../../components/EditCostModal';
+import RSuiteTable from '../../../../components/Table/RSuiteTable';
 
 interface ProductsTableProps {
   currentActiveColumn: string;
@@ -495,6 +496,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       check: true,
       render: this.renderCheckBox,
+      fixed: true,
     },
     {
       label: 'Product Information',
@@ -503,6 +505,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderProductInfo,
+      fixed: true,
     },
     {
       label: 'ASIN',
@@ -913,15 +916,16 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: false,
       render: this.renderDetailButtons,
+      fixed: 'right',
     },
-    {
-      label: '',
-      icon: 'ellipsis horizontal ellipsis-ic',
-      dataKey: 'ellipsis horizontal',
-      show: true,
-      // render: this.renderSyncButtons,
-      popUp: true,
-    },
+    // {
+    //   label: '',
+    //   icon: 'ellipsis horizontal ellipsis-ic',
+    //   dataKey: 'ellipsis horizontal',
+    //   show: true,
+    //   // render: this.renderSyncButtons,
+    //   popUp: true,
+    // },
   ];
 
   handleClick = () => {
@@ -1382,28 +1386,28 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     const {
       isLoadingSupplierProducts,
       filteredProducts,
-      singlePageItemsCount,
-      setSinglePageItemsCount,
-      updateProfitFinderProducts,
-      pageNumber,
-      scrollTopSelector,
-      stickyChartSelector,
-      currentActiveColumn,
-      totalPages,
+      // singlePageItemsCount,
+      // setSinglePageItemsCount,
+      // updateProfitFinderProducts,
+      // pageNumber,
+      // scrollTopSelector,
+      // stickyChartSelector,
+      // currentActiveColumn,
+      // totalPages,
       loading,
-      filters,
-      loadingFilters,
-      totalRecords,
-      activeFilters,
+      // filters,
+      // loadingFilters,
+      // totalRecords,
+      // activeFilters,
     } = this.props;
     const {
-      searchValue,
-      checkedRows,
-      ColumnFilterBox,
+      // searchValue,
+      // checkedRows,
+      // ColumnFilterBox,
       columns,
-      columnFilterData,
-      activeColumnFilters,
-      exportFilters,
+      // columnFilterData,
+      // activeColumnFilters,
+      // exportFilters,
       editCost,
       productDetails,
       product_cost,
@@ -1419,70 +1423,71 @@ class ProductsTable extends React.Component<ProductsTableProps> {
           <PageLoader pageLoading={true} />
         ) : (
           <>
-            <GenericTable
-              currentActiveColumn={currentActiveColumn}
-              stickyChartSelector={stickyChartSelector}
-              scrollTopSelector={scrollTopSelector}
-              tableKey={tableKeys.PRODUCTS}
-              columns={columns}
-              data={filteredProducts}
-              searchFilterValue={searchValue}
-              showProductFinderSearch={true}
-              searchFilteredProduct={this.searchFilteredProduct}
-              toggleColumnFilters={this.setActiveColumnFilters}
-              activeColumnFilters={activeColumnFilters}
-              loadingFilters={loadingFilters}
-              filterValues={filters}
-              updateProfitFinderProducts={updateProfitFinderProducts}
-              singlePageItemsCount={singlePageItemsCount}
-              setSinglePageItemsCount={async per_page => {
-                await this.fetchSupplierProducts({ page: pageNumber, per_page });
-                setSinglePageItemsCount(per_page);
-              }}
-              currentPage={pageNumber}
-              pageCount={totalPages}
-              setPage={async page => {
-                if (page !== pageNumber) {
-                  await this.fetchSupplierProducts({ page, per_page: singlePageItemsCount });
-                }
-              }}
-              name={'products'}
-              showFilter={true}
-              columnFilterBox={ColumnFilterBox}
-              checkedRows={checkedRows}
-              updateCheckedRows={this.updateCheckedRows}
-              handleColumnChange={this.handleColumnChange}
-              toggleColumnCheckbox={this.handleClick}
-              columnFilterData={columnFilterData}
-              middleScroll={true}
-              renderFilterSectionComponent={() => (
-                <ProfitFinderFilterSection
-                  exportFilters={exportFilters}
-                  onFilterChange={(filterState: any) =>
-                    this.fetchSupplierProducts(this.parsePresetFilters(filterState))
-                  }
-                />
-              )}
-              handleColumnDrop={this.handleColumnDrop}
-              reorderColumns={this.reorderColumns}
-              columnDnD={true}
-              leftFixedColumns={2}
-              rightFixedColumns={2}
-              loading={loading}
-              cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}
-              onSort={this.onSort}
-              resetColumnFilters={(resetKey: string) => {
-                this.fetchSupplierProducts(this.getFilters(), resetKey).then(() => {
-                  this.setState({ ColumnFilterBox: false });
-                });
-              }}
-              applyColumnFilters={this.applyFilters}
-              count={totalRecords}
-              activeFilters={[...activeFilters, ...this.getSavedPresetFiltersList()]}
-              onActiveFilterReset={this.resetActiveFilters}
-              onCheckedActiveFilters={() => this.fetchSupplierProducts()}
-              onUncheckedActiveFilters={this.removeFilters}
-            />
+            {/*<GenericTable*/}
+            {/*  currentActiveColumn={currentActiveColumn}*/}
+            {/*  stickyChartSelector={stickyChartSelector}*/}
+            {/*  scrollTopSelector={scrollTopSelector}*/}
+            {/*  tableKey={tableKeys.PRODUCTS}*/}
+            {/*  columns={columns}*/}
+            {/*  data={filteredProducts}*/}
+            {/*  searchFilterValue={searchValue}*/}
+            {/*  showProductFinderSearch={true}*/}
+            {/*  searchFilteredProduct={this.searchFilteredProduct}*/}
+            {/*  toggleColumnFilters={this.setActiveColumnFilters}*/}
+            {/*  activeColumnFilters={activeColumnFilters}*/}
+            {/*  loadingFilters={loadingFilters}*/}
+            {/*  filterValues={filters}*/}
+            {/*  updateProfitFinderProducts={updateProfitFinderProducts}*/}
+            {/*  singlePageItemsCount={singlePageItemsCount}*/}
+            {/*  setSinglePageItemsCount={async per_page => {*/}
+            {/*    await this.fetchSupplierProducts({ page: pageNumber, per_page });*/}
+            {/*    setSinglePageItemsCount(per_page);*/}
+            {/*  }}*/}
+            {/*  currentPage={pageNumber}*/}
+            {/*  pageCount={totalPages}*/}
+            {/*  setPage={async page => {*/}
+            {/*    if (page !== pageNumber) {*/}
+            {/*      await this.fetchSupplierProducts({ page, per_page: singlePageItemsCount });*/}
+            {/*    }*/}
+            {/*  }}*/}
+            {/*  name={'products'}*/}
+            {/*  showFilter={true}*/}
+            {/*  columnFilterBox={ColumnFilterBox}*/}
+            {/*  checkedRows={checkedRows}*/}
+            {/*  updateCheckedRows={this.updateCheckedRows}*/}
+            {/*  handleColumnChange={this.handleColumnChange}*/}
+            {/*  toggleColumnCheckbox={this.handleClick}*/}
+            {/*  columnFilterData={columnFilterData}*/}
+            {/*  middleScroll={true}*/}
+            {/*  renderFilterSectionComponent={() => (*/}
+            {/*    <ProfitFinderFilterSection*/}
+            {/*      exportFilters={exportFilters}*/}
+            {/*      onFilterChange={(filterState: any) =>*/}
+            {/*        this.fetchSupplierProducts(this.parsePresetFilters(filterState))*/}
+            {/*      }*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*  handleColumnDrop={this.handleColumnDrop}*/}
+            {/*  reorderColumns={this.reorderColumns}*/}
+            {/*  columnDnD={true}*/}
+            {/*  leftFixedColumns={2}*/}
+            {/*  rightFixedColumns={2}*/}
+            {/*  loading={loading}*/}
+            {/*  cancelColumnFilters={() => this.setState({ ColumnFilterBox: false })}*/}
+            {/*  onSort={this.onSort}*/}
+            {/*  resetColumnFilters={(resetKey: string) => {*/}
+            {/*    this.fetchSupplierProducts(this.getFilters(), resetKey).then(() => {*/}
+            {/*      this.setState({ ColumnFilterBox: false });*/}
+            {/*    });*/}
+            {/*  }}*/}
+            {/*  applyColumnFilters={this.applyFilters}*/}
+            {/*  count={totalRecords}*/}
+            {/*  activeFilters={[...activeFilters, ...this.getSavedPresetFiltersList()]}*/}
+            {/*  onActiveFilterReset={this.resetActiveFilters}*/}
+            {/*  onCheckedActiveFilters={() => this.fetchSupplierProducts()}*/}
+            {/*  onUncheckedActiveFilters={this.removeFilters}*/}
+            {/*/>*/}
+            <RSuiteTable data={filteredProducts} columns={columns} />
             {editCost && (
               <EditCostModal
                 open={editCost}
