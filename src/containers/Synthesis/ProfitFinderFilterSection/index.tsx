@@ -337,7 +337,7 @@ function ProfitFinderFilterSection(props: Props) {
     },
     {
       label: 'Outbound Shipping Per Item',
-      key: 'outbound_shipping ',
+      key: 'outbound_shipping',
       type: 'text',
       icon: 'dollar',
     },

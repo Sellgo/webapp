@@ -206,9 +206,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
             {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
           </p>
         }
-        on={'click'}
+        on={'hover'}
         className="charges-input-popup-container"
         position="top left"
+        hideOnScroll={false}
         content={
           <ChargesInputSummary summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }} />
         }
@@ -1394,6 +1395,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     ) {
       multipackPreset = { ...multipackPreset, active: false };
     }
+
     charges = charges.filter((f: any) => f.key !== dataKey);
     saved = { ...saved, customizable, profitabilityFilter, multipackPreset, charges };
     localStorage.setItem('filterState', JSON.stringify(saved));
