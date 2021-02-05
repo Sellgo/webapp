@@ -29,20 +29,23 @@ const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
         Amazon Fees:<span>-${summaryDetails.fees}</span>
       </p>
       <p>
-        Inbound Shipping Per Item:<span>-${filters.inbound_shipping || 0}</span>
+        Inbound Shipping:
+        <span>-${filters.inbound_shipping * summaryDetails.multipack_quantity || 0}</span>
       </p>
       <p>
-        Outbound Shipping Per Item:<span>-${filters.outbound_shipping || 0}</span>
+        Outbound Shipping:
+        <span>-${filters.outbound_shipping * summaryDetails.multipack_quantity || 0}</span>
       </p>
       <p>
-        Prep Fee Per Item:<span>-${filters.prep_fee || 0}</span>
+        Prep Fee:<span>-${filters.prep_fee * summaryDetails.multipack_quantity || 0}</span>
       </p>
       <p>
-        Tax % on Sourcing:<span>-{filters.sourcing_tax || 0}%</span>
+        Tax % on Sourcing:
+        <span>-${(filters.sourcing_tax / 100) * summaryDetails.multipack_cost || 0}</span>
       </p>
       <p>VAT registered:{filters.vat_registered ? <span> &#10003;</span> : <span>{''}</span>}</p>
       <p>
-        VAT % deducted from Sell Price:<span>-{filters.vat_perc || 0}%</span>
+        VAT % deducted from Sell Price:<span>{filters.vat_perc || 0}%</span>
       </p>
       <p>
         Total COGS:<span>-${summaryDetails.multipack_cost}</span>
@@ -51,7 +54,8 @@ const InputChargesSummary: React.FC<Props> = ({ summaryDetails }) => {
         Custom Charge:<span>-${filters.custom_charge || 0}</span>
       </p>
       <p>
-        Custom Discount:<span>+{filters.custom_discount || 0}%</span>
+        Custom Discount:
+        <span>+${(filters.custom_discount / 100) * summaryDetails.multipack_cost || 0}</span>
       </p>
       <div className="divider" />
       <p>
