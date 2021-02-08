@@ -1377,7 +1377,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
     let { customizable = [], profitabilityFilter, multipackPreset, charges } = saved;
     customizable = customizable.map((f: any) => {
-      if (f.dataKey === dataKey) {
+      if (f.dataKey === dataKey && f.active) {
         f.active = false;
       }
       return f;
@@ -1391,7 +1391,8 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
     if (
       multipackPreset &&
-      multipackPreset.active && ['original', 'not-found', 'multipack', 'variation']
+      multipackPreset.active &&
+      ['original', 'not-found', 'multipack', 'variation'].includes(dataKey)
     ) {
       multipackPreset = { ...multipackPreset, active: false };
     }

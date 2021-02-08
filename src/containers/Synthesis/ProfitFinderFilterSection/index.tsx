@@ -539,8 +539,8 @@ function ProfitFinderFilterSection(props: Props) {
         value: charges[f.key],
         [f.key]: charges[f.key],
       }));
-
-    const filters = { ...filterState, charges: filterValues };
+    initialFilterState.customizable = filterState.customizable;
+    const filters = { ...initialFilterState, charges: filterValues };
     localStorage.setItem('filterState', JSON.stringify(filters));
     await setFilterState(filters);
     onFilterChange(filters);
