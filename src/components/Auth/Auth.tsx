@@ -8,12 +8,8 @@ import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
 import { removeProfitFinderFilters } from '../../constants/Products';
 import { isURL } from 'validator';
-import chromeIDConfig from '../../constants/ChromeExtension';
 
-const chromeID =
-  process.env.REACT_APP_ENV === 'production'
-    ? chromeIDConfig.PROD_CHROME_ID
-    : chromeIDConfig.DEV_CHROME_ID;
+const chromeID = AppConfig.CHROME_EXT_ID;
 
 export default class Auth {
   accessToken: any;
