@@ -44,6 +44,7 @@ export interface FilterData {
 export interface SupplierFilter {
   filterRanges: RangeModel[];
   presets: FilterData[];
+  charges: any[];
 }
 
 export interface FilterState {
@@ -85,6 +86,7 @@ export interface FilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
+  charges: any[];
 }
 
 //Product Tracker
@@ -137,6 +139,14 @@ export interface ProductTrackerFilterState {
     max: number;
   };
   customizable: CustomizableFilterModel[];
+  charges: any;
+}
+
+export interface ChargesInputFilterDataType {
+  label: string;
+  key: string;
+  icon: string;
+  type: string;
 }
 
 export interface ProfitFinderFilters {

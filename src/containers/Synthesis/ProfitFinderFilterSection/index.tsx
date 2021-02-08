@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { Product } from '../../../interfaces/Product';
 import { findMinMax, supplierDataKeys } from '../../../constants/Suppliers';
-import { SupplierFilter } from '../../../interfaces/Filters';
-import { presetFiltersState, supplierProductsSelector } from '../../../selectors/Supplier';
+import { SupplierFilter, ChargesInputFilterDataType } from '../../../interfaces/Filters';
+import { supplierProductsSelector, presetFiltersState } from '../../../selectors/Supplier';
 import { setSupplierPageNumber, setLeadsTracker, setIsScroll } from '../../../actions/Suppliers';
 import _ from 'lodash';
 import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
@@ -17,7 +17,9 @@ import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
 import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
 import { info } from '../../../utils/notifications';
+import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
+import FILTER_IMAGE from '../../../assets/images/sliders-v-square-solid.svg';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -53,6 +55,9 @@ function ProfitFinderFilterSection(props: Props) {
     typeof localStorage.filterState === 'undefined' ? null : localStorage.filterState
   );
   const [openPresetFilter, togglePresetFilter] = React.useState(false);
+
+  /* State for toggle charges filter popup */
+  const [showChargesFilter, setShowChargesFilter] = React.useState<boolean>(false);
 
   const filteredRanges = findMinMax(products);
 
@@ -170,6 +175,7 @@ function ProfitFinderFilterSection(props: Props) {
       value: 'Variation',
       active: false,
     },
+    charges: [],
   };
   const initialFilterState: any =
     filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
@@ -319,7 +325,59 @@ function ProfitFinderFilterSection(props: Props) {
         ],
       },
     ],
+    charges: [],
   };
+
+  const chargesInputFilterDataState: Array<ChargesInputFilterDataType> = [
+    {
+      label: 'Inbound Shipping Per Item',
+      key: 'inbound_shipping',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Outbound Shipping Per Item',
+      key: 'outbound_shipping',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Prep Fee per Item',
+      key: 'prep_fee',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Tax % on Sourcing',
+      key: 'sourcing_tax',
+      type: 'text',
+      icon: 'percent',
+    },
+    {
+      label: 'VAT Registered',
+      key: 'vat_registered',
+      type: 'checkbox',
+      icon: '',
+    },
+    {
+      label: 'VAT % deducted from Sell Price',
+      key: 'vat_perc',
+      type: 'text',
+      icon: 'percent',
+    },
+    {
+      label: 'Custom Change',
+      key: 'custom_charge',
+      type: 'text',
+      icon: 'dollar',
+    },
+    {
+      label: 'Custom Discount',
+      key: 'custom_discount',
+      type: 'text',
+      icon: 'percent',
+    },
+  ];
 
   const [filterRanges, setFilterRanges] = React.useState(filterDataState.filterRanges);
   const [exportResult, setExportResult] = React.useState(false);
@@ -471,6 +529,23 @@ function ProfitFinderFilterSection(props: Props) {
     onFilterChange(filterState);
   };
 
+  const applyChargesFilters = async (charges: any) => {
+    setPageNumber(1);
+
+    const filterValues = chargesInputFilterDataState
+      .filter((f: ChargesInputFilterDataType) => !!charges[f.key])
+      .map((f: ChargesInputFilterDataType) => ({
+        ...f,
+        value: charges[f.key],
+        [f.key]: charges[f.key],
+      }));
+    initialFilterState.customizable = filterState.customizable;
+    const filters = { ...initialFilterState, charges: filterValues };
+    localStorage.setItem('filterState', JSON.stringify(filters));
+    await setFilterState(filters);
+    onFilterChange(filters);
+  };
+
   const checkCustomizePresetChange = () => {
     const filterStorage =
       typeof localStorage.filterState === 'undefined'
@@ -574,7 +649,14 @@ function ProfitFinderFilterSection(props: Props) {
     props.supplierDetails.leads_tracker_status === null ||
     props.supplierDetails.leads_tracker_status === 'inactive';
   const isToggle = leadsStatus ? false : true;
-
+  let chargesValues = {};
+  const values =
+    filterStorage && filterStorage.charges && !!filterStorage.charges.length
+      ? filterStorage.charges
+      : filterState.charges;
+  values.forEach((f: any) => {
+    chargesValues = { ...chargesValues, [f.key]: f.value };
+  });
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
@@ -613,6 +695,39 @@ function ProfitFinderFilterSection(props: Props) {
               />
             }
           />
+
+          <Popup
+            on="click"
+            open={showChargesFilter}
+            onOpen={() => setShowChargesFilter(true)}
+            onClose={() => setShowChargesFilter(false)}
+            position="bottom left"
+            className="charges-filter-popup"
+            basic={true}
+            trigger={
+              <Button
+                basic
+                icon
+                labelPosition="right"
+                className={`charges-filter-btn`}
+                onClick={() => {
+                  setShowChargesFilter(!showChargesFilter);
+                }}
+              >
+                <img src={FILTER_IMAGE} alt={'charges filters'} />
+                <span>Charges</span>
+              </Button>
+            }
+            content={
+              <ChargesInputFilter
+                closeFilter={() => setShowChargesFilter(false)}
+                applyFilter={applyChargesFilters}
+                values={chargesValues || []}
+                filterDataState={chargesInputFilterDataState}
+              />
+            }
+          />
+
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}

@@ -1,0 +1,161 @@
+.charges-input-filter {
+  padding: 10px !important;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  min-width: 340px;
+
+  &__content {
+    width: 100%;
+  }
+
+  &__btnContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+
+    .ui.button.cancel-charges-filter-btn {
+      width: 100px;
+      height: 25px;
+      border-radius: 100px;
+      box-shadow: inherit;
+      font-size: 14px;
+      font-weight: bold;
+      font-family: 'Work sans', sans-serif;
+      border: 1px solid #98aeca;
+      color: #98aeca !important;
+      text-align: center;
+      padding: 0 !important;
+
+      &:active,
+      &:focus,
+      &:visited {
+        background-color: white !important;
+      }
+    }
+
+    .ui.button.apply-charges-filter-btn {
+      width: 100px;
+      height: 25px;
+      border-radius: 100px;
+      box-shadow: inherit;
+      font-size: 14px;
+      font-weight: bold;
+      font-family: 'Work sans', sans-serif;
+      border: 1px solid #349af8;
+      color: #349af8 !important;
+      text-align: center;
+      padding: 0 !important;
+
+      &:active,
+      &:focus,
+      &:visited {
+        background-color: white !important;
+      }
+    }
+  }
+}
+
+.filter-input-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin: 15px 0;
+  position: relative;
+
+  label.filterLabel {
+    font-size: 14px;
+    color: #3b4557;
+    margin-right: 10px;
+    font-weight: 500;
+    align-self: center;
+    text-align: left !important;
+    width: 200px;
+  }
+
+  .ui.input.filterCheckbox {
+    width: 15px !important;
+    height: 15px !important;
+    align-self: center;
+
+    input[type='checkbox'] {
+      width: 100%;
+      height: 100%;
+      margin-left: 10px !important;
+    }
+
+    label {
+      max-width: max-content !important;
+    }
+  }
+
+  .input.ui.icon.filterInput {
+    position: realative;
+    width: 50px !important;
+    height: 20px !important;
+    border: none;
+    display: flex;
+
+    input {
+      font-size: 14px;
+      font-weight: 400;
+      color: #98aeca;
+      padding: 8px;
+      padding-left: 15px;
+      text-align: left;
+      font-family: 'Work Sans', sans-serif !important;
+      border-radius: 5px !important;
+      background: transparent;
+      border: 1px solid #dfe8f3 !important;
+      box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
+      padding-right: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+
+      &#taxPercent,
+      &#vatPercent,
+      &#customDiscount {
+        padding-left: 5px !important;
+        padding-right: 10px !important;
+      }
+
+      &:focus {
+        outline: 0 !important;
+      }
+    }
+
+    i.percent.icon {
+      position: absolute;
+      right: -4px;
+      color: #98aeca !important;
+      font-size: 10px !important;
+    }
+
+    // special edge case
+    #customDiscount {
+      margin-left: 55px !important;
+
+      + i.percent.icon {
+        position: absolute;
+        right: -60px;
+        color: #98aeca !important;
+        font-size: 10px !important;
+      }
+    }
+
+    i.dollar.icon {
+      position: absolute;
+      left: -8px;
+      color: #98aeca !important;
+      font-size: 12px !important;
+    }
+  }
+}

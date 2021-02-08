@@ -52,6 +52,7 @@ import { PRODUCT_ID_TYPES } from '../../../../constants/UploadSupplier';
 import { formatCompletedDate } from '../../../../utils/date';
 import { returnWithRenderMethod } from '../../../../utils/tableColumn';
 import PageLoader from '../../../../components/PageLoader';
+import ChargesInputSummary from '../../../../components/FilterContainer/ChargesInputFilter/ChargesInputSummary';
 import { ProfitFinderFilters } from '../../../../interfaces/Filters';
 import EditCostModal from '../../../../components/EditCostModal';
 
@@ -198,9 +199,22 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   renderProfit = (row: Product) => (
-    <p className="stat">
-      {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
-    </p>
+    <>
+      <Popup
+        trigger={
+          <p className="stat">
+            {showNAIfZeroOrNull(row.multipack_profit, formatCurrency(row.multipack_profit))}
+          </p>
+        }
+        on={'hover'}
+        className="charges-input-popup-container"
+        position="top left"
+        hideOnScroll={false}
+        content={
+          <ChargesInputSummary summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }} />
+        }
+      />
+    </>
   );
   renderMargin = (row: Product) => (
     <p className="stat">
@@ -1196,7 +1210,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   parsePresetFilters = (filterState: any): { filters: any; list: any[] } => {
-    const { customizable = [], profitabilityFilter, multipackPreset } = filterState;
+    const { customizable = [], profitabilityFilter, multipackPreset, charges } = filterState;
     let filters = {};
     const list = [];
     customizable.forEach((filter: any) => {
@@ -1275,11 +1289,20 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         });
       }
     }
-
+    if (charges && charges.length) {
+      charges.forEach((f: any) => {
+        filters = { ...filters, [f.key]: f.value };
+        list.push({
+          dataKey: f.key,
+          filterType: 'SingleValue',
+          label: `${f.label}: ${f.value}`,
+        });
+      });
+    }
     return { filters, list };
   };
 
-  getSavedPresetFilters = () => {
+  getSavedPresetFilters = (): any => {
     const local = localStorage.getItem('filterState');
     let saved: any = {};
     if (local) {
@@ -1352,9 +1375,9 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     if (local) {
       saved = JSON.parse(local);
     }
-    let { customizable = [], profitabilityFilter, multipackPreset } = saved;
+    let { customizable = [], profitabilityFilter, multipackPreset, charges } = saved;
     customizable = customizable.map((f: any) => {
-      if (f.dataKey === dataKey) {
+      if (f.dataKey === dataKey && f.active) {
         f.active = false;
       }
       return f;
@@ -1368,12 +1391,14 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
     if (
       multipackPreset &&
-      multipackPreset.active && ['original', 'not-found', 'multipack', 'variation']
+      multipackPreset.active &&
+      ['original', 'not-found', 'multipack', 'variation'].includes(dataKey)
     ) {
       multipackPreset = { ...multipackPreset, active: false };
     }
 
-    saved = { ...saved, customizable, profitabilityFilter, multipackPreset };
+    charges = charges.filter((f: any) => f.key !== dataKey);
+    saved = { ...saved, customizable, profitabilityFilter, multipackPreset, charges };
     localStorage.setItem('filterState', JSON.stringify(saved));
     setPresetFilterState(saved);
   };
