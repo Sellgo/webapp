@@ -209,10 +209,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
         on={'hover'}
         className="charges-input-popup-container"
         position="top left"
+        hoverable
         hideOnScroll={false}
         content={
           <ChargesInputSummary summaryDetails={{ ...row, filters: this.getSavedPresetFilters() }} />
         }
+        positionFixed
+        offset="50px"
       />
     </>
   );
