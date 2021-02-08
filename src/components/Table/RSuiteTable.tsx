@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Column, HeaderCell, Cell } from 'rsuite-table';
+import { Table, Column, HeaderCell, Cell, ColumnGroup } from 'rsuite-table';
 import 'rsuite-table/dist/css/rsuite-table.css'; // or 'rsuite-table/dist/css/rsuite-table.css';
 import './RSutieTable.scss';
 interface Props {
@@ -12,7 +12,7 @@ const RSuiteTable = (props: Props) => {
   return (
     <div>
       <Table
-        height={600}
+        height={800}
         data={data}
         onRowClick={data => {
           console.log(data);
@@ -20,24 +20,58 @@ const RSuiteTable = (props: Props) => {
         headerHeight={50}
         hover
         locale={{ emptyMessage: 'Loading ...' }}
-        minHeight={400}
+        minHeight={800}
         rowHeight={60}
         rowKey={'id'}
       >
-        {columns.map((c: any) => {
-          return (
-            <Column width={180} align="center" key={c.dataKey} fixed={c.fixed}>
-              <HeaderCell depth={50} width={180}>
-                {c.label || '#'}
-              </HeaderCell>
-              <Cell depth={50} width={180} dataKey={c.dataKey}>
-                {(rowData: any) => {
-                  return c.render ? c.render(rowData) : '';
-                }}
-              </Cell>
-            </Column>
-          );
-        })}
+        <ColumnGroup fixed={'left'}>
+          {columns
+            .filter((c: any) => c.fixed === 'left')
+            .map((c: any) => (
+              <Column width={180} align="center" key={c.dataKey} fixed={c.fixed}>
+                <HeaderCell depth={50} width={180}>
+                  {c.label || '#'}
+                </HeaderCell>
+                <Cell depth={50} width={180} dataKey={c.dataKey}>
+                  {(rowData: any) => {
+                    return c.render ? c.render(rowData) : '';
+                  }}
+                </Cell>
+              </Column>
+            ))}
+        </ColumnGroup>
+        {columns
+          .filter((c: any) => !c.fixed)
+          .map((c: any) => {
+            return (
+              <Column width={180} align="center" key={c.dataKey}>
+                <HeaderCell depth={50} width={180}>
+                  {c.label || '#'}
+                </HeaderCell>
+                <Cell depth={50} width={180} dataKey={c.dataKey}>
+                  {(rowData: any) => {
+                    return c.render ? c.render(rowData) : '';
+                  }}
+                </Cell>
+              </Column>
+            );
+          })}
+        <ColumnGroup fixed={'right'}>
+          {columns
+            .filter((c: any) => c.fixed === 'right')
+            .map((c: any) => (
+              <Column width={180} align="center" key={c.dataKey} fixed={c.fixed}>
+                <HeaderCell depth={50} width={180}>
+                  {c.label || '#'}
+                </HeaderCell>
+                <Cell depth={50} width={180} dataKey={c.dataKey}>
+                  {(rowData: any) => {
+                    return c.render ? c.render(rowData) : '';
+                  }}
+                </Cell>
+              </Column>
+            ))}
+        </ColumnGroup>
       </Table>
     </div>
   );

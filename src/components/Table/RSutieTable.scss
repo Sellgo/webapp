@@ -20,3 +20,13 @@
     }
   }
 }
+
+.rs-table-column-group {
+  .rs-table-column-group-header {
+    height: 0 !important;
+  }
+
+  .rs-table-column-group-cell {
+    top: 0 !important;
+  }
+}

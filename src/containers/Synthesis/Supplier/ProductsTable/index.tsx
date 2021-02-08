@@ -496,7 +496,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       check: true,
       render: this.renderCheckBox,
-      fixed: true,
+      fixed: 'left',
     },
     {
       label: 'Product Information',
@@ -505,7 +505,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderProductInfo,
-      fixed: true,
+      fixed: 'left',
     },
     {
       label: 'ASIN',
