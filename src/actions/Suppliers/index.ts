@@ -303,7 +303,7 @@ export const fetchSynthesisProgressUpdates = () => async (
       return responses[index].data.progress !== 100;
     });
 
-    await timeout(2000);
+    await timeout(5000);
   }
 };
 export const supplierQuota = (supplier: Supplier) => ({
