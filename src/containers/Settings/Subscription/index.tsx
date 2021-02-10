@@ -211,7 +211,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       pendingSubscriptionMode,
       isYearly,
     } = this.state;
-
+    console.log('SELLER_SUBSCRIPTION', sellerSubscription);
     const subscribedSubscription = sellerSubscription
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
@@ -232,7 +232,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
       const subscriptionId = Number(subscription.id);
-
       return (
         <Card
           key={subscription.id}
