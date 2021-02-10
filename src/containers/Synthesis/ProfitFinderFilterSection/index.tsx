@@ -403,7 +403,9 @@ function ProfitFinderFilterSection(props: Props) {
     customizableFilterWithSlider(dataKey);
     //resets negative filter on slider based on custom filter key
     toggleNegative(dataKey, true);
-    applyFilter(true);
+    if (type === 'toggle') {
+      applyFilter(true);
+    }
   };
 
   const toggleOffCustomFilter = (dataKey: string) => {
