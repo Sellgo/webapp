@@ -247,7 +247,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           <Card.Content className="card-container__header">
             <Card.Header>
               <Button
-                className={`${isSubscriptionIdPro(subscriptionId) &&
+                className={`${isSubscriptionIdBasic(subscriptionId) &&
                   !isSubscribed &&
                   'best-value'}`}
                 fluid
