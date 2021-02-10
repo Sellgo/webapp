@@ -275,10 +275,10 @@ export const fetchSynthesisProgressUpdates = () => {
       );
     };
     while (suppliers.length > 0) {
-      const isProfitFinder = window.location.pathname.indexOf(`/profit-finder`) > -1;
+      const isSearchManagement = window.location.pathname.indexOf(`synthesis`) > -1;
 
       const responses: any[] = [];
-      if (!isProfitFinder) {
+      if (isSearchManagement) {
         await each(
           suppliers,
           (supplier, callback) => {
@@ -298,7 +298,7 @@ export const fetchSynthesisProgressUpdates = () => {
         );
       }
 
-      if (responses.length && !isProfitFinder) {
+      if (responses.length && isSearchManagement) {
         suppliers = await suppliers.filter((supplier, index) => {
           if (currSynthesisId === supplier.synthesis_file_id) {
             dispatch(setEta(responses[index].data.eta));
