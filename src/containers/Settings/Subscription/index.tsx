@@ -218,7 +218,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     const trackTitle = 'Unlimited Profit Finder';
 
-    const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
+    let subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
+    if (subscriptionsSorted.length && subscriptionsSorted.length === 4) {
+      const [basic, pro, enterprise, extension] = subscriptionsSorted;
+      subscriptionsSorted = [extension, basic, pro, enterprise];
+    }
 
     const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed =
@@ -487,9 +491,19 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Search Management</Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                     <Table.Cell>
                       <p>
                         <i className="fa fa-check" />
@@ -524,6 +538,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Daily Inventory Tracking</Table.Cell>
@@ -542,9 +561,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Maximum Monthly Uploads</Table.Cell>
+                    <Table.Cell>
+                      <p>Limited</p>
+                    </Table.Cell>
                     <Table.Cell>
                       <p>Unlimited</p>
                     </Table.Cell>
@@ -581,6 +608,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     <Table.Cell>
                       <p>Inquiry based</p>
                     </Table.Cell>
+                    <Table.Cell></Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>
