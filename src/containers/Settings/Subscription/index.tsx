@@ -231,6 +231,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
       const subscriptionId = Number(subscription.id);
+
+      const getTrackLimit = (trackLimit: number) => {
+        return isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
+          ? trackLimit + ' Product Tracker Limit'
+          : 'More than 100,000 Product Tracker Limit';
+      };
+
       return (
         <Card
           key={subscription.id}
@@ -259,11 +266,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               {subscription.name}
             </Card.Header>
             <Card.Meta>
-              {trackTitle}
+              {subscription.track_limit > 0 && trackTitle}
               <br />
-              {isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
-                ? subscription.track_limit + ' Product Tracker Limit'
-                : 'More than 100,000 Product Tracker Limit'}
+              {subscription.track_limit > 0 && getTrackLimit(subscription.track_limit)}
             </Card.Meta>
           </Card.Content>
           {isYearly && !isSubscriptionIdEnterprise(subscriptionId) && (
