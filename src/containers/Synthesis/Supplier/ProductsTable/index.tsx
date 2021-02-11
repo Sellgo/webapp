@@ -1518,7 +1518,10 @@ class ProductsTable extends React.Component<ProductsTableProps> {
                 onCancel={() => this.setState({ editCost: false })}
                 onEdit={this.updateProductCostValue}
                 disabled={
-                  product_cost > (parseFloat(productDetails.price) / 100) * 150 || !isValidCostValue
+                  product_cost > (parseFloat(productDetails.price) / 100) * 150 ||
+                  !isValidCostValue ||
+                  !productDetails.price ||
+                  !product_cost
                 }
                 onChange={value => this.updateCostValue(value)}
                 cost={product_cost}
