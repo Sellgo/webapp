@@ -68,7 +68,7 @@ const EditCostModal = (props: EditCostModalProps) => {
                 <Input
                   focus
                   onChange={(evt: any, data: any) => {
-                    onChange(data.value);
+                    onChange(data.value.trim());
                   }}
                   icon="dollar sign"
                   iconPosition="left"
