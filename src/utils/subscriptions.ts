@@ -11,7 +11,7 @@ export const isSubscriptionNotPaid = (type: string) => !isSubscriptionPaid(type)
 
 export const isPlanExtension = (plan: string) => plan === 'Browser Extension';
 
-export const isPlanBasic = (plan: string) => plan === 'Basic';
+export const isPlanBasic = (plan: string) => plan === 'Basic Plan';
 
 export const isPlanPro = (plan: string) => plan === 'Pro Plan';
 
