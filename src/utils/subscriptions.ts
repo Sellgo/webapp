@@ -9,6 +9,8 @@ export const isSubscriptionPaid = (type: string) => type === 'paid';
 
 export const isSubscriptionNotPaid = (type: string) => !isSubscriptionPaid(type);
 
+export const isPlanExtension = (plan: string) => plan === 'Browser Extension';
+
 export const isPlanBasic = (plan: string) => plan === 'Basic Plan';
 
 export const isPlanPro = (plan: string) => plan === 'Pro Plan';
@@ -28,6 +30,8 @@ export const isSubscriptionIdEnterprise = (id: number) => id === 3;
 export const isSubscriptionIdFreeTrial = (id: number) => id === 4;
 
 export const isSubscriptionIdFreeAccount = (id: number) => id === 5;
+
+export const isSubscriptionIdFreeExtension = (id: number) => id === 6;
 
 export const isFreeAccountWithoutHistory = (
   sellerSubscription: SellerSubscription,

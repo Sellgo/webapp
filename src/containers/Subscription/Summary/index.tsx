@@ -30,7 +30,14 @@ function Summary(props: SummaryProps) {
   useEffect(() => {
     fetchSubscriptions();
   }, []);
-  const index = planType === 'basic' ? 1 : 2;
+  let index = 2;
+  if (planType === 'basic') {
+    index = 2;
+  } else if (planType === 'extension') {
+    index = 1;
+  } else {
+    index = 3;
+  }
   const plan = {
     name: `${!_.isEmpty(subscriptions) ? subscriptions[index].name : '-'}`,
     description: `$${
