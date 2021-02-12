@@ -4,6 +4,7 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig } from '../../config';
 import { getSellerQuota, handleUnauthorizedMwsAuth } from '../Settings';
+import { each } from 'async';
 import {
   suppliersSelector,
   newSupplierIdSelector,
@@ -249,62 +250,72 @@ export const postSynthesisRun = (synthesisId: string) => async (
     });
 };
 
-export const fetchSynthesisProgressUpdates = () => async (
-  dispatch: ThunkDispatch<{}, {}, AnyAction>,
-  getState: () => {}
-) => {
-  const sellerID = sellerIDSelector();
-  let suppliers = suppliersSelector(getState());
-  const currSynthesisId = getSynthesisId(getState());
-  suppliers = suppliers.filter(
-    supplier =>
-      supplier &&
-      supplier.file_status &&
-      supplier.file_status !== null &&
-      supplier.file_status !== 'completed' &&
-      supplier.file_status !== 'inactive' &&
-      supplier.file_status !== 'failed'
-  );
-
-  const handleUpdateSupplier = (response: any, index: any) => {
-    const data = response.data;
-    const supplier = suppliers[index];
-    dispatch(
-      updateSupplier({
-        ...supplier,
-        ...data,
-      })
+export const fetchSynthesisProgressUpdates = () => {
+  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => {}) => {
+    const sellerID = sellerIDSelector();
+    let suppliers = suppliersSelector(getState());
+    const currSynthesisId = getSynthesisId(getState());
+    suppliers = suppliers.filter(
+      supplier =>
+        supplier &&
+        supplier.file_status &&
+        supplier.file_status !== null &&
+        supplier.file_status !== 'completed' &&
+        supplier.file_status !== 'inactive' &&
+        supplier.file_status !== 'failed'
     );
-  };
 
-  while (suppliers.length > 0) {
-    const requests = suppliers.map(supplier => {
-      return Axios.get(
-        AppConfig.BASE_URL_API +
-          `sellers/${sellerID}/suppliers/${String(
-            supplier.supplier_id
-          )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
+    const handleUpdateSupplier = (response: any, supplier: any) => {
+      const data = response.data;
+      dispatch(
+        updateSupplier({
+          ...supplier,
+          ...data,
+        })
       );
-    });
+    };
+    while (suppliers.length > 0) {
+      const isSearchManagement = window.location.pathname.indexOf(`synthesis`) > -1;
 
-    const responses = await Promise.all(requests);
-    responses.forEach(handleUpdateSupplier);
-
-    suppliers = suppliers.filter((supplier, index) => {
-      if (currSynthesisId === supplier.synthesis_file_id) {
-        dispatch(setEta(responses[index].data.eta));
-        dispatch(setProgress(responses[index].data.progress));
-        dispatch(setSpeed(responses[index].data.speed));
+      const responses: any[] = [];
+      if (isSearchManagement) {
+        await each(
+          suppliers,
+          (supplier, callback) => {
+            Axios.get(
+              AppConfig.BASE_URL_API +
+                `sellers/${sellerID}/suppliers/${String(
+                  supplier.supplier_id
+                )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
+            ).then(res => {
+              handleUpdateSupplier(res, supplier);
+              responses.push(res);
+            });
+            callback();
+          },
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          () => {}
+        );
       }
 
-      if (responses[index].data.progress === 100) {
-        dispatch(fetchSupplier(supplier.supplier_id));
-      }
-      return responses[index].data.progress !== 100;
-    });
+      if (responses.length && isSearchManagement) {
+        suppliers = await suppliers.filter((supplier, index) => {
+          if (currSynthesisId === supplier.synthesis_file_id) {
+            dispatch(setEta(responses[index].data.eta));
+            dispatch(setProgress(responses[index].data.progress));
+            dispatch(setSpeed(responses[index].data.speed));
+          }
 
-    await timeout(2000);
-  }
+          if (responses[index].data.progress === 100) {
+            dispatch(fetchSupplier(supplier.supplier_id));
+          }
+          return responses[index].data.progress !== 100;
+        });
+      }
+
+      await timeout(2000);
+    }
+  };
 };
 export const supplierQuota = (supplier: Supplier) => ({
   type: SUPPLIER_QUOTA,

@@ -211,14 +211,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       pendingSubscriptionMode,
       isYearly,
     } = this.state;
-
     const subscribedSubscription = sellerSubscription
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
 
     const trackTitle = 'Unlimited Profit Finder';
 
-    const subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
+    let subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
+    if (subscriptionsSorted.length && subscriptionsSorted.length === 4) {
+      const [basic, pro, enterprise, extension] = subscriptionsSorted;
+      subscriptionsSorted = [extension, basic, pro, enterprise];
+    }
 
     const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
       const isSubscribed =
@@ -228,6 +231,12 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
       const subscriptionId = Number(subscription.id);
+
+      const getTrackLimit = (trackLimit: number) => {
+        return isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
+          ? trackLimit + ' Product Tracker Limit'
+          : 'More than 100,000 Product Tracker Limit';
+      };
 
       return (
         <Card
@@ -243,7 +252,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
           <Card.Content className="card-container__header">
             <Card.Header>
               <Button
-                className={`${isSubscriptionIdPro(subscriptionId) &&
+                className={`${isSubscriptionIdBasic(subscriptionId) &&
                   !isSubscribed &&
                   'best-value'}`}
                 fluid
@@ -257,11 +266,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               {subscription.name}
             </Card.Header>
             <Card.Meta>
-              {trackTitle}
+              {subscription.track_limit > 0 && trackTitle}
               <br />
-              {isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
-                ? subscription.track_limit + ' Product Tracker Limit'
-                : 'More than 100,000 Product Tracker Limit'}
+              {subscription.track_limit > 0 && getTrackLimit(subscription.track_limit)}
             </Card.Meta>
           </Card.Content>
           {isYearly && !isSubscriptionIdEnterprise(subscriptionId) && (
@@ -487,9 +494,19 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Search Management</Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                     <Table.Cell>
                       <p>
                         <i className="fa fa-check" />
@@ -524,6 +541,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Daily Inventory Tracking</Table.Cell>
@@ -542,9 +564,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
+                    <Table.Cell>
+                      <p>
+                        <i className="fa fa-check" />
+                      </p>
+                    </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Maximum Monthly Uploads</Table.Cell>
+                    <Table.Cell>
+                      <p>Limited</p>
+                    </Table.Cell>
                     <Table.Cell>
                       <p>Unlimited</p>
                     </Table.Cell>
@@ -581,6 +611,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     <Table.Cell>
                       <p>Inquiry based</p>
                     </Table.Cell>
+                    <Table.Cell></Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>
