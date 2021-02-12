@@ -76,6 +76,7 @@ export default class Auth {
           // if chrome extension redirect then
           if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
             window.location.href = decodedRedirectURL;
+            localStorage.setItem('chromeRedirectURL', '');
             return;
           }
 
