@@ -96,7 +96,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
 
   render() {
     const { subscriptionType, sellerSubscription } = this.props;
-    const { expireDateMinutes } = this.getExpiration();
+    const { expireDateDay } = this.getExpiration();
     return (
       <>
         {isSubscriptionNotPaid(subscriptionType) && (
@@ -111,7 +111,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
             </Segment>
           </Rail>
         )}
-        {isPlanPaid(sellerSubscription.subscription_id) && expireDateMinutes > 0 && (
+        {isPlanPaid(sellerSubscription.subscription_id) && expireDateDay > 0 && (
           <Rail
             className={`free-trial-period ${this.isHighMessage()}`}
             internal={true}
