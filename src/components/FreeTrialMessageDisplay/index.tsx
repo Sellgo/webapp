@@ -8,7 +8,9 @@ import {
   isSubscriptionTrial,
   isSubscriptionFree,
   isSubscriptionNotPaid,
+  isPlanPaid,
 } from '../../utils/subscriptions';
+import history from '../../history';
 
 interface SubscriptionMessageProps {
   sellerSubscription: any;
@@ -21,49 +23,60 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
     super(props);
   }
 
-  content() {
-    const { sellerSubscription, subscriptionType } = this.props;
+  getExpiration = (): { expireDateDay?: any; expireDateMinutes: any } => {
+    const { sellerSubscription } = this.props;
     const today = new Date();
     const exp = new Date(sellerSubscription.expiry_date);
     const expireDateDay = moment(exp).diff(today, 'days');
     const expireDateMinutes = moment(exp).diff(today, 'minutes');
-    if (isSubscriptionTrial(subscriptionType)) {
-      return (
-        <p>
-          {`Your free trial runs out in  ${expireDateDay} days. Do you like our product? `}
-          <Link to="/settings/pricing" className="free-trial-btn">
-            <span>Click here to pick a plan</span>
-          </Link>
-        </p>
-      );
-    } else if (isSubscriptionFree(subscriptionType)) {
-      if (sellerSubscription.expiry_date !== null && expireDateMinutes > 0) {
+    return { expireDateDay, expireDateMinutes };
+  };
+
+  content() {
+    const { sellerSubscription, subscriptionType } = this.props;
+    const { expireDateDay, expireDateMinutes } = this.getExpiration();
+
+    if (isPlanPaid(sellerSubscription.subscription_id) && expireDateDay > 0) {
+      return <p>{`Your trial runs out in  ${expireDateDay} days.`}</p>;
+    } else {
+      if (isSubscriptionTrial(subscriptionType)) {
         return (
           <p>
-            {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token. `}
-            <Link to="/settings" className="free-trial-btn">
-              <span>Click here to re-enter your MWS Token</span>
-            </Link>
-          </p>
-        );
-      } else if (sellerSubscription.expiry_date !== null && expireDateMinutes <= 0) {
-        return (
-          <p>
-            {`Your free trial has expired. Do you like our product? `}
+            {`Your free trial runs out in  ${expireDateDay} days. Do you like our product? `}
             <Link to="/settings/pricing" className="free-trial-btn">
               <span>Click here to pick a plan</span>
             </Link>
           </p>
         );
-      } else {
-        return (
-          <p>
-            {'Your free account has limited functionality: '}
-            <Link to="/settings#amazon-mws" className="free-trial-btn">
-              <span>Enter your MWS to start the trial</span>
-            </Link>
-          </p>
-        );
+      } else if (isSubscriptionFree(subscriptionType)) {
+        if (sellerSubscription.expiry_date !== null && expireDateMinutes > 0) {
+          return (
+            <p>
+              {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token. `}
+              <Link to="/settings" className="free-trial-btn">
+                <span>Click here to re-enter your MWS Token</span>
+              </Link>
+            </p>
+          );
+        } else if (sellerSubscription.expiry_date !== null && expireDateMinutes <= 0) {
+          return (
+            <p>
+              {`Your free trial has expired. Do you like our product? `}
+              <Link to="/settings/pricing" className="free-trial-btn">
+                <span>Click here to pick a plan</span>
+              </Link>
+            </p>
+          );
+        } else {
+          return (
+            <p>
+              {'Your free account has limited functionality: '}
+              <Link to="/settings#amazon-mws" className="free-trial-btn">
+                <span>Enter your MWS to start the trial</span>
+              </Link>
+            </p>
+          );
+        }
       }
     }
   }
@@ -74,22 +87,43 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
       ? 'high'
       : '';
   }
+  componentDidMount() {
+    const { sellerSubscription } = this.props;
+    if (!isPlanPaid(sellerSubscription.subscription_id)) {
+      history.push('/settings/pricing');
+    }
+  }
 
   render() {
-    const { subscriptionType } = this.props;
+    const { subscriptionType, sellerSubscription } = this.props;
+    const { expireDateMinutes } = this.getExpiration();
     return (
-      isSubscriptionNotPaid(subscriptionType) && (
-        <Rail
-          className={`free-trial-period ${this.isHighMessage()}`}
-          internal={true}
-          position="left"
-          key={subscriptionType}
-        >
-          <Segment>
-            <Message success content={this.content()} />
-          </Segment>
-        </Rail>
-      )
+      <>
+        {isSubscriptionNotPaid(subscriptionType) && (
+          <Rail
+            className={`free-trial-period ${this.isHighMessage()}`}
+            internal={true}
+            position="left"
+            key={subscriptionType}
+          >
+            <Segment>
+              <Message success content={this.content()} />
+            </Segment>
+          </Rail>
+        )}
+        {isPlanPaid(sellerSubscription.subscription_id) && expireDateMinutes > 0 && (
+          <Rail
+            className={`free-trial-period ${this.isHighMessage()}`}
+            internal={true}
+            position="left"
+            key={subscriptionType}
+          >
+            <Segment>
+              <Message success content={this.content()} />
+            </Segment>
+          </Rail>
+        )}
+      </>
     );
   }
 }

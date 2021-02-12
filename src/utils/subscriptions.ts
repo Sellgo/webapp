@@ -29,6 +29,8 @@ export const isSubscriptionIdFreeTrial = (id: number) => id === 4;
 
 export const isSubscriptionIdFreeAccount = (id: number) => id === 5;
 
+export const isPlanPaid = (id: number) => [1, 2, 6].includes(id);
+
 export const isFreeAccountWithoutHistory = (
   sellerSubscription: SellerSubscription,
   subscriptionType: string

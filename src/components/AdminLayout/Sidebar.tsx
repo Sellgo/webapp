@@ -7,7 +7,7 @@ import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
-import { isPlanEnterprise } from '../../utils/subscriptions';
+import { isPlanEnterprise, isPlanPaid } from '../../utils/subscriptions';
 
 import { LogoWithoutText } from '../Logo/index';
 
@@ -27,6 +27,7 @@ class SidebarCollapsible extends Component<
   {
     currentNotifyId: number;
     subscriptionPlan: any;
+    sellerSubscription: any;
   },
   { visible: boolean; openConfirm: boolean },
   State
@@ -78,7 +79,7 @@ class SidebarCollapsible extends Component<
 
   render() {
     const { visible, sidebarIcon } = this.state;
-    const { children, currentNotifyId, subscriptionPlan } = this.props;
+    const { children, currentNotifyId, subscriptionPlan, sellerSubscription } = this.props;
     let supplier_id = '';
     const latest = getLatestSupplier();
     if (latest) {
@@ -103,7 +104,8 @@ class SidebarCollapsible extends Component<
                   }}
                   as={
                     (icon.id === 2 && !supplier_id) ||
-                    (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
+                    (icon.id === 4 && !isPlanEnterprise(subscriptionPlan)) ||
+                    !isPlanPaid(sellerSubscription.subscription_id)
                       ? 'div'
                       : Link
                   }
@@ -121,7 +123,8 @@ class SidebarCollapsible extends Component<
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
                       'forward'} ${
                       (icon.id === 2 && !supplier_id) ||
-                      (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
+                      (icon.id === 4 && !isPlanEnterprise(subscriptionPlan)) ||
+                      !isPlanPaid(sellerSubscription.subscription_id)
                         ? 'disabled-link'
                         : ''
                     }`}
@@ -196,6 +199,7 @@ class SidebarCollapsible extends Component<
 const mapStateToProps = (state: any) => ({
   currentNotifyId: notifyIdSelector(state),
   subscriptionPlan: get(state, 'subscription.plan'),
+  sellerSubscription: state.subscription.sellerSubscription,
 });
 
 export default connect(mapStateToProps)(SidebarCollapsible);
