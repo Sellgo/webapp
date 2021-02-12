@@ -1515,7 +1515,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               <EditCostModal
                 open={editCost}
                 product={productDetails}
-                onCancel={() => this.setState({ editCost: false })}
+                onCancel={() => this.setState({ editCost: false, product_cost: null })}
                 onEdit={this.updateProductCostValue}
                 disabled={
                   product_cost > (parseFloat(productDetails.price) / 100) * 150 ||
