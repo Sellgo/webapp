@@ -1349,7 +1349,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   updateProductCostValue = async (payload: any) => {
     const { updateProductCost, supplierID } = this.props;
     await updateProductCost({ ...payload, supplierID });
-    await this.setState({ editCost: false });
+    await this.setState({ editCost: false, product_cost: null });
   };
 
   resetActiveFilters = async (dataKey: string, type?: string): Promise<any> => {
