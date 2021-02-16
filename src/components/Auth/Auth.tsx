@@ -64,7 +64,7 @@ export default class Auth {
           const userData = {
             name: this.userProfile.name,
             email: this.userProfile.email,
-            id_token: localStorage.getItem('idToken'),
+            idToken: localStorage.getItem('idToken'),
             expiresAt: localStorage.getItem('idTokenExpires'),
             sellerID: localStorage.getItem('userId'),
           };
