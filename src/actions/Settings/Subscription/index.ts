@@ -1,3 +1,4 @@
+/* global chrome */
 import Axios from 'axios';
 import {
   SET_PRICING_SUBSCRIPTIONS,
@@ -29,7 +30,16 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
   return Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/subscription`)
     .then(json => {
       const subscription = json.data || false;
+
       dispatch(setSellerSubscription(subscription));
+      if (subscription) {
+        if (chrome && chrome.runtime) {
+          chrome.runtime.sendMessage(AppConfig.CHROME_EXT_ID, {
+            status: 'subscription',
+            payload: subscription,
+          });
+        }
+      }
       if (subscription === false) {
         warn("You don't have active subscription or your subscription has expired");
       } else if (subscription.subscription_id === 5) {
