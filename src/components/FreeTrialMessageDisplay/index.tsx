@@ -36,8 +36,10 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
     const { sellerSubscription, subscriptionType } = this.props;
     const { expireDateDay, expireDateMinutes } = this.getExpiration();
 
-    if (isPlanPaid(sellerSubscription.subscription_id) && expireDateDay > 0) {
-      return <p>{`Your trial runs out in  ${expireDateDay} days.`}</p>;
+    if (isPlanPaid(sellerSubscription.subscription_id) && expireDateMinutes > 0) {
+      return (
+        <p>{`Your trial runs out in  ${expireDateDay} ${expireDateDay > 1 ? 'days' : 'day'}.`}</p>
+      );
     } else {
       if (isSubscriptionTrial(subscriptionType)) {
         return (
@@ -67,15 +69,6 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
               </Link>
             </p>
           );
-        } else {
-          return (
-            <p>
-              {'Your free account has limited functionality: '}
-              <Link to="/settings#amazon-mws" className="free-trial-btn">
-                <span>Enter your MWS to start the trial</span>
-              </Link>
-            </p>
-          );
         }
       }
     }
@@ -96,10 +89,10 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
 
   render() {
     const { subscriptionType, sellerSubscription } = this.props;
-    const { expireDateDay } = this.getExpiration();
+    const { expireDateMinutes } = this.getExpiration();
     return (
       <>
-        {isSubscriptionNotPaid(subscriptionType) && (
+        {isSubscriptionNotPaid(subscriptionType) && sellerSubscription.expiry_date && (
           <Rail
             className={`free-trial-period ${this.isHighMessage()}`}
             internal={true}
@@ -111,7 +104,7 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
             </Segment>
           </Rail>
         )}
-        {isPlanPaid(sellerSubscription.subscription_id) && expireDateDay > 0 && (
+        {isPlanPaid(sellerSubscription.subscription_id) && expireDateMinutes > 0 && (
           <Rail
             className={`free-trial-period ${this.isHighMessage()}`}
             internal={true}
