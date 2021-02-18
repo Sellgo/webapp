@@ -3,13 +3,7 @@ import { Rail, Segment, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
-import {
-  isSubscriptionTrial,
-  isSubscriptionFree,
-  isSubscriptionNotPaid,
-  isPlanPaid,
-} from '../../utils/subscriptions';
+import { isPlanPaid } from '../../utils/subscriptions';
 import history from '../../history';
 
 interface SubscriptionMessageProps {
@@ -33,44 +27,13 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
   };
 
   content() {
-    const { sellerSubscription, subscriptionType } = this.props;
+    const { sellerSubscription } = this.props;
     const { expireDateDay, expireDateMinutes } = this.getExpiration();
 
     if (isPlanPaid(sellerSubscription.subscription_id) && expireDateMinutes > 0) {
       return (
         <p>{`Your trial runs out in  ${expireDateDay} ${expireDateDay > 1 ? 'days' : 'day'}.`}</p>
       );
-    } else {
-      if (isSubscriptionTrial(subscriptionType)) {
-        return (
-          <p>
-            {`Your free trial runs out in  ${expireDateDay} days. Do you like our product? `}
-            <Link to="/settings/pricing" className="free-trial-btn">
-              <span>Click here to pick a plan</span>
-            </Link>
-          </p>
-        );
-      } else if (isSubscriptionFree(subscriptionType)) {
-        if (sellerSubscription.expiry_date !== null && expireDateMinutes > 0) {
-          return (
-            <p>
-              {`Your free trial runs out in  ${expireDateDay} days. It seems there was a problem with your MWS token. `}
-              <Link to="/settings" className="free-trial-btn">
-                <span>Click here to re-enter your MWS Token</span>
-              </Link>
-            </p>
-          );
-        } else if (sellerSubscription.expiry_date !== null && expireDateMinutes <= 0) {
-          return (
-            <p>
-              {`Your free trial has expired. Do you like our product? `}
-              <Link to="/settings/pricing" className="free-trial-btn">
-                <span>Click here to pick a plan</span>
-              </Link>
-            </p>
-          );
-        }
-      }
     }
   }
 
@@ -92,18 +55,6 @@ class SubscriptionMessage extends React.Component<SubscriptionMessageProps> {
     const { expireDateMinutes } = this.getExpiration();
     return (
       <>
-        {isSubscriptionNotPaid(subscriptionType) && sellerSubscription.expiry_date && (
-          <Rail
-            className={`free-trial-period ${this.isHighMessage()}`}
-            internal={true}
-            position="left"
-            key={subscriptionType}
-          >
-            <Segment>
-              <Message success content={this.content()} />
-            </Segment>
-          </Rail>
-        )}
         {isPlanPaid(sellerSubscription.subscription_id) && expireDateMinutes > 0 && (
           <Rail
             className={`free-trial-period ${this.isHighMessage()}`}
