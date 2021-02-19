@@ -276,36 +276,34 @@ export const fetchSynthesisProgressUpdates = () => async (
       })
     );
   };
+  let requests: any[] = [];
 
   while (suppliers.length > 0) {
     const isSearchManagement = window.location.pathname.indexOf(`synthesis`) > -1;
+    requests = suppliers.map(supplier => {
+      return Axios.get(
+        AppConfig.BASE_URL_API +
+          `sellers/${sellerID}/suppliers/${String(
+            supplier.supplier_id
+          )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
+      );
+    });
     if (isSearchManagement) {
-      const requests = suppliers.map(supplier => {
-        return Axios.get(
-          AppConfig.BASE_URL_API +
-            `sellers/${sellerID}/suppliers/${String(
-              supplier.supplier_id
-            )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
-        );
-      });
-
       const responses = await Promise.all(requests);
       responses.forEach(handleUpdateSupplier);
-
       suppliers = suppliers.filter((supplier, index) => {
         if (currSynthesisId === supplier.synthesis_file_id) {
           dispatch(setEta(responses[index].data.eta));
           dispatch(setProgress(responses[index].data.progress));
           dispatch(setSpeed(responses[index].data.speed));
         }
-
         if (responses[index].data.progress === 100) {
           dispatch(fetchSupplier(supplier.supplier_id));
         }
         return responses[index].data.progress !== 100;
       });
-      await timeout(2000);
     }
+    await timeout(2000);
   }
 };
 
