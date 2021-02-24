@@ -363,13 +363,15 @@ const TableHeader = (props: TableHeaderProps) => {
   if (middleScroll) {
     const leftBound = leftFixedColumns ? leftFixedColumns : 0;
     const rightBound = rightFixedColumns ? rightFixedColumns : 0;
-    const lowerBound = filteredColumns.slice(0, leftBound);
+    const lowerBound =
+      rest.type === 'products'
+        ? columns.filter((c: Column) => c.fixed === 'left')
+        : filteredColumns.slice(0, leftBound);
     const middleBound = filteredColumns.slice(leftBound, filteredColumns.length - rightBound);
-    const upperBound = filteredColumns.slice(
-      filteredColumns.length - rightBound,
-      filteredColumns.length
-    );
-
+    const upperBound =
+      rest.type === 'products'
+        ? columns.filter((c: Column) => c.fixed === 'right')
+        : filteredColumns.slice(filteredColumns.length - rightBound, filteredColumns.length);
     const scrollRows: any = [
       {
         side: 'right',
