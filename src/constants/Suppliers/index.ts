@@ -44,6 +44,8 @@ export const LOADING_PF_FILTERS = 'LOADING_PF_FILTERS';
 export const SET_PF_SORT = 'SET_PF_SORT';
 export const SET_PF_SORT_DIRECTION = 'SET_PF_SORT_DIRECTION';
 export const SET_PF_COUNT = 'SET_PF_COUNT';
+export const SET_PF_ACTIVE_FILTERS = 'SET_PF_ACTIVE_FILTERS';
+export const SET_PF_PRESET_FILTERS = 'SET_PF_PRESET_FILTERS';
 
 export const dataKeys: any = [
   // Basic KPI
@@ -55,6 +57,64 @@ export const dataKeys: any = [
   // Revenue
   // 'monthly_revenue',
   // 'roi_inventory',
+];
+export const chargesInputData: any = [
+  {
+    label: 'Listing generates',
+    dataKey: 'monthly_revenue',
+    defaultOperation: '≥', //≤
+    currency: '$',
+    defaultValue: 1300,
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Profit is',
+    dataKey: 'profit-monthly',
+    defaultOperation: '≥',
+    defaultValue: 300,
+    currency: '$',
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Profit Margin is',
+    dataKey: 'multipack_margin',
+    defaultOperation: '≥',
+    defaultValue: 15,
+    targetValue: '%',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Amazon price is',
+    dataKey: 'price',
+    defaultOperation: '≥',
+    defaultValue: 25,
+    currency: '$',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Estimated Sales Volume is',
+    dataKey: 'sales_monthly',
+    defaultOperation: '≥',
+    defaultValue: 100,
+    targetValue: '/month',
+    isActive: false,
+    type: 'preset',
+  },
+  {
+    label: 'Product review is',
+    dataKey: 'customer_reviews',
+    defaultOperation: '≥',
+    defaultValue: 20,
+    targetValue: 'reviews',
+    isActive: false,
+    type: 'preset',
+  },
 ];
 
 export const supplierDataKeys: any = ['price', 'profit', 'roi', 'sales_monthly', 'margin', 'rank'];

@@ -9,6 +9,7 @@ import {
   SET_SUPPLIERS_TABLE_TAB,
   SET_TIME_EFFICIENCY,
   SET_SUPPLIER_NAME,
+  SET_PF_PRESET_FILTERS,
 } from '../../constants/Suppliers';
 import { Suppliers } from '../../actions/Suppliers';
 import keyBy from 'lodash/keyBy';
@@ -23,6 +24,7 @@ const initialState = {
   timeEfficiency: [],
   newSupplier: null,
   newSearchName: null,
+  presetFiltersState: null,
 };
 
 export default (state: Suppliers = initialState, action: AnyAction) => {
@@ -95,6 +97,8 @@ export default (state: Suppliers = initialState, action: AnyAction) => {
     case SET_SUPPLIER_NAME:
       return setIn(state, 'newSupplier', action.payload.id);
 
+    case SET_PF_PRESET_FILTERS:
+      return setIn(state, 'presetFiltersState', action.payload);
     default:
       return state;
   }

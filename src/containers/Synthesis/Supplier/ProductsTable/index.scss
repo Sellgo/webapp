@@ -267,7 +267,10 @@ $new_black: #3b4557;
     }
 
     .multipack_profit {
+      cursor: pointer;
+
       .stat {
+        margin-bottom: 0 !important;
         text-align: left !important;
       }
     }
@@ -948,4 +951,8 @@ $new_black: #3b4557;
       font-size: 14px;
     }
   }
+}
+
+.edit-cost {
+  cursor: pointer;
 }

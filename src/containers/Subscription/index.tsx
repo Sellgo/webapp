@@ -32,9 +32,19 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
     } else if (window.location.search.indexOf('-unverified') !== -1) {
       this.setLogin();
     }
+    const search = window.location.search;
+    let plan = 'pro';
+    if (search.includes('basic')) {
+      plan = 'basic';
+    } else if (search.includes('extension')) {
+      plan = 'extension';
+    } else {
+      plan = 'pro';
+    }
+
     this.setState(
       {
-        accountType: window.location.search.indexOf('basic') !== -1 ? 'basic' : 'pro',
+        accountType: plan,
         paymentMode: window.location.search.indexOf('yearly') !== -1 ? 'yearly' : 'monthly',
       },
       () => {

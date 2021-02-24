@@ -8,12 +8,8 @@ import { AppConfig } from '../../config';
 import auth0 from 'auth0-js';
 import { removeProfitFinderFilters } from '../../constants/Products';
 import { isURL } from 'validator';
-import chromeIDConfig from '../../constants/ChromeExtension';
 
-const chromeID =
-  process.env.REACT_APP_ENV === 'production'
-    ? chromeIDConfig.PROD_CHROME_ID
-    : chromeIDConfig.DEV_CHROME_ID;
+const chromeID = AppConfig.CHROME_EXT_ID;
 
 export default class Auth {
   accessToken: any;
@@ -68,7 +64,7 @@ export default class Auth {
           const userData = {
             name: this.userProfile.name,
             email: this.userProfile.email,
-            id_token: localStorage.getItem('idToken'),
+            idToken: localStorage.getItem('idToken'),
             expiresAt: localStorage.getItem('idTokenExpires'),
             sellerID: localStorage.getItem('userId'),
           };
@@ -80,6 +76,7 @@ export default class Auth {
           // if chrome extension redirect then
           if (decodedRedirectURL.length > 0 && isURL(decodedRedirectURL)) {
             window.location.href = decodedRedirectURL;
+            localStorage.setItem('chromeRedirectURL', '');
             return;
           }
 

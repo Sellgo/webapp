@@ -36,6 +36,8 @@ export default (state = initialState, action: AnyAction) => {
           ? 'Free Trial'
           : sellerSubscriptionData.subscription_id === 5
           ? 'Free Account'
+          : sellerSubscriptionData.subscription_id === 6
+          ? 'Extension Plan'
           : '';
       const type =
         sellerSubscriptionData.subscription_id <= 3
@@ -44,6 +46,8 @@ export default (state = initialState, action: AnyAction) => {
           ? 'trial'
           : sellerSubscriptionData.subscription_id === 5
           ? 'free'
+          : sellerSubscriptionData.subscription_id === 6
+          ? 'paid'
           : '';
       const newStateWithPlan = setIn(state, 'plan', plan);
       const newState = setIn(newStateWithPlan, 'subscriptionType', type);

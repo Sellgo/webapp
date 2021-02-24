@@ -11,6 +11,7 @@ import {
   suppliersByIdSelector,
   supplierDetailsSelector,
   productsLoadingDataBusterSelector,
+  profitFinderProducts,
 } from '../../selectors/Supplier';
 import { Supplier } from '../../interfaces/Supplier';
 import {
@@ -56,6 +57,8 @@ import {
   SET_PF_SORT,
   SET_PF_SORT_DIRECTION,
   SET_PF_COUNT,
+  SET_PF_ACTIVE_FILTERS,
+  SET_PF_PRESET_FILTERS,
 } from '../../constants/Suppliers';
 import { SET_PROGRESS, SET_SPEED, SET_ETA } from '../../constants/UploadSupplier';
 import { Product, ProfitFinderResponse } from '../../interfaces/Product';
@@ -174,8 +177,12 @@ export const setLeadsTracker = (sellerId: number, supplierId: number) => async (
         success('Your unprofitable products are now being tracked in the background.');
       }
     })
-    .catch(() => {
+    .catch(err => {
       // display error
+      const { data, status } = err.response;
+      if (status === 400 && data) {
+        error(data);
+      }
     });
 };
 
@@ -255,7 +262,8 @@ export const fetchSynthesisProgressUpdates = () => async (
       supplier.file_status &&
       supplier.file_status !== null &&
       supplier.file_status !== 'completed' &&
-      supplier.file_status !== 'inactive'
+      supplier.file_status !== 'inactive' &&
+      supplier.file_status !== 'failed'
   );
 
   const handleUpdateSupplier = (response: any, index: any) => {
@@ -268,9 +276,11 @@ export const fetchSynthesisProgressUpdates = () => async (
       })
     );
   };
+  let requests: any[] = [];
 
   while (suppliers.length > 0) {
-    const requests = suppliers.map(supplier => {
+    const isSearchManagement = window.location.pathname.indexOf(`synthesis`) > -1;
+    requests = suppliers.map(supplier => {
       return Axios.get(
         AppConfig.BASE_URL_API +
           `sellers/${sellerID}/suppliers/${String(
@@ -278,26 +288,25 @@ export const fetchSynthesisProgressUpdates = () => async (
           )}/synthesis/progress?synthesis_file_id=${supplier.synthesis_file_id}`
       );
     });
-
-    const responses = await Promise.all(requests);
-    responses.forEach(handleUpdateSupplier);
-
-    suppliers = suppliers.filter((supplier, index) => {
-      if (currSynthesisId === supplier.synthesis_file_id) {
-        dispatch(setEta(responses[index].data.eta));
-        dispatch(setProgress(responses[index].data.progress));
-        dispatch(setSpeed(responses[index].data.speed));
-      }
-
-      if (responses[index].data.progress === 100) {
-        dispatch(fetchSupplier(supplier.supplier_id));
-      }
-      return responses[index].data.progress !== 100;
-    });
-
+    if (isSearchManagement) {
+      const responses = await Promise.all(requests);
+      responses.forEach(handleUpdateSupplier);
+      suppliers = suppliers.filter((supplier, index) => {
+        if (currSynthesisId === supplier.synthesis_file_id) {
+          dispatch(setEta(responses[index].data.eta));
+          dispatch(setProgress(responses[index].data.progress));
+          dispatch(setSpeed(responses[index].data.speed));
+        }
+        if (responses[index].data.progress === 100) {
+          dispatch(fetchSupplier(supplier.supplier_id));
+        }
+        return responses[index].data.progress !== 100;
+      });
+    }
     await timeout(2000);
   }
 };
+
 export const supplierQuota = (supplier: Supplier) => ({
   type: SUPPLIER_QUOTA,
   payload: supplier,
@@ -348,6 +357,40 @@ export const setSupplierProducts = (products: Product[]) => ({
 
 export const resetSupplierProducts = () => ({ type: RESET_SUPPLIER_PRODUCTS });
 
+export const updateProductCost = (payload: any) => async (dispatch: any, getState: () => any) => {
+  const { product_id, product_cost, id, product_track_id, supplierID } = payload;
+  const sellerID = sellerIDSelector();
+  const products = profitFinderProducts(getState());
+  const bodyFormData = new FormData();
+  bodyFormData.set('product_id', product_id);
+  bodyFormData.set('product_cost', product_cost);
+  bodyFormData.set('psd_id', id);
+  if (product_track_id) {
+    bodyFormData.set('product_track_id', product_track_id);
+  }
+
+  return Axios.post(
+    AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplierID}/product/cost`,
+    bodyFormData
+  )
+    .then(({ data }) => {
+      success(`Product cost successfully updated!`);
+      if (data) {
+        const updated = products.map((p: any) => {
+          if (p.id === id) {
+            p = { ...p, ...data };
+          }
+          return p;
+        });
+
+        dispatch(updateProfitFinderProducts(updated));
+      }
+    })
+    .catch(() => {
+      error(`Failed to update product cost`);
+    });
+};
+
 export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
   dispatch: ThunkDispatch<{}, {}, AnyAction>
 ) => {
@@ -365,6 +408,7 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     sort = 'price',
     sortDirection = 'asc',
     search,
+    activeFilters = [],
   } = payload;
 
   const pagination = `?page=${page}&per_page=${per_page}`;
@@ -393,6 +437,7 @@ export const fetchSupplierProducts = (payload: ProfitFinderFilters) => async (
     dispatch(setProfitFinderSort(sort));
     dispatch(setProfitFinderSortDirection(sortDirection));
     dispatch(setProfitFinderTotalRecords(data.count));
+    dispatch(setProfitFinderActiveFilters(activeFilters));
     dispatch(isLoadingSupplierProducts(false));
     dispatch(setProfitFinderPageLoading(false));
 
@@ -922,4 +967,18 @@ const setProfitFinderSortDirection = (sortDirection: string) => ({
 const setProfitFinderTotalRecords = (count: number) => ({
   type: SET_PF_COUNT,
   payload: count,
+});
+
+const setProfitFinderActiveFilters = (filters: any[]) => ({
+  type: SET_PF_ACTIVE_FILTERS,
+  payload: filters,
+});
+
+export const setPresetFilters = (filterState: any) => async (dispatch: any) => {
+  dispatch(setPresetFiltersState(filterState));
+};
+
+const setPresetFiltersState = (state: any) => ({
+  type: SET_PF_PRESET_FILTERS,
+  payload: state,
 });

@@ -605,7 +605,9 @@ i.icon.filter::before {
 
 .pagination-container {
   display: flex !important;
-  justify-content: flex-end !important;
+  justify-content: space-between !important;
+  padding-left: 60px;
+  align-items: center;
 }
 
 @media (max-width: 2560px) {
