@@ -128,6 +128,26 @@ function CheckoutForm(props: MyProps) {
       setStripeLoad(false);
     } else {
       const paymentMethodId = paymentMethod.id;
+      const getSubscriptionId = (): number => {
+        let id = 1;
+        switch (accountType) {
+          case 'basic':
+            {
+              id = 1;
+            }
+            break;
+          case 'extension':
+            {
+              id = 6;
+            }
+            break;
+          default: {
+            id = 2;
+          }
+        }
+        return id;
+      };
+
       if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
         // Update the payment method and retry invoice payment
         const invoiceId = localStorage.getItem('latestInvoiceId');
@@ -137,7 +157,7 @@ function CheckoutForm(props: MyProps) {
         });
       } else {
         const data = {
-          subscription_id: accountType === 'basic' ? 1 : 2,
+          subscription_id: getSubscriptionId(),
           payment_method_id: paymentMethodId,
           payment_mode: paymentMode,
         };
