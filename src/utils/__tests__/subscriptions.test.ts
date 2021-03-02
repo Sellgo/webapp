@@ -82,3 +82,33 @@ describe('Testing subscription ID', () => {
     expect(subscriptions.isSubscriptionIdFreeExtension(6)).toBeTruthy();
   });
 });
+
+/* Testing Free trial expiry */
+describe('Testing free trial expiry', () => {
+  const mockExpiredSubscription = {
+    id: 0,
+    cdate: '',
+    udate: '',
+    expiry_date: '2019-08-08',
+    payment_mode: '',
+    seller_id: 0,
+    status: '',
+    stripe_subscription_id: '',
+    subscription_id: 0,
+  };
+  test('Testing for expired free trial', () => {
+    expect(subscriptions.isTrialExpired(mockExpiredSubscription)).toBeTruthy();
+  });
+
+  test('Non expired trail subscriptions', () => {
+    expect(
+      subscriptions.isTrialExpired({ ...mockExpiredSubscription, expiry_date: '2050-08-08' })
+    ).not.toBeTruthy();
+  });
+
+  test('Testing invalid subscriptions', () => {
+    expect(
+      subscriptions.isTrialExpired({ ...mockExpiredSubscription, expiry_date: null })
+    ).not.toBeTruthy();
+  });
+});
