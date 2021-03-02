@@ -24,3 +24,36 @@ describe('Testing subscription types', () => {
     expect(subscriptions.isSubscriptionNotPaid('anyother')).not.toBeFalsy();
   });
 });
+
+/* Testing subscription plans */
+describe('Testing subscription plans', () => {
+  test('Testing Extension Plan', () => {
+    expect(subscriptions.isPlanExtension('Browser Extension')).toBeTruthy();
+    expect(subscriptions.isPlanExtension('any other')).not.toBeTruthy();
+  });
+
+  test('Testing Basic Plan', () => {
+    expect(subscriptions.isPlanBasic('Basic Plan')).toBeTruthy();
+    expect(subscriptions.isPlanBasic('anoy other')).not.toBeTruthy();
+  });
+
+  test('Testing Pro Plan', () => {
+    expect(subscriptions.isPlanPro('Pro Plan')).toBeTruthy();
+    expect(subscriptions.isPlanPro('anoy other')).not.toBeTruthy();
+  });
+
+  test('Testing Enterprise Plan', () => {
+    expect(subscriptions.isPlanEnterprise('Enterprise')).toBeTruthy();
+    expect(subscriptions.isPlanEnterprise('anoy other')).not.toBeTruthy();
+  });
+
+  test('Testing Free Trial Plan', () => {
+    expect(subscriptions.isPlanFreeTrial('Free Trial')).toBeTruthy();
+    expect(subscriptions.isPlanFreeTrial('anoy other')).not.toBeTruthy();
+  });
+
+  test('Testing Free Account Plan', () => {
+    expect(subscriptions.isPlanFreeAccount('Free Account')).toBeTruthy();
+    expect(subscriptions.isPlanFreeAccount('anoy other')).not.toBeTruthy();
+  });
+});
