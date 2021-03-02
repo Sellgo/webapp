@@ -1,5 +1,6 @@
 import {
   formatCurrency,
+  formatDimensionForSorting,
   formatNumber,
   formatPercent,
   formatRating,
@@ -106,5 +107,24 @@ describe('Testing truncate string utility', () => {
 
   test('Testing invalid traubcation condition', () => {
     expect(truncateString('Hello World', 20, '...')).toEqual('Hello World');
+  });
+
+  /* Testing formatDimensionForSorting Utility */
+  describe('Testing format dimenion for utility', () => {
+    test('Test of 2" x 2" x 2" dimension', () => {
+      expect(formatDimensionForSorting('2" x 2" x 2"')).toEqual(8);
+    });
+
+    test('Test of 2" x 2"  dimension', () => {
+      expect(formatDimensionForSorting(' 2" x 2"')).toEqual(4);
+    });
+
+    test('Test of 2"  dimension', () => {
+      expect(formatDimensionForSorting('2"')).toEqual(2);
+    });
+
+    test('Testing for empty value', () => {
+      expect(formatDimensionForSorting('')).toEqual(-Infinity);
+    });
   });
 });
