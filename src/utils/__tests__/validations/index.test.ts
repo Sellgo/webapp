@@ -5,6 +5,7 @@ import isName from '../../validations/isName';
 import isNumeric from '../../validations/isNumeric';
 import { onlyNumber } from '../../validations/isOnlyNumber';
 import { isNumber } from '../../validations/isPhone';
+import isRequired from '../../validations/isRequired';
 
 describe('Testing validation utils', () => {
   /* Testing isAlphanumeric() Utility */
@@ -76,5 +77,14 @@ describe('Testing validation utils', () => {
     expect(isNumber('(541)754-3010')).toEqual('Please use US phone number format');
     expect(isNumber('+1-541-754-3010')).toEqual('Please use US phone number format');
     expect(isNumber('+1 541-754-3010')).toBeUndefined();
+  });
+
+  /* Testing isRequired() Utility */
+  test('Testing isRequired Utility', () => {
+    expect(isRequired()()).toEqual('Required');
+    expect(isRequired()(undefined)).toEqual('Required');
+    expect(isRequired()(0)).toEqual('Required');
+    expect(isRequired()('1,000')).toBeUndefined();
+    expect(isRequired('Custom Error')('')).toEqual('Custom Error');
   });
 });
