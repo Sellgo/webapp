@@ -9,6 +9,8 @@ import isRequired from '../../validations/isRequired';
 import { webUrl } from '../../validations/isUrl';
 import minLength from '../../validations/minLengthValidation';
 import maxLength from '../../validations/maxLengthValidation';
+import normalizeEmail from '../../validations/normalizeEmail';
+import validPassword from '../../validations/validPassword';
 
 describe('Testing validation utils', () => {
   /* Testing isAlphanumeric() Utility */
@@ -115,5 +117,24 @@ describe('Testing validation utils', () => {
     expect(maxLength(4)('Hell0 World')).toEqual('Must 4 characters or less');
     expect(minLength(5)('Hello')).toBeNull();
     expect(maxLength(5)('')).toBeNull();
+  });
+
+  /* Testing normalizeEmail Utility */
+  test('Testing normalizeEmail Utility', () => {
+    expect(normalizeEmail('')).toEqual('');
+    expect(normalizeEmail('   test@gmail.com')).toEqual('test@gmail.com');
+    expect(normalizeEmail('test@gmail.com    ')).toEqual('test@gmail.com');
+    expect(normalizeEmail('   test@gmail.com    ')).toEqual('test@gmail.com');
+    expect(normalizeEmail('test123 @gmail.com    ')).toEqual('test123 @gmail.com');
+    expect(normalizeEmail(null)).toBeFalsy();
+  });
+
+  /* Testing validPassowrd() Utility */
+  test('Testing validPassword Utility', () => {
+    expect(validPassword()('pass')).toEqual('use 8 characters or more');
+    expect(validPassword()('password123')).toEqual('use upper & lower cases');
+    expect(validPassword()('Password')).toEqual('use at least 1 number');
+    expect(validPassword()('Password123')).toBeUndefined();
+    expect(validPassword()('Password123')).toBeUndefined();
   });
 });
