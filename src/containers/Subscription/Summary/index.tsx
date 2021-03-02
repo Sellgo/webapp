@@ -43,7 +43,7 @@ function Summary(props: SummaryProps) {
     description: `$${
       !_.isEmpty(subscriptions)
         ? paymentMode === 'yearly'
-          ? subscriptions[index].yearly_price + '/mo billed yearly'
+          ? subscriptions[index].yearly_price + ' billed yearly'
           : subscriptions[index].monthly_price + '/mo billed monthly'
         : '0/mo billed monthly'
     }`,
