@@ -3,6 +3,7 @@ import isCurrency from '../../validations/isCurrency';
 import isEmail from '../../validations/isEmail';
 import isName from '../../validations/isName';
 import isNumeric from '../../validations/isNumeric';
+import { onlyNumber } from '../../validations/isOnlyNumber';
 
 describe('Testing validation utils', () => {
   /* Testing isAlphanumeric() Utility */
@@ -54,5 +55,16 @@ describe('Testing validation utils', () => {
     expect(isNumeric('Custom Error')('5,000')).toEqual('Custom Error');
     expect(isNumeric()(0)).toBeUndefined();
     expect(isNumeric()('0')).toBeUndefined();
+  });
+
+  /* Testing isOnlyNumber() Utility */
+  test('Testing isOnlyNumber Utility', () => {
+    expect(onlyNumber()).toBeUndefined();
+    expect(onlyNumber(0)).toBeUndefined();
+    expect(onlyNumber(0.5)).toBeUndefined();
+    expect(onlyNumber(1000)).toBeUndefined();
+    expect(onlyNumber('1000')).toBeUndefined();
+    expect(onlyNumber('-1,000')).toEqual('Does not accept negative value');
+    expect(onlyNumber(-100)).toEqual('Does not accept negative value');
   });
 });
