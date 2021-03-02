@@ -4,6 +4,7 @@ import isEmail from '../../validations/isEmail';
 import isName from '../../validations/isName';
 import isNumeric from '../../validations/isNumeric';
 import { onlyNumber } from '../../validations/isOnlyNumber';
+import { isNumber } from '../../validations/isPhone';
 
 describe('Testing validation utils', () => {
   /* Testing isAlphanumeric() Utility */
@@ -66,5 +67,14 @@ describe('Testing validation utils', () => {
     expect(onlyNumber('1000')).toBeUndefined();
     expect(onlyNumber('-1,000')).toEqual('Does not accept negative value');
     expect(onlyNumber(-100)).toEqual('Does not accept negative value');
+  });
+
+  /* Testing isPhone() Utility */
+  test('Testing isPhone Utility', () => {
+    expect(isNumber()).toBeUndefined();
+    expect(isNumber('54678')).toEqual('Please use US phone number format');
+    expect(isNumber('(541)754-3010')).toEqual('Please use US phone number format');
+    expect(isNumber('+1-541-754-3010')).toEqual('Please use US phone number format');
+    expect(isNumber('+1 541-754-3010')).toBeUndefined();
   });
 });
