@@ -34,26 +34,51 @@ describe('Testing subscription plans', () => {
 
   test('Testing Basic Plan', () => {
     expect(subscriptions.isPlanBasic('Basic Plan')).toBeTruthy();
-    expect(subscriptions.isPlanBasic('anoy other')).not.toBeTruthy();
+    expect(subscriptions.isPlanBasic('any other')).not.toBeTruthy();
   });
 
   test('Testing Pro Plan', () => {
     expect(subscriptions.isPlanPro('Pro Plan')).toBeTruthy();
-    expect(subscriptions.isPlanPro('anoy other')).not.toBeTruthy();
+    expect(subscriptions.isPlanPro('any other')).not.toBeTruthy();
   });
 
   test('Testing Enterprise Plan', () => {
     expect(subscriptions.isPlanEnterprise('Enterprise')).toBeTruthy();
-    expect(subscriptions.isPlanEnterprise('anoy other')).not.toBeTruthy();
+    expect(subscriptions.isPlanEnterprise('any other')).not.toBeTruthy();
   });
 
   test('Testing Free Trial Plan', () => {
     expect(subscriptions.isPlanFreeTrial('Free Trial')).toBeTruthy();
-    expect(subscriptions.isPlanFreeTrial('anoy other')).not.toBeTruthy();
+    expect(subscriptions.isPlanFreeTrial('any other')).not.toBeTruthy();
   });
 
   test('Testing Free Account Plan', () => {
     expect(subscriptions.isPlanFreeAccount('Free Account')).toBeTruthy();
-    expect(subscriptions.isPlanFreeAccount('anoy other')).not.toBeTruthy();
+    expect(subscriptions.isPlanFreeAccount('any other')).not.toBeTruthy();
+  });
+});
+
+/* Testing subscription ID's */
+describe('Testing subscription ID', () => {
+  test('Testing Basic Plan ID', () => {
+    expect(subscriptions.isSubscriptionIdBasic(1)).toBeTruthy();
+  });
+  test('Testing Pro Plan ID', () => {
+    expect(subscriptions.isSubscriptionIdPro(2)).toBeTruthy();
+  });
+  test('Testing Enterpise Plan ID', () => {
+    expect(subscriptions.isSubscriptionIdEnterprise(3)).toBeTruthy();
+  });
+
+  test('Testing Free Trial ID', () => {
+    expect(subscriptions.isSubscriptionIdFreeTrial(4)).toBeTruthy();
+  });
+
+  test('Testing Free Account Plan ID', () => {
+    expect(subscriptions.isSubscriptionIdFreeAccount(5)).toBeTruthy();
+  });
+
+  test('Testing Browser Extension Plan ID', () => {
+    expect(subscriptions.isSubscriptionIdFreeExtension(6)).toBeTruthy();
   });
 });
