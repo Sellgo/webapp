@@ -6,6 +6,7 @@ import isNumeric from '../../validations/isNumeric';
 import { onlyNumber } from '../../validations/isOnlyNumber';
 import { isNumber } from '../../validations/isPhone';
 import isRequired from '../../validations/isRequired';
+import { webUrl } from '../../validations/isUrl';
 
 describe('Testing validation utils', () => {
   /* Testing isAlphanumeric() Utility */
@@ -86,5 +87,16 @@ describe('Testing validation utils', () => {
     expect(isRequired()(0)).toEqual('Required');
     expect(isRequired()('1,000')).toBeUndefined();
     expect(isRequired('Custom Error')('')).toEqual('Custom Error');
+  });
+
+  /* Testing isWebUrl() Utility */
+  test('Testing isWebUrl', () => {
+    expect(webUrl('https://www.google.comn')).toBeUndefined();
+    expect(webUrl('http://app.google.comn')).toBeUndefined();
+    expect(webUrl('ftp://www.google.comn')).toBeUndefined();
+    expect(webUrl('www.google.com')).toBeUndefined();
+    expect(webUrl('app.sellgo.com')).toBeUndefined();
+    expect(webUrl('app.sellgo12345.com')).toEqual('Invalid URL');
+    expect(webUrl('')).toBeUndefined();
   });
 });
