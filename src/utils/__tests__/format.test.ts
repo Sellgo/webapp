@@ -101,16 +101,16 @@ describe('Testing truncate string utility', () => {
     expect(truncateString('Hello World', 3, '...')).toEqual('Hel...');
   });
 
-  test('Testing Empty String', () => {
+  test('Testing empty string', () => {
     expect(truncateString('', 3, '...')).toEqual('');
   });
 
-  test('Testing invalid traubcation condition', () => {
+  test('Testing invalid truncacation condition', () => {
     expect(truncateString('Hello World', 20, '...')).toEqual('Hello World');
   });
 
   /* Testing formatDimensionForSorting Utility */
-  describe('Testing format dimenion for utility', () => {
+  describe('Testing format dimension for utility', () => {
     test('Test of 2" x 2" x 2" dimension', () => {
       expect(formatDimensionForSorting('2" x 2" x 2"')).toEqual(8);
     });
