@@ -1,5 +1,6 @@
 import isAlphanumeric from '../../validations/isAlphanumeric';
 import isCurrency from '../../validations/isCurrency';
+import isEmail from '../../validations/isEmail';
 
 describe('Testing validation utils', () => {
   /* Testing isAlphanumeric util */
@@ -21,5 +22,15 @@ describe('Testing validation utils', () => {
 
     expect(isCurrency()('5,00,0')).toEqual('Currency format error');
     expect(isCurrency('Custom Error')('5,00,0')).toEqual('Custom Error');
+  });
+
+  /* Testing isEmail Utility */
+  test('Testing isEmail Utility', () => {
+    expect(isEmail()('a@sellgo.com')).toBeUndefined();
+    expect(isEmail()('a@sellgo-dev.com')).toBeUndefined();
+    expect(isEmail()('a.sellgo@dev.com')).toBeUndefined();
+
+    expect(isEmail()('sellgo.com@')).toEqual('Invalid email address');
+    expect(isEmail('Custom Error')('sellgo.com@')).toEqual('Custom Error');
   });
 });
