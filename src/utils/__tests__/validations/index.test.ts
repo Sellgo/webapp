@@ -1,9 +1,11 @@
 import isAlphanumeric from '../../validations/isAlphanumeric';
 import isCurrency from '../../validations/isCurrency';
 import isEmail from '../../validations/isEmail';
+import isName from '../../validations/isName';
+import isNumeric from '../../validations/isNumeric';
 
 describe('Testing validation utils', () => {
-  /* Testing isAlphanumeric util */
+  /* Testing isAlphanumeric() Utility */
   test('Testing isAlphanumeric Utility', () => {
     expect(isAlphanumeric('Error Message')('5')).toBeUndefined();
     expect(isAlphanumeric()('')).toBeUndefined();
@@ -12,6 +14,7 @@ describe('Testing validation utils', () => {
     expect(isAlphanumeric('Custom Error')('@5-star')).toEqual('Custom Error');
   });
 
+  /* Testing isCurrency() Utility */
   test('Testing currency Utility', () => {
     expect(isCurrency('Error Message')('5')).toBeUndefined();
     // considers empty values as currency as well
@@ -19,18 +22,37 @@ describe('Testing validation utils', () => {
     expect(isCurrency()(5)).toBeUndefined();
     expect(isCurrency()('5,000')).toBeUndefined();
     expect(isCurrency()('5,000')).toBeUndefined();
-
     expect(isCurrency()('5,00,0')).toEqual('Currency format error');
     expect(isCurrency('Custom Error')('5,00,0')).toEqual('Custom Error');
   });
 
-  /* Testing isEmail Utility */
+  /* Testing isEmail() Utility */
   test('Testing isEmail Utility', () => {
     expect(isEmail()('a@sellgo.com')).toBeUndefined();
     expect(isEmail()('a@sellgo-dev.com')).toBeUndefined();
     expect(isEmail()('a.sellgo@dev.com')).toBeUndefined();
-
     expect(isEmail()('sellgo.com@')).toEqual('Invalid email address');
     expect(isEmail('Custom Error')('sellgo.com@')).toEqual('Custom Error');
+  });
+
+  /* Testing isName() Utility */
+  test('Testing isName Utility', () => {
+    expect(isName()('John Doe')).toBeUndefined();
+    expect(isName()('John-Doe')).toBeUndefined();
+    expect(isName()('JohnDoe@')).toEqual('Invalid characters');
+    expect(isName()('JohnDoe123')).toEqual('Invalid characters');
+    expect(isName()('123-JohnDoe 123')).toEqual('Invalid characters');
+    expect(isName()('123-JohnDoe 123')).toEqual('Invalid characters');
+    expect(isName('Custom Error')('123-JohnDoe 123')).toEqual('Custom Error');
+  });
+
+  /* Testing isNumeric() Utility */
+  test('Testing isNumeric Utility', () => {
+    expect(isNumeric()('5')).toBeUndefined();
+    expect(isNumeric()('5,000')).toEqual('Numeric error');
+    expect(isNumeric()('5.0')).toBeUndefined();
+    expect(isNumeric('Custom Error')('5,000')).toEqual('Custom Error');
+    expect(isNumeric()(0)).toBeUndefined();
+    expect(isNumeric()('0')).toBeUndefined();
   });
 });
