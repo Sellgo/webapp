@@ -1,4 +1,10 @@
-import { formatCurrency, formatNumber, formatRating } from '../format';
+import {
+  formatCurrency,
+  formatNumber,
+  formatPercent,
+  formatRating,
+  truncateString,
+} from '../format';
 
 /* Testing formatCurrency Utility */
 describe('Testing format currency utility', () => {
@@ -59,5 +65,46 @@ describe('Testing format rating utility', () => {
   test('Testing null and undefined values', () => {
     expect(formatRating(null)).toEqual('0.0');
     expect(formatRating(undefined)).toEqual('NaN');
+  });
+});
+
+/* Testing formatPercent Utility */
+describe('Testing format percent utility', () => {
+  test('Testing numeric values', () => {
+    expect(formatPercent(234)).toEqual('234.00%');
+    expect(formatPercent(1000.2345)).toEqual('1000.23%');
+    expect(formatPercent(0)).toEqual('0.00%');
+    expect(formatPercent(0.67)).toEqual('0.67%');
+  });
+
+  test('Testing string values', () => {
+    expect(formatPercent('1234')).toEqual('1234.00%');
+    expect(formatPercent('1234.5')).toEqual('1234.50%');
+    expect(formatPercent('1234.77')).toEqual('1234.77%');
+    expect(formatPercent('1,234.5')).toEqual('NaN%');
+  });
+
+  test('Testing null and undefined values', () => {
+    expect(formatPercent(null)).toEqual('0.00%');
+    expect(formatPercent(undefined)).toEqual('NaN%');
+  });
+});
+
+/* Testing truncateString Utility*/
+describe('Testing truncate string utility', () => {
+  test('Truncate Hello World to 3 characters', () => {
+    expect(truncateString('Hello World', 3)).toEqual('Hel…');
+  });
+
+  test('Truncate Hello World with custom trailing chacter upto 3 characters', () => {
+    expect(truncateString('Hello World', 3, '...')).toEqual('Hel...');
+  });
+
+  test('Testing Empty String', () => {
+    expect(truncateString('', 3, '...')).toEqual('');
+  });
+
+  test('Testing invalid traubcation condition', () => {
+    expect(truncateString('Hello World', 20, '...')).toEqual('Hello World');
   });
 });
