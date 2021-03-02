@@ -135,7 +135,7 @@ describe('Testing truncate string utility', () => {
       expect(showNAIfZeroOrNull(true, '5')).toEqual('5');
     });
 
-    test('Testing true condition', () => {
+    test('Testing false condition', () => {
       expect(showNAIfZeroOrNull(false, '5')).toEqual('-');
     });
 
