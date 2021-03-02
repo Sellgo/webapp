@@ -7,6 +7,8 @@ import { onlyNumber } from '../../validations/isOnlyNumber';
 import { isNumber } from '../../validations/isPhone';
 import isRequired from '../../validations/isRequired';
 import { webUrl } from '../../validations/isUrl';
+import minLength from '../../validations/minLengthValidation';
+import maxLength from '../../validations/maxLengthValidation';
 
 describe('Testing validation utils', () => {
   /* Testing isAlphanumeric() Utility */
@@ -98,5 +100,20 @@ describe('Testing validation utils', () => {
     expect(webUrl('app.sellgo.com')).toBeUndefined();
     expect(webUrl('app.sellgo12345.com')).toEqual('Invalid URL');
     expect(webUrl('')).toBeUndefined();
+  });
+
+  /* Testing minLength() and maxLength() Utility */
+  test('Testing minLength and maxLength Utility', () => {
+    /* Min length */
+    expect(minLength()()).toBeNull();
+    expect(minLength(5)('Hell')).toEqual('Must 5 characters or more');
+    expect(minLength(5)('Hello')).toBeNull();
+    expect(minLength(5)('')).toBeNull();
+
+    /* Max length */
+    expect(maxLength()()).toBeNull();
+    expect(maxLength(4)('Hell0 World')).toEqual('Must 4 characters or less');
+    expect(minLength(5)('Hello')).toBeNull();
+    expect(maxLength(5)('')).toBeNull();
   });
 });
