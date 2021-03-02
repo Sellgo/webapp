@@ -4,6 +4,7 @@ import {
   formatNumber,
   formatPercent,
   formatRating,
+  showNAIfZeroOrNull,
   truncateString,
 } from '../format';
 
@@ -125,6 +126,28 @@ describe('Testing truncate string utility', () => {
 
     test('Testing for empty value', () => {
       expect(formatDimensionForSorting('')).toEqual(-Infinity);
+    });
+  });
+
+  /* Testing showNAIfZeroOrNull Utility */
+  describe('Testing showNAIfZero utility', () => {
+    test('Testing true condition', () => {
+      expect(showNAIfZeroOrNull(true, '5')).toEqual('5');
+    });
+
+    test('Testing true condition', () => {
+      expect(showNAIfZeroOrNull(false, '5')).toEqual('-');
+    });
+
+    test('Testing for zero values', () => {
+      expect(showNAIfZeroOrNull(0, '5')).toEqual('-');
+      expect(showNAIfZeroOrNull('0', '5')).toEqual('-');
+      expect(showNAIfZeroOrNull('0.0', '5')).toEqual('-');
+    });
+
+    test('Testing for null and undefined value', () => {
+      expect(showNAIfZeroOrNull(undefined, '5')).toEqual('-');
+      expect(showNAIfZeroOrNull(null, '5')).toEqual('-');
     });
   });
 });
