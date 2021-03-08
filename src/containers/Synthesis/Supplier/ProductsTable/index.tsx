@@ -512,6 +512,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       check: true,
       render: this.renderCheckBox,
+      fixed: 'left',
     },
     {
       label: 'Product Information',
@@ -520,6 +521,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       sortable: true,
       show: true,
       render: this.renderProductInfo,
+      fixed: 'left',
     },
     {
       label: 'ASIN',
@@ -930,14 +932,15 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       show: true,
       sortable: false,
       render: this.renderDetailButtons,
+      fixed: 'right',
     },
     {
       label: '',
       icon: 'ellipsis horizontal ellipsis-ic',
       dataKey: 'ellipsis horizontal',
       show: true,
-      // render: this.renderSyncButtons,
       popUp: true,
+      fixed: 'right',
     },
   ];
 
@@ -1026,7 +1029,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       localStorage.getItem('profitFinderColumnFilterState') || '[]'
     );
     const currentColumnState = JSON.parse(localStorage.getItem('profitFinderColumnState') || '[]');
-
     if (currentFilterOrder.length >= 1) {
       this.setState({ columnFilterData: currentFilterOrder });
     }
@@ -1437,7 +1439,6 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       product_cost,
       isValidCostValue,
     } = this.state;
-
     return (
       <div
         className={`products-table ${isLoadingSupplierProducts && 'loading'} ${loading &&

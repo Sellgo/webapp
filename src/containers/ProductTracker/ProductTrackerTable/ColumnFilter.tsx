@@ -13,7 +13,6 @@ const ColumnFilterCard = (props: any) => {
 
   const [selectAll] = columnFilterData.filter((c: any) => c.key === 'Select All');
   const filters = columnFilterData.filter((c: any) => c.key !== 'Select All' && !!c.key);
-
   const reorder = (list: any, startIndex: any, endIndex: any) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -54,6 +53,7 @@ const ColumnFilterCard = (props: any) => {
     const items = reorder(columnFilterData, source, destination);
     const sorted = reorder(columns, sourceIndex, destinationIndex);
     handleColumnDrop({}, items);
+
     reorderColumns(sorted);
   };
   if (columnDnD) {

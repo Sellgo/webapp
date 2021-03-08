@@ -28,6 +28,7 @@ export const columnFilter = [
     key: 'Select All',
     dataKey: 'select_all',
     visible: true,
+    fixed: 'left',
   },
   {
     value: true,
