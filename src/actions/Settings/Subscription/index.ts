@@ -1,4 +1,3 @@
-/* global chrome */
 import Axios from 'axios';
 import {
   SET_PRICING_SUBSCRIPTIONS,
@@ -33,11 +32,13 @@ export const fetchSellerSubscription = () => (dispatch: any) => {
 
       dispatch(setSellerSubscription(subscription));
       if (subscription) {
-        if (chrome && chrome.runtime) {
-          chrome.runtime.sendMessage(AppConfig.CHROME_EXT_ID, {
-            status: 'subscription',
-            payload: subscription,
-          });
+        if (navigator.userAgent.indexOf('Chrome') !== -1) {
+          if (chrome && chrome.runtime) {
+            chrome.runtime.sendMessage(AppConfig.CHROME_EXT_ID, {
+              status: 'subscription',
+              payload: subscription,
+            });
+          }
         }
       }
       if (subscription === false) {
