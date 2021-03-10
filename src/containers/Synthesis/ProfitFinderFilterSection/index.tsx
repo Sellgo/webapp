@@ -188,6 +188,8 @@ function ProfitFinderFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
+  localStorage.setItem('filterState', JSON.stringify(filterState));
+
   useEffect(() => {
     if (presetFilterState) {
       setFilterState(initialFilterState);
