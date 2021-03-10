@@ -51,7 +51,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           trigger={
             <img
               src={Folder}
-              title={group && !group.length ? 'No Groups Available' : 'Move to a Different Group'}
+              title={!group.length ? 'No Groups Available' : 'Move to a Different Group'}
               style={{
                 cursor: group && !group.length ? 'default' : 'pointer',
               }}
@@ -67,7 +67,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           }}
         >
           <Menu fluid={true} vertical={true}>
-            {group &&
+            {!group.length &&
               group
                 .slice()
                 .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
