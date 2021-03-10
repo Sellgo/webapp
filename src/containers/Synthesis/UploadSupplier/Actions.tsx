@@ -21,6 +21,7 @@ import {
   currentLoadingShow,
 } from '../../../selectors/UploadSupplier';
 import { closeUploadSupplierModal } from '../../../actions/Modals';
+import { timeout } from '../../../utils/timeout';
 
 interface ActionsProps {
   currentStep: number;
@@ -81,7 +82,9 @@ const Actions = ({
     closeModal();
   };
 
-  const handleNoError = () => {
+  const handleNoError = async () => {
+    await setProgress(0);
+    await timeout(500);
     setOpenProgress(!openProgress);
     setProgressShow(true);
     postSynthesisRun(currentSynId);
