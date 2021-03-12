@@ -141,6 +141,7 @@ export interface ProductTrackerDetails {
   is_amazon_selling: boolean;
   source: string;
   amazon_oos_90: string;
+  product_track_group_id: number;
 }
 
 export interface ProductsResponse {

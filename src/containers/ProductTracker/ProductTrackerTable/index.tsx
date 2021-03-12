@@ -452,11 +452,16 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup, setProductEditDetails } = this.props;
+
+    const filterTrackedGroups = trackGroups.filter(
+      (group: any) => group.id !== row.product_track_group_id || row.product_track_group_id === null
+    );
+
     return (
       <OtherSort
         row={row}
         activeRow={this.state.activeRow}
-        group={trackGroups}
+        group={filterTrackedGroups}
         handleUntrack={this.handleUntrackSubmit}
         handleCancel={this.handleCancel}
         handleConfirmMessage={this.handleConfirmMessage}
