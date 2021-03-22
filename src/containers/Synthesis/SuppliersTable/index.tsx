@@ -414,7 +414,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       showColumns[e.dataKey || ''] ? { ...e, ...{ show: false } } : e
     );
 
-    const sortedByCompletedData = _.cloneDeep(data).sort((a, b) => (a.udate > b.udate ? 1 : -1));
+    const memoizedSort = _.memoize(() => data.sort((a, b) => (a.udate > b.udate ? 1 : -1)));
+
+    const sortedByCompletedData = memoizedSort();
+
     const fileUrl =
       this.state.exportFormat === 'csv'
         ? this.state.exportResult.report_url_csv
