@@ -888,8 +888,6 @@ export const pollDataBuster = (productIDs?: number[]) => async (dispatch: any, g
     ? supplier.supplier_id
     : window.location.href.split('/profit-finder/')[1];
 
-  console.log('SupplierID', supplierID);
-
   do {
     const requests = productsToPoll.map(productId => {
       return Axios.get(
