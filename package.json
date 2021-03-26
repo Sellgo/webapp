@@ -12,7 +12,7 @@
     "analytics": "^0.3.0",
     "auth0-js": "^9.12.2",
     "auth0-lock": "^11.22.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "csv-parse": "^4.8.6",
     "file-saver": "^2.0.5",
     "highcharts": "^8.2.2",
