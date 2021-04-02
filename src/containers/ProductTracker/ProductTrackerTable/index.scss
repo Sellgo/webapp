@@ -262,6 +262,8 @@ $link-color: #349af8;
     .menu-bar {
       .ui.secondary.pointing.menu {
         border: none !important;
+        width: max-content;
+        overflow-x: auto;
 
         h4.ui.header {
           font-family: 'Work sans', sans-serif !important;
