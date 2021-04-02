@@ -27,7 +27,6 @@ import InventoryInsightsChart from './InventoryInsightsChart';
 import BuyBoxStatisticsChart from './BuyBoxStatisticsChart/';
 
 import { MILLISECONDS_IN_A_DAY, MILLISECONDS_IN_A_MINUTE } from '../../../../../utils/date';
-import BetaLabel from '../../../../../components/BetaLabel';
 import _ from 'lodash';
 
 interface ProductChartsProps {
@@ -366,12 +365,7 @@ class ProductCharts extends Component<ProductChartsProps> {
           <Form.Group inline={true}>
             <label />
             <Form.Radio
-              label={
-                <label>
-                  Inventory Insights
-                  <BetaLabel />
-                </label>
-              }
+              label={<label>Inventory Insights</label>}
               value="chart0"
               checked={this.state.showProductChart === 'chart0'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
@@ -395,12 +389,7 @@ class ProductCharts extends Component<ProductChartsProps> {
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}
             />
             <Form.Radio
-              label={
-                <label>
-                  Buy Box Statistics
-                  <BetaLabel />
-                </label>
-              }
+              label={<label>Buy Box Statistics</label>}
               value="chart4"
               checked={this.state.showProductChart === 'chart4'}
               onChange={(e, { value }) => this.handleProductChartChange(e, value)}

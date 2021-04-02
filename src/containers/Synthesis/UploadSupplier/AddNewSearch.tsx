@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Form, Grid, Icon, Label } from 'semantic-ui-react';
+import { Form, Grid, Icon, Popup } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.scss';
 import { Field } from 'redux-form';
 import { InputField, SelectField, ToggleField } from '../../../components/ReduxFormFields';
@@ -37,13 +37,10 @@ const AddNewSearch = (props: any) => {
   }, [fileDetails]);
 
   return (
-    <div className={`AddNewSearch__new-search ${styles['ouline-box']}`}>
-      <Form className={`${styles['supply-container']} ${styles['form-size']}`}>
+    <div className="AddNewSearch__new-search">
+      <Form>
         <Grid columns="equal" className="AddNewSearch__container bg-color">
-          <Grid.Column
-            width={5}
-            className={`AddNewSearch__first-column ${styles.padding0} ${styles.leftAdjust}`}
-          >
+          <Grid.Column width={5} className={`AddNewSearch__first-column ${styles.leftAdjust}`}>
             <div className={styles['form-container']}>
               <Field
                 required={true}
@@ -76,13 +73,17 @@ const AddNewSearch = (props: any) => {
             </div>
           </Grid.Column>
           <Grid.Column className={'AddNewSearch__second-column'} width={4}>
-            <div>
-              <label>
-                <Label color="blue" style={{ padding: `0.2em .6em` }}>
-                  Beta
-                </Label>{' '}
+            <div className="all-variations field">
+              <label className="all-variations__label">
                 All Variations
-                <Icon name="info circle" color="orange" />
+                <Popup
+                  inverted
+                  id="all-variations__popup"
+                  trigger={<Icon name="info circle" color="orange" />}
+                  content={`Enabling the variation will increase the time it takes us to analyze your file.
+                    However, you will get more results!`}
+                  pinned
+                />
               </label>
               <div className="AddNewSearch__checkbox">
                 <Field

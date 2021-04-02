@@ -169,7 +169,7 @@
   border: 1px solid #98aeca;
 }
 
-.new-supplier-modal .rc-steps-item-custom.rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
+.new-supplier-modal .rc-steps-item-custom .rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
   color: #349af8;
   border: 2px solid #349af8;
   background: #fff 0% 0% no-repeat padding-box;
@@ -596,9 +596,29 @@ div.new-supplier-cont > div:nth-child(2) {
   font-family: 'Work sans', sans-serif !important;
 }
 
-.new-supplier-modal .ui.form .column.AddNewSearch__second-column:nth-child(2),
-.new-supplier-modal .ui.form .column.AddNewSearch__second-column:nth-child(2) .field {
-  min-width: 215px !important;
+.AddNewSearch__second-column {
+  .all-variations {
+    margin-top: 0;
+
+    &__label {
+      color: #333333de;
+      font-weight: 600;
+      font-size: 13px;
+
+      i.info.circle {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+#all-variations__popup.ui.inverted.popup.transition {
+  z-index: 100000000000 !important;
+  position: absolute !important;
+
+  .content {
+    z-index: 100000000000 !important;
+  }
 }
 
 .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) {
@@ -800,6 +820,7 @@ div.new-supplier-cont > div:nth-child(2) {
 .new-supplier-modal .ui.form .fields .field .ui.input input:-webkit-autofill {
   -webkit-text-fill-color: #3b4557 !important;
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: 0 0 0 30px white inset !important;
 }
 
 .new-supplier-modal .rc-steps-item-container:focus {
@@ -1086,7 +1107,8 @@ div.new-supplier-cont .ui.button {
 
 .AddNewSearch__checkbox {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 5px;
 }
 
