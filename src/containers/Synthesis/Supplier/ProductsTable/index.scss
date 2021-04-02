@@ -135,19 +135,34 @@ $new_black: #3b4557;
     .track-wrap {
       width: 120px;
       display: flex !important;
-      border: 1px solid #c8ccd2 !important;
+      border: 1px solid #349af8 !important;
       padding: 5px 7px 7px 12px;
-      background: #f8faff;
+      background: #349af8;
 
       span {
-        color: #757575;
+        color: #ffffff !important;
+        font-size: 12px;
+        font-weight: 500 !important;
+        margin: 0 auto; 
+      }
+    }
+
+    .track-wrap:hover {
+      width: 120px;
+      display: flex !important;
+      border: 1px solid #349af8 !important;
+      padding: 5px 7px 7px 12px;
+      background: #ffffff;
+
+      span {
+        color: #349af8 !important;
         font-weight: 600 !important;
         margin: 0 auto;
       }
     }
 
     button {
-      border-radius: 100px !important;
+      border-radius: 5px !important;
     }
 
     &.with-rating button {
@@ -159,13 +174,22 @@ $new_black: #3b4557;
 
     &.is-tracking {
       .track-wrap {
-        background-color: #dfe8f3;
+        background-color: #ffffff;
+        border: 1px solid #e6e6e6 !important;
 
         span {
-          color: #349af8;
+          color: #757575 !important;
           margin-left: 13px !important;
-          font-weight: 700 !important;
+          font-weight: 500 !important;
         }
+      }
+      .track-wrap:hover {
+        background-color: #e6e6e6;
+
+        span {
+          font-weight: 600 !important;
+        }
+
       }
     }
 
@@ -227,7 +251,7 @@ $new_black: #3b4557;
       display: flex;
 
       .flag-img {
-        margin-right: 15px;
+        margin-right: 10px;
         width: 18px;
         margin-top: center;
       }
@@ -531,6 +555,7 @@ $new_black: #3b4557;
 
       .table-cell-container {
         padding: 0 5px !important;
+        color: #757575;
 
         .icon {
           display: block;
@@ -591,7 +616,8 @@ $new_black: #3b4557;
           font-family: 'Work Sans', sans-serif !important;
           white-space: nowrap;
           margin: 0 auto;
-          font-weight: 600;
+          font-weight: 500;
+          color: #3B4557;
         }
       }
     }
@@ -767,7 +793,6 @@ $new_black: #3b4557;
     position: relative;
     top: -5px;
     font-size: 12px !important;
-    color: #98aeca;
   }
 
   .down-arrow {
@@ -816,7 +841,7 @@ $new_black: #3b4557;
 
       .fingerprint-untrack {
         cursor: pointer;
-        width: 15px !important;
+        width: 10px !important;
 
         &.disabled {
           pointer-events: none;
@@ -955,4 +980,5 @@ $new_black: #3b4557;
 
 .edit-cost {
   cursor: pointer;
+  color: #dededf;
 }

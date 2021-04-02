@@ -8,7 +8,7 @@
   }
 
   .ui.tiny.progress {
-    height: 4px;
+    height: 3px;
     top: 5px;
     width: 60%;
     margin-left: -40px;
@@ -22,14 +22,14 @@
 
   .ui.progress > .label {
     font-family: 'work sans', sans-serif !important;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 400;
-    color: #3b4557;
+    color: #757575;
     margin-top: -2px;
   }
 
   .ui.tiny.progress .bar {
-    height: 4px;
+    height: 3px;
   }
 
   @media screen and (max-width: 340px) {

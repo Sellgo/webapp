@@ -51,8 +51,20 @@
         &.more-btn {
           span {
             margin-left: 13px;
+            color: #757575;
           }
+          padding: 0 10px 0 13px !important;
+          display: flex;
+          align-items: center;
+          width: 86px;
+        }
 
+        &.more-btn:hover {
+          span {
+            margin-left: 13px;
+            color: #757575;
+            font-weight: 700;
+          }
           padding: 0 10px 0 13px !important;
           display: flex;
           align-items: center;
@@ -182,15 +194,15 @@
 
         &__filter-name {
           font-weight: 600;
-          color: #3b4557;
-          font-size: 16px;
+          color: #757575;
+          font-size: 13px;
           line-height: 1;
           margin-bottom: 5px;
         }
 
         &__close-btn {
-          font-size: 20px;
-          color: #98aeca;
+          font-size: 16px;
+          color: #757575;
           font-weight: 600;
           cursor: pointer;
           font-family: 'Work sans', sans-serif;
@@ -202,9 +214,18 @@
 
         p {
           cursor: pointer;
-          color: #349af8;
+          color: #a2a2a2;
           font-size: 12px;
           display: contents;
+        }
+        p:hover {
+          cursor: pointer;
+          color: #757575;
+          font-size: 12px;
+          display: contents;
+          font-weight: 500;
+          text-decoration: underline;
+          background-color: #a2a2a2 !important;
         }
       }
     }
@@ -212,8 +233,8 @@
     &__content {
       &__filter-name {
         font-weight: 600;
-        color: #3b4557;
-        font-size: 16px;
+        color: #757575;
+        font-size: 13px;
         line-height: 1;
         margin-bottom: 5px;
       }
@@ -229,7 +250,9 @@
         .customizable-checkbox {
           max-width: 400px !important;
           margin-bottom: 0 !important;
-          font-weight: 500;
+          font-weight: 400;
+          font-size: 12px;
+          color: #757575;
 
           &__label {
             font-weight: 500;
@@ -295,6 +318,7 @@
 
       .customizable-checkbox__label {
         font-weight: 500;
+        font-size: 12px;
       }
 
       .input {
@@ -343,8 +367,8 @@
     }
 
     label {
-      color: #3b4557;
-      font-size: 14px;
+      color: #757575;
+      font-size: 12px;
       display: unset !important;
       font-weight: 500;
       cursor: pointer;

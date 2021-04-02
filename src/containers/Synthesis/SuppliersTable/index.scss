@@ -90,6 +90,8 @@
 
 .supplier-text:hover {
   font-weight: 600;
+  color: #757575 !important;
+  background-color: #f8faff;
 }
 
 .recent-files {
@@ -108,12 +110,13 @@
     margin-top: 5px;
 
     .supplier-text {
-      color: #349af8;
+      color: #757575;
       cursor: pointer;
     }
 
     .supplier-text-active {
       font-weight: 600;
+      color: #757575;
     }
   }
 }
@@ -124,6 +127,11 @@
 
 .search-title {
   cursor: pointer;
+}
+
+.search-title:hover {
+  font-weight: 600;
+  color: #757575 !important;
 }
 
 .hidden-url {

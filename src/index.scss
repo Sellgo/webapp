@@ -269,9 +269,16 @@ span.material-icons.MuiIcon-root.MuiIcon-colorDisabled.MuiIcon-fontSizeLarge {
 }
 
 a {
-  color: #0e6fcf;
+  color: #757575;
+  text-decoration: underline;
 
   /* text-decoration:underline; */
+}
+
+a:hover {
+  color: #349af8 !important;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 .signup-block a {

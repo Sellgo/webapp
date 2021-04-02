@@ -98,12 +98,12 @@ $link-color: #349af8;
   }
 
   button.ui.button:first-child:hover {
-    background: #eb675e;
+    background: #f8faff;
     color: #fff;
   }
 
   button.ui.button:last-child:hover {
-    background: #349af8;
+    background: #f8faff;
     color: #fff;
   }
 
@@ -279,8 +279,8 @@ $link-color: #349af8;
         .header {
           font-family: 'Work Sans', sans-serif !important;
           font-size: 14px;
-          font-weight: 600;
-          color: #3b4557;
+          font-weight: 400;
+          color: #757575;
           line-height: 24px;
         }
       }
@@ -321,7 +321,7 @@ $link-color: #349af8;
 
       h4 {
         font-family: 'Work sans', sans-serif !important;
-        color: #5381db !important;
+        color: #757575 !important;
         font-size: 14px;
         font-weight: 600;
         line-height: 24px;
@@ -330,8 +330,8 @@ $link-color: #349af8;
   }
 
   h2 {
-    color: #5381db;
-    font-size: 14px;
+    color: #313a4c;
+    font-size: 13px;
     font-weight: 500;
     line-height: 16px;
     margin-bottom: 7px;
@@ -476,8 +476,14 @@ $link-color: #349af8;
         top: 60px !important;
 
         i {
-          color: #98aeca !important;
+          color: #a2a2a2 !important;
           font-size: 1.6em !important;
+          text-align: left;
+        }
+
+        i:hover {
+          color: #757575 !important;
+          font-size: 1.8em !important;
           text-align: left;
         }
       }
@@ -510,6 +516,11 @@ $link-color: #349af8;
 
           .icon {
             cursor: pointer;
+            color: #a2a2a2 !important;
+          }
+          .icon:hover {
+            cursor: pointer;
+            color: #757575 !important;
           }
         }
       }
@@ -683,9 +694,9 @@ $link-color: #349af8;
           flex-direction: column;
 
           .asin-content {
-            color: #3b4557;
+            color: #757575;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 10px;
             margin: 0 19px;
             line-height: 16px;
             margin-bottom: 2px;
@@ -770,7 +781,7 @@ $link-color: #349af8;
           border-bottom: 1px solid rgba(34, 36, 38, 0.3);
           border-top: 1px solid rgba(34, 36, 38, 0.3);
           font-size: 14px !important;
-          font-weight: 600;
+          font-weight: 500;
           color: #3b4557;
           text-align: left;
         }
@@ -790,7 +801,7 @@ $link-color: #349af8;
             align-items: center;
             display: flex;
             justify-content: center;
-            color: #98aeca;
+            color: #a2a2a2;
           }
         }
       }
@@ -980,13 +991,13 @@ $link-color: #349af8;
 }
 
 .has-group {
-  background-color: #dfe8f3;
-  color: #3b4557;
+  background-color: #e6e6e6;
+  color: #757575;
 }
 
 .no-group {
-  background-color: #dfe8f3;
-  color: #98aeca;
+  background-color: #e6e6e6;
+  color: #757575;
 }
 
 .ellipsis-ic {
@@ -1000,6 +1011,15 @@ $link-color: #349af8;
   display: flex !important;
   background: #fff !important;
   border-top: 0.2px solid #98aeca;
+  color: #757575;
+}
+
+.column-selection-container:hover {
+  display: flex !important;
+  background: #f8faff !important;
+  border-top: 0.2px solid #98aeca;
+  color: #757575;
+  font-weight: 500;
 }
 
 .column-selection-container-inactive {
@@ -1015,7 +1035,7 @@ $link-color: #349af8;
 
 .active-columns {
   cursor: move;
-  color: #98aeca;
+  color: #a2a2a2 !important;
   font-size: 20px;
   font-weight: 900;
 }
@@ -1051,7 +1071,11 @@ $link-color: #349af8;
   border-bottom-left-radius: 10px !important;
   border-top: 1px solid rgba(34, 36, 38, 0.3) !important;
   border-bottom: 1px solid rgba(34, 36, 38, 0.3) !important;
+  color: #757575;
+  font-size: 12px !important;
 }
+
+
 
 .remove-bottom-border {
   border-bottom: none !important;
@@ -1140,7 +1164,7 @@ $link-color: #349af8;
 }
 
 .pt-product-info:hover {
-  background: #ebedf2 !important;
+  background: #f8faff !important;
 }
 
 .pt-actions {
@@ -1151,7 +1175,7 @@ $link-color: #349af8;
 }
 
 .pt-actions:hover {
-  background: #ebedf2 !important;
+  background: #f8faff !important;
 }
 
 .pt-source {
@@ -1378,7 +1402,7 @@ $link-color: #349af8;
 }
 
 .smooth-dnd-container {
-  background: #349af899;
+  background: #f8faff;
   border-bottom: 0.2px solid #98aeca;
 }
 

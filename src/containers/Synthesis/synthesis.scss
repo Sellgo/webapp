@@ -30,18 +30,41 @@
 }
 
 .add-new-supplier {
+  width: 180px;
+  height: 33px;
   border: 1px solid #349af8 !important;
   background-color: #349af8 !important;
-  border-radius: 100px !important;
+  border-radius: 7px !important;
   font-family: 'Work sans', sans-serif !important;
   font-size: 14px !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   float: right;
   margin-right: 1rem !important;
 
   &.ui.disabled {
     color: #dfe8f3;
     border: 1px solid #dfe8f3 !important;
+    border-radius: 100px;
+    pointer-events: none;
+  } 
+}
+
+.add-new-supplier:hover {
+  width: 180px;
+  height: 33px;
+  border: 1px solid #349af8 !important;
+  background-color: #ffffff !important;
+  border-radius: 7px !important;
+  font-family: 'Work sans', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #349af8 !important;
+  float: right;
+  margin-right: 1rem !important;
+
+  &.ui.disabled {
+    color: #dfe8f3;
+    border: 1px solid #349af8 !important;
     border-radius: 100px;
     pointer-events: none;
   }
@@ -106,6 +129,7 @@
 .product-ratio-with-pie {
   display: inline-block;
   min-width: 50px;
+  text-decoration: underline;
 }
 
 .new-supplier-modal.ui.large.modal {
@@ -758,7 +782,7 @@ div.new-supplier-cont > div:nth-child(2) {
 
 .new-supplier-modal button.ui.black.basic.primary.button {
   border: 1px solid #349af8 !important;
-  border-radius: 100px !important;
+  border-radius: 7px !important;
   height: 32px !important;
   min-width: 104px;
   margin-left: 20px;
@@ -873,7 +897,7 @@ div.new-supplier-cont > div:nth-child(2) {
 .new-supplier-modal .Actions__err-download .ui.basic.grey.button,
 .new-supplier-modal .button.ui.grey.basic.button.Actions__previous {
   border: 1px solid #98aeca;
-  border-radius: 100px !important;
+  border-radius: 7px !important;
   height: 32px !important;
   margin-left: 20px;
   min-width: 104px;

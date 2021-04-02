@@ -10,7 +10,7 @@
     overflow-x: inherit;
 
     .body-inner-table {
-      background: #f8faff;
+      background: #ffffff;
     }
   }
 
@@ -28,7 +28,7 @@
     position: sticky;
     top: -67px;
     z-index: 5;
-    background: #f8faff;
+    background: #ffffff;
     transition-property: top;
     transition-duration: 1s;
 
@@ -69,10 +69,10 @@
 
       button {
         border-left: none !important;
-        border-right: 1px solid #349af8 !important;
-        border-top: 1px solid #349af8 !important;
-        border-bottom: 1px solid #349af8 !important;
-        background-color: #349af8;
+        border-right: 1px solid #a2a2a2 !important;
+        border-top: 1px solid #a2a2a2 !important;
+        border-bottom: 1px solid #a2a2a2 !important;
+        background-color: #e6e6e6;
         border-top-right-radius: 10px !important;
         border-bottom-right-radius: 10px !important;
         color: white;
@@ -317,6 +317,8 @@ i.icon.filter::before {
 .th-label {
   white-space: pre;
   line-height: 1.4;
+  color: #757575;
+  font-size: 12px;
 }
 
 .ui.sortable.table thead th.sorted::after {
@@ -325,8 +327,9 @@ i.icon.filter::before {
 
 .sort-icon {
   display: table !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
   margin: 0 0 -2px 12px !important;
+  color: #349af8;
 }
 
 .default-column-props {
@@ -966,7 +969,7 @@ i.icon.filter::before {
 
 .column-filter-ic {
   margin-top: -12px !important;
-  color: #98aeca;
+  color: #a2a2a2;
 }
 
 .column-filter-ic-active {
