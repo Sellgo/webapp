@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Form, Grid, Icon, Label } from 'semantic-ui-react';
+import { Form, Grid, Icon } from 'semantic-ui-react';
 import styles from './UploadSupplier.module.scss';
 import { Field } from 'redux-form';
 import { InputField, SelectField, ToggleField } from '../../../components/ReduxFormFields';
@@ -78,9 +78,6 @@ const AddNewSearch = (props: any) => {
           <Grid.Column className={'AddNewSearch__second-column'} width={4}>
             <div>
               <label>
-                <Label color="blue" style={{ padding: `0.2em .6em` }}>
-                  Beta
-                </Label>{' '}
                 All Variations
                 <Icon name="info circle" color="orange" />
               </label>
