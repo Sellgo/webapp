@@ -89,18 +89,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="supplier">
         <div className="name">{name} </div>
-      </div>
-    );
-  };
 
-  renderFileName = (row: Supplier) => {
-    return (
-      <div className="filename">
-        {row.file_status && (
-          <a href={row.file_url} download={true}>
-            {row.file_name}
-          </a>
-        )}
+        <span className="file-download">
+          {row.file_status && (
+            <a download href={row.file_url} title={`Download: ${row.file_name}`}>
+              <Icon name="download" className="download-icon" />
+            </a>
+          )}
+        </span>
       </div>
     );
   };
@@ -280,14 +276,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       show: true,
       render: this.renderName,
     },
-    {
-      label: 'File Name',
-      dataKey: 'file_name',
-      sortable: true,
-      type: 'string',
-      show: true,
-      render: this.renderFileName,
-    },
+
     {
       label: 'Inventory',
       sortable: true,

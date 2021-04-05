@@ -6,38 +6,59 @@
   .supplier {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
 
     > .name {
-      width: 250px;
+      width: 180px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    > .file-download {
+      margin-left: 10px;
+
+      a:hover {
+        color: $icon-hover-color !important;
+      }
+
+      i.download-icon {
+        font-size: 14px;
+        color: $icon-color !important;
+
+        &:hover {
+          color: $icon-hover-color;
+          transform: scale(1.05);
+          transform-origin: center;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
   }
 
-  .filename {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 250px;
-  }
+  // .filename {
+  //   overflow: hidden;
+  //   text-overflow: ellipsis;
+  //   width: 250px;
+  // }
 
   .card-content {
     width: 'auto';
   }
 
   .inventory {
-    text-align: right !important;
+    text-align: left !important;
   }
 
   .progress {
-    text-align: right !important;
+    text-align: left !important;
   }
 
   .p2l_ratio {
-    text-align: right !important;
+    text-align: left !important;
   }
 
   .rate {
-    text-align: right !important;
+    text-align: left !important;
   }
 
   .ui.secondary.pointing.menu .active.item {
