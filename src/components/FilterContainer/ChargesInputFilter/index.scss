@@ -1,3 +1,5 @@
+@import '../../../design-system/colors';
+
 .charges-input-filter {
   padding: 10px !important;
   background: transparent;
@@ -73,7 +75,7 @@
 
   label.filterLabel {
     font-size: 14px;
-    color: #3b4557;
+    color: $text-color;
     margin-right: 10px;
     font-weight: 500;
     align-self: center;
@@ -94,11 +96,12 @@
 
     label {
       max-width: max-content !important;
+      color: $text-color;
     }
   }
 
   .input.ui.icon.filterInput {
-    position: realative;
+    position: relative;
     width: 50px !important;
     height: 20px !important;
     border: none;
@@ -107,22 +110,21 @@
     input {
       font-size: 14px;
       font-weight: 400;
-      color: #98aeca;
+      color: $text-color;
       padding: 8px;
       padding-left: 15px;
       text-align: left;
       font-family: 'Work Sans', sans-serif !important;
       border-radius: 5px !important;
       background: transparent;
-      border: 1px solid #dfe8f3 !important;
-      box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
+      border: 1px solid $sellgo-light-gray !important;
       padding-right: 0 !important;
       width: 100% !important;
       height: 100% !important;
 
       &#taxPercent,
       &#vatPercent,
-      &#customDiscount {
+      &#custom_discount {
         padding-left: 5px !important;
         padding-right: 10px !important;
       }
@@ -140,13 +142,13 @@
     }
 
     // special edge case
-    #customDiscount {
+    #custom_discount {
       margin-left: 55px !important;
 
       + i.percent.icon {
         position: absolute;
         right: -60px;
-        color: #98aeca !important;
+        color: $icon-color !important;
         font-size: 10px !important;
       }
     }
@@ -154,7 +156,7 @@
     i.dollar.icon {
       position: absolute;
       left: -8px;
-      color: #98aeca !important;
+      color: $icon-color !important;
       font-size: 12px !important;
     }
   }

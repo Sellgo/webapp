@@ -37,13 +37,13 @@
 
       input:checked ~ .box::before,
       input:checked ~ label::before {
-        background-color: #349af8;
-        border: 1px solid #d4d4d5;
+        background-color: #fff;
+        border: 1px solid $checkbox-border;
       }
 
       input:checked ~ .box::after,
       input:checked ~ label::after {
-        color: #fff;
+        color: $text-color;
       }
     }
   }
