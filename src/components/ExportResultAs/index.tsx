@@ -22,6 +22,25 @@ const ExportResultAs = (props: Props) => {
   useEffect(() => {
     setExportFormat(format);
   }, [format]);
+
+  const handleExport = () => {
+    if (onExport) {
+      onExport({
+        format: exportFormat,
+        data: exportData,
+      });
+    }
+
+    if (url) {
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
   return (
     <Modal
       onClose={onClose}
@@ -56,28 +75,7 @@ const ExportResultAs = (props: Props) => {
             }}
           />
           <div className="export-btn">
-            <Button
-              loading={loading}
-              content="Export"
-              basic
-              onClick={() => {
-                if (onExport) {
-                  onExport({
-                    format: exportFormat,
-                    data: exportData,
-                  });
-                }
-
-                if (url) {
-                  const a = document.createElement('a');
-                  a.style.display = 'none';
-                  a.href = url;
-                  document.body.appendChild(a);
-                  a.click();
-                  window.URL.revokeObjectURL(url);
-                }
-              }}
-            />
+            <Button loading={loading} content="Export" basic onClick={handleExport} />
           </div>
         </div>
       }

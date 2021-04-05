@@ -611,9 +611,10 @@ function ProfitFinderFilterSection(props: Props) {
 
   const renderExportButtons = () => {
     return (
-      <Button basic color="blue" onClick={() => setExportResult(true)}>
-        Export As
-      </Button>
+      <div onClick={() => setExportResult(true)} className="export-button">
+        <Icon name="download" />
+        <span>Export</span>
+      </div>
     );
   };
 

@@ -445,3 +445,22 @@
     }
   }
 }
+
+/* Export button the page */
+.export-button {
+  color: $text-color;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+
+  i.icon.download {
+    color: $icon-color;
+    margin-right: 5px;
+  }
+
+  &:hover {
+    i.icon.download {
+      color: $icon-hover-color;
+    }
+  }
+}
