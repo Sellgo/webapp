@@ -983,5 +983,9 @@ $new_black: #3b4557;
 
 .edit-cost {
   cursor: pointer;
-  color: #dededf;
+  color: $icon-color;
+
+  &:hover {
+    color: $icon-hover-color;
+  }
 }
