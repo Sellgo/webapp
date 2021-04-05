@@ -131,6 +131,12 @@
   display: inline-block;
   min-width: 50px;
   text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: $sellgo-blue;
+    font-weight: 600;
+  }
 }
 
 .new-supplier-modal.ui.large.modal {

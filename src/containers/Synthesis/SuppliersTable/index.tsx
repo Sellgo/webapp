@@ -240,6 +240,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   handlePieChartModalOpen = (supplier: any) => {
     this.setState({ showPieChartModalOpen: true, supplier });
   };
+
   handleClose = () => {
     this.setState({ showPieChartModalOpen: false, supplier: undefined });
   };
@@ -250,12 +251,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     }
     return (
       <div>
-        <div className="product-ratio-with-pie">
+        <div
+          className="product-ratio-with-pie"
+          onClick={this.handlePieChartModalOpen.bind(this, row)}
+        >
           {row.p2l_ratio.toString().indexOf('.') === -1
             ? row.p2l_ratio.toString() + '.00%'
             : row.p2l_ratio.toString() + '%'}
         </div>
-        <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
       </div>
     );
   };
