@@ -9,9 +9,7 @@ const ProductDescription = (props: any) => {
       <span className="description-text">{item.title}</span>
     </a>
   ) : (
-    <span className="description-text" style={{ color: 'black' }}>
-      {item.title}
-    </span>
+    <span className="description-text">{item.title}</span>
   );
 
   return (

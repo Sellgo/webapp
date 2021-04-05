@@ -12,7 +12,7 @@ $new_black: #3b4557;
     margin-left: 24px;
 
     :hover {
-      background-color: #98aeca;
+      background-color: $sellgo-light-gray;
       cursor: pointer;
       transition: background-color 0.3s;
     }
@@ -227,24 +227,24 @@ $new_black: #3b4557;
     }
 
     .product-checkbox {
-      border-color: #dededf !important;
+      border-color: $checkbox-border !important;
       border-radius: 4px;
       opacity: 1;
 
       label::before {
         border-radius: 4px !important;
-        border: 1px solid #d4d4d5;
+        border: 1px solid $checkbox-border;
       }
 
       input:checked ~ .box::before,
       input:checked ~ label::before {
-        border-color: #dededf;
-        background-color: #313a4c;
+        border-color: $checkbox-border;
+        background-color: #fff;
       }
 
       input:checked ~ .box::after,
       input:checked ~ label::after {
-        color: #fff;
+        color: $text-color;
       }
     }
 
@@ -263,8 +263,16 @@ $new_black: #3b4557;
         height: 24px;
         line-height: 24px;
 
-        span {
+        span.description-text {
           line-height: 24px;
+          color: $text-color;
+          text-decoration: underline;
+          font-weight: 500 !important;
+
+          &:hover {
+            color: $sellgo-blue !important;
+            font-weight: 600;
+          }
         }
       }
     }
@@ -665,6 +673,7 @@ $new_black: #3b4557;
     td p.stat {
       text-align: left;
       line-height: 1;
+      color: $text-color !important;
     }
 
     .mrgn-right {
@@ -672,7 +681,7 @@ $new_black: #3b4557;
     }
 
     .font-color {
-      color: #98aeca !important;
+      color: $sellgo-light-gray !important;
     }
 
     .description-text {
