@@ -93,20 +93,6 @@
         border: 1px solid $sellgo-light-gray;
       }
 
-      &.charges-filter-btn {
-        padding: 0 20px 0 10px !important;
-        display: flex;
-        align-items: center;
-        min-width: 90px !important;
-        justify-content: space-between !important;
-        border: 1px solid $sellgo-light-gray;
-
-        span {
-          color: $text-color;
-          font-weight: 600;
-        }
-      }
-
       .filter-name {
         color: $text-color;
         font-weight: 600;
@@ -462,5 +448,34 @@
     i.icon.download {
       color: $icon-hover-color;
     }
+  }
+}
+
+.charges-filter-btn {
+  display: flex;
+  align-items: center;
+  min-width: 90px !important;
+  justify-content: space-between !important;
+  text-decoration: underline;
+  margin: 0 15px;
+  cursor: pointer;
+
+  .filterImage {
+    path {
+      fill: $icon-color;
+    }
+  }
+
+  &:hover {
+    .filterImage {
+      path {
+        fill: $icon-hover-color;
+      }
+    }
+  }
+
+  span.charges {
+    color: $text-color;
+    font-weight: 600;
   }
 }

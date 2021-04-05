@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input } from 'semantic-ui-react';
+import { Button, Checkbox, Input } from 'semantic-ui-react';
 import { ChargesInputFilterDataType } from '../../../interfaces/Filters';
 import './index.scss';
 
@@ -31,7 +31,7 @@ const ChargesInputFilter: React.FC<Props> = props => {
       setChargesFilter((prevState: any) => {
         return {
           ...prevState,
-          [id]: !checked,
+          [id]: checked,
         };
       });
     }
@@ -62,17 +62,16 @@ const ChargesInputFilter: React.FC<Props> = props => {
           if (type === 'checkbox') {
             element = (
               <div className="filter-input-wrapper" key={key}>
-                <Input
+                <label htmlFor={key} className="checkboxLabel">
+                  {label}
+                </label>
+                <Checkbox
                   id={key}
-                  type="checkbox"
                   className="filterCheckbox"
                   checked={chargesFilter[key]}
                   onChange={handleInputChange}
-                  label={
-                    <label htmlFor={key} className="filterLabel">
-                      {label}
-                    </label>
-                  }
+                  onClick={handleInputChange}
+                  readOnly={false}
                 />
               </div>
             );
@@ -82,6 +81,9 @@ const ChargesInputFilter: React.FC<Props> = props => {
       </div>
 
       <div className="charges-input-filter__btnContainer">
+        <Button basic className="cancel-charges-filter-btn" onClick={closeFilter}>
+          Cancel
+        </Button>
         <Button
           basic
           className="apply-charges-filter-btn"
@@ -91,9 +93,6 @@ const ChargesInputFilter: React.FC<Props> = props => {
           }}
         >
           Apply
-        </Button>
-        <Button basic className="cancel-charges-filter-btn" onClick={closeFilter}>
-          Cancel
         </Button>
       </div>
     </div>

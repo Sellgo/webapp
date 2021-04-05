@@ -26,15 +26,14 @@
     .ui.button.cancel-charges-filter-btn {
       width: 100px;
       height: 25px;
-      border-radius: 100px;
-      box-shadow: inherit;
+      border-radius: 7px;
       font-size: 14px;
-      font-weight: bold;
-      font-family: 'Work sans', sans-serif;
-      border: 1px solid #98aeca;
-      color: #98aeca !important;
+      font-family: 'Work Sans', sans-serif;
+      border: 1px solid $sellgo-light-gray;
+      color: $text-color !important;
       text-align: center;
       padding: 0 !important;
+      box-shadow: none;
 
       &:active,
       &:focus,
@@ -46,15 +45,14 @@
     .ui.button.apply-charges-filter-btn {
       width: 100px;
       height: 25px;
-      border-radius: 100px;
-      box-shadow: inherit;
+      border-radius: 7px;
       font-size: 14px;
-      font-weight: bold;
-      font-family: 'Work sans', sans-serif;
-      border: 1px solid #349af8;
-      color: #349af8 !important;
+      font-family: 'Work Sans', sans-serif;
+      border: 1px solid $sellgo-blue;
+      color: $sellgo-blue !important;
       text-align: center;
       padding: 0 !important;
+      box-shadow: none;
 
       &:active,
       &:focus,
@@ -83,6 +81,10 @@
     width: 200px;
   }
 
+  label.checkboxLabel {
+    margin-right: 10px;
+  }
+
   .ui.input.filterCheckbox {
     width: 15px !important;
     height: 15px !important;
@@ -95,8 +97,9 @@
     }
 
     label {
-      max-width: max-content !important;
+      // max-width: max-content !important;
       color: $text-color;
+      width: max-content !important;
     }
   }
 
@@ -122,8 +125,8 @@
       width: 100% !important;
       height: 100% !important;
 
-      &#taxPercent,
-      &#vatPercent,
+      &#sourcing_tax,
+      &#vat_registered,
       &#custom_discount {
         padding-left: 5px !important;
         padding-right: 10px !important;
@@ -131,13 +134,18 @@
 
       &:focus {
         outline: 0 !important;
+        color: $text-color !important;
+
+        + .icon {
+          color: $icon-color;
+        }
       }
     }
 
     i.percent.icon {
       position: absolute;
       right: -4px;
-      color: #98aeca !important;
+      color: $icon-color !important;
       font-size: 10px !important;
     }
 
