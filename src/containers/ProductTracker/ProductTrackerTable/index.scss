@@ -92,9 +92,9 @@
   }
 
   button.ui.button:last-child {
-    border: 2px solid #349af8;
+    border: 2px solid $sellgo-blue;
     background: none;
-    color: #349af8;
+    color: $sellgo-blue;
   }
 
   button.ui.button:first-child:hover {
@@ -257,80 +257,49 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: none !important;
 
-    .ui.secondary.pointing.menu {
-      border-bottom: 1px solid rgba(34, 36, 38, 0.15);
-      margin-bottom: 0;
-
-      &.menu-bar-inner {
+    .menu-bar {
+      .ui.secondary.pointing.menu {
         border: none !important;
-      }
-    }
+        width: max-content;
+        overflow-x: auto;
 
-    .ui.secondary.pointing.menu-bar-inner {
-      .item {
-        color: #2e3b4a;
-        font-family: 'Work Sans', sans-serif !important;
-        font-size: 14px !important;
-        font-weight: 600;
-        justify-content: center;
-        padding: 6px 12px;
-
-        .header {
+        h4.ui.header {
           font-family: 'Work Sans', sans-serif !important;
+          color: $text-color !important;
           font-size: 14px;
-          font-weight: 400;
-          color: $text-color;
+          font-weight: 600;
           line-height: 24px;
+        }
+
+        .item {
+          border-bottom: 1px solid $sellgo-light-gray !important;
+          margin-bottom: 0 !important;
+        }
+
+        .active.item {
+          background-color: #fff;
+          border: 1px solid;
+          border-bottom: none !important;
+          padding-bottom: 10px !important;
+          margin-bottom: 0;
+          border-color: $sellgo-light-gray !important;
+
+          @media screen and (min-width: 1025px) {
+            border-radius: 4px 4px 0 0;
+          }
+
+          h4.ui.header {
+            color: $text-color !important;
+          }
         }
       }
     }
   }
 
-  .menu-bar {
-    .menu-bar-inner {
-      &::-webkit-scrollbar {
-        height: 4px;
-      }
-
-      @media screen and (min-width: 768px) {
-        overflow-x: auto;
-        overflow-y: hidden;
-      }
-    }
-
-    @media screen and (min-width: 1024px) {
-      width: 60%;
-    }
-
-    .ui.blue.menu .active.item,
-    .ui.menu .blue.active.item {
-      border-color: #98aeca !important;
-    }
-
-    .ui.secondary.pointing.menu .active.item {
-      background-color: #fff;
-      border: 1px solid;
-      border-bottom: none !important;
-      padding-bottom: 10px !important;
-      margin-bottom: 0;
-
-      @media screen and (min-width: 1025px) {
-        border-radius: 4px 4px 0 0;
-      }
-
-      h4 {
-        font-family: 'Work Sans', sans-serif !important;
-        color: $text-color !important;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 24px;
-      }
-    }
-  }
-
   h2 {
-    color: #313a4c;
+    color: $text-color;
     font-size: 13px;
     font-weight: 500;
     line-height: 16px;

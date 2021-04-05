@@ -87,72 +87,64 @@ class TrackerMenu extends Component<TrackerMenuProps> {
               <GroupBadgeCount count={existingItems.length} />
             </Header>
           </Menu.Item>
-          <Menu
-            pointing={true}
-            stackable={true}
-            secondary={true}
-            style={{ width: 'max-content' }}
-            color={'blue'}
-            className="wdt100 menu-bar-inner"
-          >
-            <Menu.Item
-              name={'Ungrouped'}
-              active={this.props.activeGroupId === -1 ? true : false}
-              onClick={() => {
-                if (this.props.activeGroupId !== -1) {
-                  handleMenu(-1);
-                }
-              }}
-            >
-              <Header as="h4">
-                {'Ungrouped'}
-                <GroupBadgeCount count={ungroupedCount} />
-              </Header>
-            </Menu.Item>
-            {groups &&
-              groups
-                .slice()
-                .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
-                .map((data: any) => {
-                  const isActiveGroup = data.id === this.props.activeGroupId;
-                  const groupBadgeCount = existingItems.filter(
-                    (d: any) => d.product_track_group_id === data.id
-                  ).length;
 
-                  return (
-                    <Menu.Item
-                      name={data.name}
-                      key={data.id}
-                      active={isActiveGroup ? true : false}
-                      onClick={() => {
-                        if (!isActiveGroup) {
-                          handleMenu(data.id);
-                        }
-                      }}
-                      verticalalign="middle"
-                    >
-                      <Header as="h4" style={{ margin: '0', color: '16px !important' }}>
-                        {data.name}
-                        <GroupBadgeCount count={groupBadgeCount} />
-                      </Header>
-                      {isActiveGroup && (
-                        <div style={{ padding: '5px' }}>
-                          <Icon name="pencil" link={true} onClick={() => handleEditGroup(data)} />
-                          <Icon
-                            name="trash alternate"
-                            link={true}
-                            onClick={() => {
-                              filteredProducts.length > 0
-                                ? handleDeleteGroup()
-                                : handleDeleteGroupSubmit(this.props.activeGroupId);
-                            }}
-                          />
-                        </div>
-                      )}
-                    </Menu.Item>
-                  );
-                })}
-          </Menu>
+          <Menu.Item
+            name={'Ungrouped'}
+            active={this.props.activeGroupId === -1 ? true : false}
+            onClick={() => {
+              if (this.props.activeGroupId !== -1) {
+                handleMenu(-1);
+              }
+            }}
+          >
+            <Header as="h4">
+              {'Ungrouped'}
+              <GroupBadgeCount count={ungroupedCount} />
+            </Header>
+          </Menu.Item>
+          {groups &&
+            groups
+              .slice()
+              .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))
+              .map((data: any) => {
+                const isActiveGroup = data.id === this.props.activeGroupId;
+                const groupBadgeCount = existingItems.filter(
+                  (d: any) => d.product_track_group_id === data.id
+                ).length;
+
+                return (
+                  <Menu.Item
+                    name={data.name}
+                    key={data.id}
+                    active={isActiveGroup ? true : false}
+                    onClick={() => {
+                      if (!isActiveGroup) {
+                        handleMenu(data.id);
+                      }
+                    }}
+                    verticalalign="middle"
+                  >
+                    <Header as="h4" style={{ margin: '0', color: '16px !important' }}>
+                      {data.name}
+                      <GroupBadgeCount count={groupBadgeCount} />
+                    </Header>
+                    {isActiveGroup && (
+                      <div style={{ padding: '5px' }}>
+                        <Icon name="pencil" link={true} onClick={() => handleEditGroup(data)} />
+                        <Icon
+                          name="trash alternate"
+                          link={true}
+                          onClick={() => {
+                            filteredProducts.length > 0
+                              ? handleDeleteGroup()
+                              : handleDeleteGroupSubmit(this.props.activeGroupId);
+                          }}
+                        />
+                      </div>
+                    )}
+                  </Menu.Item>
+                );
+              })}
           <Menu.Item name="+" onClick={handleAddGroup}>
             <Icon name="plus" />
           </Menu.Item>
