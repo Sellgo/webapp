@@ -34,7 +34,7 @@ import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import _ from 'lodash';
 
 import { formatCompletedDate } from '../../../utils/date';
-import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
+
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 import PageLoader from '../../../components/PageLoader';
@@ -89,11 +89,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="supplier">
         <div className="name">{name} </div>
-        {row.has_default_cost && (
-          <span>
-            <WithoutCostUpload />
-          </span>
-        )}
       </div>
     );
   };

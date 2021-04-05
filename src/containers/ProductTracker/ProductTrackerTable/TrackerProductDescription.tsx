@@ -3,7 +3,6 @@ import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import _ from 'lodash';
 import AMAZON_IMAGE from '../../../assets/images/amazon_choice.svg';
 import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
-import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
@@ -34,11 +33,6 @@ const ProductDescription = (props: any) => {
               </div>
               {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
             </div>
-            {!item.product_cost && (
-              <span>
-                <WithoutCostUpload />
-              </span>
-            )}
           </div>
         </div>
       </div>
