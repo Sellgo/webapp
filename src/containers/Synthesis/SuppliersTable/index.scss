@@ -1,3 +1,5 @@
+@import '../../../design-system/colors';
+
 .suppliers-table {
   // TODO: Consider a generic table class that can be added to any content
   // that has a set width and needs overflow hidden and ellipsis.
@@ -37,50 +39,16 @@
   .rate {
     text-align: right !important;
   }
-}
 
-@media screen and (min-width: 310px) and (max-width: 767px) {
-  .wdt100 {
-    width: 100% !important;
+  .ui.secondary.pointing.menu .active.item {
+    border-color: $sellgo-light-gray !important;
   }
 
-  .menu-item {
-    border-bottom: 0 !important;
-    margin-bottom: 20px !important;
-    text-align: center !important;
-  }
-
-  .menu-item a h4 {
-    width: 100% !important;
-  }
-
-  .card-content {
-    height: auto !important;
-    margin-right: 0 !important;
-  }
-
-  .flex-col {
-    flex-direction: column !important;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-  .ipad-wdth100 {
-    width: 100% !important;
-  }
-
-  .card-content {
-    margin-bottom: 0 !important;
-  }
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1199px) {
-  .card-content {
-    width: 50% !important;
-  }
-
-  .card-content h2 {
-    font-size: 17px !important;
+  h4.ui.header {
+    color: $text-color;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Work Sans', sans-serif;
   }
 }
 
@@ -136,4 +104,49 @@
 
 .hidden-url {
   display: none;
+}
+
+@media screen and (min-width: 310px) and (max-width: 767px) {
+  .wdt100 {
+    width: 100% !important;
+  }
+
+  .menu-item {
+    border-bottom: 0 !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+  }
+
+  .menu-item a h4 {
+    width: 100% !important;
+  }
+
+  .card-content {
+    height: auto !important;
+    margin-right: 0 !important;
+  }
+
+  .flex-col {
+    flex-direction: column !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .ipad-wdth100 {
+    width: 100% !important;
+  }
+
+  .card-content {
+    margin-bottom: 0 !important;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1199px) {
+  .card-content {
+    width: 50% !important;
+  }
+
+  .card-content h2 {
+    font-size: 17px !important;
+  }
 }
