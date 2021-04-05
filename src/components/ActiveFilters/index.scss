@@ -45,7 +45,7 @@
 
     input:checked ~ .box::after,
     input:checked ~ label::after {
-      color: #000;
+      color: $text-color;
     }
   }
 

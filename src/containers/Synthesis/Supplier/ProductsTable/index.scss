@@ -571,9 +571,15 @@ $new_black: #3b4557;
         .icon {
           display: block;
           margin-top: -15px !important;
+          color: $icon-color !important;
 
           &.ellipsis {
             margin: 0 !important;
+            color: $icon-color !important;
+
+            &:hover {
+              color: $icon-hover-color;
+            }
           }
         }
       }

@@ -167,7 +167,7 @@
 }
 
 .tracker-table .add-product .ui.input > input {
-  border: 1px solid #afa8a8 !important;
+  border: 1px solid $sellgo-light-gray !important;
   border-bottom-left-radius: 10px !important;
   border-bottom-right-radius: 0 !important;
   border-right: none !important;
@@ -184,19 +184,19 @@
     width: 100%;
 
     .ui.input > input {
-      border: 1px solid #cecfcf;
+      border: 1px solid $sellgo-light-gray;
     }
   }
 
   .cancel-btn {
     background: white;
-    border: 1px solid #cecfcf;
+    border: 1px solid $sellgo-light-gray;
     color: black;
     width: 134px;
   }
 
   .create-btn {
-    background: #4b9af8;
+    background: $sellgo-blue;
     color: #fff;
     width: 134px;
   }
@@ -221,12 +221,12 @@
     margin-top: 30px;
 
     .ui.input {
-      border-right: 1px solid #ddd;
+      border-right: 1px solid $sellgo-light-gray;
       width: 67%;
     }
 
     .ui.fluid.dropdown {
-      border: 1px solid #afa8a8 !important;
+      border: 1px solid $sellgo-light-gray !important;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 10px;
       border-left: none !important;
@@ -329,17 +329,6 @@
     i {
       margin-left: 10px !important;
       margin-right: 0 !important;
-    }
-  }
-
-  .ui.breadcrumb {
-    font-size: 10px !important;
-    line-height: 17px;
-    text-align: left;
-    white-space: pre-wrap;
-
-    i {
-      color: $sellgo-blue !important;
     }
   }
 
@@ -619,8 +608,8 @@
 
       .ui.checkbox input:checked ~ .box::after,
       .ui.checkbox input:checked ~ label::after {
-        background: #000 !important;
-        color: #fff !important;
+        background: #fff !important;
+        color: $text-color !important;
       }
     }
 
@@ -755,7 +744,7 @@
           border-top: 1px solid rgba(34, 36, 38, 0.3);
           font-size: 14px !important;
           font-weight: 500;
-          color: #3b4557;
+          color: $text-color;
           text-align: left;
         }
 
@@ -774,7 +763,7 @@
             align-items: center;
             display: flex;
             justify-content: center;
-            color: #a2a2a2;
+            color: $icon-color;
           }
         }
       }
@@ -795,6 +784,19 @@
         .content {
           .ui.checkbox {
             width: 100% !important;
+
+            input:checked ~ .box::before,
+            input:checked ~ label::before {
+              background-color: #fff !important;
+              border: 1px solid $checkbox-border;
+              color: $text-color;
+            }
+
+            input:checked ~ .box::after,
+            input:checked ~ label::after {
+              background-color: #fff !important;
+              color: $text-color;
+            }
           }
         }
       }
@@ -989,7 +991,7 @@
 
 .column-selection-container:hover {
   display: flex !important;
-  background: #f8faff !important;
+  background: $dropdown-hover !important;
   border-top: 0.2px solid $sellgo-light-gray;
   color: $text-color;
   font-weight: 500;
@@ -1008,7 +1010,7 @@
 
 .active-columns {
   cursor: move;
-  color: #a2a2a2 !important;
+  color: $text-color !important;
   font-size: 20px;
   font-weight: 900;
 }
@@ -1510,4 +1512,18 @@
 
 .ptr-blank-cell {
   height: 85px !important;
+}
+
+/* stylelint-disable */
+.ui.fitted.checkbox {
+  input:checked ~ .box::before,
+  input:checked ~ label::before {
+    background-color: #fff;
+    border: 1px solid $sellgo-light-gray;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $text-color;
+  }
 }
