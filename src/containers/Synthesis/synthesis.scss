@@ -1,4 +1,5 @@
 @import '../../index.scss';
+@import '../../design-system/colors';
 
 .add-supplier-popup {
   @extend %popup-common;
@@ -24,18 +25,18 @@
 .ui.basic.primary.button:hover,
 .ui.basic.blue.button .button:hover,
 .ui.basic.primary.buttons .button:hover {
-  border: 1px solid #349af8 !important;
+  border: 1px solid $sellgo-blue !important;
   box-shadow: none !important;
-  color: #349af8 !important;
+  color: $sellgo-blue !important;
 }
 
 .add-new-supplier {
   width: 180px;
   height: 33px;
-  border: 1px solid #349af8 !important;
-  background-color: #349af8 !important;
+  border: 1px solid $sellgo-blue !important;
+  background-color: $sellgo-blue !important;
   border-radius: 7px !important;
-  font-family: 'Work sans', sans-serif !important;
+  font-family: 'Work Sans', sans-serif !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   float: right;
@@ -46,25 +47,25 @@
     border: 1px solid #dfe8f3 !important;
     border-radius: 100px;
     pointer-events: none;
-  } 
+  }
 }
 
 .add-new-supplier:hover {
   width: 180px;
   height: 33px;
-  border: 1px solid #349af8 !important;
-  background-color: #ffffff !important;
+  border: 1px solid $sellgo-blue !important;
+  background-color: #fff !important;
   border-radius: 7px !important;
-  font-family: 'Work sans', sans-serif !important;
+  font-family: 'Work Sans', sans-serif !important;
   font-size: 14px !important;
   font-weight: 700 !important;
-  color: #349af8 !important;
+  color: $sellgo-blue !important;
   float: right;
   margin-right: 1rem !important;
 
   &.ui.disabled {
     color: #dfe8f3;
-    border: 1px solid #349af8 !important;
+    border: 1px solid $sellgo-blue !important;
     border-radius: 100px;
     pointer-events: none;
   }
@@ -73,7 +74,7 @@
 .syn-dropdown .menu {
   background-color: #ffff !important;
   border: 1px 1px 1px 1px solid !important;
-  border-color: #4285f4 !important;
+  border-color: $sellgo-blue !important;
   border-radius: 0 0 5px 5px !important;
   box-shadow: 0 3px 4px 0 rgba(34, 36, 38, 0.3) !important;
   min-width: max-content !important;
@@ -85,9 +86,9 @@
 
 .syn-dropdown {
   align-self: center !important;
-  border: 1px solid #4285f4 !important;
+  border: 1px solid $sellgo-blue !important;
   border-radius: 5px !important;
-  color: #4285f4 !important;
+  color: $sellgo-blue !important;
   width: 65% !important;
 }
 
@@ -161,12 +162,12 @@
 }
 
 .new-supplier-modal .rc-steps-item-finish .rc-steps-item-tail::after {
-  background-color: #98aeca;
+  background-color: $sellgo-light-gray;
 }
 
 .new-supplier-modal .rc-steps-item-wait .rc-steps-item-tail::after,
 .new-supplier-modal .rc-steps-item-process .rc-steps-item-tail::after {
-  background-color: #98aeca;
+  background-color: $sellgo-light-gray;
 }
 
 .new-supplier-modal .content .rc-steps-item-tail {
@@ -185,17 +186,17 @@
 
 .new-supplier-modal .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon,
 .new-supplier-modal .rc-steps-item-wait .rc-steps-item-icon > .rc-steps-icon {
-  color: #98aeca;
+  color: $sellgo-light-gray;
   width: 70px !important;
   height: 70px !important;
   padding: 0 !important;
   background: #fff 0% 0% no-repeat padding-box;
-  border: 1px solid #98aeca;
+  border: 1px solid $sellgo-light-gray;
 }
 
 .new-supplier-modal .rc-steps-item-custom.rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
-  color: #349af8;
-  border: 2px solid #349af8;
+  color: $sellgo-blue;
+  border: 2px solid $sellgo-blue;
   background: #fff 0% 0% no-repeat padding-box;
   width: 70px !important;
   height: 70px !important;
@@ -239,7 +240,7 @@
   min-height: 345px;
   margin: auto;
   background: #fff 0% 0% no-repeat padding-box;
-  border: 1px solid #98aeca;
+  border: 1px solid $sellgo-light-gray;
   border-radius: 15px;
   padding-right: 30px;
   padding-left: 30px;
@@ -251,7 +252,7 @@
 
 .new-supplier-modal .mapping-container label,
 .new-supplier-modal .ui.form .field > label {
-  color: #333333de;
+  color: $text-color;
   font-weight: 600;
   font-size: 13px;
 }
@@ -282,11 +283,11 @@
   background: #e6e6e6;
   border-radius: 20px;
   margin: auto;
-  font-family: 'Work sans', sans-serif !important;
+  font-family: 'Work Sans', sans-serif !important;
 }
 
 .new-supplier-modal .ui.blue.active.indicating.inverted.progress .bar {
-  background: #349af8;
+  background: $sellgo-blue;
   border-radius: 20px;
 }
 
@@ -302,7 +303,7 @@
 .new-supplier-modal span.Submit__file-process span,
 .new-supplier-modal span.Submit__file-error span {
   margin-left: 20px;
-  color: #a2a2a2;
+  color: $icon-color;
   font-size: 13px;
   opacity: 1;
 }
@@ -617,12 +618,35 @@ div.new-supplier-cont > div:nth-child(2) {
   font-weight: 500 !important;
   color: #3b4557 !important;
   resize: none;
-  font-family: 'Work sans', sans-serif !important;
+  font-family: 'Work Sans', sans-serif !important;
 }
 
-.new-supplier-modal .ui.form .column.AddNewSearch__second-column:nth-child(2),
-.new-supplier-modal .ui.form .column.AddNewSearch__second-column:nth-child(2) .field {
-  min-width: 215px !important;
+.AddNewSearch__second-column {
+  .all-variations {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__label {
+      color: $text-color;
+      font-weight: 600;
+      font-size: 13px;
+
+      i.info.circle {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+#all-variations__popup.ui.inverted.popup.transition {
+  z-index: 100000000000 !important;
+  position: absolute !important;
+
+  .content {
+    z-index: 100000000000 !important;
+  }
 }
 
 .new-supplier-modal .upload-section .mapping-container > .row:nth-child(1) {
@@ -721,11 +745,11 @@ div.new-supplier-cont > div:nth-child(2) {
 
 .new-supplier-modal .upload-section .mapping-container .ui.selection.dropdown {
   background: #fff 0% 0% no-repeat padding-box;
-  border: 1px solid #dededf;
+  border: 1px solid $sellgo-light-gray;
   border-radius: 4px;
   height: 38px;
   font-size: 14px;
-  color: #3b4557;
+  color: $text-color;
   font-weight: 500;
 }
 
@@ -744,7 +768,7 @@ div.new-supplier-cont > div:nth-child(2) {
 
 .new-supplier-modal .submit-container {
   background: #fff 0% 0% no-repeat padding-box;
-  border: 1px solid #98aeca;
+  border: 1px solid $sellgo-light-gray;
   border-radius: 15px;
   width: 869px;
   height: 345px;
@@ -763,7 +787,7 @@ div.new-supplier-cont > div:nth-child(2) {
   align-items: center;
   justify-content: center;
   flex: 1;
-  border: 1px solid #98aeca;
+  border: 1px solid $sellgo-light-gray;
   border-radius: 15px;
   background: #fff 0% 0% no-repeat padding-box;
   padding: 15px !important;
@@ -824,6 +848,7 @@ div.new-supplier-cont > div:nth-child(2) {
 .new-supplier-modal .ui.form .fields .field .ui.input input:-webkit-autofill {
   -webkit-text-fill-color: #3b4557 !important;
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: 0 0 0 30px white inset !important;
 }
 
 .new-supplier-modal .rc-steps-item-container:focus {
@@ -1110,7 +1135,8 @@ div.new-supplier-cont .ui.button {
 
 .AddNewSearch__checkbox {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: stretch;
   margin-top: 5px;
 }
 

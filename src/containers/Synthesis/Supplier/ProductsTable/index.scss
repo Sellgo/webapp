@@ -1,4 +1,7 @@
-$link-color: #5381db;
+@import '../../../../design-system/colors';
+
+/* stylelint-disable no-descending-specificity */
+
 $new_black: #3b4557;
 
 .export-buttons {
@@ -64,7 +67,7 @@ $new_black: #3b4557;
 
   .view-detail-btn {
     width: 100%;
-    background-color: $link-color !important;
+    background-color: $sellgo-blue !important;
     border-radius: 18px !important;
     padding: 10px 32px !important;
     display: inline-flex !important;
@@ -84,7 +87,7 @@ $new_black: #3b4557;
     text-align: left;
 
     i {
-      color: $link-color !important;
+      color: $icon-color !important;
     }
   }
 
@@ -140,23 +143,9 @@ $new_black: #3b4557;
       background: #349af8;
 
       span {
-        color: #ffffff !important;
+        color: #fff !important;
         font-size: 12px;
         font-weight: 500 !important;
-        margin: 0 auto; 
-      }
-    }
-
-    .track-wrap:hover {
-      width: 120px;
-      display: flex !important;
-      border: 1px solid #349af8 !important;
-      padding: 5px 7px 7px 12px;
-      background: #ffffff;
-
-      span {
-        color: #349af8 !important;
-        font-weight: 600 !important;
         margin: 0 auto;
       }
     }
@@ -172,9 +161,23 @@ $new_black: #3b4557;
       }
     }
 
+    .track-wrap:hover {
+      width: 120px;
+      display: flex !important;
+      border: 1px solid $sellgo-blue !important;
+      padding: 5px 7px 7px 12px;
+      background: #fff;
+
+      span {
+        color: #349af8 !important;
+        font-weight: 600 !important;
+        margin: 0 auto;
+      }
+    }
+
     &.is-tracking {
       .track-wrap {
-        background-color: #ffffff;
+        background-color: #fff;
         border: 1px solid #e6e6e6 !important;
 
         span {
@@ -183,13 +186,13 @@ $new_black: #3b4557;
           font-weight: 500 !important;
         }
       }
+
       .track-wrap:hover {
         background-color: #e6e6e6;
 
         span {
           font-weight: 600 !important;
         }
-
       }
     }
 
@@ -218,8 +221,8 @@ $new_black: #3b4557;
     padding-right: 0;
 
     a {
-      color: $link-color !important;
-      font-family: '' Work Sans ', sans-serif', sans-serif;
+      color: $sellgo-blue !important;
+      font-family: 'Work Sans', sans-serif;
       font-size: 14px;
     }
 
@@ -617,7 +620,7 @@ $new_black: #3b4557;
           white-space: nowrap;
           margin: 0 auto;
           font-weight: 500;
-          color: #3B4557;
+          color: #3b4557;
         }
       }
     }
