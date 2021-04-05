@@ -775,13 +775,11 @@ function ProductTrackerFilterSection(props: Props) {
               'all-filter' && 'active'}`}
             onClick={() => handleFilterType('all-filter')}
           >
-            <Icon
-              className="tracker-filter-section__header__all-container__button__slider"
-              name="sliders horizontal"
-            />
+            <Icon name="sliders horizontal" />
             <span className="tracker-filter-section__header__all-container__button__name">All</span>
             <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
           </Button>
+
           <Popup
             on="click"
             open={openPresetFilter}
@@ -816,6 +814,7 @@ function ProductTrackerFilterSection(props: Props) {
               />
             }
           />
+
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}

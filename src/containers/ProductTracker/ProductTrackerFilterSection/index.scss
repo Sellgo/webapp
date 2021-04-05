@@ -50,6 +50,16 @@
 
         &.all-btn {
           width: 106px;
+
+          i.sliders.horizontal.icon {
+            color: $icon-color !important;
+          }
+
+          &:hover {
+            i.sliders.horizontal.icon {
+              color: $icon-hover-color !important;
+            }
+          }
         }
 
         &.more-btn {
@@ -332,8 +342,9 @@
       .input {
         max-width: 60px;
         margin: 0;
-        color: $sellgo-light-gray;
+        color: $text-color;
         margin-right: 5px;
+        border-color: $sellgo-light-gray;
 
         input {
           padding: 3px 0 3px 5px;
@@ -397,4 +408,8 @@
       color: $text-color;
     }
   }
+}
+
+i.icon.horizontal-slider {
+  color: $text-color !important;
 }
