@@ -1,0 +1,39 @@
+.seller-finder-search {
+  .search-container {
+    display: flex;
+    align-items: center;
+
+    .input {
+      width: 480px;
+
+      > input {
+        border-radius: 10px;
+      }
+    }
+
+    .or {
+      width: 70px;
+      text-align: center;
+      font-size: 20px;
+      color: #3b4557;
+    }
+
+    .search-btn {
+      background: #349af8;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      border-radius: 15px;
+      width: 140px;
+      height: 34px;
+      line-height: 0;
+    }
+  }
+
+  .search-message {
+    color: #757575;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 25px;
+  }
+}
