@@ -1,20 +1,22 @@
+@import '../../design-system/colors';
+
 .profitability-preset {
   border: none !important;
   box-shadow: unset !important;
   background: white;
-  color: #3b4557 !important;
-  border-top-left-radius: 100px !important;
-  border-bottom-left-radius: 100px !important;
-  border-top-right-radius: 100px !important;
-  border-bottom-right-radius: 100px !important;
+  color: $text-color !important;
+  border-top-left-radius: 7px !important;
+  border-bottom-left-radius: 7px !important;
+  border-top-right-radius: 7px !important;
+  border-bottom-right-radius: 7px !important;
   margin: 0 5px 5px 5px !important;
 
   .multipack-variation-preset-btn {
-    color: #3b4557 !important;
-    border: 1px solid #98aeca !important;
+    color: text-color !important;
+    border: 1px solid $sellgo-light-gray !important;
     box-shadow: unset !important;
-    border-top-left-radius: 100px !important;
-    border-bottom-left-radius: 100px !important;
+    border-top-left-radius: 7px !important;
+    border-bottom-left-radius: 7px !important;
     border-right: 0 !important;
     font-weight: 600 !important;
     padding: 0 10px 0 15px;
@@ -22,12 +24,12 @@
   }
 
   .ui.dropdown {
-    color: #3b4557 !important;
-    border: 1px solid #98aeca !important;
+    color: $text-color !important;
+    border: 1px solid $sellgo-light-gray !important;
     box-shadow: unset !important;
     border-left: none !important;
-    border-top-right-radius: 100px !important;
-    border-bottom-right-radius: 100px !important;
+    border-top-right-radius: 7px !important;
+    border-bottom-right-radius: 7px !important;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     font-weight: 600 !important;
@@ -39,8 +41,13 @@
       border-radius: 15px !important;
       width: 204px;
 
+      .item {
+        color: $text-color;
+        font-family: 'Work Sans', sans-serif;
+      }
+
       .item:hover {
-        background-color: #98aeca !important;
+        background-color: $dropdown-hover !important;
       }
     }
 
@@ -52,12 +59,12 @@
   &.basic {
     .multipack-variation-preset-btn {
       &.ui.button {
-        color: #3b4557 !important;
+        color: $text-color !important;
       }
     }
 
     .ui.dropdown {
-      color: #3b4557 !important;
+      color: $text-color !important;
       border-left-color: none !important;
 
       &::before {
@@ -65,7 +72,7 @@
         display: inline-block;
         width: 0;
         height: 0;
-        background: #98aeca;
+        background: $sellgo-light-gray;
         position: absolute;
         top: 0;
         left: 0;
@@ -82,13 +89,13 @@
   &.blue {
     .multipack-variation-preset-btn {
       color: #fff !important;
-      background-color: #349af8 !important;
-      border-right: 1px solid #4285f461 !important;
+      background-color: $sellgo-blue !important;
+      border-right: 1px solid $sellgo-blue !important;
     }
 
     .ui.dropdown {
       color: #fff !important;
-      background-color: #349af8 !important;
+      background-color: $sellgo-blue !important;
     }
   }
 }

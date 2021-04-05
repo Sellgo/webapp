@@ -4,27 +4,31 @@
   border: none !important;
   box-shadow: unset !important;
   background: white;
-  color: #3b4557 !important;
-  border-top-left-radius: 100px !important;
-  border-bottom-left-radius: 100px !important;
-  border-top-right-radius: 100px !important;
-  border-bottom-right-radius: 100px !important;
+  color: $text-color !important;
+  border-top-left-radius: 7px !important;
+  border-bottom-left-radius: 7px !important;
+  border-top-right-radius: 7px !important;
+  border-bottom-right-radius: 7px !important;
   margin: 0 5px 5px 5px !important;
 
   .profitability-preset-btn {
-    color: #3b4557 !important;
+    color: $text-color !important;
     border: 1px solid $sellgo-light-gray !important;
     box-shadow: unset !important;
-    border-top-left-radius: 100px !important;
-    border-bottom-left-radius: 100px !important;
+    border-top-left-radius: 7px !important;
+    border-bottom-left-radius: 7px !important;
     border-right: 0 !important;
     font-weight: 600 !important;
     padding: 0 10px 0 15px;
     height: 32px !important;
+
+    &:hover {
+      background: #e6e6e6 !important;
+    }
   }
 
   .ui.dropdown {
-    color: #3b4557 !important;
+    color: $text-color !important;
     border: 1px solid $sellgo-light-gray !important;
     box-shadow: unset !important;
     border-left: none !important;
@@ -41,8 +45,13 @@
       border-radius: 15px !important;
       width: 204px;
 
+      .item {
+        color: $text-color;
+        font-family: 'Work Sans', sans-serif;
+      }
+
       .item:hover {
-        background-color: $sellgo-light-gray !important;
+        background-color: $dropdown-hover !important;
       }
     }
 
@@ -59,7 +68,7 @@
     }
 
     .ui.dropdown {
-      color: #3b4557 !important;
+      color: $text-color !important;
       border-left-color: none !important;
 
       &::before {
@@ -85,7 +94,7 @@
     .profitability-preset-btn {
       color: #fff !important;
       background-color: $sellgo-blue !important;
-      border-right: 1px solid #4285f461 !important;
+      border-right: 1px solid $sellgo-blue !important;
     }
 
     .ui.dropdown {
