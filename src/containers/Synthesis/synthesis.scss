@@ -32,7 +32,7 @@
 
 .add-new-supplier {
   width: 180px;
-  height: 33px;
+  height: 40px;
   border: 1px solid $sellgo-blue !important;
   background-color: $sellgo-blue !important;
   border-radius: 7px !important;
@@ -41,6 +41,7 @@
   font-weight: 600 !important;
   float: right;
   margin-right: 1rem !important;
+  box-sizing: border-box;
 
   &.ui.disabled {
     color: #dfe8f3;
@@ -52,7 +53,7 @@
 
 .add-new-supplier:hover {
   width: 180px;
-  height: 33px;
+  height: 40px;
   border: 1px solid $sellgo-blue !important;
   background-color: #fff !important;
   border-radius: 7px !important;
@@ -62,6 +63,7 @@
   color: $sellgo-blue !important;
   float: right;
   margin-right: 1rem !important;
+  box-sizing: border-box;
 
   &.ui.disabled {
     color: #dfe8f3;
