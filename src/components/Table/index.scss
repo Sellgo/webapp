@@ -421,9 +421,11 @@ i.icon.filter::before {
     > .table-cell-container {
       justify-content: flex-end !important;
       margin-right: 2px;
+      color: $text-color;
 
       > .sort-arrow {
         margin: 0;
+        fill: $text-color;
       }
     }
   }
