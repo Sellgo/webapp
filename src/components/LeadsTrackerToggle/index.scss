@@ -1,3 +1,5 @@
+@import '../../design-system/colors';
+
 .ToggleSwitch {
   position: relative;
   width: 100%;
@@ -35,7 +37,7 @@
       transition: 0.4s ease;
       width: 51px;
       height: 25px;
-      background: #dededf;
+      background: $toggle-btn-background;
       color: #98aeca;
       display: flex;
       align-items: center;
@@ -44,8 +46,8 @@
 
       &.active {
         justify-content: flex-end;
-        background: #349af8;
-        color: #349af8;
+        background: $sellgo-blue;
+        color: $sellgo-blue;
         transition: justify-content 0.5s linear;
       }
 

@@ -1,3 +1,5 @@
+@import '../../design-system/colors.scss';
+
 .notifications {
   min-width: 428px !important;
 
@@ -70,22 +72,36 @@
   }
 }
 
-.bell-icon {
-  margin-top: 10px;
+a.item.notification-wrapper {
+  position: relative !important;
+}
+
+i.bell-icon {
+  font-size: 18px !important;
+  color: $icon-color !important;
+  position: relative !important;
   cursor: pointer;
+
+  &:hover {
+    color: $icon-hover-color !important;
+    transform: scale(1.05);
+  }
 }
 
 .badge-count {
   background: #349af8;
   color: #f8faff;
-  width: 15px;
-  height: 15px;
-  border-radius: 11px;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 1px 4px;
-  position: relative;
-  top: -11px;
-  right: 9px;
+  width: 15px !important;
+  height: 15px !important;
+  font-size: 10px;
+  font-weight: normal;
+  position: absolute;
+  z-index: 99999 !important;
+  border-radius: 50%;
+  right: -5px;
+  top: 0;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

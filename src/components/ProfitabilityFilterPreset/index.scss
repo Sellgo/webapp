@@ -1,3 +1,5 @@
+@import '../../design-system/colors';
+
 .profitability-preset {
   border: none !important;
   box-shadow: unset !important;
@@ -11,7 +13,7 @@
 
   .profitability-preset-btn {
     color: #3b4557 !important;
-    border: 1px solid #98aeca !important;
+    border: 1px solid $sellgo-light-gray !important;
     box-shadow: unset !important;
     border-top-left-radius: 100px !important;
     border-bottom-left-radius: 100px !important;
@@ -23,7 +25,7 @@
 
   .ui.dropdown {
     color: #3b4557 !important;
-    border: 1px solid #98aeca !important;
+    border: 1px solid $sellgo-light-gray !important;
     box-shadow: unset !important;
     border-left: none !important;
     border-top-right-radius: 100px !important;
@@ -40,7 +42,7 @@
       width: 204px;
 
       .item:hover {
-        background-color: #98aeca !important;
+        background-color: $sellgo-light-gray !important;
       }
     }
 
@@ -52,7 +54,7 @@
   &.basic {
     .profitability-preset-btn {
       &.ui.button {
-        color: #757575 !important;
+        color: $text-color !important;
       }
     }
 
@@ -65,7 +67,7 @@
         display: inline-block;
         width: 0;
         height: 0;
-        background: #98aeca;
+        background: $sellgo-light-gray;
         position: absolute;
         top: 0;
         left: 0;
@@ -82,13 +84,13 @@
   &.blue {
     .profitability-preset-btn {
       color: #fff !important;
-      background-color: #349af8 !important;
+      background-color: $sellgo-blue !important;
       border-right: 1px solid #4285f461 !important;
     }
 
     .ui.dropdown {
       color: #fff !important;
-      background-color: #349af8 !important;
+      background-color: $sellgo-blue !important;
     }
   }
 }

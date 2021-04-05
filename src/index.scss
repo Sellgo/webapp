@@ -19,7 +19,12 @@ body h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+h6,
+p,
+a,
+ul,
+li {
   font-family: 'Work sans', sans-serif !important;
 }
 
@@ -268,22 +273,11 @@ span.material-icons.MuiIcon-root.MuiIcon-colorDisabled.MuiIcon-fontSizeLarge {
   margin: 5px;
 }
 
-a {
-  color: #757575;
-  text-decoration: underline;
-
-  /* text-decoration:underline; */
-}
-
-a:hover {
-  color: #349af8 !important;
-  font-weight: 600;
-  text-decoration: underline;
-}
-
-.signup-block a {
-  color: #0e6fcf;
-  text-decoration: underline;
+.signup-block {
+  &a {
+    color: #0e6fcf;
+    text-decoration: underline;
+  }
 }
 
 .copy-right {
@@ -383,4 +377,24 @@ i.icon.close::before {
 /* App main container */
 .App__container {
   height: 100vh;
+}
+
+/* New Global Styles */
+a {
+  color: #757575;
+  text-decoration: none;
+  font-family: 'Work Sans', sans-serif;
+
+  &:active {
+    color: #757575;
+    text-decoration: none;
+    font-family: 'Work Sans', sans-serif;
+  }
+
+  &:hover {
+    color: #349af8 !important;
+    font-weight: 600;
+    text-decoration: underline;
+    font-family: 'Work Sans', sans-serif;
+  }
 }

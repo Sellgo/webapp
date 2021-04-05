@@ -1,3 +1,5 @@
+@import '../../design-system/colors.scss';
+
 .track-wrap {
   img {
     width: 13px;
@@ -11,16 +13,18 @@
 
   .item {
     height: 70%;
-    padding: 4px 0 5px 10px;
+    padding: 4px 0 5px 5px;
+    text-decoration: none;
 
     i.setting-icon {
       font-size: 18px !important;
       color: #a2a2a2 !important;
-    }
+      margin-top: none;
 
-    i.setting-icon:hover {
-      font-size: 19px !important;
-      color: #757575 !important;
+      &:hover {
+        color: $icon-hover-color !important;
+        transform: scale(1.05);
+      }
     }
 
     .ui.dropdown {

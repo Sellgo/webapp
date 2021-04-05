@@ -1,22 +1,25 @@
+@import '../../design-system/colors';
+
 .ui.breadcrumb {
   position: relative !important;
 
   .icon.divider {
     color: #98aeca;
-    font-size: 16px;
-    margin: 0 5px;
+    font-size: 15px;
+    margin: 2px 5px;
   }
 
   .section {
-    color: #a2a2a2 !important;
+    color: $icon-color !important;
     font-size: 14px !important;
     font-weight: 500 !important;
     font-family: 'Work Sans', sans-serif;
+    text-decoration: none;
 
     &.active {
-      color: #a2a2a2 !important;
-      font-size: 14px !important;
-    font-weight: 500 !important;
+      color: $text-color !important;
+      font-size: 15px !important;
+      font-weight: 500 !important;
     }
   }
 
@@ -24,15 +27,14 @@
     font-size: 18px;
     margin: 0;
     padding: 0;
-    color: #a2a2a2 !important;
+    color: $icon-color !important;
     transform: translateY(-2px);
-  }
 
-  i.home-icon:hover {
-    font-size: 18px;
-    margin: 0;
-    padding: 0;
-    color: #757575 !important;
-    transform: translateY(-2px);
+    &:hover {
+      margin: 0;
+      padding: 0;
+      color: $icon-hover-color !important;
+      transform: scale(1.05) translateY(-2px);
+    }
   }
 }

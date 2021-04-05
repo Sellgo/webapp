@@ -1,10 +1,12 @@
+@import '../../design-system/colors';
+
 .product-search {
   height: 35px;
   width: 480px;
 
   input {
     font-family: 'Work sans', sans-serif !important;
-    border: 1px solid #98aeca !important;
+    border: 1px solid $sellgo-light-gray !important;
     border-top-left-radius: 10px !important;
     border-bottom-left-radius: 10px !important;
   }
@@ -24,13 +26,13 @@
 
   button {
     border-left: none !important;
-    border-right: 1px solid #98aeca !important;
-    border-top: 1px solid #98aeca !important;
-    border-bottom: 1px solid #98aeca !important;
-    background-color: #e6e6e6 !important;
+    border-right: 1px solid $sellgo-light-gray !important;
+    border-top: 1px solid $sellgo-light-gray !important;
+    border-bottom: 1px solid $sellgo-light-gray !important;
+    background-color: $sellgo-light-gray !important;
     border-top-right-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
-    color: #757575 !important;
+    color: $text-color !important;
   }
 }
 
@@ -39,7 +41,7 @@
   width: 480px;
 
   input {
-    border: 1px solid #98aeca !important;
+    border: 1px solid $sellgo-light-gray !important;
     border-top-left-radius: 10px !important;
     border-bottom-left-radius: 10px !important;
     font-family: 'Work sans', sans-serif !important;
@@ -60,10 +62,10 @@
 
   button {
     border-left: none !important;
-    border-right: 1px solid #349af8 !important;
-    border-top: 1px solid #349af8 !important;
-    border-bottom: 1px solid #349af8 !important;
-    background-color: #349af8 !important;
+    border-right: 1px solid $sellgo-blue !important;
+    border-top: 1px solid $sellgo-blue !important;
+    border-bottom: 1px solid $sellgo-blue !important;
+    background-color: $sellgo-blue !important;
     border-top-right-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
     color: white !important;
