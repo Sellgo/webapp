@@ -1,3 +1,5 @@
+@import '../../../design-system/colors';
+
 .tracker-filter-section {
   &__header {
     display: flex;
@@ -6,21 +8,21 @@
 
     &__period-container {
       display: flex;
-      border-left: 1px solid #98aeca;
-      border-right: 1px solid #98aeca;
+      border-left: 1px solid $sellgo-light-gray;
+      border-right: 1px solid $sellgo-light-gray;
       align-items: center;
       font-weight: 400;
 
       &__period-items {
         margin-right: 5px;
-        color: #98aeca;
+        color: $sellgo-light-gray;
 
         &:first-child {
           margin: 0 5px;
         }
 
         &.active {
-          color: #349af8;
+          color: $sellgo-blue;
           font-weight: 600;
         }
 
@@ -51,8 +53,9 @@
         &.more-btn {
           span {
             margin-left: 13px;
-            color: #757575;
+            color: $text-color;
           }
+
           padding: 0 10px 0 13px !important;
           display: flex;
           align-items: center;
@@ -62,9 +65,10 @@
         &.more-btn:hover {
           span {
             margin-left: 13px;
-            color: #757575;
+            color: $text-color;
             font-weight: 700;
           }
+
           padding: 0 10px 0 13px !important;
           display: flex;
           align-items: center;
@@ -194,7 +198,7 @@
 
         &__filter-name {
           font-weight: 600;
-          color: #757575;
+          color: $text-color;
           font-size: 13px;
           line-height: 1;
           margin-bottom: 5px;
@@ -202,10 +206,10 @@
 
         &__close-btn {
           font-size: 16px;
-          color: #757575;
+          color: $text-color;
           font-weight: 600;
           cursor: pointer;
-          font-family: 'Work sans', sans-serif;
+          font-family: 'Work Sans', sans-serif;
         }
       }
 
@@ -217,15 +221,16 @@
           color: #a2a2a2;
           font-size: 12px;
           display: contents;
-        }
-        p:hover {
-          cursor: pointer;
-          color: #757575;
-          font-size: 12px;
-          display: contents;
-          font-weight: 500;
-          text-decoration: underline;
-          background-color: #a2a2a2 !important;
+
+          &:hover {
+            cursor: pointer;
+            color: $text-color;
+            font-size: 12px;
+            display: contents;
+            font-weight: 500;
+            text-decoration: underline;
+            background-color: #a2a2a2 !important;
+          }
         }
       }
     }
@@ -233,7 +238,7 @@
     &__content {
       &__filter-name {
         font-weight: 600;
-        color: #757575;
+        color: $text-color;
         font-size: 13px;
         line-height: 1;
         margin-bottom: 5px;
@@ -252,7 +257,7 @@
           margin-bottom: 0 !important;
           font-weight: 400;
           font-size: 12px;
-          color: #757575;
+          color: $text-color;
 
           &__label {
             font-weight: 500;
@@ -261,16 +266,16 @@
           .input {
             max-width: 60px;
             margin: 0;
-            color: #98aeca;
+            color: $sellgo-light-gray;
             margin-right: 5px;
 
             input {
               padding: 3px 0 3px 5px;
               border-radius: 5px;
-              border: 1px solid #98aeca;
+              border: 1px solid $sellgo-light-gray;
               font-size: 12px !important;
               font-weight: 500;
-              font-family: 'Work sans', sans-serif;
+              font-family: 'Work Sans', sans-serif;
             }
           }
 
@@ -367,7 +372,7 @@
     }
 
     label {
-      color: #757575;
+      color: $text-color;
       font-size: 12px;
       display: unset !important;
       font-weight: 500;
@@ -376,7 +381,7 @@
 
     input:checked ~ .box::before,
     input:checked ~ label::before {
-      background-color: #349af8;
+      background-color: $sellgo-blue;
       border: 1px solid #d4d4d5;
     }
 
