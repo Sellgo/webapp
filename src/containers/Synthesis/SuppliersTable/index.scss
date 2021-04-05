@@ -176,3 +176,34 @@
     font-size: 17px !important;
   }
 }
+
+.dropdown.syn-dropdown-link.syn-dropdown-label {
+  color: $text-color;
+  border-color: $sellgo-light-gray;
+
+  i.dropdown-icon {
+    color: $icon-color;
+  }
+
+  .visible.menu {
+    border-color: $sellgo-light-gray;
+  }
+
+  .item {
+    color: $text-color;
+
+    &:hover {
+      font-weight: 600;
+      background: $dropdown-hover;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
+.dropdown.select-columns {
+  color: $text-color !important;
+  border-color: $sellgo-light-gray !important;
+}
