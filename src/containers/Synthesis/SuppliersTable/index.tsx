@@ -64,9 +64,9 @@ interface SuppliersTableProps {
   currentActiveColumn: string;
   supplierSearch?: string;
   subscriptionPlan: string;
-  singlePageItemsCount?: any;
-  setSinglePageItemsCount?: (itemsCount: any) => void;
-  setPageNumber?: (pageNumber: any) => void;
+  singlePageItemsCount: number;
+  setSupplierSinglePageItemsCount: (itemsCount: any) => void;
+  setPageNumber: (pageNumber: any) => void;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -381,6 +381,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       stickyChartSelector,
       currentActiveColumn,
       supplierSearch,
+      setSupplierSinglePageItemsCount,
+      singlePageItemsCount,
+      setPageNumber,
     } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
@@ -446,10 +449,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             columns={columns}
             name={'supplier'}
             searchValue={supplierSearch}
-            singlePageItemsCount={this.props.singlePageItemsCount}
-            setSinglePageItemsCount={this.props.setSinglePageItemsCount}
-            setPage={this.props.setPageNumber}
-            setPageNumber={this.props.setPageNumber}
+            singlePageItemsCount={singlePageItemsCount}
+            setSinglePageItemsCount={setSupplierSinglePageItemsCount}
+            setPage={setPageNumber}
+            setPageNumber={setPageNumber}
           />
           <Confirm
             content="Do you want to delete search?"
@@ -517,9 +520,8 @@ const mapDispatchToProps = {
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setProgress,
   setSpeed,
-  setSupplierSinglePageItemsCount: (itemsCount: number) =>
-    setSupplierSinglePageItemsCount(itemsCount),
-  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
+  setSupplierSinglePageItemsCount: (itemsCount: any) => setSupplierSinglePageItemsCount(itemsCount),
+  setPageNumber: (pageNumber: any) => setSupplierPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

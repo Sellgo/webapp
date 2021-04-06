@@ -478,6 +478,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       onPageSizeSelect={size => {
                         console.log('Size', size);
                         if (setSinglePageItemsCount) {
+                          console.log('This condition is true');
                           setSinglePageItemsCount(size);
                         }
                         if (!['leads-tracker', 'products'].includes(name) && setPage) {
