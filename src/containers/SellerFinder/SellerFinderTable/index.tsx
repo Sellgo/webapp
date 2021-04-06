@@ -156,7 +156,7 @@ const SellerFinderTable = () => {
       render: renderFBM,
     },
     {
-      label: `Review\n L30D`,
+      label: `Review \nL30D`,
       dataKey: 'review_l30d',
       type: 'string',
       sortable: true,
@@ -165,7 +165,7 @@ const SellerFinderTable = () => {
       render: renderReviewL30D,
     },
     {
-      label: `Review\n L90D`,
+      label: `Review \nL90D`,
       dataKey: 'review_l90d',
       type: 'string',
       sortable: true,
@@ -174,7 +174,7 @@ const SellerFinderTable = () => {
       render: renderReviewL90D,
     },
     {
-      label: `Review\n L365D`,
+      label: `Review \nL365D`,
       dataKey: 'review_l365d',
       type: 'string',
       sortable: true,
@@ -183,7 +183,7 @@ const SellerFinderTable = () => {
       render: renderReviewL365D,
     },
     {
-      label: `Review\n Lifetime`,
+      label: `Review \nLifetime`,
       dataKey: 'review_lifetime',
       type: 'string',
       sortable: true,
@@ -192,7 +192,7 @@ const SellerFinderTable = () => {
       render: renderReviewLifeTime,
     },
     {
-      label: `Product\n Review #`,
+      label: `Product \nReview #`,
       dataKey: 'product_review',
       type: 'string',
       sortable: true,

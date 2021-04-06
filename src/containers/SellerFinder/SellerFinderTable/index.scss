@@ -44,6 +44,7 @@ $new_black: #3b4557;
       font-size: 14px;
       margin-bottom: 0;
     }
+
     // Head
     thead {
       tr {
@@ -292,6 +293,141 @@ $new_black: #3b4557;
       white-space: nowrap;
       overflow: hidden !important;
       text-overflow: ellipsis;
+    }
+
+    @media only screen and (min-width: 1024px) and (max-width: 1919px) {
+      td p {
+        font-size: 10px;
+        margin-bottom: 0;
+      }
+
+      thead {
+        tr {
+          th {
+            font-size: 10px !important;
+          }
+
+          .seller_information {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .rating {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .total_rating {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .fba {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .fbm {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .review_l30d {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .review_l90d {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .review_l365d {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .review_lifetime {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .product_review {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .processed {
+            min-width: auto !important;
+            width: auto !important;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            font-size: 8px !important;
+
+            .seller-id {
+              font-size: 7px !important;
+            }
+          }
+
+          .default-column {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .seller_information {
+            min-width: auto !important;
+            width: auto !important;
+
+            .sf-seller-details {
+              > img {
+                margin-left: -13px !important;
+                width: 12px;
+                height: 12px;
+              }
+            }
+          }
+
+          @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+            .seller_information {
+              min-width: auto !important;
+              width: auto !important;
+
+              .sf-seller-details {
+                > img {
+                  margin-left: 5px !important;
+                  width: auto;
+                  height: auto;
+                }
+              }
+            }
+          }
+
+          .rating {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .total_rating {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .fba {
+            min-width: auto !important;
+            width: auto !important;
+          }
+
+          .fbm {
+            min-width: auto !important;
+            width: auto !important;
+          }
+        }
+      }
     }
   }
 
