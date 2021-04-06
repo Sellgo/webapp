@@ -696,10 +696,13 @@ export const updateSupplierFilterRanges = (filterRanges: any) => ({
   payload: filterRanges,
 });
 
-export const setSupplierSinglePageItemsCount = (itemsCount: number) => ({
-  type: SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
-  payload: itemsCount,
-});
+export const setSupplierSinglePageItemsCount = (itemsCount: number) => {
+  console.log(itemsCount);
+  return {
+    type: SET_SUPPLIER_SINGLE_PAGE_ITEMS_COUNT,
+    payload: itemsCount,
+  };
+};
 
 export const updateSupplierSinglePageItemsCount = () => {
   const count = localStorage.getItem('supplierPageItemsCount');

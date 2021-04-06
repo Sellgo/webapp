@@ -476,6 +476,7 @@ export const GenericTable = (props: GenericTableProps) => {
                     )}
                     <Pagination
                       onPageSizeSelect={size => {
+                        console.log('Size', size);
                         if (setSinglePageItemsCount) {
                           setSinglePageItemsCount(size);
                         }
@@ -495,7 +496,7 @@ export const GenericTable = (props: GenericTableProps) => {
                       }
                       totalRecords={totalItemsCount}
                       pageSize={singlePageItemsCount}
-                      showPageSize={name !== 'supplier'}
+                      showPageSize={true}
                       loading={!!loading}
                     />
                   </div>
