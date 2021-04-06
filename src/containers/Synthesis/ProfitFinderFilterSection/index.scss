@@ -90,7 +90,10 @@
         display: flex;
         align-items: center;
         width: 86px;
-        border: 1px solid $sellgo-light-gray;
+      }
+
+      &.more-filter:hover {
+        background-color: #e6e6e6 !important;
       }
 
       .filter-name {

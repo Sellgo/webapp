@@ -29,7 +29,7 @@ const ProfitabilityFilterPreset = (props: Props) => {
         applyFilter(true);
       }}
     >
-      <Button className="profitability-preset-btn">
+      <Button className="btn">
         {filterState.profitabilityFilter.value === 'Profitable' ? 'Profitable' : 'Non-Profitable'}
       </Button>
       <Dropdown

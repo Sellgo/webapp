@@ -11,7 +11,7 @@
   border-bottom-right-radius: 7px !important;
   margin: 0 5px 5px 5px !important;
 
-  .profitability-preset-btn {
+  .btn {
     color: $text-color !important;
     border: 1px solid $sellgo-light-gray !important;
     box-shadow: unset !important;
@@ -23,7 +23,7 @@
     height: 32px !important;
 
     &:hover {
-      background: #e6e6e6 !important;
+      background-color: #e6e6e6 !important;
     }
   }
 
@@ -61,7 +61,7 @@
   }
 
   &.basic {
-    .profitability-preset-btn {
+    .btn {
       &.ui.button {
         color: $text-color !important;
       }
@@ -91,7 +91,7 @@
   }
 
   &.blue {
-    .profitability-preset-btn {
+    .btn {
       color: #fff !important;
       background-color: $sellgo-blue !important;
       border-right: 1px solid $sellgo-blue !important;
