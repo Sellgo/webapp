@@ -42,22 +42,22 @@
 
   .inventory {
     text-align: left !important;
-    color: $text-color;
+    color: $table-kpi-text-color;
   }
 
   .progress {
     text-align: left !important;
-    color: $text-color;
+    color: $table-kpi-text-color;
   }
 
   .p2l_ratio {
     text-align: left !important;
-    color: $text-color;
+    color: $table-kpi-text-color;
   }
 
   .rate {
     text-align: left !important;
-    color: $text-color;
+    color: $table-kpi-text-color;
   }
 
   .ui.secondary.pointing.menu .active.item {
@@ -65,10 +65,14 @@
   }
 
   h4.ui.header {
-    color: $text-color;
+    color: $table-title-text-color !important;
     font-size: 14px;
     font-weight: 600;
     font-family: 'Work Sans', sans-serif;
+
+    &:hover {
+      color: $table-title-text-color-hover !important;
+    }
   }
 }
 
