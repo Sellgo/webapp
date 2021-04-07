@@ -281,7 +281,7 @@ i.icon.filter::before {
   white-space: pre;
   line-height: 1.4;
   color: $table-header-text-color;
-  font-size: $table-header-label;
+  font-size: $table-header-label-size;
 }
 
 .ui.sortable.table thead th.sorted::after {
@@ -317,6 +317,7 @@ i.icon.filter::before {
   &.udate {
     white-space: pre-wrap;
     min-width: 120px !important;
+    color: $table-kpi-text-color !important;
   }
 }
 

@@ -13,6 +13,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
       text-decoration: underline;
+
+      a {
+        color: $table-title-text-color !important;
+
+        &:hover {
+          color: $table-title-text-color-hover !important;
+        }
+      }
     }
 
     > .file-download {
@@ -65,14 +73,10 @@
   }
 
   h4.ui.header {
-    color: $table-title-text-color !important;
+    color: $text-color !important;
     font-size: 14px;
     font-weight: 600;
     font-family: 'Work Sans', sans-serif;
-
-    &:hover {
-      color: $table-title-text-color-hover !important;
-    }
   }
 }
 

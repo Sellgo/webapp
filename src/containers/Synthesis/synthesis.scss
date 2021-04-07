@@ -134,9 +134,10 @@
   min-width: 50px;
   text-decoration: underline;
   cursor: pointer;
+  color: $table-special-kpi !important;
 
   &:hover {
-    color: $sellgo-blue;
+    color: $table-special-kpi-hover !important;
     font-weight: 600;
   }
 }
