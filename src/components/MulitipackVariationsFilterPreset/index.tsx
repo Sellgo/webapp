@@ -38,12 +38,10 @@ const MultipackVariationsFilterPreset = (props: Props) => {
     setPreset();
     applyFilter(true);
   };
+
   return (
-    <div className="multipack-variation-filter">
-      <Button
-        className={`multipack-variation-filter__btn ${isFilterActive ? 'active' : ''}`}
-        onClick={handleClick}
-      >
+    <div className={`multipack-variation-filter ${isFilterActive ? 'active' : ''}`}>
+      <Button className="multipack-variation-filter__btn" onClick={handleClick}>
         <span className="filter-name">{filterState.multipackPreset.value}</span>
       </Button>
       <Dropdown

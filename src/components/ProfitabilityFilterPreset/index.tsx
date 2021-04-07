@@ -29,11 +29,8 @@ const ProfitabilityFilterPreset = (props: Props) => {
   const { active: isFilterActive } = filterState.profitabilityFilter;
 
   return (
-    <div className="profitable-preset-filter">
-      <Button
-        className={`profitable-preset-filter__btn ${isFilterActive ? 'active' : ''}`}
-        onClick={handleClick}
-      >
+    <div className={`profitable-preset-filter ${isFilterActive ? 'active' : ''}`}>
+      <Button className="profitable-preset-filter__btn" onClick={handleClick}>
         <span className="filter-name">
           {filterState.profitabilityFilter.value === 'Profitable' ? 'Profitable' : 'Non-Profitable'}
         </span>

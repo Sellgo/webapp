@@ -167,7 +167,11 @@
       }
 
       &.active {
-        background: white !important;
+        background: $filter-active-background-color !important;
+
+        .filter-name {
+          color: $filter-active-text-color !important;
+        }
       }
     }
   }

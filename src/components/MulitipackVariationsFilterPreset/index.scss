@@ -59,3 +59,18 @@
     }
   }
 }
+
+/* Active State of Filter */
+.multipack-variation-filter.active {
+  > button {
+    background: $filter-active-background-color !important;
+
+    .filter-name {
+      color: $filter-active-text-color;
+    }
+  }
+
+  i.angle.down {
+    color: $filter-active-text-color !important;
+  }
+}

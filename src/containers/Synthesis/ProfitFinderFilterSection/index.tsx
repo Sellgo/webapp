@@ -696,6 +696,7 @@ function ProfitFinderFilterSection(props: Props) {
   values.forEach((f: any) => {
     chargesValues = { ...chargesValues, [f.key]: f.value };
   });
+
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">

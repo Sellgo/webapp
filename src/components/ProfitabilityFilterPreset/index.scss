@@ -30,10 +30,6 @@
   &:hover {
     background: $filter-btn-hover-background !important;
   }
-
-  &.active {
-    background: $filter-btn-hover-background !important;
-  }
 }
 
 /* Dropdown for the filter */
@@ -57,5 +53,20 @@
         font-weight: 600;
       }
     }
+  }
+}
+
+/* Active State of Filter */
+.profitable-preset-filter.active {
+  > button {
+    background: $filter-active-background-color !important;
+
+    .filter-name {
+      color: $filter-active-text-color;
+    }
+  }
+
+  i.angle.down {
+    color: $filter-active-text-color !important;
   }
 }
