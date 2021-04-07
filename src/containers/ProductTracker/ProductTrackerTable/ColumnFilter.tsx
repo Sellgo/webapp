@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import { Container, Draggable } from 'react-smooth-dnd';
+
+import './ColumnFilterCard.scss';
+
 const ColumnFilterCard = (props: any) => {
   const {
     handleColumnChange,
@@ -56,6 +59,7 @@ const ColumnFilterCard = (props: any) => {
 
     reorderColumns(sorted);
   };
+
   if (columnDnD) {
     return (
       <div className="column-filter-card" onClick={(e: any) => e.stopPropagation()}>

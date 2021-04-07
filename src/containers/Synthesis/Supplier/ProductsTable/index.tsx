@@ -499,6 +499,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
+
   searchFilteredProduct = async (search: string) => {
     const { singlePageItemsCount } = this.props;
     this.setState({
@@ -958,6 +959,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
+
   reorderColumns = (columns: Column[]) => {
     const columnsWithRender = returnWithRenderMethod(this.columns, columns);
     localStorage.setItem('profitFinderColumnState', JSON.stringify(columns));
