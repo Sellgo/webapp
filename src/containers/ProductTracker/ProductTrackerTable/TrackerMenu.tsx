@@ -8,6 +8,8 @@ import EditGroupModal from './EditGroupModal';
 import DeleteGroupModal from './DeleteGroupModal';
 import GroupBadgeCount from './GroupBadgeCount';
 
+import './TrackerMenu.scss';
+
 interface TrackerMenuProps {
   groups: any;
   handleMenu: any;
