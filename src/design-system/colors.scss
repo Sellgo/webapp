@@ -5,25 +5,32 @@ $sellgo-light-gray-100: #a2a2a2;
 
 /* Typography */
 $text-color: #313a4c;
-$text-color-hover: #313a4c;
+
+/* Tables */
+$table-header-label: 12px;
+$sort-icon-size: 10px;
 
 /* Table Typography */
 $table-header-text-color: #757575;
 $table-header-text-color-hover: #757575;
 
+/* Product information on table */
 $table-title-text-color: #2e3b4a;
 $table-title-text-color-hover: #2e3b4a;
 
+/* Everything expect product information but remember special cases like profit */
 $table-kpi-text-color: #2e3b4a;
 $table-kpi-text-color-hover: #2e3b4a;
 
 $table-header-hover-color: #0000000d;
 
-/* Product / Active Text */
-$product-link-hover-color: #0000000d;
+$table-special-kpi: #2e3b4a;
+$table-special-kpi-hover: #2e3b4a;
 
-/* Filters */
+/* ----------- Filters ----------------- */
 $filter-btn-hover-background: #e6e6e6;
+$filter-active-background-color: blue;
+$filter-active-text-color: white;
 
 /* Icon Styles */
 $icon-color: #757575;
@@ -35,10 +42,6 @@ $search-btn-border: #a2a2a2;
 
 /* Search */
 $search-icon-background: #e6e6e6;
-
-/* Table */
-$table-header-label: 12px;
-$sort-icon-size: 14px;
 
 $dropdown-hover: #f8faff;
 
