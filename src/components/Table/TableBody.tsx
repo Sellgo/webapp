@@ -137,9 +137,13 @@ export const TableBody = (props: TableBodyProps) => {
     const leftBound = leftFixedColumns ? leftFixedColumns : 0;
     const rightBound = rightFixedColumns ? rightFixedColumns : 0;
     const bound = isTypeProducts ? filteredColumns.length - 1 : filteredColumns.length;
-    const lowerBound = filteredColumns.slice(0, leftBound);
+    const lowerBound = isTypeProducts
+      ? columns.filter((c: Column) => c.fixed === 'left')
+      : filteredColumns.slice(0, leftBound);
     const middleBound = filteredColumns.slice(leftBound, filteredColumns.length - rightBound);
-    const upperBound = filteredColumns.slice(filteredColumns.length - rightBound, bound);
+    const upperBound = isTypeProducts
+      ? columns.filter((c: Column) => c.fixed === 'right')
+      : filteredColumns.slice(filteredColumns.length - rightBound, bound);
 
     let timer: NodeJS.Timeout | undefined = undefined;
     const onBodyScroll = (evt: any) => {

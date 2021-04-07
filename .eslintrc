@@ -95,5 +95,8 @@
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
+  },
+  "globals": {
+    "chrome": true
   }
 }

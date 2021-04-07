@@ -868,9 +868,8 @@ export const triggerDataBuster = (synthesisFileID: number, productIDs: number[])
   const bodyFormData = new FormData();
   bodyFormData.set('product_ids', String(productIDs.join(',')));
   bodyFormData.set('synthesis_file_id', String(synthesisFileID));
-
   dispatch(setProductsLoadingDataBuster([...productsLoadingDataBuster, ...productIDs]));
-  return Axios.post(
+  Axios.post(
     AppConfig.BASE_URL_API + `sellers/${sellerID}/suppliers/${supplier.supplier_id}/data-buster`,
     bodyFormData
   )
@@ -885,11 +884,15 @@ export const pollDataBuster = (productIDs?: number[]) => async (dispatch: any, g
   const supplier = supplierDetailsSelector(getState());
   let productsToPoll = productIDs ? productIDs : productsLoadingDataBusterSelector(getState());
 
+  const supplierID = supplier.supplier_id
+    ? supplier.supplier_id
+    : window.location.href.split('/profit-finder/')[1];
+
   do {
     const requests = productsToPoll.map(productId => {
       return Axios.get(
         AppConfig.BASE_URL_API +
-          `sellers/${sellerID}/suppliers/${supplier.supplier_id}/data-buster/progress` +
+          `sellers/${sellerID}/suppliers/${supplierID}/data-buster/progress` +
           `?synthesis_file_id=${supplier.synthesis_file_id}&product_id=${productId}`
       );
     });

@@ -67,7 +67,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           }}
         >
           <Menu fluid={true} vertical={true}>
-            {group &&
+            {group.length > 0 &&
               group
                 .slice()
                 .sort((group: any, other: any) => (group.id > other.id ? 1 : -1))

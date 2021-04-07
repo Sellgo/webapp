@@ -33,6 +33,7 @@ export interface Column {
   click?: (e: any) => void;
   popUp?: boolean;
   className?: string;
+  fixed?: string;
 }
 
 export interface GenericTableProps {

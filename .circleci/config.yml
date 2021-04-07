@@ -56,12 +56,26 @@ jobs:
       - run:
           name: run-lint
           command: npm run lint
+  run-test:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: install-npm
+          command: npm install
+      - run:
+          name: run-test
+          command: CI=true npm run test
 
 workflows:
   version: 2
   run-lint:
     jobs:
       - run-lint
+  run-test:
+    jobs:
+      - run-test
   build-and-deploy-prod:
     jobs:
       - build-prod:

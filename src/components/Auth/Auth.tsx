@@ -1,5 +1,3 @@
-/*global chrome*/
-
 import Auth0Lock from 'auth0-lock';
 import history from '../../history';
 import analytics from '../../analytics';
@@ -69,8 +67,10 @@ export default class Auth {
             sellerID: localStorage.getItem('userId'),
           };
 
-          if (chrome && chrome.runtime) {
-            chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
+          if (navigator.userAgent.indexOf('Chrome') !== -1) {
+            if (chrome && chrome.runtime) {
+              chrome.runtime.sendMessage(chromeID, { status: 'login', payload: userData });
+            }
           }
 
           // if chrome extension redirect then
@@ -211,11 +211,13 @@ export default class Auth {
       returnTo: window.location.origin,
     });
 
-    if (chrome && chrome.runtime) {
-      chrome.runtime.sendMessage(chromeID, {
-        status: 'logout',
-        payload: {},
-      });
+    if (navigator.userAgent.indexOf('Chrome') !== -1) {
+      if (chrome && chrome.runtime) {
+        chrome.runtime.sendMessage(chromeID, {
+          status: 'logout',
+          payload: {},
+        });
+      }
     }
   };
 
