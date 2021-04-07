@@ -8,11 +8,11 @@ $text-color: #313a4c;
 
 /* Tables */
 $table-header-label-size: 12px;
-$sort-icon-size: 10px;
+$sort-icon-size: 16px;
 
 /* Table Typography */
 $table-header-text-color: #757575;
-$table-header-text-color-hover: #0000000d;
+$table-header-hover-color: #0000000d;
 
 /* Product information on table */
 $table-title-text-color: #2e3b4a;
@@ -20,7 +20,6 @@ $table-title-text-color-hover: #2e3b4a;
 
 /* Everything expect product information but remember special cases like profit */
 $table-kpi-text-color: #2e3b4a;
-$table-kpi-text-color-hover: #2e3b4a;
 
 $table-special-kpi: #2e3b4a;
 $table-special-kpi-hover: #2e3b4a;

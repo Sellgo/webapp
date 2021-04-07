@@ -1040,3 +1040,11 @@ i.icon.filter::before {
   top: 55px !important;
   transition: none !important;
 }
+
+.ui.sortable.table {
+  th.pf-header-cell {
+    &:hover {
+      background: $table-header-hover-color !important;
+    }
+  }
+}

@@ -111,7 +111,7 @@ $new_black: #3b4557;
   .flag-row span {
     margin-left: 16px;
     font-size: 14px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Work Sans', sans-serif;
     font-weight: 500;
   }
 
@@ -277,12 +277,12 @@ $new_black: #3b4557;
 
         span.description-text {
           line-height: 24px;
-          color: $text-color;
+          color: $table-special-kpi;
           text-decoration: underline;
           font-weight: 500 !important;
 
           &:hover {
-            color: $sellgo-blue !important;
+            color: $table-special-kpi-hover !important;
             font-weight: 600 !important;
           }
         }
@@ -292,12 +292,14 @@ $new_black: #3b4557;
     .price {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .product_cost {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
 
         &--red {
           color: red !important;
@@ -310,6 +312,7 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -319,31 +322,41 @@ $new_black: #3b4557;
       .stat {
         margin-bottom: 0 !important;
         text-align: left !important;
-        font-weight: 600;
+        color: $table-special-kpi !important;
+        text-decoration: underline;
+
+        &:hover {
+          font-weight: 600;
+          color: $table-special-kpi-hover !important;
+        }
       }
     }
 
     .multipack_margin {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .multipack_roi {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .rank {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .sales_monthly {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -354,18 +367,21 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .fba_fee {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .referral_fee {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -374,30 +390,35 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .num_fba_new_offers {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .num_fbm_new_offers {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .low_new_fba_price {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .low_new_fbm_price {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -406,6 +427,7 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -414,9 +436,10 @@ $new_black: #3b4557;
         text-align: left !important;
         font-weight: 500;
         margin-bottom: 0 !important;
+        color: $table-kpi-text-color !important;
 
         &--blue {
-          color: #0e6fcf;
+          color: $sellgo-blue;
           cursor: pointer;
         }
       }
@@ -428,20 +451,33 @@ $new_black: #3b4557;
     .rating {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .upcs {
       min-width: 130px !important;
       text-align: left !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .is_amazon_selling {
       min-width: 120px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .subscribe_save {
       min-width: 108px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .best_seller {
@@ -453,11 +489,17 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .amazon_price {
       min-width: 133px !important;
+      color: $table-kpi-text-color !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
 
       @media only screen and(max-width: 1540px) {
         min-width: 134px !important;
@@ -466,6 +508,10 @@ $new_black: #3b4557;
 
     .number_of_sellers {
       min-width: 99px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .num_fba_new_offers,
@@ -473,6 +519,10 @@ $new_black: #3b4557;
     .low_new_fbm_price,
     .low_new_fba_price {
       min-width: 130px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     tfoot {
@@ -490,19 +540,19 @@ $new_black: #3b4557;
         }
 
         .ui.pagination.menu a:nth-child(2) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         .ui.pagination.menu a:nth-child(1) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         .ui.pagination.menu a:nth-last-child(2) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         .ui.pagination.menu a:nth-last-child(1) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
       }
     }
