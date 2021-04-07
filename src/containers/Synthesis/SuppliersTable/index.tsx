@@ -25,7 +25,7 @@ import {
 } from '../../../selectors/Supplier';
 import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
-import SelectColumns from './SelectColumns';
+
 import { Supplier } from '../../../interfaces/Supplier';
 import './index.scss';
 import { tableKeys } from '../../../constants';
@@ -427,7 +427,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               className={'wdt100 ipad-wdth100'}
               style={{ flex: '0 0 auto', width: 'auto' }}
             >
-              <SelectColumns columns={columns} />
+              {/* <SelectColumns columns={columns} /> */}
             </Grid.Column>
           </Grid>
           <GenericTable
