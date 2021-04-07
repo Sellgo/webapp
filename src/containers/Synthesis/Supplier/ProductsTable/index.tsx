@@ -219,14 +219,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     </>
   );
+
   renderMargin = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.multipack_margin, formatPercent(row.multipack_margin))}
     </p>
   );
+
   renderFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
   );
+
   renderMonthlyRevenue = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.monthly_revenue, '$' + formatNumber(row.monthly_revenue))}

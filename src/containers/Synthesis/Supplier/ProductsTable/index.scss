@@ -283,7 +283,7 @@ $new_black: #3b4557;
 
           &:hover {
             color: $sellgo-blue !important;
-            font-weight: 600;
+            font-weight: 600 !important;
           }
         }
       }
@@ -319,6 +319,7 @@ $new_black: #3b4557;
       .stat {
         margin-bottom: 0 !important;
         text-align: left !important;
+        font-weight: 600;
       }
     }
 
