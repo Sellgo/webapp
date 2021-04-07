@@ -7,7 +7,6 @@ import LogoutConfirm from '../LogoutConfirm';
 import { notifyIdSelector } from '../../selectors/UserOnboarding';
 
 import './AdminHeader.scss';
-import Notifications from '../Notifications';
 
 interface AdminProps {
   auth: any;
@@ -37,7 +36,7 @@ class AdminHeader extends React.Component<AdminProps> {
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
-        <Notifications />
+        {/* <Notifications /> */}
         <Menu.Item as={Link} to="/settings">
           <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
         </Menu.Item>
