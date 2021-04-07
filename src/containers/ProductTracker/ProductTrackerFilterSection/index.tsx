@@ -768,16 +768,12 @@ function ProductTrackerFilterSection(props: Props) {
       <div className="tracker-filter-section__header">
         <div className="tracker-filter-section__header__all-container">
           <Button
-            basic
-            icon
-            labelPosition="left"
-            className={`tracker-filter-section__header__all-container__button all-btn ${filterType ===
-              'all-filter' && 'active'}`}
+            className={`all-filter-btn ${filterType === 'all-filter' && 'active'}`}
             onClick={() => handleFilterType('all-filter')}
           >
             <Icon name="sliders horizontal" />
-            <span className="tracker-filter-section__header__all-container__button__name">All</span>
-            <Icon name="filter" className={` ${hasAllFilter ? 'blue' : 'grey'} `} />
+            <span className="filter-name">All</span>
+            <Icon name="filter" className={` ${hasAllFilter ? 'active' : ''} `} />
           </Button>
 
           <Popup
@@ -790,15 +786,10 @@ function ProductTrackerFilterSection(props: Props) {
             basic={true}
             trigger={
               <Button
-                basic
-                icon
-                labelPosition="left"
-                className={`tracker-filter-section__header__all-container__button more-btn `}
+                className={`more-filter-btn`}
                 onClick={() => togglePresetFilter(!openPresetFilter)}
               >
-                <span className="tracker-filter-section__header__all-container__button__name">
-                  More
-                </span>
+                <span className="filter-name">More</span>
                 <Icon name="angle down" />
               </Button>
             }
