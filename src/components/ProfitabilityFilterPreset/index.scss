@@ -9,7 +9,7 @@
 /* Filter Button */
 .profitable-preset-filter__btn {
   background: #fff !important;
-  color: $text-color;
+  color: $filter-text-color;
   width: max-content !important;
   display: flex;
   justify-content: center;
@@ -22,7 +22,7 @@
 
   /* Filter name itself */
   .filter-name {
-    color: $text-color;
+    color: $filter-text-color;
     font-weight: 600;
     margin-right: 8px !important;
   }
@@ -34,7 +34,7 @@
 
 /* Dropdown for the filter */
 .profitable-preset-filter__dropdown {
-  color: $text-color !important;
+  color: $filter-text-color !important;
   margin-left: -20px !important;
 
   .visible.menu.transition {
@@ -47,6 +47,7 @@
 
     .item {
       padding: 0 10px;
+      color: $filter-text-color;
 
       &:hover {
         background: $dropdown-hover;
