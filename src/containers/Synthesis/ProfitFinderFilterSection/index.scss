@@ -93,7 +93,7 @@
       }
 
       &.more-filter:hover {
-        background-color: #e6e6e6 !important;
+        background-color: $filter-btn-hover-background !important;
       }
 
       .filter-name {
@@ -134,7 +134,7 @@
         }
 
         &.filter.icon.grey {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         &.filter-left-icon {
@@ -279,7 +279,7 @@
     position: absolute;
     right: 15px;
     top: 11px;
-    color: #98aeca;
+    color: $sellgo-light-gray;
     cursor: pointer;
   }
 }
@@ -294,7 +294,7 @@
     position: absolute;
     right: 15px;
     top: 11px;
-    color: #98aeca;
+    color: $sellgo-light-gray;
     cursor: pointer;
   }
 
@@ -319,10 +319,10 @@
 
         &__close-btn {
           font-size: 20px;
-          color: #98aeca;
+          color: $sellgo-light-gray;
           font-weight: 600;
           cursor: pointer;
-          font-family: 'Work sans', sans-serif;
+          font-family: 'Work Sans', sans-serif;
         }
       }
 
@@ -424,18 +424,18 @@
       input:checked ~ .box::before,
       input:checked ~ label::before {
         background-color: #fff;
-        border: 1px solid #d4d4d5;
+        border: 1px solid $checkbox-border;
       }
 
       input:checked ~ .box::after,
       input:checked ~ label::after {
-        color: #000;
+        color: $text-color;
       }
     }
   }
 }
 
-/* Export button the page */
+/* Export button on the right side of page */
 .export-button {
   color: $text-color;
   font-weight: 600;
@@ -454,6 +454,7 @@
   }
 }
 
+/* Charges Filter Button on the right side of page */
 .charges-filter-btn {
   display: flex;
   align-items: center;

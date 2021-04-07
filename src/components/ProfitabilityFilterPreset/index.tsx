@@ -8,32 +8,38 @@ interface Props {
   applyFilter: (isPreset?: boolean) => void;
 }
 
+const profitablePresetOptions = [
+  { key: 'profitability', text: 'Profitable Products', value: 'Profitable' },
+  {
+    key: 'non-profitable-products',
+    text: 'Non-Profitable Products',
+    value: 'Non-Profitable Products',
+  },
+];
+
 const ProfitabilityFilterPreset = (props: Props) => {
   const { filterState, setProfitability, applyFilter } = props;
 
-  const profitablePresetOptions = [
-    { key: 'profitability', text: 'Profitable Products', value: 'Profitable' },
-    {
-      key: 'non-profitable-products',
-      text: 'Non-Profitable Products',
-      value: 'Non-Profitable Products',
-    },
-  ];
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    setProfitability();
+    applyFilter(true);
+  };
+
+  const { active: isFilterActive } = filterState.profitabilityFilter;
+
   return (
-    <Button.Group
-      className={`profitability-preset ${
-        filterState.profitabilityFilter.active ? 'blue' : 'basic'
-      }`}
-      onClick={() => {
-        setProfitability();
-        applyFilter(true);
-      }}
-    >
-      <Button className="btn">
-        {filterState.profitabilityFilter.value === 'Profitable' ? 'Profitable' : 'Non-Profitable'}
+    <div className="profitable-preset-filter">
+      <Button
+        className={`profitable-preset-filter__btn ${isFilterActive ? 'active' : ''}`}
+        onClick={handleClick}
+      >
+        <span className="filter-name">
+          {filterState.profitabilityFilter.value === 'Profitable' ? 'Profitable' : 'Non-Profitable'}
+        </span>
       </Button>
       <Dropdown
-        className="button"
+        className="profitable-preset-filter__dropdown"
         icon="angle down"
         floating
         options={profitablePresetOptions}
@@ -44,7 +50,7 @@ const ProfitabilityFilterPreset = (props: Props) => {
           applyFilter(true);
         }}
       />
-    </Button.Group>
+    </div>
   );
 };
 
