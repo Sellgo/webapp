@@ -742,7 +742,7 @@ function ProfitFinderFilterSection(props: Props) {
             filterState={filterState}
           />
           <MultipackVariationsFilterPreset
-            setPreset={setMultipack}
+            setMultipack={setMultipack}
             filterState={filterState}
             applyFilter={applyFilter}
           />

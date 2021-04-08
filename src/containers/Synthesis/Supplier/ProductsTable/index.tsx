@@ -1369,7 +1369,27 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   removeFilters = async () => {
-    const { fetchSupplierProducts, singlePageItemsCount, supplierID } = this.props;
+    const {
+      fetchSupplierProducts,
+      singlePageItemsCount,
+      supplierID,
+      setPresetFilterState,
+    } = this.props;
+
+    const localFilterState = JSON.parse(localStorage.getItem('filterState') || '{}');
+
+    const newActiveFilterState = {
+      ...localFilterState,
+      customizable: [],
+      multipackPreset: { ...localFilterState.multipackPreset, active: false },
+      profitabilityFilter: { ...localFilterState.profitabilityFilter, active: false },
+      charges: [],
+    };
+
+    localStorage.setItem('filterState', JSON.stringify(newActiveFilterState));
+
+    // /* Send a API request to remove all filters */
+    setPresetFilterState(newActiveFilterState);
     await fetchSupplierProducts({
       page: 1,
       per_page: singlePageItemsCount,
@@ -1379,38 +1399,73 @@ class ProductsTable extends React.Component<ProductsTableProps> {
   };
 
   resetPresetFilter = async (dataKey: string) => {
-    const { setPresetFilterState } = this.props;
-    const local = localStorage.getItem('filterState');
-    let saved: any = [];
-    if (local) {
-      saved = JSON.parse(local);
-    }
-    let { customizable = [], profitabilityFilter, multipackPreset, charges } = saved;
-    customizable = customizable.map((f: any) => {
-      if (f.dataKey === dataKey && f.active) {
-        f.active = false;
-      }
-      return f;
+    const {
+      fetchSupplierProducts,
+      singlePageItemsCount,
+      supplierID,
+      setPresetFilterState,
+    } = this.props;
+
+    const localFilterState = JSON.parse(localStorage.getItem('filterState') || '{}');
+
+    // get independent filter data
+    const {
+      charges = [],
+      customizable = [],
+      profitabilityFilter = {},
+      multipackPreset = {},
+    } = localFilterState;
+
+    // update charges filter
+    const updatedCharges = charges.filter((chargesFilterData: any) => {
+      return chargesFilterData.key !== dataKey;
     });
+
+    // update customizble filter
+    const updatedCustomizable = customizable.map((f: any) => {
+      const updatedValues = { ...f };
+      if (f.dataKey === dataKey && f.active) {
+        updatedValues.active = false;
+      }
+      return updatedValues;
+    });
+
+    // update profitability filter
+    let updatedProfitabilityFilter: any = { ...profitabilityFilter };
     if (
       profitabilityFilter &&
       profitabilityFilter.active &&
       ['profitable', 'non_profitable'].includes(dataKey)
     ) {
-      profitabilityFilter = { ...profitabilityFilter, active: false };
+      updatedProfitabilityFilter = { ...profitabilityFilter, active: false };
     }
+
+    // update multipack preset filter
+    let updatedMultipackFilter: any = { ...multipackPreset };
     if (
       multipackPreset &&
       multipackPreset.active &&
       ['original', 'not-found', 'multipack', 'variation'].includes(dataKey)
     ) {
-      multipackPreset = { ...multipackPreset, active: false };
+      updatedMultipackFilter = { ...multipackPreset, active: false };
     }
 
-    charges = charges.filter((f: any) => f.key !== dataKey);
-    saved = { ...saved, customizable, profitabilityFilter, multipackPreset, charges };
-    localStorage.setItem('filterState', JSON.stringify(saved));
-    setPresetFilterState(saved);
+    const newActiveFilter = {
+      ...localFilterState,
+      charges: updatedCharges,
+      customizable: updatedCustomizable,
+      profitabilityFilter: updatedProfitabilityFilter,
+      multipackPreset: updatedMultipackFilter,
+    };
+
+    localStorage.setItem('filterState', JSON.stringify(newActiveFilter));
+    setPresetFilterState(newActiveFilter);
+    await fetchSupplierProducts({
+      page: 1,
+      per_page: singlePageItemsCount,
+      pagination: true,
+      supplierID,
+    });
   };
 
   render() {
@@ -1515,7 +1570,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               activeFilters={[...activeFilters, ...this.getSavedPresetFiltersList()]}
               onActiveFilterReset={this.resetActiveFilters}
               onCheckedActiveFilters={() => this.fetchSupplierProducts()}
-              onUncheckedActiveFilters={this.removeFilters}
+              onUncheckedActiveFilters={() => this.removeFilters()}
             />
             {editCost && (
               <EditCostModal
