@@ -1,4 +1,5 @@
 /* TODO: Not sure if I wanna keep this, but it kinda looks nice */
+@import './design-system/colors';
 
 body {
   font-display: optional;
@@ -19,7 +20,12 @@ body h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+h6,
+p,
+a,
+ul,
+li {
   font-family: 'Work sans', sans-serif !important;
 }
 
@@ -268,15 +274,11 @@ span.material-icons.MuiIcon-root.MuiIcon-colorDisabled.MuiIcon-fontSizeLarge {
   margin: 5px;
 }
 
-a {
-  color: #0e6fcf;
-
-  /* text-decoration:underline; */
-}
-
-.signup-block a {
-  color: #0e6fcf;
-  text-decoration: underline;
+.signup-block {
+  &a {
+    color: #0e6fcf;
+    text-decoration: underline;
+  }
 }
 
 .copy-right {
@@ -376,4 +378,30 @@ i.icon.close::before {
 /* App main container */
 .App__container {
   height: 100vh;
+}
+
+/* New Global Styles */
+a {
+  color: $text-color;
+  text-decoration: none;
+  font-family: 'Work Sans', sans-serif;
+
+  &:active {
+    color: $text-color;
+    text-decoration: none;
+    font-family: 'Work Sans', sans-serif;
+  }
+
+  &:hover {
+    color: $sellgo-blue !important;
+    font-weight: 600;
+    text-decoration: underline;
+    font-family: 'Work Sans', sans-serif;
+  }
+}
+
+input,
+label,
+button {
+  font-family: 'Work Sans', sans-serif !important;
 }

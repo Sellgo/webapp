@@ -30,16 +30,15 @@ function FileUploader(props: FileUploaderProps) {
       <br />
       <p className={`description-container ${styles.description} ${styles['margin-top']}`}>
         <b className="upload-supplier-title">Upload filled-in Supplier File(s) here</b>
-        <br />
+
         <span className={`upload-supplier-desc ${styles.description}`}>
           Drag and drop, or click to select
         </span>
-        <br />
+
         <span className={`upload-supplier-desc ${styles.description}`}>
           Accepted File Types: {accept.join(', ')}
         </span>
-        <br />
-        <br />
+
         <p className={styles.filename}>{fileDetails !== null ? fileDetails.name : ' '}</p>
       </p>
     </button>

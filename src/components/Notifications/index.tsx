@@ -4,7 +4,7 @@ import './index.scss';
 import { fetchActiveExportFiles, setFileDownloaded } from '../../actions/Products';
 import { connect } from 'react-redux';
 import { activeExportFiles, isFetchingActiveExports } from '../../selectors/Products';
-import BELL_IMAGE from '../../assets/images/bell.svg';
+
 import CSV_IMAGE from '../../assets/images/Group 3622.svg';
 import XLSX_IMAGE from '../../assets/images/Group 3622 (1).svg';
 
@@ -129,8 +129,8 @@ const Notifications = (props: Props) => {
       className="notifications"
       basic
       trigger={
-        <Menu.Item onClick={() => fetchActiveExportFiles(true)}>
-          <img src={BELL_IMAGE} className="bell-icon" />
+        <Menu.Item onClick={() => fetchActiveExportFiles(true)} className="notification-wrapper">
+          <Icon name="bell" className="bell-icon" size="large" />
           {!!processingCount && (
             <span onClick={() => fetchActiveExportFiles(true)} className="badge-count">
               {processingCount}

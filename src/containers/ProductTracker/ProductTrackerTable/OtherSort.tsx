@@ -4,6 +4,7 @@ import { clamp } from 'lodash';
 import Amazon from '../../../assets/images/link.svg';
 import Untrack from '../../../assets/images/untrack.svg';
 import Folder from '../../../assets/images/folder-plus.svg';
+import GrayedFolder from '../../../assets/images/GrayedOutFolder.svg';
 
 interface OtherSortProps {
   row: any;
@@ -50,7 +51,7 @@ class OtherSort extends React.Component<OtherSortProps> {
           open={trackGroupsOpen}
           trigger={
             <img
-              src={Folder}
+              src={!group.length ? GrayedFolder : Folder}
               title={group && !group.length ? 'No Groups Available' : 'Move to a Different Group'}
               style={{
                 cursor: group && !group.length ? 'default' : 'pointer',

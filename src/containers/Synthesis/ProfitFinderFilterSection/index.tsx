@@ -19,7 +19,7 @@ import { exportResults, fetchActiveExportFiles } from '../../../actions/Products
 import { info } from '../../../utils/notifications';
 import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
-import FILTER_IMAGE from '../../../assets/images/sliders-v-square-solid.svg';
+import { ReactComponent as FilterImage } from '../../../assets/images/sliders-v-square-solid.svg';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -611,9 +611,44 @@ function ProfitFinderFilterSection(props: Props) {
 
   const renderExportButtons = () => {
     return (
-      <Button basic color="blue" onClick={() => setExportResult(true)}>
-        Export As
-      </Button>
+      <div onClick={() => setExportResult(true)} className="export-button">
+        <Icon name="download" />
+        <span>Export</span>
+      </div>
+    );
+  };
+
+  const renderChargesFilter = () => {
+    return (
+      <Popup
+        on="click"
+        open={showChargesFilter}
+        onOpen={() => setShowChargesFilter(true)}
+        onClose={() => setShowChargesFilter(false)}
+        position="bottom left"
+        offset={'500px'}
+        className="charges-filter-popup"
+        basic={true}
+        trigger={
+          <div
+            className={`charges-filter-btn`}
+            onClick={() => {
+              setShowChargesFilter(!showChargesFilter);
+            }}
+          >
+            <FilterImage className="filterImage" />
+            <p className="charges">Charges</p>
+          </div>
+        }
+        content={
+          <ChargesInputFilter
+            closeFilter={() => setShowChargesFilter(false)}
+            applyFilter={applyChargesFilters}
+            values={chargesValues || []}
+            filterDataState={chargesInputFilterDataState}
+          />
+        }
+      />
     );
   };
 
@@ -661,6 +696,7 @@ function ProfitFinderFilterSection(props: Props) {
   values.forEach((f: any) => {
     chargesValues = { ...chargesValues, [f.key]: f.value };
   });
+
   return (
     <div className={`filter-section ${isStickyChartActive} ${isScrollTop}`}>
       <div className="filter-header">
@@ -700,38 +736,6 @@ function ProfitFinderFilterSection(props: Props) {
             }
           />
 
-          <Popup
-            on="click"
-            open={showChargesFilter}
-            onOpen={() => setShowChargesFilter(true)}
-            onClose={() => setShowChargesFilter(false)}
-            position="bottom left"
-            className="charges-filter-popup"
-            basic={true}
-            trigger={
-              <Button
-                basic
-                icon
-                labelPosition="right"
-                className={`charges-filter-btn`}
-                onClick={() => {
-                  setShowChargesFilter(!showChargesFilter);
-                }}
-              >
-                <img src={FILTER_IMAGE} alt={'charges filters'} />
-                <span>Charges</span>
-              </Button>
-            }
-            content={
-              <ChargesInputFilter
-                closeFilter={() => setShowChargesFilter(false)}
-                applyFilter={applyChargesFilters}
-                values={chargesValues || []}
-                filterDataState={chargesInputFilterDataState}
-              />
-            }
-          />
-
           <ProfitabilityFilterPreset
             setProfitability={setProfitability}
             applyFilter={applyFilter}
@@ -754,6 +758,7 @@ function ProfitFinderFilterSection(props: Props) {
               isToggle={isToggle}
             />
           )}
+          {renderChargesFilter()}
           {renderExportButtons()}
         </div>
       </div>

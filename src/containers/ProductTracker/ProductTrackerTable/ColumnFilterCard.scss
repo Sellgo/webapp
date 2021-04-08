@@ -1,0 +1,12 @@
+.column-filter-card {
+  .smooth-dnd-container {
+    margin: 6px 0;
+    max-height: 250px !important;
+    overflow-y: scroll;
+  }
+
+  .ui.checkbox {
+    width: 30px !important;
+    margin: 3.5px 3.5px 3.5px 7px;
+  }
+}

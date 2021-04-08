@@ -1,3 +1,5 @@
+@import '../../../../design-system/colors';
+
 $asin-font: 'Work sans', sans-serif !important;
 
 %asin-actions {
@@ -44,7 +46,7 @@ $asin-font: 'Work sans', sans-serif !important;
   font-family: $asin-font;
 
   span {
-    color: #349af8;
+    color: $sellgo-blue;
     font-family: $asin-font;
   }
 
@@ -118,9 +120,9 @@ $asin-font: 'Work sans', sans-serif !important;
       }
 
       &__title {
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 700;
-        color: #3b4557;
+        color: #757575;
         margin-bottom: 10px;
 
         &.error {
@@ -139,7 +141,7 @@ $asin-font: 'Work sans', sans-serif !important;
       }
 
       &__wrapper {
-        border: 1px #98aeca solid !important;
+        border: 1px #a2a2a2 solid !important;
         border-radius: 11px;
         box-shadow: none !important;
         padding: 10px;
@@ -370,13 +372,46 @@ $asin-font: 'Work sans', sans-serif !important;
     }
 
     .Confirm__btn {
-      @extend %asin-actions;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
 
-      justify-content: start;
+      .cancel-btn {
+        color: #757575 !important;
+        font-size: 14px !important;
+        border: 1px solid #a2a2a2;
+        border-radius: 7px;
+        background: #fff;
+        margin-right: 20px;
+      }
 
-      button.ui.button:first-child {
-        margin-right: 13px;
+      .confirm-btn {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        background: $sellgo-blue;
+        color: #fff;
+        border-radius: 7px;
+
+        img {
+          width: 15px;
+          margin: 0;
+          margin-right: 10px;
+        }
       }
     }
+  }
+}
+
+.select-group {
+  font-size: 14px !important;
+  color: #757575 !important;
+}
+
+.select-group-dropdown {
+  border: 1px solid #a2a2a2 !important;
+
+  .visible.menu {
+    border-color: #a2a2a2 !important;
   }
 }

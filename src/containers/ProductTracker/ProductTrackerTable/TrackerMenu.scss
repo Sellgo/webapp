@@ -1,0 +1,25 @@
+@import '../../../design-system/colors';
+
+i.icon.plus {
+  color: $icon-color;
+
+  &:hover {
+    color: $icon-hover-color;
+  }
+}
+
+i.pencil {
+  color: $icon-color;
+
+  &:hover {
+    color: $icon-hover-color;
+  }
+}
+
+i.trash {
+  color: $icon-color;
+
+  &:hover {
+    color: $icon-hover-color;
+  }
+}

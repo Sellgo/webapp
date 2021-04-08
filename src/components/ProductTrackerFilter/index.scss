@@ -1,3 +1,5 @@
+@import '../../design-system/colors';
+
 .pt-filter-content {
   display: flex;
   justify-content: space-between;
@@ -10,12 +12,13 @@
       input:checked ~ .box::before,
       input:checked ~ label::before {
         background-color: #fff !important;
-        border: 1px solid #d4d4d5;
+        border: 1px solid $checkbox-border;
+        color: $text-color;
       }
 
       input:checked ~ .box::after,
       input:checked ~ label::after {
-        background-color: #349af8 !important;
+        background-color: #fff !important;
       }
     }
 
@@ -23,7 +26,7 @@
       margin: 5px 0;
 
       label {
-        color: #3b4557;
+        color: $text-color;
         font-size: 14px;
         display: unset !important;
         cursor: pointer;
@@ -35,13 +38,13 @@
 
       input:checked ~ .box::before,
       input:checked ~ label::before {
-        background-color: #349af8;
-        border: 1px solid #d4d4d5;
+        background-color: #fff;
+        border: 1px solid $checkbox-border;
       }
 
       input:checked ~ .box::after,
       input:checked ~ label::after {
-        color: #fff;
+        color: $text-color;
       }
     }
 
@@ -72,7 +75,7 @@
           font-size: 14px;
           font-weight: 600;
           line-height: 1;
-          color: #3b4557;
+          color: $text-color;
         }
 
         &:last-child {
@@ -93,7 +96,7 @@
 
         &__reset {
           cursor: pointer;
-          color: #349af8;
+          color: $sellgo-blue;
           font-size: 12px;
         }
 
@@ -105,13 +108,13 @@
             height: 0.1rem;
 
             .input-range__track--active {
-              border: 1px solid #349af8 !important;
+              border: 1px solid $sellgo-blue !important;
             }
 
             span {
               .input-range__slider {
-                background: #349af8 !important;
-                border: 1px solid #349af8 !important;
+                background: $sellgo-blue !important;
+                border: 1px solid $sellgo-blue !important;
               }
             }
           }
@@ -146,9 +149,9 @@
             .ui.input {
               input {
                 background: transparent;
-                border: 1px solid #dfe8f3;
+                border: 1px solid $sellgo-light-gray;
                 box-shadow: 0 2px 2px 0 #d4d4d5, 0 1px 0 1px #d4d4d5;
-                color: #98aeca;
+                color: $text-color;
                 font-size: 14px;
                 font-weight: normal;
                 min-height: 10px;
@@ -166,7 +169,7 @@
 
             .dollar-sign {
               margin-right: 5px;
-              color: #3b4557;
+              color: $text-color;
             }
           }
         }
@@ -212,7 +215,7 @@
 
     .ui.basic {
       &.button {
-        border-radius: 20px;
+        border-radius: 7px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -224,12 +227,12 @@
 
         .filter-name {
           margin-left: -20px;
-          color: black;
+          color: $text-color;
           font-weight: 600;
         }
 
         .filter-count {
-          background-color: #349af8;
+          background-color: $sellgo-blue;
           color: white;
           border-radius: 50%;
           font-size: 14px;
@@ -245,7 +248,7 @@
           background: none !important;
 
           &.sliders {
-            color: #349af8 !important;
+            color: $sellgo-blue !important;
           }
 
           &.filter-left-icon {
@@ -259,9 +262,9 @@
           width: 83px;
           height: 25px;
           font-weight: bold;
-          border: 1px solid #98aeca;
-          border-radius: 100px;
-          color: #98aeca !important;
+          border: 1px solid $sellgo-light-gray;
+          border-radius: 7px;
+          color: $sellgo-light-gray !important;
           padding: 4px 22px;
           box-shadow: unset;
         }
@@ -270,19 +273,19 @@
           width: 83px;
           height: 25px;
           font-weight: bold;
-          border: 1px solid #349af8;
-          border-radius: 100px;
-          color: #349af8 !important;
+          border: 1px solid $sellgo-blue;
+          border-radius: 7px;
+          color: $sellgo-blue !important;
           padding: 4px 22px;
           box-shadow: unset;
           margin-right: 50px;
         }
 
         &:hover {
-          background: #349af833 !important;
+          background: #fff !important;
 
           .filter-name {
-            color: #349af8;
+            color: $sellgo-blue;
           }
 
           .filter-arrow-down {
@@ -291,11 +294,11 @@
         }
 
         &.active {
-          background: #349af833 !important;
+          background: #fff !important;
           border-color: #98aeca;
 
           .filter-name {
-            color: #349af8;
+            color: $sellgo-blue;
           }
 
           .filter-arrow-down {

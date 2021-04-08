@@ -1,71 +1,44 @@
-.product-search {
-  height: 35px;
-  width: 480px;
+@import '../../design-system/colors';
 
-  input {
-    font-family: 'Work sans', sans-serif !important;
-    border: 1px solid #98aeca !important;
-    border-top-left-radius: 10px !important;
-    border-bottom-left-radius: 10px !important;
-  }
-
-  .cancel-icon {
-    position: absolute;
-    top: 50% !important;
-    right: 45px !important;
-    font-size: 10px !important;
-    transform: translateY(-50%);
-    opacity: 1 !important;
-  }
-
-  i.inverted.circular.icon {
-    background-color: #a2a2a2 !important;
-  }
-
-  button {
-    border-left: none !important;
-    border-right: 1px solid #349af8 !important;
-    border-top: 1px solid #349af8 !important;
-    border-bottom: 1px solid #349af8 !important;
-    background-color: #349af8 !important;
-    border-top-right-radius: 10px !important;
-    border-bottom-right-radius: 10px !important;
-    color: white !important;
-  }
-}
-
+.product-search,
 .product-search--active {
   height: 35px;
   width: 480px;
 
-  input {
-    border: 1px solid #98aeca !important;
-    border-top-left-radius: 10px !important;
-    border-bottom-left-radius: 10px !important;
-    font-family: 'Work sans', sans-serif !important;
-  }
-
-  .cancel-icon {
+  .cancel-icon.inverted.circular.icon {
     position: absolute;
     top: 50% !important;
     right: 45px !important;
     font-size: 10px !important;
     transform: translateY(-50%);
     opacity: 1 !important;
+    background-color: $icon-color !important;
   }
 
-  i.inverted.circular.icon {
-    background-color: #a2a2a2 !important;
+  input {
+    font-family: 'Work Sans', sans-serif !important;
+    border: 1px solid $sellgo-light-gray !important;
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+    color: $text-color !important;
   }
 
   button {
     border-left: none !important;
-    border-right: 1px solid #349af8 !important;
-    border-top: 1px solid #349af8 !important;
-    border-bottom: 1px solid #349af8 !important;
-    background-color: #349af8 !important;
+    border-right: 1px solid $search-btn-border !important;
+    border-top: 1px solid $search-btn-border !important;
+    border-bottom: 1px solid $search-btn-border !important;
+    background-color: $search-icon-background !important;
     border-top-right-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
-    color: white !important;
+    color: $text-color !important;
+
+    &:hover {
+      i.search.icon {
+        transform: scale(1.3);
+        transform-origin: center;
+        transition: transform 0.2s ease-in-out;
+      }
+    }
   }
 }

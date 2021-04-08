@@ -1,6 +1,7 @@
-.AsinSearch__row {
-  $fon-family: 'Work sans', sans-serif !important;
+@import '../../../design-system/colors';
 
+.AsinSearch__row {
+  font-family: 'Works Sans', sans-serif;
   display: flex;
   margin-left: 3rem;
 
@@ -12,9 +13,9 @@
 
     .multiple-asin-container {
       .scroll-container {
-        border-top: 1px solid #98aeca;
-        border-left: 1px solid #98aeca;
-        border-bottom: 1px solid #98aeca;
+        border-top: 1px solid $sellgo-light-gray;
+        border-left: 1px solid $sellgo-light-gray;
+        border-bottom: 1px solid $sellgo-light-gray;
         border-radius: 0;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
@@ -42,19 +43,19 @@
 
             div {
               pointer-events: none;
-              border: 1px solid #98aeca;
+              border: 1px solid $sellgo-light-gray;
               border-radius: 6px !important;
               background: #fff;
               display: flex;
               align-items: center;
               font-size: 12px;
-              font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+              font-family: 'Work Sans', Helvetica, Arial, sans-serif;
               padding: 4px !important;
               height: 24px;
-              color: #98aecacc;
+              color: #545d68cc;
 
               svg {
-                background: #98aeca;
+                background: $sellgo-light-gray;
                 border-radius: 50%;
                 fill: #fff;
                 height: 13px;
@@ -82,9 +83,9 @@
             border: none !important;
             outline: none !important;
             font-size: 14px;
-            font-family: 'Work sans', sans-serif;
+            font-family: 'Work Sans', sans-serif;
             width: 100%;
-            color: black !important;
+            color: $text-color !important;
           }
 
           input::placeholder {
@@ -99,22 +100,23 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      color: $text-color;
     }
 
     .ui.input {
       flex-grow: 1 !important;
 
       input {
-        border-top: 1px solid #98aeca;
-        border-left: 1px solid #98aeca;
-        border-bottom: 1px solid #98aeca;
+        border-top: 1px solid $sellgo-light-gray;
+        border-left: 1px solid $sellgo-light-gray;
+        border-bottom: 1px solid $sellgo-light-gray;
         border-radius: 0;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
-        color: #3b4557;
+        color: $text-color;
         font-size: 14px;
         font-weight: 500;
-        font-family: $fon-family;
+        font-family: 'Work Sans', sans-serif;
       }
     }
 
@@ -123,31 +125,46 @@
       align-items: center;
       min-height: 34px;
       border: 0;
-      border: 1px solid #98aeca;
+      border: 1px solid $sellgo-light-gray;
       border-radius: 0;
       padding-top: 0;
       padding-bottom: 0;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
-      color: #3b4557;
+      color: $text-color;
       font-size: 14px;
       font-weight: 500;
-      font-family: $fon-family;
+      font-family: 'Work Sans', sans-serif;
     }
   }
 
   button.ui.basic.button {
-    width: 140px;
-    height: 34px;
-    background: #fff 0% 0% no-repeat padding-box !important;
-    border: 1px solid #349af8;
-    border-radius: 15px;
+    width: 150px;
+    height: 33px;
+    background: $sellgo-blue 0% 0% no-repeat padding-box !important;
+    border: 1px solid $sellgo-blue;
+    border-radius: 7px;
     padding: 0;
     box-shadow: none;
-    color: #349af8 !important;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: $fon-family;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Work Sans', sans-serif;
+    margin-left: 12px;
+  }
+
+  button.ui.basic.button:hover {
+    width: 150px;
+    height: 34px;
+    background: #fff 0% 0% no-repeat padding-box !important;
+    border: 1px solid $sellgo-blue;
+    border-radius: 7px;
+    padding: 0;
+    box-shadow: none;
+    color: $sellgo-blue !important;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Work Sans', sans-serif;
     margin-left: 12px;
   }
 }

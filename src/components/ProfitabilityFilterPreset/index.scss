@@ -1,94 +1,73 @@
-.profitability-preset {
-  border: none !important;
-  box-shadow: unset !important;
-  background: white;
-  color: #3b4557 !important;
-  border-top-left-radius: 100px !important;
-  border-bottom-left-radius: 100px !important;
-  border-top-right-radius: 100px !important;
-  border-bottom-right-radius: 100px !important;
-  margin: 0 5px 5px 5px !important;
+@import '../../design-system/colors';
 
-  .profitability-preset-btn {
-    color: #3b4557 !important;
-    border: 1px solid #98aeca !important;
-    box-shadow: unset !important;
-    border-top-left-radius: 100px !important;
-    border-bottom-left-radius: 100px !important;
-    border-right: 0 !important;
-    font-weight: 600 !important;
-    padding: 0 10px 0 15px;
-    height: 32px !important;
+/* Main wrapper for the filter */
+.profitable-preset-filter {
+  position: relative !important;
+  margin: 0 10px;
+}
+
+/* Filter Button */
+.profitable-preset-filter__btn {
+  background: #fff !important;
+  color: $filter-text-color;
+  width: max-content !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px !important;
+  border-radius: 7px !important;
+  font-size: 14px !important;
+  padding: 0 !important;
+  padding: 0 15px !important;
+
+  /* Filter name itself */
+  .filter-name {
+    color: $filter-text-color;
+    font-weight: 600;
+    margin-right: 8px !important;
   }
 
-  .ui.dropdown {
-    color: #3b4557 !important;
-    border: 1px solid #98aeca !important;
-    box-shadow: unset !important;
-    border-left: none !important;
-    border-top-right-radius: 100px !important;
-    border-bottom-right-radius: 100px !important;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    font-weight: 600 !important;
-    padding: 10px 5px;
-    height: 32px;
-
-    .menu {
-      padding: 15px 0;
-      border-radius: 15px !important;
-      width: 204px;
-
-      .item:hover {
-        background-color: #98aeca !important;
-      }
-    }
-
-    .angle.down {
-      margin: 0 0.1em 0 -0.114286em;
-    }
+  &:hover {
+    background: $filter-btn-hover-background !important;
   }
+}
 
-  &.basic {
-    .profitability-preset-btn {
-      &.ui.button {
-        color: #3b4557 !important;
-      }
-    }
+/* Dropdown for the filter */
+.profitable-preset-filter__dropdown {
+  color: $filter-text-color !important;
+  margin-left: -20px !important;
 
-    .ui.dropdown {
-      color: #3b4557 !important;
-      border-left-color: none !important;
+  .visible.menu.transition {
+    position: absolute !important;
+    left: -100px !important;
+    height: max-content !important;
+    width: 220px !important;
+    border-radius: 7px !important;
+    padding: 10px 0;
 
-      &::before {
-        content: '';
-        display: inline-block;
-        width: 0;
-        height: 0;
-        background: #98aeca;
-        position: absolute;
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-      }
+    .item {
+      padding: 0 10px;
+      color: $filter-text-color;
 
-      &:hover::before {
-        height: 100%;
-        width: 1px;
+      &:hover {
+        background: $dropdown-hover;
+        font-weight: 600;
       }
     }
   }
+}
 
-  &.blue {
-    .profitability-preset-btn {
-      color: #fff !important;
-      background-color: #349af8 !important;
-      border-right: 1px solid #4285f461 !important;
-    }
+/* Active State of Filter */
+.profitable-preset-filter.active {
+  > button {
+    background: $filter-active-background-color !important;
 
-    .ui.dropdown {
-      color: #fff !important;
-      background-color: #349af8 !important;
+    .filter-name {
+      color: $filter-active-text-color;
     }
+  }
+
+  i.angle.down {
+    color: $filter-active-text-color !important;
   }
 }

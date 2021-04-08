@@ -1,4 +1,4 @@
-$link-color: #349af8;
+@import '../../../design-system/colors';
 
 .tracker-table .bottom-img img {
   margin-left: 1rem;
@@ -24,7 +24,7 @@ $link-color: #349af8;
   }
 
   button {
-    font-family: 'Work sans', sans-serif !important;
+    font-family: 'Work Sans', sans-serif !important;
     font-weight: 500 !important;
     padding: 0.28571429em 0 0.58571429em !important;
   }
@@ -40,7 +40,7 @@ $link-color: #349af8;
   }
 
   a.item.amazon-link {
-    color: #349af8 !important;
+    color: $sellgo-blue !important;
   }
 
   a.edit-cost {
@@ -92,18 +92,18 @@ $link-color: #349af8;
   }
 
   button.ui.button:last-child {
-    border: 2px solid #349af8;
+    border: 2px solid $sellgo-blue;
     background: none;
-    color: #349af8;
+    color: $sellgo-blue;
   }
 
   button.ui.button:first-child:hover {
-    background: #eb675e;
+    background: #f8faff;
     color: #fff;
   }
 
   button.ui.button:last-child:hover {
-    background: #349af8;
+    background: #f8faff;
     color: #fff;
   }
 
@@ -159,15 +159,8 @@ $link-color: #349af8;
   }
 }
 
-.column-filter-card {
-  .ui.checkbox {
-    width: 30px !important;
-    margin: 3.5px 3.5px 3.5px 7px;
-  }
-}
-
 .tracker-table .add-product .ui.input > input {
-  border: 1px solid #afa8a8 !important;
+  border: 1px solid $sellgo-light-gray !important;
   border-bottom-left-radius: 10px !important;
   border-bottom-right-radius: 0 !important;
   border-right: none !important;
@@ -184,19 +177,19 @@ $link-color: #349af8;
     width: 100%;
 
     .ui.input > input {
-      border: 1px solid #cecfcf;
+      border: 1px solid $sellgo-light-gray;
     }
   }
 
   .cancel-btn {
     background: white;
-    border: 1px solid #cecfcf;
+    border: 1px solid $sellgo-light-gray;
     color: black;
     width: 134px;
   }
 
   .create-btn {
-    background: #4b9af8;
+    background: $sellgo-blue;
     color: #fff;
     width: 134px;
   }
@@ -221,12 +214,12 @@ $link-color: #349af8;
     margin-top: 30px;
 
     .ui.input {
-      border-right: 1px solid #ddd;
+      border-right: 1px solid $sellgo-light-gray;
       width: 67%;
     }
 
     .ui.fluid.dropdown {
-      border: 1px solid #afa8a8 !important;
+      border: 1px solid $sellgo-light-gray !important;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 10px;
       border-left: none !important;
@@ -237,9 +230,9 @@ $link-color: #349af8;
 
     button {
       background: #fff;
-      border: 1px solid #50adfd;
+      border: 1px solid $sellgo-blue;
       border-radius: 16px;
-      color: #50adfd;
+      color: $sellgo-blue;
       margin-left: 20px;
     }
 
@@ -257,81 +250,50 @@ $link-color: #349af8;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: none !important;
 
-    .ui.secondary.pointing.menu {
-      border-bottom: 1px solid rgba(34, 36, 38, 0.15);
-      margin-bottom: 0;
-
-      &.menu-bar-inner {
+    .menu-bar {
+      .ui.secondary.pointing.menu {
         border: none !important;
-      }
-    }
+        width: max-content;
+        overflow-x: auto;
 
-    .ui.secondary.pointing.menu-bar-inner {
-      .item {
-        color: #2e3b4a;
-        font-family: 'Work Sans', sans-serif !important;
-        font-size: 14px !important;
-        font-weight: 600;
-        justify-content: center;
-        padding: 6px 12px;
-
-        .header {
+        h4.ui.header {
           font-family: 'Work Sans', sans-serif !important;
+          color: $text-color !important;
           font-size: 14px;
           font-weight: 600;
-          color: #3b4557;
           line-height: 24px;
+        }
+
+        .item {
+          border-bottom: 1px solid $sellgo-light-gray !important;
+          margin-bottom: 0 !important;
+        }
+
+        .active.item {
+          background-color: #fff;
+          border: 1px solid;
+          border-bottom: none !important;
+          padding-bottom: 10px !important;
+          margin-bottom: 0;
+          border-color: $sellgo-light-gray !important;
+
+          @media screen and (min-width: 1025px) {
+            border-radius: 4px 4px 0 0;
+          }
+
+          h4.ui.header {
+            color: $text-color !important;
+          }
         }
       }
     }
   }
 
-  .menu-bar {
-    .menu-bar-inner {
-      &::-webkit-scrollbar {
-        height: 4px;
-      }
-
-      @media screen and (min-width: 768px) {
-        overflow-x: auto;
-        overflow-y: hidden;
-      }
-    }
-
-    @media screen and (min-width: 1024px) {
-      width: 60%;
-    }
-
-    .ui.blue.menu .active.item,
-    .ui.menu .blue.active.item {
-      border-color: #98aeca !important;
-    }
-
-    .ui.secondary.pointing.menu .active.item {
-      background-color: #fff;
-      border: 1px solid;
-      border-bottom: none !important;
-      padding-bottom: 10px !important;
-      margin-bottom: 0;
-
-      @media screen and (min-width: 1025px) {
-        border-radius: 4px 4px 0 0;
-      }
-
-      h4 {
-        font-family: 'Work sans', sans-serif !important;
-        color: #5381db !important;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 24px;
-      }
-    }
-  }
-
   h2 {
-    color: #5381db;
-    font-size: 14px;
+    color: $text-color;
+    font-size: 13px;
     font-weight: 500;
     line-height: 16px;
     margin-bottom: 7px;
@@ -350,7 +312,7 @@ $link-color: #349af8;
 
   .view-detail-btn {
     align-items: center;
-    background-color: $link-color !important;
+    background-color: $sellgo-blue !important;
     border-radius: 18px !important;
     display: inline-flex !important;
     justify-content: center;
@@ -360,17 +322,6 @@ $link-color: #349af8;
     i {
       margin-left: 10px !important;
       margin-right: 0 !important;
-    }
-  }
-
-  .ui.breadcrumb {
-    font-size: 10px !important;
-    line-height: 17px;
-    text-align: left;
-    white-space: pre-wrap;
-
-    i {
-      color: $link-color !important;
     }
   }
 
@@ -476,9 +427,16 @@ $link-color: #349af8;
         top: 60px !important;
 
         i {
-          color: #98aeca !important;
+          color: $icon-color !important;
           font-size: 1.6em !important;
           text-align: left;
+
+          &:hover {
+            text-align: left;
+            transform: scale(1.1);
+            transform-origin: top;
+            color: $icon-hover-color !important;
+          }
         }
       }
     }
@@ -490,7 +448,7 @@ $link-color: #349af8;
       padding: 11px;
       text-align: center;
       vertical-align: middle;
-      color: #3b4557 !important;
+      color: $text-color !important;
       font-size: 14px !important;
 
       &:first-child {
@@ -510,6 +468,12 @@ $link-color: #349af8;
 
           .icon {
             cursor: pointer;
+            color: $icon-color !important;
+          }
+
+          .icon:hover {
+            cursor: pointer;
+            color: $icon-hover-color !important;
           }
         }
       }
@@ -637,23 +601,19 @@ $link-color: #349af8;
 
       .ui.checkbox input:checked ~ .box::after,
       .ui.checkbox input:checked ~ label::after {
-        background: #000 !important;
-        color: #fff !important;
+        background: #fff !important;
+        color: $text-color !important;
       }
     }
 
     a {
-      color: #3b4557 !important;
-      font-weight: 600;
-    }
+      color: $text-color !important;
+      font-weight: 500;
 
-    .description-text {
-      display: inline-block;
-      margin-left: 12px;
-      overflow: hidden !important;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 294px;
+      &:hover {
+        color: $sellgo-blue;
+        font-weight: 600;
+      }
     }
 
     .product-tracker-description {
@@ -666,6 +626,28 @@ $link-color: #349af8;
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
+      }
+
+      .description-text {
+        display: inline-block;
+        margin-left: 12px;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 294px;
+
+        a {
+          h2 {
+            color: $text-color;
+            font-weight: 500;
+            text-decoration: underline;
+
+            &:hover {
+              color: $sellgo-blue !important;
+              font-weight: 600;
+            }
+          }
+        }
       }
 
       .information {
@@ -683,36 +665,20 @@ $link-color: #349af8;
           flex-direction: column;
 
           .asin-content {
-            color: #3b4557;
+            color: $text-color;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 10px;
             margin: 0 19px;
             line-height: 16px;
             margin-bottom: 2px;
           }
 
           .pid-content {
-            color: #3b4557;
-            font-weight: 300;
-            font-size: 12px;
+            color: $text-color;
+            font-weight: 500;
+            font-size: 10px;
             margin: 0 19px;
             line-height: 14px;
-          }
-        }
-
-        i {
-          color: #c3c4c4;
-        }
-      }
-
-      .description-text {
-        a {
-          // display: block;
-          height: 24px;
-          line-height: 24px;
-
-          span {
-            line-height: 24px;
           }
         }
       }
@@ -770,8 +736,8 @@ $link-color: #349af8;
           border-bottom: 1px solid rgba(34, 36, 38, 0.3);
           border-top: 1px solid rgba(34, 36, 38, 0.3);
           font-size: 14px !important;
-          font-weight: 600;
-          color: #3b4557;
+          font-weight: 500;
+          color: $text-color;
           text-align: left;
         }
 
@@ -790,7 +756,7 @@ $link-color: #349af8;
             align-items: center;
             display: flex;
             justify-content: center;
-            color: #98aeca;
+            color: $icon-color;
           }
         }
       }
@@ -811,6 +777,19 @@ $link-color: #349af8;
         .content {
           .ui.checkbox {
             width: 100% !important;
+
+            input:checked ~ .box::before,
+            input:checked ~ label::before {
+              background-color: #fff !important;
+              border: 1px solid $checkbox-border;
+              color: $text-color;
+            }
+
+            input:checked ~ .box::after,
+            input:checked ~ label::after {
+              background-color: #fff !important;
+              color: $text-color;
+            }
           }
         }
       }
@@ -980,17 +959,17 @@ $link-color: #349af8;
 }
 
 .has-group {
-  background-color: #dfe8f3;
-  color: #3b4557;
+  background-color: #e6e6e6;
+  color: $text-color;
 }
 
 .no-group {
-  background-color: #dfe8f3;
-  color: #98aeca;
+  background-color: #e6e6e6;
+  color: $text-color;
 }
 
 .ellipsis-ic {
-  color: #98aeca;
+  color: $sellgo-light-gray;
   display: block !important;
   position: relative !important;
   top: -6px !important;
@@ -999,7 +978,16 @@ $link-color: #349af8;
 .column-selection-container {
   display: flex !important;
   background: #fff !important;
-  border-top: 0.2px solid #98aeca;
+  border-top: 0.2px solid $sellgo-light-gray;
+  color: $text-color;
+}
+
+.column-selection-container:hover {
+  display: flex !important;
+  background: $dropdown-hover !important;
+  border-top: 0.2px solid $sellgo-light-gray;
+  color: $text-color;
+  font-weight: 500;
 }
 
 .column-selection-container-inactive {
@@ -1015,7 +1003,7 @@ $link-color: #349af8;
 
 .active-columns {
   cursor: move;
-  color: #98aeca;
+  color: $text-color !important;
   font-size: 20px;
   font-weight: 900;
 }
@@ -1051,6 +1039,8 @@ $link-color: #349af8;
   border-bottom-left-radius: 10px !important;
   border-top: 1px solid rgba(34, 36, 38, 0.3) !important;
   border-bottom: 1px solid rgba(34, 36, 38, 0.3) !important;
+  color: $text-color;
+  font-size: 12px !important;
 }
 
 .remove-bottom-border {
@@ -1140,7 +1130,7 @@ $link-color: #349af8;
 }
 
 .pt-product-info:hover {
-  background: #ebedf2 !important;
+  background: #f8faff !important;
 }
 
 .pt-actions {
@@ -1151,7 +1141,7 @@ $link-color: #349af8;
 }
 
 .pt-actions:hover {
-  background: #ebedf2 !important;
+  background: #f8faff !important;
 }
 
 .pt-source {
@@ -1378,14 +1368,14 @@ $link-color: #349af8;
 }
 
 .smooth-dnd-container {
-  background: #349af899;
+  background: #f8faff;
   border-bottom: 0.2px solid #98aeca;
 }
 
 .column-swap-popup.popup {
   padding: 1px !important;
   width: 250px;
-  border-radius: 11px !important;
+  border-radius: 5px !important;
   cursor: pointer;
 }
 
@@ -1515,4 +1505,18 @@ $link-color: #349af8;
 
 .ptr-blank-cell {
   height: 85px !important;
+}
+
+/* stylelint-disable */
+.ui.fitted.checkbox {
+  input:checked ~ .box::before,
+  input:checked ~ label::before {
+    background-color: #fff;
+    border: 1px solid $sellgo-light-gray;
+  }
+
+  input:checked ~ .box::after,
+  input:checked ~ label::after {
+    color: $text-color;
+  }
 }

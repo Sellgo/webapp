@@ -219,14 +219,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       />
     </>
   );
+
   renderMargin = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.multipack_margin, formatPercent(row.multipack_margin))}
     </p>
   );
+
   renderFee = (row: Product) => (
     <p className="stat">{showNAIfZeroOrNull(row.fees, formatCurrency(row.fees))}</p>
   );
+
   renderMonthlyRevenue = (row: Product) => (
     <p className="stat">
       {showNAIfZeroOrNull(row.monthly_revenue, '$' + formatNumber(row.monthly_revenue))}
@@ -496,6 +499,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
+
   searchFilteredProduct = async (search: string) => {
     const { singlePageItemsCount } = this.props;
     this.setState({
@@ -955,6 +959,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     localStorage.setItem('profitFinderColumnFilterState', JSON.stringify(data));
     this.setState({ columnFilterData: data });
   };
+
   reorderColumns = (columns: Column[]) => {
     const columnsWithRender = returnWithRenderMethod(this.columns, columns);
     localStorage.setItem('profitFinderColumnState', JSON.stringify(columns));
