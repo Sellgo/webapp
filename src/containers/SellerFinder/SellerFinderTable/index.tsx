@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Rating from 'react-rating';
 import { Column, GenericTable } from '../../../components/Table';
 import './index.scss';
-import EXPEND_ICON from '../../../assets/images/plus-square-regular.svg';
+import PLUS_ICON from '../../../assets/images/plus-square-regular (1).svg';
+import MINUS_ICON from '../../../assets/images/minus-square-regular.svg';
+
 import { Icon } from 'semantic-ui-react';
 import OtherSort from './OtherSort';
 import SellerGroups from '../SellerGroups';
 import SellerSearch from '../SellerSearch';
+import SellerDetails from '../SellerDetails';
 
 const SellerFinderTable = () => {
+  const [expandedRow, setExpandedRow] = useState(null);
+  const expandRow = (row: any) => {
+    setExpandedRow(expandedRow ? null : row.id);
+  };
   const mockData = [
     {
+      id: 123,
       seller_name: 'Kikkoman',
       inventory: '67',
       rating: 4.5,
@@ -30,12 +38,13 @@ const SellerFinderTable = () => {
   const renderSellerInformation = (row: any) => (
     <p className="sf-seller-details">
       <img
-        src={EXPEND_ICON}
+        src={expandedRow ? MINUS_ICON : PLUS_ICON}
         style={{
           position: 'absolute',
           left: '70px',
           cursor: 'pointer',
         }}
+        onClick={() => expandRow(row)}
       />
       <p className="name">{row.seller_name}</p>
       <span className="seller-id">
@@ -256,8 +265,10 @@ const SellerFinderTable = () => {
         currentActiveColumn={''}
         stickyChartSelector={false}
         scrollTopSelector={false}
+        expandedRows={expandedRow}
         data={mockData}
         columns={columns}
+        extendedInfo={() => <SellerDetails />}
         name={'seller-finder'}
       />
     </div>

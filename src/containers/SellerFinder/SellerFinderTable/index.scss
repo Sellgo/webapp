@@ -219,8 +219,16 @@ $new_black: #3b4557;
       }
     }
 
+    tbody::before {
+      /* This doesn't work because of border-collapse */
+      content: '@';
+      display: block;
+      line-height: 10px;
+      text-indent: -99999px;
+    }
+
     td {
-      border-top: 1px solid rgba(34, 36, 38, 0.2);
+      border-top: 1px solid rgba(34, 36, 38, 0.2) !important;
       border-bottom: 1px solid rgba(34, 36, 38, 0.2);
       padding: 8px;
       font-size: 14px;
@@ -284,6 +292,11 @@ $new_black: #3b4557;
         color: #349af8;
         font-weight: bold;
       }
+    }
+
+    .seller-card {
+      background: none;
+      border: none !important;
     }
 
     td p.sf-stat {

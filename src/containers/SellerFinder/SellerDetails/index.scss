@@ -1,0 +1,432 @@
+$blue: #349af8;
+$black: #2e3b4a;
+$grey: #98aeca;
+$red: #e74c3c;
+
+.seller-details {
+  .rst__tree {
+    //min-height: 250px;
+    .icon {
+      font-size: 1.4em;
+    }
+
+    @media only screen and (min-width: 1024px) and (max-width: 1919px) {
+      .square {
+        font-size: 1.8em;
+      }
+
+      @media only screen and (min-width: 1600px) and (max-width: 1679px) {
+        .square {
+          font-size: 2.5em;
+        }
+      }
+    }
+
+    .rst__node:first-child {
+      .rst__lineBlock {
+        display: none;
+      }
+
+      .rst__nodeContent {
+        left: 0 !important;
+        top: 50px;
+
+        .lineChildren {
+          display: none;
+        }
+      }
+    }
+
+    .rst__node:nth-child(2) {
+      height: 410px !important;
+      left: -55px;
+      top: 20px;
+
+      .rst__nodeContent {
+        top: 210px;
+      }
+    }
+
+    height: auto;
+
+    .card {
+      margin-top: 20px;
+      margin-left: 5px;
+
+      .rowContents {
+        border: none;
+      }
+
+      .seller-information {
+        height: 211px;
+        background: #fff;
+        width: 100%;
+        display: flex;
+        padding: 16px;
+        margin-left: 47px;
+        border: 1px solid #a2a2a2;
+        border-radius: 10px;
+        //margin-top: 10px;
+        justify-content: space-between;
+
+        .action-button-container {
+          padding-top: 33px;
+
+          .action-buttons {
+            display: flex;
+
+            .icon {
+              font-size: 15px !important;
+            }
+
+            .check-inventory {
+              width: 168px;
+              height: 25px;
+              border: 0.5px solid $blue;
+              line-height: 0;
+              border-radius: 100px;
+              text-align: left;
+              padding-left: 10px !important;
+              font-size: 14px;
+              font-weight: 600;
+              color: $blue !important;
+            }
+          }
+        }
+
+        .seller-logo-container {
+          margin-left: 40px;
+
+          .seller-logo {
+            width: 153px;
+            height: 38px;
+            margin-left: 55px;
+          }
+
+          .business-details-container {
+            display: flex;
+            margin: 0 58px;
+
+            .seller-address-container {
+              padding-top: 7px;
+              padding-left: 30px;
+
+              .icon {
+                margin-left: 25px;
+                font-size: 12px;
+                color: #757575;
+                cursor: pointer;
+              }
+            }
+
+            .seller-name {
+              color: $black;
+              font-size: 25px;
+              font-weight: 600;
+            }
+
+            .seller-info {
+              color: $black;
+              font-size: 14px;
+            }
+
+            .seller-info-address {
+              @extend .seller-info;
+
+              white-space: pre-line;
+              width: 184px;
+            }
+          }
+        }
+
+        .seller-products-container {
+          .seller-product-label {
+            font-size: 14px;
+            color: $black;
+            padding: 5px 0;
+
+            .value {
+              color: $blue;
+            }
+          }
+
+          .seller-product-marketplace {
+            @extend .seller-product-label;
+
+            display: flex;
+
+            .place-image-container {
+              margin-left: 10px;
+
+              .place-image {
+                margin: 0 2px;
+              }
+            }
+          }
+        }
+
+        .statistics-container {
+          margin: 0 58px;
+
+          .static-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-bottom: 1px solid $grey;
+
+            .cell {
+              width: 75px;
+              padding: 2px;
+              font-size: 12px;
+              text-align: center;
+            }
+
+            .negative {
+              color: $red;
+            }
+
+            .head-cell {
+              @extend .cell;
+
+              width: 78px;
+              font-weight: 500;
+            }
+
+            .head-cell-row {
+              @extend .head-cell;
+
+              width: 85px;
+            }
+          }
+        }
+      }
+    }
+
+    @media only screen and (min-width: 1024px) and (max-width: 1919px) {
+      .card {
+        margin-left: 1px !important;
+
+        @media only screen and (min-width: 1600px) and (max-width: 1679px) {
+          margin-left: 20px !important;
+        }
+
+        .action-button-container {
+          padding-top: 23px;
+
+          .action-buttons {
+            align-items: center;
+
+            > .icon {
+              font-size: 10px;
+              line-height: 1;
+            }
+
+            > span {
+              font-size: 10px !important;
+            }
+
+            .check-inventory {
+              width: 150px !important;
+              height: 23px !important;
+              line-height: 0.5 !important;
+              font-size: 10px !important;
+              font-weight: 600 !important;
+              color: $blue !important;
+
+              .icon {
+                font-size: 12px;
+              }
+            }
+
+            @media only screen and (min-width: 1440px) and (max-width: 1919px) {
+              .check-inventory {
+                width: 180px !important;
+                height: 23px !important;
+                line-height: 0.5 !important;
+                font-size: 10px !important;
+                font-weight: 600 !important;
+                color: $blue !important;
+
+                .icon {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+
+        .seller-logo-container {
+          margin-left: 5px !important;
+
+          .seller-logo {
+            width: 120px !important;
+            height: 28px !important;
+            margin-left: 10px !important;
+          }
+
+          @media only screen and (min-width: 1366px) and (max-width: 1680px) {
+            .seller-logo {
+              margin-left: 20px !important;
+            }
+          }
+
+          @media only screen and (min-width: 1440px) and (max-width: 1679px) {
+            .seller-logo {
+              margin-left: 30px !important;
+            }
+          }
+
+          .business-details-container {
+            display: flex;
+            margin: 0 20px !important;
+
+            @media only screen and (min-width: 1366px) and (max-width: 1680px) {
+              margin: 0 28px !important;
+            }
+
+            .seller-address-container {
+              padding-top: 0 !important;
+              padding-left: 10px !important;
+
+              @media only screen and (min-width: 1600px) and (max-width: 1679px) {
+                padding-left: 20px !important;
+              }
+
+              .icon {
+                margin-left: 22px !important;
+                font-size: 12px;
+                color: #757575;
+                cursor: pointer;
+              }
+            }
+
+            .seller-name {
+              color: $black;
+              font-size: 20px !important;
+              font-weight: 600;
+            }
+
+            .seller-info {
+              color: $black;
+              font-size: 10px !important;
+            }
+
+            .seller-info-address {
+              white-space: pre-line;
+              width: 164px !important;
+            }
+          }
+        }
+
+        .seller-products-container {
+          .seller-product-label {
+            font-size: 10px !important;
+            color: $black;
+            padding: 5px 0;
+
+            .value {
+              color: $blue;
+            }
+          }
+
+          .seller-product-marketplace {
+            display: flex;
+
+            .place-image-container {
+              margin-left: 5px;
+
+              .place-image {
+                margin: 0 2px;
+              }
+            }
+          }
+        }
+
+        .statistics-container {
+          margin: 0 20px !important;
+
+          .static-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-bottom: 1px solid $grey;
+
+            .cell {
+              width: 55px !important;
+              padding: 2px;
+              font-size: 10px !important;
+              text-align: center;
+            }
+
+            .negative {
+              color: $red;
+            }
+
+            .head-cell-row {
+              width: 75px !important;
+            }
+          }
+
+          @media only screen and (min-width: 1366px) and (max-width: 1439px) {
+            margin: 0 10px !important;
+
+            .cell {
+              width: 55px !important;
+              padding: 2px;
+              font-size: 10px !important;
+              text-align: center;
+            }
+
+            .head-cell-row {
+              width: 65px !important;
+            }
+          }
+
+          @media only screen and (min-width: 1440px) and (max-width: 1599px) {
+            margin: 0 20px !important;
+
+            .cell {
+              width: 60px !important;
+              padding: 2px;
+              font-size: 10px !important;
+              text-align: center;
+            }
+
+            .head-cell-row {
+              width: 65px !important;
+            }
+          }
+
+          @media only screen and (min-width: 1600px) and (max-width: 1679px) {
+            margin: 0 60px !important;
+
+            .cell {
+              width: 65px !important;
+              padding: 2px;
+              font-size: 10px !important;
+              text-align: center;
+            }
+
+            .head-cell-row {
+              width: 95px !important;
+            }
+          }
+
+          @media only screen and (min-width: 1680px) and (max-width: 1919px) {
+            margin: 0 220px 0 60px !important;
+
+            .cell {
+              width: 55px !important;
+              font-size: 10px !important;
+              text-align: center;
+            }
+
+            .head-cell-row {
+              width: 95px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
