@@ -240,6 +240,10 @@ i.icon.filter::before {
   min-width: 95px;
   padding: 0 5px !important;
 
+  &:hover {
+    background: $table-header-hover-color !important;
+  }
+
   &.dimension {
     min-width: 152px !important;
   }
@@ -292,7 +296,7 @@ i.icon.filter::before {
   display: table !important;
   font-size: $sort-icon-size !important;
   margin: 0 0 -2px 12px !important;
-  color: $sellgo-blue;
+  color: $icon-color;
 }
 
 .default-column-props {
