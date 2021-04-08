@@ -15,11 +15,31 @@ import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
-import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
-import { info } from '../../../utils/notifications';
+import {
+  exportResults,
+  fetchActiveExportFiles,
+  setFileDownloaded,
+} from '../../../actions/Products';
+import { info, success } from '../../../utils/notifications';
 import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
 import { ReactComponent as FilterImage } from '../../../assets/images/sliders-v-square-solid.svg';
+import { timeout } from '../../../utils/timeout';
+import { activeExportFiles } from '../../../selectors/Products';
+
+interface FileExport {
+  id: number;
+  seller_id: number;
+  supplier_id: number;
+  file: string;
+  path: string;
+  report_path: string;
+  report_path_filtered: string;
+  export_status: string;
+  report_url_filtered: string;
+  udate: string;
+  is_downloaded: boolean;
+}
 
 interface Props {
   stickyChartSelector: boolean;
@@ -35,10 +55,12 @@ interface Props {
   isScrollSelector: boolean;
   scrollTop: boolean;
   subscriptionPlan: any;
-  fetchActiveExportFiles: () => void;
+  fetchActiveExportFiles: (status: boolean) => void;
   exportFilters: any;
   onFilterChange: (filterState: any) => void;
   presetFilterState: any;
+  activeExportFiles: FileExport[];
+  setFileDownloaded: (payload: any) => void;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -49,6 +71,8 @@ function ProfitFinderFilterSection(props: Props) {
     subscriptionType,
     onFilterChange,
     presetFilterState,
+    activeExportFiles,
+    setFileDownloaded,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -385,6 +409,38 @@ function ProfitFinderFilterSection(props: Props) {
   const [exportResult, setExportResult] = React.useState(false);
   const [exportResultLoading, setExportResultLoading] = React.useState(false);
 
+  const [isAllFiltersExported, setIsAllFiltersExported] = React.useState(false);
+
+  /* Effect that runs while file is exported */
+  const exportAllFilteredFile = () => {
+    info('Please wait while you file export is being processed', { autoClose: false });
+    activeExportFiles.forEach(async (file: FileExport) => {
+      if (file.supplier_id === supplierDetails.supplier_id && file.export_status === 'completed') {
+        const downloadFileURL = file.report_url_filtered;
+        if (downloadFileURL) {
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = downloadFileURL;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          await timeout(3000);
+          await setFileDownloaded(file);
+          success('File exported successfully');
+          await fetchActiveExportFiles(false);
+          setIsAllFiltersExported(false);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (isAllFiltersExported) {
+      exportAllFilteredFile();
+    }
+  }, [isAllFiltersExported]);
+
   const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
     _.map(filterState.customizable, customizableData => {
       if (customizableData.dataKey === dataKey) {
@@ -655,8 +711,11 @@ function ProfitFinderFilterSection(props: Props) {
   const onExportResults = async (value: any) => {
     try {
       const { supplierDetails, fetchActiveExportFiles, exportFilters } = props;
+
+      // for filtered exports
       if (value.data === 'filtered') {
         const file_format = value.format;
+
         const synthesis_file_id = supplierDetails.synthesis_file_id;
         setExportResultLoading(true);
         await exportResults(
@@ -665,8 +724,8 @@ function ProfitFinderFilterSection(props: Props) {
         );
         await setExportResult(false);
         await setExportResultLoading(false);
-        await fetchActiveExportFiles();
-        info('Please check notifications for export file download.');
+        await fetchActiveExportFiles(true);
+        setIsAllFiltersExported(true);
       } else {
         const url =
           value.format === 'csv' ? supplierDetails.report_url_csv : supplierDetails.report_url;
@@ -675,7 +734,11 @@ function ProfitFinderFilterSection(props: Props) {
         a.href = url;
         document.body.appendChild(a);
         a.click();
-        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        //close the popup after delay of 2.0s
+        await timeout(2000);
+        setExportResult(false);
       }
     } catch (e) {
       console.log(e);
@@ -787,6 +850,7 @@ const mapStateToProps = (state: {}) => ({
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
   presetFilterState: presetFiltersState(state),
+  activeExportFiles: activeExportFiles(state),
 });
 
 const mapDispatchToProps = {
@@ -794,6 +858,7 @@ const mapDispatchToProps = {
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setIsScroll: (value: boolean) => setIsScroll(value),
   fetchActiveExportFiles,
+  setFileDownloaded,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
