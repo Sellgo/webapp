@@ -11,6 +11,8 @@ import {
   setSpeed,
   setLeadsTracker,
   setLatestSupplier,
+  setSupplierSinglePageItemsCount,
+  setSupplierPageNumber,
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
@@ -62,6 +64,9 @@ interface SuppliersTableProps {
   currentActiveColumn: string;
   supplierSearch?: string;
   subscriptionPlan: string;
+  singlePageItemsCount: any;
+  setSinglePageItemsCount: (itemsCount: number) => void;
+  setPageNumber: (pageNumber: number) => void;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -375,6 +380,9 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       stickyChartSelector,
       currentActiveColumn,
       supplierSearch,
+      singlePageItemsCount,
+      setSinglePageItemsCount,
+      setPageNumber,
     } = this.props;
 
     if (suppliers.length === 1 && suppliers[0] === undefined) {
@@ -438,6 +446,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             columns={columns}
             name={'supplier'}
             searchValue={supplierSearch}
+            singlePageItemsCount={singlePageItemsCount}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+            setPage={setPageNumber}
+            setPageNumber={setPageNumber}
           />
           <Confirm
             content="Do you want to delete search?"
@@ -490,6 +502,7 @@ const mapStateToProps = (state: {}) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   subscriptionPlan: get(state, 'subscription.plan'),
+  singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
 });
 
 const mapDispatchToProps = {
@@ -504,6 +517,8 @@ const mapDispatchToProps = {
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setProgress,
   setSpeed,
+  setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);
