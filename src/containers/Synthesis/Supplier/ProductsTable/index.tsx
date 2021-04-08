@@ -31,7 +31,7 @@ import {
 import { tableKeys } from '../../../../constants';
 import ProfitFinderFilterSection from '../../ProfitFinderFilterSection';
 import ProductCheckBox from './productCheckBox';
-import { columnFilter } from '../../../../constants/Products';
+import { columnFilter, removeProfitFinderFilters } from '../../../../constants/Products';
 import _ from 'lodash';
 
 import {
@@ -1370,11 +1370,17 @@ class ProductsTable extends React.Component<ProductsTableProps> {
 
   removeFilters = async () => {
     const { fetchSupplierProducts, singlePageItemsCount, supplierID } = this.props;
+    console.log('This is triggered');
+    /* Removing Active Filters */
+    const activeFilters: any = [];
+
+    await removeProfitFinderFilters();
     await fetchSupplierProducts({
       page: 1,
       per_page: singlePageItemsCount,
       pagination: true,
       supplierID,
+      activeFilters,
     });
   };
 
@@ -1515,7 +1521,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
               activeFilters={[...activeFilters, ...this.getSavedPresetFiltersList()]}
               onActiveFilterReset={this.resetActiveFilters}
               onCheckedActiveFilters={() => this.fetchSupplierProducts()}
-              onUncheckedActiveFilters={this.removeFilters}
+              onUncheckedActiveFilters={() => this.removeFilters()}
             />
             {editCost && (
               <EditCostModal
