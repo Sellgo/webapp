@@ -638,12 +638,12 @@
 
         a {
           h2 {
-            color: $text-color;
+            color: $table-special-kpi;
             font-weight: 500;
             text-decoration: underline;
 
             &:hover {
-              color: $sellgo-blue !important;
+              color: $table-special-kpi-hover !important;
               font-weight: 600;
             }
           }
