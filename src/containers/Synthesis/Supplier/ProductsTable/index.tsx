@@ -1431,7 +1431,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     });
 
     // update profitability filter
-    let updatedProfitabilityFilter: any = {};
+    let updatedProfitabilityFilter: any = { ...profitabilityFilter };
     if (
       profitabilityFilter &&
       profitabilityFilter.active &&
@@ -1441,13 +1441,13 @@ class ProductsTable extends React.Component<ProductsTableProps> {
     }
 
     // update multipack preset filter
-    let updateMultipackFilter: any = {};
+    let updatedMultipackFilter: any = { ...multipackPreset };
     if (
       multipackPreset &&
       multipackPreset.active &&
       ['original', 'not-found', 'multipack', 'variation'].includes(dataKey)
     ) {
-      updateMultipackFilter = { ...multipackPreset, active: false };
+      updatedMultipackFilter = { ...multipackPreset, active: false };
     }
 
     const newActiveFilter = {
@@ -1455,7 +1455,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       charges: updatedCharges,
       customizable: updatedCustomizable,
       profitabilityFilter: updatedProfitabilityFilter,
-      multipackPreset: updateMultipackFilter,
+      multipackPreset: updatedMultipackFilter,
     };
 
     localStorage.setItem('filterState', JSON.stringify(newActiveFilter));

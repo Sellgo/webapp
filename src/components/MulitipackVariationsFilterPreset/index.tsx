@@ -33,6 +33,8 @@ const MultipackVariationsFilterPreset = (props: Props) => {
 
   const { active: isFilterActive } = filterState.multipackPreset;
 
+  console.log('Filter State', filterState);
+
   const handleClick = (e: any) => {
     e.preventDefault();
     setPreset();
