@@ -14,16 +14,12 @@ const ActiveFilters = (props: Props) => {
 
   const areFiltersActive = filers.length > 0;
 
-  console.log(filers, areFiltersActive);
-
   const handleCheckBoxChange = async (e: any, data: any) => {
     const { checked: value } = data;
-    console.log(value);
 
     if (value) {
       onChecked && onChecked();
     } else {
-      console.log('Triggering this');
       onUnchecked && onUnchecked();
     }
   };
