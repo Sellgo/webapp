@@ -6,12 +6,11 @@ export const supplierIdsSelector = (state: {}): number[] => get(state, 'supplier
 export const suppliersByIdSelector = (state: {}): { [key: number]: Supplier } =>
   get(state, 'suppliers.suppliersById');
 
-export const suppliersSelector = createSelector(
-  [supplierIdsSelector, suppliersByIdSelector],
-  (supplierIds, suppliersById): Supplier[] => {
-    return supplierIds.map(supplierId => suppliersById[supplierId]);
-  }
-);
+export const suppliersSelector = createSelector(suppliersByIdSelector, (suppliersById: any) => {
+  return Object.keys(suppliersById).map((supplier: any) => {
+    return suppliersById[supplier];
+  });
+});
 
 export const suppliersTableTabSelector = (state: {}): string =>
   get(state, 'suppliers.suppliersTableTab');
