@@ -63,7 +63,7 @@ const Notifications = (props: Props) => {
 
   useEffect(() => {
     fetchActiveExportFiles(true);
-  }, []);
+  }, [isNotificationOpen]);
 
   return (
     <>

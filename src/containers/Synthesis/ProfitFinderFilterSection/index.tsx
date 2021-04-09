@@ -20,12 +20,15 @@ import {
   fetchActiveExportFiles,
   setFileDownloaded,
 } from '../../../actions/Products';
-import { info, success } from '../../../utils/notifications';
+import { info } from '../../../utils/notifications';
 import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
 import { ReactComponent as FilterImage } from '../../../assets/images/sliders-v-square-solid.svg';
 import { timeout } from '../../../utils/timeout';
 import { activeExportFiles } from '../../../selectors/Products';
+
+import { toggleNotification } from '../../../actions/Notification';
+import { selectIsNotificationOpen } from '../../../selectors/Notification';
 
 interface FileExport {
   id: number;
@@ -62,6 +65,8 @@ interface Props {
   presetFilterState: any;
   activeExportFiles: FileExport[];
   setFileDownloaded: (payload: any) => void;
+  toggleNotification: (toggleState: boolean) => void;
+  isNotificationOpen: boolean;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -72,8 +77,7 @@ function ProfitFinderFilterSection(props: Props) {
     subscriptionType,
     onFilterChange,
     presetFilterState,
-    activeExportFiles,
-    setFileDownloaded,
+    toggleNotification,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -410,49 +414,6 @@ function ProfitFinderFilterSection(props: Props) {
   const [exportResult, setExportResult] = React.useState(false);
   const [exportResultLoading, setExportResultLoading] = React.useState(false);
 
-  const [isAllFiltersExported, setIsAllFiltersExported] = React.useState(false);
-
-  /* Effect that runs while file is exported */
-  const exportAllFilteredFile = () => {
-    console.log('Function is running....');
-    activeExportFiles.forEach(async (file: FileExport) => {
-      if (file.supplier_id === supplierDetails.supplier_id) {
-        if (file.export_status === 'processing') {
-          info(`Your export is processing: ${file.export_progress} %`, { autoClose: false });
-          console.log('File', file);
-          await timeout(2000);
-          setIsAllFiltersExported(true);
-          await fetchActiveExportFiles(true);
-        }
-
-        if (file.export_status === 'completed') {
-          const downloadFileURL = file.report_url_filtered;
-          if (downloadFileURL) {
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = downloadFileURL;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            await timeout(3000);
-            await setFileDownloaded(file);
-            success('File exported successfully', { autoClose: 2000 });
-            await fetchActiveExportFiles(false);
-            setIsAllFiltersExported(false);
-          }
-        }
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (isAllFiltersExported) {
-      console.log('Function inside hook is running');
-      exportAllFilteredFile();
-    }
-  }, [fetchActiveExportFiles, isAllFiltersExported]);
-
   const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
     _.map(filterState.customizable, customizableData => {
       if (customizableData.dataKey === dataKey) {
@@ -737,7 +698,11 @@ function ProfitFinderFilterSection(props: Props) {
         await setExportResult(false);
         await setExportResultLoading(false);
         await fetchActiveExportFiles(true);
-        setIsAllFiltersExported(true);
+        await timeout(1500);
+        info('You export is being processed. Check notifications for more info');
+        toggleNotification(true);
+
+        // setIsAllFiltersExported(true);
       } else {
         const url =
           value.format === 'csv' ? supplierDetails.report_url_csv : supplierDetails.report_url;
@@ -863,6 +828,7 @@ const mapStateToProps = (state: {}) => ({
   scrollTop: get(state, 'supplier.setScrollTop'),
   presetFilterState: presetFiltersState(state),
   activeExportFiles: activeExportFiles(state),
+  isNotificationOpen: selectIsNotificationOpen(state),
 });
 
 const mapDispatchToProps = {
@@ -871,6 +837,7 @@ const mapDispatchToProps = {
   setIsScroll: (value: boolean) => setIsScroll(value),
   fetchActiveExportFiles,
   setFileDownloaded,
+  toggleNotification: (toggleState: boolean) => toggleNotification(toggleState),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);
