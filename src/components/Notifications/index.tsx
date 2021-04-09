@@ -10,12 +10,16 @@ import XLSX_IMAGE from '../../assets/images/Group 3622 (1).svg';
 
 import PROGRESSING from '../../assets/images/sellgo-loading-animation-450-1.gif';
 import moment from 'moment';
+import { selectIsNotificationOpen } from '../../selectors/Notification';
+import { toggleNotification } from '../../actions/Notification';
 
 interface Props {
   activeExportFiles: FileExport[];
   fetchActiveExportFiles: (isLoading: boolean) => void;
   fetchingActiveExports: boolean;
   setFileDownloaded: (payload: any) => void;
+  isNotificationOpen: boolean;
+  toggleNotification: (toggleState: boolean) => void;
 }
 
 interface FileExport {
@@ -146,11 +150,13 @@ const Notifications = (props: Props) => {
 const mapStateToProps = (state: {}) => ({
   activeExportFiles: activeExportFiles(state),
   fetchingActiveExports: isFetchingActiveExports(state),
+  isNotificationOpen: selectIsNotificationOpen(state),
 });
 
 const mapDispatchToProps = {
   fetchActiveExportFiles: (isLoading: boolean) => fetchActiveExportFiles(isLoading),
   setFileDownloaded,
+  toggleNotification: (toggleState: boolean) => toggleNotification(toggleState),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
