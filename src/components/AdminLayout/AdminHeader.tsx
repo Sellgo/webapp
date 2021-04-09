@@ -8,9 +8,21 @@ import { notifyIdSelector } from '../../selectors/UserOnboarding';
 
 import './AdminHeader.scss';
 
+import { activeExportFiles } from '../../selectors/Products';
+import { fetchActiveExportFiles } from '../../actions/Products';
+
+import { FileExport } from '../../interfaces/FileExport';
+import { toggleNotification } from '../../actions/Notification';
+
+import { selectIsNotificationOpen } from '../../selectors/Notification';
+
 interface AdminProps {
   auth: any;
   currentNotifyId: number;
+  activeExportFiles: FileExport[];
+  toggleNotification: (toggleState: boolean) => void;
+  fetchActiveExportFiles: (payload: boolean) => void;
+  isNotificationOpen: boolean;
 }
 
 class AdminHeader extends React.Component<AdminProps> {
@@ -36,6 +48,7 @@ class AdminHeader extends React.Component<AdminProps> {
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
+
         <Menu.Item as={Link} to="/settings">
           <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
         </Menu.Item>
@@ -62,6 +75,7 @@ class AdminHeader extends React.Component<AdminProps> {
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>
+
         <LogoutConfirm auth={auth} open={this.state.openConfirm} openFunc={this.openConfirm} />
       </div>
     );
@@ -71,7 +85,14 @@ class AdminHeader extends React.Component<AdminProps> {
 const mapStateToProps = (state: any) => {
   return {
     currentNotifyId: notifyIdSelector(state),
+    activeExportFiles: activeExportFiles(state),
+    isNotificationOpen: selectIsNotificationOpen(state),
   };
 };
 
-export default connect(mapStateToProps)(AdminHeader);
+const mapDispatchToProps = {
+  fetchActiveExportFiles: (isLoading: boolean) => fetchActiveExportFiles(isLoading),
+  toggleNotification: (toggleState: boolean) => toggleNotification(toggleState),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminHeader);

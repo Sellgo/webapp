@@ -15,11 +15,21 @@ import PresetFilter from '../../../components/FilterContainer/PresetFilter';
 import { isPlanEnterprise } from '../../../utils/subscriptions';
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Products';
-import { exportResults, fetchActiveExportFiles } from '../../../actions/Products';
-import { info } from '../../../utils/notifications';
+import {
+  exportResults,
+  fetchActiveExportFiles,
+  setFileDownloaded,
+} from '../../../actions/Products';
+
 import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
 import { ReactComponent as FilterImage } from '../../../assets/images/sliders-v-square-solid.svg';
+import { timeout } from '../../../utils/timeout';
+import { activeExportFiles } from '../../../selectors/Products';
+
+import { toggleNotification } from '../../../actions/Notification';
+import { selectIsNotificationOpen } from '../../../selectors/Notification';
+import { FileExport } from '../../../interfaces/FileExport';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -35,10 +45,14 @@ interface Props {
   isScrollSelector: boolean;
   scrollTop: boolean;
   subscriptionPlan: any;
-  fetchActiveExportFiles: () => void;
+  fetchActiveExportFiles: (status: boolean) => void;
   exportFilters: any;
   onFilterChange: (filterState: any) => void;
   presetFilterState: any;
+  activeExportFiles: FileExport[];
+  setFileDownloaded: (payload: any) => void;
+  toggleNotification: (toggleState: boolean) => void;
+  isNotificationOpen: boolean;
 }
 
 function ProfitFinderFilterSection(props: Props) {
@@ -655,8 +669,11 @@ function ProfitFinderFilterSection(props: Props) {
   const onExportResults = async (value: any) => {
     try {
       const { supplierDetails, fetchActiveExportFiles, exportFilters } = props;
+
+      // for filtered exports
       if (value.data === 'filtered') {
         const file_format = value.format;
+
         const synthesis_file_id = supplierDetails.synthesis_file_id;
         setExportResultLoading(true);
         await exportResults(
@@ -665,8 +682,7 @@ function ProfitFinderFilterSection(props: Props) {
         );
         await setExportResult(false);
         await setExportResultLoading(false);
-        await fetchActiveExportFiles();
-        info('Please check notifications for export file download.');
+        await fetchActiveExportFiles(true);
       } else {
         const url =
           value.format === 'csv' ? supplierDetails.report_url_csv : supplierDetails.report_url;
@@ -675,7 +691,11 @@ function ProfitFinderFilterSection(props: Props) {
         a.href = url;
         document.body.appendChild(a);
         a.click();
-        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        //close the popup after delay of 2.0s
+        await timeout(2000);
+        setExportResult(false);
       }
     } catch (e) {
       console.log(e);
@@ -787,6 +807,8 @@ const mapStateToProps = (state: {}) => ({
   isScrollSelector: get(state, 'supplier.setIsScroll'),
   scrollTop: get(state, 'supplier.setScrollTop'),
   presetFilterState: presetFiltersState(state),
+  activeExportFiles: activeExportFiles(state),
+  isNotificationOpen: selectIsNotificationOpen(state),
 });
 
 const mapDispatchToProps = {
@@ -794,6 +816,8 @@ const mapDispatchToProps = {
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setIsScroll: (value: boolean) => setIsScroll(value),
   fetchActiveExportFiles,
+  setFileDownloaded,
+  toggleNotification: (toggleState: boolean) => toggleNotification(toggleState),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfitFinderFilterSection);

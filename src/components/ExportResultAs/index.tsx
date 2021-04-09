@@ -19,6 +19,7 @@ const ExportResultAs = (props: Props) => {
 
   const [exportFormat, setExportFormat] = React.useState(format);
   const [exportData, setExportData] = React.useState('all');
+
   useEffect(() => {
     setExportFormat(format);
   }, [format]);

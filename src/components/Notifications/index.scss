@@ -2,6 +2,20 @@
 
 .notifications {
   min-width: 428px !important;
+  position: absolute !important;
+  z-index: 1000000 !important;
+  left: -350px !important;
+  top: 45px !important;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+
+  a {
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
 
   .title {
     border-bottom: 1px solid #349af8;
