@@ -39,6 +39,7 @@ interface FileExport {
   report_url_filtered: string;
   udate: string;
   is_downloaded: boolean;
+  export_progress?: string;
 }
 
 interface Props {
@@ -413,23 +414,33 @@ function ProfitFinderFilterSection(props: Props) {
 
   /* Effect that runs while file is exported */
   const exportAllFilteredFile = () => {
-    info('Please wait while you file export is being processed', { autoClose: false });
+    console.log('Function is running....');
     activeExportFiles.forEach(async (file: FileExport) => {
-      if (file.supplier_id === supplierDetails.supplier_id && file.export_status === 'completed') {
-        const downloadFileURL = file.report_url_filtered;
-        if (downloadFileURL) {
-          const a = document.createElement('a');
-          a.style.display = 'none';
-          a.href = downloadFileURL;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+      if (file.supplier_id === supplierDetails.supplier_id) {
+        if (file.export_status === 'processing') {
+          info(`Your export is processing: ${file.export_progress} %`, { autoClose: false });
+          console.log('File', file);
+          await timeout(2000);
+          setIsAllFiltersExported(true);
+          await fetchActiveExportFiles(true);
+        }
 
-          await timeout(3000);
-          await setFileDownloaded(file);
-          success('File exported successfully');
-          await fetchActiveExportFiles(false);
-          setIsAllFiltersExported(false);
+        if (file.export_status === 'completed') {
+          const downloadFileURL = file.report_url_filtered;
+          if (downloadFileURL) {
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = downloadFileURL;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            await timeout(3000);
+            await setFileDownloaded(file);
+            success('File exported successfully', { autoClose: 2000 });
+            await fetchActiveExportFiles(false);
+            setIsAllFiltersExported(false);
+          }
         }
       }
     });
@@ -437,9 +448,10 @@ function ProfitFinderFilterSection(props: Props) {
 
   useEffect(() => {
     if (isAllFiltersExported) {
+      console.log('Function inside hook is running');
       exportAllFilteredFile();
     }
-  }, [isAllFiltersExported]);
+  }, [fetchActiveExportFiles, isAllFiltersExported]);
 
   const customizeFilterChange = (dataKey: string, type: string, value?: any) => {
     _.map(filterState.customizable, customizableData => {

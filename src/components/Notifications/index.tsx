@@ -30,6 +30,7 @@ interface FileExport {
   report_url_filtered: string;
   udate: string;
   is_downloaded: boolean;
+  export_progress?: string;
 }
 
 const Notifications = (props: Props) => {
@@ -70,6 +71,7 @@ const Notifications = (props: Props) => {
   useEffect(() => {
     fetchActiveExportFiles(true);
   }, []);
+
   return (
     <Popup
       content={
@@ -107,7 +109,7 @@ const Notifications = (props: Props) => {
                       {getFileName(file.report_path_filtered)}
                     </p>
                     {file.export_status === 'processing' && (
-                      <p className="file-status">Export in progress: might take a few mins...</p>
+                      <p className="file-status">Export in progress: {file.export_progress} %</p>
                     )}
 
                     {file.export_status === 'completed' && (
