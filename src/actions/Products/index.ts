@@ -303,7 +303,7 @@ export const fetchActiveExportFiles = (isLoading = true) => async (dispatch: any
         if (file.export_status === 'completed') {
           dispatch(setFileDownloaded(file));
           downloadFile(file.report_url_filtered);
-          success('Your file now auto exported', {
+          success('Your file is now auto exported', {
             autoClose: 2000,
             toastId: file.file,
           });
