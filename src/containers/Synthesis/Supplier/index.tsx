@@ -183,7 +183,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
               <p>{'Recent Searches'}</p>
             </div>
             <div className="recent-files-container">
-              <Loader active={suppliers[0] === undefined} />
+              <Loader active={!suppliers.length} />
 
               {suppliersSortedByUpdateDate &&
                 suppliersSortedByUpdateDate[0] !== undefined &&
@@ -206,6 +206,7 @@ export class Supplier extends React.Component<SupplierProps, any> {
         position="top center"
       />
     );
+
     return (
       <>
         <SubscriptionMessage page={'profit-finder'} />

@@ -3,9 +3,13 @@ import './index.scss';
 import loadingAnimation from '../../assets/images/sellgo-loading-animation-450-1.gif';
 
 const PageLoader = (props: any) => {
-  const { pageLoading, isTransparent } = props;
+  const { pageLoading, isSearchManagement } = props;
   return (
-    <div className={`page-loader ${pageLoading && 'full'} ${isTransparent ? 'transparent' : ''}`}>
+    <div
+      className={`page-loader ${pageLoading && 'full'} ${
+        isSearchManagement ? 'search-management-page' : ''
+      }`}
+    >
       <img src={loadingAnimation} alt="loading" />
     </div>
   );
