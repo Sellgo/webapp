@@ -38,6 +38,7 @@ const Notifications = (props: Props) => {
     }
     return fileName;
   };
+
   const getFileImage = (file: string, status: string) => {
     const fileName = file ? file : '';
     let image = '';
@@ -103,11 +104,7 @@ const Notifications = (props: Props) => {
                         {getFileName(file.report_path_filtered)}
                       </p>
                       {file.export_status === 'processing' && (
-                        <p className="file-status">
-                          Export in progress:{' '}
-                          {parseFloat(file.export_progress) >= 100.0 ? '100' : file.export_progress}
-                          %
-                        </p>
+                        <p className="file-status">Export in progress: might take a few mins...</p>
                       )}
 
                       {file.export_status === 'completed' && (

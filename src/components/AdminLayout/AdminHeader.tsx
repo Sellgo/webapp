@@ -13,7 +13,7 @@ import { fetchActiveExportFiles } from '../../actions/Products';
 
 import { FileExport } from '../../interfaces/FileExport';
 import { toggleNotification } from '../../actions/Notification';
-import Notifications from '../Notifications';
+
 import { selectIsNotificationOpen } from '../../selectors/Notification';
 
 interface AdminProps {
@@ -43,33 +43,11 @@ class AdminHeader extends React.Component<AdminProps> {
   openConfirm = (text: boolean) => this.setState({ openConfirm: text });
 
   render() {
-    const {
-      auth,
-      currentNotifyId,
-      activeExportFiles,
-      fetchActiveExportFiles,
-      toggleNotification,
-      isNotificationOpen,
-    } = this.props;
-
-    const processingCount = activeExportFiles.filter((file: FileExport) => !file.is_downloaded)
-      .length;
+    const { auth, currentNotifyId } = this.props;
 
     return (
       <div className="admin-header">
         <Grid className={`${currentNotifyId > 0 && 'custom-dimmer'}`} />
-
-        <div className="notifications-wrapper">
-          <Menu.Item onClick={() => toggleNotification(!isNotificationOpen)}>
-            <Icon name="bell" size="large" className="notification-icon" />
-            {!!processingCount && (
-              <span onClick={() => fetchActiveExportFiles(true)} className="badge-count">
-                {processingCount}
-              </span>
-            )}
-          </Menu.Item>
-          <Notifications />
-        </div>
 
         <Menu.Item as={Link} to="/settings">
           <Icon name="setting" color={'black'} size={'large'} className={'setting-icon'} />
