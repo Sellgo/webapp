@@ -20,7 +20,7 @@ import {
   fetchActiveExportFiles,
   setFileDownloaded,
 } from '../../../actions/Products';
-import { info } from '../../../utils/notifications';
+
 import ChargesInputFilter from '../../../components/FilterContainer/ChargesInputFilter';
 import MultipackVariationsFilterPreset from '../../../components/MulitipackVariationsFilterPreset';
 import { ReactComponent as FilterImage } from '../../../assets/images/sliders-v-square-solid.svg';
@@ -29,21 +29,7 @@ import { activeExportFiles } from '../../../selectors/Products';
 
 import { toggleNotification } from '../../../actions/Notification';
 import { selectIsNotificationOpen } from '../../../selectors/Notification';
-
-interface FileExport {
-  id: number;
-  seller_id: number;
-  supplier_id: number;
-  file: string;
-  path: string;
-  report_path: string;
-  report_path_filtered: string;
-  export_status: string;
-  report_url_filtered: string;
-  udate: string;
-  is_downloaded: boolean;
-  export_progress?: string;
-}
+import { FileExport } from '../../../interfaces/FileExport';
 
 interface Props {
   stickyChartSelector: boolean;
@@ -77,7 +63,6 @@ function ProfitFinderFilterSection(props: Props) {
     subscriptionType,
     onFilterChange,
     presetFilterState,
-    toggleNotification,
   } = props;
 
   const filterStorage = JSON.parse(
@@ -698,11 +683,6 @@ function ProfitFinderFilterSection(props: Props) {
         await setExportResult(false);
         await setExportResultLoading(false);
         await fetchActiveExportFiles(true);
-        await timeout(1500);
-        info('You export is being processed. Check notifications for more info');
-        toggleNotification(true);
-
-        // setIsAllFiltersExported(true);
       } else {
         const url =
           value.format === 'csv' ? supplierDetails.report_url_csv : supplierDetails.report_url;
