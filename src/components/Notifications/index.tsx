@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Icon, Loader, Menu, Popup } from 'semantic-ui-react';
+import { Icon, Loader } from 'semantic-ui-react';
 import './index.scss';
 import { fetchActiveExportFiles, setFileDownloaded } from '../../actions/Products';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import PROGRESSING from '../../assets/images/sellgo-loading-animation-450-1.gif'
 import moment from 'moment';
 import { selectIsNotificationOpen } from '../../selectors/Notification';
 import { toggleNotification } from '../../actions/Notification';
+import { FileExport } from '../../interfaces/FileExport';
 
 interface Props {
   activeExportFiles: FileExport[];
@@ -22,25 +23,13 @@ interface Props {
   toggleNotification: (toggleState: boolean) => void;
 }
 
-interface FileExport {
-  id: number;
-  seller_id: number;
-  supplier_id: number;
-  file: string;
-  path: string;
-  report_path: string;
-  report_path_filtered: string;
-  export_status: string;
-  report_url_filtered: string;
-  udate: string;
-  is_downloaded: boolean;
-  export_progress?: string;
-}
-
 const Notifications = (props: Props) => {
-  const { activeExportFiles, fetchActiveExportFiles, fetchingActiveExports } = props;
-  const processingCount = activeExportFiles.filter((file: FileExport) => !file.is_downloaded)
-    .length;
+  const {
+    activeExportFiles,
+    fetchActiveExportFiles,
+    fetchingActiveExports,
+    isNotificationOpen,
+  } = props;
 
   const getFileName = (file: string) => {
     let fileName: string | undefined = '';
@@ -77,74 +66,63 @@ const Notifications = (props: Props) => {
   }, []);
 
   return (
-    <Popup
-      content={
-        <div>
-          <div className="title">
-            <p>Notifications</p>
-          </div>
+    <>
+      {isNotificationOpen && (
+        <div className="notifications">
           <div>
-            {fetchingActiveExports && (
-              <React.Fragment>
-                <br />
-                <Loader active inline="centered" />
-              </React.Fragment>
-            )}
-            {activeExportFiles.map((file: any) => (
-              <a key={file.id} href={file.report_url_filtered} onClick={() => updateCount(file)}>
-                <div className="notification">
-                  <div className="file-image-container">
-                    {file.export_status !== 'failed' && (
-                      <img
-                        src={getFileImage(file.report_path_filtered, file.export_status)}
-                        className="file-image progressing"
-                      />
-                    )}
-                    {file.export_status === 'failed' && (
-                      <Icon name={'ban'} size={'large'} className={'failed'} />
-                    )}
-                  </div>
-                  <div>
-                    <p
-                      className={`${
-                        file.export_status === 'completed' ? 'file-name' : 'in-progress-file'
-                      } ${!file.is_downloaded ? 'downloaded' : ''}`}
-                    >
-                      {getFileName(file.report_path_filtered)}
-                    </p>
-                    {file.export_status === 'processing' && (
-                      <p className="file-status">Export in progress: {file.export_progress} %</p>
-                    )}
-
-                    {file.export_status === 'completed' && (
-                      <p className="file-status">
-                        {moment(file.udate).format('dddd, MMMM Do YYYY, h:mm:ss a')}
+            <div className="title">
+              <p>Notifications</p>
+            </div>
+            <div>
+              {fetchingActiveExports && (
+                <React.Fragment>
+                  <br />
+                  <Loader active inline="centered" />
+                </React.Fragment>
+              )}
+              {activeExportFiles.map((file: any) => (
+                <a key={file.id} href={file.report_url_filtered} onClick={() => updateCount(file)}>
+                  <div className="notification">
+                    <div className="file-image-container">
+                      {file.export_status !== 'failed' && (
+                        <img
+                          src={getFileImage(file.report_path_filtered, file.export_status)}
+                          className="file-image progressing"
+                        />
+                      )}
+                      {file.export_status === 'failed' && (
+                        <Icon name={'ban'} size={'large'} className={'failed'} />
+                      )}
+                    </div>
+                    <div>
+                      <p
+                        className={`${
+                          file.export_status === 'completed' ? 'file-name' : 'in-progress-file'
+                        } ${!file.is_downloaded ? 'downloaded' : ''}`}
+                      >
+                        {getFileName(file.report_path_filtered)}
                       </p>
-                    )}
-                    {file.export_status === 'failed' && (
-                      <p className="failed-text">Export Failed.</p>
-                    )}
+                      {file.export_status === 'processing' && (
+                        <p className="file-status">Export in progress: {file.export_progress} %</p>
+                      )}
+
+                      {file.export_status === 'completed' && (
+                        <p className="file-status">
+                          {moment(file.udate).format('dddd, MMMM Do YYYY, h:mm:ss a')}
+                        </p>
+                      )}
+                      {file.export_status === 'failed' && (
+                        <p className="failed-text">Export Failed.</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
-      }
-      on="click"
-      className="notifications"
-      basic
-      trigger={
-        <Menu.Item onClick={() => fetchActiveExportFiles(true)} className="notification-wrapper">
-          <Icon name="bell" className="bell-icon" size="large" />
-          {!!processingCount && (
-            <span onClick={() => fetchActiveExportFiles(true)} className="badge-count">
-              {processingCount}
-            </span>
-          )}
-        </Menu.Item>
-      }
-    />
+      )}
+    </>
   );
 };
 const mapStateToProps = (state: {}) => ({
