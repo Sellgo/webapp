@@ -303,16 +303,20 @@ export const fetchActiveExportFiles = (isLoading = true) => async (dispatch: any
         if (file.export_status === 'completed') {
           dispatch(setFileDownloaded(file));
           downloadFile(file.report_url_filtered);
-          success('Your file now auto exported', { autoClose: 2000, toastId: file.file });
+          success('Your file now auto exported', {
+            autoClose: 2000,
+            toastId: file.file,
+          });
         } else if (file.export_status === 'processing') {
           info(`Export is in progress: ${file.export_progress} %`, {
             autoClose: false,
             toastId: file.file,
+            type: 'info',
           });
         }
       });
 
-      await timeout(1500);
+      await timeout(2000);
       dispatch(fetchActiveExportFiles(true));
     } else {
       return;
