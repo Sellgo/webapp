@@ -103,7 +103,11 @@ const Notifications = (props: Props) => {
                         {getFileName(file.report_path_filtered)}
                       </p>
                       {file.export_status === 'processing' && (
-                        <p className="file-status">Export in progress: {file.export_progress} %</p>
+                        <p className="file-status">
+                          Export in progress:{' '}
+                          {parseFloat(file.export_progress) >= 100.0 ? '100' : file.export_progress}
+                          %
+                        </p>
                       )}
 
                       {file.export_status === 'completed' && (
