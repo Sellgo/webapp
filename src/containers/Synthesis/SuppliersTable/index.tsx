@@ -385,10 +385,6 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       setPageNumber,
     } = this.props;
 
-    if (suppliers.length === 1 && suppliers[0] === undefined) {
-      return <PageLoader />;
-    }
-
     const all = suppliers.filter(supplier => supplier.status !== 'inactive');
     const allData = all.filter(supplier => supplier.progress !== -1);
     const draftData = all.filter(
@@ -417,8 +413,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       this.state.exportFormat === 'csv'
         ? this.state.exportResult.report_url_csv
         : this.state.exportResult.report_url;
+
     return (
       <Segment basic={true}>
+        {!suppliers.length && <PageLoader page={true} isTransparent />}
         <div className="suppliers-table">
           <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
             <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>
@@ -450,6 +448,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             setSinglePageItemsCount={setSinglePageItemsCount}
             setPage={setPageNumber}
             setPageNumber={setPageNumber}
+            loading={!suppliers.length}
           />
           <Confirm
             content="Do you want to delete search?"
