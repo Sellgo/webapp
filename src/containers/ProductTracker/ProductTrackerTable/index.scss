@@ -638,12 +638,12 @@
 
         a {
           h2 {
-            color: $text-color;
+            color: $table-special-kpi;
             font-weight: 500;
             text-decoration: underline;
 
             &:hover {
-              color: $sellgo-blue !important;
+              color: $table-special-kpi-hover !important;
               font-weight: 600;
             }
           }
@@ -864,7 +864,7 @@
 
     i.icon,
     i.icons {
-      color: #98aeca;
+      color: $icon-color;
     }
   }
 
@@ -1129,19 +1129,11 @@
   }
 }
 
-.pt-product-info:hover {
-  background: #f8faff !important;
-}
-
 .pt-actions {
   background: #fff !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center;
-}
-
-.pt-actions:hover {
-  background: #f8faff !important;
 }
 
 .pt-source {

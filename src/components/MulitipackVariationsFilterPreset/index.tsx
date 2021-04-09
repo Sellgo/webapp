@@ -4,7 +4,7 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import './index.scss';
 
 interface Props {
-  setPreset: (data?: any) => void;
+  setMultipack: (data?: any) => void;
   filterState: any;
   applyFilter: (isPreset?: boolean) => void;
 }
@@ -29,13 +29,13 @@ const multipackPresetOptions = [
 ];
 
 const MultipackVariationsFilterPreset = (props: Props) => {
-  const { filterState, setPreset, applyFilter } = props;
+  const { filterState, setMultipack, applyFilter } = props;
 
   const { active: isFilterActive } = filterState.multipackPreset;
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    setPreset();
+    setMultipack();
     applyFilter(true);
   };
 
@@ -52,7 +52,7 @@ const MultipackVariationsFilterPreset = (props: Props) => {
         trigger={<></>}
         selectOnBlur={false}
         onChange={(e, data) => {
-          setPreset(data.value);
+          setMultipack(data.value);
           applyFilter(true);
         }}
       />
