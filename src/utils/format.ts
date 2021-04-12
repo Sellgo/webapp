@@ -34,3 +34,5 @@ export const formatDimensionForSorting = (dimension: string): number => {
       return acc * Number(val);
     }, 1);
 };
+
+export const formatBoolean = (value: boolean) => (value ? 'Yes' : 'No');

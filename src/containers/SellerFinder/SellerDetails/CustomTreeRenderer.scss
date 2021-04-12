@@ -1,7 +1,7 @@
 $row-padding: 10px;
 
 .rowWrapper {
-  padding: $row-padding $row-padding $row-padding 0;
+  //padding: $row-padding $row-padding $row-padding 0;
   height: 100%;
   box-sizing: border-box;
   cursor: move;
@@ -77,23 +77,23 @@ $row-padding: 10px;
 
   position: relative;
   height: 100%;
-  border: solid #bbb 1px;
-  box-shadow: 0 2px 2px -2px;
-  padding: 0 5px 0 10px;
-  border-radius: 2px;
+  border: none;
   min-width: 230px;
   flex: 1 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color: transparent;
+  //background: white;
 }
 
 .rowLabel {
   @extend %rowItem;
 
   flex: 0 1 auto;
-  padding-right: 20px;
+  padding-right: 10px;
+  margin-left: 10px;
+  width: 100%;
 }
 
 .rowToolbar {

@@ -4,7 +4,7 @@ $grey: #98aeca;
 $red: #e74c3c;
 
 .seller-details {
-  .rst__tree {
+  > .rst__tree {
     //min-height: 250px;
     .icon {
       font-size: 1.4em;
@@ -23,11 +23,13 @@ $red: #e74c3c;
     }
 
     .rst__node:first-child {
-      .rst__lineBlock {
+      height: 75px !important;
+
+      > .rst__lineBlock {
         display: none;
       }
 
-      .rst__nodeContent {
+      > .rst__nodeContent {
         left: 0 !important;
         top: 50px;
 
@@ -38,12 +40,122 @@ $red: #e74c3c;
     }
 
     .rst__node:nth-child(2) {
-      height: 410px !important;
-      left: -55px;
-      top: 20px;
+      //height: 425px !important;
+      //left: -54px;
+      //top: 20px;
 
-      .rst__nodeContent {
-        top: 210px;
+      > .rst__nodeContent {
+        top: 10px;
+        margin-left: 10px;
+      }
+
+      .product-tree {
+        margin-top: 12px;
+
+        .icon {
+          font-size: 1.4em;
+        }
+
+        .rst__node {
+          height: 50px !important;
+          //top: 20px;
+
+          > .rst__nodeContent {
+            //top: -55px;
+            width: 100%;
+            left: 50px !important;
+            top: 50px;
+
+            > div {
+              display: flex;
+              align-items: center;
+            }
+
+            .rowWrapperDragDisabled {
+              cursor: pointer;
+              width: 95%;
+            }
+          }
+        }
+
+        .rst__node:first-child {
+          height: 55px !important;
+
+          > .rst__lineBlock {
+            display: block !important;
+            height: 0;
+            top: 55px;
+          }
+
+          > .rst__nodeContent {
+            left: 50px !important;
+            top: 50px !important;
+            //top: 67px;
+
+            .lineChildren {
+              display: block !important;
+            }
+          }
+        }
+
+        .rst__node:nth-child(2) {
+          > .rst__nodeContent {
+            left: 40px !important;
+          }
+        }
+      }
+    }
+    /* stylelint-disable no-descending-specificity */
+    > .rst__node:nth-child(2) {
+      height: 275px !important;
+      left: -54px;
+      top: 30px;
+
+      > .rst__nodeContent {
+        position: relative !important;
+        top: -146px !important;
+
+        > .rowContents {
+          > .rowLabel {
+            margin-left: 0 !important;
+
+            > .rst__tree {
+              .rst__node {
+                .rst__nodeContent {
+                  //background: white;
+                  > div {
+                    display: flex !important;
+                    align-items: center;
+                    margin-left: 30px;
+                    margin-top: -3px;
+                  }
+                }
+              }
+
+              > .rst__node:first-child {
+                > .rst__lineBlock {
+                  display: inline-block !important;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      > .rst__lineHalfHorizontalRight {
+        width: 78px !important;
+        //height: 0 !important;
+        //top: 74px !important;
+      }
+
+      .rst__lineHalfHorizontalRight::before {
+        width: 70% !important;
+        top: 100%;
+      }
+
+      .rst__lineHalfHorizontalRight::after {
+        left: 29% !important;
+        height: 100%;
       }
     }
 
@@ -51,7 +163,7 @@ $red: #e74c3c;
 
     .card {
       margin-top: 20px;
-      margin-left: 5px;
+      margin-left: 30px;
 
       .rowContents {
         border: none;
@@ -63,7 +175,7 @@ $red: #e74c3c;
         width: 100%;
         display: flex;
         padding: 16px;
-        margin-left: 47px;
+        margin-left: 30px;
         border: 1px solid #a2a2a2;
         border-radius: 10px;
         //margin-top: 10px;

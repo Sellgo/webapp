@@ -46,7 +46,7 @@ const SellerFinderTable = () => {
         }}
         onClick={() => expandRow(row)}
       />
-      <p className="name">{row.seller_name}</p>
+      <span className="name">{row.seller_name}</span>
       <span className="seller-id">
         AU12349G1 <Icon name={'copy outline'} />
       </span>
@@ -74,7 +74,7 @@ const SellerFinderTable = () => {
   const renderProductReview = (row: any) => <p>{row.product_review}</p>;
   const renderProcessedOn = (row: any) => <p>{row.processed}</p>;
   const renderActions = (row: any) => (
-    <p className="sf-actions">
+    <div className="sf-actions">
       <span>
         <Icon name="refresh" color="grey" />
       </span>
@@ -88,7 +88,7 @@ const SellerFinderTable = () => {
         handleCancel={() => console.log('clicked')}
         handleMoveGroup={() => console.log('clicked')}
       />
-    </p>
+    </div>
   );
 
   const columns: Column[] = [
@@ -121,22 +121,22 @@ const SellerFinderTable = () => {
     },
     {
       label: `Rating% \nL365D`,
-      dataKey: 'rating',
+      dataKey: 'rating_percentage',
       type: 'string',
       sortable: true,
       show: true,
       className: ``,
       render: renderRatingL365DPercentage,
     },
-    {
-      label: `Total \nRating`,
-      dataKey: 'total_rating',
-      type: 'string',
-      sortable: true,
-      show: true,
-      className: ``,
-      render: renderTotalRating,
-    },
+    // {
+    //   label: `Total \nRating`,
+    //   dataKey: 'total_rating',
+    //   type: 'string',
+    //   sortable: true,
+    //   show: true,
+    //   className: ``,
+    //   render: renderTotalRating,
+    // },
     {
       label: `Total \nRating`,
       dataKey: 'total_rating',
