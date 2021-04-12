@@ -582,6 +582,47 @@
         }
       }
 
+      .best_seller {
+        min-width: 99px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .subscribe_save {
+        min-width: 95px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .upcs {
+        min-width: 96px !important;
+        text-align: left !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .number_of_sellers {
+        min-width: 95px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
+      .amazon_price {
+        min-width: 115px !important;
+
+        .stat {
+          text-align: left !important;
+        }
+      }
+
       &:nth-child(2) {
         .stat {
           margin-right: 2px;

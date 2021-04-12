@@ -142,6 +142,12 @@ export interface ProductTrackerDetails {
   source: string;
   amazon_oos_90: string;
   product_track_group_id: number;
+  best_seler: boolean;
+  best_seller: boolean;
+  subscribe_save: boolean;
+  upcs: string;
+  amazon_price: number;
+  number_of_sellers: number;
 }
 
 export interface ProductsResponse {
