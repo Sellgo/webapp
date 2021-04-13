@@ -296,10 +296,14 @@ export const fetchActiveExportFiles = (isLoading = true) => async (dispatch: any
 
     const { data } = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`);
 
+    const exportsToConsider = data.filter(
+      (file: any) => file.export_status !== 'failed' || file.is_downloaded
+    );
+
     dispatch(setFetchingActiveExports(false));
 
-    if (data.length > 0) {
-      data.forEach(async (file: any) => {
+    if (exportsToConsider.length > 0) {
+      exportsToConsider.forEach(async (file: any) => {
         if (file.export_status === 'completed') {
           dispatch(setFileDownloaded(file));
           downloadFile(file.report_url_filtered);
