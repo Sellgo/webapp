@@ -193,10 +193,7 @@ function ProfitFinderFilterSection(props: Props) {
     charges: [],
   };
 
-  const initialFilterState: any =
-    filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
-      ? filterStorage
-      : filterInitialData;
+  const initialFilterState: any = filterStorage ? filterStorage : filterInitialData;
 
   if (initialFilterState.categories !== filterInitialData.categories) {
     initialFilterState.categories = filterInitialData.categories;
@@ -206,7 +203,7 @@ function ProfitFinderFilterSection(props: Props) {
 
   useEffect(() => {
     localStorage.setItem('filterState', JSON.stringify(filterState));
-  }, []);
+  }, [setFilterState]);
 
   useEffect(() => {
     if (presetFilterState) {
