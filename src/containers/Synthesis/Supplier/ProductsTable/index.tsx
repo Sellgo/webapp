@@ -1027,6 +1027,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       }
     }
   };
+
   async componentDidMount() {
     const { singlePageItemsCount } = this.props;
 
@@ -1052,6 +1053,7 @@ class ProductsTable extends React.Component<ProductsTableProps> {
       this.detectAndUpdateProductId();
     }
   }
+
   getActiveColumn = () => !!this.state.activeColumn && this.state.activeColumn.dataKey;
 
   getFilterValue = (dataKey: string, filterType: string): any => {
