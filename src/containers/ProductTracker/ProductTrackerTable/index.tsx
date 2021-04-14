@@ -28,6 +28,7 @@ import {
   updateProductCost,
   removeProductTrackGroup,
   fetchOOS90,
+  filterTrackedProducts,
 } from '../../../actions/ProductTracker';
 
 import {
@@ -94,7 +95,10 @@ interface TrackerProps {
   fetchOOS90: (payload: any) => void;
   loadingOOS90: boolean;
   OOS90: any;
+  filterTrackedProducts: (filterData: any, activeGroup: any) => void;
+  activeGroupID: any;
 }
+
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
     expandedRows: null,
@@ -151,6 +155,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ open: false });
     }
   }
+
   handleSubmit = (e: any) => {
     e.preventDefault();
     const { name } = this.state;
@@ -162,6 +167,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       postCreateProductTrackGroup(name);
     }
   };
+
   handleChange = (e: any) => {
     this.setState({ name: e.target.value, error: false });
   };
@@ -172,11 +178,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       activeRow: row,
     });
   };
+
   handleCancel = () => {
     this.setState({
       confirm: false,
     });
   };
+
   handleUntrackSubmit = (productTrackGroupId: any, id: any) => {
     this.setState({
       confirm: false,
@@ -190,6 +198,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       name: '',
     });
   };
+
   handleAddGroupCancel = () => {
     this.setState({
       open: false,
@@ -197,6 +206,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       name: '',
     });
   };
+
   handleAddGroupSubmit = () => {
     const { name } = this.state;
     const { postCreateProductTrackGroup } = this.props;
@@ -207,6 +217,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       this.setState({ error: true });
     }
   };
+
   handleAddGroupNameChange = (e: any) => {
     this.setState({ name: e.target.value });
   };
@@ -216,11 +227,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       editGroup: true,
     });
   };
+
   handleEditGroupCancel = () => {
     this.setState({
       editGroup: false,
     });
   };
+
   handleEditGroupSubmit = (group: any) => {
     if (!_.isEmpty(group.name.trim())) {
       this.props.updateProductTrackGroup(group);
@@ -238,11 +251,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       deleteGroup: true,
     });
   };
+
   handleDeleteGroupCancel = () => {
     this.setState({
       deleteGroup: false,
     });
   };
+
   handleDeleteGroupSubmit = (group: any) => {
     this.props.deleteProductTrackGroup(group);
     this.setState({
@@ -573,6 +588,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgROI,
+      filter: true,
+      filterSign: '%',
+      filterLabel: 'Avg ROI',
+      filterDataKey: 'avg_roi',
+      filterType: 'slider',
     },
     {
       label: 'Out Of\nStock %',
@@ -589,6 +609,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgRank,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Avg Daily Rank',
+      filterDataKey: 'avg_rank',
+      filterType: 'slider',
     },
     {
       label: 'Dimensions',
@@ -613,6 +638,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderCustomerReviews,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Reviews Count',
+      filterDataKey: 'customer_reviews',
+      filterType: 'slider',
     },
     {
       label: 'Rating',
@@ -716,8 +746,19 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
-  applyColumnFilters = () => {
-    console.log('Apply');
+  applyColumnFilters = (data: any) => {
+    const { filterTrackedProducts, activeGroupID } = this.props;
+    const { dataKey, value } = data;
+    const filterStorage = localStorage.getItem('trackerFilter') || '{}';
+    const trackerFilter = JSON.parse(filterStorage);
+
+    const newTrackerFilter = {
+      ...trackerFilter,
+      [dataKey]: value,
+    };
+
+    filterTrackedProducts(newTrackerFilter, activeGroupID);
+    this.setState({ activeColumnFilters: '' });
   };
 
   resetColumnFilter = () => {
@@ -837,6 +878,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           columnFilterBox={ColumnFilterBox}
           activeColumnFilters={activeColumnFilters}
           filterValues={filterValues}
+          loadingFilters={loadingTrackerFilter}
           toggleColumnFilters={this.setActiveColumnFilters}
           cancelColumnFilters={this.cancelColumnFilter}
           applyColumnFilters={this.applyColumnFilters}
@@ -884,6 +926,8 @@ const mapStateToProps = (state: any) => {
     costDetails: get(state, 'productTracker.costDetails'),
     loadingOOS90: loadingOOS90(state),
     OOS90: getOOS90(state),
+    activeGroupID: get(state, 'productTracker.menuItem'),
+    trackerDetails: get(state, 'productTracker.trackerDetails'),
   };
 };
 
@@ -910,5 +954,7 @@ const mapDispatchToProps = {
   updateCost: (payload: any) => updateProductCost(payload),
   removeProductTrackGroup: (payload: any) => removeProductTrackGroup(payload),
   fetchOOS90,
+  filterTrackedProducts: (filterData: any, groupId: any) =>
+    filterTrackedProducts(filterData, groupId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTrackerTable);

@@ -452,6 +452,7 @@ function ProductTrackerFilterSection(props: Props) {
     setFilterState(data);
     applyFilter(true);
   };
+
   const setPeriod = (value: number) => {
     isTrackerFilterLoading(true);
     fetchAllTrackedProductDetails(value);
@@ -605,6 +606,7 @@ function ProductTrackerFilterSection(props: Props) {
     });
     setFilterState(filterData);
   };
+
   const applyFilter = (isPreset?: boolean) => {
     setPageNumber(1);
     setHasAllFilter(isAllFilterUse());

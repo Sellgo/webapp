@@ -116,7 +116,7 @@ const TableHeaderCell = (props: TableHeaderCellProps) => {
 
   otherProps = {
     onClick:
-      sortable && type && !['leads-tracker', 'products'].includes(type)
+      sortable && type && !['leads-tracker', 'products', 'trackerTable'].includes(type)
         ? (e: any) => {
             setSort(e, dataKey || '');
             setSortColumn(sortDirection);
