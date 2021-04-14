@@ -72,10 +72,12 @@ function ProductTrackerFilterSection(props: Props) {
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
   const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
+
   const filterInitialData: any = {
     sellerID: sellerID,
     amazonChoice: [],
     reviews: [],
+    rating: { min: 0, max: 5 },
     removeNegative: [],
     profitabilityFilter: {
       value: 'Profitable',
@@ -129,6 +131,7 @@ function ProductTrackerFilterSection(props: Props) {
       },
     ],
   };
+
   const initialFilterState: any =
     filterStorage && filterStorage.sellerID === sellerID ? filterStorage : filterInitialData;
 

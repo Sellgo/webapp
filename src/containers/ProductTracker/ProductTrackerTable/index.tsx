@@ -35,7 +35,7 @@ import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
-import { columnFilter } from '../../../constants/Tracker';
+import { columnFilter, filterProductsByGroupId, findMinMax } from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
 import {
@@ -653,6 +653,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderRating,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Ratings',
+      filterDataKey: 'rating',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nInventory',
@@ -729,14 +734,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   };
 
   setActiveColumnFilters = (dataKey: any) => {
-    const { trackerDetails } = this.props;
+    const { trackerDetails, activeGroupID } = this.props;
 
-    const { min_max } = trackerDetails;
+    const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
+    const filteredRanges = findMinMax(groupProducts);
 
-    const filterValues = [
+    const filterValues: any = [
       {
-        [`${dataKey}_min`]: min_max[`min_${dataKey}`],
-        [`${dataKey}_max`]: min_max[`max_${dataKey}`],
+        [`${dataKey}_min`]: filteredRanges[dataKey].min,
+        [`${dataKey}_max`]: filteredRanges[dataKey].max,
       },
     ];
 
@@ -750,6 +756,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   applyColumnFilters = (data: any) => {
     const { filterTrackedProducts, activeGroupID, setPageNumber } = this.props;
     const { dataKey, value } = data;
+
     const filterStorage = localStorage.getItem('trackerFilter') || '{}';
     const trackerFilter = JSON.parse(filterStorage);
 
@@ -768,21 +775,15 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   resetColumnFilter = (dataKey: any) => {
     const { filterTrackedProducts, activeGroupID, trackerDetails, setPageNumber } = this.props;
 
-    const { min_max } = trackerDetails;
-
     const filterStorage = localStorage.getItem('trackerFilter') || '{}';
 
     const trackerFilter = JSON.parse(filterStorage);
-
-    const resetMaximumValue = min_max[`max_${dataKey}`];
-    const resetMinimumValue = dataKey !== 'avg_price' ? min_max[`min_${dataKey}`] : 0;
+    const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
+    const filteredRanges = findMinMax(groupProducts);
 
     const newTrackerFilter = {
       ...trackerFilter,
-      [dataKey]: {
-        min: resetMinimumValue,
-        max: resetMaximumValue,
-      },
+      [dataKey]: filteredRanges[dataKey],
     };
 
     setPageNumber(1);

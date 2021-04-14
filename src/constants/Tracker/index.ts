@@ -72,6 +72,7 @@ export const filterKeys: any = [
   'avg_roi',
   'avg_rank',
   'customer_reviews',
+  'rating',
 ];
 
 export const dataKeyMapping: any = {
