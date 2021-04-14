@@ -97,6 +97,8 @@ interface TrackerProps {
   OOS90: any;
   filterTrackedProducts: (filterData: any, activeGroup: any) => void;
   activeGroupID: any;
+  productTrackerFilterRanges: any;
+  trackerDetails: any;
 }
 
 class ProductTrackerTable extends React.Component<TrackerProps> {
@@ -726,28 +728,27 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
-  setActiveColumnFilters = (data: any) => {
-    const filterStorage = localStorage.getItem('trackerFilter') || '{}';
+  setActiveColumnFilters = (dataKey: any) => {
+    const { trackerDetails } = this.props;
 
-    const trackerFilter = JSON.parse(filterStorage);
+    const { min_max } = trackerDetails;
 
-    const filterRange = trackerFilter[data];
     const filterValues = [
       {
-        [`${data}_min`]: filterRange.min,
-        [`${data}_max`]: filterRange.max,
+        [`${dataKey}_min`]: min_max[`min_${dataKey}`],
+        [`${dataKey}_max`]: min_max[`max_${dataKey}`],
       },
     ];
 
     this.setState({
-      activeColumnFilters: data,
+      activeColumnFilters: dataKey,
       ColumnFilterBox: false,
       filterValues,
     });
   };
 
   applyColumnFilters = (data: any) => {
-    const { filterTrackedProducts, activeGroupID } = this.props;
+    const { filterTrackedProducts, activeGroupID, setPageNumber } = this.props;
     const { dataKey, value } = data;
     const filterStorage = localStorage.getItem('trackerFilter') || '{}';
     const trackerFilter = JSON.parse(filterStorage);
@@ -757,16 +758,39 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       [dataKey]: value,
     };
 
+    setPageNumber(1);
     filterTrackedProducts(newTrackerFilter, activeGroupID);
+    localStorage.setItem('trackerFilter', JSON.stringify(newTrackerFilter));
+
     this.setState({ activeColumnFilters: '' });
   };
 
-  resetColumnFilter = () => {
-    console.log('Reset');
+  resetColumnFilter = (dataKey: any) => {
+    const { filterTrackedProducts, activeGroupID, trackerDetails, setPageNumber } = this.props;
+
+    const { min_max } = trackerDetails;
+
+    const filterStorage = localStorage.getItem('trackerFilter') || '{}';
+
+    const trackerFilter = JSON.parse(filterStorage);
+
+    const resetMaximumValue = min_max[`max_${dataKey}`];
+
+    const newTrackerFilter = {
+      ...trackerFilter,
+      [dataKey]: {
+        min: 0,
+        max: resetMaximumValue,
+      },
+    };
+
+    setPageNumber(1);
+    filterTrackedProducts(newTrackerFilter, activeGroupID);
+    this.setState({ activeColumnFilters: '' });
+    localStorage.setItem('trackerFilter', JSON.stringify(newTrackerFilter));
   };
 
   cancelColumnFilter = () => {
-    console.log('This is called');
     this.setState({
       ColumnFilterBox: false,
       activeColumnFilters: '',
@@ -928,6 +952,7 @@ const mapStateToProps = (state: any) => {
     OOS90: getOOS90(state),
     activeGroupID: get(state, 'productTracker.menuItem'),
     trackerDetails: get(state, 'productTracker.trackerDetails'),
+    productTrackerFilterRanges: get(state, 'productTracker.filterRanges'),
   };
 };
 
