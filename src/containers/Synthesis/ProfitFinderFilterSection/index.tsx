@@ -76,6 +76,7 @@ function ProfitFinderFilterSection(props: Props) {
   const filteredRanges = findMinMax(products);
 
   const rangeData: any = _.cloneDeep(filteredRanges);
+
   const filterInitialData = {
     supplierID: supplierDetails.supplier_id,
     allFilter: [],
@@ -191,10 +192,8 @@ function ProfitFinderFilterSection(props: Props) {
     },
     charges: [],
   };
-  const initialFilterState: any =
-    filterStorage && filterStorage.supplierID === supplierDetails.supplier_id
-      ? filterStorage
-      : filterInitialData;
+
+  const initialFilterState: any = filterStorage ? filterStorage : filterInitialData;
 
   if (initialFilterState.categories !== filterInitialData.categories) {
     initialFilterState.categories = filterInitialData.categories;
@@ -202,7 +201,9 @@ function ProfitFinderFilterSection(props: Props) {
 
   const [filterState, setFilterState] = React.useState(initialFilterState);
 
-  localStorage.setItem('filterState', JSON.stringify(filterState));
+  useEffect(() => {
+    localStorage.setItem('filterState', JSON.stringify(filterState));
+  }, [setFilterState]);
 
   useEffect(() => {
     if (presetFilterState) {
@@ -216,6 +217,7 @@ function ProfitFinderFilterSection(props: Props) {
   if (filterState.multipackPreset === undefined) {
     filterState.multipackPreset = filterInitialData.multipackPreset;
   }
+
   useEffect(() => {
     if (filterState.customizable.length !== filterInitialData.customizable.length) {
       filterState.customizable = _.map(filterInitialData.customizable, (item: any) => {
