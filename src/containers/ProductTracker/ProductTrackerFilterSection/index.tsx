@@ -73,11 +73,12 @@ function ProductTrackerFilterSection(props: Props) {
   const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
 
+  console.log(filteredRanges.rating);
+
   const filterInitialData: any = {
     sellerID: sellerID,
     amazonChoice: [],
     reviews: [],
-    rating: { min: 0, max: 5 },
     removeNegative: [],
     profitabilityFilter: {
       value: 'Profitable',
@@ -91,6 +92,7 @@ function ProductTrackerFilterSection(props: Props) {
     avg_daily_sales: filteredRanges.avg_daily_sales,
     avg_rank: filteredRanges.avg_rank,
     customer_reviews: filteredRanges.customer_reviews,
+    rating: { min: 0, max: 5 },
     activeGroupId: activeGroupId,
     customizable: [
       {
