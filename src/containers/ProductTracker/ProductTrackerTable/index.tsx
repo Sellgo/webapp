@@ -775,11 +775,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const trackerFilter = JSON.parse(filterStorage);
 
     const resetMaximumValue = min_max[`max_${dataKey}`];
+    const resetMinimumValue = dataKey !== 'avg_price' ? min_max[`min_${dataKey}`] : 0;
 
     const newTrackerFilter = {
       ...trackerFilter,
       [dataKey]: {
-        min: 0,
+        min: resetMinimumValue,
         max: resetMaximumValue,
       },
     };
