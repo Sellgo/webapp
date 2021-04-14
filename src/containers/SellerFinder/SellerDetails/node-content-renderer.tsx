@@ -41,21 +41,27 @@ class CustomThemeNodeContentRenderer extends Component<any, any> {
       swapDepth,
       treeId, // Not needed, but preserved for other renderers
       isOver, // Not needed, but preserved for other renderers
-      parentNode, // Needed for dndManager
+      parentNode,
+      rowDirection, // Needed for dndManager
       ...otherProps
     } = this.props;
 
-    console.log({
-      lowerSiblingCounts,
-      listIndex,
-      swapFrom,
-      swapLength,
-      swapDepth,
-      treeId, // Not needed, but preserved for other renderers
-      isOver, // Not needed, but preserved for other renderers
-      parentNode, // Needed for dndManager
-      icons,
-    });
+    const flag = false;
+    if (flag) {
+      console.log({
+        lowerSiblingCounts,
+        listIndex,
+        swapFrom,
+        swapLength,
+        swapDepth,
+        treeId, // Not needed, but preserved for other renderers
+        isOver, // Not needed, but preserved for other renderers
+        parentNode, // Needed for dndManager
+        icons,
+        rowDirection,
+      });
+    }
+
     const nodeTitle = title || node.title;
     const nodeSubtitle = subtitle || node.subtitle;
 

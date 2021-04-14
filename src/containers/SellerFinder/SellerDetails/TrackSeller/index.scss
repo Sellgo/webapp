@@ -23,6 +23,35 @@ $lightgray: #98aeca;
   }
 
   .track-seller {
+    width: 119px;
+    height: 20px;
+    border: 0.5px solid $blue !important;
+    border-radius: 100px !important;
+    box-shadow: unset !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 10px !important;
+    color: $blue !important;
+    background: white !important;
+
+    > span {
+      margin: unset !important;
+
+      > i {
+        font-size: 12px;
+      }
+    }
+
+    .tracking-label {
+      @extend .inner-container;
+
+      padding-left: 10px;
+      margin: unset !important;
+    }
+  }
+
+  .track-product {
     width: 99px;
     height: 25px;
     border: 0.5px solid $blue !important;

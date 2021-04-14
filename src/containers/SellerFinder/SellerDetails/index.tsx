@@ -27,7 +27,9 @@ const SellerDetails = () => {
         canDrag={false}
         isVirtualized={false}
         onChange={(data: any) => setTreeData(data)}
-        rowHeight={400}
+        rowHeight={({ treeIndex }) => {
+          return treeIndex === 0 ? 75 : 400;
+        }}
       />
     </div>
   );

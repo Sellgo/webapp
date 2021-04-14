@@ -3,20 +3,28 @@ import './index.scss';
 import { Button, Icon } from 'semantic-ui-react';
 interface Props {
   tracking: boolean;
+  type?: string;
 }
 
 const TrackSeller = (props: Props) => {
   return (
     <div className={'track-btn-container'}>
-      <Button className={`track-seller ${props.tracking ? 'tracking' : 'not-tracking'}`}>
+      <Button
+        className={`${props.type === 'seller' ? 'track-seller' : 'track-product'} ${
+          props.tracking ? 'tracking' : 'not-tracking'
+        }`}
+      >
         <span>
-          <i className={'fas fa-fingerprint'} />
+          {props.type === 'product' && <i className={'fas fa-fingerprint'} />}
+          {props.type === 'seller' && '+'}
         </span>
         <span className="tracking-label">Track</span>
       </Button>
-      <span>
-        <Icon name="refresh" color="grey" />
-      </span>
+      {props.type === 'product' && (
+        <span>
+          <Icon name="refresh" color="grey" />
+        </span>
+      )}
     </div>
   );
 };

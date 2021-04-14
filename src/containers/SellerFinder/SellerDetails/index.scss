@@ -23,7 +23,7 @@ $red: #e74c3c;
     }
 
     .rst__node:first-child {
-      height: 75px !important;
+      //height: 75px !important;
 
       > .rst__lineBlock {
         display: none;
@@ -59,8 +59,31 @@ $red: #e74c3c;
         .rst__node {
           height: 50px !important;
           //top: 20px;
+          > .rst__lineBlock:nth-child(1) {
+            width: 44px !important;
+          }
 
-          > .rst__nodeContent {
+          > .rst__lineBlock:nth-child(1)::after {
+            left: 29% !important;
+          }
+
+          > .rst__lineBlock:nth-child(2) {
+            width: 112px !important;
+          }
+
+          > .rst__lineBlock:nth-child(2)::before {
+            top: 63.8% !important;
+            width: 100% !important;
+            left: 15% !important;
+          }
+
+          > .rst__lineBlock:nth-child(2)::after {
+            height: 61% !important;
+            left: 15% !important;
+            top: 10px;
+          }
+
+          .rst__nodeContent {
             //top: -55px;
             width: 100%;
             left: 50px !important;
@@ -76,7 +99,23 @@ $red: #e74c3c;
               width: 95%;
             }
           }
+
+          .sellers-tree {
+            margin-left: 100px;
+            width: 100%;
+
+            .rst__node {
+              height: 47px !important;
+            }
+
+            .rst__node:nth-child(1) {
+              .rst__lineBlock:first-child {
+                top: 45px !important;
+              }
+            }
+          }
         }
+        /* stylelint-disable no-descending-specificity */
 
         .rst__node:first-child {
           height: 55px !important;
@@ -93,7 +132,7 @@ $red: #e74c3c;
             //top: 67px;
 
             .lineChildren {
-              display: block !important;
+              display: none !important;
             }
           }
         }
@@ -105,7 +144,7 @@ $red: #e74c3c;
         }
       }
     }
-    /* stylelint-disable no-descending-specificity */
+
     > .rst__node:nth-child(2) {
       height: 275px !important;
       left: -54px;

@@ -1,0 +1,150 @@
+$gray: #98aeca;
+$darkgary: #dfe8f329;
+$black: #3b4557;
+$blue: #349af8;
+
+.sellers-header {
+  height: 46px;
+  display: flex;
+  border: 0.5px solid $gray;
+  align-items: center;
+  box-shadow: 0 3px 3px $darkgary;
+  border-radius: 11px;
+  background: #fff;
+  position: absolute;
+  width: 96%;
+  top: -73px;
+
+  .th-column {
+    min-width: 100px;
+    white-space: pre-line;
+
+    > p {
+      margin-bottom: 0;
+      color: $black;
+      font-weight: 600;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+  }
+
+  .seller-name {
+    min-width: 350px;
+    padding-left: 35px;
+  }
+
+  .price {
+    min-width: 125px;
+  }
+
+  .fba {
+    min-width: 95px;
+  }
+
+  .fbm {
+    min-width: 95px;
+  }
+
+  .product-rating {
+    min-width: 135px;
+  }
+
+  .total_rating {
+    min-width: 125px;
+  }
+
+  .processed-on {
+    min-width: 200px;
+  }
+
+  .track-sellers {
+    min-width: auto;
+
+    > button {
+      width: 168px;
+      height: 25px;
+      border: 0.5px solid $blue !important;
+      border-radius: 100px !important;
+      box-shadow: unset !important;
+      cursor: pointer;
+      display: flex !important;
+      align-items: center !important;
+      padding: 0 10px !important;
+      color: $blue !important;
+      background: white !important;
+    }
+  }
+}
+
+.sellers-row {
+  height: 46px;
+  display: flex;
+  border: 0.5px solid $gray;
+  align-items: center;
+  box-shadow: 0 3px 3px $darkgary;
+  border-radius: 11px;
+  background: #fff;
+  width: 97%;
+
+  .td-column {
+    min-width: 100px;
+    white-space: pre-line;
+
+    > p {
+      margin-bottom: 0;
+      font-size: 14px;
+    }
+  }
+
+  .seller-name {
+    min-width: 350px;
+    padding-left: 35px;
+    padding-right: 10px;
+
+    > p {
+      .name {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .asin {
+        float: right;
+        font-size: 12px;
+        font-weight: 400 !important;
+      }
+    }
+  }
+
+  .price {
+    min-width: 125px;
+  }
+
+  .fba {
+    min-width: 95px;
+  }
+
+  .fbm {
+    min-width: 95px;
+  }
+
+  .product-rating {
+    min-width: 135px;
+
+    > span {
+      font-size: 9px;
+    }
+  }
+
+  .total_rating {
+    min-width: 125px;
+  }
+
+  .processed-on {
+    min-width: 200px;
+    white-space: unset !important;
+  }
+
+  .track-sellers {
+    min-width: auto;
+  }
+}

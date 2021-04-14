@@ -60,7 +60,7 @@ const renderLastUpdate = (row: any) => {
 };
 
 const renderTrackProducts = (row: any) => {
-  return <TrackSeller tracking={row.tracking} />;
+  return <TrackSeller tracking={row.tracking} type={'product'} />;
 };
 const columns = [
   {
