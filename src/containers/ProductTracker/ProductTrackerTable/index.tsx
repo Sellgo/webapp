@@ -98,7 +98,6 @@ interface TrackerProps {
 class ProductTrackerTable extends React.Component<TrackerProps> {
   state = {
     expandedRows: null,
-    ColumnFilterBox: false,
     name: '',
     confirm: false,
     open: false,
@@ -115,6 +114,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     editCost: false,
     product_cost: 0,
     isValidCostValue: false,
+    ColumnFilterBox: false,
+    activeColumnFilters: '',
+    filterValues: {
+      min: '',
+      max: '',
+    },
   };
 
   componentDidMount() {
@@ -247,6 +252,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
   handleClick = () => {
     const { ColumnFilterBox } = this.state;
+
     this.setState({
       ColumnFilterBox: !ColumnFilterBox,
     });
@@ -286,6 +292,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     localStorage.setItem('productTrackerColumnFilterState', JSON.stringify([...checkedData]));
     this.setState({ columnFilterData: [...checkedData] });
   };
+
   renderCheckbox = () => {
     return <Checkbox />;
   };
@@ -506,6 +513,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderAvgPrice,
       className: 'pt-price',
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Avg Price',
+      filterDataKey: 'avg_price',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nProfit',
@@ -514,6 +526,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgProfit,
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Avg Profit',
+      filterDataKey: 'avg_profit',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nMargin',
@@ -522,6 +539,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgMargin,
+      filter: true,
+      filterSign: '%',
+      filterLabel: 'Avg Margin',
+      filterDataKey: 'avg_margin',
+      filterType: 'slider',
     },
     {
       label: 'Avg Daily\nUnit Sold',
@@ -530,6 +552,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       show: true,
       render: this.renderAvgUnitSold,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Avg Daily Sales',
+      filterDataKey: 'avg_daily_sales',
+      filterType: 'slider',
     },
     {
       label: 'Avg Daily\nRevenue',
@@ -669,6 +696,42 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
+  setActiveColumnFilters = (data: any) => {
+    const filterStorage = localStorage.getItem('trackerFilter') || '{}';
+
+    const trackerFilter = JSON.parse(filterStorage);
+
+    const filterRange = trackerFilter[data];
+    const filterValues = [
+      {
+        [`${data}_min`]: filterRange.min,
+        [`${data}_max`]: filterRange.max,
+      },
+    ];
+
+    this.setState({
+      activeColumnFilters: data,
+      ColumnFilterBox: false,
+      filterValues,
+    });
+  };
+
+  applyColumnFilters = () => {
+    console.log('Apply');
+  };
+
+  resetColumnFilter = () => {
+    console.log('Reset');
+  };
+
+  cancelColumnFilter = () => {
+    console.log('This is called');
+    this.setState({
+      ColumnFilterBox: false,
+      activeColumnFilters: '',
+    });
+  };
+
   render() {
     const {
       loadingTrackerFilter,
@@ -692,7 +755,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       currentActiveColumn,
       costDetails,
     } = this.props;
-    const { ColumnFilterBox, editCost, product_cost } = this.state;
+
+    const {
+      ColumnFilterBox,
+      editCost,
+      product_cost,
+      activeColumnFilters,
+      filterValues,
+    } = this.state;
 
     return (
       <div className="tracker-table">
@@ -736,7 +806,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           currentActiveColumn={currentActiveColumn}
           stickyChartSelector={stickyChartSelector}
           scrollTopSelector={scrollTopSelector}
-          columnFilterBox={ColumnFilterBox}
           tableKey={tableKeys.PRODUCTS}
           data={filteredProducts}
           columns={this.state.columns}
@@ -764,6 +833,14 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
           scrollToView={this.state.scrollView}
           leftFixedColumns={1}
           rightFixedColumns={1}
+          /* Filters */
+          columnFilterBox={ColumnFilterBox}
+          activeColumnFilters={activeColumnFilters}
+          filterValues={filterValues}
+          toggleColumnFilters={this.setActiveColumnFilters}
+          cancelColumnFilters={this.cancelColumnFilter}
+          applyColumnFilters={this.applyColumnFilters}
+          resetColumnFilters={this.resetColumnFilter}
         />
 
         {editCost && (
