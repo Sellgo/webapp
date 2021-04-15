@@ -35,7 +35,12 @@ import {
   fetchSupplierProductDetailChartRating,
   fetchSupplierProductDetailChartReview,
 } from '../../../actions/Products';
-import { columnFilter, filterProductsByGroupId, findMinMax } from '../../../constants/Tracker';
+import {
+  booleanFilterKeys,
+  columnFilter,
+  filterProductsByGroupId,
+  findMinMax,
+} from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
 import {
@@ -782,7 +787,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
 
     if (filterType === 'list') {
-      if (dataKey === 'is_amazon_selling') {
+      if (booleanFilterKeys.includes(dataKey)) {
         filterValues = [{ value: 'Yes' }, { value: 'No' }];
       }
     }
@@ -816,7 +821,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   resetColumnFilter = (dataKey: any, filterType: any, filterKey: any) => {
     const { filterTrackedProducts, activeGroupID, trackerDetails, setPageNumber } = this.props;
 
-    console.log(filterType, filterKey);
     const filterStorage = localStorage.getItem('trackerFilter') || '{}';
 
     const trackerFilter = JSON.parse(filterStorage);
@@ -833,7 +837,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
 
     if (filterType === 'list') {
-      if (['is_amazon_selling'].includes(filterKey)) {
+      if (booleanFilterKeys.includes(filterKey)) {
         newTrackerFilter = {
           ...trackerFilter,
           [filterKey]: 'Yes,No',

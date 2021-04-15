@@ -152,14 +152,6 @@ function ProductTrackerFilterSection(props: Props) {
     filterState.customizable = filterInitialData.customizable;
   }
 
-  if (filterState.avg_amazon_inventory === undefined) {
-    filterState.avg_amazon_inventory = filterInitialData.avg_amazon_inventory;
-  }
-
-  if (filterState.is_amazon_selling === undefined) {
-    filterState.is_amazon_selling = filterInitialData.is_amazon_selling;
-  }
-
   useEffect(() => {
     /*
       Reset filter when changing groups

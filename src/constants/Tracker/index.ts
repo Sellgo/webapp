@@ -63,6 +63,8 @@ export const filterPeriods: FilterData = {
   ],
 };
 
+export const booleanFilterKeys = ['is_amazon_selling'];
+
 export const filterKeys: any = [
   // Basic KPI
   'avg_price',
