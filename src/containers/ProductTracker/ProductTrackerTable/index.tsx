@@ -880,8 +880,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
     const filteredRanges = findMinMax(groupProducts);
 
-    console.log('Filtered Ranges', filteredRanges);
-
     let filterValues: any;
     if (filterType === 'slider') {
       filterValues = [
@@ -908,8 +906,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   applyColumnFilters = (data: any) => {
     const { filterTrackedProducts, activeGroupID, setPageNumber } = this.props;
     const { dataKey, value } = data;
-
-    console.log(data);
 
     const filterStorage = localStorage.getItem('trackerFilter') || '{}';
     const trackerFilter = JSON.parse(filterStorage);
