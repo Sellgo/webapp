@@ -247,7 +247,7 @@ export const columnFilter = [
     key: 'Other UPC',
     dataKey: 'upcs',
     value: true,
-    sisible: true,
+    visible: true,
   },
   {
     value: true,
