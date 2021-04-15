@@ -1,7 +1,9 @@
+@import '../../../design-system/colors';
+
 .filter-section {
   position: sticky;
   top: 13px;
-  background: #f8faff;
+  background: #fff;
   z-index: 4;
   transition-property: top;
   transition-duration: 1s;
@@ -70,8 +72,7 @@
 
   .ui.basic {
     &.button {
-      border-radius: 100px;
-      border: 1px solid #98aeca;
+      border-radius: 7px;
       box-shadow: none !important;
       display: flex;
       align-items: center;
@@ -91,26 +92,17 @@
         width: 86px;
       }
 
-      &.charges-filter-btn {
-        padding: 0 20px 0 10px !important;
-        display: flex;
-        align-items: center;
-        min-width: 90px !important;
-        justify-content: space-between !important;
-
-        span {
-          color: #3b4557;
-          font-weight: 600;
-        }
+      &.more-filter:hover {
+        background-color: $filter-btn-hover-background !important;
       }
 
       .filter-name {
-        color: #3b4557;
+        color: $filter-text-color;
         font-weight: 600;
       }
 
       .filter-count {
-        background-color: #349af8;
+        background-color: $sellgo-blue;
         color: white;
         border-radius: 50%;
         font-size: 14px;
@@ -128,7 +120,7 @@
         width: 11px;
 
         &.sliders {
-          color: #349af8 !important;
+          color: $sellgo-blue !important;
           width: 17px;
         }
 
@@ -138,11 +130,11 @@
         }
 
         &.filter.icon.blue {
-          color: #349af8 !important;
+          color: $sellgo-blue !important;
         }
 
         &.filter.icon.grey {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         &.filter-left-icon {
@@ -156,9 +148,9 @@
         width: 83px;
         height: 25px;
         font-weight: 600;
-        border: 1px solid #98aeca;
-        border-radius: 100px;
-        color: #98aeca !important;
+        border: 1px solid $sellgo-light-gray;
+        border-radius: 7px;
+        color: $sellgo-light-gray !important;
         padding: 4px 22px;
         box-shadow: unset;
       }
@@ -167,15 +159,19 @@
         width: 83px;
         height: 25px;
         font-weight: 600;
-        border: 1px solid #349af8;
-        border-radius: 100px;
-        color: #349af8 !important;
+        border: 1px solid $sellgo-blue;
+        border-radius: 7px;
+        color: $sellgo-blue !important;
         padding: 4px 22px;
         box-shadow: unset;
       }
 
       &.active {
-        background: white !important;
+        background: $filter-active-background-color !important;
+
+        .filter-name {
+          color: $filter-active-text-color !important;
+        }
       }
     }
   }
@@ -205,7 +201,7 @@
 
       p {
         font-weight: 600;
-        color: #3b4557;
+        color: $text-color;
         font-size: 14px;
         margin: inherit;
 
@@ -287,7 +283,7 @@
     position: absolute;
     right: 15px;
     top: 11px;
-    color: #98aeca;
+    color: $sellgo-light-gray;
     cursor: pointer;
   }
 }
@@ -302,7 +298,7 @@
     position: absolute;
     right: 15px;
     top: 11px;
-    color: #98aeca;
+    color: $sellgo-light-gray;
     cursor: pointer;
   }
 
@@ -319,7 +315,7 @@
 
         &__filter-name {
           font-weight: 600;
-          color: #3b4557;
+          color: $text-color;
           font-size: 16px;
           line-height: 1;
           margin-bottom: 5px;
@@ -327,10 +323,10 @@
 
         &__close-btn {
           font-size: 20px;
-          color: #98aeca;
+          color: $sellgo-light-gray;
           font-weight: 600;
           cursor: pointer;
-          font-family: 'Work sans', sans-serif;
+          font-family: 'Work Sans', sans-serif;
         }
       }
 
@@ -339,7 +335,7 @@
 
         p {
           cursor: pointer;
-          color: #349af8;
+          color: $sellgo-blue;
           font-size: 12px;
           display: contents;
         }
@@ -349,7 +345,7 @@
     &__content {
       &__filter-name {
         font-weight: 600;
-        color: #3b4557;
+        color: $text-color;
         font-size: 16px;
         line-height: 1;
         margin-bottom: 5px;
@@ -380,21 +376,21 @@
         .input {
           max-width: 60px;
           margin: 0;
-          color: #98aeca;
+          color: $sellgo-light-gray;
           margin-right: 5px;
 
           input {
             padding: 3px 0 3px 5px;
             border-radius: 5px;
-            border: 1px solid #98aeca;
+            border: 1px solid $sellgo-light-gray;
             font-size: 12px;
             font-weight: 500;
-            font-family: 'Work sans', sans-serif;
+            font-family: 'Work Sans', sans-serif;
           }
         }
 
         .dropdown {
-          border: 1px solid #98aeca;
+          border: 1px solid $sellgo-light-gray;
           background: #fff;
           border-radius: 5px;
           padding: 1px 0 1px 5px;
@@ -406,12 +402,12 @@
             border: unset !important;
             margin: 0;
             height: 10px;
-            color: #98aeca;
+            color: $sellgo-light-gray;
           }
 
           .menu {
             border-radius: 5px;
-            border: 1px solid #98aeca;
+            border: 1px solid $sellgo-light-gray;
 
             .item {
               width: 15px;
@@ -423,7 +419,7 @@
       }
 
       label {
-        color: #3b4557;
+        color: $text-color;
         font-size: 14px;
         display: unset !important;
         cursor: pointer;
@@ -431,14 +427,63 @@
 
       input:checked ~ .box::before,
       input:checked ~ label::before {
-        background-color: #349af8;
-        border: 1px solid #d4d4d5;
+        background-color: #fff;
+        border: 1px solid $checkbox-border;
       }
 
       input:checked ~ .box::after,
       input:checked ~ label::after {
-        color: #fff;
+        color: $text-color;
       }
     }
+  }
+}
+
+/* Export button on the right side of page */
+.export-button {
+  color: $text-color;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+
+  i.icon.download {
+    color: $icon-color;
+    margin-right: 5px;
+  }
+
+  &:hover {
+    i.icon.download {
+      color: $icon-hover-color;
+    }
+  }
+}
+
+/* Charges Filter Button on the right side of page */
+.charges-filter-btn {
+  display: flex;
+  align-items: center;
+  min-width: 90px !important;
+  justify-content: space-between !important;
+  text-decoration: underline;
+  margin: 0 15px;
+  cursor: pointer;
+
+  .filterImage {
+    path {
+      fill: $icon-color;
+    }
+  }
+
+  &:hover {
+    .filterImage {
+      path {
+        fill: $icon-hover-color;
+      }
+    }
+  }
+
+  span.charges {
+    color: $text-color;
+    font-weight: 600;
   }
 }

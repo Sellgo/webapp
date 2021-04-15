@@ -1,43 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './index.scss';
-import { Icon, Label, Popup } from 'semantic-ui-react';
+import { Checkbox, Icon, Label, Popup } from 'semantic-ui-react';
+
 interface Props {
   filers: any[];
   resetActiveFilter?: (dataKey: string, type?: string) => Promise<any>;
   onChecked?: () => void;
   onUnchecked?: () => void;
 }
+
 const ActiveFilters = (props: Props) => {
   const { filers, onChecked, onUnchecked, resetActiveFilter } = props;
-  const [checked, setChecked] = useState(true);
+
+  const areFiltersActive = filers.length > 0;
+
+  const handleCheckBoxChange = async (e: any, data: any) => {
+    const { checked: value } = data;
+
+    if (value) {
+      onChecked && onChecked();
+    } else {
+      onUnchecked && onUnchecked();
+    }
+  };
+
   return (
     <div className="active-filters">
-      {checked ? (
-        <Icon
-          name={'check square'}
-          className={'checkbox'}
-          onClick={() => {
-            setChecked(false);
-            onUnchecked && onUnchecked();
-          }}
-        />
-      ) : (
-        <Icon
-          name={'square outline'}
-          className={'checkbox'}
-          onClick={() => {
-            setChecked(true);
-            onChecked && onChecked();
-          }}
-        />
-      )}
+      <Checkbox
+        checked={areFiltersActive}
+        onChange={handleCheckBoxChange}
+        disabled={!areFiltersActive}
+      />
       <Popup
         className="filter-box"
         basic
         content={
-          <>
-            {checked &&
-              filers.map((filter: any) => {
+          areFiltersActive ? (
+            <>
+              {filers.map((filter: any) => {
                 return (
                   <Label as="a" key={filter.dataKey}>
                     <div className="filter-name">
@@ -49,17 +49,22 @@ const ActiveFilters = (props: Props) => {
                     </div>
                     <Icon
                       name="times circle"
-                      onClick={() =>
-                        resetActiveFilter && resetActiveFilter(filter.dataKey, filter.filterType)
-                      }
+                      onClick={(e: any) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        resetActiveFilter && resetActiveFilter(filter.dataKey, filter.filterType);
+                      }}
                     />
                   </Label>
                 );
               })}
-          </>
+            </>
+          ) : null
         }
         on="click"
-        trigger={<span className="label">Active Filters</span>}
+        trigger={
+          <span className={`label ${!filers.length ? 'inactive' : 'active'} `}>Active Filters</span>
+        }
       />
     </div>
   );

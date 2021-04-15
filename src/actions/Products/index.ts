@@ -28,6 +28,9 @@ import {
   SET_BUY_BOX_STATISTICS,
 } from '../../constants/Products';
 import { activeExportFiles } from '../../selectors/Products';
+import { timeout } from '../../utils/timeout';
+import { info, success } from '../../utils/notifications';
+import { downloadFile } from '../../utils/download';
 
 export const setSupplierProductDetails = (product: Product) => ({
   type: SET_SUPPLIER_PRODUCT_DETAILS,
@@ -290,9 +293,38 @@ export const fetchActiveExportFiles = (isLoading = true) => async (dispatch: any
     if (isLoading) {
       dispatch(setFetchingActiveExports(true));
     }
-    const res = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`);
-    dispatch(setActiveExportFiles(res.data));
+
+    const { data } = await Axios.get(AppConfig.BASE_URL_API + `sellers/${sellerID}/active-exports`);
+
+    const exportsToConsider = data.filter(
+      (file: any) => file.export_status !== 'failed' || file.is_downloaded
+    );
+
     dispatch(setFetchingActiveExports(false));
+
+    if (exportsToConsider.length > 0) {
+      exportsToConsider.forEach(async (file: any) => {
+        if (file.export_status === 'completed') {
+          dispatch(setFileDownloaded(file));
+          downloadFile(file.report_url_filtered);
+          success('Your file is now auto exported', {
+            autoClose: 2000,
+            toastId: file.file,
+          });
+        } else if (file.export_status === 'processing') {
+          info(`Export is in progress: ${file.export_progress} %`, {
+            autoClose: false,
+            toastId: file.file,
+            type: 'info',
+          });
+        }
+      });
+
+      await timeout(2000);
+      dispatch(fetchActiveExportFiles(true));
+    } else {
+      return;
+    }
   } catch (e) {
     console.log('error', e);
   }

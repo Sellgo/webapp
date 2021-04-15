@@ -11,6 +11,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .ui.checkbox.radio input[type='radio']:checked ~ .box::before,
+    .ui.checkbox.radio input[type='radio']:checked ~ label::before {
+      background: #fff !important;
+      border-color: rgba(34, 36, 38, 0.35) !important;
+      color: #000 !important;
+    }
+
+    .ui.checkbox.radio input[type='radio']:checked ~ .box::after,
+    .ui.checkbox.radio input[type='radio']:checked ~ label::after {
+      background: #000 !important;
+      color: #fff !important;
+    }
   }
 }
 

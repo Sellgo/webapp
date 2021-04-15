@@ -11,6 +11,8 @@ import {
   setSpeed,
   setLeadsTracker,
   setLatestSupplier,
+  setSupplierSinglePageItemsCount,
+  setSupplierPageNumber,
 } from '../../../actions/Suppliers';
 import { currentSynthesisId } from '../../../selectors/UploadSupplier';
 import { connect } from 'react-redux';
@@ -25,7 +27,7 @@ import {
 } from '../../../selectors/Supplier';
 import PieChartModal from './PieChartModal';
 import SupplierMenu from './SupplierMenu';
-import SelectColumns from './SelectColumns';
+
 import { Supplier } from '../../../interfaces/Supplier';
 import './index.scss';
 import { tableKeys } from '../../../constants';
@@ -34,7 +36,7 @@ import LeadsTrackerToggle from '../../../components/LeadsTrackerToggle';
 import _ from 'lodash';
 
 import { formatCompletedDate } from '../../../utils/date';
-import { WithoutCostUpload } from '../../../components/WithoutCostUpload';
+
 import ExportResultAs from '../../../components/ExportResultAs';
 import { EXPORT_DATA, EXPORT_FORMATS } from '../../../constants/Suppliers';
 import PageLoader from '../../../components/PageLoader';
@@ -62,6 +64,9 @@ interface SuppliersTableProps {
   currentActiveColumn: string;
   supplierSearch?: string;
   subscriptionPlan: string;
+  singlePageItemsCount: any;
+  setSinglePageItemsCount: (itemsCount: number) => void;
+  setPageNumber: (pageNumber: number) => void;
 }
 
 class SuppliersTable extends Component<SuppliersTableProps> {
@@ -89,23 +94,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     return (
       <div className="supplier">
         <div className="name">{name} </div>
-        {row.has_default_cost && (
-          <span>
-            <WithoutCostUpload />
-          </span>
-        )}
-      </div>
-    );
-  };
 
-  renderFileName = (row: Supplier) => {
-    return (
-      <div className="filename">
-        {row.file_status && (
-          <a href={row.file_url} download={true}>
-            {row.file_name}
-          </a>
-        )}
+        <span className="file-download">
+          {row.file_status && (
+            <a download href={row.file_url} title={`Download: ${row.file_name}`}>
+              <Icon name="download" className="download-icon" />
+            </a>
+          )}
+        </span>
       </div>
     );
   };
@@ -249,6 +245,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
   handlePieChartModalOpen = (supplier: any) => {
     this.setState({ showPieChartModalOpen: true, supplier });
   };
+
   handleClose = () => {
     this.setState({ showPieChartModalOpen: false, supplier: undefined });
   };
@@ -259,12 +256,14 @@ class SuppliersTable extends Component<SuppliersTableProps> {
     }
     return (
       <div>
-        <div className="product-ratio-with-pie">
+        <div
+          className="product-ratio-with-pie"
+          onClick={this.handlePieChartModalOpen.bind(this, row)}
+        >
           {row.p2l_ratio.toString().indexOf('.') === -1
             ? row.p2l_ratio.toString() + '.00%'
             : row.p2l_ratio.toString() + '%'}
         </div>
-        <Icon name="chart pie" onClick={this.handlePieChartModalOpen.bind(this, row)} />
       </div>
     );
   };
@@ -285,14 +284,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       show: true,
       render: this.renderName,
     },
-    {
-      label: 'File Name',
-      dataKey: 'file_name',
-      sortable: true,
-      type: 'string',
-      show: true,
-      render: this.renderFileName,
-    },
+
     {
       label: 'Inventory',
       sortable: true,
@@ -388,11 +380,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       stickyChartSelector,
       currentActiveColumn,
       supplierSearch,
+      singlePageItemsCount,
+      setSinglePageItemsCount,
+      setPageNumber,
     } = this.props;
-
-    if (suppliers.length === 1 && suppliers[0] === undefined) {
-      return <PageLoader />;
-    }
 
     const all = suppliers.filter(supplier => supplier.status !== 'inactive');
     const allData = all.filter(supplier => supplier.progress !== -1);
@@ -422,8 +413,10 @@ class SuppliersTable extends Component<SuppliersTableProps> {
       this.state.exportFormat === 'csv'
         ? this.state.exportResult.report_url_csv
         : this.state.exportResult.report_url;
+
     return (
       <Segment basic={true}>
+        {!suppliers.length && <PageLoader isSearchManagement />}
         <div className="suppliers-table">
           <Grid columns={2} style={{ alignItems: 'center' }} className={'ipad-wdth100'}>
             <Grid.Column floated="left" className={'wdt100 ipad-wdth100'}>
@@ -439,9 +432,7 @@ class SuppliersTable extends Component<SuppliersTableProps> {
               floated="right"
               className={'wdt100 ipad-wdth100'}
               style={{ flex: '0 0 auto', width: 'auto' }}
-            >
-              <SelectColumns columns={columns} />
-            </Grid.Column>
+            ></Grid.Column>
           </Grid>
           <GenericTable
             currentActiveColumn={currentActiveColumn}
@@ -453,6 +444,11 @@ class SuppliersTable extends Component<SuppliersTableProps> {
             columns={columns}
             name={'supplier'}
             searchValue={supplierSearch}
+            singlePageItemsCount={singlePageItemsCount}
+            setSinglePageItemsCount={setSinglePageItemsCount}
+            setPage={setPageNumber}
+            setPageNumber={setPageNumber}
+            loading={!suppliers.length}
           />
           <Confirm
             content="Do you want to delete search?"
@@ -505,6 +501,7 @@ const mapStateToProps = (state: {}) => ({
   stickyChartSelector: get(state, 'supplier.setStickyChart'),
   currentActiveColumn: get(state, 'supplier.activeColumn'),
   subscriptionPlan: get(state, 'subscription.plan'),
+  singlePageItemsCount: get(state, 'supplier.singlePageItemsCount'),
 });
 
 const mapDispatchToProps = {
@@ -519,6 +516,8 @@ const mapDispatchToProps = {
   setLeadsTracker: (sellerId: number, supplierId: number) => setLeadsTracker(sellerId, supplierId),
   setProgress,
   setSpeed,
+  setSinglePageItemsCount: (itemsCount: number) => setSupplierSinglePageItemsCount(itemsCount),
+  setPageNumber: (pageNumber: number) => setSupplierPageNumber(pageNumber),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuppliersTable);

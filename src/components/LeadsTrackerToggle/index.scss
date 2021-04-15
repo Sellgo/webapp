@@ -1,7 +1,9 @@
+@import '../../design-system/colors';
+
 .ToggleSwitch {
   position: relative;
   width: 100%;
-  height: 2.35rem;
+  height: max-content;
 
   &.hidden {
     display: none;
@@ -9,9 +11,10 @@
 
   &.ToggleSwitch__rounded {
     .Slider {
-      border-radius: 15rem;
+      border-radius: 10px;
       background: #eceff1;
       border: 1px solid #a0a0a0;
+      height: 15px;
 
       &::before {
         border-radius: 50%;
@@ -22,20 +25,20 @@
   .ToggleSwitch__wrapper {
     position: relative;
     width: 100%;
-    height: 2.35rem;
+    height: max-content;
 
     .Slider {
       border: none;
       position: absolute;
       cursor: pointer;
-      top: 0;
+      top: 2px;
       left: 0;
       right: 0;
       bottom: 0;
       transition: 0.4s ease;
-      width: 51px;
-      height: 25px;
-      background: #98aeca;
+      width: 50px;
+      height: 18px;
+      background: $toggle-btn-background;
       color: #98aeca;
       display: flex;
       align-items: center;
@@ -44,8 +47,8 @@
 
       &.active {
         justify-content: flex-end;
-        background: #349af8;
-        color: #349af8;
+        background: $sellgo-blue;
+        color: $sellgo-blue;
         transition: justify-content 0.5s linear;
       }
 
@@ -60,8 +63,8 @@
         margin-left: -0.5px;
         margin-bottom: -0.3px;
         font-size: 11px;
-        width: 27px;
-        height: 27px;
+        width: 25px;
+        height: 25px;
         box-shadow: 0 1px 3px #00000029;
         display: flex;
         justify-content: center;

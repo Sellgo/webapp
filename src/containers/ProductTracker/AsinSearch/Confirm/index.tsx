@@ -218,7 +218,7 @@ const Confirm = (props: Props) => {
         <Modal.Header className="header-container">Insert ASIN</Modal.Header>
         <Modal.Content className="Confirm__content">
           <Grid.Row columns={2}>
-            <Grid.Column>Select Group: </Grid.Column>
+            <Grid.Column className="select-group">Select Group: </Grid.Column>
             <Grid.Column>
               <Select
                 placeholder="Select Group"
@@ -227,6 +227,7 @@ const Confirm = (props: Props) => {
                 onChange={(e, data) => {
                   handleGroupSelection(data.value);
                 }}
+                className="select-group-dropdown"
               />
             </Grid.Column>
           </Grid.Row>
@@ -320,14 +321,15 @@ const Confirm = (props: Props) => {
                     emptyData();
                     openModal(false);
                   }}
+                  className="cancel-btn"
                 />
                 <Button
                   disabled={_.isEmpty(getValidProducts())}
                   icon
-                  labelPosition="left"
                   onClick={() => {
                     trackProduct();
                   }}
+                  className="confirm-btn"
                 >
                   <img src={TrackIconWhite} />
                   Track Now

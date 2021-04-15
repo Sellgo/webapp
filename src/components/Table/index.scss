@@ -1,3 +1,5 @@
+@import '../../design-system/colors';
+
 .generic-table {
   &.scrollable {
     overflow-x: auto;
@@ -10,7 +12,7 @@
     overflow-x: inherit;
 
     .body-inner-table {
-      background: #f8faff;
+      background: #fff;
     }
   }
 
@@ -28,7 +30,7 @@
     position: sticky;
     top: -67px;
     z-index: 5;
-    background: #f8faff;
+    background: #fff;
     transition-property: top;
     transition-duration: 1s;
 
@@ -54,45 +56,6 @@
     &.disabled {
       pointer-events: none;
       opacity: 0.3;
-    }
-
-    .product-search {
-      height: 100%;
-      width: 480px;
-
-      input {
-        font-family: 'Work sans', sans-serif !important;
-        border: 1px solid #98aeca !important;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-      }
-
-      button {
-        border-left: none !important;
-        border-right: 1px solid #349af8 !important;
-        border-top: 1px solid #349af8 !important;
-        border-bottom: 1px solid #349af8 !important;
-        background-color: #349af8;
-        border-top-right-radius: 10px !important;
-        border-bottom-right-radius: 10px !important;
-        color: white;
-      }
-    }
-
-    .product-search--active {
-      height: 100%;
-      width: 480px;
-
-      input {
-        border: 1px solid #349af8 !important;
-      }
-
-      button {
-        border-left: none !important;
-        border-right: 1px solid #349af8 !important;
-        border-top: 1px solid #349af8 !important;
-        border-bottom: 1px solid #349af8 !important;
-      }
     }
   }
 
@@ -277,6 +240,10 @@ i.icon.filter::before {
   min-width: 95px;
   padding: 0 5px !important;
 
+  &:hover {
+    background: $table-header-hover-color !important;
+  }
+
   &.dimension {
     min-width: 152px !important;
   }
@@ -317,6 +284,8 @@ i.icon.filter::before {
 .th-label {
   white-space: pre;
   line-height: 1.4;
+  color: $table-header-text-color;
+  font-size: $table-header-label-size;
 }
 
 .ui.sortable.table thead th.sorted::after {
@@ -325,8 +294,9 @@ i.icon.filter::before {
 
 .sort-icon {
   display: table !important;
-  font-size: 15px !important;
+  font-size: $sort-icon-size !important;
   margin: 0 0 -2px 12px !important;
+  color: $icon-color;
 }
 
 .default-column-props {
@@ -346,10 +316,12 @@ i.icon.filter::before {
 
   width: 95px;
   min-width: 95px;
+  color: $text-color;
 
   &.udate {
     white-space: pre-wrap;
     min-width: 120px !important;
+    color: $table-kpi-text-color !important;
   }
 }
 
@@ -453,11 +425,13 @@ i.icon.filter::before {
     width: 100% !important;
 
     > .table-cell-container {
-      justify-content: flex-end !important;
+      justify-content: center !important;
       margin-right: 2px;
+      color: $text-color;
 
       > .sort-arrow {
         margin: 0;
+        fill: $text-color;
       }
     }
   }
@@ -966,7 +940,7 @@ i.icon.filter::before {
 
 .column-filter-ic {
   margin-top: -12px !important;
-  color: #98aeca;
+  color: $icon-color;
 }
 
 .column-filter-ic-active {
@@ -1069,4 +1043,12 @@ i.icon.filter::before {
 .generic-table .ui.table.pf-table thead.pf-header.scroll-top > tr.leads-tracker:first-child th {
   top: 55px !important;
   transition: none !important;
+}
+
+.ui.sortable.table {
+  th.pf-header-cell {
+    &:hover {
+      background: $table-header-hover-color !important;
+    }
+  }
 }

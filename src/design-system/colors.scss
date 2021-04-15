@@ -1,0 +1,50 @@
+/* Base Colors */
+$sellgo-blue: #349af8;
+$sellgo-light-gray: #98aeca;
+$sellgo-light-gray-100: #a2a2a2;
+
+/* Typography */
+$text-color: #313a4c;
+
+/* Tables */
+$table-header-label-size: 12px;
+$sort-icon-size: 16px;
+
+/* Table Typography */
+$table-header-text-color: #757575;
+$table-header-hover-color: #0000000d;
+
+/* Product information on table */
+$table-title-text-color: #2e3b4a;
+$table-title-text-color-hover: #2e3b4a;
+
+/* Everything expect product information but remember special cases like profit */
+$table-kpi-text-color: #2e3b4a;
+
+$table-special-kpi: #2e3b4a;
+$table-special-kpi-hover: #2e3b4a;
+
+/* ----------- Filters ----------------- */
+$filter-btn-hover-background: #e6e6e6;
+$filter-active-background-color: coral;
+$filter-active-text-color: #fff;
+$filter-text-color: #757575;
+
+/* Icon Styles */
+$icon-color: #757575;
+$icon-hover-color: #757575;
+
+/* Buttons */
+$toggle-btn-background: #dededf;
+$search-btn-border: #a2a2a2;
+
+/* Search */
+$search-icon-background: #e6e6e6;
+
+$dropdown-hover: #f8faff;
+
+$inactive-label: #e6e6e6;
+$checkbox-border: #dededf;
+
+/* Loading Animation */
+$transparent-loader-background: rgba(255, 255, 255, 0.5);

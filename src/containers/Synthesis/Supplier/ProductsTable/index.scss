@@ -1,4 +1,7 @@
-$link-color: #5381db;
+@import '../../../../design-system/colors';
+
+/* stylelint-disable no-descending-specificity */
+
 $new_black: #3b4557;
 
 .export-buttons {
@@ -9,7 +12,7 @@ $new_black: #3b4557;
     margin-left: 24px;
 
     :hover {
-      background-color: #98aeca;
+      background-color: $sellgo-light-gray;
       cursor: pointer;
       transition: background-color 0.3s;
     }
@@ -64,7 +67,7 @@ $new_black: #3b4557;
 
   .view-detail-btn {
     width: 100%;
-    background-color: $link-color !important;
+    background-color: $sellgo-blue !important;
     border-radius: 18px !important;
     padding: 10px 32px !important;
     display: inline-flex !important;
@@ -84,7 +87,7 @@ $new_black: #3b4557;
     text-align: left;
 
     i {
-      color: $link-color !important;
+      color: $icon-color !important;
     }
   }
 
@@ -108,7 +111,7 @@ $new_black: #3b4557;
   .flag-row span {
     margin-left: 16px;
     font-size: 14px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Work Sans', sans-serif;
     font-weight: 500;
   }
 
@@ -135,19 +138,20 @@ $new_black: #3b4557;
     .track-wrap {
       width: 120px;
       display: flex !important;
-      border: 1px solid #c8ccd2 !important;
+      border: 1px solid $sellgo-blue !important;
       padding: 5px 7px 7px 12px;
-      background: #f8faff;
+      background: #349af8;
 
       span {
-        color: #757575;
-        font-weight: 600 !important;
+        color: #fff !important;
+        font-size: 12px;
+        font-weight: 500 !important;
         margin: 0 auto;
       }
     }
 
     button {
-      border-radius: 100px !important;
+      border-radius: 7px !important;
     }
 
     &.with-rating button {
@@ -157,14 +161,49 @@ $new_black: #3b4557;
       }
     }
 
+    .track-wrap:hover {
+      width: 120px;
+      display: flex !important;
+      border: 1px solid $sellgo-blue !important;
+      padding: 5px 7px 7px 12px;
+      background: #fff;
+
+      .fingerprint {
+        path {
+          fill: $sellgo-blue;
+        }
+      }
+
+      span {
+        color: $sellgo-blue !important;
+        font-weight: 600 !important;
+        margin: 0 auto;
+      }
+    }
+
     &.is-tracking {
       .track-wrap {
-        background-color: #dfe8f3;
+        background-color: #fff;
+        border: 1px solid #e6e6e6 !important;
+
+        .fingerprint {
+          path {
+            fill: $text-color;
+          }
+        }
 
         span {
-          color: #349af8;
+          color: $text-color !important;
           margin-left: 13px !important;
-          font-weight: 700 !important;
+          font-weight: 500 !important;
+        }
+      }
+
+      .track-wrap:hover {
+        background-color: #e6e6e6;
+
+        span {
+          font-weight: 600 !important;
         }
       }
     }
@@ -194,30 +233,30 @@ $new_black: #3b4557;
     padding-right: 0;
 
     a {
-      color: $link-color !important;
-      font-family: '' Work Sans ', sans-serif', sans-serif;
+      color: $sellgo-blue !important;
+      font-family: 'Work Sans', sans-serif;
       font-size: 14px;
     }
 
     .product-checkbox {
-      border-color: #dededf !important;
+      border-color: $checkbox-border !important;
       border-radius: 4px;
       opacity: 1;
 
       label::before {
         border-radius: 4px !important;
-        border: 1px solid #d4d4d5;
+        border: 1px solid $checkbox-border;
       }
 
       input:checked ~ .box::before,
       input:checked ~ label::before {
-        border-color: #dededf;
-        background-color: #313a4c;
+        border-color: $checkbox-border;
+        background-color: #fff;
       }
 
       input:checked ~ .box::after,
       input:checked ~ label::after {
-        color: #fff;
+        color: $text-color;
       }
     }
 
@@ -227,7 +266,7 @@ $new_black: #3b4557;
       display: flex;
 
       .flag-img {
-        margin-right: 15px;
+        margin-right: 10px;
         width: 18px;
         margin-top: center;
       }
@@ -236,8 +275,16 @@ $new_black: #3b4557;
         height: 24px;
         line-height: 24px;
 
-        span {
+        span.description-text {
           line-height: 24px;
+          color: $table-special-kpi;
+          text-decoration: underline;
+          font-weight: 500 !important;
+
+          &:hover {
+            color: $table-special-kpi-hover !important;
+            font-weight: 600 !important;
+          }
         }
       }
     }
@@ -245,12 +292,14 @@ $new_black: #3b4557;
     .price {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .product_cost {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
 
         &--red {
           color: red !important;
@@ -263,6 +312,7 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -272,30 +322,41 @@ $new_black: #3b4557;
       .stat {
         margin-bottom: 0 !important;
         text-align: left !important;
+        color: $table-special-kpi !important;
+        text-decoration: underline;
+
+        &:hover {
+          font-weight: 600;
+          color: $table-special-kpi-hover !important;
+        }
       }
     }
 
     .multipack_margin {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .multipack_roi {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .rank {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .sales_monthly {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -306,18 +367,21 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .fba_fee {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .referral_fee {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -326,30 +390,35 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .num_fba_new_offers {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .num_fbm_new_offers {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .low_new_fba_price {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .low_new_fbm_price {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -358,6 +427,7 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
@@ -366,9 +436,10 @@ $new_black: #3b4557;
         text-align: left !important;
         font-weight: 500;
         margin-bottom: 0 !important;
+        color: $table-kpi-text-color !important;
 
         &--blue {
-          color: #0e6fcf;
+          color: $sellgo-blue;
           cursor: pointer;
         }
       }
@@ -380,20 +451,33 @@ $new_black: #3b4557;
     .rating {
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .upcs {
       min-width: 130px !important;
       text-align: left !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .is_amazon_selling {
       min-width: 120px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .subscribe_save {
       min-width: 108px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .best_seller {
@@ -405,11 +489,17 @@ $new_black: #3b4557;
 
       .stat {
         text-align: left !important;
+        color: $table-kpi-text-color !important;
       }
     }
 
     .amazon_price {
       min-width: 133px !important;
+      color: $table-kpi-text-color !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
 
       @media only screen and(max-width: 1540px) {
         min-width: 134px !important;
@@ -418,6 +508,10 @@ $new_black: #3b4557;
 
     .number_of_sellers {
       min-width: 99px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     .num_fba_new_offers,
@@ -425,6 +519,10 @@ $new_black: #3b4557;
     .low_new_fbm_price,
     .low_new_fba_price {
       min-width: 130px !important;
+
+      .stat {
+        color: $table-kpi-text-color !important;
+      }
     }
 
     tfoot {
@@ -442,19 +540,19 @@ $new_black: #3b4557;
         }
 
         .ui.pagination.menu a:nth-child(2) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         .ui.pagination.menu a:nth-child(1) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         .ui.pagination.menu a:nth-last-child(2) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
 
         .ui.pagination.menu a:nth-last-child(1) {
-          color: #98aeca !important;
+          color: $sellgo-light-gray !important;
         }
       }
     }
@@ -531,13 +629,20 @@ $new_black: #3b4557;
 
       .table-cell-container {
         padding: 0 5px !important;
+        color: #757575;
 
         .icon {
           display: block;
           margin-top: -15px !important;
+          color: $icon-color !important;
 
           &.ellipsis {
             margin: 0 !important;
+            color: $icon-color !important;
+
+            &:hover {
+              color: $icon-hover-color;
+            }
           }
         }
       }
@@ -591,7 +696,8 @@ $new_black: #3b4557;
           font-family: 'Work Sans', sans-serif !important;
           white-space: nowrap;
           margin: 0 auto;
-          font-weight: 600;
+          font-weight: 500;
+          color: #3b4557;
         }
       }
     }
@@ -636,6 +742,7 @@ $new_black: #3b4557;
     td p.stat {
       text-align: left;
       line-height: 1;
+      color: $text-color !important;
     }
 
     .mrgn-right {
@@ -643,7 +750,7 @@ $new_black: #3b4557;
     }
 
     .font-color {
-      color: #98aeca !important;
+      color: $sellgo-light-gray !important;
     }
 
     .description-text {
@@ -767,7 +874,6 @@ $new_black: #3b4557;
     position: relative;
     top: -5px;
     font-size: 12px !important;
-    color: #98aeca;
   }
 
   .down-arrow {
@@ -816,7 +922,7 @@ $new_black: #3b4557;
 
       .fingerprint-untrack {
         cursor: pointer;
-        width: 15px !important;
+        width: 10px !important;
 
         &.disabled {
           pointer-events: none;
@@ -953,6 +1059,12 @@ $new_black: #3b4557;
   }
 }
 
+/* Edit Cost icon */
 .edit-cost {
   cursor: pointer;
+  color: $icon-color;
+
+  &:hover {
+    color: $icon-hover-color;
+  }
 }

@@ -56,6 +56,7 @@ class SelectColumns extends Component<SelectColumnsProps> {
         text="Select Columns"
         renderLabel={() => false}
         closeOnChange={false}
+        className="select-columns"
         options={[
           {
             text: (
