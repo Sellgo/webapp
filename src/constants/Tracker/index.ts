@@ -220,7 +220,34 @@ export const columnFilter = [
   {
     key: 'Avg Amazon Inventory',
     dataKey: 'avg_amazon_inventory',
+    visible: true,
     value: true,
+  },
+  {
+    key: 'Subscribe & Save',
+    dataKey: 'subscribe_save',
+    visible: true,
+    value: true,
+  },
+
+  {
+    key: 'Number Of Sellers',
+    dataKey: 'number_of_sellers',
+    visible: true,
+    value: true,
+  },
+  {
+    key: 'Amazon Sells At',
+    dataKey: 'amazon_price',
+    type: 'number',
+    visible: true,
+    value: true,
+  },
+  {
+    key: 'Other UPC',
+    dataKey: 'upcs',
+    value: true,
+    visible: true,
   },
   {
     value: true,
