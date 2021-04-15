@@ -148,3 +148,187 @@ $blue: #349af8;
     min-width: auto;
   }
 }
+
+@media only screen and (min-width: 1024px) and (max-width: 1919px) {
+  .sellers-header {
+    width: 93%;
+
+    @media only screen and (min-width: 1366px) and (max-width: 1599px) {
+      width: 90.5% !important;
+    }
+
+    @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+      width: 93.5% !important;
+    }
+
+    .seller-name {
+      min-width: 200px;
+      padding-left: 25px;
+
+      @media only screen and (min-width: 1440px) and (max-width: 1919px) {
+        min-width: 250px;
+      }
+    }
+
+    .price {
+      min-width: 75px;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        min-width: 115px;
+      }
+    }
+
+    .fba {
+      padding-right: 25px !important;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        padding-right: 45px !important;
+      }
+    }
+
+    .fbm {
+      padding-right: 25px !important;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        padding-right: 45px !important;
+      }
+    }
+
+    .product-rating {
+      min-width: 115px;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        min-width: 135px;
+      }
+    }
+
+    .total_rating {
+      padding-right: 25px;
+    }
+
+    .processed-on {
+      min-width: 125px;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        min-width: 135px;
+      }
+    }
+
+    .track-sellers {
+      min-width: 170px;
+
+      > button {
+        width: 140px;
+        height: 20px;
+        border: 0.5px solid $blue !important;
+        border-radius: 100px !important;
+        box-shadow: unset !important;
+        cursor: pointer;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 10px !important;
+        color: $blue !important;
+        background: white !important;
+        font-size: 10px !important;
+      }
+    }
+  }
+
+  .sellers-row {
+    width: 95%;
+
+    @media only screen and (min-width: 1366px) and (max-width: 1599px) {
+      width: 92.5% !important;
+    }
+
+    @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+      width: 95% !important;
+    }
+
+    .seller-name {
+      min-width: 200px;
+      padding-left: 25px;
+
+      @media only screen and (min-width: 1440px) and (max-width: 1919px) {
+        min-width: 250px;
+      }
+
+      > p {
+        .name {
+          font-size: 11px;
+          font-weight: 500;
+        }
+
+        .asin {
+          float: right;
+          font-size: 10px;
+          font-weight: 400 !important;
+        }
+      }
+    }
+
+    .price {
+      min-width: 75px;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        min-width: 115px;
+      }
+    }
+
+    .fba {
+      padding-right: 25px !important;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        padding-right: 45px !important;
+      }
+    }
+
+    .fbm {
+      padding-right: 25px !important;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        padding-right: 45px !important;
+      }
+    }
+
+    .product-rating {
+      min-width: 115px;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        min-width: 135px;
+      }
+    }
+
+    .total_rating {
+      padding-right: 40px;
+      padding-left: 10px;
+    }
+
+    .processed-on {
+      min-width: 125px;
+
+      @media only screen and (min-width: 1600px) and (max-width: 1919px) {
+        min-width: 135px;
+      }
+    }
+
+    .track-sellers {
+      min-width: 170px;
+
+      > button {
+        width: 140px;
+        height: 20px;
+        border: 0.5px solid $blue !important;
+        border-radius: 100px !important;
+        box-shadow: unset !important;
+        cursor: pointer;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 10px !important;
+        color: $blue !important;
+        background: white !important;
+        font-size: 10px !important;
+      }
+    }
+  }
+}
