@@ -80,6 +80,8 @@ export const filterKeys: any = [
   'weight',
   'avg_inventory',
   'avg_amazon_inventory',
+  'number_of_sellers',
+  'amazon_price',
 ];
 
 export const dataKeyMapping: any = {
@@ -376,35 +378,27 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
     return filterData !== undefined
-      ? /* is_amazon_selling */
-
-        (filterData.is_amazon_selling === 'Yes' && product.is_amazon_selling) ||
-          (filterData.is_amazon_selling === 'No' && !product.is_amazon_selling) ||
-          filterData.is_amazon_selling === 'Yes,No' ||
-          (filterData.is_amazon_selling === 'No,Yes' &&
-            (product.is_amazon_selling || !product.is_amazon_selling) &&
-            /*
+      ? /*
           show amazon choice products if checked, if not, show all
         */
-            filterData.amazonChoice.indexOf('amazon-choice-products') === -1) ||
+        (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
           (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
-            !_.isEmpty(product.amazon_choice) &&
-            /*
+            !_.isEmpty(product.amazon_choice))) &&
+          /*
           show NOT selling products if checked, if not, show all
         */
-            (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
-              (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
-                !product.is_amazon_selling)) &&
-            (filterData.reviews.length === 5 ||
-              filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
-            customizableFilter(product, filterData.customizable) &&
-            findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-            filterKeys.every((dataKey: any) => {
-              return (
-                Number(product[dataKey]) >= Number(filterData[dataKey].min || -Infinity) &&
-                Number(product[dataKey]) <= Number(filterData[dataKey].max || Infinity)
-              );
-            }))
+          (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
+            (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
+              !product.is_amazon_selling)) &&
+          (filterData.reviews.length === 5 ||
+            filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+          customizableFilter(product, filterData.customizable) &&
+          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
+          filterKeys.every(
+            (dataKey: any) =>
+              Number(product[dataKey]) >= Number(filterData[dataKey].min || -Infinity) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max || Infinity)
+          )
       : products;
   });
   return updatedFilterProducts;

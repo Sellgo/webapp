@@ -96,6 +96,8 @@ function ProductTrackerFilterSection(props: Props) {
     weight: filteredRanges.weight,
     avg_inventory: filteredRanges.avg_inventory,
     avg_amazon_inventory: filteredRanges.avg_amazon_inventory,
+    number_of_sellers: filteredRanges.number_of_sellers,
+    amazon_price: filteredRanges.amazon_price,
     activeGroupId: activeGroupId,
     is_amazon_selling: ['Yes,No'],
     customizable: [

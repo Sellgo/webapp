@@ -518,7 +518,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
   renderSubScribeSave = (row: ProductTrackerDetails) => {
     let subscribeSave: string;
-    if (!row.best_seller) {
+    if (!row.subscribe_save) {
       subscribeSave = row.subscribe_save === null ? '-' : 'No';
     } else {
       subscribeSave = 'Yes';
@@ -711,6 +711,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderNoOfSellers,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Number of Sellers',
+      filterDataKey: 'number_of_sellers',
+      filterType: 'slider',
     },
     {
       label: 'Amazon\n Sells at',
@@ -719,6 +724,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAmazonPrice,
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Amazon Sells At',
+      filterDataKey: 'amazon_price',
+      filterType: 'slider',
     },
     {
       label: 'Other UPC',
@@ -870,7 +880,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
     const filteredRanges = findMinMax(groupProducts);
 
-    console.log(filteredRanges);
+    console.log('Filtered Ranges', filteredRanges);
 
     let filterValues: any;
     if (filterType === 'slider') {
@@ -898,6 +908,8 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
   applyColumnFilters = (data: any) => {
     const { filterTrackedProducts, activeGroupID, setPageNumber } = this.props;
     const { dataKey, value } = data;
+
+    console.log(data);
 
     const filterStorage = localStorage.getItem('trackerFilter') || '{}';
     const trackerFilter = JSON.parse(filterStorage);
