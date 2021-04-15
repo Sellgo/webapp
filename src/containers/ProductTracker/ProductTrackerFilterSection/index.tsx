@@ -99,7 +99,7 @@ function ProductTrackerFilterSection(props: Props) {
     number_of_sellers: filteredRanges.number_of_sellers,
     amazon_price: filteredRanges.amazon_price,
     activeGroupId: activeGroupId,
-    is_amazon_selling: ['Yes,No'],
+    is_amazon_selling: 'Yes,No',
     customizable: [
       {
         dataKey: 'listing-monthly',
