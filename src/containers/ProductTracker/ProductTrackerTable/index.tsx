@@ -582,6 +582,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderDailyRevenue,
+      filter: true,
+      filterSign: '$',
+      filterLabel: 'Avg Daily Revenue',
+      filterDataKey: 'avg_daily_revenue',
+      filterType: 'slider',
     },
     {
       label: 'Avg\nROI',
@@ -603,6 +608,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderOOS,
+      filter: true,
+      filterSign: '%',
+      filterLabel: 'Out of Stock',
+      filterDataKey: 'amazon_oos_90',
+      filterType: 'slider',
     },
     {
       label: 'Avg Daily\nRank',
@@ -632,6 +642,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderWeight,
+      filter: true,
+      filterSign: 'lb',
+      filterLabel: 'Weight',
+      filterDataKey: 'weight',
+      filterType: 'slider',
     },
     {
       label: 'Reviews',
@@ -666,6 +681,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderAvgInventory,
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Avg Inventory',
+      filterDataKey: 'avg_inventory',
+      filterType: 'slider',
     },
     {
       label: 'Is Amazon\nSelling',
@@ -674,6 +694,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderIsAmazonSelling,
+      filter: true,
+      filterLabel: 'Is Amazon Selling',
+      filterSign: '',
+      filterDataKey: 'is_amazon_selling',
+      filterType: 'list',
     },
     {
       label: 'Avg Amazon\nInventory',
@@ -683,6 +708,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       render: this.renderAvgAmazonInventory,
       className: 'pt-avg_amazon_inventory',
+      filter: true,
+      filterSign: '',
+      filterLabel: 'Amazon Inventory',
+      filterDataKey: 'avg_amazon_inventory',
+      filterType: 'slider',
     },
     {
       icon: 'ellipsis horizontal',
@@ -733,18 +763,29 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     });
   };
 
-  setActiveColumnFilters = (dataKey: any) => {
+  setActiveColumnFilters = (dataKey: any, filterType: any) => {
     const { trackerDetails, activeGroupID } = this.props;
 
     const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
     const filteredRanges = findMinMax(groupProducts);
 
-    const filterValues: any = [
-      {
-        [`${dataKey}_min`]: filteredRanges[dataKey].min,
-        [`${dataKey}_max`]: filteredRanges[dataKey].max,
-      },
-    ];
+    console.log(filteredRanges);
+
+    let filterValues: any;
+    if (filterType === 'slider') {
+      filterValues = [
+        {
+          [`${dataKey}_min`]: filteredRanges[dataKey].min,
+          [`${dataKey}_max`]: filteredRanges[dataKey].max,
+        },
+      ];
+    }
+
+    if (filterType === 'list') {
+      if (dataKey === 'is_amazon_selling') {
+        filterValues = [{ value: 'Yes' }, { value: 'No' }];
+      }
+    }
 
     this.setState({
       activeColumnFilters: dataKey,
@@ -772,19 +813,33 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     this.setState({ activeColumnFilters: '' });
   };
 
-  resetColumnFilter = (dataKey: any) => {
+  resetColumnFilter = (dataKey: any, filterType: any, filterKey: any) => {
     const { filterTrackedProducts, activeGroupID, trackerDetails, setPageNumber } = this.props;
 
+    console.log(filterType, filterKey);
     const filterStorage = localStorage.getItem('trackerFilter') || '{}';
 
     const trackerFilter = JSON.parse(filterStorage);
     const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
     const filteredRanges = findMinMax(groupProducts);
 
-    const newTrackerFilter = {
-      ...trackerFilter,
-      [dataKey]: filteredRanges[dataKey],
-    };
+    let newTrackerFilter: any;
+
+    if (filterType === 'slider') {
+      newTrackerFilter = {
+        ...trackerFilter,
+        [dataKey]: filteredRanges[dataKey],
+      };
+    }
+
+    if (filterType === 'list') {
+      if (['is_amazon_selling'].includes(filterKey)) {
+        newTrackerFilter = {
+          ...trackerFilter,
+          [filterKey]: 'Yes,No',
+        };
+      }
+    }
 
     setPageNumber(1);
     filterTrackedProducts(newTrackerFilter, activeGroupID);

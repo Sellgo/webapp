@@ -182,6 +182,7 @@ export default (state = initialState, action: AnyAction) => {
         state.trackerDetails.results,
         groupId
       );
+
       const filteredProducts = findFilteredProducts(filteredProductsByGroupId, data);
       const searchProducts = searchFilteredProduct(filteredProducts, state.filterSearch);
       const newStateAfterFilter = setIn(newState, 'filteredProducts', searchProducts);

@@ -72,6 +72,7 @@ function ProductTrackerFilterSection(props: Props) {
   const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupId);
   const filteredRanges = findMinMax(groupProducts);
   const rangeData: any = _.cloneDeep(filteredRanges);
+
   const filterInitialData: any = {
     sellerID: sellerID,
     amazonChoice: [],
@@ -89,8 +90,14 @@ function ProductTrackerFilterSection(props: Props) {
     avg_daily_sales: filteredRanges.avg_daily_sales,
     avg_rank: filteredRanges.avg_rank,
     customer_reviews: filteredRanges.customer_reviews,
-    rating: { min: 0, max: 5 },
+    rating: filteredRanges.rating,
+    avg_daily_revenue: filteredRanges.avg_daily_revenue,
+    amazon_oos_90: filteredRanges.amazon_oos_90,
+    weight: filteredRanges.weight,
+    avg_inventory: filteredRanges.avg_inventory,
+    avg_amazon_inventory: filteredRanges.avg_amazon_inventory,
     activeGroupId: activeGroupId,
+    is_amazon_selling: ['Yes,No'],
     customizable: [
       {
         dataKey: 'listing-monthly',
@@ -143,6 +150,14 @@ function ProductTrackerFilterSection(props: Props) {
   }
   if (filterState.customizable === undefined) {
     filterState.customizable = filterInitialData.customizable;
+  }
+
+  if (filterState.avg_amazon_inventory === undefined) {
+    filterState.avg_amazon_inventory = filterInitialData.avg_amazon_inventory;
+  }
+
+  if (filterState.is_amazon_selling === undefined) {
+    filterState.is_amazon_selling = filterInitialData.is_amazon_selling;
   }
 
   useEffect(() => {
