@@ -3,6 +3,7 @@ import COUNTRY_IMAGE from '../../../assets/images/flag_icon.svg';
 import _ from 'lodash';
 import AMAZON_IMAGE from '../../../assets/images/amazon_choice.svg';
 import { PRODUCT_ID_TYPES } from '../../../constants/UploadSupplier';
+import bestSellerImage from '../../../assets/images/best-seller.png';
 
 const ProductDescription = (props: any) => {
   const { item } = props;
@@ -10,9 +11,7 @@ const ProductDescription = (props: any) => {
   return (
     <div className="inner-product-info">
       <div className="product-tracker-description" title={item.title}>
-        <div className="product-image" style={{ backgroundImage: `url(${item.image_url})` }}>
-          {' '}
-        </div>
+        <div className="product-image" style={{ backgroundImage: `url(${item.image_url})` }} />
         <div>
           <div className="description-text">
             <a href={item.amazon_url} target="_blank" rel="noopener noreferrer">
@@ -31,7 +30,10 @@ const ProductDescription = (props: any) => {
                     .map(pidType => item[pidType.toLowerCase()])[0] || ''}
                 </span>
               </div>
-              {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
+              <div className="product-labels-container">
+                {!_.isEmpty(item.best_seller) && <img src={bestSellerImage} alt="amazon_choice" />}
+                {!_.isEmpty(item.amazon_choice) && <img src={AMAZON_IMAGE} alt="amazon_choice" />}
+              </div>
             </div>
           </div>
         </div>

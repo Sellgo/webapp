@@ -487,16 +487,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     return <p>{truncateString(row.source, 25)}</p>;
   };
 
-  renderBestSeller = (row: ProductTrackerDetails) => {
-    let bestSeller: string;
-    if (!row.best_seller) {
-      bestSeller = row.best_seller === null ? '-' : 'No';
-    } else {
-      bestSeller = 'Yes';
-    }
-    return <p className="stat">{bestSeller}</p>;
-  };
-
   renderSubScribeSave = (row: ProductTrackerDetails) => {
     let subscribeSave: string;
     if (!row.best_seller) {
@@ -637,14 +627,6 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderAvgRank,
     },
     {
-      label: 'Best Seller',
-      dataKey: 'best_seller',
-      type: 'string',
-      show: true,
-      sortable: true,
-      render: this.renderBestSeller,
-    },
-    {
       label: 'Subscribe\n& Save',
       dataKey: 'subscribe_save',
       type: 'string',
@@ -652,14 +634,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       sortable: true,
       render: this.renderSubScribeSave,
     },
-    {
-      label: 'Other UPC',
-      dataKey: 'upcs',
-      type: 'string',
-      show: true,
-      sortable: true,
-      render: this.renderOtherUPCS,
-    },
+
     {
       label: 'Number\nOf Sellers',
       dataKey: 'number_of_sellers',
@@ -669,12 +644,20 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       render: this.renderNoOfSellers,
     },
     {
-      label: 'Amazon Price',
+      label: 'Amazon\n Sells at',
       dataKey: 'amazon_price',
       type: 'number',
       show: true,
       sortable: true,
       render: this.renderAmazonPrice,
+    },
+    {
+      label: 'Other UPC',
+      dataKey: 'upcs',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderOtherUPCS,
     },
     {
       label: 'Dimensions',
