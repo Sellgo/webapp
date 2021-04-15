@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Icon } from 'semantic-ui-react';
+import { Checkbox, Icon, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './index.scss';
 import { ProductTrackerDetails, ProductsPaginated } from '../../../interfaces/Product';
@@ -444,17 +444,21 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderRating = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">{showNAIfZeroOrNull(row.rating && row.rating !== '0.0', row.rating)}</p>
     );
   };
+
   renderDimensions = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.dimension, row.dimension)}</p>;
   };
+
   renderWeight = (row: ProductTrackerDetails) => {
     return <p className="stat">{showNAIfZeroOrNull(row.weight, `${row.weight} lbs`)}</p>;
   };
+
   renderAvgInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -462,6 +466,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderAvgAmazonInventory = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -472,6 +477,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderIsAmazonSelling = (row: ProductTrackerDetails) => {
     return (
       <p className="stat">
@@ -479,6 +485,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       </p>
     );
   };
+
   renderIcons = (row: ProductTrackerDetails) => {
     const { trackGroups, handleMoveGroup, setProductEditDetails } = this.props;
 
@@ -504,8 +511,64 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       />
     );
   };
+
   renderSource = (row: ProductTrackerDetails) => {
     return <p>{truncateString(row.source, 25)}</p>;
+  };
+
+  renderSubScribeSave = (row: ProductTrackerDetails) => {
+    let subscribeSave: string;
+    if (!row.best_seller) {
+      subscribeSave = row.subscribe_save === null ? '-' : 'No';
+    } else {
+      subscribeSave = 'Yes';
+    }
+    return <p className="stat">{subscribeSave}</p>;
+  };
+
+  renderOtherUPCS = (row: ProductTrackerDetails) => {
+    const upcs = row.upcs ? row.upcs.split(' ') : [];
+
+    const dataValue = row.upcs === null ? '-' : upcs[0];
+
+    return (
+      <>
+        {upcs.length > 0 ? (
+          <Popup
+            className="other-upcs-popup"
+            size="large"
+            position="bottom left"
+            basic
+            content={
+              <div className="other-upcs-card">
+                <h5>Other UPCs (This product has multiple UPC's) </h5>
+                <p>{upcs.join(' ')}</p>
+              </div>
+            }
+            on={'click'}
+            trigger={<p className="stat">{dataValue}</p>}
+          />
+        ) : (
+          dataValue
+        )}
+      </>
+    );
+  };
+
+  renderNoOfSellers = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.number_of_sellers, formatNumber(row.number_of_sellers))}
+      </p>
+    );
+  };
+
+  renderAmazonPrice = (row: ProductTrackerDetails) => {
+    return (
+      <p className="stat">
+        {showNAIfZeroOrNull(row.amazon_price, formatCurrency(row.amazon_price))}
+      </p>
+    );
   };
 
   columns: Column[] = [
@@ -631,6 +694,39 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       filterLabel: 'Avg Daily Rank',
       filterDataKey: 'avg_rank',
       filterType: 'slider',
+    },
+    {
+      label: 'Subscribe\n& Save',
+      dataKey: 'subscribe_save',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderSubScribeSave,
+    },
+
+    {
+      label: 'Number\nOf Sellers',
+      dataKey: 'number_of_sellers',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderNoOfSellers,
+    },
+    {
+      label: 'Amazon\n Sells at',
+      dataKey: 'amazon_price',
+      type: 'number',
+      show: true,
+      sortable: true,
+      render: this.renderAmazonPrice,
+    },
+    {
+      label: 'Other UPC',
+      dataKey: 'upcs',
+      type: 'string',
+      show: true,
+      sortable: true,
+      render: this.renderOtherUPCS,
     },
     {
       label: 'Dimensions',
