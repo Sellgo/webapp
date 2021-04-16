@@ -68,6 +68,25 @@ export const filterPeriods: FilterData = {
   ],
 };
 
+export const maxStarterPlanFilterPeriod = 30;
+export const maxSuitePlanFilterperiod = 180;
+export const maxProfessionalPlanFilterPeriod = 365;
+
+export const getMaxFilterPeriod = (subscriptionID: number) => {
+  // Free Trial, Free Account and Starter Plans
+  if (subscriptionID >= 4) {
+    return maxStarterPlanFilterPeriod;
+  }
+
+  // Pro Plan and Old Exterprise Plan
+  if (subscriptionID >= 2 && subscriptionID <= 3) {
+    return maxProfessionalPlanFilterPeriod;
+  }
+
+  //Suite Plan
+  return maxSuitePlanFilterperiod;
+};
+
 export const filterKeys: any = [
   // Basic KPI
   'avg_price',
