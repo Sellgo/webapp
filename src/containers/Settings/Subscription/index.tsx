@@ -211,6 +211,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       pendingSubscriptionMode,
       isYearly,
     } = this.state;
+
     const subscribedSubscription = sellerSubscription
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
@@ -218,6 +219,9 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
     const trackTitle = 'Unlimited Profit Finder';
 
     let subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
+
+    console.log(subscriptionsSorted);
+
     if (subscriptionsSorted.length && subscriptionsSorted.length === 4) {
       const [basic, pro, enterprise, extension] = subscriptionsSorted;
       subscriptionsSorted = [extension, basic, pro, enterprise];
@@ -230,6 +234,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         (isYearly
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
+
       const subscriptionId = Number(subscription.id);
 
       const getTrackLimit = (trackLimit: number) => {
@@ -392,12 +397,14 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Grid className="pricing-container">
+            {/* Header */}
             <Grid.Row>
               <Header as="h1">Sellgo Pricing</Header>
               For new members register with Amazon Seller Central Account <br />
               Risk free 14-day money back guarantee
             </Grid.Row>
 
+            {/* Prcing Buttons */}
             <Grid.Row className="pricing-type flex-center">
               <div className="pricing-type__content">
                 <Button
@@ -419,7 +426,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <div className="pricing-type__content__circle" />
               </div>
             </Grid.Row>
+
+            {/* Pricing Cards */}
             <Grid.Row className="pricing-content flex-center">{plansDisplay}</Grid.Row>
+
+            {/* Show coupon if not paid subscription */}
             {isSubscriptionNotPaid(subscriptionType) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
@@ -454,18 +465,25 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 </Grid>
               </div>
             )}
+
+            {/* Card Pictures */}
             <Grid.Row className="setcard-container">
               <Image src={Setcard} />
               <Image src={Stripe} />
             </Grid.Row>
+
             <Grid.Row className="offer-footer">We offer 14-day money back guarantee.</Grid.Row>
+
             <Divider />
           </Grid>
+
+          {/* Plans Comparion Table */}
           <Grid className="plans-table-container">
             <div className="plans-table-container__wrapper">
               <Grid.Row className="plans-table-container__wrapper__title">
-                <p>Compare Plans</p>{' '}
+                <p>Compare Plans</p>
               </Grid.Row>
+
               <Table striped className="plans-table-container__wrapper__table">
                 <Table.Header className="plans-table-container__wrapper__table__header">
                   <Table.Row>
@@ -500,6 +518,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       </p>
                     </Table.Cell>
                   </Table.Row>
+
                   <Table.Row>
                     <Table.Cell>Search Management</Table.Cell>
                     <Table.Cell>
@@ -547,6 +566,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       </p>
                     </Table.Cell>
                   </Table.Row>
+
                   <Table.Row>
                     <Table.Cell>Daily Inventory Tracking</Table.Cell>
                     <Table.Cell>
@@ -570,6 +590,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                       </p>
                     </Table.Cell>
                   </Table.Row>
+
                   <Table.Row>
                     <Table.Cell>Maximum Monthly Uploads</Table.Cell>
                     <Table.Cell>
