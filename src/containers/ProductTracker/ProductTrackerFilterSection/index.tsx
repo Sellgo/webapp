@@ -816,8 +816,8 @@ function ProductTrackerFilterSection(props: Props) {
           {_.map(filterDataState.period.data, filterData => {
             return (
               <div
-                className={`tracker-filter-section__header__period-container__period-items ${filterData.value ===
-                  filterState.period && 'active'}`}
+                className={`tracker-filter-section__header__period-container__period-items 
+                ${filterData.value === filterState.period && 'active'}`}
                 key={filterData.dataKey}
               >
                 <span

@@ -56,6 +56,11 @@ export const filterPeriods: FilterData = {
       value: 90,
     },
     {
+      label: '180D',
+      dataKey: '6-Month',
+      value: 180,
+    },
+    {
       label: '365D',
       dataKey: 'year',
       value: 365,
