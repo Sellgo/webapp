@@ -97,8 +97,16 @@ class SuppliersTable extends Component<SuppliersTableProps> {
 
         <span className="file-download">
           {row.file_status && (
-            <a download href={row.file_url} title={`Download: ${row.file_name}`}>
+            <a download href={row.file_url} title={`Download : ${row.file_name}`}>
               <Icon name="download" className="download-icon" />
+            </a>
+          )}
+        </span>
+
+        <span className="error-file-download">
+          {row.error_file_url && (
+            <a download href={row.error_file_url} title={`Download Error File`}>
+              <Icon name="download" className="error-download-icon" />
             </a>
           )}
         </span>
