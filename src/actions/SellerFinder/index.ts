@@ -4,13 +4,13 @@ import {
   FETCH_SELLERS_ERROR,
   FETCH_SELLERS_SUCCESS,
 } from '../../constants/SellerFinder';
-// import { sellerIDSelector } from '../../selectors/Seller';
+import { sellerIDSelector } from '../../selectors/Seller';
 import { AppConfig } from '../../config';
 
 export const fetchSellers = () => async (dispatch: any) => {
   try {
-    // const sellerID = sellerIDSelector();
-    const url = AppConfig.BASE_URL_API + `sellers/1000000001/merchants`;
+    const sellerID = sellerIDSelector();
+    const url = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants`;
     await dispatch(fetchingSellers(true));
     const res = await Axios.get(url);
     if (res) {
