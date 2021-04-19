@@ -65,6 +65,24 @@ export const filterPeriods: FilterData = {
 
 export const booleanFilterKeys = ['is_amazon_selling', 'subscribe_save'];
 
+export const findUniqueTrackerSources = (products: any) => {
+  const uniqueSources = products.filter((product: any, index: number) => {
+    const firstMatchIndex = products.findIndex((obj: any) => obj.source === product.source);
+    return firstMatchIndex === index;
+  });
+
+  return uniqueSources;
+};
+
+export const mapTrackerSourceForFilter = (products: any) => {
+  const allUnqiueSources = findUniqueTrackerSources(products);
+  return allUnqiueSources.map((product: any) => {
+    return {
+      value: product.source,
+    };
+  });
+};
+
 export const filterKeys: any = [
   // Basic KPI
   'avg_price',
@@ -377,12 +395,17 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
+    // Filter by source
+    const filterSource = filterData.source.includes(product.source) || filterData.source === 'all';
+
+    // Filter By subscribe and save
     const isSubscribeSave =
       (filterData.subscribe_save === 'Yes' && product.subscribe_save) ||
       (filterData.subscribe_save === 'No' && !product.subscribe_save) ||
       filterData.subscribe_save === 'Yes,No' ||
       filterData.subscribe_save === 'No,Yes';
 
+    // Filter by is amazon selling
     const isAmazonSelling =
       (filterData.is_amazon_selling === 'Yes' && product.is_amazon_selling) ||
       (filterData.is_amazon_selling === 'No' && !product.is_amazon_selling) ||
@@ -390,7 +413,8 @@ export const findFilteredProducts = (products: any, filterData: any) => {
       filterData.is_amazon_selling === 'No,Yes';
 
     return filterData !== undefined
-      ? isAmazonSelling &&
+      ? filterSource &&
+          isAmazonSelling &&
           isSubscribeSave &&
           /*
           show amazon choice products if checked, if not, show all

@@ -101,6 +101,7 @@ function ProductTrackerFilterSection(props: Props) {
     activeGroupId: activeGroupId,
     is_amazon_selling: 'Yes,No',
     subscribe_save: 'Yes,No',
+    source: 'all',
     customizable: [
       {
         dataKey: 'listing-monthly',

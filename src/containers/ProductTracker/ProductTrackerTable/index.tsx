@@ -40,6 +40,7 @@ import {
   columnFilter,
   filterProductsByGroupId,
   findMinMax,
+  mapTrackerSourceForFilter,
 } from '../../../constants/Tracker';
 import ProductTrackerFilterSection from '../ProductTrackerFilterSection';
 import _ from 'lodash';
@@ -589,6 +590,11 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       render: this.renderSource,
       className: 'pt-source',
+      filter: true,
+      filterLabel: 'Source',
+      filterSign: '',
+      filterDataKey: 'source',
+      filterType: 'list',
     },
     {
       label: 'Avg\nPrice',
@@ -883,6 +889,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
 
     const groupProducts = filterProductsByGroupId(trackerDetails.results, activeGroupID);
     const filteredRanges = findMinMax(groupProducts);
+    const mapSourceForFilter = mapTrackerSourceForFilter(groupProducts);
 
     let filterValues: any;
     if (filterType === 'slider') {
@@ -895,8 +902,13 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
 
     if (filterType === 'list') {
+      //subscribe_save and is_amazon_selling
       if (booleanFilterKeys.includes(dataKey)) {
         filterValues = [{ value: 'Yes' }, { value: 'No' }];
+      }
+      // for source
+      else {
+        filterValues = mapSourceForFilter;
       }
     }
 
@@ -945,10 +957,18 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     }
 
     if (filterType === 'list') {
+      // subscribe_save and is_amazon_selling
       if (booleanFilterKeys.includes(filterKey)) {
         newTrackerFilter = {
           ...trackerFilter,
           [filterKey]: 'Yes,No',
+        };
+      }
+      // source
+      else {
+        newTrackerFilter = {
+          ...trackerFilter,
+          [filterKey]: 'all',
         };
       }
     }
