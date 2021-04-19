@@ -23,6 +23,7 @@ export interface Subscription {
   yearly_price: number;
   synthesis_limit: number;
   track_limit: number;
+  leads_track_limit: number;
 }
 
 export interface SellerSubscription {

@@ -7,7 +7,6 @@ import SidebarPusher from './SidebarPusher';
 import './Sidebar.scss';
 import { getLatestSupplier } from '../../actions/Suppliers';
 import get from 'lodash/get';
-import { isPlanEnterprise } from '../../utils/subscriptions';
 
 import { LogoWithoutText } from '../Logo/index';
 
@@ -78,7 +77,7 @@ class SidebarCollapsible extends Component<
 
   render() {
     const { visible, sidebarIcon } = this.state;
-    const { children, currentNotifyId, subscriptionPlan } = this.props;
+    const { children, currentNotifyId } = this.props;
     let supplier_id = '';
     const latest = getLatestSupplier();
     if (latest) {
@@ -101,16 +100,8 @@ class SidebarCollapsible extends Component<
                   onClick={() => {
                     visible && this.handleAnimationChange();
                   }}
-                  as={
-                    (icon.id === 2 && !supplier_id) ||
-                    (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
-                      ? 'div'
-                      : Link
-                  }
-                  disabled={
-                    !!(icon.id === 2 && !supplier_id) ||
-                    (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
-                  }
+                  as={icon.id === 2 && !supplier_id ? 'div' : Link}
+                  disabled={!!(icon.id === 2 && !supplier_id)}
                   to={icon.id === 2 && !!supplier_id ? `${icon.path}/${supplier_id}` : icon.path}
                   name={icon.icon}
                   active={links[icon.id - 1] === currentPath}
@@ -119,12 +110,7 @@ class SidebarCollapsible extends Component<
                 >
                   <i
                     className={`fas ${icon.icon} ${currentNotifyId === icon.notifyId &&
-                      'forward'} ${
-                      (icon.id === 2 && !supplier_id) ||
-                      (icon.id === 4 && !isPlanEnterprise(subscriptionPlan))
-                        ? 'disabled-link'
-                        : ''
-                    }`}
+                      'forward'} ${icon.id === 2 && !supplier_id ? 'disabled-link' : ''}`}
                   />
 
                   <Label> {icon.label} </Label>

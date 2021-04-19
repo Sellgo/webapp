@@ -216,8 +216,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
 
-    const trackTitle = 'Unlimited Profit Finder';
-
     let subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
 
     if (subscriptionsSorted.length && subscriptionsSorted.length === 4) {
@@ -239,6 +237,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       const getTrackLimit = (trackLimit: number) => {
         return trackLimit + ' Product Tracker Limit';
       };
+
+      const getSynthesisLimit = (synthesisLimit: number) => {
+        return synthesisLimit + 'Profit Finder';
+      };
+
       const subscriptionValueType = !isSubscribed
         ? isSubscriptionIdSuite(subscriptionId)
           ? 'basic-value-content'
@@ -275,7 +278,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               {subscription.name}
             </Card.Header>
             <Card.Meta>
-              {subscription.track_limit > 0 && trackTitle}
+              {subscription.synthesis_limit > 0 && getSynthesisLimit(subscription.synthesis_limit)}
               <br />
               {subscription.track_limit > 0 && getTrackLimit(subscription.track_limit)}
             </Card.Meta>
@@ -571,15 +574,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
                   <Table.Row>
                     <Table.Cell>Maximum Monthly Uploads</Table.Cell>
-                    <Table.Cell>
-                      <p>100,000 UPC's</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>300,000 UPC's</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>1,000,000 UPC's</p>
-                    </Table.Cell>
+                    {subscriptionsSorted.map((subscription: Subscription, index: number) => {
+                      return (
+                        <Table.Cell key={index}>
+                          <p>{subscription.synthesis_limit} UPC's /mo</p>
+                        </Table.Cell>
+                      );
+                    })}
                   </Table.Row>
 
                   <Table.Row>
@@ -595,9 +596,13 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
                   <Table.Row>
                     <Table.Cell>Leads Tracker Update</Table.Cell>
-                    <Table.Cell>10 products</Table.Cell>
-                    <Table.Cell>100 products</Table.Cell>
-                    <Table.Cell>1000 products</Table.Cell>
+                    {subscriptionsSorted.map((subscription: Subscription, index: number) => {
+                      return (
+                        <Table.Cell key={index}>
+                          <p>{subscription.leads_track_limit} products</p>
+                        </Table.Cell>
+                      );
+                    })}
                   </Table.Row>
                 </Table.Body>
               </Table>

@@ -295,6 +295,7 @@
     max-width: 320.92px !important;
     min-height: 385.5px;
     max-height: 385.5px;
+    margin: auto 30px;
   }
 
   .ui.card.false {
@@ -351,7 +352,7 @@
     justify-content: center !important;
     line-height: 17px;
     font-size: 14px;
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Work Sans', sans-serif !important;
     margin-bottom: 50px;
     color: #2e3b4a;
   }
@@ -536,6 +537,7 @@
         font-size: 16px;
         width: 170px;
         height: 40px;
+        font-weight: bold;
       }
 
       .fluid.button.basic-btn:hover {
@@ -605,7 +607,7 @@
         padding-bottom: 20px !important;
 
         .fluid.button.basic-btn {
-          font-weight: 500 !important;
+          font-weight: bold !important;
         }
       }
     }
