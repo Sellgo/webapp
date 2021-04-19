@@ -239,7 +239,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       };
 
       const getSynthesisLimit = (synthesisLimit: number) => {
-        return synthesisLimit + 'Profit Finder';
+        return synthesisLimit + ' Profit Finder';
       };
 
       const subscriptionValueType = !isSubscribed
@@ -588,7 +588,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     {_.map(subscriptionsSorted, (data, index) => {
                       return (
                         <Table.Cell key={index}>
-                          <p>{data.track_limit}</p>
+                          <p>{data.track_limit} products</p>
                         </Table.Cell>
                       );
                     })}
