@@ -235,11 +235,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       const subscriptionId = Number(subscription.id);
 
       const getTrackLimit = (trackLimit: number) => {
-        return trackLimit + ' Product Tracker Limit';
+        return trackLimit.toLocaleString() + ' Product Tracker Limit';
       };
 
       const getSynthesisLimit = (synthesisLimit: number) => {
-        return synthesisLimit + ' Profit Finder';
+        return synthesisLimit.toLocaleString() + ' Profit Finder';
       };
 
       const subscriptionValueType = !isSubscribed
@@ -577,7 +577,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     {subscriptionsSorted.map((subscription: Subscription, index: number) => {
                       return (
                         <Table.Cell key={index}>
-                          <p>{subscription.synthesis_limit} UPC's /mo</p>
+                          <p>{subscription.synthesis_limit.toLocaleString()} UPC's /mo</p>
                         </Table.Cell>
                       );
                     })}
@@ -588,7 +588,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     {_.map(subscriptionsSorted, (data, index) => {
                       return (
                         <Table.Cell key={index}>
-                          <p>{data.track_limit} products</p>
+                          <p>{data.track_limit.toLocaleString()} products</p>
                         </Table.Cell>
                       );
                     })}
@@ -599,7 +599,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     {subscriptionsSorted.map((subscription: Subscription, index: number) => {
                       return (
                         <Table.Cell key={index}>
-                          <p>{subscription.leads_track_limit} products</p>
+                          <p>{subscription.leads_track_limit.toLocaleString()} products</p>
                         </Table.Cell>
                       );
                     })}
