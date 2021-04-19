@@ -698,7 +698,7 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
     {
       label: 'Subscribe\n& Save',
       dataKey: 'subscribe_save',
-      type: 'string',
+      type: 'boolean',
       show: true,
       sortable: true,
       render: this.renderSubScribeSave,
