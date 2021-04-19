@@ -35,9 +35,9 @@ import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 import {
   isSubscriptionFree,
-  isSubscriptionIdBasic,
+  isSubscriptionIdSuite,
   isSubscriptionIdEnterprise,
-  isSubscriptionIdPro,
+  isSubscriptionIdProfessional,
   isSubscriptionNotPaid,
   isTrialExpired,
 } from '../../../utils/subscriptions';
@@ -220,11 +220,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
     let subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
 
-    console.log(subscriptionsSorted);
-
     if (subscriptionsSorted.length && subscriptionsSorted.length === 4) {
-      const [basic, pro, enterprise, extension] = subscriptionsSorted;
-      subscriptionsSorted = [extension, basic, pro, enterprise];
+      // ignore the enterprise subscription
+      const [suite, professional, , starter] = subscriptionsSorted;
+      subscriptionsSorted = [starter, suite, professional];
     }
 
     const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
@@ -238,26 +237,28 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       const subscriptionId = Number(subscription.id);
 
       const getTrackLimit = (trackLimit: number) => {
-        return isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
-          ? trackLimit + ' Product Tracker Limit'
-          : 'More than 100,000 Product Tracker Limit';
+        return trackLimit + ' Product Tracker Limit';
       };
+      const subscriptionValueType = !isSubscribed
+        ? isSubscriptionIdSuite(subscriptionId)
+          ? 'basic-value-content'
+          : isSubscriptionIdProfessional(subscriptionId)
+          ? 'best-value-content'
+          : 'contact-us-content'
+        : '';
 
       return (
         <Card
           key={subscription.id}
-          className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'} ${isSubscribed &&
-            'active-plan'} ${!isSubscribed &&
-            (isSubscriptionIdBasic(subscriptionId)
-              ? 'basic-value-content'
-              : isSubscriptionIdPro(subscriptionId)
-              ? 'best-value-content'
-              : 'contact-us-content')}`}
+          className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'}
+           ${isSubscribed ? 'active-plan' : ''}
+          ${subscriptionValueType}`}
         >
           <Card.Content className="card-container__header">
             <Card.Header>
+              {/* Best Value Button on Suite Plans */}
               <Button
-                className={`${isSubscriptionIdBasic(subscriptionId) &&
+                className={`${isSubscriptionIdSuite(subscriptionId) &&
                   !isSubscribed &&
                   'best-value'}`}
                 fluid
@@ -266,8 +267,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             </Card.Header>
           </Card.Content>
+
           <Card.Content className="card-container__name">
-            <Card.Header className={`${isSubscriptionIdPro(subscriptionId) && 'pro-plan'}`}>
+            <Card.Header
+              className={`${isSubscriptionIdProfessional(subscriptionId) && 'pro-plan'}`}
+            >
               {subscription.name}
             </Card.Header>
             <Card.Meta>
@@ -276,6 +280,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               {subscription.track_limit > 0 && getTrackLimit(subscription.track_limit)}
             </Card.Meta>
           </Card.Content>
+
           {isYearly && !isSubscriptionIdEnterprise(subscriptionId) && (
             <Card.Content className="card-container__discount-details">
               <p className="card-container__discount-details__slash">
@@ -286,9 +291,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </p>
             </Card.Content>
           )}
+
           <Card.Content
-            className={`card-container__details ${isSubscriptionIdEnterprise(subscriptionId) &&
-              'contact-us'}`}
+            className={`card-container__details ${
+              isSubscriptionIdEnterprise(subscriptionId) ? 'contact-us' : ''
+            }`}
           >
             <Card.Header>
               <strong>$&nbsp;</strong>
@@ -299,11 +306,16 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 : Math.trunc(Number(subscription.monthly_price))}
               <strong>&nbsp;/mo</strong>
             </Card.Header>
+
+            {/* Display billed anually or monthly */}
+
             <Card.Description>
               {!isSubscriptionIdEnterprise(subscriptionId) &&
                 (isYearly ? 'Billed Annually' : 'Billed Monthly')}
             </Card.Description>
           </Card.Content>
+
+          {/* Change Plan or Cancel Plan */}
           <Card.Content extra>
             {isSubscribed && (
               <Button
@@ -485,6 +497,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Grid.Row>
 
               <Table striped className="plans-table-container__wrapper__table">
+                {/* Names for plans */}
                 <Table.Header className="plans-table-container__wrapper__table__header">
                   <Table.Row>
                     <Table.HeaderCell></Table.HeaderCell>
@@ -497,11 +510,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <Table.Body className="plans-table-container__wrapper__table__body">
                   <Table.Row>
                     <Table.Cell>Find Profitable Products</Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                     <Table.Cell>
                       <p>
                         <i className="fa fa-check" />
@@ -536,20 +544,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                   </Table.Row>
 
                   <Table.Row>
                     <Table.Cell>Filter and Sort</Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                     <Table.Cell>
                       <p>
                         <i className="fa fa-check" />
@@ -584,55 +582,37 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                   </Table.Row>
 
                   <Table.Row>
                     <Table.Cell>Maximum Monthly Uploads</Table.Cell>
                     <Table.Cell>
-                      <p>Limited</p>
+                      <p>100,000 UPC's</p>
                     </Table.Cell>
                     <Table.Cell>
-                      <p>Unlimited</p>
+                      <p>300,000 UPC's</p>
                     </Table.Cell>
                     <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
+                      <p>1,000,000 UPC's</p>
                     </Table.Cell>
                   </Table.Row>
 
                   <Table.Row>
                     <Table.Cell>Product Tracking</Table.Cell>
                     {_.map(subscriptionsSorted, (data, index) => {
-                      if (data.name !== 'Enterprise') {
-                        return (
-                          <Table.Cell key={index}>
-                            <p>{data.track_limit}</p>
-                          </Table.Cell>
-                        );
-                      } else {
-                        return (
-                          <Table.Cell key={index}>
-                            <p>Inquiry based</p>
-                          </Table.Cell>
-                        );
-                      }
+                      return (
+                        <Table.Cell key={index}>
+                          <p>{data.track_limit}</p>
+                        </Table.Cell>
+                      );
                     })}
                   </Table.Row>
+
                   <Table.Row>
-                    <Table.Cell>Leads Tracker</Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell>
-                      <p>Inquiry based</p>
-                    </Table.Cell>
-                    <Table.Cell></Table.Cell>
+                    <Table.Cell>Leads Tracker Update</Table.Cell>
+                    <Table.Cell>10 products</Table.Cell>
+                    <Table.Cell>100 products</Table.Cell>
+                    <Table.Cell>1000 products</Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>

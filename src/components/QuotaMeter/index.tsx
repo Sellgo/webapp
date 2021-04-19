@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { Progress, Button } from 'semantic-ui-react';
 import { getSellerQuota } from '../../actions/Settings';
 import './index.scss';
-import { isPlanPro, isPlanEnterprise } from '../../utils/subscriptions';
+import { isPlanProfessional, isPlanEnterprise } from '../../utils/subscriptions';
 
 interface QuotaMeterProps {
   sellerQuota: any;
@@ -34,7 +34,7 @@ class QuotaMeter extends React.Component<QuotaMeterProps> {
         <Progress percent={percent} size="tiny" color="blue">
           {`${sellerQuota.used} tracked out of ${sellerQuota.available}`}
         </Progress>
-        {!isPlanPro(subscriptionPlan) && !isPlanEnterprise(subscriptionPlan) && (
+        {!isPlanProfessional(subscriptionPlan) && !isPlanEnterprise(subscriptionPlan) && (
           <Button as={Link} to="/settings/pricing" primary={true} className="add-new-supplier">
             Upgrade Now
           </Button>

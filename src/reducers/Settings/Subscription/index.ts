@@ -27,9 +27,9 @@ export default (state = initialState, action: AnyAction) => {
       const sellerSubscriptionData = action.payload;
       const plan =
         sellerSubscriptionData.subscription_id === 1
-          ? 'Basic Plan' // Suite Plan
+          ? 'Suite Plan' // Suite Plan
           : sellerSubscriptionData.subscription_id === 2
-          ? 'Pro Plan' // Professional Plan
+          ? 'Professional Plan' // Professional Plan
           : sellerSubscriptionData.subscription_id === 3
           ? 'Enterprise'
           : sellerSubscriptionData.subscription_id === 4
@@ -37,7 +37,7 @@ export default (state = initialState, action: AnyAction) => {
           : sellerSubscriptionData.subscription_id === 5
           ? 'Free Account'
           : sellerSubscriptionData.subscription_id === 6
-          ? 'Extension Plan' // Starter Plan
+          ? 'Starter Plan' // Starter Plan
           : '';
       const type =
         sellerSubscriptionData.subscription_id <= 3
