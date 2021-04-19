@@ -63,7 +63,7 @@ export const filterPeriods: FilterData = {
   ],
 };
 
-export const booleanFilterKeys = ['is_amazon_selling'];
+export const booleanFilterKeys = ['is_amazon_selling', 'subscribe_save'];
 
 export const filterKeys: any = [
   // Basic KPI
@@ -377,32 +377,42 @@ export const findNonProfitableProducts = (product: any, profitabilityFilter: any
 
 export const findFilteredProducts = (products: any, filterData: any) => {
   const updatedFilterProducts = _.filter(products, product => {
+    const isSubscribeSave =
+      (filterData.subscribe_save === 'Yes' && product.subscribe_save) ||
+      (filterData.subscribe_save === 'No' && !product.subscribe_save) ||
+      filterData.subscribe_save === 'Yes,No' ||
+      filterData.subscribe_save === 'No,Yes';
+
+    const isAmazonSelling =
+      (filterData.is_amazon_selling === 'Yes' && product.is_amazon_selling) ||
+      (filterData.is_amazon_selling === 'No' && !product.is_amazon_selling) ||
+      filterData.is_amazon_selling === 'Yes,No' ||
+      filterData.is_amazon_selling === 'No,Yes';
+
     return filterData !== undefined
-      ? (filterData.is_amazon_selling === 'Yes' && product.is_amazon_selling) ||
-          (filterData.is_amazon_selling === 'No' && !product.is_amazon_selling) ||
-          ((filterData.is_amazon_selling === 'Yes,No' ||
-            filterData.is_amazon_selling === 'No,Yes') &&
-            /*
+      ? isAmazonSelling &&
+          isSubscribeSave &&
+          /*
           show amazon choice products if checked, if not, show all
         */
-            (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
-              (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
-                !_.isEmpty(product.amazon_choice))) &&
-            /*
+          (filterData.amazonChoice.indexOf('amazon-choice-products') === -1 ||
+            (filterData.amazonChoice.indexOf('amazon-choice-products') !== -1 &&
+              !_.isEmpty(product.amazon_choice))) &&
+          /*
           show NOT selling products if checked, if not, show all
         */
-            (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
-              (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
-                !product.is_amazon_selling)) &&
-            (filterData.reviews.length === 5 ||
-              filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
-            customizableFilter(product, filterData.customizable) &&
-            findNonProfitableProducts(product, filterData.profitabilityFilter) &&
-            filterKeys.every(
-              (dataKey: any) =>
-                Number(product[dataKey]) >= Number(filterData[dataKey].min || -Infinity) &&
-                Number(product[dataKey]) <= Number(filterData[dataKey].max || Infinity)
-            ))
+          (filterData.amazonChoice.indexOf('not-amazon-products') === -1 ||
+            (filterData.amazonChoice.indexOf('not-amazon-products') !== -1 &&
+              !product.is_amazon_selling)) &&
+          (filterData.reviews.length === 5 ||
+            filterData.reviews.indexOf(JSON.stringify(Math.trunc(product.rating))) !== -1) &&
+          customizableFilter(product, filterData.customizable) &&
+          findNonProfitableProducts(product, filterData.profitabilityFilter) &&
+          filterKeys.every(
+            (dataKey: any) =>
+              Number(product[dataKey]) >= Number(filterData[dataKey].min || -Infinity) &&
+              Number(product[dataKey]) <= Number(filterData[dataKey].max || Infinity)
+          )
       : products;
   });
   return updatedFilterProducts;

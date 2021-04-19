@@ -702,8 +702,12 @@ class ProductTrackerTable extends React.Component<TrackerProps> {
       show: true,
       sortable: true,
       render: this.renderSubScribeSave,
+      filter: true,
+      filterLabel: 'Subscribe & Save',
+      filterSign: '',
+      filterDataKey: 'subscribe_save',
+      filterType: 'list',
     },
-
     {
       label: 'Number\nOf Sellers',
       dataKey: 'number_of_sellers',
