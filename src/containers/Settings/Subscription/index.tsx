@@ -292,27 +292,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
             </Card.Content>
           )}
 
-          <Card.Content
-            className={`card-container__details ${
-              isSubscriptionIdEnterprise(subscriptionId) ? 'contact-us' : ''
-            }`}
-          >
+          <Card.Content className="card-container__details">
             <Card.Header>
               <strong>$&nbsp;</strong>
-              {isSubscriptionIdEnterprise(subscriptionId)
-                ? 'Contact Us'
-                : isYearly
+              {isYearly
                 ? Number(subscription.yearly_price / 12).toFixed(2)
                 : Math.trunc(Number(subscription.monthly_price))}
               <strong>&nbsp;/mo</strong>
             </Card.Header>
 
             {/* Display billed anually or monthly */}
-
-            <Card.Description>
-              {!isSubscriptionIdEnterprise(subscriptionId) &&
-                (isYearly ? 'Billed Annually' : 'Billed Monthly')}
-            </Card.Description>
+            <Card.Description>{isYearly ? 'Billed Annually' : 'Billed Monthly'}</Card.Description>
           </Card.Content>
 
           {/* Change Plan or Cancel Plan */}
@@ -347,11 +337,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   </Button>
                 </Link>
               )}
-
-            <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
-              Contact Customer Service
-              <a href="mailto: support@sellgo.com">{'support@sellgo.com'}</a>
-            </p>
           </Card.Content>
         </Card>
       );
