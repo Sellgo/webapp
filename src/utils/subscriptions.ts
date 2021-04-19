@@ -11,11 +11,11 @@ export const isSubscriptionNotPaid = (type: string) => !isSubscriptionPaid(type)
 
 export const isPlanStarter = (plan: string) => plan === 'Starter Plan';
 
-export const isPlanBasic = (plan: string) => plan === 'Basic Plan';
+export const isPlanSuite = (plan: string) => plan === 'Suite Plan';
 
 export const isPlanProfessional = (plan: string) => plan === 'Professional Plan';
 
-export const isPlanEnterprise = (plan: string) => plan === 'Enterprise Plan';
+export const isPlanEnterprise = (plan: string) => plan === 'Enterprise';
 
 export const isPlanFreeTrial = (plan: string) => plan === 'Free Trial';
 
