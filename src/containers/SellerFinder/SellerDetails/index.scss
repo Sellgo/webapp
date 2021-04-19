@@ -4,10 +4,13 @@ $grey: #98aeca;
 $red: #e74c3c;
 
 .seller-details {
+  min-height: 230px;
+
   > .rst__tree {
     //min-height: 250px;
     .icon {
       font-size: 1.4em;
+      visibility: hidden;
     }
 
     @media only screen and (min-width: 1024px) and (max-width: 1919px) {
@@ -261,7 +264,7 @@ $red: #e74c3c;
         }
 
         .seller-logo-container {
-          margin-left: 40px;
+          margin-left: 10px;
 
           .seller-logo {
             width: 153px;
@@ -306,6 +309,8 @@ $red: #e74c3c;
         }
 
         .seller-products-container {
+          width: 390px;
+
           .seller-product-label {
             font-size: 14px;
             color: $black;

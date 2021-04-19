@@ -24,46 +24,46 @@ const InnerTree = () => {
         },
       ],
     },
-    {
-      title: () => <InventoryProductsRow />,
-      index: 1,
-      children: [
-        {
-          title: () => <ProductSellers />,
-          count: 5,
-        },
-      ],
-    },
-    {
-      title: () => <InventoryProductsRow />,
-      index: 2,
-      children: [
-        {
-          title: () => <ProductSellers />,
-          count: 5,
-        },
-      ],
-    },
-    {
-      title: () => <InventoryProductsRow />,
-      index: 3,
-      children: [
-        {
-          title: () => <ProductSellers />,
-          count: 5,
-        },
-      ],
-    },
-    {
-      title: () => <InventoryProductsRow />,
-      index: 4,
-      children: [
-        {
-          title: () => <ProductSellers />,
-          count: 5,
-        },
-      ],
-    },
+    // {
+    //   title: () => <InventoryProductsRow />,
+    //   index: 1,
+    //   children: [
+    //     {
+    //       title: () => <ProductSellers />,
+    //       count: 5,
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: () => <InventoryProductsRow />,
+    //   index: 2,
+    //   children: [
+    //     {
+    //       title: () => <ProductSellers />,
+    //       count: 5,
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: () => <InventoryProductsRow />,
+    //   index: 3,
+    //   children: [
+    //     {
+    //       title: () => <ProductSellers />,
+    //       count: 5,
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: () => <InventoryProductsRow />,
+    //   index: 4,
+    //   children: [
+    //     {
+    //       title: () => <ProductSellers />,
+    //       count: 5,
+    //     },
+    //   ],
+    // },
     {
       index: 5,
       title: () => <div />,

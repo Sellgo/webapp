@@ -2,8 +2,64 @@ import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import SellerSampleLogo from '../../../assets/images/Image 1.png';
 import SellerSampleMarketpalce from '../../../assets/images/Ellipse 180.png';
+import { formatString, showNAIfZeroOrNull } from '../../../utils/format';
 
-const SellerInformation = () => {
+const SellerInformation = (props: any) => {
+  const { details } = props;
+  const getTotal30DaysReview = () => {
+    let review = 0;
+    if (details.positive_30_days) {
+      review += parseFloat(details.positive_30_days);
+    }
+    if (details.neutral_30_days) {
+      review += parseFloat(details.neutral_30_days);
+    }
+    if (details.negative_30_days) {
+      review += parseFloat(details.negative_30_days);
+    }
+    return review;
+  };
+
+  const getTotal90DaysReview = () => {
+    let review = 0;
+    if (details.positive_90_days) {
+      review += parseFloat(details.positive_90_days);
+    }
+    if (details.neutral_90_days) {
+      review += parseFloat(details.neutral_90_days);
+    }
+    if (details.negative_90_days) {
+      review += parseFloat(details.negative_90_days);
+    }
+    return review;
+  };
+  const getTotal365DaysReview = () => {
+    let review = 0;
+    if (details.positive_12_month) {
+      review += parseFloat(details.positive_12_month);
+    }
+    if (details.neutral_12_month) {
+      review += parseFloat(details.neutral_12_month);
+    }
+    if (details.negative_12_month) {
+      review += parseFloat(details.negative_12_month);
+    }
+    return review;
+  };
+  const getTotalLifeTimeReview = () => {
+    let review = 0;
+    if (details.positive_lifetime) {
+      review += parseFloat(details.positive_lifetime);
+    }
+    if (details.neutral_lifetime) {
+      review += parseFloat(details.neutral_lifetime);
+    }
+    if (details.negative_lifetime) {
+      review += parseFloat(details.negative_lifetime);
+    }
+    return review;
+  };
+
   return (
     <div className="seller-information">
       <div className="action-button-container">
@@ -20,21 +76,26 @@ const SellerInformation = () => {
         <img src={SellerSampleLogo} className={'seller-logo'} />
         <div className={'business-details-container'}>
           <div>
-            <p className="seller-name">Kikkoman</p>
+            <p className="seller-name">{formatString(details.merchant_name)}</p>
             <p className={'seller-info'}>{'Business Name:'}</p>
             <p className={'seller-info'}>{'Business Address:'}</p>
           </div>
           <div className="seller-address-container">
-            <Icon name={'external'} />
-            <p className={'seller-info'}>{'Fantasia Trading LLC'}</p>
+            <Icon name={'external'} onClick={() => window.open(details.inventory_link, '_blank')} />
+            <p className={'seller-info'}>{formatString(details.business_name)}</p>
             <p className={'seller-info-address'}>
-              {'9155 Archibald Ave ste 202 Rancho Cucamonga California, 91730 US'}
+              {`${formatString(details.address)} ${formatString(details.city)} ${formatString(
+                details.state
+              )} ${formatString(details.country)}`}
             </p>
           </div>
         </div>
       </div>
       <div className={'seller-products-container'}>
-        <p className={'seller-product-label'}>{'Seller ID: seller_id'}</p>
+        <p className={'seller-product-label'}>{`Seller ID: ${showNAIfZeroOrNull(
+          details.seller,
+          details.seller
+        )}`}</p>
         <p className={'seller-product-marketplace'}>
           {'Marketplace:'}{' '}
           <span className="place-image-container">
@@ -44,22 +105,26 @@ const SellerInformation = () => {
             <img src={SellerSampleMarketpalce} className="place-image" />
           </span>
         </p>
-        <p className={'seller-product-label'}>{'Launched: launched_date'}</p>
+        <p className={'seller-product-label'}>{`Launched: ${formatString(details.launched)}`}</p>
         <p className={'seller-product-label'}>
-          {'Inventory:'} <span className="value">{'77'}</span>
-        </p>
-        <p className={'seller-product-label'}>
-          {'Brands: Ninja, Hamilton Beach, Keurig, Instant Pot ...'}{' '}
-          <span>
-            <Icon name={'copy outline'} />
+          {'Inventory:'}{' '}
+          <span className="value">
+            {showNAIfZeroOrNull(details.inventory_count, details.inventory_count)}
           </span>
         </p>
         <p className={'seller-product-label'}>
-          {'ASINs: B07FDJMC9Q, B089TQWJKK, B00939I7EK, ...'}
+          {`Brands: -`} {/*<span>*/}
+          {/*  <Icon name={'copy outline'} />*/}
+          {/*</span>*/}
+        </p>
+        <p className={'seller-product-label'}>
+          {`ASINs: ${formatString(details.asins)}`}
           {'   '}
-          <span>
-            <Icon name={'copy outline'} />
-          </span>
+          {formatString(details.asins) !== '-' && (
+            <span>
+              <Icon name={'copy outline'} />
+            </span>
+          )}
         </p>
       </div>
       <div className="statistics-container">
@@ -72,31 +137,49 @@ const SellerInformation = () => {
         </div>
         <div className="static-row">
           <div className="head-cell-row">{'Positive'}</div>
-          <div className="cell">{'100%'}</div>
-          <div className="cell">{'99%'}</div>
-          <div className="cell">{'97%'}</div>
-          <div className="cell">{'99%'}</div>
+          <div className="cell">{`${
+            details.positive_30_days ? details.positive_30_days : 0
+          }%`}</div>
+          <div className="cell">{`${
+            details.positive_90_days ? details.positive_90_days : 0
+          }%`}</div>
+          <div className="cell">{`${
+            details.positive_12_month ? details.positive_12_month : 0
+          }%`}</div>
+          <div className="cell">{'0%'}</div>
         </div>
         <div className="static-row">
           <div className="head-cell-row">{'Neutral'}</div>
-          <div className="cell">{'0%'}</div>
-          <div className="cell">{'0%'}</div>
-          <div className="cell">{'0%'}</div>
-          <div className="cell">{'0%'}</div>
+          <div className="cell">{`${details.neutral_30_days ? details.neutral_30_days : 0}%`}</div>
+          <div className="cell">{`${details.neutral_90_days ? details.neutral_90_days : 0}%`}</div>
+          <div className="cell">{`${
+            details.neutral_12_month ? details.neutral_12_month : 0
+          }%`}</div>
+          <div className="cell">{`${
+            details.neutral_lifetime ? details.neutral_lifetime : 0
+          }%`}</div>
         </div>
         <div className="static-row">
           <div className="head-cell-row">{'Negative'}</div>
-          <div className="cell negative">{'0%'}</div>
-          <div className="cell negative">{'-1%'}</div>
-          <div className="cell negative">{'0%'}</div>
-          <div className="cell negative">{'0%'}</div>
+          <div className="cell negative">{`${
+            details.negative_30_days ? details.negative_30_days : 0
+          }%`}</div>
+          <div className="cell negative">{`${
+            details.negative_90_days ? details.negative_90_days : 0
+          }%`}</div>
+          <div className="cell negative">{`${
+            details.negative_12_month ? details.negative_12_month : 0
+          }%`}</div>
+          <div className="cell negative">{`${
+            details.negative_lifetime ? details.negative_lifetime : 0
+          }%`}</div>
         </div>
         <div className="static-row">
           <div className="head-cell-row">{'Count'}</div>
-          <div className="cell">{'98'}</div>
-          <div className="cell">{'150'}</div>
-          <div className="cell">{'150'}</div>
-          <div className="cell">{'150'}</div>
+          <div className="cell">{getTotal30DaysReview()}</div>
+          <div className="cell">{getTotal90DaysReview()}</div>
+          <div className="cell">{getTotal365DaysReview()}</div>
+          <div className="cell">{getTotalLifeTimeReview()}</div>
         </div>
       </div>
     </div>

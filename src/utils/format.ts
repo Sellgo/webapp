@@ -35,4 +35,6 @@ export const formatDimensionForSorting = (dimension: string): number => {
     }, 1);
 };
 
+export const formatString = (value: any) => (!value || value === 'null' ? '-' : value);
+
 export const formatBoolean = (value: boolean) => (value ? 'Yes' : 'No');

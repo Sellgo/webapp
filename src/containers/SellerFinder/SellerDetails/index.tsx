@@ -5,10 +5,10 @@ import 'react-sortable-tree/style.css';
 import './index.scss';
 import SellerInformation from './SellerInformation';
 import InnerTree from './InnerTree';
-const SellerDetails = () => {
+const SellerDetails = (props: any) => {
   const [treeData, setTreeData] = React.useState([
     {
-      title: () => <SellerInformation />,
+      title: () => <SellerInformation details={props.details} />,
       className: 'card',
       children: [
         {

@@ -1,27 +1,27 @@
 import React from 'react';
-import { Button, Search } from 'semantic-ui-react';
+import { Button, Input } from 'semantic-ui-react';
 import './index.scss';
-
-const SellerSearch = () => {
+interface Props {
+  onSearch: (input: string) => void;
+  message: string;
+}
+const SellerSearch = (props: Props) => {
+  const [search, setSearch] = React.useState<any>('');
   return (
     <div className="seller-finder-search">
       <div className="search-container">
-        <Search
+        <Input
+          size="small"
+          icon="search"
           placeholder="Search by ASIN or Seller Name/ID"
-          loading={false}
-          onResultSelect={() => {
-            console.log('something');
-          }}
-          onSearchChange={() => console.log('something')}
-          results={[]}
-          value={''}
+          onChange={evt => setSearch(evt.target.value)}
         />
         <span className="or">Or</span>
-        <Button primary className="search-btn">
+        <Button primary className="search-btn" onClick={() => props.onSearch(search)}>
           Find Sellers
         </Button>
       </div>
-      <p className="search-message">Message response.</p>
+      <p className="search-message">{props.message}</p>
     </div>
   );
 };

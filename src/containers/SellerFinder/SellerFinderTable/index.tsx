@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Rating from 'react-rating';
 import { Column, GenericTable } from '../../../components/Table';
 import './index.scss';
@@ -10,35 +10,93 @@ import OtherSort from './OtherSort';
 import SellerGroups from '../SellerGroups';
 import SellerSearch from '../SellerSearch';
 import SellerDetails from '../SellerDetails';
+import { failed, loadingSellers, sellers } from '../../../selectors/SellerFinder';
+import { fetchSellers } from '../../../actions/SellerFinder';
+import { connect } from 'react-redux';
+import { SEARCH_STATUS } from '../../../constants/SellerFinder';
+import { formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
+import PageLoader from '../../../components/PageLoader';
+interface Props {
+  sellers: any[];
+  loadingSellers: boolean;
+  fetchSellers: () => void;
+  error: any;
+  ws: WebSocket;
+}
 
-const SellerFinderTable = () => {
+interface SearchResponse {
+  job_id: string;
+  status: string;
+  message: string;
+}
+const SellerFinderTable = ({ ws, fetchSellers, sellers, loadingSellers }: Props) => {
   const [expandedRow, setExpandedRow] = useState(null);
+  const [searchMessage, setSearchMessage] = useState('');
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
   };
-  const mockData = [
-    {
-      id: 123,
-      seller_name: 'Kikkoman',
-      inventory: '67',
-      rating: 4.5,
-      rating_per: '98% Positive',
-      total_rating: '655',
-      fba: 'Yes',
-      fbm: 'Yes',
-      review_l30d: '321',
-      review_l90d: '876',
-      l365d: '3686',
-      review_life_time: '5686',
-      product_review: '2100',
-      found_by: 'Seller Id',
-      processed: '7/21/2020: 1:45 PM',
-    },
-  ];
+  useEffect(() => {
+    if (ws.OPEN && !ws.CONNECTING) {
+      ws.onmessage = (res: any) => {
+        const data: SearchResponse = JSON.parse(res.data);
+        if (data.job_id) {
+          setSearchMessage(data.message);
+        }
+        console.log(data);
+        if (data.status === SEARCH_STATUS.DONE) {
+          fetchSellers();
+        }
+      };
+    }
+  });
+  const search = (value: string) => {
+    if (value.trim()) {
+      ws.send(JSON.stringify({ merchant_ids: value.trim() }));
+    }
+  };
+  useEffect(() => {
+    fetchSellers();
+  }, []);
+  // const mockData = [
+  //   {
+  //     id: 123,
+  //     seller_name: 'Kikkoman',
+  //     inventory: '67',
+  //     rating: 4.5,
+  //     rating_per: '98% Positive',
+  //     total_rating: '655',
+  //     fba: 'Yes',
+  //     fbm: 'Yes',
+  //     review_l30d: '321',
+  //     review_l90d: '876',
+  //     l365d: '3686',
+  //     review_life_time: '5686',
+  //     product_review: '2100',
+  //     found_by: 'Seller Id',
+  //     processed: '7/21/2020: 1:45 PM',
+  //   },
+  //   {
+  //     id: 1234,
+  //     seller_name: 'Kikkoman',
+  //     inventory: '67',
+  //     rating: 4.5,
+  //     rating_per: '98% Positive',
+  //     total_rating: '655',
+  //     fba: 'Yes',
+  //     fbm: 'Yes',
+  //     review_l30d: '321',
+  //     review_l90d: '876',
+  //     l365d: '3686',
+  //     review_life_time: '5686',
+  //     product_review: '2100',
+  //     found_by: 'Seller Id',
+  //     processed: '7/21/2020: 1:45 PM',
+  //   },
+  // ];
   const renderSellerInformation = (row: any) => (
     <p className="sf-seller-details">
       <img
-        src={expandedRow ? MINUS_ICON : PLUS_ICON}
+        src={expandedRow === row.id ? MINUS_ICON : PLUS_ICON}
         style={{
           position: 'absolute',
           left: '70px',
@@ -46,33 +104,48 @@ const SellerFinderTable = () => {
         }}
         onClick={() => expandRow(row)}
       />
-      <span className="name">{row.seller_name}</span>
+      <span className="name">{row.merchant_name}</span>
       <span className="seller-id">
-        AU12349G1 <Icon name={'copy outline'} />
+        {row.merchant_id} <Icon name={'copy outline'} />
       </span>
     </p>
   );
-  const renderInventory = (row: any) => <p className="inventory-details">{row.inventory}</p>;
+  const renderInventory = (row: any) => (
+    <p className="inventory-details">
+      {showNAIfZeroOrNull(row.inventory_count, row.inventory_count)}
+    </p>
+  );
   const renderRatingL365D = (row: any) => (
     <p>
       <Rating
-        placeholderRating={row.rating}
+        placeholderRating={parseInt(row.seller_rating) || 0}
         emptySymbol={<Icon name="star outline" color={'grey'} />}
         fullSymbol={<Icon name="star" color={'grey'} />}
         placeholderSymbol={<Icon name="star" color={'grey'} />}
+        readonly
       />
     </p>
   );
-  const renderRatingL365DPercentage = (row: any) => <p>{row.rating_per}</p>;
-  const renderTotalRating = (row: any) => <p>{row.total_rating}</p>;
-  const renderFBA = (row: any) => <p>{row.fba}</p>;
-  const renderFBM = (row: any) => <p>{row.fbm}</p>;
-  const renderReviewL30D = (row: any) => <p>{row.review_l30d}</p>;
-  const renderReviewL90D = (row: any) => <p>{row.review_l90d}</p>;
-  const renderReviewL365D = (row: any) => <p>{row.l365d}</p>;
-  const renderReviewLifeTime = (row: any) => <p>{row.review_life_time}</p>;
-  const renderProductReview = (row: any) => <p>{row.product_review}</p>;
-  const renderProcessedOn = (row: any) => <p>{row.processed}</p>;
+  const renderRatingL365DPercentage = (row: any) => (
+    <p>{row.review_rating ? formatPercent(row.review_rating) : '-'}</p>
+  );
+  const renderTotalRating = () => <p>{'-'}</p>;
+  const renderFBA = () => <p>{'-'}</p>;
+  const renderFBM = () => <p>{'-'}</p>;
+  const renderReviewL30D = (row: any) => (
+    <p>{showNAIfZeroOrNull(row.count_30_days, row.count_30_days)}</p>
+  );
+  const renderReviewL90D = (row: any) => (
+    <p>{showNAIfZeroOrNull(row.count_90_days, row.count_90_days)}</p>
+  );
+  const renderReviewL365D = (row: any) => (
+    <p>{showNAIfZeroOrNull(row.count_356_days, row.count_356_days)}</p>
+  );
+  const renderReviewLifeTime = (row: any) => (
+    <p>{showNAIfZeroOrNull(row.count_lifetime, row.count_lifetime)}</p>
+  );
+  const renderProductReview = () => <p>{'-'}</p>;
+  const renderProcessedOn = () => <p>{'-'}</p>;
   const renderActions = (row: any) => (
     <div className="sf-actions">
       <span>
@@ -103,7 +176,7 @@ const SellerFinderTable = () => {
     },
     {
       label: 'Inventory',
-      dataKey: 'inventory',
+      dataKey: 'inventory_count',
       type: 'string',
       sortable: true,
       show: true,
@@ -112,7 +185,7 @@ const SellerFinderTable = () => {
     },
     {
       label: `Rating \nL365D`,
-      dataKey: 'rating',
+      dataKey: 'seller_rating',
       type: 'string',
       sortable: true,
       show: true,
@@ -121,29 +194,20 @@ const SellerFinderTable = () => {
     },
     {
       label: `Rating% \nL365D`,
-      dataKey: 'rating_percentage',
+      dataKey: 'review_rating',
       type: 'string',
       sortable: true,
       show: true,
-      className: ``,
+      className: `seller_rating`,
       render: renderRatingL365DPercentage,
     },
-    // {
-    //   label: `Total \nRating`,
-    //   dataKey: 'total_rating',
-    //   type: 'string',
-    //   sortable: true,
-    //   show: true,
-    //   className: ``,
-    //   render: renderTotalRating,
-    // },
     {
       label: `Total \nRating`,
       dataKey: 'total_rating',
       type: 'string',
       sortable: true,
       show: true,
-      className: ``,
+      className: `seller_rating`,
       render: renderTotalRating,
     },
     {
@@ -166,7 +230,7 @@ const SellerFinderTable = () => {
     },
     {
       label: `Review \nL30D`,
-      dataKey: 'review_l30d',
+      dataKey: 'count_30_days',
       type: 'string',
       sortable: true,
       show: true,
@@ -175,7 +239,7 @@ const SellerFinderTable = () => {
     },
     {
       label: `Review \nL90D`,
-      dataKey: 'review_l90d',
+      dataKey: 'count_90_days',
       type: 'string',
       sortable: true,
       show: true,
@@ -184,7 +248,7 @@ const SellerFinderTable = () => {
     },
     {
       label: `Review \nL365D`,
-      dataKey: 'review_l365d',
+      dataKey: 'count_356_days',
       type: 'string',
       sortable: true,
       show: true,
@@ -193,7 +257,7 @@ const SellerFinderTable = () => {
     },
     {
       label: `Review \nLifetime`,
-      dataKey: 'review_lifetime',
+      dataKey: 'count_lifetime',
       type: 'string',
       sortable: true,
       show: true,
@@ -230,7 +294,7 @@ const SellerFinderTable = () => {
   return (
     <div className="seller-finder-table">
       <div className="search-input-container">
-        <SellerSearch />
+        <SellerSearch onSearch={value => search(value)} message={searchMessage} />
       </div>
       <div className="seller-menu">
         <SellerGroups
@@ -261,18 +325,30 @@ const SellerFinderTable = () => {
           <Icon name="download" /> {'Export'}
         </span>
       </div>
-      <GenericTable
-        currentActiveColumn={''}
-        stickyChartSelector={false}
-        scrollTopSelector={false}
-        expandedRows={expandedRow}
-        data={mockData}
-        columns={columns}
-        extendedInfo={() => <SellerDetails />}
-        name={'seller-finder'}
-      />
+      {loadingSellers ? (
+        <PageLoader pageLoading={true} />
+      ) : (
+        <GenericTable
+          currentActiveColumn={''}
+          stickyChartSelector={false}
+          scrollTopSelector={false}
+          expandedRows={expandedRow}
+          data={sellers}
+          columns={columns}
+          extendedInfo={(data: any) => <SellerDetails details={data} />}
+          name={'seller-finder'}
+        />
+      )}
     </div>
   );
 };
+const mapStateToProps = (state: {}) => ({
+  sellers: sellers(state),
+  loadingSellers: loadingSellers(state),
+  error: failed(state),
+});
 
-export default SellerFinderTable;
+const mapDispatchToProps = {
+  fetchSellers: () => fetchSellers(),
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);
