@@ -35,9 +35,9 @@ import { Link } from 'react-router-dom';
 import SubscriptionMessage from '../../../components/FreeTrialMessageDisplay';
 import {
   isSubscriptionFree,
-  isSubscriptionIdBasic,
+  isSubscriptionIdSuite,
   isSubscriptionIdEnterprise,
-  isSubscriptionIdPro,
+  isSubscriptionIdProfessional,
   isSubscriptionNotPaid,
   isTrialExpired,
 } from '../../../utils/subscriptions';
@@ -211,16 +211,17 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       pendingSubscriptionMode,
       isYearly,
     } = this.state;
+
     const subscribedSubscription = sellerSubscription
       ? subscriptions.filter(e => e.id === sellerSubscription.subscription_id)[0]
       : undefined;
 
-    const trackTitle = 'Unlimited Profit Finder';
-
     let subscriptionsSorted = _.cloneDeep(subscriptions).sort((a, b) => (a.id > b.id ? 1 : -1));
+
     if (subscriptionsSorted.length && subscriptionsSorted.length === 4) {
-      const [basic, pro, enterprise, extension] = subscriptionsSorted;
-      subscriptionsSorted = [extension, basic, pro, enterprise];
+      // ignore the enterprise subscription
+      const [suite, professional, , starter] = subscriptionsSorted;
+      subscriptionsSorted = [starter, suite, professional];
     }
 
     const plansDisplay = subscriptionsSorted.map((subscription: Subscription) => {
@@ -230,29 +231,37 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
         (isYearly
           ? sellerSubscription.payment_mode === 'yearly'
           : sellerSubscription.payment_mode === 'monthly');
+
       const subscriptionId = Number(subscription.id);
 
       const getTrackLimit = (trackLimit: number) => {
-        return isSubscriptionIdBasic(subscriptionId) || isSubscriptionIdPro(subscriptionId)
-          ? trackLimit + ' Product Tracker Limit'
-          : 'More than 100,000 Product Tracker Limit';
+        return trackLimit.toLocaleString() + ' Product Tracker Limit';
       };
+
+      const getSynthesisLimit = (synthesisLimit: number) => {
+        return synthesisLimit.toLocaleString() + ' UPCs /mo';
+      };
+
+      const subscriptionValueType = !isSubscribed
+        ? isSubscriptionIdSuite(subscriptionId)
+          ? 'basic-value-content'
+          : isSubscriptionIdProfessional(subscriptionId)
+          ? 'best-value-content'
+          : 'contact-us-content'
+        : '';
 
       return (
         <Card
           key={subscription.id}
-          className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'} ${isSubscribed &&
-            'active-plan'} ${!isSubscribed &&
-            (isSubscriptionIdBasic(subscriptionId)
-              ? 'basic-value-content'
-              : isSubscriptionIdPro(subscriptionId)
-              ? 'best-value-content'
-              : 'contact-us-content')}`}
+          className={`card-container ${isYearly ? 'yearly-card' : 'monthly-card'}
+           ${isSubscribed ? 'active-plan' : ''}
+          ${subscriptionValueType}`}
         >
           <Card.Content className="card-container__header">
             <Card.Header>
+              {/* Best Value Button on Suite Plans */}
               <Button
-                className={`${isSubscriptionIdBasic(subscriptionId) &&
+                className={`${isSubscriptionIdSuite(subscriptionId) &&
                   !isSubscribed &&
                   'best-value'}`}
                 fluid
@@ -261,16 +270,20 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </Button>
             </Card.Header>
           </Card.Content>
+
           <Card.Content className="card-container__name">
-            <Card.Header className={`${isSubscriptionIdPro(subscriptionId) && 'pro-plan'}`}>
+            <Card.Header
+              className={`${isSubscriptionIdProfessional(subscriptionId) && 'pro-plan'}`}
+            >
               {subscription.name}
             </Card.Header>
             <Card.Meta>
-              {subscription.track_limit > 0 && trackTitle}
+              {subscription.synthesis_limit > 0 && getSynthesisLimit(subscription.synthesis_limit)}
               <br />
               {subscription.track_limit > 0 && getTrackLimit(subscription.track_limit)}
             </Card.Meta>
           </Card.Content>
+
           {isYearly && !isSubscriptionIdEnterprise(subscriptionId) && (
             <Card.Content className="card-container__discount-details">
               <p className="card-container__discount-details__slash">
@@ -281,24 +294,21 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
               </p>
             </Card.Content>
           )}
-          <Card.Content
-            className={`card-container__details ${isSubscriptionIdEnterprise(subscriptionId) &&
-              'contact-us'}`}
-          >
+
+          <Card.Content className="card-container__details">
             <Card.Header>
               <strong>$&nbsp;</strong>
-              {isSubscriptionIdEnterprise(subscriptionId)
-                ? 'Contact Us'
-                : isYearly
+              {isYearly
                 ? Number(subscription.yearly_price / 12).toFixed(2)
                 : Math.trunc(Number(subscription.monthly_price))}
               <strong>&nbsp;/mo</strong>
             </Card.Header>
-            <Card.Description>
-              {!isSubscriptionIdEnterprise(subscriptionId) &&
-                (isYearly ? 'Billed Annually' : 'Billed Monthly')}
-            </Card.Description>
+
+            {/* Display billed anually or monthly */}
+            <Card.Description>{isYearly ? 'Billed Annually' : 'Billed Monthly'}</Card.Description>
           </Card.Content>
+
+          {/* Change Plan or Cancel Plan */}
           <Card.Content extra>
             {isSubscribed && (
               <Button
@@ -330,11 +340,6 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                   </Button>
                 </Link>
               )}
-
-            <p className={Number(subscription.id) === 3 ? 'contact-us' : ''}>
-              Contact Customer Service
-              <a href="mailto: support@sellgo.com">{'support@sellgo.com'}</a>
-            </p>
           </Card.Content>
         </Card>
       );
@@ -392,12 +397,14 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
 
         <Segment basic={true} className="subscription" style={{ textAlign: 'center' }}>
           <Grid className="pricing-container">
+            {/* Header */}
             <Grid.Row>
               <Header as="h1">Sellgo Pricing</Header>
               For new members register with Amazon Seller Central Account <br />
               Risk free 14-day money back guarantee
             </Grid.Row>
 
+            {/* Prcing Buttons */}
             <Grid.Row className="pricing-type flex-center">
               <div className="pricing-type__content">
                 <Button
@@ -419,7 +426,11 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 <div className="pricing-type__content__circle" />
               </div>
             </Grid.Row>
+
+            {/* Pricing Cards */}
             <Grid.Row className="pricing-content flex-center">{plansDisplay}</Grid.Row>
+
+            {/* Show coupon if not paid subscription */}
             {isSubscriptionNotPaid(subscriptionType) && (
               <div className="coupon-container" style={{ marginTop: '15px' }}>
                 <Header as="h4">Have a coupon?</Header>
@@ -454,19 +465,27 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                 </Grid>
               </div>
             )}
+
+            {/* Card Pictures */}
             <Grid.Row className="setcard-container">
               <Image src={Setcard} />
               <Image src={Stripe} />
             </Grid.Row>
+
             <Grid.Row className="offer-footer">We offer 14-day money back guarantee.</Grid.Row>
+
             <Divider />
           </Grid>
+
+          {/* Plans Comparion Table */}
           <Grid className="plans-table-container">
             <div className="plans-table-container__wrapper">
               <Grid.Row className="plans-table-container__wrapper__title">
-                <p>Compare Plans</p>{' '}
+                <p>Compare Plans</p>
               </Grid.Row>
+
               <Table striped className="plans-table-container__wrapper__table">
+                {/* Names for plans */}
                 <Table.Header className="plans-table-container__wrapper__table__header">
                   <Table.Row>
                     <Table.HeaderCell></Table.HeaderCell>
@@ -494,19 +513,10 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                   </Table.Row>
+
                   <Table.Row>
                     <Table.Cell>Search Management</Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                     <Table.Cell>
                       <p>
                         <i className="fa fa-check" />
@@ -541,12 +551,8 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                   </Table.Row>
+
                   <Table.Row>
                     <Table.Cell>Daily Inventory Tracking</Table.Cell>
                     <Table.Cell>
@@ -564,54 +570,39 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                         <i className="fa fa-check" />
                       </p>
                     </Table.Cell>
-                    <Table.Cell>
-                      <p>
-                        <i className="fa fa-check" />
-                      </p>
-                    </Table.Cell>
                   </Table.Row>
+
                   <Table.Row>
                     <Table.Cell>Maximum Monthly Uploads</Table.Cell>
-                    <Table.Cell>
-                      <p>Limited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <p>Unlimited</p>
-                    </Table.Cell>
+                    {subscriptionsSorted.map((subscription: Subscription, index: number) => {
+                      return (
+                        <Table.Cell key={index}>
+                          <p>{subscription.synthesis_limit.toLocaleString()} UPCs /mo</p>
+                        </Table.Cell>
+                      );
+                    })}
                   </Table.Row>
 
                   <Table.Row>
                     <Table.Cell>Product Tracking</Table.Cell>
                     {_.map(subscriptionsSorted, (data, index) => {
-                      if (data.name !== 'Enterprise') {
-                        return (
-                          <Table.Cell key={index}>
-                            <p>{data.track_limit}</p>
-                          </Table.Cell>
-                        );
-                      } else {
-                        return (
-                          <Table.Cell key={index}>
-                            <p>Inquiry based</p>
-                          </Table.Cell>
-                        );
-                      }
+                      return (
+                        <Table.Cell key={index}>
+                          <p>{data.track_limit.toLocaleString()} products</p>
+                        </Table.Cell>
+                      );
                     })}
                   </Table.Row>
+
                   <Table.Row>
-                    <Table.Cell>Leads Tracker</Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell>
-                      <p>Inquiry based</p>
-                    </Table.Cell>
-                    <Table.Cell></Table.Cell>
+                    <Table.Cell>Leads Tracker Update</Table.Cell>
+                    {subscriptionsSorted.map((subscription: Subscription, index: number) => {
+                      return (
+                        <Table.Cell key={index}>
+                          <p>{subscription.leads_track_limit.toLocaleString()} products</p>
+                        </Table.Cell>
+                      );
+                    })}
                   </Table.Row>
                 </Table.Body>
               </Table>

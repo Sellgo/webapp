@@ -56,11 +56,35 @@ export const filterPeriods: FilterData = {
       value: 90,
     },
     {
+      label: '180D',
+      dataKey: '6-Month',
+      value: 180,
+    },
+    {
       label: '365D',
       dataKey: 'year',
       value: 365,
     },
   ],
+};
+
+export const maxStarterPlanFilterPeriod = 30;
+export const maxSuitePlanFilterperiod = 180;
+export const maxProfessionalPlanFilterPeriod = 365;
+
+export const getMaxFilterPeriod = (subscriptionID: number) => {
+  // Free Trial, Free Account and Starter Plans
+  if (subscriptionID >= 4) {
+    return maxStarterPlanFilterPeriod;
+  }
+
+  // Pro Plan and Old Exterprise Plan
+  if (subscriptionID >= 2 && subscriptionID <= 3) {
+    return maxProfessionalPlanFilterPeriod;
+  }
+
+  //Suite Plan
+  return maxSuitePlanFilterperiod;
 };
 
 export const booleanFilterKeys = ['is_amazon_selling', 'subscribe_save'];

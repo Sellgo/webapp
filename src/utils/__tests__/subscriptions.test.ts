@@ -28,18 +28,18 @@ describe('Testing subscription types', () => {
 /* Testing subscription plans */
 describe('Testing subscription plans', () => {
   test('Testing Extension Plan', () => {
-    expect(subscriptions.isPlanExtension('Browser Extension')).toBeTruthy();
-    expect(subscriptions.isPlanExtension('any other')).not.toBeTruthy();
+    expect(subscriptions.isPlanStarter('Starter Plan')).toBeTruthy();
+    expect(subscriptions.isPlanStarter('any other')).not.toBeTruthy();
   });
 
   test('Testing Basic Plan', () => {
-    expect(subscriptions.isPlanBasic('Basic Plan')).toBeTruthy();
-    expect(subscriptions.isPlanBasic('any other')).not.toBeTruthy();
+    expect(subscriptions.isPlanSuite('Suite Plan')).toBeTruthy();
+    expect(subscriptions.isPlanSuite('any other')).not.toBeTruthy();
   });
 
   test('Testing Pro Plan', () => {
-    expect(subscriptions.isPlanPro('Pro Plan')).toBeTruthy();
-    expect(subscriptions.isPlanPro('any other')).not.toBeTruthy();
+    expect(subscriptions.isPlanProfessional('Professional Plan')).toBeTruthy();
+    expect(subscriptions.isPlanProfessional('any other')).not.toBeTruthy();
   });
 
   test('Testing Enterprise Plan', () => {
@@ -61,10 +61,10 @@ describe('Testing subscription plans', () => {
 /* Testing subscription ID's */
 describe('Testing subscription ID', () => {
   test('Testing Basic Plan ID', () => {
-    expect(subscriptions.isSubscriptionIdBasic(1)).toBeTruthy();
+    expect(subscriptions.isSubscriptionIdSuite(1)).toBeTruthy();
   });
   test('Testing Pro Plan ID', () => {
-    expect(subscriptions.isSubscriptionIdPro(2)).toBeTruthy();
+    expect(subscriptions.isSubscriptionIdProfessional(2)).toBeTruthy();
   });
   test('Testing Enterpise Plan ID', () => {
     expect(subscriptions.isSubscriptionIdEnterprise(3)).toBeTruthy();
@@ -79,7 +79,7 @@ describe('Testing subscription ID', () => {
   });
 
   test('Testing Browser Extension Plan ID', () => {
-    expect(subscriptions.isSubscriptionIdFreeExtension(6)).toBeTruthy();
+    expect(subscriptions.isSubscriptionIdStarter(6)).toBeTruthy();
   });
 });
 

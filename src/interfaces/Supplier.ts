@@ -32,4 +32,5 @@ export interface Supplier {
   has_default_cost: boolean;
   default_cost: any;
   inventory: any;
+  error_file_url: string;
 }

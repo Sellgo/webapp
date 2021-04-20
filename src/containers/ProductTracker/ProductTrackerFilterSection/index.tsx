@@ -13,6 +13,7 @@ import {
   DEFAULT_PERIOD,
   filterPeriods,
   filterKeys,
+  getMaxFilterPeriod,
 } from '../../../constants/Tracker';
 import {
   filterTrackedProducts,
@@ -35,6 +36,7 @@ interface Props {
   filterReset: (data: boolean) => void;
   isTrackerFilterLoading: (data: boolean) => void;
   isLoadingTrackerProducts: boolean;
+  sellerSubscription: any;
 }
 
 function ProductTrackerFilterSection(props: Props) {
@@ -48,7 +50,9 @@ function ProductTrackerFilterSection(props: Props) {
     setPageNumber,
     isLoadingTrackerProducts,
     isTrackerFilterLoading,
+    sellerSubscription,
   } = props;
+
   const sellerID = sellerIDSelector();
 
   const filterStorage =
@@ -720,15 +724,23 @@ function ProductTrackerFilterSection(props: Props) {
         </div>
         <div className="tracker-filter-section__header__period-container">
           {_.map(filterDataState.period.data, filterData => {
+            const shouldDisabledFilterPeriod = filterData.value
+              ? filterData.value > getMaxFilterPeriod(sellerSubscription.subscription_id)
+                ? true
+                : false
+              : true;
             return (
               <div
-                className={`tracker-filter-section__header__period-container__period-items ${filterData.value ===
-                  filterState.period && 'active'}`}
+                className={`tracker-filter-section__header__period-container__period-items 
+                ${filterData.value === filterState.period ? 'active' : ''}
+                ${shouldDisabledFilterPeriod ? ' disabled' : ''}`}
                 key={filterData.dataKey}
               >
                 <span
                   onClick={() => {
-                    setPeriod(filterData.value || 1);
+                    return !shouldDisabledFilterPeriod
+                      ? setPeriod(filterData.value || 1)
+                      : undefined;
                   }}
                 >
                   {filterData.label}
@@ -747,6 +759,7 @@ const mapStateToProps = (state: {}) => ({
   activeGroupId: get(state, 'productTracker.menuItem'),
   trackerDetails: get(state, 'productTracker.trackerDetails'),
   resettingFilter: get(state, 'productTracker.resettingFilter'),
+  sellerSubscription: get(state, 'subscription.sellerSubscription'),
 });
 
 const mapDispatchToProps = {
