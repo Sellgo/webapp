@@ -3,6 +3,14 @@ $black: #2e3b4a;
 $grey: #98aeca;
 $red: #e74c3c;
 
+.disable-products {
+  > .rst__tree {
+    .square {
+      visibility: hidden !important;
+    }
+  }
+}
+
 .seller-details {
   min-height: 230px;
 
@@ -10,7 +18,7 @@ $red: #e74c3c;
     //min-height: 250px;
     .icon {
       font-size: 1.4em;
-      visibility: hidden;
+      //visibility: hidden;
     }
 
     @media only screen and (min-width: 1024px) and (max-width: 1919px) {
@@ -243,9 +251,14 @@ $red: #e74c3c;
 
           .action-buttons {
             display: flex;
+            align-items: center;
 
             .icon {
               font-size: 15px !important;
+            }
+
+            .refresh {
+              line-height: 1;
             }
 
             .check-inventory {
@@ -309,8 +322,6 @@ $red: #e74c3c;
         }
 
         .seller-products-container {
-          width: 390px;
-
           .seller-product-label {
             font-size: 14px;
             color: $black;

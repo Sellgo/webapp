@@ -5,10 +5,18 @@ import 'react-sortable-tree/style.css';
 import './index.scss';
 import SellerInformation from './SellerInformation';
 import InnerTree from './InnerTree';
-const SellerDetails = (props: any) => {
+
+interface SellerDetailsProps {
+  details: any;
+  onCheckInventory: (data: any) => void;
+}
+
+const SellerDetails = (props: SellerDetailsProps) => {
   const [treeData, setTreeData] = React.useState([
     {
-      title: () => <SellerInformation details={props.details} />,
+      title: () => (
+        <SellerInformation details={props.details} onCheckInventory={props.onCheckInventory} />
+      ),
       className: 'card',
       children: [
         {
@@ -20,7 +28,7 @@ const SellerDetails = (props: any) => {
   ]);
 
   return (
-    <div className="seller-details">
+    <div className="seller-details disable-products">
       <SortableTree
         treeData={treeData}
         theme={CustomTreeRenderer}

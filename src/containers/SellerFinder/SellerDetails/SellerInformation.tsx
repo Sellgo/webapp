@@ -3,9 +3,20 @@ import { Button, Icon } from 'semantic-ui-react';
 import SellerSampleLogo from '../../../assets/images/Image 1.png';
 import SellerSampleMarketpalce from '../../../assets/images/Ellipse 180.png';
 import { formatString, showNAIfZeroOrNull } from '../../../utils/format';
+import { loadingInventory } from '../../../selectors/SellerFinder';
+import { connect } from 'react-redux';
+import { SEARCH_STATUS } from '../../../constants/SellerFinder';
 
-const SellerInformation = (props: any) => {
-  const { details } = props;
+interface SellerInformationProps {
+  details: any;
+  onCheckInventory: (data: any) => void;
+  loadingInventory: any;
+}
+
+const SellerInformation = (props: SellerInformationProps) => {
+  const { details, loadingInventory } = props;
+  console.log('loadingInventory', loadingInventory);
+
   const getTotal30DaysReview = () => {
     let review = 0;
     if (details.positive_30_days) {
@@ -64,12 +75,22 @@ const SellerInformation = (props: any) => {
     <div className="seller-information">
       <div className="action-button-container">
         <div className="action-buttons">
-          <Button basic className="check-inventory">
+          <Button
+            basic
+            className="check-inventory"
+            onClick={() =>
+              props.onCheckInventory(JSON.stringify({ merchant_ids: `${details.seller}` }))
+            }
+          >
             <Icon name="apple" />
             Check Inventory
           </Button>
-          <Icon name={'refresh'} color={'grey'} />
-          <span>{' 2 Mins'}</span>
+          <Icon
+            name={'refresh'}
+            color={'grey'}
+            loading={loadingInventory && loadingInventory.status === SEARCH_STATUS.PENDING}
+          />
+          {/*<span>{' 2 Mins'}</span>*/}
         </div>
       </div>
       <div className="seller-logo-container">
@@ -185,4 +206,7 @@ const SellerInformation = (props: any) => {
     </div>
   );
 };
-export default SellerInformation;
+const mapStateToProps = (state: {}) => ({
+  loadingInventory: loadingInventory(state),
+});
+export default connect(mapStateToProps)(SellerInformation);

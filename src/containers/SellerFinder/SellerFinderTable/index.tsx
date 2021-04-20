@@ -11,7 +11,7 @@ import SellerGroups from '../SellerGroups';
 import SellerSearch from '../SellerSearch';
 import SellerDetails from '../SellerDetails';
 import { failed, loadingSellers, sellers } from '../../../selectors/SellerFinder';
-import { fetchSellers } from '../../../actions/SellerFinder';
+import { fetchInventory, fetchSellers, SellersPayload } from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
 import { formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
@@ -19,9 +19,11 @@ import PageLoader from '../../../components/PageLoader';
 interface Props {
   sellers: any[];
   loadingSellers: boolean;
-  fetchSellers: () => void;
+  fetchSellers: (payload: SellersPayload) => void;
   error: any;
   ws: WebSocket;
+  inventorySocket: WebSocket;
+  fetchInventory: (data: any) => void;
 }
 
 interface SearchResponse {
@@ -29,7 +31,14 @@ interface SearchResponse {
   status: string;
   message: string;
 }
-const SellerFinderTable = ({ ws, fetchSellers, sellers, loadingSellers }: Props) => {
+const SellerFinderTable = ({
+  ws,
+  fetchSellers,
+  sellers,
+  loadingSellers,
+  inventorySocket,
+  fetchInventory,
+}: Props) => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [searchMessage, setSearchMessage] = useState('');
   const expandRow = (row: any) => {
@@ -44,7 +53,20 @@ const SellerFinderTable = ({ ws, fetchSellers, sellers, loadingSellers }: Props)
         }
         console.log(data);
         if (data.status === SEARCH_STATUS.DONE) {
-          fetchSellers();
+          fetchSellers({ enableLoader: false });
+        }
+      };
+    }
+  });
+
+  useEffect(() => {
+    if (inventorySocket.OPEN && !inventorySocket.CONNECTING) {
+      inventorySocket.onmessage = (res: any) => {
+        const data: SearchResponse = JSON.parse(res.data);
+        console.log('inventory response', { data, enable: data.status === SEARCH_STATUS.PENDING });
+        fetchInventory(data);
+        if (data.status === SEARCH_STATUS.DONE) {
+          fetchSellers({ enableLoader: false });
         }
       };
     }
@@ -54,45 +76,16 @@ const SellerFinderTable = ({ ws, fetchSellers, sellers, loadingSellers }: Props)
       ws.send(JSON.stringify({ merchant_ids: value.trim() }));
     }
   };
+
+  const onCheckInventory = (payload: any) => {
+    if (inventorySocket.OPEN && !inventorySocket.CONNECTING) {
+      inventorySocket.send(payload);
+    }
+  };
+
   useEffect(() => {
-    fetchSellers();
+    fetchSellers({ enableLoader: true });
   }, []);
-  // const mockData = [
-  //   {
-  //     id: 123,
-  //     seller_name: 'Kikkoman',
-  //     inventory: '67',
-  //     rating: 4.5,
-  //     rating_per: '98% Positive',
-  //     total_rating: '655',
-  //     fba: 'Yes',
-  //     fbm: 'Yes',
-  //     review_l30d: '321',
-  //     review_l90d: '876',
-  //     l365d: '3686',
-  //     review_life_time: '5686',
-  //     product_review: '2100',
-  //     found_by: 'Seller Id',
-  //     processed: '7/21/2020: 1:45 PM',
-  //   },
-  //   {
-  //     id: 1234,
-  //     seller_name: 'Kikkoman',
-  //     inventory: '67',
-  //     rating: 4.5,
-  //     rating_per: '98% Positive',
-  //     total_rating: '655',
-  //     fba: 'Yes',
-  //     fbm: 'Yes',
-  //     review_l30d: '321',
-  //     review_l90d: '876',
-  //     l365d: '3686',
-  //     review_life_time: '5686',
-  //     product_review: '2100',
-  //     found_by: 'Seller Id',
-  //     processed: '7/21/2020: 1:45 PM',
-  //   },
-  // ];
   const renderSellerInformation = (row: any) => (
     <p className="sf-seller-details">
       <img
@@ -335,7 +328,9 @@ const SellerFinderTable = ({ ws, fetchSellers, sellers, loadingSellers }: Props)
           expandedRows={expandedRow}
           data={sellers}
           columns={columns}
-          extendedInfo={(data: any) => <SellerDetails details={data} />}
+          extendedInfo={(data: any) => (
+            <SellerDetails details={data} onCheckInventory={onCheckInventory} />
+          )}
           name={'seller-finder'}
         />
       )}
@@ -349,6 +344,7 @@ const mapStateToProps = (state: {}) => ({
 });
 
 const mapDispatchToProps = {
-  fetchSellers: () => fetchSellers(),
+  fetchSellers: (payload: SellersPayload) => fetchSellers(payload),
+  fetchInventory: (data: any) => fetchInventory(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);
