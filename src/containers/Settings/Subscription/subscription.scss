@@ -432,7 +432,7 @@
         padding: 0;
 
         &__slash {
-          color: #98aeca;
+          color: #98aeca !important;
           text-decoration: line-through;
           display: inline-block;
           margin-right: 10px;
@@ -517,7 +517,6 @@
         border: 1px solid #349af8;
         color: #349af8;
         font-size: 16px;
-        font-weight: bold;
         outline: none !important;
         line-height: normal !important;
         padding: 0;
@@ -537,7 +536,6 @@
         font-size: 16px;
         width: 170px;
         height: 40px;
-        font-weight: bold;
       }
 
       .fluid.button.basic-btn:hover {
@@ -591,7 +589,7 @@
 
       .extra.content {
         .fluid.button.basic-btn {
-          font-weight: 500 !important;
+          font-weight: bold !important;
         }
       }
     }
@@ -625,6 +623,10 @@
 
       .extra.content {
         padding-bottom: 60px !important;
+
+        .fluid.button.basic-btn {
+          font-weight: bold !important;
+        }
       }
     }
   }
