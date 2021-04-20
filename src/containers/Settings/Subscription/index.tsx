@@ -239,7 +239,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
       };
 
       const getSynthesisLimit = (synthesisLimit: number) => {
-        return synthesisLimit.toLocaleString() + ' Profit Finder';
+        return synthesisLimit.toLocaleString() + ' UPCs /mo';
       };
 
       const subscriptionValueType = !isSubscribed
@@ -577,7 +577,7 @@ class SubscriptionPricing extends React.Component<SubscriptionProps> {
                     {subscriptionsSorted.map((subscription: Subscription, index: number) => {
                       return (
                         <Table.Cell key={index}>
-                          <p>{subscription.synthesis_limit.toLocaleString()} UPC's /mo</p>
+                          <p>{subscription.synthesis_limit.toLocaleString()} UPCs /mo</p>
                         </Table.Cell>
                       );
                     })}
