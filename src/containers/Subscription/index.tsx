@@ -33,13 +33,13 @@ class Subscription extends React.Component<SubscriptionProps, SubscriptionStates
       this.setLogin();
     }
     const search = window.location.search;
-    let plan = 'pro';
-    if (search.includes('basic')) {
-      plan = 'basic';
-    } else if (search.includes('extension')) {
-      plan = 'extension';
+    let plan = 'professional';
+    if (search.includes('starter')) {
+      plan = 'starter';
+    } else if (search.includes('suite')) {
+      plan = 'suite';
     } else {
-      plan = 'pro';
+      plan = 'professional';
     }
 
     this.setState(

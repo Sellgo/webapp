@@ -30,10 +30,11 @@ function Summary(props: SummaryProps) {
   useEffect(() => {
     fetchSubscriptions();
   }, []);
+
   let index = 2;
-  if (planType === 'basic') {
+  if (planType === 'suite') {
     index = 2;
-  } else if (planType === 'extension') {
+  } else if (planType === 'starter') {
     index = 1;
   } else {
     index = 3;
