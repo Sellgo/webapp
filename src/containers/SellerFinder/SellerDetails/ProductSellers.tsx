@@ -4,6 +4,12 @@ import CustomTreeRenderer from './CustomTreeRenderer';
 import 'react-sortable-tree/style.css';
 import './index.scss';
 import { SellersProductsHeader, SellersRow } from './InventorySellers';
+import { loadingProductSellers, productSellers } from '../../../selectors/SellerFinder';
+import { connect } from 'react-redux';
+interface Props {
+  productSellers: any[];
+  loadingProductSellers: boolean;
+}
 const ProductSellers = () => {
   const [productSellers, setProductSellers] = React.useState([
     {
@@ -42,5 +48,8 @@ const ProductSellers = () => {
     </div>
   );
 };
-
-export default ProductSellers;
+const mapStateToProps = (state: {}) => ({
+  productSellers: productSellers(state),
+  loadingProductSellers: loadingProductSellers(state),
+});
+export default connect(mapStateToProps)(ProductSellers);

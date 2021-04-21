@@ -11,11 +11,18 @@ import SellerGroups from '../SellerGroups';
 import SellerSearch from '../SellerSearch';
 import SellerDetails from '../SellerDetails';
 import { failed, loadingSellers, sellers } from '../../../selectors/SellerFinder';
-import { fetchInventory, fetchSellers, SellersPayload } from '../../../actions/SellerFinder';
+import {
+  fetchInventory,
+  fetchSellerProducts,
+  fetchSellers,
+  SellersPayload,
+  SellersProductsPayload,
+} from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
 import { formatPercent, showNAIfZeroOrNull } from '../../../utils/format';
 import PageLoader from '../../../components/PageLoader';
+import { Merchant } from '../../../interfaces/Seller';
 interface Props {
   sellers: any[];
   loadingSellers: boolean;
@@ -24,6 +31,7 @@ interface Props {
   ws: WebSocket;
   inventorySocket: WebSocket;
   fetchInventory: (data: any) => void;
+  fetchSellerProducts: (payload: SellersProductsPayload) => void;
 }
 
 interface SearchResponse {
@@ -38,9 +46,52 @@ const SellerFinderTable = ({
   loadingSellers,
   inventorySocket,
   fetchInventory,
+  fetchSellerProducts,
 }: Props) => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [searchMessage, setSearchMessage] = useState('');
+  const [activeMerchant, setActiveMerchant] = useState<Merchant>({
+    address: undefined,
+    asins: '',
+    brands: '',
+    business_name: undefined,
+    city: undefined,
+    count_12_month: undefined,
+    count_30_days: undefined,
+    count_90_days: undefined,
+    count_lifetime: undefined,
+    country: undefined,
+    feedback: '',
+    id: 0,
+    inventory_count: '',
+    inventory_link: '',
+    launched: undefined,
+    marketplace_id: undefined,
+    merchant_group: undefined,
+    merchant_id: undefined,
+    merchant_name: undefined,
+    negative_12_month: undefined,
+    negative_30_days: undefined,
+    negative_90_days: undefined,
+    negative_lifetime: undefined,
+    neutral_12_month: undefined,
+    neutral_30_days: undefined,
+    neutral_90_days: undefined,
+    neutral_lifetime: undefined,
+    positive_12_month: undefined,
+    positive_30_days: undefined,
+    positive_90_days: undefined,
+    positive_lifetime: undefined,
+    review_ratings: undefined,
+    scrapy_job_id: 0,
+    seller: 0,
+    seller_rating: undefined,
+    state: undefined,
+    status: '',
+    track_status: '',
+    udate: '',
+  });
+
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
   };
@@ -64,9 +115,9 @@ const SellerFinderTable = ({
       inventorySocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
         console.log('inventory response', { data, enable: data.status === SEARCH_STATUS.PENDING });
-        fetchInventory(data);
+        fetchInventory({ ...data, merchant_id: activeMerchant.merchant_id });
         if (data.status === SEARCH_STATUS.DONE) {
-          fetchSellers({ enableLoader: false });
+          fetchSellerProducts({ enableLoader: false, merchantId: `${activeMerchant.id}` });
         }
       };
     }
@@ -77,9 +128,10 @@ const SellerFinderTable = ({
     }
   };
 
-  const onCheckInventory = (payload: any) => {
+  const onCheckInventory = (data: any) => {
+    setActiveMerchant(data.merchant);
     if (inventorySocket.OPEN && !inventorySocket.CONNECTING) {
-      inventorySocket.send(payload);
+      inventorySocket.send(data.payload);
     }
   };
 
@@ -328,9 +380,9 @@ const SellerFinderTable = ({
           expandedRows={expandedRow}
           data={sellers}
           columns={columns}
-          extendedInfo={(data: any) => (
-            <SellerDetails details={data} onCheckInventory={onCheckInventory} />
-          )}
+          extendedInfo={(data: any) => {
+            return <SellerDetails details={data} onCheckInventory={onCheckInventory} />;
+          }}
           name={'seller-finder'}
         />
       )}
@@ -346,5 +398,6 @@ const mapStateToProps = (state: {}) => ({
 const mapDispatchToProps = {
   fetchSellers: (payload: SellersPayload) => fetchSellers(payload),
   fetchInventory: (data: any) => fetchInventory(data),
+  fetchSellerProducts: (payload: SellersProductsPayload) => fetchSellerProducts(payload),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);

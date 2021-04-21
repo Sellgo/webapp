@@ -11,6 +11,20 @@ $red: #e74c3c;
   }
 }
 
+.zero-products {
+  > .rst__tree {
+    > .rst__node:nth-child(2) {
+      > .rst__lineBlock {
+        display: none;
+      }
+
+      > .rst__nodeContent {
+        display: none;
+      }
+    }
+  }
+}
+
 .seller-details {
   min-height: 230px;
 

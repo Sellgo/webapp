@@ -15,7 +15,6 @@ interface SellerInformationProps {
 
 const SellerInformation = (props: SellerInformationProps) => {
   const { details, loadingInventory } = props;
-  console.log('loadingInventory', loadingInventory);
 
   const getTotal30DaysReview = () => {
     let review = 0;
@@ -79,7 +78,10 @@ const SellerInformation = (props: SellerInformationProps) => {
             basic
             className="check-inventory"
             onClick={() =>
-              props.onCheckInventory(JSON.stringify({ merchant_ids: `${details.seller}` }))
+              props.onCheckInventory({
+                payload: JSON.stringify({ merchant_ids: `${details.merchant_id}` }),
+                merchant: details,
+              })
             }
           >
             <Icon name="apple" />
@@ -88,7 +90,11 @@ const SellerInformation = (props: SellerInformationProps) => {
           <Icon
             name={'refresh'}
             color={'grey'}
-            loading={loadingInventory && loadingInventory.status === SEARCH_STATUS.PENDING}
+            loading={
+              loadingInventory &&
+              loadingInventory.status === SEARCH_STATUS.PENDING &&
+              details.merchant_id === loadingInventory.merchant_id
+            }
           />
           {/*<span>{' 2 Mins'}</span>*/}
         </div>

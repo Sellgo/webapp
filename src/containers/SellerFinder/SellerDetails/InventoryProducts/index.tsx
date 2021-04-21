@@ -2,12 +2,11 @@ import React from 'react';
 import './index.scss';
 import Rating from 'react-rating';
 import { Icon } from 'semantic-ui-react';
-import { formatBoolean, formatCurrency, showNAIfZeroOrNull } from '../../../../utils/format';
-import { formatCompletedDate } from '../../../../utils/date';
 import SampleProductImage from '../../../../assets/images/Image 37.png';
 import TrackSeller from '../TrackSeller';
-const renderBuyBox = (row: any) => {
-  return <p>{showNAIfZeroOrNull(row.buy_box, row.buy_box)}</p>;
+import { formatCompletedDate } from '../../../../utils/date';
+const renderBuyBox = () => {
+  return <p>{'-'}</p>;
 };
 
 const renderProductInventory = (row: any) => {
@@ -28,18 +27,18 @@ const renderProductInventory = (row: any) => {
   );
 };
 
-const renderInStock = (row: any) => {
-  return <p>{formatBoolean(row.in_stock)}</p>;
+const renderInStock = () => {
+  return <p>{'-'}</p>;
 };
 
 const renderPrice = (row: any) => {
-  return <p>{formatCurrency(row.price)}</p>;
+  return <p>{row.current_price}</p>;
 };
 
-const renderRating = (row: any) => {
+const renderRating = () => {
   return (
     <Rating
-      placeholderRating={row.rating}
+      placeholderRating={0}
       emptySymbol={<Icon name="star outline" color={'grey'} />}
       fullSymbol={<Icon name="star" color={'grey'} />}
       placeholderSymbol={<Icon name="star" color={'grey'} />}
@@ -47,20 +46,20 @@ const renderRating = (row: any) => {
   );
 };
 
-const renderRatingPercentage = (row: any) => {
-  return <p>{row.rating_percentage}</p>;
+const renderRatingPercentage = () => {
+  return <p>{'-'}</p>;
 };
 
 const renderProductReview = (row: any) => {
-  return <p>{showNAIfZeroOrNull(row.product_review, row.product_review)}</p>;
+  return <p>{row.reviews_count}</p>;
 };
 
 const renderLastUpdate = (row: any) => {
-  return <p>{formatCompletedDate(row.last_update)}</p>;
+  return <p>{formatCompletedDate(row.udate)}</p>;
 };
 
-const renderTrackProducts = (row: any) => {
-  return <TrackSeller tracking={row.tracking} type={'product'} />;
+const renderTrackProducts = () => {
+  return <TrackSeller tracking={false} type={'product'} />;
 };
 const columns = [
   {
@@ -83,13 +82,13 @@ const columns = [
   },
   {
     label: `Price`,
-    dataKey: 'price',
+    dataKey: 'current_price',
     className: 'price',
     render: renderPrice,
   },
   {
     label: `Rating \nL365D`,
-    dataKey: 'rating',
+    dataKey: 'product_rating',
     className: 'product-rating',
     render: renderRating,
   },
@@ -101,13 +100,13 @@ const columns = [
   },
   {
     label: `Product \nReview #`,
-    dataKey: 'product_review',
+    dataKey: 'reviews_count',
     className: 'product-review',
     render: renderProductReview,
   },
   {
     label: `Last Update`,
-    dataKey: 'last_update',
+    dataKey: 'udate',
     className: 'last-update',
     render: renderLastUpdate,
   },
@@ -131,25 +130,16 @@ export const InventoryProductsHeader = () => {
   );
 };
 
-export const InventoryProductsRow = () => {
-  const data = [
-    {
-      id: 1,
-      buy_box: 5,
-      product_name: `Mydethun Moon Lamp Moon Light Night Light for Kids Gift for Women
-         USB Charging and Touch Control Brightness 3D Printed Warm and Cool
-          White Lunar Lamp(3.5In moon lamp with stand)`,
-      image: 'https://images-na.ssl-images-amazon.com/images/I/71xJihIVjML._AC_SL1500_.jpg',
-      asin: 'B074QM7756',
-      in_stock: true,
-      price: 12.99,
-      rating: 4.5,
-      rating_percentage: '98% Positive',
-      product_review: 2100,
-      last_update: '7/21/2020, 1:45 PM',
-      tracking: false,
-    },
-  ];
+export const InventoryProductsRow = (props: any) => {
+  const { row } = props;
+  const extraData = {
+    buy_box: 0,
+    in_stock: false,
+    rating: 0,
+    product_review: 0,
+    last_update: '',
+    tracking: false,
+  };
 
   const render = (dataKey: string, row: any) => {
     const column = columns.find((c: any) => c.dataKey === dataKey);
@@ -163,11 +153,25 @@ export const InventoryProductsRow = () => {
   };
 
   const renderRow = (row: any) => {
-    return Object.keys(row).map((key: any) => render(key, row));
+    const dataKeys = columns.map(({ dataKey }) => ({ [`${dataKey}`]: dataKey }));
+    let object = { asin: 'asin' };
+    let data: any = row;
+    dataKeys.forEach((obj: any) => {
+      object = { ...object, ...obj };
+      if (row[obj.key]) {
+        data = { ...data, [obj.key]: row[obj.key] };
+      }
+    });
+
+    const sorted = Object.keys(object).reduce((obj: any, key) => {
+      obj[key] = data[key];
+      return obj;
+    }, {});
+    return Object.keys(sorted).map((key: any) => render(key, sorted));
   };
   return (
     <div className="inventory-row">
-      {data.map((row: any) => (
+      {[{ ...row, ...extraData }].map((row: any) => (
         <React.Fragment key={row.id}>{renderRow(row)}</React.Fragment>
       ))}
     </div>
