@@ -77,6 +77,7 @@ const SellerFinderTable: React.FC<Props> = props => {
     fetchSellerProducts,
     sellerTrackGroups,
     getAllSellerTrackGroups,
+    activeGroupID,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState(null);
@@ -509,6 +510,12 @@ const SellerFinderTable: React.FC<Props> = props => {
     },
   ];
 
+  const filteredProductsByGroups = sellers.filter((seller: any) => {
+    return seller.merchant_group === activeGroupID;
+  });
+
+  console.log(filteredProductsByGroups);
+
   return (
     <div className="seller-finder-table">
       <div className="search-input-container">
@@ -538,7 +545,7 @@ const SellerFinderTable: React.FC<Props> = props => {
           handleEditGroupSubmit={handleEditGroupSubmit}
           editError={editError}
           /* Need to pass filtered Products by group */
-          filteredProducts={sellers}
+          filteredProducts={filteredProductsByGroups}
           handleMoveGroup={handleMoveGroup}
         />
 
@@ -554,7 +561,7 @@ const SellerFinderTable: React.FC<Props> = props => {
           stickyChartSelector={false}
           scrollTopSelector={false}
           expandedRows={expandedRow}
-          data={sellers}
+          data={filteredProductsByGroups}
           columns={columns}
           extendedInfo={(data: any) => {
             return <SellerDetails details={data} onCheckInventory={onCheckInventory} />;
