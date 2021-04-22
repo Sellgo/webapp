@@ -187,7 +187,7 @@ export const getAllSellerTrackGroups = () => {
 /* Action to set menu items */
 export const setMenuItem = (menuItem: any) => ({
   type: SET_MENU_ITEM,
-  payload: menuItem,
+  data: menuItem,
 });
 
 /* Action to create a new group with name */

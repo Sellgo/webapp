@@ -19,4 +19,4 @@ export const productSellersError = (state: {}) =>
 export const selectSellerTrackGroups = (state: {}) => get(state, 'sellerFinder.sellerTrackGroups');
 
 /* Select active menu group */
-export const selectActiveMenuGroupID = (state: {}) => get(state, 'sellerFinder.menuItem');
+export const selectActiveMenuGroupID = (state: {}) => get(state, 'sellerFinder.sellerMenuItem');

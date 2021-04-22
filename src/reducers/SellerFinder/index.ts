@@ -26,7 +26,7 @@ const initialState = {
   productSellers: [],
   loadingProductSellers: false,
   errorFetchingProductSellers: null,
-  menuItem: null,
+  sellerMenuItem: null,
   sellerTrackGroups: [],
 };
 
@@ -65,10 +65,8 @@ export default (state = initialState, action: AnyAction) => {
     case SET_SELLER_TRACK_GROUPS:
       return setIn(state, 'sellerTrackGroups', action.data);
 
-    case SET_MENU_ITEM: {
-      const groupID = action.data;
-      return setIn(state, 'menuItem', groupID);
-    }
+    case SET_MENU_ITEM:
+      return setIn(state, 'sellerMenuItem', action.data);
 
     default:
       return state;

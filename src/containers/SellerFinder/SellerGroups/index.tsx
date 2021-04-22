@@ -186,7 +186,7 @@ class SellerGroups extends Component<SellerGroupsProps> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    activeGroupId: get(state, 'productTracker.menuItem'),
+    activeGroupId: get(state, 'sellerFinder.sellerMenuItem'),
   };
 };
 
