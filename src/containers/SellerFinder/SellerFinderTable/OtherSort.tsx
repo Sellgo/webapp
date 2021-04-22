@@ -32,7 +32,9 @@ class OtherSort extends React.Component<OtherSortProps> {
       confirm,
       handleConfirmMessage,
       handleMoveGroup,
+      handleUntrack,
     } = this.props;
+
     const { trackGroupsOpen, otherOptionsOpen } = this.state;
 
     return (
@@ -123,9 +125,7 @@ class OtherSort extends React.Component<OtherSortProps> {
             </Segment>
           }
           onCancel={handleCancel}
-          onConfirm={() => {
-            console.log('conrimed');
-          }}
+          onConfirm={() => handleUntrack(row.id)}
         />
       </div>
     );

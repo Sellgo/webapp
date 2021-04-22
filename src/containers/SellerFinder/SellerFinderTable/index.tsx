@@ -75,6 +75,8 @@ const SellerFinderTable: React.FC<Props> = props => {
     inventorySocket,
     fetchInventory,
     fetchSellerProducts,
+    sellerTrackGroups,
+    getAllSellerTrackGroups,
   } = props;
 
   const [expandedRow, setExpandedRow] = useState(null);
@@ -186,6 +188,7 @@ const SellerFinderTable: React.FC<Props> = props => {
 
   useEffect(() => {
     fetchSellers({ enableLoader: true });
+    getAllSellerTrackGroups();
   }, []);
 
   /* Open the confirmation message box */
@@ -201,6 +204,7 @@ const SellerFinderTable: React.FC<Props> = props => {
 
   /* Handle Untrack  or Delete Seller*/
   const handleUntrack = (merchantID: number) => {
+    const { handleDeleteSeller } = props;
     setConfirmMessage(false);
     handleDeleteSeller(merchantID);
   };
@@ -512,7 +516,7 @@ const SellerFinderTable: React.FC<Props> = props => {
       </div>
       <div className="seller-menu">
         <SellerGroups
-          groups={[]}
+          groups={sellerTrackGroups}
           handleMenu={handleMenu}
           open={open}
           deleteGroup={deleteGroup}
