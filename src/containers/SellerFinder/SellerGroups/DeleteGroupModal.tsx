@@ -48,7 +48,7 @@ class DeleteGroupModal extends Component<DeleteGroupModalProps> {
             className="delete-btn"
             onClick={() => {
               filteredProducts.forEach((product: any) => {
-                handleMoveGroup(null, product.id);
+                handleMoveGroup(product.id, null);
               });
               handleUntrack(groupId);
             }}

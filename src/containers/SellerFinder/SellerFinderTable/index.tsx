@@ -210,9 +210,9 @@ const SellerFinderTable: React.FC<Props> = props => {
   };
 
   /* Move Group */
-  const handleMoveGroup = (merchantID: number, groupID: number) => {
+  const handleMoveGroup = (merchantID: number, groupID: number | null) => {
     // Moving merchant with ID ${merchantID} to group ${group}
-    console.log(`Moving merchant with ID ${merchantID} to group ${groupID}`);
+    console.log(merchantID, groupID);
   };
 
   /* handle menu change */

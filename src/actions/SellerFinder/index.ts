@@ -184,6 +184,7 @@ export const getAllSellerTrackGroups = () => {
   };
 };
 
+/* Action to set menu items */
 export const setMenuItem = (menuItem: any) => ({
   type: SET_MENU_ITEM,
   payload: menuItem,
@@ -265,13 +266,14 @@ export const updateSellerTrackerGroup = (group: any) => async (dispatch: any) =>
 };
 
 /* Action to move a merchant another tracker group */
-export const moveMerchantToSellerTrackGroup = (merchantId: number, group: any) => async (
-  dispatch: any
-) => {
+export const moveMerchantToSellerTrackGroup = (
+  merchantId: number,
+  groupID: number | null
+) => async (dispatch: any) => {
   const sellerID = sellerIDSelector();
 
   const formData = new FormData();
-  formData.set('id', String(group.id));
+  formData.set('id', String(groupID));
 
   try {
     const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group`;
