@@ -14,3 +14,9 @@ export const loadingProductSellers = (state: {}) =>
   get(state, 'sellerFinder.loadingProductSellers');
 export const productSellersError = (state: {}) =>
   get(state, 'sellerFinder.errorFetchingProductSellers');
+
+/* Select seller track groups */
+export const selectSellerTrackGroups = (state: {}) => get(state, 'sellerFinder.sellerTrackGroups');
+
+/* Select active menu group */
+export const selectActiveMenuGroupID = (state: {}) => get(state, 'sellerFinder.menuItem');

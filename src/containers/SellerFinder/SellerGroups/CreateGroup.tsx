@@ -7,7 +7,6 @@ interface CreateGroupProps {
   handleCancel: any;
   handleSubmit: any;
   error: boolean;
-  groupError: boolean;
 }
 
 class CreateGroup extends Component<CreateGroupProps> {

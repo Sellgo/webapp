@@ -26,7 +26,6 @@ interface SellerGroupsProps {
   deleteGroup: any;
   activeGroupId: any;
   error: boolean;
-  groupError: boolean;
   items: any;
   editError: boolean;
   filteredProducts: any;
@@ -43,7 +42,6 @@ class SellerGroups extends Component<SellerGroupsProps> {
       deleteGroup,
       handleAddGroup,
       error,
-      groupError,
       items = [],
       handleAddGroupCancel,
       handleAddGroupSubmit,
@@ -161,7 +159,6 @@ class SellerGroups extends Component<SellerGroupsProps> {
         <CreateGroup
           open={open}
           error={error}
-          groupError={groupError}
           handleGroupChange={(e: any) => handleAddGroupNameChange(e)}
           handleCancel={handleAddGroupCancel}
           handleSubmit={handleAddGroupSubmit}
