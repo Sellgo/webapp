@@ -11,6 +11,12 @@ import {
   FETCH_SELLERS,
   FETCH_SELLERS_ERROR,
   FETCH_SELLERS_SUCCESS,
+  SET_ACTIVE_PRODUCT,
+  SET_PRODUCT_SELLERS,
+  SET_SELLER_PRODUCTS_COUNT,
+  SET_SELLER_PRODUCTS_PAGE_COUNT,
+  SET_SELLER_PRODUCTS_PAGE_NO,
+  SET_SELLER_PRODUCTS_PAGE_SIZE,
 } from '../../constants/SellerFinder';
 
 const initialState = {
@@ -24,6 +30,13 @@ const initialState = {
   productSellers: [],
   loadingProductSellers: false,
   errorFetchingProductSellers: null,
+  productsPageSize: 25,
+  productsPageNo: 1,
+  productsSinglePageItemsCount: 25,
+  productsCount: 0,
+  productsPageCount: 0,
+  activeProductSellerStatus: {},
+  activeProduct: {},
 };
 
 export default (state = initialState, action: AnyAction) => {
@@ -48,6 +61,18 @@ export default (state = initialState, action: AnyAction) => {
       return setIn(state, 'productSellers', action.data);
     case FETCH_PRODUCT_SELLERS_ERROR:
       return setIn(state, 'errorFetchingProductSellers', action.data);
+    case SET_SELLER_PRODUCTS_PAGE_NO:
+      return setIn(state, 'productsPageNo', action.data);
+    case SET_SELLER_PRODUCTS_PAGE_SIZE:
+      return setIn(state, 'productsPageSize', action.data);
+    case SET_SELLER_PRODUCTS_COUNT:
+      return setIn(state, 'productsCount', action.data);
+    case SET_SELLER_PRODUCTS_PAGE_COUNT:
+      return setIn(state, 'productsPageCount', action.data);
+    case SET_PRODUCT_SELLERS:
+      return setIn(state, 'activeProductSellerStatus', action.data);
+    case SET_ACTIVE_PRODUCT:
+      return setIn(state, 'activeProduct', action.data);
     default:
       return state;
   }

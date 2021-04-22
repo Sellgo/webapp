@@ -10,13 +10,23 @@ import OtherSort from './OtherSort';
 import SellerGroups from '../SellerGroups';
 import SellerSearch from '../SellerSearch';
 import SellerDetails from '../SellerDetails';
-import { failed, loadingSellers, sellers } from '../../../selectors/SellerFinder';
+import {
+  activeProduct,
+  failed,
+  loadingSellers,
+  sellerProductsPageNo,
+  sellerProductsPageSize,
+  sellers,
+} from '../../../selectors/SellerFinder';
 import {
   fetchInventory,
+  fetchProductSellers,
   fetchSellerProducts,
   fetchSellers,
+  ProductSellersPayload,
   SellersPayload,
   SellersProductsPayload,
+  setActiveProductSellerStatus,
 } from '../../../actions/SellerFinder';
 import { connect } from 'react-redux';
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
@@ -30,8 +40,14 @@ interface Props {
   error: any;
   ws: WebSocket;
   inventorySocket: WebSocket;
+  sellersSocket: WebSocket;
   fetchInventory: (data: any) => void;
   fetchSellerProducts: (payload: SellersProductsPayload) => void;
+  fetchProductSellers: (payload: ProductSellersPayload) => void;
+  productsPageNo: number;
+  productsPageSize: number;
+  activeProduct: any;
+  setActiveProductStatus: (data: any) => void;
 }
 
 interface SearchResponse {
@@ -47,6 +63,12 @@ const SellerFinderTable = ({
   inventorySocket,
   fetchInventory,
   fetchSellerProducts,
+  productsPageNo,
+  productsPageSize,
+  activeProduct,
+  sellersSocket,
+  setActiveProductStatus,
+  fetchProductSellers,
 }: Props) => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [searchMessage, setSearchMessage] = useState('');
@@ -94,6 +116,7 @@ const SellerFinderTable = ({
 
   const expandRow = (row: any) => {
     setExpandedRow(expandedRow ? null : row.id);
+    setActiveMerchant(row);
   };
   useEffect(() => {
     if (ws.OPEN && !ws.CONNECTING) {
@@ -109,19 +132,51 @@ const SellerFinderTable = ({
       };
     }
   });
-
+  const fetchProducts = (payload: any) => {
+    fetchSellerProducts({
+      enableLoader: false,
+      merchantId: `${activeMerchant.id}`,
+      ...payload,
+    });
+  };
   useEffect(() => {
     if (inventorySocket.OPEN && !inventorySocket.CONNECTING) {
       inventorySocket.onmessage = (res: any) => {
         const data: SearchResponse = JSON.parse(res.data);
-        console.log('inventory response', { data, enable: data.status === SEARCH_STATUS.PENDING });
         fetchInventory({ ...data, merchant_id: activeMerchant.merchant_id });
         if (data.status === SEARCH_STATUS.DONE) {
-          fetchSellerProducts({ enableLoader: false, merchantId: `${activeMerchant.id}` });
+          fetchProducts({ pageNo: productsPageNo, pageSize: productsPageSize });
         }
       };
     }
   });
+  useEffect(() => {
+    if (activeProduct && sellersSocket.OPEN && !sellersSocket.CONNECTING) {
+      sellersSocket.send(
+        JSON.stringify({
+          parent_asin: true,
+          merchant_id: activeMerchant.id,
+          asins: activeProduct.asin,
+        })
+      );
+    }
+  }, [activeProduct]);
+
+  useEffect(() => {
+    if (sellersSocket.OPEN && !sellersSocket.CONNECTING) {
+      sellersSocket.onmessage = (res: any) => {
+        const data: SearchResponse = JSON.parse(res.data);
+        setActiveProductStatus({ ...data, asin: activeProduct.asin });
+        if (data.status === SEARCH_STATUS.DONE) {
+          fetchProductSellers({
+            asin: activeProduct.asin,
+            enableLoader: true,
+            merchantId: activeMerchant.id,
+          });
+        }
+      };
+    }
+  }, [activeProduct]);
   const search = (value: string) => {
     if (value.trim()) {
       ws.send(JSON.stringify({ merchant_ids: value.trim() }));
@@ -148,6 +203,7 @@ const SellerFinderTable = ({
           cursor: 'pointer',
         }}
         onClick={() => expandRow(row)}
+        alt={'expand icon'}
       />
       <span className="name">{row.merchant_name}</span>
       <span className="seller-id">
@@ -381,7 +437,13 @@ const SellerFinderTable = ({
           data={sellers}
           columns={columns}
           extendedInfo={(data: any) => {
-            return <SellerDetails details={data} onCheckInventory={onCheckInventory} />;
+            return (
+              <SellerDetails
+                details={data}
+                onCheckInventory={onCheckInventory}
+                onPagination={payload => fetchProducts(payload)}
+              />
+            );
           }}
           name={'seller-finder'}
         />
@@ -393,11 +455,16 @@ const mapStateToProps = (state: {}) => ({
   sellers: sellers(state),
   loadingSellers: loadingSellers(state),
   error: failed(state),
+  productsPageNo: sellerProductsPageNo(state),
+  productsPageSize: sellerProductsPageSize(state),
+  activeProduct: activeProduct(state),
 });
 
 const mapDispatchToProps = {
   fetchSellers: (payload: SellersPayload) => fetchSellers(payload),
   fetchInventory: (data: any) => fetchInventory(data),
   fetchSellerProducts: (payload: SellersProductsPayload) => fetchSellerProducts(payload),
+  fetchProductSellers: (payload: ProductSellersPayload) => fetchProductSellers(payload),
+  setActiveProductStatus: (data: any) => setActiveProductSellerStatus(data),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);

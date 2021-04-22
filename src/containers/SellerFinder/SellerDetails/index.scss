@@ -2,6 +2,7 @@ $blue: #349af8;
 $black: #2e3b4a;
 $grey: #98aeca;
 $red: #e74c3c;
+$darkgary: #dfe8f329;
 
 .disable-products {
   > .rst__tree {
@@ -23,6 +24,20 @@ $red: #e74c3c;
       }
     }
   }
+}
+
+.seller-products-pagination {
+  height: 46px;
+  display: flex;
+  border: 0.5px solid $grey;
+  align-items: center;
+  box-shadow: 0 3px 3px $darkgary;
+  border-radius: 11px;
+  background: #fff;
+  justify-content: flex-end;
+  width: 98%;
+  padding: 0 10px;
+  margin-left: 15px;
 }
 
 .seller-details {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SortableTree from 'react-sortable-tree';
 
 import CustomTreeRenderer from './CustomTreeRenderer';
@@ -7,23 +7,50 @@ import './index.scss';
 import { InventoryProductsHeader, InventoryProductsRow } from './InventoryProducts';
 import ProductSellers from './ProductSellers';
 import {
+  activeProduct,
   loadingProductSellers,
   loadingSellerProducts,
   productSellers,
   sellerProducts,
+  sellerProductsCount,
   sellerProductsError,
+  sellerProductsPageCount,
+  sellerProductsPageNo,
+  sellerProductsPageSize,
 } from '../../../selectors/SellerFinder';
 import { connect } from 'react-redux';
 import PageLoader from '../../../components/PageLoader';
 import { fetchProductSellers, ProductSellersPayload } from '../../../actions/SellerFinder';
+import Pagination from '../../../components/Pagination';
+import { selectItemsCountList } from '../../../constants/SellerFinder';
 
 interface Props {
   sellerProducts: any[];
   loadingSellerProducts: boolean;
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalRecords: number;
   fetchProductSellers: (payload: ProductSellersPayload) => void;
+  onPagination: (payload: any) => void;
+  productSellers: any[];
+  activeProduct: any;
+  loadingProductSellers: boolean;
 }
 
-const InnerTree = ({ sellerProducts, loadingSellerProducts }: Props) => {
+const InnerTree = ({
+  sellerProducts,
+  loadingSellerProducts,
+  loadingProductSellers,
+  pageNo,
+  pageSize,
+  totalPages,
+  totalRecords,
+  onPagination,
+  productSellers,
+  fetchProductSellers,
+}: Props) => {
+  const [activeNode, setActiveNode] = useState<any>({});
   const getTreeData = () => {
     const rows = sellerProducts.map((rowData: any, index: number) => {
       let row: any = {
@@ -32,7 +59,7 @@ const InnerTree = ({ sellerProducts, loadingSellerProducts }: Props) => {
         children: [
           {
             title: () => <ProductSellers />,
-            count: 5,
+            count: productSellers.length,
           },
         ],
       };
@@ -49,7 +76,7 @@ const InnerTree = ({ sellerProducts, loadingSellerProducts }: Props) => {
           children: [
             {
               title: () => <ProductSellers />,
-              count: 5,
+              count: productSellers.length,
             },
           ],
         };
@@ -95,6 +122,29 @@ const InnerTree = ({ sellerProducts, loadingSellerProducts }: Props) => {
     }
     return height;
   };
+
+  const updateProductHeight = (newHeight: number) => {
+    const products = document.querySelector('.product-tree');
+    const height = newHeight > 0 ? newHeight : productSellers.length * 50 + 100;
+    if (products) {
+      const element = products.children.item(activeNode.index + 1);
+      console.log({ element, height });
+      if (element) {
+        element.setAttribute('style', `height: ${height}px !important`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    updateProductHeight(0);
+  }, [productSellers]);
+
+  useEffect(() => {
+    if (loadingProductSellers) {
+      updateProductHeight(100);
+    }
+  }, [loadingProductSellers]);
+
   return (
     <div>
       {loadingSellerProducts ? (
@@ -110,34 +160,78 @@ const InnerTree = ({ sellerProducts, loadingSellerProducts }: Props) => {
             setSellerInventory(data);
           }}
           onVisibilityToggle={({ treeData, node }) => {
-            console.log(node);
             const data = treeData.map(n => {
               if (n.index !== node.index) {
                 n = { ...n, expanded: false };
               }
               return n;
             });
-            console.log(node);
-            if (node.expanded) {
-              updateParentHeight(getHeight(node), true);
+            const height = getHeight(node);
+            const product = data[node.index];
+            if (product.expanded) {
+              if (activeNode.index !== node.index) {
+                const oldHeight = getHeight(activeNode);
+                updateParentHeight(oldHeight, false);
+              }
+              const payload = sellerProducts[node.index];
+              fetchProductSellers({
+                asin: payload.asin,
+                merchantId: payload.merchant_id,
+                enableLoader: true,
+              });
+              updateParentHeight(height, true);
+              setActiveNode(node);
             } else {
-              updateParentHeight(getHeight(node), false);
+              updateParentHeight(height, false);
             }
 
             setSellerInventory(data);
-            console.log(sellerInventory);
           }}
           rowHeight={({ treeIndex, node }) => {
             const height = 50;
-            const product = sellerInventory[treeIndex];
-            if (product && node.expanded) {
-              assignNewHeight(node.index, getHeight(product));
-            } else {
-              assignNewHeight(treeIndex, height);
+            if (!node.expanded) {
+              assignNewHeight(treeIndex, 50);
             }
             return height;
           }}
         />
+      )}
+      {totalRecords > 0 && (
+        <div className="seller-products-pagination">
+          <Pagination
+            currentPage={pageNo}
+            pageSize={pageSize}
+            totalPages={totalPages}
+            onNextPage={page => {
+              onPagination({
+                pageSize,
+                pageNo: page,
+              });
+            }}
+            onPrevPage={page => {
+              onPagination({
+                pageSize,
+                pageNo: page,
+              });
+            }}
+            onPageSizeSelect={pageSize => {
+              onPagination({
+                pageNo,
+                pageSize,
+              });
+            }}
+            onPageNumberUpdate={page => {
+              onPagination({
+                pageSize,
+                pageNo: page,
+              });
+            }}
+            loading={loadingSellerProducts}
+            totalRecords={totalRecords}
+            showPageSize
+            pageSizeList={selectItemsCountList}
+          />
+        </div>
       )}
     </div>
   );
@@ -148,6 +242,11 @@ const mapStateToProps = (state: {}) => ({
   error: sellerProductsError(state),
   productSellers: productSellers(state),
   loadingProductSellers: loadingProductSellers(state),
+  pageNo: sellerProductsPageNo(state),
+  pageSize: sellerProductsPageSize(state),
+  totalPages: sellerProductsPageCount(state),
+  totalRecords: sellerProductsCount(state),
+  activeProduct: activeProduct(state),
 });
 const mapDispatchToProps = {
   fetchProductSellers: (payload: ProductSellersPayload) => fetchProductSellers(payload),

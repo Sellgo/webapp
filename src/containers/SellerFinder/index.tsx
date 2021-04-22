@@ -10,14 +10,19 @@ interface SellerFinderProps {
 }
 const SellerFinder = (props: SellerFinderProps) => {
   const [webSocket, setWebSocket] = React.useState<any>({});
-  const [websocketInventory, setWebsocketInvetory] = React.useState<any>({});
+  const [websocketInventory, setWebsocketInventory] = React.useState<any>({});
+  const [websocketSellers, setWebsocketSellers] = React.useState<any>({});
 
   useEffect(() => {
     const sellerId = sellerIDSelector();
     const socketUrl = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/search`;
     const socketUrlInventory = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/inventory/search`;
+    const socketUrlSellers = `${AppConfig.WEBSOCKET_URL}/sellers/${sellerId}/merchants/asin/search`;
+
     const wsInventory = new WebSocket(socketUrlInventory);
     const ws = new WebSocket(socketUrl);
+    const wsSellers = new WebSocket(socketUrlSellers);
+
     ws.onopen = () => {
       console.log('socket connected');
       setWebSocket(ws);
@@ -25,10 +30,16 @@ const SellerFinder = (props: SellerFinderProps) => {
 
     wsInventory.onopen = () => {
       console.log('inventory connected');
-      setWebsocketInvetory(wsInventory);
+      setWebsocketInventory(wsInventory);
+    };
+
+    wsSellers.onopen = () => {
+      console.log('sellers connected');
+      setWebsocketSellers(wsSellers);
     };
     return () => {
       wsInventory.close();
+      wsSellers.close();
       ws.close();
     };
   }, []);
@@ -44,7 +55,11 @@ const SellerFinder = (props: SellerFinderProps) => {
         callToAction={<QuotaMeter />}
         auth={match.params.auth}
       />
-      <SellerFinderTable ws={webSocket} inventorySocket={websocketInventory} />
+      <SellerFinderTable
+        ws={webSocket}
+        inventorySocket={websocketInventory}
+        sellersSocket={websocketSellers}
+      />
     </div>
   );
 };
