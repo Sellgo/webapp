@@ -72,7 +72,7 @@ class OtherSort extends React.Component<OtherSortProps> {
                       key={data.id}
                       onClick={() => {
                         this.setTrackGroupsOpen(false);
-                        handleMoveGroup(data.id, row.id);
+                        handleMoveGroup(row.id, data.id);
                       }}
                     >
                       {data.name}
