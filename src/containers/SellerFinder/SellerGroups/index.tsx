@@ -30,6 +30,7 @@ interface SellerGroupsProps {
   editError: boolean;
   filteredProducts: any;
   handleMoveGroup: any;
+  handleKeepTracking: any;
 }
 
 class SellerGroups extends Component<SellerGroupsProps> {
@@ -50,10 +51,10 @@ class SellerGroups extends Component<SellerGroupsProps> {
       handleEditGroupCancel,
       handleEditGroupSubmit,
       handleDeleteGroup,
-      handleDeleteGroupSubmit,
       editError,
       filteredProducts,
-      handleMoveGroup,
+      handleKeepTracking,
+      handleDeleteGroupSubmit,
     } = this.props;
 
     const activeGroup =
@@ -175,8 +176,7 @@ class SellerGroups extends Component<SellerGroupsProps> {
           groupId={this.props.activeGroupId}
           handleUntrack={handleDeleteGroupSubmit}
           activeGroup={activeGroup}
-          filteredProducts={filteredProducts}
-          handleMoveGroup={handleMoveGroup}
+          handleKeepTracking={handleKeepTracking}
         />
         {/* Magic to make scrollbar disappear */}
         <div className="cover-bar" />

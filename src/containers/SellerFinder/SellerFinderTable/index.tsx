@@ -35,6 +35,7 @@ import {
   handleDeleteSeller,
   setMenuItem,
   getAllSellerTrackGroups,
+  moveMerchantToSellerTrackGroup,
 } from '../../../actions/SellerFinder';
 
 import { SEARCH_STATUS } from '../../../constants/SellerFinder';
@@ -59,6 +60,7 @@ interface Props {
   setMenuItem: (id: number) => void;
   deleteSellerTrackGroup: (groupID: number) => void;
   updateSellerTrackerGroup: (group: any) => void;
+  moveMerchantToSellerTrackGroup: (merchantID: number, groupID: number) => void;
 }
 
 interface SearchResponse {
@@ -211,9 +213,11 @@ const SellerFinderTable: React.FC<Props> = props => {
   };
 
   /* Move Group */
-  const handleMoveGroup = (merchantID: number, groupID: number | null) => {
+  const handleMoveGroup = (merchantID: number, groupID: number) => {
     // Moving merchant with ID ${merchantID} to group ${group}
-    console.log(merchantID, groupID);
+
+    const { moveMerchantToSellerTrackGroup } = props;
+    moveMerchantToSellerTrackGroup(merchantID, groupID);
   };
 
   /* handle menu change */
@@ -289,6 +293,13 @@ const SellerFinderTable: React.FC<Props> = props => {
   const handleDeleteGroupSubmit = (groupID: any) => {
     const { deleteSellerTrackGroup } = props;
     deleteSellerTrackGroup(groupID);
+    setDeleteGroup(false);
+  };
+
+  /* Keep tracking merchants when group is deleted */
+  const handleKeepTracking = (group: any) => {
+    const { updateSellerTrackerGroup } = props;
+    updateSellerTrackerGroup(group);
     setDeleteGroup(false);
   };
 
@@ -510,11 +521,12 @@ const SellerFinderTable: React.FC<Props> = props => {
     },
   ];
 
-  const filteredProductsByGroups = sellers.filter((seller: any) => {
-    return seller.merchant_group === activeGroupID;
-  });
-
-  console.log(filteredProductsByGroups);
+  const filteredProductsByGroups =
+    activeGroupID === null || activeGroupID === -1
+      ? sellers
+      : sellers.filter((seller: any) => {
+          return seller.merchant_group === activeGroupID;
+        });
 
   return (
     <div className="seller-finder-table">
@@ -547,6 +559,7 @@ const SellerFinderTable: React.FC<Props> = props => {
           /* Need to pass filtered Products by group */
           filteredProducts={filteredProductsByGroups}
           handleMoveGroup={handleMoveGroup}
+          handleKeepTracking={handleKeepTracking}
         />
 
         <span>
@@ -590,5 +603,7 @@ const mapDispatchToProps = {
   setMenuItem: (groupID: number) => setMenuItem(groupID),
   deleteSellerTrackGroup: (groupID: number) => deleteSellerTrackGroup(groupID),
   updateSellerTrackerGroup: (group: any) => updateSellerTrackerGroup(group),
+  moveMerchantToSellerTrackGroup: (merchantID: number, groupID: number) =>
+    moveMerchantToSellerTrackGroup(merchantID, groupID),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SellerFinderTable);

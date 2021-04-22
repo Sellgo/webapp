@@ -219,22 +219,18 @@ export const postCreateSellerTrackGroup = (name: string) => async (dispatch: any
 export const deleteSellerTrackGroup = (groupID: number) => async (dispatch: any) => {
   const sellerID = sellerIDSelector();
 
-  const formData = new FormData();
-  formData.set('id', String(groupID));
-  formData.set('status', 'inactive');
-  // set name params to remove it on patch with inactive status
-  formData.set('name', '');
-
   try {
-    const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group`;
+    const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group?id=${groupID}`;
 
     // axios doesn't accept form data in delete requests
-    const response = await Axios.patch(URL, formData);
+    const response = await Axios.delete(URL);
 
     const { status } = response;
 
     if (status === 200) {
       dispatch(getAllSellerTrackGroups());
+      dispatch(fetchSellers({ enableLoader: false }));
+      dispatch(setMenuItem(null));
       success(`Tracker group successfully deleted!`);
     }
   } catch (err) {
@@ -249,16 +245,22 @@ export const updateSellerTrackerGroup = (group: any) => async (dispatch: any) =>
 
   const formData = new FormData();
   formData.set('name', group.name);
-  formData.set('id', group.id);
   formData.set('status', group.status);
 
   try {
-    const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group`;
+    const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group?id=${group.id}`;
     const response = await Axios.patch(URL, formData);
+
     const { status } = response;
     if (status === 200) {
+      // when we want to keep tracking merchants in group but delete the group
+      if (group.status === 'inactive') {
+        dispatch(fetchSellers({ enableLoader: false }));
+        success(`Tracker group successfully deleted!`);
+      } else {
+        success(`Tracker group successfully updated`);
+      }
       dispatch(getAllSellerTrackGroups());
-      success(`Tracker group successfully updated!`);
     }
   } catch (err) {
     console.error('Error updating group', err.response);
@@ -266,22 +268,22 @@ export const updateSellerTrackerGroup = (group: any) => async (dispatch: any) =>
 };
 
 /* Action to move a merchant another tracker group */
-export const moveMerchantToSellerTrackGroup = (
-  merchantId: number,
-  groupID: number | null
-) => async (dispatch: any) => {
+export const moveMerchantToSellerTrackGroup = (merchantId: number, groupID: number) => async (
+  dispatch: any
+) => {
   const sellerID = sellerIDSelector();
 
-  const formData = new FormData();
-  formData.set('id', String(groupID));
-
   try {
-    const URL = AppConfig.BASE_URL_API + `sellers/${sellerID}/merchants/group`;
-    const response = await Axios.patch(URL, formData);
+    const URL =
+      AppConfig.BASE_URL_API +
+      `sellers/${sellerID}/merchants/group?id=${groupID}&merchant_ids=${merchantId}`;
+    const response = await Axios.patch(URL);
     const { status } = response;
     if (status === 200) {
       dispatch(getAllSellerTrackGroups());
-      success(`Tracker group successfully updated!`);
+      dispatch(fetchSellers({ enableLoader: false }));
+      dispatch(setMenuItem(groupID));
+      success(`Merchant successfully moved to group`);
     }
   } catch (err) {
     console.error('Error updating group', err.response);
